@@ -1,0 +1,9 @@
+{
+	"name":"Datenschutzcenter",
+	"short_name":"ODC",
+	"icons":[{"src":"favicon.ico","sizes":"192x192","type":"image/ico"},{"src":"favicon.ico","sizes":"512x512","type":"image/ico"}],
+	"theme_color":"#181d5e",
+	"background_color":"#48495e",
+	"display":"standalone",
+	"start_url": "/"
+}

@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+
+  traefik:
+    image: traefik:1.7
+    command: --docker --docker.exposedbydefault=false
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  app:
+    image: thecodingmachine/php:7.3-v2-apache-node10
+    labels:
+      - traefik.enable=true
+      - traefik.backend=odc
+      - traefik.frontend.rule=Host:odc.localhost
+    environment:
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_INI_MEMORY_LIMIT: "1G"
+    volumes:
+      - .:/var/www/html:rw

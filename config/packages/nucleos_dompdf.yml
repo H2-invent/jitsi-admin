@@ -1,0 +1,6 @@
+nucleos_dompdf:
+  defaults:
+    dpi: 150
+    defaultPaperSize: A4
+    isRemoteEnabled: true
+    isHtml5ParserEnabled: true

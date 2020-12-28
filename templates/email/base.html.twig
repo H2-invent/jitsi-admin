@@ -1,0 +1,63 @@
+{% apply inky_to_html|inline_css(source('@css/foundation-emails.css')) %}
+    <style type="text/css">
+        body,
+        html,
+        .body {
+            background: #f3f3f3 !important;
+        }
+
+        .container.header {
+            background: #f3f3f3;
+        }
+
+        .body-border {
+            border-top: 8px solid #ff002a;
+        }
+    </style>
+
+    <spacer size="16"></spacer>
+
+    <container class="header">
+        <row>
+            <columns>
+                <h1 class="text-center">
+                    {% block header %}
+
+
+                    {% endblock %}
+                </h1>
+
+            </columns>
+        </row>
+    </container>
+
+    <container class="body-border">
+        <row>
+            <columns>
+
+                <spacer size="32"></spacer>
+
+                <spacer size="16"></spacer>
+                {% block content %}
+
+                {% endblock %}
+                <spacer size="16"></spacer>
+                <spacer size="16"></spacer>
+                <p style="text-align: center">
+                    <a href="{{ dataPrivacy }}">Datenschutzhinweis</a><br>
+                    {% if room is defined %}
+                        {% trans %}Diese Mail wurde Ihnen gesendet im Auftrag von:{% endtrans %}<br>
+                        {{ room.name }} - {{ room.moderator.firstName }} {{ room.moderator.lastName }}
+                    {% endif %}
+                </p>
+
+            </columns>
+        </row>
+        <center>
+            <small>
+                <a href="https://h2-invent.com">Powered by Jitsi Manager</a>
+            </small>
+        </center>
+
+    </container>
+{% endapply %}

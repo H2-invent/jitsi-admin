@@ -1,0 +1,23 @@
+knpu_oauth2_client:
+    clients:
+        keycloak_main:
+            # must be "keycloak" - it activates that type!
+            type: keycloak
+            # add and set these environment variables in your .env files
+            client_id: '%env(OAUTH_KEYCLOAK_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_KEYCLOAK_CLIENT_SECRET)%'
+            # a route name you'll create
+            redirect_route: connect_keycloak_check
+            redirect_params: {}
+            # Keycloak server URL
+            auth_server_url: '%env(OAUTH_KEYCLOAK_SERVER)%'
+            # Keycloak realm
+            realm: '%env(OAUTH_KEYCLOAK_REALM)%'
+            # Optional: Encryption algorith, i.e. RS256
+            # encryption_algorithm: null
+            # Optional: Encryption key path, i.e. ../key.pem
+            # encryption_key_path: null
+            # Optional: Encryption key, i.e. contents of key or certificate
+            # encryption_key: null
+            # whether to check OAuth2 "state": defaults to true
+            # use_state: true

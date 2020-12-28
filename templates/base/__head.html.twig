@@ -1,0 +1,46 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="manifest" href="{{asset('site.webmanifest')}}">
+
+    {% block title %}
+        <title>Jitsi Konferenz Manager</title>
+    {% endblock %}
+
+    {% if app.debug == 0 and not app.request.attributes.get('_route') == 'akademie_kurs' %}
+        <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    frame-src 'self';
+    img-src 'self' data: ;
+    media-src https://*;
+    object-src 'none'">
+
+        <meta http-equiv="X-Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    frame-src 'self';
+    img-src 'self' data: ;
+    media-src https://* ;
+    object-src 'none';">
+
+        <meta http-equiv="X-WebKit-CSP" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    frame-src 'self';
+    img-src 'self' data: ;
+    media-src https://*;
+    object-src 'none'">
+    {% endif %}
+
+
+    <!-- Our Custom CSS -->
+    {{ encore_entry_link_tags('app') }}
+
+    {% block stylesheets %}{% endblock %}
+</head>

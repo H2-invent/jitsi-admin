@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block CTA %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="card card-body">
+        <h2 class="h2-responsive">Externe Ressource</h2>
+        <iframe src="{{ team.externalLink }}" style="height: 70vh"></iframe>
+        <p class="note-info text-center">
+            Es handelt sich um eine externe Ressource, die Ihr Admin über die Team Stammdaten hinzugefügt hat. ODC hat
+            keine Rechte auf diesem Server und kann diese auch nicht beeinflusen.
+        </p>
+    </div>
+{% endblock %}

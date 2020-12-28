@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+    <h2 class="h2-responsive">{{ title }}</h2>
+
+    <div class="card card-body ">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    {% for d in data %}
+                        <li class="list-group-item">{{ d.name }}
+                            <a href="{{ path('team_abteilungen', {'id':d.id}) }}"
+                               class="btn btn-sm btn-info float-md-right">Bearbeiten</a>
+                            <a href="{{ path('team_abteilungen_deativate', {'id':d.id}) }}"
+                               class="btn btn-sm btn-danger float-md-right">Löschen</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

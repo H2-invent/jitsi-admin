@@ -1,0 +1,44 @@
+<!-- To change the direction of the modal animation change .right class -->
+<div class="modal fade left" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <!-- Add class .modal-side and then add class .modal-top-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-top-center" role="document">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{% trans %}Servereinstellungen{% endtrans %}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a href="{{ path('servers_add') }}" data-dismiss="modal"
+                   class="btn btn-primary loadContent">{% trans %}Server hinzufügen{% endtrans %}</a>
+                {% for server in app.user.servers %}
+                    <div class="card card-body mb-1">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                {{ server.url }}
+                            </div>
+
+                            <div class="col-md-6">
+                                {% if server.administrator == app.user %}
+                                    <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
+                                       class="loadContent">{% trans %}Bearbeiten{% endtrans %}</a>
+                                {% endif %}
+                                <a href="{{ path('server_add_user',{'id':server.id}) }}" data-dismiss="modal"
+                                   class="loadContent">{% trans %}Berechtigungen{% endtrans %}</a>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Side Modal Top Right -->

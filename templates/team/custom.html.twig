@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+    <div class="container">
+        <h2 class="h2-responsive">{{ title }}</h2>
+        <!-- Basic dropdown -->
+        <a class="btn btn-sm dropdown-toggle btn-cyan" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">{% trans %}Auswählen{% endtrans %}</a>
+
+        <div class="dropdown-menu">
+            {% for key,d in data %}
+                <a class="dropdown-item" href="#{{ key }}">{{ d.title }}</a>
+            {% endfor %}
+        </div>
+        <!-- Basic dropdown -->
+
+
+        {% for key,dd in data %}
+            <div class="card card-body mt-3" id="{{ key }}">
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <h4 class="h4-responsive">{{ dd.title }}</h4><a href="{{ dd.newLink }}"
+                                                                        class="btn btn-primary btn-sm loadContent">{{ dd.titleNew }}</a>
+                        <ul class="list-group">
+                            {% if dd.data is defined %}
+                                {% for d in dd.data|sort((a, b) => a.name <=> b.name) %}
+                                    <li
+                                            class="list-group-item {% if d.default %}disabled{% endif %}">{{ d.name }}{% if not d.default %}
+                                            <a href="{{ d.edit }}"
+                                               class="btn btn-sm btn-info float-md-right loadContent">Bearbeiten</a>
+                                            <a href="{{ d.deactivate }}"
+                                               class="btn btn-sm btn-danger float-md-right">Löschen</a> {% else %} (Default){% endif %}
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <p class="note-info text-center p-2 mt-2">{% trans %}Kein Eintrag vorhanden{% endtrans %}</p>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

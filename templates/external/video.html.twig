@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block CTA %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="card card-body">
+        <h2 class="h2-responsive">Videokonferenz über {{ team.video }}</h2>
+        <div id="meet"></div>
+        <p class="note-info text-center">
+            Es handelt sich bei dieser Jitsi Instanz um eine Installtion auf {{ team.video }}. Durch das Nutzen dieser
+            Instanz werden personenbezogene Daten an diesen Server übertragen.
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% if team.video %}
+        <script src='https://{{ team.video }}/external_api.js'></script>
+        <script>
+            const domain = '{{ team.video }}';
+            const options = {
+                roomName: '{{ hash }}',
+                configOverwrite: {
+                    startWithAudioMuted: true,
+                    startWithVideoMuted: true
+                },
+                height: 700,
+                userInfo: {
+                    displayName: '{{ app.user.username }}'
+                },
+                parentNode: document.querySelector('#meet')
+            };
+            const api = new JitsiMeetExternalAPI(domain, options);
+        </script>
+    {% endif %}
+{% endblock %}

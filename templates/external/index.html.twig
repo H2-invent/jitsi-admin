@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block CTA %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-body">
+                <div class="form-check">
+                    <input id="checkboxDoc" type="checkbox" class="checkboxSelect form-check-input" name="Doc"
+                           value="Doc">
+                    <label class="form-check-label"
+                           for="checkboxDoc">{% trans %}Ich habe verstanden, dass beim Auftrufen dieser Seite meine Daten von externen Diensten verarbeitet werden.{% endtrans %}</label>
+                </div>
+            </div>
+        </div>
+        {% if team.video %}
+            <div class="col-md-6 mt-2">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="h3-responsive">{% trans %}Videokonferenz über{% endtrans %} {{ team.video }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>{% trans %}Diese Jitsi Videokonferenz wurde von Ihrem Administrator in den Teamstammdaten eingebunden. Es gelten die Datenschutzhinweise des Jitsi Server Betreibers.{% endtrans %}</p>
+                        <a href="{{ team.video }}/{{ hash }}" class="btn btn-cyan sendButton disabled" target="_blank"
+                           referrerpolicy="no-referrer">Zur Videokonferenz</a>
+                    </div>
+                    <div class="card-footer">
+                        @ {{ team.video }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if team.externalLink %}
+            <div class="col-md-6 mt-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="h3-responsive">{% trans %}Externe Ressource{% endtrans %}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>{% trans %}Diese externe Ressource wurde von Ihrem Administator über die Teamstammdaten eingestellt.  Es gelten die Datenschutzhinweise des Betreibers der externen Ressource{% endtrans %}</p>
+
+                        <a href="{{ team.externalLink }}" class="btn btn-cyan sendButton disabled" target="_blank"
+                           referrerpolicy="no-referrer">Zum Dokument</a>
+                    </div>
+                    <div class="card-footer">
+                        {{ team.externalLink }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

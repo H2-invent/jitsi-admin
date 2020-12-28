@@ -1,0 +1,14 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    exception_controller: null
+    form_themes: ['bootstrap_4_layout.html.twig']
+    paths:
+        '%kernel.project_dir%/public/mail/css': css
+    globals:
+        imprint: '%env(imprint)%'
+        dataPrivacy: '%env(dataPrivacy)%'
+        supportMail: '%env(SUPPORT_MAIL)%'
+        demo: '%env(demo_installation)%'
+        laf_version: '%env(laF_version)%'
