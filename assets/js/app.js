@@ -18,6 +18,7 @@ require('datatables.net-buttons/js/buttons.flash.js')(window, $);
 require('datatables.net-buttons/js/buttons.html5.js')(window, $);
 import('moment');
 import('bootstrap-select');
+import flatpickr from 'flatpickr'
 
 $(document).ready(function () {
     setTimeout(function () {
@@ -84,7 +85,14 @@ $(document).ready(function () {
             $('.sendButton').addClass('disabled');
         }
     });
+    $('.flatpickr').flatpickr({
+        minDate: "today",
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+    });
 });
+
+
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();

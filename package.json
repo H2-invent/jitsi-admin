@@ -20,6 +20,7 @@
         "datatables.net": "^1.10.21",
         "datatables.net-buttons-dt": "^1.6.2",
         "datatables.net-dt": "^1.10.21",
+        "flatpickr": "^4.6.9",
         "jquery": "^3.5.1",
         "jszip": "^3.5.0",
         "mdbootstrap": "^4.19.1",

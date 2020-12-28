@@ -35,9 +35,9 @@ class RoomType extends AbstractType
                 'multiple' => false,
                 'required' => true,
             ])
-            ->add('name', TextType::class, ['required' => false, 'label' => 'Name der Konferenz', 'translation_domain' => 'form'])
-            ->add('start', DateTimeType::class, ['label' => 'Start', 'translation_domain' => 'form'])
-            ->add('enddate', DateTimeType::class, ['label' => 'Ende', 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['required' => true, 'label' => 'Name der Konferenz', 'translation_domain' => 'form'])
+            ->add('start', DateTimeType::class, ['attr'=>['class'=>'flatpickr'],'label' => 'Start', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add('enddate', DateTimeType::class, ['attr'=>['class'=>'flatpickr'],'label' => 'Ende', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Erstellen', 'translation_domain' => 'form']);
     }
 

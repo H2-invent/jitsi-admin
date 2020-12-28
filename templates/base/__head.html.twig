@@ -9,7 +9,7 @@
         <title>Jitsi Konferenz Manager</title>
     {% endblock %}
 
-    {% if app.debug == 0 and not app.request.attributes.get('_route') == 'akademie_kurs' %}
+    {% if app.debug == 0 %}
         <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline';
