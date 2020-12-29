@@ -8,17 +8,14 @@ import '../css/app.css';
 import $ from 'jquery';
 import 'datatables.net-dt';
 import 'summernote/dist/summernote-bs4';
+import 'popper.js';
+import('bootstrap');
+import('chart.js');
+import('mdbootstrap');
+import flatpickr from 'flatpickr'
 
 global.$ = global.jQuery = $;
 
-import ('jszip');
-import('datatables.net');
-import ('datatables.net-buttons-dt');
-require('datatables.net-buttons/js/buttons.flash.js')(window, $);
-require('datatables.net-buttons/js/buttons.html5.js')(window, $);
-import('moment');
-import('bootstrap-select');
-import flatpickr from 'flatpickr'
 
 $(document).ready(function () {
     setTimeout(function () {
