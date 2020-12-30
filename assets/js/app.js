@@ -99,7 +99,14 @@ $(document).on('click', '.loadContent', function (e) {
 
     });
 });
-
+$('#loadContentModal').on('shown.bs.modal', function (e) {
+    $('.flatpickr').flatpickr({
+        minDate: "today",
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        time_24hr:true,
+    });
+})
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });
