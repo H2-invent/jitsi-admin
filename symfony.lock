@@ -75,9 +75,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.0"
     },
-    "dompdf/dompdf": {
-        "version": "v0.8.5"
-    },
     "dpolac/dictionary": {
         "version": "v1.0.0"
     },
@@ -98,9 +95,6 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.7.0"
-    },
-    "jms/metadata": {
-        "version": "2.1.0"
     },
     "knpuniversity/oauth2-client-bundle": {
         "version": "1.20",
@@ -126,74 +120,23 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
     },
-    "league/flysystem": {
-        "version": "1.0.67"
-    },
-    "league/mime-type-detection": {
-        "version": "1.5.1"
-    },
     "league/oauth2-client": {
         "version": "2.2.1"
     },
     "lorenzo/pinky": {
         "version": "1.0.5"
     },
-    "michaeldegroot/doctrine-encrypt-bundle": {
-        "version": "4.0.3"
-    },
     "monolog/monolog": {
         "version": "1.25.3"
     },
-    "nicoswd/php-gpg": {
-        "version": "1.7.1"
-    },
     "nikic/php-parser": {
         "version": "v4.4.0"
-    },
-    "nikolaposa/version": {
-        "version": "3.2.0"
-    },
-    "nucleos/dompdf-bundle": {
-        "version": "3.0.0"
     },
     "ocramius/package-versions": {
         "version": "1.5.1"
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
-    },
-    "oneup/flysystem-bundle": {
-        "version": "3.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.0",
-            "ref": "0eb87bba411c227da027fe5f7c1dc7954b02f242"
-        },
-        "files": [
-            "./config/packages/oneup_flysystem.yaml"
-        ]
-    },
-    "paragonie/constant_time_encoding": {
-        "version": "v2.3.0"
-    },
-    "paragonie/halite": {
-        "version": "v4.6.0"
-    },
-    "paragonie/hidden-string": {
-        "version": "v1.0.0"
-    },
-    "paragonie/sodium_compat": {
-        "version": "v1.13.0"
-    },
-    "pclzip/pclzip": {
-        "version": "2.8.2"
-    },
-    "phenx/php-font-lib": {
-        "version": "0.5.2"
-    },
-    "phenx/php-svg-lib": {
-        "version": "v0.3.3"
     },
     "php": {
         "version": "7.3"
@@ -206,15 +149,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.1.0"
-    },
-    "phpoffice/common": {
-        "version": "0.2.9"
-    },
-    "phpoffice/phpword": {
-        "version": "0.17.0"
-    },
-    "phpseclib/phpseclib": {
-        "version": "2.0.28"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -234,9 +168,6 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
-    "sabberworm/php-css-parser": {
-        "version": "8.3.0"
-    },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
         "recipe": {
@@ -248,9 +179,6 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
-    },
-    "shivas/versioning-bundle": {
-        "version": "3.2.3"
     },
     "stevenmaguire/oauth2-keycloak": {
         "version": "2.2.1"
@@ -321,6 +249,9 @@
     },
     "symfony/dependency-injection": {
         "version": "v4.4.8"
+    },
+    "symfony/deprecation-contracts": {
+        "version": "v2.2.0"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.8"
@@ -464,9 +395,6 @@
             "./tests/bootstrap.php"
         ]
     },
-    "symfony/polyfill-intl-grapheme": {
-        "version": "v1.16.0"
-    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.16.0"
     },
@@ -499,6 +427,9 @@
     },
     "symfony/property-info": {
         "version": "v4.4.8"
+    },
+    "symfony/proxy-manager-bridge": {
+        "version": "v4.4.18"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -549,9 +480,6 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.8"
-    },
-    "symfony/string": {
-        "version": "v5.0.8"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
@@ -690,18 +618,6 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
-    },
-    "vich/uploader-bundle": {
-        "version": "1.5",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.5",
-            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
-        },
-        "files": [
-            "./config/packages/vich_uploader.yaml"
-        ]
     },
     "webmozart/assert": {
         "version": "1.8.0"

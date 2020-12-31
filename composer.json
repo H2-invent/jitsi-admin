@@ -38,8 +38,7 @@
     "symfony/yaml": "4.4.*",
     "twig/cssinliner-extra": "^3.0",
     "twig/inky-extra": "^3.0",
-    "twig/twig": "^2.0",
-    "vich/uploader-bundle": "^1.13"
+    "twig/twig": "^2.0"
   },
   "require-dev": {
     "symfony/debug-pack": "*",
