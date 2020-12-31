@@ -58,13 +58,13 @@
                     </div>
 
                 </div>
-                {% if rooms| filter (room => room.start > date())|length == 0 %}
+                {% if rooms| filter (room => room.endDate > date())|length == 0 %}
                 <div class="card card-body">
                     <p class="text-center">Aktuell sind keine Konferenzen vorhanden. Erstellen <u><a href="{{ path('room_new') }}" class="loadContent">hier</a></u> Sie eine neue Konferenz.</p>
                 </div>
                 {% endif %}
 
-                {% for room in rooms | filter (room => room.start > date()) | sort((a, b) => a.start <=> b.start) %}
+                {% for room in rooms | filter (room => room.endDate > date()) | sort((a, b) => a.start <=> b.start) %}
                     <div class="card card-body mb-1 text-lg-left text-center">
                         <div class="row">
                             <div class="col-md-6">
@@ -123,7 +123,7 @@
             </div>
             <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
 
-                {% for room in rooms | filter (room => room.start < date()) | sort((a, b) => b.start <=> a.start) %}
+                {% for room in rooms | filter (room => room.endDate < date()) | sort((a, b) => b.start <=> a.start) %}
                     <div class="card card-body mb-1 text-lg-left text-center">
                         <div class="row">
                             <div class="col-md-6">
