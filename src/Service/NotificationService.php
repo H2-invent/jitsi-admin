@@ -32,11 +32,10 @@ class NotificationService
     function sendNotification($content, $subject, User $user, Rooms $rooms, $url)
     {
         $attachement = array();
-        $summay = $this->twig->render('email/addUserIcs.html.twig', ['user' => $user, 'room' => $rooms, 'url'=>$url]);
         $this->ics->add(
             array(
                 'location' => 'Jitsi Konferenz',
-                'description' => $summay,
+                'description' =>  'Sie wurden zu einer Videokonferenz auf dem Jitsi Server ' . $rooms->getServer()->getUrl() . 'hinzugefügt.\n\nÜber den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: ' . $rooms->getName() . '\nModerator: ' . $rooms->getModerator()->getFirstName() .' ' . $rooms->getModerator()->getLastName() . '\n\nFolgende Daten benötigen Sie um der Konferenz beizutreten:\nIhre Email Adresse: ' . $user->getEmail() . '\nKonferenz ID: ' . $rooms->getUid() . '\n\n' . $url . '\n\nSie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.',
                 'dtstart' => $rooms->getStart()->format('Ymd')."T".$rooms->getStart()->format("His"),
                 'dtend' => $rooms->getEnddate()->format('Ymd')."T".$rooms->getEnddate()->format("His"),
                 'summary' => $rooms->getName(),
