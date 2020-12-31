@@ -25,12 +25,12 @@ class Server
     private $url;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $appId;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $appSecret;
 
@@ -79,7 +79,7 @@ class Server
         return $this->appId;
     }
 
-    public function setAppId(string $appId): self
+    public function setAppId(?string $appId): self
     {
         $this->appId = $appId;
 
@@ -91,7 +91,7 @@ class Server
         return $this->appSecret;
     }
 
-    public function setAppSecret(string $appSecret): self
+    public function setAppSecret(?string $appSecret): self
     {
         $this->appSecret = $appSecret;
 

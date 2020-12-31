@@ -27,9 +27,9 @@ class ServerType extends AbstractType
     {
 
         $builder
-            ->add('url', TextType::class, ['required' => false, 'label' => 'URL', 'translation_domain' => 'form'])
-            ->add('appId', TextType::class, ['label' => 'App ID', 'translation_domain' => 'form'])
-            ->add('appSecret', PasswordType::class, ['label' => 'App Secret', 'translation_domain' => 'form'])
+            ->add('url', TextType::class, ['required' => true, 'label' => 'URL', 'translation_domain' => 'form'])
+            ->add('appId', TextType::class, ['required' => false,'label' => 'App ID', 'translation_domain' => 'form'])
+            ->add('appSecret', PasswordType::class, ['required' => false,'label' => 'App Secret', 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Speichern', 'translation_domain' => 'form']);
     }
 
