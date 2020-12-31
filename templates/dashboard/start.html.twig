@@ -13,7 +13,7 @@
     <title>Jitsi Admin</title>
 
     <!--====== Favicon Icon ======-->
-    <link rel="shortcut icon" href="start/assets/images/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/png">
 
     <!--====== Bootstrap css ======-->
     <link rel="stylesheet" href="start/assets/css/bootstrap.min.css">
@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg">
-                    <a class="navbar-brand" style="max-width: 15%" href="{{ path('index') }}">
+                    <a class="navbar-brand img-fluid" style="width: 30vw" href="{{ path('index') }}">
                         <img src="{{ asset('logo.png') }}" alt="Logo">
                     </a> <!-- Logo -->
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -256,6 +256,15 @@
                                     <p>Alle geplanten Konferenzen werden auf dem Dashboard angezeigt. Die Teilnehmer werden während der Planung und 5 Minuten vor dem Start per Email informiert.</p>
                                 </div>
                             </div> <!-- single services -->
+                            <div class="single-services text-center mt-30">
+                                <div class="services-icon">
+                                    <i class="lni lni-laptop-phone"></i>
+                                </div>
+                                <div class="services-content mt-20">
+                                    <h5 class="title mb-10">Email Versand</h5>
+                                    <p>Alle eingetragenen Teilnehmer werden automatisch bei der Einladung und kurz vor dem Start per Email benachrichtigt.</p>
+                                </div>
+                            </div> <!-- single services -->
                         </div>
                         <div class="col-md-6 col-sm-8">
                             <div class="single-services text-center mt-30">
@@ -276,6 +285,7 @@
                                     <h5 class="title mb-10">Volle Kontrolle</h5>
                                     <p>Sie können einen eigenen oder einen öffentlichen Jitsi Server im Jitsi Admin einbinden und verwalten. Sie können weiteren Usern den privaten Server freigeben und teilen.</p>
                                 </div>
+
                             </div> <!-- single services -->
                         </div>
                     </div> <!-- row -->
@@ -339,14 +349,16 @@
                         <a href="#">
                             <img src="{{ asset('logo.png') }}" alt="Logo">
                         </a>
-                        <p class="mt-10">Gravida nibh vel velit auctor aliquetn quibibendum auci elit cons equat ipsutis sem nibh id elit.</p>
+                        <p class="mt-10">Der Jitsi Admin ist die Open Source Jitsi Administration für den eigenen und öffentliche Jitsi Instanzen.</p>
                     </div> <!-- footer logo -->
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-5">
                     <div class="footer-link mt-50">
                         <h5 class="f-title">Services</h5>
                         <ul>
-                            <li><a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank">Managed Jitsi Server</a></li>
+                            <li><a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank">Jitsi Meet Installation</a></li>
+                            <li><a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank">Managed Server</a></li>
+                            <li><a href="https://h2-invent.com" target="_blank">Administration</a></li>
                         </ul>
                     </div> <!-- footer link -->
                 </div>
@@ -410,7 +422,7 @@
 <!--====== BACK TO TOP PART ENDS ======-->
 
 
-
+{{ encore_entry_script_tags('frontend') }}
 
 
 <!--====== jquery js ======-->

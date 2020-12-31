@@ -49,5 +49,15 @@ class AddUserService
         return true;
     }
 
+    function notifyUser(User $user, Rooms $room)
+    {
+        $url = $this->generateUrl($room,$user);
+        $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
+        $subject = 'Videokonferenz ' . $room->getName() . ' startet gleich';
+        $this->notificationService->sendCron($content, $subject, $user, $room, $url);
+
+        return true;
+    }
+
 
 }

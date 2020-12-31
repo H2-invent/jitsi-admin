@@ -56,5 +56,19 @@ class NotificationService
         return true;
     }
 
+    function sendCron($content, $subject, User $user, Rooms $rooms, $url)
+    {
+        $attachement[] = array('type' => 'text/calendar', 'filename' => $rooms->getName() . '.ics', 'body' => $this->ics->toString());
+        $this->mailer->sendEmail(
+            $this->parameterBag->get('registerEmailName'),
+            $this->parameterBag->get('defaultEmail'),
+            $user->getEmail(),
+            $subject,
+            $content
+        );
+
+        return true;
+    }
+
 
 }
