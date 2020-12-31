@@ -11,6 +11,7 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 
@@ -20,21 +21,30 @@ class AddUserService
     private $parameterBag;
     private $twig;
     private $notificationService;
+    private $url;
 
-    public function __construct(MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService)
+    public function __construct(MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
         $this->twig = $environment;
         $this->notificationService = $notificationService;
+        $this->url = $urlGenerator;
+    }
+
+    function generateUrl (Rooms $room, User $user) {
+
+        $data = base64_encode('uid='.$room->getUid().'&email='.$user->getEmail());
+        $url = $this->url->generate('room_join_guests',['data'=>$data],UrlGeneratorInterface::ABSOLUTE_URL);
+        return $url;
     }
 
     function addUser(User $user, Rooms $room)
     {
-        $data = base64_encode('uid='.$room->getUid().'&email='.$user->getEmail());
-        $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'data'=>$data]);
+        $url = $this->generateUrl($room,$user);
+        $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Neue Einladung zu einer Videokonferenz';
-        $this->notificationService->sendNotification($content, $subject, $user);
+        $this->notificationService->sendNotification($content, $subject, $user, $room, $url);
 
         return true;
     }

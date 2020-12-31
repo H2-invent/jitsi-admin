@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ServersController extends AbstractController
 {
     /**
-     * @Route("/servers/add", name="servers_add")
+     * @Route("/server/add", name="servers_add")
      */
     public function serverAdd(Request $request, ValidatorInterface $validator)
     {

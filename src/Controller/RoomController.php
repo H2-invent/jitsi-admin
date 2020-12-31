@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use function Composer\Autoload\includeFile;
 
 class RoomController extends AbstractController
 {
@@ -30,10 +31,8 @@ class RoomController extends AbstractController
             $room = new Rooms();
             $room->addUser($this->getUser());
             $now = new \DateTime();
-            $room->setStart($now);
-            $end = clone $now;
-            $end->modify('+1 hour');
-            $room->setEnddate($end);
+            //$room->setStart($now)->format('d.m.Y H:i');
+            $room->setDuration(60);
             $room->setUid(rand(01,99).time());
             $room->setModerator($this->getUser());
         }
@@ -43,9 +42,10 @@ class RoomController extends AbstractController
 
         $errors = array();
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $errors = $validator->validate($data);
+            $room = $form->getData();
+            $errors = $validator->validate($room);
             if (count($errors) == 0) {
+                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
@@ -85,7 +85,7 @@ class RoomController extends AbstractController
 
                 }
                 $em->flush();
-                return $this->redirectToRoute('dashboard');
+                return $this->redirectToRoute('dashboard',['snack'=>'Teilnehmer eingeladen']);
             }
         }
         $title = 'Teilnehmer hinzufügen';
@@ -107,20 +107,26 @@ class RoomController extends AbstractController
         }else {
             $type = 'https://';
         }
+        if ($room->getModerator() === $this->getUser()) {
+            $moderator = true;
+        }else {
+            $moderator = false;
+        }
         if (in_array($this->getUser(), $room->getUser()->toarray())) {
             $jitsi_server_url = $type . $room->getServer()->getUrl();
             $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
 
             $payload = array(
-                "aud" => $room->getServer()->getAppId(),
-                "iss" => "jitsi_manager",
+                "aud" => "jitsi_admin",
+                "iss" => $room->getServer()->getAppId(),
                 "sub" => $room->getServer()->getUrl(),
-                "room" => $room->getId(),
+                "room" => $room->getUid(),
                 "context" => [
                     'user' => [
-                        'name' => $this->getUser()->getUsername()
+                        'name' => $this->getUser()->getFirstName() . ' ' .$this->getUser()->getLastName()
                     ]
-                ]
+                ],
+                "moderator" => $moderator
             );
 
             $token = JWT::encode($payload, $jitsi_jwt_token_secret);

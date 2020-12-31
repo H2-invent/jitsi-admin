@@ -44,15 +44,16 @@ class JoinController extends AbstractController
                 $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
 
                 $payload = array(
-                    "aud" => $room->getServer()->getAppId(),
-                    "iss" => "jitsi_manager",
+                    "aud" => "jitsi_admin",
+                    "iss" => $room->getServer()->getAppId(),
                     "sub" => $room->getServer()->getUrl(),
-                    "room" => $room->getId(),
+                    "room" => $room->getUid(),
                     "context" => [
                         'user' => [
                             'name' => $search['name']
                         ]
-                    ]
+                    ],
+                    "moderator" => false
                 );
 
                 $token = JWT::encode($payload, $jitsi_jwt_token_secret);

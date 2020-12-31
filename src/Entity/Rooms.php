@@ -56,6 +56,11 @@ class Rooms
      */
     private $moderator;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $duration;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -158,6 +163,18 @@ class Rooms
     public function setModerator(?User $moderator): self
     {
         $this->moderator = $moderator;
+
+        return $this;
+    }
+
+    public function getDuration(): ?float
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(float $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }

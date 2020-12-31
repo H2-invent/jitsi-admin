@@ -13,7 +13,9 @@ use App\Entity\AuditTomAbteilung;
 use App\Entity\Server;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -37,7 +39,20 @@ class RoomType extends AbstractType
             ])
             ->add('name', TextType::class, ['required' => true, 'label' => 'Name der Konferenz', 'translation_domain' => 'form'])
             ->add('start', DateTimeType::class, ['attr'=>['class'=>'flatpickr'],'label' => 'Start', 'translation_domain' => 'form', 'widget' => 'single_text'])
-            ->add('enddate', DateTimeType::class, ['attr'=>['class'=>'flatpickr'],'label' => 'Ende', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add('duration', ChoiceType::class, [
+                'label' => 'Dauer der Konferenz',
+                'translation_domain' => 'form',
+                'choices' => [
+                    '15 Minuten' => 15,
+                    '30 Minuten' => 30,
+                    '45 Minuten' => 45,
+                    '1 Stunde' => 60,
+                    '1,5 Stunden' => 90,
+                    '2 Stunden' => 120,
+                    '4 Stunden' => 240,
+                    '8 Stunden' => 480,
+                ]
+            ])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Erstellen', 'translation_domain' => 'form']);
     }
 

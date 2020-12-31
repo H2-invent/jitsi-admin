@@ -103,10 +103,15 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,
-        dateFormat: "Y-m-d H:i",
         time_24hr:true,
+        defaultMinute: 0,
+        minuteIncrement: 15,
+        altFormat: 'd.m.Y H:i',
+        dateFormat: 'Y-m-d H:i',
+        altInput: true
     });
-})
+});
+
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });
