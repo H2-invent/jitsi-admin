@@ -22,6 +22,7 @@ class JoinController extends AbstractController
         $data = array();
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
         $dataStr = $request->get('data');
+        $snack = $request->get('snack');
         $dataAll = base64_decode($dataStr);
         parse_str($dataAll, $data);
         if (isset($data['email']) && isset($data['uid'])) {
@@ -33,12 +34,12 @@ class JoinController extends AbstractController
             }
             $form = $this->createForm(JoinViewType::class, $data);
         } else {
+            $snack = 'Data Query konnte nicht gelesen werden. Zugangsdaten manuell eingeben';
             $form = $this->createForm(JoinViewType::class);
         }
 
 
         $form->handleRequest($request);
-        $snack = $request->get('snack');
         $errors = array();
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->getData();
@@ -66,7 +67,7 @@ class JoinController extends AbstractController
                 $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
                 return $this->redirect($url);
             }
-            $snack = $translator->trans('Konferenz nicht gefunden.');
+            $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
         }
 
         return $this->render('join/index.html.twig', [
