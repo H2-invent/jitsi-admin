@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.5.3",
+        "chart.js": "^2.9.4",
         "copy-webpack-plugin": "^6.4.1",
         "flatpickr": "^4.6.9",
         "jquery": "^3.5.1",

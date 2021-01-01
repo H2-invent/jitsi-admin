@@ -6,11 +6,8 @@ import '../css/app.css';
 
 
 import $ from 'jquery';
-import 'datatables.net-dt';
-import 'summernote/dist/summernote-bs4';
 import 'popper.js';
 import('bootstrap');
-import('chart.js');
 import('mdbootstrap');
 import flatpickr from 'flatpickr'
 

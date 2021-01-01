@@ -1,0 +1,4 @@
+connect_keycloak_check:
+  path:       /login/keycloak_login/check
+  controller: App\Controller\LoginControllerKeycloak::check
+  schemes:    [http]
