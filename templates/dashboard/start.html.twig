@@ -63,10 +63,14 @@
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg">
                     <a class="navbar-brand img-fluid" href="{{ path('index') }}">
-                        <img class="d-none d-md-block" src="{{ asset('logo.png') }}" alt="Logo" style="height: 80px; width: auto; margin-top: -10px">
-                        <img class="d-block d-md-none" src="{{ asset('logo.png') }}" alt="Logo" style="height: 60px; width: auto">
+                        <img class="d-none d-md-block" src="{{ asset('logo.png') }}" alt="Logo"
+                             style="height: 80px; width: auto; margin-top: -10px">
+                        <img class="d-block d-md-none" src="{{ asset('logo.png') }}" alt="Logo"
+                             style="height: 60px; width: auto">
                     </a> <!-- Logo -->
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
                         <span class="bar-icon"></span>
                         <span class="bar-icon"></span>
                         <span class="bar-icon"></span>
@@ -114,9 +118,12 @@
                         </div>
                         <div class="col-lg-8 col-md-7">
                             <div class="slider-product-content">
-                                <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s"><span>Jitsi Meet</span> und <span>Jitsi Admin</span></h1>
-                                <p class="mb-25" data-animation="fadeInUp" data-delay="0.9s">Eine zentrale und kostenlose Verwaltung <br> von Jitsi Meet Konferenzen</p>
-                                <a class="main-btn" href="#" data-animation="fadeInUp" data-delay="1.5s">Alle Funktionen <i class="lni-chevron-right"></i></a>
+                                <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s"><span>Jitsi Meet</span>
+                                    und <span>Jitsi Admin</span></h1>
+                                <p class="mb-25" data-animation="fadeInUp" data-delay="0.9s">Eine zentrale und
+                                    kostenlose Verwaltung <br> von Jitsi Meet Konferenzen</p>
+                                <a class="main-btn" href="#" data-animation="fadeInUp" data-delay="1.5s">Alle Funktionen
+                                    <i class="lni-chevron-right"></i></a>
                             </div> <!-- slider product content -->
                         </div>
                     </div> <!-- row -->
@@ -136,12 +143,14 @@
                         </div>
                         <div class="col-lg-8 col-md-7">
                             <div class="slider-product-content">
-                                <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s"><span>{{ user|length }} Personen</span> nutzen Jitsi Admin</h1>
+                                <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s">
+                                    <span>{{ user|length }} Personen</span> nutzen Jitsi Admin</h1>
                                 <h5 class="mb-25" data-animation="fadeInUp" data-delay="0.9s">
                                     <span>{{ server|length }} private Jitsi Server</span> sind registriert<br>
                                     <span>{{ rooms|length }} Konferenzen</span> wurden bereits durchgeführt
                                 </h5>
-                                <a class="main-btn" href="{{ path('dashboard') }}" data-animation="fadeInUp" data-delay="1.5s">Registrieren <i class="lni-chevron-right"></i></a>
+                                <a class="main-btn" href="{{ path('dashboard') }}" data-animation="fadeInUp"
+                                   data-delay="1.5s">Registrieren <i class="lni-chevron-right"></i></a>
                             </div> <!-- slider product content -->
                         </div>
                     </div> <!-- row -->
@@ -161,7 +170,8 @@
                         </div>
                         <div class="col-lg-8 col-md-7">
                             <div class="slider-product-content">
-                                <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s"><span>Beitreten</span></h1>
+                                <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s"><span>Beitreten</span>
+                                </h1>
                                 <p class="mb-25" data-animation="fadeInUp" data-delay="0.9s">
                                     {{ form_start(form) }}
                                     {{ form_widget(form) }}
@@ -220,7 +230,9 @@
                 <div class="section-title pb-30">
                     <h5 class="mb-15">Aktueller Stand</h5>
                     <h3 class="title mb-15">Jitsi Admin Funktionen</h3>
-                    <p>Der Jitsi Admin Manager ist nach dem MVP (Minimum Value Product Prinzip entstanden. Die wichtigsten Funktionen zum Verwlaten von Konferenzen sind bereits integriert. Weitere Funktionen können als Feature Request angefragt werden.</p>
+                    <p>Der Jitsi Admin Manager ist nach dem MVP (Minimum Value Product) entstanden. Die
+                        wichtigsten Funktionen zum Verwalten von Konferenzen sind bereits integriert. Weitere Funktionen
+                        können als Feature Request angefragt werden.</p>
                 </div> <!-- section title -->
             </div>
         </div>
@@ -229,7 +241,8 @@
                 <div class="services-left mt-45">
                     <div class="services">
                         <img src="{{ asset('images/start/screenshots.png') }}" alt="">
-                        <a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank" class="main-btn mt-30">Mehr erfahren <i class="lni-chevron-right"></i></a>
+                        <a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank"
+                           class="main-btn mt-30">Mehr erfahren <i class="lni-chevron-right"></i></a>
                     </div> <!-- services btn -->
                 </div> <!-- services left -->
             </div>
@@ -244,7 +257,8 @@
                                 </div>
                                 <div class="services-content mt-20">
                                     <h5 class="title mb-10">Serververwaltung</h5>
-                                    <p>Es können mehrere Jitsi Server angelegt und verwaltet werden. Jitsi Server können mit oder ohne JWT Authentifizierung angelegt werden</p>
+                                    <p>Es können mehrere Jitsi Server angelegt und verwaltet werden. Jitsi Server können
+                                        mit oder ohne JWT Authentifizierung angelegt werden</p>
                                 </div>
                             </div> <!-- single services -->
 
@@ -254,7 +268,8 @@
                                 </div>
                                 <div class="services-content mt-20">
                                     <h5 class="title mb-10">Konferenzen</h5>
-                                    <p>Alle geplanten Konferenzen werden auf dem Dashboard angezeigt. Die Teilnehmer werden während der Planung und 5 Minuten vor dem Start per Email informiert.</p>
+                                    <p>Alle geplanten Konferenzen werden auf dem Dashboard angezeigt. Die Teilnehmer
+                                        werden während der Planung und 5 Minuten vor dem Start per Email informiert.</p>
                                 </div>
                             </div> <!-- single services -->
                             <div class="single-services text-center mt-30">
@@ -263,7 +278,8 @@
                                 </div>
                                 <div class="services-content mt-20">
                                     <h5 class="title mb-10">Email Versand</h5>
-                                    <p>Alle eingetragenen Teilnehmer werden automatisch bei der Einladung und kurz vor dem Start per Email benachrichtigt.</p>
+                                    <p>Alle eingetragenen Teilnehmer werden automatisch bei der Einladung und kurz vor
+                                        dem Start per Email benachrichtigt.</p>
                                 </div>
                             </div> <!-- single services -->
                         </div>
@@ -274,7 +290,9 @@
                                 </div>
                                 <div class="services-content mt-20">
                                     <h5 class="title mb-10">Managed Service</h5>
-                                    <p>Mit dem Jitsi Admin können Sie Ihre Jitsi Installation mit einer JWT Authentifizierung schützen. Wir beraten Sie gerne bei der Installation und Einrichtugn des Jitsi Servers.</p>
+                                    <p>Mit dem Jitsi Admin können Sie Ihre Jitsi Installation mit einer JWT
+                                        Authentifizierung schützen. Wir beraten Sie gerne bei der Installation und
+                                        Einrichtung des Jitsi Servers.</p>
                                 </div>
                             </div> <!-- single services -->
 
@@ -284,7 +302,9 @@
                                 </div>
                                 <div class="services-content mt-20">
                                     <h5 class="title mb-10">Volle Kontrolle</h5>
-                                    <p>Sie können einen eigenen oder einen öffentlichen Jitsi Server im Jitsi Admin einbinden und verwalten. Sie können weiteren Usern den privaten Server freigeben und teilen.</p>
+                                    <p>Sie können einen eigenen oder einen öffentlichen Jitsi Server im Jitsi Admin
+                                        einbinden und verwalten. Sie können weiteren Usern den privaten Server freigeben
+                                        und teilen.</p>
                                 </div>
 
                             </div> <!-- single services -->
@@ -311,10 +331,14 @@
             <div class="col-lg-6">
                 <div class="showcase-title pt-25">
                     <p>
-                        Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.
+                        Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server
+                        betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu
+                        Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.
                     </p>
                     <p>
-                        Sind Ihnen Videokonferenzen in der Cloud eines in den USA ansässigen Unternehmens nicht geheuer, weil Sie sicher stellen müssen, dass keine Mitschnitte gemacht oder Daten von unberechtigten Dritten gesammelt werden? Dann solltest Sie sich für den Jitsi Managed Service  entscheiden.
+                        Sind Ihnen Videokonferenzen in der Cloud eines in den USA ansässigen Unternehmens nicht geheuer,
+                        weil Sie sicher stellen müssen, dass keine Mitschnitte gemacht oder Daten von unberechtigten
+                        Dritten gesammelt werden? Dann solltest Sie sich für den Jitsi Managed Service entscheiden.
 
                     </p>
                 </div> <!-- showcase title -->
@@ -325,7 +349,8 @@
                 <div class="showcase-active mt-65">
                     <div class="single-showcase">
                         <img src="{{ asset('images/start/jitsi-start.jpg') }}" alt="Testimonial">
-                        <a href="https://h2-invent.com/services/managed-services/jitsi" class="main-btn" target="_blank">Jitsi Managed Server</a>
+                        <a href="https://h2-invent.com/services/managed-services/jitsi" class="main-btn"
+                           target="_blank">Jitsi Managed Server</a>
                     </div> <!-- single showcase -->
                     <div class="single-showcase">
                         <img src="{{ asset('images/start/jitsi-admin-new.jpg') }}" alt="Testimonial">
@@ -350,25 +375,29 @@
                         <a href="#">
                             <img src="{{ asset('logo.png') }}" alt="Logo">
                         </a>
-                        <p class="mt-10">Der Jitsi Admin ist die Open Source Jitsi Administration für den eigenen und öffentliche Jitsi Instanzen.</p>
+                        <p class="mt-10">Der Jitsi Admin ist die Open Source Jitsi Administration für den eigenen und
+                            öffentliche Jitsi Instanzen.</p>
                     </div> <!-- footer logo -->
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-5">
                     <div class="footer-link mt-50">
-                        <h5 class="f-title">Services</h5>
+                        <h5 class="f-title">Service</h5>
                         <ul>
-                            <li><a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank">Jitsi Meet Installation</a></li>
-                            <li><a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank">Managed Server</a></li>
+                            <li><a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank">Jitsi
+                                    Meet Installation</a></li>
+                            <li><a href="https://h2-invent.com/services/managed-services/jitsi" target="_blank">Managed
+                                    Server</a></li>
                             <li><a href="https://h2-invent.com" target="_blank">Administration</a></li>
                         </ul>
                     </div> <!-- footer link -->
                 </div>
                 <div class="col-lg-2 col-md-3 col-sm-5">
                     <div class="footer-link mt-50">
-                        <h5 class="f-title">Help</h5>
+                        <h5 class="f-title">Unterstützung</h5>
                         <ul>
                             <li><a href="https://h2-invent.com" target="_blank">Webseite</a></li>
-                            <li><a href="https://h2-invent.com/post/software/anleitung-fuer-jitsi" target="_blank">Starten mit Jitsi</a></li>
+                            <li><a href="https://h2-invent.com/post/software/anleitung-fuer-jitsi" target="_blank">Starten
+                                    mit Jitsi</a></li>
                             <li><a href="https://support.h2-invent.com" target="_blank">Support Center</a></li>
                             <li><a href="{{ imprint }}" target="_blank">Impressum</a></li>
                             <li><a href="{{ dataPrivacy }}" target="_blank">Privacy Policy</a></li>
