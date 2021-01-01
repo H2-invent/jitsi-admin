@@ -23,9 +23,20 @@ class JoinController extends AbstractController
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
         $dataStr = $request->get('data');
         $dataAll = base64_decode($dataStr);
-        parse_str($dataAll,$data);
+        parse_str($dataAll, $data);
+        if (isset($data['email']) && isset($data['uid'])) {
+            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
-        $form = $this->createForm(JoinViewType::class, $data);
+            if ($room !== null && $user === $room->getModerator()) {
+                return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
+            }
+            $form = $this->createForm(JoinViewType::class, $data);
+        } else {
+            $form = $this->createForm(JoinViewType::class);
+        }
+
+
         $form->handleRequest($request);
         $snack = $request->get('snack');
         $errors = array();
@@ -34,7 +45,7 @@ class JoinController extends AbstractController
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
-            if (count($errors) == 0 && $room && in_array($user,$room->getUser()->toarray())) {
+            if (count($errors) == 0 && $room && in_array($user, $room->getUser()->toarray())) {
                 $jitsi_server_url = 'https://' . $room->getServer()->getUrl();
                 $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
 
