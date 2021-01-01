@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="dropdown">
+                                <div class="dropdown d-none d-md-block">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         Beitreten
@@ -100,6 +100,10 @@
                                         <li><a href="{{ path('room_join',{'t':'a','room':room.id}) }}" target="_blank">In der App</a></li>
                                     </ul>
                                 </div>
+                                <div class="d-block d-md-none">
+                                    <a class="btn btn-primary" href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">Beitreten</a>
+                                </div>
+
                             </div>
                             <div class="col-md-2">
                                 <div class="dropdown">
@@ -122,7 +126,11 @@
 
             </div>
             <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-
+                {% if rooms| filter (room => room.endDate < date())|length == 0 %}
+                    <div class="card card-body">
+                        <p class="text-center">Aktuell sind keine vergangenen Konferenzen vorhanden.</p>
+                    </div>
+                {% endif %}
                 {% for room in rooms | filter (room => room.endDate < date()) | sort((a, b) => b.start <=> a.start) %}
                     <div class="card card-body mb-1 text-lg-left text-center">
                         <div class="row">
