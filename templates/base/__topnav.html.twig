@@ -1,18 +1,21 @@
 <ul class="nav navbar-nav ml-auto">
-    <!-- Button trigger modal -->
-    <a type="button" class="d-none d-lg-block ml-auto mr-2"
-       data-toggle="modal"
-       data-target="#settings">
-        <img src="{{ asset('images/settings.png') }}" style="max-height: 30px">
-    </a>
-    <!-- Button trigger modal -->
-    <a type="button" class="d-none d-lg-block ml-auto mr-2"
-       data-toggle="modal"
-       data-target="#sideModalTR">
-        <img src="{{ asset('images/profil.svg') }}" style="max-height: 30px">
-    </a>
-    <a href="{{ path('app_logout') }}" class="d-none d-lg-block"><img src="{{ asset('images/logout.svg') }}"
-                                                                      style="max-height: 30px"></a>
+    <div class="row mr-1">
+        <!-- Button trigger modal -->
+        <a type="button" class="ml-auto mr-2"
+           data-toggle="modal"
+           data-target="#settings">
+            <img src="{{ asset('images/settings.png') }}" style="max-height: 30px">
+        </a>
+        <!-- Button trigger modal -->
+        <a type="button" class="ml-auto mr-2"
+           data-toggle="modal"
+           data-target="#sideModalTR">
+            <img src="{{ asset('images/profil.svg') }}" style="max-height: 30px">
+        </a>
+
+        <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" style="max-height: 30px"></a>
+
+    </div>
 
     <!-- To change the direction of the modal animation change .right class -->
     <div class="modal fade right" id="sideModalTR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
