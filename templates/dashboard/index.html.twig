@@ -11,27 +11,27 @@
 
         <!-- Tabs navs -->
         <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-            <li class="nav-item" >
+            <li class="nav-item">
                 <a data-toggle="tab"
-                        class="nav-link active"
-                        id="ex1-tab-1-tab"
-                        data-mdb-toggle="tab"
-                        href="#ex1-tabs-1"
-                        role="tab"
-                        aria-controls="ex1-tabs-1"
-                        aria-selected="true"
+                   class="nav-link active"
+                   id="ex1-tab-1-tab"
+                   data-mdb-toggle="tab"
+                   href="#ex1-tabs-1"
+                   role="tab"
+                   aria-controls="ex1-tabs-1"
+                   aria-selected="true"
                 >Zukünftige Konferenzen</a
                 >
             </li>
-            <li class="nav-item" >
+            <li class="nav-item">
                 <a data-toggle="tab"
-                        class="nav-link"
-                        id="ex1-tab-2-tab"
-                        data-mdb-toggle="tab"
-                        href="#ex1-tabs-2"
-                        role="tab"
-                        aria-controls="ex1-tabs-2"
-                        aria-selected="false"
+                   class="nav-link"
+                   id="ex1-tab-2-tab"
+                   data-mdb-toggle="tab"
+                   href="#ex1-tabs-2"
+                   role="tab"
+                   aria-controls="ex1-tabs-2"
+                   aria-selected="false"
                 >Vergangene Konferenzen</a
                 >
             </li>
@@ -59,34 +59,40 @@
 
                 </div>
                 {% if rooms| filter (room => room.endDate > date())|length == 0 %}
-                <div class="card card-body">
-                    <p class="text-center">Aktuell sind keine Konferenzen vorhanden. Erstellen <u><a href="{{ path('room_new') }}" class="loadContent">hier</a></u> Sie eine neue Konferenz.</p>
-                </div>
+                    <div class="card card-body">
+                        <p class="text-center">Aktuell sind keine Konferenzen vorhanden. Erstellen <u><a
+                                        href="{{ path('room_new') }}" class="loadContent">hier</a></u> Sie eine neue
+                            Konferenz.</p>
+                    </div>
                 {% endif %}
 
                 {% for room in rooms | filter (room => room.endDate > date()) | sort((a, b) => a.start <=> b.start) %}
                     <div class="card card-body mb-1 text-lg-left text-center">
                         <div class="row">
                             <div class="col-md-6">
-                                <h5 class="h5-responsive">{{ room.name }}</h5> {% if app.user == room.moderator %}<span class="badge-info">Moderator</span>{% endif %} <br>
+                                <h5 class="h5-responsive">{{ room.name }}</h5> {% if app.user == room.moderator %}<span
+                                        class="badge-info">Moderator</span>{% endif %} <br>
                                 Start: {{ room.start|date('d.m.Y H:i') }} Uhr<br>
                                 Dauer: {{ room.duration }} Minuten<br>
                                 Server: {{ room.server.url }}<br>
                                 Anzahl Teilnehmer: {{ room.user|length }}
                             </div>
                             <div class="col-md-2">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Optionen
-                                    </button>
-                                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                                        <li><a href="{{ path('room_remove',{'room':room.id}) }}">
-                                                Löschen</a></li>
-                                        <li><a href="{{ path('room_new',{'id':room.id}) }}" class="loadContent">
-                                                Bearbeiten</a></li>
-                                    </ul>
-                                </div>
+                                {% if room.moderator == app.user %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenu1"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            Optionen
+                                        </button>
+                                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+                                            <li><a href="{{ path('room_remove',{'room':room.id}) }}">
+                                                    Löschen</a></li>
+                                            <li><a href="{{ path('room_new',{'id':room.id}) }}" class="loadContent">
+                                                    Bearbeiten</a></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-2">
                                 <div class="dropdown d-none d-md-block">
@@ -95,29 +101,42 @@
                                         Beitreten
                                     </button>
                                     <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                                        <li><a href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">Im Browser</a></li>
+                                        <li><a href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">Im
+                                                Browser</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="{{ path('room_join',{'t':'a','room':room.id}) }}" target="_blank">In der App</a></li>
+                                        <li><a href="{{ path('room_join',{'t':'a','room':room.id}) }}" target="_blank">In
+                                                der App</a></li>
                                     </ul>
                                 </div>
                                 <div class="d-block d-md-none">
-                                    <a class="btn btn-primary" href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">Beitreten</a>
+                                    <a class="btn btn-primary" href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                                       target="_blank">Beitreten</a>
                                 </div>
 
                             </div>
                             <div class="col-md-2">
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Teilnehmer
-                                    </button>
-                                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                                        <li><a href="{{ path('room_add_user',{'room':room.id}) }}" class="loadContent">
-                                                Hinzufügen</a></li>
-                                        <li><a href="{{ path('room_show_user',{'room':room.id}) }}" class="loadContent">
-                                                Anzeigen</a></li>
-                                    </ul>
-                                </div>
+                                {% if room.moderator == app.user %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            Teilnehmer
+                                        </button>
+                                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+                                            <li><a href="{{ path('room_add_user',{'room':room.id}) }}"
+                                                   class="loadContent">
+                                                    Hinzufügen</a></li>
+                                            <li><a href="{{ path('room_show_user',{'room':room.id}) }}"
+                                                   class="loadContent">
+                                                    Anzeigen</a></li>
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
+                                           class="btn btn-default">
+                                            Entfernen</a>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -135,7 +154,8 @@
                     <div class="card card-body mb-1 text-lg-left text-center">
                         <div class="row">
                             <div class="col-md-6">
-                                <h5 class="h5-responsive">{{ room.name }}</h5> {% if app.user == room.moderator %}<span class="badge-info">Moderator</span>{% endif %} <br>
+                                <h5 class="h5-responsive">{{ room.name }}</h5> {% if app.user == room.moderator %}<span
+                                        class="badge-info">Moderator</span>{% endif %} <br>
                                 Start: {{ room.start|date('d.m.Y H:i') }} Uhr<br>
                                 Server: {{ room.server.url }}<br>
                                 Anzahl Teilnehmer: {{ room.user|length }}
@@ -158,7 +178,6 @@
                         </div>
                     </div>
                 {% endfor %}
-
 
 
             </div>

@@ -10,6 +10,7 @@ use App\Service\AddUserService;
 use App\Service\InviteService;
 use App\Service\NotificationService;
 use Firebase\JWT\JWT;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,18 +27,23 @@ class RoomController extends AbstractController
     public function newRoom(Request $request, ValidatorInterface $validator)
     {
         if ($request->get('id')) {
-            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id'=>$request->get('id')));
-        }else {
+            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
+            if ($room->getModerator() !== $this->getUser()) {
+                return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
+            }
+            $snack = 'Konferenz erfolgreich bearbeitet';
+        } else {
             $room = new Rooms();
             $room->addUser($this->getUser());
             $now = new \DateTime();
             //$room->setStart($now)->format('d.m.Y H:i');
             $room->setDuration(60);
-            $room->setUid(rand(01,99).time());
+            $room->setUid(rand(01, 99) . time());
             $room->setModerator($this->getUser());
+            $snack = 'Konferenz erfolgreich erstellt';
         }
 
-        $form = $this->createForm(RoomType::class, $room, ['server' => $this->getUser()->getServers(), 'action' => $this->generateUrl('room_new',['id'=>$room->getId()])]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $this->getUser()->getServers(), 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
         $form->handleRequest($request);
 
         $errors = array();
@@ -49,7 +55,7 @@ class RoomController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
-                return $this->redirectToRoute('dashboard');
+                return $this->redirectToRoute('dashboard',['snack'=>$snack]);
             }
         }
         $title = 'Neue Konferenz erstellen';
@@ -64,6 +70,9 @@ class RoomController extends AbstractController
     {
         $newMember = array();
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        if ($room->getModerator() !== $this->getUser()) {
+            return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
+        }
         $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('room_add_user', ['room' => $room->getId()])]);
         $form->handleRequest($request);
 
@@ -85,7 +94,7 @@ class RoomController extends AbstractController
 
                 }
                 $em->flush();
-                return $this->redirectToRoute('dashboard',['snack'=>'Teilnehmer eingeladen']);
+                return $this->redirectToRoute('dashboard', ['snack' => 'Teilnehmer eingeladen']);
             }
         }
         $title = 'Teilnehmer hinzufügen';
@@ -95,21 +104,21 @@ class RoomController extends AbstractController
 
 
     /**
-     * @Route("/room/join", name="room_join")
+     * @Route("/room/join/{t}/{room}", name="room_join")
+     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
     public
-    function joinRoom(Request $request)
+    function joinRoom(Rooms $room, $t)
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if ($request->get('t') === 'a') {
+        if ($t === 'a') {
             $type = 'jitsi-meet://';
-        }else {
+        } else {
             $type = 'https://';
         }
         if ($room->getModerator() === $this->getUser()) {
             $moderator = true;
-        }else {
+        } else {
             $moderator = false;
         }
         if (in_array($this->getUser(), $room->getUser()->toarray())) {
@@ -123,7 +132,7 @@ class RoomController extends AbstractController
                 "room" => $room->getUid(),
                 "context" => [
                     'user' => [
-                        'name' => $this->getUser()->getFirstName() . ' ' .$this->getUser()->getLastName()
+                        'name' => $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName()
                     ]
                 ],
                 "moderator" => $moderator
@@ -133,35 +142,7 @@ class RoomController extends AbstractController
             $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
             return $this->redirect($url);
         }
-
-    }
-
-    /**
-     * @Route("/join", name="room_join_guests")
-     */
-    public
-    function joinRoomGuests(Request $request)
-    {
-
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        $jitsi_server_url = 'jitsi-meet://' . $room->getServer()->getUrl();
-        $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-
-        $payload = array(
-            "aud" => $room->getServer()->getAppId(),
-            "iss" => "jitsi_manager",
-            "sub" => $room->getServer()->getUrl(),
-            "room" => $room->getId(),
-            "context" => [
-                'user' => [
-                    'name' => $this->getUser()->getUsername()
-                ]
-            ]
-        );
-
-        $token = JWT::encode($payload, $jitsi_jwt_token_secret);
-        $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
-        return $this->redirect($url);
+        return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
     }
 
     /**
@@ -172,11 +153,11 @@ class RoomController extends AbstractController
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if (in_array($this->getUser(), $room->getUser()->toarray())) {
+        if ($room->getModerator() === $this->getUser()) {
             $title = 'Teilnehmer bearbeiten';
-
             return $this->render('room/showUser.html.twig', array('room' => $room, 'title' => $title));
         }
+        return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
     }
 
     /**
@@ -188,14 +169,16 @@ class RoomController extends AbstractController
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
-        if ($this->getUser() === $room->getModerator()) {
+        $snack = 'Keine Berechtigung';
+        if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
             $room->removeUser($user);
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
             $em->flush();
-
-            return $this->redirectToRoute('dashboard');
+            $snack = 'Teilnehmer gelöscht';
         }
+
+        return $this->redirectToRoute('dashboard',['snack'=>$snack]);
     }
 
     /**
@@ -206,13 +189,14 @@ class RoomController extends AbstractController
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        $snack = 'Keine Berechtigung';
         if ($this->getUser() === $room->getModerator()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($room);
             $em->flush();
-
-            return $this->redirectToRoute('dashboard');
+            $snack = 'Konferenz gelöscht';
         }
+        return $this->redirectToRoute('dashboard',['snack'=>$snack]);
     }
 
     /**
@@ -228,8 +212,8 @@ class RoomController extends AbstractController
             $em->remove($room);
             $em->flush();
 
-            return $this->redirectToRoute('dashboard');
         }
+        return $this->redirectToRoute('dashboard');
     }
 
 }

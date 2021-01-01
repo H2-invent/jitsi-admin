@@ -25,6 +25,9 @@ class DashboardController extends AbstractController
      */
     public function index(Request $request, TranslatorInterface $translator)
     {
+        if ($this->getUser()){
+            return $this->redirectToRoute('dashboard');
+        };
 
         $data = array();
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
@@ -46,8 +49,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/room/dashboard", name="dashboard")
      */
-    public
-    function dashboard(Request $request)
+    public function dashboard(Request $request)
     {
         $rooms = $this->getUser()->getRooms();
         return $this->render('dashboard/index.html.twig', [
