@@ -1,9 +1,21 @@
 {
-	"name":"Datenschutzcenter",
-	"short_name":"ODC",
-	"icons":[{"src":"favicon.ico","sizes":"192x192","type":"image/ico"},{"src":"favicon.ico","sizes":"512x512","type":"image/ico"}],
-	"theme_color":"#181d5e",
-	"background_color":"#48495e",
-	"display":"standalone",
-	"start_url": "/"
+  "short_name": "Jitsi Admin",
+  "name": "Manage Jitsi Conferences",
+  "icons": [
+    {
+      "src": "favicon-large.ico",
+      "type": "image/ico",
+      "sizes": "100x100"
+    },
+    {
+          "src": "favicon-large.ico",
+          "type": "image/ico",
+          "sizes": "512x512"
+        }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ff1133",
+  "theme_color": "#3367D6",
+  "orientation": "portrait"
 }
