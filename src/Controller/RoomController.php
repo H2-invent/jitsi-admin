@@ -57,12 +57,12 @@ class RoomController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
+                if ($request->get('id')) {
+                    foreach ($room->getUser() as $user) {
+                        $addUserService->editRoom($user, $room);
+                    }
+                }
                 return $this->redirectToRoute('dashboard',['snack'=>$snack]);
-            }
-        }
-        if ($request->get('id')) {
-            foreach ($room->getUser() as $user) {
-                $addUserService->editRoom($user, $room);
             }
         }
 
