@@ -37,14 +37,12 @@
                         {% trans %}Name{% endtrans %}: {{ app.user.firstName }} {{ app.user.lastName }}<br>
                         {% trans %}Email{% endtrans %}: {{ app.user.email }}
                     </p>
-                    {% if demo == 'prod' %}
                         <a class="btn btn-primary btn-sm"
                            href="{{ path('connect_keycloak_edit') }}"
                            target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a>
                         <a class="btn btn-primary btn-sm"
                            href="{{ path('connect_keycloak_edit') }}"
                            target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
-                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">{% trans %}Logout{% endtrans %}</a>
