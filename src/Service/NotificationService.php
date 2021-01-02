@@ -32,6 +32,7 @@ class NotificationService
     function sendNotification($content, $subject, User $user, Rooms $rooms, $url)
     {
         $attachement = array();
+        $this->ics = new IcsService();
         $this->ics->add(
             array(
                 'location' => 'Jitsi Konferenz',
