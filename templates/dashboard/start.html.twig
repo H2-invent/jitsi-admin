@@ -8,7 +8,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="manifest" href="{{asset('site.webmanifest')}}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     <!--====== Title ======-->
     <title>Jitsi Admin</title>
 
@@ -84,12 +84,21 @@
                             <li class="nav-item">
                                 <a data-scroll-nav="0" href="#product">Features</a>
                             </li>
-                            <li class="nav-item">
-                                <a data-scroll-nav="0" href="{{ path('dashboard') }}">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a data-scroll-nav="0" href="{{ path('register_keycloak') }}">Registrieren</a>
-                            </li>
+                            {% if not is_granted('ROLE_USER') %}
+                                <li class="nav-item">
+                                    <a data-scroll-nav="0" href="{{ path('dashboard') }}">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-scroll-nav="0" href="{{ path('register_keycloak') }}">Registrieren</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a data-scroll-nav="0" href="{{ path('dashboard') }}">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a data-scroll-nav="0" href="{{ path('app_logout') }}">Logout</a>
+                                </li>
+                            {% endif %}
                         </ul> <!-- navbar nav -->
                     </div>
                 </nav> <!-- navbar -->

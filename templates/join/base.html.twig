@@ -13,7 +13,7 @@
         <div class="card card-body mt-4 text-center">
             <div class="row">
                 <div class="col-md-3 text-md-left">
-                    <a href="https://open-datenschutzcenter.de" target="_blank" class="small"><img
+                    <a href="https://jitsi-admin.de" target="_blank" class="small"><img
                                 src="{{ asset('logo.png') }}" style="height: 50px"></a>
                 </div>
                 <div class="col-md-6">
@@ -32,15 +32,10 @@
 
 </div>
 
-<script type="text/javascript" src="{{ asset('build/js/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('build/js/popper.min.js') }}"></script>
-
 {% block webpack %}
-    {{ encore_entry_script_tags('frontend') }}
+    {{ encore_entry_script_tags('app') }}
 {% endblock %}
 
-<script type="text/javascript" src="{{ asset('build/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('build/js/mdb.min.js') }}"></script>
 
 </body>
 

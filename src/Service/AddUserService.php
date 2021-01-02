@@ -35,7 +35,7 @@ class AddUserService
     function generateUrl (Rooms $room, User $user) {
 
         $data = base64_encode('uid='.$room->getUid().'&email='.$user->getEmail());
-        $url = $this->url->generate('room_join_guests',['data'=>$data],UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->url->generate('join_index',['data'=>$data],UrlGeneratorInterface::ABSOLUTE_URL);
         return $url;
     }
 
@@ -44,6 +44,16 @@ class AddUserService
         $url = $this->generateUrl($room,$user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Neue Einladung zu einer Videokonferenz';
+        $this->notificationService->sendNotification($content, $subject, $user, $room, $url);
+
+        return true;
+    }
+
+    function editRoom(User $user, Rooms $room)
+    {
+        $url = $this->generateUrl($room,$user);
+        $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
+        $subject = 'Videokonferenz wurde bearbeitet';
         $this->notificationService->sendNotification($content, $subject, $user, $room, $url);
 
         return true;

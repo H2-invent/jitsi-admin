@@ -24,6 +24,9 @@ class ServersController extends AbstractController
     {
         if ($request->get('id')) {
             $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id'=>$request->get('id')));
+            if ($server->getAdministrator() !== $this->getUser()) {
+                return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
+            }
             $title = 'Server bearbeiten';
         }else {
             $title = 'Server erstellen';
@@ -54,10 +57,13 @@ class ServersController extends AbstractController
     /**
      * @Route("/server/add-user", name="server_add_user")
      */
-    public function roomAddUser(Request $request, InviteService $inviteService, AddUserService $addUserService)
+    public function roomAddUser(Request $request, InviteService $inviteService)
     {
         $newMember = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        if ($server->getAdministrator() !== $this->getUser()) {
+            return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
+        }
         $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('server_add_user', ['id' => $server->getId()])]);
         $form->handleRequest($request);
 
