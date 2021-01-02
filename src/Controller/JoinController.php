@@ -46,7 +46,7 @@ class JoinController extends AbstractController
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
-            if (count($errors) == 0 && $room && in_array($user, $room->getUser()->toarray())) {
+            if (count($errors) == 0 && $room & $user && in_array($user, $room->getUser()->toarray())) {
                 $jitsi_server_url = 'https://' . $room->getServer()->getUrl();
                 $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
 
