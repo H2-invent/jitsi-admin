@@ -61,6 +61,8 @@ class RoomController extends AbstractController
                     foreach ($room->getUser() as $user) {
                         $addUserService->editRoom($user, $room);
                     }
+                }else{
+                    $addUserService->addUser($room->getModerator(), $room);
                 }
                 return $this->redirectToRoute('dashboard',['snack'=>$snack]);
             }
