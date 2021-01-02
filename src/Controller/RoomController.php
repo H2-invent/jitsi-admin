@@ -24,7 +24,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(Request $request, ValidatorInterface $validator)
+    public function newRoom(Request $request, ValidatorInterface $validator, AddUserService $addUserService)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -32,6 +32,7 @@ class RoomController extends AbstractController
                 return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
             }
             $snack = 'Konferenz erfolgreich bearbeitet';
+            $title = 'Konferenz bearbeiten';
         } else {
             $room = new Rooms();
             $room->addUser($this->getUser());
@@ -41,6 +42,7 @@ class RoomController extends AbstractController
             $room->setUid(rand(01, 99) . time());
             $room->setModerator($this->getUser());
             $snack = 'Konferenz erfolgreich erstellt';
+            $title = 'Neue Konferenz erstellen';
         }
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $this->getUser()->getServers(), 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
@@ -58,7 +60,11 @@ class RoomController extends AbstractController
                 return $this->redirectToRoute('dashboard',['snack'=>$snack]);
             }
         }
-        $title = 'Neue Konferenz erstellen';
+        if ($request->get('id')) {
+            foreach ($room->getUser() as $user) {
+                $addUserService->editRoom($user, $room);
+            }
+        }
 
         return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
     }

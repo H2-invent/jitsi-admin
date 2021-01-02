@@ -53,7 +53,7 @@ class RoomType extends AbstractType
                     '8 Stunden' => 480,
                 ]
             ])
-            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Erstellen', 'translation_domain' => 'form']);
+            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Speichern', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

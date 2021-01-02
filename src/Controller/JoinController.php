@@ -29,7 +29,7 @@ class JoinController extends AbstractController
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
-            if ($room !== null && $user === $room->getModerator()) {
+            if ($user && $user->getKeycloakId() !== null) {
                 return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
             }
             $form = $this->createForm(JoinViewType::class, $data);

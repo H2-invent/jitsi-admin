@@ -49,6 +49,16 @@ class AddUserService
         return true;
     }
 
+    function editRoom(User $user, Rooms $room)
+    {
+        $url = $this->generateUrl($room,$user);
+        $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
+        $subject = 'Videokonferenz wurde bearbeitet';
+        $this->notificationService->sendNotification($content, $subject, $user, $room, $url);
+
+        return true;
+    }
+
     function notifyUser(User $user, Rooms $room)
     {
         $url = $this->generateUrl($room,$user);
