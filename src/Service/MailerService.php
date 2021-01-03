@@ -9,8 +9,6 @@
 namespace App\Service;
 
 
-use nicoSWD\GPG\GPG;
-use nicoSWD\GPG\PublicKey;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 

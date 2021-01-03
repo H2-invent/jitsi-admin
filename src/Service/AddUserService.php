@@ -44,7 +44,8 @@ class AddUserService
         $url = $this->generateUrl($room,$user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Neue Einladung zu einer Videokonferenz';
-        $this->notificationService->sendNotification($content, $subject, $user, $room, $url);
+        $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
+        $this->notificationService->sendNotification($content, $subject, $user, $room, $ics);
 
         return true;
     }
@@ -54,7 +55,19 @@ class AddUserService
         $url = $this->generateUrl($room,$user);
         $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Videokonferenz wurde bearbeitet';
-        $this->notificationService->sendNotification($content, $subject, $user, $room, $url);
+        $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
+        $this->notificationService->sendNotification($content, $subject, $user, $room, $ics);
+
+        return true;
+    }
+
+    function removeRoom(User $user, Rooms $room)
+    {
+        $url = $this->generateUrl($room,$user);
+        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room]);
+        $subject = 'Videokonferenz abgesagt';
+        $ics = $this->notificationService->createIcs($room,$user,$url,'CANCEL');
+        $this->notificationService->sendNotification($content, $subject, $user, $room, $ics);
 
         return true;
     }
@@ -64,7 +77,7 @@ class AddUserService
         $url = $this->generateUrl($room,$user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Videokonferenz ' . $room->getName() . ' startet gleich';
-        $this->notificationService->sendCron($content, $subject, $user, $room, $url);
+        $this->notificationService->sendCron($content, $subject, $user, $room);
 
         return true;
     }
