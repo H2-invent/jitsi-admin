@@ -28,9 +28,11 @@
                                 {% if server.administrator == app.user %}
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{% trans %}Bearbeiten{% endtrans %}</a>
+                                    <a href="{{ path('server_add_user',{'id':server.id}) }}" data-dismiss="modal"
+                                       class="loadContent">{% trans %}Berechtigungen{% endtrans %}</a>
+                                {% else %}
+                                    <a href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}">Entfernen</a>
                                 {% endif %}
-                                <a href="{{ path('server_add_user',{'id':server.id}) }}" data-dismiss="modal"
-                                   class="loadContent">{% trans %}Berechtigungen{% endtrans %}</a>
                             </div>
 
                         </div>

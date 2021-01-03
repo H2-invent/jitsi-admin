@@ -4,8 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Rooms;
-use App\Service\AddUserService;
-use App\Service\NotificationService;
+use App\Service\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +16,7 @@ class CronController extends AbstractController
     /**
      * @Route("/cron/remember", name="cron_remember")
      */
-    public function updateCronAkademie(NotificationService $notificationService, Request $request, LoggerInterface $logger, AddUserService $addUserService)
+    public function updateCronAkademie(Request $request, LoggerInterface $logger, UserService $userService)
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {
             $message = ['error' => true, 'hinweis' => 'Token fehlerhaft', 'token' => $request->get('token'), 'ip' => $request->getClientIp()];
@@ -37,7 +36,7 @@ class CronController extends AbstractController
         $emails = 0;
         foreach ($rooms as $room) {
             foreach ($room->getUser() as $data) {
-                $addUserService->notifyUser($data,$room);
+                $userService->notifyUser($data,$room);
                 ++ $emails;
             }
         }

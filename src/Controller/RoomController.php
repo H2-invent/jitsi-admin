@@ -6,7 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
-use App\Service\AddUserService;
+use App\Service\UserService;
 use App\Service\InviteService;
 
 use App\Service\RoomService;
@@ -21,7 +21,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(Request $request, AddUserService $addUserService)
+    public function newRoom(Request $request, UserService $userService)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -54,10 +54,10 @@ class RoomController extends AbstractController
             $em->flush();
             if ($request->get('id')) {
                 foreach ($room->getUser() as $user) {
-                    $addUserService->editRoom($user, $room);
+                    $userService->editRoom($user, $room);
                 }
             } else {
-                $addUserService->addUser($room->getModerator(), $room);
+                $userService->addUser($room->getModerator(), $room);
             }
             return $this->redirectToRoute('dashboard', ['snack' => $snack]);
         }
@@ -68,7 +68,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/add-user", name="room_add_user")
      */
-    public function roomAddUser(Request $request, InviteService $inviteService, AddUserService $addUserService)
+    public function roomAddUser(Request $request, InviteService $inviteService, UserService $userService)
     {
         $newMember = array();
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -95,7 +95,7 @@ class RoomController extends AbstractController
                         $user->addRoom($room);
                         $em->persist($user);
                         $snack = "Teilnehmer wurden eingeladen";
-                        $addUserService->addUser($user, $room);
+                        $userService->addUser($user, $room);
                     } else {
                         array_push($falseEmail, $newMember);
                         $emails = implode(", ", $falseEmail);
@@ -147,7 +147,7 @@ class RoomController extends AbstractController
      * @Route("/room/user/remove", name="room_user_remove")
      */
     public
-    function roomUserRemove(Request $request, AddUserService $addUserService)
+    function roomUserRemove(Request $request, UserService $userService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -159,7 +159,7 @@ class RoomController extends AbstractController
             $em->persist($room);
             $em->flush();
             $snack = 'Teilnehmer gelöscht';
-            $addUserService->removeRoom($user, $room);
+            $userService->removeRoom($user, $room);
         }
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
@@ -169,7 +169,7 @@ class RoomController extends AbstractController
      * @Route("/room/remove", name="room_remove")
      */
     public
-    function roomRemove(Request $request, AddUserService $addUserService)
+    function roomRemove(Request $request, UserService $userService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -177,7 +177,7 @@ class RoomController extends AbstractController
         if ($this->getUser() === $room->getModerator()) {
             $em = $this->getDoctrine()->getManager();
             foreach ($room->getUser() as $user) {
-                $addUserService->removeRoom($user, $room);
+                $userService->removeRoom($user, $room);
             }
             $em->remove($room);
             $em->flush();
