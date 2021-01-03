@@ -1,0 +1,21 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    -- Videokonferenz abgesagt --
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <b>
+        Hallo!
+    </b>
+    <p>
+        Die Veranstaltung {{ room.name }} wurde abgesagt und kann aus dem Kalender entfernt werden.
+    </p>
+    <b>
+        Name: {{ room.name }}
+    </b>
+    <p>Moderator: {{ room.moderator.firstName }} {{ room.moderator.lastName }}</p>
+
+{% endblock %}

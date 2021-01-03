@@ -19,12 +19,17 @@ class IcsService
         'dtstart',
         'location',
         'summary',
-        'url',
         'rrule',
+        'uid',
+        'sequense',
+        'organizer',
+        'attendee'
     );
     private $appointments = array();
+    private $method; // REQUEST,CANCELED,PUBLISH
 
-    public function set($key, $val = false) {
+    public function set($key, $val = false)
+    {
         if (is_array($key)) {
             foreach ($key as $k => $v) {
                 $this->set($k, $v);
@@ -34,42 +39,60 @@ class IcsService
                 $this->properties[$key] = $this->sanitizeVal($val, $key);
             }
         }
-        $this->appointments[]= $this->properties;
+        $this->appointments[] = $this->properties;
     }
-    public function add($key){
 
-        array_push($this->appointments,$key);
+    public function add($key)
+    {
+
+        array_push($this->appointments, $key);
     }
-    public function toString() {
+
+    public function setMethod($method)
+    {
+
+        $this->method = $method;
+    }
+
+    public function toString()
+    {
         $rows = $this->buildProps();
-        return implode("\r\n", $rows);
+        $res = implode("\r\n", $rows);
+        return $res;
     }
-    private function buildProps() {
+
+    private function buildProps()
+    {
         // Build ICS properties - add header
         $ics_props = array(
             'BEGIN:VCALENDAR',
             'VERSION:2.0',
             'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
             'CALSCALE:GREGORIAN',
-
+            'METHOD:'.$this->method,
         );
+
         // Build ICS properties - add header
-        foreach ($this->appointments as $data){
-            $ics_props[]= 'BEGIN:VEVENT';
+        foreach ($this->appointments as $data) {
+            $ics_props[] = 'BEGIN:VEVENT';
 
             $props = array();
-            foreach($data as $k => $v) {
-                $props[strtoupper($k . ($k === 'url' ? ';VALUE=URI' : ''))] = $v;
+            foreach ($data as $p => $q) {
+                $props[strtoupper($p . ($p === 'attendee' ? ';ROLE=REQ-PARTICIPANT:MAILTO' : ''))] = $q;
             }
             // Set some default values
-            $props['DTSTAMP'] = $this->formatTimestamp('now');
-            $props['UID'] = uniqid('sd',true);
+            $props['DTSTAMP'] = $this->formatTimestamp();
+            $props['LAST-MODIFIED'] = $this->formatTimestamp();
+            if (!$props['UID']) {
+                $props['UID'] = uniqid('sd', true);
+            }
+
             // Append properties
             foreach ($props as $k => $v) {
                 $ics_props[] = "$k:$v";
             }
 
-              $ics_props[] = 'END:VEVENT';
+            $ics_props[] = 'END:VEVENT';
         }
 
         // Build ICS properties - add footer
@@ -77,10 +100,13 @@ class IcsService
         $ics_props[] = 'END:VCALENDAR';
         return $ics_props;
     }
-    private function sanitizeVal($val, $key = false) {
-        switch($key) {
+
+    private function sanitizeVal($val, $key = false)
+    {
+        switch ($key) {
             case 'dtend':
             case 'dtstamp':
+                $val = $this->formatTimestamp($val);
             case 'dtstart':
                 $val = $this->formatTimestamp($val);
                 break;
@@ -89,12 +115,16 @@ class IcsService
         }
         return $val;
     }
-    private function formatTimestamp($timestamp) {
+
+    private function formatTimestamp($timestamp)
+    {
         $dt = new \DateTime($timestamp);
         return $dt->format(self::DT_FORMAT);
     }
-    private function escape_string($str) {
-        return preg_replace('/([\,;])/','\\\$1', $str);
+
+    private function escape_string($str)
+    {
+        return preg_replace('/([\,;])/', '\\\$1', $str);
     }
 
 

@@ -5,11 +5,10 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
-use Firebase\JWT\JWT;
+use App\Service\RoomService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinController extends AbstractController
@@ -17,7 +16,7 @@ class JoinController extends AbstractController
     /**
      * @Route("/join", name="join_index")
      */
-    public function index(Request $request, TranslatorInterface $translator, UserPasswordEncoderInterface $encoder)
+    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService)
     {
         $data = array();
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
@@ -34,7 +33,7 @@ class JoinController extends AbstractController
             }
             $form = $this->createForm(JoinViewType::class, $data);
         } else {
-            $snack = 'Data Query konnte nicht gelesen werden. Zugangsdaten manuell eingeben';
+            $snack = 'Zugangsdaten in das Formular eingeben';
             $form = $this->createForm(JoinViewType::class);
         }
 
@@ -46,25 +45,8 @@ class JoinController extends AbstractController
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
-            if (count($errors) == 0 && $room & $user && in_array($user, $room->getUser()->toarray())) {
-                $jitsi_server_url = 'https://' . $room->getServer()->getUrl();
-                $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-
-                $payload = array(
-                    "aud" => "jitsi_admin",
-                    "iss" => $room->getServer()->getAppId(),
-                    "sub" => $room->getServer()->getUrl(),
-                    "room" => $room->getUid(),
-                    "context" => [
-                        'user' => [
-                            'name' => $search['name']
-                        ]
-                    ],
-                    "moderator" => false
-                );
-
-                $token = JWT::encode($payload, $jitsi_jwt_token_secret);
-                $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
+            if (count($errors) == 0 && $room && $user && in_array($user, $room->getUser()->toarray())) {
+                $url = $roomService->join($room,$user,'b',$search['name']);
                 return $this->redirect($url);
             }
             $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
