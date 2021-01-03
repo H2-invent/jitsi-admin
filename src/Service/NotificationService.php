@@ -40,7 +40,7 @@ class NotificationService
             array(
                 'uid'=>md5($rooms->getUid()),
                 'location' => 'Jitsi Konferenz',
-                'description' =>  'Sie wurden zu einer Videokonferenz auf dem Jitsi Server ' . $rooms->getServer()->getUrl() . ' hinzugefügt.\n\nÜber den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: ' . $rooms->getName() . '\nModerator: ' . $rooms->getModerator()->getFirstName() .' ' . $rooms->getModerator()->getLastName() . '\n\nFolgende Daten benötigen Sie um der Konferenz beizutreten:\nIhre Email Adresse: ' . $user->getEmail() . '\nKonferenz ID: ' . $rooms->getUid() . '\n\n' . $url . '\n\nSie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.',
+                'description' =>  'Sie wurden zu einer Videokonferenz auf dem Jitsi Server ' . $rooms->getServer()->getUrl() . ' hinzugefügt.\n\nÜber den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: ' . $rooms->getName() . '\nModerator: ' . $rooms->getModerator()->getFirstName() .' ' . $rooms->getModerator()->getLastName() . '\n\nFolgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: ' . $rooms->getUid() . '\nIhre Email Adresse: ' . $user->getEmail() . '\n\n' . $url . '\n\nSie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.',
                 'dtstart' => $rooms->getStart()->format('Ymd')."T".$rooms->getStart()->format("His"),
                 'dtend' => $rooms->getEnddate()->format('Ymd')."T".$rooms->getEnddate()->format("His"),
                 'summary' => $rooms->getName(),
