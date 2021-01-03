@@ -61,6 +61,11 @@ class Rooms
      */
     private $duration;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $sequence;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -175,6 +180,18 @@ class Rooms
     public function setDuration(float $duration): self
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getSequence(): ?int
+    {
+        return $this->sequence;
+    }
+
+    public function setSequence(int $sequence): self
+    {
+        $this->sequence = $sequence;
 
         return $this;
     }

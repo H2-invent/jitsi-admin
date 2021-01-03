@@ -25,25 +25,38 @@ class NotificationService
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
-        $this->ics = $icsService;
         $this->twig = $environment;
     }
 
-    function sendNotification($content, $subject, User $user, Rooms $rooms, $url)
-    {
-        $attachement = array();
+    function createIcs (Rooms $rooms, User $user, $url ,$method = 'REQUEST') {
         $this->ics = new IcsService();
+        $this->ics->setMethod($method);
+        if ($rooms->getModerator() !== $user) {
+            $organizer = $rooms->getModerator()->getEmail();
+        } else{
+            $organizer = 'noreply@jitsi-admin.de';
+        }
         $this->ics->add(
             array(
+                'uid'=>md5($rooms->getUid()),
                 'location' => 'Jitsi Konferenz',
-                'description' =>  'Sie wurden zu einer Videokonferenz auf dem Jitsi Server ' . $rooms->getServer()->getUrl() . 'hinzugefügt.\n\nÜber den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: ' . $rooms->getName() . '\nModerator: ' . $rooms->getModerator()->getFirstName() .' ' . $rooms->getModerator()->getLastName() . '\n\nFolgende Daten benötigen Sie um der Konferenz beizutreten:\nIhre Email Adresse: ' . $user->getEmail() . '\nKonferenz ID: ' . $rooms->getUid() . '\n\n' . $url . '\n\nSie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.',
+                'description' =>  'Sie wurden zu einer Videokonferenz auf dem Jitsi Server ' . $rooms->getServer()->getUrl() . ' hinzugefügt.\n\nÜber den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: ' . $rooms->getName() . '\nModerator: ' . $rooms->getModerator()->getFirstName() .' ' . $rooms->getModerator()->getLastName() . '\n\nFolgende Daten benötigen Sie um der Konferenz beizutreten:\nIhre Email Adresse: ' . $user->getEmail() . '\nKonferenz ID: ' . $rooms->getUid() . '\n\n' . $url . '\n\nSie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.',
                 'dtstart' => $rooms->getStart()->format('Ymd')."T".$rooms->getStart()->format("His"),
                 'dtend' => $rooms->getEnddate()->format('Ymd')."T".$rooms->getEnddate()->format("His"),
                 'summary' => $rooms->getName(),
-                'url' => $url
+                'sequence' => $rooms->getSequence(),
+                'organizer' => $organizer,
+                'attendee' => $user->getEmail(),
             )
         );
-        $attachement[] = array('type' => 'text/calendar', 'filename' => $rooms->getName() . '.ics', 'body' => $this->ics->toString());
+        return $this->ics->toString();
+    }
+
+    function sendNotification($content, $subject, User $user, Rooms $rooms, $ics)
+    {
+        $attachement = array();
+
+        $attachement[] = array('type' => 'text/calendar', 'filename' => $rooms->getName() . '.ics', 'body' => $ics);
         $this->mailer->sendEmail(
             $this->parameterBag->get('registerEmailName'),
             $this->parameterBag->get('defaultEmail'),
@@ -57,9 +70,8 @@ class NotificationService
         return true;
     }
 
-    function sendCron($content, $subject, User $user, Rooms $rooms, $url)
+    function sendCron($content, $subject, User $user, Rooms $rooms)
     {
-        $attachement[] = array('type' => 'text/calendar', 'filename' => $rooms->getName() . '.ics', 'body' => $this->ics->toString());
         $this->mailer->sendEmail(
             $this->parameterBag->get('registerEmailName'),
             $this->parameterBag->get('defaultEmail'),
