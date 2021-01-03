@@ -88,7 +88,8 @@ class ServersController extends AbstractController
                     $serverService->addPermission($server, $user);
                 }
                 $em->flush();
-                return $this->redirectToRoute('dashboard');
+                $snack = 'Berechtigung hinzugefügt';
+                return $this->redirectToRoute('dashboard',['snack'=>$snack]);
             }
         }
         $title = 'Berechtigung für Server hinzufügen';
