@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
 use App\Form\Type\ServerType;
@@ -89,6 +90,28 @@ class ServersController extends AbstractController
         }
         $title = 'Berechtigung für Server hinzufügen';
 
-        return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
+        return $this->render('servers/permissionModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'users'=>$server->getUser(),'server'=>$server));
     }
+
+    /**
+     * @Route("/server/user/remove", name="server_user_remove")
+     */
+    public
+    function serverUserRemove(Request $request)
+    {
+
+        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
+        $snack = 'Keine Berechtigung';
+        if ($server->getAdministrator() === $this->getUser() || $user === $this->getUser()) {
+            $server->removeUser($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($server);
+            $em->flush();
+            $snack = 'Berechtigung gelöscht';
+        }
+
+        return $this->redirectToRoute('dashboard',['snack'=>$snack]);
+    }
+
 }

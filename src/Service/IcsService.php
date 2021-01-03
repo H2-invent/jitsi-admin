@@ -81,8 +81,8 @@ class IcsService
                 $props[strtoupper($p . ($p === 'attendee' ? ';ROLE=REQ-PARTICIPANT:MAILTO' : ''))] = $q;
             }
             // Set some default values
-            $props['DTSTAMP'] = $this->formatTimestamp();
-            $props['LAST-MODIFIED'] = $this->formatTimestamp();
+            $props['DTSTAMP'] = $this->formatTimestamp('now');
+            $props['LAST-MODIFIED'] = $this->formatTimestamp('now');
             if (!$props['UID']) {
                 $props['UID'] = uniqid('sd', true);
             }

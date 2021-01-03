@@ -24,13 +24,13 @@ class CronController extends AbstractController
             $logger->error($message['hinweis'], $message);
             return new JsonResponse($message);
         }
-        $now = new \DateTime();
-        $now->modify('+ 10 minutes');
+        $now10 = new \DateTime();
+        $now10->modify('+ 10 minutes');
 
         $qb = $this->getDoctrine()->getRepository(Rooms::class)->createQueryBuilder('rooms');
-        $qb->andWhere('rooms.start > :now')
+        $qb->where('rooms.start > :now')
             ->andWhere('rooms.start < :now10')
-            ->setParameter('now10', $now)
+            ->setParameter('now10', $now10)
             ->setParameter('now', new \DateTime());
         $query = $qb->getQuery();
         $rooms = $query->getResult();
