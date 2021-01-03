@@ -43,7 +43,11 @@
                 {% endblock %}
                 <spacer size="16"></spacer>
                 <p>
-                    Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.
+                    {% if room is defined %}
+                        Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.
+                    {% else %}
+                        Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.
+                    {% endif %}
                 </p>
                 <spacer size="32"></spacer>
                 <p style="text-align: center">
@@ -58,7 +62,7 @@
         </row>
         <center>
             <small>
-                <a href="https://h2-invent.com">Powered by Jitsi Manager</a>
+                <a href="https://jitsi-admin.de">Powered by Jitsi Manager</a>
             </small>
         </center>
 

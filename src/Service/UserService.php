@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 
-class AddUserService
+class UserService
 {
     private $mailer;
     private $parameterBag;
@@ -45,7 +45,8 @@ class AddUserService
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Neue Einladung zu einer Videokonferenz';
         $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
-        $this->notificationService->sendNotification($content, $subject, $user, $room, $ics);
+        $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
+        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
 
         return true;
     }
@@ -56,7 +57,8 @@ class AddUserService
         $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Videokonferenz wurde bearbeitet';
         $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
-        $this->notificationService->sendNotification($content, $subject, $user, $room, $ics);
+        $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
+        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
 
         return true;
     }
@@ -67,7 +69,8 @@ class AddUserService
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room]);
         $subject = 'Videokonferenz abgesagt';
         $ics = $this->notificationService->createIcs($room,$user,$url,'CANCEL');
-        $this->notificationService->sendNotification($content, $subject, $user, $room, $ics);
+        $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
+        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
 
         return true;
     }

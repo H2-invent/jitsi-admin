@@ -52,11 +52,9 @@ class NotificationService
         return $this->ics->toString();
     }
 
-    function sendNotification($content, $subject, User $user, Rooms $rooms, $ics)
+    function sendNotification($content, $subject, User $user, $attachement = array())
     {
-        $attachement = array();
 
-        $attachement[] = array('type' => 'text/calendar', 'filename' => $rooms->getName() . '.ics', 'body' => $ics);
         $this->mailer->sendEmail(
             $this->parameterBag->get('registerEmailName'),
             $this->parameterBag->get('defaultEmail'),
@@ -70,7 +68,8 @@ class NotificationService
         return true;
     }
 
-    function sendCron($content, $subject, User $user, Rooms $rooms)
+
+    function sendCron($content, $subject, User $user)
     {
         $this->mailer->sendEmail(
             $this->parameterBag->get('registerEmailName'),
