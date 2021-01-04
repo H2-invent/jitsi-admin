@@ -51,6 +51,9 @@ class DashboardController extends AbstractController
      */
     public function dashboard(Request $request)
     {
+        if ($request->get('join_room') && $request->get('type')) {
+            return $this->redirectToRoute('room_join',['room'=>$request->get('join_room'),'t'=>$request->get('type')]);
+        }
         $rooms = $this->getUser()->getRooms();
         return $this->render('dashboard/index.html.twig', [
             'rooms' => $rooms,
