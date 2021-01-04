@@ -112,7 +112,6 @@ class RoomController extends AbstractController
         return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
 
-
     /**
      * @Route("/room/join/{t}/{room}", name="room_join")
      * @ParamConverter("room", options={"mapping"={"room"="id"}})
@@ -125,7 +124,8 @@ class RoomController extends AbstractController
             $url = $roomService->join($room, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
             return $this->redirect($url);
         }
-        return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+
+        return $this->redirectToRoute('dashboard', ['join_room'=>$room->getId(),'type'=>$t]);
     }
 
     /**
