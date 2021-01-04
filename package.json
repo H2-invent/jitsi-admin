@@ -19,6 +19,7 @@
         "copy-webpack-plugin": "^6.4.1",
         "flatpickr": "^4.6.9",
         "jquery": "^3.5.1",
+        "jquery-confirm": "^3.3.4",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
         "popper.js": "^1.16.1"
