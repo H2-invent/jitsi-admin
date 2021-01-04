@@ -3,12 +3,11 @@
  *
  */
 import '../css/app.css';
-
-
 import $ from 'jquery';
 import 'popper.js';
 import('bootstrap');
 import('mdbootstrap');
+import ('jquery-confirm');
 import flatpickr from 'flatpickr'
 
 global.$ = global.jQuery = $;
@@ -40,45 +39,6 @@ $(document).ready(function () {
     });
 
 
-    $('#data-table').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excel'
-
-        ]
-    });
-
-    $('.summernote').summernote({
-        placeholder: 'Gebe hier den Text ein',
-        tabsize: 2,
-        height: 200,
-        focus: false,
-        lang: 'de-DE',
-        toolbar: [
-            ['style', ['pre']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', []],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link']],
-            ['view', ['fullscreen']]
-        ],
-        callbacks: {
-            onPaste: function (e) {
-                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
-                e.preventDefault();
-                document.execCommand('insertText', false, bufferText);
-            }
-        }
-    });
-
-    $('.checkboxSelect').on('change', function () {
-        if ($(this).prop("checked") === true) {
-            $('.sendButton').removeClass('disabled');
-        } else if ($(this).prop("checked") === false) {
-            $('.sendButton').addClass('disabled');
-        }
-    });
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,
@@ -86,7 +46,31 @@ $(document).ready(function () {
     });
 });
 
+$(document).on('click','.confirmHref',function (e) {
+    e.preventDefault();
+    var url = $(this).prop('href');
+    $.confirm({
+        title: 'Bestätigung',
+        content: 'Wollen Sie die Aktion durchführen?',
+        theme: 'material',
+        buttons: {
+            confirm: {
+                text: 'OK', // text for button
+                btnClass: 'btn-outline-danger btn', // class for the button
+                action: function () {
+                    window.location.href = url;
+                },
 
+
+            },
+            cancel:{
+                text: 'Abbrechen', // text for button
+                btnClass: 'btn-outline-primary btn', // class for the button
+            } ,
+        }
+    });
+
+})
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
@@ -100,7 +84,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,
-        time_24hr:true,
+        time_24hr: true,
         defaultMinute: 0,
         minuteIncrement: 15,
         altFormat: 'd.m.Y H:i',
