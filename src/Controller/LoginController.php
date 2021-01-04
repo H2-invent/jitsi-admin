@@ -52,7 +52,7 @@ class LoginController extends AbstractController
     {
         $url = $this->getParameter('KEYCLOAK_URL')
             .'/realms/'.$this->getParameter('KEYCLOAK_REALM')
-            .'/protocol/openid-connect/logout?redirect_uri='.$this->generateUrl('dashboard',[],UrlGenerator::ABSOLUTE_URL);
+            .'/protocol/openid-connect/logout?redirect_uri='.$this->generateUrl('index',[],UrlGenerator::ABSOLUTE_URL);
         return $this->redirect($url);
 
     }
