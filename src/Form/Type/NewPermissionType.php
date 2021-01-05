@@ -22,8 +22,8 @@ class NewPermissionType extends AbstractType
     {
 
         $builder
-           ->add('member',TextareaType::class,['required' => false, 'label' => 'E-Mail Adresse für Berechtigung eingeben', 'help'=> 'Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.','translation_domain' => 'form'])
-            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Teilnehmer Hinzufügen', 'translation_domain' => 'form']);
+           ->add('member',TextareaType::class,['required' => false, 'label' => 'E-Mail Adresse des Organisators eingeben', 'help'=> 'Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.','translation_domain' => 'form'])
+            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Organisator Hinzufügen', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

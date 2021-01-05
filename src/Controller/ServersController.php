@@ -31,9 +31,9 @@ class ServersController extends AbstractController
             if ($server->getAdministrator() !== $this->getUser()) {
                 return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
             }
-            $title = 'Server bearbeiten';
+            $title = 'Jitsi Meet Server bearbeiten';
         }else {
-            $title = 'Server erstellen';
+            $title = 'Jitsi Meet Server erstellen';
             $server = new Server();
             $server->addUser($this->getUser());
             $server->setAdministrator($this->getUser());
@@ -92,7 +92,7 @@ class ServersController extends AbstractController
                 return $this->redirectToRoute('dashboard',['snack'=>$snack]);
             }
         }
-        $title = 'Berechtigung für Server hinzufügen';
+        $title = 'Organisator zu Server hinzufügen';
 
         return $this->render('servers/permissionModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'users'=>$server->getUser(),'server'=>$server));
     }
