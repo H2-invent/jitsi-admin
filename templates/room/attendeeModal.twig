@@ -1,0 +1,23 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ title }}</h5>
+
+        </div>
+        <div class="modal-body">
+            <p>Teilnehmerliste</p>
+            <ul>
+                <li>{{ room.moderator.email }} <span class="small">(Organisator)</span></li>
+                {% for user in room.user %}
+                    <li>{{ user.email }} <a class="small confirmHref"
+                                                href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}">(Entfernen)</a></li>
+                {% endfor %}
+            </ul>
+<hr>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

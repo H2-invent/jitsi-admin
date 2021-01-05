@@ -32,7 +32,7 @@ class RoomType extends AbstractType
                 'choice_label' => 'url',
                 'class' => Server::class,
                 'choices' => $options['server'],
-                'label' => 'Jitsi Server',
+                'label' => 'Jitsi Meet Server',
                 'translation_domain' => 'form',
                 'multiple' => false,
                 'required' => true,

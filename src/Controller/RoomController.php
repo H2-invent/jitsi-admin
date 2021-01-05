@@ -78,7 +78,6 @@ class RoomController extends AbstractController
         $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('room_add_user', ['room' => $room->getId()])]);
         $form->handleRequest($request);
 
-        $errors = array();
         if ($form->isSubmitted() && $form->isValid()) {
 
 
@@ -97,7 +96,7 @@ class RoomController extends AbstractController
                         $snack = "Teilnehmer wurden eingeladen";
                         $userService->addUser($user, $room);
                     } else {
-                        array_push($falseEmail, $newMember);
+                        $falseEmail[] = $newMember;
                         $emails = implode(", ", $falseEmail);
                         $snack = "Einige Teilnehmer eingeladen. $emails ist/sind nicht korrekt und können nicht eingeladen werden";
                     }
@@ -107,9 +106,9 @@ class RoomController extends AbstractController
                 return $this->redirectToRoute('dashboard', ['snack' => $snack]);
             }
         }
-        $title = 'Teilnehmer hinzufügen';
+        $title = 'Teilnehmer verwalten';
 
-        return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
+        return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room'=>$room));
     }
 
     /**
@@ -126,21 +125,6 @@ class RoomController extends AbstractController
         }
 
         return $this->redirectToRoute('dashboard', ['join_room'=>$room->getId(),'type'=>$t]);
-    }
-
-    /**
-     * @Route("/room/show-user", name="room_show_user")
-     */
-    public
-    function roomShowUser(Request $request)
-    {
-
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if ($room->getModerator() === $this->getUser()) {
-            $title = 'Teilnehmer bearbeiten';
-            return $this->render('room/showUser.html.twig', array('room' => $room, 'title' => $title));
-        }
-        return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
     }
 
     /**
