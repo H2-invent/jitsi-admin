@@ -200,21 +200,23 @@
 <!--====== DISCOUNT PRODUCT PART START ======-->
 
 <section id="product" class="discount-product pt-100">
-    <div class="container mb-5">
+    <div class="container-fluid mb-5">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="single-discount-product mt-30">
                     <div class="product-image">
-                        <img src="{{ asset('images/start/create_conf.jpg') }}" alt="Product">
+                        <img src="{{ asset('images/start/jitsi-admin-server.jpg') }}" alt="Create Server">
                     </div> <!-- product image -->
                     <div class="product-content">
-                        <h4 class="content-title mb-15">Login</h4>
-                        <a href="{{ path('register_keycloak') }}">Zum Dashboard <i class="lni-chevron-right"></i></a>
+                        <h4 class="content-title mb-15">Konferenzen & <br>Server</h4>
+                        <a href="{{ path('dashboard') }}">Login <i class="lni-chevron-right"></i></a>
                     </div> <!-- product content -->
                 </div> <!-- single discount product -->
+            </div>
+            <div class="col-lg-4">
                 <div class="single-discount-product mt-30">
                     <div class="product-image">
-                        <img src="{{ asset('images/start/create_conf.jpg') }}" alt="Product">
+                        <img src="{{ asset('images/start/create_conf.jpg') }}" alt="Create Room">
                     </div> <!-- product image -->
                     <div class="product-content">
                         <h4 class="content-title mb-15">Benutzer <br> erstellen</h4>
@@ -222,7 +224,7 @@
                     </div> <!-- product content -->
                 </div> <!-- single discount product -->
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <div class="single-discount-product mt-30">
                     <div class="product-image">
                         <img src="{{ asset('images/start/jitsi-join-conf.jpg') }}" alt="Product">
