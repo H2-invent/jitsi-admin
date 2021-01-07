@@ -39,6 +39,50 @@
     <!--====== Responsive css ======-->
     <link rel="stylesheet" href="{{ asset('start/assets/css/responsive.css') }}">
 
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Jitsi Admin",
+            "image": "https://jitsi-admin.de/logo.png",
+            "url": "https://jitsi-admin.de/",
+            "publisher": {
+                "@type": "Organization",
+                "name": "H2 Invent GmbH"
+            },
+            "applicationCategory": "Open Source",
+            "downloadUrl": "https://github.com/H2-invent/jitsi-admin",
+            "operatingSystem": "LAMP Server",
+            "requirements": "PHP >7.3",
+            "screenshot": "https://jitsi-admin.de/images/start/screenshots.png"
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "QAPage",
+            "mainEntity": {
+                "@type": "Question",
+                "name": "Wie kann ich bei einem Jitsi Server Termine erstellen",
+                "text": "Ich habe einen Jitsi-Meet Server und möchte eine Konferenz zu einem Zeitpunkt organisieren und sichergehen dass keine anderen Benutzer als die eingeladenen Personen in die Konferenz kommen. Gibt es dazu eine Möglichket bei Jitsi-Meet?",
+                "answerCount": 1,
+                "author": {
+                    "@type": "Person",
+                    "name": "Anonymous User"
+                },
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mit Jitsi-Admin, einer Open Sorce Software kannst du deinen Jitsi-Server absichern und über das Dashboard jederzeit Termine organisieren. Der Jitsi-Admin lässt sich für jeden Jitsi-Server verwenden und muss dort nur als 'Mein Server hinzugefügt werden.'",
+                    "url": "https://jitsi-admin.de/",
+                    "author": {
+                        "@type": "person",
+                        "name": "H2 Invent GmbH"
+                    }
+
+                }
+            }
+        }
+    </script>
 
 </head>
 
