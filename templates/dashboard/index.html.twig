@@ -20,8 +20,7 @@
                    role="tab"
                    aria-controls="ex1-tabs-1"
                    aria-selected="true"
-                >Zukünftige Konferenzen</a
-                >
+                >Zukünftige Konferenzen</a>
             </li>
             <li class="nav-item">
                 <a data-toggle="tab"
@@ -32,8 +31,7 @@
                    role="tab"
                    aria-controls="ex1-tabs-2"
                    aria-selected="false"
-                >Vergangene Konferenzen</a
-                >
+                >Vergangene Konferenzen</a>
             </li>
         </ul>
         <!-- Tabs navs -->
@@ -60,8 +58,8 @@
                 </div>
                 {% if rooms| filter (room => room.endDate > date())|length == 0 %}
                     <div class="card card-body">
-                        <p class="text-center">Aktuell sind keine Konferenzen vorhanden. Erstellen <u><a
-                                        href="{{ path('room_new') }}" class="loadContent">hier</a></u> Sie eine neue
+                        <p class="text-center">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie <u><a
+                                        href="{{ path('room_new') }}" class="loadContent">hier</a></u> eine neue
                             Konferenz.</p>
                     </div>
                 {% endif %}
