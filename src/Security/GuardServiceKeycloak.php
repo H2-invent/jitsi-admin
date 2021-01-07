@@ -128,7 +128,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        return new RedirectResponse($this->router->generate('no_team'));
+        return new RedirectResponse($this->router->generate('index'));
     }
 
     /**
