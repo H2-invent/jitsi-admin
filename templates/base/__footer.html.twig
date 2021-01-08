@@ -20,8 +20,16 @@
                    href="https://h2-invent.com/">Made with ❤ by H2 invent • {{ 'now'|date('Y') }}
                     • v{{ laf_version }}</a>
             </li>
-
+            {% if matomo_enable == 'true' %}
+            <li class="nav-item">
+                <!-- Button trigger modal -->
+                <a class="nav-link"  href="#" data-toggle="modal" data-target="#exampleModal">
+                    Matomo Opt-out
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </div>
+{{ include('base/__matomoOptOut.html.twig') }}
 <!-- Footer -->

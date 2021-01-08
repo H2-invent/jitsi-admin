@@ -78,12 +78,11 @@
                         "@type": "person",
                         "name": "H2 Invent GmbH"
                     }
-
                 }
             }
         }
     </script>
-
+    {{ include('base/__matomo.html.twig') }}
 </head>
 
 <body>
@@ -175,8 +174,6 @@
                                     und <span>Jitsi Admin</span></h1>
                                 <p class="mb-25" data-animation="fadeInUp" data-delay="0.9s">Eine zentrale und
                                     kostenlose Verwaltung <br> von Jitsi Meet Konferenzen</p>
-                                <a class="main-btn" href="#" data-animation="fadeInUp" data-delay="1.5s">Alle Funktionen
-                                    <i class="lni-chevron-right"></i></a>
                             </div> <!-- slider product content -->
                         </div>
                     </div> <!-- row -->
@@ -465,7 +462,15 @@
                                     mit Jitsi</a></li>
                             <li><a href="https://support.h2-invent.com" target="_blank">Support Center</a></li>
                             <li><a href="{{ imprint }}" target="_blank">Impressum</a></li>
-                            <li><a href="{{ dataPrivacy }}" target="_blank">Privacy Policy</a></li>
+                            <li><a href="{{ dataPrivacy }}" target="_blank">Datenschutzhinweis</a></li>
+                            {% if matomo_enable == 'true' %}
+                                <li>
+                                    <!-- Button trigger modal -->
+                                    <a href="#" data-toggle="modal" data-target="#exampleModal">
+                                        Matomo Opt-out
+                                    </a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div> <!-- footer link -->
                 </div>
@@ -491,6 +496,7 @@
                                     </div>
                                 </div> <!-- single footer info -->
                             </li>
+
                         </ul>
                     </div> <!-- footer link -->
                 </div>
@@ -507,7 +513,7 @@
         </div> <!--  footer copyright -->
     </div> <!-- container -->
 </section>
-
+{{ include('base/__matomoOptOut.html.twig') }}
 <!--====== FOOTER PART ENDS ======-->
 
 <!--====== BACK TO TOP PART START ======-->
