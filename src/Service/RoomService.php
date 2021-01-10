@@ -59,7 +59,11 @@ class RoomService
         );
 
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
-        $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
+        if (!$room->getServer()->getAppId() || !$room->getServer()->getAppSecret()) {
+            $url = $jitsi_server_url . '/' . $room->getUid();
+        }else {
+            $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
+        }
 
         return $url;
     }

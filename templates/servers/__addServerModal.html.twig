@@ -1,0 +1,20 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ title }}</h5>
+
+        </div>
+        <div class="modal-body">
+            {{ form_start(form) }}
+            {{ form_row(form.url) }}
+            <input id="jwtServer" type="checkbox" name="jwtServer" value="jwtServer" {% if server.appId %}checked{% endif %}>
+            <label for="jwtServer"> Server mit JWT Token Authentifizierung</label><br>
+            <div id="appId" {% if not server.appId %}class="collapse"{% endif %}>
+            {{ form_row(form.appId) }}
+            {{ form_row(form.appSecret) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
