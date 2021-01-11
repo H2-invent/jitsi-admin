@@ -94,13 +94,10 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
 
     $('#jwtServer').change(function () {
-        console.log('1.3');
         if($('#jwtServer').prop('checked')){
             $('#appId').collapse('show')
-            console.log('1.4');
         }else {
             $('#appId').collapse('hide')
-            console.log('1.5');
         }
     });
 });
