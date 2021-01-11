@@ -162,8 +162,11 @@ class RoomController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             foreach ($room->getUser() as $user) {
                 $userService->removeRoom($user, $room);
+                $room->removeUser($user);
+                $em->persist($room);
             }
-            $em->remove($room);
+            $room->setModerator(null);
+            $em->persist($room);
             $em->flush();
             $snack = 'Konferenz gelöscht';
         }

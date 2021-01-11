@@ -92,6 +92,14 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         dateFormat: 'Y-m-d H:i',
         altInput: true
     });
+
+    $('#jwtServer').change(function () {
+        if($('#jwtServer').prop('checked')){
+            $('#appId').collapse('show')
+        }else {
+            $('#appId').collapse('hide')
+        }
+    });
 });
 
 $(".clickable-row").click(function () {

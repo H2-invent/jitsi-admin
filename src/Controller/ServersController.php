@@ -54,7 +54,7 @@ class ServersController extends AbstractController
             }
         }
 
-        return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
+        return $this->render('servers/__addServerModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
 
     }
 

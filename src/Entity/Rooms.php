@@ -52,7 +52,7 @@ class Rooms
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="roomModerator")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $moderator;
 
