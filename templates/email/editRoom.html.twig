@@ -16,7 +16,10 @@
     <b>
         Name: {{ room.name }}
     </b>
-    <p>Moderator: {{ room.moderator.firstName }} {{ room.moderator.lastName }}</p>
+    <p>Moderator: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+        Datum: {{ room.start|date('d.m.Y') }}<br>
+        Startzeit: {{ room.start|date('H:i') }}<br>
+        Geplante Dauer: {{ room.duration }} Minuten</p>
     <spacer size="16"></spacer>
     <p>Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>Ihre Email Adresse: {{ user.email }}<br>Konferenz ID: {{ room.uid }}</p>
     <spacer size="16"></spacer>
