@@ -8,6 +8,7 @@ import 'popper.js';
 import('bootstrap');
 import('mdbootstrap');
 import ('jquery-confirm');
+import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr'
 
 global.$ = global.jQuery = $;
@@ -20,7 +21,7 @@ $(document).ready(function () {
             $('#snackbar').removeClass('show');
         }, 3000);
     }, 500);
-
+    h2Button.init();
 
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
