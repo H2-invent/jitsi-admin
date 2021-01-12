@@ -100,11 +100,13 @@ public function __construct()
 
             $props = array();
             foreach ($data as $p => $q) {
+
                 if ($this->isModerator){
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=false:MAILTO' : ''))] = $q;
                 }else{
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
                 }
+
 
             }
             // Set some default values
