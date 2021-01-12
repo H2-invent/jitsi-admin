@@ -78,7 +78,7 @@ class IcsService
 
             $props = array();
             foreach ($data as $p => $q) {
-                $props[strtoupper($p . ($p === 'attendee' ? ';ROLE=REQ-PARTICIPANT:MAILTO' : ''))] = $q;
+                $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
             }
             // Set some default values
             $props['DTSTAMP'] = $this->formatTimestamp('now');
