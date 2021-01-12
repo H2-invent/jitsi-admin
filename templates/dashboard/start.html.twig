@@ -125,7 +125,13 @@
                                 <a data-scroll-nav="0" href="{{ path('index') }}">Start</a>
                             </li>
                             <li class="nav-item">
-                                <a data-scroll-nav="0" href="#product">Features</a>
+                                <a data-scroll-nav="0" href="#start">Schnellstart</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-scroll-nav="0" href="#usecases">Use Cases</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-scroll-nav="0" href="#features">Funktionen</a>
                             </li>
                             {% if not is_granted('ROLE_USER') %}
                                 <li class="nav-item">
@@ -172,8 +178,8 @@
                             <div class="slider-product-content">
                                 <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s"><span>Jitsi Meet</span>
                                     und <span>Jitsi Admin</span></h1>
-                                <p class="mb-25" data-animation="fadeInUp" data-delay="0.9s">Eine zentrale und
-                                    kostenlose Verwaltung <br> von Jitsi Meet Konferenzen</p>
+                                <p class="mb-25" data-animation="fadeInUp" data-delay="0.9s">Eine zentrale Verwaltung<br>
+                                    für Jitsi Meet Konferenzen</p>
                             </div> <!-- slider product content -->
                         </div>
                     </div> <!-- row -->
@@ -187,7 +193,7 @@
                             <div class="slider-product-image d-none d-md-block">
                                 <img src="{{ asset('images/start/join.jpg') }}" alt="Slider">
                                 <div class="slider-discount-tag">
-                                    <p>Open <br> Source</p>
+                                    <p>Open<br>Source</p>
                                 </div>
                             </div> <!-- slider product image -->
                         </div>
@@ -240,7 +246,7 @@
 
 <!--====== DISCOUNT PRODUCT PART START ======-->
 
-<section id="product" class="discount-product pt-100">
+<section id="start" class="discount-product pt-100">
     <div class="container-fluid mb-5">
         <div class="row">
             <div class="col-lg-4">
@@ -282,17 +288,60 @@
 
 <!--====== DISCOUNT PRODUCT PART ENDS ======-->
 
+<!--====== SLIDER PART START ======-->
+<section id="usecases" class="showcase-area pt-100 pb-130">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="showcase-title pt-25">
+                    <h2 class="title">Use Cases</h2>
+                </div> <!-- showcase title -->
+            </div>
+            <div class="col-lg-6">
+                <div class="showcase-title pt-25 mb-3">
+                    <p>
+                        Der Jitsi Admin kann für unterschiedlichste Use Cases genutzt werden. Haben Sie bereits einen
+                        Jitsi Server und benötigen eine einfache und intuitive Plattform zum Verwalten von Organisatoren
+                        und Konferenzen? Dann ist der Jitsi Admin genau das richtige für Sie und Ihre Organisation um
+                        die Möglichkeiten von Jitsi Meet weiter zu steigern
+                    </p>
+                </div> <!-- showcase title -->
+            </div>
+        </div> <!-- row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="showcase-active mt-65">
+                    <div class="single-showcase">
+                        <img src="{{ asset('images/start/homeschooling.jpg') }}" alt="Homeschooling">
+                        <a href="https://h2-invent.com/post/howtos/jitsi-admin-fuer-schulen" class="main-btn"
+                           target="_blank">Für Schulen</a>
+                    </div> <!-- single showcase -->
+                    <div class="single-showcase">
+                        <img src="{{ asset('images/start/home-office.jpg') }}" alt="Home-office">
+                        <a href="https://h2-invent.com/post/howtos/jitsi-admin-fuer-unternehmen" class="main-btn">Für Unternehmen</a>
+                    </div> <!-- single showcase -->
+                    <div class="single-showcase">
+                        <img src="{{ asset('images/start/events.jpg') }}" alt="Events">
+                        <a href="https://h2-invent.com/post/howtos/jitsi-admin-fuer-veranstalter" class="main-btn">Für Veranstalter und Künstler</a>
+                    </div> <!-- single showcase -->
+                </div> <!-- showcase active -->
+            </div>
+        </div> <!-- row -->
+    </div>
+</section>
+<!--====== SLIDER PART ENDS ======-->
+
 <!--====== SERVICES PART START ======-->
 
-<section id="service" class="services-area pt-125 pb-130">
+<section id="features" class="services-area pt-125 pb-130">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
                 <div class="section-title pb-30">
-                    <h5 class="mb-15">Aktueller Stand</h5>
                     <h3 class="title mb-15">Jitsi Admin Funktionen</h3>
-                    <p>Die wichtigsten Funktionen zum Verwalten von Konferenzen sind bereits integriert. Weitere
-                        Funktionen können als Feature Request angefragt werden.
+                    <p>Mit dem Jitsi Admin können Sie schnell und einfach neue Jitsi Meet Konferenzen planen, verwalten
+                        und durchführen. Behalten Sie jederzeit den Überblick über Ihre Konferenzen und die
+                        Teilnehmerlisten.
                     </p>
                 </div> <!-- section title -->
             </div>
