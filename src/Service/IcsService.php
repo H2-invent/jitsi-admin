@@ -13,6 +13,28 @@ class IcsService
 {
     const DT_FORMAT = 'Ymd\THis\Z';
     protected $properties = array();
+    private $isModerator;
+public function __construct()
+{
+    $this->isModerator = false;
+}
+
+    /**
+     * @return mixed
+     */
+    public function getIsModerator()
+    {
+        return $this->isModerator;
+    }
+
+    /**
+     * @param mixed $isModerator
+     */
+    public function setIsModerator($isModerator): void
+    {
+        $this->isModerator = $isModerator;
+    }
+
     private $available_properties = array(
         'description',
         'dtend',
@@ -45,7 +67,7 @@ class IcsService
     public function add($key)
     {
 
-        array_push($this->appointments, $key);
+        $this->appointments[] = $key;
     }
 
     public function setMethod($method)
@@ -69,7 +91,7 @@ class IcsService
             'VERSION:2.0',
             'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
             'CALSCALE:GREGORIAN',
-            'METHOD:'.$this->method,
+            'METHOD:' . $this->method,
         );
 
         // Build ICS properties - add header
@@ -78,7 +100,14 @@ class IcsService
 
             $props = array();
             foreach ($data as $p => $q) {
-                $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
+
+                if ($this->isModerator){
+                    $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=false:MAILTO' : ''))] = $q;
+                }else{
+                    $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
+                }
+
+
             }
             // Set some default values
             $props['DTSTAMP'] = $this->formatTimestamp('now');
