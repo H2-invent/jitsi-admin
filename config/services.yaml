@@ -15,6 +15,8 @@ parameters:
     KEYCLOAK_SECRETE: '%env(OAUTH_KEYCLOAK_CLIENT_SECRET)%'
     KEYCLOAK_ID: '%env(OAUTH_KEYCLOAK_CLIENT_ID)%'
     registerEmailName: '%env(registerEmailName)%'
+    default_jitsi_server_id: '%env(default_jitsi_server_id)%'
+    laF_startpage: '%env(laF_startpage)%'
 services:
     # default configuration for services in *this* file
     _defaults:

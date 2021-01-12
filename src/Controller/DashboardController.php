@@ -23,9 +23,9 @@ class DashboardController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(Request $request, TranslatorInterface $translator)
+    public function index(Request $request)
     {
-        if ($this->getUser()){
+        if ($this->getUser() || $this->getParameter('laF_startpage') === 'false'){
             return $this->redirectToRoute('dashboard');
         };
 

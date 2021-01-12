@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
@@ -42,8 +43,13 @@ class RoomController extends AbstractController
             $snack = 'Konferenz erfolgreich erstellt';
             $title = 'Neue Konferenz erstellen';
         }
+        $servers = $this->getUser()->getServers()->toarray();
+        $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
+        if ($default) {
+            $servers[] = $default;
+        }
 
-        $form = $this->createForm(RoomType::class, $room, ['server' => $this->getUser()->getServers(), 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,7 +67,6 @@ class RoomController extends AbstractController
             }
             return $this->redirectToRoute('dashboard', ['snack' => $snack]);
         }
-
         return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
 
