@@ -23,9 +23,9 @@ class DashboardController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(Request $request, TranslatorInterface $translator)
+    public function index(Request $request)
     {
-        if ($this->getUser()) {
+        if ($this->getUser() || $this->getParameter('laF_startpage') === 'false'){
             return $this->redirectToRoute('dashboard');
         };
 
@@ -35,14 +35,14 @@ class DashboardController extends AbstractController
         $dataAll = base64_decode($dataStr);
         parse_str($dataAll, $data);
 
-        $form = $this->createForm(JoinViewType::class, $data, ['action' => $this->generateUrl('join_index')]);
+        $form = $this->createForm(JoinViewType::class, $data,['action'=>$this->generateUrl('join_index')]);
         $form->handleRequest($request);
 
         $user = $this->getDoctrine()->getRepository(User::class)->findAll();
         $server = $this->getDoctrine()->getRepository(Server::class)->findAll();
         $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findAll();
 
-        return $this->render('dashboard/start.html.twig', ['form' => $form->createView(), 'user' => $user, 'server' => $server, 'rooms' => $rooms]);
+        return $this->render('dashboard/start.html.twig', ['form' => $form->createView(),'user'=>$user, 'server'=>$server, 'rooms'=>$rooms]);
     }
 
 

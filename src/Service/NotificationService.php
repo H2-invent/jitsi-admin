@@ -35,6 +35,7 @@ class NotificationService
             $organizer = $rooms->getModerator()->getEmail();
         } else{
             $organizer = 'noreply@jitsi-admin.de';
+            $this->ics->setIsModerator(true);
         }
         $this->ics->add(
             array(
