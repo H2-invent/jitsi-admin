@@ -1,0 +1,30 @@
+<div class="card card-body mb-1 text-lg-left text-center">
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="h5-responsive">{{ room.name }}</h5> {% if app.user == room.moderator %}<span
+                    class="badge badge-info">Moderator</span>{% endif %} <br>
+            Start: {{ room.start|date('d.m.Y H:i') }} Uhr<br>
+            Server: {{ room.server.url }}<br>
+            Anzahl Teilnehmer: {{ room.user|length }}
+        </div>
+        <div class="col-md-2">
+            {% if room.moderator == app.user %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                            id="dropdownMenu1"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Optionen
+                    </button>
+                    <ul class="dropdown-menu p-1 " aria-labelledby="dropdownMenu1">
+                        <li><a class="confirmHref"
+                               href="{{ path('room_remove',{'room':room.id}) }}">
+                                Löschen</a></li>
+                        <li><a href="{{ path('room_new',{'id':room.id}) }}" class="loadContent">
+                                Bearbeiten</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>

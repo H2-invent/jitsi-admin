@@ -52,11 +52,20 @@ class DashboardController extends AbstractController
     public function dashboard(Request $request)
     {
         if ($request->get('join_room') && $request->get('type')) {
-            return $this->redirectToRoute('room_join',['room'=>$request->get('join_room'),'t'=>$request->get('type')]);
+            return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
         }
-        $rooms = $this->getUser()->getRooms();
+
+        $roomsFuture = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
+        $r = array();
+        foreach ($roomsFuture as $data) {
+            $future[$data->getStart()->format('Ymd')][] = $data;
+        }
+        $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
+        $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         return $this->render('dashboard/index.html.twig', [
-            'rooms' => $rooms,
+            'roomsFuture' => $future,
+            'roomsPast' => $roomsPast,
+            'runningRooms'=>$roomsNow,
             'snack' => $request->get('snack')
         ]);
     }
