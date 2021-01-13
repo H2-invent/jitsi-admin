@@ -61,10 +61,13 @@ class DashboardController extends AbstractController
             $future[$data->getStart()->format('Ymd')][] = $data;
         }
         $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
-        setlocale(LC_TIME, "de_DE");
+        $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
+        dump($roomsNow);
+
         return $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
+            'runningRooms'=>$roomsNow,
             'snack' => $request->get('snack')
         ]);
     }
