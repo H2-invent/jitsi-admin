@@ -1,10 +1,10 @@
 <div class="card card-body mb-1 text-lg-left text-center">
     <div class="row">
         <div class="col-md-5">
-            <h5 class="h5-responsive">{{ room.name }} {% if room in runningRooms %}<small class="badge-success">Läuft
+            <h5 class="h5-responsive">{{ room.name }} {% if room in runningRooms %}<small class="badge badge-success">Läuft
                     gerade</small>{% endif %}</h5> {% if app.user == room.moderator %}
                 <span
-                        class="badge-info">Moderator</span>{% endif %} <br>
+                        class="badge badge-info">Moderator</span>{% endif %} <br>
             Start: {{ room.start|date('d.m.Y H:i') }} Uhr<br>
             Dauer: {{ room.duration }} Minuten<br>
             Server: {{ room.server.url }}<br>
