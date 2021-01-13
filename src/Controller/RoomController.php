@@ -65,7 +65,7 @@ class RoomController extends AbstractController
             } else {
                 $userService->addUser($room->getModerator(), $room);
             }
-            return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+            return $this->redirectToRoute('dashboard', ['snack' => $snack,'modalUrl'=>base64_encode($this->generateUrl('room_add_user',array('room'=>$room->getId())))]);
         }
         return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
     }

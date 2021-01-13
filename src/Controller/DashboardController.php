@@ -57,6 +57,7 @@ class DashboardController extends AbstractController
 
         $roomsFuture = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
         $r = array();
+        $future = array();
         foreach ($roomsFuture as $data) {
             $future[$data->getStart()->format('Ymd')][] = $data;
         }
