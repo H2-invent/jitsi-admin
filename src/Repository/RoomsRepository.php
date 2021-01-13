@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Rooms;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,32 @@ class RoomsRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findRoomsInFuture(User $user)
+    {
+        $now = new \DateTime();
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.user','user')
+            ->andWhere('user = :user')
+            ->andWhere('r.enddate > :now')
+            ->setParameter('now', $now)
+            ->setParameter('user', $user)
+            ->orderBy('r.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findRoomsInPast(User $user)
+    {
+        $now = new \DateTime();
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.user','user')
+            ->andWhere('user = :user')
+            ->andWhere('r.enddate < :now')
+            ->setParameter('now', $now)
+            ->setParameter('user', $user)
+            ->orderBy('r.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

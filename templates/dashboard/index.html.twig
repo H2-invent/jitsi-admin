@@ -56,7 +56,7 @@
                     </div>
 
                 </div>
-                {% if rooms| filter (room => room.endDate > date())|length == 0 %}
+                {% if roomsFuture |length == 0 %}
                     <div class="card card-body">
                         <p class="text-center">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie <u><a
                                         href="{{ path('room_new') }}" class="loadContent">hier</a></u> eine neue
@@ -64,79 +64,93 @@
                     </div>
                 {% endif %}
 
-                {% for room in rooms | filter (room => room.endDate > date()) | sort((a, b) => a.start <=> b.start) %}
-                    <div class="card card-body mb-1 text-lg-left text-center">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5 class="h5-responsive">{{ room.name }}</h5> {% if app.user == room.moderator %}<span
-                                        class="badge-info">Moderator</span>{% endif %} <br>
-                                Start: {{ room.start|date('d.m.Y H:i') }} Uhr<br>
-                                Dauer: {{ room.duration }} Minuten<br>
-                                Server: {{ room.server.url }}<br>
-                                Anzahl Teilnehmer: {{ room.user|length }}
-                            </div>
-                            <div class="col-md-2">
-                                {% if room.moderator == app.user %}
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                id="dropdownMenu1"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            Optionen
-                                        </button>
-                                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                                            <li><a class="confirmHref"
-                                                   href="{{ path('room_remove',{'room':room.id}) }}">
-                                                    Löschen</a></li>
-                                            <li><a href="{{ path('room_new',{'id':room.id}) }}" class="loadContent">
-                                                    Bearbeiten</a></li>
-                                        </ul>
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-2">
-                                <div class="dropdown d-none d-md-block">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        Beitreten
-                                    </button>
-                                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                                        <li><a href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">Im
-                                                Browser</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="{{ path('room_join',{'t':'a','room':room.id}) }}" target="_blank">In
-                                                der App</a></li>
-                                    </ul>
+                {% for date in roomsFuture %}
+                     <h4 style="padding-top: 16px" class="h4-responsive">{{ date[0].start|format_date(pattern="EEEE | d. MMMM Y",locale='de') }}  </h4>
+                    {% for room in date %}
+                        <div class="card card-body mb-1 text-lg-left text-center">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h5 class="h5-responsive">{{ room.name }}</h5> {% if app.user == room.moderator %}
+                                        <span
+                                                class="badge-info">Moderator</span>{% endif %} <br>
+                                    Start: {{ room.start|date('d.m.Y H:i') }} Uhr<br>
+                                    Dauer: {{ room.duration }} Minuten<br>
+                                    Server: {{ room.server.url }}<br>
+                                    Anzahl Teilnehmer: {{ room.user|length }}
                                 </div>
-                                <div class="d-block d-md-none">
-                                    <a class="btn btn-primary" href="{{ path('room_join',{'t':'b','room':room.id}) }}"
-                                       target="_blank">Beitreten</a>
-                                </div>
-
-                            </div>
-                            <div class="col-md-2">
-                                {% if room.moderator == app.user %}
-                                    <a href="{{ path('room_add_user',{'room':room.id}) }}"
-                                       class="btn btn-default loadContent">Teilnehmer</a>
-                                {% else %}
-                                    <div>
-                                        <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-                                           class="btn btn-default confirmHref">Entfernen</a>
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            {% if room.moderator == app.user %}
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                            id="dropdownMenu1"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="true">
+                                                        Optionen
+                                                    </button>
+                                                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+                                                        <li><a class="confirmHref"
+                                                               href="{{ path('room_remove',{'room':room.id}) }}">
+                                                                Löschen</a></li>
+                                                        <li><a href="{{ path('room_new',{'id':room.id}) }}"
+                                                               class="loadContent">
+                                                                Bearbeiten</a></li>
+                                                    </ul>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="dropdown d-none d-md-block">
+                                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                                        id="dropdownMenu1"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="true">
+                                                    Beitreten
+                                                </button>
+                                                <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+                                                    <li><a href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                                                           target="_blank">Im
+                                                            Browser</a></li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li><a href="{{ path('room_join',{'t':'a','room':room.id}) }}"
+                                                           target="_blank">In
+                                                            der App</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="d-block d-md-none">
+                                                <a class="btn btn-primary"
+                                                   href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                                                   target="_blank">Beitreten</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            {% if room.moderator == app.user %}
+                                                <a href="{{ path('room_add_user',{'room':room.id}) }}"
+                                                   class="btn btn-default loadContent">Teilnehmer</a>
+                                            {% else %}
+                                                <div>
+                                                    <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
+                                                       class="btn btn-default confirmHref">Entfernen</a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
                                     </div>
-                                {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 {% endfor %}
 
 
             </div>
             <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-                {% if rooms| filter (room => room.endDate < date())|length == 0 %}
+                {% if roomsPast |length == 0 %}
                     <div class="card card-body">
                         <p class="text-center">Aktuell sind keine vergangenen Konferenzen vorhanden.</p>
                     </div>
                 {% endif %}
-                {% for room in rooms | filter (room => room.endDate < date()) | sort((a, b) => b.start <=> a.start) %}
+                {% for room in roomsPast  %}
                     <div class="card card-body mb-1 text-lg-left text-center">
                         <div class="row">
                             <div class="col-md-6">
@@ -155,7 +169,8 @@
                                             Optionen
                                         </button>
                                         <ul class="dropdown-menu p-1 " aria-labelledby="dropdownMenu1">
-                                            <li><a class="confirmHref" href="{{ path('room_remove',{'room':room.id}) }}">
+                                            <li><a class="confirmHref"
+                                                   href="{{ path('room_remove',{'room':room.id}) }}">
                                                     Löschen</a></li>
                                             <li><a href="{{ path('room_new',{'id':room.id}) }}" class="loadContent">
                                                     Bearbeiten</a></li>
