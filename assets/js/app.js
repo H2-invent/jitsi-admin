@@ -3,16 +3,33 @@
  *
  */
 import '../css/app.css';
-import $ from 'jquery';
+import 'jquery'
+global.$ = global.jQuery = $;
 import 'popper.js';
+
 import('bootstrap');
 import('mdbootstrap');
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr'
 
-global.$ = global.jQuery = $;
 
+
+$.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+        return null;
+    }
+    return decodeURI(results[1]) || 0;
+}
+addEventListener('load',function() {
+    var url = (new URLSearchParams(window.location.search)).get('modalUrl');
+    if (url !== null) {
+        $('#loadContentModal').load(atob(url), function () {
+            $('#loadContentModal ').modal('show');
+        });
+    }
+});
 
 $(document).ready(function () {
     setTimeout(function () {
@@ -22,6 +39,7 @@ $(document).ready(function () {
         }, 3000);
     }, 500);
     h2Button.init();
+
 
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
@@ -45,9 +63,10 @@ $(document).ready(function () {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
     });
+
 });
 
-$(document).on('click','.confirmHref',function (e) {
+$(document).on('click', '.confirmHref', function (e) {
     e.preventDefault();
     var url = $(this).prop('href');
     $.confirm({
@@ -64,10 +83,10 @@ $(document).on('click','.confirmHref',function (e) {
 
 
             },
-            cancel:{
+            cancel: {
                 text: 'Abbrechen', // text for button
                 btnClass: 'btn-outline-primary btn', // class for the button
-            } ,
+            },
         }
     });
 
@@ -94,9 +113,9 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
 
     $('#jwtServer').change(function () {
-        if($('#jwtServer').prop('checked')){
+        if ($('#jwtServer').prop('checked')) {
             $('#appId').collapse('show')
-        }else {
+        } else {
             $('#appId').collapse('hide')
         }
     });
@@ -105,3 +124,4 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });
+

@@ -71,7 +71,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('r.enddate < :now')
             ->setParameter('now', $now)
             ->setParameter('user', $user)
-            ->orderBy('r.start', 'ASC')
+            ->orderBy('r.start', 'DESC')
             ->getQuery()
             ->getResult()
             ;
