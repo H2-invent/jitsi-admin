@@ -3,7 +3,7 @@
  *
  */
 import '../css/app.css';
-import $ from 'jquery'
+import $ from 'jquery';
 global.$ = global.jQuery = $;
 import 'popper.js';
 
