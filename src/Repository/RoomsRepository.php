@@ -100,7 +100,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
-            ->andWhere('r.start > :morning')
+            ->andWhere('r.start >= :morning')
             ->andWhere('r.start < :evening')
             ->setParameter('morning', $morging)
             ->setParameter('evening', $evening)
