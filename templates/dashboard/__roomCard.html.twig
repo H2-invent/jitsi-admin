@@ -5,7 +5,7 @@
                     gerade</small>{% endif %}</h5> {% if app.user == room.moderator %}
                 <span
                         class="badge badge-info">Moderator</span>{% endif %} <br>
-            Start: {{ room.start|date('d.m.Y H:i') }} Uhr<br>
+            Start: <b>{{ room.start|date('H:i') }} Uhr</b><br>
             Dauer: {{ room.duration }} Minuten<br>
             Server: {{ room.server.url }}<br>
             Anzahl Teilnehmer: {{ room.user|length }}
