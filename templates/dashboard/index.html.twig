@@ -49,25 +49,24 @@
                         <a href="{{ path('room_new') }}" class="loadContent">
                             <div class="card card-body bg-success btn rounded-pill">
                                 <p class="mt-2 mb-2 text-center">
-                                    {{ 'Ein Meeting planen'|trans }}
+                                    {{ 'Eine Konferenz planen'|trans }}
                                 </p>
                             </div>
                         </a>
                     </div>
                 </div>
-                {% if todayRooms |length == 0 %}
-                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">Heute </h4>
-                    <div class="card card-body">
-                        <p class="text-center">Heute steht keine Jitsi Meet Konferenz an.</p>
-                    </div>
-                {% endif %}
-
-                {% if roomsFuture |length == 0 %}
+                {% if  roomsFuture |length == 0%}
                     <div class="card card-body">
                         <p class="text-center">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie <u><a
                                         href="{{ path('room_new') }}" class="loadContent">hier</a></u> eine neue
                             Konferenz.</p>
                     </div>
+                {% elseif todayRooms |length == 0 %}
+                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">Heute </h4>
+                    <div class="card card-body">
+                        <p class="text-center">Heute steht keine Jitsi Meet Konferenz an.</p>
+                    </div>
+
                 {% endif %}
                 {% for date in roomsFuture %}
                     <h4 style="padding-top: 16px"

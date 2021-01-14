@@ -575,9 +575,21 @@ label.required:after {
 @media only screen and (min-width: 992px){
     .hide {
         visibility: hidden;
+        display: flex;
+        flex-direction: row!important;
+        justify-content: flex-end!important;
+        align-items: center;
     }
 
     .triggerHide:hover .hide {
         visibility: visible;
     }
+
+}
+.hide{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 }
