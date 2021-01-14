@@ -88,7 +88,25 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
+
+    public function findTodayRooms(User $user)
+    {
+        $morging = new \DateTime();
+        $evening = new \DateTime();
+        $evening->setTime(23, 59,59);
+
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.user','user')
+            ->andWhere('user = :user')
+            ->andWhere('r.start > :morning')
+            ->andWhere('r.start < :evening')
+            ->setParameter('morning', $morging)
+            ->setParameter('evening', $evening)
+            ->setParameter('user', $user)
+            ->orderBy('r.start', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }
