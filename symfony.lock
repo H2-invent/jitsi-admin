@@ -156,6 +156,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
     "psr/http-message": {
         "version": "1.0.1"
     },
@@ -227,9 +230,6 @@
         ]
     },
     "symfony/css-selector": {
-        "version": "v4.4.8"
-    },
-    "symfony/debug": {
         "version": "v4.4.8"
     },
     "symfony/debug-bundle": {
@@ -327,9 +327,6 @@
     "symfony/http-kernel": {
         "version": "v4.4.8"
     },
-    "symfony/inflector": {
-        "version": "v4.4.8"
-    },
     "symfony/intl": {
         "version": "v4.4.8"
     },
@@ -394,6 +391,9 @@
             "./phpunit.xml.dist",
             "./tests/bootstrap.php"
         ]
+    },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.22.0"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.16.0"
@@ -480,6 +480,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.8"
+    },
+    "symfony/string": {
+        "version": "v5.1.10"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
