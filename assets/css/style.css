@@ -571,3 +571,13 @@ label.required:after {
 .thin::-webkit-scrollbar {
     width: 10px;
 }
+
+@media only screen and (min-width: 992px){
+    .hide {
+        visibility: hidden;
+    }
+
+    .triggerHide:hover .hide {
+        visibility: visible;
+    }
+}

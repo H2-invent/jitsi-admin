@@ -6,7 +6,6 @@
 parameters:
     app.path.images: /uploads/images/products
     secret: '%env(APP_SECRET)%'
-    projectRoot: '%kernel.root_dir%'
     defaultEmail: '%env(DEFAULT_EMAIL)%'
     cronToken: '%env(CRON_TOKEN)%'
     cronIPAdress: '%env(CRON_IPADRESS)%'

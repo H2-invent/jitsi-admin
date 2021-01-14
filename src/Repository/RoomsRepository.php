@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Rooms|null find($id, $lockMode = null, $lockVersion = null)
@@ -88,7 +89,31 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
+
+    public function findTodayRooms(User $user)
+    {
+        $now = new \DateTime();
+        $midnight = new \DateTime();
+        $midnight->setTime(23, 59,59);
+        $qb = $this->createQueryBuilder('r');
+
+        return $qb
+            ->innerJoin('r.user','user')
+            ->andWhere('user = :user')
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->between('r.enddate',':now',':midnight'),
+                $qb->expr()->between('r.start',':now',':midnight'),
+                $qb->expr()->andX(
+                    $qb->expr()->gte('r.enddate',':midnight'),
+                    $qb->expr()->lte('r.start',':now')
+                )
+            ))
+            ->setParameter('now', $now)
+            ->setParameter('midnight', $midnight)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
     }
 }
