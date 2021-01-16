@@ -14,6 +14,13 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.2",
+        "@fullcalendar/bootstrap": "^5.5.0",
+        "@fullcalendar/core": "^5.5.0",
+        "@fullcalendar/daygrid": "^5.5.0",
+        "@fullcalendar/list": "^5.5.0",
+        "@fullcalendar/moment": "^5.5.0",
+        "@fullcalendar/resource-common": "^5.5.0",
         "bootstrap": "^4.5.3",
         "chart.js": "^2.9.4",
         "copy-webpack-plugin": "^6.4.1",

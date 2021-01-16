@@ -4,6 +4,7 @@
  */
 import '../css/app.css';
 import $ from 'jquery';
+
 global.$ = global.jQuery = $;
 import 'popper.js';
 
@@ -12,9 +13,11 @@ import('mdbootstrap');
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr'
-
-
-
+import {Calendar} from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import bootstrapPlugin from '@fullcalendar/bootstrap';
+import momentPlugin from '@fullcalendar/moment'
+import listPlugin from '@fullcalendar/list'
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -22,7 +25,7 @@ $.urlParam = function (name) {
     }
     return decodeURI(results[1]) || 0;
 }
-addEventListener('load',function() {
+addEventListener('load', function () {
     var url = (new URLSearchParams(window.location.search)).get('modalUrl');
     if (url !== null) {
         $('#loadContentModal').load(atob(url), function () {
@@ -124,4 +127,22 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });
+$('#ex1-tab-3-tab').on('shown.bs.tab', function (e) {
+    renderCalendar();
+})
 
+function renderCalendar() {
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new Calendar(calendarEl, {
+        plugins: [dayGridPlugin, bootstrapPlugin,momentPlugin,listPlugin],
+        themeSystem: 'bootstrap',
+        events: '/api/v1/getAllEntries',
+        lang: 'de',
+        timeFormat: 'H(:mm)',
+        displayEventEnd: true,
+
+    });
+    calendar.render();
+
+}

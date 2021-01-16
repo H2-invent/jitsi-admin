@@ -77,6 +77,18 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    public function findRoomsForUser(User $user)
+    {
+        $now = new \DateTime();
+        return $this->createQueryBuilder('r')
+            ->innerJoin('r.user','user')
+            ->andWhere('user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.start', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     public function findRuningRooms(User $user)
     {
         $now = new \DateTime();
