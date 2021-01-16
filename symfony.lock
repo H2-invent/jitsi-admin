@@ -1,4 +1,16 @@
 {
+    "dama/doctrine-test-bundle": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
+        },
+        "files": [
+            "./config/packages/test/dama_doctrine_test_bundle.yaml"
+        ]
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -20,6 +32,9 @@
     "doctrine/common": {
         "version": "2.12.0"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.4.4"
+    },
     "doctrine/dbal": {
         "version": "2.10.2"
     },
@@ -36,6 +51,18 @@
             "./config/packages/prod/doctrine.yaml",
             "./src/Entity/.gitignore",
             "./src/Repository/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "e5b542d4ef47d8a003c91beb35650c76907f7e53"
+        },
+        "files": [
+            "./src/DataFixtures/AppFixtures.php"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
@@ -245,7 +272,7 @@
         ]
     },
     "symfony/debug-pack": {
-        "version": "v1.0.8"
+        "version": "v1.0.9"
     },
     "symfony/dependency-injection": {
         "version": "v4.4.8"
@@ -363,10 +390,11 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "3.3",
-            "ref": "a89f4cd8a232563707418eea6c2da36acd36a917"
+            "ref": "d7249f7d560f6736115eee1851d02a65826f0a56"
         },
         "files": [
             "./config/packages/dev/monolog.yaml",
+            "./config/packages/prod/deprecations.yaml",
             "./config/packages/prod/monolog.yaml",
             "./config/packages/test/monolog.yaml"
         ]
@@ -378,12 +406,12 @@
         "version": "v1.0.8"
     },
     "symfony/phpunit-bridge": {
-        "version": "4.3",
+        "version": "5.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "4.3",
-            "ref": "6d0e35f749d5f4bfe1f011762875275cd3f9874f"
+            "version": "5.1",
+            "ref": "cb82a2355ec62fef0e7028ac969fe86fa722feb8"
         },
         "files": [
             "./.env.test",
@@ -420,7 +448,7 @@
         "version": "v4.4.8"
     },
     "symfony/profiler-pack": {
-        "version": "v1.0.4"
+        "version": "v1.0.5"
     },
     "symfony/property-access": {
         "version": "v4.4.8"
@@ -502,7 +530,7 @@
         "version": "v4.4.8"
     },
     "symfony/test-pack": {
-        "version": "v1.0.6"
+        "version": "v1.0.7"
     },
     "symfony/translation": {
         "version": "3.3",
