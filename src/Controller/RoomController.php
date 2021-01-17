@@ -40,6 +40,7 @@ class RoomController extends AbstractController
             $room->setUid(rand(01, 99) . time());
             $room->setModerator($this->getUser());
             $room->setSequence(0);
+            $room->setUidReal(md5(uniqid('h2-invent',true)));
             $snack = 'Konferenz erfolgreich erstellt';
             $title = 'Neue Konferenz erstellen';
         }
