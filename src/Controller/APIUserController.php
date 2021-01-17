@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class APIUserController extends AbstractController
 {
@@ -54,11 +55,12 @@ class APIUserController extends AbstractController
         $res['teilnehmer'] = $user;
         $res['start'] = $room->getStart()->format('Y-m-dTH:i:s');
         $res['end'] = $room->getEnddate()->format('Y-m-dTH:i:s');
-        $res['duration']= $room->getDuration();
-        $res['name']= $room->getName();
-        $res['moderator'] = $room->getModerator()?$room->getModerator()->getEmail():'';
-        $res['server']= $room->getServer()->getUrl();
-
+        $res['duration'] = $room->getDuration();
+        $res['name'] = $room->getName();
+        $res['moderator'] = $room->getModerator() ? $room->getModerator()->getEmail() : '';
+        $res['server'] = $room->getServer()->getUrl();
+        $res['joinBrowser'] = $this->generateUrl('room_join', array('t' => 'b', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
+        $res['joinApp'] = $this->generateUrl('room_join', array('t' => 'a', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
         return new JsonResponse($res);
     }
 
@@ -82,7 +84,7 @@ class APIUserController extends AbstractController
         $em->persist($user);
         $userService->addUser($user, $room);
         $em->flush();
-        return new JsonResponse(array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false,'text'=>'Teilnehmer '.$email.' erfolgreich hinzugefügt'));
+        return new JsonResponse(array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich hinzugefügt'));
     }
 
     /**
@@ -109,6 +111,6 @@ class APIUserController extends AbstractController
         $em->flush();
         $userService->removeRoom($user, $room);
 
-        return new JsonResponse(array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false,'text'=>'Teilnehmer '.$email.' erfolgreich gelöscht'));
+        return new JsonResponse(array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich gelöscht'));
     }
 }
