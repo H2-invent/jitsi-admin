@@ -36,7 +36,18 @@
                 </p>
 
                 {{ form_start(form) }}
-                {{ form_widget(form) }}
+                {{ form_row(form.uid) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.name) }}
+                <div class="row form-group">
+                    <div class="col-1">
+                        <input type="checkbox" id="dsgvo" name="dsgvo" required>
+                    </div>
+                    <div class="col-11">
+                        <label class="required" for="dsgvo">Ich habe die Datenschutzhinweise gelesen und verstanden. <br>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi Meet Server weitergeleitet werden.
+                            Jitsi Admin gibt folgende Daten an diesen Jitsi Meet Server weiter: "Name" aus dem Formular</label>
+                    </div>
+                </div>
                 {{ form_end(form) }}
             </div>
         </div>
