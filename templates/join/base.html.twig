@@ -19,6 +19,11 @@
                 <div class="col-md-6">
                     <a href="{{ dataPrivacy }}" target="_blank" class="small">Datenschutzhinweis</a><br>
                     <a href="https://jitsi-admin.de" target="_blank" class="small">Powered by Jitsi Admin</a><br>
+                    {% if matomo_enable == 'true' %}
+                    <a class="small" href="#" data-toggle="modal" data-target="#exampleModal">
+                        Matomo Opt-out
+                    </a><br>
+                    {% endif %}
                     <a href="https://h2-invent.com" target="_blank" class="small">Made with ❤ by H2 invent •
                         2019-{{ 'now'|date('Y') }}
                         • v{{ laf_version }}</a>
@@ -30,6 +35,7 @@
         </div>
     </div>
 
+        {{ include('base/__matomoOptOut.html.twig') }}
 </div>
 
 {% block webpack %}
