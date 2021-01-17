@@ -13,7 +13,7 @@
           "sizes": "512x512"
         }
   ],
-  "start_url": "/",
+  "start_url": "/rooms/dashboard",
   "display": "standalone",
   "background_color": "#ff1133",
   "theme_color": "#3367D6",
