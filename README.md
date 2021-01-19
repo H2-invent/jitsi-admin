@@ -61,7 +61,7 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   {
   "error": false,
   "teilnehmer": [
-  "emanuel.holzmann@h2-invent.com"
+  "teilnehmer@email.de"
   ],
   "start": "2021-02-02CET13:00:00",
   "end": "2021-02-02CET13:45:00",
