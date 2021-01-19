@@ -36,23 +36,26 @@ class APIUserController extends AbstractController
             );
             $res[] = $tmp;
         }
-
-        return new JsonResponse($res);
+        $response = new JsonResponse($res);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
     /**
      * @Route("/api/v1/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
      */
-    public function getRoomInformations(Request $request, $uidReal,RoomService $roomService): Response
+    public function getRoomInformations(Request $request, $uidReal, RoomService $roomService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uidReal));
-return new JsonResponse($roomService->generateRoomInfo($room));
+        $response = new JsonResponse($roomService->generateRoomInfo($room));
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
     /**
      * @Route("/api/v1/user", name="apiV1_roomAddUser", methods={"POST"})
      */
-    public function addUserToRoom(Request $request, InviteService $inviteService, UserService $userService, RoomService  $roomService): Response
+    public function addUserToRoom(Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
     {
         $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
         if (!$clientApi) {
@@ -60,7 +63,7 @@ return new JsonResponse($roomService->generateRoomInfo($room));
         };
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $email = $request->get('email');
-        return new JsonResponse($roomService->addUserToRoom($room,$email));
+        return new JsonResponse($roomService->addUserToRoom($room, $email));
     }
 
     /**
@@ -74,6 +77,6 @@ return new JsonResponse($roomService->generateRoomInfo($room));
         };
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $email = $request->get('email');
-        return new JsonResponse($roomService->removeUserFromRoom($room,$email));
+        return new JsonResponse($roomService->removeUserFromRoom($room, $email));
     }
 }
