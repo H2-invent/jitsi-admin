@@ -48,3 +48,18 @@ Auf Grund der Composer Abhängigkeiten wird ein Webspace für den Betrieb der We
 
 # Lizenz
 Die aktuelle Version von Jitsi Admin wird unter der AGPL-3.0 License bereitgestellt. Weitere Informationen finden Sie in der LICENSE Datei in diesem Repo.
+
+# API
+Mit der API ist es möglich:
+Es muss in die Datenbank ´´ap_key´´ manuel eine ´´client_iD´´ und ein ´´client_secret´´ eingeben werden.
+Bei jedem request an die API muss der der API Secret über den parameter clientSecret mitgegeben werden.
+Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgeführt werden.
+
+
+* Infos zu einer Konferenz (GET /api/v1/{uidReal})
+* Eine Konferenz erstellen (POST /api/v1/room)
+* Eine Konferenz bearbeiten (PUT /api/v1/room)
+* Eine Konferenz Löschen (DELETE /api/v1/room)
+* Einen Teilnehmen zu einer Konferenz hinzufügen (POST /api/v1/user)
+* Einen Teilnahmen von einer Konferenz löschen (DELETE / api/v1/user)
+* Infos zu einem User (GET /api/v1/serverInfo)
