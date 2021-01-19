@@ -57,7 +57,9 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
 * Infos zu einer Konferenz (GET /api/v1/{uidReal})
   
   #### Request
-  http://localhost:8000/api/v1/57d4d52d3c1f38c28e9f101f031a631f
+```  
+http://localhost:8000/api/v1/57d4d52d3c1f38c28e9f101f031a631f
+```  
   #### Response
 ```json  
   {
@@ -78,7 +80,8 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
 * Eine Konferenz erstellen (POST /api/v1/room)
   
   #### Request:
-  http://localhost:8000/api/v1/room
+```  
+http://localhost:8000/api/v1/room
   ?email=email@moderator.com
   &name=testAPINEW
   &duration=70
@@ -86,6 +89,7 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   &start=2021-02-01T13:00
   &clientSecret=secret
   &keycloakId=id des Users
+```  
   #### Response:
 ```json  
   {
@@ -96,13 +100,15 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
 ```  
 * Eine Konferenz bearbeiten (PUT /api/v1/room)
   #### Request:
-  http://localhost:8000/api/v1/room
+```  
+http://localhost:8000/api/v1/room
   ?name=testAPINEW
   &duration=45
   &server=serverURL
   &start=2021-02-02T13:00
   &clientSecret=secret
   &uid=57d4d52d3c1f38c28e9f101f031a631f
+```  
   #### Response:
 ```json  
   {
@@ -113,9 +119,11 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
 ```
 * Eine Konferenz Löschen (DELETE /api/v1/room)
   #### Request:
-  http://localhost:8000/api/v1/room
+```  
+http://localhost:8000/api/v1/room
   ?uid=57d4d52d3c1f38c28e9f101f031a631f
   &clientSecret=secret
+```  
   #### Response
 ```json  
   {
@@ -125,10 +133,12 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
 ```
 * Einen Teilnehmen zu einer Konferenz hinzufügen (POST /api/v1/user)
   #### Request:
-  http://localhost:8000/api/v1/user
+```  
+http://localhost:8000/api/v1/user
   ?uid=57d4d52d3c1f38c28e9f101f031a631f
   &email=test@local.de
   &clientSecret=secret
+```  
   #### Response
 ```json  
   {
@@ -140,10 +150,12 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
 ```
 * Einen Teilnahmen von einer Konferenz löschen (DELETE / api/v1/user)
   #### Request:
+```
   http://localhost:8000/api/v1/user
   ?uid=57d4d52d3c1f38c28e9f101f031a631f
   &email=test@local.de
   &clientSecret=secret
+```  
   #### Response
 ```json  
   {
@@ -155,10 +167,11 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
 ```
 * Infos zu einem User (GET /api/v1/serverInfo)
 #### Request
-http://localhost:8000/api/v1/serverInfo
+```http://localhost:8000/api/v1/serverInfo
 ?email=user@userToCHeck.de
 &keycloakId=id
 &clientSecret=secret
+```
 #### Response
 ```json
 {
