@@ -47,7 +47,8 @@ Auf Grund der Composer Abhängigkeiten wird ein Webspace für den Betrieb der We
 * [Mindestanforderungen](https://github.com/H2-invent/jitsi-admin/wiki/Mindestanforderungen-an-den-Server)
 
 # API
-Mit der API ist es möglich:
+Mit der API ist es möglich Konferenzen durch eine andere Anwendung erzeugen zu lassen.
+
 Es muss in die Datenbank ´´ap_key´´ manuel eine ´´client_iD´´ und ein ´´client_secret´´ eingeben werden.
 Bei jedem request an die API muss der der API Secret über den parameter clientSecret mitgegeben werden.
 Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgeführt werden.
