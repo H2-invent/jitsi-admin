@@ -18,10 +18,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Class DashboardController
+ * @package App\Controller
+ */
 class DashboardController extends AbstractController
 {
+
     /**
      * @Route("/", name="index")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request)
     {
@@ -48,6 +55,8 @@ class DashboardController extends AbstractController
 
     /**
      * @Route("/room/dashboard", name="dashboard")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function dashboard(Request $request)
     {
