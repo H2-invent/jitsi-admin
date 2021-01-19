@@ -59,6 +59,7 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   #### Request
   http://localhost:8000/api/v1/57d4d52d3c1f38c28e9f101f031a631f
   #### Response
+```json  
   {
   "error": false,
   "teilnehmer": [
@@ -73,7 +74,7 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   "joinBrowser": "http://localhost:8000/room/join/b/84",
   "joinApp": "http://localhost:8000/room/join/a/84"
   }
-  
+```   
 * Eine Konferenz erstellen (POST /api/v1/room)
   
   #### Request:
@@ -86,12 +87,13 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   &clientSecret=secret
   &keycloakId=id des Users
   #### Response:
+```json  
   {
   "error": false,
   "uid": "57d4d52d3c1f38c28e9f101f031a631f",
   "text": "Meeting erfolgreich angelegt"
   }
-  
+```  
 * Eine Konferenz bearbeiten (PUT /api/v1/room)
   #### Request:
   http://localhost:8000/api/v1/room
@@ -102,21 +104,25 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   &clientSecret=secret
   &uid=57d4d52d3c1f38c28e9f101f031a631f
   #### Response:
+```json  
   {
   "error": false,
   "uid": "57d4d52d3c1f38c28e9f101f031a631f",
   "text": "Meeting erfolgreich geändert"
   }
+```
 * Eine Konferenz Löschen (DELETE /api/v1/room)
   #### Request:
   http://localhost:8000/api/v1/room
   ?uid=57d4d52d3c1f38c28e9f101f031a631f
   &clientSecret=secret
-  #### Response:
+  #### Response
+```json  
   {
   "error": false,
   "text": "Erfolgreich gelöscht"
   }
+```
 * Einen Teilnehmen zu einer Konferenz hinzufügen (POST /api/v1/user)
   #### Request:
   http://localhost:8000/api/v1/user
@@ -124,12 +130,14 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   &email=test@local.de
   &clientSecret=secret
   #### Response
+```json  
   {
   "uid": "57d4d52d3c1f38c28e9f101f031a631f",
   "user": "test@local.desd",
   "error": false,
   "text": "Teilnehmer test@local.desd erfolgreich hinzugefügt"
   }
+```
 * Einen Teilnahmen von einer Konferenz löschen (DELETE / api/v1/user)
   #### Request:
   http://localhost:8000/api/v1/user
@@ -137,12 +145,14 @@ Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgefüh
   &email=test@local.de
   &clientSecret=secret
   #### Response
+```json  
   {
   "uid": "57d4d52d3c1f38c28e9f101f031a631f",
   "user": "test@local.desd",
   "error": false,
   "text": "Teilnehmer test@local.desd erfolgreich gelöscht"
   }
+```
 * Infos zu einem User (GET /api/v1/serverInfo)
 #### Request
 http://localhost:8000/api/v1/serverInfo
@@ -150,6 +160,7 @@ http://localhost:8000/api/v1/serverInfo
 &keycloakId=id
 &clientSecret=secret
 #### Response
+```json
 {
 "server": [
 "url1",
@@ -159,6 +170,7 @@ http://localhost:8000/api/v1/serverInfo
 "email": "user@userToCHeck.de",
 "error": false
 }
+```
 # Lizenz
 Die aktuelle Version von Jitsi Admin wird unter der AGPL-3.0 License bereitgestellt. Weitere Informationen finden Sie in der LICENSE Datei in diesem Repo.
 
