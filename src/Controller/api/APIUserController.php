@@ -2,8 +2,11 @@
 
 namespace App\Controller\api;
 
+use App\Entity\ApiKeys;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\api\KeycloakService;
+use App\Service\api\RoomService;
 use App\Service\InviteService;
 use App\Service\UserService;
 use PHPUnit\Util\Json;
@@ -40,77 +43,37 @@ class APIUserController extends AbstractController
     /**
      * @Route("/api/v1/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
      */
-    public function getUsers(Request $request, $uidReal): Response
+    public function getRoomInformations(Request $request, $uidReal,RoomService $roomService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uidReal));
-
-        if (!$room) {
-            return new JsonResponse(array('error' => true, 'text' => 'no Room found'));
-        }
-        $res = array();
-        $user = array();
-        foreach ($room->getUser() as $data) {
-            $user[] = $data->getEmail();
-        }
-        $res['teilnehmer'] = $user;
-        $res['start'] = $room->getStart()->format('Y-m-dTH:i:s');
-        $res['end'] = $room->getEnddate()->format('Y-m-dTH:i:s');
-        $res['duration'] = $room->getDuration();
-        $res['name'] = $room->getName();
-        $res['moderator'] = $room->getModerator() ? $room->getModerator()->getEmail() : '';
-        $res['server'] = $room->getServer()->getUrl();
-        $res['joinBrowser'] = $this->generateUrl('room_join', array('t' => 'b', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
-        $res['joinApp'] = $this->generateUrl('room_join', array('t' => 'a', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
-        return new JsonResponse($res);
+return new JsonResponse($roomService->generateRoomInfo($room));
     }
 
     /**
      * @Route("/api/v1/user", name="apiV1_roomAddUser", methods={"POST"})
      */
-    public function addUserToRoom(Request $request, InviteService $inviteService, UserService $userService): Response
+    public function addUserToRoom(Request $request, InviteService $inviteService, UserService $userService, RoomService  $roomService): Response
     {
+        $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
+        if (!$clientApi) {
+            return new JsonResponse(array('error' => true, 'text' => 'No Access'));
+        };
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $email = $request->get('email');
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return new JsonResponse(array('error' => true, 'text' => 'no Room found'));
-        };
-        if (!$room) {
-            return new JsonResponse(array('error' => true, 'text' => 'Email incorrect'));
-        };
-
-        $user = $inviteService->newUser($email);
-        $user->addRoom($room);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $userService->addUser($user, $room);
-        $em->flush();
-        return new JsonResponse(array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich hinzugefügt'));
+        return new JsonResponse($roomService->addUserToRoom($room,$email));
     }
 
     /**
      * @Route("/api/v1/user", name="apiV1_roomDeleteUser", methods={"DELETE"})
      */
-    public function removeUserFromRoom(Request $request, InviteService $inviteService, UserService $userService): Response
+    public function removeUserFromRoom(Request $request, InviteService $inviteService, RoomService $roomService): Response
     {
+        $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
+        if (!$clientApi) {
+            return new JsonResponse(array('error' => true, 'text' => 'No Access'));
+        };
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $email = $request->get('email');
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('email' => $email));
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return new JsonResponse(array('error' => true, 'text' => 'no Room found'));
-        };
-        if (!$room) {
-            return new JsonResponse(array('error' => true, 'text' => 'Email incorrect'));
-        };
-        if (!$user) {
-            return new JsonResponse(array('error' => true, 'text' => 'User incorrect'));
-        };
-
-        $room->removeUser($user);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($room);
-        $em->flush();
-        $userService->removeRoom($user, $room);
-
-        return new JsonResponse(array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich gelöscht'));
+        return new JsonResponse($roomService->removeUserFromRoom($room,$email));
     }
 }

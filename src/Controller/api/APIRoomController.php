@@ -6,9 +6,9 @@ use App\Entity\ApiKeys;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
-use App\Service\RoomService;
-use App\Service\UserService;
-use PHPUnit\Util\Json;
+use App\Service\api\KeycloakService;
+
+use App\Service\api\RoomService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,7 +22,7 @@ class APIRoomController extends AbstractController
     /**
      * @Route("/api/v1/room", name="api_room_create",methods={"POST"})
      */
-    public function index(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
+    public function index(Request $request, ParameterBagInterface $parameterBag,RoomService $roomService,KeycloakService $keycloakService): Response
     {
         $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
         if (!$clientApi) {
@@ -30,9 +30,10 @@ class APIRoomController extends AbstractController
         };
         //we are looking for the user
         $email = $request->get('email');
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('email' => $email));
+        $user = $keycloakService->getUSer($email,$request->get('keycloakId'));
         // if the user does not exist then we make a new one with the Email
         if (!$user) {
+
             $user = new User();
             $user->setEmail($email);
             $user->setCreatedAt(new \DateTime());
@@ -75,10 +76,6 @@ class APIRoomController extends AbstractController
      */
     public function editRoom(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
-        $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
-        if (!$clientApi) {
-            return new JsonResponse(array('error' => true, 'text' => 'No Access'));
-        };
         $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
         if (!$clientApi) {
             return new JsonResponse(array('error' => true, 'text' => 'No Access'));

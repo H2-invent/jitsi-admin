@@ -1,0 +1,154 @@
+<?php
+
+
+namespace App\Service\api;
+
+
+use App\Entity\Rooms;
+use App\Entity\Server;
+use App\Entity\User;
+
+use App\Service\InviteService;
+use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+class RoomService
+{
+    private $em;
+    private $userService;
+    private $inviteService;
+    private $urlGenerator;
+    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager, UserService $userService, InviteService $inviteService)
+    {
+        $this->em = $entityManager;
+        $this->userService = $userService;
+        $this->inviteService = $inviteService;
+        $this->urlGenerator = $urlGenerator;
+    }
+
+    public function createRoom(User $user, Server $server, \DateTime $start, $duration, $name)
+    {
+        // We initialize the Room with the data;
+
+        $room = new Rooms();
+        $room->setName($name);
+        $room->addUser($user);
+        $room->setDuration($duration);
+        $room->setUid(rand(01, 99) . time());
+        $room->setModerator($user);
+        $room->setSequence(0);
+        $room->setUidReal(md5(uniqid('h2-invent', true)));
+        $room->setStart($start);
+        $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+        $room->setServer($server);
+
+        $this->em->persist($room);
+        $this->em->flush();
+        $this->userService->addUser($room->getModerator(), $room);
+        return $room;
+    }
+
+    public function editRoom(Rooms $room, Server $server, \DateTime $start, $duration, $name)
+    {
+        // We initialize the Room with the data;
+
+
+        $room->setName($name);
+        $room->setDuration($duration);
+        $room->setSequence(0);
+        $room->setStart($start);
+        $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+        $room->setServer($server);
+
+        $this->em->persist($room);
+        $this->em->flush();
+        foreach ($room->getUser() as $user) {
+            $this->userService->editRoom($user, $room);
+        }
+        return $room;
+    }
+
+    public function deleteRoom(Rooms $room)
+    {
+        // We delete the Room
+
+
+        foreach ($room->getUser() as $user) {
+            $this->userService->removeRoom($user, $room);
+            $room->removeUser($user);
+            $this->em->persist($room);
+        }
+        $room->setModerator(null);
+        $this->em->persist($room);
+        $this->em->flush();
+        return $room;
+    }
+
+    public function removeUserFromRoom(?Rooms $room, $email): array
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return array('error' => true, 'text' => 'Email incorrect');
+        };
+        if (!$room) {
+            return array('error' => true, 'text' => 'no Room found');
+        };
+        $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $email));
+        if (!$user) {
+            return array('error' => true, 'text' => 'User incorrect');
+        };
+        if (in_array($user,$room->getUser()->toArray())){
+            $room->removeUser($user);
+
+            $this->em->persist($room);
+            $this->em->flush();
+            $this->userService->removeRoom($user, $room);
+        }
+
+        return array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich gelöscht');
+    }
+
+    public function addUserToRoom(?Rooms $room, $email): array
+    {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return array('error' => true, 'text' => 'Email incorrect');
+        };
+        if (!$room) {
+            return array('error' => true, 'text' => 'no Room found');
+        };
+//Here we get the User from an email if the user with the email does not exist, then we we create it
+        $user = $this->inviteService->newUser($email);
+        if (!in_array($user,$room->getUser()->toArray())){
+            $user->addRoom($room);
+            $this->em->persist($user);
+            //Here we add the User to the room and send the email
+            $this->userService->addUser($user, $room);
+            $this->em->flush();
+        }
+
+        return array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich hinzugefügt');
+
+    }
+    public function generateRoomInfo(Rooms $room):array{
+
+        if (!$room) {
+            return array('error' => true, 'text' => 'no Room found');
+        }
+        $res = array();
+        $user = array();
+        foreach ($room->getUser() as $data) {
+            $user[] = $data->getEmail();
+        }
+        $res['teilnehmer'] = $user;
+        $res['start'] = $room->getStart()->format('Y-m-dTH:i:s');
+        $res['end'] = $room->getEnddate()->format('Y-m-dTH:i:s');
+        $res['duration'] = $room->getDuration();
+        $res['name'] = $room->getName();
+        $res['moderator'] = $room->getModerator() ? $room->getModerator()->getEmail() : '';
+        $res['server'] = $room->getServer()->getUrl();
+        $res['joinBrowser'] = $this->urlGenerator->generate('room_join', array('t' => 'b', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
+        $res['joinApp'] = $this->urlGenerator->generate('room_join', array('t' => 'a', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
+        return $res;
+    }
+}
