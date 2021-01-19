@@ -140,6 +140,7 @@ class RoomService
         foreach ($room->getUser() as $data) {
             $user[] = $data->getEmail();
         }
+        $res['error']= false;
         $res['teilnehmer'] = $user;
         $res['start'] = $room->getStart()->format('Y-m-dTH:i:s');
         $res['end'] = $room->getEnddate()->format('Y-m-dTH:i:s');

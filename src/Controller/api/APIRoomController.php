@@ -102,21 +102,29 @@ class APIRoomController extends AbstractController
         return new JsonResponse(array('error' => false, 'uid' => $room->getUidReal(),'text'=>'Meeting erfolgreich geändert'));
     }
     /**
-     * @Route("/api/v1/serverInfo/{keycloakId}/{email}", name="api_user_get_server",methods={"GET"})
+     * @Route("/api/v1/serverInfo", name="api_user_get_server",methods={"GET"})
      */
-    public function getServers($email, $keycloakId, Request $request, ParameterBagInterface $parameterBag,RoomService $roomService,KeycloakService $keycloakService): Response
+    public function getServers( Request $request, ParameterBagInterface $parameterBag,RoomService $roomService,KeycloakService $keycloakService): Response
     {
-        $user= $keycloakService->getUSer($email,$keycloakId);
+        $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
+        if (!$clientApi) {
+            return new JsonResponse(array('error' => true, 'text' => 'No Access'));
+        };
+        $user= $keycloakService->getUSer($request->get('email'),$request->get('keycloakId'));
         $server = $user->getServers()->toArray();
 
         $serverDefault = $this->getDoctrine()->getRepository(Server::class)->find($parameterBag->get('default_jitsi_server_id'));
         if(!in_array($serverDefault, $server)){
             $server[]= $serverDefault;
         }
+        $serv = array();
         $res = array();
         foreach ($server as $data){
-          $res[] = $data->getUrl();
+          $serv[] = $data->getUrl();
         }
+        $res['server']= $serv;
+        $res['email']= $user->getEmail();
+        $res['error']= false;
         return new JsonResponse($res);
     }
 }
