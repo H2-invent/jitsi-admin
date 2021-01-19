@@ -54,7 +54,7 @@ Bei jedem request an die API muss der der API Secret über den parameter clientS
 Es sollten nur Zugriffe von einem Backend-Server auf den Jitsi-Admin durchgeführt werden.
 
 
-* Infos zu einer Konferenz (GET /api/v1/{uidReal})
+### Infos zu einer Konferenz (GET /api/v1/{uidReal})
   
   #### Request
 ```  
@@ -77,7 +77,7 @@ http://localhost:8000/api/v1/57d4d52d3c1f38c28e9f101f031a631f
   "joinApp": "http://localhost:8000/room/join/a/84"
   }
 ```   
-* Eine Konferenz erstellen (POST /api/v1/room)
+### Eine Konferenz erstellen (POST /api/v1/room)
   
   #### Request:
 ```  
@@ -98,7 +98,7 @@ http://localhost:8000/api/v1/room
   "text": "Meeting erfolgreich angelegt"
   }
 ```  
-* Eine Konferenz bearbeiten (PUT /api/v1/room)
+### Eine Konferenz bearbeiten (PUT /api/v1/room)
   #### Request:
 ```  
 http://localhost:8000/api/v1/room
@@ -117,7 +117,7 @@ http://localhost:8000/api/v1/room
   "text": "Meeting erfolgreich geändert"
   }
 ```
-* Eine Konferenz Löschen (DELETE /api/v1/room)
+### Eine Konferenz Löschen (DELETE /api/v1/room)
   #### Request:
 ```  
 http://localhost:8000/api/v1/room
@@ -131,7 +131,7 @@ http://localhost:8000/api/v1/room
   "text": "Erfolgreich gelöscht"
   }
 ```
-* Einen Teilnehmen zu einer Konferenz hinzufügen (POST /api/v1/user)
+### Einen Teilnehmen zu einer Konferenz hinzufügen (POST /api/v1/user)
   #### Request:
 ```  
 http://localhost:8000/api/v1/user
@@ -148,7 +148,7 @@ http://localhost:8000/api/v1/user
   "text": "Teilnehmer test@local.desd erfolgreich hinzugefügt"
   }
 ```
-* Einen Teilnahmen von einer Konferenz löschen (DELETE / api/v1/user)
+### Einen Teilnahmen von einer Konferenz löschen (DELETE / api/v1/user)
   #### Request:
 ```
   http://localhost:8000/api/v1/user
@@ -165,7 +165,7 @@ http://localhost:8000/api/v1/user
   "text": "Teilnehmer test@local.desd erfolgreich gelöscht"
   }
 ```
-* Infos zu einem User (GET /api/v1/serverInfo)
+### Infos zu einem User (GET /api/v1/serverInfo)
 #### Request
 ```http://localhost:8000/api/v1/serverInfo
 ?email=user@userToCHeck.de
