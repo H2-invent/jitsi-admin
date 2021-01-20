@@ -16,6 +16,8 @@ parameters:
     registerEmailName: '%env(registerEmailName)%'
     default_jitsi_server_id: '%env(default_jitsi_server_id)%'
     laF_startpage: '%env(laF_startpage)%'
+    laF_onlyRegisteredParticipents: '%env(laF_onlyRegisteredParticipents)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:
