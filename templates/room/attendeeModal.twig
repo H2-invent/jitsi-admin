@@ -19,7 +19,17 @@
             </ul>
             <hr>
             {{ form_start(form) }}
-            {{ form_widget(form) }}
+            {{ form_row(form.member) }}
+            <div class="row">
+                <div class="col-md-7">
+                    {{ form_row(form.submit) }}
+                </div>
+                <div class="col-md-5">
+                    <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
+                        {{ 'Schließen' | trans }}
+                    </a>
+                </div>
+            </div>
             {{ form_end(form) }}
         </div>
     </div>

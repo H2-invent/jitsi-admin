@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomController extends AbstractController
 {
@@ -31,7 +32,7 @@ class RoomController extends AbstractController
             }
             $snack = 'Konferenz erfolgreich bearbeitet';
             $title = 'Konferenz bearbeiten';
-            $sequence = $room->getSequence()+1;
+            $sequence = $room->getSequence() + 1;
             $room->setSequence($sequence);
         } else {
             $room = new Rooms();
@@ -65,7 +66,7 @@ class RoomController extends AbstractController
             } else {
                 $userService->addUser($room->getModerator(), $room);
             }
-            return $this->redirectToRoute('dashboard', ['snack' => $snack,'modalUrl'=>base64_encode($this->generateUrl('room_add_user',array('room'=>$room->getId())))]);
+            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
         }
         return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
@@ -113,7 +114,7 @@ class RoomController extends AbstractController
         }
         $title = 'Teilnehmer verwalten';
 
-        return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room'=>$room));
+        return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room' => $room));
     }
 
     /**
@@ -129,7 +130,7 @@ class RoomController extends AbstractController
             return $this->redirect($url);
         }
 
-        return $this->redirectToRoute('dashboard', ['join_room'=>$room->getId(),'type'=>$t]);
+        return $this->redirectToRoute('dashboard', ['join_room' => $room->getId(), 'type' => $t]);
     }
 
     /**
@@ -175,6 +176,50 @@ class RoomController extends AbstractController
             $em->flush();
             $snack = 'Konferenz gelöscht';
         }
+        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+    }
+
+    /**
+     * @Route("/room/clone", name="room_clone")
+     */
+    public
+    function roomClone(Request $request, UserService $userService, TranslatorInterface $translator)
+    {
+
+        $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
+        $room = clone $roomOld;
+        $room->setUid(rand(01, 99) . time());
+        $room->setSequence(0);
+
+        $snack = $translator->trans('Keine Berechtigung');
+        $title = $translator->trans('Konferenz duplizieren');
+
+        if ($this->getUser() === $room->getModerator()) {
+
+            $servers = $this->getUser()->getServers()->toarray();
+            $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
+            if ($default) {
+                $servers[] = $default;
+            }
+
+            $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $room->getId()])]);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $room = $form->getData();
+                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+                foreach ($roomOld->getUser() as $user) {
+                    $userService->addUser($user, $room);
+                }
+                $snack = $translator->trans('Teilnehmer bearbeitet');
+                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+            }
+            return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
+        }
+
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
 }
