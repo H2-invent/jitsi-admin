@@ -186,10 +186,11 @@ class RoomController extends AbstractController
     function roomClone(Request $request, UserService $userService, TranslatorInterface $translator)
     {
 
-        $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
         $room = clone $roomOld;
         $room->setUid(rand(01, 99) . time());
         $room->setSequence(0);
+
         $snack = $translator->trans('Keine Berechtigung');
         $title = $translator->trans('Konferenz duplizieren');
 
@@ -201,7 +202,7 @@ class RoomController extends AbstractController
                 $servers[] = $default;
             }
 
-            $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
+            $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $room->getId()])]);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
