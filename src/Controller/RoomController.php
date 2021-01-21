@@ -189,7 +189,7 @@ class RoomController extends AbstractController
         $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $room = clone $roomOld;
         $room->setUid(rand(01, 99) . time());
-        $room->setSequence(1);
+        $room->setSequence(0);
         $snack = $translator->trans('Keine Berechtigung');
         $title = $translator->trans('Konferenz duplizieren');
 
