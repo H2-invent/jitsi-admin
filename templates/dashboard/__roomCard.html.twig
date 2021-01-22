@@ -7,22 +7,7 @@
 
 
             {% if room.moderator == app.user %}
-                <div class="dropdown element">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            id="dropdownMenu1"
-                            data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="true">
-                        Optionen
-                    </button>
-                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                        <li><a class="confirmHref"
-                               href="{{ path('room_remove',{'room':room.id}) }}">
-                                Löschen</a></li>
-                        <li><a href="{{ path('room_new',{'id':room.id}) }}"
-                               class="loadContent">
-                                Bearbeiten</a></li>
-                    </ul>
-                </div>
+                {{ include('dashboard/__roomOption.html.twig') }}
             {% endif %}
 
             {% if room.moderator == app.user %}
