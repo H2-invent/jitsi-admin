@@ -53,7 +53,21 @@ class UserRepository extends ServiceEntityRepository
             ->andWhere('u.email = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
+    }
+
+    public function findMyUserByEmail($value, User $user)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->innerJoin(' u.rooms', 'rooms')
+            ->andWhere('rooms.moderator = :user')
+            ->setParameter('user', $user);
+
+        return $qb->andWhere($qb->expr()->like('u.email', ':search'))
+            ->setParameter('search', '%' . $value . '%')
+
+            ->getQuery()
+            ->getResult();
+
     }
 }

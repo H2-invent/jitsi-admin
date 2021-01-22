@@ -8,10 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\UserBase as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\UserRepository;
 
 /**
- * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User extends BaseUser
 {
