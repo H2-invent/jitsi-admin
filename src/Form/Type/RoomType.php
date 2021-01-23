@@ -13,6 +13,7 @@ use App\Entity\AuditTomAbteilung;
 use App\Entity\Server;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -53,6 +54,7 @@ class RoomType extends AbstractType
                     '8 Stunden' => 480,
                 ]
             ])
+            ->add('onlyRegisteredUsers',CheckboxType::class,array('required'=>false,'label' => 'Nur registrierte Benutzer dürfen der Konferenz beitreten', 'translation_domain' => 'form'))
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Speichern', 'translation_domain' => 'form']);
     }
 
