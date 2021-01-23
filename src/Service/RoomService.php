@@ -22,13 +22,12 @@ class RoomService
 {
     private $em;
     private $logger;
-    private $userService;
 
-    public function __construct(EntityManagerInterface $entityManager, FormFactoryInterface $formBuilder, LoggerInterface $logger, UserService $userService)
+    public function __construct(EntityManagerInterface $entityManager, FormFactoryInterface $formBuilder, LoggerInterface $logger)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
-        $this->userService = $userService;
+
     }
 
     function join(Rooms $room, User $user, $t, $userName)
