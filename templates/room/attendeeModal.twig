@@ -19,7 +19,7 @@
             </ul>
             <hr>
             <label for="searchUser">{{ 'Suche'|trans }}</label>
-            <input type="text" id="searchUser" class="form-control dropdown-toggle" href="{{ path('search_participant') }}"
+            <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle" href="{{ path('search_participant') }}"
                    data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
             <div class="dropdown-menu" id="participantUser">

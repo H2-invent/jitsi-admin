@@ -159,9 +159,11 @@ function initSearchUser(){
                 for(var i = 0; i<data.length; i++){
                   $target.append('<a class="dropdown-item chooseParticipant" data-val="'+data[i]+'" href="#">'+data[i]+'</a>');
                 }
+
                 $('.chooseParticipant').click(function (e) {
                     e.preventDefault();
                     $('#new_member_member').append($(this).data('val')+"\n");
+                    $('#searchUser').val('');
                 })
             })
         }
