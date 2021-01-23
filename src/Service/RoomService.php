@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
@@ -61,10 +62,11 @@ class RoomService
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
         if (!$room->getServer()->getAppId() || !$room->getServer()->getAppSecret()) {
             $url = $jitsi_server_url . '/' . $room->getUid();
-        }else {
+        } else {
             $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
         }
 
         return $url;
     }
+
 }

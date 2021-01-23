@@ -41,6 +41,7 @@ class RoomController extends AbstractController
             $room->setUid(rand(01, 99) . time());
             $room->setModerator($this->getUser());
             $room->setSequence(0);
+            $room->setUidReal(md5(uniqid('h2-invent',true)));
             $snack = 'Konferenz erfolgreich erstellt';
             $title = 'Neue Konferenz erstellen';
         }
@@ -207,6 +208,7 @@ class RoomController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();
+                $room->setUidReal(md5(uniqid('h2-invent',true)));
                 $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);

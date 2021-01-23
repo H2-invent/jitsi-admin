@@ -45,6 +45,8 @@ Auf Grund der Composer Abhängigkeiten wird ein Webspace für den Betrieb der We
 
 * [Anleitung im Wiki](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started)
 * [Mindestanforderungen](https://github.com/H2-invent/jitsi-admin/wiki/Mindestanforderungen-an-den-Server)
-
+* [API Dokumentation](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
+  
 # Lizenz
 Die aktuelle Version von Jitsi Admin wird unter der AGPL-3.0 License bereitgestellt. Weitere Informationen finden Sie in der LICENSE Datei in diesem Repo.
+

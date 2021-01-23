@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Server;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,16 @@ class ServerRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findServerWithEmailandUrl($serverUrl, $email): ?Server
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.user','user')
+            ->andWhere('user.email = :email')
+            ->setParameter('email', $email)
+            ->andWhere('s.url = :url')
+            ->setParameter('url', $serverUrl)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

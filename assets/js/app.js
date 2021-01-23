@@ -122,6 +122,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             $('#appId').collapse('hide')
         }
     });
+    initSearchUser();
 });
 
 $(".clickable-row").click(function () {
@@ -145,4 +146,27 @@ function renderCalendar() {
     });
     calendar.render();
 
+}
+function initSearchUser(){
+    $('#searchUser').keyup(function (e){
+        var $ele = $(this);
+        var $search = $ele.val();
+        var $url = $ele.attr('href')+'?search='+$search;
+        if($search.length>2){
+            $.getJSON($url,function (data){
+                var $target = $('#participantUser');
+                $target.empty();
+                for(var i = 0; i<data.length; i++){
+                  $target.append('<a class="dropdown-item chooseParticipant" data-val="'+data[i]+'" href="#">'+data[i]+'</a>');
+                }
+
+                $('.chooseParticipant').click(function (e) {
+                    e.preventDefault();
+                    $('#new_member_member').append($(this).data('val')+"\n");
+                    $('#searchUser').val('');
+                })
+            })
+        }
+
+    })
 }

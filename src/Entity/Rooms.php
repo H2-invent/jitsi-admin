@@ -66,6 +66,11 @@ class Rooms
      */
     private $sequence;
 
+    /**
+     * @ORM\Column(type="text",nullable=true)
+     */
+    private $uidReal;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -192,6 +197,18 @@ class Rooms
     public function setSequence(int $sequence): self
     {
         $this->sequence = $sequence;
+
+        return $this;
+    }
+
+    public function getUidReal(): ?string
+    {
+        return $this->uidReal;
+    }
+
+    public function setUidReal(string $uidReal): self
+    {
+        $this->uidReal = $uidReal;
 
         return $this;
     }
