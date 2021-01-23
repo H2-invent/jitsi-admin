@@ -599,3 +599,15 @@ label.required:after {
     align-items: center;
 
 }
+.caretdown[aria-expanded="false"]:before{
+    margin-right: 4px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f0d7";;
+}
+.caretdown[aria-expanded="true"]:before{
+    margin-right: 4px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f0d8";;
+}

@@ -18,7 +18,7 @@
                 {% endfor %}
             </ul>
             <hr>
-            <label for="searchUser">{{ 'Suche'|trans }}</label>
+            <label for="searchUser">{{ 'Teilnehmer Suchen'|trans }}</label>
             <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle" href="{{ path('search_participant') }}"
                    data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-md-5">
                     <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
-                        {{ 'Schließen' | trans }}
+                        {{ 'Abbrechen' | trans }}
                     </a>
                 </div>
             </div>

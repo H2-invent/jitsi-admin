@@ -219,7 +219,7 @@ class RoomController extends AbstractController
                 $snack = $translator->trans('Teilnehmer bearbeitet');
                 return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
             }
-            return $this->render('base/__modalView.html.twig', array('form' => $form->createView(), 'title' => $title));
+            return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
         }
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
