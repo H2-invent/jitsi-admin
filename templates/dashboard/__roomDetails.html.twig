@@ -3,7 +3,9 @@
     {% if room in runningRooms %}<small class="badge badge-success">Läuft
         gerade</small><br>{% endif %}
     {% if app.user == room.moderator %}
-        <span class="badge badge-info">Moderator</span>{% endif %} <br>
+        <span class="badge badge-info">Moderator</span><br>{% endif %}
+    {% if app.user == room.onlyRegisteredUsers %}
+        <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>{% endif %}
 </div>
 <div class="col-md-4">
     <h5 class="h5-responsive">{{ room.name }}</h5>

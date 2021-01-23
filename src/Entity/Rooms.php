@@ -71,6 +71,11 @@ class Rooms
      */
     private $uidReal;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $onlyRegisteredUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -209,6 +214,18 @@ class Rooms
     public function setUidReal(string $uidReal): self
     {
         $this->uidReal = $uidReal;
+
+        return $this;
+    }
+
+    public function getOnlyRegisteredUsers(): ?bool
+    {
+        return $this->onlyRegisteredUsers;
+    }
+
+    public function setOnlyRegisteredUsers(bool $onlyRegisteredUsers): self
+    {
+        $this->onlyRegisteredUsers = $onlyRegisteredUsers;
 
         return $this;
     }
