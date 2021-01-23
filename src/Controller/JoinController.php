@@ -23,7 +23,7 @@ class JoinController extends AbstractController
     /**
      * @Route("/join", name="join_index")
      */
-    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, ParameterBagInterface $parameterBag)
+    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService)
     {
         $data = array();
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
@@ -44,7 +44,7 @@ class JoinController extends AbstractController
             $snack = 'Zugangsdaten in das Formular eingeben';
         }
 
-        if ($parameterBag->get('laF_onlyRegisteredParticipents') == 1) {
+        if ($this->parameterBag->get('laF_onlyRegisteredParticipents') == 1) {
             return $this->redirectToRoute('dashboard');
         }
 
