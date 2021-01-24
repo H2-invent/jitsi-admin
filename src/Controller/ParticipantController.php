@@ -28,6 +28,5 @@ class ParticipantController extends AbstractController
            $res[]=$string;
        }
        return new JsonResponse($res);
-
     }
 }

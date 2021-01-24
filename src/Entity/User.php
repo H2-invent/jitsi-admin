@@ -91,6 +91,17 @@ class User extends BaseUser
      */
     private $serverAdmins;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="addressbookInverse")
+     */
+    private $addressbook;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="addressbook")
+     */
+    private $addressbookInverse;
+
+
 
     public function __construct()
     {
@@ -98,6 +109,9 @@ class User extends BaseUser
         $this->servers = new ArrayCollection();
         $this->roomModerator = new ArrayCollection();
         $this->serverAdmins = new ArrayCollection();
+        $this->addressbook = new ArrayCollection();
+        $this->addressbookInverse = new ArrayCollection();
+
     }
 
     public function getEmail(): ?string
@@ -304,5 +318,58 @@ class User extends BaseUser
 
         return $this;
     }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getAddressbook(): Collection
+    {
+        return $this->addressbook;
+    }
+
+    public function addAddressbook(self $addressbook): self
+    {
+        if (!$this->addressbook->contains($addressbook)) {
+            $this->addressbook[] = $addressbook;
+        }
+
+        return $this;
+    }
+
+    public function removeAddressbook(self $addressbook): self
+    {
+        $this->addressbook->removeElement($addressbook);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getAddressbookInverse(): Collection
+    {
+        return $this->addressbookInverse;
+    }
+
+    public function addAddressbookInverse(self $addressbookInverse): self
+    {
+        if (!$this->addressbookInverse->contains($addressbookInverse)) {
+            $this->addressbookInverse[] = $addressbookInverse;
+            $addressbookInverse->addAddressbook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddressbookInverse(self $addressbookInverse): self
+    {
+        if ($this->addressbookInverse->removeElement($addressbookInverse)) {
+            $addressbookInverse->removeAddressbook($this);
+        }
+
+        return $this;
+    }
+
+
 
 }

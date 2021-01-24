@@ -99,6 +99,7 @@ class RoomController extends AbstractController
                     if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
                         $user = $inviteService->newUser($newMember);
                         $user->addRoom($room);
+                        $user->addAddressbookInverse($room->getModerator());
                         $em->persist($user);
                         $snack = "Teilnehmer wurden eingeladen";
                         $userService->addUser($user, $room);

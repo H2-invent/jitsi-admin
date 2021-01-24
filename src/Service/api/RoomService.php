@@ -121,6 +121,7 @@ class RoomService
         $user = $this->inviteService->newUser($email);
         if (!in_array($user,$room->getUser()->toArray())){
             $user->addRoom($room);
+            $user->addAddressbookInverse($room->getModerator());
             $this->em->persist($user);
             //Here we add the User to the room and send the email
             $this->userService->addUser($user, $room);
