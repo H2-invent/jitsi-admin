@@ -42,7 +42,7 @@ $(document).ready(function () {
         }, 3000);
     }, 500);
     h2Button.init();
-
+    initDropDown();
 
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
@@ -168,5 +168,16 @@ function initSearchUser(){
             })
         }
 
+    })
+}
+function initDropDown() {
+    $('.dropdownTabToggle').click(function (e) {
+        e.preventDefault();
+        var $ele = $(this);
+        var $target = $ele.attr('href');
+        $($target).tab('show');
+        $ele.closest('.tabDropdown').find('button').text($ele.text());
+        $ele.closest('.dropdown-menu').find('.active').removeClass('active');
+        $ele.addClass('active');
     })
 }

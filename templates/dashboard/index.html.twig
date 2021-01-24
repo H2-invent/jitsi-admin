@@ -10,30 +10,51 @@
 
 
         <!-- Tabs navs -->
-        <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
-            <li class="nav-item">
-                <a data-toggle="tab"
-                   class="nav-link active"
-                   id="ex1-tab-1-tab"
-                   data-mdb-toggle="tab"
-                   href="#ex1-tabs-1"
-                   role="tab"
-                   aria-controls="ex1-tabs-1"
-                   aria-selected="true"
-                >Zukünftige Konferenzen</a>
-            </li>
-            <li class="nav-item">
-                <a data-toggle="tab"
-                   class="nav-link"
-                   id="ex1-tab-2-tab"
-                   data-mdb-toggle="tab"
-                   href="#ex1-tabs-2"
-                   role="tab"
-                   aria-controls="ex1-tabs-2"
-                   aria-selected="false"
-                >Vergangene Konferenzen</a>
-            </li>
-        </ul>
+        <div class="d-md-block d-none">
+            <ul class="nav nav-tabs mb-3 " id="ex1" role="tablist">
+                <li class="nav-item">
+                    <a data-toggle="tab"
+                       class="nav-link active"
+                       id="ex1-tab-1-tab"
+                       data-mdb-toggle="tab"
+                       href="#ex1-tabs-1"
+                       role="tab"
+                       aria-controls="ex1-tabs-1"
+                       aria-selected="true"
+                    >Zukünftige Konferenzen</a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="tab"
+                       class="nav-link"
+                       id="ex1-tab-2-tab"
+                       data-mdb-toggle="tab"
+                       href="#ex1-tabs-2"
+                       role="tab"
+                       aria-controls="ex1-tabs-2"
+                       aria-selected="false"
+                    >Vergangene Konferenzen</a>
+                </li>
+
+
+
+            </ul>
+        </div>
+        <div class="d-md-none tabDropdown">
+            <button  class="caretdown btn btn-primary dropdown-toggle mr-4" type="button" data-toggle="dropdown"
+                     aria-haspopup="true" aria-expanded="false">Zukünftige Konferenzen
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item dropdownTabToggle"
+                   href="#ex1-tab-1-tab">
+                    Zukünftige Konferenzen
+                </a>
+                <a href="#ex1-tab-2-tab"
+                   class="dropdown-item dropdownTabToggle">
+                    Vergangene Konferenzen
+                </a>
+
+            </div>
+        </div>
         <!-- Tabs navs -->
 
         <!-- Tabs content -->
@@ -87,8 +108,6 @@
                 {% for room in roomsPast %}
                     {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
                 {% endfor %}
-
-
             </div>
         </div>
         <!-- Tabs content -->
