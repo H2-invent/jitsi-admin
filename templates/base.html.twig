@@ -24,7 +24,7 @@
             </div>
         </nav>
         {% block body %}{% endblock %}
-
+        {{ include('base/__addressBookModal.html.twig') }}
         {{ include('base/__snack.html.twig') }}
         {{ include('base/__footer.html.twig') }}
     </div>

@@ -59,8 +59,8 @@ class UserRepository extends ServiceEntityRepository
     public function findMyUserByEmail($value, User $user)
     {
         $qb = $this->createQueryBuilder('u')
-            ->innerJoin(' u.rooms', 'rooms')
-            ->andWhere('rooms.moderator = :user')
+            ->innerJoin(' u.addressbookInverse', 'user')
+            ->andWhere('user = :user')
             ->setParameter('user', $user);
 
         return $qb->andWhere($qb->expr()->like('u.email', ':search'))

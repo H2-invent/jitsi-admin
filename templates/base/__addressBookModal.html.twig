@@ -1,0 +1,21 @@
+<div class="modal fade right" id="modalAdressbook" tabindex="-1" role="dialog" aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+        <div class="modal-content" style="height: 100vh;display: flex; flex-direction: column">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalPreviewLabel">{{ 'Adressbuch'|trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="flex-grow: 1;overflow-y: auto">
+                <div style="">
+                <ul class="list-group">
+                    {% for u in app.user.addressbook %}
+                            <li class="list-group-item" style="display: flex; justify-content: space-between"><span>{{ u.email }} </span><span><a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i class="fa fa-trash"></i> </a></span> </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

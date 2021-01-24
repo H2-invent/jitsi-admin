@@ -53,14 +53,6 @@ class InviteService
             $user->setEmail($email);
             $this->em->persist($user);
             $this->em->flush();
-            //$link = $this->router->generate('invitation_accept', array('id' => $user->getRegisterId()), UrlGeneratorInterface::ABSOLUTE_URL);
-            //$content = $this->twig->render('email/addUser/resetting_html.html.twig', ['link' => $link]);
-            //$this->mailer->sendEmail(
-            //    $this->parameterBag->get('defaultEmail'),
-            //    $this->parameterBag->get('defaultEmail'),
-           ///     $email,
-            //    $this->translator->trans('Einladung zum ODC'),
-             //   $content);
         }
         return $user;
     }
