@@ -6,14 +6,14 @@
         Optionen
     </button>
     <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-        <li><a class="confirmHref"
+        <li><a class="dropdown-item confirmHref"
                href="{{ path('room_remove',{'room':room.id}) }}">
                 Löschen</a></li>
-        <li><a href="{{ path('room_new',{'id':room.id}) }}"
-               class="loadContent">
+        <li><a  href="{{ path('room_new',{'id':room.id}) }}"
+               class="loadContent dropdown-item">
                 Bearbeiten</a></li>
         <li><a href="{{ path('room_clone',{'room':room.id}) }}"
-               class="loadContent">
+               class="loadContent dropdown-item">
                 {% trans %}Duplizieren{% endtrans %}</a></li>
     </ul>
 </div>
