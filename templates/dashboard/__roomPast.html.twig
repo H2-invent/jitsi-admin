@@ -1,7 +1,7 @@
 <div class="card card-body mb-1 text-lg-left text-center">
     <div class="row">
         {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
-        <div class="col-md-2">
+        <div class="col-md-6">
             {% if room.moderator == app.user %}
                 {{ include('dashboard/__roomOption.html.twig') }}
                 {% else %}
@@ -9,6 +9,5 @@
                        class="btn btn-outline-default confirmHref">Entfernen</a>
             {% endif %}
         </div>
-
     </div>
 </div>

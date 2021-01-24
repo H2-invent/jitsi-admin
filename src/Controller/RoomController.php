@@ -11,6 +11,7 @@ use App\Service\UserService;
 use App\Service\InviteService;
 
 use App\Service\RoomService;
+use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(Request $request, UserService $userService)
+    public function newRoom(Request $request, UserService $userService,TranslatorInterface $translator)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -41,7 +42,7 @@ class RoomController extends AbstractController
             $room->setUid(rand(01, 99) . time());
             $room->setModerator($this->getUser());
             $room->setSequence(0);
-            $room->setUidReal(md5(uniqid('h2-invent',true)));
+            $room->setUidReal(md5(uniqid('h2-invent', true)));
             $snack = 'Konferenz erfolgreich erstellt';
             $title = 'Neue Konferenz erstellen';
         }
@@ -52,22 +53,29 @@ class RoomController extends AbstractController
         }
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
-        $form->handleRequest($request);
-
+        try {
+            $form->handleRequest($request);
+        } catch (\Exception $e) {
+            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            return $this->redirectToRoute('dashboard',array('snack' => $snack,'color'=>'danger'));
+        }
         if ($form->isSubmitted() && $form->isValid()) {
-            $room = $form->getData();
-            $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
-            if ($request->get('id')) {
-                foreach ($room->getUser() as $user) {
-                    $userService->editRoom($user, $room);
+
+                $room = $form->getData();
+                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+                if ($request->get('id')) {
+                    foreach ($room->getUser() as $user) {
+                        $userService->editRoom($user, $room);
+                    }
+                } else {
+                    $userService->addUser($room->getModerator(), $room);
                 }
-            } else {
-                $userService->addUser($room->getModerator(), $room);
-            }
-            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+
+
         }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
@@ -209,7 +217,7 @@ class RoomController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();
-                $room->setUidReal(md5(uniqid('h2-invent',true)));
+                $room->setUidReal(md5(uniqid('h2-invent', true)));
                 $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);

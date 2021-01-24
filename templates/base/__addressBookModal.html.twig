@@ -10,7 +10,13 @@
             <div class="modal-body" style="flex-grow: 1;overflow-y: auto">
                 <div style="">
                 <ul class="list-group">
-                    {% for u in app.user.addressbook %}
+                    {% set name = null %}
+                    {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
+                        {% if u.email|first|upper != name %}
+                            {{ u.email|first|upper }}
+                            {% set name = u.email|first|upper %}
+                        {% endif %}
+
                             <li class="list-group-item" style="display: flex; justify-content: space-between"><span>{{ u.email }} </span><span><a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i class="fa fa-trash"></i> </a></span> </li>
                     {% endfor %}
                 </ul>
