@@ -611,3 +611,12 @@ label.required:after {
     font-weight: 900;
     content: "\f0d8";;
 }
+.iconSytle{
+    max-height: 25px;
+}
+
+@media only screen and (min-width: 768px) {
+    .iconSytle {
+        max-height: 30px;
+    }
+}

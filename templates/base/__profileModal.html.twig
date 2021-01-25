@@ -1,0 +1,30 @@
+<div class="modal fade right" id="sideModalTR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{% trans %}Profil{% endtrans %}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    {% trans %}Name{% endtrans %}: {{ app.user.firstName }} {{ app.user.lastName }}<br>
+                    {% trans %}Email{% endtrans %}: {{ app.user.email }}
+                </p>
+                <a class="btn btn-primary btn-sm"
+                   href="{{ path('connect_keycloak_edit') }}"
+                   target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a>
+                <a class="btn btn-primary btn-sm"
+                   href="{{ path('connect_keycloak_edit') }}"
+                   target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">{% trans %}Logout{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+</div>
