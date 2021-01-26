@@ -1,0 +1,15 @@
+
+    <b>
+        {{ 'Name'|trans }}: {{ room.name }}
+    </b>
+    <p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+        {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
+        {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
+        {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}</p>
+    <spacer size="16"></spacer>
+    <p>{{'Folgende Daten benötigen Sie um der Konferenz beizutreten:'|trans}}<br>{% trans with {'%email%':user.email,'%uid%':room.uid} %}Ihre Email Adresse: %email%<br>Konferenz ID: %uid%{% endtrans %}</p>
+    <spacer size="16"></spacer>
+    <p>
+        <a href="{{ url }}">{{ 'Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.'|trans }}</a>
+    </p>
+

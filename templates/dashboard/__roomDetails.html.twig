@@ -1,18 +1,17 @@
 <div class="col-md-2">
     <h5 class="h5-responsive">{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</h5>
-    {% if room in runningRooms %}<small class="badge badge-success">Läuft
-        gerade</small><br>{% endif %}
+    {% if room in runningRooms %}<small class="badge badge-success">{{'Läuft gerade'|trans}}</small><br>{% endif %}
     {% if app.user == room.moderator %}
-        <span class="badge badge-info">Moderator</span><br>{% endif %}
+        <span class="badge badge-info">{{ 'Moderator'|trans }}</span><br>{% endif %}
     {% if app.user == room.onlyRegisteredUsers %}
         <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>{% endif %}
 </div>
 <div class="col-md-4">
     <h5 class="h5-responsive">{{ room.name }}</h5>
     <p class="text-black-50 small">
-        Moderator: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
-        Server: {{ room.server.url }}<br>
-        Anzahl Teilnehmer: {{ room.user|length }}
+        {{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+        {{ 'Server'|trans }}: {{ room.server.url }}<br>
+        {{ 'Anzahl Teilnehmer'|trans }}: {{ room.user|length }}
     </p>
 </div>
 

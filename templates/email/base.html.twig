@@ -44,23 +44,25 @@
                 <spacer size="16"></spacer>
                 <center>
                     <p style="text-align: center">
-                        Sie wollen selber eine Videokonferenz <b>kostenlos</b> planen oder diese Konferenz komfortabel in einer Übersicht verwalten?<br>
-                        Dann melden Sie sich <a href="{{ absolute_url(path('dashboard'))}}">hier</a>&nbsp;<b>kostenlos</b> an.
+                        {{'Sie wollen selber eine Videokonferenz <b>kostenlos</b> planen oder diese Konferenz komfortabel
+                        in einer Übersicht verwalten?<br>
+                        Dann melden Sie sich'|trans}} <a href="{{ absolute_url(path('dashboard'))}}">{{ 'hier'|trans }}</a>&nbsp;<b>{{ 'kostenlos'|trans }}</b>
+                        {{ 'an.'|trans }}
                      </p>
                 </center>
                 <spacer size="16"></spacer>
                 <p>
                     {% if room is defined %}
-                        Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.
+                    {{ 'Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.'|trans }}
                     {% else %}
-                        Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.
+                    {{'Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.'|trans}}
                     {% endif %}
                 </p>
                 <spacer size="32"></spacer>
                 <p style="text-align: center">
-                    <a href="{{ dataPrivacy }}">Datenschutzhinweis</a><br>
+                    <a href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }}</a><br>
                     {% if room is defined %}
-                        {% trans %}Diese Mail wurde Ihnen gesendet im Auftrag von:{% endtrans %}<br>
+                        {% trans %}{{ 'Diese Mail wurde Ihnen gesendet im Auftrag von:'|trans }}{% endtrans %}<br>
                         {{ room.name }} - {{ room.moderator.firstName }} {{ room.moderator.lastName }}
                     {% endif %}
                 </p>
@@ -69,7 +71,7 @@
         </row>
         <center>
             <small>
-                <a href="https://jitsi-admin.de">Powered by Jitsi Manager, die Open Source Jitsi Planer Software</a>
+                <a href="https://jitsi-admin.de">{{ 'Powered by Jitsi Manager, die Open Source Jitsi Planer Software'|trans }}</a>
             </small>
         </center>
 

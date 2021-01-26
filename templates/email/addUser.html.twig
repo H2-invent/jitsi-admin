@@ -1,6 +1,6 @@
 {% extends 'email/base.html.twig' %}
 {% block header %}
-    -- Einladung zur Videokonferenz --
+    - -{{'Einladung zur Videokonferenz'|trans}}- -
 {% endblock %}
 
 {% block content %}
@@ -8,23 +8,10 @@
         {{ room.name }}
     </h4>
     <b>
-        Hallo!
+        {{'Hallo!'|trans}}
     </b>
     <p>
-        Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {{ room.server.url }} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.
+        {% trans with {'%url%': room.server.url} %}Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server %url% eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.{% endtrans %}
     </p>
-    <b>
-        Name: {{ room.name }}
-    </b>
-    <p>Moderator: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
-    Datum: {{ room.start|date('d.m.Y') }}<br>
-    Startzeit: {{ room.start|date('H:i') }}<br>
-    Geplante Dauer: {{ room.duration }} Minuten</p>
-    <spacer size="16"></spacer>
-    <p>Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>Ihre Email Adresse: {{ user.email }}<br>Konferenz ID: {{ room.uid }}</p>
-    <spacer size="16"></spacer>
-    <p>
-        <a href="{{ url }}">Klicken Sie hier um direkt zu der Videokonferenz
-            zu gelangen.</a>
-    </p>
+   {% include 'email/__roomInfo.html.twig' %}
 {% endblock %}

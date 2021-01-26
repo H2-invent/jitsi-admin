@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="G2uTOjB" resname="Konferenz nicht gefunden. Zugangsdaten erneut eingeben">
+        <source>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</source>
+        <target>__Konferenz nicht gefunden. Zugangsdaten erneut eingeben</target>
+      </trans-unit>
+      <trans-unit id=".Is4T0E" resname="Fehler, Bitte kontrollieren Sie ihre Daten.">
+        <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
+        <target>__Fehler, Bitte kontrollieren Sie ihre Daten.</target>
+      </trans-unit>
+      <trans-unit id="34R6VMk" resname="Keine Berechtigung">
+        <source>Keine Berechtigung</source>
+        <target>__Keine Berechtigung</target>
+      </trans-unit>
+      <trans-unit id="xBVJtSD" resname="Konferenz duplizieren">
+        <source>Konferenz duplizieren</source>
+        <target>__Konferenz duplizieren</target>
+      </trans-unit>
+      <trans-unit id="XC5HNTG" resname="Teilnehmer bearbeitet">
+        <source>Teilnehmer bearbeitet</source>
+        <target>__Teilnehmer bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="mhyWHWe" resname="Adressbuch">
+        <source>Adressbuch</source>
+        <target>__Adressbuch</target>
+      </trans-unit>
+      <trans-unit id="uKYFGSP" resname="Impressum">
+        <source>Impressum</source>
+        <target>__Impressum</target>
+      </trans-unit>
+      <trans-unit id="_dSc6FV" resname="Datenschutzhinweis">
+        <source>Datenschutzhinweis</source>
+        <target>__Datenschutzhinweis</target>
+      </trans-unit>
+      <trans-unit id="u4qrpoG" resname="Fehler melden">
+        <source>Fehler melden</source>
+        <target>__Fehler melden</target>
+      </trans-unit>
+      <trans-unit id="t9BKvkB" resname="Erweiterte Optionen">
+        <source>Erweiterte Optionen</source>
+        <target>__Erweiterte Optionen</target>
+      </trans-unit>
+      <trans-unit id="4mfTQ4I" resname="Profil">
+        <source>Profil</source>
+        <target>__Profil</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>__Name</target>
+      </trans-unit>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target>__Email</target>
+      </trans-unit>
+      <trans-unit id="TyMI.d2" resname="Profil bearbeiten">
+        <source>Profil bearbeiten</source>
+        <target>__Profil bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="TabP5k8" resname="Passwort ändern">
+        <source>Passwort ändern</source>
+        <target>__Passwort ändern</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>__Logout</target>
+      </trans-unit>
+      <trans-unit id="JXfQNhT" resname="Zukünftige Konferenzen">
+        <source>Zukünftige Konferenzen</source>
+        <target>__Zukünftige Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="a6JwAmN" resname="Vergangene Konferenzen">
+        <source>Vergangene Konferenzen</source>
+        <target>__Vergangene Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="o66NgUz" resname="Eine Konferenz planen">
+        <source>Eine Konferenz planen</source>
+        <target>Machsch du KOnferenz neu Englisch</target>
+      </trans-unit>
+      <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
+        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
+        <target>__Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</target>
+      </trans-unit>
+      <trans-unit id="Upy8jyE" resname="hier">
+        <source>hier</source>
+        <target>__hier</target>
+      </trans-unit>
+      <trans-unit id="WWTYQHI" resname="eine neue Konferenz.">
+        <source>eine neue Konferenz.</source>
+        <target>__eine neue Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="Ruov.3p" resname="Heute">
+        <source>Heute</source>
+        <target>__Heute</target>
+      </trans-unit>
+      <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
+        <source>Heute steht keine Jitsi Meet Konferenz an.</source>
+        <target>__Heute steht keine Jitsi Meet Konferenz an.</target>
+      </trans-unit>
+      <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
+        <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
+        <target>__Aktuell sind keine vergangenen Konferenzen vorhanden.</target>
+      </trans-unit>
+      <trans-unit id="QVc9ywt" resname="Teilnehmer">
+        <source>Teilnehmer</source>
+        <target>__Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="OCg3Wi1" resname="Entfernen">
+        <source>Entfernen</source>
+        <target>__Entfernen</target>
+      </trans-unit>
+      <trans-unit id="pqjXwsZ" resname="Starten">
+        <source>Starten</source>
+        <target>__Starten</target>
+      </trans-unit>
+      <trans-unit id="La4XzEP" resname="Im Browser">
+        <source>Im Browser</source>
+        <target>__Im Browser</target>
+      </trans-unit>
+      <trans-unit id="5wvMEm6" resname="In der App">
+        <source>In der App</source>
+        <target>__In der App</target>
+      </trans-unit>
+      <trans-unit id="Kp9UH6B" resname="Läuft gerade">
+        <source>Läuft gerade</source>
+        <target>__Läuft gerade</target>
+      </trans-unit>
+      <trans-unit id="Z0jsi3Z" resname="Moderator">
+        <source>Moderator</source>
+        <target>__Moderator</target>
+      </trans-unit>
+      <trans-unit id="MyAVhjs" resname="Intern">
+        <source>Intern</source>
+        <target>__Intern</target>
+      </trans-unit>
+      <trans-unit id="rvfeKNU" resname="Server">
+        <source>Server</source>
+        <target>__Server</target>
+      </trans-unit>
+      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
+        <source>Anzahl Teilnehmer</source>
+        <target>__Anzahl Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="8dquNSH" resname="Optionen">
+        <source>Optionen</source>
+        <target>__Optionen</target>
+      </trans-unit>
+      <trans-unit id="bC01IWH" resname="Löschen">
+        <source>Löschen</source>
+        <target>__Löschen</target>
+      </trans-unit>
+      <trans-unit id="hORe5zQ" resname="Bearbeiten">
+        <source>Bearbeiten</source>
+        <target>__Bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="nUAMPeZ" resname="Duplizieren">
+        <source>Duplizieren</source>
+        <target>__Duplizieren</target>
+      </trans-unit>
+      <trans-unit id="XXAlzt7" resname="Einladung zur Videokonferenz">
+        <source>Einladung zur Videokonferenz</source>
+        <target>__Einladung zur Videokonferenz</target>
+      </trans-unit>
+      <trans-unit id="NXpX.nP" resname="Hallo!">
+        <source>Hallo!</source>
+        <target>__Hallo!</target>
+      </trans-unit>
+      <trans-unit id="ipBpXTW" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server %url% eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
+        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server %url% eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target>__Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server %url% eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+      </trans-unit>
+      <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
+        <source>Videokonferenz bearbeitet</source>
+        <target>__Videokonferenz bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="Nm42HPu" resname="Die Veranstaltung %name% wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
+        <source>Die Veranstaltung %name% wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target>__Die Veranstaltung %name% wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+      </trans-unit>
+      <trans-unit id="F8UXAUj" resname="Erinnerung zur Videokonferenz">
+        <source>Erinnerung zur Videokonferenz</source>
+        <target>__Erinnerung zur Videokonferenz</target>
+      </trans-unit>
+      <trans-unit id="NyaUs0j" resname="Die Videokonferenz auf dem Server %url% startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
+        <source>Die Videokonferenz auf dem Server %url% startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target>__Die Videokonferenz auf dem Server %url% startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+      </trans-unit>
+      <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
+        <source>Videokonferenz abgesagt</source>
+        <target>__Videokonferenz abgesagt</target>
+      </trans-unit>
+      <trans-unit id="nC6A2ZB" resname="Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.">
+        <source>Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
+        <target>__Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.</target>
+      </trans-unit>
+      <trans-unit id="kTWILTI" resname="Datum">
+        <source>Datum</source>
+        <target>__Datum</target>
+      </trans-unit>
+      <trans-unit id="CIhd4ET" resname="Startzeit">
+        <source>Startzeit</source>
+        <target>__Startzeit</target>
+      </trans-unit>
+      <trans-unit id="JYcfIUm" resname="Geplante Dauer">
+        <source>Geplante Dauer</source>
+        <target>__Geplante Dauer</target>
+      </trans-unit>
+      <trans-unit id="E1zE0wP" resname="Minuten">
+        <source>Minuten</source>
+        <target>__Minuten</target>
+      </trans-unit>
+      <trans-unit id="QFcLdIx" resname="Sie können jetzt Konferenzen mit dem Jitsi Server %url% erstellen">
+        <source>Sie können jetzt Konferenzen mit dem Jitsi Server %url% erstellen</source>
+        <target>__Sie können jetzt Konferenzen mit dem Jitsi Server %url% erstellen</target>
+      </trans-unit>
+      <trans-unit id="TUr.7W8" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
+        <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
+        sich einen Benutzer.</source>
+        <target>__Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
+        sich einen Benutzer.</target>
+      </trans-unit>
+      <trans-unit id="nWMiwfT" resname="Login">
+        <source>Login</source>
+        <target>__Login</target>
+      </trans-unit>
+      <trans-unit id="OmOD76j" resname="Server Administrator">
+        <source>Server Administrator</source>
+        <target>__Server Administrator</target>
+      </trans-unit>
+      <trans-unit id="ai4uDGU" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:</source>
+        <target>__Folgende Daten benötigen Sie um der Konferenz beizutreten:</target>
+      </trans-unit>
+      <trans-unit id="yGe9T0X" resname="Ihre Email Adresse: %email%&lt;br&gt;Konferenz ID: %uid%">
+        <source>Ihre Email Adresse: %email%&lt;br&gt;Konferenz ID: %uid%</source>
+        <target><![CDATA[__Ihre Email Adresse: %email%<br>Konferenz ID: %uid%]]></target>
+      </trans-unit>
+      <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
+        <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
+        <target>__Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</target>
+      </trans-unit>
+      <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
+        <source>Teilnehmerliste</source>
+        <target>__Teilnehmerliste</target>
+      </trans-unit>
+      <trans-unit id="n3XJNcP" resname="Organisator">
+        <source>Organisator</source>
+        <target>__Organisator</target>
+      </trans-unit>
+      <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
+        <source>Teilnehmer Suchen</source>
+        <target>__Teilnehmer Suchen</target>
+      </trans-unit>
+      <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
+        <source>Tippen zum Suchen</source>
+        <target>__Tippen zum Suchen</target>
+      </trans-unit>
+      <trans-unit id="9.8ReK8" resname="Abbrechen">
+        <source>Abbrechen</source>
+        <target>__Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="FeBsXaJ" resname="Jitsi Meet Servereinstellungen">
+        <source>Jitsi Meet Servereinstellungen</source>
+        <target>__Jitsi Meet Servereinstellungen</target>
+      </trans-unit>
+      <trans-unit id="X0bsKL4" resname="Server hinzufügen">
+        <source>Server hinzufügen</source>
+        <target>__Server hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="Qz_pA9e" resname="Organisatoren">
+        <source>Organisatoren</source>
+        <target>__Organisatoren</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,6 +1,6 @@
 {% extends 'email/base.html.twig' %}
 {% block header %}
-    -- Videokonferenz abgesagt --
+    -- {{ 'Videokonferenz abgesagt'|trans }} --
 {% endblock %}
 
 {% block content %}
@@ -8,17 +8,17 @@
         {{ room.name }}
     </h4>
     <b>
-        Hallo!
+        {{'Hallo!'|trans}}
     </b>
     <p>
-        Die Veranstaltung {{ room.name }} wurde abgesagt und kann aus dem Kalender entfernt werden.
+        {% trans with {'%name%': room.name} %} Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.{% endtrans %}
     </p>
     <b>
-        Name: {{ room.name }}
+        {{ 'Name'|trans }}: {{ room.name }}
     </b>
-    <p>Moderator: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
-        Datum: {{ room.start|date('d.m.Y') }}<br>
-        Startzeit: {{ room.start|date('H:i') }}<br>
-        Geplante Dauer: {{ room.duration }} Minuten</p>
+    <p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+        {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
+        {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
+        {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}</p>
 
 {% endblock %}

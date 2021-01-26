@@ -123,6 +123,9 @@
     "guzzlehttp/psr7": {
         "version": "1.7.0"
     },
+    "jms/i18n-routing-bundle": {
+        "version": "dev-master"
+    },
     "knpuniversity/oauth2-client-bundle": {
         "version": "1.20",
         "recipe": {
