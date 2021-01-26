@@ -8,13 +8,45 @@
         <div class="modal-body">
             {{ form_start(form) }}
             {{ form_row(form.url) }}
-            <input id="jwtServer" type="checkbox" name="jwtServer" value="jwtServer" {% if server.appId %}checked{% endif %}>
+            <input id="jwtServer" type="checkbox" name="jwtServer" value="jwtServer"
+                   {% if server.appId %}checked{% endif %}>
             <label for="jwtServer"> Server ID und Secret anzeigen</label><br>
             <div id="appId" class="collapse {% if server.appId %}show{% endif %}">
-            {{ form_row(form.appId) }}
-            {{ form_row(form.appSecret) }}
+                {{ form_row(form.appId) }}
+                {{ form_row(form.appSecret) }}
             </div>
+
+            <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
+               aria-controls="collapseExample">
+                {{ 'Erweiterte Optionen'|trans }}
+            </a>
+            <div class="collapse" id="collapseExample">
+                <div class="mt-3">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_row(form.smtpHost) }}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ form_row(form.smtpEncryption) }}
+                                </div>
+                                <div class="col-md-3">
+                                    {{ form_row(form.smtpPort) }}
+                                </div>
+                            </div>
+                            {{ form_row(form.smtpUsername) }}
+                            {{ form_row(form.smtpPassword) }}
+                            {{ form_row(form.smtpEmail) }}
+                            {{ form_row(form.smtpSenderName) }}
+                            {{ form_row(form.logoUrl) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ form_row(form.submit) }}
             {{ form_end(form) }}
         </div>
+
     </div>
 </div>

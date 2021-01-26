@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
 use App\Service\RoomService;
@@ -21,11 +22,13 @@ class JoinController extends AbstractController
     }
 
     /**
-     * @Route("/join", name="join_index")
+     * @Route("/join/{slug}", name="join_index")
+     * @Route("/join", name="join_index_no_slug")
      */
-    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService)
+    public function index($slug = null, Request $request, TranslatorInterface $translator, RoomService $roomService)
     {
         $data = array();
+        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['slug'=>$slug]);
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
         $dataStr = $request->get('data');
         $snack = $request->get('snack');
@@ -68,7 +71,8 @@ class JoinController extends AbstractController
 
         return $this->render('join/index.html.twig', [
             'form' => $form->createView(),
-            'snack' => $snack
+            'snack' => $snack,
+            'server' => $server
         ]);
     }
     function testRoomPermissions(?Rooms $room, ?User $user){

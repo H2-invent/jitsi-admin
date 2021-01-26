@@ -24,7 +24,7 @@ class ServersController extends AbstractController
     /**
      * @Route("/server/add", name="servers_add")
      */
-    public function serverAdd(Request $request, ValidatorInterface $validator)
+    public function serverAdd(Request $request, ValidatorInterface $validator, ServerService $serverService)
     {
         if ($request->get('id')) {
             $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id'=>$request->get('id')));
@@ -47,7 +47,9 @@ class ServersController extends AbstractController
             $data = $form->getData();
             $errors = $validator->validate($data);
             if (count($errors) == 0) {
+                $slug = $serverService->makeSlug($data->getUrl());
                 $em = $this->getDoctrine()->getManager();
+                $data->setSlug($slug);
                 $em->persist($data);
                 $em->flush();
                 return $this->redirectToRoute('dashboard');

@@ -35,7 +35,7 @@ class UserService
     function generateUrl (Rooms $room, User $user) {
 
         $data = base64_encode('uid='.$room->getUid().'&email='.$user->getEmail());
-        $url = $this->url->generate('join_index',['data'=>$data],UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->url->generate('join_index',['data'=>$data, 'slug' => $room->getServer()->getSlug()],UrlGeneratorInterface::ABSOLUTE_URL);
         return $url;
     }
 
