@@ -33,29 +33,29 @@ class RoomType extends AbstractType
                 'choice_label' => 'url',
                 'class' => Server::class,
                 'choices' => $options['server'],
-                'label' => 'Jitsi Meet Server',
+                'label' => 'label.serverKonferenz',
                 'translation_domain' => 'form',
                 'multiple' => false,
                 'required' => true,
             ])
-            ->add('name', TextType::class, ['required' => true, 'label' => 'Name der Konferenz', 'translation_domain' => 'form'])
-            ->add('start', DateTimeType::class, ['attr'=>['class'=>'flatpickr'],'label' => 'Start', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add('name', TextType::class, ['required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
+            ->add('start', DateTimeType::class, ['attr'=>['class'=>'flatpickr'],'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add('duration', ChoiceType::class, [
-                'label' => 'Dauer der Konferenz',
+                'label' => 'label.dauerKonferenz',
                 'translation_domain' => 'form',
                 'choices' => [
-                    '15 Minuten' => 15,
-                    '30 Minuten' => 30,
-                    '45 Minuten' => 45,
-                    '1 Stunde' => 60,
-                    '1,5 Stunden' => 90,
-                    '2 Stunden' => 120,
-                    '4 Stunden' => 240,
-                    '8 Stunden' => 480,
+                    'option.15min' => 15,
+                    'option.30min' => 30,
+                    'option.45min' => 45,
+                    'option.60min' => 60,
+                    'option.90min' => 90,
+                    'option.120min' => 120,
+                    'option.240min' => 240,
+                    'option.480min' => 480,
                 ]
             ])
-            ->add('onlyRegisteredUsers',CheckboxType::class,array('required'=>false,'label' => 'Nur registrierte Benutzer dürfen der Konferenz beitreten', 'translation_domain' => 'form'))
-            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Speichern', 'translation_domain' => 'form']);
+            ->add('onlyRegisteredUsers',CheckboxType::class,array('required'=>false,'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form'))
+            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

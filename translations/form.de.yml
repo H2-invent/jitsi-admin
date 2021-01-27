@@ -1,0 +1,27 @@
+label.konferenzId: Konferenz ID
+label.email: Email Adresse
+label.name: Name
+label.beitreten: Beitreten
+label.teilnehmerEmailhinzufuegen: E-Mail Adresse von neuen Teilnehmern eingeben
+label.teilnehmerHinzufuegenBtn: Teilnehmer Hinzufügen
+label.emailModerator: E-Mail Adresse des Organisators eingeben
+help.emailTextfeld: Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.
+label.organisatorhinzufuegen: Organisator Hinzufügen
+label.serverKonferenz: Jitsi Meet Server
+label.konferenzName: Name der Konferenz
+label.start: Start
+label.dauerKonferenz: Dauer der Konferenz
+label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten
+label.speichern: Speichern
+option.15min: 15 Minuten
+option.30min: 30 Minuten
+option.45min: 45 Minuten
+option.60min: 1 Stunde
+option.90min: 1,5 Stunden
+option.120min: 2 Stunden
+option.240min: 4 Stunden
+option.480min: 8 Stunden
+lable.serverUrl: Jitsi Meet Server URL
+label.appId: App ID
+label.appSecret: App Secret
+help.serverUrl: Ohne "https://" angeben (z.B meet.jit.si)

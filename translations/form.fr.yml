@@ -1,28 +1,27 @@
-Konferenz ID: __Konferenz ID
-Email Adresse: __Email Adresse
-Name: __Name
-Beitreten: __Beitreten
-E-Mail Adresse von neuen Teilnehmern eingeben: __E-Mail Adresse von neuen Teilnehmern eingeben
-Teilnehmer Hinzufügen: __Teilnehmer Hinzufügen
-E-Mail Adresse des Organisators eingeben: __E-Mail Adresse des Organisators eingeben
-Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.: __Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.
-Organisator Hinzufügen: __Organisator Hinzufügen
-Jitsi Meet Server: __Jitsi Meet Server
-Name der Konferenz: __Name der Konferenz
-Start: __Start
-Dauer der Konferenz: __Dauer der Konferenz
-Nur registrierte Benutzer dürfen der Konferenz beitreten: __Nur registrierte Benutzer dürfen der Konferenz beitreten
-Speichern: __Speichern
-15 Minuten: __15 Minuten
-30 Minuten: __30 Minuten
-45 Minuten: __45 Minuten
-1 Stunde: __1 Stunde
-1,5 Stunden: __1,5 Stunden
-2 Stunden: __2 Stunden
-4 Stunden: __4 Stunden
-8 Stunden: __8 Stunden
-Jitsi Meet Server URL: __Jitsi Meet Server URL
-App ID: __App ID
-App Secret: __App Secret
-Es können mehrere Teilnehmer auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.: __Es können mehrere Teilnehmer auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.
-Ohne "https://" angeben (z.B meet.jit.si): __Ohne "https://" angeben (z.B meet.jit.si)
+label.konferenzId: __Konferenz ID
+label.email: __Email Adresse
+label.name: __Name
+label.beitreten: __Beitreten
+label.teilnehmerEmailhinzufuegen: __E-Mail Adresse von neuen Teilnehmern eingeben
+label.teilnehmerHinzufuegenBtn: __Teilnehmer Hinzufügen
+label.emailModerator: __E-Mail Adresse des Organisators eingeben
+help.emailTextfeld: __Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.
+label.organisatorhinzufuegen: __Organisator Hinzufügen
+label.serverKonferenz: __Jitsi Meet Server
+label.konferenzName: __Name der Konferenz
+label.start: __Start
+label.dauerKonferenz: __Dauer der Konferenz
+label.nurRegistriertenutzer: __Nur registrierte Benutzer dürfen der Konferenz beitreten
+label.speichern: __Speichern
+option.15min: __15 Minuten
+option.30min: __30 Minuten
+option.45min: __45 Minuten
+option.60min: __1 Stunde
+option.90min: __1,5 Stunden
+option.120min: __2 Stunden
+option.240min: __4 Stunden
+option.480min: __8 Stunden
+lable.serverUrl: __Jitsi Meet Server URL
+label.appId: ____App ID
+label.appSecret: ____App Secret
+help.serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)

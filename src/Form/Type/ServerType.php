@@ -27,10 +27,10 @@ class ServerType extends AbstractType
     {
 
         $builder
-            ->add('url', TextType::class, ['required' => true, 'label' => 'Jitsi Meet Server URL', 'translation_domain' => 'form', 'help'=>'Ohne "https://" angeben (z.B meet.jit.si)'])
-            ->add('appId', TextType::class, ['required' => false,'label' => 'App ID', 'translation_domain' => 'form'])
-            ->add('appSecret', PasswordType::class, ['required' => false,'label' => 'App Secret', 'translation_domain' => 'form'])
-            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'Speichern', 'translation_domain' => 'form']);
+            ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help'=>'help.serverUrl'])
+            ->add('appId', TextType::class, ['required' => false,'label' => 'label.appId', 'translation_domain' => 'form'])
+            ->add('appSecret', PasswordType::class, ['required' => false,'label' => 'label.appSecret', 'translation_domain' => 'form'])
+            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
