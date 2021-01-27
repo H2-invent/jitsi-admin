@@ -18,22 +18,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ServersController extends AbstractController
 {
     /**
      * @Route("/server/add", name="servers_add")
      */
-    public function serverAdd(Request $request, ValidatorInterface $validator)
+    public function serverAdd(Request $request, ValidatorInterface $validator, TranslatorInterface $translator)
     {
         if ($request->get('id')) {
             $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id'=>$request->get('id')));
             if ($server->getAdministrator() !== $this->getUser()) {
                 return $this->redirectToRoute('dashboard',['snack'=>'Keine Berechtigung']);
             }
-            $title = 'Jitsi Meet Server bearbeiten';
+            $title = $translator->trans('Jitsi Meet Server bearbeiten');
         }else {
-            $title = 'Jitsi Meet Server erstellen';
+            $title = $translator->trans('Jitsi Meet Server erstellen');
             $server = new Server();
             $server->addUser($this->getUser());
             $server->setAdministrator($this->getUser());
@@ -61,7 +62,7 @@ class ServersController extends AbstractController
     /**
      * @Route("/server/add-user", name="server_add_user")
      */
-    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService)
+    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService,TranslatorInterface $translator)
     {
         $newMember = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -92,7 +93,7 @@ class ServersController extends AbstractController
                 return $this->redirectToRoute('dashboard',['snack'=>$snack]);
             }
         }
-        $title = 'Organisator zu Server hinzufügen';
+        $title = $translator->trans('Organisator zu Server hinzufügen');
 
         return $this->render('servers/permissionModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'users'=>$server->getUser(),'server'=>$server));
     }
@@ -101,7 +102,7 @@ class ServersController extends AbstractController
      * @Route("/server/user/remove", name="server_user_remove")
      */
     public
-    function serverUserRemove(Request $request)
+    function serverUserRemove(Request $request, TranslatorInterface $translator)
     {
 
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -112,7 +113,7 @@ class ServersController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($server);
             $em->flush();
-            $snack = 'Berechtigung gelöscht';
+            $snack = $translator->trans('Berechtigung gelöscht');
         }
 
         return $this->redirectToRoute('dashboard',['snack'=>$snack]);

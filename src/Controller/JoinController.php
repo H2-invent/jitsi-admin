@@ -41,7 +41,7 @@ class JoinController extends AbstractController
                 return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
             }
         }else {
-            $snack = 'Zugangsdaten in das Formular eingeben';
+            $snack = $translator->trans('Zugangsdaten in das Formular eingeben');
         }
 
         if ($this->parameterBag->get('laF_onlyRegisteredParticipents') == 1) {

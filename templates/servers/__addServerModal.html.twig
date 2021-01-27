@@ -9,7 +9,7 @@
             {{ form_start(form) }}
             {{ form_row(form.url) }}
             <input id="jwtServer" type="checkbox" name="jwtServer" value="jwtServer" {% if server.appId %}checked{% endif %}>
-            <label for="jwtServer"> Server ID und Secret anzeigen</label><br>
+            <label for="jwtServer"> {{ 'Server ID und Secret anzeigen'|trans }}</label><br>
             <div id="appId" class="collapse {% if server.appId %}show{% endif %}">
             {{ form_row(form.appId) }}
             {{ form_row(form.appSecret) }}

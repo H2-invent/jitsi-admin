@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+  <file source-language="de" target-language="fr" datatype="plaintext" original="file.ext">
     <header>
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
@@ -274,6 +274,66 @@
       <trans-unit id="Qz_pA9e" resname="Organisatoren">
         <source>Organisatoren</source>
         <target>__Organisatoren</target>
+      </trans-unit>
+      <trans-unit id=".aAKnji" resname="Server ID und Secret anzeigen">
+        <source>Server ID und Secret anzeigen</source>
+        <target>__Server ID und Secret anzeigen</target>
+      </trans-unit>
+      <trans-unit id="XCUHFQy" resname="Konferenz erfolgreich bearbeitet">
+        <source>Konferenz erfolgreich bearbeitet</source>
+        <target>__Konferenz erfolgreich bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="I3TJoB4" resname="Konferenz bearbeiten">
+        <source>Konferenz bearbeiten</source>
+        <target>__Konferenz bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="bJSm8Ow" resname="Konferenz erfolgreich erstellt">
+        <source>Konferenz erfolgreich erstellt</source>
+        <target>__Konferenz erfolgreich erstellt</target>
+      </trans-unit>
+      <trans-unit id="bwGkw_c" resname="Neue Konferenz erstellen">
+        <source>Neue Konferenz erstellen</source>
+        <target>__Neue Konferenz erstellen</target>
+      </trans-unit>
+      <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
+        <source>Teilnehmer wurden eingeladen</source>
+        <target>__Teilnehmer wurden eingeladen</target>
+      </trans-unit>
+      <trans-unit id="AlHrbaY" resname="Einige Teilnehmer eingeladen. %emails% ist/sind nicht korrekt und können nicht eingeladen werden">
+        <source>Einige Teilnehmer eingeladen. %emails% ist/sind nicht korrekt und können nicht eingeladen werden</source>
+        <target>__Einige Teilnehmer eingeladen. %emails% ist/sind nicht korrekt und können nicht eingeladen werden</target>
+      </trans-unit>
+      <trans-unit id="B5Z0l0H" resname="Teilnehmer verwalten">
+        <source>Teilnehmer verwalten</source>
+        <target>__Teilnehmer verwalten</target>
+      </trans-unit>
+      <trans-unit id="BidGKR8" resname="Teilnehmer gelöscht">
+        <source>Teilnehmer gelöscht</source>
+        <target>__Teilnehmer gelöscht</target>
+      </trans-unit>
+      <trans-unit id="x.c6LLU" resname="Konferenz gelöscht">
+        <source>Konferenz gelöscht</source>
+        <target>__Konferenz gelöscht</target>
+      </trans-unit>
+      <trans-unit id="dIC9IrN" resname="Zugangsdaten in das Formular eingeben">
+        <source>Zugangsdaten in das Formular eingeben</source>
+        <target>__Zugangsdaten in das Formular eingeben</target>
+      </trans-unit>
+      <trans-unit id="yqiRTY7" resname="Jitsi Meet Server bearbeiten">
+        <source>Jitsi Meet Server bearbeiten</source>
+        <target>__Jitsi Meet Server bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="J4CdvJu" resname="Jitsi Meet Server erstellen">
+        <source>Jitsi Meet Server erstellen</source>
+        <target>__Jitsi Meet Server erstellen</target>
+      </trans-unit>
+      <trans-unit id="hpwhjtz" resname="Organisator zu Server hinzufügen">
+        <source>Organisator zu Server hinzufügen</source>
+        <target>__Organisator zu Server hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="kaqu5DF" resname="Berechtigung gelöscht">
+        <source>Berechtigung gelöscht</source>
+        <target>__Berechtigung gelöscht</target>
       </trans-unit>
     </body>
   </file>
