@@ -1,11 +1,31 @@
 <ul class="nav navbar-nav ml-auto">
     <div class="row mr-1">
         <!-- Button trigger modal -->
-
         <a class="ml-auto mr-2"
            href="{{ helpUrl }}" target="_blank">
             <img src="{{ asset('images/question.png') }}" class="iconSytle">
-        </a> <a class="ml-auto mr-2"
+        </a>
+        <div class="dropdown">
+            <a class="ml-auto mr-2 dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <img src="{{ asset('images/') }}locale/{{ app.request.locale }}.png" class="iconSytle">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: unset;">
+                <a class="dropdown-item"
+                   href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}"><img
+                            src="{{ asset('images/locale/de.png') }}" alt="Deutsch"
+                            class="iconSytle"></a>
+                <a class="dropdown-item"
+                   href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'en'})) }}"><img
+                            src="{{ asset('images/locale/en.png') }}" alt="English"
+                            class="iconSytle"></a>
+                <a class="dropdown-item"
+                   href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'fr'})) }}"><img
+                            src="{{ asset('images/locale/fr.png') }}" alt="Francais" class="iconSytle"></a>
+            </div>
+    </div>
+
+        <a class="ml-auto mr-2"
                 data-toggle="modal"
                 data-target="#modalAdressbook">
             <img src="{{ asset('images/agenda.png') }}" class="iconSytle">

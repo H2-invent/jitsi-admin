@@ -23,7 +23,7 @@ class NewMemberType extends AbstractType
 
         $builder
            ->add('member',TextareaType::class,['required' => false, 'label' => 'label.teilnehmerEmailhinzufuegen', 'help'=> 'help.emailTextfeld','translation_domain' => 'form'])
-            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.teilnehmerHinzufuegenBtn', 'translation_domain' => 'form']);
+            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.teilnehmerSpeichern', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
