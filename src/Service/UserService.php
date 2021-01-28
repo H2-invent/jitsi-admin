@@ -46,7 +46,7 @@ class UserService
         $subject = 'Neue Einladung zu einer Videokonferenz';
         $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
 
         return true;
     }
@@ -58,7 +58,7 @@ class UserService
         $subject = 'Videokonferenz wurde bearbeitet';
         $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
 
         return true;
     }
@@ -70,7 +70,7 @@ class UserService
         $subject = 'Videokonferenz abgesagt';
         $ics = $this->notificationService->createIcs($room,$user,$url,'CANCEL');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
 
         return true;
     }
@@ -80,7 +80,7 @@ class UserService
         $url = $this->generateUrl($room,$user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
         $subject = 'Videokonferenz ' . $room->getName() . ' startet gleich';
-        $this->notificationService->sendCron($content, $subject, $user, $room);
+        $this->notificationService->sendCron($content, $subject, $user, $room->getServer());
 
         return true;
     }

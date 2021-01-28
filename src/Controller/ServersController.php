@@ -47,9 +47,11 @@ class ServersController extends AbstractController
             $data = $form->getData();
             $errors = $validator->validate($data);
             if (count($errors) == 0) {
-                $slug = $serverService->makeSlug($data->getUrl());
                 $em = $this->getDoctrine()->getManager();
-                $data->setSlug($slug);
+                if (!$data->getSlug()) {
+                    $slug = $serverService->makeSlug($data->getUrl());
+                    $data->setSlug($slug);
+                }
                 $em->persist($data);
                 $em->flush();
                 return $this->redirectToRoute('dashboard');

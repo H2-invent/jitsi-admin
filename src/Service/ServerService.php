@@ -39,7 +39,7 @@ class ServerService
     {
         $content = $this->twig->render('email/serverPermission.html.twig', ['user' => $user, 'server' => $server]);
         $subject = 'Sie wurden zu einem Jitsi Meet Server hinzugefügt';
-        $this->notification->sendNotification($content, $subject, $user);
+        $this->notification->sendNotification($content, $subject, $user, $server);
 
         return true;
     }
