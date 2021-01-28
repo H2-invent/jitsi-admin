@@ -45,11 +45,15 @@ class ServersController extends AbstractController
 
         $errors = array();
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $errors = $validator->validate($data);
+            $server = $form->getData();
+            $url = $server->getUrl();
+            $url = str_replace('https://','',$url);
+            $url = str_replace('http://','',$url);
+            $server->setUrl($url);
+            $errors = $validator->validate($server);
             if (count($errors) == 0) {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($data);
+                $em->persist($server);
                 $em->flush();
                 return $this->redirectToRoute('dashboard');
             }
