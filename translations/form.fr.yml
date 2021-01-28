@@ -22,6 +22,15 @@ option.120min: __2 Stunden
 option.240min: __4 Stunden
 option.480min: __8 Stunden
 lable.serverUrl: __Jitsi Meet Server URL
-label.appId: ____App ID
-label.appSecret: ____App Secret
+label.appId: __App ID
+label.appSecret: __App Secret
 help.serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)
+label:
+  serverSmtpHostName: __SMTP Hostname
+  serverSmtpHostPort: __ SMTP Port
+  serverSmtpEncryption: __ Encryption
+  serverSmtpUsername: __SMTP Benutzername
+  serverSmtpPassword: __SMTP Passwort
+  serverSmtpSenderEmail: __Absender Email
+  serverSmtpSenderName: ____Absender Name
+  serverLintLogo: __Link zu Logo

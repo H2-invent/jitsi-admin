@@ -25,3 +25,12 @@ lable.serverUrl: __Jitsi Meet Server URL
 label.appId: __App ID
 label.appSecret: __App Secret
 help.serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)
+label:
+  serverSmtpHostName: SMTP Hostname
+  serverSmtpHostPort:  SMTP Port
+  serverSmtpEncryption:  Encryption
+  serverSmtpUsername: SMTP Benutzername
+  serverSmtpPasswordSMTP: SMTP Passwort
+  serverSmtpSenderEmail: Absender Email
+  serverSmtpSenderName: Absender Name
+  serverLintLogo: Link zu Logo

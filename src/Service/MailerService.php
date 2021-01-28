@@ -53,8 +53,8 @@ class MailerService
             $sender = $server->getSmtpEmail();
             $senderName = $server->getSmtpSenderName();
         }else {
-            $sender = $this->parameter->get('registerEmailName');
-            $senderName = $server->get('defaultEmail');
+            $sender = $this->parameter->get('registerEmailAdress');
+            $senderName = $this->parameter->get('registerEmailName');
         }
         $message = (new \Swift_Message($betreff))
             ->setFrom(array($sender => $senderName))
