@@ -11,7 +11,9 @@
         {{'Hallo!'|trans}}
     </b>
     <p>
-        {% trans with {'%name%': room.name} %} Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.{% endtrans %}
+        {% trans with {'{name}': room.name|escape} %}
+            Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.
+        {% endtrans %}
     </p>
     <b>
         {{ 'Name'|trans }}: {{ room.name }}

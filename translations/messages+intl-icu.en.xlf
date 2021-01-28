@@ -5,17 +5,49 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="G2uTOjB" resname="Konferenz nicht gefunden. Zugangsdaten erneut eingeben">
-        <source>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</source>
-        <target>__Konferenz nicht gefunden. Zugangsdaten erneut eingeben</target>
+      <trans-unit id="34R6VMk" resname="Keine Berechtigung">
+        <source>Keine Berechtigung</source>
+        <target>__Keine Berechtigung</target>
+      </trans-unit>
+      <trans-unit id="XCUHFQy" resname="Konferenz erfolgreich bearbeitet">
+        <source>Konferenz erfolgreich bearbeitet</source>
+        <target>__Konferenz erfolgreich bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="I3TJoB4" resname="Konferenz bearbeiten">
+        <source>Konferenz bearbeiten</source>
+        <target>__Konferenz bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="bJSm8Ow" resname="Konferenz erfolgreich erstellt">
+        <source>Konferenz erfolgreich erstellt</source>
+        <target>__Konferenz erfolgreich erstellt</target>
+      </trans-unit>
+      <trans-unit id="bwGkw_c" resname="Neue Konferenz erstellen">
+        <source>Neue Konferenz erstellen</source>
+        <target>__Neue Konferenz erstellen</target>
       </trans-unit>
       <trans-unit id=".Is4T0E" resname="Fehler, Bitte kontrollieren Sie ihre Daten.">
         <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
         <target>__Fehler, Bitte kontrollieren Sie ihre Daten.</target>
       </trans-unit>
-      <trans-unit id="34R6VMk" resname="Keine Berechtigung">
-        <source>Keine Berechtigung</source>
-        <target>__Keine Berechtigung</target>
+      <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
+        <source>Teilnehmer wurden eingeladen</source>
+        <target>__Teilnehmer wurden eingeladen</target>
+      </trans-unit>
+      <trans-unit id="K6XEZfk" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
+        <source>Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</source>
+        <target>__Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</target>
+      </trans-unit>
+      <trans-unit id="B5Z0l0H" resname="Teilnehmer verwalten">
+        <source>Teilnehmer verwalten</source>
+        <target>__Teilnehmer verwalten</target>
+      </trans-unit>
+      <trans-unit id="BidGKR8" resname="Teilnehmer gelöscht">
+        <source>Teilnehmer gelöscht</source>
+        <target>__Teilnehmer gelöscht</target>
+      </trans-unit>
+      <trans-unit id="x.c6LLU" resname="Konferenz gelöscht">
+        <source>Konferenz gelöscht</source>
+        <target>__Konferenz gelöscht</target>
       </trans-unit>
       <trans-unit id="xBVJtSD" resname="Konferenz duplizieren">
         <source>Konferenz duplizieren</source>
@@ -24,6 +56,70 @@
       <trans-unit id="XC5HNTG" resname="Teilnehmer bearbeitet">
         <source>Teilnehmer bearbeitet</source>
         <target>__Teilnehmer bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="EfHbtoc" resname="Jitsi Konferenz">
+        <source>Jitsi Konferenz</source>
+        <target>__Jitsi Konferenz</target>
+      </trans-unit>
+      <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
+        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
+        <target>__Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
+        <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
+        <target>__Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </target>
+      </trans-unit>
+      <trans-unit id="eAtU_Qv" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}</source>
+        <target>__Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}</target>
+      </trans-unit>
+      <trans-unit id="8OKAPr6" resname="Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.">
+        <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
+        <target>__Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</target>
+      </trans-unit>
+      <trans-unit id="EqOZUo3" resname="Sie wurden zu einem Jitsi Meet Server hinzugefügt">
+        <source>Sie wurden zu einem Jitsi Meet Server hinzugefügt</source>
+        <target>__Sie wurden zu einem Jitsi Meet Server hinzugefügt</target>
+      </trans-unit>
+      <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
+        <source>Neue Einladung zu einer Videokonferenz</source>
+        <target>__Neue Einladung zu einer Videokonferenz</target>
+      </trans-unit>
+      <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
+        <source>Videokonferenz wurde bearbeitet</source>
+        <target>__Videokonferenz wurde bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
+        <source>Videokonferenz abgesagt</source>
+        <target>__Videokonferenz abgesagt</target>
+      </trans-unit>
+      <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
+        <source>Videokonferenz {room} startet gleich</source>
+        <target>__Videokonferenz {room} startet gleich</target>
+      </trans-unit>
+      <trans-unit id="dIC9IrN" resname="Zugangsdaten in das Formular eingeben">
+        <source>Zugangsdaten in das Formular eingeben</source>
+        <target>__Zugangsdaten in das Formular eingeben</target>
+      </trans-unit>
+      <trans-unit id="G2uTOjB" resname="Konferenz nicht gefunden. Zugangsdaten erneut eingeben">
+        <source>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</source>
+        <target>__Konferenz nicht gefunden. Zugangsdaten erneut eingeben</target>
+      </trans-unit>
+      <trans-unit id="yqiRTY7" resname="Jitsi Meet Server bearbeiten">
+        <source>Jitsi Meet Server bearbeiten</source>
+        <target>__Jitsi Meet Server bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="J4CdvJu" resname="Jitsi Meet Server erstellen">
+        <source>Jitsi Meet Server erstellen</source>
+        <target>__Jitsi Meet Server erstellen</target>
+      </trans-unit>
+      <trans-unit id="hpwhjtz" resname="Organisator zu Server hinzufügen">
+        <source>Organisator zu Server hinzufügen</source>
+        <target>__Organisator zu Server hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="kaqu5DF" resname="Berechtigung gelöscht">
+        <source>Berechtigung gelöscht</source>
+        <target>__Berechtigung gelöscht</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -79,7 +175,7 @@
       </trans-unit>
       <trans-unit id="o66NgUz" resname="Eine Konferenz planen">
         <source>Eine Konferenz planen</source>
-        <target>__Eine Konferenz planen(Englisch)</target>
+        <target>__Eine Konferenz planen</target>
       </trans-unit>
       <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
@@ -104,6 +200,10 @@
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
         <target>__Aktuell sind keine vergangenen Konferenzen vorhanden.</target>
+      </trans-unit>
+      <trans-unit id="J8UTl5w" resname="name: {n}">
+        <source>name: {n}</source>
+        <target>__name: {n}</target>
       </trans-unit>
       <trans-unit id="QVc9ywt" resname="Teilnehmer">
         <source>Teilnehmer</source>
@@ -169,33 +269,55 @@
         <source>Hallo!</source>
         <target>__Hallo!</target>
       </trans-unit>
-      <trans-unit id="ipBpXTW" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server %url% eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server %url% eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target>__Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server %url% eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+      <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
+        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target>__Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+      </trans-unit>
+      <trans-unit id="vSEEZJ3" resname="Sie wollen selber eine Videokonferenz &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                        in einer Übersicht verwalten?&lt;br&gt;&#10;                        Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                        an.">
+        <source>Sie wollen selber eine Videokonferenz &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel
+                        in einer Übersicht verwalten?&lt;br&gt;
+                        Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
+                        an.</source>
+        <target><![CDATA[__Sie wollen selber eine Videokonferenz <b>kostenlos</b> planen oder diese Konferenz komfortabel
+                        in einer Übersicht verwalten?<br>
+                        Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
+                        an.]]></target>
+      </trans-unit>
+      <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
+        <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
+        <target>__Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</target>
+      </trans-unit>
+      <trans-unit id="UVkFezv" resname="Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.">
+        <source>Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</source>
+        <target>__Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</target>
+      </trans-unit>
+      <trans-unit id="WRvGHxL" resname="Diese Mail wurde Ihnen gesendet im Auftrag von:">
+        <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
+        <target>__Diese Mail wurde Ihnen gesendet im Auftrag von:</target>
+      </trans-unit>
+      <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
+        <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
+        <target>__Powered by Jitsi Manager, die Open Source Jitsi Planer Software</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
         <target>__Videokonferenz bearbeitet</target>
       </trans-unit>
-      <trans-unit id="Nm42HPu" resname="Die Veranstaltung %name% wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Die Veranstaltung %name% wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target>__Die Veranstaltung %name% wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+      <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
+        <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target>__Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
       </trans-unit>
       <trans-unit id="F8UXAUj" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
         <target>__Erinnerung zur Videokonferenz</target>
       </trans-unit>
-      <trans-unit id="NyaUs0j" resname="Die Videokonferenz auf dem Server %url% startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Die Videokonferenz auf dem Server %url% startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target>__Die Videokonferenz auf dem Server %url% startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+      <trans-unit id="rFiFMV5" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
+        <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target>__Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
       </trans-unit>
-      <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
-        <source>Videokonferenz abgesagt</source>
-        <target>__Videokonferenz abgesagt</target>
-      </trans-unit>
-      <trans-unit id="nC6A2ZB" resname="Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.">
-        <source>Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
-        <target>__Die Veranstaltung %name% wurde abgesagt und kann aus dem Kalender entfernt werden.</target>
+      <trans-unit id="nIeMrFU" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
+        <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
+        <target>__Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</target>
       </trans-unit>
       <trans-unit id="kTWILTI" resname="Datum">
         <source>Datum</source>
@@ -213,9 +335,9 @@
         <source>Minuten</source>
         <target>__Minuten</target>
       </trans-unit>
-      <trans-unit id="QFcLdIx" resname="Sie können jetzt Konferenzen mit dem Jitsi Server %url% erstellen">
-        <source>Sie können jetzt Konferenzen mit dem Jitsi Server %url% erstellen</source>
-        <target>__Sie können jetzt Konferenzen mit dem Jitsi Server %url% erstellen</target>
+      <trans-unit id="pGKhwYj" resname="Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen">
+        <source>Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</source>
+        <target>__Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</target>
       </trans-unit>
       <trans-unit id="TUr.7W8" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
@@ -231,13 +353,13 @@
         <source>Server Administrator</source>
         <target>__Server Administrator</target>
       </trans-unit>
-      <trans-unit id="ai4uDGU" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:">
-        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:</source>
-        <target>__Folgende Daten benötigen Sie um der Konferenz beizutreten:</target>
-      </trans-unit>
-      <trans-unit id="yGe9T0X" resname="Ihre Email Adresse: %email%&lt;br&gt;Konferenz ID: %uid%">
-        <source>Ihre Email Adresse: %email%&lt;br&gt;Konferenz ID: %uid%</source>
-        <target><![CDATA[__Ihre Email Adresse: %email%<br>Konferenz ID: %uid%]]></target>
+      <trans-unit id="_sBlp93" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;            Ihre Email Adresse: {email}&lt;br&gt;&#10;            Konferenz ID: {uid}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
+            Ihre Email Adresse: {email}&lt;br&gt;
+            Konferenz ID: {uid}</source>
+        <target><![CDATA[__Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
+            Ihre Email Adresse: {email}<br>
+            Konferenz ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
@@ -263,6 +385,10 @@
         <source>Abbrechen</source>
         <target>__Abbrechen</target>
       </trans-unit>
+      <trans-unit id=".aAKnji" resname="Server ID und Secret anzeigen">
+        <source>Server ID und Secret anzeigen</source>
+        <target>__Server ID und Secret anzeigen</target>
+      </trans-unit>
       <trans-unit id="FeBsXaJ" resname="Jitsi Meet Servereinstellungen">
         <source>Jitsi Meet Servereinstellungen</source>
         <target>__Jitsi Meet Servereinstellungen</target>
@@ -274,66 +400,6 @@
       <trans-unit id="Qz_pA9e" resname="Organisatoren">
         <source>Organisatoren</source>
         <target>__Organisatoren</target>
-      </trans-unit>
-      <trans-unit id=".aAKnji" resname="Server ID und Secret anzeigen">
-        <source>Server ID und Secret anzeigen</source>
-        <target>__Server ID und Secret anzeigen</target>
-      </trans-unit>
-      <trans-unit id="XCUHFQy" resname="Konferenz erfolgreich bearbeitet">
-        <source>Konferenz erfolgreich bearbeitet</source>
-        <target>__Konferenz erfolgreich bearbeitet</target>
-      </trans-unit>
-      <trans-unit id="I3TJoB4" resname="Konferenz bearbeiten">
-        <source>Konferenz bearbeiten</source>
-        <target>__Konferenz bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="bJSm8Ow" resname="Konferenz erfolgreich erstellt">
-        <source>Konferenz erfolgreich erstellt</source>
-        <target>__Konferenz erfolgreich erstellt</target>
-      </trans-unit>
-      <trans-unit id="bwGkw_c" resname="Neue Konferenz erstellen">
-        <source>Neue Konferenz erstellen</source>
-        <target>__Neue Konferenz erstellen</target>
-      </trans-unit>
-      <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
-        <source>Teilnehmer wurden eingeladen</source>
-        <target>__Teilnehmer wurden eingeladen</target>
-      </trans-unit>
-      <trans-unit id="AlHrbaY" resname="Einige Teilnehmer eingeladen. %emails% ist/sind nicht korrekt und können nicht eingeladen werden">
-        <source>Einige Teilnehmer eingeladen. %emails% ist/sind nicht korrekt und können nicht eingeladen werden</source>
-        <target>__Einige Teilnehmer eingeladen. %emails% ist/sind nicht korrekt und können nicht eingeladen werden</target>
-      </trans-unit>
-      <trans-unit id="B5Z0l0H" resname="Teilnehmer verwalten">
-        <source>Teilnehmer verwalten</source>
-        <target>__Teilnehmer verwalten</target>
-      </trans-unit>
-      <trans-unit id="BidGKR8" resname="Teilnehmer gelöscht">
-        <source>Teilnehmer gelöscht</source>
-        <target>__Teilnehmer gelöscht</target>
-      </trans-unit>
-      <trans-unit id="x.c6LLU" resname="Konferenz gelöscht">
-        <source>Konferenz gelöscht</source>
-        <target>__Konferenz gelöscht</target>
-      </trans-unit>
-      <trans-unit id="dIC9IrN" resname="Zugangsdaten in das Formular eingeben">
-        <source>Zugangsdaten in das Formular eingeben</source>
-        <target>__Zugangsdaten in das Formular eingeben</target>
-      </trans-unit>
-      <trans-unit id="yqiRTY7" resname="Jitsi Meet Server bearbeiten">
-        <source>Jitsi Meet Server bearbeiten</source>
-        <target>__Jitsi Meet Server bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="J4CdvJu" resname="Jitsi Meet Server erstellen">
-        <source>Jitsi Meet Server erstellen</source>
-        <target>__Jitsi Meet Server erstellen</target>
-      </trans-unit>
-      <trans-unit id="hpwhjtz" resname="Organisator zu Server hinzufügen">
-        <source>Organisator zu Server hinzufügen</source>
-        <target>__Organisator zu Server hinzufügen</target>
-      </trans-unit>
-      <trans-unit id="kaqu5DF" resname="Berechtigung gelöscht">
-        <source>Berechtigung gelöscht</source>
-        <target>__Berechtigung gelöscht</target>
       </trans-unit>
     </body>
   </file>

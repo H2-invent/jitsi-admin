@@ -12,6 +12,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 
@@ -22,29 +23,32 @@ class UserService
     private $twig;
     private $notificationService;
     private $url;
+    private $translator;
 
-    public function __construct(MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    public function __construct(TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
         $this->twig = $environment;
         $this->notificationService = $notificationService;
         $this->url = $urlGenerator;
+        $this->translator = $translator;
     }
 
-    function generateUrl (Rooms $room, User $user) {
+    function generateUrl(Rooms $room, User $user)
+    {
 
-        $data = base64_encode('uid='.$room->getUid().'&email='.$user->getEmail());
-        $url = $this->url->generate('join_index',['data'=>$data],UrlGeneratorInterface::ABSOLUTE_URL);
+        $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
+        $url = $this->url->generate('join_index', ['data' => $data], UrlGeneratorInterface::ABSOLUTE_URL);
         return $url;
     }
 
     function addUser(User $user, Rooms $room)
     {
-        $url = $this->generateUrl($room,$user);
-        $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
-        $subject = 'Neue Einladung zu einer Videokonferenz';
-        $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
+        $url = $this->generateUrl($room, $user);
+        $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
+        $subject = $this->translator->trans('Neue Einladung zu einer Videokonferenz');
+        $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
         $this->notificationService->sendNotification($content, $subject, $user, $attachement);
 
@@ -53,10 +57,10 @@ class UserService
 
     function editRoom(User $user, Rooms $room)
     {
-        $url = $this->generateUrl($room,$user);
-        $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
-        $subject = 'Videokonferenz wurde bearbeitet';
-        $ics = $this->notificationService->createIcs($room,$user,$url,'REQUEST');
+        $url = $this->generateUrl($room, $user);
+        $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
+        $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');
+        $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
         $this->notificationService->sendNotification($content, $subject, $user, $attachement);
 
@@ -65,10 +69,10 @@ class UserService
 
     function removeRoom(User $user, Rooms $room)
     {
-        $url = $this->generateUrl($room,$user);
+        $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room]);
-        $subject = 'Videokonferenz abgesagt';
-        $ics = $this->notificationService->createIcs($room,$user,$url,'CANCEL');
+        $subject = $this->translator->trans('Videokonferenz abgesagt');
+        $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
         $this->notificationService->sendNotification($content, $subject, $user, $attachement);
 
@@ -77,10 +81,10 @@ class UserService
 
     function notifyUser(User $user, Rooms $room)
     {
-        $url = $this->generateUrl($room,$user);
-        $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url'=>$url]);
-        $subject = 'Videokonferenz ' . $room->getName() . ' startet gleich';
-        $this->notificationService->sendCron($content, $subject, $user, $room);
+        $url = $this->generateUrl($room, $user);
+        $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
+        $subject = $this->translator->trans('Videokonferenz {room} startet gleich',array('{room}'=>$room->getName()));
+        $this->notificationService->sendCron($content, $subject, $user);
 
         return true;
     }

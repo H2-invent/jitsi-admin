@@ -11,7 +11,7 @@
         {{'Hallo!'|trans}}
     </b>
     <p>
-      {% trans with {'%name%': room.name} %}  Die Veranstaltung %name% wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.{% endtrans %}
+      {% trans with {'{name}': room.name} %}  Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.{% endtrans %}
     </p>
     {% include 'email/__roomInfo.html.twig' %}
 

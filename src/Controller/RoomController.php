@@ -120,7 +120,7 @@ class RoomController extends AbstractController
                     } else {
                         $falseEmail[] = $newMember;
                         $emails = implode(", ", $falseEmail);
-                        $snack = $this->translator->trans("Einige Teilnehmer eingeladen. %emails% ist/sind nicht korrekt und können nicht eingeladen werden",array('%emails%'=>$emails));
+                        $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden",array('{emails}'=>$emails));
                     }
 
                 }

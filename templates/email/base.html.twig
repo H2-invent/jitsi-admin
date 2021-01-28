@@ -44,10 +44,11 @@
                 <spacer size="16"></spacer>
                 <center>
                     <p style="text-align: center">
-                        {{'Sie wollen selber eine Videokonferenz <b>kostenlos</b> planen oder diese Konferenz komfortabel
+                        {% trans with {'{url}':absolute_url(path('dashboard'))} %}Sie wollen selber eine Videokonferenz <b>kostenlos</b> planen oder diese Konferenz komfortabel
                         in einer Übersicht verwalten?<br>
-                        Dann melden Sie sich'|trans}} <a href="{{ absolute_url(path('dashboard'))}}">{{ 'hier'|trans }}</a>&nbsp;<b>{{ 'kostenlos'|trans }}</b>
-                        {{ 'an.'|trans }}
+                        Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
+                        an.
+                        {% endtrans %}
                      </p>
                 </center>
                 <spacer size="16"></spacer>
@@ -62,7 +63,7 @@
                 <p style="text-align: center">
                     <a href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }}</a><br>
                     {% if room is defined %}
-                        {% trans %}{{ 'Diese Mail wurde Ihnen gesendet im Auftrag von:'|trans }}{% endtrans %}<br>
+                        {% trans %}Diese Mail wurde Ihnen gesendet im Auftrag von:{% endtrans %}<br>
                         {{ room.name }} - {{ room.moderator.firstName }} {{ room.moderator.lastName }}
                     {% endif %}
                 </p>
