@@ -9,6 +9,7 @@
 namespace App\Service;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -65,15 +66,14 @@ class NotificationService
         return $this->ics->toString();
     }
 
-    function sendNotification($content, $subject, User $user, $attachement = array())
+    function sendNotification($content, $subject, User $user, Server $server, $attachement = array())
     {
 
         $this->mailer->sendEmail(
-            $this->parameterBag->get('registerEmailName'),
-            $this->parameterBag->get('defaultEmail'),
             $user->getEmail(),
             $subject,
             $content,
+            $server,
             $attachement
         );
 
@@ -82,14 +82,13 @@ class NotificationService
     }
 
 
-    function sendCron($content, $subject, User $user)
+    function sendCron($content, $subject, User $user, Server $server)
     {
         $this->mailer->sendEmail(
-            $this->parameterBag->get('registerEmailName'),
-            $this->parameterBag->get('defaultEmail'),
             $user->getEmail(),
             $subject,
-            $content
+            $content,
+            $server
         );
 
         return true;

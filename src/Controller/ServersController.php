@@ -25,7 +25,7 @@ class ServersController extends AbstractController
     /**
      * @Route("/server/add", name="servers_add")
      */
-    public function serverAdd(Request $request, ValidatorInterface $validator, TranslatorInterface $translator)
+    public function serverAdd(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator)
     {
         if ($request->get('id')) {
             $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id'=>$request->get('id')));
@@ -53,6 +53,10 @@ class ServersController extends AbstractController
             $errors = $validator->validate($server);
             if (count($errors) == 0) {
                 $em = $this->getDoctrine()->getManager();
+                if (!$server->getSlug()) {
+                    $slug = $serverService->makeSlug($server->getUrl());
+                    $server->setSlug($slug);
+                }
                 $em->persist($server);
                 $em->flush();
                 return $this->redirectToRoute('dashboard');
@@ -111,7 +115,7 @@ class ServersController extends AbstractController
 
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
-        $snack = 'Keine Berechtigung';
+        $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser() || $user === $this->getUser()) {
             $server->removeUser($user);
             $em = $this->getDoctrine()->getManager();

@@ -39,7 +39,7 @@ class UserService
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->url->generate('join_index', ['data' => $data], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
         return $url;
     }
 
@@ -50,7 +50,7 @@ class UserService
         $subject = $this->translator->trans('Neue Einladung zu einer Videokonferenz');
         $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
 
         return true;
     }
@@ -62,7 +62,7 @@ class UserService
         $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');
         $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
 
         return true;
     }
@@ -74,7 +74,7 @@ class UserService
         $subject = $this->translator->trans('Videokonferenz abgesagt');
         $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
 
         return true;
     }
@@ -83,8 +83,8 @@ class UserService
     {
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('Videokonferenz {room} startet gleich',array('{room}'=>$room->getName()));
-        $this->notificationService->sendCron($content, $subject, $user);
+        $subject = $this->translator->trans('Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
+        $this->notificationService->sendCron($content, $subject, $user, $room->getServer());
 
         return true;
     }
