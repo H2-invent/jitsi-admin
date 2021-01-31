@@ -26,6 +26,7 @@
                                 {% if server.administrator == app.user %}
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent"><i class="fa fa-edit"></i></a>
+                                    <br>
                                     <a href="{{ path('server_add_user',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Organisatoren'|trans }}</a>
                                 {% else %}
