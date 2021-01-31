@@ -13,7 +13,7 @@
 
                 </div>
                 <div class="col-md-6">
-                    <h1 class="h1-responsive text-center">{% trans %}Konferenz beitreten{% endtrans %}</h1>
+                    <h1 class="h1-responsive text-center">{{ 'Konferenz beitreten'|trans }}</h1>
                 </div>
             </div>
 
@@ -24,7 +24,7 @@
 
                 <div class="offset-md-2 col-md-8">
                     <p>
-                        {% trans %}Füllen Sie das Formular aus um der Konferenz beizutreten{% endtrans %}
+                        {{ 'Füllen Sie das Formular aus um der Konferenz beizutreten'|trans }}
                     </p>
 
                     {{ form_start(form) }}
@@ -72,10 +72,10 @@
             {% endif %}
         </div>
         <div class="card-footer text-center">
-            <a href="{{ path('index') }}" class="btn btn-outline-danger btn-sm">Startseite</a>
-            <a href="{{ path('dashboard') }}" class="btn btn-outline-elegant btn-sm">Dashboard</a>
-            <a href="{{ path('register_keycloak') }}" class="btn btn-outline-cyan btn-sm">Registrieren</a>
-            <a href="{{ helpUrl }}" class="btn btn-outline-amber btn-sm">Hilfe</a>
+            <a href="{{ path('index') }}" class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
+            <a href="{{ path('dashboard') }}" class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
+            <a href="{{ path('register_keycloak') }}" class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
+            <a href="{{ helpUrl }}" class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
         </div>
     </div>
     {{ include('base/__snack.html.twig') }}
