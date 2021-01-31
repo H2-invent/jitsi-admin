@@ -21,9 +21,11 @@
             <div class="text-center">
             </div>
             <div class="row mb-5">
-
-                <div class="offset-md-2 col-md-8">
-                    <p>
+                <div class="col-md-1 text-center text-md-left">
+                    {{ include('base/__localsChange.html.twig') }}
+                </div>
+                <div class="offset-md-1 col-md-8">
+                    <p class="text-center text-md-left">
                         {{ 'Füllen Sie das Formular aus um der Konferenz beizutreten'|trans }}
                     </p>
 
@@ -36,17 +38,26 @@
                             <input type="checkbox" id="dsgvo" name="dsgvo" required>
                         </div>
                         <div class="col-10 col-md-11">
-                            <label class="required" for="dsgvo">{{ 'Ich habe die'|trans }}
-                                <a href="{{ dataPrivacy }}" target="_blank" referrerpolicy="no-referrer"><u>{{ 'Datenschutzhinweise
-                                        von Jitsi Admin'|trans }}</u> <i class="fa fa-external-link-alt"></i></a>
+                            <label class="required" for="dsgvo">
+                                {% trans with {'{dataPrivay}': dataPrivacy} %}
+                                    Ich habe die
+                                    <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>
+                                            Datenschutzhinweise von Jitsi Admin</u> <i
+                                                class="fa fa-external-link-alt"></i>
+                                    </a>
+                                {% endtrans %}
+
                                 {% if server and server.privacyPolicy %}
-                                {{ 'und die'|trans }}
-                                    <a href="{{ server.privacyPolicy }}" target="_blank"
-                                       referrerpolicy="no-referrer"><u>{% trans with {'{url}': server.url} %}Datenschutzhinweise von {url}{% endtrans %}</u>
-                                        <i
-                                                class="fa fa-external-link-alt"></i> </a>
+                                    {% trans with {'{url}': server.url} %}
+                                        und die <a href="{url}" target="_blank"
+                                                   referrerpolicy="no-referrer"><u>Datenschutzhinweise von {url}</u>
+                                        <i class="fa fa-external-link-alt"></i> </a>
+                                    {% endtrans %}
                                 {% endif %}
-                                {{ 'gelesen und verstanden.'|trans }}
+
+                                {% trans %}
+                                    gelesen und akzeptiere die Verarbeitung.
+                                {% endtrans %}
                             </label><br>
 
                             <p style="font-size: 10px">
