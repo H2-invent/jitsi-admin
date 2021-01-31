@@ -455,6 +455,42 @@
         <source>Organisatoren</source>
         <target>__Organisatoren</target>
       </trans-unit>
+      <trans-unit id="_qd1qEq" resname="Ich habe die&#10;                                    &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;u&gt;&#10;                                            Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i&#10;                                                class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                    &lt;/a&gt;">
+        <source>Ich habe die
+                                    &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;&lt;u&gt;
+                                            Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i
+                                                class="fa fa-external-link-alt"&gt;&lt;/i&gt;
+                                    &lt;/a&gt;</source>
+        <target><![CDATA[__Ich habe die
+                                    <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>
+                                            Datenschutzhinweise von Jitsi Admin</u> <i
+                                                class="fa fa-external-link-alt"></i>
+                                    </a>]]></target>
+      </trans-unit>
+      <trans-unit id="U5rNTv5" resname="und die &lt;a href=&quot;{url}&quot; target=&quot;_blank&quot;&#10;                                                   referrerpolicy=&quot;no-referrer&quot;&gt;&lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&#10;                                        &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt; &lt;/a&gt;">
+        <source>und die &lt;a href="{url}" target="_blank"
+                                                   referrerpolicy="no-referrer"&gt;&lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;
+                                        &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;</source>
+        <target><![CDATA[__und die <a href="{url}" target="_blank"
+                                                   referrerpolicy="no-referrer"><u>Datenschutzhinweise von {url}</u>
+                                        <i class="fa fa-external-link-alt"></i> </a>]]></target>
+      </trans-unit>
+      <trans-unit id="_HMUQXB" resname="gelesen und akzeptiere die Verarbeitung.">
+        <source>gelesen und akzeptiere die Verarbeitung.</source>
+        <target>__gelesen und akzeptiere die Verarbeitung.</target>
+      </trans-unit>
+      <trans-unit id="pn6jGR9" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                    auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                    dem Formular an den Jitsi Meet Server weiter.">
+        <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
+                                    auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                                    dem Formular an den Jitsi Meet Server weiter.</source>
+        <target>__Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
+                                    auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                                    dem Formular an den Jitsi Meet Server weiter.</target>
+      </trans-unit>
+      <trans-unit id="FHI1Mn9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.">
+        <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
+        <target>__Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

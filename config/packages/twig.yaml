@@ -10,6 +10,7 @@ twig:
         imprint: '%env(imprint)%'
         dataPrivacy: '%env(dataPrivacy)%'
         helpUrl: '%env(helpUrl)%'
+        helpUrlParticipants: '%env(helpUrlParticipants)%'
         laf_version: '%env(laF_version)%'
         matomo_enable: '%env(matomo_enable)%'
         matomo_id: '%env(matomo_id)%'
