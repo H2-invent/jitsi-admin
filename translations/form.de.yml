@@ -34,6 +34,7 @@ label:
   serverSmtpSenderEmail: Absender Email
   serverSmtpSenderName: Absender Name
   serverLintLogo: Link zu Logo
+  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

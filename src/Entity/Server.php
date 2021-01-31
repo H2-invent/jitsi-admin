@@ -95,6 +95,11 @@ class Server
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $privacyPolicy;
+
 
     public function __construct()
     {
@@ -313,6 +318,18 @@ class Server
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getPrivacyPolicy(): ?string
+    {
+        return $this->privacyPolicy;
+    }
+
+    public function setPrivacyPolicy(?string $privacyPolicy): self
+    {
+        $this->privacyPolicy = $privacyPolicy;
 
         return $this;
     }

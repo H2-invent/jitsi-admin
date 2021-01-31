@@ -64,7 +64,7 @@
                     <a href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }}</a><br>
                     {% if room is defined %}
                         {% trans %}Diese Mail wurde Ihnen gesendet im Auftrag von:{% endtrans %}<br>
-                        {{ room.name }} - {{ room.moderator.firstName }} {{ room.moderator.lastName }}
+                        {{ room.moderator.firstName }} {{ room.moderator.lastName }}
                     {% endif %}
                 </p>
 

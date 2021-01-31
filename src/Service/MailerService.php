@@ -67,12 +67,16 @@ class MailerService
         foreach ($attachment as $data) {
             $message->attach(new \Swift_Attachment($data['body'], $data['filename'], $data['type']));
         };
-        if ($server->getSmtpHost()) {
-            if ($this->kernel->getEnvironment() === 'dev'){
-               $message->setTo($this->parameter->get('delivery_addresses'));
+        try {
+            if ($server->getSmtpHost()) {
+                if ($this->kernel->getEnvironment() === 'dev'){
+                    $message->setTo($this->parameter->get('delivery_addresses'));
+                }
+                $this->sendViaCustomSmtp($server)->send($message);
+            }else {
+                $this->swift->send($message);
             }
-            $this->sendViaCustomSmtp($server)->send($message);
-        }else {
+        }catch (\Exception $e) {
             $this->swift->send($message);
         }
     }
