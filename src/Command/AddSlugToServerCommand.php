@@ -44,10 +44,11 @@ class AddSlugToServerCommand extends Command
                     $data->setSlug($slug);
                     $this->em->persist($data);
                     $io->writeln($slug);
+                    $this->em->flush();
             }
         }
 
-        $this->em->flush();
+
         $io->success('We transformed '.$counter.' Servers');
 
         return Command::SUCCESS;
