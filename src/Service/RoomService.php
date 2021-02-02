@@ -42,8 +42,10 @@ class RoomService
         } else {
             $moderator = false;
         }
-
-        $jitsi_server_url = $type . $room->getServer()->getUrl();
+        $serverUrl = $room->getServer()->getUrl();
+        $serverUrl = str_replace('https://','',$serverUrl);
+        $serverUrl = str_replace('http://','',$serverUrl);
+        $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
 
         $payload = array(

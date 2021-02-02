@@ -14,9 +14,11 @@ parameters:
     KEYCLOAK_SECRETE: '%env(OAUTH_KEYCLOAK_CLIENT_SECRET)%'
     KEYCLOAK_ID: '%env(OAUTH_KEYCLOAK_CLIENT_ID)%'
     registerEmailName: '%env(registerEmailName)%'
+    registerEmailAdress: '%env(registerEmailAdress)%'
     default_jitsi_server_id: '%env(default_jitsi_server_id)%'
     laF_startpage: '%env(laF_startpage)%'
     laF_onlyRegisteredParticipents: '%env(laF_onlyRegisteredParticipents)%'
+    delivery_addresses: ['%env(DEV_EMAIL)%']
 
 services:
     # default configuration for services in *this* file

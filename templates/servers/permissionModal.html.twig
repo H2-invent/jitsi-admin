@@ -8,7 +8,7 @@
         <div class="modal-body">
             <ul>
                 {% for user in users %}
-                    <li>{{ user.email }} <a class="confirmHref" href="{{ path('server_user_remove',{'id':server.id,'user':user.id}) }}">(Entfernen)</a></li>
+                    <li>{{ user.email }} <a class="confirmHref" href="{{ path('server_user_remove',{'id':server.id,'user':user.id}) }}"> <i class="fa fa-trash"></i></a></li>
                 {% endfor %}
             </ul>
 

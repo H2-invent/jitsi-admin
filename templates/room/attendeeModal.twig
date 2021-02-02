@@ -6,13 +6,13 @@
 
         </div>
         <div class="modal-body">
-            <p>Teilnehmerliste</p>
+            <p>{{ 'Teilnehmerliste'|trans }}</p>
             <ul>
-                <li>{{ room.moderator.email }} <span class="small">(Organisator)</span></li>
+                <li>{{ room.moderator.email }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                 {% for user in room.user %}
                     {% if user != room.moderator %}
                         <li>{{ user.email }} <a class="small confirmHref"
-                                                href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}">(Entfernen)</a>
+                                                href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"><i class="fa fa-trash"></i> </a>
                         </li>
                     {% endif %}
                 {% endfor %}

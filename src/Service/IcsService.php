@@ -134,13 +134,16 @@ public function __construct()
     {
         switch ($key) {
             case 'dtend':
+                break;
             case 'dtstamp':
                 $val = $this->formatTimestamp($val);
+                break;
             case 'dtstart':
                 $val = $this->formatTimestamp($val);
                 break;
             default:
                 $val = $this->escape_string($val);
+                break;
         }
         return $val;
     }

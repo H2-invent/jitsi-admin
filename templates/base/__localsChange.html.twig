@@ -1,0 +1,19 @@
+<div class="dropdown">
+    <a class="ml-auto mr-2 dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown"
+       aria-haspopup="true" aria-expanded="false">
+        <img src="{{ asset('images/') }}locale/{{ app.request.locale }}.png" class="iconSytle">
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: unset;">
+        <a class="dropdown-item"
+           href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}"><img
+                    src="{{ asset('images/locale/de.png') }}" alt="Deutsch"
+                    class="iconSytle"></a>
+        <a class="dropdown-item"
+           href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'en'})) }}"><img
+                    src="{{ asset('images/locale/en.png') }}" alt="English"
+                    class="iconSytle"></a>
+        <a class="dropdown-item"
+           href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'fr'})) }}"><img
+                    src="{{ asset('images/locale/fr.png') }}" alt="Francais" class="iconSytle"></a>
+    </div>
+</div>

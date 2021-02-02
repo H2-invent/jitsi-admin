@@ -1,0 +1,41 @@
+label.konferenzId: __Konferenz ID
+label.email: __Email Adresse
+label.name: __Name
+label.beitreten: __Beitreten
+label.teilnehmerEmailhinzufuegen: __E-Mail Adresse von neuen Teilnehmern eingeben
+label.teilnehmerSpeichern: __Teilnehmer Hinzufügen
+label.emailModerator: __E-Mail Adresse des Organisators eingeben
+help.emailTextfeld: __Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.
+label.organisatorhinzufuegen: __Organisator Hinzufügen
+label.serverKonferenz: __Jitsi Meet Server
+label.konferenzName: __Name der Konferenz
+label.start: __Start
+label.dauerKonferenz: __Dauer der Konferenz
+label.nurRegistriertenutzer: __Nur registrierte Benutzer dürfen der Konferenz beitreten
+label.speichern: __Speichern
+option.15min: __15 Minuten
+option.30min: __30 Minuten
+option.45min: __45 Minuten
+option.60min: __1 Stunde
+option.90min: __1,5 Stunden
+option.120min: __2 Stunden
+option.240min: __4 Stunden
+option.480min: __8 Stunden
+lable.serverUrl: __Jitsi Meet Server URL
+label.appId: __App ID
+label.appSecret: __App Secret
+help.serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)
+label:
+  serverSmtpHostName: SMTP Hostname
+  serverSmtpHostPort:  SMTP Port
+  serverSmtpEncryption:  Encryption
+  serverSmtpUsername: SMTP Benutzername
+  serverSmtpPasswordSMTP: SMTP Passwort
+  serverSmtpSenderEmail: Absender Email
+  serverSmtpSenderName: Absender Name
+  serverLintLogo: Link zu Logo
+  serverPrivacyPolicy: Privacy notice for this server
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: No

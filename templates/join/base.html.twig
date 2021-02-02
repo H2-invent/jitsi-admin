@@ -3,9 +3,9 @@
 
 {{ include('base/__head.html.twig') }}
 
-<body>
+<body style="background-color: #C9C9C9">
 {% block back %}{% endblock %}
-<div style="background-image: url('{{ asset('images/bg-join.jpg') }}'); background-size: cover; min-height: 100vh">
+<div >
     <div class="container">
         <div class="pt-5">
             {% block content %}{% endblock %}
@@ -17,7 +17,7 @@
                                 src="{{ asset('logo.png') }}" style="height: 50px"></a>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{ dataPrivacy }}" target="_blank" class="small">Datenschutzhinweis</a><br>
+                    <a href="{{ dataPrivacy }}" target="_blank" class="small">{{ 'Datenschutzhinweis'|trans }}</a><br>
                     <a href="https://jitsi-admin.de" target="_blank" class="small">Powered by Jitsi Admin</a><br>
                     {% if matomo_enable == 'true' %}
                     <a class="small" href="#" data-toggle="modal" data-target="#exampleModal">

@@ -21,10 +21,10 @@ class JoinViewType extends AbstractType
     {
 
         $builder
-            ->add('uid', TextType::class, ['label' => 'Konferenz ID', 'required' => true, 'translation_domain' => 'form'])
-            ->add('email', TextType::class, ['label' => 'Email Adresse', 'required' => true, 'translation_domain' => 'form'])
-            ->add('name', TextType::class, ['label' => 'Name', 'required' => true, 'translation_domain' => 'form'])
-            ->add('save', SubmitType::class, ['attr' => array('class' => 'btn btn-primary btn-block mt-3'), 'label' => 'Beitreten', 'translation_domain' => 'form']);
+            ->add('uid', TextType::class, ['label' => 'label.konferenzId', 'required' => true, 'translation_domain' => 'form'])
+            ->add('email', TextType::class, ['label' => 'label.email', 'required' => true, 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['label' => 'label.name', 'required' => true, 'translation_domain' => 'form'])
+            ->add('save', SubmitType::class, ['attr' => array('class' => 'btn btn-primary btn-block mt-3'), 'label' => 'label.beitreten', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

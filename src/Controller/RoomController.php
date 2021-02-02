@@ -20,19 +20,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomController extends AbstractController
 {
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(Request $request, UserService $userService,TranslatorInterface $translator)
+    public function newRoom(Request $request, UserService $userService, TranslatorInterface $translator)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if ($room->getModerator() !== $this->getUser()) {
-                return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+                return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Keine Berechtigung')]);
             }
-            $snack = 'Konferenz erfolgreich bearbeitet';
-            $title = 'Konferenz bearbeiten';
+            $snack = $translator->trans('Konferenz erfolgreich bearbeitet');
+            $title = $translator->trans('Konferenz bearbeiten');
             $sequence = $room->getSequence() + 1;
             $room->setSequence($sequence);
         } else {
@@ -43,8 +49,8 @@ class RoomController extends AbstractController
             $room->setModerator($this->getUser());
             $room->setSequence(0);
             $room->setUidReal(md5(uniqid('h2-invent', true)));
-            $snack = 'Konferenz erfolgreich erstellt';
-            $title = 'Neue Konferenz erstellen';
+            $snack = $translator->trans('Konferenz erfolgreich erstellt');
+            $title = $translator->trans('Neue Konferenz erstellen');
         }
         $servers = $this->getUser()->getServers()->toarray();
         $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
@@ -57,23 +63,23 @@ class RoomController extends AbstractController
             $form->handleRequest($request);
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard',array('snack' => $snack,'color'=>'danger'));
+            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
         }
         if ($form->isSubmitted() && $form->isValid()) {
 
-                $room = $form->getData();
-                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($room);
-                $em->flush();
-                if ($request->get('id')) {
-                    foreach ($room->getUser() as $user) {
-                        $userService->editRoom($user, $room);
-                    }
-                } else {
-                    $userService->addUser($room->getModerator(), $room);
+            $room = $form->getData();
+            $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($room);
+            $em->flush();
+            if ($request->get('id')) {
+                foreach ($room->getUser() as $user) {
+                    $userService->editRoom($user, $room);
                 }
-                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+            } else {
+                $userService->addUser($room->getModerator(), $room);
+            }
+            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
 
 
         }
@@ -109,12 +115,12 @@ class RoomController extends AbstractController
                         $user->addRoom($room);
                         $user->addAddressbookInverse($room->getModerator());
                         $em->persist($user);
-                        $snack = "Teilnehmer wurden eingeladen";
+                        $snack = $this->translator->trans("Teilnehmer wurden eingeladen");
                         $userService->addUser($user, $room);
                     } else {
                         $falseEmail[] = $newMember;
                         $emails = implode(", ", $falseEmail);
-                        $snack = "Einige Teilnehmer eingeladen. $emails ist/sind nicht korrekt und können nicht eingeladen werden";
+                        $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden",array('{emails}'=>$emails));
                     }
 
                 }
@@ -122,7 +128,7 @@ class RoomController extends AbstractController
                 return $this->redirectToRoute('dashboard', ['snack' => $snack]);
             }
         }
-        $title = 'Teilnehmer verwalten';
+        $title = $this->translator->trans('Teilnehmer verwalten');
 
         return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room' => $room));
     }
@@ -158,7 +164,7 @@ class RoomController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
             $em->flush();
-            $snack = 'Teilnehmer gelöscht';
+            $snack = $this->translator->trans('Teilnehmer gelöscht');
             $userService->removeRoom($user, $room);
         }
 
@@ -184,7 +190,7 @@ class RoomController extends AbstractController
             $room->setModerator(null);
             $em->persist($room);
             $em->flush();
-            $snack = 'Konferenz gelöscht';
+            $snack = $this->translator->trans('Konferenz gelöscht');
         }
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }

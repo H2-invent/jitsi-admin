@@ -50,6 +50,56 @@ class Server
      */
     private $administrator;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $logoUrl;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $smtpHost;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $smtpPort;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $smtpPassword;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $smtpUsername;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $smtpEncryption;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $smtpEmail;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $smtpSenderName;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $privacyPolicy;
+
 
     public function __construct()
     {
@@ -163,5 +213,126 @@ class Server
 
         return $this;
     }
-    
+
+    public function getLogoUrl(): ?string
+    {
+        return $this->logoUrl;
+    }
+
+    public function setLogoUrl(?string $logoUrl): self
+    {
+        $this->logoUrl = $logoUrl;
+
+        return $this;
+    }
+
+    public function getSmtpHost(): ?string
+    {
+        return $this->smtpHost;
+    }
+
+    public function setSmtpHost(?string $smtpHost): self
+    {
+        $this->smtpHost = $smtpHost;
+
+        return $this;
+    }
+
+    public function getSmtpPort(): ?int
+    {
+        return $this->smtpPort;
+    }
+
+    public function setSmtpPort(?int $smtpPort): self
+    {
+        $this->smtpPort = $smtpPort;
+
+        return $this;
+    }
+
+    public function getSmtpPassword(): ?string
+    {
+        return $this->smtpPassword;
+    }
+
+    public function setSmtpPassword(?string $smtpPassword): self
+    {
+        $this->smtpPassword = $smtpPassword;
+
+        return $this;
+    }
+
+    public function getSmtpUsername(): ?string
+    {
+        return $this->smtpUsername;
+    }
+
+    public function setSmtpUsername(?string $smtpUsername): self
+    {
+        $this->smtpUsername = $smtpUsername;
+
+        return $this;
+    }
+
+    public function getSmtpEncryption(): ?string
+    {
+        return $this->smtpEncryption;
+    }
+
+    public function setSmtpEncryption(?string $smtpEncryption): self
+    {
+        $this->smtpEncryption = $smtpEncryption;
+
+        return $this;
+    }
+
+    public function getSmtpEmail(): ?string
+    {
+        return $this->smtpEmail;
+    }
+
+    public function setSmtpEmail(?string $smtpEmail): self
+    {
+        $this->smtpEmail = $smtpEmail;
+
+        return $this;
+    }
+
+    public function getSmtpSenderName(): ?string
+    {
+        return $this->smtpSenderName;
+    }
+
+    public function setSmtpSenderName(?string $smtpSenderName): self
+    {
+        $this->smtpSenderName = $smtpSenderName;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getPrivacyPolicy(): ?string
+    {
+        return $this->privacyPolicy;
+    }
+
+    public function setPrivacyPolicy(?string $privacyPolicy): self
+    {
+        $this->privacyPolicy = $privacyPolicy;
+
+        return $this;
+    }
+
 }
+

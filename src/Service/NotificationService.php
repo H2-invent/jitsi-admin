@@ -9,8 +9,10 @@
 namespace App\Service;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 
@@ -20,30 +22,41 @@ class NotificationService
     private $parameterBag;
     private $ics;
     private $twig;
+    private $translator;
 
-    public function __construct(MailerService $mailerService, ParameterBagInterface $parameterBag, IcsService $icsService, Environment $environment)
+    public function __construct(MailerService $mailerService, ParameterBagInterface $parameterBag, IcsService $icsService, Environment $environment, TranslatorInterface $translator)
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
         $this->twig = $environment;
+        $this->translator = $translator;
     }
 
-    function createIcs (Rooms $rooms, User $user, $url ,$method = 'REQUEST') {
+    function createIcs(Rooms $rooms, User $user, $url, $method = 'REQUEST')
+    {
         $this->ics = new IcsService();
         $this->ics->setMethod($method);
         if ($rooms->getModerator() !== $user) {
             $organizer = $rooms->getModerator()->getEmail();
-        } else{
+        } else {
             $organizer = 'noreply@jitsi-admin.de';
             $this->ics->setIsModerator(true);
         }
         $this->ics->add(
             array(
-                'uid'=>md5($rooms->getUid()),
-                'location' => 'Jitsi Konferenz',
-                'description' =>  'Sie wurden zu einer Videokonferenz auf dem Jitsi Server ' . $rooms->getServer()->getUrl() . ' hinzugefügt.\n\nÜber den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: ' . $rooms->getName() . '\nModerator: ' . $rooms->getModerator()->getFirstName() .' ' . $rooms->getModerator()->getLastName() . '\n\nFolgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: ' . $rooms->getUid() . '\nIhre Email Adresse: ' . $user->getEmail() . '\n\n' . $url . '\n\nSie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.',
-                'dtstart' => $rooms->getStart()->format('Ymd')."T".$rooms->getStart()->format("His"),
-                'dtend' => $rooms->getEnddate()->format('Ymd')."T".$rooms->getEnddate()->format("His"),
+                'uid' => md5($rooms->getUid()),
+                'location' => $this->translator->trans('Jitsi Konferenz'),
+                'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('%server%' => $rooms->getServer()->getUrl())) .
+                    '\n\n' .
+                    $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
+                    . '\n\n' .
+                    $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}',array('{id}'=>$rooms->getUid(),'{email}'=>$user->getEmail()))
+                    . '\n\n' .
+                    $url .
+                    '\n\n'.
+                    $this->translator->trans('Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.'),
+                'dtstart' => $rooms->getStart()->format('Ymd') . "T" . $rooms->getStart()->format("His"),
+                'dtend' => $rooms->getEnddate()->format('Ymd') . "T" . $rooms->getEnddate()->format("His"),
                 'summary' => $rooms->getName(),
                 'sequence' => $rooms->getSequence(),
                 'organizer' => $organizer,
@@ -53,15 +66,14 @@ class NotificationService
         return $this->ics->toString();
     }
 
-    function sendNotification($content, $subject, User $user, $attachement = array())
+    function sendNotification($content, $subject, User $user, Server $server, $attachement = array())
     {
 
         $this->mailer->sendEmail(
-            $this->parameterBag->get('registerEmailName'),
-            $this->parameterBag->get('defaultEmail'),
             $user->getEmail(),
             $subject,
             $content,
+            $server,
             $attachement
         );
 
@@ -70,14 +82,13 @@ class NotificationService
     }
 
 
-    function sendCron($content, $subject, User $user)
+    function sendCron($content, $subject, User $user, Server $server)
     {
         $this->mailer->sendEmail(
-            $this->parameterBag->get('registerEmailName'),
-            $this->parameterBag->get('defaultEmail'),
             $user->getEmail(),
             $subject,
-            $content
+            $content,
+            $server
         );
 
         return true;

@@ -5,19 +5,20 @@
 
 {% block content %}
     <h4 class="text-center">
-        Sie können jetzt Konferenzen mit dem Jitsi Server {{ server.url }} erstellen
+        {% trans with {'{url}':server.url } %}Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen{% endtrans %}
     </h4>
     <b>
-        Hallo!
+        {{'Hallo!'|trans}}
     </b>
     <p>
-        Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie sich einen Benutzer.
+        {{'Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
+        sich einen Benutzer.'|trans}}
     </p>
     <b>
-        Login: <a href="{{ absolute_url(path('dashboard')) }}">Jitsi Admin</a><br>
+        {{ 'Login'|trans }}: <a href="{{ absolute_url(path('dashboard')) }}">Jitsi Admin</a><br>
         Jitsi Admin: <a href="{{ absolute_url(path('index')) }}">Jitsi Admin start</a>
     </b>
     <spacer size="16"></spacer>
-    <p>Server Administrator: {{ server.administrator.firstName }} {{ server.administrator.lastName }}</p>
+    <p>{{ 'Server Administrator'|trans }}: {{ server.administrator.firstName }} {{ server.administrator.lastName }}</p>
     <spacer size="16"></spacer>
 {% endblock %}
