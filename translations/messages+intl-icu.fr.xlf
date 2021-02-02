@@ -515,6 +515,10 @@
         <source>Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</source>
         <target>__Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</target>
       </trans-unit>
+      <trans-unit id="LIx0U11" resname="Meine Join-Seite ansehen">
+        <source>Meine Join-Seite ansehen</source>
+        <target>__Meine Join-Seite ansehen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
