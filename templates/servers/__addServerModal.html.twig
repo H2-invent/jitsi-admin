@@ -43,6 +43,8 @@
                             {{ form_row(form.smtpPassword) }}
                             {{ form_row(form.smtpEmail) }}
                             {{ form_row(form.smtpSenderName) }}
+
+                            <a href="{{ path('server_check_email',{'id':server.id}) }}" class="btn btn-sm btn-outline-primary">{{ 'Teste SMTP Einstellungen (Bitte zuerst speichern drücken)'|trans }}</a>
                             <hr>
                             {{ form_row(form.logoUrl) }}
                             <p class="small">

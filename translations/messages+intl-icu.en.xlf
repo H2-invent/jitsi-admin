@@ -491,6 +491,30 @@
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
         <target>__Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
       </trans-unit>
+      <trans-unit id="AxonmHj" resname="SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten">
+        <source>SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</source>
+        <target>__SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</target>
+      </trans-unit>
+      <trans-unit id="Nv4YxL3" resname="Fehler, der Server ist nicht registriert">
+        <source>Fehler, der Server ist nicht registriert</source>
+        <target>__Fehler, der Server ist nicht registriert</target>
+      </trans-unit>
+      <trans-unit id="4.zj4c0" resname="Testmail vom Jitsi-Admin">
+        <source>Testmail vom Jitsi-Admin</source>
+        <target>__Testmail vom Jitsi-Admin</target>
+      </trans-unit>
+      <trans-unit id="ccYxFsK" resname="Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet">
+        <source>Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet</source>
+        <target>__Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet</target>
+      </trans-unit>
+      <trans-unit id="F2PfdIA" resname="Fehler, Ihre SMTP-Parameter sind fehlerhaft">
+        <source>Fehler, Ihre SMTP-Parameter sind fehlerhaft</source>
+        <target>__Fehler, Ihre SMTP-Parameter sind fehlerhaft</target>
+      </trans-unit>
+      <trans-unit id="FYQ6U5o" resname="Teste SMTP Einstellungen (Bitte zuerst speichern drücken)">
+        <source>Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</source>
+        <target>__Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
