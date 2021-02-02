@@ -39,25 +39,33 @@
                         </div>
                         <div class="col-10 col-md-11">
                             <label class="required" for="dsgvo">
-                                {% trans with {'{dataPrivay}': dataPrivacy} %}
-                                    Ich habe die
-                                    <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>
-                                            Datenschutzhinweise von Jitsi Admin</u> <i
-                                                class="fa fa-external-link-alt"></i>
-                                    </a>
-                                {% endtrans %}
-
                                 {% if server and server.privacyPolicy %}
-                                    {% trans with {'{url}': server.url} %}
-                                        und die <a href="{url}" target="_blank"
-                                                   referrerpolicy="no-referrer"><u>Datenschutzhinweise von {url}</u>
-                                        <i class="fa fa-external-link-alt"></i> </a>
+                                    {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
+                                        Ich habe die
+                                        <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+                                            <u>Datenschutzhinweise von Jitsi Admin</u>
+                                            <i class="fa fa-external-link-alt"></i>
+                                        </a>
+                                        und die
+                                        <a href="{privacyUrl}" target="_blank"
+                                           referrerpolicy="no-referrer">
+                                            <u>Datenschutzhinweise von {url}</u>
+                                            <i class="fa fa-external-link-alt"></i>
+                                        </a>
+                                        gelesen und akzeptiere die Verarbeitung.
+                                    {% endtrans %}
+
+                                {% else %}
+                                    {% trans with {'{dataPrivay}': dataPrivacy} %}
+                                        Ich habe die
+                                        <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+                                            <u>Datenschutzhinweise von Jitsi Admin</u>
+                                            <i class="fa fa-external-link-alt"></i>
+                                        </a>
+                                        gelesen und akzeptiere die Verarbeitung.
                                     {% endtrans %}
                                 {% endif %}
 
-                                {% trans %}
-                                    gelesen und akzeptiere die Verarbeitung.
-                                {% endtrans %}
                             </label><br>
 
                             <p style="font-size: 10px">
@@ -86,7 +94,8 @@
             <a href="{{ path('index') }}" class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
             <a href="{{ path('dashboard') }}" class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
             <a href="{{ path('register_keycloak') }}" class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
-            <a href="{{ helpUrlParticipants }}" target="_blank" class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
+            <a href="{{ helpUrlParticipants }}" target="_blank"
+               class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
         </div>
     </div>
     {{ include('base/__snack.html.twig') }}

@@ -455,30 +455,7 @@
         <source>Organisatoren</source>
         <target>__Organisatoren</target>
       </trans-unit>
-      <trans-unit id="_qd1qEq" resname="Ich habe die&#10;                                    &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&lt;u&gt;&#10;                                            Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i&#10;                                                class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                    &lt;/a&gt;">
-        <source>Ich habe die
-                                    &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;&lt;u&gt;
-                                            Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i
-                                                class="fa fa-external-link-alt"&gt;&lt;/i&gt;
-                                    &lt;/a&gt;</source>
-        <target><![CDATA[__Ich habe die
-                                    <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>
-                                            Datenschutzhinweise von Jitsi Admin</u> <i
-                                                class="fa fa-external-link-alt"></i>
-                                    </a>]]></target>
-      </trans-unit>
-      <trans-unit id="U5rNTv5" resname="und die &lt;a href=&quot;{url}&quot; target=&quot;_blank&quot;&#10;                                                   referrerpolicy=&quot;no-referrer&quot;&gt;&lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&#10;                                        &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt; &lt;/a&gt;">
-        <source>und die &lt;a href="{url}" target="_blank"
-                                                   referrerpolicy="no-referrer"&gt;&lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;
-                                        &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;</source>
-        <target><![CDATA[__und die <a href="{url}" target="_blank"
-                                                   referrerpolicy="no-referrer"><u>Datenschutzhinweise von {url}</u>
-                                        <i class="fa fa-external-link-alt"></i> </a>]]></target>
-      </trans-unit>
-      <trans-unit id="_HMUQXB" resname="gelesen und akzeptiere die Verarbeitung.">
-        <source>gelesen und akzeptiere die Verarbeitung.</source>
-        <target>__gelesen und akzeptiere die Verarbeitung.</target>
-      </trans-unit>
+
       <trans-unit id="pn6jGR9" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                    auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                    dem Formular an den Jitsi Meet Server weiter.">
         <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
                                     auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
@@ -518,6 +495,46 @@
       <trans-unit id="LIx0U11" resname="Meine Join-Seite ansehen">
         <source>Meine Join-Seite ansehen</source>
         <target>__Meine Join-Seite ansehen</target>
+      </trans-unit>
+      <trans-unit id="SdjLXYF" resname="Ich habe die&#10;                                        &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;&#10;                                            &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                        &lt;/a&gt;&#10;                                        und die&#10;                                        &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot;&#10;                                           referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&#10;                                            &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                        &lt;/a&gt;&#10;                                        gelesen und akzeptiere die Verarbeitung.">
+        <source>Ich habe die
+                                        &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+                                            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;
+                                            &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
+                                        &lt;/a&gt;
+                                        und die
+                                        &lt;a href="{privacyUrl}" target="_blank"
+                                           referrerpolicy="no-referrer"&gt;
+                                            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;
+                                            &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
+                                        &lt;/a&gt;
+                                        gelesen und akzeptiere die Verarbeitung.</source>
+        <target><![CDATA[__Ich habe die
+                                        <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+                                            <u>Datenschutzhinweise von Jitsi Admin</u>
+                                            <i class="fa fa-external-link-alt"></i>
+                                        </a>
+                                        und die
+                                        <a href="{privacyUrl}" target="_blank"
+                                           referrerpolicy="no-referrer">
+                                            <u>Datenschutzhinweise von {url}</u>
+                                            <i class="fa fa-external-link-alt"></i>
+                                        </a>
+                                        gelesen und akzeptiere die Verarbeitung.]]></target>
+      </trans-unit>
+      <trans-unit id="VC6x8r5" resname="Ich habe die&#10;                                        &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;&#10;                                            &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                        &lt;/a&gt;&#10;                                        gelesen und akzeptiere die Verarbeitung.">
+        <source>Ich habe die
+                                        &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+                                            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;
+                                            &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
+                                        &lt;/a&gt;
+                                        gelesen und akzeptiere die Verarbeitung.</source>
+        <target><![CDATA[__Ich habe die
+                                        <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+                                            <u>Datenschutzhinweise von Jitsi Admin</u>
+                                            <i class="fa fa-external-link-alt"></i>
+                                        </a>
+                                        gelesen und akzeptiere die Verarbeitung.]]></target>
       </trans-unit>
     </body>
   </file>
