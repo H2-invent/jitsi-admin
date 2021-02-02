@@ -25,12 +25,12 @@
                             <div class="col-md-6">
                                 {% if server.administrator == app.user %}
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
-                                       class="loadContent"><i class="fa fa-edit"></i></a>
+                                       class="loadContent">{{ 'Bearbeiten'|trans }}</a>
                                     <br>
                                     <a href="{{ path('server_add_user',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Organisatoren'|trans }}</a>
                                 {% else %}
-                                    <a href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i class="fa fa-trash"></i></a>
+                                    <a class="confirmHref" href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i class="fa fa-trash"></i></a>
                                 {% endif %}
                             </div>
 
