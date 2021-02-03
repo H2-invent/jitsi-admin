@@ -30,7 +30,7 @@ label:
   serverSmtpHostPort:  SMTP Port
   serverSmtpEncryption:  Encryption
   serverSmtpUsername: SMTP Benutzername
-  serverSmtpPasswordSMTP: SMTP Passwort
+  serverSmtpPassword: SMTP Passwort
   serverSmtpSenderEmail: Absender Email
   serverSmtpSenderName: Absender Name
   serverLintLogo: Link zu Logo

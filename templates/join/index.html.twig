@@ -1,6 +1,16 @@
 {% extends 'join/base.html.twig' %}
 
 {% block content %}
+    <style>
+        {% if image is not null %}
+        body{
+            background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        {% endif %}
+    </style>
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -96,6 +106,14 @@
             <a href="{{ path('register_keycloak') }}" class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
             <a href="{{ helpUrlParticipants }}" target="_blank"
                class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
+            {% if image is not null %}
+            <br>
+            <a href="{{ image['photographer_url'] }}" target="_blank">
+          Image by {{ image['photographer'] }} </a>
+                <a href="https://www.pexels.com" target="_blank"> provided by   <img height="30px"  src="https://images.pexels.com/lib/api/pexels.png"/>
+                    </a>
+
+            {% endif %}
         </div>
     </div>
     {{ include('base/__snack.html.twig') }}
