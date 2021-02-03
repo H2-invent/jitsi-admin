@@ -108,9 +108,9 @@
                class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
             {% if image is not null %}
             <br>
-            <a href="{{ image['photographer_url'] }}" target="_blank">
+            <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer" rel="noreferrer noopener">
           Image by {{ image['photographer'] }} </a>
-                <a href="https://www.pexels.com" target="_blank"> provided by   <img height="30px"  src="https://images.pexels.com/lib/api/pexels.png"/>
+                <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer" rel="noreferrer noopener"> provided by   <img height="30px"  src="https://images.pexels.com/lib/api/pexels.png"/>
                     </a>
 
             {% endif %}
