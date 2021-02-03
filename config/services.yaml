@@ -19,6 +19,7 @@ parameters:
     laF_startpage: '%env(laF_startpage)%'
     laF_onlyRegisteredParticipents: '%env(laF_onlyRegisteredParticipents)%'
     delivery_addresses: ['%env(DEV_EMAIL)%']
+    laF_pexel_api_key: '%env(laF_pexel_api_key)%'
 
 services:
     # default configuration for services in *this* file
