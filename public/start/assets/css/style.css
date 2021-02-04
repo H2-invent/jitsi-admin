@@ -337,24 +337,24 @@ p {
       -ms-transform: rotate(135deg);
       -o-transform: rotate(135deg);
       transform: rotate(135deg); }
-    @media only screen and (min-width: 768px) and (max-width: 991px) {
+    @media only screen and (min-width: 768px)  {
       .header-area .navbar .navbar-collapse {
-        position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
         background-color: #fff;
         z-index: 999;
-        padding: 10px; } }
+        padding: 10px;
+        margin-top: -20px;} }
     @media (max-width: 767px) {
       .header-area .navbar .navbar-collapse {
-        position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
         background-color: #fff;
         z-index: 999;
-        padding: 10px; } }
+        padding: 10px;
+        margin-top: -20px;} }
     .header-area .navbar .navbar-nav .nav-item {
       margin-left: 30px; }
       @media only screen and (min-width: 768px) and (max-width: 991px) {
