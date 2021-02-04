@@ -100,15 +100,15 @@
 
 <!--====== HEADER PART START ======-->
 <header class="header-area" style="height: 100px">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
-                <nav class="navbar navbar-expand-lg">
+            <div class="offset-lg-1 col-lg-10">
+                <nav class="navbar navbar-expand-xl">
                     <a class="navbar-brand img-fluid" href="{{ path('index') }}">
-                        <img class="d-none d-md-block" src="{{ asset('logo.png') }}" alt="Logo"
-                             style="height: 80px; width: auto; margin-top: -10px">
-                        <img class="d-block d-md-none" src="{{ asset('logo.png') }}" alt="Logo"
-                             style="height: 60px; width: auto">
+                        <img class="d-none d-lg-block" src="{{ asset('logo.png') }}" alt="Logo"
+                             style="height: 80px; width: auto; margin-top: -10px; max-width: unset">
+                        <img class="d-block d-lg-none" src="{{ asset('logo.png') }}" alt="Logo"
+                             style="height: 60px; max-width: unset">
                     </a> <!-- Logo -->
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -131,6 +131,9 @@
                             </li>
                             <li class="nav-item">
                                 <a data-scroll-nav="0" href="#features">Funktionen</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-scroll-nav="0" href="{{ path('join_index_no_slug') }}">Jitsi beitreten</a>
                             </li>
                             {% if not is_granted('ROLE_USER') %}
                                 <li class="nav-item">
@@ -214,32 +217,6 @@
                     </div> <!-- row -->
                 </div> <!-- container -->
             </div> <!-- single slider -->
-
-            <div class="single-slider">
-                <div class="slider-bg">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col-lg-4 col-md-5">
-                            <div class="slider-product-image d-none d-md-block">
-                                <img src="{{ asset('images/start/join.jpg') }}" alt="Slider">
-                                <div class="slider-discount-tag">
-                                    <p>Kostenlos<br> Open Source</p>
-                                </div>
-                            </div> <!-- slider product image -->
-                        </div>
-                        <div class="col-lg-8 col-md-7">
-                            <div class="slider-product-content">
-                                <h1 class="slider-title mb-10" data-animation="fadeInUp" data-delay="0.3s"><span>Beitreten</span>
-                                </h1>
-                                <p class="mb-25" data-animation="fadeInUp" data-delay="0.9s">
-                                    {{ form_start(form) }}
-                                    {{ form_widget(form) }}
-                                    {{ form_end(form) }}
-                                </p>
-                            </div> <!-- slider product content -->
-                        </div>
-                    </div> <!-- row -->
-                </div> <!-- container -->
-            </div> <!-- single slider -->
         </div> <!-- slider active -->
     </div> <!-- container fluid -->
 </section>
@@ -258,7 +235,7 @@
                     </div> <!-- product image -->
                     <div class="product-content">
                         <h4 class="content-title mb-15">Konferenzen & <br>Server</h4>
-                        <a href="{{ path('dashboard') }}">Login <i class="lni-chevron-right"></i></a>
+                        <a href="{{ path('dashboard') }}">Verwalten <i class="lni-chevron-right"></i></a>
                     </div> <!-- product content -->
                 </div> <!-- single discount product -->
             </div>
@@ -268,8 +245,8 @@
                         <img src="{{ asset('images/start/create_conf.jpg') }}" alt="Create Room">
                     </div> <!-- product image -->
                     <div class="product-content">
-                        <h4 class="content-title mb-15">Benutzer <br> erstellen</h4>
-                        <a href="{{ path('register_keycloak') }}">Registrieren <i class="lni-chevron-right"></i></a>
+                        <h4 class="content-title mb-15">Teilnehmer <br> einladen</h4>
+                        <a href="{{ path('dashboard') }}">Teilnehmerliste erstellen <i class="lni-chevron-right"></i></a>
                     </div> <!-- product content -->
                 </div> <!-- single discount product -->
             </div>
