@@ -7,6 +7,7 @@
     "ext-iconv": "*",
     "composer/package-versions-deprecated": "^1.10",
     "dpolac/twig-lambda": "^1.0",
+    "jms/i18n-routing-bundle": "dev-master",
     "knpuniversity/oauth2-client-bundle": "^2.5",
     "laminas/laminas-code": "^3.4",
     "laminas/laminas-escaper": "^2.6",
@@ -40,8 +41,7 @@
     "twig/extra-bundle": "~3.1",
     "twig/inky-extra": "^3.0",
     "twig/intl-extra": "^3.2",
-    "twig/twig": "^2.0",
-    "jms/i18n-routing-bundle": "dev-master"
+    "twig/twig": "^2.0"
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^6.5",
