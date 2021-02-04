@@ -6,12 +6,15 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Service\PexelService;
 use App\Service\RoomService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -28,7 +31,7 @@ class JoinController extends AbstractController
      * @Route("/join/{slug}", name="join_index")
      * @Route("/join", name="join_index_no_slug")
      */
-    public function index($slug = null, Request $request, TranslatorInterface $translator, RoomService $roomService, HttpClientInterface $httpClient)
+    public function index($slug = null, PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, HttpClientInterface $httpClient)
     {
         $data = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['slug' => $slug]);
@@ -39,10 +42,9 @@ class JoinController extends AbstractController
         $data = array();
 
 
-
         parse_str($dataAll, $data);
-        if ($request->cookies->get('name')){
-            $data['name']= $request->cookies->get('name');
+        if ($request->cookies->get('name')) {
+            $data['name'] = $request->cookies->get('name');
         }
         if (isset($data['email']) && isset($data['uid'])) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
@@ -72,33 +74,20 @@ class JoinController extends AbstractController
                     return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
                 }
                 $url = $roomService->join($room, $user, 'b', $search['name']);
-                $res =  $this->redirect($url);
-                $res->headers->setCookie(new Cookie('name',$search['name'], (new \DateTime())->modify('+365 days')));
+                $res = $this->redirect($url);
+                $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
                 return $res;
             }
             $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
         }
-        $image= null;
-        try {
-            $s = ['animal','nature','ocean','dessert','dog','cat','forest'];
-            $response = $httpClient->request('GET', 'https://api.pexels.com/v1/search?query='.$s[rand(0,6)].'&per_page=50', [
-                    'headers' => [
-                        'Authorization' => $this->parameterBag->get('laF_pexel_api_key'),
-                    ]
-                ]
-            );
-            $image = json_decode($response->getContent(),true)['photos'][rand(0,50)];
-
-        }catch (\Exception $e){
-
-        }
-
+        $image = $pexelService ->getImageFromPexels();
 
         return $this->render('join/index.html.twig', [
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
-            'image'=>$image
+            'image' => $image,
+
         ]);
     }
 

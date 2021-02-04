@@ -1,16 +1,7 @@
 {% extends 'join/base.html.twig' %}
 
 {% block content %}
-    <style>
-        {% if image is not null %}
-        body{
-            background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        {% endif %}
-    </style>
+
 
     <style>
         {% if image is not null %}
@@ -140,7 +131,7 @@
                         <br>
                         <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer" rel="noreferrer noopener">
                             Image by {{ image['photographer'] }} </a>
-                        <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer" rel="noreferrer noopener"> provided by   <img height="30px"  src="https://images.pexels.com/lib/api/pexels.png"/>
+                        <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer" rel="noreferrer noopener"> provided by   <img height="30px"  src="{{ asset('images/pexels.png') }}""/>
                         </a>
 
                     {% endif %}
