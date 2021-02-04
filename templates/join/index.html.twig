@@ -35,11 +35,11 @@
                 <div class="glossy"></div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3 text-center text-md-left mb-2 mb-md-0">
+                        <div class="col-md-3 text-center text-md-left mb-2 mb-md-0" style="display: flex; justify-content: center; align-items: center">
                             {% if server is not null and server.logoUrl is not null %}
-                                <img src="{{ server.logoUrl }}" style="height: 50px">
+                                <img src="{{ server.logoUrl }}" style="width: 100%">
                             {% else %}
-                                <img src="{{ asset('logo.png') }}" style="height: 50px">
+                                <img src="{{ asset('logo.png') }}" style="width: 100%">
                             {% endif %}
 
                         </div>
@@ -65,11 +65,9 @@
                             {{ form_row(form.email) }}
                             {{ form_row(form.name) }}
                             <div class="row form-group">
-                                <div class="col-2 col-md-1">
-                                    <input type="checkbox" id="dsgvo" name="dsgvo" required>
-                                </div>
-                                <div class="col-10 col-md-11">
-                                    <label class="required" for="dsgvo">
+
+                                <div class="col-12">
+                                    <p>
                                         {% if server and server.privacyPolicy %}
                                             {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
                                                 Ich habe die
@@ -83,7 +81,7 @@
                                                     <u>Datenschutzhinweise von {url}</u>
                                                     <i class="fa fa-external-link-alt"></i>
                                                 </a>
-                                                gelesen und akzeptiere die Verarbeitung.
+                                                gelesen und nehme diese zur Kenntnis.
                                             {% endtrans %}
 
                                         {% else %}
@@ -93,12 +91,10 @@
                                                     <u>Datenschutzhinweise von Jitsi Admin</u>
                                                     <i class="fa fa-external-link-alt"></i>
                                                 </a>
-                                                gelesen und akzeptiere die Verarbeitung.
+                                                gelesen und nehme diese zur Kenntnis.
                                             {% endtrans %}
                                         {% endif %}
-
-                                    </label><br>
-
+                                    </p>
                                     <p style="font-size: 10px">
                                         {% trans %}
                                             Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
