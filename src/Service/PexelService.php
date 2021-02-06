@@ -24,21 +24,24 @@ class PexelService
         $image = null;
         try {
             $cache = new FilesystemAdapter();
+            $cache->delete('pexels_image');
             $value = $cache->get('pexels_image', function (ItemInterface $item)  {
-                $item->expiresAfter(600);
+                $item->expiresAfter(intval($this->parameterBag->get('laF_pexel_refresh_time')));
 
                 $s = array();
                 $hour = (new \DateTime())->format('H');
                 if ($hour < 7) {
-                    $s = ['night', 'moon'];
+                    $s = [ 'night', 'northern lights'];
                 } elseif ($hour < 9) {
                     $s = ['sunrise', 'germany', 'bavaria'];
                 } elseif ($hour < 11) {
                     $s = ['city', 'valley', 'animal', 'dessert', 'cat', 'forest'];
-                } elseif ($hour < 17) {
+                } elseif ($hour < 18) {
                     $s = ['lake', 'ocean', 'weather', 'mountain'];
-                } elseif ($hour < 23) {
-                    $s = ['sunset', 'night', 'moon'];
+                }elseif ($hour < 21) {
+                    $s = ['sunset','clouds'];
+                } else {
+                    $s = [ 'night', 'northern lights'];
                 }
 
                 $response = $this->client->request('GET', 'https://api.pexels.com/v1/search?query=' . $s[rand(0, sizeof($s) - 1)] . '&per_page=80', [
@@ -49,8 +52,8 @@ class PexelService
                 );
                 return $response->getContent();
             });
-            $image = json_decode($value, true)['photos'][rand(0, 79)];
-
+            $imageArr = json_decode($value, true)['photos'];
+            $image = $imageArr[rand(0,sizeof($imageArr)-1)];
         }catch (\Exception $e){
 
         }
