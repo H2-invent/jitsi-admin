@@ -35,9 +35,9 @@ class PexelService
                 } elseif ($hour < 9) {
                     $s = ['sunrise', 'germany', 'bavaria'];
                 } elseif ($hour < 11) {
-                    $s = ['city', 'valley', 'animal', 'dessert', 'cat', 'forest'];
+                    $s = ['city', 'valley', 'animal', 'dessert', 'cat', 'forest','mountain'];
                 } elseif ($hour < 18) {
-                    $s = ['lake', 'ocean', 'weather', 'mountain'];
+                    $s = ['lake', 'ocean', 'underwater', 'reef'];
                 }elseif ($hour < 21) {
                     $s = ['sunset','clouds'];
                 } else {
