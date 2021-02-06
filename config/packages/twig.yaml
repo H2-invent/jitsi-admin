@@ -15,5 +15,3 @@ twig:
         matomo_enable: '%env(matomo_enable)%'
         matomo_id: '%env(matomo_id)%'
         matomo_url: '%env(matomo_url)%'
-        mauticUrl: '%env(mautic_url)%'
-        mauticEnable: '%env(mautic_enable)%'
