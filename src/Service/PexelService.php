@@ -24,7 +24,6 @@ class PexelService
         $image = null;
         try {
             $cache = new FilesystemAdapter();
-            $cache->delete('pexels_image');
             $value = $cache->get('pexels_image', function (ItemInterface $item)  {
                 $item->expiresAfter(intval($this->parameterBag->get('laF_pexel_refresh_time')));
 
