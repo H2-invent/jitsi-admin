@@ -29,11 +29,10 @@
                                     <div class="dropdown-menu">
 
                                          {% for s in servers %}
-                                             <a class="dropdown-item"
+                                             <a class="dropdown-item confirmHref" data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konfernez starten'|trans }}"
                                                     href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.url }}</a>
 
                                          {% endfor %}
-
                                     </div>
                                     <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
                                                 class="fa fa-trash"></i> </a></span></li>
