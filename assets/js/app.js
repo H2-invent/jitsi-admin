@@ -72,9 +72,15 @@ $(document).ready(function () {
 $(document).on('click', '.confirmHref', function (e) {
     e.preventDefault();
     var url = $(this).prop('href');
+    var text = $(this).data('text');
+    if(typeof text === 'undefined'){
+
+        text = 'Wollen Sie die Aktion durchführen?'
+    }
+    console.log(text);
     $.confirm({
         title: 'Bestätigung',
-        content: 'Wollen Sie die Aktion durchführen?',
+        content: text,
         theme: 'material',
         buttons: {
             confirm: {

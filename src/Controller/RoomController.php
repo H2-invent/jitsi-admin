@@ -54,9 +54,11 @@ class RoomController extends AbstractController
         }
         $servers = $this->getUser()->getServers()->toarray();
         $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
-        if ($default) {
+
+        if ($default && !in_array($default,$servers)) {
             $servers[] = $default;
         }
+
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
         try {
@@ -75,6 +77,8 @@ class RoomController extends AbstractController
             if ($request->get('id')) {
                 foreach ($room->getUser() as $user) {
                     $userService->editRoom($user, $room);
+
+
                 }
             } else {
                 $userService->addUser($room->getModerator(), $room);

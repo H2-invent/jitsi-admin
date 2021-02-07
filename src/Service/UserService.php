@@ -57,6 +57,7 @@ class UserService
 
     function editRoom(User $user, Rooms $room)
     {
+
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');

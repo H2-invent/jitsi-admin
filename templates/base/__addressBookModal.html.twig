@@ -1,4 +1,6 @@
-<div class="modal fade right" id="modalAdressbook" tabindex="-1" role="dialog" aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
+
+<div class="modal fade right" id="modalAdressbook" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
     <div class="modal-dialog modal-full-height modal-right" role="document">
         <div class="modal-content" style="height: 100vh;display: flex; flex-direction: column">
             <div class="modal-header">
@@ -9,18 +11,34 @@
             </div>
             <div class="modal-body" style="flex-grow: 1;overflow-y: auto">
                 <div style="">
-                <ul class="list-group">
-                    {% set name = null %}
-                    {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
-                        {% if u.email|first|upper != name %}
-                            {{ u.email|first|upper }}
-                            {% set name = u.email|first|upper %}
-                        {% endif %}
+                    <ul class="list-group">
+                        {% set name = null %}
+                        {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
+                            {% if u.email|first|upper != name %}
+                                {{ u.email|first|upper }}
+                                {% set name = u.email|first|upper %}
+                            {% endif %}
 
-                            <li class="list-group-item" style="display: flex; justify-content: space-between"><span>{{ u.email }} </span><span><a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i class="fa fa-trash"></i> </a></span> </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                            <li class="list-group-item" style="display: flex; justify-content: space-between">
+                                <span class="breakWord">{{ u.email }} </span>
+                                <span class="noBreak">
+                                    <a class="caretdown dropdown-toggle mr-1 text-success" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-phone"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+
+                                         {% for s in servers %}
+                                             <a class="dropdown-item confirmHref" data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
+                                                    href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.url }}</a>
+
+                                         {% endfor %}
+                                    </div>
+                                    <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
+                                                class="fa fa-trash"></i> </a></span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
