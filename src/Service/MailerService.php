@@ -24,7 +24,7 @@ class MailerService
     private $kernel;
     private $logger;
     private $customMailer;
-
+    private $userName;
     public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
         $this->smtp = $smtp;
@@ -33,13 +33,14 @@ class MailerService
         $this->kernel = $kernel;
         $this->logger = $logger;
         $this->customMailer = null;
+        $this->userName = null;
     }
 
     public function buildTransport(Server $server)
     {
 
         if ($server->getSmtpHost()) {
-            $this->logger->debug('Build new Transport: ' . $server->getSmtpHost());
+            $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
             $tmpTransport = (new \Swift_SmtpTransport(
                 $server->getSmtpHost(),
                 $server->getSmtpPort(),
@@ -47,7 +48,9 @@ class MailerService
                 ->setUsername($server->getSmtpUsername())
                 ->setPassword($server->getSmtpPassword());
             $tmpMailer = new \Swift_Mailer($tmpTransport);
-            if ($this->customMailer !== $tmpMailer) {
+            if ($this->userName != $server->getSmtpUsername()) {
+                $this->userName = $server->getSmtpUsername();
+                $this->logger->info('The Transport is new and we take him');
                 $this->customMailer = $tmpMailer;
             }
         }
@@ -57,7 +60,7 @@ class MailerService
     {
 
         try {
-            $this->logger->debug('Mail To: ' . $to);
+            $this->logger->info('Mail To: ' . $to);
             $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
 
         } catch (\Exception $e) {
@@ -70,7 +73,7 @@ class MailerService
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost()) {
-            $this->logger->debug($server->getSmtpEmail());
+            $this->logger->info($server->getSmtpEmail());
             $sender = $server->getSmtpEmail();
             $senderName = $server->getSmtpSenderName();
         } else {
@@ -93,7 +96,7 @@ class MailerService
                 if ($this->kernel->getEnvironment() === 'dev') {
                     $message->setTo($this->parameter->get('delivery_addresses'));
                 }
-                $this->logger->debug('Send from Custom Mailer');
+                $this->logger->info('Send from Custom Mailer');
                 $this->customMailer->send($message);
             } else {
                 $this->swift->send($message);
