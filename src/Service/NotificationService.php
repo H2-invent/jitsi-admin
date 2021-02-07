@@ -68,7 +68,6 @@ class NotificationService
 
     function sendNotification($content, $subject, User $user, Server $server, $attachement = array())
     {
-
         $this->mailer->sendEmail(
             $user->getEmail(),
             $subject,

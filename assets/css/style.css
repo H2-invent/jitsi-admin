@@ -629,6 +629,6 @@ label.required:after {
 .noBreak{
     white-space: nowrap;
 }
-a[aria-expanded="true"] {
+#modalAdressbook a[aria-expanded="true"] {
     background: white;
 }
