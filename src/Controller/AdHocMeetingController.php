@@ -29,9 +29,11 @@ class AdHocMeetingController extends AbstractController
         }
         $servers = $this->getUser()->getServers()->toarray();
         $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
-        if ($default) {
+
+        if ($default && !in_array($default,$servers)) {
             $servers[] = $default;
         }
+
         if(!in_array($server,$servers)){
             return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden')));
         }
