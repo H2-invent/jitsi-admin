@@ -1,8 +1,4 @@
-<style>
-    #sidebar ul li.active>a, a[aria-expanded="true"] {
-        background: white;
-    }
-</style>
+
 <div class="modal fade right" id="modalAdressbook" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
     <div class="modal-dialog modal-full-height modal-right" role="document">
@@ -24,8 +20,9 @@
                             {% endif %}
 
                             <li class="list-group-item" style="display: flex; justify-content: space-between">
-                                <span>{{ u.email }} </span><span>
-                                    <a class="caretdown dropdown-toggle " data-toggle="dropdown"
+                                <span class="breakWord">{{ u.email }} </span>
+                                <span class="noBreak">
+                                    <a class="caretdown dropdown-toggle mr-1" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-phone"></i>
                                     </a>

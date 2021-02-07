@@ -622,3 +622,13 @@ label.required:after {
         background-color: white;
     }
 }
+.breakWord{
+    word-break: break-all;
+    padding-right: 5px;
+}
+.noBreak{
+    white-space: nowrap;
+}
+a[aria-expanded="true"] {
+    background: white;
+}
