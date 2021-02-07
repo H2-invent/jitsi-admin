@@ -563,6 +563,10 @@
         <source>Konferenz mit {n}</source>
         <target>__Konferenz mit {n}</target>
       </trans-unit>
+      <trans-unit id="AHH1fKI" resname="Wollen Sie mit diesem Teilnehmer eine Konferenz starten">
+        <source>Wollen Sie mit diesem Teilnehmer eine Konferenz starten</source>
+        <target>__Wollen Sie mit diesem Teilnehmer eine Konferenz starten</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
