@@ -567,6 +567,26 @@
         <source>Wollen Sie mit diesem Teilnehmer eine Konferenz starten</source>
         <target>__Wollen Sie mit diesem Teilnehmer eine Konferenz starten</target>
       </trans-unit>
+      <trans-unit id="zPVs_1Q" resname="Konferenzen">
+        <source>Konferenzen</source>
+        <target>__Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="N32k9a1" resname="Neue Version von Jitsi Admin verfügbar">
+        <source>Neue Version von Jitsi Admin verfügbar</source>
+        <target>__Neue Version von Jitsi Admin verfügbar</target>
+      </trans-unit>
+      <trans-unit id="6EwrsHz" resname="Aktuellste Jitsi Admin Version installiert">
+        <source>Aktuellste Jitsi Admin Version installiert</source>
+        <target>__Aktuellste Jitsi Admin Version installiert</target>
+      </trans-unit>
+      <trans-unit id="MhTMC2j" resname="Anzahl Konferenzen">
+        <source>Anzahl Konferenzen</source>
+        <target>__Anzahl Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="wMIPplV" resname="Statistiken">
+        <source>Statistiken</source>
+        <target>__Statistiken</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

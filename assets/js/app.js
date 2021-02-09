@@ -16,8 +16,10 @@ import flatpickr from 'flatpickr'
 import {Calendar} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
-import momentPlugin from '@fullcalendar/moment'
-import listPlugin from '@fullcalendar/list'
+import momentPlugin from '@fullcalendar/moment';
+import listPlugin from '@fullcalendar/list';
+import Chart from 'chart.js';
+
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -129,6 +131,13 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         }
     });
     initSearchUser();
+
+    var ctx = document.getElementById("lineChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
 });
 
 $(".clickable-row").click(function () {

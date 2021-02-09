@@ -29,6 +29,9 @@
                                     <br>
                                     <a href="{{ path('server_add_user',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Organisatoren'|trans }}</a>
+                                    <br>
+                                    <a href="{{ path('admin_server',{'server':server.id}) }}" data-dismiss="modal"
+                                       class="loadContent">{{ 'Statistiken'|trans }}</a>
                                 {% else %}
                                     <a class="confirmHref" href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i class="fa fa-trash"></i></a>
                                 {% endif %}
