@@ -1,0 +1,86 @@
+<div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ server.url }}</h5>
+
+        </div>
+        <div class="modal-body ">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+                    <div class="card border-info text-center">
+                        <div class="card-body">
+                            {{ 'Konferenzen'|trans }}
+                            <hr>
+                            {{ server.rooms | length }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+                    <div class="card border-info text-center">
+                        <div class="card-body">
+                            {{ 'Teilnehmer'|trans }}
+                            <hr>
+                            {{ countPart }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+                    <div class="card border-info text-center">
+                        <div class="card-body">
+                            {{ 'Organisatoren'|trans }}
+                            <hr>
+                            {{ server.user | length }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+                    <a href="https://github.com/H2-invent/jitsi-admin/releases/tag/{{ tags[0].name }}" referrerpolicy="no-referrer " target="_blank" rel="noreferrer noopener">
+                        <div class="card {% if laf_version != tags[0].name %}border-danger{% else %}border-info{% endif %} text-center">
+                            <div class="card-body">
+                                {% if laf_version != tags[0].name %}{{ 'Neue Version von Jitsi Admin verfügbar'|trans }}{% else %}{{ 'Aktuellste Jitsi Admin Version installiert'|trans }}{% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <h3 class="h3-responsive">
+                {{ 'Konferenzen'|trans }}
+            </h3>
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+</div>
+<script>
+    data = {
+        labels: [{% for date in chart %}"{{ date['date']|date('d.m.Y') }}",{% endfor %}],
+        datasets: [{
+            label: "{{ 'Anzahl Konferenzen'|trans }}",
+            data: [{% for date in chart %}"{{ date['rooms'] }}",{% endfor %}],
+            backgroundColor: [
+                'rgba(105, 0, 132, .2)',
+            ],
+            borderColor: [
+                'rgba(200, 99, 132, .7)',
+            ],
+            borderWidth: 2
+        },
+            {
+                label: "{{ 'Anzahl Teilnehmer'|trans }}",
+                data: [{% for date in chart %}"{{ date['participants'] }}",{% endfor %}],
+                backgroundColor: [
+                    'rgba(0, 137, 132, .2)',
+                ],
+                borderColor: [
+                    'rgba(0, 10, 130, .7)',
+                ],
+                borderWidth: 2
+            }
+        ]
+    };
+    options = {
+        responsive: true
+    };
+
+</script>
