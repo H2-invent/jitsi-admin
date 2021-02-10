@@ -613,13 +613,16 @@ label.required:after {
 }
 .iconSytle{
     max-height: 25px;
-    background-color: white;
+}
+
+.iconSytle:Hover {
+    webkit-filter: drop-shadow(2px 2px 3px #9C9C9C);
+    filter: drop-shadow(2px 2px 3px #9c9c9c);
 }
 
 @media only screen and (min-width: 768px) {
     .iconSytle {
         max-height: 30px;
-        background-color: white;
     }
 }
 .breakWord{
