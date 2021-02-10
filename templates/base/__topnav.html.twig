@@ -1,30 +1,30 @@
 <ul class="nav navbar-nav ml-auto">
     <div class="row mr-1">
         <!-- Button trigger modal -->
-        <a class="ml-auto mr-2"
+        <a class="ml-auto mr-2 mr-sm-4"
            href="{{ helpUrl }}" target="_blank">
-            <img src="{{ asset('images/question.png') }}" class="iconSytle">
+            <img src="{{ asset('images/question.png') }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
         </a>
 
 
-        <a class="ml-auto mr-2"
+        <a class="ml-auto mr-2 mr-sm-4"
                 data-toggle="modal"
                 data-target="#modalAdressbook">
-            <img src="{{ asset('images/agenda.png') }}" class="iconSytle">
+            <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
         </a>
-        <a class="ml-auto mr-2"
+        <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#settings">
-            <img src="{{ asset('images/settings.png') }}" class="iconSytle">
+            <img src="{{ asset('images/settings.svg') }}" class="iconSytle" title="{{ 'Jitsi Meet Servereinstellungen'|trans }}">
         </a>
         <!-- Button trigger modal -->
-        <a class="ml-auto mr-2"
+        <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#sideModalTR">
-            <img src="{{ asset('images/profil.svg') }}" class="iconSytle">
+            <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
         </a>
 
-        <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" class="iconSytle"></a>
+        <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" class="iconSytle" title="{{ 'Logout'|trans }}"></a>
 
     </div>
 
