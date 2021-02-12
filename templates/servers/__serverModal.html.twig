@@ -26,7 +26,7 @@
                             <div class="col-md-6">
                                 {% if server.administrator == app.user %}
                                     {% if server|validateLicense %}
-                                        <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
+                                        <a href="{{ path('servers_enterprise',{'id':server.id}) }}" data-dismiss="modal"
                                            class="loadContent"><span
                                                     class="badge badge-success">pro</span> {{ 'Enterprise'|trans }}</a>
                                         <br>
@@ -46,11 +46,9 @@
                                                 class="fa fa-trash"></i></a>
                                 {% endif %}
                             </div>
-
                         </div>
                     </div>
                 {% endfor %}
-
             </div>
         </div>
     </div>

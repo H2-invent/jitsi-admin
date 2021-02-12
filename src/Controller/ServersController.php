@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Form\Type\EnterpriseType;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\NewPermissionType;
 use App\Form\Type\RoomType;
 use App\Form\Type\ServerType;
+use App\Service\LicenseService;
 use App\Service\MailerService;
 use App\Service\ServerService;
 use App\Service\UserService;
@@ -67,7 +69,37 @@ class ServersController extends AbstractController
         return $this->render('servers/__addServerModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
 
     }
+    /**
+     * @Route("/server/enterprise", name="servers_enterprise")
+     */
+    public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
+    {
 
+            $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+            if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
+                return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            }
+            $title = $translator->trans('Jitsi-Admin Enterprise Einstellungen');
+
+
+        $form = $this->createForm(EnterpriseType::class, $server, ['action' => $this->generateUrl('servers_add', ['id' => $server->getId()])]);
+        $form->handleRequest($request);
+
+        $errors = array();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $server = $form->getData();
+            $errors = $validator->validate($server);
+            if (count($errors) == 0) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($server);
+                $em->flush();
+                return $this->redirectToRoute('dashboard');
+            }
+        }
+
+        return $this->render('servers/__serverEnterpriseModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
+
+    }
     /**
      * @Route("/server/add-user", name="server_add_user")
      */

@@ -1,5 +1,5 @@
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
+<div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
@@ -14,57 +14,7 @@
                 {{ form_row(form.appId) }}
                 {{ form_row(form.appSecret) }}
             </div>
-
-            <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
-               aria-controls="collapseExample">
-                {{ 'Erweiterte Optionen'|trans }}
-            </a>
-            <div class="collapse" id="collapseExample">
-                <div class="mt-3">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <p class="small">
-                                {% trans %}
-                                    Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.
-                                {% endtrans %}
-                            </p>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    {{ form_row(form.smtpHost) }}
-                                </div>
-                                <div class="col-md-3">
-                                    {{ form_row(form.smtpEncryption) }}
-                                </div>
-                                <div class="col-md-3">
-                                    {{ form_row(form.smtpPort) }}
-                                </div>
-                            </div>
-                            {{ form_row(form.smtpUsername) }}
-                            {{ form_row(form.smtpPassword) }}
-                            {{ form_row(form.smtpEmail) }}
-                            {{ form_row(form.smtpSenderName) }}
-
-                            <a href="{{ path('server_check_email',{'id':server.id}) }}" class="btn btn-sm btn-outline-primary">{{ 'Teste SMTP Einstellungen (Bitte zuerst speichern drücken)'|trans }}</a>
-                            <hr>
-                            {{ form_row(form.logoUrl) }}
-                            <p class="small">
-                                {% trans %}
-                                    Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.
-                                {% endtrans %}
-                            </p>
-                            <hr>
-                            {{ form_row(form.privacyPolicy) }}
-                            <p class="small">
-                                {% trans %}
-                                    Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.
-                                {% endtrans %}
-                            </p>
-                            <a target="_blank" href="{{ path('join_index',{'slug':server.slug}) }}" class="btn btn-sm btn-outline-primary">{{ 'Meine Join-Seite ansehen'|trans }}</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ form_row(form.licenseKey) }}
             {{ form_row(form.submit) }}
             {{ form_end(form) }}
         </div>
