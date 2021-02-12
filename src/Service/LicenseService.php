@@ -86,4 +86,25 @@ class LicenseService
         }
         return true;
     }
+    public function generateNewLicense($licenseString, $licenseKey,$valid_until,$url){
+        if (!$this->verifySignature($licenseString)) {
+            return array('error' => true, 'text' => 'Invalid Signature');
+        }
+
+        $license =$this->em->getRepository(License::class)->findOneBy(array('licenseKey'=>$licenseKey));
+        if($license){
+            return array('error' => true, 'text' => 'Licensekey already added');
+        }
+
+        $license = new License();
+        $license->setUrl($url);
+        $license->setValidUntil((new \DateTime($valid_until))->setTime(23, 59, 59));
+        $license->setLicenseKey($licenseKey);
+        $license->setLicense($licenseString);
+
+        $this->em->persist($license);
+        $this->em->flush();
+
+        return array('error' => false, 'licenseKey' => $license->getLicenseKey());
+    }
 }
