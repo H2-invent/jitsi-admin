@@ -9,7 +9,6 @@
 namespace App\Service;
 
 
-
 use App\Entity\License;
 use App\Entity\Server;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,39 +34,56 @@ class LicenseService
         $this->parameterBag = $parameterBag;
     }
 
-    function verify(Server $server):bool
+    function verify(Server $server): bool
     {
-        $license = $this->em->getRepository(License::class)->findOneBy(array('licenseKey'=>$server->getLicenseKey()));
+        $license = $this->em->getRepository(License::class)->findOneBy(array('licenseKey' => $server->getLicenseKey()));
 
-        if(!$license){
+        if (!$license) {
             return false;
         }
-        $data = json_decode($license->getLicense(),true);
+        $data = json_decode($license->getLicense(), true);
         $signature = $data['signature'];
         $licenseString = $data['entry'];
         try {
-            $res = openssl_verify(json_encode($licenseString), hex2bin($signature), file_get_contents($this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR  . 'key.pub'), OPENSSL_ALGO_SHA256);
-            if($res!= 1){
+            $res = openssl_verify(json_encode($licenseString), hex2bin($signature), file_get_contents($this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'key.pub'), OPENSSL_ALGO_SHA256);
+            if ($res != 1) {
 
                 return false;
             }
         } catch (\Exception $e) {
 
             return false;
-       }
-        if(new \DateTime($licenseString['valid_until'])<new \DateTime()){
+        }
+        if (new \DateTime($licenseString['valid_until']) < new \DateTime()) {
 
             return false;
         }
-        if($server->getUrl() != $licenseString['server_url']){
+        if ($server->getUrl() != $licenseString['server_url']) {
 
             return false;
         }
-        if($server->getLicenseKey() != $licenseString['license_key']){
+        if ($server->getLicenseKey() != $licenseString['license_key']) {
 
             return false;
         }
         return true;
     }
 
+    public function verifySignature($inputString)
+    {
+        $data = json_decode($inputString, true);
+        $signature = $data['signature'];
+        $licenseString = $data['entry'];
+        try {
+            $res = openssl_verify(json_encode($licenseString), hex2bin($signature), file_get_contents($this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'key.pub'), OPENSSL_ALGO_SHA256);
+            if ($res != 1) {
+
+                return false;
+            }
+        } catch (\Exception $e) {
+
+            return false;
+        }
+        return true;
+    }
 }
