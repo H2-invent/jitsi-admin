@@ -16,17 +16,19 @@
         }
 
         @supports (-webkit-appearance:none) {
-            .frozenGlas{
-                background-color: rgba(255,255,255,0.8);
+            .frozenGlas {
+                background-color: rgba(255, 255, 255, 0.8);
                 backdrop-filter: blur(5px);
             }
         }
+
         @supports (-moz-appearance:none) {
-            .frozenGlas{
+            .frozenGlas {
                 background-color: white;
 
             }
         }
+
         {% endif %}
     </style>
     <div class="row justify-content-center">
@@ -35,13 +37,15 @@
                 <div class="glossy"></div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3 text-center text-md-left mb-2 mb-md-0" style="display: flex; justify-content: center; align-items: center">
-                            {% if server is not null and server.logoUrl is not null %}
-                                <img src="{{ server.logoUrl }}" style="width: 100%">
+                        <div class="col-md-3 text-center text-md-left mb-2 mb-md-0"
+                             style="display: flex; justify-content: center; align-items: center">
+                            {% if server is defined and  server is not null and server|validateLicense %}
+                                {% if server.logoUrl is not null %}
+                                    <img src="{{ server.logoUrl }}" style="width: 100%">
+                                {% endif %}
                             {% else %}
                                 <img src="{{ asset('logo.png') }}" style="width: 100%">
                             {% endif %}
-
                         </div>
                         <div class="col-md-6">
                             <h1 class="h1-responsive text-center">{{ 'Konferenz beitreten'|trans }}</h1>
@@ -120,14 +124,18 @@
                 <div class="card-footer text-center">
                     <a href="{{ path('index') }}" class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
                     <a href="{{ path('dashboard') }}" class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
-                    <a href="{{ path('register_keycloak') }}" class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
+                    <a href="{{ path('register_keycloak') }}"
+                       class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
                     <a href="{{ helpUrlParticipants }}" target="_blank"
                        class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
                     {% if image is not null %}
                         <br>
-                        <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer" rel="noreferrer noopener">
+                        <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer"
+                           rel="noreferrer noopener">
                             Image by {{ image['photographer'] }} </a>
-                        <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer" rel="noreferrer noopener"> provided by   <img height="30px"  src="{{ asset('images/pexels.png') }}""/>
+                        <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
+                           rel="noreferrer noopener"> provided by <img height="30px"
+                                                                       src="{{ asset('images/pexels.png') }}""/>
                         </a>
 
                     {% endif %}

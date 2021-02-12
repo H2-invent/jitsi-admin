@@ -82,7 +82,7 @@ class ServersController extends AbstractController
             $title = $translator->trans('Jitsi-Admin Enterprise Einstellungen');
 
 
-        $form = $this->createForm(EnterpriseType::class, $server, ['action' => $this->generateUrl('servers_add', ['id' => $server->getId()])]);
+        $form = $this->createForm(EnterpriseType::class, $server, ['action' => $this->generateUrl('servers_enterprise', ['id' => $server->getId()])]);
         $form->handleRequest($request);
 
         $errors = array();

@@ -30,6 +30,10 @@
                                            class="loadContent"><span
                                                     class="badge badge-success">pro</span> {{ 'Enterprise'|trans }}</a>
                                         <br>
+                                        <a href="{{ path('server_check_email',{'id':server.id}) }}" data-dismiss="modal"
+                                           class="loadContent"><span
+                                                    class="badge badge-success">pro</span> {{ 'Teste SMTP Einstellungen'|trans }}</a>
+                                        <br>
                                     {% endif %}
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Bearbeiten'|trans }}</a>

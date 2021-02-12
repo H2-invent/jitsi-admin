@@ -1,4 +1,7 @@
 {% apply inky_to_html|inline_css(source('@css/foundation-emails.css')) %}
+    {%  if room is defined and server is not defined %}
+    {% set server = room.server %}
+    {% endif %}
     <style type="text/css">
         body,
         html,
@@ -34,7 +37,6 @@
     <container class="body-border">
         <row>
             <columns>
-
                 <spacer size="32"></spacer>
 
                 <spacer size="16"></spacer>
@@ -43,20 +45,30 @@
                 {% endblock %}
                 <spacer size="16"></spacer>
                 <center>
+
                     <p style="text-align: center">
-                        {% trans with {'{url}':absolute_url(path('dashboard'))} %}Sie wollen selber eine Videokonferenz <b>kostenlos</b> planen oder diese Konferenz komfortabel
-                        in einer Übersicht verwalten?<br>
-                        Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
-                        an.
-                        {% endtrans %}
-                     </p>
+                        {% if server is defined and  server is not null and server|validateLicense %}
+                            {% trans with {'{url}':absolute_url(path('dashboard'))} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                                <br>
+                                Dann melden Sie sich <a href="{url}">hier</a>&nbsp;an.
+                            {% endtrans %}
+                        {% else %}
+                            {% trans with {'{url}':absolute_url(path('dashboard'))} %}Sie wollen selber eine Videokonferenz
+                                <b>kostenlos</b> planen oder diese Konferenz komfortabel
+                                                 in einer Übersicht verwalten?<br>
+                                Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
+                                an.
+                            {% endtrans %}
+                        {% endif %}
+                    </p>
+
                 </center>
                 <spacer size="16"></spacer>
                 <p>
                     {% if room is defined %}
-                    {{ 'Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.'|trans }}
+                        {{ 'Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.'|trans }}
                     {% else %}
-                    {{'Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.'|trans}}
+                        {{ 'Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.'|trans }}
                     {% endif %}
                 </p>
                 <spacer size="32"></spacer>

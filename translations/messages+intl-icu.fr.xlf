@@ -487,9 +487,9 @@
         <source>Fehler, Ihre SMTP-Parameter sind fehlerhaft</source>
         <target>__Fehler, Ihre SMTP-Parameter sind fehlerhaft</target>
       </trans-unit>
-      <trans-unit id="FYQ6U5o" resname="Teste SMTP Einstellungen (Bitte zuerst speichern drücken)">
-        <source>Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</source>
-        <target>__Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</target>
+      <trans-unit id="FYQ6U5o" resname="Teste SMTP Einstellungen">
+        <source>Teste SMTP Einstellungen</source>
+        <target>__Teste SMTP Einstellungen</target>
       </trans-unit>
       <trans-unit id="LIx0U11" resname="Meine Join-Seite ansehen">
         <source>Meine Join-Seite ansehen</source>
