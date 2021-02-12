@@ -6,14 +6,15 @@
     <div class="modal-dialog modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="h4-responsive w-100" id="myModalLabel">{% trans %}Jitsi Meet Servereinstellungen{% endtrans %}</h4>
+                <h4 class="h4-responsive w-100"
+                    id="myModalLabel">{% trans %}Jitsi Meet Servereinstellungen{% endtrans %}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <a href="{{ path('servers_add') }}" data-dismiss="modal"
-                   class="btn btn-primary loadContent">{{'Server hinzufügen'|trans}}</a>
+                   class="btn btn-primary loadContent">{{ 'Server hinzufügen'|trans }}</a>
                 {% for server in app.user.servers %}
                     <div class="card card-body mb-1">
                         <div class="row">
@@ -24,6 +25,12 @@
 
                             <div class="col-md-6">
                                 {% if server.administrator == app.user %}
+                                    {% if server|validateLicense %}
+                                        <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
+                                           class="loadContent"><span
+                                                    class="badge badge-success">pro</span> {{ 'Enterprise'|trans }}</a>
+                                        <br>
+                                    {% endif %}
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Bearbeiten'|trans }}</a>
                                     <br>
@@ -32,8 +39,11 @@
                                     <br>
                                     <a href="{{ path('admin_server',{'server':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Statistiken'|trans }}</a>
+
                                 {% else %}
-                                    <a class="confirmHref" href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i class="fa fa-trash"></i></a>
+                                    <a class="confirmHref"
+                                       href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i
+                                                class="fa fa-trash"></i></a>
                                 {% endif %}
                             </div>
 

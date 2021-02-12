@@ -33,6 +33,7 @@ class ServerType extends AbstractType
             ->add('appId', TextType::class, ['required' => false, 'label' => 'label.appId', 'translation_domain' => 'form'])
             ->add('appSecret', TextType::class, ['required' => false, 'label' => 'label.appSecret', 'translation_domain' => 'form'])
             ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
+            ->add('licenseKey', TextType::class, ['required' => false, 'label' => 'label.serverLicenseKey', 'translation_domain' => 'form', 'help' => 'help.serverLicenseKey'])
             ->add('smtpHost', TextType::class, ['required' => false, 'label' => 'label.serverSmtpHostName', 'translation_domain' => 'form'])
             ->add('smtpPort', TextType::class, ['required' => false, 'label' => 'label.serverSmtpHostPort', 'translation_domain' => 'form'])
             ->add('smtpEncryption', ChoiceType::class, ['required' => false, 'label' => 'label.serverSmtpEncryption', 'translation_domain' => 'form', 'choices'=>

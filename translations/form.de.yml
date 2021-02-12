@@ -25,6 +25,7 @@ lable.serverUrl: Jitsi Meet Server URL
 label.appId: App ID
 label.appSecret: App Secret
 help.serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
+help.serverLicenseKey: Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Sie können den JitsiAdmin auch ganz ohne Lizenz vollumpfäglich verwenden.
 label:
   serverSmtpHostName: SMTP Hostname
   serverSmtpHostPort:  SMTP Port
@@ -35,6 +36,8 @@ label:
   serverSmtpSenderName: Absender Name
   serverLintLogo: Link zu Logo
   serverPrivacyPolicy: Datenschutzhinweise für diesen Server
+  serverLicenseKey: Jitsi-Admin Lizenkey eingeben
+
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

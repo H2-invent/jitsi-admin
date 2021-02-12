@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ServerRepository;
+use App\Service\LicenseService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Server
 {
+    private $licenseManager;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -100,11 +103,17 @@ class Server
      */
     private $privacyPolicy;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $licenseKey;
+
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->rooms = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -330,6 +339,18 @@ class Server
     public function setPrivacyPolicy(?string $privacyPolicy): self
     {
         $this->privacyPolicy = $privacyPolicy;
+
+        return $this;
+    }
+
+    public function getLicenseKey(): ?string
+    {
+        return $this->licenseKey;
+    }
+
+    public function setLicenseKey(?string $licenseKey): self
+    {
+        $this->licenseKey = $licenseKey;
 
         return $this;
     }
