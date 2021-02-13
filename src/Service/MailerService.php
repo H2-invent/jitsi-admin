@@ -58,20 +58,20 @@ class MailerService
         }
     }
 
-    public function sendEmail($to, $betreff, $content, Server $server, $attachment = array())
+    public function sendEmail($to, $betreff, $content, Server $server, $attachment = array()):bool
     {
 
         try {
             $this->logger->info('Mail To: ' . $to);
-            $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
+            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
 
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
         }
-
+        return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $attachment = array())
+    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $attachment = array()):bool
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -106,6 +106,8 @@ class MailerService
         } catch (\Exception $e) {
             $this->swift->send($message);
             $this->logger->error($e->getMessage());
+            return false;
         }
+        return true;
     }
 }

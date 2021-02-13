@@ -66,9 +66,9 @@ class NotificationService
         return $this->ics->toString();
     }
 
-    function sendNotification($content, $subject, User $user, Server $server, $attachement = array())
+    function sendNotification($content, $subject, User $user, Server $server, $attachement = array()):bool
     {
-        $this->mailer->sendEmail(
+        return $this->mailer->sendEmail(
             $user->getEmail(),
             $subject,
             $content,
@@ -77,20 +77,19 @@ class NotificationService
         );
 
 
-        return true;
+
     }
 
 
-    function sendCron($content, $subject, User $user, Server $server)
+    function sendCron($content, $subject, User $user, Server $server):bool
     {
-        $this->mailer->sendEmail(
+       return $this->mailer->sendEmail(
             $user->getEmail(),
             $subject,
             $content,
             $server
         );
 
-        return true;
     }
 
 

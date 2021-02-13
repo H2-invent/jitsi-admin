@@ -173,7 +173,7 @@ class ServersController extends AbstractController
             $res = ['snack'=>$translator->trans('Fehler, der Server ist nicht registriert'),'color'=>'danger'];
         } else {
             try {
-                $mailerService->sendEmail(
+                $r = $mailerService->sendEmail(
                     $this->getUser()->getEmail(),
                     $translator->trans('Testmail vom Jitsi-Admin').' | '.$server->getUrl(),
                     '<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
@@ -182,8 +182,10 @@ class ServersController extends AbstractController
                     .$server->getSmtpSenderName().'<br>',
                     $server
                 );
+                if(!$r){
+                    $res = ['snack'=>$translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'),'color'=>'danger'];
+                }
             } catch (\Exception $e) {
-
                 $res = ['snack'=>$translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'),'color'=>'danger'];
             }
         }
