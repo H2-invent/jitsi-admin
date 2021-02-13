@@ -39,6 +39,9 @@ class LicenseService
         if (!$license) {
             return false;
         }
+        if(!$this->verifySignature($license->getLicense())){
+            return false;
+        }
         $data = json_decode($license->getLicense(), true);
         $signature = $data['signature'];
         $licenseString = $data['entry'];
