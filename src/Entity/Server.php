@@ -3,10 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServerRepository;
-use App\Service\LicenseService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Server
 {
-    private $licenseManager;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
