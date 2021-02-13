@@ -25,7 +25,8 @@ class MailerService
     private $logger;
     private $customMailer;
     private $userName;
-    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
+    private $licenseService;
+    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
         $this->smtp = $smtp;
         $this->swift = $swift_Mailer;
@@ -34,6 +35,7 @@ class MailerService
         $this->logger = $logger;
         $this->customMailer = null;
         $this->userName = null;
+        $this->licenseService = $licenseService;
     }
 
     public function buildTransport(Server $server)
@@ -72,7 +74,7 @@ class MailerService
     private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $attachment = array())
     {
         $this->buildTransport($server);
-        if ($server->getSmtpHost()) {
+        if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
             $this->logger->info($server->getSmtpEmail());
             $sender = $server->getSmtpEmail();
             $senderName = $server->getSmtpSenderName();

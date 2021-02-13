@@ -1,9 +1,9 @@
 <!-- To change the direction of the modal animation change .right class -->
-<div class="modal fade right" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal  fade right" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
 
     <!-- Add class .modal-side and then add class .modal-top-right (or other classes from list above) to set a position to the modal -->
-    <div class="modal-dialog modal-full-height modal-right" role="document">
+    <div class="modal-dialog modal-lg  modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="h4-responsive w-100"
@@ -19,22 +19,28 @@
                     <div class="card card-body mb-1">
                         <div class="row">
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 {{ server.url }}
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 {% if server.administrator == app.user %}
                                     {% if server|validateLicense %}
                                         <a href="{{ path('servers_enterprise',{'id':server.id}) }}" data-dismiss="modal"
                                            class="loadContent"><span
-                                                    class="badge badge-success">pro</span> {{ 'Enterprise'|trans }}</a>
+                                                    class="badge badge-success">pro</span> {{ 'Enterprise Einstellungen'|trans }}</a>
                                         <br>
-                                        <a href="{{ path('server_check_email',{'id':server.id}) }}" data-dismiss="modal"
-                                           class="loadContent"><span
-                                                    class="badge badge-success">pro</span> {{ 'Teste SMTP Einstellungen'|trans }}</a>
+                                        <a href="{{ path('server_check_email',{'id':server.id}) }}" >
+                                            <span
+                                                    class="badge badge-success">pro</span> {{ 'Teste SMTP'|trans }}</a>
+                                        <br>
+                                        <a href="{{ path('join_index',{'slug':server.slug}) }}" target="_blank" >
+                                            <span
+                                                    class="badge badge-success">pro</span> {{ 'Meine Join-Seite'|trans }}</a>
                                         <br>
                                     {% endif %}
+                            </div>
+                            <div class="col-md-4">
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Bearbeiten'|trans }}</a>
                                     <br>

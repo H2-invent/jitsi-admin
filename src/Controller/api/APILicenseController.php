@@ -18,10 +18,7 @@ class APILicenseController extends AbstractController
     public function index(Request $request, LicenseService $licenseService): Response
     {
         return new JsonResponse($licenseService->generateNewLicense(
-            $request->get('license'),
-            $request->get('license_key'),
-            $request->get('valid_until'),
-            $request->get('server_url')
+            $request->get('license')
         )
         );
     }

@@ -23,14 +23,12 @@ class LicenseService
 
     private $em;
     private $translator;
-    private $notification;
     private $parameterBag;
 
-    public function __construct(ParameterBagInterface $parameterBag, NotificationService $notificationService, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->translator = $translator;
         $this->em = $entityManager;
-        $this->notification = $notificationService;
         $this->parameterBag = $parameterBag;
     }
 
@@ -86,20 +84,22 @@ class LicenseService
         }
         return true;
     }
-    public function generateNewLicense($licenseString, $licenseKey,$valid_until,$url){
+    public function generateNewLicense($licenseString){
         if (!$this->verifySignature($licenseString)) {
             return array('error' => true, 'text' => 'Invalid Signature');
         }
 
-        $license =$this->em->getRepository(License::class)->findOneBy(array('licenseKey'=>$licenseKey));
+        $data = json_decode($licenseString, true);
+        $licenseArr = $data['entry'];
+        $license =$this->em->getRepository(License::class)->findOneBy(array('licenseKey'=>$licenseArr['license_key']));
         if($license){
             return array('error' => true, 'text' => 'Licensekey already added');
         }
 
         $license = new License();
-        $license->setUrl($url);
-        $license->setValidUntil((new \DateTime($valid_until))->setTime(23, 59, 59));
-        $license->setLicenseKey($licenseKey);
+        $license->setUrl($licenseArr['server_url']);
+        $license->setValidUntil((new \DateTime($licenseArr['valid_until']))->setTime(23, 59, 59));
+        $license->setLicenseKey($licenseArr['license_key']);
         $license->setLicense($licenseString);
 
         $this->em->persist($license);

@@ -15,6 +15,9 @@
                 {{ form_row(form.appSecret) }}
             </div>
             {{ form_row(form.licenseKey) }}
+            {% if not server|validateLicense %}
+            <p><small><span class="badge badge-danger">Enterprise</span><a target="_blank" href="https://h2-invent.com/produkte/jitsi-admin-enterprise"> {% trans %}Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.{% endtrans %}</a></small></p>
+            {% endif %}
             {{ form_row(form.submit) }}
             {{ form_end(form) }}
         </div>
