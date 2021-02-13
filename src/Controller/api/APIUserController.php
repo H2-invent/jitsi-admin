@@ -42,7 +42,7 @@ class APIUserController extends AbstractController
     }
 
     /**
-     * @Route("/api/v1/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
+     * @Route("/api/v1/room/info/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
      */
     public function getRoomInformations(Request $request, $uidReal, RoomService $roomService): Response
     {
