@@ -39,8 +39,10 @@
                                                     class="badge badge-success">pro</span> {{ 'Meine Join-Seite'|trans }}</a>
                                         <br>
                                     {% endif %}
+                                {% endif %}
                             </div>
                             <div class="col-md-4">
+                                {% if server.administrator == app.user %}
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Bearbeiten'|trans }}</a>
                                     <br>
