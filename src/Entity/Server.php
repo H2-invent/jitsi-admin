@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Server
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -100,11 +101,17 @@ class Server
      */
     private $privacyPolicy;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $licenseKey;
+
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->rooms = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -330,6 +337,18 @@ class Server
     public function setPrivacyPolicy(?string $privacyPolicy): self
     {
         $this->privacyPolicy = $privacyPolicy;
+
+        return $this;
+    }
+
+    public function getLicenseKey(): ?string
+    {
+        return $this->licenseKey;
+    }
+
+    public function setLicenseKey(?string $licenseKey): self
+    {
+        $this->licenseKey = $licenseKey;
 
         return $this;
     }

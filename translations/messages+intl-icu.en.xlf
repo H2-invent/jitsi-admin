@@ -487,9 +487,9 @@
         <source>Fehler, Ihre SMTP-Parameter sind fehlerhaft</source>
         <target>__Fehler, Ihre SMTP-Parameter sind fehlerhaft</target>
       </trans-unit>
-      <trans-unit id="FYQ6U5o" resname="Teste SMTP Einstellungen (Bitte zuerst speichern drücken)">
-        <source>Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</source>
-        <target>__Teste SMTP Einstellungen (Bitte zuerst speichern drücken)</target>
+      <trans-unit id="I.eU71D" resname="Teste SMTP Einstellungen">
+        <source>Teste SMTP Einstellungen</source>
+        <target>__Teste SMTP Einstellungen</target>
       </trans-unit>
       <trans-unit id="LIx0U11" resname="Meine Join-Seite ansehen">
         <source>Meine Join-Seite ansehen</source>
@@ -586,6 +586,46 @@
       <trans-unit id="wMIPplV" resname="Statistiken">
         <source>Statistiken</source>
         <target>__Statistiken</target>
+      </trans-unit>
+      <trans-unit id="c69DPqK" resname="Jitsi-Admin Enterprise Einstellungen">
+        <source>Jitsi-Admin Enterprise Einstellungen</source>
+        <target>__Jitsi-Admin Enterprise Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="i7sqmvA" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                &lt;br&gt;&#10;                                Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
+        <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                                &lt;br&gt;
+                                Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
+        <target><![CDATA[__Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                                <br>
+                                Dann melden Sie sich <a href="{url}">hier</a>&nbsp;an.]]></target>
+      </trans-unit>
+      <trans-unit id="Q_OpRcR" resname="Sie wollen selber eine Videokonferenz&#10;                                &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                 in einer Übersicht verwalten?&lt;br&gt;&#10;                                Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                an.">
+        <source>Sie wollen selber eine Videokonferenz
+                                &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel
+                                                 in einer Übersicht verwalten?&lt;br&gt;
+                                Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
+                                an.</source>
+        <target><![CDATA[__Sie wollen selber eine Videokonferenz
+                                <b>kostenlos</b> planen oder diese Konferenz komfortabel
+                                                 in einer Übersicht verwalten?<br>
+                                Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
+                                an.]]></target>
+      </trans-unit>
+      <trans-unit id="54ABONi" resname="Enterprise Einstellungen">
+        <source>Enterprise Einstellungen</source>
+        <target>__Enterprise Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="vdymJzE" resname="Teste SMTP">
+        <source>Teste SMTP</source>
+        <target>__Teste SMTP</target>
+      </trans-unit>
+      <trans-unit id="kCypMgg" resname="Meine Join-Seite">
+        <source>Meine Join-Seite</source>
+        <target>__Meine Join-Seite</target>
+      </trans-unit>
+      <trans-unit id="BwLPq1q" resname="Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.">
+        <source>Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</source>
+        <target>__Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</target>
       </trans-unit>
     </body>
   </file>

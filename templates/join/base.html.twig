@@ -6,7 +6,7 @@
 <body style="background-color: #C9C9C9">
 <div class="imageBackground"></div>
 {% block back %}{% endblock %}
-<div >
+<div>
     <div class="container mb-5">
         <div class="pt-5">
             {% block content %}{% endblock %}
@@ -16,12 +16,19 @@
                 <div class="card card-body mt-4 text-center">
                     <div class="row">
                         <div class="col-md-3 text-md-left">
-                            <a href="https://jitsi-admin.de" target="_blank" class="small"><img
-                                        src="{{ asset('logo.png') }}" style="height: 50px"></a>
+
+                            {% if server is defined and  server is not null and server|validateLicense %}
+
+                            {% else %}
+                                <a href="https://jitsi-admin.de" target="_blank" class="small"><img
+                                            src="{{ asset('logo.png') }}" style="height: 50px"></a>
+                            {% endif %}
                         </div>
                         <div class="col-md-6">
-                            <a href="{{ dataPrivacy }}" target="_blank" class="small">{{ 'Datenschutzhinweis'|trans }}</a><br>
-                            <a href="https://jitsi-admin.de" target="_blank" class="small">Powered by Jitsi Admin</a><br>
+                            <a href="{{ dataPrivacy }}" target="_blank"
+                               class="small">{{ 'Datenschutzhinweis'|trans }}</a><br>
+                            <a href="https://jitsi-admin.de" target="_blank" class="small">Powered by Jitsi
+                                Admin</a><br>
                             {% if matomo_enable == 'true' %}
                                 <a class="small" href="#" data-toggle="modal" data-target="#exampleModal">
                                     Matomo Opt-out
@@ -41,7 +48,7 @@
 
     </div>
 
-        {{ include('base/__matomoOptOut.html.twig') }}
+    {{ include('base/__matomoOptOut.html.twig') }}
 </div>
 
 {% block webpack %}

@@ -71,7 +71,7 @@ class UserService
     function removeRoom(User $user, Rooms $room)
     {
         $url = $this->generateUrl($room, $user);
-        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room]);
+        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('Videokonferenz abgesagt');
         $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);

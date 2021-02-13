@@ -35,6 +35,7 @@ label:
   serverSmtpSenderName: ____Absender Name
   serverLintLogo: __Link zu Logo
   serverPrivacyPolicy: Politique de confidentialité pour ce serveur
+  serverLicenseKey: Jitsi-Admin Lizenkey eingeben
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

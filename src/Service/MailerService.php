@@ -25,7 +25,8 @@ class MailerService
     private $logger;
     private $customMailer;
     private $userName;
-    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
+    private $licenseService;
+    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
         $this->smtp = $smtp;
         $this->swift = $swift_Mailer;
@@ -34,6 +35,7 @@ class MailerService
         $this->logger = $logger;
         $this->customMailer = null;
         $this->userName = null;
+        $this->licenseService = $licenseService;
     }
 
     public function buildTransport(Server $server)
@@ -56,23 +58,23 @@ class MailerService
         }
     }
 
-    public function sendEmail($to, $betreff, $content, Server $server, $attachment = array())
+    public function sendEmail($to, $betreff, $content, Server $server, $attachment = array()):bool
     {
 
         try {
             $this->logger->info('Mail To: ' . $to);
-            $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
+            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
 
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
         }
-
+        return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $attachment = array())
+    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $attachment = array()):bool
     {
         $this->buildTransport($server);
-        if ($server->getSmtpHost()) {
+        if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
             $this->logger->info($server->getSmtpEmail());
             $sender = $server->getSmtpEmail();
             $senderName = $server->getSmtpSenderName();
@@ -104,6 +106,8 @@ class MailerService
         } catch (\Exception $e) {
             $this->swift->send($message);
             $this->logger->error($e->getMessage());
+            return false;
         }
+        return true;
     }
 }
