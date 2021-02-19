@@ -2,6 +2,16 @@
 <html>
 
 {{ include('base/__head.html.twig') }}
+<script>
+    var importBBB = true
+</script>
+
+{% if laf_bbb == 0 %}
+    <script>
+        var importBBB = false
+    </script>
+{% endif %}
+
 
 <body>
 

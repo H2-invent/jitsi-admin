@@ -15,3 +15,4 @@ twig:
         matomo_enable: '%env(matomo_enable)%'
         matomo_id: '%env(matomo_id)%'
         matomo_url: '%env(matomo_url)%'
+        laf_bbb: '%env(laF_bbb)%'
