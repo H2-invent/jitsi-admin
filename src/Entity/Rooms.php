@@ -74,7 +74,7 @@ class Rooms
     /**
      * @ORM\Column(type="boolean")
      */
-    private $onlyRegisteredUsers;
+    private $onlyRegisteredUsers= false;
 
     public function __construct()
     {

@@ -15,12 +15,15 @@ class KeycloakService
         $this->em = $entityManager;
     }
 
-    public function getUSer($email,$keycloakId) :?User{
+    public function getUSer($email,$keycloakId = null) :?User{
         $user = null;
-        $user = $this->em->getRepository(User::class)->findOneBy(array('keycloakId'=>$keycloakId));
-        if ($user){
-            return $user;
+        if($keycloakId){
+            $user = $this->em->getRepository(User::class)->findOneBy(array('keycloakId'=>$keycloakId));
+            if ($user){
+                return $user;
+            }
         }
+
         $user = $this->em->getRepository(User::class)->findOneBy(array('email'=>$email));
         return $user;
     }

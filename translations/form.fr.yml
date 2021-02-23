@@ -36,6 +36,7 @@ label:
   serverLintLogo: __Link zu Logo
   serverPrivacyPolicy: Politique de confidentialité pour ce serveur
   serverLicenseKey: Jitsi-Admin Lizenkey eingeben
+  apiKey: __Api-Key für diesen Server
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

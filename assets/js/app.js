@@ -125,7 +125,10 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         dateFormat: 'Y-m-d H:i',
         altInput: true
     });
-
+    $('.generateApiKey').click(function (e){
+        e.preventDefault();
+        $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
+    })
     $('#jwtServer').change(function () {
         if ($('#jwtServer').prop('checked')) {
             $('#appId').collapse('show')

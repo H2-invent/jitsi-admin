@@ -104,6 +104,8 @@ class RoomService
             $this->em->persist($room);
             $this->em->flush();
             $this->userService->removeRoom($user, $room);
+        }else{
+            return array('error' => true, 'text' => 'User incorrect');
         }
 
         return array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich gelöscht');
