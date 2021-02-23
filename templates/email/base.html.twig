@@ -48,12 +48,12 @@
 
                     <p style="text-align: center">
                         {% if server is defined and  server is not null and server|validateLicense %}
-                            {% trans with {'{url}':absolute_url(path('dashboard'))} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                            {% trans with {'{url}':laF_baseUrl~path('dashboard')} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                 <br>
                                 Dann melden Sie sich <a href="{url}">hier</a>&nbsp;an.
                             {% endtrans %}
                         {% else %}
-                            {% trans with {'{url}':absolute_url(path('dashboard'))} %}Sie wollen selber eine Videokonferenz
+                            {% trans with {'{url}':laF_baseUrl~path('dashboard')} %}Sie wollen selber eine Videokonferenz
                                 <b>kostenlos</b> planen oder diese Konferenz komfortabel
                                                  in einer Übersicht verwalten?<br>
                                 Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>

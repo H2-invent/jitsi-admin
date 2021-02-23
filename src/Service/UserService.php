@@ -39,7 +39,7 @@ class UserService
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->parameterBag->get('laF_baseUrl').$this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]);
         return $url;
     }
 

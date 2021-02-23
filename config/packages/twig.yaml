@@ -16,3 +16,5 @@ twig:
         matomo_id: '%env(matomo_id)%'
         matomo_url: '%env(matomo_url)%'
         laf_bbb: '%env(laF_bbb)%'
+        laF_baseUrl: '%env(laF_baseUrl)%'
+        laf_bbb: '%env(laF_bbb)%'
