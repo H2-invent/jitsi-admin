@@ -6,7 +6,7 @@ import '../css/app.css';
 import $ from 'jquery';
 
 global.$ = global.jQuery = $;
-import 'popper.js';
+import ('popper.js');
 
 import('bootstrap');
 import('mdbootstrap');
@@ -43,7 +43,7 @@ $(document).ready(function () {
             $('#snackbar').removeClass('show');
         }, 3000);
     }, 500);
-    if(importBBB){
+    if (importBBB) {
         h2Button.init();
     }
 
@@ -65,7 +65,6 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,
@@ -73,12 +72,17 @@ $(document).ready(function () {
     });
 
 });
+$(window).on('load', function () {
+
+    $('[data-toggle="popover"]').popover({html: true});
+
+});
 
 $(document).on('click', '.confirmHref', function (e) {
     e.preventDefault();
     var url = $(this).prop('href');
     var text = $(this).data('text');
-    if(typeof text === 'undefined'){
+    if (typeof text === 'undefined') {
 
         text = 'Wollen Sie die Aktion durchführen?'
     }
@@ -125,7 +129,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         dateFormat: 'Y-m-d H:i',
         altInput: true
     });
-    $('.generateApiKey').click(function (e){
+    $('.generateApiKey').click(function (e) {
         e.preventDefault();
         $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
     })
@@ -157,7 +161,7 @@ function renderCalendar() {
 
     var calendarEl = document.getElementById('calendar');
     var calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin, bootstrapPlugin,momentPlugin,listPlugin],
+        plugins: [dayGridPlugin, bootstrapPlugin, momentPlugin, listPlugin],
         themeSystem: 'bootstrap',
         events: '/api/v1/getAllEntries',
         lang: 'de',
@@ -168,22 +172,23 @@ function renderCalendar() {
     calendar.render();
 
 }
-function initSearchUser(){
-    $('#searchUser').keyup(function (e){
+
+function initSearchUser() {
+    $('#searchUser').keyup(function (e) {
         var $ele = $(this);
         var $search = $ele.val();
-        var $url = $ele.attr('href')+'?search='+$search;
-        if($search.length>2){
-            $.getJSON($url,function (data){
+        var $url = $ele.attr('href') + '?search=' + $search;
+        if ($search.length > 2) {
+            $.getJSON($url, function (data) {
                 var $target = $('#participantUser');
                 $target.empty();
-                for(var i = 0; i<data.length; i++){
-                  $target.append('<a class="dropdown-item chooseParticipant" data-val="'+data[i]+'" href="#">'+data[i]+'</a>');
+                for (var i = 0; i < data.length; i++) {
+                    $target.append('<a class="dropdown-item chooseParticipant" data-val="' + data[i] + '" href="#">' + data[i] + '</a>');
                 }
 
                 $('.chooseParticipant').click(function (e) {
                     e.preventDefault();
-                    $('#new_member_member').append($(this).data('val')+"\n");
+                    $('#new_member_member').append($(this).data('val') + "\n");
                     $('#searchUser').val('');
                 })
             })
@@ -191,6 +196,7 @@ function initSearchUser(){
 
     })
 }
+
 function initDropDown() {
     $('.dropdownTabToggle').click(function (e) {
         e.preventDefault();

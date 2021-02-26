@@ -37,6 +37,7 @@ label:
   serverPrivacyPolicy: Politique de confidentialité pour ce serveur
   serverLicenseKey: Jitsi-Admin Lizenkey eingeben
   apiKey: __Api-Key für diesen Server
+  agenda: __Kurze Agenda für dieses Meeting
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

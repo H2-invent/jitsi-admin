@@ -627,6 +627,14 @@
         <source>Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</source>
         <target>__Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</target>
       </trans-unit>
+      <trans-unit id="D99IX1v" resname="Agenda">
+        <source>Agenda</source>
+        <target>__Agenda</target>
+      </trans-unit>
+      <trans-unit id="Yy7_Sw2" resname="API-Key neu genereieren">
+        <source>API-Key neu genereieren</source>
+        <target>__API-Key neu genereieren</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
