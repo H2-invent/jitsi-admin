@@ -21,6 +21,7 @@
         "@fullcalendar/list": "^5.5.0",
         "@fullcalendar/moment": "^5.5.0",
         "@fullcalendar/resource-common": "^5.5.0",
+        "autosize": "^4.0.2",
         "bootstrap": "^4.5.3",
         "chart.js": "^2.9.4",
         "copy-webpack-plugin": "^6.4.1",

@@ -19,7 +19,7 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import momentPlugin from '@fullcalendar/moment';
 import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
-
+import autosize from 'autosize'
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -172,6 +172,7 @@ function renderCalendar() {
 }
 
 function initSearchUser() {
+    autosize($('#new_member_member'));
     $('#searchUser').keyup(function (e) {
         var $ele = $(this);
         var $search = $ele.val();
@@ -190,6 +191,7 @@ function initSearchUser() {
                     var data = $textarea.val();
                     $textarea.val('').val($(this).data('val')+"\n"+data);
                     $('#searchUser').val('');
+                    autosize.update($textarea);
                 })
             })
         }
@@ -207,4 +209,6 @@ function initDropDown() {
         $ele.closest('.dropdown-menu').find('.active').removeClass('active');
         $ele.addClass('active');
     })
+
+
 }
