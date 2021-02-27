@@ -73,9 +73,7 @@ $(document).ready(function () {
 
 });
 $(window).on('load', function () {
-
     $('[data-toggle="popover"]').popover({html: true});
-
 });
 
 $(document).on('click', '.confirmHref', function (e) {
