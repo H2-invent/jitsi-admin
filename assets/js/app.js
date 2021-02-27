@@ -176,7 +176,7 @@ function initSearchUser() {
         var $ele = $(this);
         var $search = $ele.val();
         var $url = $ele.attr('href') + '?search=' + $search;
-        if ($search.length > 2) {
+        if ($search.length > 0) {
             $.getJSON($url, function (data) {
                 var $target = $('#participantUser');
                 $target.empty();
@@ -186,7 +186,9 @@ function initSearchUser() {
 
                 $('.chooseParticipant').click(function (e) {
                     e.preventDefault();
-                    $('#new_member_member').append($(this).data('val') + "\n");
+                    var $textarea =$('#new_member_member');
+                    var data = $textarea.val();
+                    $textarea.val('').val($(this).data('val')+"\n"+data);
                     $('#searchUser').val('');
                 })
             })
