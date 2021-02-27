@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Service\api\KeycloakService;
 use App\Service\api\RoomService;
 use App\Service\InviteService;
+use App\Service\LicenseService;
 use App\Service\UserService;
 use PHPUnit\Util\Json;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -42,7 +43,7 @@ class APIUserController extends AbstractController
     }
 
     /**
-     * @Route("/api/v1/room/info/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
+     * @Route("/api/v1/info/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
      */
     public function getRoomInformations(Request $request, $uidReal, RoomService $roomService): Response
     {
@@ -55,13 +56,16 @@ class APIUserController extends AbstractController
     /**
      * @Route("/api/v1/user", name="apiV1_roomAddUser", methods={"POST"})
      */
-    public function addUserToRoom(Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
+    public function addUserToRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
     {
-        $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
-        if (!$clientApi) {
-            return new JsonResponse(array('error' => true, 'text' => 'No Access'));
-        };
+
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
+        $apiKey = $request->headers->get('Authorization');
+        // skip beyond "Bearer "
+        $apiKey = substr($apiKey, 7);
+         if ($room->getServer()->getApiKey() !== $apiKey ||  !$licenseService->verify($room->getServer()) ) {
+            return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
+        }
         $email = $request->get('email');
         return new JsonResponse($roomService->addUserToRoom($room, $email));
     }
@@ -69,13 +73,16 @@ class APIUserController extends AbstractController
     /**
      * @Route("/api/v1/user", name="apiV1_roomDeleteUser", methods={"DELETE"})
      */
-    public function removeUserFromRoom(Request $request, InviteService $inviteService, RoomService $roomService): Response
+    public function removeUserFromRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, RoomService $roomService): Response
     {
-        $clientApi = $this->getDoctrine()->getRepository(ApiKeys::class)->findOneBy(array('clientSecret' => $request->get('clientSecret')));
-        if (!$clientApi) {
-            return new JsonResponse(array('error' => true, 'text' => 'No Access'));
-        };
+
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
+        $apiKey = $request->headers->get('Authorization');
+        // skip beyond "Bearer "
+        $apiKey = substr($apiKey, 7);
+        if ($room->getServer()->getApiKey() !== $apiKey ||  !$licenseService->verify($room->getServer()) ) {
+            return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
+        }
         $email = $request->get('email');
         return new JsonResponse($roomService->removeUserFromRoom($room, $email));
     }

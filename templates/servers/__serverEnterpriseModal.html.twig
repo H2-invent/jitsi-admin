@@ -42,12 +42,14 @@
                                 {{ form_row(form.smtpPort) }}
                             </div>
                         </div>
+
                         {{ form_row(form.smtpUsername) }}
                         {{ form_row(form.smtpPassword) }}
                         {{ form_row(form.smtpEmail) }}
                         {{ form_row(form.smtpSenderName) }}
-
-
+                    <hr>
+                        {{ form_row(form.apiKey) }}
+                        <button class="btn btn-primary generateApiKey">{{ 'API-Key neu genereieren'|trans }}</button>
                     </div>
                 </div>
 

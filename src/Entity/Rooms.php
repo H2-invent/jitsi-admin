@@ -74,7 +74,12 @@ class Rooms
     /**
      * @ORM\Column(type="boolean")
      */
-    private $onlyRegisteredUsers;
+    private $onlyRegisteredUsers= false;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $agenda;
 
     public function __construct()
     {
@@ -226,6 +231,18 @@ class Rooms
     public function setOnlyRegisteredUsers(bool $onlyRegisteredUsers): self
     {
         $this->onlyRegisteredUsers = $onlyRegisteredUsers;
+
+        return $this;
+    }
+
+    public function getAgenda(): ?string
+    {
+        return $this->agenda;
+    }
+
+    public function setAgenda(?string $agenda): self
+    {
+        $this->agenda = $agenda;
 
         return $this;
     }

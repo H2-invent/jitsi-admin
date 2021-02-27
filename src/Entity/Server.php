@@ -106,6 +106,11 @@ class Server
      */
     private $licenseKey;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $apiKey;
+
 
     public function __construct()
     {
@@ -349,6 +354,18 @@ class Server
     public function setLicenseKey(?string $licenseKey): self
     {
         $this->licenseKey = $licenseKey;
+
+        return $this;
+    }
+
+    public function getApiKey(): ?string
+    {
+        return $this->apiKey;
+    }
+
+    public function setApiKey(?string $apiKey): self
+    {
+        $this->apiKey = $apiKey;
 
         return $this;
     }

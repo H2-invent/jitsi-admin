@@ -36,7 +36,8 @@ label:
   serverLintLogo: Link zu Logo
   serverPrivacyPolicy: Datenschutzhinweise für diesen Server
   serverLicenseKey: Jitsi-Admin Lizenkey eingeben
-
+  apiKey: Api-Key für diesen Server
+  agenda: Kurze Agenda für dieses Meeting
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

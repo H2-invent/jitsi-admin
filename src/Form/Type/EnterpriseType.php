@@ -39,6 +39,7 @@ class EnterpriseType extends AbstractType
             ->add('smtpSenderName', TextType::class, ['required' => false, 'label' => 'label.serverSmtpSenderName', 'translation_domain' => 'form'])
             ->add('logoUrl', TextType::class, ['required' => false, 'label' => 'label.serverLintLogo', 'translation_domain' => 'form'])
             ->add('privacyPolicy', TextType::class, ['required' => false, 'label' => 'label.serverPrivacyPolicy', 'translation_domain' => 'form'])
+            ->add('apiKey', TextType::class, ['required' => false, 'attr' => array('readonly' => 'readonly',), 'label' => 'label.apiKey', 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
 
     }
