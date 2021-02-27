@@ -31,6 +31,7 @@ class License extends AbstractExtension
     {
         return [
             new TwigFilter('validateLicense', [$this, 'validateLicense']),
+            new TwigFilter('validateUntilLicense', [$this, 'validateUntilLicense']),
         ];
     }
 
@@ -39,5 +40,8 @@ class License extends AbstractExtension
          return $this->licenseService->verify($server);
 
     }
-
+    public function validateUntilLicense(Server $server):\DateTime
+    {
+        return $this->licenseService->validUntil($server);
+    }
 }

@@ -635,6 +635,14 @@
         <source>API-Key neu genereieren</source>
         <target>__API-Key neu genereieren</target>
       </trans-unit>
+      <trans-unit id="Zl7ocK9" resname="Keine Angabe">
+        <source>Keine Angabe</source>
+        <target>__Keine Angabe</target>
+      </trans-unit>
+      <trans-unit id="83zKG81" resname="Enterprise bis">
+        <source>Enterprise bis</source>
+        <target>__Enterprise bis</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

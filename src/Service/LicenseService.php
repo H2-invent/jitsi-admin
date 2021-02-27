@@ -110,4 +110,8 @@ class LicenseService
 
         return array('error' => false, 'licenseKey' => $license->getLicenseKey());
     }
+    public function validUntil(Server $server){
+        $license= $this->em->getRepository(License::class)->findOneBy(array('licenseKey' => $server->getLicenseKey()));
+        return $license->getValidUntil();
+    }
 }
