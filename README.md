@@ -1,3 +1,4 @@
+![Server](docs/images/header.png)
 # Jitsi Manager
 
 

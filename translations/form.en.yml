@@ -38,6 +38,8 @@ label:
   serverLicenseKey: __Jitsi-Admin Lizenkey eingeben
   apiKey: __Api-Key für diesen Server
   agenda: __Kurze Agenda für dieses Meeting
+  staticBackgroundColor: __Hintergrundfarbe auf der Joinseite festlegen
+  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
