@@ -4,7 +4,18 @@
 
 
     <style>
-        {% if image is not null %}
+        {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+        .imageBackground {
+            background-color: {{ server.staticBackgroundColor }};
+            position: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+            background-position: center;
+        }
+
+        {% elseif image is not null %}
         .imageBackground {
             background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
             position: fixed;
@@ -15,6 +26,7 @@
             background-position: center;
         }
 
+        {% endif %}
         @supports (-webkit-appearance:none) {
             .frozenGlas {
                 background-color: rgba(255, 255, 255, 0.8);
@@ -29,7 +41,7 @@
             }
         }
 
-        {% endif %}
+
     </style>
     <div class="row justify-content-center">
         <div class="col-lg-10 ">
@@ -128,7 +140,9 @@
                        class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
                     <a href="{{ helpUrlParticipants }}" target="_blank"
                        class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
-                    {% if image is not null %}
+                    {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+
+                    {% elseif image is not null %}
                         <br>
                         <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer"
                            rel="noreferrer noopener">

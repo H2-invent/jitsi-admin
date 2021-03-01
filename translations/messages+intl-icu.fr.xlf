@@ -133,9 +133,9 @@
         <source>Datenschutzhinweis</source>
         <target>__Datenschutzhinweis</target>
       </trans-unit>
-      <trans-unit id="u4qrpoG" resname="Fehler melden">
-        <source>Fehler melden</source>
-        <target>__Fehler melden</target>
+      <trans-unit id="u4qrpoG" resname="Fehler oder neue Idee melden">
+        <source>Fehler oder neue Idee melden</source>
+        <target>__Fehler oder neue Idee melden</target>
       </trans-unit>
       <trans-unit id="t9BKvkB" resname="Erweiterte Optionen">
         <source>Erweiterte Optionen</source>
@@ -642,6 +642,18 @@
       <trans-unit id="83zKG81" resname="Enterprise bis">
         <source>Enterprise bis</source>
         <target>__Enterprise bis</target>
+      </trans-unit>
+      <trans-unit id="1wfcLxk" resname="Logo">
+        <source>Logo</source>
+        <target>__Logo</target>
+      </trans-unit>
+      <trans-unit id="m3V30Ni" resname="SMTP-Einstellungen">
+        <source>SMTP-Einstellungen</source>
+        <target>__SMTP-Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="pDSuNQy" resname="Hintergrundbild">
+        <source>Hintergrundbild</source>
+        <target>__Hintergrundbild</target>
       </trans-unit>
     </body>
   </file>

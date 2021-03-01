@@ -14,7 +14,9 @@ use App\Entity\Server;
 use League\CommonMark\Inline\Element\Text;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -40,6 +42,8 @@ class EnterpriseType extends AbstractType
             ->add('logoUrl', TextType::class, ['required' => false, 'label' => 'label.serverLintLogo', 'translation_domain' => 'form'])
             ->add('privacyPolicy', TextType::class, ['required' => false, 'label' => 'label.serverPrivacyPolicy', 'translation_domain' => 'form'])
             ->add('apiKey', TextType::class, ['required' => false, 'attr' => array('readonly' => 'readonly',), 'label' => 'label.apiKey', 'translation_domain' => 'form'])
+            ->add('showStaticBackgroundColor',CheckboxType::class,['required'=>false,'label'=>'label.schowStaticBackgroundColor', 'translation_domain' => 'form'])
+            ->add('staticBackgroundColor',ColorType::class,['html5'=>true, 'required'=>false,'label'=>'label.staticBackgroundColor', 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
 
     }

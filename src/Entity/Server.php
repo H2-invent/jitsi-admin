@@ -111,6 +111,16 @@ class Server
      */
     private $apiKey;
 
+    /**
+     * @ORM\Column(type="string", length=7, nullable=true)
+     */
+    private $staticBackgroundColor;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $showStaticBackgroundColor;
+
 
     public function __construct()
     {
@@ -358,6 +368,18 @@ class Server
         return $this;
     }
 
+    public function getStaticBackgroundColor(): ?string
+    {
+        return $this->staticBackgroundColor;
+    }
+
+    public function setStaticBackgroundColor(?string $staticBackgroundColor): self
+    {
+        $this->staticBackgroundColor = $staticBackgroundColor;
+
+        return $this;
+    }
+
     public function getApiKey(): ?string
     {
         return $this->apiKey;
@@ -366,6 +388,18 @@ class Server
     public function setApiKey(?string $apiKey): self
     {
         $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    public function getShowStaticBackgroundColor(): ?bool
+    {
+        return $this->showStaticBackgroundColor;
+    }
+
+    public function setShowStaticBackgroundColor(?bool $showStaticBackgroundColor): self
+    {
+        $this->showStaticBackgroundColor = $showStaticBackgroundColor;
 
         return $this;
     }
