@@ -5,6 +5,9 @@
 
 Jitsi Manager oder Jitsi Admin zum Verwalten von Jitsi Konferenzen und Server mit JWT
 
+### Bekannt aus
+
+![Server](docs/images/ct-logo.png)
 ## Verteilerliste
 
 Sie können sich in unsere Verteilerliste __Jitsi Admin Update__ eintragen damit Sie bei einem Update oder neuen Release
