@@ -39,14 +39,14 @@ class NotificationService
         if ($rooms->getModerator() !== $user) {
             $organizer = $rooms->getModerator()->getEmail();
         } else {
-            $organizer = 'noreply@jitsi-admin.de';
+            $organizer = $rooms->getModerator()->getFirstName().'@'.$rooms->getModerator()->getLastName().'.de';
             $this->ics->setIsModerator(true);
         }
         $this->ics->add(
             array(
                 'uid' => md5($rooms->getUid()),
                 'location' => $this->translator->trans('Jitsi Konferenz'),
-                'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('%server%' => $rooms->getServer()->getUrl())) .
+                'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $rooms->getServer()->getUrl())) .
                     '\n\n' .
                     $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
                     . '\n\n' .

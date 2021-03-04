@@ -1,13 +1,19 @@
 <div class="card card-body mb-1 text-lg-left text-center">
     <div class="row">
+
         {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
-        <div class="col-md-6">
+        <div class="col-md-4">
+
             {% if room.moderator == app.user %}
                 {{ include('dashboard/__roomOption.html.twig') }}
                 {% else %}
                     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
                        class="btn btn-outline-default confirmHref">{{ 'Entfernen'|trans }}</a>
             {% endif %}
+
+        </div>
+        <div class="col-md-2">
+            {{ room.start|date('d.m.Y') }}
         </div>
     </div>
 </div>
