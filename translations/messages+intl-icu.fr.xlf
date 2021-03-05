@@ -133,7 +133,7 @@
         <source>Datenschutzhinweis</source>
         <target>__Datenschutzhinweis</target>
       </trans-unit>
-      <trans-unit id="u4qrpoG" resname="Fehler oder neue Idee melden">
+      <trans-unit id="o59tO2Q" resname="Fehler oder neue Idee melden">
         <source>Fehler oder neue Idee melden</source>
         <target>__Fehler oder neue Idee melden</target>
       </trans-unit>
@@ -654,6 +654,14 @@
       <trans-unit id="pDSuNQy" resname="Hintergrundbild">
         <source>Hintergrundbild</source>
         <target>__Hintergrundbild</target>
+      </trans-unit>
+      <trans-unit id="Kp3JHqH" resname="Der Moderator wurde erfolgreich neu gesetzt">
+        <source>Der Moderator wurde erfolgreich neu gesetzt</source>
+        <target>__Der Moderator wurde erfolgreich neu gesetzt</target>
+      </trans-unit>
+      <trans-unit id="MCfbPRp" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
+        <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
+        <target>__Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</target>
       </trans-unit>
     </body>
   </file>
