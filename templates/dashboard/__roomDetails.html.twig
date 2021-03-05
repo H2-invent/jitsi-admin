@@ -8,7 +8,7 @@
 </div>
 <div class="col-md-4">
     <h5 class="h5-responsive">{{ room.name }} <a tabindex="0"  data-toggle="popover" data-trigger="focus" title="{{ 'Agenda'|trans }}"
-                                                 data-content="{% if room.agenda is not null %}{{ room.agenda|nl2br }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i class="fa fa-info-circle"></i></a></h5>
+                                                 data-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i class="fa fa-info-circle"></i></a></h5>
     <p class="text-black-50 small">
         {{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
         {{ 'Server'|trans }}: {{ room.server.url }}<br>

@@ -37,7 +37,7 @@ label:
   serverPrivacyPolicy: Datenschutzhinweise für diesen Server
   serverLicenseKey: Jitsi-Admin Lizenkey eingeben
   apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting
+  agenda: Kurze Agenda für dieses Meeting (Markdown)
   staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
   schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
 choice:
