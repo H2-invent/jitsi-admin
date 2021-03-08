@@ -2,10 +2,13 @@
     <b>
         {{ 'Name'|trans }}: {{ room.name }}
     </b>
+    {% if room.agenda is not null %}
     <p>
        <b>{{ 'Agenda'|trans }}:</b>
     </p>
     <p>{{ room.agenda|markdown_to_html }}</p>
+
+    {% endif %}
     <p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
         {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
         {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
