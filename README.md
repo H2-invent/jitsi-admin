@@ -76,3 +76,18 @@ Updates und Wartung muss durch die Zuständige und Verantwortliche Person durchg
 Die aktuelle Version von Jitsi Admin wird unter der AGPL-3.0 License bereitgestellt. Weitere Informationen finden Sie in
 der LICENSE Datei in diesem Repo.
 
+# Installieren
+Laden Sie sich gewüschte Version herunter oder Klonen Sie das Repo.
+
+Führen Sie danach folgenden Befehl in dem Ordner aus
+```javascript
+bash install.sh
+```
+
+# Update
+Laden Sie sich gewüschte Version herunter oder führen Sie einen checkout auf einen gewünschten Tag aus.
+
+Führen Sie danach folgenden Befehl in dem Ordner aus
+```javascript
+bash update.sh
+```
