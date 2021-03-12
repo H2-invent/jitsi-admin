@@ -147,6 +147,7 @@ class RoomController extends AbstractController
 
         if (in_array($this->getUser(), $room->getUser()->toarray())) {
             $url = $roomService->join($room, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
+
             return $this->redirect($url);
         }
 

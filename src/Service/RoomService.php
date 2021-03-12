@@ -25,6 +25,7 @@ class RoomService
     private $em;
     private $logger;
     private $translator;
+
     public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager, FormFactoryInterface $formBuilder, LoggerInterface $logger)
     {
         $this->em = $entityManager;
@@ -35,21 +36,24 @@ class RoomService
 
     function join(Rooms $room, User $user, $t, $userName)
     {
+        $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
+
         if ($t === 'a') {
             $type = 'jitsi-meet://';
         } else {
             $type = 'https://';
         }
-        if ($room->getModerator() === $user) {
+        if ($room->getModerator() === $user || $userRoom->getModerator()) {
             $moderator = true;
         } else {
             $moderator = false;
         }
         $serverUrl = $room->getServer()->getUrl();
-        $serverUrl = str_replace('https://','',$serverUrl);
-        $serverUrl = str_replace('http://','',$serverUrl);
+        $serverUrl = str_replace('https://', '', $serverUrl);
+        $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
+
 
         $payload = array(
             "aud" => "jitsi_admin",
@@ -59,11 +63,29 @@ class RoomService
             "context" => [
                 'user' => [
                     'name' => $userName
-                ]
+                ],
             ],
             "moderator" => $moderator
         );
 
+        $screen = array(
+            'features' => array(
+                'screen-sharing' => true,
+            )
+        );
+        if ($room->getServer()->getFeatureEnableByJWT()) {
+            if ($room->getDissallowScreenshareGlobal()) {
+                dump('1.5');
+                $screen['features']['screen-sharing'] = false;
+                if (($userRoom && $userRoom->getShareDisplay()) || $user === $room->getModerator()) {
+                    $screen['features']['screen-sharing'] = true;
+                    dump('1.2');
+                }
+            }
+            dump($screen);
+            $payload['context']['features'] = $screen['features'];
+        }
+        dump($payload);
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
         if (!$room->getServer()->getAppId() || !$room->getServer()->getAppSecret()) {
             $url = $jitsi_server_url . '/' . $room->getUid();
