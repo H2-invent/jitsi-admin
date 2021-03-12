@@ -121,6 +121,11 @@ class Server
      */
     private $showStaticBackgroundColor;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $featureEnableByJWT = false;
+
 
     public function __construct()
     {
@@ -400,6 +405,18 @@ class Server
     public function setShowStaticBackgroundColor(?bool $showStaticBackgroundColor): self
     {
         $this->showStaticBackgroundColor = $showStaticBackgroundColor;
+
+        return $this;
+    }
+
+    public function getFeatureEnableByJWT(): ?bool
+    {
+        return $this->featureEnableByJWT;
+    }
+
+    public function setFeatureEnableByJWT(?bool $featureEnableByJWT): self
+    {
+        $this->featureEnableByJWT = $featureEnableByJWT;
 
         return $this;
     }

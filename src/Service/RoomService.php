@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\Rooms;
+use App\Entity\RoomsUser;
 use App\Entity\Server;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,13 +73,5 @@ class RoomService
 
         return $url;
     }
-    function transferModerator(User $oldUser,User $user, Rooms $rooms){
-        if($rooms->getModerator() === $oldUser){
-            $rooms->setModerator($user);
-            $this->em->persist($rooms);
-            $this->em->flush();
-            return true;
-        }
-        return false;
-    }
+
 }

@@ -24,7 +24,9 @@ option.480min: __8 Stunden
 lable.serverUrl: __Jitsi Meet Server URL
 label.appId: __App ID
 label.appSecret: __App Secret
-help.serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)
+help:
+  serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)
+  featureEnalbeByJwt: __Das Plugin Enable Feature By JWT muss auf dem Jitsi-Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
 label:
   serverSmtpHostName: __SMTP Hostname
   serverSmtpHostPort:  __SMTP Port
@@ -39,7 +41,8 @@ label:
   apiKey: __Api-Key für diesen Server
   agenda: __Kurze Agenda für dieses Meeting (Markdown)
   staticBackgroundColor: __Hintergrundfarbe auf der Joinseite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
+  schowStaticBackgroundColor: __Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
+  featureEnalbeByJwt: __Enable Feature By JWT Plugin ist auf dem Server aktiviert
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

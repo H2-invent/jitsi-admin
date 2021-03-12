@@ -655,9 +655,9 @@
         <source>Hintergrundbild</source>
         <target>__Hintergrundbild</target>
       </trans-unit>
-      <trans-unit id="Kp3JHqH" resname="Der Moderator wurde erfolgreich neu gesetzt">
-        <source>Der Moderator wurde erfolgreich neu gesetzt</source>
-        <target>__Der Moderator wurde erfolgreich neu gesetzt</target>
+      <trans-unit id="Kp3JHqH" resname="Der Moderator wurde erfolgreich hinzugefügt">
+        <source>Der Moderator wurde erfolgreich hinzugefügt</source>
+        <target>__Der Moderator wurde erfolgreich hinzugefügt</target>
       </trans-unit>
       <trans-unit id="MCfbPRp" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>

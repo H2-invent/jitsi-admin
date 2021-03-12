@@ -20,6 +20,7 @@ import momentPlugin from '@fullcalendar/moment';
 import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
 import autosize from 'autosize'
+
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -116,6 +117,12 @@ $(document).on('click', '.loadContent', function (e) {
 
     });
 });
+function initServerFeatures(){
+    getMoreFeature($('.moreFeatures').val())
+    $('.moreFeatures').change(function (){
+     getMoreFeature($(this).val());
+    })
+}
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     $('.flatpickr').flatpickr({
         minDate: "today",
@@ -139,7 +146,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         }
     });
     initSearchUser();
-
+    initServerFeatures();
     var ctx = document.getElementById("lineChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -187,9 +194,9 @@ function initSearchUser() {
 
                 $('.chooseParticipant').click(function (e) {
                     e.preventDefault();
-                    var $textarea =$('#new_member_member');
+                    var $textarea = $('#new_member_member');
                     var data = $textarea.val();
-                    $textarea.val('').val($(this).data('val')+"\n"+data);
+                    $textarea.val('').val($(this).data('val') + "\n" + data);
                     $('#searchUser').val('');
                     autosize.update($textarea);
                 })
@@ -211,4 +218,16 @@ function initDropDown() {
     })
 
 
+}
+function getMoreFeature(id){
+    $.getJSON(moreFeatureUrl,'id='+id,function (data){
+        var feature = data.feature;
+        for (var prop in feature) {
+            if(feature[prop] == true){
+                $('#'+prop).removeClass('d-none')
+            }else {
+                $('#'+prop).addClass('d-none')
+            }
+        }
+    })
 }
