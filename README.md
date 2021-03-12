@@ -28,7 +28,7 @@ Sie können sich jederzeit aus der Verteilerliste austragen.
 ### Partner und Sponsoren
 <div style="text-align: center">
 
-<img src="https://readi.de/wp-content/uploads/sites/5/2020/10/cropped-Logo-Simplified-mit-Text-e1602047847827.png" style="width: 200px">
+<img src="https://readi.de/wp-content/uploads/sites/5/2020/10/cropped-Logo-Simplified-mit-Text-e1602047847827.png" width="200px">
 <br>
 Interkommunale Zusammenarbeit der Städte Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten und Stutensee
 </div>
