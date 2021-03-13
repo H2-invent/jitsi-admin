@@ -655,13 +655,41 @@
         <source>Hintergrundbild</source>
         <target>__Hintergrundbild</target>
       </trans-unit>
-      <trans-unit id="Kp3JHqH" resname="Der Moderator wurde erfolgreich hinzugefügt">
+      <trans-unit id="9GGCLP1" resname="Der Moderator wurde erfolgreich hinzugefügt">
         <source>Der Moderator wurde erfolgreich hinzugefügt</source>
         <target>__Der Moderator wurde erfolgreich hinzugefügt</target>
       </trans-unit>
       <trans-unit id="MCfbPRp" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
         <target>__Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</target>
+      </trans-unit>
+      <trans-unit id="NsNzdSB" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                                auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                                dem Formular an den Jitsi Meet Server weiter.">
+        <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
+                                                auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                                                dem Formular an den Jitsi Meet Server weiter.</source>
+        <target>__Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
+                                                auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                                                dem Formular an den Jitsi Meet Server weiter.</target>
+      </trans-unit>
+      <trans-unit id="17r8k18" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
+        <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
+        <target>__Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</target>
+      </trans-unit>
+      <trans-unit id="glLZAnW" resname="Diesem Nutzer erlauben seinen Bildschirm zu teilen">
+        <source>Diesem Nutzer erlauben seinen Bildschirm zu teilen</source>
+        <target>__Diesem Nutzer erlauben seinen Bildschirm zu teilen</target>
+      </trans-unit>
+      <trans-unit id="olQS0LU" resname="Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen">
+        <source>Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</source>
+        <target>__Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</target>
+      </trans-unit>
+      <trans-unit id="YUsgpjC" resname="Zum Moderator ernennen">
+        <source>Zum Moderator ernennen</source>
+        <target>__Zum Moderator ernennen</target>
+      </trans-unit>
+      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
+        <source>Erlauben seinen Desktop zu Teilen</source>
+        <target>__Erlauben seinen Desktop zu Teilen</target>
       </trans-unit>
     </body>
   </file>
