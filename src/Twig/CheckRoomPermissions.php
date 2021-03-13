@@ -36,9 +36,12 @@ class CheckRoomPermissions extends AbstractExtension
             new TwigFunction('roomPermissions', [$this, 'roomPermissions']),
         ];
     }
-    public function roomPermissions(User $user, Rooms $rooms):RoomsUser
+    public function roomPermissions(User $user, Rooms $rooms):?RoomsUser
     {
       $permissions = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user, 'room'=>$rooms));
+     if(!$permissions){
+         $permissions = new RoomsUser();
+     }
       return $permissions;
     }
 
