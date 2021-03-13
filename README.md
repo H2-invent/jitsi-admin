@@ -8,19 +8,30 @@ Jitsi Manager oder Jitsi Admin zum Verwalten von Jitsi Konferenzen und Server mi
 ### Bekannt aus
 
 ![Server](docs/images/ct-logo.png)
-## Verteilerliste
+
+
+
+### Verteilerliste
 
 Sie können sich in unsere Verteilerliste __Jitsi Admin Update__ eintragen damit Sie bei einem Update oder neuen Release
 informiert werden. H2 invent verschickt über diese Verteilerliste nur Informationen zu Releases, Updates und neuen
-Features. Es handelt sich hierbei __nicht__ um einen Marketing-Newsletter. Wir verschicken die Email nur in englischer 
+Features. Es handelt sich hierbei __nicht__ um einen Marketing-Newsletter. Wir verschicken die Email nur in englischer
 und nicht in deutscher Sprache.
 
 Zum Eintragen in den Verteiler klicken Sie auf den
-Link [Verteilerliste](https://verteiler.h2-invent.com/?p=subscribe&id=1) und geben dort Ihre Email Adresse ein. Wir verwenden 
-ein Doppel-Opt-in Verfahren. Sie erhalten daher eine Bestätigungsemail mit einem Link auf den Sie einmal klicken müssen 
+Link [Verteilerliste](https://verteiler.h2-invent.com/?p=subscribe&id=1) und geben dort Ihre Email Adresse ein. Wir verwenden
+ein Doppel-Opt-in Verfahren. Sie erhalten daher eine Bestätigungsemail mit einem Link auf den Sie einmal klicken müssen
 um die Eintragung in der Verteilerliste zu bestätigen.
 
 Sie können sich jederzeit aus der Verteilerliste austragen.
+
+### Partner und Sponsoren
+<div style="text-align: center">
+
+<img src="https://readi.de/wp-content/uploads/sites/5/2020/10/cropped-Logo-Simplified-mit-Text-e1602047847827.png" width="200px">
+<br>
+Interkommunale Zusammenarbeit der Städte Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten und Stutensee
+</div>
 
 # Funktionen
 
@@ -31,7 +42,6 @@ Folgende Funktionen sind bereits im Jitsi Administrator integriert:
 * Hinzufügen von Teilnehmern zu einer Konferenz
 * Verschicken von Emails an die Teilnehmer
 * Verschicken von Emails vor der Konferenz über einen CronJob
-
 ### Das Dashboard
 
 Alle Informationen zu den Konferenzen stehen auf dem zentralen Dashboard
