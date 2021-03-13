@@ -1,7 +1,7 @@
 label.konferenzId: Konferenz ID
 label.email: Email Adresse
 label.name: Name
-label.beitreten: Beitreten
+
 label.teilnehmerEmailhinzufuegen: E-Mail Adresse von neuen Teilnehmern eingeben
 label.teilnehmerSpeichern: Teilnehmer Hinzufügen
 label.emailModerator: E-Mail Adresse des Organisators eingeben
@@ -28,6 +28,8 @@ help:
   serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
   featureEnalbeByJwt: Das Plugin Enable Feature By JWT muss auf dem Jitsi-Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
 label:
+  beitretenApp: Mit der Elektron App beitreten
+  beitretenBrowser: Im Browser beitreten
   serverSmtpHostName: SMTP Hostname
   serverSmtpHostPort:  SMTP Port
   serverSmtpEncryption:  Encryption

@@ -28,6 +28,8 @@ help:
   serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)
   featureEnalbeByJwt: __Das Plugin Enable Feature By JWT muss auf dem Jitsi-Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
 label:
+  beitretenApp: __Mit der Elektron App beitreten
+  beitretenBrowser: __Im Browser beitreten
   serverSmtpHostName: __SMTP Hostname
   serverSmtpHostPort:  __SMTP Port
   serverSmtpEncryption:  __Encryption
