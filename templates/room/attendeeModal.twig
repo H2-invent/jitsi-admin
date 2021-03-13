@@ -7,21 +7,61 @@
         </div>
         <div class="modal-body">
             <p>{{ 'Teilnehmerliste'|trans }}</p>
+            <p class="small">
+                <i class="fa fa-crown"></i> {{ 'Zum Moderator ernennen'|trans }}
+                {% if room.dissallowScreenshareGlobal %}
+                <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu Teilen'|trans }}
+                {% endif %}
+                {% if room.dissallowPrivateMessage %}
+                    <br><i class="far fa-comments"></i> {{ 'Erlaube private Nachrichten an andere Teilnehmer zu senden'|trans }}
+                {% endif %}
+            </p>
             <ul>
                 <li>{{ room.moderator.email }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                 {% for user in room.user %}
                     {% if user != room.moderator %}
-                        <li>{{ user.email }} <a class="small confirmHref"
-                               href="{{ path('room_transfer_moderator',{'room':room.id,'user':user.id}) }}" data-text="{{ 'Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?'|trans }}"><i class="fa fa-crown"></i> </a>
+                        <li>{{ user.email }}
+                            <a class="small confirmHref {% if roomPermissions(user,room).moderator == true %}text-success{% endif %}"
+                               href="{{ path('room_add_moderator',{'room':room.id,'user':user.id}) }}"
+                               data-text="
+{% if roomPermissions(user,room).moderator == false %}
+{{ 'Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?'|trans }}
+{% else %}
+{{ 'Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?'|trans }}
+{% endif %}
+"><i class="fa fa-crown"></i></a>
+{% if room.dissallowScreenshareGlobal %}
+                            <a class="small confirmHref {% if roomPermissions(user,room).shareDisplay == true %}text-success{% endif %}"
+                               href="{{ path('change_permissions_screenShare',{'room':room.id,'user':user.id}) }}"
+                               data-text="
+{% if roomPermissions(user,room).shareDisplay == false %}{{ 'Diesem Nutzer erlauben seinen Bildschirm zu teilen'|trans }}
+{% else %}
+{{ 'Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen'|trans }}
+{% endif %}
+"><i class="fas fa-desktop"></i></a>
+    {% endif %}
+                            {% if room.dissallowPrivateMessage %}
+                                <a class="small confirmHref {% if roomPermissions(user,room).privateMessage == true %}text-success{% endif %}"
+                                   href="{{ path('change_permissions_privateMessage',{'room':room.id,'user':user.id}) }}"
+                                   data-text="
+{% if roomPermissions(user,room).privateMessage == false %}{{ 'Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
+{% else %}
+{{ 'Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
+{% endif %}
+"><i class="far fa-comments"></i></a>
+                            {% endif %}
+
                             <a class="small confirmHref"
-                                                href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"><i class="fa fa-trash"></i> </a>
+                               href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"><i
+                                        class="fa fa-trash"></i> </a>
                         </li>
                     {% endif %}
                 {% endfor %}
             </ul>
             <hr>
             <label for="searchUser">{{ 'Teilnehmer Suchen'|trans }}</label>
-            <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle" href="{{ path('search_participant') }}"
+            <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
+                   href="{{ path('search_participant') }}"
                    data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
             <div class="dropdown-menu" id="participantUser">

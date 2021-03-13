@@ -24,7 +24,9 @@ option.480min: 8 Stunden
 lable.serverUrl: Jitsi Meet Server URL
 label.appId: App ID
 label.appSecret: App Secret
-help.serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
+help:
+  serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
+  featureEnalbeByJwt: Das Plugin Enable Feature By JWT muss auf dem Jitsi-Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
 label:
   beitretenApp: Mit der Elektron App beitreten
   beitretenBrowser: Im Browser beitreten
@@ -42,6 +44,9 @@ label:
   agenda: Kurze Agenda für dieses Meeting (Markdown)
   staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
   schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
+  featureEnalbeByJwt: Enable Feature By JWT Plugin ist auf dem Server aktiviert
+  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

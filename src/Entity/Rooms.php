@@ -81,9 +81,25 @@ class Rooms
      */
     private $agenda;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room")
+     */
+    private $userAttributes;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $dissallowScreenshareGlobal;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $dissallowPrivateMessage;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->userAttributes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,6 +259,60 @@ class Rooms
     public function setAgenda(?string $agenda): self
     {
         $this->agenda = $agenda;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RoomsUser[]
+     */
+    public function getUserAttributes(): Collection
+    {
+        return $this->userAttributes;
+    }
+
+    public function addUserAttribute(RoomsUser $userAttribute): self
+    {
+        if (!$this->userAttributes->contains($userAttribute)) {
+            $this->userAttributes[] = $userAttribute;
+            $userAttribute->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserAttribute(RoomsUser $userAttribute): self
+    {
+        if ($this->userAttributes->removeElement($userAttribute)) {
+            // set the owning side to null (unless already changed)
+            if ($userAttribute->getRoom() === $this) {
+                $userAttribute->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDissallowScreenshareGlobal(): ?bool
+    {
+        return $this->dissallowScreenshareGlobal;
+    }
+
+    public function setDissallowScreenshareGlobal(?bool $allowScreenshareGlobal): self
+    {
+        $this->dissallowScreenshareGlobal = $allowScreenshareGlobal;
+
+        return $this;
+    }
+
+    public function getDissallowPrivateMessage(): ?bool
+    {
+        return $this->dissallowPrivateMessage;
+    }
+
+    public function setDissallowPrivateMessage(?bool $dissallowPrivateMessage): self
+    {
+        $this->dissallowPrivateMessage = $dissallowPrivateMessage;
 
         return $this;
     }

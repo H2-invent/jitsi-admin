@@ -37,6 +37,7 @@ class RoomType extends AbstractType
                 'translation_domain' => 'form',
                 'multiple' => false,
                 'required' => true,
+                'attr'=>array('class'=>'moreFeatures')
             ])
             ->add('name', TextType::class, ['required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
             ->add('agenda', TextareaType::class, ['required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
@@ -56,6 +57,8 @@ class RoomType extends AbstractType
                 ]
             ])
             ->add('onlyRegisteredUsers',CheckboxType::class,array('required'=>false,'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form'))
+            ->add('dissallowScreenshareGlobal',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'))
+            ->add('dissallowPrivateMessage',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowPrivateMessage', 'translation_domain' => 'form'))
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

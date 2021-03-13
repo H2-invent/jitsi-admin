@@ -101,6 +101,11 @@ class User extends BaseUser
      */
     private $addressbookInverse;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="user")
+     */
+    private $roomsAttributes;
+
 
 
     public function __construct()
@@ -111,6 +116,7 @@ class User extends BaseUser
         $this->serverAdmins = new ArrayCollection();
         $this->addressbook = new ArrayCollection();
         $this->addressbookInverse = new ArrayCollection();
+        $this->roomsAttributes = new ArrayCollection();
 
     }
 
@@ -365,6 +371,36 @@ class User extends BaseUser
     {
         if ($this->addressbookInverse->removeElement($addressbookInverse)) {
             $addressbookInverse->removeAddressbook($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RoomsUser[]
+     */
+    public function getRoomsAttributes(): Collection
+    {
+        return $this->roomsAttributes;
+    }
+
+    public function addRoomsAttributes(RoomsUser $roomsNew): self
+    {
+        if (!$this->roomsAttributes->contains($roomsNew)) {
+            $this->roomsAttributes[] = $roomsNew;
+            $roomsNew->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoomsAttributes(RoomsUser $roomsNew): self
+    {
+        if ($this->roomsAttributes->removeElement($roomsNew)) {
+            // set the owning side to null (unless already changed)
+            if ($roomsNew->getUser() === $this) {
+                $roomsNew->setUser(null);
+            }
         }
 
         return $this;
