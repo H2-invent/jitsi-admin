@@ -51,7 +51,9 @@ class RoomService
     function join(Rooms $room, User $user, $t, $userName)
     {
         $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
-
+        if(!$roomUser){
+            $roomUser = new RoomsUser();
+        }
         if ($t === 'a') {
             $type = 'jitsi-meet://';
         } else {
