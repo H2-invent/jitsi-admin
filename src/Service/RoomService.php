@@ -72,6 +72,8 @@ class RoomService
 
         return $url;
     }
+
+
     function transferModerator(User $oldUser,User $user, Rooms $rooms){
         if($rooms->getModerator() === $oldUser){
             $rooms->setModerator($user);

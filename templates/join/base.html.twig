@@ -12,7 +12,7 @@
             {% block content %}{% endblock %}
         </div>
         <div class="row justify-content-center ">
-            <div class="col-lg-10">
+            <div class="col-12">
                 <div class="card card-body mt-4 text-center">
                     <div class="row">
                         <div class="col-md-3 text-md-left">
@@ -38,8 +38,11 @@
                                 2019-{{ 'now'|date('Y') }}
                                 • v{{ laf_version }}</a>
                         </div>
-                        <div class="col-md-3 text-md-right d-none d-sm-block">
-                            <img src="{{ asset('images/open-source-logo.png') }}" style="height: 50px">
+                        <div class="col-md-2 text-md-center d-none d-sm-block">
+                            <a href="https://github.com/H2-invent/jitsi-admin/blob/master/LICENSE" target="_blank" referrerpolicy="no-referrer" rel="noopener"> <img src="{{ asset('images/agpl.png') }}" style="width: 100%"></a>
+                        </div>
+                        <div class="col-md-1 text-md-right d-none d-sm-block">
+                            <a href="https://opensource.org/" referrerpolicy="no-referrer" rel="noopener"><img src="{{ asset('images/open-source-logo.png') }}" style="width: 100%"></a>
                         </div>
                     </div>
                 </div>
