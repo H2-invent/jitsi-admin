@@ -691,6 +691,18 @@
         <source>Erlauben seinen Desktop zu Teilen</source>
         <target>__Erlauben seinen Desktop zu Teilen</target>
       </trans-unit>
+      <trans-unit id="1KCN0lU" resname="Erlaube private Nachrichten an andere Teilnehmer zu senden">
+        <source>Erlaube private Nachrichten an andere Teilnehmer zu senden</source>
+        <target>__Erlaube private Nachrichten an andere Teilnehmer zu senden</target>
+      </trans-unit>
+      <trans-unit id="0yF1shO" resname="Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden">
+        <source>Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</source>
+        <target>__Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+      </trans-unit>
+      <trans-unit id="JJdcoFT" resname="Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden">
+        <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
+        <target>__Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

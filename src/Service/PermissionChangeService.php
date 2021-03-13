@@ -56,4 +56,23 @@ class PermissionChangeService
         }
         return false;
     }
+    function togglePrivateMessage(User $oldUser,User $user, Rooms $rooms){
+        if($rooms->getModerator() === $oldUser){
+            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
+            if(!$roomsUser){
+                $roomsUser = new RoomsUser();
+                $roomsUser->setUser($user);
+                $roomsUser->setRoom($rooms);
+            }
+            if($roomsUser->getPrivateMessage()){
+                $roomsUser->setPrivateMessage(false);
+            }else{
+                $roomsUser->setPrivateMessage(true);
+            }
+            $this->em->persist($roomsUser);
+            $this->em->flush();
+            return true;
+        }
+        return false;
+    }
 }

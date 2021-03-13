@@ -26,6 +26,8 @@ final class Version20210312111020 extends AbstractMigration
         $this->addSql('ALTER TABLE server ADD feature_enable_by_jwt TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE rooms ADD dissallow_screenshare_global TINYINT(1) DEFAULT NULL');
         $this->addSql('ALTER TABLE userroomsattributes ADD moderator TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE userroomsattributes ADD private_message TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE rooms ADD dissallow_private_message TINYINT(1) DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -35,5 +37,7 @@ final class Version20210312111020 extends AbstractMigration
         $this->addSql('ALTER TABLE server DROP feature_enable_by_jwt');
         $this->addSql('ALTER TABLE rooms DROP dissallow_screenshare_global');
         $this->addSql('ALTER TABLE userRoomsAttributes DROP moderator');
+        $this->addSql('ALTER TABLE userRoomsAttributes DROP private_message');
+        $this->addSql('ALTER TABLE rooms DROP dissallow_private_message');
     }
 }

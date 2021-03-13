@@ -40,6 +40,11 @@ class RoomsUser
      */
     private $moderator;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $privateMessage;
+
 
 
     public function getId(): ?int
@@ -91,6 +96,18 @@ class RoomsUser
     public function setModerator(?bool $moderator): self
     {
         $this->moderator = $moderator;
+
+        return $this;
+    }
+
+    public function getPrivateMessage(): ?bool
+    {
+        return $this->privateMessage;
+    }
+
+    public function setPrivateMessage(?bool $privateMessage): self
+    {
+        $this->privateMessage = $privateMessage;
 
         return $this;
     }

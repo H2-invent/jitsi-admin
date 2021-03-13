@@ -46,6 +46,7 @@ label:
   schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
   featureEnalbeByJwt: Enable Feature By JWT Plugin ist auf dem Server aktiviert
   dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

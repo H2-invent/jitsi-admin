@@ -58,6 +58,7 @@ class RoomType extends AbstractType
             ])
             ->add('onlyRegisteredUsers',CheckboxType::class,array('required'=>false,'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form'))
             ->add('dissallowScreenshareGlobal',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'))
+            ->add('dissallowPrivateMessage',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowPrivateMessage', 'translation_domain' => 'form'))
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

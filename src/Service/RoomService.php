@@ -50,14 +50,14 @@ class RoomService
      */
     function join(Rooms $room, User $user, $t, $userName)
     {
-        $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
+        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
 
         if ($t === 'a') {
             $type = 'jitsi-meet://';
         } else {
             $type = 'https://';
         }
-        if ($room->getModerator() === $user || $userRoom->getModerator()) {
+        if ($room->getModerator() === $user || $roomUser->getModerator()) {
             $moderator = true;
         } else {
             $moderator = false;
@@ -83,19 +83,25 @@ class RoomService
         );
 
         $screen = array(
-            'features' => array(
                 'screen-sharing' => true,
-            )
+                'private-message' => true,
+
         );
         if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
-                $screen['features']['screen-sharing'] = false;
-                if (($userRoom && $userRoom->getShareDisplay()) || $user === $room->getModerator()) {
-                    $screen['features']['screen-sharing'] = true;
+                $screen['screen-sharing'] = false;
+                if (($roomUser && $roomUser->getShareDisplay()) || $user === $room->getModerator()) {
+                    $screen['screen-sharing'] = true;
 
                 }
             }
-            $payload['context']['features'] = $screen['features'];
+            if ($room->getDissallowPrivateMessage()) {
+                $screen['private-message'] = false;
+                if ($roomUser && $roomUser->getPrivateMessage() || $user === $room->getModerator()) {
+                    $screen['private-message'] = true;
+                }
+            }
+            $payload['context']['features'] = $screen;
         }
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
         if (!$room->getServer()->getAppId() || !$room->getServer()->getAppSecret()) {

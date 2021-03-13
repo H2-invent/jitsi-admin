@@ -91,6 +91,11 @@ class Rooms
      */
     private $dissallowScreenshareGlobal;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $dissallowPrivateMessage;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -296,6 +301,18 @@ class Rooms
     public function setDissallowScreenshareGlobal(?bool $allowScreenshareGlobal): self
     {
         $this->dissallowScreenshareGlobal = $allowScreenshareGlobal;
+
+        return $this;
+    }
+
+    public function getDissallowPrivateMessage(): ?bool
+    {
+        return $this->dissallowPrivateMessage;
+    }
+
+    public function setDissallowPrivateMessage(?bool $dissallowPrivateMessage): self
+    {
+        $this->dissallowPrivateMessage = $dissallowPrivateMessage;
 
         return $this;
     }

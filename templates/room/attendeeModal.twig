@@ -12,6 +12,9 @@
                 {% if room.dissallowScreenshareGlobal %}
                 <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu Teilen'|trans }}
                 {% endif %}
+                {% if room.dissallowPrivateMessage %}
+                    <br><i class="far fa-comments"></i> {{ 'Erlaube private Nachrichten an andere Teilnehmer zu senden'|trans }}
+                {% endif %}
             </p>
             <ul>
                 <li>{{ room.moderator.email }} <span class="small">({{ 'Organisator'|trans }})</span></li>
@@ -37,6 +40,16 @@
 {% endif %}
 "><i class="fas fa-desktop"></i></a>
     {% endif %}
+                            {% if room.dissallowPrivateMessage %}
+                                <a class="small confirmHref {% if roomPermissions(user,room).privateMessage == true %}text-success{% endif %}"
+                                   href="{{ path('change_permissions_privateMessage',{'room':room.id,'user':user.id}) }}"
+                                   data-text="
+{% if roomPermissions(user,room).privateMessage == false %}{{ 'Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
+{% else %}
+{{ 'Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
+{% endif %}
+"><i class="far fa-comments"></i></a>
+                            {% endif %}
 
                             <a class="small confirmHref"
                                href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"><i

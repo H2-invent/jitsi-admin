@@ -45,6 +45,7 @@ label:
   staticBackgroundColor: __Hintergrundfarbe auf der Joinseite festlegen
   schowStaticBackgroundColor: __Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
   featureEnalbeByJwt: __Enable Feature By JWT Plugin ist auf dem Server aktiviert
+  dissallowPrivateMessage: __Nur der Moderator darf private Nachrichten an Teilnehmer senden
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
