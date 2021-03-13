@@ -38,7 +38,6 @@ class APIRoomController extends AbstractController
             $user->setCreatedAt(new \DateTime());
             $user->setUsername($email);
         }
-
         $serverUrl = $request->get('server');
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "

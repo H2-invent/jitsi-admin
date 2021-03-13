@@ -7,6 +7,12 @@
         </div>
         <div class="modal-body">
             <p>{{ 'Teilnehmerliste'|trans }}</p>
+            <p class="small">
+                <i class="fa fa-crown"></i> Zum Moderator ernennen
+                {% if room.dissallowScreenshareGlobal %}
+                <br><i class="fas fa-desktop"></i> Erlauben seinen Desktop zu Teilen
+                {% endif %}
+            </p>
             <ul>
                 <li>{{ room.moderator.email }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                 {% for user in room.user %}

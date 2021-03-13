@@ -20,6 +20,10 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 
+/**
+ * Class RoomService
+ * @package App\Service
+ */
 class RoomService
 {
     private $em;
@@ -34,6 +38,16 @@ class RoomService
 
     }
 
+    /**
+     * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
+     * @param Rooms $room
+     * @param User $user
+     * @param $t
+     * @param $userName
+     * @return string
+     * @author Emanuel Holzmann
+     * @de
+     */
     function join(Rooms $room, User $user, $t, $userName)
     {
         $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
@@ -75,17 +89,14 @@ class RoomService
         );
         if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
-                dump('1.5');
                 $screen['features']['screen-sharing'] = false;
                 if (($userRoom && $userRoom->getShareDisplay()) || $user === $room->getModerator()) {
                     $screen['features']['screen-sharing'] = true;
-                    dump('1.2');
+
                 }
             }
-            dump($screen);
             $payload['context']['features'] = $screen['features'];
         }
-        dump($payload);
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
         if (!$room->getServer()->getAppId() || !$room->getServer()->getAppSecret()) {
             $url = $jitsi_server_url . '/' . $room->getUid();
