@@ -17,7 +17,7 @@ class ChangePermissionsController extends AbstractController
     /**
      * @Route("/room/change/permissions/shareScreen", name="change_permissions_screenShare")
      */
-    public function index(Request $request, TranslatorInterface $translator, PermissionChangeService $permissionChangeService): Response
+    public function shareScreen(Request $request, TranslatorInterface $translator, PermissionChangeService $permissionChangeService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
         if(!$room){
