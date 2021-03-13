@@ -1,7 +1,7 @@
 label.konferenzId: Konferenz ID
 label.email: Email Adresse
 label.name: Name
-label.beitreten: Beitreten
+
 label.teilnehmerEmailhinzufuegen: E-Mail Adresse von neuen Teilnehmern eingeben
 label.teilnehmerSpeichern: Teilnehmer Hinzufügen
 label.emailModerator: E-Mail Adresse des Organisators eingeben
@@ -26,6 +26,8 @@ label.appId: App ID
 label.appSecret: App Secret
 help.serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
 label:
+  beitretenApp: Mit der Elektron App beitreten
+  beitretenBrowser: Im Browser beitreten
   serverSmtpHostName: SMTP Hostname
   serverSmtpHostPort:  SMTP Port
   serverSmtpEncryption:  Encryption

@@ -44,8 +44,8 @@
 
     </style>
     <div class="row justify-content-center">
-        <div class="col-lg-10 ">
-            <div class="card frozenGlas" style="; ">
+        <div class="col-lg-12 ">
+            <div class="card frozenGlas">
                 <div class="glossy"></div>
                 <div class="card-body">
                     <div class="row">
@@ -65,17 +65,13 @@
                     </div>
 
                     <hr>
-                    <div class="text-center">
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-1 text-center text-md-left">
 
-                        </div>
-                        <div class="offset-md-1 col-md-8">
+                    <div class="row mb-5">
+
+                        <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
                             <p class="text-center text-md-left">
                                 {{ 'Füllen Sie das Formular aus um der Konferenz beizutreten'|trans }}
                             </p>
-
                             {{ form_start(form) }}
                             {{ form_row(form.uid) }}
                             {{ form_row(form.email) }}
@@ -83,7 +79,7 @@
                             <div class="row form-group">
 
                                 <div class="col-12">
-                                    <p>
+                                    <p class="small">
                                         {% if server and server.privacyPolicy %}
                                             {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
                                                 Ich habe die
@@ -111,18 +107,33 @@
                                             {% endtrans %}
                                         {% endif %}
                                     </p>
-                                    <p style="font-size: 10px">
-                                        {% trans %}
-                                            Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                            auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                            dem Formular an den Jitsi Meet Server weiter.
-                                        {% endtrans %}
-                                    </p>
+                                    {% if not server %}
+                                        <p style="font-size: 10px">
+                                            {% trans %}
+                                                Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
+                                                auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                                                dem Formular an den Jitsi Meet Server weiter.
+                                            {% endtrans %}
+                                        </p>
+                                    {% endif %}
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_row(form.joinApp) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(form.joinBrowser) }}
+                                </div>
+                            </div>
+
                             {{ form_end(form) }}
+
                         </div>
+
                     </div>
+
+
                     {% if not server %}
                         <p>
                             {% trans %}
@@ -149,7 +160,7 @@
                             Image by {{ image['photographer'] }} </a>
                         <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
                            rel="noreferrer noopener"> provided by <img height="30px"
-                                                                       src="{{ asset('images/pexels.png') }}""/>
+                                                                       src="{{ asset('images/pexels.png') }}" />
                         </a>
 
                     {% endif %}

@@ -21,10 +21,11 @@ class JoinViewType extends AbstractType
     {
 
         $builder
-            ->add('uid', TextType::class, ['attr'=>['placeholder'=>'label.konferenzId'], 'label'=>false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('email', TextType::class, ['attr'=>['placeholder'=>'label.email'],'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('name', TextType::class, ['attr'=>['placeholder'=>'label.name'],'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('save', SubmitType::class, ['attr' => array('class' => 'btn btn-primary btn-block mt-3'), 'label' => 'label.beitreten', 'translation_domain' => 'form']);
+            ->add('uid', TextType::class, ['attr' => ['placeholder' => 'label.konferenzId'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.name'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
+            ->add('joinApp', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-secondary btn-block p-3'), 'label' => 'label.beitretenApp', 'translation_domain' => 'form'])
+            ->add('joinBrowser', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary btn-block p-3'), 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

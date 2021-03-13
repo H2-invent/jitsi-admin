@@ -46,11 +46,13 @@ class JoinController extends AbstractController
         if ($request->cookies->get('name')) {
             $data['name'] = $request->cookies->get('name');
         }
+
         if (isset($data['email']) && isset($data['uid'])) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+
             //If the room ID is correct set and the room exists
-            if ($this->testRoomPermissions($room, $user)) {
+            if ($this->onlyWithUserAccount($room, $user)) {
                 return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
             }
         } else {
@@ -69,18 +71,26 @@ class JoinController extends AbstractController
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
+            if ($form->get('joinApp')->isClicked()) {
+                $type = 'a';
+            } elseif ($form->get('joinBrowser')->isClicked()) {
+                $type = 'b';
+            }
+
             if (count($errors) == 0 && $room && $user && in_array($user, $room->getUser()->toarray())) {
-                if ($this->testRoomPermissions($room, $user)) {
-                    return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
+                if ($this->onlyWithUserAccount($room, $user) || $this->userAccountLogin($room, $user)) {
+                    return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => $type]);
                 }
-                $url = $roomService->join($room, $user, 'b', $search['name']);
+                $url = $roomService->join($room, $user, $type, $search['name']);
                 $res = $this->redirect($url);
                 $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
                 return $res;
+
             }
+
             $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
         }
-        $image = $pexelService ->getImageFromPexels();
+        $image = $pexelService->getImageFromPexels();
 
         return $this->render('join/index.html.twig', [
             'form' => $form->createView(),
@@ -91,17 +101,32 @@ class JoinController extends AbstractController
         ]);
     }
 
-    function testRoomPermissions(?Rooms $room, ?User $user)
+    /**
+     * function onlyWithUserAccount
+     * Return if only users with account can join the conference
+     * @author Andreas Holzmann
+     * @return boolean
+     */
+    function onlyWithUserAccount(?Rooms $room)
     {
         if ($room) {
-            if (
-                $this->parameterBag->get('laF_onlyRegisteredParticipents') == 1 ||//only registered USers globaly set
-                $room->getOnlyRegisteredUsers() || // only registered users for this room are alloed
-                ($user && $user->getKeycloakId() !== null)//the users was already loged in, so he needs to sign in again
-            ) {
-                return true;
-            }
-            return false;
+            return $this->parameterBag->get('laF_onlyRegisteredParticipents') == 1 || //only registered Users globally set
+                $room->getOnlyRegisteredUsers();
         }
+        return false;
+    }
+
+    /**
+     * function userAccountLogin
+     * Return boolean if account must login to join the conference
+     * @author Andreas Holzmann
+     * @return boolean
+     */
+    function userAccountLogin(?Rooms $room, ?User $user)
+    {
+        if ($room) {
+            return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference
+        }
+        return false;
     }
 }

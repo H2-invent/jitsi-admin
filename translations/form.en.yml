@@ -26,6 +26,8 @@ label.appId: __App ID
 label.appSecret: __App Secret
 help.serverUrl: __Ohne "https://" angeben (z.B meet.jit.si)
 label:
+  beitretenApp: __Mit der Elektron App beitreten
+  beitretenBrowser: __Im Browser beitreten
   serverSmtpHostName: __SMTP Hostname
   serverSmtpHostPort:  __SMTP Port
   serverSmtpEncryption:  __Encryption
