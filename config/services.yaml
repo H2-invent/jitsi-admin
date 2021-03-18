@@ -22,6 +22,7 @@ parameters:
     laF_pexel_api_key: '%env(laF_pexel_api_key)%'
     laF_pexel_refresh_time: '%env(laF_pexel_refresh_time)%'
     laF_baseUrl: '%env(laF_baseUrl)%'
+    laF_emailTextLogin: '%env(laF_emailTextLogin)%'
 services:
     # default configuration for services in *this* file
     _defaults:

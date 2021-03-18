@@ -126,6 +126,16 @@ class Server
      */
     private $featureEnableByJWT = false;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $serverEmailHeader;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $serverEmailBody;
+
 
     public function __construct()
     {
@@ -417,6 +427,30 @@ class Server
     public function setFeatureEnableByJWT(?bool $featureEnableByJWT): self
     {
         $this->featureEnableByJWT = $featureEnableByJWT;
+
+        return $this;
+    }
+
+    public function getServerEmailHeader(): ?string
+    {
+        return $this->serverEmailHeader;
+    }
+
+    public function setServerEmailHeader(?string $serverEmailHeader): self
+    {
+        $this->serverEmailHeader = $serverEmailHeader;
+
+        return $this;
+    }
+
+    public function getServerEmailBody(): ?string
+    {
+        return $this->serverEmailBody;
+    }
+
+    public function setServerEmailBody(?string $serverEmailBody): self
+    {
+        $this->serverEmailBody = $serverEmailBody;
 
         return $this;
     }

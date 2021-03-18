@@ -1,6 +1,6 @@
 {% apply inky_to_html|inline_css(source('@css/foundation-emails.css')) %}
-    {%  if room is defined and server is not defined %}
-    {% set server = room.server %}
+    {% if room is defined and server is not defined %}
+        {% set server = room.server %}
     {% endif %}
     <style type="text/css">
         body,
@@ -24,10 +24,13 @@
         <row>
             <columns>
                 <h1 class="text-center">
-                    {% block header %}
+                    {% if server is defined and  server is not null and server|validateLicense and server.serverEmailHeader is not null %}
+                        {{ server.serverEmailHeader }}
+                    {% else %}
+                        {% block header %}
 
-
-                    {% endblock %}
+                        {% endblock %}
+                    {% endif %}
                 </h1>
 
             </columns>
@@ -45,22 +48,23 @@
                 {% endblock %}
                 <spacer size="16"></spacer>
                 <center>
-
-                    <p style="text-align: center">
-                        {% if server is defined and  server is not null and server|validateLicense %}
-                            {% trans with {'{url}':laF_baseUrl~path('dashboard')} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
-                                <br>
-                                Dann melden Sie sich <a href="{url}">hier</a>&nbsp;an.
-                            {% endtrans %}
-                        {% else %}
-                            {% trans with {'{url}':laF_baseUrl~path('dashboard')} %}Sie wollen selber eine Videokonferenz
-                                <b>kostenlos</b> planen oder diese Konferenz komfortabel
-                                                 in einer Übersicht verwalten?<br>
-                                Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
-                                an.
-                            {% endtrans %}
-                        {% endif %}
-                    </p>
+                    {% if laF_emailTextLogin == "true" %}
+                        <p style="text-align: center">
+                            {% if server is defined and  server is not null and server|validateLicense %}
+                                {% trans with {'{url}':laF_baseUrl~path('dashboard')} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                                    <br>
+                                    Dann melden Sie sich <a href="{url}">hier</a>&nbsp;an.
+                                {% endtrans %}
+                            {% else %}
+                                {% trans with {'{url}':laF_baseUrl~path('dashboard')} %}Sie wollen selber eine Videokonferenz
+                                    <b>kostenlos</b> planen oder diese Konferenz komfortabel
+                                                     in einer Übersicht verwalten?<br>
+                                    Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
+                                    an.
+                                {% endtrans %}
+                            {% endif %}
+                        </p>
+                    {% endif %}
 
                 </center>
                 <spacer size="16"></spacer>
