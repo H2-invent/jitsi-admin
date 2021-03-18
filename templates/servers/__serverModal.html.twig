@@ -51,6 +51,9 @@
                                     <br>
                                     <a href="{{ path('admin_server',{'server':server.id}) }}" data-dismiss="modal"
                                        class="loadContent">{{ 'Statistiken'|trans }}</a>
+                                    <br>
+                                    <a href="{{ path('server_delete',{'id':server.id}) }}" data-dismiss="modal"
+                                       class="confirmHref">{{ 'Server löschen'|trans }}</a>
 
                                 {% else %}
                                     <a class="confirmHref"
