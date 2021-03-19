@@ -106,6 +106,11 @@ class User extends BaseUser
      */
     private $roomsAttributes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="user")
+     */
+    private $subscribers;
+
 
 
     public function __construct()
@@ -117,6 +122,7 @@ class User extends BaseUser
         $this->addressbook = new ArrayCollection();
         $this->addressbookInverse = new ArrayCollection();
         $this->roomsAttributes = new ArrayCollection();
+        $this->subscribers = new ArrayCollection();
 
     }
 
@@ -400,6 +406,36 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($roomsNew->getUser() === $this) {
                 $roomsNew->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subscriber[]
+     */
+    public function getSubscribers(): Collection
+    {
+        return $this->subscribers;
+    }
+
+    public function addSubscriber(Subscriber $subscriber): self
+    {
+        if (!$this->subscribers->contains($subscriber)) {
+            $this->subscribers[] = $subscriber;
+            $subscriber->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscriber(Subscriber $subscriber): self
+    {
+        if ($this->subscribers->removeElement($subscriber)) {
+            // set the owning side to null (unless already changed)
+            if ($subscriber->getUser() === $this) {
+                $subscriber->setUser(null);
             }
         }
 

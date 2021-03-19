@@ -1,0 +1,16 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'Einladungslinks'|trans }}</h5>
+
+        </div>
+        <div class="modal-body">
+            <p> {{ absolute_url(path('public_subscribe_participant',{'uid':room.uidParticipant})) }}</p>
+           <p>
+               {{ absolute_url(path('public_subscribe_moderator',{'uid':room.uidModerator})) }}
+           </p>
+
+        </div>
+    </div>
+</div>
