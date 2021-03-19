@@ -13,8 +13,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <a href="{{ path('servers_add') }}" data-dismiss="modal"
-                   class="btn btn-primary loadContent">{{ 'Server hinzufügen'|trans }}</a>
+                {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
+                    <a href="{{ path('servers_add') }}" data-dismiss="modal"
+                       class="btn btn-primary loadContent">{{ 'Server hinzufügen'|trans }}</a>
+                {% else %}
+                    <p>
+                        {% trans %}
+                            Bei Fragen wenden Sie sich an ihren Administrator
+
+                        {% endtrans %}
+                    </p>
+
+                    <p><a href="mailto:{{ laf_administratorEmail }}">{{ laf_administratorEmail }}</a></p>
+                {% endif %}
                 {% for server in app.user.servers %}
                     <div class="card card-body mb-1">
                         <div class="row">
@@ -28,15 +39,17 @@
                                     {% if server|validateLicense %}
                                         <a href="{{ path('servers_enterprise',{'id':server.id}) }}" data-dismiss="modal"
                                            class="loadContent"><span
-                                                    class="badge badge-success">pro</span> {{ 'Enterprise Einstellungen'|trans }}</a>
+                                                    class="badge badge-success">pro</span> {{ 'Enterprise Einstellungen'|trans }}
+                                        </a>
                                         <br>
-                                        <a href="{{ path('server_check_email',{'id':server.id}) }}" >
+                                        <a href="{{ path('server_check_email',{'id':server.id}) }}">
                                             <span
                                                     class="badge badge-success">pro</span> {{ 'Teste SMTP'|trans }}</a>
                                         <br>
-                                        <a href="{{ path('join_index',{'slug':server.slug}) }}" target="_blank" >
+                                        <a href="{{ path('join_index',{'slug':server.slug}) }}" target="_blank">
                                             <span
-                                                    class="badge badge-success">pro</span> {{ 'Meine Join-Seite'|trans }}</a>
+                                                    class="badge badge-success">pro</span> {{ 'Meine Join-Seite'|trans }}
+                                        </a>
                                         <br>
                                     {% endif %}
                                 {% endif %}

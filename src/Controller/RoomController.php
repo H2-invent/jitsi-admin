@@ -7,6 +7,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
+use App\Service\ServerUserManagment;
 use App\Service\UserService;
 use App\Service\InviteService;
 
@@ -30,7 +31,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(Request $request, UserService $userService, TranslatorInterface $translator)
+    public function newRoom(Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -52,12 +53,7 @@ class RoomController extends AbstractController
             $snack = $translator->trans('Konferenz erfolgreich erstellt');
             $title = $translator->trans('Neue Konferenz erstellen');
         }
-        $servers = $this->getUser()->getServers()->toarray();
-        $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
-
-        if ($default && !in_array($default,$servers)) {
-            $servers[] = $default;
-        }
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
@@ -124,7 +120,7 @@ class RoomController extends AbstractController
                     } else {
                         $falseEmail[] = $newMember;
                         $emails = implode(", ", $falseEmail);
-                        $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden",array('{emails}'=>$emails));
+                        $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", array('{emails}' => $emails));
                     }
 
                 }
