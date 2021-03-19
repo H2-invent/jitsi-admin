@@ -16,82 +16,6 @@
     --contrast-white: rgb(253, 253, 253);
 }
 
-/* Background Colors items*/
-.bg-vvt {
-    background-color: #34ce57;
-    color: black !important;
-}
-
-.bg-dsfa {
-    background-color: #00e676;
-    color: black !important;
-}
-
-.bg-audit {
-    background-color: #00e5ff;
-    color: black !important;
-}
-
-.bg-tom {
-    background-color: #0e4377;
-    color: whitesmoke !important;
-}
-
-.bg-daten {
-    background-color: #6f42c1;
-    color: whitesmoke !important;
-}
-
-.bg-av {
-    background-color: #7e57c2;
-    color: whitesmoke !important;
-}
-
-.bg-kontakt {
-    background-color: #6a1b9a;
-    color: whitesmoke !important;
-}
-
-.bg-akademie {
-    background-color: #ba8b00;
-    color: black !important;
-}
-
-.bg-vorfall {
-    background-color: #ff1744;
-    color: whitesmoke !important;
-}
-
-.bg-forms {
-    background-color: #996800;
-    color: whitesmoke !important;
-}
-
-.bg-policy {
-    background-color: #4b515d;
-    color: whitesmoke !important;
-}
-
-.bg-software {
-    background-color: #2E9AFE;
-    color: whitesmoke !important;
-}
-
-.bg-config {
-    background-color: #2E9AFE;
-    color: whitesmoke !important;
-}
-
-.bg-tasks {
-    background-color: #789339;
-    color: whitesmoke !important;
-}
-
-.bg-request {
-    background-color: #0b2e13;
-    color: whitesmoke !important;
-}
-
 /* poppins-regular - latin */
 @font-face {
     font-family: 'Poppins';
@@ -161,22 +85,6 @@ a:focus {
     display: flex;
     width: 100%;
     align-items: stretch;
-}
-
-#sidebar {
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: -250px;
-    height: 100vh;
-    z-index: 999;
-    background-image: url("/images/navigation.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: #000000;
-    transition: all 0.3s;
-    overflow-y: scroll;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
 
 #sidebar.active {

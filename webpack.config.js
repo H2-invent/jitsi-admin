@@ -2,6 +2,8 @@
 var Encore = require('@symfony/webpack-encore');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 Encore
+
+
     // directory where all compiled assets will be stored
     .setOutputPath('public/build')
 
@@ -28,7 +30,7 @@ Encore
 
 
     // allow sass/scss files to be processed
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // allow legacy applications to use $/jQuery as a global variable
     .autoProvidejQuery()
