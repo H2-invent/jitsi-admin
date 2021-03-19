@@ -2,7 +2,8 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-import '../css/app.css';
+import '../css/app.scss';
+//import(/* webpackChunkName: "H2" */ '../css/app.scss');
 import $ from 'jquery';
 
 global.$ = global.jQuery = $;

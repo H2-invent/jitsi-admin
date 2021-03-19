@@ -3,6 +3,7 @@
         "@symfony/webpack-encore": "^0.30.0",
         "core-js": "^3.8.1",
         "regenerator-runtime": "^0.13.7",
+        "sass-loader": "^8.0.0",
         "webpack-notifier": "^1.12.0"
     },
     "license": "UNLICENSED",
@@ -31,6 +32,7 @@
         "jquery-confirm": "^3.3.4",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
-        "popper.js": "^1.16.1"
+        "popper.js": "^1.16.1",
+        "sass": "^1.32.8"
     }
 }
