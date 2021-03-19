@@ -703,6 +703,42 @@
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
         <target>__Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
       </trans-unit>
+      <trans-unit id="85TO077" resname="Server gelöscht">
+        <source>Server gelöscht</source>
+        <target>__Server gelöscht</target>
+      </trans-unit>
+      <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
+        <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                                    &lt;br&gt;
+                                    Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
+        <target><![CDATA[__Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                                    <br>
+                                    Dann melden Sie sich <a href="{url}">hier</a>&nbsp;an.]]></target>
+      </trans-unit>
+      <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
+        <source>Sie wollen selber eine Videokonferenz
+                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel
+                                                     in einer Übersicht verwalten?&lt;br&gt;
+                                    Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
+                                    an.</source>
+        <target><![CDATA[__Sie wollen selber eine Videokonferenz
+                                    <b>kostenlos</b> planen oder diese Konferenz komfortabel
+                                                     in einer Übersicht verwalten?<br>
+                                    Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
+                                    an.]]></target>
+      </trans-unit>
+      <trans-unit id="7z0hZZ5" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre Email Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
+        Ihre Email Adresse: {email}&lt;br&gt;
+        Konferenz ID: {uid}</source>
+        <target><![CDATA[__Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
+        Ihre Email Adresse: {email}<br>
+        Konferenz ID: {uid}]]></target>
+      </trans-unit>
+      <trans-unit id="6ftxUe_" resname="Server löschen">
+        <source>Server löschen</source>
+        <target>__Server löschen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
