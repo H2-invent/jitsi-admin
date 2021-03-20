@@ -7,6 +7,9 @@ use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Form\Type\PublicRegisterType;
 use App\Service\PexelService;
+use App\Service\RoomService;
+use App\Service\SubcriptionService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ShareLinkController extends AbstractController
 {
     private $em;
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
@@ -28,68 +32,89 @@ class ShareLinkController extends AbstractController
      * @Route("/room/share/link/{id}", name="share_link")
      * @ParamConverter("rooms")
      */
-    public function index(Rooms  $rooms): Response
+    public function index(Rooms $rooms): Response
     {
-       if(!$rooms || !$rooms->getModerator() == $this->getUser() || $rooms->getPublic() != true){
-           throw new NotFoundHttpException('Not found');
-       }
-   return $this->render('share_link/__shareLinkModal.html.twig',array('room'=>$rooms));
+        if (!$rooms || !$rooms->getModerator() == $this->getUser() || $rooms->getPublic() != true) {
+            throw new NotFoundHttpException('Not found');
+        }
+        return $this->render('share_link/__shareLinkModal.html.twig', array('room' => $rooms));
 
     }
+
     /**
      * @Route("/subscribe/participant/{uid}", name="public_subscribe_participant")
      * @ParamConverter("rooms", options={"mapping": {"uid": "uidParticipant"}})
      */
-    public function participants(Request  $request, Rooms  $rooms, TranslatorInterface $translator, PexelService $pexelService): Response
+    public function participants(Request $request, SubcriptionService $subcriptionService,Rooms $rooms, TranslatorInterface $translator, PexelService $pexelService): Response
     {
-        $data = array('email'=>'');
+        $data = array('email' => '');
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
         $errors = array();
-        $snack= $translator->trans('Bitte geben Sie ihre Daten ein');
-        $color= 'success';
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $data['email']]);
-        $subscriber = $this->getDoctrine()->getRepository(Subscriber::class)->findOneBy(array('room'=>$rooms,'user'=>$user));
+        $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
+        $color = 'success';
+        $server = $rooms->getServer();
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
-            if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
-                $snack = $translator->trans('Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.');
-                $color= 'danger';
-            }elseif (in_array($rooms,$user->getRooms()->toArray()))
-
-                $snack = $translator->trans('Sie haben sich bereits angemeldet.');
-                $color= 'danger';
-            }
-            elseif(!$user){
-                $user = new User();
-                $user->setEmail($data['email']);
-            }
-
-            if($subscriber){
-                $snack = $translator->trans('Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.');
-                $color= 'danger';
-            }
-
-            $snack = $translator->trans('Vielen Dank für die Anmeldung');
-
-
-        $server = $rooms->getServer();
+            $res = $subcriptionService->subscripe($data['email'], $rooms);
+            $snack = $res['text'];
+            $color = $res['color'];
+        }
         $image = $pexelService->getImageFromPexels();
         return $this->render('share_link/subscribe.html.twig', [
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
             'image' => $image,
-            'room'=>$rooms,
+            'room' => $rooms,
+            'color'=>$color,
         ]);
     }
+
     /**
      * @Route("/subscribe/moderator/{uid}", name="public_subscribe_moderator")
      * @ParamConverter("rooms", options={"mapping": {"uid": "uidModerator"}})
      */
-    public function moderaror(Rooms  $rooms): Response
+    public function moderator(Rooms $rooms, Request $request, PexelService $pexelService, TranslatorInterface $translator, SubcriptionService $subcriptionService): Response
     {
-        dump($rooms);
+        $data = array('email' => '');
+        $form = $this->createForm(PublicRegisterType::class, $data);
+        $form->handleRequest($request);
+        $errors = array();
+        $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
+        $color = 'success';
+        $server = $rooms->getServer();
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $res = $subcriptionService->subscripe($data['email'], $rooms,true);
+            $snack = $res['text'];
+            $color = $res['color'];
+        }
+        $image = $pexelService->getImageFromPexels();
+        return $this->render('share_link/subscribe.html.twig', [
+            'form' => $form->createView(),
+            'snack' => $snack,
+            'server' => $server,
+            'image' => $image,
+            'room' => $rooms,
+            'color'=>$color,
+        ]);
+    }
+    /**
+     * @Route("/subscribe/optIn/{uid}", name="public_subscribe_doupleOptIn")
+     */
+    public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService,PexelService $pexelService): Response
+    {
+        $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('uid'=>$uid));
+        $res = $subcriptionService->acceptSub($subscriber);
+
+        $message = $res['message'];
+        $title = $res['title'];
+        $image = $pexelService->getImageFromPexels();
+        return $this->render('share_link/subscribeSuccess.html.twig',array('message'=>$message,'title'=>$title,'image'=>$image));
     }
 }

@@ -1,0 +1,35 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    -- {{ 'Bestätigung Ihrer Anmeldung'|trans }} --
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <b>
+        {{'Hallo!'|trans}}
+    </b>
+    <p>
+        {% trans with {'{name}': room.name|escape} %}
+            Sie haben sich zur Konferenz {name} angemeldet.
+        {% endtrans %}
+    </p>
+    <p>
+        <br>
+        <br>
+        <a href="{{ absolute_url(path('public_subscribe_doupleOptIn',{'uid':subsription.uid})) }}">
+           {% trans%} Klicken Sie hier um die Anmeldung abzuschließen{% endtrans %}
+        </a>
+    <br>
+        <br>
+    </p>
+    <b>
+        {{ 'Name'|trans }}: {{ room.name }}
+    </b>
+    <p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+        {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
+        {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
+        {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}</p>
+
+{% endblock %}

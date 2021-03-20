@@ -703,6 +703,78 @@
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
         <target>__Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
       </trans-unit>
+      <trans-unit id="h0jrwnB" resname="Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.">
+        <source>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</source>
+        <target>__Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</target>
+      </trans-unit>
+      <trans-unit id="CITuA1U" resname="Sie haben sich bereits angemeldet.">
+        <source>Sie haben sich bereits angemeldet.</source>
+        <target>__Sie haben sich bereits angemeldet.</target>
+      </trans-unit>
+      <trans-unit id="lfv42ou" resname="Vielen Dank für die Anmeldung">
+        <source>Vielen Dank für die Anmeldung</source>
+        <target>__Vielen Dank für die Anmeldung</target>
+      </trans-unit>
+      <trans-unit id="T.mgfUM" resname="Bestätigung ihrer Anmeldung zur Konferenz: {name}">
+        <source>Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
+        <target>__Bestätigung ihrer Anmeldung zur Konferenz: {name}</target>
+      </trans-unit>
+      <trans-unit id="vnxSnbr" resname="Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.">
+        <source>Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</source>
+        <target>__Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</target>
+      </trans-unit>
+      <trans-unit id="5w8fLA7" resname="Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.">
+        <source>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</source>
+        <target>__Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</target>
+      </trans-unit>
+      <trans-unit id="Vf9TBUu" resname="Erfolgreich bestätigt">
+        <source>Erfolgreich bestätigt</source>
+        <target>__Erfolgreich bestätigt</target>
+      </trans-unit>
+      <trans-unit id="UbWO4Tu" resname="Fehler, Bitte klicken Sie den link erneut an.">
+        <source>Fehler, Bitte klicken Sie den link erneut an.</source>
+        <target>__Fehler, Bitte klicken Sie den link erneut an.</target>
+      </trans-unit>
+      <trans-unit id="9swBy37" resname="Fehler">
+        <source>Fehler</source>
+        <target>__Fehler</target>
+      </trans-unit>
+      <trans-unit id="IrOsoSS" resname="Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.">
+        <source>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</source>
+        <target>__Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</target>
+      </trans-unit>
+      <trans-unit id="bTX_0de" resname="Bitte geben Sie ihre Daten ein">
+        <source>Bitte geben Sie ihre Daten ein</source>
+        <target>__Bitte geben Sie ihre Daten ein</target>
+      </trans-unit>
+      <trans-unit id="HbpGvTO" resname="Öffentlich">
+        <source>Öffentlich</source>
+        <target>__Öffentlich</target>
+      </trans-unit>
+      <trans-unit id="F8.sMjK" resname="Einladungslinks">
+        <source>Einladungslinks</source>
+        <target>__Einladungslinks</target>
+      </trans-unit>
+      <trans-unit id="BqiajhC" resname="Bestätigung Ihrer Anmeldung">
+        <source>Bestätigung Ihrer Anmeldung</source>
+        <target>__Bestätigung Ihrer Anmeldung</target>
+      </trans-unit>
+      <trans-unit id="qmIRYPu" resname="Sie haben sich zur Konferenz {name} angemeldet.">
+        <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
+        <target>__Sie haben sich zur Konferenz {name} angemeldet.</target>
+      </trans-unit>
+      <trans-unit id="tSAgi7x" resname="Klicken Sie hier um die Anmeldung abzuschließen">
+        <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
+        <target>__Klicken Sie hier um die Anmeldung abzuschließen</target>
+      </trans-unit>
+      <trans-unit id="0tXAqAS" resname="Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein">
+        <source>Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</source>
+        <target>__Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</target>
+      </trans-unit>
+      <trans-unit id="fSvJmaS" resname="Danke für die Anmeldung. ">
+        <source>Danke für die Anmeldung. </source>
+        <target>__Danke für die Anmeldung. </target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
