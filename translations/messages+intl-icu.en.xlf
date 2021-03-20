@@ -775,6 +775,14 @@
         <source>Danke für die Anmeldung. </source>
         <target>__Danke für die Anmeldung. </target>
       </trans-unit>
+      <trans-unit id="SdjfdSR" resname="Einladungslink für Teilnehmer">
+        <source>Einladungslink für Teilnehmer</source>
+        <target>__Einladungslink für Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="EtNNv5Z" resname="Einladungslink für Moderatoren">
+        <source>Einladungslink für Moderatoren</source>
+        <target>__Einladungslink für Moderatoren</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
