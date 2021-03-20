@@ -739,6 +739,10 @@
         <source>Server löschen</source>
         <target>__Server löschen</target>
       </trans-unit>
+      <trans-unit id="bjkKrip" resname="Bei Fragen wenden Sie sich an ihren Administrator">
+        <source>Bei Fragen wenden Sie sich an ihren Administrator</source>
+        <target>__Bei Fragen wenden Sie sich an ihren Administrator</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
