@@ -23,11 +23,11 @@ a {
   color: $contrast-dark;
 
   &:hover {
-    color: $sec-color-hover;
+    color: $main-color;
   }
 
   &:focus {
-    color: $sec-color-activ;
+    color: $main-color-hover;
     text-decoration: none;
     transition: all 0.3s;
   }
