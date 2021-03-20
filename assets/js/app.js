@@ -147,7 +147,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             $('#appId').collapse('hide')
         }
     });
-    console.log('test');
+
     $(".copyLink").click(function(){
         var $temp = $("<input>");
         $("body").append($temp);
@@ -155,7 +155,6 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         document.execCommand("copy");
         $temp.remove();
     });
-    console.log('teest');
     var clipboard = new ClipboardJS('.copyLink');
     initSearchUser();
     initServerFeatures();
