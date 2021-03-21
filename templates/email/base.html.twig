@@ -48,7 +48,7 @@
                 {% endblock %}
                 <spacer size="16"></spacer>
                 <center>
-                    {% if laF_emailTextLogin == "true" %}
+                    {% if laF_emailTextLogin === 1 %}
                         <p style="text-align: center">
                             {% if server is defined and  server is not null and server|validateLicense %}
                                 {% trans with {'{url}':laF_baseUrl~path('dashboard')} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
