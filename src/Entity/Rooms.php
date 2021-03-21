@@ -96,10 +96,36 @@ class Rooms
      */
     private $dissallowPrivateMessage;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $public;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $showRoomOnJoinpage;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $uidParticipant;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $uidModerator;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="room")
+     */
+    private $subscribers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
+        $this->subscribers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -313,6 +339,84 @@ class Rooms
     public function setDissallowPrivateMessage(?bool $dissallowPrivateMessage): self
     {
         $this->dissallowPrivateMessage = $dissallowPrivateMessage;
+
+        return $this;
+    }
+
+    public function getPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(?bool $public): self
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    public function getShowRoomOnJoinpage(): ?bool
+    {
+        return $this->showRoomOnJoinpage;
+    }
+
+    public function setShowRoomOnJoinpage(?bool $showRoomOnJoinpage): self
+    {
+        $this->showRoomOnJoinpage = $showRoomOnJoinpage;
+
+        return $this;
+    }
+
+    public function getUidParticipant(): ?string
+    {
+        return $this->uidParticipant;
+    }
+
+    public function setUidParticipant(?string $uidParticipant): self
+    {
+        $this->uidParticipant = $uidParticipant;
+
+        return $this;
+    }
+
+    public function getUidModerator(): ?string
+    {
+        return $this->uidModerator;
+    }
+
+    public function setUidModerator(?string $uidModerator): self
+    {
+        $this->uidModerator = $uidModerator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subscriber[]
+     */
+    public function getSubscribers(): Collection
+    {
+        return $this->subscribers;
+    }
+
+    public function addSubscriber(Subscriber $subscriber): self
+    {
+        if (!$this->subscribers->contains($subscriber)) {
+            $this->subscribers[] = $subscriber;
+            $subscriber->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubscriber(Subscriber $subscriber): self
+    {
+        if ($this->subscribers->removeElement($subscriber)) {
+            // set the owning side to null (unless already changed)
+            if ($subscriber->getRoom() === $this) {
+                $subscriber->setRoom(null);
+            }
+        }
 
         return $this;
     }

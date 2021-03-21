@@ -1,0 +1,108 @@
+{% extends 'join/base.html.twig' %}
+
+{% block content %}
+
+
+    <style>
+        {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+        .imageBackground {
+            background-color: {{ server.staticBackgroundColor }};
+            position: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+            background-position: center;
+        }
+
+        {% elseif image is not null %}
+        .imageBackground {
+            background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
+            position: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+            background-position: center;
+        }
+
+        {% endif %}
+        @supports (-webkit-appearance:none) {
+            .frozenGlas {
+                background-color: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(5px);
+            }
+        }
+
+        @supports (-moz-appearance:none) {
+            .frozenGlas {
+                background-color: white;
+
+            }
+        }
+
+
+    </style>
+    <div class="row justify-content-center">
+        <div class="col-lg-10 ">
+            <div class="card frozenGlas">
+                <div class="glossy"></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center text-md-left mb-2 mb-md-0"
+                             style="display: flex; justify-content: center; align-items: center">
+                            {% if server is defined and  server is not null and server|validateLicense %}
+                                {% if server.logoUrl is not null %}
+                                    <img src="{{ server.logoUrl }}" style="width: 100%">
+                                {% endif %}
+                            {% else %}
+                                <img src="{{ asset('logo.png') }}" style="width: 100%">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <h1 class="h1-responsive text-center">{{ title }}</h1>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mb-5">
+
+                        <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
+<p class="text-center">{{ message }}</p>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ path('index') }}" class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
+                    <a href="{{ path('dashboard') }}" class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
+                    <a href="{{ path('register_keycloak') }}"
+                       class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
+                    <a href="{{ helpUrlParticipants }}" target="_blank"
+                       class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
+                    {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+
+                    {% elseif image is not null %}
+                        <br>
+                        <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer"
+                           rel="noreferrer noopener">
+                            Image by {{ image['photographer'] }} </a>
+                        <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
+                           rel="noreferrer noopener"> provided by <img height="30px"
+                                                                       src="{{ asset('images/pexels.png') }}" />
+                        </a>
+
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {{ include('base/__snack.html.twig') }}
+{% endblock %}

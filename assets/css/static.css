@@ -1,0 +1,9 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~mdbootstrap/css/bootstrap.css';
+@import '~mdbootstrap/css/mdb.css';
+@import "~flatpickr/dist/flatpickr.min.css";
+@import "~jquery-confirm/css/jquery-confirm.css";
+@import '~h2-invent-apps/css/h2-invent-apps.css';
+@import '~@fullcalendar/common/main.css';
+@import '~@fullcalendar/daygrid/main.css';

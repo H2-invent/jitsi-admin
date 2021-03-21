@@ -1,0 +1,22 @@
+.navbar {
+  padding: 15px 10px;
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 40px;
+}
+
+.navbar-btn {
+  box-shadow: none;
+  outline: none !important;
+  border: none;
+}
+
+.navbar-btn-navigation {
+  background: linear-gradient(90deg, #1CB5E0 0%, #000880 100%);
+  color: #fff;
+
+  &:hover {
+    color: #efefef !important;
+  }
+}

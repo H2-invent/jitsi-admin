@@ -2,7 +2,8 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-import '../css/app.css';
+import '../css/app.scss';
+//import(/* webpackChunkName: "H2" */ '../css/app.scss');
 import $ from 'jquery';
 
 global.$ = global.jQuery = $;
@@ -20,7 +21,7 @@ import momentPlugin from '@fullcalendar/moment';
 import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
 import autosize from 'autosize'
-
+import ClipboardJS from 'clipboard'
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -118,6 +119,7 @@ $(document).on('click', '.loadContent', function (e) {
     });
 });
 function initServerFeatures(){
+
     getMoreFeature($('.moreFeatures').val())
     $('.moreFeatures').change(function (){
      getMoreFeature($(this).val());
@@ -145,6 +147,15 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             $('#appId').collapse('hide')
         }
     });
+
+    $(".copyLink").click(function(){
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    });
+    var clipboard = new ClipboardJS('.copyLink');
     initSearchUser();
     initServerFeatures();
     var ctx = document.getElementById("lineChart").getContext('2d');
@@ -230,14 +241,17 @@ function initDropDown() {
 
 }
 function getMoreFeature(id){
-    $.getJSON(moreFeatureUrl,'id='+id,function (data){
-        var feature = data.feature;
-        for (var prop in feature) {
-            if(feature[prop] == true){
-                $('#'+prop).removeClass('d-none')
-            }else {
-                $('#'+prop).addClass('d-none')
+    if(typeof  id !== 'undefined'){
+        $.getJSON(moreFeatureUrl,'id='+id,function (data){
+            var feature = data.feature;
+            for (var prop in feature) {
+                if(feature[prop] == true){
+                    $('#'+prop).removeClass('d-none')
+                }else {
+                    $('#'+prop).addClass('d-none')
+                }
             }
-        }
-    })
+        })
+    }
+
 }

@@ -5,6 +5,8 @@
         <span class="badge badge-info">{{ 'Moderator'|trans }}</span><br>{% endif %}
     {% if app.user == room.onlyRegisteredUsers %}
         <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>{% endif %}
+    {% if app.user == room.public %}
+        <span class="badge badge-danger">{{ 'Öffentlich'|trans }}</span><br>{% endif %}
 </div>
 <div class="col-md-4">
     <h5 class="h5-responsive">{{ room.name }} <a tabindex="0"  data-toggle="popover" data-trigger="focus" title="{{ 'Agenda'|trans }}"

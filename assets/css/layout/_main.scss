@@ -1,0 +1,74 @@
+/* ---------------------------------------------------
+    Body Config
+----------------------------------------------------- */
+body {
+  font-family: 'Poppins';
+}
+
+/* ---------------------------------------------------
+    Paragraph Setting
+----------------------------------------------------- */
+p {
+  font-family: 'Poppins';
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1.7em;
+  color: #000;
+}
+
+/* ---------------------------------------------------
+    Define Links
+----------------------------------------------------- */
+a {
+  color: $contrast-dark;
+
+  &:hover {
+    color: $main-color;
+  }
+
+  &:focus {
+    color: $main-color-hover;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+
+}
+
+/* ---------------------------------------------------
+    Base Line
+----------------------------------------------------- */
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #ddd;
+  margin: 40px 0;
+}
+
+/* ---------------------------------------------------
+    Content
+----------------------------------------------------- */
+#content {
+  width: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s;
+  position: absolute;
+  padding-bottom: 80px;
+  top: 0;
+  right: 0;
+}
+
+/* ---------------------------------------------------
+    Custom Buttons
+----------------------------------------------------- */
+.btn-primary {
+  background-color: $main-color !important;
+}
+
+.btn-secondary {
+  background-color: $sec-color !important;
+}
+
+.btn-info {
+  background-color: $contrast-dark !important;
+}

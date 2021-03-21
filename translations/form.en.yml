@@ -48,6 +48,11 @@ label:
   schowStaticBackgroundColor: __Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
   featureEnalbeByJwt: __Enable Feature By JWT Plugin ist auf dem Server aktiviert
   dissallowPrivateMessage: __Nur der Moderator darf private Nachrichten an Teilnehmer senden
+  puplicRoom: __Öffentliche Konferenz
+  showRoomOnJoinpage: __Konferenz auf Joinseite anzeigen
+  vorname: __Vorname
+  nachname: __Nachname
+  subscribe: __Anmelden
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

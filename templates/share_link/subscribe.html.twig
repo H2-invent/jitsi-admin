@@ -60,7 +60,7 @@
                             {% endif %}
                         </div>
                         <div class="col-md-6">
-                            <h1 class="h1-responsive text-center">{{ 'Konferenz beitreten'|trans }}</h1>
+                            <h1 class="h1-responsive text-center">{{ room.name }}</h1>
                         </div>
                     </div>
 
@@ -70,12 +70,11 @@
 
                         <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
                             <p class="text-center text-md-left">
-                                {{ 'Füllen Sie das Formular aus um der Konferenz beizutreten'|trans }}
+                                {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
                             </p>
                             {{ form_start(form) }}
-                            {{ form_row(form.uid) }}
                             {{ form_row(form.email) }}
-                            {{ form_row(form.name) }}
+
                             <div class="row form-group">
 
                                 <div class="col-12">
@@ -119,12 +118,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    {{ form_row(form.joinBrowser) }}
+                                <div class="col-md-12">
+                                    {{ form_row(form.subscribe) }}
                                 </div>
-                                <div class="col-md-6 d-none d-md-block">
-                                    {{ form_row(form.joinApp) }}
-                                </div>
+
                             </div>
 
                             {{ form_end(form) }}

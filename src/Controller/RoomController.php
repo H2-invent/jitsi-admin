@@ -42,6 +42,13 @@ class RoomController extends AbstractController
             $title = $translator->trans('Konferenz bearbeiten');
             $sequence = $room->getSequence() + 1;
             $room->setSequence($sequence);
+           if (!$room->getUidModerator()){
+               $room->setUidModerator(md5(uniqid('h2-invent', true)));
+           }
+           if (!$room->getUidParticipant()){
+               $room->setUidParticipant(md5(uniqid('h2-invent', true)));
+           }
+
         } else {
             $room = new Rooms();
             $room->addUser($this->getUser());
@@ -50,6 +57,9 @@ class RoomController extends AbstractController
             $room->setModerator($this->getUser());
             $room->setSequence(0);
             $room->setUidReal(md5(uniqid('h2-invent', true)));
+            $room->setUidModerator(md5(uniqid('h2-invent', true)));
+            $room->setUidParticipant(md5(uniqid('h2-invent', true)));
+
             $snack = $translator->trans('Konferenz erfolgreich erstellt');
             $title = $translator->trans('Neue Konferenz erstellen');
         }

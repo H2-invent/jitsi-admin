@@ -6,6 +6,9 @@
         {{ 'Optionen'|trans }}
     </button>
     <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+        <li>{% if room.public %}<a class="dropdown-item loadContent"
+               href="{{ path('share_link',{'id':room.id}) }}">
+                {{'Einladungslinks'|trans}}</a></li>{% endif %}
         <li><a class="dropdown-item confirmHref"
                href="{{ path('room_remove',{'room':room.id}) }}">
             {{'Löschen'|trans}}</a></li>

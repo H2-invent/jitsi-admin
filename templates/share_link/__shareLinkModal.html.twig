@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'Einladungslinks'|trans }}</h5>
+
+        </div>
+        <div class="modal-body">
+            <h5>{{'Einladungslink für Teilnehmer'|trans}}</h5>
+             <div class="md-form input-with-post-icon">
+
+             </div>
+
+            <div class="input-group mb-3">
+                <input id="linkPart" readonly type="text" class="form-control" value="{{ absolute_url(path('public_subscribe_participant',{'uid':room.uidParticipant})) }}">
+                <div class="input-group-append">
+                    <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink" type="button"  data-clipboard-target="#linkPart" >   <i class="far fa-clipboard"></i></button>
+                </div>
+            </div>
+            <h5>{{'Einladungslink für Moderatoren'|trans}}</h5>
+
+            <div class="input-group mb-3">
+                <input id="linkModerator" readonly type="text" class="form-control" value="{{ absolute_url(path('public_subscribe_participant',{'uid':room.uidModerator})) }}">
+                <div class="input-group-append">
+                    <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink" type="button"  data-clipboard-target="#linkModerator" >   <i class="far fa-clipboard"></i></button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

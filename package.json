@@ -3,6 +3,7 @@
         "@symfony/webpack-encore": "^0.30.0",
         "core-js": "^3.8.1",
         "regenerator-runtime": "^0.13.7",
+        "sass-loader": "^8.0.0",
         "webpack-notifier": "^1.12.0"
     },
     "license": "UNLICENSED",
@@ -24,6 +25,7 @@
         "autosize": "^4.0.2",
         "bootstrap": "^4.5.3",
         "chart.js": "^2.9.4",
+        "clipboard": "^2.0.8",
         "copy-webpack-plugin": "^6.4.1",
         "flatpickr": "^4.6.9",
         "h2-invent-apps": "^1.11.0",
@@ -31,6 +33,7 @@
         "jquery-confirm": "^3.3.4",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
-        "popper.js": "^1.16.1"
+        "popper.js": "^1.16.1",
+        "sass": "^1.32.8"
     }
 }
