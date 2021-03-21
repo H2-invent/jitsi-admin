@@ -160,15 +160,46 @@
                             Image by {{ image['photographer'] }} </a>
                         <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
                            rel="noreferrer noopener"> provided by <img height="30px"
-                                                                       src="{{ asset('images/pexels.png') }}" />
+                                                                       src="{{ asset('images/pexels.png') }}"/>
                         </a>
 
                     {% endif %}
                 </div>
             </div>
-
         </div>
+        {% if server and server|roomsinFuture|length > 0 %}
+            <div class="col-lg-10 mt-3">
+                <div class="card frozenGlas">
+                    <div class="glossy"></div>
+                    <div class="card-body">
+                        <h3 class="h3-responsive text-center">{{ 'Öffentliche Konferenzen'|trans }}</h3>
+                        <div class="max-vh60">
+                            <ul class="list-group">
+
+                                    {% for r in server|roomsinFuture %}
+                                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                                           <b>{{ r.start|date('d.m.Y | H:i') }}</b>
+                                            <h5>{{ r.name }} <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                               title="{{ 'Agenda'|trans }}"
+                                                               data-content="{% if r.agenda is not null %}{{ r.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
+                                                            class="fa fa-info-circle"></i></a></h5>
+
+                                            {% if r.public %}
+                                                <a href="{{ path('public_subscribe_participant',{'uid':r.uidParticipant}) }}"
+                                                   class="btn btn-sm btn-outline-primary">{{ 'Anmelden'|trans }}</a>
+                                            {% endif %}
+                                        </li>
+
+                                    {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
+
 
     {{ include('base/__snack.html.twig') }}
 {% endblock %}
