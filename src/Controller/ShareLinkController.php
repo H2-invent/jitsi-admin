@@ -42,11 +42,19 @@ class ShareLinkController extends AbstractController
     }
 
     /**
-     * @Route("/subscribe/participant/{uid}", name="public_subscribe_participant")
-     * @ParamConverter("rooms", options={"mapping": {"uid": "uidParticipant"}})
+     * @Route("/subscribe/self/{uid}", name="public_subscribe_participant")
      */
-    public function participants(Request $request, SubcriptionService $subcriptionService,Rooms $rooms, TranslatorInterface $translator, PexelService $pexelService): Response
+    public function participants($uid, Request $request, SubcriptionService $subcriptionService,TranslatorInterface $translator, PexelService $pexelService): Response
     {
+        $rooms = null;
+        $moderator = false;
+        $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidParticipant'=>$uid));
+        if(!$rooms){
+            $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidModerator'=>$uid));
+            if ($rooms){
+                $moderator = true;
+            }
+        }
         $data = array('email' => '');
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
@@ -58,7 +66,7 @@ class ShareLinkController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $res = $subcriptionService->subscripe($data['email'], $rooms);
+            $res = $subcriptionService->subscripe($data['email'], $rooms,$moderator);
             $snack = $res['text'];
             $color = $res['color'];
         }
@@ -73,37 +81,7 @@ class ShareLinkController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/subscribe/moderator/{uid}", name="public_subscribe_moderator")
-     * @ParamConverter("rooms", options={"mapping": {"uid": "uidModerator"}})
-     */
-    public function moderator(Rooms $rooms, Request $request, PexelService $pexelService, TranslatorInterface $translator, SubcriptionService $subcriptionService): Response
-    {
-        $data = array('email' => '');
-        $form = $this->createForm(PublicRegisterType::class, $data);
-        $form->handleRequest($request);
-        $errors = array();
-        $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
-        $color = 'success';
-        $server = $rooms->getServer();
 
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $res = $subcriptionService->subscripe($data['email'], $rooms,true);
-            $snack = $res['text'];
-            $color = $res['color'];
-        }
-        $image = $pexelService->getImageFromPexels();
-        return $this->render('share_link/subscribe.html.twig', [
-            'form' => $form->createView(),
-            'snack' => $snack,
-            'server' => $server,
-            'image' => $image,
-            'room' => $rooms,
-            'color'=>$color,
-        ]);
-    }
     /**
      * @Route("/subscribe/optIn/{uid}", name="public_subscribe_doupleOptIn")
      */
