@@ -39,6 +39,8 @@ label:
   serverSmtpSenderName: Absender Name
   serverLintLogo: Link zu Logo
   serverPrivacyPolicy: Datenschutzhinweise für diesen Server
+  serverEmailHeader: Individuelle Überschrift für Email
+  serverEmailBody: Individuellen Content für Email
   serverLicenseKey: Jitsi-Admin Lizenkey eingeben
   apiKey: Api-Key für diesen Server
   agenda: Kurze Agenda für dieses Meeting (Markdown)

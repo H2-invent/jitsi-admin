@@ -17,4 +17,7 @@ twig:
         matomo_url: '%env(matomo_url)%'
         laf_bbb: '%env(laF_bbb)%'
         laF_baseUrl: '%env(laF_baseUrl)%'
-
+        laF_emailTextLogin: '%env(laF_emailTextLogin)%'
+        laf_CreateServerOpenToEveryone: '%env(laf_CreateServerOpenToEveryone)%'
+        laf_keycloakGroupToCreateServer: '%env(laf_keycloakGroupToCreateServer)%'
+        laf_administratorEmail: '%env(laf_administratorEmail)%'

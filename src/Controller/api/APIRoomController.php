@@ -10,6 +10,7 @@ use App\Service\api\KeycloakService;
 
 use App\Service\api\RoomService;
 use App\Service\LicenseService;
+use App\Service\ServerUserManagment;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -114,16 +115,12 @@ class APIRoomController extends AbstractController
     /**
      * @Route("/api/v1/serverInfo", name="api_user_get_server",methods={"GET"})
      */
-    public function getServers(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
+    public function getServers(ServerUserManagment  $serverUserManagment, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 
         $user = $keycloakService->getUSer($request->get('email'), $request->get('keycloakId'));
-        $server = $user->getServers()->toArray();
+        $server = $serverUserManagment->getServersFromUser($user);
 
-        $serverDefault = $this->getDoctrine()->getRepository(Server::class)->find($parameterBag->get('default_jitsi_server_id'));
-        if (!in_array($serverDefault, $server)) {
-            $server[] = $serverDefault;
-        }
         $serv = array();
         $res = array();
         foreach ($server as $data) {

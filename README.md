@@ -1,103 +1,97 @@
+[deutsch](README_de.md)
+
 ![Server](docs/images/header.png)
 # Jitsi Manager
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 
-Jitsi Manager oder Jitsi Admin zum Verwalten von Jitsi Konferenzen und Server mit JWT
+Jitsi Manager or Jitsi Admin is a tool to manage Jitsi conferences and server with JWT
 
-### Bekannt aus
+### Known from
 
 ![Server](docs/images/ct-logo.png)
 
 
 
-### Verteilerliste
+### Mailing List
 
-Sie können sich in unsere Verteilerliste __Jitsi Admin Update__ eintragen damit Sie bei einem Update oder neuen Release
-informiert werden. H2 invent verschickt über diese Verteilerliste nur Informationen zu Releases, Updates und neuen
-Features. Es handelt sich hierbei __nicht__ um einen Marketing-Newsletter. Wir verschicken die Email nur in englischer
-und nicht in deutscher Sprache.
+If you want to be notified, if there are new updates or releases, you can subscribe to the __Jitsi Admin Update__ mailing list.
+H2 invent will send out information to the mailing list concering releases, updates or new features.
+This is __not__ a marketing-newsletter.
 
-Zum Eintragen in den Verteiler klicken Sie auf den
-Link [Verteilerliste](https://verteiler.h2-invent.com/?p=subscribe&id=1) und geben dort Ihre Email Adresse ein. Wir verwenden
-ein Doppel-Opt-in Verfahren. Sie erhalten daher eine Bestätigungsemail mit einem Link auf den Sie einmal klicken müssen
-um die Eintragung in der Verteilerliste zu bestätigen.
+If you want to join the mailing list just click on the link [Mailing List](https://verteiler.h2-invent.com/?p=subscribe&id=1) and enter your email address.
+We use a double-opt-in process where you will receive a confirmation email containing a link with with you confirm, that you want to join to mailing list.
 
-Sie können sich jederzeit aus der Verteilerliste austragen.
+It is always possible to leave the mailing list.
 
-### Partner und Sponsoren
+### Partners and Sponsors
 <div style="text-align: center">
 
 <img src="https://readi.de/wp-content/uploads/sites/5/2020/10/cropped-Logo-Simplified-mit-Text-e1602047847827.png" width="200px">
 <br>
-Interkommunale Zusammenarbeit der Städte Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten und Stutensee
+We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee
 </div>
 
-# Funktionen
+# Features
 
-Folgende Funktionen sind bereits im Jitsi Administrator integriert:
+The following features are already part of Jitsi Administrator:
 
-* Verwalten von Konferenzen
-* Verwalten von Jitsi Servern mit JWT Funktion
-* Hinzufügen von Teilnehmern zu einer Konferenz
-* Verschicken von Emails an die Teilnehmer
-* Verschicken von Emails vor der Konferenz über einen CronJob
-### Das Dashboard
+* Managing of conferences
+* Managing of Jitsi servers with JWT enabled
+* Adding participants to a conference
+* Sending out emails to the participants
+* Sending out email prior to the conference based on a Cron job
 
-Alle Informationen zu den Konferenzen stehen auf dem zentralen Dashboard
+### The Dashboard
+
+The Dashboard is the central view where all information to all conferences is displayed
 ![Dashboard](docs/images/dashboard-heading.jpg)
 
-### Die Server
+### The Servers
 
-Alle Server können zentral verwaltet werden und unterschiedliche Berechtigungen verteilt werden. Es können mehre Jitsi
-Server in einer Installation verwaltet werden.
+All servers can be managed centrally and different permissions can be configured.
+Multiple Jitsi Servers can be combined to one Setup and managed acordingly
 ![Server](docs/images/server.jpg)
 
 ### Login
 
-Der Login erfolgt über einen SSO Server, z.B. Keycloak oder weitere Identidy Provider
+The login uses a SSO Server, e.g. Keycloak or other Identidy Providers
 ![Login](docs/images/login.jpg)
 
-### Join der Konferenz
+### Join of the conference
 
-Gäste können über einen Link in der Email der Konferenz beitreten __ohne__ einen Benutzer im Jitsi Manager zu haben. Den
-Gästen steht eine Seite zum Beitreten bereit. Es wird nach der Konferenz ID, der Email Adresse und dem Namen gefragt.
-Danach wird ein JWT erstellt mit dem der Gast der Konferenz beitreten kann.
+Guests are able to join a conference through a link received via email __without__ having a user account in Jitsi Manager.
+The is a joining page where the conference ID, the email-address and the name are entered.
+After that a JWT will be generated and the guest is able to join the conference.
 ![Join](docs/images/join.jpg)
 
-Benutzer können direkt aus dem Jitsi Manager heraus der Konferenz beitreten, entweder über den Browser oder über die
-Jitsi Electron Desktop App auf dem PC.
+User with a user account are able to join conferences directly via Jitsi Manager, either by using the web-page or the Jitsi Electron Desktop App.
 ![Join](docs/images/joint-internal.jpg)
 
-Mehr Informationen auf https://jitsi-admin.de
+More information can be found at https://jitsi-admin.de
 
-# Get Started
+# Getting Started
 
-Auf Grund der Composer Abhängigkeiten wird ein Webspace für den Betrieb der Webanwendung nicht empfohlen. Enterprise
-bedeutet, dass der Jitsi Admin als Manadatenlösung und interne Webanwendung betrieben werden kann. Die Verwaltung,
-Updates und Wartung muss durch die Zuständige und Verantwortliche Person durchgeführt werden.
+As some Composer dependencies need to be installed, it is advised to only install Jitsi Manager if you have shell access to you server.
 
-* [Anleitung im Wiki](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started)
-* [Mindestanforderungen](https://github.com/H2-invent/jitsi-admin/wiki/Mindestanforderungen-an-den-Server)
-* [API Dokumentation](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
+* [Getting Started (in German)](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started)
+* [Minimum Requirements (in German)](https://github.com/H2-invent/jitsi-admin/wiki/Mindestanforderungen-an-den-Server)
+* [API Documentation (in German)](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
 
-# Lizenz
+# License
 
-Die aktuelle Version von Jitsi Admin wird unter der AGPL-3.0 License bereitgestellt. Weitere Informationen finden Sie in
-der LICENSE Datei in diesem Repo.
+Currently Jitsi Admin is released under the [AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.en.html). Additional information can be found in the [LICENSE file](LICENSE).
 
-# Installieren
-Laden Sie sich gewüschte Version herunter oder Klonen Sie das Repo.
-
-Führen Sie danach folgenden Befehl in dem Ordner aus
+# Installation
+Download the version you want to install or clone the whole repository.
+After that execute the following command
 ```javascript
 bash install.sh
 ```
 
 # Update
-Laden Sie sich gewüschte Version herunter oder führen Sie einen checkout auf einen gewünschten Tag aus.
-
-Führen Sie danach folgenden Befehl in dem Ordner aus
+Download the newest version or perform a checkout of the corespong tag.
+After that execute the following command
 ```javascript
 bash update.sh
 ```
