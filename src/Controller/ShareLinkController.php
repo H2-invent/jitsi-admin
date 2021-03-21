@@ -44,20 +44,20 @@ class ShareLinkController extends AbstractController
     /**
      * @Route("/subscribe/self/{uid}", name="public_subscribe_participant")
      */
-    public function participants($uid, Request $request, SubcriptionService $subcriptionService,TranslatorInterface $translator, PexelService $pexelService): Response
+    public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
         $rooms = null;
         $moderator = false;
-        $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidParticipant'=>$uid));
-        if(!$rooms){
-            $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidModerator'=>$uid));
-            if ($rooms){
+        $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidParticipant' => $uid));
+        if (!$rooms) {
+            $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidModerator' => $uid));
+            if ($rooms) {
                 $moderator = true;
             }
         }
-if(!$rooms){
-   return $this->redirectToRoute('join_index_no_slug');
-}
+        if (!$rooms) {
+            return $this->redirectToRoute('join_index_no_slug');
+        }
         $data = array('email' => '');
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
@@ -69,7 +69,7 @@ if(!$rooms){
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $res = $subcriptionService->subscripe($data['email'], $rooms,$moderator);
+            $res = $subcriptionService->subscripe($data['email'], $rooms, $moderator);
             $snack = $res['text'];
             $color = $res['color'];
         }
@@ -80,7 +80,7 @@ if(!$rooms){
             'server' => $server,
             'image' => $image,
             'room' => $rooms,
-            'color'=>$color,
+            'color' => $color,
         ]);
     }
 
@@ -88,14 +88,14 @@ if(!$rooms){
     /**
      * @Route("/subscribe/optIn/{uid}", name="public_subscribe_doupleOptIn")
      */
-    public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService,PexelService $pexelService): Response
+    public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
     {
-        $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('uid'=>$uid));
+        $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('uid' => $uid));
         $res = $subcriptionService->acceptSub($subscriber);
 
         $message = $res['message'];
         $title = $res['title'];
         $image = $pexelService->getImageFromPexels();
-        return $this->render('share_link/subscribeSuccess.html.twig',array('message'=>$message,'title'=>$title,'image'=>$image));
+        return $this->render('share_link/subscribeSuccess.html.twig', array('message' => $message, 'title' => $title, 'image' => $image));
     }
 }
