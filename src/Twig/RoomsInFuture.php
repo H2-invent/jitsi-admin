@@ -43,7 +43,8 @@ class RoomsInFuture extends AbstractExtension
             ->andWhere('rooms.showRoomOnJoinpage = true')
             ->andWhere('rooms.start > :now')
             ->setParameter('server', $server)
-            ->setParameter('now',$now);
+            ->setParameter('now',$now)
+        ->orderBy('rooms.start', 'ASC');
             $rooms = $qb->getQuery()->getResult();
 
          return $rooms;
