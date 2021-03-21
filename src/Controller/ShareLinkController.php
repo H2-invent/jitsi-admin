@@ -55,13 +55,16 @@ class ShareLinkController extends AbstractController
                 $moderator = true;
             }
         }
+if(!$rooms){
+   return $this->redirectToRoute('join_index_no_slug');
+}
         $data = array('email' => '');
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
         $errors = array();
         $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
         $color = 'success';
-        $server = $rooms->getServer();
+        $server = null;
 
 
         if ($form->isSubmitted() && $form->isValid()) {
