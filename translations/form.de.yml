@@ -49,8 +49,8 @@ label:
   featureEnalbeByJwt: Enable Feature By JWT Plugin ist auf dem Server aktiviert
   dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Diese Konferenz ist öffentlich und mit einem Link können sich die Teilnehmer selbst in die Teilnehmerliste eintragen
-  showRoomOnJoinpage: Diese Konferenz soll auf der Joinpage angezeigt werden.
+  puplicRoom: Öffentliche Konferenz
+  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
