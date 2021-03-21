@@ -153,8 +153,18 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         data: data,
         options: options
     });
-});
 
+});
+$(document).on( 'click','.directSend', function(e) {
+    var $url = $(this).prop('href');
+    var $targetUrl = $(this).data('url');
+    var target = $(this).data('target');
+
+    e.preventDefault();
+    $.get($url,function (){
+        $(target).closest('div').load($targetUrl +' ' +target);
+    })
+});
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });

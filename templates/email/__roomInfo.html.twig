@@ -1,28 +1,34 @@
-
-    <b>
-        {{ 'Name'|trans }}: {{ room.name }}
-    </b>
-    {% if room.agenda is not null %}
+<b>
+    {{ 'Name'|trans }}: {{ room.name }}
+</b>
+{% if room.agenda is not null %}
     <p>
-       <b>{{ 'Agenda'|trans }}:</b>
+        <b>{{ 'Agenda'|trans }}:</b>
     </p>
     <p>{{ room.agenda|markdown_to_html }}</p>
 
+{% endif %}
+<p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+    {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
+    {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
+    {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}</p>
+<spacer size="16"></spacer>
+<p>
+    {% trans with {'{email}': user.email,'{uid}': room.uid} %}
+        Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
+        Ihre Email Adresse: {email}<br>
+        Konferenz ID: {uid}
+    {% endtrans %}
+</p>
+<spacer size="16"></spacer>
+<p>
+    <a href="{{ url }}">{{ 'Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.'|trans }}</a>
+</p>
+
+<p>
+    {% if server is defined and  server is not null and server|validateLicense and server.serverEmailBody is not null %}
+    {{ server.serverEmailBody|nl2br }}
     {% endif %}
-    <p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
-        {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
-        {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
-        {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}</p>
-    <spacer size="16"></spacer>
-    <p>
-        {% trans with {'{email}': user.email,'{uid}': room.uid} %}
-            Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
-            Ihre Email Adresse: {email}<br>
-            Konferenz ID: {uid}
-        {% endtrans %}
-    </p>
-    <spacer size="16"></spacer>
-    <p>
-        <a href="{{ url }}">{{ 'Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.'|trans }}</a>
-    </p>
+</p>
+
 

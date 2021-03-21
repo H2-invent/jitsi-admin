@@ -106,6 +106,11 @@ class User extends BaseUser
      */
     private $roomsAttributes;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $groups = [];
+
 
 
     public function __construct()
@@ -402,6 +407,18 @@ class User extends BaseUser
                 $roomsNew->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGroups(): ?array
+    {
+        return $this->groups;
+    }
+
+    public function setGroups(?array $groups): self
+    {
+        $this->groups = $groups;
 
         return $this;
     }

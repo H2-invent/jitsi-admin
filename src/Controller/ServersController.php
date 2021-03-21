@@ -161,6 +161,28 @@ class ServersController extends AbstractController
     }
 
     /**
+     * @Route("/server/delete", name="server_delete")
+     */
+    public
+    function serverDelete(Request $request, TranslatorInterface $translator)
+    {
+
+        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $snack = $translator->trans('Keine Berechtigung');
+        if ($server->getAdministrator() === $this->getUser()) {
+            $em = $this->getDoctrine()->getManager();
+            foreach ($server->getUser() as $user) {
+                $server->removeUser($user);
+                $em->persist($server);
+            }
+            $em->flush();
+            $snack = $translator->trans('Server gelöscht');
+        }
+
+        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+    }
+
+    /**
      * @Route("/server/check/email", name="server_check_email")
      */
     public

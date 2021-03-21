@@ -59,6 +59,10 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $id = $keycloakUser->getId();
         $firstName = $keycloakUser->toArray()['given_name'];
         $lastName = $keycloakUser->toArray()['family_name'];
+        $groups = null;
+        if(isset($keycloakUser->toArray()['groups'])){
+            $groups = $keycloakUser->toArray()['groups'];
+        }
         // 1) have they logged in with keycloak befor then login the user
         $existingUser = $this->em->getRepository(User::class)->findOneBy(array('keycloakId' => $id));
         if ($existingUser) {
@@ -67,6 +71,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser->setFirstName($firstName);
             $existingUser->setLastName($lastName);
             $existingUser->setUsername($email);
+            $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
             $this->em->flush();
             return $existingUser;
@@ -82,6 +87,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser->setFirstName($firstName);
             $existingUser->setLastName($lastName);
             $existingUser->setUsername($email);
+            $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
             $this->em->flush();
             return $existingUser;
@@ -97,7 +103,8 @@ class GuardServiceKeycloak extends SocialAuthenticator
             ->setCreatedAt(new \DateTime())
             ->setLastLogin(new \DateTime())
             ->setKeycloakId($id)
-            ->setUsername($email);
+            ->setUsername($email)
+            ->setGroups($groups);
         $this->em->persist($newUser);
         $this->em->flush();
         return $newUser;
