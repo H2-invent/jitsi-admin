@@ -823,6 +823,14 @@
         <source>Bei Fragen wenden Sie sich an ihren Administrator</source>
         <target>__Bei Fragen wenden Sie sich an ihren Administrator</target>
       </trans-unit>
+      <trans-unit id="8Y_4LyT" resname="Öffentliche Konferenzen">
+        <source>Öffentliche Konferenzen</source>
+        <target>__Öffentliche Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="oymjImO" resname="Anmelden">
+        <source>Anmelden</source>
+        <target>__Anmelden</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
