@@ -22,7 +22,8 @@ class RoomsInFuture extends AbstractExtension
 
     private $licenseService;
     private $em;
-    public function __construct(EntityManagerInterface  $entityManager, LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+
+    public function __construct(EntityManagerInterface $entityManager, LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
     {
         $this->licenseService = $licenseService;
         $this->em = $entityManager;
@@ -42,12 +43,13 @@ class RoomsInFuture extends AbstractExtension
         $qb->andWhere('rooms.server = :server')
             ->andWhere('rooms.showRoomOnJoinpage = true')
             ->andWhere('rooms.start > :now')
+            ->andWhere($qb->expr()->isNotNull('rooms.moderator'))
             ->setParameter('server', $server)
-            ->setParameter('now',$now)
-        ->orderBy('rooms.start', 'ASC');
-            $rooms = $qb->getQuery()->getResult();
+            ->setParameter('now', $now)
+            ->orderBy('rooms.start', 'ASC');
+        $rooms = $qb->getQuery()->getResult();
 
-         return $rooms;
+        return $rooms;
 
     }
 
