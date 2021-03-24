@@ -112,7 +112,7 @@ class User extends BaseUser
     private $subscribers;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array", nullable=true,name="keycloakGroup")
      */
     private $groups = [];
 

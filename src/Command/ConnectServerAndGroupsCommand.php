@@ -26,9 +26,9 @@ class ConnectServerAndGroupsCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('This connects a yecloak Group with a server. Please add the server-Id, which can be found in the database and the keycloakgroup with two leading // (//all) ')
+            ->setDescription('This connects a kecloak Group or a emaildomain with a server. Please add the server-Id, which can be found in the database and the keycloakgroup (on windows machines you need  two leading /all --> //all) or the domain of an email (info@example.com --> example.com)')
             ->addArgument('serverId', InputArgument::REQUIRED, 'This is the Server Id to connect to the keycloak Group')
-            ->addArgument('keycloakGroup', InputArgument::REQUIRED, 'This is the keycloak Group. Alle members of this group can use the server to create Rooms');
+            ->addArgument('keycloakGroup', InputArgument::REQUIRED, 'This is the keycloak Group or email domain. Alle members of this group can use the server to create Rooms');
         ;
     }
 
