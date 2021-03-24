@@ -20,12 +20,12 @@ final class Version20210319080703 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE fos_user ADD groups LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\'');
+        $this->addSql('ALTER TABLE fos_user ADD `groups` LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\'');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE fos_user DROP groups');
+        $this->addSql('ALTER TABLE fos_user DROP `groups` ');
     }
 }

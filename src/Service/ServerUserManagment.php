@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\EmailDomainsToServers;
 use App\Entity\KeycloakGroupsToServers;
 use App\Entity\Server;
 use App\Entity\User;
@@ -45,6 +46,15 @@ class ServerUserManagment
                 }
             }
         }
+
+        $domain = explode('@', $user->getEmail())[1];
+        $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' =>$domain ));
+        foreach ($tmpE as $data2) {
+            if (!in_array($data2->getServer(), $servers)) {
+                $servers[] = $data2->getServer();
+            }
+        }
+
         return $servers;
     }
 }

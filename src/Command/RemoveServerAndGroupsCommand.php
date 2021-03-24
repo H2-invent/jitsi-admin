@@ -26,9 +26,9 @@ class RemoveServerAndGroupsCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('This removes a yecloak Group connection from a server. Please add the server-Id, which can be found in the database and the keycloakgroup with two leading // (//all) ')
+            ->setDescription('This removes a yecloak Group or a emaildomain connection from a server. Please add the server-Id, which can be found in the database and the keycloakgroup (on windows machines you need  two leading /all --> //all) or the emaildomain')
             ->addArgument('serverId', InputArgument::REQUIRED, 'This is the Server Id to connect to the keycloak Group')
-            ->addArgument('keycloakGroup', InputArgument::REQUIRED, 'This is the keycloak Group. Alle members of this group can use the server to create Rooms');
+            ->addArgument('keycloakGroup', InputArgument::REQUIRED, 'This is the keycloak Group or the email domain. Alle members of this group or domain can use the server to create Rooms');
         ;
     }
 
