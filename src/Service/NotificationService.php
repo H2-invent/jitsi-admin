@@ -50,7 +50,7 @@ class NotificationService
                     '\n\n' .
                     $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
                     . '\n\n' .
-                    $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}',array('{id}'=>$rooms->getUid(),'{email}'=>$user->getEmail()))
+                    $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}',array('{id}'=>$rooms->getUid(),'{email}'=>$user->getEmail()))
                     . '\n\n' .
                     $url .
                     '\n\n'.

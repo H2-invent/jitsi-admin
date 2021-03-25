@@ -1,11 +1,11 @@
 label.konferenzId: __Konferenz ID
-label.email: __Email Adresse
+label.email: __E-Mail-Adresse
 label.name: __Name
 label.beitreten: __Beitreten
-label.teilnehmerEmailhinzufuegen: __E-Mail Adresse von neuen Teilnehmern eingeben
+label.teilnehmerEmailhinzufuegen: __E-Mail-Adresse von neuen Teilnehmern eingeben
 label.teilnehmerSpeichern: __Teilnehmer Hinzufügen
-label.emailModerator: __E-Mail Adresse des Organisators eingeben
-help.emailTextfeld: __Es können mehrere E-Mail Adressen auf einmal hinzugefügt werden. Jede E-Mail Adresse muss in eine neue Zeile geschrieben werden.
+label.emailModerator: __E-Mail-Adresse des Organisators eingeben
+help.emailTextfeld: __Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
 label.organisatorhinzufuegen: __Organisator Hinzufügen
 label.serverKonferenz: __Jitsi Meet Server
 label.konferenzName: __Name der Konferenz
