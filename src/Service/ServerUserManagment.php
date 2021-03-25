@@ -28,12 +28,7 @@ class ServerUserManagment
         $servers = array();
         //here we add theserver which is directed connected to a user
         $servers = $user->getServers()->toArray();
-        $default = $this->em->getRepository(Server::class)->find($this->parameter->get('default_jitsi_server_id'));
 
-        //here we add the default group which is set in the env
-        if ($default && !in_array($default, $servers)) {
-            $servers[] = $default;
-        }
 
         // here we add the servers from thekeycloak group
         if ($user->getGroups()) {
@@ -53,6 +48,12 @@ class ServerUserManagment
             if (!in_array($data2->getServer(), $servers)) {
                 $servers[] = $data2->getServer();
             }
+        }
+
+        $default = $this->em->getRepository(Server::class)->find($this->parameter->get('default_jitsi_server_id'));
+        //here we add the default group which is set in the env
+        if ($default && !in_array($default, $servers)) {
+            $servers[] = $default;
         }
 
         return $servers;
