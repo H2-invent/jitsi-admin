@@ -21,7 +21,7 @@ Features. Es handelt sich hierbei __nicht__ um einen Marketing-Newsletter. Wir v
 und nicht in deutscher Sprache.
 
 Zum Eintragen in den Verteiler klicken Sie auf den
-Link [Verteilerliste](https://verteiler.h2-invent.com/?p=subscribe&id=1) und geben dort Ihre Email Adresse ein. Wir verwenden
+Link [Verteilerliste](https://verteiler.h2-invent.com/?p=subscribe&id=1) und geben dort Ihre E-Mail-Adresse ein. Wir verwenden
 ein Doppel-Opt-in Verfahren. Sie erhalten daher eine Bestätigungsemail mit einem Link auf den Sie einmal klicken müssen
 um die Eintragung in der Verteilerliste zu bestätigen.
 
@@ -63,7 +63,7 @@ Der Login erfolgt über einen SSO Server, z.B. Keycloak oder weitere Identidy Pr
 ### Join der Konferenz
 
 Gäste können über einen Link in der Email der Konferenz beitreten __ohne__ einen Benutzer im Jitsi Manager zu haben. Den
-Gästen steht eine Seite zum Beitreten bereit. Es wird nach der Konferenz ID, der Email Adresse und dem Namen gefragt.
+Gästen steht eine Seite zum Beitreten bereit. Es wird nach der Konferenz ID, der E-Mail-Adresse und dem Namen gefragt.
 Danach wird ein JWT erstellt mit dem der Gast der Konferenz beitreten kann.
 ![Join](docs/images/join.jpg)
 

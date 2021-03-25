@@ -69,9 +69,9 @@
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
         <target>__Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </target>
       </trans-unit>
-      <trans-unit id="eAtU_Qv" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}">
-        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}</source>
-        <target>__Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre Email Adresse: {email}</target>
+      <trans-unit id="eAtU_Qv" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</source>
+        <target>__Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</target>
       </trans-unit>
       <trans-unit id="8OKAPr6" resname="Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.">
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
@@ -349,12 +349,12 @@
         <source>Server Administrator</source>
         <target>__Server Administrator</target>
       </trans-unit>
-      <trans-unit id="_sBlp93" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;            Ihre Email Adresse: {email}&lt;br&gt;&#10;            Konferenz ID: {uid}">
+      <trans-unit id="_sBlp93" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;            Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;            Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
-            Ihre Email Adresse: {email}&lt;br&gt;
+            Ihre E-Mail-Adresse: {email}&lt;br&gt;
             Konferenz ID: {uid}</source>
         <target><![CDATA[__Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
-            Ihre Email Adresse: {email}<br>
+            Ihre E-Mail-Adresse: {email}<br>
             Konferenz ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
@@ -807,12 +807,12 @@
                                     Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
                                     an.]]></target>
       </trans-unit>
-      <trans-unit id="7z0hZZ5" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre Email Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
+      <trans-unit id="7z0hZZ5" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
-        Ihre Email Adresse: {email}&lt;br&gt;
+        Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
         <target><![CDATA[__Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
-        Ihre Email Adresse: {email}<br>
+        Ihre E-Mail-Adresse: {email}<br>
         Konferenz ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="6ftxUe_" resname="Server löschen">
