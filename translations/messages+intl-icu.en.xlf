@@ -69,7 +69,7 @@
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
         <target>__Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </target>
       </trans-unit>
-      <trans-unit id="eAtU_Qv" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}">
+      <trans-unit id="RFRvUYc" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</source>
         <target>__Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</target>
       </trans-unit>
@@ -349,7 +349,7 @@
         <source>Server Administrator</source>
         <target>__Server Administrator</target>
       </trans-unit>
-      <trans-unit id="_sBlp93" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;            Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;            Konferenz ID: {uid}">
+      <trans-unit id="xR9mDy_" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;            Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;            Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
             Ihre E-Mail-Adresse: {email}&lt;br&gt;
             Konferenz ID: {uid}</source>
@@ -807,7 +807,7 @@
                                     Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
                                     an.]]></target>
       </trans-unit>
-      <trans-unit id="7z0hZZ5" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
+      <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
@@ -830,6 +830,10 @@
       <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
         <target>__Anmelden</target>
+      </trans-unit>
+      <trans-unit id="vpf7rgl" resname="Die maximale Teilnehmeranzahl ist bereits erreicht.">
+        <source>Die maximale Teilnehmeranzahl ist bereits erreicht.</source>
+        <target>__Die maximale Teilnehmeranzahl ist bereits erreicht.</target>
       </trans-unit>
     </body>
   </file>

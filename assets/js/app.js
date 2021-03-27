@@ -22,6 +22,7 @@ import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
 import autosize from 'autosize'
 import ClipboardJS from 'clipboard'
+
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -118,13 +119,15 @@ $(document).on('click', '.loadContent', function (e) {
 
     });
 });
-function initServerFeatures(){
+
+function initServerFeatures() {
 
     getMoreFeature($('.moreFeatures').val())
-    $('.moreFeatures').change(function (){
-     getMoreFeature($(this).val());
+    $('.moreFeatures').change(function () {
+        getMoreFeature($(this).val());
     })
 }
+
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     $('.flatpickr').flatpickr({
         minDate: "today",
@@ -148,7 +151,21 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         }
     });
 
-    $(".copyLink").click(function(){
+    if (typeof $('room_public') !== 'undefined') {
+        if ($('#room_public').prop('checked')) {
+            $('#maxParticipants').collapse('show')
+        } else {
+            $('#maxParticipants').collapse('hide')
+        }
+        $('#room_public').change(function (){
+            if ($('#room_public').prop('checked')) {
+                $('#maxParticipants').collapse('show')
+            } else {
+                $('#maxParticipants').collapse('hide')
+            }
+        })
+    }
+    $(".copyLink").click(function () {
         var $temp = $("<input>");
         $("body").append($temp);
         $temp.val($(element).text()).select();
@@ -166,14 +183,14 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
 
 });
-$(document).on( 'click','.directSend', function(e) {
+$(document).on('click', '.directSend', function (e) {
     var $url = $(this).prop('href');
     var $targetUrl = $(this).data('url');
     var target = $(this).data('target');
 
     e.preventDefault();
-    $.get($url,function (){
-        $(target).closest('div').load($targetUrl +' ' +target);
+    $.get($url, function () {
+        $(target).closest('div').load($targetUrl + ' ' + target);
     })
 });
 $(".clickable-row").click(function () {
@@ -240,15 +257,16 @@ function initDropDown() {
 
 
 }
-function getMoreFeature(id){
-    if(typeof  id !== 'undefined'){
-        $.getJSON(moreFeatureUrl,'id='+id,function (data){
+
+function getMoreFeature(id) {
+    if (typeof id !== 'undefined') {
+        $.getJSON(moreFeatureUrl, 'id=' + id, function (data) {
             var feature = data.feature;
             for (var prop in feature) {
-                if(feature[prop] == true){
-                    $('#'+prop).removeClass('d-none')
-                }else {
-                    $('#'+prop).addClass('d-none')
+                if (feature[prop] == true) {
+                    $('#' + prop).removeClass('d-none')
+                } else {
+                    $('#' + prop).addClass('d-none')
                 }
             }
         })

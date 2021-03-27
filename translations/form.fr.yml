@@ -53,6 +53,7 @@ label:
   vorname: __Vorname
   nachname: __Nachname
   subscribe: __Anmelden
+  maxParticipants: __Maximale Anzahl an Teilnehmer zulassen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

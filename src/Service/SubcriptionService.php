@@ -84,6 +84,11 @@ class SubcriptionService
         $res['message'] =$this->translator->trans('Danke für die Anmeldung. ');
         $res['title'] =$this->translator->trans('Erfolgreich bestätigt');
         if($subscriber){
+            if(sizeof($subscriber->getRoom()->getUser()) >= $subscriber->getRoom()->getMaxParticipants()){
+                $res['message'] =$this->translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
+                $res['title'] =$this->translator->trans('Fehler');
+                return $res;
+            }
             try {
                 $subscriber->getUser()->addRoom($subscriber->getRoom());
                 $user = $subscriber->getUser();
