@@ -73,6 +73,8 @@
                                 {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
                             </p>
                             {{ form_start(form) }}
+                            {{ form_row(form.firstName) }}
+                            {{ form_row(form.lastName) }}
                             {{ form_row(form.email) }}
 
                             <div class="row form-group">

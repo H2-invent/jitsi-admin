@@ -46,11 +46,11 @@ class ShareLinkController extends AbstractController
      */
     public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
-        $rooms = null;
+        $rooms = new Rooms();
         $moderator = false;
-        $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidParticipant' => $uid));
+        $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidParticipant' => $uid,'public'=>true));
         if (!$rooms) {
-            $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidModerator' => $uid));
+            $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidModerator' => $uid,'public'=>true));
             if ($rooms) {
                 $moderator = true;
             }
@@ -58,6 +58,7 @@ class ShareLinkController extends AbstractController
         if (!$rooms || $rooms->getModerator() === null) {
             return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color'=>'danger']);
         }
+
         $data = array('email' => '');
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
@@ -65,7 +66,10 @@ class ShareLinkController extends AbstractController
         $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
         $color = 'success';
         $server = null;
-
+        if($rooms->getMaxParticipants() && (sizeof($rooms->getUser()->toArray()) >= $rooms->getMaxParticipants())){
+            $snack = $translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
+            $color ='danger';
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();

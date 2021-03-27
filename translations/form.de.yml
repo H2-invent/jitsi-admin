@@ -54,6 +54,7 @@ label:
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
+  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

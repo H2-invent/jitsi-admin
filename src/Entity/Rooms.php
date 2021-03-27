@@ -121,6 +121,11 @@ class Rooms
      */
     private $subscribers;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $maxParticipants;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -417,6 +422,18 @@ class Rooms
                 $subscriber->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaxParticipants(): ?int
+    {
+        return $this->maxParticipants;
+    }
+
+    public function setMaxParticipants(?int $maxParticipants): self
+    {
+        $this->maxParticipants = $maxParticipants;
 
         return $this;
     }
