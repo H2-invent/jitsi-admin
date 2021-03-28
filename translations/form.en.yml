@@ -1,0 +1,61 @@
+---
+label.konferenzId: Konferenz ID
+label.email: E-Mail-Adresse
+label.name: Name
+label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen Teilnehmern eingeben
+label.teilnehmerSpeichern: Teilnehmer Hinzufügen
+label.emailModerator: E-Mail-Adresse des Organisators eingeben
+help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
+label.organisatorhinzufuegen: Organisator Hinzufügen
+label.serverKonferenz: Jitsi Meet Server
+label.konferenzName: Name der Konferenz
+label.start: Start
+label.dauerKonferenz: Dauer der Konferenz
+label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten
+label.speichern: Speichern
+option.15min: 15 Minuten
+option.30min: 30 Minuten
+option.45min: 45 Minuten
+option.60min: 1 Stunde
+option.90min: 1,5 Stunden
+option.120min: 2 Stunden
+option.240min: 4 Stunden
+option.480min: 8 Stunden
+lable.serverUrl: Jitsi Meet Server URL
+label.appId: App ID
+label.appSecret: App Secret
+help:
+  serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
+  featureEnalbeByJwt: Das Plugin Enable Feature By JWT muss auf dem Jitsi-Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
+label:
+  beitretenApp: Mit der Elektron App beitreten
+  beitretenBrowser: Im Browser beitreten
+  serverSmtpHostName: SMTP Hostname
+  serverSmtpHostPort: SMTP Port
+  serverSmtpEncryption: Encryption
+  serverSmtpUsername: SMTP Benutzername
+  serverSmtpPassword: SMTP Passwort
+  serverSmtpSenderEmail: Absender Email
+  serverSmtpSenderName: Absender Name
+  serverLintLogo: Link zu Logo
+  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
+  serverEmailHeader: Individuelle Überschrift für Email
+  serverEmailBody: Individuellen Content für Email
+  serverLicenseKey: Jitsi-Admin Lizenkey eingeben
+  apiKey: Api-Key für diesen Server
+  agenda: Kurze Agenda für dieses Meeting (Markdown)
+  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
+  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
+  featureEnalbeByJwt: Enable Feature By JWT Plugin ist auf dem Server aktiviert
+  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
+  puplicRoom: Öffentliche Konferenz
+  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
+  subscribe: Anmelden
+  vorname: Vorname
+  nachname: Nachname
+  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: Keine
