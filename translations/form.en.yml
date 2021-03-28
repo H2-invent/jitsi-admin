@@ -46,7 +46,7 @@ label:
   agenda: Short agenda for this meeting (markdown)
   staticBackgroundColor: Set background color for joinpage
   schowStaticBackgroundColor: Show static color instead of pictures on joinpage
-  featureEnalbeByJwt: "\"Enable Feature by JWT\" plugin is active on the server"
+  featureEnalbeByJwt: \"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert
   dissallowScreenshareGlobal: Only moderators are allowed to share screen
   dissallowPrivateMessage: Only moderators are allowed to send private messages to participants
   puplicRoom: Public conference
