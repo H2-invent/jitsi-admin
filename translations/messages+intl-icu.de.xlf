@@ -753,9 +753,9 @@
       </trans-unit>
       <trans-unit id=".tedbT6" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlänger Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
-            Verlänger Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
+            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
         <target><![CDATA[Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. <br>
-            Verlänger Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.]]></target>
+            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.]]></target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
         <source>Hier verlängern</source>
