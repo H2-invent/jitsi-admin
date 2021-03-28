@@ -41,10 +41,6 @@ class License
      */
     private $url;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $reminded;
 
 
 
@@ -97,18 +93,6 @@ class License
     public function setUrl(string $url): self
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    public function getReminded(): ?bool
-    {
-        return $this->reminded;
-    }
-
-    public function setReminded(?bool $reminded): self
-    {
-        $this->reminded = $reminded;
 
         return $this;
     }

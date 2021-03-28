@@ -1,0 +1,24 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    -- {{ server.url }} --
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {% trans with {'{url}':server.url,'{date}':license.validUntil|date('d.m.Y') } %}
+            Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus
+        {% endtrans %}
+    </h4>
+    <b>
+        {{'Hallo!'|trans}}
+    </b>
+    <p>
+        {% trans %}
+        Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. <br>
+            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.
+        {% endtrans %}
+    </p>
+    <a href="https://h2-invent.com/produkte/jitsi-admin-enterprise">{{ 'Hier verlängern'|trans }}</a>
+
+
+{% endblock %}
