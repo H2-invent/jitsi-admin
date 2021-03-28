@@ -3,10 +3,10 @@ label.email: E-Mail-Adresse
 label.name: Name
 
 label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen Teilnehmern eingeben
-label.teilnehmerSpeichern: Teilnehmer Hinzufügen
+label.teilnehmerSpeichern: Teilnehmer hinzufügen
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
-label.organisatorhinzufuegen: Organisator Hinzufügen
+label.organisatorhinzufuegen: Organisator hinzufügen
 label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Name der Konferenz
 label.start: Start
