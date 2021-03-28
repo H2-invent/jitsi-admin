@@ -8,8 +8,8 @@
 
 
         <a class="ml-auto mr-2 mr-sm-4"
-                data-toggle="modal"
-                data-target="#modalAdressbook">
+           data-toggle="modal"
+           data-target="#modalAdressbook">
             <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
         </a>
         <a class="ml-auto mr-2 mr-sm-4"
@@ -24,7 +24,23 @@
             <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
         </a>
 
-        <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" class="iconSytle" title="{{ 'Logout'|trans }}"></a>
+
+        <li class="nav-item dropdown">
+        <a class=" dropdown-toggle ml-auto mr-2 mr-sm-4" type="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
+        </a>
+        <div class="dropdown-menu" style="min-width: unset; background-color: unset; border: none">
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img src="{{ asset('/images/locale/de.png') }}" class="iconSytle"></a>
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img src="{{ asset('/images/locale/en.png') }}" class="iconSytle"></a>
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img src="{{ asset('/images/locale/fr.png') }}" class="iconSytle"></a>
+        </div>
+        </li>
+        <!-- Basic dropdown -->
+
+        <!-- Basic dropdown -->
+        <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" class="iconSytle"
+                                                title="{{ 'Logout'|trans }}"></a>
 
     </div>
 
