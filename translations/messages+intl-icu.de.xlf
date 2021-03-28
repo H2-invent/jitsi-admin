@@ -77,7 +77,7 @@
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
         <target>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</target>
       </trans-unit>
-      <trans-unit id="EqOZUo3" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
+      <trans-unit id="13JKXFh" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
         <source>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
         <target>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</target>
       </trans-unit>
@@ -165,11 +165,11 @@
         <source>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</source>
         <target>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</target>
       </trans-unit>
-      <trans-unit id="yqiRTY7" resname="Jitsi-Meet-Server bearbeiten">
+      <trans-unit id="FD0bqtt" resname="Jitsi-Meet-Server bearbeiten">
         <source>Jitsi-Meet-Server bearbeiten</source>
         <target>Jitsi-Meet-Server bearbeiten</target>
       </trans-unit>
-      <trans-unit id="J4CdvJu" resname="Jitsi-Meet-Server erstellen">
+      <trans-unit id="zeZVk._" resname="Jitsi-Meet-Server erstellen">
         <source>Jitsi-Meet-Server erstellen</source>
         <target>Jitsi-Meet-Server erstellen</target>
       </trans-unit>
@@ -293,7 +293,7 @@
         <source>Hilfe</source>
         <target>Hilfe</target>
       </trans-unit>
-      <trans-unit id="FeBsXaJ" resname="Jitsi-Meet-Servereinstellungen">
+      <trans-unit id="upr4qb5" resname="Jitsi-Meet-Servereinstellungen">
         <source>Jitsi-Meet-Servereinstellungen</source>
         <target>Jitsi-Meet-Servereinstellungen</target>
       </trans-unit>
@@ -571,7 +571,7 @@
                                                 </a>
                                                 gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
-      <trans-unit id="NsNzdSB" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                                dem Formular an den Jitsi-Meet-Server weiter.">
+      <trans-unit id="hc1e4iw" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                                dem Formular an den Jitsi-Meet-Server weiter.">
         <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
                                                 auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
                                                 dem Formular an den Jitsi-Meet-Server weiter.</source>
@@ -683,7 +683,7 @@
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
         <target>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</target>
       </trans-unit>
-      <trans-unit id="FHI1Mn9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
+      <trans-unit id="FG8Lso9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
         <target>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
       </trans-unit>
@@ -691,7 +691,7 @@
         <source>SMTP-Einstellungen</source>
         <target>SMTP-Einstellungen</target>
       </trans-unit>
-      <trans-unit id="K81Gp" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
+      <trans-unit id="K81G__p" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
         <target>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</target>
       </trans-unit>
@@ -742,6 +742,24 @@
       <trans-unit id="EtNNv5Z" resname="Einladungslink für Moderatoren">
         <source>Einladungslink für Moderatoren</source>
         <target>Einladungslink für Moderatoren</target>
+      </trans-unit>
+      <trans-unit id="VxzKzeI" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus">
+        <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</source>
+        <target>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</target>
+      </trans-unit>
+      <trans-unit id="vUZyCOs" resname="Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus">
+        <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
+        <target>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</target>
+      </trans-unit>
+      <trans-unit id=".tedbT6" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlänger Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
+        <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
+            Verlänger Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
+        <target><![CDATA[Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. <br>
+            Verlänger Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.]]></target>
+      </trans-unit>
+      <trans-unit id="XM_Q6r7" resname="Hier verlängern">
+        <source>Hier verlängern</source>
+        <target>Hier verlängern</target>
       </trans-unit>
     </body>
   </file>
