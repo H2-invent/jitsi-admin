@@ -1,35 +1,35 @@
 ---
-label.konferenzId: Konferenz ID
-label.email: E-Mail-Adresse
+label.konferenzId: Conference ID
+label.email: Email address
 label.name: Name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen Teilnehmern eingeben
-label.teilnehmerSpeichern: Teilnehmer Hinzufügen
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
+label.teilnehmerEmailhinzufuegen: Enter email address of new participants
+label.teilnehmerSpeichern: Add participant
+label.emailModerator: Enter email address of organizer
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
-label.organisatorhinzufuegen: Organisator Hinzufügen
+label.organisatorhinzufuegen: Add organizer
 label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Name der Konferenz
 label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
 label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten
-label.speichern: Speichern
-option.15min: 15 Minuten
-option.30min: 30 Minuten
-option.45min: 45 Minuten
-option.60min: 1 Stunde
-option.90min: 1,5 Stunden
-option.120min: 2 Stunden
-option.240min: 4 Stunden
-option.480min: 8 Stunden
-lable.serverUrl: Jitsi Meet Server URL
+label.speichern: Save
+option.15min: 15 minutes
+option.30min: 30 minutes
+option.45min: 45 minutes
+option.60min: 1 hour
+option.90min: 1,5 hours
+option.120min: 2 hours
+option.240min: 4 hours
+option.480min: 8 hours
+lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
-label.appSecret: App Secret
+label.appSecret: App secret
 help:
-  serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
+  serverUrl: Enter without "https://" (such as meet.jit.si)
   featureEnalbeByJwt: Das Plugin Enable Feature By JWT muss auf dem Jitsi-Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
 label:
-  beitretenApp: Mit der Elektron App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenApp: Join with electron app
+  beitretenBrowser: Join with browser
   serverSmtpHostName: SMTP Hostname
   serverSmtpHostPort: SMTP Port
   serverSmtpEncryption: Encryption
