@@ -751,7 +751,7 @@
         <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
         <target>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</target>
       </trans-unit>
-      <trans-unit id=".tedbT6" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlänger Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
+      <trans-unit id=".tedbT6" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
         <target><![CDATA[Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. <br>
