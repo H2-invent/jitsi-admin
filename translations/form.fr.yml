@@ -46,7 +46,7 @@ label:
   agenda: Kurze Agenda für dieses Meeting (Markdown)
   staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
   schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
-  featureEnalbeByJwt: "Enable Feature By JWT" Plugin ist auf dem Server aktiviert
+  featureEnalbeByJwt: \"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert
   dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
   puplicRoom: Öffentliche Konferenz
