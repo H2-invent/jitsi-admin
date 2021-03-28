@@ -35,9 +35,9 @@ class ServersController extends AbstractController
             if ($server->getAdministrator() !== $this->getUser()) {
                 return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
             }
-            $title = $translator->trans('Jitsi Meet Server bearbeiten');
+            $title = $translator->trans('Jitsi-Meet-Server bearbeiten');
         } else {
-            $title = $translator->trans('Jitsi Meet Server erstellen');
+            $title = $translator->trans('Jitsi-Meet-Server erstellen');
             $server = new Server();
             $server->addUser($this->getUser());
             $server->setAdministrator($this->getUser());

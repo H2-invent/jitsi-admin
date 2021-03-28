@@ -77,9 +77,9 @@
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
         <target>__Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</target>
       </trans-unit>
-      <trans-unit id="EqOZUo3" resname="Sie wurden zu einem Jitsi Meet Server hinzugefügt">
-        <source>Sie wurden zu einem Jitsi Meet Server hinzugefügt</source>
-        <target>__Sie wurden zu einem Jitsi Meet Server hinzugefügt</target>
+      <trans-unit id="EqOZUo3" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
+        <source>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
+        <target>__Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</target>
       </trans-unit>
       <trans-unit id="h0jrwnB" resname="Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.">
         <source>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</source>
@@ -165,13 +165,13 @@
         <source>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</source>
         <target>__Konferenz nicht gefunden. Zugangsdaten erneut eingeben</target>
       </trans-unit>
-      <trans-unit id="yqiRTY7" resname="Jitsi Meet Server bearbeiten">
-        <source>Jitsi Meet Server bearbeiten</source>
-        <target>__Jitsi Meet Server bearbeiten</target>
+      <trans-unit id="yqiRTY7" resname="Jitsi-Meet-Server bearbeiten">
+        <source>Jitsi-Meet-Server bearbeiten</source>
+        <target>__Jitsi-Meet-Server bearbeiten</target>
       </trans-unit>
-      <trans-unit id="J4CdvJu" resname="Jitsi Meet Server erstellen">
-        <source>Jitsi Meet Server erstellen</source>
-        <target>__Jitsi Meet Server erstellen</target>
+      <trans-unit id="J4CdvJu" resname="Jitsi-Meet-Server erstellen">
+        <source>Jitsi-Meet-Server erstellen</source>
+        <target>__Jitsi-Meet-Server erstellen</target>
       </trans-unit>
       <trans-unit id="c69DPqK" resname="Jitsi-Admin Enterprise Einstellungen">
         <source>Jitsi-Admin Enterprise Einstellungen</source>
@@ -293,9 +293,9 @@
         <source>Hilfe</source>
         <target>__Hilfe</target>
       </trans-unit>
-      <trans-unit id="FeBsXaJ" resname="Jitsi Meet Servereinstellungen">
-        <source>Jitsi Meet Servereinstellungen</source>
-        <target>__Jitsi Meet Servereinstellungen</target>
+      <trans-unit id="FeBsXaJ" resname="Jitsi-Meet-Servereinstellungen">
+        <source>Jitsi-Meet-Servereinstellungen</source>
+        <target>__Jitsi-Meet-Servereinstellungen</target>
       </trans-unit>
       <trans-unit id="JXfQNhT" resname="Zukünftige Konferenzen">
         <source>Zukünftige Konferenzen</source>
@@ -571,13 +571,13 @@
                                                 </a>
                                                 gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
-      <trans-unit id="NsNzdSB" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                                auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                                dem Formular an den Jitsi Meet Server weiter.">
+      <trans-unit id="NsNzdSB" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                                dem Formular an den Jitsi-Meet-Server weiter.">
         <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                                auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                                dem Formular an den Jitsi Meet Server weiter.</source>
+                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                                                dem Formular an den Jitsi-Meet-Server weiter.</source>
         <target>__Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                                auf einen Jitsi Meet Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                                dem Formular an den Jitsi Meet Server weiter.</target>
+                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                                                dem Formular an den Jitsi-Meet-Server weiter.</target>
       </trans-unit>
       <trans-unit id="LbqGEyg" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben&#10;                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie&#10;                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
         <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben
@@ -683,9 +683,9 @@
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
         <target>__Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</target>
       </trans-unit>
-      <trans-unit id="FHI1Mn9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.">
-        <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
-        <target>__Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi Meet Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
+      <trans-unit id="FHI1Mn9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
+        <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
+        <target>__Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
       </trans-unit>
       <trans-unit id="m3V30Ni" resname="SMTP-Einstellungen">
         <source>SMTP-Einstellungen</source>
