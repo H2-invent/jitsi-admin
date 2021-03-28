@@ -25,7 +25,7 @@ class ReminderLizenseController extends AbstractController
             ->andWhere($qb->expr()->isNull('license.reminded'));
 
         $license = $qb->getQuery()->getResult();
-        dump($license);
+
         foreach ($license as $data){
             $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('licenseKey'=>$data->getLicenseKey()));
 
