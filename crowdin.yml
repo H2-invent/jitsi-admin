@@ -1,0 +1,5 @@
+files:
+  - source: /translations/messages+intl-icu.de.xlf
+    translation: /translations/messages+intl-icu.%two_letters_code%.xlf
+  - source: /translations/form.de.yml
+    translation: /translations/form.%two_letters_code%.yml
