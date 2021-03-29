@@ -77,6 +77,7 @@ class ShareLinkController extends AbstractController
             $snack = $res['text'];
             $color = $res['color'];
         }
+        $server = $rooms->getServer();
         $image = $pexelService->getImageFromPexels();
         return $this->render('share_link/subscribe.html.twig', [
             'form' => $form->createView(),
