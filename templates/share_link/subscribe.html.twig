@@ -61,6 +61,8 @@
                         </div>
                         <div class="col-md-6">
                             <h1 class="h1-responsive text-center">{{ room.name }}</h1>
+                            <p class=" text-center">  {% set locale =  app.request.locale  %}
+                               {{ room.start|format_date(pattern="EEEE",locale=locale) }} | {{ room.start|format_datetime('long', 'none', locale=locale) }} | {{ room.start|date('H:i')}}-{{ room.endDate|date('H:i') }}</p>
                         </div>
                     </div>
 
