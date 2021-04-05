@@ -71,7 +71,7 @@
       </trans-unit>
       <trans-unit id="RFRvUYc" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</source>
-        <target state="needs-translation">Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</target>
+        <target state="translated">Necesita los siguientes datos para unirse a la conferencia:\nID de la Conferencia: {id} \nTu dirección correo electrónico: {email}</target>
       </trans-unit>
       <trans-unit id="8OKAPr6" resname="Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.">
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
@@ -79,51 +79,51 @@
       </trans-unit>
       <trans-unit id="13JKXFh" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
         <source>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
-        <target state="needs-translation">Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</target>
+        <target state="translated">Ha sido añadido a un servidor Jitsi-Meet</target>
       </trans-unit>
       <trans-unit id="h0jrwnB" resname="Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.">
         <source>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</source>
-        <target state="needs-translation">Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</target>
+        <target state="translated">Ya te has registrado. Por favor, confirma tu email haciendo click en el enlace que se te ha enviado al correo.</target>
       </trans-unit>
       <trans-unit id="CITuA1U" resname="Sie haben sich bereits angemeldet.">
         <source>Sie haben sich bereits angemeldet.</source>
-        <target state="needs-translation">Sie haben sich bereits angemeldet.</target>
+        <target state="translated">Ya te has registrado.</target>
       </trans-unit>
       <trans-unit id="5w8fLA7" resname="Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.">
         <source>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</source>
-        <target state="needs-translation">Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</target>
+        <target state="translated">Gracias por tu registro. Por favor, confirma tu dirección de correo electrónico en el email que te hemos enviado.</target>
       </trans-unit>
       <trans-unit id="T.mgfUM" resname="Bestätigung ihrer Anmeldung zur Konferenz: {name}">
         <source>Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target state="needs-translation">Bestätigung ihrer Anmeldung zur Konferenz: {name}</target>
+        <target state="translated">Confirmación de tu registro en la conferencia: {name}</target>
       </trans-unit>
       <trans-unit id="vnxSnbr" resname="Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.">
         <source>Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</source>
-        <target state="needs-translation">Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</target>
+        <target state="translated">Correo electrónico inválido. Por favor, verifique su dirección de correo electrónico.</target>
       </trans-unit>
       <trans-unit id="fSvJmaS" resname="Danke für die Anmeldung. ">
         <source>Danke für die Anmeldung. </source>
-        <target state="needs-translation">Danke für die Anmeldung. </target>
+        <target state="translated">Gracias por registrarte. </target>
       </trans-unit>
       <trans-unit id="Vf9TBUu" resname="Erfolgreich bestätigt">
         <source>Erfolgreich bestätigt</source>
-        <target state="needs-translation">Erfolgreich bestätigt</target>
+        <target state="translated">Verificación exitosa</target>
       </trans-unit>
       <trans-unit id="vpf7rgl" resname="Die maximale Teilnehmeranzahl ist bereits erreicht.">
         <source>Die maximale Teilnehmeranzahl ist bereits erreicht.</source>
-        <target state="needs-translation">Die maximale Teilnehmeranzahl ist bereits erreicht.</target>
+        <target state="translated">Ya se ha alcanzado el número máximo de participantes.</target>
       </trans-unit>
       <trans-unit id="9swBy37" resname="Fehler">
         <source>Fehler</source>
-        <target state="needs-translation">Fehler</target>
+        <target state="translated">Error</target>
       </trans-unit>
       <trans-unit id="UbWO4Tu" resname="Fehler, Bitte klicken Sie den link erneut an.">
         <source>Fehler, Bitte klicken Sie den link erneut an.</source>
-        <target state="needs-translation">Fehler, Bitte klicken Sie den link erneut an.</target>
+        <target state="translated">Error. Por favor, pulse el enlace de nuevo.</target>
       </trans-unit>
       <trans-unit id="IrOsoSS" resname="Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.">
         <source>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</source>
-        <target state="needs-translation">Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</target>
+        <target state="translated">Este enlace es inválido. Probablemente ya haya sido confirmado previamente.</target>
       </trans-unit>
       <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
         <source>Neue Einladung zu einer Videokonferenz</source>
@@ -155,7 +155,7 @@
       </trans-unit>
       <trans-unit id="9GGCLP1" resname="Der Moderator wurde erfolgreich hinzugefügt">
         <source>Der Moderator wurde erfolgreich hinzugefügt</source>
-        <target state="needs-translation">Der Moderator wurde erfolgreich hinzugefügt</target>
+        <target state="translated">Se ha añadido al moderador con éxito</target>
       </trans-unit>
       <trans-unit id="dIC9IrN" resname="Zugangsdaten in das Formular eingeben">
         <source>Zugangsdaten in das Formular eingeben</source>
@@ -167,11 +167,11 @@
       </trans-unit>
       <trans-unit id="FD0bqtt" resname="Jitsi-Meet-Server bearbeiten">
         <source>Jitsi-Meet-Server bearbeiten</source>
-        <target state="needs-translation">Jitsi-Meet-Server bearbeiten</target>
+        <target state="translated">Editar servidor Jitsi-Meet</target>
       </trans-unit>
       <trans-unit id="zeZVk._" resname="Jitsi-Meet-Server erstellen">
         <source>Jitsi-Meet-Server erstellen</source>
-        <target state="needs-translation">Jitsi-Meet-Server erstellen</target>
+        <target state="translated">Crear servidor Jitsi-Meet</target>
       </trans-unit>
       <trans-unit id="c69DPqK" resname="Jitsi-Admin Enterprise Einstellungen">
         <source>Jitsi-Admin Enterprise Einstellungen</source>
@@ -187,7 +187,7 @@
       </trans-unit>
       <trans-unit id="85TO077" resname="Server gelöscht">
         <source>Server gelöscht</source>
-        <target state="needs-translation">Server gelöscht</target>
+        <target state="translated">Servidor eliminado</target>
       </trans-unit>
       <trans-unit id="AxonmHj" resname="SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten">
         <source>SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</source>
@@ -211,7 +211,7 @@
       </trans-unit>
       <trans-unit id="bTX_0de" resname="Bitte geben Sie ihre Daten ein">
         <source>Bitte geben Sie ihre Daten ein</source>
-        <target state="needs-translation">Bitte geben Sie ihre Daten ein</target>
+        <target state="translated">Por favor, introduzca sus datos</target>
       </trans-unit>
       <trans-unit id="zPVs_1Q" resname="Konferenzen">
         <source>Konferenzen</source>
@@ -259,7 +259,7 @@
       </trans-unit>
       <trans-unit id="o59tO2Q" resname="Fehler oder neue Idee melden">
         <source>Fehler oder neue Idee melden</source>
-        <target state="needs-translation">Fehler oder neue Idee melden</target>
+        <target state="translated">Infórmanos de un error o danos una sugerencia</target>
       </trans-unit>
       <trans-unit id="t9BKvkB" resname="Erweiterte Optionen">
         <source>Erweiterte Optionen</source>
@@ -275,7 +275,7 @@
       </trans-unit>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="needs-translation">Email</target>
+        <target state="translated">Email</target>
       </trans-unit>
       <trans-unit id="TyMI.d2" resname="Profil bearbeiten">
         <source>Profil bearbeiten</source>
@@ -295,7 +295,7 @@
       </trans-unit>
       <trans-unit id="upr4qb5" resname="Jitsi-Meet-Servereinstellungen">
         <source>Jitsi-Meet-Servereinstellungen</source>
-        <target state="needs-translation">Jitsi-Meet-Servereinstellungen</target>
+        <target state="translated">Configuración del servidor Jitsi Meet</target>
       </trans-unit>
       <trans-unit id="JXfQNhT" resname="Zukünftige Konferenzen">
         <source>Zukünftige Konferenzen</source>
@@ -363,15 +363,15 @@
       </trans-unit>
       <trans-unit id="HbpGvTO" resname="Öffentlich">
         <source>Öffentlich</source>
-        <target state="needs-translation">Öffentlich</target>
+        <target state="translated">Público</target>
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">Agenda</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe">
         <source>Keine Angabe</source>
-        <target state="needs-translation">Keine Angabe</target>
+        <target state="translated">Sin especificar</target>
       </trans-unit>
       <trans-unit id="rvfeKNU" resname="Server">
         <source>Server</source>
@@ -383,7 +383,7 @@
       </trans-unit>
       <trans-unit id="F8.sMjK" resname="Einladungslinks">
         <source>Einladungslinks</source>
-        <target state="needs-translation">Einladungslinks</target>
+        <target state="translated">Enlace de invitación</target>
       </trans-unit>
       <trans-unit id="bC01IWH" resname="Löschen">
         <source>Löschen</source>
@@ -413,9 +413,9 @@
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
-        <target state="needs-translation">Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+        <target state="translated">¿Quieres crear una videoconferencia tú mismo o planificarla cómodamente en una aplicación?
                                     &lt;br&gt;
-                                    Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</target>
+                                    Entonces ponte en contacto &lt;a href="{url}"&gt;aquí&lt;/a&gt;&amp;nbsp;.</target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
@@ -423,11 +423,10 @@
                                                      in einer Übersicht verwalten?&lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
                                     an.</source>
-        <target state="needs-translation">Sie wollen selber eine Videokonferenz
-                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel
-                                                     in einer Übersicht verwalten?&lt;br&gt;
-                                    Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
-                                    an.</target>
+        <target state="translated">¿Quieres crear una videoconferencia tú mismo
+                                    &lt;b&gt;gratis&lt;/b&gt; o planificarla cómodamente
+                                                     en una aplicación?&lt;br&gt;
+                                    Entonces ponte en contacto &lt;a href="{url}"&gt;aquí&lt;/a&gt;&amp;nbsp;&lt;b&gt;gratis&lt;/b&gt;.</target>
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
@@ -501,23 +500,23 @@
       </trans-unit>
       <trans-unit id="BqiajhC" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">Confirmación de registro</target>
       </trans-unit>
       <trans-unit id="qmIRYPu" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
-        <target state="needs-translation">Sie haben sich zur Konferenz {name} angemeldet.</target>
+        <target state="translated">Ha creado la conferencia {name}.</target>
       </trans-unit>
       <trans-unit id="tSAgi7x" resname="Klicken Sie hier um die Anmeldung abzuschließen">
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
-        <target state="needs-translation">Klicken Sie hier um die Anmeldung abzuschließen</target>
+        <target state="translated">Haga click aquí para confirmar su registro</target>
       </trans-unit>
       <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="needs-translation">Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
-        Ihre E-Mail-Adresse: {email}&lt;br&gt;
-        Konferenz ID: {uid}</target>
+        <target state="translated">Necesita la siguiente información para unirse a la conferencia:&lt;br&gt;
+        Su correo electrónico: {email}&lt;br&gt;
+        ID de conferencia: {uid}</target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
@@ -575,9 +574,9 @@
         <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
                                                 auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
                                                 dem Formular an den Jitsi-Meet-Server weiter.</source>
-        <target state="needs-translation">Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                                dem Formular an den Jitsi-Meet-Server weiter.</target>
+        <target state="translated">Le informamos que al hacer click en "Unirse" 
+                                                será reenviado a un servidor Jitsi Meet. Jitsi Admin proporciona el "Nombre" al
+                                                formulario del servidor Jitsi Meet.</target>
       </trans-unit>
       <trans-unit id="LbqGEyg" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben&#10;                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie&#10;                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
         <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben
@@ -593,7 +592,7 @@
       </trans-unit>
       <trans-unit id="Z7aWRoY" resname="Dashboard">
         <source>Dashboard</source>
-        <target state="needs-translation">Dashboard</target>
+        <target state="translated">Panel de control</target>
       </trans-unit>
       <trans-unit id="O63JhDQ" resname="Registrieren">
         <source>Registrieren</source>
@@ -601,11 +600,11 @@
       </trans-unit>
       <trans-unit id="8Y_4LyT" resname="Öffentliche Konferenzen">
         <source>Öffentliche Konferenzen</source>
-        <target state="needs-translation">Öffentliche Konferenzen</target>
+        <target state="translated">Conferencias públicas</target>
       </trans-unit>
       <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="needs-translation">Anmelden</target>
+        <target state="translated">Iniciar sesión</target>
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
@@ -613,15 +612,15 @@
       </trans-unit>
       <trans-unit id="YUsgpjC" resname="Zum Moderator ernennen">
         <source>Zum Moderator ernennen</source>
-        <target state="needs-translation">Zum Moderator ernennen</target>
+        <target state="translated">Asignar como moderador</target>
       </trans-unit>
       <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
         <source>Erlauben seinen Desktop zu Teilen</source>
-        <target state="needs-translation">Erlauben seinen Desktop zu Teilen</target>
+        <target state="translated">Permitir compartir tu escritorio</target>
       </trans-unit>
       <trans-unit id="1KCN0lU" resname="Erlaube private Nachrichten an andere Teilnehmer zu senden">
         <source>Erlaube private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Erlaube private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">Permitir el envío de mensajes privados a otros participantes</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
@@ -629,27 +628,27 @@
       </trans-unit>
       <trans-unit id="MCfbPRp" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</target>
+        <target state="translated">¿Está seguro de dar el rol de moderador al participante?</target>
       </trans-unit>
       <trans-unit id="17r8k18" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
         <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</target>
+        <target state="translated">¿Está seguro de quitar el rol de moderador al participante?</target>
       </trans-unit>
       <trans-unit id="glLZAnW" resname="Diesem Nutzer erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer erlauben seinen Bildschirm zu teilen</target>
+        <target state="translated">Permitir a este usuario compartir su pantalla</target>
       </trans-unit>
       <trans-unit id="olQS0LU" resname="Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</target>
+        <target state="translated">No permitir a este usuario compartir su pantalla</target>
       </trans-unit>
       <trans-unit id="0yF1shO" resname="Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">Permitir a este usuario el envío de mensajes privados a otros participantes</target>
       </trans-unit>
       <trans-unit id="JJdcoFT" resname="Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">No permitir a este usuario el envío de mensajes privados a otros participantes</target>
       </trans-unit>
       <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
         <source>Teilnehmer Suchen</source>
@@ -673,11 +672,11 @@
       </trans-unit>
       <trans-unit id="83zKG81" resname="Enterprise bis">
         <source>Enterprise bis</source>
-        <target state="needs-translation">Enterprise bis</target>
+        <target state="translated">Empresa</target>
       </trans-unit>
       <trans-unit id="1wfcLxk" resname="Logo">
         <source>Logo</source>
-        <target state="needs-translation">Logo</target>
+        <target state="translated">Logotipo</target>
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
@@ -685,11 +684,11 @@
       </trans-unit>
       <trans-unit id="FG8Lso9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
-        <target state="needs-translation">Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
+        <target state="translated">Inserte un enlace a la protección de datos del servidor Jitsi Meet para que los participantes puedan informarse.</target>
       </trans-unit>
       <trans-unit id="m3V30Ni" resname="SMTP-Einstellungen">
         <source>SMTP-Einstellungen</source>
-        <target state="needs-translation">SMTP-Einstellungen</target>
+        <target state="translated">Configuración de SMTP</target>
       </trans-unit>
       <trans-unit id="K81G__p" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
@@ -697,11 +696,11 @@
       </trans-unit>
       <trans-unit id="pDSuNQy" resname="Hintergrundbild">
         <source>Hintergrundbild</source>
-        <target state="needs-translation">Hintergrundbild</target>
+        <target state="translated">Imagen de fondo</target>
       </trans-unit>
       <trans-unit id="Yy7_Sw2" resname="API-Key neu genereieren">
         <source>API-Key neu genereieren</source>
-        <target state="needs-translation">API-Key neu genereieren</target>
+        <target state="translated">Regenerar API-Key</target>
       </trans-unit>
       <trans-unit id="X0bsKL4" resname="Server hinzufügen">
         <source>Server hinzufügen</source>
@@ -709,7 +708,7 @@
       </trans-unit>
       <trans-unit id="bjkKrip" resname="Bei Fragen wenden Sie sich an ihren Administrator">
         <source>Bei Fragen wenden Sie sich an ihren Administrator</source>
-        <target state="needs-translation">Bei Fragen wenden Sie sich an ihren Administrator</target>
+        <target state="translated">Si tiene alguna duda, póngase en contacto con el administrador</target>
       </trans-unit>
       <trans-unit id="54ABONi" resname="Enterprise Einstellungen">
         <source>Enterprise Einstellungen</source>
@@ -729,37 +728,37 @@
       </trans-unit>
       <trans-unit id="6ftxUe_" resname="Server löschen">
         <source>Server löschen</source>
-        <target state="needs-translation">Server löschen</target>
+        <target state="translated">Eliminar servidor</target>
       </trans-unit>
       <trans-unit id="0tXAqAS" resname="Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein">
         <source>Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</source>
-        <target state="needs-translation">Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</target>
+        <target state="translated">Acceda y añádase usted mismo a la lista de participantes</target>
       </trans-unit>
       <trans-unit id="SdjfdSR" resname="Einladungslink für Teilnehmer">
         <source>Einladungslink für Teilnehmer</source>
-        <target state="needs-translation">Einladungslink für Teilnehmer</target>
+        <target state="translated">Enlace de invitación para participantes</target>
       </trans-unit>
       <trans-unit id="EtNNv5Z" resname="Einladungslink für Moderatoren">
         <source>Einladungslink für Moderatoren</source>
-        <target state="needs-translation">Einladungslink für Moderatoren</target>
+        <target state="translated">Enlace de invitación para moderadores</target>
       </trans-unit>
       <trans-unit id="VxzKzeI" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</source>
-        <target state="needs-translation">Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</target>
+        <target state="translated">Su licencia de Jitsi-Admin-Enterprise caducará pronto</target>
       </trans-unit>
       <trans-unit id="vUZyCOs" resname="Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus">
         <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
-        <target state="needs-translation">Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</target>
+        <target state="translated">Su licencia de servidor Jitsi-Meet con la Url: {url} caduca el {date}</target>
       </trans-unit>
       <trans-unit id=".tedbT6" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="needs-translation">Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
-            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</target>
+        <target state="translated">Su licencia de Jitsi-Admin-Enterprise caducará pronto. &lt;br&gt;
+            Renueve su licencia ahora para seguir utilizando todas las características.</target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
         <source>Hier verlängern</source>
-        <target state="needs-translation">Hier verlängern</target>
+        <target state="translated">Extender aquí</target>
       </trans-unit>
     </body>
   </file>
