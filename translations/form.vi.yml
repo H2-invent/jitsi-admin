@@ -1,0 +1,61 @@
+---
+label.konferenzId: ID phòng họp
+label.email: Địa chỉ Email
+label.name: Tên
+label.teilnehmerEmailhinzufuegen: Nhập địa chỉ email người tham dự
+label.teilnehmerSpeichern: Thêm người tham dự
+label.emailModerator: Nhập địa chỉ email công ty
+help.emailTextfeld: Nhiều địa chỉ email có thể được thêm vào cùng một lúc. Mỗi địa chỉ email phải được viết trên một dòng mới.
+label.organisatorhinzufuegen: Thêm tổ chức
+label.serverKonferenz: Máy chủ Jitsi
+label.konferenzName: Tên hội nghị
+label.start: Bắt đầu
+label.dauerKonferenz: Thời lượng của hội nghị
+label.nurRegistriertenutzer: Chỉ những người đã đăng ký mới được phép tham gia hội nghị
+label.speichern: Lưu
+option.15min: 15 Phút
+option.30min: 30 Phút
+option.45min: 45 Phút
+option.60min: 60 Phút
+option.90min: 1,5 Giờ
+option.120min: 2 Giờ
+option.240min: 4 Giờ
+option.480min: 8 Giờ
+lable.serverUrl: Máy chủ Jitsi URL
+label.appId: App-ID
+label.appSecret: App-Secret
+help:
+  serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
+  featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
+label:
+  beitretenApp: Tham gia với App
+  beitretenBrowser: Tham gia với trình duyệt
+  serverSmtpHostName: Máy chủ SMTP
+  serverSmtpHostPort: SMTP-Port
+  serverSmtpEncryption: Mã hóa
+  serverSmtpUsername: Tên người dùng - SMTP
+  serverSmtpPassword: Mật khẩu SMTP
+  serverSmtpSenderEmail: Địa chỉ Email
+  serverSmtpSenderName: Absender-Name
+  serverLintLogo: Link zu Logo
+  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
+  serverEmailHeader: Individuelle Überschrift für Email
+  serverEmailBody: Individuellen Content für Email
+  serverLicenseKey: Jitsi-Admin-Lizenkey eingeben
+  apiKey: Api-Key für diesen Server
+  agenda: Kurze Agenda für dieses Meeting (Markdown)
+  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
+  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
+  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
+  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
+  puplicRoom: Öffentliche Konferenz
+  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
+  subscribe: Anmelden
+  vorname: Vorname
+  nachname: Nachname
+  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: Keine
