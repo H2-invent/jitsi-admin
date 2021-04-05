@@ -1,0 +1,42 @@
+label.konferenzId: Identificador de conferencia
+label.email: Dirección email
+label.name: Nombre
+label.beitreten: Unir
+label.teilnehmerEmailhinzufuegen: Ingrese la dirección de correo electrónico de los nuevos participantes
+label.teilnehmerSpeichern: Añadir participantes
+label.emailModerator: Ingrese la dirección de correo electrónico del organizador
+help.emailTextfeld: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
+label.organisatorhinzufuegen: Agregar organizador 
+label.serverKonferenz: Servidor Jitsi Meet
+label.konferenzName: Nombre de la conferencia
+label.start: Comienza
+label.dauerKonferenz: Duración de la conferencia
+label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia
+label.speichern: Guardar
+option.15min: 15 minutos
+option.30min: 30 minutos
+option.45min: 45 minutos
+option.60min: 1 hora
+option.90min: 1,5 horas
+option.120min: 2 horas
+option.240min: 4 horas
+option.480min: 8 horas
+lable.serverUrl: Url del servidor Jitsi Meet
+label.appId: Id de aplicacion
+label.appSecret: Secreto de la aplicacion
+help.serverUrl: Ingrese "https://" (por ejemplo, meet.jit.si)
+label:
+  serverSmtpHostName: Servidor SMTP
+  serverSmtpHostPort:  Puerto SMTP
+  serverSmtpEncryption:  Encriptado
+  serverSmtpUsername: Usuario SMTP
+  serverSmtpPassword: Contraseña SMTP
+  serverSmtpSenderEmail: Email del remitente
+  serverSmtpSenderName: Nombre del remitente
+  serverLintLogo: Enlace al logo 
+  serverPrivacyPolicy: Aviso de privacidad para este servidor
+  serverLicenseKey: Ingrese la clave de licencia de Jitsi-Admin 
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: No
