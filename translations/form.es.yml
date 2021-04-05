@@ -43,7 +43,7 @@ label:
   serverEmailBody: Contenido individual para el email
   serverLicenseKey: Ingrese la clave de licencia de Jitsi-Admin
   apiKey: Api_Key para este servidor
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
+  agenda: Agenda abreviada para esta reunión (Markdown)
   staticBackgroundColor: Configurar un color de fondo en la pantalla de unión
   schowStaticBackgroundColor: Mostrar un color fijo en vez de imágenes en la pantalla de unión
   featureEnalbeByJwt: "El plugin \"Enable Feature By JWT\" está activado en este servidor"
