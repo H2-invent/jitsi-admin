@@ -25,11 +25,11 @@ lable.serverUrl: Url del servidor Jitsi Meet
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
 help:
-  serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
-  featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
+  serverUrl: Acceder sin "https://" (ej. meet.jit.si)
+  featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
 label:
-  beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenApp: Unirse utilizando la aplicación Elektron
+  beitretenBrowser: Unirse utilizando el navegador
   serverSmtpHostName: Servidor SMTP
   serverSmtpHostPort: Puerto SMTP
   serverSmtpEncryption: Encriptado
@@ -39,23 +39,23 @@ label:
   serverSmtpSenderName: Nombre del remitente
   serverLintLogo: Enlace al logo
   serverPrivacyPolicy: Aviso de privacidad para este servidor
-  serverEmailHeader: Individuelle Überschrift für Email
-  serverEmailBody: Individuellen Content für Email
+  serverEmailHeader: Encabezamiento individual para el email
+  serverEmailBody: Contenido individual para el email
   serverLicenseKey: Ingrese la clave de licencia de Jitsi-Admin
-  apiKey: Api-Key für diesen Server
+  apiKey: Api_Key para este servidor
   agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
-  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
-  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Öffentliche Konferenz
-  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
-  subscribe: Anmelden
-  vorname: Vorname
-  nachname: Nachname
-  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
+  staticBackgroundColor: Configurar un color de fondo en la pantalla de unión
+  schowStaticBackgroundColor: Mostrar un color fijo en vez de imágenes en la pantalla de unión
+  featureEnalbeByJwt: "El plugin \"Enable Feature By JWT\" está activado en este servidor"
+  dissallowScreenshareGlobal: Sólo el moderador puede compartir la pantalla
+  dissallowPrivateMessage: Sólo el moderador puede enviar mensajes privados a otros participantes
+  puplicRoom: Conferencia pública
+  showRoomOnJoinpage: Mostrar conferencia en la página de unión
+  subscribe: Iniciar sesión
+  vorname: Nombre
+  nachname: Apellido
+  maxParticipants: Permitir número máximo de participantes
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: Ningúno
