@@ -31,11 +31,11 @@
       </trans-unit>
       <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
         <source>Teilnehmer wurden eingeladen</source>
-        <target state="needs-translation">Teilnehmer wurden eingeladen</target>
+        <target state="translated">The participants were invited</target>
       </trans-unit>
       <trans-unit id="K6XEZfk" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
         <source>Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</source>
-        <target state="needs-translation">Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</target>
+        <target state="translated">Some participants invited. {emails} is/are not correct and invitation/s can't be sent</target>
       </trans-unit>
       <trans-unit id="B5Z0l0H" resname="Teilnehmer verwalten">
         <source>Teilnehmer verwalten</source>
@@ -131,11 +131,11 @@
       </trans-unit>
       <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
         <source>Videokonferenz wurde bearbeitet</source>
-        <target state="needs-translation">Videokonferenz wurde bearbeitet</target>
+        <target state="translated">Video conference has been processed</target>
       </trans-unit>
       <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
         <source>Videokonferenz abgesagt</source>
-        <target state="needs-translation">Videokonferenz abgesagt</target>
+        <target state="translated">Video conference has been cancelled</target>
       </trans-unit>
       <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
         <source>Videokonferenz {room} startet gleich</source>
@@ -307,7 +307,7 @@
       </trans-unit>
       <trans-unit id="o66NgUz" resname="Eine Konferenz planen">
         <source>Eine Konferenz planen</source>
-        <target state="needs-translation">Eine Konferenz planen</target>
+        <target state="translated">Plan a conference</target>
       </trans-unit>
       <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
@@ -319,7 +319,7 @@
       </trans-unit>
       <trans-unit id="WWTYQHI" resname="eine neue Konferenz.">
         <source>eine neue Konferenz.</source>
-        <target state="needs-translation">eine neue Konferenz.</target>
+        <target state="translated">a new conference.</target>
       </trans-unit>
       <trans-unit id="Ruov.3p" resname="Heute">
         <source>Heute</source>
@@ -351,7 +351,7 @@
       </trans-unit>
       <trans-unit id="Kp9UH6B" resname="Läuft gerade">
         <source>Läuft gerade</source>
-        <target state="needs-translation">Läuft gerade</target>
+        <target state="translated">In progress</target>
       </trans-unit>
       <trans-unit id="Z0jsi3Z" resname="Moderator">
         <source>Moderator</source>
@@ -399,7 +399,7 @@
       </trans-unit>
       <trans-unit id="XXAlzt7" resname="Einladung zur Videokonferenz">
         <source>Einladung zur Videokonferenz</source>
-        <target state="needs-translation">Einladung zur Videokonferenz</target>
+        <target state="translated">Invitation to video conference</target>
       </trans-unit>
       <trans-unit id="NXpX.nP" resname="Hallo!">
         <source>Hallo!</source>
@@ -443,11 +443,11 @@
       </trans-unit>
       <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Manager, die Open Source Jitsi Planer Software</target>
+        <target state="translated">Powered by Jitsi Manager, the Open Source Jitsi Planner Software</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
-        <target state="needs-translation">Videokonferenz bearbeitet</target>
+        <target state="translated">Edit videoconference</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
@@ -467,15 +467,15 @@
       </trans-unit>
       <trans-unit id="kTWILTI" resname="Datum">
         <source>Datum</source>
-        <target state="needs-translation">Datum</target>
+        <target state="translated">Date</target>
       </trans-unit>
       <trans-unit id="CIhd4ET" resname="Startzeit">
         <source>Startzeit</source>
-        <target state="needs-translation">Startzeit</target>
+        <target state="translated">Start time</target>
       </trans-unit>
       <trans-unit id="JYcfIUm" resname="Geplante Dauer">
         <source>Geplante Dauer</source>
-        <target state="needs-translation">Geplante Dauer</target>
+        <target state="translated">Estimated duration</target>
       </trans-unit>
       <trans-unit id="E1zE0wP" resname="Minuten">
         <source>Minuten</source>
@@ -501,7 +501,7 @@
       </trans-unit>
       <trans-unit id="BqiajhC" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">Confirm your registration</target>
       </trans-unit>
       <trans-unit id="qmIRYPu" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
@@ -525,7 +525,7 @@
       </trans-unit>
       <trans-unit id="9YuFDjT" resname="Konferenz beitreten">
         <source>Konferenz beitreten</source>
-        <target state="needs-translation">Konferenz beitreten</target>
+        <target state="translated">Join conference</target>
       </trans-unit>
       <trans-unit id="MSCBZaM" resname="Füllen Sie das Formular aus um der Konferenz beizutreten">
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
@@ -605,7 +605,7 @@
       </trans-unit>
       <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="needs-translation">Anmelden</target>
+        <target state="translated">Log in</target>
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
@@ -653,15 +653,15 @@
       </trans-unit>
       <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
         <source>Teilnehmer Suchen</source>
-        <target state="needs-translation">Teilnehmer Suchen</target>
+        <target state="translated">Find participants</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
-        <target state="needs-translation">Tippen zum Suchen</target>
+        <target state="translated">Type to search</target>
       </trans-unit>
       <trans-unit id="9.8ReK8" resname="Abbrechen">
         <source>Abbrechen</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">Cancel</target>
       </trans-unit>
       <trans-unit id=".aAKnji" resname="Server ID und Secret anzeigen">
         <source>Server ID und Secret anzeigen</source>
@@ -689,7 +689,7 @@
       </trans-unit>
       <trans-unit id="m3V30Ni" resname="SMTP-Einstellungen">
         <source>SMTP-Einstellungen</source>
-        <target state="needs-translation">SMTP-Einstellungen</target>
+        <target state="translated">SMTP Settings</target>
       </trans-unit>
       <trans-unit id="K81G__p" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
@@ -697,11 +697,11 @@
       </trans-unit>
       <trans-unit id="pDSuNQy" resname="Hintergrundbild">
         <source>Hintergrundbild</source>
-        <target state="needs-translation">Hintergrundbild</target>
+        <target state="translated">Background Image</target>
       </trans-unit>
       <trans-unit id="Yy7_Sw2" resname="API-Key neu genereieren">
         <source>API-Key neu genereieren</source>
-        <target state="needs-translation">API-Key neu genereieren</target>
+        <target state="translated">Regenerate API-Key</target>
       </trans-unit>
       <trans-unit id="X0bsKL4" resname="Server hinzufügen">
         <source>Server hinzufügen</source>
