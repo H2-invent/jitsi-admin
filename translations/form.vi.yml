@@ -1,7 +1,7 @@
 ---
-label.konferenzId: Konferenz ID
-label.email: E-Mail-Adresse
-label.name: Name
+label.konferenzId: ID phòng họp
+label.email: Địa chỉ Email
+label.name: Tên
 label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen Teilnehmern eingeben
 label.teilnehmerSpeichern: Teilnehmer hinzufügen
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
