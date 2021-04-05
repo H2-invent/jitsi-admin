@@ -151,7 +151,7 @@
       </trans-unit>
       <trans-unit id="f3YYUGJ" resname="Konferenz mit {n}">
         <source>Konferenz mit {n}</source>
-        <target state="needs-translation">Konferenz mit {n}</target>
+        <target state="translated">Conference with {n}</target>
       </trans-unit>
       <trans-unit id="9GGCLP1" resname="Der Moderator wurde erfolgreich hinzugefügt">
         <source>Der Moderator wurde erfolgreich hinzugefügt</source>
@@ -327,7 +327,7 @@
       </trans-unit>
       <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
         <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="needs-translation">Heute steht keine Jitsi Meet Konferenz an.</target>
+        <target state="translated">There aren't conferences today in Jitsi Meet.</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
