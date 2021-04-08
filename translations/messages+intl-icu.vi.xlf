@@ -311,7 +311,7 @@
       </trans-unit>
       <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
-        <target state="needs-translation">Hiện tại không có hội nghị. Tạo từ</target>
+        <target state="needs-translation">Hiện tại không có hội nghị. Tạo tại </target>
       </trans-unit>
       <trans-unit id="Upy8jyE" resname="hier">
         <source>hier</source>
