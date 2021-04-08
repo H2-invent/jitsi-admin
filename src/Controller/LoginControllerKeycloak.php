@@ -26,7 +26,7 @@ class LoginControllerKeycloak extends AbstractController
     {
         $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/protocol/openid-connect/registrations?client_id='.
             $this->getParameter('KEYCLOAK_ID').
-            '&response_type=code&scope=openid email&redirect_uri='.$this->generateUrl('connect_keycloak_check',array(),UrlGeneratorInterface::ABSOLUTE_URL).'&kc_locale=de';
+            '&response_type=code&scope=openid email&redirect_uri='.$this->generateUrl('connect_keycloak_check',array(),UrlGeneratorInterface::ABSOLUTE_URL).'&kc_locale=en';
         return $this->redirect($url);
     }
 
