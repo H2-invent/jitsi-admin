@@ -5,15 +5,11 @@
     </a>
     <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: unset;">
         <a class="dropdown-item"
-           href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'de'})) }}"><img
-                    src="{{ asset('images/locale/de.png') }}" alt="Deutsch"
-                    class="iconSytle"></a>
-        <a class="dropdown-item"
            href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'en'})) }}"><img
                     src="{{ asset('images/locale/en.png') }}" alt="English"
                     class="iconSytle"></a>
         <a class="dropdown-item"
-           href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'fr'})) }}"><img
-                    src="{{ asset('images/locale/fr.png') }}" alt="Francais" class="iconSytle"></a>
+           href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({'_locale':'vi'})) }}"><img
+                    src="{{ asset('images/locale/vi.png') }}" alt="Vietnamese" class="iconSytle"></a>
     </div>
 </div>
