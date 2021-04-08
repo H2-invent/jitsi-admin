@@ -32,7 +32,7 @@ class AdminController extends AbstractController
              return $this->redirectToRoute('dashboard',['snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden'),'color'=>'danger']);
         }
 
-        $req = $httpClient->request('GET', 'https://api.github.com/repos/H2-invent/jitsi-admin/tags');
+        $req = $httpClient->request('GET', 'https://api.github.com/repos/namtel-hp/admin/tags');
         $tags = json_decode($req->getContent(), true);
         $chart = $adminService->createChart($server);
 
