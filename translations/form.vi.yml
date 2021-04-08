@@ -1,0 +1,61 @@
+---
+label.konferenzId: ID phòng họp
+label.email: Địa chỉ Email
+label.name: Tên
+label.teilnehmerEmailhinzufuegen: Nhập địa chỉ email người tham dự
+label.teilnehmerSpeichern: Thêm người tham dự
+label.emailModerator: Nhập địa chỉ email điều hành
+help.emailTextfeld: Nhiều địa chỉ email có thể được thêm vào cùng một lúc. Mỗi địa chỉ email phải được viết trên một dòng mới.
+label.organisatorhinzufuegen: Thêm người điều phối
+label.serverKonferenz: Máy chủ Meet
+label.konferenzName: Tên hội nghị
+label.start: Bắt đầu
+label.dauerKonferenz: Thời lượng của hội nghị
+label.nurRegistriertenutzer: Chỉ những người đã đăng ký mới được phép tham dự
+label.speichern: Lưu
+option.15min: 15 Phút
+option.30min: 30 Phút
+option.45min: 45 Phút
+option.60min: 60 Phút
+option.90min: 1,5 Giờ
+option.120min: 2 Giờ
+option.240min: 4 Giờ
+option.480min: 8 Giờ
+lable.serverUrl: Máy chủ Meet URL
+label.appId: App-ID
+label.appSecret: Mật khẩu App
+help:
+  serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
+  featureEnalbeByJwt: Plugin "Bật tính năng token - JWT" phải được kích hoạt trên máy chủ Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
+label:
+  beitretenApp: Tham dự bằng ứng dụng
+  beitretenBrowser: Tham dự bằng trình duyệt
+  serverSmtpHostName: Máy chủ SMTP
+  serverSmtpHostPort: SMTP-Port
+  serverSmtpEncryption: Mã hóa
+  serverSmtpUsername: Tên người dùng-SMTP
+  serverSmtpPassword: Mật khẩu SMTP
+  serverSmtpSenderEmail: Địa chỉ Email
+  serverSmtpSenderName: Nguời gửi
+  serverLintLogo: Đường dẫn Logo
+  serverPrivacyPolicy: Chính sách quyền riêng tư cho máy chủ
+  serverEmailHeader: Tiêu đề thư
+  serverEmailBody:  Nội dung 
+  serverLicenseKey: Nhập khóa cấp phép quản trị Meet
+  apiKey: Khóa API cho máy chủ
+  agenda: Chương trình nghị sự
+  staticBackgroundColor: Đặt màu nền trên trang tham dự
+  schowStaticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
+  featureEnalbeByJwt: "\"Bật tính năng token JWT\" Plugin được kích hoạt trên máy chủ"
+  dissallowScreenshareGlobal: Chỉ người điều hành mới được chia sẻ màn hình
+  dissallowPrivateMessage: Chỉ người điều hành mới được gửi tin nhắn
+  puplicRoom: Hội nghị công khai
+  showRoomOnJoinpage: Hiển thị phòng họp trên trang tham dự
+  subscribe: Đăng nhập
+  vorname: Tên
+  nachname: Họ
+  maxParticipants: Cho phép số lượng người tham dự tối đa
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: Keine

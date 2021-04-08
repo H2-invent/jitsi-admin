@@ -1,0 +1,61 @@
+---
+label.konferenzId: Conference ID
+label.email: Email address
+label.name: Name
+label.teilnehmerEmailhinzufuegen: Enter email address of new participants
+label.teilnehmerSpeichern: Add Participants
+label.emailModerator: Enter email address of organizer
+help.emailTextfeld: Multiple email addresses can be added at once. Each email address has to be written into a new line.
+label.organisatorhinzufuegen: Add organizer
+label.serverKonferenz: Conference server
+label.konferenzName: Conference name
+label.start: Start
+label.dauerKonferenz: Conference duration
+label.nurRegistriertenutzer: Only signed up users can join this conference
+label.speichern: Save
+option.15min: 15 minutes
+option.30min: 30 minutes
+option.45min: 45 minutes
+option.60min: 1 hour
+option.90min: 1,5 hours
+option.120min: 2 hours
+option.240min: 4 hours
+option.480min: 8 hours
+lable.serverUrl: Meet Server url
+label.appId: App ID
+label.appSecret: App secret
+help:
+  serverUrl: Enter without "https://" (such as meet.saza.vn)
+  featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the Meet server. If not, JWT will not be recognized correctly from the server
+label:
+  beitretenApp: Join with electron app
+  beitretenBrowser: Join with browser
+  serverSmtpHostName: SMTP Hostname
+  serverSmtpHostPort: SMTP Port
+  serverSmtpEncryption: Encryption
+  serverSmtpUsername: SMTP Username
+  serverSmtpPassword: SMTP password
+  serverSmtpSenderEmail: From E-Mail
+  serverSmtpSenderName: Sender name
+  serverLintLogo: Link to logo
+  serverPrivacyPolicy: Privacy policy for this server
+  serverEmailHeader: Individual email subject
+  serverEmailBody: Individual email content
+  serverLicenseKey: Enter Admin license key
+  apiKey: API-Key for this server
+  agenda: Short agenda for this meeting
+  staticBackgroundColor: Set background color for joinpage
+  schowStaticBackgroundColor: Show static color instead of pictures on joinpage
+  featureEnalbeByJwt: "\"Enable Feature by JWT\" plugin is active on the server"
+  dissallowScreenshareGlobal: Only moderators are allowed to share screen
+  dissallowPrivateMessage: Only moderators are allowed to send private messages to participants
+  puplicRoom: Public conference
+  showRoomOnJoinpage: Show conference on join page
+  subscribe: Subscribe
+  vorname: Firstname
+  nachname: Lastname
+  maxParticipants: Allow maximum number of participants
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: None
