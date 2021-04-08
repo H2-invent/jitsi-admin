@@ -20,26 +20,26 @@
                             {% if server is defined and  server is not null and server|validateLicense %}
 
                             {% else %}
-                                <a href="https://jitsi-admin.de" target="_blank" class="small"><img
+                                <a href="https://adm.saza.vn" target="_blank" class="small"><img
                                             src="{{ asset('logo.png') }}" style="height: 50px"></a>
                             {% endif %}
                         </div>
                         <div class="col-md-6">
                             <a href="{{ dataPrivacy }}" target="_blank"
                                class="small">{{ 'Datenschutzhinweis'|trans }}</a><br>
-                            <a href="https://jitsi-admin.de" target="_blank" class="small">Powered by Jitsi
+                            <a href="https://adm.saza.vn" target="_blank" class="small">Powered by Meet
                                 Admin</a><br>
                             {% if matomo_enable == 'true' %}
                                 <a class="small" href="#" data-toggle="modal" data-target="#exampleModal">
                                     Matomo Opt-out
                                 </a><br>
                             {% endif %}
-                            <a href="https://h2-invent.com" target="_blank" class="small">Made with ❤ by H2 invent •
+                            <a href="https://adm.saza.vn" target="_blank" class="small">Made with ❤ by NAMTEL •
                                 2019-{{ 'now'|date('Y') }}
-                                • v{{ laf_version }}</a>
+                                • </a>
                         </div>
                         <div class="col-md-2 text-md-center d-none d-sm-block">
-                            <a href="https://github.com/H2-invent/jitsi-admin/blob/master/LICENSE" target="_blank" referrerpolicy="no-referrer" rel="noopener"> <img src="{{ asset('images/agpl.png') }}" style="width: 100%"></a>
+                            <a href="https://github.com/namtel-hp/admin/blob/master/LICENSE" target="_blank" referrerpolicy="no-referrer" rel="noopener"> <img src="{{ asset('images/agpl.png') }}" style="width: 100%"></a>
                         </div>
                         <div class="col-md-1 text-md-right d-none d-sm-block">
                             <a href="https://opensource.org/" referrerpolicy="no-referrer" rel="noopener"><img src="{{ asset('images/open-source-logo.png') }}" style="width: 100%"></a>
