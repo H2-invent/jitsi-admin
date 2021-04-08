@@ -72,7 +72,7 @@ class RoomService
 
 
         $payload = array(
-            "aud" => "jitsi_admin",
+            "aud" => "saza",
             "iss" => $room->getServer()->getAppId(),
             "sub" => $room->getServer()->getUrl(),
             "room" => $room->getUid(),
