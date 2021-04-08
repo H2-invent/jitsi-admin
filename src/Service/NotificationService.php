@@ -39,7 +39,7 @@ class NotificationService
         if ($rooms->getModerator() !== $user) {
             $organizer = $rooms->getModerator()->getEmail();
         } else {
-            $organizer = $rooms->getModerator()->getFirstName().'@'.$rooms->getModerator()->getLastName().'.de';
+            $organizer = $rooms->getModerator()->getFirstName().'@'.$rooms->getModerator()->getLastName().'.en';
             $this->ics->setIsModerator(true);
         }
         $this->ics->add(
