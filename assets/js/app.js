@@ -13,6 +13,7 @@ import('bootstrap');
 import('mdbootstrap');
 import ('jquery-confirm');
 import flatpickr from 'flatpickr'
+import * as h2Button from 'h2-invent-apps';
 import {Calendar} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
