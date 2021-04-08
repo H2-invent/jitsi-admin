@@ -44,6 +44,6 @@ npm run build
 echo --------------------------------------------------------------------------
 echo -----------------Security Check----------------------------------------------
 echo --------------------------------------------------------------------------
-php security-checker.phar security:check composer.lock
+#php security-checker.phar security:check composer.lock
 
 
