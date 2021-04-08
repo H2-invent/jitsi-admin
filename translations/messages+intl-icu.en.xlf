@@ -5,32 +5,32 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="34R6VMk" resname="No authorization">
+      <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
         <target state="translated">No access granted</target>
       </trans-unit>
-      <trans-unit id="XCUHFQy" resname="Conference processed successfully">
+      <trans-unit id="XCUHFQy" resname="Konferenz erfolgreich bearbeitet">
         <source>Konferenz erfolgreich bearbeitet</source>
         <target state="translated">Conference edited successfully</target>
       </trans-unit>
-      <trans-unit id="I3TJoB4" resname="Edit conference">
-        <source>Edit conference</source>
+      <trans-unit id="I3TJoB4" resname="Konferenz bearbeiten">
+        <source>Konferenz bearbeiten</source>
         <target state="translated">Edit conference</target>
       </trans-unit>
-      <trans-unit id="bJSm8Ow" resname="Conference created successfully">
-        <source>Conference created successfully</source>
+      <trans-unit id="bJSm8Ow" resname="Konferenz erfolgreich erstellt">
+        <source>Konferenz erfolgreich erstellt</source>
         <target state="translated">Conference created successfully</target>
       </trans-unit>
-      <trans-unit id="bwGkw_c" resname="Create new conference">
-        <source>Create new conference</source>
+      <trans-unit id="bwGkw_c" resname="Neue Konferenz erstellen">
+        <source>Neue Konferenz erstellen</source>
         <target state="translated">Create new conference</target>
       </trans-unit>
-      <trans-unit id=".Is4T0E" resname="Error. Please check your data.">
-        <source>Error. Please check your data.</source>
+      <trans-unit id=".Is4T0E" resname="Fehler, Bitte kontrollieren Sie ihre Daten.">
+        <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
         <target state="translated">Error. Please check your data.</target>
       </trans-unit>
       <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
-        <source>The participants were invited</source>
+        <source>Teilnehmer wurden eingeladen</source>
         <target state="translated">The participants were invited</target>
       </trans-unit>
       <trans-unit id="K6XEZfk" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
