@@ -11,7 +11,6 @@ import 'popper.js';
 import('bootstrap');
 import('mdbootstrap');
 import ('jquery-confirm');
-import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';
 import { Spanish } from 'flatpickr/dist/l10n/es.js'; //Added spanish translation
 import {Calendar} from '@fullcalendar/core';
