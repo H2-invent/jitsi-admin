@@ -16,7 +16,7 @@
             </div>
             {{ form_row(form.licenseKey) }}
             {% if not server|validateLicense %}
-            <p><small><span class="badge badge-danger">Enterprise</span><a target="_blank" href="https://h2-invent.com/produkte/jitsi-admin-enterprise"> {% trans %}Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.{% endtrans %}</a></small></p>
+            <p><small><span class="badge badge-danger">Enterprise</span><a target="_blank" href="https://adm.saza.vn/product/admin-enterprise"> {% trans %}Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Meet-Admin Enterprise.{% endtrans %}</a></small></p>
             {% else %}
                 <p><small><span class="badge badge-success">{{ 'Enterprise bis'|trans }}</span> {{ server|validateUntilLicense|date('d.m.Y') }}</small></p>
             {% endif %}
