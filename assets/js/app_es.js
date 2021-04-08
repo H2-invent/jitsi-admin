@@ -43,9 +43,7 @@ $(document).ready(function () {
             $('#snackbar').removeClass('show');
         }, 3000);
     }, 500);
-    if(importBBB){
-        h2Button.init();
-    }
+ 
 
     initDropDown();
 
