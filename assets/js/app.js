@@ -85,11 +85,11 @@ $(document).on('click', '.confirmHref', function (e) {
     var text = $(this).data('text');
     if (typeof text === 'undefined') {
 
-        text = 'Wollen Sie die Aktion durchführen?'
+        text = 'Do you want to take the action?'
     }
     console.log(text);
     $.confirm({
-        title: 'Bestätigung',
+        title: 'Confirmation',
         content: text,
         theme: 'material',
         buttons: {
@@ -103,7 +103,7 @@ $(document).on('click', '.confirmHref', function (e) {
 
             },
             cancel: {
-                text: 'Abbrechen', // text for button
+                text: 'Abort', // text for button
                 btnClass: 'btn-outline-primary btn', // class for the button
             },
         }
