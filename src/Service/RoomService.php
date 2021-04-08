@@ -87,6 +87,8 @@ class RoomService
         $screen = array(
                 'screen-sharing' => true,
                 'private-message' => true,
+                'recording' => true,
+                'livestreaming' => true,
 
         );
         if ($room->getServer()->getFeatureEnableByJWT()) {
