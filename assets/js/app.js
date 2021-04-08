@@ -207,7 +207,7 @@ function renderCalendar() {
         plugins: [dayGridPlugin, bootstrapPlugin, momentPlugin, listPlugin],
         themeSystem: 'bootstrap',
         events: '/api/v1/getAllEntries',
-        lang: 'de',
+        lang: 'en',
         timeFormat: 'H(:mm)',
         displayEventEnd: true,
 
