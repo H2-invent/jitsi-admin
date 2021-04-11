@@ -1,205 +1,69 @@
 {% extends 'join/base.html.twig' %}
-
+{% block header %}
+    <h1 class="h1-responsive text-center">{{ 'Konferenz beitreten'|trans }}</h1>
+{% endblock %}
 {% block content %}
 
 
-    <style>
-        {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
-        .imageBackground {
-            background-color: {{ server.staticBackgroundColor }};
-            position: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 100%;
-            width: 100%;
-            background-position: center;
-        }
+    <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
+        <p class="text-center text-md-left">
+            {{ 'Füllen Sie das Formular aus um der Konferenz beizutreten'|trans }}
+        </p>
+        {{ form_start(form) }}
+        {{ form_row(form.uid) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.name) }}
+        <div class="row form-group">
 
-        {% elseif image is not null %}
-        .imageBackground {
-            background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
-            position: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 100%;
-            width: 100%;
-            background-position: center;
-        }
+            <div class="col-12">
+                <p class="small">
+                    {% if server and server.privacyPolicy %}
+                        {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
+                            Ich habe die
+                            <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+                                <u>Datenschutzhinweise von Jitsi Admin</u>
+                                <i class="fa fa-external-link-alt"></i>
+                            </a>
+                            und die
+                            <a href="{privacyUrl}" target="_blank"
+                               referrerpolicy="no-referrer">
+                                <u>Datenschutzhinweise von {url}</u>
+                                <i class="fa fa-external-link-alt"></i>
+                            </a>
+                            gelesen und nehme diese zur Kenntnis.
+                        {% endtrans %}
 
-        {% endif %}
-        @supports (-webkit-appearance:none) {
-            .frozenGlas {
-                background-color: rgba(255, 255, 255, 0.8);
-                backdrop-filter: blur(5px);
-            }
-        }
-
-        @supports (-moz-appearance:none) {
-            .frozenGlas {
-                background-color: white;
-
-            }
-        }
-
-
-    </style>
-    <div class="row justify-content-center">
-        <div class="col-lg-10 ">
-            <div class="card frozenGlas">
-                <div class="glossy"></div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 text-center text-md-left mb-2 mb-md-0"
-                             style="display: flex; justify-content: center; align-items: center">
-                            {% if server is defined and  server is not null and server|validateLicense %}
-                                {% if server.logoUrl is not null %}
-                                    <img src="{{ server.logoUrl }}" style="width: 100%">
-                                {% endif %}
-                            {% else %}
-                                <img src="{{ asset('logo.png') }}" style="width: 100%">
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            <h1 class="h1-responsive text-center">{{ 'Konferenz beitreten'|trans }}</h1>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row mb-5">
-
-                        <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
-                            <p class="text-center text-md-left">
-                                {{ 'Füllen Sie das Formular aus um der Konferenz beizutreten'|trans }}
-                            </p>
-                            {{ form_start(form) }}
-                            {{ form_row(form.uid) }}
-                            {{ form_row(form.email) }}
-                            {{ form_row(form.name) }}
-                            <div class="row form-group">
-
-                                <div class="col-12">
-                                    <p class="small">
-                                        {% if server and server.privacyPolicy %}
-                                            {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
-                                                Ich habe die
-                                                <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-                                                    <u>Datenschutzhinweise von Jitsi Admin</u>
-                                                    <i class="fa fa-external-link-alt"></i>
-                                                </a>
-                                                und die
-                                                <a href="{privacyUrl}" target="_blank"
-                                                   referrerpolicy="no-referrer">
-                                                    <u>Datenschutzhinweise von {url}</u>
-                                                    <i class="fa fa-external-link-alt"></i>
-                                                </a>
-                                                gelesen und nehme diese zur Kenntnis.
-                                            {% endtrans %}
-
-                                        {% else %}
-                                            {% trans with {'{dataPrivay}': dataPrivacy} %}
-                                                Ich habe die
-                                                <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-                                                    <u>Datenschutzhinweise von Jitsi Admin</u>
-                                                    <i class="fa fa-external-link-alt"></i>
-                                                </a>
-                                                gelesen und nehme diese zur Kenntnis.
-                                            {% endtrans %}
-                                        {% endif %}
-                                    </p>
-                                    {% if not server %}
-                                        <p style="font-size: 10px">
-                                            {% trans %}
-                                                Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                                dem Formular an den Jitsi-Meet-Server weiter.
-                                            {% endtrans %}
-                                        </p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    {{ form_row(form.joinBrowser) }}
-                                </div>
-                                <div class="col-md-6 d-none d-md-block">
-                                    {{ form_row(form.joinApp) }}
-                                </div>
-                            </div>
-
-                            {{ form_end(form) }}
-
-                        </div>
-
-                    </div>
-
-
-                    {% if not server %}
-                        <p>
-                            {% trans %}
-                                Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben
-                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie
-                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.
-                            {% endtrans %}
-                        </p>
+                    {% else %}
+                        {% trans with {'{dataPrivay}': dataPrivacy} %}
+                            Ich habe die
+                            <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+                                <u>Datenschutzhinweise von Jitsi Admin</u>
+                                <i class="fa fa-external-link-alt"></i>
+                            </a>
+                            gelesen und nehme diese zur Kenntnis.
+                        {% endtrans %}
                     {% endif %}
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{{ path('index') }}" class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
-                    <a href="{{ path('dashboard') }}" class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
-                    <a href="{{ path('register_keycloak') }}"
-                       class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
-                    <a href="{{ helpUrlParticipants }}" target="_blank"
-                       class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
-                    {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
-
-                    {% elseif image is not null %}
-                        <br>
-                        <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer"
-                           rel="noreferrer noopener">
-                            Image by {{ image['photographer'] }} </a>
-                        <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
-                           rel="noreferrer noopener"> provided by <img height="30px"
-                                                                       src="{{ asset('images/pexels.png') }}"/>
-                        </a>
-
-                    {% endif %}
-                </div>
+                </p>
+                {% if not server %}
+                    <p style="font-size: 10px">
+                        {% trans %}
+                            Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
+                            auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
+                            dem Formular an den Jitsi-Meet-Server weiter.
+                        {% endtrans %}
+                    </p>
+                {% endif %}
             </div>
         </div>
-        {% if server and server|roomsinFuture|length > 0 %}
-            <div class="col-lg-10 mt-3">
-                <div class="card frozenGlas">
-                    <div class="glossy"></div>
-                    <div class="card-body">
-                        <h3 class="h3-responsive text-center">{{ 'Öffentliche Konferenzen'|trans }}</h3>
-                        <div class="max-vh60">
-                            <ul class="list-group">
-
-                                    {% for r in server|roomsinFuture %}
-                                        <li class="list-group-item d-flex align-items-center justify-content-between">
-                                           <b>{{ r.start|date('d.m.Y | H:i') }}</b>
-                                            <h5>{{ r.name }} <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                                               title="{{ 'Agenda'|trans }}"
-                                                               data-content="{% if r.agenda is not null %}{{ r.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
-                                                            class="fa fa-info-circle"></i></a></h5>
-
-                                            {% if r.public %}
-                                                <a href="{{ path('public_subscribe_participant',{'uid':r.uidParticipant}) }}"
-                                                   class="btn btn-sm btn-outline-primary">{{ 'Anmelden'|trans }}</a>
-                                            {% endif %}
-                                        </li>
-
-                                    {% endfor %}
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.joinBrowser) }}
             </div>
-        {% endif %}
+            <div class="col-md-6 d-none d-md-block">
+                {{ form_row(form.joinApp) }}
+            </div>
+        </div>
+
+    {{ form_end(form) }}
     </div>
-
-
-    {{ include('base/__snack.html.twig') }}
 {% endblock %}
