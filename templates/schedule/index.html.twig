@@ -32,7 +32,7 @@
                                     <p class="mb-0">{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}</p>
                                     <p class="mb-0">{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}</p>
                                     <p class="mb-0">{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</p>
-                                    <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}" class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref" data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln'|trans }}">
+                                    <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}" class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref" data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln?'|trans }}">
                                         <i class="fa fa-check"></i></a>
                                     <button class="btn btn-sm btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect removeSchedule"
                                             type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"

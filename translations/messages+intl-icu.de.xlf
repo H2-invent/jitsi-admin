@@ -821,13 +821,10 @@
         <source>Welcher Termin passt für Sie am besten?</source>
         <target>Welcher Termin passt für Sie am besten?</target>
       </trans-unit>
-      <trans-unit id="L6BDb.R" resname="Vielleich">
-        <source>Vielleich</source>
-        <target>Vielleich</target>
-      </trans-unit>
-      <trans-unit id="9NqIx2y" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln">
-        <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln</source>
-        <target>Wollen Sie diese Terminplanung in eine Konferenz umwandeln</target>
+
+      <trans-unit id="9NqIx2y" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
+        <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
+        <target>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</target>
       </trans-unit>
     </body>
   </file>
