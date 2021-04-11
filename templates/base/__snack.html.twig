@@ -5,5 +5,11 @@
     {% endif %}
 
 
-<div id="snackbar" class="bg-{% if color is defined and color is not null %}{{ color }}{% else %}success{% endif %}">{{ snack }}</div>
+    <div id="snackbar"
+         class="bg-{% if color is defined and color is not null %}{{ color }}{% else %}success{% endif %}">{{ snack }}</div>
+{% else %}
+    <div id="snackbar"
+         class="bg-success d-none"></div>
+
 {% endif %}
+

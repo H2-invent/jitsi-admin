@@ -22,6 +22,7 @@ import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
 import autosize from 'autosize'
 import ClipboardJS from 'clipboard'
+import {initScheduling} from './scheduling'
 
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -40,6 +41,7 @@ addEventListener('load', function () {
 });
 
 $(document).ready(function () {
+
     setTimeout(function () {
         $('#snackbar').addClass('show');
         setTimeout(function () {
@@ -77,6 +79,7 @@ $(document).ready(function () {
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
+
 });
 
 $(document).on('click', '.confirmHref', function (e) {
@@ -129,6 +132,7 @@ function initServerFeatures() {
 }
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
+    initScheduling();
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,

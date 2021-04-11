@@ -32,12 +32,14 @@
                     <div class="mt-3">
                         <div class="row">
                             <div class="col-lg-12">
+                                {{ form_row(form.scheduleMeeting) }}
+                            </div>
+                            <div class="col-lg-12">
                                 {{ form_row(form.onlyRegisteredUsers) }}
                             </div>
                             <div class="col-lg-12">
                                 {{ form_row(form.public) }}
                             </div>
-
                             <div id="maxParticipants" class=" collapse">
                                 <div class="col-lg-12">
                                     {{ form_row(form.maxParticipants) }}

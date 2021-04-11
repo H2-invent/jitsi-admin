@@ -116,6 +116,11 @@ class User extends BaseUser
      */
     private $groups = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity=SchedulingTimeUser::class, mappedBy="user")
+     */
+    private $schedulingTimeUsers;
+
 
 
     public function __construct()
@@ -128,6 +133,7 @@ class User extends BaseUser
         $this->addressbookInverse = new ArrayCollection();
         $this->roomsAttributes = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
+        $this->schedulingTimeUsers = new ArrayCollection();
 
     }
 
@@ -455,6 +461,36 @@ class User extends BaseUser
     public function setGroups(?array $groups): self
     {
         $this->groups = $groups;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SchedulingTimeUser[]
+     */
+    public function getSchedulingTimeUsers(): Collection
+    {
+        return $this->schedulingTimeUsers;
+    }
+
+    public function addSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
+    {
+        if (!$this->schedulingTimeUsers->contains($schedulingTimeUser)) {
+            $this->schedulingTimeUsers[] = $schedulingTimeUser;
+            $schedulingTimeUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
+    {
+        if ($this->schedulingTimeUsers->removeElement($schedulingTimeUser)) {
+            // set the owning side to null (unless already changed)
+            if ($schedulingTimeUser->getUser() === $this) {
+                $schedulingTimeUser->setUser(null);
+            }
+        }
 
         return $this;
     }

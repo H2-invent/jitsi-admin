@@ -56,6 +56,7 @@ class RoomType extends AbstractType
                     'option.480min' => 480,
                 ]
             ])
+            ->add('scheduleMeeting',CheckboxType::class,array('required'=>false,'label' => 'label.scheduleMeeting', 'translation_domain' => 'form'))
             ->add('onlyRegisteredUsers',CheckboxType::class,array('required'=>false,'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form'))
             ->add('dissallowScreenshareGlobal',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'))
             ->add('dissallowPrivateMessage',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowPrivateMessage', 'translation_domain' => 'form'))

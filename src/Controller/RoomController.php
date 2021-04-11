@@ -132,7 +132,6 @@ class RoomController extends AbstractController
                         $emails = implode(", ", $falseEmail);
                         $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", array('{emails}' => $emails));
                     }
-
                 }
                 $em->flush();
                 return $this->redirectToRoute('dashboard', ['snack' => $snack]);
