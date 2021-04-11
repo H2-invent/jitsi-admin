@@ -60,9 +60,7 @@ class RoomController extends AbstractController
             $room->setUidReal(md5(uniqid('h2-invent', true)));
             $room->setUidModerator(md5(uniqid('h2-invent', true)));
             $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            $schedule = new Scheduling();
-            $schedule->setRoom($room);
-            $schedule->setUid(md5(uniqid()));
+
             $snack = $translator->trans('Konferenz erfolgreich erstellt');
             $title = $translator->trans('Neue Konferenz erstellen');
         }
@@ -78,12 +76,22 @@ class RoomController extends AbstractController
         }
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $room = $form->getData();
+           // $room = $form->getData();
             $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
-            $em->persist($schedule);
             $em->flush();
+            if(sizeof($room->getSchedulings()->toArray())< 1){
+                $schedule = new Scheduling();
+                $schedule->setUid(md5(uniqid()));
+                $schedule->setRoom($room);
+                $em->persist($schedule);
+                $em->flush();
+                $room->addScheduling($schedule);
+                $em->persist($room);
+                $em->flush();
+            }
+
             if ($request->get('id')) {
                 foreach ($room->getUser() as $user) {
                     $userService->editRoom($user, $room);
