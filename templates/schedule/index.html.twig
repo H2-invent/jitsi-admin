@@ -11,7 +11,7 @@
             <small>{{ 'Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.'|trans }}</small>
 
             <div class="input-group mb-3">
-                <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control flatpickr">
+                <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control flatpickr" id="schedulePickr">
                 <div class="input-group-append">
                     <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect addSchedule"
                             type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
