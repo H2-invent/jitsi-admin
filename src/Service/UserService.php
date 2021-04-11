@@ -54,24 +54,29 @@ class UserService
             $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
         }else{
-            //we have a shedule Meting. the particib´pants only gat a link to shedule thei appointments
-
+            //we have a shedule Meting. the participants only got a link to shedule their appointments
+            $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room, ]);
+            $subject = $this->translator->trans('Neue Einladung zu einer Terminplanung');
+            $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
         }
-
-
         return true;
     }
 
     function editRoom(User $user, Rooms $room)
     {
-
-        $url = $this->generateUrl($room, $user);
-        $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');
-        $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
-        $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
-
+        if(!$room->getScheduleMeeting()) {
+            $url = $this->generateUrl($room, $user);
+            $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
+            $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');
+            $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
+            $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
+            $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
+        }else{
+            //we have a shedule Meting. the participants only got a link to shedule their appointments
+            $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room, ]);
+            $subject = $this->translator->trans('Neue Einladung zu einer Terminplanung');
+            $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
+        }
         return true;
     }
 

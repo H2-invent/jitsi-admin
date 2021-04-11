@@ -5,7 +5,9 @@
 
         <span class="badge badge-info">{{ 'Moderator'|trans }}</span><br>{% endif %}
     {% if app.user == room.scheduleMeeting%}
-        <span class="badge badge-danger">{{ 'Terminplanung'|trans }}</span><br>{% endif %}
+    <a class="loadContent"
+       href="{{ path('schedule_admin',{'id':room.id}) }}">
+        <span class="badge badge-danger">{{ 'Terminplanung'|trans }}</span></a><br>{% endif %}
     {% if app.user == room.onlyRegisteredUsers %}
         <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>{% endif %}
     {% if app.user == room.public %}

@@ -83,8 +83,6 @@ class RoomController extends AbstractController
             if ($request->get('id')) {
                 foreach ($room->getUser() as $user) {
                     $userService->editRoom($user, $room);
-
-
                 }
             } else {
                 $userService->addUser($room->getModerator(), $room);

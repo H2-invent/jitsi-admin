@@ -97,22 +97,32 @@ class ScheduleController extends AbstractController
      * @Route("room/schedule/admin/choose/{id}", name="schedule_admin_choose",methods={"GET"})
      * @ParamConverter("schedulingTime")
      */
-    public function choose(SchedulingTime $schedulingTime, Request $request,SchedulingService $schedulingService): Response
+    public function choose(SchedulingTime $schedulingTime, Request $request,SchedulingService $schedulingService,TranslatorInterface $translator): Response
     {
         if ($schedulingTime->getScheduling()->getRoom()->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Room not found');
         }
-        return $this->redirectToRoute('dashboard');
+        $text = $translator->trans('Sie haben den Terminplan erfolgreich umgewandelt');
+        if(!$schedulingService->chooseTimeSlot($schedulingTime)){
+         $text = $translator->trans('Fehler, Bitte Laden Sie die Seite neu');
+        };
+        return $this->redirectToRoute('dashboard',array('snack'=>$text));
     }
     /**
      * @Route("schedule/{scheduleId}/{userId}", name="schedule_public_main", methods={"GET"})
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
      * @ParamConverter("scheduling", class="App\Entity\Scheduling",options={"mapping": {"scheduleId": "uid"}})
      */
-    public function public(Scheduling $scheduling, User $user,Request $request,PexelService $pexelService): Response
+    public function public(Scheduling $scheduling, User $user,Request $request,PexelService $pexelService,TranslatorInterface $translator): Response
     {
-        //todo test das der user das auch darf
-        //todo test das der raum auch wirklich freigegeben ist für eine Umfrage
+        if (!in_array($user,$scheduling->getRoom()->getUser()->toArray())) {
+            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color'=>'danger']);
+
+        }
+        if (!$scheduling->getRoom()->getScheduleMeeting()) {
+            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color'=>'danger']);
+        }
+
         $server = $scheduling->getRoom()->getServer();
         $image = $pexelService->getImageFromPexels();
 
@@ -124,12 +134,14 @@ class ScheduleController extends AbstractController
      */
     public function vote(Request $request,TranslatorInterface $translator): Response
     {
-        //todo test das der user das auch darf
+
 
         $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('user'));
         $scheduleTime = $this->getDoctrine()->getRepository(SchedulingTime::class)->find($request->get('time'));
         $type=$request->get('type');
-
+        if (!in_array($user,$scheduleTime->getScheduling()->getRoom()->getUser()->toArray())) {
+            return new JsonResponse(array('error'=>true,'text'=>$translator->trans('Fehler'),'color'=>'danger'));
+        }
         $scheduleTimeUser = $this->getDoctrine()->getRepository(SchedulingTimeUser::class)->findOneBy(array('user'=>$user,'scheduleTime'=>$scheduleTime));
         if(!$scheduleTimeUser){
             $scheduleTimeUser = new SchedulingTimeUser();

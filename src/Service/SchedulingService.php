@@ -17,17 +17,22 @@ class SchedulingService
         $this->em = $entityManager;
         $this->userService = $userService;
     }
-    public function chooseTimeSlot(SchedulingTime $schedulingTime){
+    public function chooseTimeSlot(SchedulingTime $schedulingTime):?bool{
         $room = $schedulingTime->getScheduling()->getRoom();
         $room->setScheduleMeeting(false);
         $room->setStart($schedulingTime->getTime());
         $end = clone $schedulingTime->getTime();
         $end->modify('+'.$room->getDuration().'min');
         $room->setEnddate($end);
-        foreach ($room->getUser() as $data){
-            $this->userService->addUser($data,$room);
-        }
         $this->em->persist($room);
         $this->em->flush();
+        try {
+            foreach ($room->getUser() as $data){
+                $this->userService->addUser($data,$room);
+            }
+        }catch (\Exception $exception){
+            return false;
+        }
+        return true;
     }
 }
