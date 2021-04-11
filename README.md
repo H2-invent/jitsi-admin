@@ -32,6 +32,8 @@ It is always possible to leave the mailing list.
 We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee
 </div>
 
+## Translation
+[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 # Features
 
 The following features are already part of Jitsi Administrator:

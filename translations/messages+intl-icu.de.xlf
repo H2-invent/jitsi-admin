@@ -825,6 +825,10 @@
         <source>Vielleich</source>
         <target>Vielleich</target>
       </trans-unit>
+      <trans-unit id="9NqIx2y" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln">
+        <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln</source>
+        <target>Wollen Sie diese Terminplanung in eine Konferenz umwandeln</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

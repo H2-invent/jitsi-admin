@@ -22,7 +22,7 @@
             <div id="scheduleSlots">
                 <div id="slot">
                     {% if room.schedulings|length>0 %}
-                        <a target="_blank" href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.id}) }}">{{ 'Hier zur Abstimmung'|trans }}</a>
+                        <a target="_blank" href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.id}) }}">{{ 'Hier zur Abstimmung'|trans }} <i class="fa fa-external-link-alt"></i> </a>
                     {% endif %}
                     {% if room.schedulings|length>0 %}
                         {% for s in room.schedulings[0].schedulingTimes|sort((a, b) => a.time <=> b.time) %}
@@ -32,7 +32,7 @@
                                     <p class="mb-0">{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}</p>
                                     <p class="mb-0">{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}</p>
                                     <p class="mb-0">{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</p>
-                                    <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}" class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect">
+                                    <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}" class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref" data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln'|trans }}">
                                         <i class="fa fa-check"></i></a>
                                     <button class="btn btn-sm btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect removeSchedule"
                                             type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"

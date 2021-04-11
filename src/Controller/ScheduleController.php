@@ -134,8 +134,6 @@ class ScheduleController extends AbstractController
      */
     public function vote(Request $request,TranslatorInterface $translator): Response
     {
-
-
         $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('user'));
         $scheduleTime = $this->getDoctrine()->getRepository(SchedulingTime::class)->find($request->get('time'));
         $type=$request->get('type');
