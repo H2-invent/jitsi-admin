@@ -821,10 +821,29 @@
         <source>Welcher Termin passt für Sie am besten?</source>
         <target>Welcher Termin passt für Sie am besten?</target>
       </trans-unit>
-
-      <trans-unit id="9NqIx2y" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
+      <trans-unit id="KUyku5P" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
         <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
         <target>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</target>
+      </trans-unit>
+      <trans-unit id="fnDondQ" resname="Terminplanung erfolgreich bearbeitet">
+        <source>Terminplanung erfolgreich bearbeitet</source>
+        <target>Terminplanung erfolgreich bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="DDgU1Ma" resname="Terminplanung bearbeiten">
+        <source>Terminplanung bearbeiten</source>
+        <target>Terminplanung bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="JOM3vOw" resname="Terminplanung erfolgreich erstellt">
+        <source>Terminplanung erfolgreich erstellt</source>
+        <target>Terminplanung erfolgreich erstellt</target>
+      </trans-unit>
+      <trans-unit id="JzM7Kww" resname="Neue Terminplanung erstellen">
+        <source>Neue Terminplanung erstellen</source>
+        <target>Neue Terminplanung erstellen</target>
+      </trans-unit>
+      <trans-unit id="LH_3egJ" resname="Einen Termin finden">
+        <source>Einen Termin finden</source>
+        <target>Einen Termin finden</target>
       </trans-unit>
     </body>
   </file>
