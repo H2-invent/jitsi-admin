@@ -28,7 +28,7 @@
 
     <spacer size="16"></spacer>
     <p>
-        <a href="{{ absolute_url(path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':user.id})) }}">{{ 'Klicken Sie hier um über den optimalen Termin abzustimmen.'|trans }}</a>
+        <a href="{{ absolute_url(path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':user.uid})) }}">{{ 'Klicken Sie hier um über den optimalen Termin abzustimmen.'|trans }}</a>
     </p>
 
     <p>

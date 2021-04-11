@@ -110,7 +110,7 @@ class ScheduleController extends AbstractController
     }
     /**
      * @Route("schedule/{scheduleId}/{userId}", name="schedule_public_main", methods={"GET"})
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
+     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "uid"}})
      * @ParamConverter("scheduling", class="App\Entity\Scheduling",options={"mapping": {"scheduleId": "uid"}})
      */
     public function public(Scheduling $scheduling, User $user,Request $request,PexelService $pexelService,TranslatorInterface $translator): Response

@@ -23,7 +23,7 @@
                 <div id="slot">
                     {% if room.schedulings|length>0 %}
                         <a target="_blank"
-                           href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.id}) }}">{{ 'Hier zur Abstimmung'|trans }}
+                           href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}">{{ 'Hier zur Abstimmung'|trans }}
                             <i class="fa fa-external-link-alt"></i> </a>
                     {% endif %}
                     {% if room.schedulings|length>0 %}

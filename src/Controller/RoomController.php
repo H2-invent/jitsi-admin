@@ -68,6 +68,9 @@ class RoomController extends AbstractController
 
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
+        if ($request->get('id')){
+            $form->remove('scheduleMeeting');
+        }
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {

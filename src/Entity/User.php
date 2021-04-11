@@ -121,6 +121,11 @@ class User extends BaseUser
      */
     private $schedulingTimeUsers;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $uid;
+
 
 
     public function __construct()
@@ -491,6 +496,18 @@ class User extends BaseUser
                 $schedulingTimeUser->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(?string $uid): self
+    {
+        $this->uid = $uid;
 
         return $this;
     }

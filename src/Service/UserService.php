@@ -10,6 +10,7 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,8 +25,8 @@ class UserService
     private $notificationService;
     private $url;
     private $translator;
-
-    public function __construct(TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    private $em;
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
@@ -33,6 +34,7 @@ class UserService
         $this->notificationService = $notificationService;
         $this->url = $urlGenerator;
         $this->translator = $translator;
+        $this->em = $entityManager;
     }
 
     function generateUrl(Rooms $room, User $user)
@@ -45,6 +47,11 @@ class UserService
 
     function addUser(User $user, Rooms $room)
     {
+        if(!$user->getUid()){
+            $user->setUid(md5(uniqid()));
+            $this->em->persist($user);
+            $this->em->flush();
+        }
         if(!$room->getScheduleMeeting()){
             //we have a not sheduled meeting. So the participabts are getting invited directly
             $url = $this->generateUrl($room, $user);
