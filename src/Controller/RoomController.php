@@ -87,7 +87,11 @@ class RoomController extends AbstractController
             } else {
                 $userService->addUser($room->getModerator(), $room);
             }
-            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+            $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
+            if($room->getScheduleMeeting()){
+                $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
+            }
+            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
 
 
         }

@@ -18,6 +18,7 @@
                        class="element btn btn-outline-default confirmHref">{{ 'Entfernen'|trans }}</a>
 
             {% endif %}
+            {% if not room.scheduleMeeting %}
             <div class="dropdown d-none d-lg-block ">
                 <button class="caretdown btn btn-primary dropdown-toggle" type="button"
                         id="dropdownMenu1"
@@ -33,11 +34,13 @@
                            target="_blank">{{ 'In der App'|trans }}</a></li>
                 </ul>
             </div>
+
             <div class="d-block d-lg-none">
                 <a class="btn btn-primary"
                    href="{{ path('room_join',{'t':'b','room':room.id}) }}"
                    target="_blank">{{ 'Starten'|trans }}</a>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

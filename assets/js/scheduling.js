@@ -50,7 +50,6 @@ function initSchedulePublic() {
         var $url = $(this).data('url');
         $.post($url,{user:$user,type:$type,time: $schedule},function (data){
             snackbar(data.text);
-            console.log('1.2');
         })
     })
 }
