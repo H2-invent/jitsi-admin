@@ -17,9 +17,11 @@
                 <div class="col-lg-12">
                     {{ form_row(form.agenda) }}
                 </div>
+                {% if form.start is defined %}
                 <div class="col-lg-12">
                     {{ form_row(form.start) }}
                 </div>
+                {% endif %}
                 <div class="col-lg-12">
                     {{ form_row(form.duration) }}
                 </div>

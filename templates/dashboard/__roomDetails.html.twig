@@ -1,22 +1,36 @@
 <div class="col-md-2">
     <h5 class="h5-responsive">{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</h5>
-    {% if room in runningRooms %}<small class="badge badge-success">{{'Läuft gerade'|trans}}</small><br>{% endif %}
+    {% if room in runningRooms %}<small class="badge badge-success">{{ 'Läuft gerade'|trans }}</small><br>{% endif %}
     {% if app.user == room.moderator %}
 
-        <span class="badge badge-info">{{ 'Moderator'|trans }}</span><br>{% endif %}
-    {% if app.user == room.scheduleMeeting%}
-    <a class="loadContent"
-       href="{{ path('schedule_admin',{'id':room.id}) }}">
-        <span class="badge badge-danger">{{ 'Terminplanung'|trans }}</span></a><br>{% endif %}
+        <span class="badge badge-info">{{ 'Moderator'|trans }}</span><br>
+    {% endif %}
+    {% if app.user == room.scheduleMeeting %}
+        <a
+                {% if app.user == room.moderator %}
+                    class="loadContent"
+                    href="{{ path('schedule_admin',{'id':room.id}) }}"
+                {% else %}
+                    href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}" target="_blank"
+                {% endif %}
+        >
+            <span class="badge badge-danger">{{ 'Terminplanung'|trans }}</span>
+        </a>
+        <br>
+    {% endif %}
     {% if app.user == room.onlyRegisteredUsers %}
-        <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>{% endif %}
+        <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>
+    {% endif %}
     {% if app.user == room.public %}
-        <span class="badge badge-danger">{{ 'Öffentlich'|trans }}</span><br>{% endif %}
+        <span class="badge badge-danger">{{ 'Öffentlich'|trans }}</span><br>
+    {% endif %}
 
 </div>
 <div class="col-md-4">
-    <h5 class="h5-responsive">{{ room.name }} <a tabindex="0"  data-toggle="popover" data-trigger="focus" title="{{ 'Agenda'|trans }}"
-                                                 data-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i class="fa fa-info-circle"></i></a></h5>
+    <h5 class="h5-responsive">{{ room.name }} <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                 title="{{ 'Agenda'|trans }}"
+                                                 data-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
+                    class="fa fa-info-circle"></i></a></h5>
     <p class="text-black-50 small">
         {{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
         {{ 'Server'|trans }}: {{ room.server.url }}<br>

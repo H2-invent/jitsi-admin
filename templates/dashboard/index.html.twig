@@ -74,7 +74,22 @@
                             </div>
                         </a>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="{{ path('schedule_admin_new') }}" class="loadContent">
+                            <div class="card card-body bg-success btn">
+                                <p class="mt-2 mb-2 text-center">
+                                    {{ 'Einen Termin finden'|trans }}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
+                {% if myScheduledMeeting(app.user)|length > 0 %}
+                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Terminplanung'|trans }} </h4>
+                    {% for r in myScheduledMeeting(app.user) %}
+                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+                    {% endfor %}
+                {% endif %}
                 {% if  roomsFuture |length == 0 %}
                     <div class="card card-body">
                         <p class="text-center">{{ 'Aktuell sind keine Konferenzen vorhanden. Erstellen Sie '|trans }}<u><a
@@ -87,10 +102,11 @@
                         <p class="text-center">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
                     </div>
                 {% endif %}
-                {% set locale =  app.request.locale  %}
+                {% set locale =  app.request.locale %}
                 {% for date in roomsFuture %}
                     <h4 style="padding-top: 16px"
-                        class="h4-responsive pl-xl-3">{{ date[0].start|format_date(pattern="EEEE",locale=locale) }} | {{ date[0].start|format_datetime('long', 'none', locale=locale) }}</h4>
+                        class="h4-responsive pl-xl-3">{{ date[0].start|format_date(pattern="EEEE",locale=locale) }}
+                        | {{ date[0].start|format_datetime('long', 'none', locale=locale) }}</h4>
                     {% for room in date %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
                     {% endfor %}

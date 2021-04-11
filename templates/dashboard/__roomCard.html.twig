@@ -13,7 +13,16 @@
                 <a href="{{ path('room_add_user',{'room':room.id}) }}"
                    class=" element btn btn-outline-default loadContent">{{ 'Teilnehmer'|trans }}</a>
             {% else %}
+            {% if room.scheduleMeeting %}
 
+                    {% if app.user != room.moderator %}
+
+                        <a class="element btn btn-outline-primary" href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}" target="_blank" >
+                           {{ 'Terminplanung'|trans }}
+                       </a>
+                    {% endif %}
+
+                {% endif %}
                     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
                        class="element btn btn-outline-default confirmHref">{{ 'Entfernen'|trans }}</a>
 

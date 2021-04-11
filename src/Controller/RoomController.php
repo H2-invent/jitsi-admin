@@ -79,7 +79,7 @@ class RoomController extends AbstractController
         }
         if ($form->isSubmitted() && $form->isValid()) {
 
-           // $room = $form->getData();
+            $room = $form->getData();
             $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
