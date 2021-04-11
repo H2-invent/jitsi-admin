@@ -166,7 +166,7 @@ class Rooms
         return $this->start;
     }
 
-    public function setStart(\DateTimeInterface $start): self
+    public function setStart(?\DateTimeInterface $start): self
     {
         $this->start = $start;
 
