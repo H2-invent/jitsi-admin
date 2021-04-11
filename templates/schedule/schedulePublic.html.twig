@@ -61,10 +61,7 @@
                         </div>
                         <div class="col-md-6">
                             <h1 class="h1-responsive text-center">{{ room.name }}</h1>
-                            <p class=" text-center">  {% set locale =  app.request.locale %}
-                                {{ room.start|format_date(pattern="EEEE",locale=locale) }}
-                                | {{ room.start|format_datetime('long', 'none', locale=locale) }}
-                                | {{ room.start|date('H:i') }}-{{ room.endDate|date('H:i') }}</p>
+
                         </div>
                     </div>
 
@@ -74,7 +71,7 @@
 
                         <div class=" col-sm-12 offset-lg-1 col-lg-10">
                             <p class="text-center text-md-left">
-                                {{ 'Welcher Termin passt am besten für Sie?'|trans }}
+                                {{ 'Welcher Termin passt für Sie am besten?'|trans }}
                             </p>
                             <div class="scrollHorizontal mt-4 mb-4">
                                 <div class=" d-flex">
@@ -179,7 +176,6 @@
                         </div>
 
                     </div>
-
 
                     {% if not server %}
                         <p>
