@@ -733,7 +733,7 @@
       </trans-unit>
       <trans-unit id="0tXAqAS" resname="Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein">
         <source>Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</source>
-        <target state="needs-translation">Đăng nhập và thêm chính bạn vào danh sách người tham dự</target>
+        <target state="needs-translation">Đăng ký vào danh sách người tham dự</target>
       </trans-unit>
       <trans-unit id="SdjfdSR" resname="Einladungslink für Teilnehmer">
         <source>Einladungslink für Teilnehmer</source>
