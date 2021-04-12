@@ -845,6 +845,16 @@
         <source>Einen Termin finden</source>
         <target>Einen Termin finden</target>
       </trans-unit>
+      <trans-unit id="_TZrqNN" resname="Terminplanung abgesagt">
+        <source>Terminplanung abgesagt</source>
+        <target>Terminplanung abgesagt</target>
+      </trans-unit>
+      <trans-unit id="0t_QPzY" resname="Die Terminplanung {name} wurde abgesagt.">
+        <source>Die Terminplanung {name} wurde abgesagt.</source>
+        <target>Die Terminplanung {name} wurde abgesagt.</target>
+      </trans-unit>
+
+
     </body>
   </file>
 </xliff>
