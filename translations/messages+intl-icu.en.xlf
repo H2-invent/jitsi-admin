@@ -796,7 +796,7 @@
       </trans-unit>
       <trans-unit id="MjqSQuA" resname="Zeit wählen">
         <source>Zeit wählen</source>
-        <target state="needs-translation">Zeit wählen</target>
+        <target state="translated">Select time</target>
       </trans-unit>
       <trans-unit id="6RsEYIW" resname="Hier zur Abstimmung">
         <source>Hier zur Abstimmung</source>
@@ -804,15 +804,15 @@
       </trans-unit>
       <trans-unit id="zenlipp" resname="Ja">
         <source>Ja</source>
-        <target state="needs-translation">Ja</target>
+        <target state="translated">Yes</target>
       </trans-unit>
       <trans-unit id="kOvBveb" resname="Nein">
         <source>Nein</source>
-        <target state="needs-translation">Nein</target>
+        <target state="translated">No</target>
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="needs-translation">Vielleicht</target>
+        <target state="translated">Not sure</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
