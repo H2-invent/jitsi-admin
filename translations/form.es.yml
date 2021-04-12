@@ -24,7 +24,7 @@ option.480min: 8 horas
 lable.serverUrl: Url del servidor Jitsi Meet
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
-label.scheduleMeeting: Einen Termin finden
+label.scheduleMeeting: Organizar una reunión
 help:
   serverUrl: Acceder sin "https://" (ej. meet.jit.si)
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
