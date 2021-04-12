@@ -24,6 +24,7 @@ option.480min: 8 Giờ
 lable.serverUrl: Máy chủ Jitsi URL
 label.appId: App-ID
 label.appSecret: App-Secret
+label.scheduleMeeting: Einen Termin finden
 help:
   serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
   featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
