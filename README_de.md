@@ -35,6 +35,11 @@ Sie können sich jederzeit aus der Verteilerliste austragen.
 Interkommunale Zusammenarbeit der Städte Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten und Stutensee
 </div>
 
+## Übersetzungen
+Wir suchen noch Hilfe für die Übersetzung der Software
+
+[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
+
 # Funktionen
 
 Folgende Funktionen sind bereits im Jitsi Administrator integriert:

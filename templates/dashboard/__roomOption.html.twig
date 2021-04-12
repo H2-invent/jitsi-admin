@@ -6,17 +6,30 @@
         {{ 'Optionen'|trans }}
     </button>
     <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-        <li>{% if room.public %}<a class="dropdown-item loadContent"
-               href="{{ path('share_link',{'id':room.id}) }}">
-                {{'Einladungslinks'|trans}}</a></li>{% endif %}
+        {% if room.scheduleMeeting %}
+            <li><a class="dropdown-item loadContent"
+                   href="{{ path('schedule_admin',{'id':room.id}) }}">
+                {{ 'Terminplaner'|trans }}</a></li>{% endif %}
+        {% if room.public %}
+            <li><a class="dropdown-item loadContent"
+                   href="{{ path('share_link',{'id':room.id}) }}">
+                {{ 'Einladungslinks'|trans }}</a></li>{% endif %}
         <li><a class="dropdown-item confirmHref"
                href="{{ path('room_remove',{'room':room.id}) }}">
-            {{'Löschen'|trans}}</a></li>
-        <li><a  href="{{ path('room_new',{'id':room.id}) }}"
-               class="loadContent dropdown-item">
-            {{ 'Bearbeiten'|trans }}</a></li>
-        <li><a href="{{ path('room_clone',{'room':room.id}) }}"
-               class="loadContent dropdown-item">
-            {{ 'Duplizieren'|trans }}</a></li>
+                {{ 'Löschen'|trans }}</a></li>
+        {% if not room.scheduleMeeting %}
+            <li><a href="{{ path('room_new',{'id':room.id}) }}"
+                   class="loadContent dropdown-item">
+                    {{ 'Bearbeiten'|trans }}</a></li>
+            <li><a href="{{ path('room_clone',{'room':room.id}) }}"
+                   class="loadContent dropdown-item">
+                    {{ 'Duplizieren'|trans }}</a></li>
+        {% endif %}
+        {% if room.scheduleMeeting %}
+            <li><a href="{{ path('schedule_admin_new',{'id':room.id}) }}"
+                   class="loadContent dropdown-item">
+                    {{ 'Bearbeiten'|trans }}</a></li>
+        {% endif %}
+
     </ul>
 </div>

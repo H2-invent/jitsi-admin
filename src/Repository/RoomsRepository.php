@@ -56,6 +56,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
+            ->andWhere('r.scheduleMeeting = false')
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
@@ -70,6 +71,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate < :now')
+            ->andWhere('r.scheduleMeeting = false')
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'DESC')
@@ -83,6 +85,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
+            ->andWhere('r.scheduleMeeting = false')
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
             ->getQuery()
@@ -97,6 +100,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
             ->andWhere('r.start < :now')
+            ->andWhere('r.scheduleMeeting = false')
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
@@ -114,6 +118,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
+            ->andWhere('r.scheduleMeeting = false')
             ->andWhere($qb->expr()->orX(
                 $qb->expr()->between('r.enddate',':now',':midnight'),
                 $qb->expr()->between('r.start',':now',':midnight'),
@@ -127,5 +132,13 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
+    }
+    public function getMyScheduledRooms(User $user){
+        $qb = $this->createQueryBuilder('rooms');
+        $qb->innerJoin('rooms.user','user')
+            ->andWhere('user = :user')
+            ->setParameter('user',$user)
+            ->andWhere('rooms.scheduleMeeting = true');
+        return $qb->getQuery()->getResult();
     }
 }

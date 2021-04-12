@@ -17,9 +17,11 @@
                 <div class="col-lg-12">
                     {{ form_row(form.agenda) }}
                 </div>
+                {% if form.start is defined %}
                 <div class="col-lg-12">
                     {{ form_row(form.start) }}
                 </div>
+                {% endif %}
                 <div class="col-lg-12">
                     {{ form_row(form.duration) }}
                 </div>
@@ -31,13 +33,17 @@
                 <div class="collapse" id="collapseExample">
                     <div class="mt-3">
                         <div class="row">
+                            {% if form.scheduleMeeting is defined %}
+                            <div class="col-lg-12">
+                                {{ form_row(form.scheduleMeeting) }}
+                            </div>
+                            {% endif %}
                             <div class="col-lg-12">
                                 {{ form_row(form.onlyRegisteredUsers) }}
                             </div>
                             <div class="col-lg-12">
                                 {{ form_row(form.public) }}
                             </div>
-
                             <div id="maxParticipants" class=" collapse">
                                 <div class="col-lg-12">
                                     {{ form_row(form.maxParticipants) }}

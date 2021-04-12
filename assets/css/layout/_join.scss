@@ -1,5 +1,15 @@
-.max-vh60{
+.max-vh60 {
   max-height: 60vh;
   overflow: hidden;
   overflow-y: auto;
+}
+
+.scrollHorizontal {
+  overflow: hidden;
+  overflow-x: auto;
+}
+.scrollEle{
+  border-right: solid 1px gray;
+  padding-right: 8px;
+  padding-left: 8px;
 }

@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function Symfony\Component\String\s;
 
 class ShareLinkController extends AbstractController
 {
@@ -97,10 +98,13 @@ class ShareLinkController extends AbstractController
     {
         $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('uid' => $uid));
         $res = $subcriptionService->acceptSub($subscriber);
-
+        $server = null;
+        if($subscriber){
+            $subscriber->getRoom()->getServer();
+        }
         $message = $res['message'];
         $title = $res['title'];
         $image = $pexelService->getImageFromPexels();
-        return $this->render('share_link/subscribeSuccess.html.twig', array('message' => $message, 'title' => $title, 'image' => $image));
+        return $this->render('share_link/subscribeSuccess.html.twig', array('server'=>$server,'message' => $message, 'title' => $title, 'image' => $image));
     }
 }

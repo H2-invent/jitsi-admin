@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Entity\Scheduling;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
@@ -67,6 +68,9 @@ class RoomController extends AbstractController
 
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
+        if ($request->get('id')){
+            $form->remove('scheduleMeeting');
+        }
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {
@@ -80,16 +84,29 @@ class RoomController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
             $em->flush();
+            if(sizeof($room->getSchedulings()->toArray())< 1){
+                $schedule = new Scheduling();
+                $schedule->setUid(md5(uniqid()));
+                $schedule->setRoom($room);
+                $em->persist($schedule);
+                $em->flush();
+                $room->addScheduling($schedule);
+                $em->persist($room);
+                $em->flush();
+            }
+
             if ($request->get('id')) {
                 foreach ($room->getUser() as $user) {
                     $userService->editRoom($user, $room);
-
-
                 }
             } else {
                 $userService->addUser($room->getModerator(), $room);
             }
-            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+            $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
+            if($room->getScheduleMeeting()){
+                $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
+            }
+            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
 
 
         }
@@ -132,7 +149,6 @@ class RoomController extends AbstractController
                         $emails = implode(", ", $falseEmail);
                         $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", array('{emails}' => $emails));
                     }
-
                 }
                 $em->flush();
                 return $this->redirectToRoute('dashboard', ['snack' => $snack]);
