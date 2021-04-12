@@ -56,7 +56,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
-            ->andWhere('r.scheduleMeeting = false')
+            ->andWhere('r.scheduleMeeting != true')
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
@@ -71,7 +71,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate < :now')
-            ->andWhere('r.scheduleMeeting = false')
+            ->andWhere('r.scheduleMeeting != true')
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'DESC')
@@ -85,7 +85,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
-            ->andWhere('r.scheduleMeeting = false')
+            ->andWhere('r.scheduleMeeting != true')
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
             ->getQuery()
@@ -100,7 +100,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
             ->andWhere('r.start < :now')
-            ->andWhere('r.scheduleMeeting = false')
+            ->andWhere('r.scheduleMeeting != true')
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
@@ -118,7 +118,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb
             ->innerJoin('r.user','user')
             ->andWhere('user = :user')
-            ->andWhere('r.scheduleMeeting = false')
+            ->andWhere('r.scheduleMeeting != true')
             ->andWhere($qb->expr()->orX(
                 $qb->expr()->between('r.enddate',':now',':midnight'),
                 $qb->expr()->between('r.start',':now',':midnight'),
