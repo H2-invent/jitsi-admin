@@ -748,15 +748,99 @@
         <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
         <target state="translated">Your license for Jitsi-Meet server with Url {url} will expire at {date}</target>
       </trans-unit>
-      <trans-unit id=".tedbT6" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
+      <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="translated">Your Jitsi-Admin-Enterprise license will expire soon. &lt;br&gt;
-            Renew your license right here to continue using all features as usual.</target>
+        <target state="needs-translation">Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
+            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
         <source>Hier verlängern</source>
         <target state="translated">Renew here</target>
+      </trans-unit>
+      <trans-unit id="pm52BiU" resname="Neue Einladung zu einer Terminplanung">
+        <source>Neue Einladung zu einer Terminplanung</source>
+        <target state="needs-translation">Neue Einladung zu einer Terminplanung</target>
+      </trans-unit>
+      <trans-unit id="crDnbJt" resname="Sie haben den Terminplan erfolgreich umgewandelt">
+        <source>Sie haben den Terminplan erfolgreich umgewandelt</source>
+        <target state="needs-translation">Sie haben den Terminplan erfolgreich umgewandelt</target>
+      </trans-unit>
+      <trans-unit id="ihYiwYJ" resname="Fehler, Bitte Laden Sie die Seite neu">
+        <source>Fehler, Bitte Laden Sie die Seite neu</source>
+        <target state="needs-translation">Fehler, Bitte Laden Sie die Seite neu</target>
+      </trans-unit>
+      <trans-unit id="SKDmXpu" resname="Terminplanung">
+        <source>Terminplanung</source>
+        <target state="needs-translation">Terminplanung</target>
+      </trans-unit>
+      <trans-unit id="_RCpCcb" resname="Terminplaner">
+        <source>Terminplaner</source>
+        <target state="needs-translation">Terminplaner</target>
+      </trans-unit>
+      <trans-unit id="WTkB_NE" resname="Einladung zu einer Terminplanung">
+        <source>Einladung zu einer Terminplanung</source>
+        <target state="needs-translation">Einladung zu einer Terminplanung</target>
+      </trans-unit>
+      <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
+        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <target state="needs-translation">Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</target>
+      </trans-unit>
+      <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
+        <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
+        <target state="needs-translation">Klicken Sie hier um über den optimalen Termin abzustimmen.</target>
+      </trans-unit>
+      <trans-unit id="BzawdAw" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
+        <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
+        <target state="needs-translation">Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</target>
+      </trans-unit>
+      <trans-unit id="MjqSQuA" resname="Zeit wählen">
+        <source>Zeit wählen</source>
+        <target state="needs-translation">Zeit wählen</target>
+      </trans-unit>
+      <trans-unit id="6RsEYIW" resname="Hier zur Abstimmung">
+        <source>Hier zur Abstimmung</source>
+        <target state="needs-translation">Hier zur Abstimmung</target>
+      </trans-unit>
+      <trans-unit id="zenlipp" resname="Ja">
+        <source>Ja</source>
+        <target state="needs-translation">Ja</target>
+      </trans-unit>
+      <trans-unit id="kOvBveb" resname="Nein">
+        <source>Nein</source>
+        <target state="needs-translation">Nein</target>
+      </trans-unit>
+      <trans-unit id="bM.1UL8" resname="Vielleicht">
+        <source>Vielleicht</source>
+        <target state="needs-translation">Vielleicht</target>
+      </trans-unit>
+      <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
+        <source>Welcher Termin passt für Sie am besten?</source>
+        <target state="needs-translation">Welcher Termin passt für Sie am besten?</target>
+      </trans-unit>
+      <trans-unit id="KUyku5P" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
+        <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
+        <target state="needs-translation">Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</target>
+      </trans-unit>
+      <trans-unit id="fnDondQ" resname="Terminplanung erfolgreich bearbeitet">
+        <source>Terminplanung erfolgreich bearbeitet</source>
+        <target state="needs-translation">Terminplanung erfolgreich bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="DDgU1Ma" resname="Terminplanung bearbeiten">
+        <source>Terminplanung bearbeiten</source>
+        <target state="needs-translation">Terminplanung bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="JOM3vOw" resname="Terminplanung erfolgreich erstellt">
+        <source>Terminplanung erfolgreich erstellt</source>
+        <target state="needs-translation">Terminplanung erfolgreich erstellt</target>
+      </trans-unit>
+      <trans-unit id="JzM7Kww" resname="Neue Terminplanung erstellen">
+        <source>Neue Terminplanung erstellen</source>
+        <target state="needs-translation">Neue Terminplanung erstellen</target>
+      </trans-unit>
+      <trans-unit id="LH_3egJ" resname="Einen Termin finden">
+        <source>Einen Termin finden</source>
+        <target state="needs-translation">Einen Termin finden</target>
       </trans-unit>
     </body>
   </file>
