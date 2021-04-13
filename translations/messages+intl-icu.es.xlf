@@ -846,11 +846,11 @@
       </trans-unit>
       <trans-unit id="_TZrqNN" resname="Terminplanung abgesagt">
         <source>Terminplanung abgesagt</source>
-        <target state="needs-translation">Terminplanung abgesagt</target>
+        <target state="translated">Programación cancelada</target>
       </trans-unit>
       <trans-unit id="0t_QPzY" resname="Die Terminplanung {name} wurde abgesagt.">
         <source>Die Terminplanung {name} wurde abgesagt.</source>
-        <target state="needs-translation">Die Terminplanung {name} wurde abgesagt.</target>
+        <target state="translated">La programación de la reunión {name} ha sido cancelada.</target>
       </trans-unit>
     </body>
   </file>
