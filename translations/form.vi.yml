@@ -40,18 +40,18 @@ label:
   serverSmtpSenderName: Tên người gửi
   serverLintLogo: Đường dẫn biểu tượng
   serverPrivacyPolicy: Thông tin bảo vệ dữ liệu
-  serverEmailHeader: Individuelle Überschrift für Email
-  serverEmailBody: Individuellen Content für Email
-  serverLicenseKey: Jitsi-Admin-Lizenkey eingeben
-  apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
-  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
-  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Öffentliche Konferenz
-  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
+  serverEmailHeader: Tiêu đề
+  serverEmailBody: Nội dung
+  serverLicenseKey: Giấy phép Jitsi-Admin
+  apiKey: Khóa API cho máy chủ này
+  agenda: Chương trình nghị sự cho cuộc họp này (đánh dấu)
+  staticBackgroundColor: Đặt màu nền trên trang tham dự
+  schowStaticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
+  featureEnalbeByJwt: "Tính năng \"Token - JWT\" được kích hoạt trên máy chủ"
+  dissallowScreenshareGlobal: Chỉ người kiểm duyệt mới có thể chia sẻ màn hình
+  dissallowPrivateMessage: Chỉ người kiểm duyệt mới có thể gửi tin nhắn riêng tư cho người tham dự
+  puplicRoom: Hội nghị công khai
+  showRoomOnJoinpage: Hiển thị hội nghị trên trang tham gia
   subscribe: Đăng nhập
   vorname: Tên
   nachname: Họ
