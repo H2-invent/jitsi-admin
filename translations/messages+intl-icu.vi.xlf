@@ -529,7 +529,7 @@
       </trans-unit>
       <trans-unit id="MSCBZaM" resname="Füllen Sie das Formular aus um der Konferenz beizutreten">
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
-        <target state="needs-translation">Điền vào biểu mẫu để tham dự hội nghị</target>
+        <target state="needs-translation">Nhập thông tin tham dự</target>
       </trans-unit>
       <trans-unit id="HKX.hO5" resname="Ich habe die&#10;                                                &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                                    &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;&#10;                                                    &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                                &lt;/a&gt;&#10;                                                und die&#10;                                                &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot;&#10;                                                   referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                                    &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&#10;                                                    &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                                &lt;/a&gt;&#10;                                                gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die
