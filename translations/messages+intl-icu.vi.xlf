@@ -35,7 +35,7 @@
       </trans-unit>
       <trans-unit id="K6XEZfk" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
         <source>Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</source>
-        <target state="needs-translation">Đã mời một số người tham dự. {email} là/ không đúng và không thể được mời</target>
+        <target state="needs-translation">Đã mời một số người tham dự. {email} là/ không đúng và không được mời</target>
       </trans-unit>
       <trans-unit id="B5Z0l0H" resname="Teilnehmer verwalten">
         <source>Teilnehmer verwalten</source>
@@ -63,19 +63,19 @@
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
         <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
-        <target state="needs-translation">Bạn đã được thêm vào hội nghị truyền hình trên Máy chủ Meet {server}.</target>
+        <target state="needs-translation">Bạn đã được thêm vào hội nghị trên {server}.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
-        <target state="needs-translation">Bạn có thể dễ dàng tham dự hội nghị truyền hình bằng liên kết đính kèm.\nTên: {name} \nNgười điều hành: {moderator} </target>
+        <target state="needs-translation">Vui lòng tham dự hội nghị sau.\nTên hội nghị: {name} \nNgười điều hành: {moderator} </target>
       </trans-unit>
       <trans-unit id="RFRvUYc" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</source>
-        <target state="needs-translation">Bạn cần thông tin sau để tham dự hội nghị:\nID Hội nghị: {id} \nĐịa chỉ Email: {email}</target>
+        <target state="needs-translation">Bạn cần thông tin sau để tham dự hội nghị:\nID hội nghị: {id} \nĐịa chỉ email: {email}</target>
       </trans-unit>
       <trans-unit id="8OKAPr6" resname="Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.">
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
-        <target state="needs-translation">Bạn nhận được email này vì bạn đã được mời tham dự một hội nghị truyền hình.</target>
+        <target state="needs-translation">Bạn nhận được email này vì bạn được mời tham dự một hội nghị trực .</target>
       </trans-unit>
       <trans-unit id="13JKXFh" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
         <source>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
