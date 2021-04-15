@@ -413,9 +413,9 @@
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
-        <target state="needs-translation">Bạn muốn quản lý hội nghị này một cách thoải mái trong một cái nhìn tổng quan?
+        <target state="needs-translation">Bạn muốn quản lý hội nghị này?
                                     &lt;br&gt;
-                                   Thì hãy kết nối &lt;a href="{url}"&gt;tại đây&lt;/a&gt;&amp;nbsp;.</target>
+                                   Vui lòng kết nối &lt;a href="{url}"&gt;tại đây&lt;/a&gt;&amp;nbsp;.</target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
@@ -423,15 +423,15 @@
                                                      in einer Übersicht verwalten?&lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
                                     an.</source>
-        <target state="needs-translation">Bạn muốn có một hội nghị truyền hình cho mình
-                                    &lt;b&gt;miễm phí&lt;/b&gt; hoặc lên kế hoạch cho hội nghị này một cách thoải mái
-                                                     quản lý tổng quan?&lt;br&gt;
-                                    Thì hãy kết nối &lt;a href="{url}"&gt;tại đây&lt;/a&gt;&amp;nbsp;&lt;b&gt;miễm phí&lt;/b&gt;
+        <target state="needs-translation">Bạn muốn tạo một hội nghị trực tuyến
+                                    &lt;b&gt;miễm phí&lt;/b&gt; hoặc lên kế hoạch cho một hội nghị này và
+                                                     quản lý?&lt;br&gt;
+                                    Vui lòng kết nối &lt;a href="{url}"&gt;tại đây&lt;/a&gt;&amp;nbsp;&lt;b&gt;&lt;/b&gt;
                                     .</target>
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
-        <target state="needs-translation">Bạn nhận được email này vì bạn có tên trong danh sách người tham dự hội nghị này.</target>
+        <target state="needs-translation">Bạn nhận được email này vì bạn có trong danh sách người tham dự hội nghị.</target>
       </trans-unit>
       <trans-unit id="UVkFezv" resname="Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.">
         <source>Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</source>
@@ -439,11 +439,11 @@
       </trans-unit>
       <trans-unit id="WRvGHxL" resname="Diese Mail wurde Ihnen gesendet im Auftrag von:">
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
-        <target state="needs-translation">Thư này đã được gửi cho bạn thay mặt cho:</target>
+        <target state="needs-translation">Thư này được gửi cho bạn từ:</target>
       </trans-unit>
       <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Được cung cấp bởi Meet Manager, phần mềm nguồn mở</target>
+        <target state="needs-translation">Được cung cấp bởi Meet, SAZA Co., Ltd</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
@@ -451,7 +451,7 @@
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Sự kiện {name} vừa thay đổi. Bạn có thể dễ dàng tham dự hội nghị truyền hình bằng liên kết đính kèm.</target>
+        <target state="needs-translation">Sự kiện {name} vừa thay đổi. Bạn có thể tham dự hội nghị truyền hình bằng liên kết đính kèm.</target>
       </trans-unit>
       <trans-unit id="F8UXAUj" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
@@ -459,7 +459,7 @@
       </trans-unit>
       <trans-unit id="rFiFMV5" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Hội nghị truyền hình trên máy chủ {url} sắp bắt đầu. Bạn có thể dễ dàng tham dự hội nghị truyền hình bằng liên kết đính kèm.</target>
+        <target state="needs-translation">Hội nghị truyền hình trên máy chủ {url} sắp bắt đầu. Bạn có thể tham dự hội nghị bằng liên kết đính kèm.</target>
       </trans-unit>
       <trans-unit id="nIeMrFU" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
@@ -483,12 +483,12 @@
       </trans-unit>
       <trans-unit id="pGKhwYj" resname="Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen">
         <source>Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</source>
-        <target state="needs-translation">Bây giờ bạn có thể tạo hội nghị với Máy chủ Meet {url}</target>
+        <target state="needs-translation">Bây giờ bạn có thể tạo hội nghị với {url}</target>
       </trans-unit>
       <trans-unit id="TUr.7W8" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="needs-translation">Giờ đây, bạn có thể quản lý các hội nghị của Meet thông qua Meet Admin. Đăng nhập hoặc tạo
+        <target state="needs-translation">Giờ đây, bạn có thể quản lý các hội nghị thông qua Meet Admin. Đăng nhập hoặc tạo
         một người dùng.</target>
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
@@ -521,7 +521,7 @@
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
-        <target state="needs-translation">Nhấp vào đây để chuyển trực tiếp đến hội nghị truyền hình.</target>
+        <target state="needs-translation">Nhấp vào đây để kết nối trực tiếp đến hội nghị.</target>
       </trans-unit>
       <trans-unit id="9YuFDjT" resname="Konferenz beitreten">
         <source>Konferenz beitreten</source>
@@ -546,7 +546,7 @@
                                                 gelesen und nehme diese zur Kenntnis.</source>
         <target state="needs-translation">Tôi có
                                                 &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Chính sách quyền riêng tư từ Quản trị Meet&lt;/u&gt;
+                                                    &lt;u&gt;Chính sách quyền riêng tư &lt;/u&gt;
                                                     &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
                                                 &lt;/a&gt;
                                                 và
@@ -566,7 +566,7 @@
                                                 gelesen und nehme diese zur Kenntnis.</source>
         <target state="needs-translation">Tôi có
                                                 &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Chính sách quyền riêng tư từ Quản trị Meet&lt;/u&gt;
+                                                    &lt;u&gt;Chính sách quyền riêng tư&lt;/u&gt;
                                                     &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
                                                 &lt;/a&gt;
                                                 đọc và ghi lại.</target>
@@ -576,7 +576,7 @@
                                                 auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
                                                 dem Formular an den Jitsi-Meet-Server weiter.</source>
         <target state="needs-translation">Chúng tôi chỉ ra rằng bằng cách nhấp vào "Tham gia"
-                                                bạn được chuyển tiếp đến máy chủ Meet. Quản trị Meet xuất ra "Tên"
+                                                bạn sẽ chuyển tiếp đến máy chủ Meet. Quản trị Meet xuất ra "Tên"
                                                 từ biểu mẫu đến Meet-Server.</target>
       </trans-unit>
       <trans-unit id="LbqGEyg" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben&#10;                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie&#10;                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
@@ -584,7 +584,7 @@
                                 wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie
                                 speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
         <target state="needs-translation">Bất kỳ ai đang tìm kiếm một nền tảng hội nghị truyền hình thân thiện với quyền riêng tư hoạt động trên máy chủ của riêng họ
-                                được phục vụ tốt với công cụ mã nguồn mở Meet, là một giải pháp thay thế cho Zoom. họ
+                                được phục vụ tốt với công cụ mã nguồn mở Meet, là một giải pháp thay thế cho Zoom. tại Meet 
                                 không lưu bất kỳ dữ liệu người dùng nào và ứng dụng được mã hóa.</target>
       </trans-unit>
       <trans-unit id="4E0kxSs" resname="Startseite">
