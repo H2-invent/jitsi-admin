@@ -58,4 +58,4 @@ label:
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: Không
