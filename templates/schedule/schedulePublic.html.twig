@@ -12,7 +12,7 @@
         <div class="scrollHorizontal mt-4 mb-4">
             <div class=" d-flex">
                 {% set locale =  app.request.locale %}
-                {% for s in scheduling.schedulingTimes %}
+                {% for s in scheduling.schedulingTimes |sort((a, b) => a.time <=> b.time) %}
                     <div class="scrollEle mr-3 text-center">
                         <small>{{ s.time|format_date(pattern="EE",locale=locale) }}</small>
                         <p>{{ s.time|date('d.m.Y') }}</p>
@@ -62,28 +62,7 @@
         </div>
         <div class="row form-group">
             <div class="col-12">
-                <p class="small">
-                    {% if server and server.privacyPolicy %}
-                        {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
-                            Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-                            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-                            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-                            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-                            gelesen und nehme diese zur Kenntnis.
-                        {% endtrans %}
-                    {% else %}
-                        {% trans with {'{dataPrivay}': dataPrivacy} %}
-                            Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-                            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-                            gelesen und nehme diese zur Kenntnis.
-                        {% endtrans %}
-                    {% endif %}
-                </p>
-                {% if not server %}
-                    <p style="font-size: 10px">
-                        {% trans %}Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus dem Formular an den Jitsi-Meet-Server weiter.{% endtrans %}
-                    </p>
-                {% endif %}
+                {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
             </div>
         </div>
         </div>
@@ -95,7 +74,7 @@
         </div>
 
 
-    </div>
+
 
 
 {% endblock %}

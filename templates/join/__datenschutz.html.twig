@@ -1,0 +1,22 @@
+<p class="small text-center">
+    {% if server and server.privacyPolicy %}
+        {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
+            Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.
+        {% endtrans %}
+    {% else %}
+        {% trans with {'{dataPrivay}': dataPrivacy} %}
+            Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.
+        {% endtrans %}
+    {% endif %}
+</p>
+{% if not server %}
+    <p style="font-size: 10px">
+        {% trans %}Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus dem Formular an den Jitsi-Meet-Server weiter.{% endtrans %}
+    </p>
+{% endif %}
