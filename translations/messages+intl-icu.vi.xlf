@@ -127,7 +127,7 @@
       </trans-unit>
       <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
         <source>Neue Einladung zu einer Videokonferenz</source>
-        <target state="needs-translation">Lời mời tham dự hội nghị trực tuyến</target>
+        <target state="needs-translation">Lời mời tham dự hội nghị</target>
       </trans-unit>
       <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
         <source>Videokonferenz wurde bearbeitet</source>
@@ -399,7 +399,7 @@
       </trans-unit>
       <trans-unit id="XXAlzt7" resname="Einladung zur Videokonferenz">
         <source>Einladung zur Videokonferenz</source>
-        <target state="needs-translation">Lời mời tham dự hội nghị trực tuyến</target>
+        <target state="needs-translation">Lời mời tham dự hội nghị</target>
       </trans-unit>
       <trans-unit id="NXpX.nP" resname="Hallo!">
         <source>Hallo!</source>
@@ -407,7 +407,7 @@
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Bạn vừa được mời tham dự một hội nghị trực tuyến trên {url}. Bạn dễ dàng tham dự hội nghị trực tuyến với thông tin sau.</target>
+        <target state="needs-translation">Mời bạn tham dự một hội nghị trực tuyến trên {url}. Vui lòng tham dự với thông tin sau.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -451,7 +451,7 @@
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Sự kiện {name} vừa thay đổi. Bạn có thể tham dự hội nghị trực tuyến với thông tin sau.</target>
+        <target state="needs-translation">Sự kiện {name} vừa thay đổi. Bạn có thể tham dự hội nghị với thông tin sau.</target>
       </trans-unit>
       <trans-unit id="F8UXAUj" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
@@ -459,7 +459,7 @@
       </trans-unit>
       <trans-unit id="rFiFMV5" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Hội nghị trực tuyến trên máy chủ {url} sắp bắt đầu. Bạn tham dự hội nghị với thông tin sau.</target>
+        <target state="needs-translation">Hội nghị trực tuyến trên {url} sắp bắt đầu. Vui lòng tham dự với thông tin sau.</target>
       </trans-unit>
       <trans-unit id="nIeMrFU" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
@@ -515,8 +515,8 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="needs-translation">Bạn cần thông tin sau để tham dự hội nghị:&lt;br&gt;
-        Địa chỉ  của bạn: {email}&lt;br&gt;
+        <target state="needs-translation">Thông tin tham dự hội nghị:&lt;br&gt;
+        Địa chỉ email của bạn: {email}&lt;br&gt;
         ID Hội nghị: {uid}</target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
@@ -544,7 +544,7 @@
                                                     &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
                                                 &lt;/a&gt;
                                                 gelesen und nehme diese zur Kenntnis.</source>
-        <target state="needs-translation">Tôi có
+        <target state="needs-translation">Chúng tôi có
                                                 &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
                                                     &lt;u&gt;Chính sách quyền riêng tư &lt;/u&gt;
                                                     &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
@@ -564,7 +564,7 @@
                                                     &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
                                                 &lt;/a&gt;
                                                 gelesen und nehme diese zur Kenntnis.</source>
-        <target state="needs-translation">Tôi có
+        <target state="needs-translation">Chúng ôi có
                                                 &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
                                                     &lt;u&gt;Chính sách quyền riêng tư&lt;/u&gt;
                                                     &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
