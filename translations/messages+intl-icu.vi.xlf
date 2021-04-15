@@ -127,19 +127,19 @@
       </trans-unit>
       <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
         <source>Neue Einladung zu einer Videokonferenz</source>
-        <target state="needs-translation">Lời mời tham dự hội nghị truyền hình</target>
+        <target state="needs-translation">Lời mời tham dự hội nghị trực tuyến</target>
       </trans-unit>
       <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
         <source>Videokonferenz wurde bearbeitet</source>
-        <target state="needs-translation">Hội nghị truyền hình đã được xử lý</target>
+        <target state="needs-translation">Hội nghị trực tuyến đã được xử lý</target>
       </trans-unit>
       <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
         <source>Videokonferenz abgesagt</source>
-        <target state="needs-translation">Hội nghị truyền hình đã bị hủy</target>
+        <target state="needs-translation">Hội nghị trực tuyến đã bị hủy</target>
       </trans-unit>
       <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
         <source>Videokonferenz {room} startet gleich</source>
-        <target state="needs-translation">Hội nghị truyền hình {room} sắp bắt đầu</target>
+        <target state="needs-translation">Hội nghị trực  {room} sắp bắt đầu</target>
       </trans-unit>
       <trans-unit id="cfdSBrO" resname="Fehler, Der User wurde nicht gefunden">
         <source>Fehler, Der User wurde nicht gefunden</source>
@@ -399,7 +399,7 @@
       </trans-unit>
       <trans-unit id="XXAlzt7" resname="Einladung zur Videokonferenz">
         <source>Einladung zur Videokonferenz</source>
-        <target state="needs-translation">Lời mời tham dự hội nghị truyền hình</target>
+        <target state="needs-translation">Lời mời tham dự hội nghị trực tuyến</target>
       </trans-unit>
       <trans-unit id="NXpX.nP" resname="Hallo!">
         <source>Hallo!</source>
@@ -407,7 +407,7 @@
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Bạn vừa được mời tham dự một hội nghị truyền hình trên máy chủ Meet {url}. Bạn có thể dễ dàng tham dự hội nghị truyền hình bằng liên kết đính kèm.</target>
+        <target state="needs-translation">Bạn vừa được mời tham dự một hội nghị trực tuyến trên {url}. Bạn dễ dàng tham dự hội nghị trực tuyến với thông tin sau.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -451,15 +451,15 @@
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Sự kiện {name} vừa thay đổi. Bạn có thể tham dự hội nghị truyền hình bằng liên kết đính kèm.</target>
+        <target state="needs-translation">Sự kiện {name} vừa thay đổi. Bạn có thể tham dự hội nghị trực tuyến với thông tin sau.</target>
       </trans-unit>
       <trans-unit id="F8UXAUj" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
-        <target state="needs-translation">Lời nhắc hội nghị truyền hình</target>
+        <target state="needs-translation">Lời nhắc hội nghị trực tuyến</target>
       </trans-unit>
       <trans-unit id="rFiFMV5" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Hội nghị truyền hình trên máy chủ {url} sắp bắt đầu. Bạn có thể tham dự hội nghị bằng liên kết đính kèm.</target>
+        <target state="needs-translation">Hội nghị trực tuyến trên máy chủ {url} sắp bắt đầu. Bạn tham dự hội nghị với thông .</target>
       </trans-unit>
       <trans-unit id="nIeMrFU" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
@@ -583,7 +583,7 @@
         <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben
                                 wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie
                                 speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
-        <target state="needs-translation">Bất kỳ ai đang tìm kiếm một nền tảng hội nghị truyền hình thân thiện với quyền riêng tư hoạt động trên máy chủ của riêng họ
+        <target state="needs-translation">Bất kỳ ai đang tìm kiếm một nền tảng hội nghị trực  thân thiện với quyền riêng tư hoạt động trên máy chủ của riêng họ
                                 được phục vụ tốt với công cụ mã nguồn mở Meet, là một giải pháp thay thế cho Zoom. tại Meet 
                                 không lưu bất kỳ dữ liệu người dùng nào và ứng dụng được mã hóa.</target>
       </trans-unit>
