@@ -431,19 +431,19 @@
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
-        <target state="needs-translation">Bạn nhận được email này vì bạn có trong danh sách người tham dự hội nghị.</target>
+        <target state="needs-translation">Bạn nhận email này vì bạn có trong danh sách người tham dự.</target>
       </trans-unit>
       <trans-unit id="UVkFezv" resname="Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.">
         <source>Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</source>
-        <target state="needs-translation">Bạn nhận được email này vì bạn đã được thêm vào máy chủ Meet.</target>
+        <target state="needs-translation">Bạn nhận email này vì bạn đã thêm vào họp trực tuyến.</target>
       </trans-unit>
       <trans-unit id="WRvGHxL" resname="Diese Mail wurde Ihnen gesendet im Auftrag von:">
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
-        <target state="needs-translation">Thư này được gửi cho bạn từ:</target>
+        <target state="needs-translation">Thư này được gửi từ:</target>
       </trans-unit>
       <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Được cung cấp bởi Meet, SAZA Co., Ltd</target>
+        <target state="needs-translation">Cung cấp bởi Meet, SAZA Co., Ltd</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
