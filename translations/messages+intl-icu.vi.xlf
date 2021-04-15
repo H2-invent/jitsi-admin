@@ -459,7 +459,7 @@
       </trans-unit>
       <trans-unit id="rFiFMV5" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Hội nghị trực tuyến trên máy chủ {url} sắp bắt đầu. Bạn tham dự hội nghị với thông .</target>
+        <target state="needs-translation">Hội nghị trực tuyến trên máy chủ {url} sắp bắt đầu. Bạn tham dự hội nghị với thông tin sau.</target>
       </trans-unit>
       <trans-unit id="nIeMrFU" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
@@ -516,7 +516,7 @@
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
         <target state="needs-translation">Bạn cần thông tin sau để tham dự hội nghị:&lt;br&gt;
-        Địa chỉ Email của bạn: {email}&lt;br&gt;
+        Địa chỉ  của bạn: {email}&lt;br&gt;
         ID Hội nghị: {uid}</target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
