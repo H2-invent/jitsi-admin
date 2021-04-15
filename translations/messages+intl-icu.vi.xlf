@@ -552,7 +552,7 @@
                                                 và
                                                 &lt;a href="{privacyUrl}" target="_blank"
                                                    referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Thông tin bảo vệ dữ liệu từ {url}&lt;/u&gt;
+                                                    &lt;u&gt;Thông tin bảo vệ dữ liệu {url}&lt;/u&gt;
                                                     &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
                                                 &lt;/a&gt;
                                                 đọc và ghi lại.</target>
