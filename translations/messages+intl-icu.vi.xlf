@@ -67,7 +67,7 @@
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
-        <target state="needs-translation">Vui lòng tham dự hội nghị sau.\nTên hội nghị: {name} \nNgười điều hành: {moderator} </target>
+        <target state="needs-translation">Vui lòng tham dự hội nghị sau.\nSự kiện: {name} \nNgười điều hành: {moderator} </target>
       </trans-unit>
       <trans-unit id="RFRvUYc" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</source>
@@ -271,7 +271,7 @@
       </trans-unit>
       <trans-unit id="3NHVIj9" resname="Name">
         <source>Name</source>
-        <target state="needs-translation">Tên</target>
+        <target state="needs-translation">Họ&ên</target>
       </trans-unit>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
