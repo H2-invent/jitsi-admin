@@ -1,6 +1,6 @@
 ---
-label.konferenzId: Konferenz ID
-label.email: E-Mail-Adresse
+label.konferenzId: 会议ID
+label.email: 邮箱地址
 label.name: Name
 label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen Teilnehmern eingeben
 label.teilnehmerSpeichern: Teilnehmer hinzufügen
