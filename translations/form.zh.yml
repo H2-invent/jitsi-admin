@@ -1,30 +1,30 @@
 ---
 label.konferenzId: 会议ID
 label.email: 邮箱地址
-label.name: Name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen Teilnehmern eingeben
-label.teilnehmerSpeichern: Teilnehmer hinzufügen
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
-help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
-label.organisatorhinzufuegen: Organisator hinzufügen
-label.serverKonferenz: Jitsi-Meet-Server
-label.konferenzName: Name der Konferenz
-label.start: Start
-label.dauerKonferenz: Dauer der Konferenz
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten
-label.speichern: Speichern
-option.15min: 15 Minuten
-option.30min: 30 Minuten
-option.45min: 45 Minuten
-option.60min: 1 Stunde
-option.90min: 1,5 Stunden
-option.120min: 2 Stunden
-option.240min: 4 Stunden
-option.480min: 8 Stunden
-lable.serverUrl: Jitsi-Meet-Server URL
-label.appId: App-ID
-label.appSecret: App-Secret
-label.scheduleMeeting: Einen Termin finden
+label.name: 姓名
+label.teilnehmerEmailhinzufuegen: 输入参会者电子邮件地址
+label.teilnehmerSpeichern: 添加参会者
+label.emailModerator: 输入组织者的电子邮件地址
+help.emailTextfeld: 可以同时添加多个电子邮件地址。每个电子邮件地址必须单独一行。
+label.organisatorhinzufuegen: 添加组织者
+label.serverKonferenz: Jitsi meet 服务器
+label.konferenzName: 会议名称
+label.start: 开始
+label.dauerKonferenz: 会议持续时间
+label.nurRegistriertenutzer: 仅允许注册用户加入会议
+label.speichern: 保存
+option.15min: 15分钟
+option.30min: 30分钟
+option.45min: 45分钟
+option.60min: 1小时
+option.90min: 1.5小时
+option.120min: 2 小时
+option.240min: 4 小时
+option.480min: 8 小时
+lable.serverUrl: Jitsi-Meet服务器网址
+label.appId: 应用 ID
+label.appSecret: App密钥
+label.scheduleMeeting: 进行预约
 help:
   serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
   featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
