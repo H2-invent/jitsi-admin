@@ -24,7 +24,7 @@ option.480min: 8 Giờ
 lable.serverUrl: Máy chủ Jitsi URL
 label.appId: App-ID
 label.appSecret: App-Secret
-label.scheduleMeeting: Einen Termin finden
+label.scheduleMeeting: Sắp xếp cuộc họp
 help:
   serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
   featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
@@ -37,26 +37,26 @@ label:
   serverSmtpUsername: Tên người dùng - SMTP
   serverSmtpPassword: Mật khẩu SMTP
   serverSmtpSenderEmail: Địa chỉ Email
-  serverSmtpSenderName: Absender-Name
-  serverLintLogo: Link zu Logo
-  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für Email
-  serverEmailBody: Individuellen Content für Email
-  serverLicenseKey: Jitsi-Admin-Lizenkey eingeben
-  apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
-  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
-  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Öffentliche Konferenz
-  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
-  subscribe: Anmelden
-  vorname: Vorname
-  nachname: Nachname
-  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
+  serverSmtpSenderName: Tên người gửi
+  serverLintLogo: Đường dẫn biểu tượng
+  serverPrivacyPolicy: Thông tin bảo vệ dữ liệu
+  serverEmailHeader: Tiêu đề
+  serverEmailBody: Nội dung
+  serverLicenseKey: Giấy phép Jitsi-Admin
+  apiKey: Khóa API cho máy chủ này
+  agenda: Chương trình nghị sự cho cuộc họp này (đánh dấu)
+  staticBackgroundColor: Đặt màu nền trên trang tham dự
+  schowStaticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
+  featureEnalbeByJwt: "Tính năng \"Token - JWT\" được kích hoạt trên máy chủ"
+  dissallowScreenshareGlobal: Chỉ người kiểm duyệt mới có thể chia sẻ màn hình
+  dissallowPrivateMessage: Chỉ người kiểm duyệt mới có thể gửi tin nhắn riêng tư cho người tham dự
+  puplicRoom: Hội nghị công khai
+  showRoomOnJoinpage: Hiển thị hội nghị trên trang tham gia
+  subscribe: Đăng nhập
+  vorname: Tên
+  nachname: Họ
+  maxParticipants: Số lượng người tham gia tối đa cho phép
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: Không
