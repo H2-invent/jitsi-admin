@@ -30,6 +30,8 @@
                    class="loadContent dropdown-item">
                     {{ 'Bearbeiten'|trans }}</a></li>
         {% endif %}
-
+        <li><a class="dropdown-item"
+               href="mailto:?bcc={% for u in room.user %}{{ u.email}}{% if not loop.last %};{% endif %}{% endfor %}">
+                {{ 'Mail an die Teilnehmer'|trans }}</a></li>
     </ul>
 </div>
