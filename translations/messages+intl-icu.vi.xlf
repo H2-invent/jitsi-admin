@@ -11,7 +11,7 @@
       </trans-unit>
       <trans-unit id="XCUHFQy" resname="Konferenz erfolgreich bearbeitet">
         <source>Konferenz erfolgreich bearbeitet</source>
-        <target state="needs-translation">Hội nghị được xử lý thành công</target>
+        <target state="needs-translation">Hội nghị thay đổi thành công</target>
       </trans-unit>
       <trans-unit id="I3TJoB4" resname="Konferenz bearbeiten">
         <source>Konferenz bearbeiten</source>
@@ -131,11 +131,11 @@
       </trans-unit>
       <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
         <source>Videokonferenz wurde bearbeitet</source>
-        <target state="needs-translation">Hội nghị trực tuyến đã được xử lý</target>
+        <target state="needs-translation">Hội nghị trực tuyến đã thay đổi</target>
       </trans-unit>
       <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
         <source>Videokonferenz abgesagt</source>
-        <target state="needs-translation">Hội nghị trực tuyến đã bị hủy</target>
+        <target state="needs-translation">Hội nghị trực tuyến đã hủy</target>
       </trans-unit>
       <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
         <source>Videokonferenz {room} startet gleich</source>
