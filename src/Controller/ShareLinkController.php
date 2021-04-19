@@ -104,8 +104,9 @@ class ShareLinkController extends AbstractController
         $res = $subcriptionService->acceptSub($subscriber);
         $server = null;
         if($subscriber){
-            $subscriber->getRoom()->getServer();
+           $server =  $subscriber->getRoom()->getServer();
         }
+
         $message = $res['message'];
         $title = $res['title'];
         $image = $pexelService->getImageFromPexels();
