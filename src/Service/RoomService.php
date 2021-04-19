@@ -69,8 +69,7 @@ class RoomService
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-
-
+        
         $payload = array(
             "aud" => "saza",
             "iss" => $room->getServer()->getAppId(),
@@ -87,6 +86,8 @@ class RoomService
         $screen = array(
                 'screen-sharing' => true,
                 'private-message' => true,
+                'recording' => true,
+                'livestreaming' => true,
         );
         if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
