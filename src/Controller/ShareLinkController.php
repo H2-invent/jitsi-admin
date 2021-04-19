@@ -77,6 +77,10 @@ class ShareLinkController extends AbstractController
             $res = $subcriptionService->subscripe($data['email'], $rooms, $moderator);
             $snack = $res['text'];
             $color = $res['color'];
+            if(!$res['error']){
+               return $this->redirectToRoute('public_subscribe_participant',array('snack'=>$snack,'uid'=>$uid));
+            }
+
         }
         $server = $rooms->getServer();
         $image = $pexelService->getImageFromPexels();

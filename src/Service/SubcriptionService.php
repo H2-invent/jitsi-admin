@@ -31,7 +31,7 @@ class SubcriptionService
 
     public function subscripe($email, Rooms $rooms,$moderator = false)
     {
-        $res = array();
+        $res = array('error'=>true);
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $email));
             //create a new User from the email entered
@@ -57,6 +57,7 @@ class SubcriptionService
                 $this->em->flush();
                 $res['text'] = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.');
                 $res['color'] = 'success';
+                $res['error']= false;
                 if($moderator == true){
                     $usersRoom = new RoomsUser();
                     $usersRoom->setRoom($rooms);
@@ -84,7 +85,7 @@ class SubcriptionService
         $res['message'] =$this->translator->trans('Danke für die Anmeldung. ');
         $res['title'] =$this->translator->trans('Erfolgreich bestätigt');
         if($subscriber){
-            if(sizeof($subscriber->getRoom()->getUser()) >= $subscriber->getRoom()->getMaxParticipants()){
+            if($subscriber->getRoom()->getMaxParticipants()!= null && sizeof($subscriber->getRoom()->getUser()) >= $subscriber->getRoom()->getMaxParticipants()){
                 $res['message'] =$this->translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
                 $res['title'] =$this->translator->trans('Fehler');
                 return $res;

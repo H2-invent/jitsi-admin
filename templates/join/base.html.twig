@@ -2,7 +2,7 @@
 <html>
 
 {{ include('base/__head.html.twig') }}
-
+{% set image = pexelsImage() %}
 <body style="background-color: #C9C9C9">
 <div class="imageBackground"></div>
 {% block back %}{% endblock %}
@@ -207,8 +207,8 @@
 {% block webpack %}
     {{ encore_entry_script_tags('frontend') }}
 {% endblock %}
-
-
+{% block script %}
+{% endblock %}
 </body>
 
 </html>
