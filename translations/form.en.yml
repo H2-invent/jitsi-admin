@@ -60,3 +60,5 @@ choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: None
+placeholder:
+  maxParticipants: Keine Limitierung
