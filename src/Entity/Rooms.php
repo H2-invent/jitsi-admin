@@ -86,6 +86,16 @@ class Rooms
      */
     private $userAttributes;
 
+     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $DissallowRecordingGlobal;
+
+     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $DissallowLivestreamingGlobal;
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
