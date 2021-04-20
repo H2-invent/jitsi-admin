@@ -91,11 +91,11 @@
       </trans-unit>
       <trans-unit id="5w8fLA7" resname="Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.">
         <source>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</source>
-        <target state="needs-translation">Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</target>
+        <target state="translated">感谢您注册。请在我们发送给您的邮件中确认您的电子邮件地址。</target>
       </trans-unit>
       <trans-unit id="T.mgfUM" resname="Bestätigung ihrer Anmeldung zur Konferenz: {name}">
         <source>Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target state="needs-translation">Bestätigung ihrer Anmeldung zur Konferenz: {name}</target>
+        <target state="translated">确认您的会议注册：{name}</target>
       </trans-unit>
       <trans-unit id="vnxSnbr" resname="Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.">
         <source>Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</source>
