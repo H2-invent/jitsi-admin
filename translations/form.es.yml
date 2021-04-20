@@ -61,4 +61,4 @@ choice:
   ssl: SSL
   none: Ningúno
 placeholder:
-  maxParticipants: Keine Limitierung
+  maxParticipants: Ninguna limitación
