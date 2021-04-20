@@ -89,12 +89,12 @@ class Rooms
      /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $DissallowRecordingGlobal;
+    private $dissallowRecordingGlobal;
 
      /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $DissallowLivestreamingGlobal;
+    private $dissallowLivestreamingGlobal;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -334,6 +334,42 @@ class Rooms
         return $this;
     }
 
+    
+    
+     public function getDissallowRecordingGlobal(): ?bool
+    {
+        return $this->dissallowRecordingGlobal;
+    }
+
+    public function setDissallowRecordingGlobal(?bool $allowRecordingGlobal): self
+    {
+        $this->dissallowRecordingGlobal = $allowRecordingGlobal;
+
+        return $this;
+    }
+    
+    
+    
+    
+     public function getDissallowLivestreamingGlobal(): ?bool
+    {
+        return $this->dissallowLivestreamingGlobal;
+    }
+
+    public function setDissallowLivestreamingGlobal(?bool $allowLivestreamingGlobal): self
+    {
+        $this->dissallowLivestreamingGlobal = $allowLivestreamingGlobal;
+
+        return $this;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     public function getDissallowScreenshareGlobal(): ?bool
     {
         return $this->dissallowScreenshareGlobal;
