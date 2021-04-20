@@ -26,10 +26,10 @@ label.appId: 应用 ID
 label.appSecret: App密钥
 label.scheduleMeeting: 进行预约
 help:
-  serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
-  featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
+  serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）
+  featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
 label:
-  beitretenApp: Mit der Elektron-App beitreten
+  beitretenApp: 通过electron应用程序加入
   beitretenBrowser: Im Browser beitreten
   serverSmtpHostName: SMTP-Hostname
   serverSmtpHostPort: SMTP-Port
