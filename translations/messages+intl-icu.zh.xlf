@@ -312,111 +312,111 @@
       </trans-unit>
       <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
-        <target state="needs-translation">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</target>
+        <target state="translated">目前无会议，请创建</target>
       </trans-unit>
       <trans-unit id="Upy8jyE" resname="hier">
         <source>hier</source>
-        <target state="needs-translation">hier</target>
+        <target state="translated">此处</target>
       </trans-unit>
       <trans-unit id="WWTYQHI" resname="eine neue Konferenz.">
         <source>eine neue Konferenz.</source>
-        <target state="needs-translation">eine neue Konferenz.</target>
+        <target state="translated">新的会议</target>
       </trans-unit>
       <trans-unit id="Ruov.3p" resname="Heute">
         <source>Heute</source>
-        <target state="needs-translation">Heute</target>
+        <target state="translated">今天</target>
       </trans-unit>
       <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
         <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="needs-translation">Heute steht keine Jitsi Meet Konferenz an.</target>
+        <target state="translated">今天没有会议。</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
-        <target state="needs-translation">Aktuell sind keine vergangenen Konferenzen vorhanden.</target>
+        <target state="translated">没有过去会议</target>
       </trans-unit>
       <trans-unit id="OCg3Wi1" resname="Entfernen">
         <source>Entfernen</source>
-        <target state="needs-translation">Entfernen</target>
+        <target state="translated">删除</target>
       </trans-unit>
       <trans-unit id="pqjXwsZ" resname="Starten">
         <source>Starten</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">开始</target>
       </trans-unit>
       <trans-unit id="La4XzEP" resname="Im Browser">
         <source>Im Browser</source>
-        <target state="needs-translation">Im Browser</target>
+        <target state="translated">在浏览器中</target>
       </trans-unit>
       <trans-unit id="5wvMEm6" resname="In der App">
         <source>In der App</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">在App中</target>
       </trans-unit>
       <trans-unit id="Kp9UH6B" resname="Läuft gerade">
         <source>Läuft gerade</source>
-        <target state="needs-translation">Läuft gerade</target>
+        <target state="translated">正在进行中</target>
       </trans-unit>
       <trans-unit id="Z0jsi3Z" resname="Moderator">
         <source>Moderator</source>
-        <target state="needs-translation">Moderator</target>
+        <target state="translated">版主</target>
       </trans-unit>
       <trans-unit id="MyAVhjs" resname="Intern">
         <source>Intern</source>
-        <target state="needs-translation">Intern</target>
+        <target state="translated">内部</target>
       </trans-unit>
       <trans-unit id="HbpGvTO" resname="Öffentlich">
         <source>Öffentlich</source>
-        <target state="needs-translation">Öffentlich</target>
+        <target state="translated">公开</target>
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">议程</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe">
         <source>Keine Angabe</source>
-        <target state="needs-translation">Keine Angabe</target>
+        <target state="translated">未指定</target>
       </trans-unit>
       <trans-unit id="rvfeKNU" resname="Server">
         <source>Server</source>
-        <target state="needs-translation">Server</target>
+        <target state="translated">服务器</target>
       </trans-unit>
       <trans-unit id="8dquNSH" resname="Optionen">
         <source>Optionen</source>
-        <target state="needs-translation">Optionen</target>
+        <target state="translated">选项</target>
       </trans-unit>
       <trans-unit id="F8.sMjK" resname="Einladungslinks">
         <source>Einladungslinks</source>
-        <target state="needs-translation">Einladungslinks</target>
+        <target state="translated">邀请链接</target>
       </trans-unit>
       <trans-unit id="bC01IWH" resname="Löschen">
         <source>Löschen</source>
-        <target state="needs-translation">Löschen</target>
+        <target state="translated">删除</target>
       </trans-unit>
       <trans-unit id="hORe5zQ" resname="Bearbeiten">
         <source>Bearbeiten</source>
-        <target state="needs-translation">Bearbeiten</target>
+        <target state="translated">编辑</target>
       </trans-unit>
       <trans-unit id="nUAMPeZ" resname="Duplizieren">
         <source>Duplizieren</source>
-        <target state="needs-translation">Duplizieren</target>
+        <target state="translated">复制</target>
       </trans-unit>
       <trans-unit id="XXAlzt7" resname="Einladung zur Videokonferenz">
         <source>Einladung zur Videokonferenz</source>
-        <target state="needs-translation">Einladung zur Videokonferenz</target>
+        <target state="translated">视频会议邀请</target>
       </trans-unit>
       <trans-unit id="NXpX.nP" resname="Hallo!">
         <source>Hallo!</source>
-        <target state="needs-translation">Hallo!</target>
+        <target state="translated">您好 ！</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+        <target state="translated">您被邀请参加 {url} 上的视频会议。您可用通过链接轻松加入视频会议。</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
-        <target state="needs-translation">Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+        <target state="translated">您希望在信息面板中方便管理此会议吗？
                                     &lt;br&gt;
-                                    Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</target>
+                                    注册 &lt;a href="{url}"&gt;这里&lt;/a&gt;&amp;nbsp;。</target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
@@ -424,85 +424,83 @@
                                                      in einer Übersicht verwalten?&lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
                                     an.</source>
-        <target state="needs-translation">Sie wollen selber eine Videokonferenz
-                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel
-                                                     in einer Übersicht verwalten?&lt;br&gt;
-                                    Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
-                                    an.</target>
+        <target state="translated">                                    &lt;b&gt;自由&lt;/b&gt; 或通过管理使此会议顺畅
+                                                     在信息面板中吗?&lt;br&gt;
+                                    注册 &lt;a href="{url}"&gt;这里&lt;/a&gt;&amp;nbsp;&lt;b&gt;自由&lt;/b&gt;.</target>
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
-        <target state="needs-translation">Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</target>
+        <target state="translated">您将收到邮件，因为您在本次会议的参会者名单中。</target>
       </trans-unit>
       <trans-unit id="UVkFezv" resname="Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.">
         <source>Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</source>
-        <target state="needs-translation">Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</target>
+        <target state="translated">您将收到邮件，因为您已添加到 Jitsi 服务器中。</target>
       </trans-unit>
       <trans-unit id="WRvGHxL" resname="Diese Mail wurde Ihnen gesendet im Auftrag von:">
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
-        <target state="needs-translation">Diese Mail wurde Ihnen gesendet im Auftrag von:</target>
+        <target state="translated">此邮件代表：</target>
       </trans-unit>
       <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Manager, die Open Source Jitsi Planer Software</target>
+        <target state="translated">版权归 Jitsi Manager所有</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
-        <target state="needs-translation">Videokonferenz bearbeitet</target>
+        <target state="translated">视频会议已被编辑</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+        <target state="translated">活动  {name}  刚刚更改。您可以通过链接轻松加入视频会议。</target>
       </trans-unit>
       <trans-unit id="F8UXAUj" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
-        <target state="needs-translation">Erinnerung zur Videokonferenz</target>
+        <target state="translated">会议提醒</target>
       </trans-unit>
       <trans-unit id="rFiFMV5" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+        <target state="translated">服务器 {url}上的会议即将开始。通过链接可轻松加入会议。</target>
       </trans-unit>
       <trans-unit id="nIeMrFU" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</target>
+        <target state="translated">活动 {name} 已取消，可从日历中删除。</target>
       </trans-unit>
       <trans-unit id="kTWILTI" resname="Datum">
         <source>Datum</source>
-        <target state="needs-translation">Datum</target>
+        <target state="translated">日期</target>
       </trans-unit>
       <trans-unit id="CIhd4ET" resname="Startzeit">
         <source>Startzeit</source>
-        <target state="needs-translation">Startzeit</target>
+        <target state="translated">开始时间</target>
       </trans-unit>
       <trans-unit id="JYcfIUm" resname="Geplante Dauer">
         <source>Geplante Dauer</source>
-        <target state="needs-translation">Geplante Dauer</target>
+        <target state="translated">预定持续时间</target>
       </trans-unit>
       <trans-unit id="E1zE0wP" resname="Minuten">
         <source>Minuten</source>
-        <target state="needs-translation">Minuten</target>
+        <target state="translated">分钟</target>
       </trans-unit>
       <trans-unit id="pGKhwYj" resname="Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen">
         <source>Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</source>
-        <target state="needs-translation">Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen</target>
+        <target state="translated">您现在可以在Jitsi服务器创建会议 {url} </target>
       </trans-unit>
       <trans-unit id="TUr.7W8" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="needs-translation">Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
-        sich einen Benutzer.</target>
+        <target state="translated">您现在可以通过Jitsi Admin管理 Jitsi 会议。登录或创建
+        用户。</target>
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
         <source>Login</source>
-        <target state="needs-translation">Login</target>
+        <target state="translated">登录</target>
       </trans-unit>
       <trans-unit id="OmOD76j" resname="Server Administrator">
         <source>Server Administrator</source>
-        <target state="needs-translation">Server Administrator</target>
+        <target state="translated">服务器管理员</target>
       </trans-unit>
       <trans-unit id="BqiajhC" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">注册确认</target>
       </trans-unit>
       <trans-unit id="qmIRYPu" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
@@ -554,11 +552,11 @@
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
-        <target state="needs-translation">Teilnehmerliste</target>
+        <target state="translated">参会者列表</target>
       </trans-unit>
       <trans-unit id="YUsgpjC" resname="Zum Moderator ernennen">
         <source>Zum Moderator ernennen</source>
-        <target state="needs-translation">Zum Moderator ernennen</target>
+        <target state="translated">指定为主持人</target>
       </trans-unit>
       <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
         <source>Erlauben seinen Desktop zu Teilen</source>
