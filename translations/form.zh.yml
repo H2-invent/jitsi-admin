@@ -30,35 +30,35 @@ help:
   featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
 label:
   beitretenApp: 通过electron应用程序加入
-  beitretenBrowser: Im Browser beitreten
-  serverSmtpHostName: SMTP-Hostname
-  serverSmtpHostPort: SMTP-Port
-  serverSmtpEncryption: Verschlüsselung
-  serverSmtpUsername: SMTP-Benutzername
-  serverSmtpPassword: SMTP Passwort
-  serverSmtpSenderEmail: Absender-E-Mail
-  serverSmtpSenderName: Absender-Name
-  serverLintLogo: Link zu Logo
-  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für Email
-  serverEmailBody: Individuellen Content für Email
-  serverLicenseKey: Jitsi-Admin-Lizenkey eingeben
-  apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
-  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
-  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Öffentliche Konferenz
-  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
-  subscribe: Anmelden
-  vorname: Vorname
-  nachname: Nachname
-  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
+  beitretenBrowser: 通过浏览器加入
+  serverSmtpHostName: SMTP主机
+  serverSmtpHostPort: SMTP端口
+  serverSmtpEncryption: 加密
+  serverSmtpUsername: SMTP用户
+  serverSmtpPassword: SMTP密码
+  serverSmtpSenderEmail: 发件人电子邮件
+  serverSmtpSenderName: 发件人姓名
+  serverLintLogo: 链接到Logo
+  serverPrivacyPolicy: 该服务器的隐私策略
+  serverEmailHeader: 个人电子邮件标题
+  serverEmailBody: 个人电子邮件内容
+  serverLicenseKey: 输入Jitsi-Admin的许可证密钥
+  apiKey: 该服务器的API-Key
+  agenda: 本次会议简要议程（如下）
+  staticBackgroundColor: 设计登录页面的背景色
+  schowStaticBackgroundColor: 纯色显示，不显示登录页面上的图片
+  featureEnalbeByJwt: "在服务器上激活\"JWT 启用功能\"插件"
+  dissallowScreenshareGlobal: 只有版主才能共享屏幕
+  dissallowPrivateMessage: 只有帮主可以各参会者发私信
+  puplicRoom: 公开会议
+  showRoomOnJoinpage: 在登录页面上查看会议
+  subscribe: 订阅
+  vorname: 名
+  nachname: 姓
+  maxParticipants: 最大参会人数
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: 无
 placeholder:
-  maxParticipants: Keine Limitierung
+  maxParticipants: 无限制
