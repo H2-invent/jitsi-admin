@@ -95,7 +95,6 @@ class RoomService
                 $screen['recording'] = false;
                 if (($roomUser && $roomUser->getShareDisplay()) || $user === $room->getModerator()) {
                     $screen['recording'] = true;
-
                 }
             }
          if ($room->getServer()->getFeatureEnableByJWT()) {
@@ -103,10 +102,8 @@ class RoomService
                 $screen['livestreaming'] = false;
                 if (($roomUser && $roomUser->getShareDisplay()) || $user === $room->getModerator()) {
                     $screen['livestreaming'] = true;
-
                 }
-            }
-             
+            }             
         if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
                 $screen['screen-sharing'] = false;
@@ -134,4 +131,3 @@ class RoomService
     }
 
 }
-    }
