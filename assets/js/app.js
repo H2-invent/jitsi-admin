@@ -133,6 +133,7 @@ function initServerFeatures() {
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
+    $('[data-toggle="popover"]').popover({html: true});
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,

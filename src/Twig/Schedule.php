@@ -36,6 +36,7 @@ class Schedule extends AbstractExtension
     {
         return [
             new TwigFunction('scheduleNumber', [$this, 'scheduleNumber']),
+            new TwigFunction('scheduleUser', [$this, 'scheduleUser']),
             new TwigFunction('scheduleOwnJoice', [$this, 'scheduleOwnJoice']),
             new TwigFunction('myScheduledMeeting', [$this, 'myScheduledMeeting']),
         ];
@@ -53,6 +54,11 @@ class Schedule extends AbstractExtension
     {
         $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(array('scheduleTime'=>$schedulingTime,'accept'=>$type));
         return sizeof($scheduleTimeUser);
+    }
+    public function scheduleUser(SchedulingTime $schedulingTime, $type)
+    {
+        $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findBy(array('scheduleTime'=>$schedulingTime,'accept'=>$type));
+        return $scheduleTimeUser;
     }
     public function myScheduledMeeting(User $user){
         return $this->em->getRepository(Rooms::class)->getMyScheduledRooms($user);
