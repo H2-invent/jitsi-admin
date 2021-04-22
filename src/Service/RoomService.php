@@ -90,22 +90,6 @@ class RoomService
                 'livestreaming' => true,
         );
         
-         if ($room->getServer()->getFeatureEnableByJWT()) {
-            if ($room->getDissallowRecordingGlobal()) {
-                $screen['recording'] = false;
-                if (($roomUser && $roomUser->getShareDisplay()) || $user === $room->getModerator()) {
-                    $screen['recording'] = true;
-                    
-                }
-            }
-         if ($room->getServer()->getFeatureEnableByJWT()) {
-            if ($room->getDissallowLivestreamingGlobal()) {
-                $screen['livestreaming'] = false;
-                if (($roomUser && $roomUser->getShareDisplay()) || $user === $room->getModerator()) {
-                    $screen['livestreaming'] = true;
-                    
-                }
-            }        
         if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
                 $screen['screen-sharing'] = false;
@@ -132,6 +116,4 @@ class RoomService
         return $url;
     }
 
-}
-    }
 }
