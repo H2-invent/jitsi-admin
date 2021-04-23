@@ -822,6 +822,18 @@
             gelesen und nehme diese zur Kenntnis.</source>
         <target state="translated">I have read, understand and agree to the &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt; &lt;u&gt;privacy statement of Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;.</target>
       </trans-unit>
+      <trans-unit id="aa4369c" resname="{from} von {to}">
+        <source>{from} von {to}</source>
+        <target state="needs-translation">{from} von {to}</target>
+      </trans-unit>
+      <trans-unit id="pRkRXRz" resname="Abstimmung">
+        <source>Abstimmung</source>
+        <target state="needs-translation">Abstimmung</target>
+      </trans-unit>
+      <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
+        <source>Keine Abstimmungen</source>
+        <target state="needs-translation">Keine Abstimmungen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
