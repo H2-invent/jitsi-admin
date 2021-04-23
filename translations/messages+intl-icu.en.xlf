@@ -824,15 +824,15 @@
       </trans-unit>
       <trans-unit id="aa4369c" resname="{from} von {to}">
         <source>{from} von {to}</source>
-        <target state="needs-translation">{from} von {to}</target>
+        <target state="translated">{from} from {to}</target>
       </trans-unit>
       <trans-unit id="pRkRXRz" resname="Abstimmung">
         <source>Abstimmung</source>
-        <target state="needs-translation">Abstimmung</target>
+        <target state="translated">Voting</target>
       </trans-unit>
       <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
         <source>Keine Abstimmungen</source>
-        <target state="needs-translation">Keine Abstimmungen</target>
+        <target state="translated">No voting</target>
       </trans-unit>
     </body>
   </file>
