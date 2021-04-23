@@ -78,8 +78,8 @@ More information can be found at https://jitsi-admin.de
 
 As some Composer dependencies need to be installed, it is advised to only install Jitsi Manager if you have shell access to you server.
 
-* [Getting Started (in German)](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started)
-* [Minimum Requirements (in German)](https://github.com/H2-invent/jitsi-admin/wiki/Mindestanforderungen-an-den-Server)
+* [Getting Started ](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started-English)
+* [Minimum Requirements](https://github.com/H2-invent/jitsi-admin/wiki/Minimum-server-requirements-English)
 * [API Documentation (in German)](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
 
 # License
