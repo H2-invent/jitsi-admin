@@ -92,9 +92,12 @@
                 {% endif %}
                 {% if  roomsFuture |length == 0 %}
                     <div class="card card-body">
-                        <p class="text-center">{{ 'Aktuell sind keine Konferenzen vorhanden. Erstellen Sie '|trans }}<u><a
-                                        href="{{ path('room_new') }}" class="loadContent">{{ 'hier'|trans }}</a></u>
-                            {{ 'eine neue Konferenz.'|trans }}</p>
+                        <p class="text-center">
+                            {% trans with '{url}':path('room_new') %}
+                            Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            <u><a href="{url}" class="loadContent">hier</a></u>
+                            eine neue Konferenz.</p>
+                        {% endtrans %}
                     </div>
                 {% elseif todayRooms |length == 0 %}
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
