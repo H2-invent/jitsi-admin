@@ -52,7 +52,9 @@ read -p "Keycloak Client Id" keycloakClientId
 sed -i 's/--keycloakClientId--/$keycloakClientId/' .env.local
 read -p "Keycloak Client Secret" keycloakClientSecret
 sed -i 's/--keycloakClientSecret--/$keycloakClientSecret/' .env.local
-
+echo --------------------------------------------------------------------------
+echo -----------------They are many more parameter explore them by yourself----
+echo --------------------------------------------------------------------------
 
 echo --------------------------------------------------------------------------
 echo -----------------Clear Cache----------------------------------------------
