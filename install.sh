@@ -16,10 +16,10 @@ read -p "Enter the database username:" databaseUsername
 read -p"Enter the database password:" databasePassword
 
 sed -i "s/<user>/$databaseUsername/" .env.local
-sed -i 's/<password>/$databasePassword/' .env.local
-sed -i 's/<server>/$databaseHost/' .env.local
-sed -i 's/<databasePort>/$databasePort/' .env.local
-sed -i 's/<database>/$databaseName/' .env.local
+sed -i "s/<password>/$databasePassword/" .env.local
+sed -i "s/<server>/$databaseHost/" .env.local
+sed -i "s/<databasePort>/$databasePort/" .env.local
+sed -i "s/<database>/$databaseName/" .env.local
 
 php bin/console doctrine:schema:create
 php bin/console cache:clear
