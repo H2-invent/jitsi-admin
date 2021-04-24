@@ -3,7 +3,7 @@ echo Welcome to the installer:
 
 
 echo ------------ install latest packages-------------
-
+php composer.phar install
 cp .env.sample .env.local
 echo --------------------------------------------------------------------------
 echo ----------------Create Database-------------------------------------------
@@ -54,7 +54,7 @@ sed -i 's/--keycloakClientSecret--/$keycloakClientSecret/' .env.local
 echo --------------------------------------------------------------------------
 echo -----------------They are many more parameter explore them by yourself----
 echo --------------------------------------------------------------------------
-php composer.phar install
+
 echo --------------------------------------------------------------------------
 echo -----------------Clear Cache----------------------------------------------
 echo --------------------------------------------------------------------------
