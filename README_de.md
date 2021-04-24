@@ -100,7 +100,7 @@ Führen Sie danach folgenden Befehl in dem Ordner aus
 ```javascript
 bash install.sh
 ```
-
+geben Sie alle informationen während dem Installationsvorgang korrekt ein
 # Update
 Laden Sie sich gewüschte Version herunter oder führen Sie einen checkout auf einen gewünschten Tag aus.
 

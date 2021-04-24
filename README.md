@@ -92,7 +92,7 @@ After that execute the following command
 ```javascript
 bash install.sh
 ```
-
+Follow the instruction in the command window.
 # Update
 Download the newest version or perform a checkout of the corespong tag.
 After that execute the following command
