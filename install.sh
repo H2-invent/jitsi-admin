@@ -1,5 +1,4 @@
 echo --------------Schutdown Apache------------------------------------------
-service apache2 stop
 echo Welcome to the installer:
 
 
