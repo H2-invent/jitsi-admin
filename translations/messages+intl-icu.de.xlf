@@ -309,18 +309,6 @@
         <source>Eine Konferenz planen</source>
         <target>Eine Konferenz planen</target>
       </trans-unit>
-      <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
-        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
-        <target>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</target>
-      </trans-unit>
-      <trans-unit id="Upy8jyE" resname="hier">
-        <source>hier</source>
-        <target>hier</target>
-      </trans-unit>
-      <trans-unit id="WWTYQHI" resname="eine neue Konferenz.">
-        <source>eine neue Konferenz.</source>
-        <target>eine neue Konferenz.</target>
-      </trans-unit>
       <trans-unit id="Ruov.3p" resname="Heute">
         <source>Heute</source>
         <target>Heute</target>
@@ -840,6 +828,14 @@
       <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
         <source>Keine Abstimmungen</source>
         <target>Keine Abstimmungen</target>
+      </trans-unit>
+      <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
+        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
+                            eine neue Konferenz.</source>
+        <target><![CDATA[__Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            <u><a href="{url}" class="loadContent">hier</a></u>
+                            eine neue Konferenz.]]></target>
       </trans-unit>
     </body>
   </file>
