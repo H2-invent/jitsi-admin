@@ -826,9 +826,9 @@
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
-        <target state="needs-translation">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
-                            eine neue Konferenz.</target>
+        <target state="translated">No conferences available. Create 
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;here&lt;/a&gt;&lt;/u&gt;
+                            a new conference.</target>
       </trans-unit>
     </body>
   </file>
