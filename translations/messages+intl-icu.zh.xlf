@@ -828,6 +828,18 @@
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</target>
       </trans-unit>
+      <trans-unit id="aa4369c" resname="{from} von {to}">
+        <source>{from} von {to}</source>
+        <target state="needs-translation">{from} von {to}</target>
+      </trans-unit>
+      <trans-unit id="pRkRXRz" resname="Abstimmung">
+        <source>Abstimmung</source>
+        <target state="needs-translation">Abstimmung</target>
+      </trans-unit>
+      <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
+        <source>Keine Abstimmungen</source>
+        <target state="needs-translation">Keine Abstimmungen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
