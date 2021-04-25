@@ -86,7 +86,7 @@ class Rooms
      */
     private $userAttributes;
     
-
+    private $dissallowScreenshareGlobal;
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -333,6 +333,18 @@ class Rooms
         return $this->showRoomOnJoinpage;
     }
 
+     public function getDissallowScreenshareGlobal(): ?bool
+    {
+        return $this->dissallowScreenshareGlobal;
+    }
+
+    public function setDissallowScreenshareGlobal(?bool $allowScreenshareGlobal): self
+    {
+        $this->dissallowScreenshareGlobal = $allowScreenshareGlobal;
+
+        return $this;
+    }
+    
     public function setShowRoomOnJoinpage(?bool $showRoomOnJoinpage): self
     {
         $this->showRoomOnJoinpage = $showRoomOnJoinpage;
