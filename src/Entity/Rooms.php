@@ -86,15 +86,6 @@ class Rooms
      */
     private $userAttributes;
     
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $dissallowScreenshareGlobal;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $dissallowPrivateMessage;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -324,29 +315,6 @@ class Rooms
         return $this;
     }  
     
-    public function getDissallowScreenshareGlobal(): ?bool
-    {
-        return $this->dissallowScreenshareGlobal;
-    }
-
-    public function setDissallowScreenshareGlobal(?bool $allowScreenshareGlobal): self
-    {
-        $this->dissallowScreenshareGlobal = $allowScreenshareGlobal;
-
-        return $this;
-    }
-
-    public function getDissallowPrivateMessage(): ?bool
-    {
-        return $this->dissallowPrivateMessage;
-    }
-
-    public function setDissallowPrivateMessage(?bool $dissallowPrivateMessage): self
-    {
-        $this->dissallowPrivateMessage = $dissallowPrivateMessage;
-
-        return $this;
-    }
 
     public function getPublic(): ?bool
     {
