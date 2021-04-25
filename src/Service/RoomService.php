@@ -72,7 +72,7 @@ class RoomService
 
 
         $payload = array(
-            "aud" => "jitsi_admin",
+            "aud" => "saza",
             "iss" => $room->getServer()->getAppId(),
             "sub" => $room->getServer()->getUrl(),
             "room" => $room->getUid(),
@@ -87,6 +87,8 @@ class RoomService
         $screen = array(
                 'screen-sharing' => true,
                 'private-message' => true,
+                'recording' => true,
+                'livestreaming' => true, 
 
         );
         if ($room->getServer()->getFeatureEnableByJWT()) {
