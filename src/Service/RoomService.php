@@ -89,7 +89,7 @@ class RoomService
                 'recording' => true,
                 'livestreaming' => true,                
         );
-                if ($room->getServer()->getFeatureEnableByJWT()) {
+        if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
                 $screen['screen-sharing'] = false;
                 if (($roomUser && $roomUser->getShareDisplay()) || $user === $room->getModerator()) {
