@@ -78,7 +78,7 @@ class RoomService
             "context" => [
                 'user' => [
                     'name' => $userName
-                    'affiliation' => 'owner'
+                    'affiliation' => $owner
                 ],
             ],
             "moderator" => $moderator
