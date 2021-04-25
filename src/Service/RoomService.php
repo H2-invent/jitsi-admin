@@ -90,20 +90,7 @@ class RoomService
                 'livestreaming' => true,                
         );
         
-        if ($room->getServer()->getFeatureEnableByJWT()) {
-            if ($room->getDissallowScreenshareGlobal()) {
-                $screen['screen-sharing'] = false;
-                if (($roomUser && $roomUser->getShareDisplay()) || $user === $room->getModerator()) {
-                    $screen['screen-sharing'] = true;
 
-                }
-            }
-            if ($room->getDissallowPrivateMessage()) {
-                $screen['private-message'] = false;
-                if ($roomUser && $roomUser->getPrivateMessage() || $user === $room->getModerator()) {
-                    $screen['private-message'] = true;
-                }
-            }
             $payload['context']['features'] = $screen;
         }
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
