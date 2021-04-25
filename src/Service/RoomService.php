@@ -89,8 +89,6 @@ class RoomService
                 'recording' => true,
                 'livestreaming' => true,                
         );
-        
-
             $payload['context']['features'] = $screen;
         }
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
