@@ -232,7 +232,7 @@ function initSearchUser() {
                 var $target = $('#participantUser');
                 $target.empty();
                 for (var i = 0; i < data.length; i++) {
-                    $target.append('<a class="dropdown-item chooseParticipant" data-val="' + data[i] + '" href="#">' + data[i] + '</a>');
+                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + data[i] + '" href="#"><i class=" text-success fas fa-plus"></i> ' + data[i] + '</a>');
                 }
 
                 $('.chooseParticipant').click(function (e) {
