@@ -3,7 +3,7 @@ label.konferenzId: Identificador de conferencia
 label.email: Dirección email
 label.name: Nombre
 label.teilnehmerEmailhinzufuegen: Ingrese la dirección de correo electrónico de los nuevos participantes
-label.teilnehmerSpeichern: Añadir participantes
+label.teilnehmerSpeichern: Einladungsemail versenden
 label.emailModerator: Ingrese la dirección de correo electrónico del organizador
 help.emailTextfeld: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
 label.organisatorhinzufuegen: Agregar organizador
