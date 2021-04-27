@@ -175,8 +175,7 @@ class ServersController extends AbstractController
         $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser()) {
             $em = $this->getDoctrine()->getManager();
-            $server->setAdministrator(null);
-            $groupServer = $this->getDoctrine()->getRepository(KeycloakGroupsToServers::class)->findOneBy(array('server' => $server));
+            $groupServer = $this->getDoctrine()->getRepository(KeycloakGroupsToServers::class)->findBy(array('server' => $server));
             foreach ($groupServer as $data) {
                 $em->remove($data);
             }
