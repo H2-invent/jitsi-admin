@@ -3,7 +3,7 @@ label.konferenzId: 会议ID
 label.email: 邮箱地址
 label.name: 姓名
 label.teilnehmerEmailhinzufuegen: 输入参会者电子邮件地址
-label.teilnehmerSpeichern: 添加参会者
+label.teilnehmerSpeichern: Einladungsemail versenden
 label.emailModerator: 输入组织者的电子邮件地址
 help.emailTextfeld: 可以同时添加多个电子邮件地址。每个电子邮件地址必须单独一行。
 label.organisatorhinzufuegen: 添加组织者
