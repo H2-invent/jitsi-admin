@@ -309,18 +309,6 @@
         <source>Eine Konferenz planen</source>
         <target state="translated">Plan a conference</target>
       </trans-unit>
-      <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
-        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
-        <target state="translated">No conferences available. Create one</target>
-      </trans-unit>
-      <trans-unit id="Upy8jyE" resname="hier">
-        <source>hier</source>
-        <target state="translated">here</target>
-      </trans-unit>
-      <trans-unit id="WWTYQHI" resname="eine neue Konferenz.">
-        <source>eine neue Konferenz.</source>
-        <target state="translated">a new conference.</target>
-      </trans-unit>
       <trans-unit id="Ruov.3p" resname="Heute">
         <source>Heute</source>
         <target state="translated">Today</target>
@@ -833,6 +821,14 @@
       <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
         <source>Keine Abstimmungen</source>
         <target state="translated">No voting</target>
+      </trans-unit>
+      <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
+        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
+                            eine neue Konferenz.</source>
+        <target state="translated">No conferences available. Create 
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;here&lt;/a&gt;&lt;/u&gt;
+                            a new conference.</target>
       </trans-unit>
     </body>
   </file>

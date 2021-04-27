@@ -310,18 +310,6 @@
         <source>Eine Konferenz planen</source>
         <target state="translated">会议预约</target>
       </trans-unit>
-      <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
-        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
-        <target state="translated">目前无会议，请创建</target>
-      </trans-unit>
-      <trans-unit id="Upy8jyE" resname="hier">
-        <source>hier</source>
-        <target state="translated">此处</target>
-      </trans-unit>
-      <trans-unit id="WWTYQHI" resname="eine neue Konferenz.">
-        <source>eine neue Konferenz.</source>
-        <target state="translated">新的会议</target>
-      </trans-unit>
       <trans-unit id="Ruov.3p" resname="Heute">
         <source>Heute</source>
         <target state="translated">今天</target>
@@ -839,6 +827,14 @@
       <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
         <source>Keine Abstimmungen</source>
         <target state="needs-translation">Keine Abstimmungen</target>
+      </trans-unit>
+      <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
+        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
+                            eine neue Konferenz.</source>
+        <target state="translated">目前无会议，请创建
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;此处&lt;/a&gt;&lt;/u&gt;
+                            新的会议&lt;.</target>
       </trans-unit>
     </body>
   </file>
