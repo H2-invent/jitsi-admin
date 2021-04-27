@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\KeycloakGroupsToServers;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
@@ -13,6 +14,7 @@ use App\Form\Type\ServerType;
 use App\Service\LicenseService;
 use App\Service\MailerService;
 use App\Service\ServerService;
+use App\Service\ServerUserManagment;
 use App\Service\UserService;
 use App\Service\InviteService;
 use App\Service\NotificationService;
@@ -69,17 +71,18 @@ class ServersController extends AbstractController
         return $this->render('servers/__addServerModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
 
     }
+
     /**
      * @Route("/server/enterprise", name="servers_enterprise")
      */
     public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
     {
 
-            $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
-            if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
-                return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
-            }
-            $title = $translator->trans('Jitsi-Admin Enterprise Einstellungen');
+        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+        if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
+            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+        }
+        $title = $translator->trans('Jitsi-Admin Enterprise Einstellungen');
 
 
         $form = $this->createForm(EnterpriseType::class, $server, ['action' => $this->generateUrl('servers_enterprise', ['id' => $server->getId()])]);
@@ -100,6 +103,7 @@ class ServersController extends AbstractController
         return $this->render('servers/__serverEnterpriseModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
 
     }
+
     /**
      * @Route("/server/add-user", name="server_add_user")
      */
@@ -164,18 +168,24 @@ class ServersController extends AbstractController
      * @Route("/server/delete", name="server_delete")
      */
     public
-    function serverDelete(Request $request, TranslatorInterface $translator)
+    function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService)
     {
 
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser()) {
             $em = $this->getDoctrine()->getManager();
+            $server->setAdministrator(null);
+            $groupServer = $this->getDoctrine()->getRepository(KeycloakGroupsToServers::class)->findOneBy(array('server' => $server));
+            foreach ($groupServer as $data) {
+                $em->remove($data);
+            }
             foreach ($server->getUser() as $user) {
                 $server->removeUser($user);
                 $em->persist($server);
             }
             $em->flush();
+
             $snack = $translator->trans('Server gelöscht');
         }
 
@@ -188,27 +198,27 @@ class ServersController extends AbstractController
     public
     function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
     {
-        $res = ['snack'=>$translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten'),'color'=>'success'];
+        $res = ['snack' => $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten'), 'color' => 'success'];
         $server = $this->getDoctrine()->getRepository(Server::class)->find($request->get('id'));
         if (!$server || $server->getAdministrator() != $this->getUser()) {
 
-            $res = ['snack'=>$translator->trans('Fehler, der Server ist nicht registriert'),'color'=>'danger'];
+            $res = ['snack' => $translator->trans('Fehler, der Server ist nicht registriert'), 'color' => 'danger'];
         } else {
             try {
                 $r = $mailerService->sendEmail(
                     $this->getUser()->getEmail(),
-                    $translator->trans('Testmail vom Jitsi-Admin').' | '.$server->getUrl(),
+                    $translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl(),
                     '<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
-                    .$server->getSmtpHost().'<br>'
-                    .$server->getSmtpEmail().'<br>'
-                    .$server->getSmtpSenderName().'<br>',
+                    . $server->getSmtpHost() . '<br>'
+                    . $server->getSmtpEmail() . '<br>'
+                    . $server->getSmtpSenderName() . '<br>',
                     $server
                 );
-                if(!$r){
-                    $res = ['snack'=>$translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'),'color'=>'danger'];
+                if (!$r) {
+                    $res = ['snack' => $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'), 'color' => 'danger'];
                 }
             } catch (\Exception $e) {
-                $res = ['snack'=>$translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'),'color'=>'danger'];
+                $res = ['snack' => $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'), 'color' => 'danger'];
             }
         }
 
