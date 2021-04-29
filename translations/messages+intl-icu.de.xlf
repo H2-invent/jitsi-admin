@@ -833,7 +833,7 @@
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
-        <target><![CDATA[__Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+        <target><![CDATA[Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                             <u><a href="{url}" class="loadContent">hier</a></u>
                             eine neue Konferenz.]]></target>
       </trans-unit>

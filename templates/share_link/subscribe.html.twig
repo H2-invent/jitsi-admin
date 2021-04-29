@@ -5,38 +5,52 @@
         {{ room.start|format_date(pattern="EEEE",locale=locale) }}
         | {{ room.start|format_datetime('long', 'none', locale=locale) }}
         | {{ room.start|date('H:i') }}-{{ room.endDate|date('H:i') }}</p>
+    {% if room.maxParticipants - room.user|length >1 %}
+        <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch {spaces} Plätze frei{% endtrans %}</h4>
+        {% elseif room.maxParticipants - room.user|length == 1  %}
+            <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch ein Platz frei{% endtrans %}</h4>
+
+    {% endif %}
 {% endblock %}
 
 
 {% block content %}
 
 
+    {% if room.maxParticipants - room.user|length >0 %}
+        <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
+            <p class="text-center text-md-left">
+                {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
+            </p>
+            {{ form_start(form) }}
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
 
-    <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
-        <p class="text-center text-md-left">
-            {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
-        </p>
-        {{ form_start(form) }}
-        {{ form_row(form.firstName) }}
-        {{ form_row(form.lastName) }}
-        {{ form_row(form.email) }}
+            <div class="row form-group">
 
-        <div class="row form-group">
+                <div class="col-12">
+                    {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
 
-            <div class="col-12">
-                {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_row(form.subscribe) }}
+                </div>
             </div>
         </div>
+        {{ form_end(form) }}
+    {% else %}
+<div class="col-lg-12">
+    <h3 class="text-center ">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Keine Plätze mehr frei{% endtrans %}</h3>
 
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(form.subscribe) }}
-            </div>
-        </div>
-    </div>
-    {{ form_end(form) }}
+</div>
 
+
+
+    {% endif %}
 
 
 {% endblock %}
