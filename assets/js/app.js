@@ -23,6 +23,7 @@ import Chart from 'chart.js';
 import autosize from 'autosize'
 import ClipboardJS from 'clipboard'
 import {initScheduling} from './scheduling'
+import * as Toastr from 'toastr'
 
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -50,6 +51,33 @@ $(document).ready(function () {
     }, 500);
     if (importBBB) {
         h2Button.init();
+    }
+    if (notificationUrl !== "") {
+       $.getJSON(notificationUrl, function (data) {
+            var notification = data
+           for (var i = 0; i < notification.length; i++) {
+                console.log(notification[i]);
+                Toastr[notification[i].type](notification[i].text,notification[i].head )
+                Toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+        });
+
     }
 
     initDropDown();
@@ -162,7 +190,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         } else {
             $('#maxParticipants').collapse('hide')
         }
-        $('#room_public').change(function (){
+        $('#room_public').change(function () {
             if ($('#room_public').prop('checked')) {
                 $('#maxParticipants').collapse('show')
             } else {

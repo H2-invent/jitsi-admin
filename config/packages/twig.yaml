@@ -21,3 +21,4 @@ twig:
         laf_CreateServerOpenToEveryone: '%env(laf_CreateServerOpenToEveryone)%'
         laf_keycloakGroupToCreateServer: '%env(laf_keycloakGroupToCreateServer)%'
         laf_administratorEmail: '%env(laf_administratorEmail)%'
+        laf_notificationUrl: '%env(laf_notificationUrl)%'
