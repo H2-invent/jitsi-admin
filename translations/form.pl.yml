@@ -56,6 +56,7 @@ label:
   vorname: Vorname
   nachname: Nachname
   maxParticipants: Maximale Anzahl an Teilnehmer zulassen
+  waitinglist: Warteliste aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
