@@ -63,7 +63,7 @@ class RoomType extends AbstractType
             ->add('public',CheckboxType::class,array('required'=>false,'label' => 'label.puplicRoom', 'translation_domain' => 'form'))
             ->add('showRoomOnJoinpage',CheckboxType::class,array('required'=>false,'label' => 'label.showRoomOnJoinpage', 'translation_domain' => 'form'))
             ->add('maxParticipants',NumberType::class,array('required'=>false,'label' => 'label.maxParticipants', 'translation_domain' => 'form','attr'=>array('placeholder'=>'placeholder.maxParticipants')))
-
+            ->add('waitinglist',CheckboxType::class,array('required'=>false,'label' => 'label.waitinglist', 'translation_domain' => 'form'))
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

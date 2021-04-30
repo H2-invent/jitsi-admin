@@ -126,6 +126,11 @@ class User extends BaseUser
      */
     private $uid;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user")
+     */
+    private $waitinglists;
+
 
 
     public function __construct()
@@ -139,6 +144,7 @@ class User extends BaseUser
         $this->roomsAttributes = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
         $this->schedulingTimeUsers = new ArrayCollection();
+        $this->waitinglists = new ArrayCollection();
 
     }
 
@@ -508,6 +514,36 @@ class User extends BaseUser
     public function setUid(?string $uid): self
     {
         $this->uid = $uid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Waitinglist[]
+     */
+    public function getWaitinglists(): Collection
+    {
+        return $this->waitinglists;
+    }
+
+    public function addWaitinglist(Waitinglist $waitinglist): self
+    {
+        if (!$this->waitinglists->contains($waitinglist)) {
+            $this->waitinglists[] = $waitinglist;
+            $waitinglist->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaitinglist(Waitinglist $waitinglist): self
+    {
+        if ($this->waitinglists->removeElement($waitinglist)) {
+            // set the owning side to null (unless already changed)
+            if ($waitinglist->getUser() === $this) {
+                $waitinglist->setUser(null);
+            }
+        }
 
         return $this;
     }

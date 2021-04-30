@@ -136,12 +136,23 @@ class Rooms
      */
     private $scheduleMeeting;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $waitinglist;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room")
+     */
+    private $waitinglists;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
         $this->schedulings = new ArrayCollection();
+        $this->waitinglists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -487,6 +498,48 @@ class Rooms
     public function setScheduleMeeting(?bool $scheduleMeeting): self
     {
         $this->scheduleMeeting = $scheduleMeeting;
+
+        return $this;
+    }
+
+    public function getWaitinglist(): ?bool
+    {
+        return $this->waitinglist;
+    }
+
+    public function setWaitinglist(?bool $waitinglist): self
+    {
+        $this->waitinglist = $waitinglist;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Waitinglist[]
+     */
+    public function getWaitinglists(): Collection
+    {
+        return $this->waitinglists;
+    }
+
+    public function addWaitinglist(Waitinglist $waitinglist): self
+    {
+        if (!$this->waitinglists->contains($waitinglist)) {
+            $this->waitinglists[] = $waitinglist;
+            $waitinglist->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaitinglist(Waitinglist $waitinglist): self
+    {
+        if ($this->waitinglists->removeElement($waitinglist)) {
+            // set the owning side to null (unless already changed)
+            if ($waitinglist->getRoom() === $this) {
+                $waitinglist->setRoom(null);
+            }
+        }
 
         return $this;
     }

@@ -26,6 +26,7 @@ class UserService
     private $url;
     private $translator;
     private $em;
+
     public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
@@ -41,18 +42,18 @@ class UserService
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->parameterBag->get('laF_baseUrl').$this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]);
+        $url = $this->parameterBag->get('laF_baseUrl') . $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]);
         return $url;
     }
 
     function addUser(User $user, Rooms $room)
     {
-        if(!$user->getUid()){
+        if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
             $this->em->persist($user);
             $this->em->flush();
         }
-        if(!$room->getScheduleMeeting()){
+        if (!$room->getScheduleMeeting()) {
             //we have a not sheduled meeting. So the participabts are getting invited directly
             $url = $this->generateUrl($room, $user);
             $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
@@ -60,27 +61,42 @@ class UserService
             $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
             $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
-        }else{
+        } else {
             //we have a shedule Meting. the participants only got a link to shedule their appointments
-            $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room, ]);
+            $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
             $subject = $this->translator->trans('Neue Einladung zu einer Terminplanung');
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
         }
         return true;
     }
 
+    function addWaitinglist(User $user, Rooms $room)
+    {
+        if (!$user->getUid()) {
+            $user->setUid(md5(uniqid()));
+            $this->em->persist($user);
+            $this->em->flush();
+        }
+        //we have a not sheduled meeting. So the participabts are getting invited directly
+        $content = $this->twig->render('email/waitingList.html.twig', ['user' => $user, 'room' => $room]);
+        $subject = $this->translator->trans('Hinzugefügt zur Warteliste');
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
+
+        return true;
+    }
+
     function editRoom(User $user, Rooms $room)
     {
-        if(!$room->getScheduleMeeting()) {
+        if (!$room->getScheduleMeeting()) {
             $url = $this->generateUrl($room, $user);
             $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
             $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');
             $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
             $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
-        }else{
+        } else {
             //we have a shedule Meting. the participants only got a link to shedule their appointments
-            $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room, ]);
+            $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
             $subject = $this->translator->trans('Neue Einladung zu einer Terminplanung');
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
         }
@@ -89,15 +105,15 @@ class UserService
 
     function removeRoom(User $user, Rooms $room)
     {
-        if(!$room->getScheduleMeeting()) {
+        if (!$room->getScheduleMeeting()) {
             $url = $this->generateUrl($room, $user);
             $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
             $subject = $this->translator->trans('Videokonferenz abgesagt');
             $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
             $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
-        }else{
-            $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room, ]);
+        } else {
+            $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room,]);
             $subject = $this->translator->trans('Terminplanung abgesagt');
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
         }
