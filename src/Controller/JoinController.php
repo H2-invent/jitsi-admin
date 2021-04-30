@@ -90,13 +90,13 @@ class JoinController extends AbstractController
 
             $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
         }
-        $image = $pexelService->getImageFromPexels();
+
 
         return $this->render('join/index.html.twig', [
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
-            'image' => $image,
+
 
         ]);
     }

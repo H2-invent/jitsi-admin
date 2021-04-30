@@ -213,10 +213,10 @@ class ScheduleController extends AbstractController
         }
 
         $server = $scheduling->getRoom()->getServer();
-        $image = $pexelService->getImageFromPexels();
 
 
-        return $this->render('schedule/schedulePublic.html.twig', array('user' => $user, 'scheduling' => $scheduling, 'room' => $scheduling->getRoom(), 'server' => $server, 'image' => $image));
+
+        return $this->render('schedule/schedulePublic.html.twig', array('user' => $user, 'scheduling' => $scheduling, 'room' => $scheduling->getRoom(), 'server' => $server));
     }
 
     /**

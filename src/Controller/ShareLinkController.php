@@ -104,12 +104,10 @@ class ShareLinkController extends AbstractController
 
         }
         $server = $rooms->getServer();
-        $image = $pexelService->getImageFromPexels();
         return $this->render('share_link/subscribe.html.twig', [
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
-            'image' => $image,
             'room' => $rooms,
             'color' => $color,
         ]);
@@ -130,7 +128,7 @@ class ShareLinkController extends AbstractController
 
         $message = $res['message'];
         $title = $res['title'];
-        $image = $pexelService->getImageFromPexels();
-        return $this->render('share_link/subscribeSuccess.html.twig', array('server' => $server, 'message' => $message, 'title' => $title, 'image' => $image));
+
+        return $this->render('share_link/subscribeSuccess.html.twig', array('server' => $server, 'message' => $message, 'title' => $title));
     }
 }
