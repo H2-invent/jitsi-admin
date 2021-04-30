@@ -873,6 +873,10 @@
         <source>Keine Plätze mehr frei</source>
         <target state="needs-translation">Keine Plätze mehr frei</target>
       </trans-unit>
+      <trans-unit id="DW95e1g" resname="Unbegrenzte Teilnehmerzahl">
+        <source>Unbegrenzte Teilnehmerzahl</source>
+        <target state="needs-translation">Unbegrenzte Teilnehmerzahl</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
