@@ -816,7 +816,7 @@
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</target>
       </trans-unit>
-      <trans-unit id="aa4369c" resname="{from} von {to}">
+      <trans-unit id="yUDlpqH" resname="{from} von {to}">
         <source>{from} von {to}</source>
         <target state="needs-translation">{from} von {to}</target>
       </trans-unit>
@@ -835,6 +835,46 @@
         <target state="translated">目前无会议，请创建
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;此处&lt;/a&gt;&lt;/u&gt;
                             新的会议&lt;.</target>
+      </trans-unit>
+      <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">
+        <source>Hinzugefügt zur Warteliste</source>
+        <target state="needs-translation">Hinzugefügt zur Warteliste</target>
+      </trans-unit>
+      <trans-unit id="dFgRTL4" resname="Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.">
+        <source>Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</source>
+        <target state="needs-translation">Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</target>
+      </trans-unit>
+      <trans-unit id="HqYBTct" resname="Sie sind auf der Warteliste">
+        <source>Sie sind auf der Warteliste</source>
+        <target state="needs-translation">Sie sind auf der Warteliste</target>
+      </trans-unit>
+      <trans-unit id="z1kridY" resname="Sie sind auf der Warteliste für die Konferenz {name} eingetragen.">
+        <source>Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</source>
+        <target state="needs-translation">Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</target>
+      </trans-unit>
+      <trans-unit id="7a4K8pX" resname="Warteliste">
+        <source>Warteliste</source>
+        <target state="needs-translation">Warteliste</target>
+      </trans-unit>
+      <trans-unit id="uOs4egz" resname="Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen">
+        <source>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</source>
+        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="gzHOfne" resname="Noch {spaces} Plätze frei">
+        <source>Noch {spaces} Plätze frei</source>
+        <target state="needs-translation">Noch {spaces} Plätze frei</target>
+      </trans-unit>
+      <trans-unit id="3CYPbpJ" resname="Noch ein Platz frei">
+        <source>Noch ein Platz frei</source>
+        <target state="needs-translation">Noch ein Platz frei</target>
+      </trans-unit>
+      <trans-unit id="zUuUQi_" resname="Keine Plätze mehr frei">
+        <source>Keine Plätze mehr frei</source>
+        <target state="needs-translation">Keine Plätze mehr frei</target>
+      </trans-unit>
+      <trans-unit id="DW95e1g" resname="Unbegrenzte Teilnehmerzahl">
+        <source>Unbegrenzte Teilnehmerzahl</source>
+        <target state="needs-translation">Unbegrenzte Teilnehmerzahl</target>
       </trans-unit>
     </body>
   </file>

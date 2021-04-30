@@ -56,6 +56,7 @@ label:
   vorname: 名
   nachname: 姓
   maxParticipants: 最大参会人数
+  waitinglist: Warteliste aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
