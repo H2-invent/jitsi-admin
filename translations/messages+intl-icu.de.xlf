@@ -817,7 +817,7 @@
             <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
             gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
-      <trans-unit id="aa4369c" resname="{from} von {to}">
+      <trans-unit id="yUDlpqH" resname="{from} von {to}">
         <source>{from} von {to}</source>
         <target>{from} von {to}</target>
       </trans-unit>
@@ -836,6 +836,42 @@
         <target><![CDATA[Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                             <u><a href="{url}" class="loadContent">hier</a></u>
                             eine neue Konferenz.]]></target>
+      </trans-unit>
+      <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">
+        <source>Hinzugefügt zur Warteliste</source>
+        <target>Hinzugefügt zur Warteliste</target>
+      </trans-unit>
+      <trans-unit id="dFgRTL4" resname="Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.">
+        <source>Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</source>
+        <target>Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</target>
+      </trans-unit>
+      <trans-unit id="HqYBTct" resname="Sie sind auf der Warteliste">
+        <source>Sie sind auf der Warteliste</source>
+        <target>Sie sind auf der Warteliste</target>
+      </trans-unit>
+      <trans-unit id="z1kridY" resname="Sie sind auf der Warteliste für die Konferenz {name} eingetragen.">
+        <source>Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</source>
+        <target>Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</target>
+      </trans-unit>
+      <trans-unit id="7a4K8pX" resname="Warteliste">
+        <source>Warteliste</source>
+        <target>Warteliste</target>
+      </trans-unit>
+      <trans-unit id="uOs4egz" resname="Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen">
+        <source>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</source>
+        <target>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="gzHOfne" resname="Noch {spaces} Plätze frei">
+        <source>Noch {spaces} Plätze frei</source>
+        <target>Noch {spaces} Plätze frei</target>
+      </trans-unit>
+      <trans-unit id="3CYPbpJ" resname="Noch ein Platz frei">
+        <source>Noch ein Platz frei</source>
+        <target>Noch ein Platz frei</target>
+      </trans-unit>
+      <trans-unit id="zUuUQi_" resname="Keine Plätze mehr frei">
+        <source>Keine Plätze mehr frei</source>
+        <target>Keine Plätze mehr frei</target>
       </trans-unit>
     </body>
   </file>

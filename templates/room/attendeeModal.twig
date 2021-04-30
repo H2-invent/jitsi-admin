@@ -19,8 +19,8 @@
                         class="far fa-comments"></i> {{ 'Erlaube private Nachrichten an andere Teilnehmer zu senden'|trans }}
                 {% endif %}
             </p>
-            <div>
-                <ul id="atendeeList">
+            <div id="atendeeList">
+                <ul >
                     <li>{{ room.moderator.email }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                     {% for user in room.user %}
                         {% if user != room.moderator %}
@@ -78,7 +78,27 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
+
+            {% if room.waitinglists|length > 0 %}
+
+                <b>{{ 'Warteliste'|trans }}</b>
+                <hr>
+                <ul>
+                    {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
+                        <li>{{ w.user.email }}
+                            <a class="small directSend"
+                                                   href="{{ path('accept_waitingList',{'id':w.id}) }}"
+                                                   data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
+                                                   data-target="#atendeeList"
+                                                   data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                            ><i class="fa fa-check"></i>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
             </div>
+            {% endif %}
             <hr>
             <label for="searchUser">{{ 'Teilnehmer Suchen'|trans }}</label>
             <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
