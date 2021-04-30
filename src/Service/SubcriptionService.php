@@ -31,6 +31,18 @@ class SubcriptionService
         $this->userService = $userService;
     }
 
+    /**
+     * @param $userData
+     * @param Rooms $rooms
+     * @param false $moderator
+     * @return array|bool[]
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * Creates a subscriber. A subscriber is not a participent. a subscriber need to double opt in
+     * This functions sends a mail to the subscriper with the double opt in link.
+     * This function checks if the room is full and if so then it will reject or if the waiting list is active then the user can register
+     */
     public function subscripe($userData, Rooms $rooms, $moderator = false)
     {
         $res = array('error' => true);
@@ -88,6 +100,11 @@ class SubcriptionService
         return $res;
     }
 
+    /**
+     * @param Subscriber|null $subscriber
+     * @return array
+     * checks the subsriber an creates a roomUser connection or a waitinglist Element
+     */
     public function acceptSub(?Subscriber $subscriber)
     {
         $res['message'] = $this->translator->trans('Danke für die Anmeldung. ');
@@ -125,6 +142,12 @@ class SubcriptionService
         return $res;
     }
 
+    /**
+     * @param User $user
+     * @param Rooms $rooms
+     * @return array
+     * creates a new subscriber element
+     */
     function createNewSubscriber(User $user, Rooms $rooms)
     {
         $subscriber = new Subscriber();
@@ -138,6 +161,12 @@ class SubcriptionService
         return $res;
     }
 
+    /**
+     * @param User $user
+     * @param Rooms $rooms
+     * @return array
+     * creates a new Waiinglist element and sends the email with the waiting list to the subscriber
+     */
     function createNewWaitinglist(User $user, Rooms $rooms)
     {
         $waitingList = new Waitinglist();
@@ -150,6 +179,12 @@ class SubcriptionService
         $this->userService->addWaitinglist($user,$rooms);
         return $res;
     }
+
+    /**
+     * @param User $user
+     * @param Rooms $rooms
+     * creates a new roomUser element and sends the email with the room infos  to the subscriber
+     */
     function createUserRoom(User $user, Rooms $rooms){
         $user->addRoom($rooms);
         $this->em->persist($user);
