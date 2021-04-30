@@ -56,6 +56,7 @@ label:
   vorname: Tên
   nachname: Họ
   maxParticipants: Số lượng người tham gia tối đa cho phép
+  waitinglist: Warteliste aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
