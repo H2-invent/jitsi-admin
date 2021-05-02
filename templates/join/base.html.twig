@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 
-{{ include('base/__head.html.twig') }}
+
+{% include'base/__head.html.twig' with {'css':'app'}  %}
+
 {% set image = pexelsImage() %}
 <body style="background-color: #C9C9C9">
 <div class="imageBackground"></div>

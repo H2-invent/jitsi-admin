@@ -15,13 +15,24 @@
                     {{ 'Name'|trans }}: {{ app.user.firstName }} {{ app.user.lastName }}<br>
                     {{ 'Email'|trans}}: {{ app.user.email }}
                 </p>
+                <div class="custom-control custom-switch mb-2">
+                    <input type="checkbox" class="custom-control-input"
+                           {{ app.request.cookies.get('DARK_MODE') }}
+                            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                                checked
+                            {% endif%}
+                           id="switchDarkmode">
+                    <label class="custom-control-label" for="switchDarkmode">{{ 'Darkmode'|trans }}</label>
+                </div>
                 <a class="btn btn-primary btn-sm"
                    href="{{ path('connect_keycloak_edit') }}"
                    target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a>
                 <a class="btn btn-primary btn-sm"
                    href="{{ path('connect_keycloak_password') }}"
                    target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
+
             </div>
+
             <div class="modal-footer">
                 <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">{{ 'Logout'|trans }}</a>
             </div>

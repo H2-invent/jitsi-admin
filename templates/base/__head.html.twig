@@ -3,14 +3,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="manifest" href="{{asset('site.webmanifest')}}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     {% block title %}
         <title>Jitsi Konferenz Manager</title>
     {% endblock %}
 
-{% if  app.environment == 'prod' %}
-    <meta http-equiv="Content-Security-Policy" content="
+    {% if  app.environment == 'prod' %}
+        <meta http-equiv="Content-Security-Policy" content="
     default-src 'self' www3.h2-invent.com {{ matomo_url }};
     script-src 'self' 'unsafe-inline' {{ matomo_url }};
     style-src 'self' 'unsafe-inline';
@@ -18,7 +18,7 @@
     img-src 'self' data: {{ matomo_url }} *;
     object-src 'none'">
 
-    <meta http-equiv="X-Content-Security-Policy" content="
+        <meta http-equiv="X-Content-Security-Policy" content="
     default-src 'self' www3.h2-invent.com  {{ matomo_url }};
     script-src 'self' 'unsafe-inline' {{ matomo_url }};
     style-src 'self' 'unsafe-inline';
@@ -26,19 +26,29 @@
     img-src 'self' data: {{ matomo_url }} *;
     object-src 'none'">
 
-    <meta http-equiv="X-WebKit-CSP" content="
+        <meta http-equiv="X-WebKit-CSP" content="
     default-src 'self' www3.h2-invent.com  {{ matomo_url }};
     script-src 'self' 'unsafe-inline' {{ matomo_url }};
     style-src 'self' 'unsafe-inline';
     frame-src 'self' {{ matomo_url }};
     img-src 'self' data: {{ matomo_url }} *;
     object-src 'none'">
-{% endif %}
+    {% endif %}
 
     {{ include('base/__matomo.html.twig') }}
 
-    <!-- Our Custom CSS -->
-    {{ encore_entry_link_tags('app') }}
+        <!-- Our Custom CSS -->
+   {% if css is defined and css is not null %}
+       {{ encore_entry_link_tags(css) }}
+    {% else %}
+    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+        {{ encore_entry_link_tags('black') }}
+        {% else %}
+            {{ encore_entry_link_tags('app') }}
+    {% endif%}
+   {% endif %}
+
+
 
     {% block stylesheets %}{% endblock %}
 </head>
