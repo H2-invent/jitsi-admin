@@ -57,7 +57,7 @@ p {
 }
 
 .modal-body {
-  background-color: $black_background;
+  background-color: $black_modal;
   color: $black_font-color;
 }
 
@@ -118,4 +118,14 @@ a {
 
 #modalAdressbook a[aria-expanded="true"] {
   background: $black_navbar;
+}
+.jconfirm-box{
+  background-color: $black_modal!important;
+  color: $black_font-color!important;
+  .jconfirm-title-c{
+    color: $black_font-color!important;
+  }
+  .jconfirm-content{
+    color: $black_font-color!important;
+  }
 }

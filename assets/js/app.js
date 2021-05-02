@@ -42,12 +42,12 @@ addEventListener('load', function () {
 });
 
 $(document).ready(function () {
-    $('.switchDarkmode').change(function (e){
+    $('.switchDarkmode').change(function (e) {
         var val = 0;
-        if ($(this).prop('checked')){
+        if ($(this).prop('checked')) {
             val = 1
         }
-       setCookie('DARK_MODE',val,365);
+        setCookie('DARK_MODE', val, 365);
         window.location.reload();
     })
     setTimeout(function () {
@@ -57,34 +57,10 @@ $(document).ready(function () {
         }, 3000);
     }, 500);
     if (importBBB) {
-        h2Button.init();
+        h2Button.init(bbbUrl);
     }
     if (notificationUrl !== "") {
-       $.getJSON(notificationUrl, function (data) {
-            var notification = data
-           for (var i = 0; i < notification.length; i++) {
-                console.log(notification[i]);
-                Toastr[notification[i].type](notification[i].text,notification[i].head )
-                Toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-            }
-        });
-
+        h2Button.initNotification(notificationUrl);
     }
 
     initDropDown();
@@ -313,9 +289,10 @@ function getMoreFeature(id) {
     }
 
 }
+
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
