@@ -17,6 +17,7 @@ Encore
     //.enableSingleRuntimeChunk()
     .disableSingleRuntimeChunk()
     .addEntry('app', './assets/js/app.js')
+    .addEntry('black', './assets/js/black.js')
     .addEntry('frontend', './assets/js/frontend.js')
 
     // empty the outputPath dir before each build

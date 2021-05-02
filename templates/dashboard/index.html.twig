@@ -5,7 +5,28 @@
 {% endblock %}
 
 {% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 text-right">
+            <div class="custom-control custom-switch mb-2">
+                <input type="checkbox" class="custom-control-input switchDarkmode"
+                        {{ app.request.cookies.get('DARK_MODE') }}
+                        {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                            checked
+                        {% endif%}
+                       id="switchDarkmode2">
+                <label class="custom-control-label" for="switchDarkmode2">
+                    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                        <i style="color: yellow" class="fas fa-sun"></i>
+                        {% else %}
+                            <i class="fas fa-moon"></i>
+                    {% endif%}
 
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="container">
 
 
@@ -66,7 +87,7 @@
             >
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <a href="{{ path('room_new') }}" class="loadContent">
+                        <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
                             <div class="card card-body bg-success btn">
                                 <p class="mt-2 mb-2 text-center">
                                     {{ 'Eine Konferenz planen'|trans }}
@@ -75,7 +96,7 @@
                         </a>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <a href="{{ path('schedule_admin_new') }}" class="loadContent">
+                        <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
                             <div class="card card-body btn-outline-success btn ">
                                 <p class="mt-2 mb-2 text-center">
                                     {{ 'Einen Termin finden'|trans }}
