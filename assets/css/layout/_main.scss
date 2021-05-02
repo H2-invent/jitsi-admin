@@ -72,3 +72,10 @@ a {
 .btn-info {
   background-color: $contrast-dark !important;
 }
+.btn-dashboard{
+  background-color: $btn-primary!important;
+  border: none!important;
+}
+.btn-outline-dashboard{
+  border: 0.2rem solid $btn-primary;
+}
