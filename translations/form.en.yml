@@ -3,7 +3,7 @@ label.konferenzId: Conference ID
 label.email: Email address
 label.name: Name
 label.teilnehmerEmailhinzufuegen: Enter email address of new participants
-label.teilnehmerSpeichern: Einladungsemail versenden
+label.teilnehmerSpeichern: Send invitation email
 label.emailModerator: Enter email address of organizer
 help.emailTextfeld: Multiple email addresses can be added at once. Each email address has to be written into a new line.
 label.organisatorhinzufuegen: Add organizer
@@ -56,7 +56,7 @@ label:
   vorname: Firstname
   nachname: Lastname
   maxParticipants: Allow maximum number of participants
-  waitinglist: Warteliste aktivieren
+  waitinglist: Activate waiting list
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
