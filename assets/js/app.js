@@ -42,7 +42,7 @@ addEventListener('load', function () {
 });
 
 $(document).ready(function () {
-    $('#switchDarkmode').change(function (e){
+    $('.switchDarkmode').change(function (e){
         var val = 0;
         if ($(this).prop('checked')){
             val = 1

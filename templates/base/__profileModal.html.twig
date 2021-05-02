@@ -16,7 +16,7 @@
                     {{ 'Email'|trans}}: {{ app.user.email }}
                 </p>
                 <div class="custom-control custom-switch mb-2">
-                    <input type="checkbox" class="custom-control-input"
+                    <input type="checkbox" class="custom-control-input switchDarkmode"
                            {{ app.request.cookies.get('DARK_MODE') }}
                             {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
                                 checked
