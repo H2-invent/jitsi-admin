@@ -22,3 +22,4 @@ twig:
         laf_keycloakGroupToCreateServer: '%env(laf_keycloakGroupToCreateServer)%'
         laf_administratorEmail: '%env(laf_administratorEmail)%'
         laf_notificationUrl: '%env(laf_notificationUrl)%'
+        laf_bbb_Url: '%env(laf_bbb_Url)%'
