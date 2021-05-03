@@ -7,6 +7,8 @@
    Description: Master CSS file
 */
 
+$red: #c33f43;
+$gray: #323a3e;
 /*****************************************
 Table Of Contents:
 - General Styles
@@ -156,9 +158,9 @@ a:hover {
 .btn-solid-reg {
   display: inline-block;
   padding: 1.375rem 2.25rem 1.375rem 2.25rem;
-  border: 1px solid #594cda;
+  border: 1px solid $red;
   border-radius: 32px;
-  background-color: #594cda;
+  background-color: $red;
   color: #ffffff;
   font-weight: 600;
   font-size: 0.875rem;
@@ -168,18 +170,18 @@ a:hover {
 }
 
 .btn-solid-reg:hover {
-  border: 1px solid #594cda;
+  border: 1px solid $red;
   background-color: transparent;
-  color: #594cda; /* needs to stay here because of the color property of a tag */
+  color: $red; /* needs to stay here because of the color property of a tag */
   text-decoration: none;
 }
 
 .btn-solid-lg {
   display: inline-block;
   padding: 1.625rem 2.75rem 1.625rem 2.75rem;
-  border: 1px solid #594cda;
+  border: 1px solid $red;
   border-radius: 32px;
-  background-color: #594cda;
+  background-color: $red;
   color: #ffffff;
   font-weight: 600;
   font-size: 0.875rem;
@@ -189,9 +191,9 @@ a:hover {
 }
 
 .btn-solid-lg:hover {
-  border: 1px solid #594cda;
+  border: 1px solid $red;
   background-color: transparent;
-  color: #594cda; /* needs to stay here because of the color property of a tag */
+  color: $red; /* needs to stay here because of the color property of a tag */
   text-decoration: none;
 }
 
@@ -207,14 +209,14 @@ a:hover {
 }
 
 .btn-solid-lg.secondary {
-  border: 1px solid #eb427e;
-  background-color: #eb427e;
+  border: 1px solid $gray;
+  background-color: $gray;
 }
 
 .btn-solid-lg.secondary:hover {
-  border: 1px solid #eb427e;
+  border: 1px solid $gray;
   background: transparent;
-  color: #eb427e; /* needs to stay here because of the color property of a tag */
+  color: $gray; /* needs to stay here because of the color property of a tag */
 }
 
 .btn-outline-reg {
@@ -509,7 +511,7 @@ input[type='checkbox'] {
 .navbar .nav-item.dropdown.show .nav-link,
 .navbar .nav-item .nav-link:hover,
 .navbar .nav-item .nav-link.active {
-  color: #ff6e84;
+  color: $red;
 }
 
 /* Dropdown Menu */
@@ -646,7 +648,7 @@ input[type='checkbox'] {
   padding: 3.125rem 1rem 2.125rem 1rem;
   border: none;
   border-radius: 16px;
-  background-color: #f1f9fc;
+  background-color: #ecf1f8;
 }
 
 .cards-1 .card-image {
@@ -801,7 +803,7 @@ input[type='checkbox'] {
 }
 
 .lightbox-basic .btn-solid-reg.mfp-close:hover {
-  color: #594cda;
+  color: $red;
 }
 /* end of action Button */
 
@@ -1002,7 +1004,7 @@ input[type='checkbox'] {
 
 .cards-2 .card .card-title {
   margin-bottom: 1rem;
-  color: #eb427e;
+  color: $red;
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 1.875rem;
@@ -1238,7 +1240,7 @@ a:hover.back-to-top {
 }
 
 .ex-cards-1 .card .fa-stack-2x {
-  color: #ff6e84;
+  color: $gray;
 }
 
 .ex-cards-1 .card .fa-stack-1x {

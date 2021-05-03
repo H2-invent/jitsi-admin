@@ -1,22 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- SEO Meta Tags -->
-    <meta name="description"
-          content="Pavo is a mobile app Bootstrap HTML template created to help you present benefits, features and information about mobile apps in order to convince visitors to download them">
-    <meta name="author" content="Your name">
-
-    <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
-    <meta property="og:site_name" content=""/> <!-- website name -->
-    <meta property="og:site" content=""/> <!-- website link -->
-    <meta property="og:title" content=""/> <!-- title shown in the actual shared post -->
-    <meta property="og:description" content=""/> <!-- description shown in the actual shared post -->
-    <meta property="og:image" content=""/> <!-- image link, make sure it's jpg -->
-    <meta property="og:url" content=""/> <!-- where do you want your post to link to -->
-    <meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     <!-- Webpage Title -->
     <title>Jitsi Admin</title>
@@ -27,6 +16,51 @@
           rel="stylesheet">
 
     {{ encore_entry_link_tags('startpage') }}
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Jitsi Admin",
+            "image": "https://jitsi-admin.de/logo.png",
+            "url": "https://jitsi-admin.de/",
+            "publisher": {
+                "@type": "Organization",
+                "name": "H2 Invent GmbH"
+            },
+            "applicationCategory": "Open Source",
+            "downloadUrl": "https://github.com/H2-invent/jitsi-admin",
+            "operatingSystem": "LAMP Server",
+            "requirements": "PHP >7.3",
+            "screenshot": "https://jitsi-admin.de/images/start/screenshots.png"
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "QAPage",
+            "mainEntity": {
+                "@type": "Question",
+                "name": "Wie kann ich bei einem Jitsi Server Termine erstellen",
+                "text": "Ich habe einen Jitsi-Meet-Server und möchte eine Konferenz zu einem Zeitpunkt organisieren und sichergehen dass keine anderen Benutzer als die eingeladenen Personen in die Konferenz kommen. Gibt es dazu eine Möglichket bei Jitsi-Meet?",
+                "answerCount": 1,
+                "author": {
+                    "@type": "Person",
+                    "name": "Anonymous User"
+                },
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mit Jitsi-Admin, einer Open Sorce Software kannst du deinen Jitsi-Server absichern und über das Dashboard jederzeit Termine organisieren. Der Jitsi-Admin lässt sich für jeden Jitsi-Server verwenden und muss dort nur als 'Mein Server hinzugefügt werden.'",
+                    "url": "https://jitsi-admin.de/",
+                    "author": {
+                        "@type": "person",
+                        "name": "H2 Invent GmbH"
+                    }
+                }
+            }
+        }
+    </script>
+    {{ include('base/__matomo.html.twig') }}
 
     <!-- Favicon  -->
     <link rel="icon" href="favicon.ico">
@@ -59,10 +93,10 @@
                     <a class="nav-link page-scroll" href="#details">Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#pricing">Pricing</a>
+                    <a class="nav-link page-scroll" href="#pricing">Preise</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#download">Download</a>
+                    <a class="nav-link page-scroll" href="#download">Jetzt starten</a>
                 </li>
             </ul>
         </div> <!-- end of navbar-collapse -->
@@ -568,7 +602,7 @@
     </div> <!-- end of container -->
 </div> <!-- end of footer -->
 <!-- end of footer -->
-
+{{ include('base/__matomoOptOut.html.twig') }}
 
 <!-- Copyright -->
 <div class="copyright">
@@ -578,6 +612,14 @@
                 <ul class="list-unstyled li-space-lg p-small">
                     <li><a href="{{ imprint }}">Impressum</a></li>
                     <li><a href="{{ dataPrivacy }}">Datenschutzhinweis</a></li>
+                    {% if matomo_enable == 'true' %}
+                    <li>
+                        <!-- Button trigger modal -->
+                        <a href="#" data-toggle="modal" data-target="#exampleModal">
+                            Matomo Opt-out
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div> <!-- end of col -->
             <div class="col-lg-6">
