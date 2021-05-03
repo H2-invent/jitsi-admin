@@ -61,6 +61,15 @@
         }
     </script>
     {{ include('base/__matomo.html.twig') }}
+    <meta property="og:title" content="Jitsi-Admin, die Open Source Plattform für Ihre Jitsi-Meetings" />
+    <meta property="og:description" content="Erstellen Sie mit Jitsi-Admin ihre Jitsi Meetings und laden Sie Freunde und Bekannt ein. Das alles unkompliziert und kostenlos." />
+    <meta property="og:url" content="{{ absolute_url(path('index')) }}" />
+    <meta property="og:image" content="{{ absolute_url(asset('logo.png'))}}" />
+
+    <meta name="twitter:title" content="Jitsi-Admin, die Open Source Plattform für Ihre Jitsi-Meetings">
+    <meta name="twitter:description" content="Erstellen Sie mit Jitsi-Admin ihre Jitsi Meetings und laden Sie Freunde und Bekannt ein. Das alles unkompliziert und kostenlos.">
+    <meta name="twitter:image" content="{{ absolute_url(asset('logo.png'))}}">
+    <meta name="twitter:card" content="summary_large_image">
 
     <!-- Favicon  -->
     <link rel="icon" href="favicon.ico">
