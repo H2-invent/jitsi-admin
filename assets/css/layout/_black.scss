@@ -129,3 +129,25 @@ a {
     color: $black_font-color!important;
   }
 }
+.close{
+  color: white;
+  &:hover{
+    color: white;
+  }
+}
+.list-group-item {
+  border: 1px solid #c9d1d9 !important;
+}
+.fas{
+  color: $black_font-color;
+}
+.jconfirm-box{
+  background-color: $black_modal!important;
+  color: $black_font-color!important;
+  .jconfirm-title-c{
+    color: $black_font-color!important;
+  }
+  .jconfirm-content{
+    color: $black_font-color!important;
+  }
+}

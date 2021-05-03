@@ -9,20 +9,19 @@
     <div class="row">
         <div class="col-lg-12 text-right">
             <div class="custom-control custom-switch mb-2">
-                <input type="checkbox" class="custom-control-input switchDarkmode"
-                        {{ app.request.cookies.get('DARK_MODE') }}
-                        {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                            checked
-                        {% endif%}
-                       id="switchDarkmode2">
-                <label class="custom-control-label" for="switchDarkmode2">
-                    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                        <i style="color: yellow" class="fas fa-sun"></i>
-                        {% else %}
-                            <i class="fas fa-moon"></i>
-                    {% endif%}
+<div class="d-flex justify-content-end">
+    <span class="mr-5"><i class="fas fa-sun"></i></span>
+    <input type="checkbox" class="custom-control-input switchDarkmode"
+            {{ app.request.cookies.get('DARK_MODE') }}
+            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                checked
+            {% endif%}
+           id="switchDarkmode2">
+    <label class="custom-control-label" for="switchDarkmode2">
+            <i class="fas fa-moon"></i>
+    </label>
+</div>
 
-                </label>
             </div>
         </div>
     </div>
