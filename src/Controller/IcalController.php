@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Rooms;
+use App\Entity\User;
+use App\Service\UserService;
 use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Component\Event;
-use Eluceo\iCal\Component\Timezone;
-use Eluceo\iCal\Property\Event\Organizer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,32 +15,32 @@ use Symfony\Component\Routing\Annotation\Route;
 class IcalController extends AbstractController
 {
     /**
-     * @Route("/ical", name="ical")
+     * @Route("/ical/{id}", name="ical")
+     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"id": "uid"}})
      */
-    public function index(): Response
+    public function index(User $user, UserService $userService): Response
     {
-        $date = new Date(\DateTimeImmutable::createFromFormat('Y-m-d', '2019-12-24'));
-        $occurrence = new SingleDay($date);
-        $event = new Event();
-        $events = [
-            $event->setOrganizer(new Organizer("Andreas"))
-                ->setSummary('Christmas Eve')
-                ->setDtStamp($this->formatTimestamp('now')),
-        ];
+        $events = $this->getDoctrine()->getRepository(Rooms::class)->getMyScheduledRooms($user);
+        $vCalendar = new Calendar('Jitsi Admin');
 
-        $calendar = new Calendar($events);
-        $calendar->addTimeZone(Timezone::createFromPhpDateTimeZone(new \DateTimeZone('Europe/Berlin')));
+        foreach ($events as $event) {
+            $vEvent = new Event();
+            $url = $userService->generateUrl($event,$user);
+            $vEvent
+                ->setDtStart($event->getStart())
+                ->setDtEnd($event->getEnddate())
+                ->setSummary($event->getName())
+                ->setDescription($event->getAgenda() . "\n" . $url)
+                ->setLocation('Jitsi Admin');
 
-
-        // 3. Transform domain entity into an iCalendar component
-        $componentFactory = (new \Eluceo\iCal\Presentation\Factory\CalendarFactory())->createCalendar($calendar);
-        $calendarComponent = $componentFactory->createCalendar($calendar);
+            $vCalendar->addComponent($vEvent);
+        }
 
         // 5. Output
         $response = new Response();
         $response->headers->set('Content-Type', 'text/calendar; charset=utf-8');
         $response->headers->set('Content-Disposition', 'inline; filename="cal.ics"');
-        $response->setContent($calendar->render());
+        $response->setContent($vCalendar);
         return $response;
     }
 }
