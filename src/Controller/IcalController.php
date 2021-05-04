@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Service\UserService;
 use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Component\Event;
+use Eluceo\iCal\Property\Event\Organizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,18 +21,18 @@ class IcalController extends AbstractController
      */
     public function index(User $user, UserService $userService): Response
     {
-        $events = $this->getDoctrine()->getRepository(Rooms::class)->getMyScheduledRooms($user);
+        $events = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInFuture($user);
         $vCalendar = new Calendar('Jitsi Admin');
-
         foreach ($events as $event) {
             $vEvent = new Event();
-            $url = $userService->generateUrl($event,$user);
+            $url = $userService->generateUrl($event, $user);
             $vEvent
                 ->setDtStart($event->getStart())
                 ->setDtEnd($event->getEnddate())
                 ->setSummary($event->getName())
-                ->setDescription($event->getAgenda() . "\n" . $url)
-                ->setLocation('Jitsi Admin');
+                ->setDescription($event->getName() . "\n" . $event->getAgenda() . "\n" . $url)
+                ->setLocation('Jitsi Meet-Konferenz')
+                ->setOrganizer(new Organizer($event->getModerator()->getEmail()));
 
             $vCalendar->addComponent($vEvent);
         }
