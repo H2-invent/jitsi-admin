@@ -80,9 +80,6 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light">
     <div class="container">
 
-        <!-- Text Logo - Use this if you don't have a graphic logo -->
-        <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Pavo</a> -->
-
         <!-- Image Logo -->
         <a class="navbar-brand logo-image" href="/"><img src="logo.png" alt="alternative"></a>
 
@@ -120,9 +117,8 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="text-container">
-                    <h1 class="h1-responsive">Online Anwendung für die Jitsi Verwaltung</h1>
-                    <p class="p-large">Beginnen Sie damit, Ihre Aufgaben gemeinsam mit Ihrem Team zu erledigen. Digital,
-                        online, virtuell mit Jitsi Admin und Jitsi Meet</p>
+                    <h1 class="h1-responsive">Online Jitsi Verwaltung</h1>
+                    <p class="p-large">Konferenzen total einfach, sicher, schnell und datenschutzkonform planen und durchführen</p>
                     <a class="btn-solid-lg" href="{{ path('dashboard') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
                     <a class="btn-solid-lg secondary" href="{{ path('register_keycloak') }}"><i
                                 class="far fa-user-circle"></i> Registrieren</a>
@@ -143,9 +139,16 @@
 <div class="basic-1">
     <div class="container">
         <div class="row">
+            <div class="col-lg-6">
+                <p>Sie nutzen bereit Jitsi Meet und suchen nach einer konfortablen Verwaltung von Konferenzen.</p>
+            </div> <!-- end of col -->
+            <div class="col-lg-6">
+                <p>Sie suchen nach einer sicheren und datenschutzkonformen online Konferenzlösung.</p>
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+        <div class="row">
             <div class="col-lg-12">
-                <p>Sie nutzen bereit Jitsi Meet oder suchen nach einer sicheren und datenschutzkonformen online
-                    Konferenzlösung. Nutzen Sie den Jitsi Meet und Jitsi Admin kostenlos für Ihre nächste Konferenz.</p>
+                <p>Nutzen Sie hierfür Jitsi Admin.</p>
             </div> <!-- end of col -->
         </div> <!-- end of row -->
     </div> <!-- end of container -->
@@ -209,8 +212,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Konferenz planen</h5>
-                        <p>Planen Sie die nächste Konferenz und erstellen eine Teilnehmerliste die es ungewünschten
-                            Teilnehmern unmöglich macht, Sie zu stören.</p>
+                        <p>Planen Sie Ihre nächste Konferenz und erstellen Sie eine Teilnehmerliste. Unerwünschte Teilnehmer haben so keinen Zutritt zu Ihrer Konferenz.</p>
                     </div>
                 </div>
                 <!-- end of card -->
@@ -222,8 +224,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Server verwalten</h5>
-                        <p>Mit dem Jitsi Admin verwalten Sie schnell und einfach Ihre Organisatoren und behalten
-                            weiterhin den Überblick über die Nutzung des Servers</p>
+                        <p>Verwalten Sie schnell und einfach Ihren Jitsi Meet Server bezüglich Berechtigungen, Design und Funktionen.</p>
                     </div>
                 </div>
                 <!-- end of card -->
@@ -234,8 +235,8 @@
                         <img class="img-fluid" src="images/start/languages.svg" alt="alternative">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Multiple Languages</h5>
-                        <p>Der Jitsi Admin steht aktuell bereits in 8 Sprachen zur Verfügung.</p>
+                        <h5 class="card-title">Sprachen</h5>
+                        <p>Die online Anwendung steht Ihnen aktuell in acht Sprachen zur Verfügung.</p>
                     </div>
                 </div>
                 <!-- end of card -->
@@ -247,8 +248,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Open Source</h5>
-                        <p>Der Programmcode steht öffentlich auf GitHub zur Verfügung und kann unter der AGPL Lizenz
-                            genutzt werden.</p>
+                        <p>Der Jitsi Admin ist Open Source und unter der AGPLv3 lizenziert.</p>
                     </div>
                 </div>
                 <!-- end of card -->
@@ -260,7 +260,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">GitHub</h5>
-                        <p>Join der Community auf GitHub. Der gesamte Source Code ist auf GitHub verfügbar.</p>
+                        <p>Der Source Code wird auf GitHub veröffentlicht und ständig weiterentwickelt</p>
                     </div>
                 </div>
                 <!-- end of card -->
@@ -280,9 +280,9 @@
                 <div class="text-container">
                     <h2>Mobil und jederzeit griffbereit</h2>
                     <p>Mit dem Jitsi Admin können Sie eine Jitsi Meet Konferenz planen oder sofort eine Videokonferenz
-                        mit einem FreundIn starten. </p>
+                        mit Freunden starten.</p>
                     <p>Auf dem Dashboard haben Sie jederzeit Zugriff auf alle Konferenzen und können diese bearbeiten,
-                        kopieren oder löschen</p>
+                        kopieren oder löschen.</p>
                 </div> <!-- end of text-container -->
             </div> <!-- end of col -->
             <div class="col-lg-7">
@@ -311,7 +311,7 @@
                     <ul class="list-unstyled li-space-lg">
                         <li class="media">
                             <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">1. Konferenzen planen</div>
+                            <div class="media-body">1. Videotalk oder Konferenzen planen</div>
                         </li>
                         <li class="media">
                             <i class="fas fa-chevron-right"></i>
@@ -421,7 +421,7 @@
                                     <div class="card-body">
                                         <p class="testimonial-text">Jitsi Admin Enterprise unterstützt uns beim Planen
                                             und Durchführen von Mitarbeitergesprächen. Mit dem Jitsi Admin können wir
-                                            diese einfach und konfortabel splanen und durchführen.</p>
+                                            diese einfach und konfortabel planen und durchführen.</p>
                                         <p class="testimonial-author">Charlotte B. - Personalabteilung</p>
                                     </div>
                                 </div>
@@ -444,7 +444,7 @@
                             <div class="swiper-slide">
                                 <div class="card">
                                     <div class="card-body">
-                                        <p class="testimonial-text">Wir nutzen bereits seit Längerem Jitsi für unsere
+                                        <p class="testimonial-text">Wir nutzen bereits seit einiger Zeit Jitsi für unsere
                                             Videokonferenzen. Mit Jitsi Admin Enterprise ist die Nutzung noch einfacher
                                             und die Konferenzen sind noch sicherer.</p>
                                         <p class="testimonial-author">Sandra M. - Kommunikation</p>
@@ -478,10 +478,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="h2-heading">Kostenlos, Enterprise oder Self-Hosted</h2>
+                <h2 class="h2-heading">Kostenlos, Enterprise oder <br>Self-Hosted</h2>
                 <p class="p-heading">Wir bieten für alle Anforderungen die passende Option. Sie können den Jitsi Admin
-                    zusammen mit dem offiziellen Jitsi Meet Server kostenlos nutzen. Für Unternehmen mit erweiterten
-                    Anforderungen bieten wir weitere Anpassungsmöglichkeiten.</p>
+                    zusammen mit dem offiziellen Jitsi Meet Server kostenlos nutzen. Für Unternehmen mit höheren
+                    Anforderungen bieten wir passgenaue Lösungen.</p>
             </div> <!-- end of col -->
         </div> <!-- end of row -->
         <div class="row">
@@ -493,7 +493,7 @@
                         <div class="card-title">Kostenlos</div>
                         <div class="price"><span class="currency">free</span><span class="value"> </span></div>
                         <div class="frequency"></div>
-                        <p>Alle wichtigen Funktionen zum planen und Verwalten von Konferenzen</p>
+                        <p>Alle wichtigen Funktionen zum Planen und Verwalten von Konferenzen und Videotalks</p>
                         <ul class="list-unstyled li-space-lg">
                             <li class="media">
                                 <i class="fas fa-chevron-right"></i>
@@ -520,20 +520,20 @@
                     <div class="card-body">
                         <div class="card-title">Enterprise</div>
                         <div class="price"><span class="currency">€</span><span class="value">19,99</span></div>
-                        <div class="frequency">Yearly</div>
+                        <div class="frequency">pro Jahr</div>
                         <p>Erweiterte Funktionen speziell für Unternehmen</p>
                         <ul class="list-unstyled li-space-lg">
                             <li class="media">
                                 <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">E-Mail Server einfügen</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Logo einfügen</div>
+                                <div class="media-body">Mit SMTP Server verbinden</div>
                             </li>
                             <li class="media">
                                 <i class="fas fa-chevron-right"></i>
                                 <div class="media-body">E-Mail Vorlage anpassen</div>
+                            </li>
+                            <li class="media">
+                                <i class="fas fa-chevron-right"></i>
+                                <div class="media-body">Design individualisieren</div>
                             </li>
                         </ul>
                         <div class="button-wrapper">
@@ -547,13 +547,13 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">Self Hosted</div>
-                        <div class="price"><span class="currency">auf Anfrage</span><span class="value"> </span></div>
+                        <div class="price"><span class="currency">nach Aufwand</span><span class="value"> </span></div>
                         <div class="frequency"></div>
                         <p>Installation eines eigenen Jitsi Admin Servers und KeyCloak</p>
                         <ul class="list-unstyled li-space-lg">
                             <li class="media">
                                 <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Individuelle Anpassung des Designs und der Funktionen</div>
+                                <div class="media-body">Individuelle Anpassung des Designs und der Funktionalität</div>
                             </li>
                             <li class="media">
                                 <i class="fas fa-chevron-right"></i>
@@ -566,7 +566,7 @@
                         </ul>
                         <div class="button-wrapper">
                             <a class="btn-solid-reg page-scroll"
-                               href="https://github.com/H2-invent/jitsi-admin">GitHub</a>
+                               href="https://h2-invent.com/kontakt">Anfragen</a>
                         </div>
                     </div>
                 </div> <!-- end of card -->
@@ -579,33 +579,12 @@
 <!-- end of pricing -->
 
 
-<!-- Conclusion -->
-<div id="download" class="basic-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="image-container">
-                    <img class="img-fluid" src="{{ asset('images/start/screenshots.png') }}" alt="alternative">
-                </div> <!-- end of image-container -->
-            </div> <!-- end of col -->
-            <div class="col-lg-6">
-                <div class="text-container">
-                    <p>Vereinfachen Sie sich die Arbeit zum Verwalten von Konferenzen, Moderatoren und Teilnehmern</p>
-                    <a class="btn-solid-lg" href="{{ path('register_keycloak') }}">Registrieren</a>
-                </div> <!-- end of text-container -->
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of basic-5 -->
-<!-- end of conclusion -->
-
-
 <!-- Footer -->
 <div class="footer">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h4>Jitsi Admin ist die Anwendung zum Planen und Verwalten von Jitsi Meet Konferenzen</h4>
+                <h4>Jitsi Admin ist Ihre online Anwendung zum Planen und Verwalten von Jitsi Meet Konferenzen und Videotalks.</h4>
             </div> <!-- end of col -->
         </div> <!-- end of row -->
     </div> <!-- end of container -->
