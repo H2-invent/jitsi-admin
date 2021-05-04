@@ -61,14 +61,16 @@
         }
     </script>
     {{ include('base/__matomo.html.twig') }}
-    <meta property="og:title" content="Jitsi-Admin, die Open Source Plattform für Ihre Jitsi-Meetings" />
-    <meta property="og:description" content="Erstellen Sie mit Jitsi-Admin ihre Jitsi Meetings und laden Sie Freunde und Bekannt ein. Das alles unkompliziert und kostenlos." />
-    <meta property="og:url" content="{{ absolute_url(path('index')) }}" />
-    <meta property="og:image" content="{{ absolute_url(asset('logo.png'))}}" />
+    <meta property="og:title" content="Jitsi-Admin, die Open Source Plattform für Ihre Jitsi-Meetings"/>
+    <meta property="og:description"
+          content="Erstellen Sie mit Jitsi-Admin ihre Jitsi Meetings und laden Sie Freunde und Bekannt ein. Das alles unkompliziert und kostenlos."/>
+    <meta property="og:url" content="{{ absolute_url(path('index')) }}"/>
+    <meta property="og:image" content="{{ absolute_url(asset('logo.png')) }}"/>
 
     <meta name="twitter:title" content="Jitsi-Admin, die Open Source Plattform für Ihre Jitsi-Meetings">
-    <meta name="twitter:description" content="Erstellen Sie mit Jitsi-Admin ihre Jitsi Meetings und laden Sie Freunde und Bekannt ein. Das alles unkompliziert und kostenlos.">
-    <meta name="twitter:image" content="{{ absolute_url(asset('logo.png'))}}">
+    <meta name="twitter:description"
+          content="Erstellen Sie mit Jitsi-Admin ihre Jitsi Meetings und laden Sie Freunde und Bekannt ein. Das alles unkompliziert und kostenlos.">
+    <meta name="twitter:image" content="{{ absolute_url(asset('logo.png')) }}">
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Favicon  -->
@@ -101,9 +103,6 @@
                 <li class="nav-item">
                     <a class="nav-link page-scroll" href="#pricing">Preise</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#download">Jetzt starten</a>
-                </li>
             </ul>
         </div> <!-- end of navbar-collapse -->
     </div> <!-- end of container -->
@@ -118,7 +117,8 @@
             <div class="col-lg-6">
                 <div class="text-container">
                     <h1 class="h1-responsive">Online Jitsi Verwaltung</h1>
-                    <p class="p-large">Konferenzen total einfach, sicher, schnell und datenschutzkonform planen und durchführen</p>
+                    <p class="p-large">Konferenzen total einfach, sicher, schnell und datenschutzkonform planen und
+                        durchführen</p>
                     <a class="btn-solid-lg" href="{{ path('dashboard') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
                     <a class="btn-solid-lg secondary" href="{{ path('register_keycloak') }}"><i
                                 class="far fa-user-circle"></i> Registrieren</a>
@@ -212,7 +212,8 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Konferenz planen</h5>
-                        <p>Planen Sie Ihre nächste Konferenz und erstellen Sie eine Teilnehmerliste. Unerwünschte Teilnehmer haben so keinen Zutritt zu Ihrer Konferenz.</p>
+                        <p>Planen Sie Ihre nächste Konferenz und erstellen Sie eine Teilnehmerliste. Unerwünschte
+                            Teilnehmer haben so keinen Zutritt zu Ihrer Konferenz.</p>
                     </div>
                 </div>
                 <!-- end of card -->
@@ -224,7 +225,8 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Server verwalten</h5>
-                        <p>Verwalten Sie schnell und einfach Ihren Jitsi Meet Server bezüglich Berechtigungen, Design und Funktionen.</p>
+                        <p>Verwalten Sie schnell und einfach Ihren Jitsi Meet Server bezüglich Berechtigungen, Design
+                            und Funktionen.</p>
                     </div>
                 </div>
                 <!-- end of card -->
@@ -278,11 +280,25 @@
         <div class="row">
             <div class="col-lg-5">
                 <div class="text-container">
-                    <h2>Mobil und jederzeit griffbereit</h2>
+                    <h2>Einfach, sicher, kostenlos</h2>
                     <p>Mit dem Jitsi Admin können Sie eine Jitsi Meet Konferenz planen oder sofort eine Videokonferenz
                         mit Freunden starten.</p>
-                    <p>Auf dem Dashboard haben Sie jederzeit Zugriff auf alle Konferenzen und können diese bearbeiten,
-                        kopieren oder löschen.</p>
+                    <b>In nur drei Schritten ein Videotalk planen und starten</b>
+                    <ul class="list-unstyled li-space-lg">
+                        <li class="media">
+                            <i class="fas fa-chevron-right"></i>
+                            <div class="media-body">1. Videotalk planen</div>
+                        </li>
+                        <li class="media">
+                            <i class="fas fa-chevron-right"></i>
+                            <div class="media-body">2. Freunde einladen</div>
+                        </li>
+                        <li class="media">
+                            <i class="fas fa-chevron-right"></i>
+                            <div class="media-body">3. Videotalk starten</div>
+                        </li>
+                    </ul>
+                    <a class="btn-solid-reg popup-with-move-anim" href="#more-feature">Noch mehr Funktionen</a>
                 </div> <!-- end of text-container -->
             </div> <!-- end of col -->
             <div class="col-lg-7">
@@ -307,19 +323,25 @@
             </div> <!-- end of col -->
             <div class="col-lg-5">
                 <div class="text-container">
-                    <h2>Jetzt kostenlos starten</h2>
+                    <h2>Für Unternehmen</h2>
+                    <p>Schützen Sie Ihr Unternehmen und Ihre Know-How in dem Sie ein eigenes Server Cluster aus Jitsi
+                        Meet und Jitsi Admin betreiben.</p>
                     <ul class="list-unstyled li-space-lg">
                         <li class="media">
                             <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">1. Videotalk oder Konferenzen planen</div>
+                            <div class="media-body">1. Termin finden</div>
                         </li>
                         <li class="media">
                             <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">2. Teilnehmer einladen</div>
+                            <div class="media-body">2. Konferenzen planen</div>
                         </li>
                         <li class="media">
                             <i class="fas fa-chevron-right"></i>
-                            <div class="media-body">3. Konferenz sicher durchführen</div>
+                            <div class="media-body">3. Kunden einladen</div>
+                        </li>
+                        <li class="media">
+                            <i class="fas fa-chevron-right"></i>
+                            <div class="media-body">4. Konferenz sicher durchführen</div>
                         </li>
                     </ul>
                     <a class="btn-solid-reg popup-with-move-anim" href="#more-feature">Weitere Funktionen</a>
@@ -360,11 +382,13 @@
                 </li>
                 <li class="media">
                     <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Sie können ein maximum Teilnehmer angeben. Danach gibt es eine Warteliste.</div>
+                    <div class="media-body">Sie können ein maximum Teilnehmer angeben. Danach gibt es eine Warteliste.
+                    </div>
                 </li>
                 <li class="media">
                     <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Sie bebehalten immer die Kontrolle über die Berechtigungen der Teilnehmer.</div>
+                    <div class="media-body">Sie bebehalten immer die Kontrolle über die Berechtigungen der Teilnehmer.
+                    </div>
                 </li>
             </ul>
             <a class="btn-solid-reg mfp-close page-scroll" href="{{ path('register_keycloak') }}">Konferenz starten</a>
@@ -380,19 +404,20 @@
 <div id="company-feature" class="lightbox-basic zoom-anim-dialog mfp-hide">
     <div class="row">
         <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
-        <div class="col-lg-6  d-flex align-items-center">
+        <div class="col-lg-4  d-flex align-items-center">
             <div class="image-container ">
                 <img class="img-fluid" src="{{ asset('images/start/jitsi-for-company.jpg') }}" alt="alternative">
             </div> <!-- end of image-container -->
         </div> <!-- end of col -->
-        <div class="col-lg-6">
+        <div class="col-lg-8">
             <h3>Für Unternehmen</h3>
             <hr>
             <p>Sie wollen Ihr Know-How und ihre Firmeninformationen schützen?</p>
             <p>Sie wollen unabhängig von großen IT-Konzernen die Datenhoheit über Ihre Videokonferenz erhalten?</p>
             <h4>Ihre eigenen unabhängige Videokonferenlösung.</h4>
             <hr>
-            <p>Wir betreiben auf <b>Ihren</b> eigenen Servern in <b>Ihrem</b> Rechenzentrum oder <b>Ihrem</b> privaten Cloud Umfeld <b>Ihre</b> eigene Videokonferenzplattform.
+            <p>Wir betreiben auf <b>Ihren</b> eigenen Servern in <b>Ihrem</b> Rechenzentrum oder <b>Ihrer</b> privaten
+                Cloud <b>Ihre</b> eigene Videokonferenzplattform.
             </p>
             <ul class="list-unstyled li-space-lg">
                 <li class="media">
@@ -401,14 +426,21 @@
                 </li>
                 <li class="media">
                     <i class="fas fa-chevron-right"></i>
-                    <div class="media-body">Erhalten Sie die Datenhoheit über alle Gespräche, Videokonferenzen und Screenshares</div>
+                    <div class="media-body">Erhalten Sie die Datenhoheit über alle Gespräche, Videokonferenzen und
+                        Screenshares
+                    </div>
                 </li>
                 <li class="media">
                     <i class="fas fa-chevron-right"></i>
                     <div class="media-body">Kein Datentransfer in unsichere Drittländer</div>
                 </li>
+                <li class="media">
+                    <i class="fas fa-chevron-right"></i>
+                    <div class="media-body">Voll automatisierte Infrastruktur</div>
+                </li>
             </ul>
-            <a class="btn-solid-reg mfp-close page-scroll" href="https://h2-invent.com/services/managed-services/jitsi#contact" target="_blank">Amfrage starten</a>
+            <a class="btn-solid-reg mfp-close page-scroll"
+               href="https://h2-invent.com/services/managed-services/jitsi#contact" target="_blank">Amfrage starten</a>
             <button class="btn-outline-reg mfp-close as-button" type="button">Zurück</button>
         </div> <!-- end of col -->
     </div> <!-- end of row -->
@@ -422,11 +454,10 @@
         <div class="row">
             <div class="col-lg-5">
                 <div class="text-container">
-                    <h2>Sie haben bereits einen Jitsi Meet Server?</h2>
-                    <p>Als Jitsi Meet Server Administrator können Sie Ihren eigenen Server ganz einfach über JWT mit dem
-                        Jitsi Admin verbinden und mit dem Planen von Konferenzen anfangen.</p>
-                    <p>Die umständliche Verwaltung der Organisatoren über den Terminal ist danach nicht mehr
-                        notwendig.</p>
+                    <h2>Sie betrieben bereits einen eigenen Jitsi Meet Server?</h2>
+                    <p>Integrieren Sie Ihren persönlichen Jitsi Meet Server im Jitsi Admin und verwalten Sie diesen ganz einfach online.</p>
+                    <p>Die umständliche Verwaltung der Organisatoren über den Terminal ist damit Geschichte.</p>
+                    <a class="btn-solid-reg popup-with-move-anim" href="#own-jitsi-server">Mehr zu der Integration von Jitsi Meet</a>
                 </div> <!-- end of text-container -->
             </div> <!-- end of col -->
             <div class="col-lg-7">
@@ -439,6 +470,31 @@
 </div> <!-- end of basic-4 -->
 <!-- end of details 3 -->
 
+
+<!-- Details Lightbox -->
+<!-- Lightbox -->
+<div id="own-jitsi-server" class="lightbox-basic zoom-anim-dialog mfp-hide">
+    <div class="row">
+        <button title="Close (Esc)" type="button" class="mfp-close x-button">×</button>
+        <div class="col-lg-4  d-flex align-items-center">
+            <div class="image-container ">
+                <img class="img-fluid" src="{{ asset('images/start/jitsi-for-company.jpg') }}" alt="alternative">
+            </div> <!-- end of image-container -->
+        </div> <!-- end of col -->
+        <div class="col-lg-8">
+            <h3>Aktivieren Sie die Token Authentifizierung</h3>
+            <hr>
+            <p>1. Installieren Sie auf Ihrem Server die jitsi-meet-tokens Erweiterung</p>
+            <p>2. Passen Sie die Prosody Authentifizierung für die Verwendung von JWT Tokens an</p>
+            <p>3. Fügen Sie die AppID und das AppSecret von Ihrem Jitsi Meet Server im Jitsi Admin ein</p>
+            <a class="btn-solid-reg mfp-close page-scroll"
+               href="https://h2-invent.com/services/managed-services/jitsi#contact" target="_blank">Amfrage starten</a>
+            <button class="btn-outline-reg mfp-close as-button" type="button">Zurück</button>
+        </div> <!-- end of col -->
+    </div> <!-- end of row -->
+</div> <!-- end of lightbox-basic -->
+<!-- end of lightbox -->
+<!-- end of details lightbox -->
 
 <!-- Testimonials -->
 <div class="slider-1 bg-gray">
@@ -485,7 +541,8 @@
                             <div class="swiper-slide">
                                 <div class="card">
                                     <div class="card-body">
-                                        <p class="testimonial-text">Wir nutzen bereits seit einiger Zeit Jitsi für unsere
+                                        <p class="testimonial-text">Wir nutzen bereits seit einiger Zeit Jitsi für
+                                            unsere
                                             Videokonferenzen. Mit Jitsi Admin Enterprise ist die Nutzung noch einfacher
                                             und die Konferenzen sind noch sicherer.</p>
                                         <p class="testimonial-author">Sandra M. - Kommunikation</p>
@@ -625,7 +682,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h4>Jitsi Admin ist Ihre online Anwendung zum Planen und Verwalten von Jitsi Meet Konferenzen und Videotalks.</h4>
+                <h4>Jitsi Admin ist Ihre online Anwendung zum Planen und Verwalten von Jitsi Meet Konferenzen und
+                    Videotalks.</h4>
             </div> <!-- end of col -->
         </div> <!-- end of row -->
     </div> <!-- end of container -->
@@ -642,12 +700,12 @@
                     <li><a href="{{ imprint }}">Impressum</a></li>
                     <li><a href="{{ dataPrivacy }}">Datenschutzhinweis</a></li>
                     {% if matomo_enable == 'true' %}
-                    <li>
-                        <!-- Button trigger modal -->
-                        <a href="#" data-toggle="modal" data-target="#exampleModal">
-                            Matomo Opt-out
-                        </a>
-                    </li>
+                        <li>
+                            <!-- Button trigger modal -->
+                            <a href="#" data-toggle="modal" data-target="#exampleModal">
+                                Matomo Opt-out
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </div> <!-- end of col -->
