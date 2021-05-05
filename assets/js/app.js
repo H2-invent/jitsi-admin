@@ -86,7 +86,14 @@ $(document).ready(function () {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
     });
-
+    $(".copyLink").click(function () {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    });
+    var clipboard = new ClipboardJS('.copyLink');
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});

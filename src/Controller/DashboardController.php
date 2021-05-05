@@ -71,6 +71,13 @@ class DashboardController extends AbstractController
         foreach ($roomsFuture as $data) {
             $future[$data->getStart()->format('Ymd')][] = $data;
         }
+        if(!$this->getUser()->getUid()){
+            $user = $this->getUser();
+            $user->setUid(md5(uniqid()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
         $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
         $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());

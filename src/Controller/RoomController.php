@@ -8,6 +8,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
+use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
 use App\Service\InviteService;
@@ -32,7 +33,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
+    public function newRoom(SchedulingService  $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -84,16 +85,7 @@ class RoomController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
             $em->flush();
-            if(sizeof($room->getSchedulings()->toArray())< 1){
-                $schedule = new Scheduling();
-                $schedule->setUid(md5(uniqid()));
-                $schedule->setRoom($room);
-                $em->persist($schedule);
-                $em->flush();
-                $room->addScheduling($schedule);
-                $em->persist($room);
-                $em->flush();
-            }
+            $schedulingService->createScheduling($room);
 
             if ($request->get('id')) {
                 foreach ($room->getUser() as $user) {
@@ -225,11 +217,15 @@ class RoomController extends AbstractController
      * @Route("/room/clone", name="room_clone")
      */
     public
-    function roomClone(Request $request, UserService $userService, TranslatorInterface $translator)
+    function roomClone(Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService)
     {
 
         $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
         $room = clone $roomOld;
+        // here we clean all the scheduls from the old room
+        foreach ($room->getSchedulings() as $data){
+            $room->removeScheduling($data);
+        }
         $room->setUid(rand(01, 99) . time());
         $room->setSequence(0);
 
@@ -254,6 +250,8 @@ class RoomController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
+
+                $schedulingService->createScheduling($room);
                 foreach ($roomOld->getUser() as $user) {
                     $userService->addUser($user, $room);
                 }
