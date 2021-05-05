@@ -86,14 +86,8 @@ $(document).ready(function () {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
     });
-    $(".copyLink").click(function () {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($(element).text()).select();
-        document.execCommand("copy");
-        $temp.remove();
-    });
-    var clipboard = new ClipboardJS('.copyLink');
+    initCopytoClipboard();
+
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
@@ -188,14 +182,8 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             }
         })
     }
-    $(".copyLink").click(function () {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($(element).text()).select();
-        document.execCommand("copy");
-        $temp.remove();
-    });
-    var clipboard = new ClipboardJS('.copyLink');
+    initCopytoClipboard();
+
     initSearchUser();
     initServerFeatures();
     var ctx = document.getElementById("lineChart").getContext('2d');
@@ -302,4 +290,8 @@ function setCookie(cname, cvalue, exdays) {
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function initCopytoClipboard(){
+
+    var clipboard = new ClipboardJS('.copyLink');
 }
