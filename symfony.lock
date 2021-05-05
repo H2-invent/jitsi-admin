@@ -111,6 +111,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "eluceo/ical": {
+        "version": "0.16.1"
+    },
     "erusev/parsedown": {
         "version": "1.7.4"
     },

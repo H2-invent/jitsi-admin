@@ -4,6 +4,8 @@
 namespace App\Service;
 
 
+use App\Entity\Rooms;
+use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -34,5 +36,17 @@ class SchedulingService
             return false;
         }
         return true;
+    }
+    public function createScheduling(Rooms $rooms){
+        if (sizeof($rooms->getSchedulings()->toArray()) < 1) {
+            $schedule = new Scheduling();
+            $schedule->setUid(md5(uniqid()));
+            $schedule->setRoom($rooms);
+            $this->em->persist($schedule);
+            $this->em->flush();
+            $rooms->addScheduling($schedule);
+            $this->em->persist($rooms);
+            $this->em->flush();
+        }
     }
 }

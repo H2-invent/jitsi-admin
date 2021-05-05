@@ -26,7 +26,7 @@ class ScheduleController extends AbstractController
     /**
      * @Route("room/schedule/new", name="schedule_admin_new")
      */
-    public function new( Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService): Response
+    public function new( Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService  $schedulingService): Response
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -65,7 +65,6 @@ class ScheduleController extends AbstractController
 
         $form->remove('scheduleMeeting');
         $form->remove('start');
-        $form->remove('scheduleMeeting');
        // try {
             $form->handleRequest($request);
         //} catch (\Exception $e) {
@@ -79,16 +78,7 @@ class ScheduleController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($room);
             $em->flush();
-            if (sizeof($room->getSchedulings()->toArray()) < 1) {
-                $schedule = new Scheduling();
-                $schedule->setUid(md5(uniqid()));
-                $schedule->setRoom($room);
-                $em->persist($schedule);
-                $em->flush();
-                $room->addScheduling($schedule);
-                $em->persist($room);
-                $em->flush();
-            }
+            $schedulingService->createScheduling($room);
 
             if ($request->get('id')) {
                 foreach ($room->getUser() as $user) {
