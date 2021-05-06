@@ -35,8 +35,13 @@ $.urlParam = function (name) {
 addEventListener('load', function () {
     var url = (new URLSearchParams(window.location.search)).get('modalUrl');
     if (url !== null) {
-        $('#loadContentModal').load(atob(url), function () {
-            $('#loadContentModal ').modal('show');
+        $('#loadContentModal').load(atob(url), function (data,status) {
+            if ( status === "error" ) {
+                window.location.reload();
+            }else {
+                $('#loadContentModal ').modal('show');
+            }
+
         });
     }
 });
@@ -129,8 +134,12 @@ $(document).on('click', '.confirmHref', function (e) {
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
-    $('#loadContentModal').load(url, function () {
-        $('#loadContentModal ').modal('show');
+    $('#loadContentModal').load(url, function (data,status) {
+        if ( status === "error" ) {
+            window.location.reload();
+        }else {
+            $('#loadContentModal ').modal('show');
+        }
 
     });
 });

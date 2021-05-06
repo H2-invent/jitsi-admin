@@ -217,7 +217,7 @@ class RoomController extends AbstractController
      * @Route("/room/clone", name="room_clone")
      */
     public
-    function roomClone(Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService)
+    function roomClone(Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment  $serverUserManagment)
     {
 
         $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
@@ -234,12 +234,7 @@ class RoomController extends AbstractController
 
         if ($this->getUser() === $room->getModerator()) {
 
-            $servers = $this->getUser()->getServers()->toarray();
-            $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
-            if ($default) {
-                $servers[] = $default;
-            }
-
+            $servers = $serverUserManagment->getServersFromUser($this->getUser());
             $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $room->getId()])]);
             $form->handleRequest($request);
 
