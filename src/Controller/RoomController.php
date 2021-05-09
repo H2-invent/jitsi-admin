@@ -33,7 +33,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(SchedulingService  $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
+    public function newRoom(SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -44,12 +44,12 @@ class RoomController extends AbstractController
             $title = $translator->trans('Konferenz bearbeiten');
             $sequence = $room->getSequence() + 1;
             $room->setSequence($sequence);
-           if (!$room->getUidModerator()){
-               $room->setUidModerator(md5(uniqid('h2-invent', true)));
-           }
-           if (!$room->getUidParticipant()){
-               $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-           }
+            if (!$room->getUidModerator()) {
+                $room->setUidModerator(md5(uniqid('h2-invent', true)));
+            }
+            if (!$room->getUidParticipant()) {
+                $room->setUidParticipant(md5(uniqid('h2-invent', true)));
+            }
 
         } else {
             $room = new Rooms();
@@ -69,38 +69,43 @@ class RoomController extends AbstractController
 
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
-        if ($request->get('id')){
+        if ($request->get('id')) {
             $form->remove('scheduleMeeting');
         }
         try {
             $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $room = $form->getData();
+                if(!$room->getStart()){
+                    $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                }
+                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+                $schedulingService->createScheduling($room);
+
+                if ($request->get('id')) {
+                    foreach ($room->getUser() as $user) {
+                        $userService->editRoom($user, $room);
+                    }
+                } else {
+                    $userService->addUser($room->getModerator(), $room);
+                }
+                $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
+                if ($room->getScheduleMeeting()) {
+                    $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
+                }
+                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+
+
+            }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-        }
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $room = $form->getData();
-            $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
-            $schedulingService->createScheduling($room);
-
-            if ($request->get('id')) {
-                foreach ($room->getUser() as $user) {
-                    $userService->editRoom($user, $room);
-                }
-            } else {
-                $userService->addUser($room->getModerator(), $room);
-            }
-            $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
-            if($room->getScheduleMeeting()){
-                $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
-            }
-            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
-
-
         }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
@@ -217,13 +222,13 @@ class RoomController extends AbstractController
      * @Route("/room/clone", name="room_clone")
      */
     public
-    function roomClone(Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment  $serverUserManagment)
+    function roomClone(Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
     {
 
         $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
         $room = clone $roomOld;
         // here we clean all the scheduls from the old room
-        foreach ($room->getSchedulings() as $data){
+        foreach ($room->getSchedulings() as $data) {
             $room->removeScheduling($data);
         }
         $room->setUid(rand(01, 99) . time());
