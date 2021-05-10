@@ -564,229 +564,229 @@
       </trans-unit>
       <trans-unit id="17r8k18" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
         <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</target>
+        <target state="translated">您确定取消该成员版主权限吗？</target>
       </trans-unit>
       <trans-unit id="glLZAnW" resname="Diesem Nutzer erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer erlauben seinen Bildschirm zu teilen</target>
+        <target state="translated">允许该用户分享屏幕</target>
       </trans-unit>
       <trans-unit id="olQS0LU" resname="Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</target>
+        <target state="translated">不再允许该用户共享屏幕</target>
       </trans-unit>
       <trans-unit id="0yF1shO" resname="Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">允许该用户向其他成员发私信</target>
       </trans-unit>
       <trans-unit id="JJdcoFT" resname="Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">不再允许该用户向其他成员发送私信</target>
       </trans-unit>
       <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
         <source>Teilnehmer Suchen</source>
-        <target state="needs-translation">Teilnehmer Suchen</target>
+        <target state="translated">查找成员</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
-        <target state="needs-translation">Tippen zum Suchen</target>
+        <target state="translated">点击搜索</target>
       </trans-unit>
       <trans-unit id="9.8ReK8" resname="Abbrechen">
         <source>Abbrechen</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">取消</target>
       </trans-unit>
       <trans-unit id=".aAKnji" resname="Server ID und Secret anzeigen">
         <source>Server ID und Secret anzeigen</source>
-        <target state="needs-translation">Server ID und Secret anzeigen</target>
+        <target state="translated">服务器ID和密钥</target>
       </trans-unit>
       <trans-unit id="BwLPq1q" resname="Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.">
         <source>Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</source>
-        <target state="needs-translation">Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</target>
+        <target state="translated">请输入购买的许可证密钥，了解有关Jitsi-Admin企业更多信息。</target>
       </trans-unit>
       <trans-unit id="83zKG81" resname="Enterprise bis">
         <source>Enterprise bis</source>
-        <target state="needs-translation">Enterprise bis</target>
+        <target state="translated">企业版</target>
       </trans-unit>
       <trans-unit id="1wfcLxk" resname="Logo">
         <source>Logo</source>
-        <target state="needs-translation">Logo</target>
+        <target state="translated">徽标</target>
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
-        <target state="needs-translation">Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</target>
+        <target state="translated">您可以加入您的徽标 URL，以便成员在参会页面上看到您的徽标。</target>
       </trans-unit>
       <trans-unit id="FG8Lso9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
-        <target state="needs-translation">Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
+        <target state="translated">请输入您的隐私声明链接，以便通知各成员。</target>
       </trans-unit>
       <trans-unit id="m3V30Ni" resname="SMTP-Einstellungen">
         <source>SMTP-Einstellungen</source>
-        <target state="needs-translation">SMTP-Einstellungen</target>
+        <target state="translated">SMTP设置</target>
       </trans-unit>
       <trans-unit id="K81G__p" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
-        <target state="needs-translation">Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</target>
+        <target state="translated">您可以指定自己的SMTP服务器发送电子邮件。如果没有指定 SMTP 服务器，则由 jitsi 管理员使用默认服务器。</target>
       </trans-unit>
       <trans-unit id="pDSuNQy" resname="Hintergrundbild">
         <source>Hintergrundbild</source>
-        <target state="needs-translation">Hintergrundbild</target>
+        <target state="translated">背景图片</target>
       </trans-unit>
       <trans-unit id="Yy7_Sw2" resname="API-Key neu genereieren">
         <source>API-Key neu genereieren</source>
-        <target state="needs-translation">API-Key neu genereieren</target>
+        <target state="translated">重新生成API 键</target>
       </trans-unit>
       <trans-unit id="X0bsKL4" resname="Server hinzufügen">
         <source>Server hinzufügen</source>
-        <target state="needs-translation">Server hinzufügen</target>
+        <target state="translated">添加服务器</target>
       </trans-unit>
       <trans-unit id="bjkKrip" resname="Bei Fragen wenden Sie sich an ihren Administrator">
         <source>Bei Fragen wenden Sie sich an ihren Administrator</source>
-        <target state="needs-translation">Bei Fragen wenden Sie sich an ihren Administrator</target>
+        <target state="translated">如果您有任何问题，请联系您的管理员</target>
       </trans-unit>
       <trans-unit id="54ABONi" resname="Enterprise Einstellungen">
         <source>Enterprise Einstellungen</source>
-        <target state="needs-translation">Enterprise Einstellungen</target>
+        <target state="translated">企业设置</target>
       </trans-unit>
       <trans-unit id="vdymJzE" resname="Teste SMTP">
         <source>Teste SMTP</source>
-        <target state="needs-translation">Teste SMTP</target>
+        <target state="translated">测试SMTP连接</target>
       </trans-unit>
       <trans-unit id="kCypMgg" resname="Meine Join-Seite">
         <source>Meine Join-Seite</source>
-        <target state="needs-translation">Meine Join-Seite</target>
+        <target state="translated">我的参会页面</target>
       </trans-unit>
       <trans-unit id="wMIPplV" resname="Statistiken">
         <source>Statistiken</source>
-        <target state="needs-translation">Statistiken</target>
+        <target state="translated">统计数据</target>
       </trans-unit>
       <trans-unit id="6ftxUe_" resname="Server löschen">
         <source>Server löschen</source>
-        <target state="needs-translation">Server löschen</target>
+        <target state="translated">删除服务器</target>
       </trans-unit>
       <trans-unit id="0tXAqAS" resname="Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein">
         <source>Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</source>
-        <target state="needs-translation">Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein</target>
+        <target state="translated">登录并注册参会成员列表</target>
       </trans-unit>
       <trans-unit id="SdjfdSR" resname="Einladungslink für Teilnehmer">
         <source>Einladungslink für Teilnehmer</source>
-        <target state="needs-translation">Einladungslink für Teilnehmer</target>
+        <target state="translated">参会者邀请链接</target>
       </trans-unit>
       <trans-unit id="EtNNv5Z" resname="Einladungslink für Moderatoren">
         <source>Einladungslink für Moderatoren</source>
-        <target state="needs-translation">Einladungslink für Moderatoren</target>
+        <target state="translated">版主邀请链接</target>
       </trans-unit>
       <trans-unit id="VxzKzeI" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</source>
-        <target state="needs-translation">Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</target>
+        <target state="translated">您的Jitsi-Admin-Enterprise许可证即将到期</target>
       </trans-unit>
       <trans-unit id="vUZyCOs" resname="Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus">
         <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
-        <target state="needs-translation">Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</target>
+        <target state="translated">您位于  {url} 的Jitsi-Meet服务器将于 {date}到期</target>
       </trans-unit>
       <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="needs-translation">Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
-            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</target>
+        <target state="translated">您的Jitsi-Admin-Enterprise许可证将到期， &lt;br&gt;
+            请立即更新许可证，以便继续使用所有功能。</target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
         <source>Hier verlängern</source>
-        <target state="needs-translation">Hier verlängern</target>
+        <target state="translated">在此更新</target>
       </trans-unit>
       <trans-unit id="pm52BiU" resname="Neue Einladung zu einer Terminplanung">
         <source>Neue Einladung zu einer Terminplanung</source>
-        <target state="needs-translation">Neue Einladung zu einer Terminplanung</target>
+        <target state="translated">在此更新</target>
       </trans-unit>
       <trans-unit id="crDnbJt" resname="Sie haben den Terminplan erfolgreich umgewandelt">
         <source>Sie haben den Terminplan erfolgreich umgewandelt</source>
-        <target state="needs-translation">Sie haben den Terminplan erfolgreich umgewandelt</target>
+        <target state="translated">您已成功转换了计划</target>
       </trans-unit>
       <trans-unit id="ihYiwYJ" resname="Fehler, Bitte Laden Sie die Seite neu">
         <source>Fehler, Bitte Laden Sie die Seite neu</source>
-        <target state="needs-translation">Fehler, Bitte Laden Sie die Seite neu</target>
+        <target state="translated">错误，请重新加载页面</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
         <source>Terminplanung</source>
-        <target state="needs-translation">Terminplanung</target>
+        <target state="translated">计划任务</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
-        <target state="needs-translation">Terminplaner</target>
+        <target state="translated">时间表</target>
       </trans-unit>
       <trans-unit id="WTkB_NE" resname="Einladung zu einer Terminplanung">
         <source>Einladung zu einer Terminplanung</source>
-        <target state="needs-translation">Einladung zu einer Terminplanung</target>
+        <target state="translated">计划邀请</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
         <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="needs-translation">Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</target>
+        <target state="translated">您刚刚被邀请在Jitsi服务器上 {url} 安排会议时间。通过所附的链接，您可以轻松选择所需的日期。</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
-        <target state="needs-translation">Klicken Sie hier um über den optimalen Termin abzustimmen.</target>
+        <target state="translated">单击此处以最佳日期投票。</target>
       </trans-unit>
       <trans-unit id="BzawdAw" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
         <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
-        <target state="needs-translation">Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</target>
+        <target state="translated">在此处将预约添加到选择中。然后，参会者可以选择您最喜爱的，然后您可以轻松地接管该预约。</target>
       </trans-unit>
       <trans-unit id="MjqSQuA" resname="Zeit wählen">
         <source>Zeit wählen</source>
-        <target state="needs-translation">Zeit wählen</target>
+        <target state="translated">选择时间</target>
       </trans-unit>
       <trans-unit id="6RsEYIW" resname="Hier zur Abstimmung">
         <source>Hier zur Abstimmung</source>
-        <target state="needs-translation">Hier zur Abstimmung</target>
+        <target state="translated">在这里投票</target>
       </trans-unit>
       <trans-unit id="zenlipp" resname="Ja">
         <source>Ja</source>
-        <target state="needs-translation">Ja</target>
+        <target state="translated">是</target>
       </trans-unit>
       <trans-unit id="kOvBveb" resname="Nein">
         <source>Nein</source>
-        <target state="needs-translation">Nein</target>
+        <target state="translated">否</target>
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="needs-translation">Vielleicht</target>
+        <target state="translated">不确定</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
-        <target state="needs-translation">Welcher Termin passt für Sie am besten?</target>
+        <target state="translated">哪个预约最适合您？</target>
       </trans-unit>
       <trans-unit id="KUyku5P" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
         <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
-        <target state="needs-translation">Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</target>
+        <target state="translated">您想将此日程安排转换为会议吗？</target>
       </trans-unit>
       <trans-unit id="fnDondQ" resname="Terminplanung erfolgreich bearbeitet">
         <source>Terminplanung erfolgreich bearbeitet</source>
-        <target state="needs-translation">Terminplanung erfolgreich bearbeitet</target>
+        <target state="translated">成功处理了预约</target>
       </trans-unit>
       <trans-unit id="DDgU1Ma" resname="Terminplanung bearbeiten">
         <source>Terminplanung bearbeiten</source>
-        <target state="needs-translation">Terminplanung bearbeiten</target>
+        <target state="translated">编辑日程安排</target>
       </trans-unit>
       <trans-unit id="JOM3vOw" resname="Terminplanung erfolgreich erstellt">
         <source>Terminplanung erfolgreich erstellt</source>
-        <target state="needs-translation">Terminplanung erfolgreich erstellt</target>
+        <target state="translated">成功创建了计划</target>
       </trans-unit>
       <trans-unit id="JzM7Kww" resname="Neue Terminplanung erstellen">
         <source>Neue Terminplanung erstellen</source>
-        <target state="needs-translation">Neue Terminplanung erstellen</target>
+        <target state="translated">创建新的日程安排</target>
       </trans-unit>
       <trans-unit id="LH_3egJ" resname="Einen Termin finden">
         <source>Einen Termin finden</source>
-        <target state="needs-translation">Einen Termin finden</target>
+        <target state="translated">查找预约</target>
       </trans-unit>
       <trans-unit id="_TZrqNN" resname="Terminplanung abgesagt">
         <source>Terminplanung abgesagt</source>
-        <target state="needs-translation">Terminplanung abgesagt</target>
+        <target state="translated">计划已取消</target>
       </trans-unit>
       <trans-unit id="0t_QPzY" resname="Die Terminplanung {name} wurde abgesagt.">
         <source>Die Terminplanung {name} wurde abgesagt.</source>
-        <target state="needs-translation">Die Terminplanung {name} wurde abgesagt.</target>
+        <target state="translated">预约{name} 的安排已被取消。</target>
       </trans-unit>
       <trans-unit id="F4Q5os1" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
         <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
-        <target state="needs-translation">Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</target>
+        <target state="translated">如果您正在寻找一个可以在自己服务器上部署，且注重隐私保护的视频会议平台，开源的Jitsi是ZOOM的替代方案。它不存储用户数据，并给您的会议加密。</target>
       </trans-unit>
       <trans-unit id="ERIRuzv" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot; auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus dem Formular an den Jitsi-Meet-Server weiter.">
         <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus dem Formular an den Jitsi-Meet-Server weiter.</source>
