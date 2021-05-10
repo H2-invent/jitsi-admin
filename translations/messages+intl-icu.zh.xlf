@@ -548,19 +548,19 @@
       </trans-unit>
       <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
         <source>Erlauben seinen Desktop zu Teilen</source>
-        <target state="needs-translation">Erlauben seinen Desktop zu Teilen</target>
+        <target state="translated">授予桌面共享权限</target>
       </trans-unit>
       <trans-unit id="1KCN0lU" resname="Erlaube private Nachrichten an andere Teilnehmer zu senden">
         <source>Erlaube private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Erlaube private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">允许向其他成员发送私信</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
-        <target state="needs-translation">Organisator</target>
+        <target state="translated">组织者</target>
       </trans-unit>
       <trans-unit id="MCfbPRp" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</target>
+        <target state="translated">您确定授予该成员版主权限吗？</target>
       </trans-unit>
       <trans-unit id="17r8k18" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
         <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
