@@ -62,4 +62,4 @@ choice:
   ssl: SSL
   none: Không
 placeholder:
-  maxParticipants: Keine Limitierung
+  maxParticipants: Không giới hạn
