@@ -870,7 +870,7 @@
       </trans-unit>
       <trans-unit id="DW95e1g" resname="Unbegrenzte Teilnehmerzahl">
         <source>Unbegrenzte Teilnehmerzahl</source>
-        <target state="needs-translation">Unbegrenzte Teilnehmerzahl</target>
+        <target state="translated">Número ilimitado de participantes</target>
       </trans-unit>
     </body>
   </file>
