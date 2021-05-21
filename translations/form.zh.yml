@@ -48,8 +48,8 @@ label:
   staticBackgroundColor: 设计登录页面的背景色
   schowStaticBackgroundColor: 纯色显示，不显示登录页面上的图片
   featureEnalbeByJwt: "在服务器上激活\"JWT 启用功能\"插件"
-  dissallowScreenshareGlobal: 只有版主才能共享屏幕
-  dissallowPrivateMessage: 只有帮主可以各参会者发私信
+  dissallowScreenshareGlobal: 只有主持人才能共享屏幕
+  dissallowPrivateMessage: 只有主持人可以各参会者发私信
   puplicRoom: 公开会议
   showRoomOnJoinpage: 在登录页面上查看会议
   subscribe: 订阅
