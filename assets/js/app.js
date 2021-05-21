@@ -195,8 +195,10 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 
     initSearchUser();
     initServerFeatures();
-    $('#room_server').val(getCookie('room_server'))
-        .change(function (){
+    if(getCookie('room_server')){
+        $('#room_server').val(getCookie('room_server'))
+    }
+    $('#room_server').change(function (){
         console.log($(this).val());
         setCookie('room_server',$(this).val(),1000);
     })
