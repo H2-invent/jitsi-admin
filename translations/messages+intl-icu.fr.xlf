@@ -877,6 +877,22 @@
         <source>Unbegrenzte Teilnehmerzahl</source>
         <target state="needs-translation">Unbegrenzte Teilnehmerzahl</target>
       </trans-unit>
+      <trans-unit id="rr8aX2H" resname="Dieser Teilnehmer darf seinen Bildschirm teilen">
+        <source>Dieser Teilnehmer darf seinen Bildschirm teilen</source>
+        <target state="needs-translation">Dieser Teilnehmer darf seinen Bildschirm teilen</target>
+      </trans-unit>
+      <trans-unit id="wzEtJLt" resname="Dieser Teilnehmer darf private Nachrichten versenden">
+        <source>Dieser Teilnehmer darf private Nachrichten versenden</source>
+        <target state="needs-translation">Dieser Teilnehmer darf private Nachrichten versenden</target>
+      </trans-unit>
+      <trans-unit id="XMBOY_s" resname="Darkmode">
+        <source>Darkmode</source>
+        <target state="needs-translation">Darkmode</target>
+      </trans-unit>
+      <trans-unit id="jChD8ic" resname="iCal Link">
+        <source>iCal Link</source>
+        <target state="needs-translation">iCal Link</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

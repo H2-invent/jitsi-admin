@@ -156,7 +156,7 @@
       </trans-unit>
       <trans-unit id="9GGCLP1" resname="Der Moderator wurde erfolgreich hinzugefügt">
         <source>Der Moderator wurde erfolgreich hinzugefügt</source>
-        <target state="translated">成功添加了版主</target>
+        <target state="translated">成功添加了主持人</target>
       </trans-unit>
       <trans-unit id="dIC9IrN" resname="Zugangsdaten in das Formular eingeben">
         <source>Zugangsdaten in das Formular eingeben</source>
@@ -344,7 +344,7 @@
       </trans-unit>
       <trans-unit id="Z0jsi3Z" resname="Moderator">
         <source>Moderator</source>
-        <target state="translated">版主</target>
+        <target state="translated">主持人</target>
       </trans-unit>
       <trans-unit id="MyAVhjs" resname="Intern">
         <source>Intern</source>
@@ -560,11 +560,11 @@
       </trans-unit>
       <trans-unit id="MCfbPRp" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
-        <target state="translated">您确定授予该成员版主权限吗？</target>
+        <target state="translated">您确定授予该成员主持人权限吗？</target>
       </trans-unit>
       <trans-unit id="17r8k18" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
         <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
-        <target state="translated">您确定取消该成员版主权限吗？</target>
+        <target state="translated">您确定取消该成员主持人权限吗？</target>
       </trans-unit>
       <trans-unit id="glLZAnW" resname="Diesem Nutzer erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer erlauben seinen Bildschirm zu teilen</source>
@@ -672,7 +672,7 @@
       </trans-unit>
       <trans-unit id="EtNNv5Z" resname="Einladungslink für Moderatoren">
         <source>Einladungslink für Moderatoren</source>
-        <target state="translated">版主邀请链接</target>
+        <target state="translated">主持人邀请链接</target>
       </trans-unit>
       <trans-unit id="VxzKzeI" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus</source>
@@ -869,6 +869,22 @@
       <trans-unit id="DW95e1g" resname="Unbegrenzte Teilnehmerzahl">
         <source>Unbegrenzte Teilnehmerzahl</source>
         <target state="translated">参会者人数不限</target>
+      </trans-unit>
+      <trans-unit id="rr8aX2H" resname="Dieser Teilnehmer darf seinen Bildschirm teilen">
+        <source>Dieser Teilnehmer darf seinen Bildschirm teilen</source>
+        <target state="needs-translation">Dieser Teilnehmer darf seinen Bildschirm teilen</target>
+      </trans-unit>
+      <trans-unit id="wzEtJLt" resname="Dieser Teilnehmer darf private Nachrichten versenden">
+        <source>Dieser Teilnehmer darf private Nachrichten versenden</source>
+        <target state="needs-translation">Dieser Teilnehmer darf private Nachrichten versenden</target>
+      </trans-unit>
+      <trans-unit id="XMBOY_s" resname="Darkmode">
+        <source>Darkmode</source>
+        <target state="needs-translation">Darkmode</target>
+      </trans-unit>
+      <trans-unit id="jChD8ic" resname="iCal Link">
+        <source>iCal Link</source>
+        <target state="needs-translation">iCal Link</target>
       </trans-unit>
     </body>
   </file>

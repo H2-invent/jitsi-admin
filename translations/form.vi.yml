@@ -2,7 +2,7 @@
 label.konferenzId: ID phòng họp
 label.email: Địa chỉ Email
 label.name: Tên
-label.teilnehmerEmailhinzufuegen: Nhập địa chỉ email người tham dự
+label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen TEILNEHMERN eingeben
 label.teilnehmerSpeichern: Gửi email lời mời
 label.emailModerator: Nhập địa chỉ email công ty
 help.emailTextfeld: Nhiều địa chỉ email có thể được thêm vào cùng một lúc. Mỗi địa chỉ email phải được viết trên một dòng mới.
@@ -17,9 +17,21 @@ option.15min: 15 Phút
 option.30min: 30 Phút
 option.45min: 45 Phút
 option.60min: 60 Phút
-option.90min: 1,5 Giờ
+option.75min: 1:15 Stunde
+option.90min: 1:30 Stunden
+option.105min: 1:45 Stunden
 option.120min: 2 Giờ
+option.150min: 2:30 Stunden
+option.180min: 3 Stunden
+option.210min: 3:30 Stunden
 option.240min: 4 Giờ
+option.270min: 4:30 Stunden
+option.300min: 5 Stunden
+option.330min: 5:30 Stunden
+option.360min: 6 Stunden
+option.390min: 6:30 Stunden
+option.420min: 7 Stunden
+option.450min: 7:30 Stunden
 option.480min: 8 Giờ
 lable.serverUrl: Máy chủ Jitsi URL
 label.appId: App-ID
@@ -28,6 +40,7 @@ label.scheduleMeeting: Sắp xếp cuộc họp
 help:
   serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
   featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
+  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
 label:
   beitretenApp: Tham gia với App
   beitretenBrowser: Tham gia với trình duyệt
@@ -57,6 +70,7 @@ label:
   nachname: Họ
   maxParticipants: Số lượng người tham gia tối đa cho phép
   waitinglist: Kích hoạt danh sách chờ
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adresse von neuen MODERATOREN eingeben
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
