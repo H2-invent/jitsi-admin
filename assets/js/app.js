@@ -238,6 +238,7 @@ function renderCalendar() {
 
 function initSearchUser() {
     autosize($('#new_member_member'));
+    autosize($('#new_member_moderator'));
     $('#searchUser').keyup(function (e) {
         var $ele = $(this);
         var $search = $ele.val();
@@ -247,7 +248,7 @@ function initSearchUser() {
                 var $target = $('#participantUser');
                 $target.empty();
                 for (var i = 0; i < data.length; i++) {
-                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + data[i] + '" href="#"><i class=" text-success fas fa-plus"></i> ' + data[i] + '</a>');
+                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + data[i] + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"></i> ' + data[i] + '</a>');
                 }
 
                 $('.chooseParticipant').click(function (e) {
@@ -255,6 +256,15 @@ function initSearchUser() {
                     var $textarea = $('#new_member_member');
                     var data = $textarea.val();
                     $textarea.val('').val($(this).data('val') + "\n" + data);
+                    $('#searchUser').val('');
+                    autosize.update($textarea);
+                })
+                $('.chooseModerator').click(function (e){
+                    e.stopPropagation();
+                    $('#moderatorCollapse').collapse('show');
+                    var $textarea = $('#new_member_moderator');
+                    var data = $textarea.val();
+                    $textarea.val('').val($(this).closest('.chooseParticipant').data('val') + "\n" + data);
                     $('#searchUser').val('');
                     autosize.update($textarea);
                 })

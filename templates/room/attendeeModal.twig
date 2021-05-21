@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-centered">
+<div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
@@ -100,16 +100,30 @@
             </div>
             {% endif %}
             <hr>
-            <label for="searchUser">{{ 'Teilnehmer Suchen'|trans }}</label>
-            <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
-                   href="{{ path('search_participant') }}"
-                   data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-            <div class="dropdown-menu" id="participantUser">
-                <a class="dropdown-item" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <label for="searchUser">{{ 'Teilnehmer Suchen'|trans }}</label>
+                    <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
+                           href="{{ path('search_participant') }}"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown-menu" id="participantUser">
+                        <a class="dropdown-item" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+                    </div>
+                </div>
+
             </div>
+
             {{ form_start(form) }}
-            {{ form_row(form.member) }}
+            <div class="row">
+                <div class="col-lg-6">
+                    {{ form_row(form.member) }}
+                </div>
+                <div class="col-lg-6">
+                    {{ form_row(form.moderator) }}
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-7">
                     {{ form_row(form.submit) }}

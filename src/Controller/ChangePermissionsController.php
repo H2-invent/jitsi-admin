@@ -29,7 +29,7 @@ class ChangePermissionsController extends AbstractController
         }
         $userOld = $room->getModerator();
         if($permissionChangeService->toggleShareScreen($userOld,$userNew,$room)){
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Der Moderator wurde erfolgreich hinzugefügt')]);
+            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Dieser Teilnehmer darf seinen Bildschirm teilen')]);
         }
         return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
     }
@@ -48,7 +48,7 @@ class ChangePermissionsController extends AbstractController
         }
         $userOld = $room->getModerator();
         if($permissionChangeService->togglePrivateMessage($userOld,$userNew,$room)){
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Der Moderator wurde erfolgreich hinzugefügt')]);
+            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Dieser Teilnehmer darf private Nachrichten versenden')]);
         }
         return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
     }

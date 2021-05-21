@@ -28,6 +28,7 @@ label.scheduleMeeting: Einen Termin finden
 help:
   serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
   featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
+  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten
@@ -57,6 +58,10 @@ label:
   nachname: Nachname
   maxParticipants: Maximale Anzahl an Teilnehmer zulassen
   waitinglist: Warteliste aktivieren
+  teilnehmerEmailhinzufuegenModerator: E-Mail Adresse von neuem MODERATOR eingeben
+
+
+
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
