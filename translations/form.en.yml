@@ -2,7 +2,7 @@
 label.konferenzId: Conference ID
 label.email: Email address
 label.name: Name
-label.teilnehmerEmailhinzufuegen: Enter email address of new participants
+label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen TEILNEHMERN eingeben
 label.teilnehmerSpeichern: Send invitation email
 label.emailModerator: Enter email address of organizer
 help.emailTextfeld: Multiple email addresses can be added at once. Each email address has to be written into a new line.
@@ -17,9 +17,21 @@ option.15min: 15 minutes
 option.30min: 30 minutes
 option.45min: 45 minutes
 option.60min: 1 hour
-option.90min: 1,5 hours
+option.75min: 1:15 Stunde
+option.90min: 1:30 Stunden
+option.105min: 1:45 Stunden
 option.120min: 2 hours
+option.150min: 2:30 Stunden
+option.180min: 3 Stunden
+option.210min: 3:30 Stunden
 option.240min: 4 hours
+option.270min: 4:30 Stunden
+option.300min: 5 Stunden
+option.330min: 5:30 Stunden
+option.360min: 6 Stunden
+option.390min: 6:30 Stunden
+option.420min: 7 Stunden
+option.450min: 7:30 Stunden
 option.480min: 8 hours
 lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
@@ -28,6 +40,7 @@ label.scheduleMeeting: Create an appointment poll
 help:
   serverUrl: Enter without "https://" (such as meet.jit.si)
   featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
+  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -57,6 +70,7 @@ label:
   nachname: Lastname
   maxParticipants: Allow maximum number of participants
   waitinglist: Activate waiting list
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adresse von neuen MODERATOREN eingeben
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
