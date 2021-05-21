@@ -50,10 +50,23 @@ class RoomType extends AbstractType
                     'option.30min' => 30,
                     'option.45min' => 45,
                     'option.60min' => 60,
+                    'option.75min' => 75,
                     'option.90min' => 90,
+                    'option.105min' => 105,
                     'option.120min' => 120,
+                    'option.150min' => 150,
+                    'option.180min' => 180,
+                    'option.210min' => 210,
                     'option.240min' => 240,
+                    'option.270min' => 270,
+                    'option.300min' => 300,
+                    'option.330min' => 330,
+                    'option.360min' => 360,
+                    'option.390min' => 390,
+                    'option.420min' => 420,
+                    'option.450min' => 450,
                     'option.480min' => 480,
+
                 ]
             ])
             ->add('scheduleMeeting',CheckboxType::class,array('required'=>false,'label' => 'label.scheduleMeeting', 'translation_domain' => 'form'))

@@ -248,9 +248,9 @@ function initSearchUser() {
                 var $target = $('#participantUser');
                 $target.empty();
                 for (var i = 0; i < data.length; i++) {
-                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + data[i] + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"></i> ' + data[i] + '</a>');
+                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + data[i] + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i> ' + data[i] + '</a>');
                 }
-
+                $('[data-toggle="tooltip"]').tooltip();
                 $('.chooseParticipant').click(function (e) {
                     e.preventDefault();
                     var $textarea = $('#new_member_member');
