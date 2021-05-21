@@ -2,7 +2,7 @@ label.konferenzId: Konferenz ID
 label.email: E-Mail-Adresse
 label.name: Name
 
-label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen Teilnehmern eingeben
+label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen TEILNEHMERN eingeben
 label.teilnehmerSpeichern: Einladungsemail versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
@@ -58,7 +58,7 @@ label:
   nachname: Nachname
   maxParticipants: Maximale Anzahl an Teilnehmer zulassen
   waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail Adresse von neuem MODERATOR eingeben
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adresse von neuen MODERATOREN eingeben
 
 
 

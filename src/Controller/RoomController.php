@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
 use App\Service\PermissionChangeService;
+use App\Service\RoomAddService;
 use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
@@ -115,7 +116,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/add-user", name="room_add_user")
      */
-    public function roomAddUser(Request $request, InviteService $inviteService, UserService $userService, PermissionChangeService $permissionChangeService)
+    public function roomAddUser(Request $request, RoomAddService $roomAddService)
     {
         $newMember = array();
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -129,62 +130,22 @@ class RoomController extends AbstractController
 
 
             $newMembers = $form->getData();
-            $lines = explode("\n", $newMembers['member']);
-            $em = $this->getDoctrine()->getManager();
-            if (!empty($lines)) {
-                $falseEmail = array();
-                foreach ($lines as $line) {
-                    $newMember = trim($line);
-                    if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
-                        $user = $inviteService->newUser($newMember);
-                        $user->addRoom($room);
-                        $user->addAddressbookInverse($room->getModerator());
-                        $em->persist($user);
-                        $snack = $this->translator->trans("Teilnehmer wurden eingeladen");
-                        $userService->addUser($user, $room);
-                        $roomsUser = $this->getDoctrine()->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
-                        if($roomsUser){
-                            $em->remove($roomsUser);
-                        }
+            $falseEmail = [];
+            $falseEmail = array_merge(
+                $roomAddService->createParticipants($newMembers['member'], $room),
+                $roomAddService->createModerators($newMembers['moderator'], $room)
+            );
 
-                    } else {
-                        $falseEmail[] = $newMember;
-                        $emails = implode(", ", $falseEmail);
-                        $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", array('{emails}' => $emails));
-                    }
-                }
-                $em->flush();
+            if (sizeof($falseEmail) > 0) {
+                $emails = implode(", ", $falseEmail);
+                $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", array('{emails}' => $emails));
+            } else {
+                $snack = $this->translator->trans('Teilnehmer wurden eingeladen');
             }
-            $lines = explode("\n", $newMembers['moderator']);
-            if (!empty($lines)) {
-                $falseEmail = array();
-                foreach ($lines as $line) {
-                    $newMember = trim($line);
-                    if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
-                        $user = $inviteService->newUser($newMember);
-                        $user->addRoom($room);
-                        $user->addAddressbookInverse($room->getModerator());
-                        $em->persist($user);
-                        $snack = $this->translator->trans("Teilnehmer wurden eingeladen");
-                        $userService->addUser($user, $room);
-                        $roomsUser = $this->getDoctrine()->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
-                        if(!$roomsUser){
-                            $roomsUser = new RoomsUser();
-                            $roomsUser->setUser($user);
-                            $roomsUser->setRoom($room);
-                        }
-                        $roomsUser->setModerator(true);
-                        $em->persist($roomsUser);
-                    } else {
-                        $falseEmail[] = $newMember;
-                        $emails = implode(", ", $falseEmail);
-                        $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", array('{emails}' => $emails));
-                    }
-                }
-                $em->flush();
-                return $this->redirectToRoute('dashboard', ['snack' => $snack]);
-            }
+
+            return $this->redirectToRoute('dashboard', ['snack' => $snack]);
         }
+
         $title = $this->translator->trans('Teilnehmer verwalten');
 
         return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room' => $room));
