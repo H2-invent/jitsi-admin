@@ -195,13 +195,19 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 
     initSearchUser();
     initServerFeatures();
+    if(getCookie('room_server')){
+        $('#room_server').val(getCookie('room_server'))
+    }
+    $('#room_server').change(function (){
+        console.log($(this).val());
+        setCookie('room_server',$(this).val(),1000);
+    })
     var ctx = document.getElementById("lineChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: data,
         options: options
     });
-
 });
 $(document).on('click', '.directSend', function (e) {
     var $url = $(this).prop('href');
@@ -313,4 +319,19 @@ function setCookie(cname, cvalue, exdays) {
 function initCopytoClipboard(){
 
     var clipboard = new ClipboardJS('.copyLink');
+}
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
