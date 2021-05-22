@@ -26,12 +26,9 @@ We use a double-opt-in process where you will receive a confirmation email conta
 It is always possible to leave the mailing list.
 
 ### Partners and Sponsors
-<div style="text-align: center">
-
-<img src="https://readi.de/wp-content/uploads/sites/5/2020/10/cropped-Logo-Simplified-mit-Text-e1602047847827.png" width="200px">
-<br>
+![re@di Digital](docs/images/readi.png)<br>
 We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee
-</div>
+
 
 ## Translation
 Please help us to improve our localiczation
