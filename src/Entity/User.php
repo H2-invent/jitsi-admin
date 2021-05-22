@@ -131,6 +131,11 @@ class User extends BaseUser
      */
     private $waitinglists;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="user")
+     */
+    private $notifications;
+
 
 
     public function __construct()
@@ -145,6 +150,7 @@ class User extends BaseUser
         $this->subscribers = new ArrayCollection();
         $this->schedulingTimeUsers = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
 
     }
 
@@ -542,6 +548,36 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($waitinglist->getUser() === $this) {
                 $waitinglist->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
             }
         }
 
