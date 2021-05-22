@@ -26,8 +26,10 @@ class UserService
     private $url;
     private $translator;
     private $em;
+    private $pushService;
+    private $licenseService;
 
-    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    public function __construct(LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
@@ -36,6 +38,8 @@ class UserService
         $this->url = $urlGenerator;
         $this->translator = $translator;
         $this->em = $entityManager;
+        $this->pushService = $pushService;
+        $this->licenseService = $licenseService;
     }
 
     function generateUrl(Rooms $room, User $user)
@@ -61,11 +65,32 @@ class UserService
             $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
             $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
+            if ($room->getModerator() !== $user) {
+                $this->pushService->generatePushNotification(
+                    $subject,
+                    $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
+                        array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                            '{name}' => $room->getName())),
+                    $user,
+                    $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                );
+            }
+
         } else {
             //we have a shedule Meting. the participants only got a link to shedule their appointments
             $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
             $subject = $this->translator->trans('Neue Einladung zu einer Terminplanung');
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
+            if ($room->getModerator() !== $user) {
+                $this->pushService->generatePushNotification(
+                    $subject,
+                    $this->translator->trans('Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.',
+                        array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                            '{name}' => $room->getName())),
+                    $user,
+                    $this->url->generate('schedule_public_main', array('scheduleId' => $room->getUid(), 'userId' => $user->getUid()), UrlGeneratorInterface::ABSOLUTE_URL)
+                );
+            }
         }
         return true;
     }
@@ -81,7 +106,15 @@ class UserService
         $content = $this->twig->render('email/waitingList.html.twig', ['user' => $user, 'room' => $room]);
         $subject = $this->translator->trans('Hinzugefügt zur Warteliste');
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
-
+        if ($room->getModerator() !== $user) {
+            $this->pushService->generatePushNotification(
+                $subject,
+                $this->translator->trans('Sie wurden auf die Warteliste für:  {name} hinzugefügt ',
+                    array('{name}' => $room->getName())),
+                $user,
+                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+            );
+        }
         return true;
     }
 
@@ -94,6 +127,16 @@ class UserService
             $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
             $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
+            if ($room->getModerator() !== $user) {
+                $this->pushService->generatePushNotification(
+                    $subject,
+                    $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
+                        array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                            '{name}' => $room->getName())),
+                    $user,
+                    $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                );
+            }
         } else {
             //we have a shedule Meting. the participants only got a link to shedule their appointments
             $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
@@ -112,6 +155,16 @@ class UserService
             $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
             $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
             $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
+            if ($room->getModerator() !== $user) {
+                $this->pushService->generatePushNotification(
+                    $subject,
+                    $this->translator->trans('Die Videokonferenz {name} wurde von {organizer} abgesagt.',
+                        array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                            '{name}' => $room->getName())),
+                    $user,
+                    $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                );
+            }
         } else {
             $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room,]);
             $subject = $this->translator->trans('Terminplanung abgesagt');
@@ -126,7 +179,18 @@ class UserService
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
         $this->notificationService->sendCron($content, $subject, $user, $room->getServer());
-
+        $url = $this->url->generate('join_index_no_slug', array(), UrlGeneratorInterface::ABSOLUTE_URL);
+        if ($this->licenseService->verify($room->getServer())) {
+            $url = $this->url->generate('join_index', array('slug' => $room->getServer()->getSlug()), UrlGeneratorInterface::ABSOLUTE_URL);
+        }
+        $this->pushService->generatePushNotification(
+            $subject,
+            $this->translator->trans('Die Videokonferenz {name} von startet gleich.',
+                array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                    '{name}' => $room->getName())),
+            $user,
+            $url
+        );
         return true;
     }
 

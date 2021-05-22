@@ -24,7 +24,7 @@ import autosize from 'autosize'
 import ClipboardJS from 'clipboard'
 import {initScheduling} from './scheduling'
 import * as Toastr from 'toastr'
-
+import {initGenerell} from './init'
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -67,7 +67,7 @@ $(document).ready(function () {
     if (notificationUrl !== "") {
         h2Button.initNotification(notificationUrl);
     }
-
+    initGenerell();
     initDropDown();
 
     $('#dismiss, .overlay').on('click', function () {
