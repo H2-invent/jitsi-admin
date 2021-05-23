@@ -2,7 +2,7 @@
 label.konferenzId: Identificador de conferencia
 label.email: Dirección email
 label.name: Nombre
-label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen TEILNEHMERN eingeben
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen TEILNEHMERN eingeben
 label.teilnehmerSpeichern: Enviar correo electrónico de invitación
 label.emailModerator: Ingrese la dirección de correo electrónico del organizador
 help.emailTextfeld: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
@@ -70,7 +70,7 @@ label:
   nachname: Apellido
   maxParticipants: Permitir número máximo de participantes
   waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adresse von neuen MODERATOREN eingeben
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
