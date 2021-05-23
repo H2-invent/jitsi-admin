@@ -2,7 +2,7 @@
 label.konferenzId: 会议编号
 label.email: 邮箱地址
 label.name: 姓名
-label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen TEILNEHMERN eingeben
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen TEILNEHMERN eingeben
 label.teilnehmerSpeichern: 发送邀请邮件
 label.emailModerator: 输入组织者的电子邮件地址
 help.emailTextfeld: 可以同时添加多个电子邮件地址。每个电子邮件地址必须单独一行。
@@ -70,7 +70,7 @@ label:
   nachname: 姓
   maxParticipants: 最大参会人数
   waitinglist: 激活等待列表
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adresse von neuen MODERATOREN eingeben
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
