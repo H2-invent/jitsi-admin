@@ -7,9 +7,17 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Eluceo\iCal\Component\Calendar;
-use Eluceo\iCal\Component\Event;
-use Eluceo\iCal\Property\Event\Organizer;
+
+use Eluceo\iCal\Domain\Entity\Calendar;
+use Eluceo\iCal\Domain\Entity\Event;
+use Eluceo\iCal\Domain\ValueObject\Date;
+use Eluceo\iCal\Domain\ValueObject\DateTime;
+use Eluceo\iCal\Domain\ValueObject\EmailAddress;
+use Eluceo\iCal\Domain\ValueObject\Location;
+use Eluceo\iCal\Domain\ValueObject\Organizer;
+use Eluceo\iCal\Domain\ValueObject\SingleDay;
+use Eluceo\iCal\Domain\ValueObject\TimeSpan;
+use Eluceo\iCal\Presentation\Factory\CalendarFactory;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -19,7 +27,8 @@ class IcalService
     private $em;
     private $userService;
     private $user;
-    public function __construct(LicenseService $licenseService, EntityManagerInterface $entityManager,UserService $userService)
+
+    public function __construct(LicenseService $licenseService, EntityManagerInterface $entityManager, UserService $userService)
     {
         $this->licenseService = $licenseService;
         $this->em = $entityManager;
@@ -37,35 +46,47 @@ class IcalService
             }
         }
         $value = '';
-        if($isEnterprise){
+        if ($isEnterprise) {
             $value = $this->getIcalString($this->user);
-        }else {
+
+        } else {
             $cache = new FilesystemAdapter();
             $value = $cache->get('ical_' . $user->getUid(), function (ItemInterface $item) {
                 $item->expiresAfter(900);
-                return $this->getIcalString($this->user)->render();
+                return $this->getIcalString($this->user);
             });
         }
 
-    return $value;
+        return $value;
 
     }
-    private function getIcalString(User  $user):Calendar{
+
+    private function getIcalString(User $user)
+    {
         $events = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, '-1 month');
-        $vCalendar = new Calendar('Jitsi Admin');
+        $eventA = array();
         foreach ($events as $event) {
             $vEvent = new Event();
             $url = $this->userService->generateUrl($event, $user);
             $vEvent
-                ->setDtStart($event->getStart())
-                ->setDtEnd($event->getEnddate())
+                ->setOccurrence(new TimeSpan(new DateTime(
+                    $event->getStart(), false),
+                    new DateTime($event->getEndDate(), false)))
                 ->setSummary($event->getName())
                 ->setDescription($event->getName() . "\n" . $event->getAgenda() . "\n" . $url)
-                ->setLocation('Jitsi Meet-Konferenz')
-                ->setOrganizer(new Organizer($event->getModerator()->getEmail()));
-
-            $vCalendar->addComponent($vEvent);
+                ->setLocation(new Location('Jitsi Meet-Konferenz'))
+                ->setOrganizer(new Organizer(new EmailAddress($event->getModerator()->getEmail())));
+            $alarmInterval = new \DateInterval('PT10M');
+            $alarmInterval->invert = 1;
+            $vEvent->addAlarm(
+                new \Eluceo\iCal\Domain\ValueObject\Alarm(new \Eluceo\iCal\Domain\ValueObject\Alarm\AudioAction(),
+                    new \Eluceo\iCal\Domain\ValueObject\Alarm\RelativeTrigger($alarmInterval)
+                )
+            );
+            $eventA[] = $vEvent;
         }
-        return $vCalendar;
+        $componentFactory = new CalendarFactory();
+        $value = $componentFactory->createCalendar(new Calendar($eventA));
+        return $value;
     }
 }
