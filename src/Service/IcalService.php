@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Eluceo\iCal\Domain\Entity\Calendar;
 use Eluceo\iCal\Domain\Entity\Event;
+use Eluceo\iCal\Domain\Entity\TimeZone;
 use Eluceo\iCal\Domain\ValueObject\Date;
 use Eluceo\iCal\Domain\ValueObject\DateTime;
 use Eluceo\iCal\Domain\ValueObject\EmailAddress;
@@ -20,6 +21,7 @@ use Eluceo\iCal\Domain\ValueObject\TimeSpan;
 use Eluceo\iCal\Presentation\Factory\CalendarFactory;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class IcalService
 {
@@ -27,12 +29,14 @@ class IcalService
     private $em;
     private $userService;
     private $user;
+    private $translator;
 
-    public function __construct(LicenseService $licenseService, EntityManagerInterface $entityManager, UserService $userService)
+    public function __construct(TranslatorInterface $translator, LicenseService $licenseService, EntityManagerInterface $entityManager, UserService $userService)
     {
         $this->licenseService = $licenseService;
         $this->em = $entityManager;
         $this->userService = $userService;
+        $this->translator = $translator;
     }
 
     public function getIcal(User $user)
@@ -64,18 +68,38 @@ class IcalService
     private function getIcalString(User $user)
     {
         $events = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, '-1 month');
-        $eventA = array();
+
+        $cal = new Calendar();
+        $timeZone = new \DateTimeZone('Europe/Berlin');
+        $start = new \DateTime();
+        $end = new \DateTime();
+        if (sizeof($events) > 1) {
+            $start = $events[0]->getStart();
+            $end = $events[sizeof($events) - 1]->getEndDate();
+        }
+        $cal->addTimeZone(
+            TimeZone::createFromPhpDateTimeZone(
+                $timeZone,
+                $start,
+                $end
+            )
+        );
         foreach ($events as $event) {
             $vEvent = new Event();
             $url = $this->userService->generateUrl($event, $user);
             $vEvent
-                ->setOccurrence(new TimeSpan(new DateTime(
-                    $event->getStart(), false),
-                    new DateTime($event->getEndDate(), false)))
+                ->setOccurrence(new TimeSpan(
+                        new DateTime($event->getStart(), true),
+                        new DateTime($event->getEndDate(), true)
+                    )
+                )
                 ->setSummary($event->getName())
-                ->setDescription($event->getName() . "\n" . $event->getAgenda() . "\n" . $url)
-                ->setLocation(new Location('Jitsi Meet-Konferenz'))
-                ->setOrganizer(new Organizer(new EmailAddress($event->getModerator()->getEmail())));
+                ->setDescription($event->getName() .
+                    "\n" . $event->getAgenda() .
+                    "\n" . $this->translator->trans('Hier beitreten') . ': ' . $url .
+                    "\n" . $this->translator->trans('Organisator') . ': ' . $event->getModerator()->getFirstName() . ' ' . $event->getModerator()->getLastName())
+                ->setLocation(new Location('Jitsi Meet-Konferenz'));
+
             $alarmInterval = new \DateInterval('PT10M');
             $alarmInterval->invert = 1;
             $vEvent->addAlarm(
@@ -83,10 +107,11 @@ class IcalService
                     new \Eluceo\iCal\Domain\ValueObject\Alarm\RelativeTrigger($alarmInterval)
                 )
             );
-            $eventA[] = $vEvent;
+            $cal->addEvent($vEvent);
+
         }
         $componentFactory = new CalendarFactory();
-        $value = $componentFactory->createCalendar(new Calendar($eventA));
+        $value = $componentFactory->createCalendar($cal);
         return $value;
     }
 }
