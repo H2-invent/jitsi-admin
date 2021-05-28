@@ -14,10 +14,11 @@ class IcsService
     const DT_FORMAT = 'Ymd\THis\Z';
     protected $properties = array();
     private $isModerator;
-public function __construct()
-{
-    $this->isModerator = false;
-}
+
+    public function __construct()
+    {
+        $this->isModerator = false;
+    }
 
     /**
      * @return mixed
@@ -91,6 +92,8 @@ public function __construct()
             'VERSION:2.0',
             'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
             'CALSCALE:GREGORIAN',
+            'X-WR-RELCALID:jitsi-admin-1234',
+            'X-PRIMARY-CALENDAR:TRUE',
             'METHOD:' . $this->method,
         );
 
@@ -101,9 +104,9 @@ public function __construct()
             $props = array();
             foreach ($data as $p => $q) {
 
-                if ($this->isModerator){
+                if ($this->isModerator) {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=false:MAILTO' : ''))] = $q;
-                }else{
+                } else {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
                 }
 

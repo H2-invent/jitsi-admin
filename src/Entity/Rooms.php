@@ -146,6 +146,16 @@ class Rooms
      */
     private $waitinglists;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Repeat::class, inversedBy="rooms")
+     */
+    private $repeater;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $repeaterRemoved;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -540,6 +550,30 @@ class Rooms
                 $waitinglist->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRepeater(): ?Repeat
+    {
+        return $this->repeater;
+    }
+
+    public function setRepeater(?Repeat $repeater): self
+    {
+        $this->repeater = $repeater;
+
+        return $this;
+    }
+
+    public function getRepeaterRemoved(): ?bool
+    {
+        return $this->repeaterRemoved;
+    }
+
+    public function setRepeaterRemoved(?bool $repeaterRemoved): self
+    {
+        $this->repeaterRemoved = $repeaterRemoved;
 
         return $this;
     }

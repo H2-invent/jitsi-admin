@@ -14,6 +14,7 @@
             <li><a class="dropdown-item loadContent"
                    href="{{ path('share_link',{'id':room.id}) }}">
                 {{ 'Einladungslinks'|trans }}</a></li>{% endif %}
+
         <li><a class="dropdown-item confirmHref"
                href="{{ path('room_remove',{'room':room.id}) }}">
                 {{ 'Löschen'|trans }}</a></li>
@@ -24,6 +25,9 @@
             <li><a href="{{ path('room_clone',{'room':room.id}) }}"
                    class="loadContent dropdown-item">
                     {{ 'Duplizieren'|trans }}</a></li>
+            <li><a class="dropdown-item loadContent"
+                   href="{{ path('repeater_new',{'room':room.id}) }}">
+                {{ 'Serien Termin'|trans }}</a></li>
         {% endif %}
         {% if room.scheduleMeeting %}
             <li><a href="{{ path('schedule_admin_new',{'id':room.id}) }}"

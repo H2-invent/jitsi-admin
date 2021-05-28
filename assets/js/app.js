@@ -195,6 +195,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 
     initSearchUser();
     initServerFeatures();
+    initRepeater();
     if(getCookie('room_server')){
         $('#room_server').val(getCookie('room_server'))
     }
@@ -334,4 +335,11 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+function initRepeater(){
+    $('#repeater_repeatType').change(function (){
+        console.log($(this).val());
+        $('.repeater').addClass('d-none');
+        $('#repeater_'+$(this).val()).removeClass('d-none');
+    })
 }

@@ -33,6 +33,18 @@ option.390min: 6:30 Stunden
 option.420min: 7 Stunden
 option.450min: 7:30 Stunden
 option.480min: 8 Stunden
+option:
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
 lable.serverUrl: Jitsi-Meet-Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
@@ -71,8 +83,13 @@ label:
   maxParticipants: Maximale Anzahl an Teilnehmer zulassen
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
-
-
+  weekday: Wochentag
+  repetation: Endet nach x Terminen
+  repeatType: Serienmuster
+  repeaterDays: Nach X Tagen wiederholen
+  repeaterWeeks: Nach X Wochen wiederholen
+  repeatMontly: Nach X Monaten wiederholen
+  repeatYearly: Nach X Jahren wiederholen
 
 choice:
   tls: STARTTLS/TLS
