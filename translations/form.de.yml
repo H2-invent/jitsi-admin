@@ -45,6 +45,28 @@ option:
   daily: Täglich
   montly: Monatlich
   yearly: Jährlich
+  montlyRelative: Monatlich Relativ
+  yearlyRelative: Jährlich Relativ
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
+
+
 lable.serverUrl: Jitsi-Meet-Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
@@ -90,7 +112,8 @@ label:
   repeaterWeeks: Nach X Wochen wiederholen
   repeatMontly: Nach X Monaten wiederholen
   repeatYearly: Nach X Jahren wiederholen
-
+  montlyRelativeNumber: Wievielte Wochentag im Monat
+  montlyRelativeWeekday: Wochentag
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

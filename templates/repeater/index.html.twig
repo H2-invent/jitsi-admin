@@ -21,15 +21,24 @@
                     <div id="repeater_1" class="d-none repeater">
 
                         {{ form_row(form.repeaterWeeks) }}
-                        {{ form_row(form.weekday) }}
                     </div>
                     <div id="repeater_2" class="d-none repeater">
                         {{ form_row(form.repeatMontly) }}
                     </div>
                     <div id="repeater_3" class="d-none repeater">
-                        {{ form(form.repeatYearly) }}
+                        {{ form_row(form.repatMonthRelativNumber) }}
+                        {{ form_row(form.repatMonthRelativWeekday) }}
+                        {{ form_row(form.repeatMonthlyRelativeHowOften) }}
                     </div>
-
+                    <div id="repeater_4" class="d-none repeater">
+                        {{ form_row(form.repeatYearly) }}
+                    </div>
+                    <div id="repeater_5" class="d-none repeater">
+                        {{ form_row(form.repeatYearlyRelativeNumber) }}
+                        {{ form_row(form.repeatYearlyRelativeWeekday) }}
+                        {{ form_row(form.repeatYearlyRelativeMonth) }}
+                        {{ form_row(form.repeatYearlyRelativeHowOften) }}
+                    </div>
 
                 </div>
                 <div class="col-lg-12 text-center mt-4">

@@ -96,6 +96,41 @@ class Repeat
      */
     private $prototyp;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $repatMonthRelativNumber;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $repatMonthRelativWeekday;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $repeatYearlyRelativeNumber;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $repeatYearlyRelativeMonth;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $repeatYearlyRelativeWeekday;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $repeatMonthlyRelativeHowOften;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $repeatYearlyRelativeHowOften;
+
 
 
     public function __construct()
@@ -315,6 +350,90 @@ class Repeat
     public function setPrototyp(Rooms $prototyp): self
     {
         $this->prototyp = $prototyp;
+
+        return $this;
+    }
+
+    public function getRepatMonthRelativNumber(): ?int
+    {
+        return $this->repatMonthRelativNumber;
+    }
+
+    public function setRepatMonthRelativNumber(?int $repatMonthRelativNumber): self
+    {
+        $this->repatMonthRelativNumber = $repatMonthRelativNumber;
+
+        return $this;
+    }
+
+    public function getRepatMonthRelativWeekday(): ?int
+    {
+        return $this->repatMonthRelativWeekday;
+    }
+
+    public function setRepatMonthRelativWeekday(?int $repatMonthRelativWeekday): self
+    {
+        $this->repatMonthRelativWeekday = $repatMonthRelativWeekday;
+
+        return $this;
+    }
+
+    public function getRepeatYearlyRelativeNumber(): ?int
+    {
+        return $this->repeatYearlyRelativeNumber;
+    }
+
+    public function setRepeatYearlyRelativeNumber(?int $repeatYearlyRelativeNumber): self
+    {
+        $this->repeatYearlyRelativeNumber = $repeatYearlyRelativeNumber;
+
+        return $this;
+    }
+
+    public function getRepeatYearlyRelativeMonth(): ?int
+    {
+        return $this->repeatYearlyRelativeMonth;
+    }
+
+    public function setRepeatYearlyRelativeMonth(?int $repeatYearlyRelativeMonth): self
+    {
+        $this->repeatYearlyRelativeMonth = $repeatYearlyRelativeMonth;
+
+        return $this;
+    }
+
+    public function getRepeatYearlyRelativeWeekday(): ?int
+    {
+        return $this->repeatYearlyRelativeWeekday;
+    }
+
+    public function setRepeatYearlyRelativeWeekday(?int $repeatYearlyRelativeWeekday): self
+    {
+        $this->repeatYearlyRelativeWeekday = $repeatYearlyRelativeWeekday;
+
+        return $this;
+    }
+
+    public function getRepeatMonthlyRelativeHowOften(): ?int
+    {
+        return $this->repeatMonthlyRelativeHowOften;
+    }
+
+    public function setRepeatMonthlyRelativeHowOften(?int $repeatMonthlyRelativeHowOften): self
+    {
+        $this->repeatMonthlyRelativeHowOften = $repeatMonthlyRelativeHowOften;
+
+        return $this;
+    }
+
+    public function getRepeatYearlyRelativeHowOften(): ?int
+    {
+        return $this->repeatYearlyRelativeHowOften;
+    }
+
+    public function setRepeatYearlyRelativeHowOften(?int $repeatYearlyRelativeHowOften): self
+    {
+        $this->repeatYearlyRelativeHowOften = $repeatYearlyRelativeHowOften;
 
         return $this;
     }
