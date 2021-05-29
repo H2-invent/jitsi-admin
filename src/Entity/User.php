@@ -141,6 +141,11 @@ class User extends BaseUser
      */
     private $repeaterUsers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="prototypeUsers")
+     */
+    private $protoypeRooms;
+
 
 
     public function __construct()
@@ -157,6 +162,7 @@ class User extends BaseUser
         $this->waitinglists = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->repeaterUsers = new ArrayCollection();
+        $this->protoypeRooms = new ArrayCollection();
 
     }
 
@@ -612,6 +618,33 @@ class User extends BaseUser
     {
         if ($this->repeaterUsers->removeElement($repeaterUser)) {
             $repeaterUser->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rooms[]
+     */
+    public function getProtoypeRooms(): Collection
+    {
+        return $this->protoypeRooms;
+    }
+
+    public function addProtoypeRoom(Rooms $protoypeRoom): self
+    {
+        if (!$this->protoypeRooms->contains($protoypeRoom)) {
+            $this->protoypeRooms[] = $protoypeRoom;
+            $protoypeRoom->addPrototypeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProtoypeRoom(Rooms $protoypeRoom): self
+    {
+        if ($this->protoypeRooms->removeElement($protoypeRoom)) {
+            $protoypeRoom->removePrototypeUser($this);
         }
 
         return $this;

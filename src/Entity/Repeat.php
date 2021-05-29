@@ -85,6 +85,17 @@ class Repeat
      */
     private $RepeatYearly;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $startDate;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Rooms::class, inversedBy="repeaterProtoype", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $prototyp;
+
 
 
     public function __construct()
@@ -280,6 +291,30 @@ class Repeat
     public function setRepeatYearly(?int $RepeatYearly): self
     {
         $this->RepeatYearly = $RepeatYearly;
+
+        return $this;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function getPrototyp(): ?Rooms
+    {
+        return $this->prototyp;
+    }
+
+    public function setPrototyp(Rooms $prototyp): self
+    {
+        $this->prototyp = $prototyp;
 
         return $this;
     }

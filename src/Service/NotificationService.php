@@ -46,7 +46,7 @@ class NotificationService
             $rooms->setEnddate($rooms->getEnddate()->modify('+ 1 hour'));
             $this->ics->add(
                 array(
-                    'uid' => md5($rooms->getUid()).$i,
+                    'uid' => md5($rooms->getUid()),
                     'location' => $this->translator->trans('Jitsi Konferenz'),
                     'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $rooms->getServer()->getUrl())) .
                         '\n\n' .

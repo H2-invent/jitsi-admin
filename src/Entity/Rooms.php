@@ -156,6 +156,18 @@ class Rooms
      */
     private $repeaterRemoved;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Repeat::class, mappedBy="prototyp", cascade={"persist", "remove"})
+
+     */
+    private $repeaterProtoype;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
+     * @ORM\JoinTable(name="prototype_users")
+     */
+    private $prototypeUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -163,6 +175,7 @@ class Rooms
         $this->subscribers = new ArrayCollection();
         $this->schedulings = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
+        $this->prototypeUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -574,6 +587,47 @@ class Rooms
     public function setRepeaterRemoved(?bool $repeaterRemoved): self
     {
         $this->repeaterRemoved = $repeaterRemoved;
+
+        return $this;
+    }
+
+    public function getRepeaterProtoype(): ?Repeat
+    {
+        return $this->repeaterProtoype;
+    }
+
+    public function setRepeaterProtoype(Repeat $repeaterProtoype): self
+    {
+        // set the owning side of the relation if necessary
+        if ($repeaterProtoype->getPrototyp() !== $this) {
+            $repeaterProtoype->setPrototyp($this);
+        }
+
+        $this->repeaterProtoype = $repeaterProtoype;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getPrototypeUsers(): Collection
+    {
+        return $this->prototypeUsers;
+    }
+
+    public function addPrototypeUser(User $prototypeUser): self
+    {
+        if (!$this->prototypeUsers->contains($prototypeUser)) {
+            $this->prototypeUsers[] = $prototypeUser;
+        }
+
+        return $this;
+    }
+
+    public function removePrototypeUser(User $prototypeUser): self
+    {
+        $this->prototypeUsers->removeElement($prototypeUser);
 
         return $this;
     }
