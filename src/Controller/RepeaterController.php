@@ -23,23 +23,27 @@ class RepeaterController extends AbstractController
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
 
         $repeater = new Repeat();
-        $repeater->setPrototyp($room);
-        $repeater->setStartDate($room->getStart());
         $form = $this->createForm(RepeaterType::class, $repeater, ['action' => $this->generateUrl('repeater_new', ['room' => $room->getId()])]);
 
 //        try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                $repeater = $form->getData();
+                $em = $this->getDoctrine()->getManager();
                 foreach ($room->getUser() as $data){
                     $room->addPrototypeUser($data);
-                    $data->removeRoom($room);
-                    $this->getDoctrine()->getManager()->persist($data);
                 }
-                $this->getDoctrine()->getManager()->persist($room);
-                $this->getDoctrine()->getManager()->flush();
-                $repeater = $form->getData();
+                $em->persist($room);
+                $em->flush();
+                $repeater->setPrototyp($room);
+                $repeater->setStartDate($room->getStart());
                 $repeaterService->createNewRepeater($repeater);
+//                foreach ($room->getUser() as $data){
+//                    $room->removeUser($data);
+//                }
+//                $em->persist($room);
+//                $em->flush();
                 $snack= $translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
             }
