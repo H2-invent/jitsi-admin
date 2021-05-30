@@ -92,7 +92,7 @@ class Repeat
 
     /**
      * @ORM\OneToOne(targetEntity=Rooms::class, inversedBy="repeaterProtoype", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $prototyp;
 
@@ -347,7 +347,7 @@ class Repeat
         return $this->prototyp;
     }
 
-    public function setPrototyp(Rooms $prototyp): self
+    public function setPrototyp(?Rooms $prototyp): self
     {
         $this->prototyp = $prototyp;
 

@@ -114,6 +114,7 @@ label:
   repeatYearly: Nach X Jahren wiederholen
   montlyRelativeNumber: Wievielte Wochentag im Monat
   montlyRelativeWeekday: Wochentag
+  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

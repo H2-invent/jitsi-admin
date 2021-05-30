@@ -10,6 +10,7 @@
             {% endif %}
 
             {% if room.moderator == app.user %}
+
                 <a href="{{ path('room_add_user',{'room':room.id}) }}"
                    class=" element btn btn-outline-default loadContent">{{ 'Teilnehmer'|trans }}</a>
             {% else %}

@@ -171,17 +171,15 @@ class RoomController extends AbstractController
      * @Route("/room/user/remove", name="room_user_remove")
      */
     public
-    function roomUserRemove(Request $request, UserService $userService)
+    function roomUserRemove(Request $request, UserService $userService,RoomAddService $roomAddService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = 'Keine Berechtigung';
         if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
-            $room->removeUser($user);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
+            $roomAddService->removeUserFromRoom($user,$room);
+
             $snack = $this->translator->trans('Teilnehmer gelöscht');
             $userService->removeRoom($user, $room);
         }

@@ -337,8 +337,11 @@ function getCookie(cname) {
     return "";
 }
 function initRepeater(){
+    $('.repeater').addClass('d-none');
+    $('#repeater_'+$('#repeater_repeatType').val()).removeClass('d-none');
+
     $('#repeater_repeatType').change(function (){
-        console.log($(this).val());
+
         $('.repeater').addClass('d-none');
         $('#repeater_'+$(this).val()).removeClass('d-none');
     })
