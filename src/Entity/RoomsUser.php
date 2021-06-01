@@ -19,13 +19,13 @@ class RoomsUser
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="roomsNew")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="roomsAttributes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="userAttributes")
+     * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="userAttributes",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $room;

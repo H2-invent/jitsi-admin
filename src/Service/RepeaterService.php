@@ -7,11 +7,21 @@ namespace App\Service;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Guides\RestructuredText\Directives\Replace;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class RepeaterService
 {
     private $em;
+    private $roomAddService;
+    private $mailer;
+    private $icsService;
+    private $userService;
+    private $translator;
+    private $twig;
     private $days = array(
         1 => 'Monday',
         2 => 'Tuesday',
@@ -44,13 +54,20 @@ class RepeaterService
         'December',
     );
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(Environment $environment,TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager, RoomAddService $roomAddService)
     {
+        $this->icsService = $icsService;
         $this->em = $entityManager;
+        $this->roomAddService = $roomAddService;
+        $this->mailer = $mailerService;
+        $this->userService = $userService;
+        $this->translator = $translator;
+        $this->twig = $environment;
     }
 
     function createNewRepeater(Repeat $repeat): Repeat
     {
+        $userAttribute = $repeat->getPrototyp()->getUserAttributes()->toArray();
         switch ($repeat->getRepeatType()) {
             case 0:
                 $repeat = $this->createDaily($repeat);
@@ -73,6 +90,9 @@ class RepeaterService
             default:
                 break;
         }
+        foreach ($userAttribute as $data) {
+            $repeat->getPrototyp()->addUserAttribute($data);
+        }
         return $repeat;
     }
 
@@ -86,6 +106,7 @@ class RepeaterService
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
             $startTmp = clone $start;
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $repeat->addRoom($room);
             $this->em->persist($room);
             $start->modify('+' . $repeat->getRepeaterDays() . ' days');
         }
@@ -104,6 +125,7 @@ class RepeaterService
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
             $startTmp = clone $start;
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $repeat->addRoom($room);
             $this->em->persist($room);
             $start->modify('+' . $repeat->getRepeaterWeeks() . ' weeks');
         }
@@ -122,6 +144,7 @@ class RepeaterService
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
             $startTmp = clone $start;
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $repeat->addRoom($room);
             $this->em->persist($room);
             $start->modify('+' . $repeat->getRepeatMontly() . ' months');
         }
@@ -145,6 +168,7 @@ class RepeaterService
         $sollCounter = $repeat->getRepetation();
         if ($startTmp >= $start) {
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $repeat->addRoom($room);
             $this->em->persist($room);
             $start->modify('first day of this month');
             $start->modify('+' . ($repeat->getRepeatMonthlyRelativeHowOften()) . ' months');
@@ -159,9 +183,11 @@ class RepeaterService
             $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
             $this->em->persist($room);
+            $repeat->addRoom($room);
             $start->modify('first day of this month');
             $start->modify('+' . ($repeat->getRepeatMonthlyRelativeHowOften()) . ' months');
         }
+
         $this->em->persist($repeat);
         $this->em->flush();
         return $repeat;
@@ -176,6 +202,7 @@ class RepeaterService
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
             $startTmp = clone $start;
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $repeat->addRoom($room);
             $this->em->persist($room);
             $start->modify('+' . $repeat->getRepeatYearly() . ' years');
         }
@@ -199,6 +226,7 @@ class RepeaterService
         $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
         if ($startTmp >= $start) {
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $repeat->addRoom($room);
             $this->em->persist($room);
             $sollCounter--;
             $start->modify('first day of this month');
@@ -213,6 +241,7 @@ class RepeaterService
             $startTmp = clone $start;
             $startTmp->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
             $room = $this->createClonedRoom($prototype, $repeat, $startTmp);
+            $repeat->addRoom($room);
             $this->em->persist($room);
             $start->modify('first day of this month');
             $start->modify('+' . ($repeat->getRepeatYearlyRelativeHowOften()) . ' years');
@@ -226,14 +255,16 @@ class RepeaterService
     function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTime $start): Rooms
     {
         $room = clone $prototype;
+        foreach ($room->getUserAttributes() as $data) {
+            $room->removeUserAttribute($data);
+        }
+
         $room->setUid(rand(0, 999) . time());
         $room->setUidReal(md5(uniqid()));
         $room->setUidParticipant(md5(uniqid()));
         $room->setUidModerator(md5(uniqid()));
+        $room->setRepeaterRemoved(false);
         $room->setRepeater($repeat);
-        foreach ($prototype->getPrototypeUsers() as $data) {
-            $room->addUser($data);
-        }
         $room->setStart($start);
         $end = clone $start;
         $end->modify('+' . $prototype->getDuration() . ' min');
@@ -241,7 +272,7 @@ class RepeaterService
         return $room;
     }
 
-    public function replaceRooms(Repeat $repeat, Rooms $prototype)
+    public function changeRooms(Repeat $repeat, Rooms $prototype): Repeat
     {
         foreach ($repeat->getRooms() as $data) {
             if (!$data->getRepeaterRemoved()) {
@@ -251,23 +282,133 @@ class RepeaterService
                 $room->setUidParticipant($data->getUidParticipant());
                 $room->setUidModerator($data->getUidModerator());
                 $room->setRepeater($repeat);
-                foreach ($prototype->getPrototypeUsers() as $data2) {
-                    $room->addUser($data2);
-                    $attribute = $this->em->getRepository(RoomsUser::class)->findOneBy(array('room'=>$prototype,'user'=>$data2));
-                    if($attribute){
-                        $attr = clone $attribute;
-                        $attr->setRoom($room);
-                        $this->em->persist($attr);
-                    }
-                }
-                $room->setStart($data->getStart()->setTime($prototype->getStart()->format('H'),$prototype->getStart()->format('i')));
+                $room->setStart($data->getStart()->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i')));
                 $end = clone $room->getStart();
-                $end->modify('+' . $prototype->getDuration() . ' min');
+                $end->modify('+' . $room->getDuration() . ' min');
                 $room->setEnddate($end);
-                $this->em->remove($data);
+                foreach ($data->getUser() as $data2) {
+                    $data->removeUser($data2);
+                }
+                foreach ($data->getUserAttributes() as $data2) {
+                    $this->em->remove($data2);
+                    $data->removeUserAttribute($data2);
+                }
+                $this->em->persist($data);
                 $this->em->persist($room);
+                $repeat->removeRoom($data);
+                $this->em->remove($data);
+                $repeat->addRoom($room);
             }
+        }
+        $this->em->persist($repeat);
+        $this->em->flush();
+        return $repeat;
+    }
+
+    public function replaceRooms(Rooms $rooms)
+    {
+
+        $repeater = $rooms->getRepeater();
+        $oldProto = $repeater->getPrototyp();
+        $repeater = $this->replacePrototype($rooms, $repeater);
+        $repeater = $this->changeRooms($repeater, $repeater->getPrototyp());
+        $this->roomAddService->addUserRepeat($repeater);
+        $this->cleanUp($repeater);
+    }
+
+    private function replacePrototype(Rooms $rooms, Repeat $repeat): Repeat
+    {
+        $newPrototype = clone $rooms;
+        $this->em->persist($newPrototype);
+        $this->em->flush();
+        $oldPrototype = $repeat->getPrototyp();
+        $repeat->setPrototyp($newPrototype);
+        $this->em->persist($repeat);
+        $this->em->flush();
+        foreach ($newPrototype->getPrototypeUsers() as $data) {
+            $newPrototype->removePrototypeUser($data);
+        }
+        foreach ($oldPrototype->getPrototypeUsers() as $data) {
+            $newPrototype->addPrototypeUser($data);
+            $oldPrototype->removePrototypeUser($data);
+
+        }
+        foreach ($newPrototype->getUser() as $data) {
+            $newPrototype->removeUser($data);
+        }
+        foreach ($newPrototype->getUserAttributes() as $data) {
+            $newPrototype->removeUserAttribute($data);
+            $this->em->remove($data);
+        }
+        foreach ($oldPrototype->getUserAttributes() as $data) {
+            $newPrototype->addUserAttribute($data);
+            $data->setRoom($newPrototype);
+            $this->em->persist($data);
+        }
+        $this->em->remove($oldPrototype);
+        $repeat->removeRoom($newPrototype);
+        $repeat->setPrototyp($newPrototype);
+        $this->em->persist($repeat);
+        $this->em->flush();
+        return $repeat;
+    }
+
+    private function cleanUp(Repeat $repeat)
+    {
+        foreach ($repeat->getRooms() as $data) {
+            foreach ($data->getPrototypeUsers() as $data2) {
+                $data->removePrototypeUser($data2);
+            }
+            $this->em->persist($data);
         }
         $this->em->flush();
     }
+
+    function sendEMail(Repeat $repeat, $template,$subject, $method = 'REQUEST')
+    {
+        foreach ($repeat->getPrototyp()->getUser() as $user) {
+                $ics = $this->createIcs($repeat,$user);
+                $this->mailer->sendEmail($user->getEmail(),$subject,$this->twig->render($template),$repeat->getPrototyp()->getServer());
+        }
+    }
+
+    private function createIcs(Repeat $repeat, User $user, $method = 'REQUEST')
+    {
+        $ics = new IcsService();
+        $ics->setMethod($method);
+        foreach ($repeat->getRooms() as $room) {
+            if ($room->getModerator() !== $user) {
+                $organizer = $room->getModerator()->getEmail();
+            } else {
+                $organizer = $room->getModerator()->getFirstName() . '@' . $room->getModerator()->getLastName() . '.de';
+                $ics->setIsModerator(true);
+            }
+            $room->setStart($room->getStart()->modify('+ 1 hour'));
+            $room->setEnddate($room->getEnddate()->modify('+ 1 hour'));
+            $url = $this->userService->generateUrl($room,$user);
+            $ics->add(
+                array(
+                    'uid' => md5($room->getUid()),
+                    'location' => $this->translator->trans('Jitsi Konferenz'),
+                    'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $rooms->getServer()->getUrl())) .
+                        '\n\n' .
+                        $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
+                        . '\n\n' .
+                        $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}', array('{id}' => $rooms->getUid(), '{email}' => $user->getEmail()))
+                        . '\n\n' .
+                        $url .
+                        '\n\n' .
+                        $this->translator->trans('Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.'),
+                    'dtstart' => $room->getStart()->format('Ymd') . "T" . $room->getStart()->format("His"),
+                    'dtend' => $room->getEnddate()->format('Ymd') . "T" . $room->getEnddate()->format("His"),
+                    'summary' => $room->getName(),
+                    'sequence' => $room->getSequence(),
+                    'organizer' => $organizer,
+                    'attendee' => $user->getEmail(),
+                )
+            );
+        }
+        return $ics->toString();
+    }
+
 }

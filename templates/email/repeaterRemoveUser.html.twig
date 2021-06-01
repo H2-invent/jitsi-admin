@@ -1,0 +1,24 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    -- {{ 'Die Serienvideokonferenz wurde abgesagt'|trans }} --
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <b>
+        {{'Hallo!'|trans}}
+    </b>
+    <p>
+      {% trans with {'{name}': room.name} %}Der Serienterm {name} wurde abgesagt.{% endtrans %}
+    </p>
+    <p>
+        {% trans  %}Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.{% endtrans %}
+    </p>
+    <p>
+        {% trans  %}Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.{% endtrans %}
+    </p>
+    {% include 'email/__roomInfo.html.twig' %}
+
+{% endblock %}

@@ -83,7 +83,7 @@ class PermissionChangeService
             $this->em->persist($roomsUser);
             $this->em->flush();
             if($repeater){
-                $this->roomAddUserService->addUserRepeat($rooms);
+                $this->roomAddUserService->addUserRepeat($rooms->getRepeaterProtoype());
             }
             return true;
         }

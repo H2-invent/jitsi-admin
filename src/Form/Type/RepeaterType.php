@@ -126,7 +126,7 @@ class RepeaterType extends AbstractType
                     'option.decembre' => 11,
 
                 ],
-                    'label' => 'label.montlyRelativeWeekday',
+                    'label' => 'label.montlyRelativeMonth',
                     'translation_domain' => 'form']
             )
             ->add('repeatYearlyRelativeHowOften', NumberType::class, ['label'=>false,'required' => false, 'attr' => ['placeholder' => 'label.repeatYearly'], 'translation_domain' => 'form'])

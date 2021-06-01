@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
@@ -45,7 +46,7 @@ class RoomAddService
             }
         }
         if ($room->getRepeater()) {
-            $this->addUserRepeat($room->getRepeater()->getPrototyp());
+            $this->addUserRepeat($room->getRepeater());
         }
         return $falseEmail;
     }
@@ -62,7 +63,13 @@ class RoomAddService
                     $user = $this->createUserParticipant($newMember, $room);
                     $roomsUser = new RoomsUser();
                     $roomsUser->setUser($user);
-                    $roomsUser->setRoom($room->getRepeater()?$room->getRepeater()->getPrototyp():$room);
+                    $roomsUser->setRoom($room->getRepeater() ? $room->getRepeater()->getPrototyp() : $room);
+                    if($room->getRepeater()){
+                        $roomsUser->setRoom( $room->getRepeater()->getPrototyp());
+                        $room->getRepeater()->getPrototyp()->addUserAttribute($roomsUser);
+                    }else{
+                        $roomsUser->setRoom($room);
+                    }
                     $roomsUser->setModerator(true);
                     $this->em->persist($roomsUser);
                 } else {
@@ -75,7 +82,7 @@ class RoomAddService
             $this->em->flush();
         }
         if ($room->getRepeater()) {
-            $this->addUserRepeat($room->getRepeater()->getPrototyp());
+            $this->addUserRepeat($room->getRepeater());
         }
 
         return $falseEmail;
@@ -109,7 +116,7 @@ class RoomAddService
             $prot = $rooms->getRepeater()->getPrototyp();
             $prot->removePrototypeUser($user);
             $this->em->persist($prot);
-            $this->addUserRepeat($prot);
+            $this->addUserRepeat($rooms->getRepeater());
         } else {
             $rooms->removeUser($user);
             $this->em->persist($rooms);
@@ -118,27 +125,37 @@ class RoomAddService
 
     }
 
-    public function addUserRepeat(Rooms $prototype)
+    public function addUserRepeat(Repeat $repeat)
     {
-        foreach ($prototype->getRepeaterProtoype()->getRooms() as $data) {
+        $prototype = $repeat->getPrototyp();
+        dump($prototype);
+        foreach ($repeat->getRooms() as $data) {
             foreach ($data->getUser() as $data2) {
                 $data->removeUser($data2);
-                $this->em->persist($data);
             }
+            $this->em->persist($data);
+        }
+        foreach ($repeat->getRooms() as $data) {
             foreach ($prototype->getPrototypeUsers() as $data2) {
                 $data->addUser($data2);
-                $this->em->persist($data);
             }
+            $this->em->persist($data);
         }
-        foreach ($prototype->getRepeaterProtoype()->getRooms() as $data) {
+        foreach ($repeat->getRooms() as $data) {
             foreach ($data->getUserAttributes() as $data2) {
+                $data->removeUserAttribute($data2);
                 $this->em->remove($data2);
             }
+            $this->em->persist($data);
+        }
+        foreach ($repeat->getRooms() as $data) {
             foreach ($prototype->getUserAttributes() as $data2) {
                 $tmp = clone $data2;
                 $tmp->setRoom($data);
+                $data->addUserAttribute($tmp);
                 $this->em->persist($tmp);
             }
+            $this->em->persist($data);
         }
         $this->em->flush();
     }
