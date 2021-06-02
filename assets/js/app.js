@@ -56,11 +56,11 @@ $(document).ready(function () {
         window.location.reload();
     })
     setTimeout(function () {
-        $('#snackbar').addClass('show');
-        setTimeout(function () {
+        $('#snackbar').addClass('show').click(function (e) {
             $('#snackbar').removeClass('show');
-        }, 3000);
+        })
     }, 500);
+
     if (importBBB) {
         h2Button.init(bbbUrl);
     }

@@ -92,8 +92,6 @@ class IcsService
             'VERSION:2.0',
             'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
             'CALSCALE:GREGORIAN',
-            'X-WR-RELCALID:jitsi-admin-1234',
-            'X-PRIMARY-CALENDAR:TRUE',
             'METHOD:' . $this->method,
         );
 

@@ -55,7 +55,8 @@ class RepeaterController extends AbstractController
             $em->flush();
             $userAttributes = $repeater->getPrototyp()->getUserAttributes()->toArray();
             $repeater = $repeaterService->createNewRepeater($repeater);
-            $roomAddService->addUserRepeat($repeater);
+            $repeaterService->addUserRepeat($repeater);
+            $repeaterService->sendEMail($repeater,'email/repeaterNew.html.twig',$translator->trans('Eine neue Serienvideokonferenz wurde erstellt'),array('room'=>$repeater->getPrototyp()));
             $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
             return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
         }
@@ -100,11 +101,12 @@ class RepeaterController extends AbstractController
                 $em->remove($data);
                 $repeater->removeRoom($data);
             }
+            $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence())+1);
             $em->persist($repeater);
             $em->flush();
-            $userAttributes = $repeater->getPrototyp()->getUserAttributes()->toArray();
             $repeater = $repeaterService->createNewRepeater($repeater);
-            $roomAddService->addUserRepeat($repeater);
+            $repeaterService->addUserRepeat($repeater);
+            $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
             $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
             return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
         }
@@ -125,6 +127,14 @@ class RepeaterController extends AbstractController
     {
         //todo check if allowed
         $repeater = $this->getDoctrine()->getRepository(Repeat::class)->find($request->get('repeat'));
+        $repeaterService->sendEMail(
+            $repeater,
+            'email/repeaterRemoveUser.html.twig',
+            $translator->trans('Die Serienvideokonferenz {name} wurde gelöscht',
+                array('{name}'=>$repeater->getPrototyp()->getName())),
+            array('room'=>$repeater->getPrototyp()),
+            'CANCEL');
+
         $em = $this->getDoctrine()->getManager();
         foreach ($repeater->getRooms() as $data) {
             foreach ($data->getUser() as $data2) {
@@ -160,16 +170,20 @@ class RepeaterController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $room = $form->getData();
             if ($room->getRepeaterRemoved()) {
-                foreach ($room->getUser() as $data) {
-                    $userService->editRoom($data, $room);
-                }
                 $em->persist($room);
                 $em->flush();
+                $repeater = $room->getRepeater();
+                $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence())+1);
+                $em->persist($repeater);
+                $em->persist($room);
+                $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
                 $snack = $translator->trans('Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet');
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
             }
 
-            $repeaterService->replaceRooms($room);
+            $repeater = $room->getRepeater();
+            $repeater = $repeaterService->replaceRooms($room);
+            $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
 
             $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
             return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));

@@ -17,10 +17,12 @@ class PermissionChangeService
 {
     private $em;
     private $roomAddUserService;
-    public function __construct(EntityManagerInterface $em,RoomAddService $roomAddService)
+    private $repeaterService;
+    public function __construct(RepeaterService $repeaterService, EntityManagerInterface $em,RoomAddService $roomAddService)
     {
         $this->em = $em;
         $this->roomAddUserService = $roomAddService;
+        $this->repeaterService = $repeaterService;
     }
 
     /**
@@ -83,7 +85,7 @@ class PermissionChangeService
             $this->em->persist($roomsUser);
             $this->em->flush();
             if($repeater){
-                $this->roomAddUserService->addUserRepeat($rooms->getRepeaterProtoype());
+                $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
             }
             return true;
         }

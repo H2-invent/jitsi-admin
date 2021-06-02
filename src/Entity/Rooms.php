@@ -99,7 +99,7 @@ class Rooms
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $public;
+    private $public = true;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)

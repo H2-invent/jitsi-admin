@@ -42,8 +42,7 @@ class NotificationService
             $organizer = $rooms->getModerator()->getFirstName().'@'.$rooms->getModerator()->getLastName().'.de';
             $this->ics->setIsModerator(true);
         }
-            $rooms->setStart($rooms->getStart()->modify('+ 1 hour'));
-            $rooms->setEnddate($rooms->getEnddate()->modify('+ 1 hour'));
+
             $this->ics->add(
                 array(
                     'uid' => md5($rooms->getUid()),

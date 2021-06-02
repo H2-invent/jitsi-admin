@@ -17,13 +17,14 @@ class RoomAddService
     private $em;
     private $userService;
     private $translator;
-
-    public function __construct(InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
+    private $repeaterService;
+    public function __construct(RepeaterService  $repeaterService,InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
     {
         $this->inviteService = $inviteService;
         $this->em = $entityManager;
         $this->userService = $userService;
         $this->translator = $translator;
+        $this->repeaterService = $repeaterService;
     }
 
 
@@ -46,7 +47,7 @@ class RoomAddService
             }
         }
         if ($room->getRepeater()) {
-            $this->addUserRepeat($room->getRepeater());
+            $this->repeaterService->addUserRepeat($room->getRepeater());
         }
         return $falseEmail;
     }
@@ -82,7 +83,7 @@ class RoomAddService
             $this->em->flush();
         }
         if ($room->getRepeater()) {
-            $this->addUserRepeat($room->getRepeater());
+            $this->repeaterService->addUserRepeat($room->getRepeater());
         }
 
         return $falseEmail;
@@ -116,7 +117,16 @@ class RoomAddService
             $prot = $rooms->getRepeater()->getPrototyp();
             $prot->removePrototypeUser($user);
             $this->em->persist($prot);
-            $this->addUserRepeat($rooms->getRepeater());
+            $this->repeaterService->addUserRepeat($rooms->getRepeater());
+            $this->repeaterService->sendEMail(
+                $rooms->getRepeater(),
+                'email/repeaterRemoveUser.html.twig',
+                $this->translator->trans('Die Serienvideokonferenz {name} wurde gelöscht',
+                    array('{name}'=>$rooms->getRepeater()->getPrototyp()->getName())),
+                array('room'=>$rooms->getRepeater()->getPrototyp()),
+                'CANCEL',
+                array($user)
+            );
         } else {
             $rooms->removeUser($user);
             $this->em->persist($rooms);
@@ -124,40 +134,4 @@ class RoomAddService
         }
 
     }
-
-    public function addUserRepeat(Repeat $repeat)
-    {
-        $prototype = $repeat->getPrototyp();
-        dump($prototype);
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($data->getUser() as $data2) {
-                $data->removeUser($data2);
-            }
-            $this->em->persist($data);
-        }
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($prototype->getPrototypeUsers() as $data2) {
-                $data->addUser($data2);
-            }
-            $this->em->persist($data);
-        }
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($data->getUserAttributes() as $data2) {
-                $data->removeUserAttribute($data2);
-                $this->em->remove($data2);
-            }
-            $this->em->persist($data);
-        }
-        foreach ($repeat->getRooms() as $data) {
-            foreach ($prototype->getUserAttributes() as $data2) {
-                $tmp = clone $data2;
-                $tmp->setRoom($data);
-                $data->addUserAttribute($tmp);
-                $this->em->persist($tmp);
-            }
-            $this->em->persist($data);
-        }
-        $this->em->flush();
-    }
-
 }
