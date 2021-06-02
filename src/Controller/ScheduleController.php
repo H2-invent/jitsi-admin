@@ -65,12 +65,12 @@ class ScheduleController extends AbstractController
 
         $form->remove('scheduleMeeting');
         $form->remove('start');
-       // try {
+        try {
             $form->handleRequest($request);
-        //} catch (\Exception $e) {
+        } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            //return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-        //}
+            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+        }
         if ($form->isSubmitted() && $form->isValid()) {
 
             $room = $form->getData();
