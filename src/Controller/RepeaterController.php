@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,45 +27,52 @@ class RepeaterController extends AbstractController
      */
     public function index(ParameterBagInterface $parameterBag, RoomAddService $roomAddService, Request $request, TranslatorInterface $translator, RepeaterService $repeaterService): Response
     {
-        //todo check if allowed
+
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
+        if ($room->getModerator() !== $this->getUser()) {
+            throw new NotFoundHttpException('Not found');
+        }
         $repeater = new Repeat();
         $form = $this->createForm(RepeaterType::class, $repeater, ['action' => $this->generateUrl('repeater_new', ['room' => $room->getId()])]);
 
-//        try {
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $repeater = $form->getData();
-            if($repeater->getRepetation() > $parameterBag->get('laf_max_repeat') ){
-                $snack = $translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben',array('{amount}'=>$parameterBag->get('laf_max_repeat') ));
-                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-            }
-            $em = $this->getDoctrine()->getManager();
-            foreach ($room->getUser() as $data) {
-                $room->addPrototypeUser($data);
-                $room->removeUser($data);
-            }
-            $em->persist($room);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $repeater = $form->getData();
+                if (!$repeaterService->checkData($repeater)) {
+                    $snack = $translator->trans('Fehler, Bitte füllen Sie alle Felder aus', array('{amount}' => $parameterBag->get('laf_max_repeat')));
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                }
+                if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
+                    $snack = $translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben', array('{amount}' => $parameterBag->get('laf_max_repeat')));
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                }
+                $em = $this->getDoctrine()->getManager();
+                foreach ($room->getUser() as $data) {
+                    $room->addPrototypeUser($data);
+                    $room->removeUser($data);
+                }
+                $em->persist($room);
+                $em->flush();
 
-            $repeater->setPrototyp($room);
-            $repeater->setStartDate($room->getStart());
-            $em->persist($repeater);
-            $em->flush();
-            $userAttributes = $repeater->getPrototyp()->getUserAttributes()->toArray();
-            $repeater = $repeaterService->createNewRepeater($repeater);
-            $repeaterService->addUserRepeat($repeater);
-            $repeaterService->sendEMail($repeater,'email/repeaterNew.html.twig',$translator->trans('Eine neue Serienvideokonferenz wurde erstellt'),array('room'=>$repeater->getPrototyp()));
-            $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+                $repeater->setPrototyp($room);
+                $repeater->setStartDate($room->getStart());
+                $em->persist($repeater);
+                $em->flush();
+                $userAttributes = $repeater->getPrototyp()->getUserAttributes()->toArray();
+                $repeater = $repeaterService->createNewRepeater($repeater);
+                $repeaterService->addUserRepeat($repeater);
+                $repeaterService->sendEMail($repeater, 'email/repeaterNew.html.twig', $translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), array('room' => $repeater->getPrototyp()));
+                $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
+                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+            }
+
+        } catch (\Exception $exception) {
+            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
         }
-
-//        } catch (\Exception $exception) {
-//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-//        }
         return $this->render('repeater/index.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -73,48 +81,56 @@ class RepeaterController extends AbstractController
     /**
      * @Route("/room/repeater/edit/repeat", name="repeater_edit_repeater")
      */
-    public function editRepeater(ParameterBagInterface  $parameterBag, Request $request, TranslatorInterface $translator, RepeaterService $repeaterService, RoomAddService $roomAddService): Response
+    public function editRepeater(ParameterBagInterface $parameterBag, Request $request, TranslatorInterface $translator, RepeaterService $repeaterService, RoomAddService $roomAddService): Response
     {
         //todo check if allowed
         $repeater = $this->getDoctrine()->getRepository(Repeat::class)->find($request->get('repeat'));
-        $form = $this->createForm(RepeaterType::class, $repeater, ['action' => $this->generateUrl('repeater_edit_repeater', ['repeat' => $repeater->getId()])]);
-
-//        try {
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $repeater = $form->getData();
-            if($repeater->getRepetation() > $parameterBag->get('laf_max_repeat') ){
-                $snack = $translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben',array('{amount}'=>$parameterBag->get('laf_max_repeat') ));
-                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-            }
-            $em = $this->getDoctrine()->getManager();
-            foreach ($repeater->getRooms() as $data) {
-                foreach ($data->getUser() as $data2) {
-                    $data2->removeRoom($data);
-                    $em->persist($data2);
-                }
-                foreach ($data->getUserAttributes() as $data2) {
-                    $em->remove($data2);
-                    $data->removeUserAttribute($data2);
-                }
-                $em->remove($data);
-                $repeater->removeRoom($data);
-            }
-            $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence())+1);
-            $em->persist($repeater);
-            $em->flush();
-            $repeater = $repeaterService->createNewRepeater($repeater);
-            $repeaterService->addUserRepeat($repeater);
-            $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
-            $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+        if ($repeater->getPrototyp()->getModerator() !== $this->getUser()) {
+            throw new NotFoundHttpException('Not found');
         }
 
-//        } catch (\Exception $exception) {
-//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-//        }
+        $form = $this->createForm(RepeaterType::class, $repeater, ['action' => $this->generateUrl('repeater_edit_repeater', ['repeat' => $repeater->getId()])]);
+
+        try {
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $repeater = $form->getData();
+                if (!$repeaterService->checkData($repeater)) {
+                    $snack = $translator->trans('Fehler, Bitte füllen Sie alle Felder aus', array('{amount}' => $parameterBag->get('laf_max_repeat')));
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                }
+                if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
+                    $snack = $translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben', array('{amount}' => $parameterBag->get('laf_max_repeat')));
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                }
+                $em = $this->getDoctrine()->getManager();
+                foreach ($repeater->getRooms() as $data) {
+                    foreach ($data->getUser() as $data2) {
+                        $data2->removeRoom($data);
+                        $em->persist($data2);
+                    }
+                    foreach ($data->getUserAttributes() as $data2) {
+                        $em->remove($data2);
+                        $data->removeUserAttribute($data2);
+                    }
+                    $em->remove($data);
+                    $repeater->removeRoom($data);
+                }
+                $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence()) + 1);
+                $em->persist($repeater);
+                $em->flush();
+                $repeater = $repeaterService->createNewRepeater($repeater);
+                $repeaterService->addUserRepeat($repeater);
+                $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+                $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
+                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+            }
+
+        } catch (\Exception $exception) {
+            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+        }
         return $this->render('repeater/index.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -125,14 +141,17 @@ class RepeaterController extends AbstractController
      */
     public function removeRepeater(Request $request, TranslatorInterface $translator, RepeaterService $repeaterService): Response
     {
-        //todo check if allowed
+
         $repeater = $this->getDoctrine()->getRepository(Repeat::class)->find($request->get('repeat'));
+        if ($repeater->getPrototyp()->getModerator() !== $this->getUser()) {
+            throw new NotFoundHttpException('Not found');
+        }
         $repeaterService->sendEMail(
             $repeater,
             'email/repeaterRemoveUser.html.twig',
             $translator->trans('Die Serienvideokonferenz {name} wurde gelöscht',
-                array('{name}'=>$repeater->getPrototyp()->getName())),
-            array('room'=>$repeater->getPrototyp()),
+                array('{name}' => $repeater->getPrototyp()->getName())),
+            array('room' => $repeater->getPrototyp()),
             'CANCEL');
 
         $em = $this->getDoctrine()->getManager();
@@ -155,44 +174,47 @@ class RepeaterController extends AbstractController
      */
     public function editPrototype(RoomAddService $roomAddService, Request $request, UserService $userService, TranslatorInterface $translator, RepeaterService $repeaterService, ServerUserManagment $serverUserManagment): Response
     {
-        //todo check if allowed
+
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('id'));
+        if ($room->getModerator() !== $this->getUser()) {
+            throw new NotFoundHttpException('Not found');
+        }
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['id' => $room->getId()])]);
         $form->add('repeaterRemoved', CheckboxType::class, array(
             'label' => 'label.repeaterRemoved',
             'required' => false,
             'translation_domain' => 'form'));
-        //    try {
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $room = $form->getData();
-            if ($room->getRepeaterRemoved()) {
-                $em->persist($room);
-                $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $room = $form->getData();
+                if ($room->getRepeaterRemoved()) {
+                    $em->persist($room);
+                    $em->flush();
+                    $repeater = $room->getRepeater();
+                    $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence()) + 1);
+                    $em->persist($repeater);
+                    $em->persist($room);
+                    $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+                    $snack = $translator->trans('Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet');
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+                }
+
                 $repeater = $room->getRepeater();
-                $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence())+1);
-                $em->persist($repeater);
-                $em->persist($room);
-                $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
-                $snack = $translator->trans('Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet');
+                $repeater = $repeaterService->replaceRooms($room);
+                $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+
+                $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
             }
 
-            $repeater = $room->getRepeater();
-            $repeater = $repeaterService->replaceRooms($room);
-            $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
-
-            $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+        } catch (\Exception $exception) {
+            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
         }
-
-//        } catch (\Exception $exception) {
-//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-//        }
         return $this->render('base/__newRoomModal.html.twig', [
             'form' => $form->createView(),
             'title' => $translator->trans('Serienelement bearbeiten')

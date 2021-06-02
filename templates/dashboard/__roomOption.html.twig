@@ -10,10 +10,11 @@
             <li><a class="dropdown-item loadContent"
                    href="{{ path('schedule_admin',{'id':room.id}) }}">
                 {{ 'Terminplaner'|trans }}</a></li>{% endif %}
-        {% if room.public %}
+        {% if room.public and room.repeater is null %}
             <li><a class="dropdown-item loadContent"
                    href="{{ path('share_link',{'id':room.id}) }}">
-                {{ 'Einladungslinks'|trans }}</a></li>{% endif %}
+                {{ 'Einladungslinks'|trans }}</a></li>
+        {% endif %}
 
         <li><a class="dropdown-item confirmHref"
                href="{{ path('room_remove',{'room':room.id}) }}">

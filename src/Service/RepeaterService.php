@@ -461,5 +461,52 @@ class RepeaterService
         }
         $this->em->flush();
     }
+    public function checkData(Repeat $repeat):bool
+    {
+        switch ($repeat->getRepeatType()) {
+            case 0:
+                if (!$repeat->getRepeaterDays()){
+                    return false;
+                }
+                break;
+            case 1:
+                if (!$repeat->getRepeaterWeeks()){
+                    return false;
+                }
+                break;
+            case 2:
+                if (!$repeat->getRepeatMontly()){
+                    return false;
+                }
+                break;
+            case 3:
+                if ($repeat->getRepatMonthRelativNumber()=== null ){
+                    return false;
+                }
+                if ($repeat->getRepatMonthRelativWeekday()=== null){
+                    return false;
+                }
+                if ($repeat->getRepeatMonthlyRelativeHowOften()=== null){
+                    return false;
+                }
+                break;
+            case 4:
+                if (!$repeat->getRepeatYearly() ){
+                    return false;
+                }
+                break;
+            case 5:
+                if ($repeat->getRepeatYearlyRelativeHowOften()=== null ||
+                    $repeat->getRepeatYearlyRelativeNumber()=== null ||
+                    $repeat->getRepeatYearlyRelativeWeekday()=== null ||
+                    $repeat->getRepeatYearlyRelativeMonth()=== null){
+                    return false;
+                }
+                break;
+            default:
+                break;
 
+        }
+        return true;
+    }
 }
