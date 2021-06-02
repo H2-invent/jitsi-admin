@@ -893,6 +893,138 @@
         <source>iCal Link</source>
         <target>iCal Link</target>
       </trans-unit>
+      <trans-unit id="QbDh_pE" resname="Die Serienvideokonferenz {name} wurde bearbeitet">
+        <source>Die Serienvideokonferenz {name} wurde bearbeitet</source>
+        <target>Die Serienvideokonferenz {name} wurde bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="iHWAl7b" resname="Hier beitreten">
+        <source>Hier beitreten</source>
+        <target>Hier beitreten</target>
+      </trans-unit>
+      <trans-unit id="qjr7pXm" resname="Die Serienvideokonferenz {name} wurde gelöscht">
+        <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
+        <target>Die Serienvideokonferenz {name} wurde gelöscht</target>
+      </trans-unit>
+      <trans-unit id="JBp5T7M" resname="Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.">
+        <source>Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</source>
+        <target>Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="ScBzAnw" resname="Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.">
+        <source>Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</source>
+        <target>Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="E97lvGG" resname="Sie wurden auf die Warteliste für:  {name} hinzugefügt ">
+        <source>Sie wurden auf die Warteliste für:  {name} hinzugefügt </source>
+        <target>Sie wurden auf die Warteliste für:  {name} hinzugefügt </target>
+      </trans-unit>
+      <trans-unit id="ERPvUJ." resname="Die Videokonferenz {name} wurde von {organizer} abgesagt.">
+        <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
+        <target>Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
+      </trans-unit>
+      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
+        <source>Die Videokonferenz {name} von startet gleich.</source>
+        <target>Die Videokonferenz {name} von startet gleich.</target>
+      </trans-unit>
+      <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
+        <source>Fehler, Bitte füllen Sie alle Felder aus</source>
+        <target>Fehler, Bitte füllen Sie alle Felder aus</target>
+      </trans-unit>
+      <trans-unit id="ub8NVvM" resname="Sie dürfen nur maximal {amount} Wiederholungen angeben">
+        <source>Sie dürfen nur maximal {amount} Wiederholungen angeben</source>
+        <target>Sie dürfen nur maximal {amount} Wiederholungen angeben</target>
+      </trans-unit>
+      <trans-unit id="1e.pJ8Y" resname="Eine neue Serienvideokonferenz wurde erstellt">
+        <source>Eine neue Serienvideokonferenz wurde erstellt</source>
+        <target>Eine neue Serienvideokonferenz wurde erstellt</target>
+      </trans-unit>
+      <trans-unit id="67HDiZC" resname="Sie haben Erfolgreich einen Serientermin erstellt">
+        <source>Sie haben Erfolgreich einen Serientermin erstellt</source>
+        <target>Sie haben Erfolgreich einen Serientermin erstellt</target>
+      </trans-unit>
+      <trans-unit id="sdMaLqo" resname="Sie haben Erfolgreich einen Serientermin bearbeitet">
+        <source>Sie haben Erfolgreich einen Serientermin bearbeitet</source>
+        <target>Sie haben Erfolgreich einen Serientermin bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="kTF_a3z" resname="Sie haben Erfolgreich einen Serientermin gelöscht">
+        <source>Sie haben Erfolgreich einen Serientermin gelöscht</source>
+        <target>Sie haben Erfolgreich einen Serientermin gelöscht</target>
+      </trans-unit>
+      <trans-unit id="Yb1QPZ2" resname="Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet">
+        <source>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
+        <target>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="3iuiLlw" resname="Serienelement bearbeiten">
+        <source>Serienelement bearbeiten</source>
+        <target>Serienelement bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="I.AEB32" resname="Selbstregistrierung">
+        <source>Selbstregistrierung</source>
+        <target>Selbstregistrierung</target>
+      </trans-unit>
+      <trans-unit id="q3dDpK2" resname="Serie">
+        <source>Serie</source>
+        <target>Serie</target>
+      </trans-unit>
+      <trans-unit id="K1wfW2y" resname="Serienart bearbeiten">
+        <source>Serienart bearbeiten</source>
+        <target>Serienart bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="39O7jAk" resname="Serie löschen">
+        <source>Serie löschen</source>
+        <target>Serie löschen</target>
+      </trans-unit>
+      <trans-unit id="6R7jKP3" resname="Neue Serien Termin">
+        <source>Neue Serien Termin</source>
+        <target>Neue Serien Termin</target>
+      </trans-unit>
+      <trans-unit id="eEdqI9E" resname="Sie wurden zu einer Serienvideokonferenz hinzugefügt">
+        <source>Sie wurden zu einer Serienvideokonferenz hinzugefügt</source>
+        <target>Sie wurden zu einer Serienvideokonferenz hinzugefügt</target>
+      </trans-unit>
+      <trans-unit id="9OpdI6M" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
+        <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
+        <target>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="T2dYIGp" resname="Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
+        <source>Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
+        <target>Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
+      </trans-unit>
+      <trans-unit id="fZdNwVM" resname="Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.">
+        <source>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</source>
+        <target>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</target>
+      </trans-unit>
+      <trans-unit id="UtG9LK6" resname="Serienvideokonferenz geändert">
+        <source>Serienvideokonferenz geändert</source>
+        <target>Serienvideokonferenz geändert</target>
+      </trans-unit>
+      <trans-unit id="6ygviQp" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
+        <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
+        <target>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="lAiGCC9" resname="Videokonferenz in Serienvideokonferenz umgewandelt">
+        <source>Videokonferenz in Serienvideokonferenz umgewandelt</source>
+        <target>Videokonferenz in Serienvideokonferenz umgewandelt</target>
+      </trans-unit>
+      <trans-unit id="maPhtKz" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
+        <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
+        <target>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="SZi18dm" resname="Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
+        <source>Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
+        <target>Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
+      </trans-unit>
+      <trans-unit id="iZMDeDm" resname="Die Serienvideokonferenz wurde abgesagt">
+        <source>Die Serienvideokonferenz wurde abgesagt</source>
+        <target>Die Serienvideokonferenz wurde abgesagt</target>
+      </trans-unit>
+      <trans-unit id="XO0dRjN" resname="Der Serienterm {name} wurde abgesagt.">
+        <source>Der Serienterm {name} wurde abgesagt.</source>
+        <target>Der Serienterm {name} wurde abgesagt.</target>
+      </trans-unit>
+      <trans-unit id="padgvWA" resname="Serien Termin">
+        <source>Serien Termin</source>
+        <target>Serien Termin</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
