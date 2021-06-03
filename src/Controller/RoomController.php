@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
 use App\Service\PermissionChangeService;
+use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
@@ -171,19 +172,20 @@ class RoomController extends AbstractController
      * @Route("/room/user/remove", name="room_user_remove")
      */
     public
-    function roomUserRemove(Request $request, UserService $userService)
+    function roomUserRemove(Request $request, UserService $userService,RoomAddService $roomAddService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = 'Keine Berechtigung';
         if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
-            $room->removeUser($user);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
+            $roomAddService->removeUserFromRoom($user,$room);
+
             $snack = $this->translator->trans('Teilnehmer gelöscht');
-            $userService->removeRoom($user, $room);
+            if (!$room->getRepeater()){
+                $userService->removeRoom($user, $room);
+            }
+
         }
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
@@ -193,7 +195,7 @@ class RoomController extends AbstractController
      * @Route("/room/remove", name="room_remove")
      */
     public
-    function roomRemove(Request $request, UserService $userService)
+    function roomRemove(Request $request, UserService $userService, RepeaterService $repeaterService, TranslatorInterface $translator)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
@@ -201,10 +203,19 @@ class RoomController extends AbstractController
         if ($this->getUser() === $room->getModerator()) {
             $em = $this->getDoctrine()->getManager();
             foreach ($room->getUser() as $user) {
-                $userService->removeRoom($user, $room);
+                if(!$room->getRepeater()){
+                    $userService->removeRoom($user, $room);
+                }
+
                 $room->removeUser($user);
                 $em->persist($room);
             }
+            if($room->getRepeater()){
+                $repeater = $room->getRepeater();
+                $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
+                $room->setRepeater(null);
+            }
+
             $room->setModerator(null);
             $em->persist($room);
             $em->flush();
@@ -240,7 +251,16 @@ class RoomController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();
+
+                foreach ($roomOld->getUserAttributes() as $data){
+                    $tmp = clone $data;
+                    $room->addUserAttribute($tmp);
+                }
                 $room->setUidReal(md5(uniqid('h2-invent', true)));
+                $room->setUidModerator(md5(uniqid()));
+                $room->setUidParticipant(md5(uniqid()));
+                $room->setSequence(0);
+                $room->setUid(rand(0,99).time());
                 $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
@@ -248,6 +268,7 @@ class RoomController extends AbstractController
 
                 $schedulingService->createScheduling($room);
                 foreach ($roomOld->getUser() as $user) {
+
                     $userService->addUser($user, $room);
                 }
                 $snack = $translator->trans('Teilnehmer bearbeitet');

@@ -20,7 +20,7 @@
                 {% endif %}
             </p>
             <div id="atendeeList">
-                <ul >
+                <ul>
                     <li>{{ room.moderator.email }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                     {% for user in room.user %}
                         {% if user != room.moderator %}
@@ -79,7 +79,7 @@
                     {% endfor %}
                 </ul>
 
-            {% if room.waitinglists|length > 0 %}
+                {% if room.waitinglists|length > 0 %}
 
                 <b>{{ 'Warteliste'|trans }}</b>
                 <hr>
@@ -87,10 +87,10 @@
                     {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
                         <li>{{ w.user.email }}
                             <a class="small directSend"
-                                                   href="{{ path('accept_waitingList',{'id':w.id}) }}"
-                                                   data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
-                                                   data-target="#atendeeList"
-                                                   data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                               href="{{ path('accept_waitingList',{'id':w.id}) }}"
+                               data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
+                               data-target="#atendeeList"
+                               data-url="{{ path('room_add_user',{'room':room.id}) }}"
                             ><i class="fa fa-check"></i>
                             </a>
                         </li>
@@ -116,6 +116,7 @@
 
             {{ form_start(form) }}
             <div class="row">
+
                 <div class="col-lg-6">
                     {{ form_row(form.member) }}
                 </div>

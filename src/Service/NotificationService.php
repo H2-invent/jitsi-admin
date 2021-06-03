@@ -42,27 +42,29 @@ class NotificationService
             $organizer = $rooms->getModerator()->getFirstName().'@'.$rooms->getModerator()->getLastName().'.de';
             $this->ics->setIsModerator(true);
         }
-        $this->ics->add(
-            array(
-                'uid' => md5($rooms->getUid()),
-                'location' => $this->translator->trans('Jitsi Konferenz'),
-                'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $rooms->getServer()->getUrl())) .
-                    '\n\n' .
-                    $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
-                    . '\n\n' .
-                    $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}',array('{id}'=>$rooms->getUid(),'{email}'=>$user->getEmail()))
-                    . '\n\n' .
-                    $url .
-                    '\n\n'.
-                    $this->translator->trans('Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.'),
-                'dtstart' => $rooms->getStart()->format('Ymd') . "T" . $rooms->getStart()->format("His"),
-                'dtend' => $rooms->getEnddate()->format('Ymd') . "T" . $rooms->getEnddate()->format("His"),
-                'summary' => $rooms->getName(),
-                'sequence' => $rooms->getSequence(),
-                'organizer' => $organizer,
-                'attendee' => $user->getEmail(),
-            )
-        );
+
+            $this->ics->add(
+                array(
+                    'uid' => md5($rooms->getUid()),
+                    'location' => $this->translator->trans('Jitsi Konferenz'),
+                    'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $rooms->getServer()->getUrl())) .
+                        '\n\n' .
+                        $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
+                        . '\n\n' .
+                        $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}',array('{id}'=>$rooms->getUid(),'{email}'=>$user->getEmail()))
+                        . '\n\n' .
+                        $url .
+                        '\n\n'.
+                        $this->translator->trans('Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.'),
+                    'dtstart' => $rooms->getStart()->format('Ymd') . "T" . $rooms->getStart()->format("His"),
+                    'dtend' => $rooms->getEnddate()->format('Ymd') . "T" . $rooms->getEnddate()->format("His"),
+                    'summary' => $rooms->getName(),
+                    'sequence' => $rooms->getSequence(),
+                    'organizer' => $organizer,
+                    'attendee' => $user->getEmail(),
+                )
+            );
+
         return $this->ics->toString();
     }
 

@@ -16,9 +16,13 @@ use Doctrine\ORM\EntityManagerInterface;
 class PermissionChangeService
 {
     private $em;
-    public function __construct(EntityManagerInterface $em)
+    private $roomAddUserService;
+    private $repeaterService;
+    public function __construct(RepeaterService $repeaterService, EntityManagerInterface $em,RoomAddService $roomAddService)
     {
         $this->em = $em;
+        $this->roomAddUserService = $roomAddService;
+        $this->repeaterService = $repeaterService;
     }
 
     /**
@@ -30,6 +34,11 @@ class PermissionChangeService
      * @return bool
      */
     function toggleShareScreen(User $oldUser, User $user, Rooms $rooms){
+        $repeater = false;
+        if($rooms->getRepeater()){
+            $rooms= $rooms->getRepeater()->getPrototyp();
+            $repeater = true;
+        }
         if($rooms->getModerator() === $oldUser){
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
             if(!$roomsUser){
@@ -44,6 +53,9 @@ class PermissionChangeService
             }
             $this->em->persist($roomsUser);
             $this->em->flush();
+            if($repeater){
+                $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
+            }
             return true;
         }
         return false;
@@ -58,6 +70,11 @@ class PermissionChangeService
      * @return bool
      */
     function toggleModerator(User $oldUser, User $user, Rooms $rooms){
+        $repeater = false;
+        if($rooms->getRepeater()){
+            $rooms= $rooms->getRepeater()->getPrototyp();
+            $repeater = true;
+        }
         if($rooms->getModerator() === $oldUser){
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
             if(!$roomsUser){
@@ -72,8 +89,12 @@ class PermissionChangeService
             }
             $this->em->persist($roomsUser);
             $this->em->flush();
+            if($repeater){
+                $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
+            }
             return true;
         }
+
         return false;
     }
 
@@ -86,6 +107,11 @@ class PermissionChangeService
      * @return bool
      */
     function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms){
+        $repeater = false;
+        if($rooms->getRepeater()){
+            $rooms= $rooms->getRepeater()->getPrototyp();
+            $repeater = true;
+        }
         if($rooms->getModerator() === $oldUser){
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
             if(!$roomsUser){
@@ -100,6 +126,9 @@ class PermissionChangeService
             }
             $this->em->persist($roomsUser);
             $this->em->flush();
+            if($repeater){
+                $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
+            }
             return true;
         }
         return false;

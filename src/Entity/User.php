@@ -136,6 +136,16 @@ class User extends BaseUser
      */
     private $notifications;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Repeat::class, mappedBy="participants")
+     */
+    private $repeaterUsers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="prototypeUsers")
+     */
+    private $protoypeRooms;
+
 
 
     public function __construct()
@@ -151,6 +161,8 @@ class User extends BaseUser
         $this->schedulingTimeUsers = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->repeaterUsers = new ArrayCollection();
+        $this->protoypeRooms = new ArrayCollection();
 
     }
 
@@ -579,6 +591,60 @@ class User extends BaseUser
             if ($notification->getUser() === $this) {
                 $notification->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Repeat[]
+     */
+    public function getRepeaterUsers(): Collection
+    {
+        return $this->repeaterUsers;
+    }
+
+    public function addRepeaterUser(Repeat $repeaterUser): self
+    {
+        if (!$this->repeaterUsers->contains($repeaterUser)) {
+            $this->repeaterUsers[] = $repeaterUser;
+            $repeaterUser->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepeaterUser(Repeat $repeaterUser): self
+    {
+        if ($this->repeaterUsers->removeElement($repeaterUser)) {
+            $repeaterUser->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rooms[]
+     */
+    public function getProtoypeRooms(): Collection
+    {
+        return $this->protoypeRooms;
+    }
+
+    public function addProtoypeRoom(Rooms $protoypeRoom): self
+    {
+        if (!$this->protoypeRooms->contains($protoypeRoom)) {
+            $this->protoypeRooms[] = $protoypeRoom;
+            $protoypeRoom->addPrototypeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProtoypeRoom(Rooms $protoypeRoom): self
+    {
+        if ($this->protoypeRooms->removeElement($protoypeRoom)) {
+            $protoypeRoom->removePrototypeUser($this);
         }
 
         return $this;

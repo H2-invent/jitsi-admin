@@ -33,6 +33,40 @@ option.390min: 6:30 Stunden
 option.420min: 7 Stunden
 option.450min: 7:30 Stunden
 option.480min: 8 Stunden
+option:
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
+  montlyRelative: Monatlich Relativ
+  yearlyRelative: Jährlich Relativ
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
+
+
 lable.serverUrl: Jitsi-Meet-Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
@@ -63,7 +97,7 @@ label:
   featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
   dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Öffentliche Konferenz
+  puplicRoom: Einladungslinks freischalten
   showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
   subscribe: Anmelden
   vorname: Vorname
@@ -71,9 +105,17 @@ label:
   maxParticipants: Maximale Anzahl an Teilnehmer zulassen
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
-
-
-
+  weekday: Wochentag
+  repetation: Endet nach x Terminen
+  repeatType: Serienmuster
+  repeaterDays: Nach X Tagen wiederholen
+  repeaterWeeks: Nach X Wochen wiederholen
+  repeatMontly: Nach X Monaten wiederholen
+  repeatYearly: Nach X Jahren wiederholen
+  montlyRelativeNumber: Wievielte Wochentag im Monat
+  montlyRelativeWeekday: Wochentag
+  montlyRelativeMonth: Monat
+  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

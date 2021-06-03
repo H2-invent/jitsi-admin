@@ -4,8 +4,10 @@
 namespace App\Service;
 
 
+use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -15,13 +17,14 @@ class RoomAddService
     private $em;
     private $userService;
     private $translator;
-
-    public function __construct(InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
+    private $repeaterService;
+    public function __construct(RepeaterService  $repeaterService,InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
     {
         $this->inviteService = $inviteService;
         $this->em = $entityManager;
         $this->userService = $userService;
         $this->translator = $translator;
+        $this->repeaterService = $repeaterService;
     }
 
 
@@ -34,15 +37,17 @@ class RoomAddService
             foreach ($lines as $line) {
                 $newMember = trim($line);
                 if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
-                    $user = $this->createUserParticipant($newMember,$room);
+                    $user = $this->createUserParticipant($newMember, $room);
                 } else {
-                    if (strlen($newMember)>0) {
+                    if (strlen($newMember) > 0) {
                         $falseEmail[] = $newMember;
                     }
 
                 }
             }
-            $this->em->flush();
+        }
+        if ($room->getRepeater()) {
+            $this->repeaterService->addUserRepeat($room->getRepeater());
         }
         return $falseEmail;
     }
@@ -53,41 +58,80 @@ class RoomAddService
         $snack = null;
         $falseEmail = array();
         if (!empty($lines)) {
-
             foreach ($lines as $line) {
                 $newMember = trim($line);
                 if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
-                    $user = $this->createUserParticipant($newMember,$room);
+                    $user = $this->createUserParticipant($newMember, $room);
                     $roomsUser = new RoomsUser();
                     $roomsUser->setUser($user);
-                    $roomsUser->setRoom($room);
+                    $roomsUser->setRoom($room->getRepeater() ? $room->getRepeater()->getPrototyp() : $room);
+                    if($room->getRepeater()){
+                        $roomsUser->setRoom( $room->getRepeater()->getPrototyp());
+                        $room->getRepeater()->getPrototyp()->addUserAttribute($roomsUser);
+                    }else{
+                        $roomsUser->setRoom($room);
+                    }
                     $roomsUser->setModerator(true);
                     $this->em->persist($roomsUser);
                 } else {
-                    if (strlen($newMember)>0) {
+                    if (strlen($newMember) > 0) {
                         $falseEmail[] = $newMember;
                     }
 
                 }
             }
             $this->em->flush();
-
+        }
+        if ($room->getRepeater()) {
+            $this->repeaterService->addUserRepeat($room->getRepeater());
         }
 
         return $falseEmail;
 
     }
-    private function createUserParticipant($email,Rooms $room){
+
+    private function createUserParticipant($email, Rooms $room)
+    {
         $user = $this->inviteService->newUser($email);
-        $user->addRoom($room);
+        if ($room->getRepeater()) {
+            $room = $room->getRepeater()->getPrototyp();
+            $user->addProtoypeRoom($room);
+        } else {
+            $user->addRoom($room);
+            $this->userService->addUser($user, $room);
+        }
+
         $user->addAddressbookInverse($room->getModerator());
         $this->em->persist($user);
-        $this->userService->addUser($user, $room);
         $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
         if ($roomsUser) {
             $this->em->remove($roomsUser);
         }
         $this->em->flush();
         return $user;
+    }
+
+    public function removeUserFromRoom(User $user, Rooms $rooms)
+    {
+        if ($rooms->getRepeater()) {
+            $prot = $rooms->getRepeater()->getPrototyp();
+            $prot->removePrototypeUser($user);
+            $this->em->persist($prot);
+            $this->repeaterService->addUserRepeat($rooms->getRepeater());
+            $this->repeaterService->sendEMail(
+                $rooms->getRepeater(),
+                'email/repeaterRemoveUser.html.twig',
+                $this->translator->trans('Die Serienvideokonferenz {name} wurde gelöscht',
+                    array('{name}'=>$rooms->getRepeater()->getPrototyp()->getName())),
+                array('room'=>$rooms->getRepeater()->getPrototyp()),
+                'CANCEL',
+                array($user)
+            );
+        } else {
+            $rooms->removeUser($user);
+            $this->em->persist($rooms);
+            $this->em->flush();
+        }
+
     }
 }

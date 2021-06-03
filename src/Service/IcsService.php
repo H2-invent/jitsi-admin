@@ -14,10 +14,11 @@ class IcsService
     const DT_FORMAT = 'Ymd\THis\Z';
     protected $properties = array();
     private $isModerator;
-public function __construct()
-{
-    $this->isModerator = false;
-}
+
+    public function __construct()
+    {
+        $this->isModerator = false;
+    }
 
     /**
      * @return mixed
@@ -101,9 +102,9 @@ public function __construct()
             $props = array();
             foreach ($data as $p => $q) {
 
-                if ($this->isModerator){
+                if ($this->isModerator) {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=false:MAILTO' : ''))] = $q;
-                }else{
+                } else {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
                 }
 

@@ -56,11 +56,11 @@ $(document).ready(function () {
         window.location.reload();
     })
     setTimeout(function () {
-        $('#snackbar').addClass('show');
-        setTimeout(function () {
+        $('#snackbar').addClass('show').click(function (e) {
             $('#snackbar').removeClass('show');
-        }, 3000);
+        })
     }, 500);
+
     if (importBBB) {
         h2Button.init(bbbUrl);
     }
@@ -195,6 +195,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 
     initSearchUser();
     initServerFeatures();
+    initRepeater();
     if(getCookie('room_server')){
         $('#room_server').val(getCookie('room_server'))
     }
@@ -334,4 +335,14 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+function initRepeater(){
+    $('.repeater').addClass('d-none');
+    $('#repeater_'+$('#repeater_repeatType').val()).removeClass('d-none');
+
+    $('#repeater_repeatType').change(function (){
+
+        $('.repeater').addClass('d-none');
+        $('#repeater_'+$(this).val()).removeClass('d-none');
+    })
 }

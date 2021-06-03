@@ -82,7 +82,7 @@ class Rooms
     private $agenda;
 
     /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room")
+     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room",cascade={"persist"})
      */
     private $userAttributes;
 
@@ -99,7 +99,7 @@ class Rooms
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $public;
+    private $public = true;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -146,6 +146,28 @@ class Rooms
      */
     private $waitinglists;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Repeat::class, inversedBy="rooms")
+     */
+    private $repeater;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $repeaterRemoved;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Repeat::class, mappedBy="prototyp", cascade={"persist", "remove"})
+
+     */
+    private $repeaterProtoype;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
+     * @ORM\JoinTable(name="prototype_users")
+     */
+    private $prototypeUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -153,6 +175,7 @@ class Rooms
         $this->subscribers = new ArrayCollection();
         $this->schedulings = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
+        $this->prototypeUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -540,6 +563,71 @@ class Rooms
                 $waitinglist->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRepeater(): ?Repeat
+    {
+        return $this->repeater;
+    }
+
+    public function setRepeater(?Repeat $repeater): self
+    {
+        $this->repeater = $repeater;
+
+        return $this;
+    }
+
+    public function getRepeaterRemoved(): ?bool
+    {
+        return $this->repeaterRemoved;
+    }
+
+    public function setRepeaterRemoved(?bool $repeaterRemoved): self
+    {
+        $this->repeaterRemoved = $repeaterRemoved;
+
+        return $this;
+    }
+
+    public function getRepeaterProtoype(): ?Repeat
+    {
+        return $this->repeaterProtoype;
+    }
+
+    public function setRepeaterProtoype(Repeat $repeaterProtoype): self
+    {
+        // set the owning side of the relation if necessary
+        if ($repeaterProtoype->getPrototyp() !== $this) {
+            $repeaterProtoype->setPrototyp($this);
+        }
+
+        $this->repeaterProtoype = $repeaterProtoype;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getPrototypeUsers(): Collection
+    {
+        return $this->prototypeUsers;
+    }
+
+    public function addPrototypeUser(User $prototypeUser): self
+    {
+        if (!$this->prototypeUsers->contains($prototypeUser)) {
+            $this->prototypeUsers[] = $prototypeUser;
+        }
+
+        return $this;
+    }
+
+    public function removePrototypeUser(User $prototypeUser): self
+    {
+        $this->prototypeUsers->removeElement($prototypeUser);
 
         return $this;
     }
