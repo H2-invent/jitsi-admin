@@ -34,8 +34,10 @@ class PermissionChangeService
      * @return bool
      */
     function toggleShareScreen(User $oldUser, User $user, Rooms $rooms){
+        $repeater = false;
         if($rooms->getRepeater()){
             $rooms= $rooms->getRepeater()->getPrototyp();
+            $repeater = true;
         }
         if($rooms->getModerator() === $oldUser){
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
@@ -51,6 +53,9 @@ class PermissionChangeService
             }
             $this->em->persist($roomsUser);
             $this->em->flush();
+            if($repeater){
+                $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
+            }
             return true;
         }
         return false;
@@ -102,8 +107,10 @@ class PermissionChangeService
      * @return bool
      */
     function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms){
+        $repeater = false;
         if($rooms->getRepeater()){
             $rooms= $rooms->getRepeater()->getPrototyp();
+            $repeater = true;
         }
         if($rooms->getModerator() === $oldUser){
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
@@ -119,6 +126,9 @@ class PermissionChangeService
             }
             $this->em->persist($roomsUser);
             $this->em->flush();
+            if($repeater){
+                $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
+            }
             return true;
         }
         return false;
