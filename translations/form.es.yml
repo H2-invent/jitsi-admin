@@ -33,6 +33,38 @@ option.390min: 6:30 Horas
 option.420min: 7 Horas
 option.450min: 7:30 Horas
 option.480min: 8 horas
+option:
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
+  montlyRelative: Monatlich Relativ
+  yearlyRelative: Jährlich Relativ
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
 lable.serverUrl: Url del servidor Jitsi Meet
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
@@ -63,7 +95,7 @@ label:
   featureEnalbeByJwt: "El plugin \"Enable Feature By JWT\" está activado en este servidor"
   dissallowScreenshareGlobal: Sólo el moderador puede compartir la pantalla
   dissallowPrivateMessage: Sólo el moderador puede enviar mensajes privados a otros participantes
-  puplicRoom: Conferencia pública
+  puplicRoom: Einladungslinks freischalten
   showRoomOnJoinpage: Mostrar conferencia en la página de unión
   subscribe: Iniciar sesión
   vorname: Nombre
@@ -71,6 +103,17 @@ label:
   maxParticipants: Permitir número máximo de participantes
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: Ingrese la dirección de correo electrónico de los nuevos MODERADORES
+  weekday: Wochentag
+  repetation: Endet nach x Terminen
+  repeatType: Serienmuster
+  repeaterDays: Nach X Tagen wiederholen
+  repeaterWeeks: Nach X Wochen wiederholen
+  repeatMontly: Nach X Monaten wiederholen
+  repeatYearly: Nach X Jahren wiederholen
+  montlyRelativeNumber: Wievielte Wochentag im Monat
+  montlyRelativeWeekday: Wochentag
+  montlyRelativeMonth: Monat
+  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
