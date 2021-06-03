@@ -98,7 +98,7 @@ class RepeaterController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $repeater = $form->getData();
                 if (!$repeaterService->checkData($repeater)) {
-                    $snack = $translator->trans('Fehler, Bitte füllen Sie alle Felder aus', array('{amount}' => $parameterBag->get('laf_max_repeat')));
+                    $snack = $translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
                 if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
