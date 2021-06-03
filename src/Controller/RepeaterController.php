@@ -91,7 +91,7 @@ class RepeaterController extends AbstractController
 
         $form = $this->createForm(RepeaterType::class, $repeater, ['action' => $this->generateUrl('repeater_edit_repeater', ['repeat' => $repeater->getId()])]);
 
-//        try {
+        try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -127,10 +127,10 @@ class RepeaterController extends AbstractController
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
             }
 
-//        } catch (\Exception $exception) {
-//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-//        }
+        } catch (\Exception $exception) {
+            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+        }
         return $this->render('repeater/index.html.twig', [
             'form' => $form->createView(),
         ]);
