@@ -33,6 +33,38 @@ option.390min: 6小时30分
 option.420min: 7小时
 option.450min: 7小时30分
 option.480min: 8 小时
+option:
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
+  montlyRelative: Monatlich Relativ
+  yearlyRelative: Jährlich Relativ
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
 lable.serverUrl: Jitsi-Meet服务器网址
 label.appId: 应用 ID
 label.appSecret: App密钥
@@ -63,7 +95,7 @@ label:
   featureEnalbeByJwt: "在服务器上激活\"JWT 启用功能\"插件"
   dissallowScreenshareGlobal: 只有主持人才能共享屏幕
   dissallowPrivateMessage: 只有主持人可以各参会者发私信
-  puplicRoom: 公开会议
+  puplicRoom: Einladungslinks freischalten
   showRoomOnJoinpage: 在登录页面上查看会议
   subscribe: 订阅
   vorname: 名
@@ -71,6 +103,17 @@ label:
   maxParticipants: 最大参会人数
   waitinglist: 激活等待列表
   teilnehmerEmailhinzufuegenModerator: 输入新主持人的邮箱
+  weekday: Wochentag
+  repetation: Endet nach x Terminen
+  repeatType: Serienmuster
+  repeaterDays: Nach X Tagen wiederholen
+  repeaterWeeks: Nach X Wochen wiederholen
+  repeatMontly: Nach X Monaten wiederholen
+  repeatYearly: Nach X Jahren wiederholen
+  montlyRelativeNumber: Wievielte Wochentag im Monat
+  montlyRelativeWeekday: Wochentag
+  montlyRelativeMonth: Monat
+  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
