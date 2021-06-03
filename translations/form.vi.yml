@@ -2,7 +2,7 @@
 label.konferenzId: ID phòng họp
 label.email: Địa chỉ Email
 label.name: Tên
-label.teilnehmerEmailhinzufuegen: E-Mail-Adresse von neuen TEILNEHMERN eingeben
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen TEILNEHMERN eingeben
 label.teilnehmerSpeichern: Gửi email lời mời
 label.emailModerator: Nhập địa chỉ email công ty
 help.emailTextfeld: Nhiều địa chỉ email có thể được thêm vào cùng một lúc. Mỗi địa chỉ email phải được viết trên một dòng mới.
@@ -70,7 +70,7 @@ label:
   nachname: Họ
   maxParticipants: Số lượng người tham gia tối đa cho phép
   waitinglist: Kích hoạt danh sách chờ
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adresse von neuen MODERATOREN eingeben
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

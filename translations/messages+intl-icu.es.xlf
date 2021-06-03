@@ -874,19 +874,19 @@
       </trans-unit>
       <trans-unit id="rr8aX2H" resname="Dieser Teilnehmer darf seinen Bildschirm teilen">
         <source>Dieser Teilnehmer darf seinen Bildschirm teilen</source>
-        <target state="needs-translation">Dieser Teilnehmer darf seinen Bildschirm teilen</target>
+        <target state="translated">Este participante puede compartir su pantalla</target>
       </trans-unit>
       <trans-unit id="wzEtJLt" resname="Dieser Teilnehmer darf private Nachrichten versenden">
         <source>Dieser Teilnehmer darf private Nachrichten versenden</source>
-        <target state="needs-translation">Dieser Teilnehmer darf private Nachrichten versenden</target>
+        <target state="translated">Este participante puede enviar mensajes privados</target>
       </trans-unit>
       <trans-unit id="XMBOY_s" resname="Darkmode">
         <source>Darkmode</source>
-        <target state="needs-translation">Darkmode</target>
+        <target state="translated">Modo oscuro</target>
       </trans-unit>
       <trans-unit id="jChD8ic" resname="iCal Link">
         <source>iCal Link</source>
-        <target state="needs-translation">iCal Link</target>
+        <target state="translated">Link a iCal</target>
       </trans-unit>
     </body>
   </file>
