@@ -33,6 +33,38 @@ option.390min: 6:30 Stunden
 option.420min: 7 Stunden
 option.450min: 7:30 Stunden
 option.480min: 8 Giờ
+option:
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
+  montlyRelative: Monatlich Relativ
+  yearlyRelative: Jährlich Relativ
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
 lable.serverUrl: Máy chủ Jitsi URL
 label.appId: App-ID
 label.appSecret: App-Secret
@@ -63,7 +95,7 @@ label:
   featureEnalbeByJwt: "Tính năng \"Token - JWT\" được kích hoạt trên máy chủ"
   dissallowScreenshareGlobal: Chỉ người kiểm duyệt mới có thể chia sẻ màn hình
   dissallowPrivateMessage: Chỉ người kiểm duyệt mới có thể gửi tin nhắn riêng tư cho người tham dự
-  puplicRoom: Hội nghị công khai
+  puplicRoom: Einladungslinks freischalten
   showRoomOnJoinpage: Hiển thị hội nghị trên trang tham gia
   subscribe: Đăng nhập
   vorname: Tên
@@ -71,6 +103,17 @@ label:
   maxParticipants: Số lượng người tham gia tối đa cho phép
   waitinglist: Kích hoạt danh sách chờ
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
+  weekday: Wochentag
+  repetation: Endet nach x Terminen
+  repeatType: Serienmuster
+  repeaterDays: Nach X Tagen wiederholen
+  repeaterWeeks: Nach X Wochen wiederholen
+  repeatMontly: Nach X Monaten wiederholen
+  repeatYearly: Nach X Jahren wiederholen
+  montlyRelativeNumber: Wievielte Wochentag im Monat
+  montlyRelativeWeekday: Wochentag
+  montlyRelativeMonth: Monat
+  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
