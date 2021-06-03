@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -69,6 +70,61 @@ class IcalService
     {
         $events = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, '-1 month');
 
+        $cal = new Calendar();
+        $timeZone = new \DateTimeZone('Europe/Berlin');
+        $start = new \DateTime();
+        $end = new \DateTime();
+        if (sizeof($events) > 1) {
+            $start = $events[0]->getStart();
+            $end = $events[sizeof($events) - 1]->getEndDate();
+        }
+        $cal->addTimeZone(
+            TimeZone::createFromPhpDateTimeZone(
+                $timeZone,
+                $start,
+                $end
+            )
+        );
+        foreach ($events as $event) {
+            $vEvent = new Event();
+            $url = $this->userService->generateUrl($event, $user);
+            $vEvent
+                ->setOccurrence(new TimeSpan(
+                        new DateTime($event->getStart(), true),
+                        new DateTime($event->getEndDate(), true)
+                    )
+                )
+                ->setSummary($event->getName())
+                ->setDescription($event->getName() .
+                    "\n" . $event->getAgenda() .
+                    "\n" . $this->translator->trans('Hier beitreten') . ': ' . $url .
+                    "\n" . $this->translator->trans('Organisator') . ': ' . $event->getModerator()->getFirstName() . ' ' . $event->getModerator()->getLastName())
+                ->setLocation(new Location('Jitsi Meet-Konferenz'));
+
+            $alarmInterval = new \DateInterval('PT10M');
+            $alarmInterval->invert = 1;
+            $vEvent->addAlarm(
+                new \Eluceo\iCal\Domain\ValueObject\Alarm(new \Eluceo\iCal\Domain\ValueObject\Alarm\AudioAction(),
+                    new \Eluceo\iCal\Domain\ValueObject\Alarm\RelativeTrigger($alarmInterval)
+                )
+            );
+            $cal->addEvent($vEvent);
+
+        }
+        $componentFactory = new CalendarFactory();
+        $value = $componentFactory->createCalendar($cal);
+        return $value;
+    }
+
+
+
+    public function getIcalStringfromRepeater(Repeat $repeat, User $user)
+    {
+        $tmp = $repeat->getRooms()->toArray();
+        $events = array();
+        foreach ($tmp as $data){
+            $events[] = $data;
+        }
         $cal = new Calendar();
         $timeZone = new \DateTimeZone('Europe/Berlin');
         $start = new \DateTime();

@@ -23,7 +23,7 @@
     {% if app.user == room.onlyRegisteredUsers %}
         <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>
     {% endif %}
-    {% if app.user == room.public %}
+    {% if room.public and room.repeater is null %}
         <span class="badge badge-danger">{{ 'Selbstregistrierung'|trans }}</span><br>
     {% endif %}
     {% if room.repeater is not null %}

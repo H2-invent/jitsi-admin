@@ -18,6 +18,7 @@ class RepeaterService
     private $em;
     private $mailer;
     private $icsService;
+    private $icalService;
     private $userService;
     private $translator;
     private $twig;
@@ -53,7 +54,7 @@ class RepeaterService
         'December',
     );
 
-    public function __construct(Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager  )
+    public function __construct(IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager  )
     {
         $this->icsService = $icsService;
         $this->em = $entityManager;
@@ -62,6 +63,7 @@ class RepeaterService
         $this->userService = $userService;
         $this->translator = $translator;
         $this->twig = $environment;
+        $this->icalService = $icalService;
     }
 
     function createNewRepeater(Repeat $repeat): Repeat
@@ -377,7 +379,7 @@ class RepeaterService
         }
         foreach ($users as $user) {
             $templateAttr['user'] = $user;
-            $ics = $this->createIcs($repeat, $user, $method);
+            $ics = $this->createIcs($repeat, $user);
             $attachement = array();
             $attachement[] = array('type' => 'text/calendar', 'filename' => $repeat->getPrototyp()->getName() . '.ics', 'body' => $ics);
             $this->mailer->sendEmail(
@@ -389,42 +391,9 @@ class RepeaterService
         }
     }
 
-    private function createIcs(Repeat $repeat, User $user, $method = 'REQUEST')
+    private function createIcs(Repeat $repeat, User $user):string
     {
-        $ics = new IcsService();
-        $ics->setMethod($method);
-        foreach ($repeat->getRooms() as $room) {
-            if ($room->getModerator() !== $user) {
-                $organizer = $room->getModerator()->getEmail();
-            } else {
-                $organizer = $room->getModerator()->getFirstName() . '@' . $room->getModerator()->getLastName() . '.de';
-                $ics->setIsModerator(true);
-            }
-
-            $url = $this->userService->generateUrl($room, $user);
-            $ics->add(
-                array(
-                    'uid' => md5($room->getUid()),
-                    'location' => $this->translator->trans('Jitsi Konferenz'),
-                    'description' => $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $room->getServer()->getUrl())) .
-                        '\n\n' .
-                        $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $room->getName(), '{moderator}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName()))
-                        . '\n\n' .
-                        $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}', array('{id}' => $room->getUid(), '{email}' => $user->getEmail()))
-                        . '\n\n' .
-                        $url .
-                        '\n\n' .
-                        $this->translator->trans('Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.'),
-                    'dtstart' => $room->getStart()->format('Ymd') . "T" . $room->getStart()->format("His"),
-                    'dtend' => $room->getEnddate()->format('Ymd') . "T" . $room->getEnddate()->format("His"),
-                    'summary' => $room->getName(),
-                    'sequence' => $room->getRepeater()->getPrototyp()->getSequence(),
-                    'organizer' => $organizer,
-                    'attendee' => $user->getEmail(),
-                )
-            );
-        }
-        return $ics->toString();
+      return $this->icalService->getIcalStringfromRepeater($repeat,$user);
     }
 
     public function addUserRepeat(Repeat $repeat)
