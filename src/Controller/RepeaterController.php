@@ -42,7 +42,7 @@ class RepeaterController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $repeater = $form->getData();
                 if (!$repeaterService->checkData($repeater)) {
-                    $snack = $translator->trans('Fehler, Bitte füllen Sie alle Felder aus', array('{amount}' => $parameterBag->get('laf_max_repeat')));
+                    $snack = $translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
                 if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
@@ -124,7 +124,7 @@ class RepeaterController extends AbstractController
                 $repeater = $repeaterService->createNewRepeater($repeater);
                 $repeaterService->addUserRepeat($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
-                $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
+                $snack = $translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
             }
 
@@ -200,7 +200,7 @@ class RepeaterController extends AbstractController
                     $em->persist($repeater);
                     $em->persist($room);
                     $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
-                    $snack = $translator->trans('Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet');
+                    $snack = $translator->trans('Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
                 }
 
@@ -208,7 +208,7 @@ class RepeaterController extends AbstractController
                 $repeater = $repeaterService->replaceRooms($room);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
 
-                $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin bearbeitet');
+                $snack = $translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
             }
 
