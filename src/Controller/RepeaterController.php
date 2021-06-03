@@ -54,6 +54,7 @@ class RepeaterController extends AbstractController
                     $room->addPrototypeUser($data);
                     $room->removeUser($data);
                 }
+                $room->setPublic(false);
                 $em->persist($room);
                 $em->flush();
 
