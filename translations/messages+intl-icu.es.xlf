@@ -986,39 +986,67 @@
       </trans-unit>
       <trans-unit id="fZdNwVM" resname="Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.">
         <source>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</source>
-        <target state="needs-translation">Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</target>
+        <target state="translated">Se recomienda utilizar la función iCal del administrador de Jitsi.</target>
       </trans-unit>
       <trans-unit id="UtG9LK6" resname="Serienvideokonferenz geändert">
         <source>Serienvideokonferenz geändert</source>
-        <target state="needs-translation">Serienvideokonferenz geändert</target>
+        <target state="translated">La videoconferencia de la serie cambió</target>
       </trans-unit>
       <trans-unit id="6ygviQp" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
         <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+        <target state="translated">Se ha cambiado la cita periódica {name}. Antes de cada cita, recibirá un correo electrónico con el enlace para llamar.</target>
       </trans-unit>
       <trans-unit id="lAiGCC9" resname="Videokonferenz in Serienvideokonferenz umgewandelt">
         <source>Videokonferenz in Serienvideokonferenz umgewandelt</source>
-        <target state="needs-translation">Videokonferenz in Serienvideokonferenz umgewandelt</target>
+        <target state="translated">Videoconferencia convertida en videoconferencia en serie</target>
       </trans-unit>
       <trans-unit id="maPhtKz" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
         <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+        <target state="translated">El evento {name} se ha convertido en un evento en serie. Antes de cada cita, recibirá un correo electrónico con el enlace para llamar.</target>
       </trans-unit>
       <trans-unit id="SZi18dm" resname="Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
         <source>Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
-        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
+        <target state="translated">El archivo ics adjunto contiene todas las fechas de la serie. Sin embargo, esto debe importarse a su programa de correo electrónico utilizando la función de importación, no haciendo doble clic.</target>
       </trans-unit>
       <trans-unit id="iZMDeDm" resname="Die Serienvideokonferenz wurde abgesagt">
         <source>Die Serienvideokonferenz wurde abgesagt</source>
-        <target state="needs-translation">Die Serienvideokonferenz wurde abgesagt</target>
+        <target state="translated">La videoconferencia de la serie fue cancelada</target>
       </trans-unit>
       <trans-unit id="XO0dRjN" resname="Der Serienterm {name} wurde abgesagt.">
         <source>Der Serienterm {name} wurde abgesagt.</source>
-        <target state="needs-translation">Der Serienterm {name} wurde abgesagt.</target>
+        <target state="translated">Se canceló la cita de serie {name}.</target>
       </trans-unit>
       <trans-unit id="padgvWA" resname="Serien Termin">
         <source>Serien Termin</source>
-        <target state="needs-translation">Serien Termin</target>
+        <target state="translated">Cita de serie</target>
+      </trans-unit>
+      <trans-unit id="_w.eQXo" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
+        <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
+        <target state="translated">Ha procesado con éxito una cita en serie</target>
+      </trans-unit>
+      <trans-unit id="EQb8YHp" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet">
+        <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
+        <target state="translated">Ha editado correctamente una cita de una serie</target>
+      </trans-unit>
+      <trans-unit id="Fh87GFQ" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="translated">Se le ha agregado al evento recurrente {name}. Antes de cada cita, recibirá un correo electrónico con el enlace para llamar.</target>
+      </trans-unit>
+      <trans-unit id="goltkDr" resname="Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.">
+        <source>Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</source>
+        <target state="translated">El archivo ics adjunto contiene todas las fechas de la serie como un nuevo calendario.</target>
+      </trans-unit>
+      <trans-unit id="YyrA.0T" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="translated">Se ha cambiado la cita periódica {name}. Antes de cada cita, recibirá un correo electrónico con un enlace para llamar.</target>
+      </trans-unit>
+      <trans-unit id="THWcDaJ" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="translated">El evento {name} se ha convertido en un evento en serie. Antes de cada cita, recibirá un correo electrónico con un enlace para llamar.</target>
+      </trans-unit>
+      <trans-unit id="rcE9dqU" resname="Die Serienvideokonferenz {name} wurde abgesagt.">
+        <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
+        <target state="translated">Se canceló la videoconferencia en serie {name}.</target>
       </trans-unit>
     </body>
   </file>
