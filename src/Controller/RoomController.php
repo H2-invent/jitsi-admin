@@ -176,16 +176,21 @@ class RoomController extends AbstractController
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        $repeater = false;
+        if($room->getRepeater()){
+            $repeater = true;
+        }
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = 'Keine Berechtigung';
         if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
-            $roomAddService->removeUserFromRoom($user,$room);
-
-            $snack = $this->translator->trans('Teilnehmer gelöscht');
-            if (!$room->getRepeater()){
+            if ($repeater){
+                $roomAddService->removeUserFromRoom($user,$room);
+            }
+            if (!$repeater){
                 $userService->removeRoom($user, $room);
             }
 
+            $snack = $this->translator->trans('Teilnehmer gelöscht');
         }
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
