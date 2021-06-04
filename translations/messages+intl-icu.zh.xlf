@@ -1018,6 +1018,34 @@
         <source>Serien Termin</source>
         <target state="needs-translation">Serien Termin</target>
       </trans-unit>
+      <trans-unit id="_w.eQXo" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
+        <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
+        <target state="needs-translation">Sie haben erfolgreich einen Serientermin bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="EQb8YHp" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet">
+        <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
+        <target state="needs-translation">Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="Fh87GFQ" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="goltkDr" resname="Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.">
+        <source>Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</source>
+        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</target>
+      </trans-unit>
+      <trans-unit id="YyrA.0T" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="THWcDaJ" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="rcE9dqU" resname="Die Serienvideokonferenz {name} wurde abgesagt.">
+        <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
+        <target state="needs-translation">Die Serienvideokonferenz {name} wurde abgesagt.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
