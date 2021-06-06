@@ -37,6 +37,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+                    {% if tags is defined and tags is not null %}
                     <a href="https://github.com/H2-invent/jitsi-admin/releases/tag/{{ tags[0].name }}"
                        referrerpolicy="no-referrer " target="_blank" rel="noreferrer noopener">
                         <div class="card {% if laf_version != tags[0].name %}border-danger{% else %}border-info{% endif %} text-center">
@@ -45,6 +46,7 @@
                             </div>
                         </div>
                     </a>
+                    {% endif %}
                 </div>
             </div>
             <hr>
