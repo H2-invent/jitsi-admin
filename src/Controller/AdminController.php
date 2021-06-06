@@ -33,7 +33,7 @@ class AdminController extends AbstractController
              return $this->redirectToRoute('dashboard',['snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden'),'color'=>'danger']);
         }
         $tags = null;
-        if(!$parameterBag->get('enterprise_noExternal')){
+        if($parameterBag->get('enterprise_noExternal') == 0){
             $req = $httpClient->request('GET', 'https://api.github.com/repos/H2-invent/jitsi-admin/tags');
             $tags = json_decode($req->getContent(), true);
         }
