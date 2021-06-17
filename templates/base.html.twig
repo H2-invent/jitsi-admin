@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-
+{% set theme =  getThemeProperties() %}
 {{ include('base/__head.html.twig') }}
+
 <script>
     var importBBB = true
 </script>
@@ -13,7 +14,8 @@
 {% endif %}
 
 
-<body>
+<body {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+    class="blackMode"{% endif%}>
 
 <div id="mainContent" class="wrapper">
 
@@ -22,10 +24,18 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a href="{{ path('dashboard') }}">
-                    <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
-                         style="height: 40px; width: auto">
-                    <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
-                         style="height: 40px; width: auto">
+                    {% if theme %}
+                        <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                        <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                    {% else %}
+                        <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                        <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                    {% endif %}
+
                 </a>
                 {% block CTA %}{% endblock %}
                 {{ include('base/__topnav.html.twig') }}

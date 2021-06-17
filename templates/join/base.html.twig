@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-
+{% set theme =  getThemeProperties() %}
 {% include'base/__head.html.twig' with {'css':'app'}  %}
 
 {% set image = pexelsImage() %}

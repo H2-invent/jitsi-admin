@@ -1,22 +1,58 @@
+{% set theme =  getThemeProperties() %}
+<style type="text/css">
+
+    a {
+        color: #2199e8;
+        text-decoration: none; }
+    a:hover {
+        color: #147dc2; }
+    a:active {
+        color: #147dc2; }
+    a:visited {
+        color: #2199e8; }
+
+    h1 a,
+    h1 a:visited,
+    h2 a,
+    h2 a:visited,
+    h3 a,
+    h3 a:visited,
+    h4 a,
+    h4 a:visited,
+    h5 a,
+    h5 a:visited,
+    h6 a,
+    h6 a:visited {
+        color: #2199e8; }
+    body,
+    html,
+    .body {
+        background: #f3f3f3 !important;
+    }
+
+    .container.header {
+        background: #f3f3f3;
+    }
+    {% if theme %}
+    .body-border {
+        border-top: 8px solid {{theme.emailColor}};
+    }
+
+
+    {% else %}
+    .body-border {
+        border-top: 8px solid #ff002a;
+    }
+
+    {% endif %}
+
+</style>
 {% apply inky_to_html|inline_css(source('@css/foundation-emails.css')) %}
+
     {% if room is defined and server is not defined %}
         {% set server = room.server %}
     {% endif %}
-    <style type="text/css">
-        body,
-        html,
-        .body {
-            background: #f3f3f3 !important;
-        }
 
-        .container.header {
-            background: #f3f3f3;
-        }
-
-        .body-border {
-            border-top: 8px solid #ff002a;
-        }
-    </style>
 
     <spacer size="16"></spacer>
 
@@ -88,7 +124,12 @@
         </row>
         <center>
             <small>
-                <a href="https://jitsi-admin.de">{{ 'Powered by Jitsi Manager, die Open Source Jitsi Planer Software'|trans }}</a>
+                {% if theme %}
+                    <a href="{{ theme.emailFooterLink }}"> {{ theme.emailFooterText }}</a>
+                    {% else %}
+                        <a href="https://jitsi-admin.de">{{ 'Powered by Jitsi Manager, die Open Source Jitsi Planer Software'|trans }}</a>
+                {% endif %}
+
             </small>
         </center>
 
