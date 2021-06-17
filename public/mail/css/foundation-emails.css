@@ -824,8 +824,8 @@ h5,
 h6,
 p,
 td,
-th,
-a {
+th
+{
   color: #0a0a0a;
   font-family: Helvetica, Arial, sans-serif;
   font-weight: normal;
