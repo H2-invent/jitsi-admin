@@ -2,7 +2,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    {% if theme %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{ theme.icon }}">
+    {% else %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    {% endif %}
+
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     {% block title %}
@@ -51,4 +56,70 @@
 
 
     {% block stylesheets %}{% endblock %}
+
+
+    {% if theme %}
+        <style>
+            .btn-dashboard{
+                background-color: {{ theme.colorButton }} !important;
+                color: {{ theme.colorButtonText }} !important;
+            }
+            .btn-outline-dashboard{
+                border-color: {{ theme.colorButtonOutlinecolor }} !important;;
+            }
+            .light-blue.darken-3{
+                background-color: {{ theme.primaryColor }} !important;
+                color: white!important;
+            }
+            .modal h5{
+                color: {{ theme.primaryTextColor }} !important;
+            }
+            .btn-outline-primary{
+                color: {{ theme.colorButtonOutlinecolor }} !important;
+                border-color: {{ theme.colorButtonOutlinecolor }} !important;
+            }
+            .btn-outline-primary:hover{
+                color: {{ theme.colorButtonOutlinecolor }} !important;
+                border-color: {{ theme.colorButtonOutlinecolor }} !important;
+            }
+            .blackMode a{
+                color: {{ theme.primaryColor }} ;
+            }
+            .btn-outline-secondary, .btn-outline-default{
+                border-color: {{ theme.colorButtonOutlinecolor }} !important;
+                color: {{ theme.colorButtonOutlineTextcolor }} !important;
+            }
+            .btn-outline-secondary .active, .btn-outline-default .active,
+            .btn-outline-secondary:hover, .btn-outline-default:hover,
+            .btn-outline-secondary:active, .btn-outline-default:active,
+            .btn-outline-secondary:focus, .btn-outline-default:focus,
+            .show>.btn-outline-secondary.dropdown-toggle{
+                border-color: {{ theme.colorButtonOutlinecolor }} !important;
+                color: {{ theme.colorButtonOutlineTextcolor }} !important;
+            }
+            .btn-primary{
+                background-color: {{ theme.colorButton }} !important;
+                color: {{ theme.colorButtonText }} !important;
+            }
+            .btn-primary.dropdown-toggle{
+                background-color: {{ theme.colorButton }} !important;
+                color: {{ theme.colorButtonText }} !important;
+            }
+            .btn-primary.dropdown-toggle:hover{
+                background-color: {{ theme.colorButtonHover }} !important;
+                color: {{ theme.colorButtonText }} !important;
+            }
+            .btn-primary.dropdown-toggle:active, .show>.btn-primary.dropdown-toggle, .show>.btn-primary.dropdown-toggle:active{
+                background-color: {{ theme.colorButtonActive }} !important;
+                color: {{ theme.colorButtonText }} !important;
+            }
+            .blackMode #content{
+                background-color: {{ theme.darkmodeBackgroudcolor }} !important;
+            }
+            .blackMode .card{
+                background-color: {{ theme.darkmodeBackgroudcolorContrast }} !important;
+            }
+        </style>
+    {% endif %}
+
 </head>

@@ -60,7 +60,6 @@ class MailerService
 
     public function sendEmail($to, $betreff, $content, Server $server, $attachment = array()):bool
     {
-
         try {
             $this->logger->info('Mail To: ' . $to);
             $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
