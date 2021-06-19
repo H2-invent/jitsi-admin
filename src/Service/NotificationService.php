@@ -34,6 +34,9 @@ class NotificationService
 
     function createIcs(Rooms $rooms, User $user, $url, $method = 'REQUEST')
     {
+
+
+
         $this->ics = new IcsService();
         $this->ics->setMethod($method);
         if ($rooms->getModerator() !== $user) {
@@ -42,7 +45,7 @@ class NotificationService
             $organizer = $rooms->getModerator()->getFirstName().'@'.$rooms->getModerator()->getLastName().'.de';
             $this->ics->setIsModerator(true);
         }
-
+            $this->ics->setTimezoneStart($rooms->getStart());
             $this->ics->add(
                 array(
                     'uid' => md5($rooms->getUid()),
