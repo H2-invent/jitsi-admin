@@ -14,10 +14,48 @@ class IcsService
     const DT_FORMAT = 'Ymd\THis\Z';
     protected $properties = array();
     private $isModerator;
+    private $timezoneId;
+    private $timezoneStart;
+    private $timezoneEnd;
+    private $timeZone;
 
     public function __construct()
     {
         $this->isModerator = false;
+        $this->timezoneId = 'Europe/Berlin';
+        $this->timezoneStart = new \DateTime();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTimezoneStart(): \DateTime
+    {
+        return $this->timezoneStart;
+    }
+
+    /**
+     * @param \DateTime $timezoneStart
+     */
+    public function setTimezoneStart(\DateTime $timezoneStart): void
+    {
+        $this->timezoneStart = $timezoneStart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimezoneEnd()
+    {
+        return $this->timezoneEnd;
+    }
+
+    /**
+     * @param mixed $timezoneEnd
+     */
+    public function setTimezoneEnd($timezoneEnd): void
+    {
+        $this->timezoneEnd = $timezoneEnd;
     }
 
     /**
@@ -67,7 +105,6 @@ class IcsService
 
     public function add($key)
     {
-
         $this->appointments[] = $key;
     }
 
@@ -107,8 +144,6 @@ class IcsService
                 } else {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
                 }
-
-
             }
             // Set some default values
             $props['DTSTAMP'] = $this->formatTimestamp('now');
@@ -119,6 +154,10 @@ class IcsService
 
             // Append properties
             foreach ($props as $k => $v) {
+                if($k === 'DTSTART' || $k ==='DTEND'){
+                    $k = $k.';'.$this->timezoneId;
+                }
+
                 $ics_props[] = "$k:$v";
             }
 
@@ -126,7 +165,15 @@ class IcsService
         }
 
         // Build ICS properties - add footer
-
+        $ics_props[] = 'BEGIN:VTIMEZONE';
+        $ics_props[] = 'TZID:' . $this->timezoneId;
+        $ics_props[] = 'BEGIN:DAYLIGHT';
+        $ics_props[] = 'DTSTART:' . $this->timezoneStart->format('Ymt').'T'.$this->timezoneStart->format('His');
+        $ics_props[] = 'TZNAME:' . $this->timezoneStart->format('T');
+        $ics_props[] = 'TZOFFSETTO:' . $this->timezoneStart->format('O');
+        $ics_props[] = 'TZOFFSETFROM:' . $this->timezoneStart->format('O');
+        $ics_props[] = 'END:DAYLIGHT';
+        $ics_props[] = 'END:VTIMEZONE';
         $ics_props[] = 'END:VCALENDAR';
         return $ics_props;
     }
@@ -159,6 +206,5 @@ class IcsService
     {
         return preg_replace('/([\,;])/', '\\\$1', $str);
     }
-
 
 }
