@@ -157,7 +157,7 @@ class IcsService
                 if($k === 'DTSTART' || $k ==='DTEND'){
                     $k = $k.';'.$this->timezoneId;
                 }
-                dump($k);
+
                 $ics_props[] = "$k:$v";
             }
 
@@ -175,7 +175,6 @@ class IcsService
         $ics_props[] = 'END:DAYLIGHT';
         $ics_props[] = 'END:VTIMEZONE';
         $ics_props[] = 'END:VCALENDAR';
-        dump($ics_props);
         return $ics_props;
     }
 
