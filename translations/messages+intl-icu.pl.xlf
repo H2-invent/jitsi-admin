@@ -1053,6 +1053,26 @@
         <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
         <target state="needs-translation">Die Serienvideokonferenz {name} wurde abgesagt.</target>
       </trans-unit>
+      <trans-unit id="1YU8isJ" resname="Alle Serienelement der Serie bearbeiten">
+        <source>Alle Serienelement der Serie bearbeiten</source>
+        <target state="needs-translation">Alle Serienelement der Serie bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
+        <source>Nur dieses Serienelement bearbeiten</source>
+        <target state="needs-translation">Nur dieses Serienelement bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
+        <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
+        <target state="needs-translation">Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</target>
+      </trans-unit>
+      <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
+        <source>Alle Serienelemente bearbeiten</source>
+        <target state="needs-translation">Alle Serienelemente bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="16Cp82G" resname="Einzelnes Serienelement bearbeiten">
+        <source>Einzelnes Serienelement bearbeiten</source>
+        <target state="needs-translation">Einzelnes Serienelement bearbeiten</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
