@@ -209,7 +209,10 @@ class RoomController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             foreach ($room->getUser() as $user) {
                 if(!$room->getRepeater()){
-                    $userService->removeRoom($user, $room);
+                    if($room->getEnddate() > new \DateTime()){
+                        $userService->removeRoom($user, $room);
+                    }
+
                 }
 
                 $room->removeUser($user);

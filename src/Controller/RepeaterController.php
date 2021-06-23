@@ -175,17 +175,21 @@ class RepeaterController extends AbstractController
      */
     public function editPrototype(RoomAddService $roomAddService, Request $request, UserService $userService, TranslatorInterface $translator, RepeaterService $repeaterService, ServerUserManagment $serverUserManagment): Response
     {
-
+        $title = $translator->trans('Alle Serienelement der Serie bearbeiten');
+        $extra = null;
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('id'));
+        if($request->get('type') === 'single'){
+         $room->setRepeaterRemoved(true);
+         $title = $translator->trans('Nur dieses Serienelement bearbeiten');
+        }elseif ($request->get('type') === 'all'){
+            $extra = $translator->trans('Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist');
+        }
         if ($room->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Not found');
         }
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['id' => $room->getId()])]);
-        $form->add('repeaterRemoved', CheckboxType::class, array(
-            'label' => 'label.repeaterRemoved',
-            'required' => false,
-            'translation_domain' => 'form'));
+
         try {
             $form->handleRequest($request);
 
@@ -218,7 +222,8 @@ class RepeaterController extends AbstractController
         }
         return $this->render('base/__newRoomModal.html.twig', [
             'form' => $form->createView(),
-            'title' => $translator->trans('Serienelement bearbeiten')
+            'title' => $title,
+            'extra'=>$extra
         ]);
     }
 
