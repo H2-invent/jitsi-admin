@@ -892,7 +892,7 @@
       </trans-unit>
       <trans-unit id="iHWAl7b" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="needs-translation">Hier beitreten</target>
+        <target state="translated">Enter here</target>
       </trans-unit>
       <trans-unit id="qjr7pXm" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -952,19 +952,19 @@
       </trans-unit>
       <trans-unit id="I.AEB32" resname="Selbstregistrierung">
         <source>Selbstregistrierung</source>
-        <target state="needs-translation">Selbstregistrierung</target>
+        <target state="translated">Selfregistration</target>
       </trans-unit>
       <trans-unit id="q3dDpK2" resname="Serie">
         <source>Serie</source>
-        <target state="needs-translation">Serie</target>
+        <target state="translated">Series</target>
       </trans-unit>
       <trans-unit id="K1wfW2y" resname="Serienart bearbeiten">
         <source>Serienart bearbeiten</source>
-        <target state="needs-translation">Serienart bearbeiten</target>
+        <target state="translated">Edit type of series</target>
       </trans-unit>
       <trans-unit id="39O7jAk" resname="Serie löschen">
         <source>Serie löschen</source>
-        <target state="needs-translation">Serie löschen</target>
+        <target state="translated">Delete series</target>
       </trans-unit>
       <trans-unit id="6R7jKP3" resname="Neue Serien Termin">
         <source>Neue Serien Termin</source>
@@ -1016,7 +1016,7 @@
       </trans-unit>
       <trans-unit id="padgvWA" resname="Serien Termin">
         <source>Serien Termin</source>
-        <target state="needs-translation">Serien Termin</target>
+        <target state="translated">Seriesappointment</target>
       </trans-unit>
       <trans-unit id="_w.eQXo" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
@@ -1048,11 +1048,11 @@
       </trans-unit>
       <trans-unit id="1YU8isJ" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="needs-translation">Alle Serienelement der Serie bearbeiten</target>
+        <target state="translated">Edit all elements of the series</target>
       </trans-unit>
       <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
         <source>Nur dieses Serienelement bearbeiten</source>
-        <target state="needs-translation">Nur dieses Serienelement bearbeiten</target>
+        <target state="translated">Edit only this serieselement</target>
       </trans-unit>
       <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
@@ -1060,11 +1060,11 @@
       </trans-unit>
       <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
         <source>Alle Serienelemente bearbeiten</source>
-        <target state="needs-translation">Alle Serienelemente bearbeiten</target>
+        <target state="translated">Edit all serieselements</target>
       </trans-unit>
       <trans-unit id="16Cp82G" resname="Einzelnes Serienelement bearbeiten">
         <source>Einzelnes Serienelement bearbeiten</source>
-        <target state="needs-translation">Einzelnes Serienelement bearbeiten</target>
+        <target state="translated">Edit single serieselement</target>
       </trans-unit>
     </body>
   </file>
