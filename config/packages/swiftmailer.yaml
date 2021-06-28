@@ -1,5 +1,8 @@
 swiftmailer:
-    spool: { type: 'memory' }
+    #spool: { type: 'memory' }
+    spool:
+        type: file
+        path: '%kernel.project_dir%/var/spool'
     disable_delivery: false
     host: '%env(MAILER_HOST)%'
     password: '%env(MAILER_PASSWORD)%'

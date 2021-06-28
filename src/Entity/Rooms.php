@@ -168,6 +168,11 @@ class Rooms
      */
     private $prototypeUsers;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $persistantRoom;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -628,6 +633,18 @@ class Rooms
     public function removePrototypeUser(User $prototypeUser): self
     {
         $this->prototypeUsers->removeElement($prototypeUser);
+
+        return $this;
+    }
+
+    public function getPersistantRoom(): ?bool
+    {
+        return $this->persistantRoom;
+    }
+
+    public function setPersistantRoom(?bool $persistantRoom): self
+    {
+        $this->persistantRoom = $persistantRoom;
 
         return $this;
     }
