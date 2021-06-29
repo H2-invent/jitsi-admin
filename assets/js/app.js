@@ -167,7 +167,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
     $( 'form' ).submit(function( event ) {
         var btn = $(this).find('button[type=submit]');
-        btn.text(btn.text()+'...');
+        btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled",true)
     });
     $('.generateApiKey').click(function (e) {
