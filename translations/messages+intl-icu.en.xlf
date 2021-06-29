@@ -1032,7 +1032,7 @@
       </trans-unit>
       <trans-unit id="goltkDr" resname="Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.">
         <source>Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</source>
-        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</target>
+        <target state="translated">The attached ics file contains all the dates of the series as a new calendar.</target>
       </trans-unit>
       <trans-unit id="YyrA.0T" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
         <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
@@ -1056,7 +1056,7 @@
       </trans-unit>
       <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
-        <target state="needs-translation">Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</target>
+        <target state="translated">The date is not taken into account as this is already determined by the series</target>
       </trans-unit>
       <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
         <source>Alle Serienelemente bearbeiten</source>
