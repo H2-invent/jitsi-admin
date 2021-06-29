@@ -165,6 +165,11 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         dateFormat: 'Y-m-d H:i',
         altInput: true
     });
+    $( 'form' ).submit(function( event ) {
+        var btn = $(this).find('button[type=submit]');
+        btn.text(btn.text()+'...');
+        btn.prop("disabled",true)
+    });
     $('.generateApiKey').click(function (e) {
         e.preventDefault();
         $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
