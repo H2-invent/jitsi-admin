@@ -1068,6 +1068,10 @@
         <source>Einzelnes Serienelement bearbeiten</source>
         <target state="translated">Editar un elemento de una sola serie recurrente</target>
       </trans-unit>
+      <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
+        <source>Oder kopieren Sie den Link in Ihren Browser</source>
+        <target state="needs-translation">Oder kopieren Sie den Link in Ihren Browser</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
