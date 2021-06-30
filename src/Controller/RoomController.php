@@ -177,6 +177,7 @@ class RoomController extends AbstractController
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $repeater = false;
+
         if($room->getRepeater()){
             $repeater = true;
         }
@@ -187,6 +188,10 @@ class RoomController extends AbstractController
                 $roomAddService->removeUserFromRoom($user,$room);
             }
             if (!$repeater){
+                $room->removeUser($user);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
                 $userService->removeRoom($user, $room);
             }
 
