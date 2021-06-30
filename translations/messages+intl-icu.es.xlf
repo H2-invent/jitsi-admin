@@ -1070,7 +1070,7 @@
       </trans-unit>
       <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
         <source>Oder kopieren Sie den Link in Ihren Browser</source>
-        <target state="needs-translation">Oder kopieren Sie den Link in Ihren Browser</target>
+        <target state="translated">O copie el enlace en su navegador</target>
       </trans-unit>
     </body>
   </file>
