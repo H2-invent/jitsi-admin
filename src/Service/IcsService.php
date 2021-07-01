@@ -155,12 +155,16 @@ class IcsService
             // Append properties
             foreach ($props as $k => $v) {
                 if($k === 'DTSTART' || $k ==='DTEND'){
-                    $k = $k.';'.$this->timezoneId;
+                    $k = $k.';TZID="'.$this->timezoneId.'"';
                 }
 
                 $ics_props[] = "$k:$v";
             }
-
+            $ics_props[]='BEGIN:VALARM';
+            $ics_props[] = 'ACTION:DISPLAY';
+            $ics_props[] = 'TRIGGER:-PT10M';
+            $ics_props[] = 'DESCRIPTION:'.$data['summary'];
+            $ics_props[] = 'END:VALARM';
             $ics_props[] = 'END:VEVENT';
         }
 
