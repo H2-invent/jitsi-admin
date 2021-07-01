@@ -13,6 +13,7 @@ use App\Service\PermissionChangeService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\SchedulingService;
+use App\Service\ServerService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
 use App\Service\InviteService;
@@ -37,7 +38,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
+    public function newRoom(ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -81,12 +82,31 @@ class RoomController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $room = $form->getData();
-                if (!$room->getStart()) {
+                //$room = $form->getData();
+                if (!$room->getStart() && !$room->getPersistantRoom()) {
                     $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
-                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+                if($room->getPersistantRoom()){
+                    $counter = 0;
+                    $slug = $serverService->slugify($room->getName());
+                    $tmp = $slug;
+                    while (true) {
+                        $roomTmp = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['slug' => $tmp]);
+                        if (!$roomTmp) {
+                            $room->setUid($tmp);
+                            $room->setSlug($tmp);
+                            break;
+                        } else {
+                            $counter++;
+                            $tmp = $slug . '-' . $counter;
+                        }
+                    }
+                     $room->setStart(new \DateTime());
+                }else{
+                    $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+                }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();

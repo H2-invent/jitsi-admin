@@ -25,6 +25,7 @@ import ClipboardJS from 'clipboard'
 import {initScheduling} from './scheduling'
 import * as Toastr from 'toastr'
 import {initGenerell} from './init'
+
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -35,10 +36,10 @@ $.urlParam = function (name) {
 addEventListener('load', function () {
     var url = (new URLSearchParams(window.location.search)).get('modalUrl');
     if (url !== null) {
-        $('#loadContentModal').load(atob(url), function (data,status) {
-            if ( status === "error" ) {
+        $('#loadContentModal').load(atob(url), function (data, status) {
+            if (status === "error") {
                 window.location.reload();
-            }else {
+            } else {
                 $('#loadContentModal ').modal('show');
             }
 
@@ -134,10 +135,10 @@ $(document).on('click', '.confirmHref', function (e) {
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
-    $('#loadContentModal').load(url, function (data,status) {
-        if ( status === "error" ) {
+    $('#loadContentModal').load(url, function (data, status) {
+        if (status === "error") {
             window.location.reload();
-        }else {
+        } else {
             $('#loadContentModal ').modal('show');
         }
 
@@ -155,6 +156,7 @@ function initServerFeatures() {
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
     $('[data-toggle="popover"]').popover({html: true});
+
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,
@@ -176,7 +178,20 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             $('#appId').collapse('hide')
         }
     });
-
+    if (typeof $('#room_persistantRoom') !== 'undefined') {
+        if ($('#room_persistantRoom').prop('checked')) {
+            $('#roomStartForm').collapse('hide')
+        } else {
+            $('#roomStartForm').collapse('show')
+        }
+        $('#room_persistantRoom').change(function () {
+            if ($('#room_persistantRoom').prop('checked')) {
+                $('#roomStartForm').collapse('hide')
+            } else {
+                $('#roomStartForm').collapse('show')
+            }
+        })
+    }
     if (typeof $('room_public') !== 'undefined') {
         if ($('#room_public').prop('checked')) {
             $('#maxParticipants').collapse('show')
@@ -196,12 +211,12 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     initSearchUser();
     initServerFeatures();
     initRepeater();
-    if(getCookie('room_server')){
+    if (getCookie('room_server')) {
         $('#room_server').val(getCookie('room_server'))
     }
-    $('#room_server').change(function (){
+    $('#room_server').change(function () {
         console.log($(this).val());
-        setCookie('room_server',$(this).val(),1000);
+        setCookie('room_server', $(this).val(), 1000);
     })
     var ctx = document.getElementById("lineChart").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -266,7 +281,7 @@ function initSearchUser() {
                     $('#searchUser').val('');
                     autosize.update($textarea);
                 })
-                $('.chooseModerator').click(function (e){
+                $('.chooseModerator').click(function (e) {
                     e.stopPropagation();
                     $('#moderatorCollapse').collapse('show');
                     var $textarea = $('#new_member_moderator');
@@ -317,15 +332,17 @@ function setCookie(cname, cvalue, exdays) {
     var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-function initCopytoClipboard(){
+
+function initCopytoClipboard() {
 
     var clipboard = new ClipboardJS('.copyLink');
 }
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -336,13 +353,14 @@ function getCookie(cname) {
     }
     return "";
 }
-function initRepeater(){
-    $('.repeater').addClass('d-none');
-    $('#repeater_'+$('#repeater_repeatType').val()).removeClass('d-none');
 
-    $('#repeater_repeatType').change(function (){
+function initRepeater() {
+    $('.repeater').addClass('d-none');
+    $('#repeater_' + $('#repeater_repeatType').val()).removeClass('d-none');
+
+    $('#repeater_repeatType').change(function () {
 
         $('.repeater').addClass('d-none');
-        $('#repeater_'+$(this).val()).removeClass('d-none');
+        $('#repeater_' + $(this).val()).removeClass('d-none');
     })
 }

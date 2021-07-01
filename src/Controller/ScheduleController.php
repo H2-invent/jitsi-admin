@@ -65,6 +65,8 @@ class ScheduleController extends AbstractController
 
         $form->remove('scheduleMeeting');
         $form->remove('start');
+        $form->remove('persistantRoom');
+
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {

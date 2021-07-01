@@ -116,6 +116,7 @@ label:
   montlyRelativeWeekday: Wochentag
   montlyRelativeMonth: Monat
   repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
+  persistantRoom: Diese Konferenz hat kein Datum und ist immer verfügbar
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

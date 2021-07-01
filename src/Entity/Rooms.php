@@ -173,6 +173,11 @@ class Rooms
      */
     private $persistantRoom;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -645,6 +650,18 @@ class Rooms
     public function setPersistantRoom(?bool $persistantRoom): self
     {
         $this->persistantRoom = $persistantRoom;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     {% if form.repeaterRemoved is defined %}
-                    {{ form_row(form.repeaterRemoved) }}
+                        {{ form_row(form.repeaterRemoved) }}
                     {% endif %}
                     {{ form_row(form.server) }}
                 </div>
@@ -22,29 +22,40 @@
                 <div class="col-lg-12">
                     {{ form_row(form.agenda) }}
                 </div>
-                {% if form.start is defined %}
                 <div class="col-lg-12">
-                    {% if extra is defined and extra is not null %}
-                    <p class="text-danger">{{ extra }}</p>
+                    {% if form.start is defined %}
+                    {% if form.persistantRoom is defined %}
+                        {{ form_row(form.persistantRoom) }}
                     {% endif %}
-                    {{ form_row(form.start) }}
                 </div>
-                {% endif %}
                 <div class="col-lg-12">
-                    {{ form_row(form.duration) }}
+                    <div id="roomStartForm">
+
+
+                        {% if extra is defined and extra is not null %}
+                            <p class="text-danger">{{ extra }}</p>
+                        {% endif %}
+                        {{ form_row(form.start) }}
+
+                        {% endif %}
+
+                        {{ form_row(form.duration) }}
+                    </div>
                 </div>
+
             </div>
             <div class="mb-2">
-                <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
+                   aria-controls="collapseExample">
                     {{ 'Erweiterte Optionen'|trans }}
                 </a>
                 <div class="collapse" id="collapseExample">
                     <div class="mt-3">
                         <div class="row">
                             {% if form.scheduleMeeting is defined %}
-                            <div class="col-lg-12">
-                                {{ form_row(form.scheduleMeeting) }}
-                            </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.scheduleMeeting) }}
+                                </div>
                             {% endif %}
                             <div class="col-lg-12">
                                 {{ form_row(form.onlyRegisteredUsers) }}
