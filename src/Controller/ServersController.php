@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\KeycloakGroupsToServers;
+
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
@@ -23,6 +25,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class ServersController extends AbstractController
 {
     /**
@@ -30,8 +34,15 @@ class ServersController extends AbstractController
      */
     public function serverAdd(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator)
     {
+        $originalKeycloakGroups = new ArrayCollection();
+
         if ($request->get('id')) {
             $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+
+            foreach ($server->getkeycloakGroups() as $keycloakGroup) {
+                $originalKeycloakGroups->add($keycloakGroup);
+            }
+
             if ($server->getAdministrator() !== $this->getUser()) {
                 return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
             }
@@ -60,6 +71,13 @@ class ServersController extends AbstractController
                     $slug = $serverService->makeSlug($server->getUrl());
                     $server->setSlug($slug);
                 }
+
+                foreach ($originalKeycloakGroups as $KeycloakGroup) {
+                    if (false === $server->getKeycloakGroups()->contains($KeycloakGroup)) {
+                        $em->remove($KeycloakGroup);
+                    }
+                }
+
                 $em->persist($server);
                 $em->flush();
                 return $this->redirectToRoute('dashboard');

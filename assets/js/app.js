@@ -13,15 +13,20 @@ import('bootstrap');
 import('mdbootstrap');
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
-import flatpickr from 'flatpickr'
+import flatpickr from 'flatpickr';
 import {Calendar} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import momentPlugin from '@fullcalendar/moment';
 import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
-import autosize from 'autosize'
-import ClipboardJS from 'clipboard'
+import autosize from 'autosize';
+import ClipboardJS from 'clipboard';
+import {initScheduling} from './scheduling';
+import * as Toastr from 'toastr';
+import {initGenerell} from './init';
+
+import {initKeycloakGroups} from './keyCloakGroupsInit';
 
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -33,23 +38,39 @@ $.urlParam = function (name) {
 addEventListener('load', function () {
     var url = (new URLSearchParams(window.location.search)).get('modalUrl');
     if (url !== null) {
-        $('#loadContentModal').load(atob(url), function () {
-            $('#loadContentModal ').modal('show');
+        $('#loadContentModal').load(atob(url), function (data,status) {
+            if ( status === "error" ) {
+                window.location.reload();
+            }else {
+                $('#loadContentModal ').modal('show');
+            }
+
         });
     }
 });
 
 $(document).ready(function () {
+    $('.switchDarkmode').change(function (e) {
+        var val = 0;
+        if ($(this).prop('checked')) {
+            val = 1
+        }
+        setCookie('DARK_MODE', val, 365);
+        window.location.reload();
+    })
     setTimeout(function () {
-        $('#snackbar').addClass('show');
-        setTimeout(function () {
+        $('#snackbar').addClass('show').click(function (e) {
             $('#snackbar').removeClass('show');
-        }, 3000);
+        })
     }, 500);
-    if (importBBB) {
-        h2Button.init();
-    }
 
+    if (importBBB) {
+        h2Button.init(bbbUrl);
+    }
+    if (notificationUrl !== "") {
+        h2Button.initNotification(notificationUrl);
+    }
+    initGenerell();
     initDropDown();
 
     $('#dismiss, .overlay').on('click', function () {
@@ -73,10 +94,12 @@ $(document).ready(function () {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
     });
+    initCopytoClipboard();
 
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
+
 });
 
 $(document).on('click', '.confirmHref', function (e) {
@@ -114,8 +137,12 @@ $(document).on('click', '.confirmHref', function (e) {
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
-    $('#loadContentModal').load(url, function () {
-        $('#loadContentModal ').modal('show');
+    $('#loadContentModal').load(url, function (data,status) {
+        if ( status === "error" ) {
+            window.location.reload();
+        }else {
+            $('#loadContentModal ').modal('show');
+        }
 
     });
 });
@@ -129,6 +156,8 @@ function initServerFeatures() {
 }
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
+    initScheduling();
+    $('[data-toggle="popover"]').popover({html: true});
     $('.flatpickr').flatpickr({
         minDate: "today",
         enableTime: true,
@@ -138,6 +167,11 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         altFormat: 'd.m.Y H:i',
         dateFormat: 'Y-m-d H:i',
         altInput: true
+    });
+    $( 'form' ).submit(function( event ) {
+        var btn = $(this).find('button[type=submit]');
+        btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
+        btn.prop("disabled",true)
     });
     $('.generateApiKey').click(function (e) {
         e.preventDefault();
@@ -157,7 +191,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         } else {
             $('#maxParticipants').collapse('hide')
         }
-        $('#room_public').change(function (){
+        $('#room_public').change(function () {
             if ($('#room_public').prop('checked')) {
                 $('#maxParticipants').collapse('show')
             } else {
@@ -165,23 +199,27 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             }
         })
     }
-    $(".copyLink").click(function () {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($(element).text()).select();
-        document.execCommand("copy");
-        $temp.remove();
-    });
-    var clipboard = new ClipboardJS('.copyLink');
+    initCopytoClipboard();
+
     initSearchUser();
     initServerFeatures();
+    initRepeater();
+
+    initKeycloakGroups();
+
+    if(getCookie('room_server')){
+        $('#room_server').val(getCookie('room_server'))
+    }
+    $('#room_server').change(function (){
+        console.log($(this).val());
+        setCookie('room_server',$(this).val(),1000);
+    })
     var ctx = document.getElementById("lineChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: data,
         options: options
     });
-
 });
 $(document).on('click', '.directSend', function (e) {
     var $url = $(this).prop('href');
@@ -218,6 +256,7 @@ function renderCalendar() {
 
 function initSearchUser() {
     autosize($('#new_member_member'));
+    autosize($('#new_member_moderator'));
     $('#searchUser').keyup(function (e) {
         var $ele = $(this);
         var $search = $ele.val();
@@ -227,14 +266,23 @@ function initSearchUser() {
                 var $target = $('#participantUser');
                 $target.empty();
                 for (var i = 0; i < data.length; i++) {
-                    $target.append('<a class="dropdown-item chooseParticipant" data-val="' + data[i] + '" href="#">' + data[i] + '</a>');
+                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + data[i] + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i> ' + data[i] + '</a>');
                 }
-
+                $('[data-toggle="tooltip"]').tooltip();
                 $('.chooseParticipant').click(function (e) {
                     e.preventDefault();
                     var $textarea = $('#new_member_member');
                     var data = $textarea.val();
                     $textarea.val('').val($(this).data('val') + "\n" + data);
+                    $('#searchUser').val('');
+                    autosize.update($textarea);
+                })
+                $('.chooseModerator').click(function (e){
+                    e.stopPropagation();
+                    $('#moderatorCollapse').collapse('show');
+                    var $textarea = $('#new_member_moderator');
+                    var data = $textarea.val();
+                    $textarea.val('').val($(this).closest('.chooseParticipant').data('val') + "\n" + data);
                     $('#searchUser').val('');
                     autosize.update($textarea);
                 })
@@ -272,4 +320,40 @@ function getMoreFeature(id) {
         })
     }
 
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function initCopytoClipboard(){
+
+    var clipboard = new ClipboardJS('.copyLink');
+}
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+function initRepeater(){
+    $('.repeater').addClass('d-none');
+    $('#repeater_'+$('#repeater_repeatType').val()).removeClass('d-none');
+
+    $('#repeater_repeatType').change(function (){
+
+        $('.repeater').addClass('d-none');
+        $('#repeater_'+$(this).val()).removeClass('d-none');
+    })
 }

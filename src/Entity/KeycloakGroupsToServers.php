@@ -18,7 +18,7 @@ class KeycloakGroupsToServers
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="keycloakGroups")
+     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="keycloakGroups", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $server;
