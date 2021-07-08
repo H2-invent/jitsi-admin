@@ -46,7 +46,8 @@ class ServerType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' =>true,
                 'by_reference' => false,
-                 'translation_domain' => 'form',])
+                'label' => false,
+                'translation_domain' => 'form',])
 
             ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add('licenseKey', TextType::class, ['required' => false, 'label' => 'label.serverLicenseKey', 'translation_domain' => 'form'])
