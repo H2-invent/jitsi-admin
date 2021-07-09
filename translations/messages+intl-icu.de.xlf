@@ -1073,6 +1073,10 @@
         <source>Einzelnes Serienelement bearbeiten</source>
         <target>Einzelnes Serienelement bearbeiten</target>
       </trans-unit>
+      <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
+        <source>Oder kopieren Sie den Link in Ihren Browser</source>
+        <target>Oder kopieren Sie den Link in Ihren Browser</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
