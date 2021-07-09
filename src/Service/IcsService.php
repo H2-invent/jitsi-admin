@@ -131,6 +131,30 @@ class IcsService
             'CALSCALE:GREGORIAN',
             'METHOD:' . $this->method,
         );
+        $ics_props[] = 'BEGIN:VTIMEZONE';
+        $ics_props[] = 'TZID:' . $this->timezoneId;
+
+        $this->timezoneStart = $this->timezoneStart->modify('first day of last year')->modify('last sunday of march');
+        $timezoneStandard = clone $this->timezoneStart;
+        $timezoneStandard->modify('last sunday of october');
+        $ics_props[] = 'BEGIN:DAYLIGHT';
+        $ics_props[] = 'DTSTART:'.$this->timezoneStart->format('Ymd').'T020000';//19501029T020000';
+        $ics_props[] = 'TZOFFSETFROM:'.$this->timezoneStart->format('O');//+0100';
+        $ics_props[] = 'TZOFFSETTO:'.$timezoneStandard->format('O');//+0200';
+        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=3';
+        $ics_props[] = 'END:DAYLIGHT';
+
+
+
+        $ics_props[] = 'BEGIN:STANDARD';
+        $ics_props[] = 'DTSTART:'.$timezoneStandard->format('Ymd').'T020000';//19501029T020000';//19500326T020000';
+        $ics_props[] = 'TZNAME:' . $timezoneStandard->format('T');
+        $ics_props[] = 'TZOFFSETFROM:' . $timezoneStandard->format('O');
+        $ics_props[] = 'TZOFFSETTO:' . $this->timezoneStart->format('O');
+        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=10';
+
+        $ics_props[] = 'END:STANDARD';
+        $ics_props[] = 'END:VTIMEZONE';
 
         // Build ICS properties - add header
         foreach ($this->appointments as $data) {
@@ -142,7 +166,7 @@ class IcsService
                 if ($this->isModerator) {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=false:MAILTO' : ''))] = $q;
                 } else {
-                    $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
+                    $props[strtoupper($p . ($p === 'attendee' ? ';ROLE=REQ-PARTICIPANT; PARTSTAT=NEEDS-ACTION;RSVP=true:MAILTO' : ''))] = $q;
                 }
             }
             // Set some default values
@@ -155,9 +179,8 @@ class IcsService
             // Append properties
             foreach ($props as $k => $v) {
                 if($k === 'DTSTART' || $k ==='DTEND'){
-                    $k = $k.';TZID="'.$this->timezoneId.'"';
+                    $k = $k.';TZID='.$this->timezoneId.'';
                 }
-
                 $ics_props[] = "$k:$v";
             }
             $ics_props[]='BEGIN:VALARM';
@@ -167,18 +190,9 @@ class IcsService
             $ics_props[] = 'END:VALARM';
             $ics_props[] = 'END:VEVENT';
         }
-
-        // Build ICS properties - add footer
-        $ics_props[] = 'BEGIN:VTIMEZONE';
-        $ics_props[] = 'TZID:' . $this->timezoneId;
-        $ics_props[] = 'BEGIN:DAYLIGHT';
-        $ics_props[] = 'DTSTART:' . $this->timezoneStart->format('Ymt').'T'.$this->timezoneStart->format('His');
-        $ics_props[] = 'TZNAME:' . $this->timezoneStart->format('T');
-        $ics_props[] = 'TZOFFSETTO:' . $this->timezoneStart->format('O');
-        $ics_props[] = 'TZOFFSETFROM:' . $this->timezoneStart->format('O');
-        $ics_props[] = 'END:DAYLIGHT';
-        $ics_props[] = 'END:VTIMEZONE';
         $ics_props[] = 'END:VCALENDAR';
+        // Build ICS properties - add footer
+
         return $ics_props;
     }
 
