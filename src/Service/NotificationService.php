@@ -71,13 +71,14 @@ class NotificationService
         return $this->ics->toString();
     }
 
-    function sendNotification($content, $subject, User $user, Server $server, $attachement = array()):bool
+    function sendNotification($content, $subject, User $user, Server $server, Rooms $rooms = null, $attachement = array()):bool
     {
         return $this->mailer->sendEmail(
             $user->getEmail(),
             $subject,
             $content,
             $server,
+            $rooms?$rooms->getModerator()->getEmail():null,
             $attachement
         );
 
@@ -86,13 +87,14 @@ class NotificationService
     }
 
 
-    function sendCron($content, $subject, User $user, Server $server):bool
+    function sendCron($content, $subject, User $user, Server $server,Rooms $rooms):bool
     {
        return $this->mailer->sendEmail(
             $user->getEmail(),
             $subject,
             $content,
-            $server
+            $server,
+            $rooms->getModerator()->getEmail()
         );
 
     }
