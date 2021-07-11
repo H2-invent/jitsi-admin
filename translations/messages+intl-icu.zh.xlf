@@ -428,9 +428,9 @@
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
         <target state="translated">此邮件代表：</target>
       </trans-unit>
-      <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
-        <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target state="translated">版权归 Jitsi Manager所有</target>
+      <trans-unit id="agYP7CA" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
+        <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
+        <target state="needs-translation">Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
