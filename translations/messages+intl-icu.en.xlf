@@ -430,7 +430,7 @@
       </trans-unit>
       <trans-unit id="agYP7CA" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
+        <target state="translated">Powered by Jitsi Admin, the Open Source Jitsi Planner Software</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
@@ -920,7 +920,7 @@
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
-        <target state="needs-translation">Fehler, Bitte füllen Sie alle Felder aus</target>
+        <target state="translated">Error, please fill all fields</target>
       </trans-unit>
       <trans-unit id="ub8NVvM" resname="Sie dürfen nur maximal {amount} Wiederholungen angeben">
         <source>Sie dürfen nur maximal {amount} Wiederholungen angeben</source>
@@ -948,7 +948,7 @@
       </trans-unit>
       <trans-unit id="3iuiLlw" resname="Serienelement bearbeiten">
         <source>Serienelement bearbeiten</source>
-        <target state="needs-translation">Serienelement bearbeiten</target>
+        <target state="translated">Edit single serieselement</target>
       </trans-unit>
       <trans-unit id="I.AEB32" resname="Selbstregistrierung">
         <source>Selbstregistrierung</source>
@@ -968,7 +968,7 @@
       </trans-unit>
       <trans-unit id="6R7jKP3" resname="Neue Serien Termin">
         <source>Neue Serien Termin</source>
-        <target state="needs-translation">Neue Serien Termin</target>
+        <target state="translated">New seriesappointment</target>
       </trans-unit>
       <trans-unit id="eEdqI9E" resname="Sie wurden zu einer Serienvideokonferenz hinzugefügt">
         <source>Sie wurden zu einer Serienvideokonferenz hinzugefügt</source>
