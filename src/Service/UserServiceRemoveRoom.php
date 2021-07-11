@@ -58,7 +58,23 @@ class UserServiceRemoveRoom
         }
         return true;
     }
-
+    function removePersistantRoom(User $user, Rooms $room)
+    {
+        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
+        $subject = $this->translator->trans('Videokonferenz abgesagt');
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
+        if ($room->getModerator() !== $user) {
+            $this->pushService->generatePushNotification(
+                $subject,
+                $this->translator->trans('Die Videokonferenz {name} wurde von {organizer} abgesagt.',
+                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                        '{name}' => $room->getName())),
+                $user,
+                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+            );
+        }
+        return true;
+    }
     function removeRoomScheduling(User $user, Rooms $room)
     {
 

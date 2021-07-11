@@ -45,9 +45,11 @@
                         {{ 'Serie löschen'|trans }}</a></li>
 
             {% else %}
+                {% if not room.persistantRoom %}
                 <li><a class="dropdown-item loadContent"
                        href="{{ path('repeater_new',{'room':room.id}) }}">
                         {{ 'Neue Serien Termin'|trans }}</a></li>
+                    {% endif %}
             {% endif %}
         {% endif %}
         {% if room.scheduleMeeting %}

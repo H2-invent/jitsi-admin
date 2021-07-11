@@ -82,7 +82,6 @@ class DashboardController extends AbstractController
         $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
         $persistantRooms = $this->getDoctrine()->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
-        dump($persistantRooms);
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         return $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,

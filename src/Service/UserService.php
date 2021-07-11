@@ -31,6 +31,7 @@ class UserService
     private $userAddService;
     private $userEditService;
     private $userRemoveService;
+
     public function __construct(UserServiceRemoveRoom $userServiceRemoveRoom, UserServiceEditRoom $userEditService, UserNewRoomAddService $userNewRoomAddService, LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
@@ -44,7 +45,7 @@ class UserService
         $this->licenseService = $licenseService;
         $this->userAddService = $userNewRoomAddService;
         $this->userEditService = $userEditService;
-        $this->userRemoveService =  $userServiceRemoveRoom;
+        $this->userRemoveService = $userServiceRemoveRoom;
     }
 
     function generateUrl(Rooms $room, User $user)
@@ -65,7 +66,7 @@ class UserService
         if ($room->getScheduleMeeting()) {
             return $this->userAddService->addUserSchedule($user, $room);
         } elseif ($room->getPersistantRoom()) {
-            //here come the persistant Email
+            return $this->userAddService->addUserToPersistantRoom($user, $room);
         } else {
             return $this->userAddService->addUserToRoom($user, $room);
         }
@@ -87,6 +88,9 @@ class UserService
     {
         if ($room->getScheduleMeeting()) {
             return $this->userEditService->editRoomSchedule($user, $room);
+
+        } elseif ($room->getPersistantRoom()) {
+            return $this->userEditService->editPersistantRoom($user, $room);
         } else {
             return $this->userEditService->editRoom($user, $room);
         }
@@ -96,9 +100,14 @@ class UserService
     function removeRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
-            $this->userRemoveService->removeRoomScheduling($user,$room);
+            $this->userRemoveService->removeRoomScheduling($user, $room);
+        } elseif ($room->getPersistantRoom()) {
+
+            return $this->userRemoveService->removePersistantRoom($user, $room);
         } else {
-            $this->userRemoveService->removeRoom($user,$room);
+            if ($room->getEnddate() > new \DateTime()) {
+                $this->userRemoveService->removeRoom($user, $room);
+            }
 
         }
         return true;
@@ -109,7 +118,7 @@ class UserService
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
-        $this->notificationService->sendCron($content, $subject, $user, $room->getServer(),$room);
+        $this->notificationService->sendCron($content, $subject, $user, $room->getServer(), $room);
         $url = $this->url->generate('join_index_no_slug', array(), UrlGeneratorInterface::ABSOLUTE_URL);
         if ($this->licenseService->verify($room->getServer())) {
             $url = $this->url->generate('join_index', array('slug' => $room->getServer()->getSlug()), UrlGeneratorInterface::ABSOLUTE_URL);

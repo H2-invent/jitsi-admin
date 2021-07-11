@@ -1,5 +1,5 @@
 <div class="col-md-2">
-    {% if not room.scheduleMeeting %}
+    {% if not (room.scheduleMeeting or room.persistantRoom)  %}
     <h5 class="h5-responsive">{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</h5>
     {% endif %}
     {% if room in runningRooms %}<small class="badge badge-success">{{ 'Läuft gerade'|trans }}</small><br>{% endif %}

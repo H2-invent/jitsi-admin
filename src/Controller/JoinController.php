@@ -28,9 +28,10 @@ class JoinController extends AbstractController
 
     /**
      * @Route("/join/{slug}", name="join_index")
+     * * @Route("/join/{slug}/{uid}", name="join_index_uid")
      * @Route("/join", name="join_index_no_slug")
      */
-    public function index($slug = null, Request $request, TranslatorInterface $translator, RoomService $roomService)
+    public function index($slug = null,$uid = null, Request $request, TranslatorInterface $translator, RoomService $roomService)
     {
         $data = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['slug' => $slug]);

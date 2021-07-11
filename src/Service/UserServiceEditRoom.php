@@ -62,7 +62,26 @@ class UserServiceEditRoom
 
         return true;
     }
+    function editPersistantRoom(User $user, Rooms $room)
+    {
 
+        $url = $this->urlGenerator->generateUrl($room, $user);
+        $content = $this->twig->render('email/editRoom.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
+        $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
+        if ($room->getModerator() !== $user) {
+            $this->pushService->generatePushNotification(
+                $subject,
+                $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
+                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                        '{name}' => $room->getName())),
+                $user,
+                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+            );
+        }
+
+        return true;
+    }
     function editRoomSchedule(User $user, Rooms $room)
     {
 
