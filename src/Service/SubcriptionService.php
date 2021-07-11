@@ -93,7 +93,8 @@ class SubcriptionService
                 $this->twig->render('email/subscriptionToRoom.html.twig', array('room' => $rooms, 'subsription' => $subscriber)),
                 $this->translator->trans('Bestätigung ihrer Anmeldung zur Konferenz: {name}', array('{name}' => $rooms->getName())),
                 $user,
-                $rooms->getServer()
+                $rooms->getServer(),
+                $rooms
             );
         }
 

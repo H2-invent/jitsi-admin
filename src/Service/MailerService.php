@@ -58,11 +58,11 @@ class MailerService
         }
     }
 
-    public function sendEmail($to, $betreff, $content, Server $server, $attachment = array()):bool
+    public function sendEmail($to, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
     {
         try {
             $this->logger->info('Mail To: ' . $to);
-            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $attachment);
+            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server,$replyTo, $attachment);
 
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
@@ -70,7 +70,7 @@ class MailerService
         return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $attachment = array()):bool
+    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -88,6 +88,9 @@ class MailerService
                 $content
                 , 'text/html'
             );
+        if($replyTo){
+            $message->setReplyTo($replyTo);
+        }
         foreach ($attachment as $data) {
             $message->attach(new \Swift_Attachment($data['body'], $data['filename'], $data['type']));
         };

@@ -429,9 +429,9 @@
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
         <target>Diese Mail wurde Ihnen gesendet im Auftrag von:</target>
       </trans-unit>
-      <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
-        <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</target>
+      <trans-unit id="agYP7CA" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
+        <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
+        <target>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
