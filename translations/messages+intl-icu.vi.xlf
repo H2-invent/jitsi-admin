@@ -429,9 +429,9 @@
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
         <target state="translated">Thư này được gửi từ:</target>
       </trans-unit>
-      <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
-        <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target state="translated">Cung cấp bởi Meet, SAZA Co., Ltd</target>
+      <trans-unit id="agYP7CA" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
+        <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
+        <target state="needs-translation">Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
