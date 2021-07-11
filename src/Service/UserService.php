@@ -86,9 +86,9 @@ class UserService
     function editRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
-            return $this->userEditService->editRoom($user, $room);
-        } else {
             return $this->userEditService->editRoomSchedule($user, $room);
+        } else {
+            return $this->userEditService->editRoom($user, $room);
         }
 
     }
@@ -96,9 +96,10 @@ class UserService
     function removeRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
-            $this->userRemoveService->removeRoom($user,$room);
-        } else {
             $this->userRemoveService->removeRoomScheduling($user,$room);
+        } else {
+            $this->userRemoveService->removeRoom($user,$room);
+
         }
         return true;
     }

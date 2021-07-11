@@ -38,10 +38,47 @@ class UserNewRoomAddService
     }
 
 
-
+    /**
+     * we have a not sheduled meeting. So the participabts are getting invited directly
+     * @param User $user
+     * @param Rooms $room
+     * @return bool
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     function addUserToRoom(User $user, Rooms $room)
     {
-        //we have a not sheduled meeting. So the participabts are getting invited directly
+        $url = $this->urlGenerator->generateUrl($room, $user);
+        $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
+        $subject = $this->translator->trans('Neue Einladung zu einer Videokonferenz');
+
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
+        if ($room->getModerator() !== $user) {
+            $this->pushService->generatePushNotification(
+                $subject,
+                $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
+                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                        '{name}' => $room->getName())),
+                $user,
+                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+            );
+        }
+        return true;
+    }
+
+    /**
+     * we have a persistant Room. So the participabts are getting invited directly
+     * @param User $user
+     * @param Rooms $room
+     * @return bool
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    function addUserToPersistantRoom(User $user, Rooms $room)
+    {
+
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('Neue Einladung zu einer Videokonferenz');
@@ -62,12 +99,21 @@ class UserNewRoomAddService
         return true;
     }
 
+    /**
+     * we have a shedule Meting. the participants only got a link to shedule their appointments
+     * @param User $user
+     * @param Rooms $room
+     * @return bool
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     function addUserSchedule(User $user, Rooms $room)
     {
-        //we have a shedule Meting. the participants only got a link to shedule their appointments
+
         $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('Neue Einladung zu einer Terminplanung');
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
@@ -81,12 +127,21 @@ class UserNewRoomAddService
         return true;
     }
 
+    /**
+     * we have a not sheduled meeting. So the participabts are getting invited directly
+     * @param User $user
+     * @param Rooms $room
+     * @return bool
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     function addWaitinglist(User $user, Rooms $room)
     {
-        //we have a not sheduled meeting. So the participabts are getting invited directly
+
         $content = $this->twig->render('email/waitingList.html.twig', ['user' => $user, 'room' => $room]);
         $subject = $this->translator->trans('Hinzugefügt zur Warteliste');
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,

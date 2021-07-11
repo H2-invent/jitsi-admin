@@ -186,6 +186,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     if (typeof $('#room_persistantRoom') !== 'undefined') {
         if ($('#room_persistantRoom').prop('checked')) {
             $('#roomStartForm').collapse('hide')
+            console.log('test');
         } else {
             $('#roomStartForm').collapse('show')
         }
@@ -197,7 +198,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             }
         })
     }
-    if (typeof $('room_public') !== 'undefined') {
+    if (typeof $('#room_public') !== 'undefined') {
         if ($('#room_public').prop('checked')) {
             $('#maxParticipants').collapse('show')
         } else {

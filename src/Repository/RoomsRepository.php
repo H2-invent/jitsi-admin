@@ -57,6 +57,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
@@ -67,11 +68,12 @@ class RoomsRepository extends ServiceEntityRepository
     public function findRoomsInPast(User $user)
     {
         $now = new \DateTime();
-         $qb = $this->createQueryBuilder('r');
-          return $qb->innerJoin('r.user', 'user')
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'DESC')
@@ -86,6 +88,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
             ->getQuery()
@@ -101,6 +104,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('r.enddate > :now')
             ->andWhere('r.start < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
@@ -119,6 +123,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->andWhere($qb->expr()->orX(
                 $qb->expr()->between('r.enddate', ':now', ':midnight'),
                 $qb->expr()->between('r.start', ':now', ':midnight'),
@@ -143,7 +148,18 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('rooms.scheduleMeeting = true');
         return $qb->getQuery()->getResult();
     }
-    public function findRoomsFutureAndPast(User $user,$timeBack)
+
+    public function getMyPersistantRooms(User $user)
+    {
+        $qb = $this->createQueryBuilder('rooms');
+        $qb->innerJoin('rooms.user', 'user')
+            ->andWhere('user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('rooms.persistantRoom = true');
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findRoomsFutureAndPast(User $user, $timeBack)
     {
         $now = (new \DateTime())->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
@@ -151,6 +167,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')

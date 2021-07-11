@@ -82,17 +82,17 @@ class RoomController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                //$room = $form->getData();
+                $room = $form->getData();
                 if (!$room->getStart() && !$room->getPersistantRoom()) {
                     $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
-                if($room->getPersistantRoom()){
+                if ($room->getPersistantRoom()) {
                     $counter = 0;
                     $slug = $serverService->slugify($room->getName());
                     $tmp = $slug;
                     while (true) {
-                        $roomTmp = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['slug' => $tmp]);
+                        $roomTmp = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $tmp]);
                         if (!$roomTmp) {
                             $room->setUid($tmp);
                             $room->setSlug($tmp);
@@ -102,8 +102,8 @@ class RoomController extends AbstractController
                             $tmp = $slug . '-' . $counter;
                         }
                     }
-                     $room->setStart(new \DateTime());
-                }else{
+                    $room->setStart(new \DateTime());
+                } else {
                     $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
                 }
 
@@ -119,6 +119,7 @@ class RoomController extends AbstractController
                 } else {
                     $userService->addUser($room->getModerator(), $room);
                 }
+
                 $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
                 if ($room->getScheduleMeeting()) {
                     $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
@@ -192,22 +193,22 @@ class RoomController extends AbstractController
      * @Route("/room/user/remove", name="room_user_remove")
      */
     public
-    function roomUserRemove(Request $request, UserService $userService,RoomAddService $roomAddService)
+    function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $repeater = false;
 
-        if($room->getRepeater()){
+        if ($room->getRepeater()) {
             $repeater = true;
         }
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = 'Keine Berechtigung';
         if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
-            if ($repeater){
-                $roomAddService->removeUserFromRoom($user,$room);
+            if ($repeater) {
+                $roomAddService->removeUserFromRoom($user, $room);
             }
-            if (!$repeater){
+            if (!$repeater) {
                 $room->removeUser($user);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
@@ -233,8 +234,8 @@ class RoomController extends AbstractController
         if ($this->getUser() === $room->getModerator()) {
             $em = $this->getDoctrine()->getManager();
             foreach ($room->getUser() as $user) {
-                if(!$room->getRepeater()){
-                    if($room->getEnddate() > new \DateTime()){
+                if (!$room->getRepeater()) {
+                    if ($room->getEnddate() > new \DateTime()) {
                         $userService->removeRoom($user, $room);
                     }
 
@@ -243,9 +244,9 @@ class RoomController extends AbstractController
                 $room->removeUser($user);
                 $em->persist($room);
             }
-            if($room->getRepeater()){
+            if ($room->getRepeater()) {
                 $repeater = $room->getRepeater();
-                $repeaterService->sendEMail($repeater,'email/repeaterEdit.html.twig',$translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet',array('{name}'=>$repeater->getPrototyp()->getName())),array('room'=>$repeater->getPrototyp()));
+                $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                 $room->setRepeater(null);
             }
 
@@ -285,7 +286,7 @@ class RoomController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();
 
-                foreach ($roomOld->getUserAttributes() as $data){
+                foreach ($roomOld->getUserAttributes() as $data) {
                     $tmp = clone $data;
                     $room->addUserAttribute($tmp);
                 }
@@ -293,7 +294,7 @@ class RoomController extends AbstractController
                 $room->setUidModerator(md5(uniqid()));
                 $room->setUidParticipant(md5(uniqid()));
                 $room->setSequence(0);
-                $room->setUid(rand(0,99).time());
+                $room->setUid(rand(0, 99) . time());
                 $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);

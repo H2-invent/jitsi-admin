@@ -81,18 +81,14 @@ class DashboardController extends AbstractController
         $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
         $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
-
+        $persistantRooms = $this->getDoctrine()->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
+        dump($persistantRooms);
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        $default = $this->getDoctrine()->getRepository(Server::class)->find($this->getParameter('default_jitsi_server_id'));
-
-        if ($default && !in_array($default,$servers)) {
-            $servers[] = $default;
-        }
-
         return $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
             'runningRooms'=>$roomsNow,
+            'persistantRooms'=>$persistantRooms,
             'todayRooms' => $roomsToday,
             'snack' => $request->get('snack'),
             'servers'=>$servers,

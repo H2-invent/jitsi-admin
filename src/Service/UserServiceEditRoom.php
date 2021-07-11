@@ -48,7 +48,7 @@ class UserServiceEditRoom
         $subject = $this->translator->trans('Videokonferenz wurde bearbeitet');
         $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room, $attachement);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
@@ -69,7 +69,7 @@ class UserServiceEditRoom
         //we have a shedule Meting. the participants only got a link to shedule their appointments
         $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('Neue Einladung zu einer Terminplanung');
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
 
         return true;
     }

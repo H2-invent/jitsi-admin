@@ -25,13 +25,15 @@ class UserServiceRemoveRoom
     private $url;
     private $translator;
     private $urlGenerator;
-    public function __construct(JoinUrlGeneratorService  $joinUrlGeneratorService, TranslatorInterface $translator, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    private $pushService;
+    public function __construct(PushService $pushService, JoinUrlGeneratorService  $joinUrlGeneratorService, TranslatorInterface $translator, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->twig = $environment;
         $this->notificationService = $notificationService;
         $this->url = $urlGenerator;
         $this->translator = $translator;
         $this->urlGenerator = $joinUrlGeneratorService;
+        $this->pushService = $pushService;
     }
 
 
@@ -43,7 +45,7 @@ class UserServiceRemoveRoom
         $subject = $this->translator->trans('Videokonferenz abgesagt');
         $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $attachement);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room, $attachement);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
@@ -62,7 +64,7 @@ class UserServiceRemoveRoom
 
         $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('Terminplanung abgesagt');
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer());
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
         return true;
     }
 }
