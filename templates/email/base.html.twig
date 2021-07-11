@@ -142,7 +142,6 @@
                 </p>
                 <spacer size="32"></spacer>
                 <p style="text-align: center">
-                    <a href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }}</a><br>
                     {% if room is defined %}
                         {% trans %}Diese Mail wurde Ihnen gesendet im Auftrag von:{% endtrans %}<br>
                         {{ room.moderator.firstName }} {{ room.moderator.lastName }}
@@ -156,7 +155,7 @@
                 {% if theme %}
                     <a href="{{ theme.emailFooterLink }}"> {{ theme.emailFooterText }}</a>
                     {% else %}
-                        <a href="https://jitsi-admin.de">{{ 'Powered by Jitsi Manager, die Open Source Jitsi Planer Software'|trans }}</a>
+                        <a href="https://jitsi-admin.de">{{ 'Powered by Jitsi Admin, die Open Source Jitsi Planer Software'|trans }}</a> | <a href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }} Jitsi Admin</a>
                 {% endif %}
 
             </small>
