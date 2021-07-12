@@ -1,50 +1,50 @@
 ---
-label.konferenzId: Identifiant de conférence
-label.email: Adresse mail
+label.konferenzId: ID de la conférence
+label.email: Adresse E-Mail
 label.name: Nom
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen TEILNEHMERN eingeben
-label.teilnehmerSpeichern: Einladungsemail versenden
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
-help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
-label.organisatorhinzufuegen: Organisator hinzufügen
-label.serverKonferenz: Jitsi-Meet-Server
-label.konferenzName: Name der Konferenz
-label.start: Start
-label.dauerKonferenz: Dauer der Konferenz
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten
-label.speichern: Speichern
-option.15min: 15 Minuten
-option.30min: 30 Minuten
-option.45min: 45 Minuten
-option.60min: 1 Stunde
-option.75min: 1:15 Stunde
-option.90min: 1:30 Stunden
-option.105min: 1:45 Stunden
-option.120min: 2 Stunden
-option.150min: 2:30 Stunden
-option.180min: 3 Stunden
-option.210min: 3:30 Stunden
-option.240min: 4 Stunden
-option.270min: 4:30 Stunden
-option.300min: 5 Stunden
-option.330min: 5:30 Stunden
-option.360min: 6 Stunden
-option.390min: 6:30 Stunden
-option.420min: 7 Stunden
-option.450min: 7:30 Stunden
-option.480min: 8 Stunden
+label.teilnehmerEmailhinzufuegen: Ajouter l'adresse E-Mail des nouveaux participants
+label.teilnehmerSpeichern: Envoyer une invitation par E-Mail
+label.emailModerator: Saisisser l'adresse E-Mail de l'organisateur
+help.emailTextfeld: Plusieurs adresses E-Mail peuvent être rajouté. Chaque adresse E-Mail doit être écrite sur une nouvelle ligne.
+label.organisatorhinzufuegen: Ajouter un organisateur
+label.serverKonferenz: Serveur Jitsi-Meet
+label.konferenzName: Nom de la conférence
+label.start: Démarrer
+label.dauerKonferenz: Durée de la conférence
+label.nurRegistriertenutzer: Seul les utilisateurs enregistrés peuvent joindre la conférence
+label.speichern: Sauvegarder
+option.15min: 15 minutes
+option.30min: 30 minutes
+option.45min: 45 minutes
+option.60min: 1 heure
+option.75min: 1h15
+option.90min: 1h30
+option.105min: 1h45
+option.120min: 2 heures
+option.150min: 2h30
+option.180min: 3 heures
+option.210min: 3h30
+option.240min: 4 heures
+option.270min: 4h30
+option.300min: 5 heures
+option.330min: 5h30
+option.360min: 6 heures
+option.390min: 6h30
+option.420min: 7 heures
+option.450min: 7h30
+option.480min: 8 heures
 option:
-  monday: Montag
-  tuesday: Dienstag
-  wednesday: Mittwoch
-  thursday: Donnerstag
-  friday: Freitag
-  saturday: Samstag
-  sunday: Sonntag
-  weekly: Wöchentlich
-  daily: Täglich
-  montly: Monatlich
-  yearly: Jährlich
+  monday: Lundi
+  tuesday: Mardi
+  wednesday: Mercredi
+  thursday: Jeudi
+  friday: Vendredi
+  saturday: Samedi
+  sunday: Dimanche
+  weekly: Hebdomadaire
+  daily: Quotidiennement
+  montly: Mensuellement
+  yearly: Annuel
   montlyRelative: Monatlich Relativ
   yearlyRelative: Jährlich Relativ
   first: Erster
