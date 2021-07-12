@@ -1,7 +1,7 @@
 ---
-label.konferenzId: Konferenz ID
-label.email: E-Mail-Adresse
-label.name: Name
+label.konferenzId: Identifiant de conférence
+label.email: Adresse mail
+label.name: Nom
 label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen TEILNEHMERN eingeben
 label.teilnehmerSpeichern: Einladungsemail versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
