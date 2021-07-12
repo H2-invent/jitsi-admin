@@ -430,7 +430,7 @@
       </trans-unit>
       <trans-unit id="agYP7CA" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
+        <target state="translated">Desarrollado por Jitsi Admin, el software planificador Open Source para Jitsi</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
