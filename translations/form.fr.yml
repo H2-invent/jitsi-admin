@@ -67,29 +67,29 @@ option:
   decembre: Décembre
 lable.serverUrl: URL du Serveur Jitsi-Meet
 label.appId: App-ID
-label.appSecret: App-Secret
-label.scheduleMeeting: Einen Termin finden
+label.appSecret: Secret de l'application
+label.scheduleMeeting: Trouver un rendez-vous
 help:
-  serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
+  serverUrl: Spécifier sans "https://" (p.e. meet.jit.si)
   featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
   teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
 label:
-  beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
-  serverSmtpHostName: SMTP-Hostname
-  serverSmtpHostPort: SMTP-Port
-  serverSmtpEncryption: Verschlüsselung
-  serverSmtpUsername: SMTP-Benutzername
-  serverSmtpPassword: SMTP Passwort
-  serverSmtpSenderEmail: Absender-E-Mail
-  serverSmtpSenderName: Absender-Name
-  serverLintLogo: Link zu Logo
-  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für Email
-  serverEmailBody: Individuellen Content für Email
-  serverLicenseKey: Jitsi-Admin-Lizenkey eingeben
-  apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
+  beitretenApp: Rejoindre via l'application Elektron
+  beitretenBrowser: Rejoindre via le navigateur
+  serverSmtpHostName: Nom d'hôte SMTP
+  serverSmtpHostPort: Port SMTP
+  serverSmtpEncryption: Chiffrement
+  serverSmtpUsername: Nom d'utilisateur SMTP
+  serverSmtpPassword: Mot de passe SMTP
+  serverSmtpSenderEmail: E-Mail de l'expéditeur
+  serverSmtpSenderName: Nom de l'expéditeur
+  serverLintLogo: Lien via le logo
+  serverPrivacyPolicy: Avis de protection des données de ce serveur
+  serverEmailHeader: Titre individuel pour E-Mail
+  serverEmailBody: Contenu individuel pour E-Mail
+  serverLicenseKey: Entrer le Jitsi-Admin-Lizenkey
+  apiKey: Api-Key pour ce serveur
+  agenda: Courte agenda pour cette réunion (Markdown)
   staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
   schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
   featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
@@ -119,4 +119,4 @@ choice:
   ssl: SSL
   none: Keine
 placeholder:
-  maxParticipants: Keine Limitierung
+  maxParticipants: Pas de limitation
