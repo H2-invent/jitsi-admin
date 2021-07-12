@@ -98,18 +98,18 @@ label:
   puplicRoom: Einladungslinks freischalten
   showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
   subscribe: Anmelden
-  vorname: Vorname
-  nachname: Nachname
+  vorname: Prénom
+  nachname: Nom
   maxParticipants: Maximale Anzahl an Teilnehmer zulassen
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
   weekday: Wochentag
   repetation: Endet nach x Terminen
   repeatType: Serienmuster
-  repeaterDays: Nach X Tagen wiederholen
-  repeaterWeeks: Nach X Wochen wiederholen
-  repeatMontly: Nach X Monaten wiederholen
-  repeatYearly: Nach X Jahren wiederholen
+  repeaterDays: Répéter après X jours
+  repeaterWeeks: Répéter après X semaines
+  repeatMontly: Répéter après X mois
+  repeatYearly: Répéter après X ans
   montlyRelativeNumber: Wievielte Wochentag im Monat
   montlyRelativeWeekday: Wochentag
   montlyRelativeMonth: Monat
