@@ -110,9 +110,9 @@ label:
   repeaterWeeks: Répéter après X semaines
   repeatMontly: Répéter après X mois
   repeatYearly: Répéter après X ans
-  montlyRelativeNumber: Wievielte Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
-  montlyRelativeMonth: Monat
+  montlyRelativeNumber: Le quantième jour du mois
+  montlyRelativeWeekday: Jour de la semaine
+  montlyRelativeMonth: Mois
   repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
 choice:
   tls: STARTTLS/TLS
