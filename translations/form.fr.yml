@@ -45,27 +45,27 @@ option:
   daily: Quotidiennement
   montly: Mensuellement
   yearly: Annuel
-  montlyRelative: Monatlich Relativ
-  yearlyRelative: Jährlich Relativ
-  first: Erster
-  second: Zweiter
-  third: Dritter
-  fourth: Vierter
-  fifth: Fünfter
-  last: Letzter
-  january: Januar
-  february: Februar
-  march: März
-  april: April
+  montlyRelative: Mensuel relativ
+  yearlyRelative: Annuel relativ
+  first: Premier
+  second: Second
+  third: Troisième
+  fourth: Quatrième
+  fifth: Cinquième
+  last: Dernier
+  january: Janvier
+  february: Février
+  march: Mars
+  april: Avril
   may: Mai
-  june: Juni
-  july: Juli
-  august: August
-  septembre: September
-  octobre: Oktober
-  novembre: November
-  decembre: Dezember
-lable.serverUrl: Jitsi-Meet-Server URL
+  june: Juin
+  july: Juillet
+  august: Août
+  septembre: Septembre
+  octobre: Octobre
+  novembre: Novembre
+  decembre: Décembre
+lable.serverUrl: URL du Serveur Jitsi-Meet
 label.appId: App-ID
 label.appSecret: App-Secret
 label.scheduleMeeting: Einen Termin finden
