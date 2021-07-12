@@ -1,0 +1,156 @@
+#content {
+  background-color: $black_background;
+}
+
+.navbar {
+  background-color: $black_font-color;
+}
+
+.card {
+  background-color: $black_navbar;
+  border: solid $black_font-color 1px;
+}
+
+p {
+  color: $black_font-color;
+}
+
+.text-black-50, .h5-responsive {
+  color: $black_font-color !important;
+}
+
+.h4-responsive {
+  color: white;
+}
+
+.nav-link.active {
+  background-color: $black_background_active !important;
+
+}
+
+.nav-tabs .nav-link {
+  border: white 1px solid !important;
+  color: white !important;
+}
+
+.dropdown-menu {
+  background-color: $black_navbar;
+  border: 1px solid $black_font-color;
+}
+
+.dropdown-item {
+  color: $black_font-color;
+}
+
+.popover {
+  background-color: $black_navbar;
+  border: solid 1px $black_font-color;
+}
+
+.popover-header {
+  color: white;
+  background-color: $black_background;
+}
+
+.popover-body {
+  color: $black_font-color;
+}
+
+.modal-body {
+  background-color: $black_modal;
+  color: $black_font-color;
+}
+
+label {
+  color: $black_font-color;
+}
+
+.form-control, .form-control:read-only {
+  background-color: $black_navbar;
+  color: $black_font-color;
+}
+
+.form-control:focus {
+  background-color: $black_background_active;
+  color: $black_font-color;
+}
+
+.light-blue.darken-3 {
+  background-color: $black_modal_header !important;
+  color: $black_font-color;
+}
+
+.modal-header {
+  background-color: $black_modal_header !important;
+  color: $black_font-color;
+}
+
+.modal-footer {
+  background-color: $black_background;
+  color: $black_font-color;
+}
+
+h5 {
+  color: $black_font-color;
+}
+
+.list-group-item {
+  background-color: $black_navbar;
+  border: 1px solid $black_font-color;
+}
+
+a {
+  color: $black_link-color;
+  &:hover {
+    color: $black_link-color;
+    text-decoration: underline;
+  }
+}
+
+.dashboardBtn p {
+  color: white;
+}
+
+.dashboardBtn:hover {
+  text-decoration: none;
+
+}
+
+#modalAdressbook a[aria-expanded="true"] {
+  background: $black_navbar;
+}
+.jconfirm-box{
+  background-color: $black_modal!important;
+  color: $black_font-color!important;
+  .jconfirm-title-c{
+    color: $black_font-color!important;
+  }
+  .jconfirm-content{
+    color: $black_font-color!important;
+  }
+}
+.close{
+  color: white;
+  &:hover{
+    color: white;
+  }
+}
+.list-group-item {
+  border: 1px solid #c9d1d9 !important;
+}
+.fas{
+  color: $black_font-color;
+}
+.jconfirm-box{
+  background-color: $black_modal!important;
+  color: $black_font-color!important;
+  .jconfirm-title-c{
+    color: $black_font-color!important;
+  }
+  .jconfirm-content{
+    color: $black_font-color!important;
+  }
+}
+.language-dropdown .dropdown-item:hover{
+  background-color: $black_navbar;
+}

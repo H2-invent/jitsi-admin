@@ -25,7 +25,7 @@ class Rooms
     private $name;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $start;
 
@@ -82,7 +82,7 @@ class Rooms
     private $agenda;
 
     /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room")
+     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room",cascade={"persist"})
      */
     private $userAttributes;
 
@@ -99,7 +99,7 @@ class Rooms
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $public;
+    private $public = true;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -126,11 +126,56 @@ class Rooms
      */
     private $maxParticipants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Scheduling::class, mappedBy="room")
+     */
+    private $schedulings;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $scheduleMeeting;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $waitinglist;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room")
+     */
+    private $waitinglists;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Repeat::class, inversedBy="rooms")
+     */
+    private $repeater;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $repeaterRemoved;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Repeat::class, mappedBy="prototyp", cascade={"persist", "remove"})
+
+     */
+    private $repeaterProtoype;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
+     * @ORM\JoinTable(name="prototype_users")
+     */
+    private $prototypeUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
+        $this->schedulings = new ArrayCollection();
+        $this->waitinglists = new ArrayCollection();
+        $this->prototypeUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -155,7 +200,7 @@ class Rooms
         return $this->start;
     }
 
-    public function setStart(\DateTimeInterface $start): self
+    public function setStart(?\DateTimeInterface $start): self
     {
         $this->start = $start;
 
@@ -434,6 +479,155 @@ class Rooms
     public function setMaxParticipants(?int $maxParticipants): self
     {
         $this->maxParticipants = $maxParticipants;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Scheduling[]
+     */
+    public function getSchedulings(): Collection
+    {
+        return $this->schedulings;
+    }
+
+    public function addScheduling(Scheduling $scheduling): self
+    {
+        if (!$this->schedulings->contains($scheduling)) {
+            $this->schedulings[] = $scheduling;
+            $scheduling->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScheduling(Scheduling $scheduling): self
+    {
+        if ($this->schedulings->removeElement($scheduling)) {
+            // set the owning side to null (unless already changed)
+            if ($scheduling->getRoom() === $this) {
+                $scheduling->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getScheduleMeeting(): ?bool
+    {
+        return $this->scheduleMeeting;
+    }
+
+    public function setScheduleMeeting(?bool $scheduleMeeting): self
+    {
+        $this->scheduleMeeting = $scheduleMeeting;
+
+        return $this;
+    }
+
+    public function getWaitinglist(): ?bool
+    {
+        return $this->waitinglist;
+    }
+
+    public function setWaitinglist(?bool $waitinglist): self
+    {
+        $this->waitinglist = $waitinglist;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Waitinglist[]
+     */
+    public function getWaitinglists(): Collection
+    {
+        return $this->waitinglists;
+    }
+
+    public function addWaitinglist(Waitinglist $waitinglist): self
+    {
+        if (!$this->waitinglists->contains($waitinglist)) {
+            $this->waitinglists[] = $waitinglist;
+            $waitinglist->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaitinglist(Waitinglist $waitinglist): self
+    {
+        if ($this->waitinglists->removeElement($waitinglist)) {
+            // set the owning side to null (unless already changed)
+            if ($waitinglist->getRoom() === $this) {
+                $waitinglist->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRepeater(): ?Repeat
+    {
+        return $this->repeater;
+    }
+
+    public function setRepeater(?Repeat $repeater): self
+    {
+        $this->repeater = $repeater;
+
+        return $this;
+    }
+
+    public function getRepeaterRemoved(): ?bool
+    {
+        return $this->repeaterRemoved;
+    }
+
+    public function setRepeaterRemoved(?bool $repeaterRemoved): self
+    {
+        $this->repeaterRemoved = $repeaterRemoved;
+
+        return $this;
+    }
+
+    public function getRepeaterProtoype(): ?Repeat
+    {
+        return $this->repeaterProtoype;
+    }
+
+    public function setRepeaterProtoype(Repeat $repeaterProtoype): self
+    {
+        // set the owning side of the relation if necessary
+        if ($repeaterProtoype->getPrototyp() !== $this) {
+            $repeaterProtoype->setPrototyp($this);
+        }
+
+        $this->repeaterProtoype = $repeaterProtoype;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getPrototypeUsers(): Collection
+    {
+        return $this->prototypeUsers;
+    }
+
+    public function addPrototypeUser(User $prototypeUser): self
+    {
+        if (!$this->prototypeUsers->contains($prototypeUser)) {
+            $this->prototypeUsers[] = $prototypeUser;
+        }
+
+        return $this;
+    }
+
+    public function removePrototypeUser(User $prototypeUser): self
+    {
+        $this->prototypeUsers->removeElement($prototypeUser);
 
         return $this;
     }

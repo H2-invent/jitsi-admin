@@ -4,6 +4,7 @@
 # Jitsi Manager
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 
 Jitsi Manager oder Jitsi Admin zum Verwalten von Jitsi Konferenzen und Server mit JWT
 
@@ -34,6 +35,11 @@ Sie können sich jederzeit aus der Verteilerliste austragen.
 <br>
 Interkommunale Zusammenarbeit der Städte Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten und Stutensee
 </div>
+
+## Übersetzungen
+Wir suchen noch Hilfe für die Übersetzung der Software
+
+[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 
 # Funktionen
 
@@ -95,7 +101,7 @@ Führen Sie danach folgenden Befehl in dem Ordner aus
 ```javascript
 bash install.sh
 ```
-
+geben Sie alle informationen während dem Installationsvorgang korrekt ein
 # Update
 Laden Sie sich gewüschte Version herunter oder führen Sie einen checkout auf einen gewünschten Tag aus.
 

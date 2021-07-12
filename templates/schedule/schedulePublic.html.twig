@@ -1,0 +1,80 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}<h1 class="h1-responsive text-center">{{ room.name }}</h1>{% endblock %}
+{% block content %}
+
+
+
+
+    <div class=" col-sm-12 offset-lg-1 col-lg-10">
+        <p class="text-center text-md-left">
+            {{ 'Welcher Termin passt für Sie am besten?'|trans }}
+        </p>
+        <div class="scrollHorizontal mt-4 mb-4">
+            <div class=" d-flex">
+                {% set locale =  app.request.locale %}
+                {% for s in scheduling.schedulingTimes |sort((a, b) => a.time <=> b.time) %}
+                    <div class="scrollEle mr-3 text-center">
+                        <small>{{ s.time|format_date(pattern="EE",locale=locale) }}</small>
+                        <p>{{ s.time|date('d.m.Y') }}</p>
+                        <hr>
+                        <b>{{ s.time|date('H:i') }}
+                            - {{ s.time|date_modify("+"~room.duration~"min")|date('H:i') }}</b><br>
+                        <small>{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}</small><br>
+                        <small>{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}</small><br>
+                        <small>{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</small><br>
+                        <div class="row">
+                            <div class="col-lg-12 mb-3 mt-2 text-left">
+                                <div class="custom-control custom-radio">
+                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
+                                           data-url="{{ path('schedule_public_vote') }}"
+                                           data-type="0" type="radio" class="custom-control-input scheduleSelect"
+                                           id="schedule-{{ s.id }}-yes"
+                                           name="scheduleGroup-{{ s.id }}"
+                                           {% if scheduleOwnJoice(user,s) is same as 0 %}checked{% endif %}>
+                                    <label class="custom-control-label"
+                                           for="schedule-{{ s.id }}-yes">{{ 'Ja'|trans }}</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
+                                           data-url="{{ path('schedule_public_vote') }}"
+                                           data-type="1" type="radio" class="custom-control-input scheduleSelect"
+                                           id="schedule-{{ s.id }}-no"
+                                           name="scheduleGroup-{{ s.id }}"
+                                           {% if scheduleOwnJoice(user,s) is same as 1 %}checked{% endif %}>
+                                    <label class="custom-control-label"
+                                           for="schedule-{{ s.id }}-no">{{ 'Nein'|trans }}</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
+                                           data-url="{{ path('schedule_public_vote') }}"
+                                           data-type="2" type="radio" class="custom-control-input scheduleSelect"
+                                           id="schedule-{{ s.id }}-maybe"
+                                           name="scheduleGroup-{{ s.id }}"
+                                           {% if scheduleOwnJoice(user,s) is same as 2 %}checked{% endif %}>
+                                    <label class="custom-control-label"
+                                           for="schedule-{{ s.id }}-maybe">{{ 'Vielleicht'|trans }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-12">
+                {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+            </div>
+
+        </div>
+
+
+
+
+
+{% endblock %}

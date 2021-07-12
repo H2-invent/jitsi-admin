@@ -1,0 +1,67 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'Terminplaner'|trans }}</h5>
+            <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <small>{{ 'Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.'|trans }}</small>
+
+            <div class="input-group mb-3">
+                <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control flatpickr" id="schedulePickr">
+                <div class="input-group-append">
+                    <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect addSchedule"
+                            type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
+                            data-url="{{ path('schedule_admin_add',{'id':room.id}) }}"><i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="scheduleSlots">
+                <div id="slot">
+                    {% if room.schedulings|length>0 %}
+                        <a target="_blank"
+                           href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}">{{ 'Hier zur Abstimmung'|trans }}
+                            <i class="fa fa-external-link-alt"></i> </a>
+                    {% endif %}
+                    {% if room.schedulings|length>0 %}
+                        {% for s in room.schedulings[0].schedulingTimes|sort((a, b) => a.time <=> b.time) %}
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex flex-column">
+                                    <div class="d-flex">
+                                        <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="mb-0">{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}&nbsp;<a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                                                                      title="{{ 'Abstimmung'|trans }}"
+                                                                                                      data-content="{% if scheduleUser(s,0)|length >0 %}{% for s in scheduleUser(s,0) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
+                                                        class="fa fa-info-circle"></i></a></p>
+                                        <p class="mb-0">{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}&nbsp;<a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                                                                        title="{{ 'Abstimmung'|trans }}"
+                                                                                                        data-content="{% if scheduleUser(s,1)|length >0 %}{% for s in scheduleUser(s,1) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
+                                                        class="fa fa-info-circle"></i></a></p>
+                                        <p class="mb-0">{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}&nbsp;<a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                                                                              title="{{ 'Abstimmung'|trans }}"
+                                                                                                              data-content="{% if scheduleUser(s,2)|length >0 %}{% for s in scheduleUser(s,2) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
+                                                        class="fa fa-info-circle"></i></a></p>
+                                        <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}"
+                                                                                                                   class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref"
+                                                                                                                   data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln?'|trans }}">
+                                            <i class="fa fa-check"></i></a>
+                                        <button class="btn btn-sm btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect removeSchedule"
+                                                type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
+                                                data-url="{{ path('schedule_admin_remove',{'id':s.id}) }}"><i
+                                                    class="fa fa-trash"></i></button>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

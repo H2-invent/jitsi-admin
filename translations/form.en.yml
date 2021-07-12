@@ -2,8 +2,8 @@
 label.konferenzId: Conference ID
 label.email: Email address
 label.name: Name
-label.teilnehmerEmailhinzufuegen: Enter email address of new participants
-label.teilnehmerSpeichern: Add Participants
+label.teilnehmerEmailhinzufuegen: Enter email addresses of new PARTICIPANTS
+label.teilnehmerSpeichern: Send invitation email
 label.emailModerator: Enter email address of organizer
 help.emailTextfeld: Multiple email addresses can be added at once. Each email address has to be written into a new line.
 label.organisatorhinzufuegen: Add organizer
@@ -17,16 +17,62 @@ option.15min: 15 minutes
 option.30min: 30 minutes
 option.45min: 45 minutes
 option.60min: 1 hour
-option.90min: 1,5 hours
+option.75min: 1:15 hours
+option.90min: 1:30 hours
+option.105min: 1:45 hours
 option.120min: 2 hours
+option.150min: 2:30 hours
+option.180min: 3 hours
+option.210min: 3:30 hours
 option.240min: 4 hours
+option.270min: 4:30 hours
+option.300min: 5 hours
+option.330min: 5:30 hours
+option.360min: 6 hours
+option.390min: 6:30 hours
+option.420min: 7 hours
+option.450min: 7:30 hours
 option.480min: 8 hours
+option:
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
+  montlyRelative: Monatlich Relativ
+  yearlyRelative: Jährlich Relativ
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
 lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
 label.appSecret: App secret
+label.scheduleMeeting: Create an appointment poll
 help:
   serverUrl: Enter without "https://" (such as meet.jit.si)
   featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
+  teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -46,16 +92,31 @@ label:
   agenda: Short agenda for this meeting (markdown)
   staticBackgroundColor: Set background color for joinpage
   schowStaticBackgroundColor: Show static color instead of pictures on joinpage
-  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
+  featureEnalbeByJwt: "\"Enable Feature by JWT\" plugin is active on the server"
   dissallowScreenshareGlobal: Only moderators are allowed to share screen
   dissallowPrivateMessage: Only moderators are allowed to send private messages to participants
-  puplicRoom: Public conference
+  puplicRoom: Einladungslinks freischalten
   showRoomOnJoinpage: Show conference on joinpage
   subscribe: Subscribe
   vorname: Firstname
   nachname: Lastname
   maxParticipants: Allow maximum number of participants
+  waitinglist: Activate waiting list
+  teilnehmerEmailhinzufuegenModerator: Enter email addresses of new MODERATORS
+  weekday: Wochentag
+  repetation: Endet nach x Terminen
+  repeatType: Serienmuster
+  repeaterDays: Nach X Tagen wiederholen
+  repeaterWeeks: Nach X Wochen wiederholen
+  repeatMontly: Nach X Monaten wiederholen
+  repeatYearly: Nach X Jahren wiederholen
+  montlyRelativeNumber: Wievielte Wochentag im Monat
+  montlyRelativeWeekday: Wochentag
+  montlyRelativeMonth: Monat
+  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: None
+placeholder:
+  maxParticipants: No Limitation

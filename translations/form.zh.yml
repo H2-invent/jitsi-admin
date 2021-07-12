@@ -1,0 +1,122 @@
+---
+label.konferenzId: 会议编号
+label.email: 邮箱地址
+label.name: 姓名
+label.teilnehmerEmailhinzufuegen: 输入参会者的邮箱
+label.teilnehmerSpeichern: 发送邀请邮件
+label.emailModerator: 输入组织者的电子邮件地址
+help.emailTextfeld: 可以同时添加多个电子邮件地址。每个电子邮件地址必须单独一行。
+label.organisatorhinzufuegen: 添加组织者
+label.serverKonferenz: Jitsi meet 服务器
+label.konferenzName: 会议名称
+label.start: 开始
+label.dauerKonferenz: 会议持续时间
+label.nurRegistriertenutzer: 仅允许注册用户加入会议
+label.speichern: 保存
+option.15min: 15分钟
+option.30min: 30分钟
+option.45min: 45分钟
+option.60min: 1小时
+option.75min: 1小时15分
+option.90min: 1小时30分
+option.105min: 1小时45分
+option.120min: 2 小时
+option.150min: 2小时30分
+option.180min: 3小时
+option.210min: 3小时30分
+option.240min: 4 小时
+option.270min: 4小时30分
+option.300min: 5小时
+option.330min: 5小时30分
+option.360min: 6小时
+option.390min: 6小时30分
+option.420min: 7小时
+option.450min: 7小时30分
+option.480min: 8 小时
+option:
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
+  montlyRelative: Monatlich Relativ
+  yearlyRelative: Jährlich Relativ
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
+lable.serverUrl: Jitsi-Meet服务器网址
+label.appId: 应用 ID
+label.appSecret: App密钥
+label.scheduleMeeting: 进行预约
+help:
+  serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）
+  featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
+  teilnehmerEmailhinzufuegenModerator: 可以同时添加多个邮箱。每个邮箱必须写入新的一行。
+label:
+  beitretenApp: 通过electron应用程序加入
+  beitretenBrowser: 通过浏览器加入
+  serverSmtpHostName: SMTP主机
+  serverSmtpHostPort: SMTP端口
+  serverSmtpEncryption: 加密
+  serverSmtpUsername: SMTP用户
+  serverSmtpPassword: SMTP密码
+  serverSmtpSenderEmail: 发件人电子邮件
+  serverSmtpSenderName: 发件人姓名
+  serverLintLogo: 链接到Logo
+  serverPrivacyPolicy: 该服务器的隐私策略
+  serverEmailHeader: 个人电子邮件标题
+  serverEmailBody: 个人电子邮件内容
+  serverLicenseKey: 输入Jitsi-Admin的许可证密钥
+  apiKey: 该服务器的API-Key
+  agenda: 本次会议简要议程（如下）
+  staticBackgroundColor: 设计登录页面的背景色
+  schowStaticBackgroundColor: 纯色显示，不显示登录页面上的图片
+  featureEnalbeByJwt: "在服务器上激活\"JWT 启用功能\"插件"
+  dissallowScreenshareGlobal: 只有主持人才能共享屏幕
+  dissallowPrivateMessage: 只有主持人可以各参会者发私信
+  puplicRoom: Einladungslinks freischalten
+  showRoomOnJoinpage: 在登录页面上查看会议
+  subscribe: 订阅
+  vorname: 名
+  nachname: 姓
+  maxParticipants: 最大参会人数
+  waitinglist: 激活等待列表
+  teilnehmerEmailhinzufuegenModerator: 输入新主持人的邮箱
+  weekday: Wochentag
+  repetation: Endet nach x Terminen
+  repeatType: Serienmuster
+  repeaterDays: Nach X Tagen wiederholen
+  repeaterWeeks: Nach X Wochen wiederholen
+  repeatMontly: Nach X Monaten wiederholen
+  repeatYearly: Nach X Jahren wiederholen
+  montlyRelativeNumber: Wievielte Wochentag im Monat
+  montlyRelativeWeekday: Wochentag
+  montlyRelativeMonth: Monat
+  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
+choice:
+  tls: STARTTLS/TLS
+  ssl: SSL
+  none: 无
+placeholder:
+  maxParticipants: 无限制

@@ -52,51 +52,55 @@ class RoomsRepository extends ServiceEntityRepository
     public function findRoomsInFuture(User $user)
     {
         $now = new \DateTime();
-        return $this->createQueryBuilder('r')
-            ->innerJoin('r.user','user')
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
+
     public function findRoomsInPast(User $user)
     {
         $now = new \DateTime();
-        return $this->createQueryBuilder('r')
-            ->innerJoin('r.user','user')
+         $qb = $this->createQueryBuilder('r');
+          return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate < :now')
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
+
     public function findRoomsForUser(User $user)
     {
         $now = new \DateTime();
-        return $this->createQueryBuilder('r')
-            ->innerJoin('r.user','user')
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
+
     public function findRuningRooms(User $user)
     {
         $now = new \DateTime();
-        return $this->createQueryBuilder('r')
-            ->innerJoin('r.user','user')
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
             ->andWhere('r.start < :now')
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'ASC')
@@ -108,18 +112,19 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $now = new \DateTime();
         $midnight = new \DateTime();
-        $midnight->setTime(23, 59,59);
+        $midnight->setTime(23, 59, 59);
         $qb = $this->createQueryBuilder('r');
 
         return $qb
-            ->innerJoin('r.user','user')
+            ->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX(
-                $qb->expr()->between('r.enddate',':now',':midnight'),
-                $qb->expr()->between('r.start',':now',':midnight'),
+                $qb->expr()->between('r.enddate', ':now', ':midnight'),
+                $qb->expr()->between('r.start', ':now', ':midnight'),
                 $qb->expr()->andX(
-                    $qb->expr()->gte('r.enddate',':midnight'),
-                    $qb->expr()->lte('r.start',':now')
+                    $qb->expr()->gte('r.enddate', ':midnight'),
+                    $qb->expr()->lte('r.start', ':now')
                 )
             ))
             ->setParameter('now', $now)
@@ -128,4 +133,29 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getMyScheduledRooms(User $user)
+    {
+        $qb = $this->createQueryBuilder('rooms');
+        $qb->innerJoin('rooms.user', 'user')
+            ->andWhere('user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('rooms.scheduleMeeting = true');
+        return $qb->getQuery()->getResult();
+    }
+    public function findRoomsFutureAndPast(User $user,$timeBack)
+    {
+        $now = (new \DateTime())->modify($timeBack);
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.user', 'user')
+            ->andWhere('user = :user')
+            ->andWhere('r.enddate > :now')
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->setParameter('now', $now)
+            ->setParameter('user', $user)
+            ->orderBy('r.start', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

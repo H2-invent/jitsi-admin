@@ -5,7 +5,27 @@
 {% endblock %}
 
 {% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 text-right">
+            <div class="custom-control custom-switch mb-2">
+<div class="d-flex justify-content-end">
+    <span class="mr-5"><i class="fas fa-sun"></i></span>
+    <input type="checkbox" class="custom-control-input switchDarkmode"
+            {{ app.request.cookies.get('DARK_MODE') }}
+            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                checked
+            {% endif%}
+           id="switchDarkmode2">
+    <label class="custom-control-label" for="switchDarkmode2">
+            <i class="fas fa-moon"></i>
+    </label>
+</div>
 
+            </div>
+        </div>
+    </div>
+</div>
     <div class="container">
 
 
@@ -66,20 +86,39 @@
             >
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <a href="{{ path('room_new') }}" class="loadContent">
-                            <div class="card card-body bg-success btn">
+                        <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
+                            <div class=" btn-block btn btn-dashboard">
                                 <p class="mt-2 mb-2 text-center">
                                     {{ 'Eine Konferenz planen'|trans }}
                                 </p>
                             </div>
                         </a>
                     </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
+                            <div class=" btn-block btn btn-outline-dashboard">
+                                <p class="mt-2 mb-2 text-center ">
+                                    {{ 'Einen Termin finden'|trans }}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
+                {% if myScheduledMeeting(app.user)|length > 0 %}
+                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Terminplanung'|trans }} </h4>
+                    {% for r in myScheduledMeeting(app.user) %}
+                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+                    {% endfor %}
+                {% endif %}
                 {% if  roomsFuture |length == 0 %}
                     <div class="card card-body">
-                        <p class="text-center">{{ 'Aktuell sind keine Konferenzen vorhanden. Erstellen Sie '|trans }}<u><a
-                                        href="{{ path('room_new') }}" class="loadContent">{{ 'hier'|trans }}</a></u>
-                            {{ 'eine neue Konferenz.'|trans }}</p>
+                        <p class="text-center">
+                            {% trans with {'{url}':path('room_new')} %}
+                            Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            <u><a href="{url}" class="loadContent">hier</a></u>
+                            eine neue Konferenz.
+                        {% endtrans %}
+                        </p>
                     </div>
                 {% elseif todayRooms |length == 0 %}
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
@@ -87,10 +126,11 @@
                         <p class="text-center">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
                     </div>
                 {% endif %}
-                {% set locale =  app.request.locale  %}
+                {% set locale =  app.request.locale %}
                 {% for date in roomsFuture %}
                     <h4 style="padding-top: 16px"
-                        class="h4-responsive pl-xl-3">{{ date[0].start|format_date(pattern="EEEE",locale=locale) }} | {{ date[0].start|format_datetime('long', 'none', locale=locale) }}</h4>
+                        class="h4-responsive pl-xl-3">{{ date[0].start|format_date(pattern="EEEE",locale=locale) }}
+                        | {{ date[0].start|format_datetime('long', 'none', locale=locale) }}</h4>
                     {% for room in date %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
                     {% endfor %}

@@ -4,6 +4,7 @@
 # Jitsi Manager
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 
 Jitsi Manager or Jitsi Admin is a tool to manage Jitsi conferences and server with JWT
 
@@ -25,13 +26,14 @@ We use a double-opt-in process where you will receive a confirmation email conta
 It is always possible to leave the mailing list.
 
 ### Partners and Sponsors
-<div style="text-align: center">
-
-<img src="https://readi.de/wp-content/uploads/sites/5/2020/10/cropped-Logo-Simplified-mit-Text-e1602047847827.png" width="200px">
-<br>
+![re@di Digital](docs/images/readi.png)<br>
 We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee
-</div>
 
+
+## Translation
+Please help us to improve our localiczation
+
+[![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 # Features
 
 The following features are already part of Jitsi Administrator:
@@ -74,8 +76,8 @@ More information can be found at https://jitsi-admin.de
 
 As some Composer dependencies need to be installed, it is advised to only install Jitsi Manager if you have shell access to you server.
 
-* [Getting Started (in German)](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started)
-* [Minimum Requirements (in German)](https://github.com/H2-invent/jitsi-admin/wiki/Mindestanforderungen-an-den-Server)
+* [Getting Started ](https://github.com/H2-invent/jitsi-admin/wiki/Get-Started-English)
+* [Minimum Requirements](https://github.com/H2-invent/jitsi-admin/wiki/Minimum-server-requirements-English)
 * [API Documentation (in German)](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
 
 # License
@@ -88,7 +90,7 @@ After that execute the following command
 ```javascript
 bash install.sh
 ```
-
+Follow the instruction in the command window.
 # Update
 Download the newest version or perform a checkout of the corespong tag.
 After that execute the following command

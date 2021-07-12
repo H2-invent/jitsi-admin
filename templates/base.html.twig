@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
-
+{% set theme =  getThemeProperties() %}
 {{ include('base/__head.html.twig') }}
+
 <script>
     var importBBB = true
 </script>
@@ -13,7 +14,8 @@
 {% endif %}
 
 
-<body>
+<body {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+    class="blackMode"{% endif%}>
 
 <div id="mainContent" class="wrapper">
 
@@ -22,10 +24,18 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a href="{{ path('dashboard') }}">
-                    <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
-                         style="height: 40px; width: auto">
-                    <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
-                         style="height: 40px; width: auto">
+                    {% if theme %}
+                        <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                        <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                    {% else %}
+                        <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                        <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
+                             style="height: 40px; width: auto">
+                    {% endif %}
+
                 </a>
                 {% block CTA %}{% endblock %}
                 {{ include('base/__topnav.html.twig') }}
@@ -42,15 +52,17 @@
     </div>
 
 
-    <div class="modal fade" id="loadContentModal" tabindex="-1" role="dialog" aria-labelledby="loadContentModal"
+    <div class="modal fade" id="loadContentModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="loadContentModal"
          aria-hidden="true">
-
     </div>
 </div>
 <!-- Dark Overlay element -->
 <div class="overlay"></div>
 <script>
+    var urlNotification = '{{ path('notification') }}';
     var moreFeatureUrl = '{{ path('more_features') }}';
+    var notificationUrl = "{{ laf_notificationUrl }}";
+    var bbbUrl = "{{ laf_bbb_Url }}";
 </script>
 {{ include('base/__script.html.twig') }}
 {% block javascripts %}{% endblock %}

@@ -32,3 +32,8 @@ yarn-error.log
 ###< symfony/web-server-bundle ###
 /public/trash/
 /.phpdoc/
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

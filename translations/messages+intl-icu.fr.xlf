@@ -309,18 +309,6 @@
         <source>Eine Konferenz planen</source>
         <target state="needs-translation">Eine Konferenz planen</target>
       </trans-unit>
-      <trans-unit id="h0_xzXe" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie">
-        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</source>
-        <target state="needs-translation">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie</target>
-      </trans-unit>
-      <trans-unit id="Upy8jyE" resname="hier">
-        <source>hier</source>
-        <target state="needs-translation">hier</target>
-      </trans-unit>
-      <trans-unit id="WWTYQHI" resname="eine neue Konferenz.">
-        <source>eine neue Konferenz.</source>
-        <target state="needs-translation">eine neue Konferenz.</target>
-      </trans-unit>
       <trans-unit id="Ruov.3p" resname="Heute">
         <source>Heute</source>
         <target state="needs-translation">Heute</target>
@@ -531,62 +519,6 @@
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
         <target state="needs-translation">Füllen Sie das Formular aus um der Konferenz beizutreten</target>
       </trans-unit>
-      <trans-unit id="HKX.hO5" resname="Ich habe die&#10;                                                &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                                    &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;&#10;                                                    &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                                &lt;/a&gt;&#10;                                                und die&#10;                                                &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot;&#10;                                                   referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                                    &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&#10;                                                    &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                                &lt;/a&gt;&#10;                                                gelesen und nehme diese zur Kenntnis.">
-        <source>Ich habe die
-                                                &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;
-                                                    &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
-                                                &lt;/a&gt;
-                                                und die
-                                                &lt;a href="{privacyUrl}" target="_blank"
-                                                   referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;
-                                                    &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
-                                                &lt;/a&gt;
-                                                gelesen und nehme diese zur Kenntnis.</source>
-        <target state="needs-translation">Ich habe die
-                                                &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;
-                                                    &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
-                                                &lt;/a&gt;
-                                                und die
-                                                &lt;a href="{privacyUrl}" target="_blank"
-                                                   referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;
-                                                    &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
-                                                &lt;/a&gt;
-                                                gelesen und nehme diese zur Kenntnis.</target>
-      </trans-unit>
-      <trans-unit id="ELdsvD0" resname="Ich habe die&#10;                                                &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;                                                    &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;&#10;                                                    &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&#10;                                                &lt;/a&gt;&#10;                                                gelesen und nehme diese zur Kenntnis.">
-        <source>Ich habe die
-                                                &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;
-                                                    &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
-                                                &lt;/a&gt;
-                                                gelesen und nehme diese zur Kenntnis.</source>
-        <target state="needs-translation">Ich habe die
-                                                &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-                                                    &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt;
-                                                    &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;
-                                                &lt;/a&gt;
-                                                gelesen und nehme diese zur Kenntnis.</target>
-      </trans-unit>
-      <trans-unit id="hc1e4iw" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot;&#10;                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus&#10;                                                dem Formular an den Jitsi-Meet-Server weiter.">
-        <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                                dem Formular an den Jitsi-Meet-Server weiter.</source>
-        <target state="needs-translation">Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                                dem Formular an den Jitsi-Meet-Server weiter.</target>
-      </trans-unit>
-      <trans-unit id="LbqGEyg" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben&#10;                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie&#10;                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
-        <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben
-                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie
-                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
-        <target state="needs-translation">Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben
-                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie
-                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</target>
-      </trans-unit>
       <trans-unit id="4E0kxSs" resname="Startseite">
         <source>Startseite</source>
         <target state="needs-translation">Startseite</target>
@@ -751,7 +683,7 @@
         <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
         <target state="needs-translation">Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</target>
       </trans-unit>
-      <trans-unit id=".tedbT6" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
+      <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
         <target state="needs-translation">Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
@@ -760,6 +692,366 @@
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
         <source>Hier verlängern</source>
         <target state="needs-translation">Hier verlängern</target>
+      </trans-unit>
+      <trans-unit id="pm52BiU" resname="Neue Einladung zu einer Terminplanung">
+        <source>Neue Einladung zu einer Terminplanung</source>
+        <target state="needs-translation">Neue Einladung zu einer Terminplanung</target>
+      </trans-unit>
+      <trans-unit id="crDnbJt" resname="Sie haben den Terminplan erfolgreich umgewandelt">
+        <source>Sie haben den Terminplan erfolgreich umgewandelt</source>
+        <target state="needs-translation">Sie haben den Terminplan erfolgreich umgewandelt</target>
+      </trans-unit>
+      <trans-unit id="ihYiwYJ" resname="Fehler, Bitte Laden Sie die Seite neu">
+        <source>Fehler, Bitte Laden Sie die Seite neu</source>
+        <target state="needs-translation">Fehler, Bitte Laden Sie die Seite neu</target>
+      </trans-unit>
+      <trans-unit id="SKDmXpu" resname="Terminplanung">
+        <source>Terminplanung</source>
+        <target state="needs-translation">Terminplanung</target>
+      </trans-unit>
+      <trans-unit id="_RCpCcb" resname="Terminplaner">
+        <source>Terminplaner</source>
+        <target state="needs-translation">Terminplaner</target>
+      </trans-unit>
+      <trans-unit id="WTkB_NE" resname="Einladung zu einer Terminplanung">
+        <source>Einladung zu einer Terminplanung</source>
+        <target state="needs-translation">Einladung zu einer Terminplanung</target>
+      </trans-unit>
+      <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
+        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <target state="needs-translation">Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</target>
+      </trans-unit>
+      <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
+        <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
+        <target state="needs-translation">Klicken Sie hier um über den optimalen Termin abzustimmen.</target>
+      </trans-unit>
+      <trans-unit id="BzawdAw" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
+        <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
+        <target state="needs-translation">Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</target>
+      </trans-unit>
+      <trans-unit id="MjqSQuA" resname="Zeit wählen">
+        <source>Zeit wählen</source>
+        <target state="needs-translation">Zeit wählen</target>
+      </trans-unit>
+      <trans-unit id="6RsEYIW" resname="Hier zur Abstimmung">
+        <source>Hier zur Abstimmung</source>
+        <target state="needs-translation">Hier zur Abstimmung</target>
+      </trans-unit>
+      <trans-unit id="zenlipp" resname="Ja">
+        <source>Ja</source>
+        <target state="needs-translation">Ja</target>
+      </trans-unit>
+      <trans-unit id="kOvBveb" resname="Nein">
+        <source>Nein</source>
+        <target state="needs-translation">Nein</target>
+      </trans-unit>
+      <trans-unit id="bM.1UL8" resname="Vielleicht">
+        <source>Vielleicht</source>
+        <target state="needs-translation">Vielleicht</target>
+      </trans-unit>
+      <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
+        <source>Welcher Termin passt für Sie am besten?</source>
+        <target state="needs-translation">Welcher Termin passt für Sie am besten?</target>
+      </trans-unit>
+      <trans-unit id="KUyku5P" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
+        <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
+        <target state="needs-translation">Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</target>
+      </trans-unit>
+      <trans-unit id="fnDondQ" resname="Terminplanung erfolgreich bearbeitet">
+        <source>Terminplanung erfolgreich bearbeitet</source>
+        <target state="needs-translation">Terminplanung erfolgreich bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="DDgU1Ma" resname="Terminplanung bearbeiten">
+        <source>Terminplanung bearbeiten</source>
+        <target state="needs-translation">Terminplanung bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="JOM3vOw" resname="Terminplanung erfolgreich erstellt">
+        <source>Terminplanung erfolgreich erstellt</source>
+        <target state="needs-translation">Terminplanung erfolgreich erstellt</target>
+      </trans-unit>
+      <trans-unit id="JzM7Kww" resname="Neue Terminplanung erstellen">
+        <source>Neue Terminplanung erstellen</source>
+        <target state="needs-translation">Neue Terminplanung erstellen</target>
+      </trans-unit>
+      <trans-unit id="LH_3egJ" resname="Einen Termin finden">
+        <source>Einen Termin finden</source>
+        <target state="needs-translation">Einen Termin finden</target>
+      </trans-unit>
+      <trans-unit id="_TZrqNN" resname="Terminplanung abgesagt">
+        <source>Terminplanung abgesagt</source>
+        <target state="needs-translation">Terminplanung abgesagt</target>
+      </trans-unit>
+      <trans-unit id="0t_QPzY" resname="Die Terminplanung {name} wurde abgesagt.">
+        <source>Die Terminplanung {name} wurde abgesagt.</source>
+        <target state="needs-translation">Die Terminplanung {name} wurde abgesagt.</target>
+      </trans-unit>
+      <trans-unit id="F4Q5os1" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
+        <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
+        <target state="needs-translation">Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</target>
+      </trans-unit>
+      <trans-unit id="ERIRuzv" resname="Wir weisen darauf hin, dass Sie durch das klicken auf &quot;Beitreten&quot; auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den &quot;Name&quot; aus dem Formular an den Jitsi-Meet-Server weiter.">
+        <source>Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus dem Formular an den Jitsi-Meet-Server weiter.</source>
+        <target state="needs-translation">Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten" auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus dem Formular an den Jitsi-Meet-Server weiter.</target>
+      </trans-unit>
+      <trans-unit id="8ZQLRKd" resname="Mail an die Teilnehmer">
+        <source>Mail an die Teilnehmer</source>
+        <target state="needs-translation">Mail an die Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="kaxOEsS" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            und die &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
+        <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            gelesen und nehme diese zur Kenntnis.</source>
+        <target state="needs-translation">Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            gelesen und nehme diese zur Kenntnis.</target>
+      </trans-unit>
+      <trans-unit id="vj_Mqv." resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
+        <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            gelesen und nehme diese zur Kenntnis.</source>
+        <target state="needs-translation">Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            gelesen und nehme diese zur Kenntnis.</target>
+      </trans-unit>
+      <trans-unit id="yUDlpqH" resname="{from} von {to}">
+        <source>{from} von {to}</source>
+        <target state="needs-translation">{from} von {to}</target>
+      </trans-unit>
+      <trans-unit id="pRkRXRz" resname="Abstimmung">
+        <source>Abstimmung</source>
+        <target state="needs-translation">Abstimmung</target>
+      </trans-unit>
+      <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
+        <source>Keine Abstimmungen</source>
+        <target state="needs-translation">Keine Abstimmungen</target>
+      </trans-unit>
+      <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
+        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
+                            eine neue Konferenz.</source>
+        <target state="needs-translation">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
+                            eine neue Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">
+        <source>Hinzugefügt zur Warteliste</source>
+        <target state="needs-translation">Hinzugefügt zur Warteliste</target>
+      </trans-unit>
+      <trans-unit id="dFgRTL4" resname="Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.">
+        <source>Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</source>
+        <target state="needs-translation">Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</target>
+      </trans-unit>
+      <trans-unit id="HqYBTct" resname="Sie sind auf der Warteliste">
+        <source>Sie sind auf der Warteliste</source>
+        <target state="needs-translation">Sie sind auf der Warteliste</target>
+      </trans-unit>
+      <trans-unit id="z1kridY" resname="Sie sind auf der Warteliste für die Konferenz {name} eingetragen.">
+        <source>Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</source>
+        <target state="needs-translation">Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</target>
+      </trans-unit>
+      <trans-unit id="7a4K8pX" resname="Warteliste">
+        <source>Warteliste</source>
+        <target state="needs-translation">Warteliste</target>
+      </trans-unit>
+      <trans-unit id="uOs4egz" resname="Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen">
+        <source>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</source>
+        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="gzHOfne" resname="Noch {spaces} Plätze frei">
+        <source>Noch {spaces} Plätze frei</source>
+        <target state="needs-translation">Noch {spaces} Plätze frei</target>
+      </trans-unit>
+      <trans-unit id="3CYPbpJ" resname="Noch ein Platz frei">
+        <source>Noch ein Platz frei</source>
+        <target state="needs-translation">Noch ein Platz frei</target>
+      </trans-unit>
+      <trans-unit id="zUuUQi_" resname="Keine Plätze mehr frei">
+        <source>Keine Plätze mehr frei</source>
+        <target state="needs-translation">Keine Plätze mehr frei</target>
+      </trans-unit>
+      <trans-unit id="DW95e1g" resname="Unbegrenzte Teilnehmerzahl">
+        <source>Unbegrenzte Teilnehmerzahl</source>
+        <target state="needs-translation">Unbegrenzte Teilnehmerzahl</target>
+      </trans-unit>
+      <trans-unit id="rr8aX2H" resname="Dieser Teilnehmer darf seinen Bildschirm teilen">
+        <source>Dieser Teilnehmer darf seinen Bildschirm teilen</source>
+        <target state="needs-translation">Dieser Teilnehmer darf seinen Bildschirm teilen</target>
+      </trans-unit>
+      <trans-unit id="wzEtJLt" resname="Dieser Teilnehmer darf private Nachrichten versenden">
+        <source>Dieser Teilnehmer darf private Nachrichten versenden</source>
+        <target state="needs-translation">Dieser Teilnehmer darf private Nachrichten versenden</target>
+      </trans-unit>
+      <trans-unit id="XMBOY_s" resname="Darkmode">
+        <source>Darkmode</source>
+        <target state="needs-translation">Darkmode</target>
+      </trans-unit>
+      <trans-unit id="jChD8ic" resname="iCal Link">
+        <source>iCal Link</source>
+        <target state="needs-translation">iCal Link</target>
+      </trans-unit>
+      <trans-unit id="QbDh_pE" resname="Die Serienvideokonferenz {name} wurde bearbeitet">
+        <source>Die Serienvideokonferenz {name} wurde bearbeitet</source>
+        <target state="needs-translation">Die Serienvideokonferenz {name} wurde bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="iHWAl7b" resname="Hier beitreten">
+        <source>Hier beitreten</source>
+        <target state="needs-translation">Hier beitreten</target>
+      </trans-unit>
+      <trans-unit id="qjr7pXm" resname="Die Serienvideokonferenz {name} wurde gelöscht">
+        <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
+        <target state="needs-translation">Die Serienvideokonferenz {name} wurde gelöscht</target>
+      </trans-unit>
+      <trans-unit id="JBp5T7M" resname="Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.">
+        <source>Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</source>
+        <target state="needs-translation">Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="ScBzAnw" resname="Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.">
+        <source>Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</source>
+        <target state="needs-translation">Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="E97lvGG" resname="Sie wurden auf die Warteliste für:  {name} hinzugefügt ">
+        <source>Sie wurden auf die Warteliste für:  {name} hinzugefügt </source>
+        <target state="needs-translation">Sie wurden auf die Warteliste für:  {name} hinzugefügt </target>
+      </trans-unit>
+      <trans-unit id="ERPvUJ." resname="Die Videokonferenz {name} wurde von {organizer} abgesagt.">
+        <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
+        <target state="needs-translation">Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
+      </trans-unit>
+      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
+        <source>Die Videokonferenz {name} von startet gleich.</source>
+        <target state="needs-translation">Die Videokonferenz {name} von startet gleich.</target>
+      </trans-unit>
+      <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
+        <source>Fehler, Bitte füllen Sie alle Felder aus</source>
+        <target state="needs-translation">Fehler, Bitte füllen Sie alle Felder aus</target>
+      </trans-unit>
+      <trans-unit id="ub8NVvM" resname="Sie dürfen nur maximal {amount} Wiederholungen angeben">
+        <source>Sie dürfen nur maximal {amount} Wiederholungen angeben</source>
+        <target state="needs-translation">Sie dürfen nur maximal {amount} Wiederholungen angeben</target>
+      </trans-unit>
+      <trans-unit id="1e.pJ8Y" resname="Eine neue Serienvideokonferenz wurde erstellt">
+        <source>Eine neue Serienvideokonferenz wurde erstellt</source>
+        <target state="needs-translation">Eine neue Serienvideokonferenz wurde erstellt</target>
+      </trans-unit>
+      <trans-unit id="67HDiZC" resname="Sie haben Erfolgreich einen Serientermin erstellt">
+        <source>Sie haben Erfolgreich einen Serientermin erstellt</source>
+        <target state="needs-translation">Sie haben Erfolgreich einen Serientermin erstellt</target>
+      </trans-unit>
+      <trans-unit id="sdMaLqo" resname="Sie haben Erfolgreich einen Serientermin bearbeitet">
+        <source>Sie haben Erfolgreich einen Serientermin bearbeitet</source>
+        <target state="needs-translation">Sie haben Erfolgreich einen Serientermin bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="kTF_a3z" resname="Sie haben Erfolgreich einen Serientermin gelöscht">
+        <source>Sie haben Erfolgreich einen Serientermin gelöscht</source>
+        <target state="needs-translation">Sie haben Erfolgreich einen Serientermin gelöscht</target>
+      </trans-unit>
+      <trans-unit id="Yb1QPZ2" resname="Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet">
+        <source>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
+        <target state="needs-translation">Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="3iuiLlw" resname="Serienelement bearbeiten">
+        <source>Serienelement bearbeiten</source>
+        <target state="needs-translation">Serienelement bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="I.AEB32" resname="Selbstregistrierung">
+        <source>Selbstregistrierung</source>
+        <target state="needs-translation">Selbstregistrierung</target>
+      </trans-unit>
+      <trans-unit id="q3dDpK2" resname="Serie">
+        <source>Serie</source>
+        <target state="needs-translation">Serie</target>
+      </trans-unit>
+      <trans-unit id="K1wfW2y" resname="Serienart bearbeiten">
+        <source>Serienart bearbeiten</source>
+        <target state="needs-translation">Serienart bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="39O7jAk" resname="Serie löschen">
+        <source>Serie löschen</source>
+        <target state="needs-translation">Serie löschen</target>
+      </trans-unit>
+      <trans-unit id="6R7jKP3" resname="Neue Serien Termin">
+        <source>Neue Serien Termin</source>
+        <target state="needs-translation">Neue Serien Termin</target>
+      </trans-unit>
+      <trans-unit id="eEdqI9E" resname="Sie wurden zu einer Serienvideokonferenz hinzugefügt">
+        <source>Sie wurden zu einer Serienvideokonferenz hinzugefügt</source>
+        <target state="needs-translation">Sie wurden zu einer Serienvideokonferenz hinzugefügt</target>
+      </trans-unit>
+      <trans-unit id="9OpdI6M" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
+        <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="T2dYIGp" resname="Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
+        <source>Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
+        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
+      </trans-unit>
+      <trans-unit id="fZdNwVM" resname="Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.">
+        <source>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</source>
+        <target state="needs-translation">Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</target>
+      </trans-unit>
+      <trans-unit id="UtG9LK6" resname="Serienvideokonferenz geändert">
+        <source>Serienvideokonferenz geändert</source>
+        <target state="needs-translation">Serienvideokonferenz geändert</target>
+      </trans-unit>
+      <trans-unit id="6ygviQp" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
+        <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="lAiGCC9" resname="Videokonferenz in Serienvideokonferenz umgewandelt">
+        <source>Videokonferenz in Serienvideokonferenz umgewandelt</source>
+        <target state="needs-translation">Videokonferenz in Serienvideokonferenz umgewandelt</target>
+      </trans-unit>
+      <trans-unit id="maPhtKz" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
+        <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="SZi18dm" resname="Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
+        <source>Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
+        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
+      </trans-unit>
+      <trans-unit id="iZMDeDm" resname="Die Serienvideokonferenz wurde abgesagt">
+        <source>Die Serienvideokonferenz wurde abgesagt</source>
+        <target state="needs-translation">Die Serienvideokonferenz wurde abgesagt</target>
+      </trans-unit>
+      <trans-unit id="XO0dRjN" resname="Der Serienterm {name} wurde abgesagt.">
+        <source>Der Serienterm {name} wurde abgesagt.</source>
+        <target state="needs-translation">Der Serienterm {name} wurde abgesagt.</target>
+      </trans-unit>
+      <trans-unit id="padgvWA" resname="Serien Termin">
+        <source>Serien Termin</source>
+        <target state="needs-translation">Serien Termin</target>
+      </trans-unit>
+      <trans-unit id="_w.eQXo" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
+        <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
+        <target state="needs-translation">Sie haben erfolgreich einen Serientermin bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="EQb8YHp" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet">
+        <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
+        <target state="needs-translation">Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="Fh87GFQ" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="goltkDr" resname="Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.">
+        <source>Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</source>
+        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</target>
+      </trans-unit>
+      <trans-unit id="YyrA.0T" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="THWcDaJ" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
+        <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
+        <target state="needs-translation">Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+      </trans-unit>
+      <trans-unit id="rcE9dqU" resname="Die Serienvideokonferenz {name} wurde abgesagt.">
+        <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
+        <target state="needs-translation">Die Serienvideokonferenz {name} wurde abgesagt.</target>
       </trans-unit>
     </body>
   </file>

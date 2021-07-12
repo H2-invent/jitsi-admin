@@ -8,6 +8,7 @@ use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use function Doctrine\ORM\QueryBuilder;
 
 class ReminderService
 {
@@ -29,6 +30,7 @@ class ReminderService
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->where('rooms.start > :now')
             ->andWhere('rooms.start < :now10')
+            ->andWhere('rooms.scheduleMeeting != true')
             ->setParameter('now10', $now10)
             ->setParameter('now', new \DateTime());
         $query = $qb->getQuery();

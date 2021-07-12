@@ -14,8 +14,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Cache\ItemInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JoinController extends AbstractController
@@ -31,7 +30,7 @@ class JoinController extends AbstractController
      * @Route("/join/{slug}", name="join_index")
      * @Route("/join", name="join_index_no_slug")
      */
-    public function index($slug = null, PexelService $pexelService, Request $request, TranslatorInterface $translator, RoomService $roomService, HttpClientInterface $httpClient)
+    public function index($slug = null, Request $request, TranslatorInterface $translator, RoomService $roomService)
     {
         $data = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['slug' => $slug]);
@@ -90,13 +89,13 @@ class JoinController extends AbstractController
 
             $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
         }
-        $image = $pexelService->getImageFromPexels();
+
 
         return $this->render('join/index.html.twig', [
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
-            'image' => $image,
+
 
         ]);
     }

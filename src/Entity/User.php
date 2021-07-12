@@ -116,6 +116,36 @@ class User extends BaseUser
      */
     private $groups = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity=SchedulingTimeUser::class, mappedBy="user")
+     */
+    private $schedulingTimeUsers;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $uid;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user")
+     */
+    private $waitinglists;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="user")
+     */
+    private $notifications;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Repeat::class, mappedBy="participants")
+     */
+    private $repeaterUsers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="prototypeUsers")
+     */
+    private $protoypeRooms;
+
 
 
     public function __construct()
@@ -128,6 +158,11 @@ class User extends BaseUser
         $this->addressbookInverse = new ArrayCollection();
         $this->roomsAttributes = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
+        $this->schedulingTimeUsers = new ArrayCollection();
+        $this->waitinglists = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->repeaterUsers = new ArrayCollection();
+        $this->protoypeRooms = new ArrayCollection();
 
     }
 
@@ -455,6 +490,162 @@ class User extends BaseUser
     public function setGroups(?array $groups): self
     {
         $this->groups = $groups;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SchedulingTimeUser[]
+     */
+    public function getSchedulingTimeUsers(): Collection
+    {
+        return $this->schedulingTimeUsers;
+    }
+
+    public function addSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
+    {
+        if (!$this->schedulingTimeUsers->contains($schedulingTimeUser)) {
+            $this->schedulingTimeUsers[] = $schedulingTimeUser;
+            $schedulingTimeUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
+    {
+        if ($this->schedulingTimeUsers->removeElement($schedulingTimeUser)) {
+            // set the owning side to null (unless already changed)
+            if ($schedulingTimeUser->getUser() === $this) {
+                $schedulingTimeUser->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(?string $uid): self
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Waitinglist[]
+     */
+    public function getWaitinglists(): Collection
+    {
+        return $this->waitinglists;
+    }
+
+    public function addWaitinglist(Waitinglist $waitinglist): self
+    {
+        if (!$this->waitinglists->contains($waitinglist)) {
+            $this->waitinglists[] = $waitinglist;
+            $waitinglist->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaitinglist(Waitinglist $waitinglist): self
+    {
+        if ($this->waitinglists->removeElement($waitinglist)) {
+            // set the owning side to null (unless already changed)
+            if ($waitinglist->getUser() === $this) {
+                $waitinglist->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Repeat[]
+     */
+    public function getRepeaterUsers(): Collection
+    {
+        return $this->repeaterUsers;
+    }
+
+    public function addRepeaterUser(Repeat $repeaterUser): self
+    {
+        if (!$this->repeaterUsers->contains($repeaterUser)) {
+            $this->repeaterUsers[] = $repeaterUser;
+            $repeaterUser->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepeaterUser(Repeat $repeaterUser): self
+    {
+        if ($this->repeaterUsers->removeElement($repeaterUser)) {
+            $repeaterUser->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rooms[]
+     */
+    public function getProtoypeRooms(): Collection
+    {
+        return $this->protoypeRooms;
+    }
+
+    public function addProtoypeRoom(Rooms $protoypeRoom): self
+    {
+        if (!$this->protoypeRooms->contains($protoypeRoom)) {
+            $this->protoypeRooms[] = $protoypeRoom;
+            $protoypeRoom->addPrototypeUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProtoypeRoom(Rooms $protoypeRoom): self
+    {
+        if ($this->protoypeRooms->removeElement($protoypeRoom)) {
+            $protoypeRoom->removePrototypeUser($this);
+        }
 
         return $this;
     }

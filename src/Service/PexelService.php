@@ -22,25 +22,27 @@ class PexelService
     public function getImageFromPexels()
     {
         $image = null;
+
+        if($this->parameterBag->get('laF_pexel_api_key') !== '' && $this->parameterBag->get('enterprise_noExternal')  == 0){
         try {
             $cache = new FilesystemAdapter();
-            $value = $cache->get('pexels_image', function (ItemInterface $item)  {
+            $value = $cache->get('pexels_image', function (ItemInterface $item) {
                 $item->expiresAfter(intval($this->parameterBag->get('laF_pexel_refresh_time')));
 
                 $s = array();
                 $hour = (new \DateTime())->format('H');
                 if ($hour < 7) {
-                    $s = [ 'night', 'northern lights'];
+                    $s = ['night', 'northern lights'];
                 } elseif ($hour < 9) {
                     $s = ['sunrise', 'germany', 'bavaria'];
                 } elseif ($hour < 11) {
-                    $s = ['city', 'valley', 'animal', 'dessert', 'cat', 'forest','mountain'];
+                    $s = ['city', 'valley', 'animal', 'dessert', 'cat', 'forest', 'mountain'];
                 } elseif ($hour < 18) {
                     $s = ['lake', 'ocean', 'underwater', 'reef'];
-                }elseif ($hour < 21) {
-                    $s = ['sunset','clouds'];
+                } elseif ($hour < 21) {
+                    $s = ['sunset', 'clouds'];
                 } else {
-                    $s = [ 'night', 'northern lights'];
+                    $s = ['night', 'northern lights'];
                 }
 
                 $response = $this->client->request('GET', 'https://api.pexels.com/v1/search?query=' . $s[rand(0, sizeof($s) - 1)] . '&per_page=80', [
@@ -52,11 +54,11 @@ class PexelService
                 return $response->getContent();
             });
             $imageArr = json_decode($value, true)['photos'];
-            $image = $imageArr[rand(0,sizeof($imageArr)-1)];
-        }catch (\Exception $e){
+            $image = $imageArr[rand(0, sizeof($imageArr) - 1)];
+        } catch (\Exception $e) {
 
         }
-
+    }
         return $image;
     }
 

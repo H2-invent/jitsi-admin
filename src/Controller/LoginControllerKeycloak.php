@@ -44,4 +44,12 @@ class LoginControllerKeycloak extends AbstractController
         $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/account';
         return $this->redirect($url);
     }
+    /**
+     * @Route("/login/keycloak_password", name="connect_keycloak_password")
+     */
+    public function password(ClientRegistry $clientRegistry, Request $request)
+    {
+        $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/account/password';
+        return $this->redirect($url);
+    }
 }

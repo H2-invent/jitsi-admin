@@ -1,0 +1,40 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    - -{{'Einladung zu einer Terminplanung'|trans}}- -
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <b>
+        {{'Hallo!'|trans}}
+    </b>
+    <p>
+        {% trans with {'{url}': room.server.url} %}Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.{% endtrans %}
+    </p>
+    <b>
+        {{ 'Name'|trans }}: {{ room.name }}
+    </b>
+    {% if room.agenda is not null %}
+        <p>
+            <b>{{ 'Agenda'|trans }}:</b>
+        </p>
+        <p>{{ room.agenda|markdown_to_html }}</p>
+
+    {% endif %}
+    <p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+    <spacer size="16"></spacer>
+
+    <spacer size="16"></spacer>
+    <p>
+        <a href="{{ absolute_url(path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':user.uid})) }}">{{ 'Klicken Sie hier um über den optimalen Termin abzustimmen.'|trans }}</a>
+    </p>
+
+    <p>
+        {% if server is defined and  server is not null and server|validateLicense and server.serverEmailBody is not null %}
+            {{ server.serverEmailBody|nl2br }}
+        {% endif %}
+    </p>
+
+{% endblock %}

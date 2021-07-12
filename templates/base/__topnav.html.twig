@@ -15,7 +15,8 @@
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#settings">
-            <img src="{{ asset('images/settings.svg') }}" class="iconSytle" title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+            <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
+                 title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
         </a>
         <!-- Button trigger modal -->
         <a class="ml-auto mr-2 mr-sm-4"
@@ -25,16 +26,26 @@
         </a>
 
 
-        <li class="nav-item dropdown">
-        <a class=" dropdown-toggle ml-auto mr-2 mr-sm-4" type="button" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-            <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
-        </a>
-        <div class="dropdown-menu" style="min-width: unset; background-color: unset; border: none">
-            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img src="{{ asset('/images/locale/de.png') }}" class="iconSytle"></a>
-            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img src="{{ asset('/images/locale/en.png') }}" class="iconSytle"></a>
-            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img src="{{ asset('/images/locale/fr.png') }}" class="iconSytle"></a>
-        </div>
+        <li class="nav-item dropdown language-dropdown">
+            <a class=" dropdown-toggle ml-auto mr-2 mr-sm-4" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
+            </a>
+            <div class="dropdown-menu" style="min-width: unset; background-color: unset; border: none">
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
+                            src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
+                            src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
+                            src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
+                            src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
+                            src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
+                            src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
+
+            </div>
         </li>
         <!-- Basic dropdown -->
 

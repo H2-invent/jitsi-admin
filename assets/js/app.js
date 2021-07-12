@@ -25,8 +25,8 @@ import ClipboardJS from 'clipboard';
 import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
 import {initGenerell} from './init';
-
 import {initKeycloakGroups} from './keyCloakGroupsInit';
+
 
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -204,9 +204,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     initSearchUser();
     initServerFeatures();
     initRepeater();
-
     initKeycloakGroups();
-
     if(getCookie('room_server')){
         $('#room_server').val(getCookie('room_server'))
     }

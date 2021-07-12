@@ -14,10 +14,49 @@ class IcsService
     const DT_FORMAT = 'Ymd\THis\Z';
     protected $properties = array();
     private $isModerator;
-public function __construct()
-{
-    $this->isModerator = false;
-}
+    private $timezoneId;
+    private $timezoneStart;
+    private $timezoneEnd;
+    private $timeZone;
+
+    public function __construct()
+    {
+        $this->isModerator = false;
+        $this->timezoneId = 'Europe/Berlin';
+        $this->timezoneStart = new \DateTime();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTimezoneStart(): \DateTime
+    {
+        return $this->timezoneStart;
+    }
+
+    /**
+     * @param \DateTime $timezoneStart
+     */
+    public function setTimezoneStart(\DateTime $timezoneStart): void
+    {
+        $this->timezoneStart = $timezoneStart;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimezoneEnd()
+    {
+        return $this->timezoneEnd;
+    }
+
+    /**
+     * @param mixed $timezoneEnd
+     */
+    public function setTimezoneEnd($timezoneEnd): void
+    {
+        $this->timezoneEnd = $timezoneEnd;
+    }
 
     /**
      * @return mixed
@@ -66,7 +105,6 @@ public function __construct()
 
     public function add($key)
     {
-
         $this->appointments[] = $key;
     }
 
@@ -93,6 +131,30 @@ public function __construct()
             'CALSCALE:GREGORIAN',
             'METHOD:' . $this->method,
         );
+        $ics_props[] = 'BEGIN:VTIMEZONE';
+        $ics_props[] = 'TZID:' . $this->timezoneId;
+
+        $this->timezoneStart = $this->timezoneStart->modify('first day of last year')->modify('last sunday of march');
+        $timezoneStandard = clone $this->timezoneStart;
+        $timezoneStandard->modify('last sunday of october');
+        $ics_props[] = 'BEGIN:DAYLIGHT';
+        $ics_props[] = 'DTSTART:'.$this->timezoneStart->format('Ymd').'T020000';//19501029T020000';
+        $ics_props[] = 'TZOFFSETFROM:'.$this->timezoneStart->format('O');//+0100';
+        $ics_props[] = 'TZOFFSETTO:'.$timezoneStandard->format('O');//+0200';
+        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=3';
+        $ics_props[] = 'END:DAYLIGHT';
+
+
+
+        $ics_props[] = 'BEGIN:STANDARD';
+        $ics_props[] = 'DTSTART:'.$timezoneStandard->format('Ymd').'T020000';//19501029T020000';//19500326T020000';
+        $ics_props[] = 'TZNAME:' . $timezoneStandard->format('T');
+        $ics_props[] = 'TZOFFSETFROM:' . $timezoneStandard->format('O');
+        $ics_props[] = 'TZOFFSETTO:' . $this->timezoneStart->format('O');
+        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=10';
+
+        $ics_props[] = 'END:STANDARD';
+        $ics_props[] = 'END:VTIMEZONE';
 
         // Build ICS properties - add header
         foreach ($this->appointments as $data) {
@@ -101,13 +163,11 @@ public function __construct()
             $props = array();
             foreach ($data as $p => $q) {
 
-                if ($this->isModerator){
+                if ($this->isModerator) {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=false:MAILTO' : ''))] = $q;
-                }else{
-                    $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=true:MAILTO' : ''))] = $q;
+                } else {
+                    $props[strtoupper($p . ($p === 'attendee' ? ';ROLE=REQ-PARTICIPANT; PARTSTAT=NEEDS-ACTION;RSVP=true:MAILTO' : ''))] = $q;
                 }
-
-
             }
             // Set some default values
             $props['DTSTAMP'] = $this->formatTimestamp('now');
@@ -118,15 +178,21 @@ public function __construct()
 
             // Append properties
             foreach ($props as $k => $v) {
+                if($k === 'DTSTART' || $k ==='DTEND'){
+                    $k = $k.';TZID='.$this->timezoneId.'';
+                }
                 $ics_props[] = "$k:$v";
             }
-
+            $ics_props[]='BEGIN:VALARM';
+            $ics_props[] = 'ACTION:DISPLAY';
+            $ics_props[] = 'TRIGGER:-PT10M';
+            $ics_props[] = 'DESCRIPTION:'.$data['summary'];
+            $ics_props[] = 'END:VALARM';
             $ics_props[] = 'END:VEVENT';
         }
-
+        $ics_props[] = 'END:VCALENDAR';
         // Build ICS properties - add footer
 
-        $ics_props[] = 'END:VCALENDAR';
         return $ics_props;
     }
 
@@ -158,6 +224,5 @@ public function __construct()
     {
         return preg_replace('/([\,;])/', '\\\$1', $str);
     }
-
 
 }

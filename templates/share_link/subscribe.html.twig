@@ -1,175 +1,58 @@
 {% extends 'join/base.html.twig' %}
+{% block header %}
+    <h1 class="h1-responsive text-center">{{ room.name }}</h1>
+    <p class=" text-center">  {% set locale =  app.request.locale %}
+        {{ room.start|format_date(pattern="EEEE",locale=locale) }}
+        | {{ room.start|format_datetime('long', 'none', locale=locale) }}
+        | {{ room.start|date('H:i') }}-{{ room.endDate|date('H:i') }}</p>
+    {% if room.maxParticipants is null %}
+        <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Unbegrenzte Teilnehmerzahl{% endtrans %}</h4>
+    {% elseif room.maxParticipants - room.user|length >1 %}
+        <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch {spaces} Plätze frei{% endtrans %}</h4>
+    {% elseif room.maxParticipants - room.user|length == 1 %}
+        <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch ein Platz frei{% endtrans %}</h4>
+    {% elseif room.maxParticipants - room.user|length <= 0 and room.waitinglist == true %}
+        <h4 class="text-center">{% trans %}Warteliste{% endtrans %}</h4>
+    {% endif %}
+{% endblock %}
+
 
 {% block content %}
 
 
-    <style>
-        {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
-        .imageBackground {
-            background-color: {{ server.staticBackgroundColor }};
-            position: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 100%;
-            width: 100%;
-            background-position: center;
-        }
+    {% if room.maxParticipants - room.user|length >0 or room.waitinglist == true or room.maxParticipants is null %}
+        <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
+            <p class="text-center text-md-left">
+                {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
+            </p>
+            {{ form_start(form) }}
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
 
-        {% elseif image is not null %}
-        .imageBackground {
-            background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
-            position: fixed;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 100%;
-            width: 100%;
-            background-position: center;
-        }
+            <div class="row form-group">
 
-        {% endif %}
-        @supports (-webkit-appearance:none) {
-            .frozenGlas {
-                background-color: rgba(255, 255, 255, 0.8);
-                backdrop-filter: blur(5px);
-            }
-        }
+                <div class="col-12">
+                    {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
 
-        @supports (-moz-appearance:none) {
-            .frozenGlas {
-                background-color: white;
-
-            }
-        }
-
-
-    </style>
-    <div class="row justify-content-center">
-        <div class="col-lg-10 ">
-            <div class="card frozenGlas">
-                <div class="glossy"></div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 text-center text-md-left mb-2 mb-md-0"
-                             style="display: flex; justify-content: center; align-items: center">
-                            {% if server is defined and  server is not null and server|validateLicense %}
-                                {% if server.logoUrl is not null %}
-                                    <img src="{{ server.logoUrl }}" style="width: 100%">
-                                {% endif %}
-                            {% else %}
-                                <img src="{{ asset('logo.png') }}" style="width: 100%">
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            <h1 class="h1-responsive text-center">{{ room.name }}</h1>
-                            <p class=" text-center">  {% set locale =  app.request.locale  %}
-                               {{ room.start|format_date(pattern="EEEE",locale=locale) }} | {{ room.start|format_datetime('long', 'none', locale=locale) }} | {{ room.start|date('H:i')}}-{{ room.endDate|date('H:i') }}</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row mb-5">
-
-                        <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
-                            <p class="text-center text-md-left">
-                                {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
-                            </p>
-                            {{ form_start(form) }}
-                            {{ form_row(form.firstName) }}
-                            {{ form_row(form.lastName) }}
-                            {{ form_row(form.email) }}
-
-                            <div class="row form-group">
-
-                                <div class="col-12">
-                                    <p class="small">
-                                        {% if server and server.privacyPolicy %}
-                                            {% trans with {'{dataPrivay}': dataPrivacy,'{url}': server.url,'{privacyUrl}':server.privacyPolicy} %}
-                                                Ich habe die
-                                                <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-                                                    <u>Datenschutzhinweise von Jitsi Admin</u>
-                                                    <i class="fa fa-external-link-alt"></i>
-                                                </a>
-                                                und die
-                                                <a href="{privacyUrl}" target="_blank"
-                                                   referrerpolicy="no-referrer">
-                                                    <u>Datenschutzhinweise von {url}</u>
-                                                    <i class="fa fa-external-link-alt"></i>
-                                                </a>
-                                                gelesen und nehme diese zur Kenntnis.
-                                            {% endtrans %}
-
-                                        {% else %}
-                                            {% trans with {'{dataPrivay}': dataPrivacy} %}
-                                                Ich habe die
-                                                <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-                                                    <u>Datenschutzhinweise von Jitsi Admin</u>
-                                                    <i class="fa fa-external-link-alt"></i>
-                                                </a>
-                                                gelesen und nehme diese zur Kenntnis.
-                                            {% endtrans %}
-                                        {% endif %}
-                                    </p>
-                                    {% if not server %}
-                                        <p style="font-size: 10px">
-                                            {% trans %}
-                                                Wir weisen darauf hin, dass Sie durch das klicken auf "Beitreten"
-                                                auf einen Jitsi-Meet-Server weitergeleitet werden. Jitsi Admin gibt den "Name" aus
-                                                dem Formular an den Jitsi-Meet-Server weiter.
-                                            {% endtrans %}
-                                        </p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {{ form_row(form.subscribe) }}
-                                </div>
-
-                            </div>
-
-                            {{ form_end(form) }}
-
-                        </div>
-
-                    </div>
-
-
-                    {% if not server %}
-                        <p>
-                            {% trans %}
-                                Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben
-                                wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie
-                                speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.
-                            {% endtrans %}
-                        </p>
-                    {% endif %}
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{{ path('index') }}" class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
-                    <a href="{{ path('dashboard') }}" class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
-                    <a href="{{ path('register_keycloak') }}"
-                       class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
-                    <a href="{{ helpUrlParticipants }}" target="_blank"
-                       class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
-                    {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
-
-                    {% elseif image is not null %}
-                        <br>
-                        <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer"
-                           rel="noreferrer noopener">
-                            Image by {{ image['photographer'] }} </a>
-                        <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
-                           rel="noreferrer noopener"> provided by <img height="30px"
-                                                                       src="{{ asset('images/pexels.png') }}" />
-                        </a>
-
-                    {% endif %}
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_row(form.subscribe) }}
+                </div>
+            </div>
         </div>
-    </div>
+        {{ form_end(form) }}
+    {% else %}
+        <div class="col-lg-12">
+            <h3 class="text-center ">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Keine Plätze mehr frei{% endtrans %}</h3>
+        </div>
 
-    {{ include('base/__snack.html.twig') }}
+
+
+    {% endif %}
+
+
 {% endblock %}

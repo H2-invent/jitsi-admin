@@ -21,10 +21,13 @@
     {% endtrans %}
 </p>
 <spacer size="16"></spacer>
+{% if url is defined and url is not null %}
 <p>
-    <a href="{{ url }}">{{ 'Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.'|trans }}</a>
+    <a href="{{ url }}">{{ 'Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.'|trans }}</a><br>
+    {{ 'Oder kopieren Sie den Link in Ihren Browser'|trans }}:<br>
+    <a href="{{ url }}">{{ url }}</a>
 </p>
-
+{% endif %}
 <p>
     {% if server is defined and  server is not null and server|validateLicense and server.serverEmailBody is not null %}
     {{ server.serverEmailBody|nl2br }}
