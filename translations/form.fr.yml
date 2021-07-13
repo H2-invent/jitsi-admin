@@ -72,7 +72,7 @@ label.scheduleMeeting: Trouver un rendez-vous
 help:
   serverUrl: Spécifier sans "https://" (p.e. meet.jit.si)
   featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
-  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
+  teilnehmerEmailhinzufuegenModerator: Plusieurs adresses E-Mail peuvent être rajoutés. Chaque adresse E-Mail doit être écrit sur une nouvelle ligne.
 label:
   beitretenApp: Rejoindre via l'application Elektron
   beitretenBrowser: Rejoindre via le navigateur
@@ -90,20 +90,20 @@ label:
   serverLicenseKey: Entrer le Jitsi-Admin-Lizenkey
   apiKey: Api-Key pour ce serveur
   agenda: Courte agenda pour cette réunion (Markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
+  staticBackgroundColor: Fixer une couleur de fond sur la page d'acceuil
+  schowStaticBackgroundColor: Montre une couleur fixe au lieu d'images sur la page d'acceuil
   featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
-  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Einladungslinks freischalten
-  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
-  subscribe: Anmelden
+  dissallowScreenshareGlobal: Seul le modérateur peut partager son écran
+  dissallowPrivateMessage: Seul le modérateur peut envoyer des messages privés aux participants
+  puplicRoom: Activer le lien d'invitation
+  showRoomOnJoinpage: Indiquer la conférence sur la page d'acceuil
+  subscribe: Se connecter
   vorname: Prénom
   nachname: Nom
-  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
-  waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
-  weekday: Wochentag
+  maxParticipants: Autoriser le nombre maximum de participants
+  waitinglist: Activer la liste d'attente
+  teilnehmerEmailhinzufuegenModerator: Entrer l'adresse E-Mail de nouveaux MODÉRATEURS
+  weekday: Jour de la semaine
   repetation: Endet nach x Terminen
   repeatType: Serienmuster
   repeaterDays: Répéter après X jours
