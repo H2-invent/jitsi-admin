@@ -71,7 +71,7 @@ label.appSecret: Secret de l'application
 label.scheduleMeeting: Trouver un rendez-vous
 help:
   serverUrl: Spécifier sans "https://" (p.e. meet.jit.si)
-  featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
+  featureEnalbeByJwt: Le Plugin "Enable Feature By JWT" doit être activé sur le serveur Jitsi-Meet. Autrement le JWT ne sera pas correctement reconnu et traité par le serveur
   teilnehmerEmailhinzufuegenModerator: Plusieurs adresses E-Mail peuvent être rajoutés. Chaque adresse E-Mail doit être écrit sur une nouvelle ligne.
 label:
   beitretenApp: Rejoindre via l'application Elektron
@@ -92,7 +92,7 @@ label:
   agenda: Courte agenda pour cette réunion (Markdown)
   staticBackgroundColor: Fixer une couleur de fond sur la page d'acceuil
   schowStaticBackgroundColor: Montre une couleur fixe au lieu d'images sur la page d'acceuil
-  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
+  featureEnalbeByJwt: "Le Plugin \"Enable Feature By JWT\" est activé sur le serveur"
   dissallowScreenshareGlobal: Seul le modérateur peut partager son écran
   dissallowPrivateMessage: Seul le modérateur peut envoyer des messages privés aux participants
   puplicRoom: Activer le lien d'invitation
@@ -104,8 +104,8 @@ label:
   waitinglist: Activer la liste d'attente
   teilnehmerEmailhinzufuegenModerator: Entrer l'adresse E-Mail de nouveaux MODÉRATEURS
   weekday: Jour de la semaine
-  repetation: Endet nach x Terminen
-  repeatType: Serienmuster
+  repetation: Se termine après X rendez-vous
+  repeatType: Modèle répétitif
   repeaterDays: Répéter après X jours
   repeaterWeeks: Répéter après X semaines
   repeatMontly: Répéter après X mois
@@ -113,10 +113,10 @@ label:
   montlyRelativeNumber: Le quantième jour du mois
   montlyRelativeWeekday: Jour de la semaine
   montlyRelativeMonth: Mois
-  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
+  repeaterRemoved: Modifier uniquement cet élélment, pas toute la série
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: Aucune
 placeholder:
   maxParticipants: Pas de limitation
