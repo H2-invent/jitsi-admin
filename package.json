@@ -31,6 +31,7 @@
         "h2-invent-apps": "^2.2.0",
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
+        "lib-jitsi-meet-dist": "^2.1.5",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
         "popper.js": "^1.16.1",

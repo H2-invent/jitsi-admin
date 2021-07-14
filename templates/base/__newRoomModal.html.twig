@@ -49,37 +49,108 @@
                     <div class="mt-3">
                         <div class="row">
                             {% if form.scheduleMeeting is defined %}
-                                <div class="col-lg-12">
+
+                                <div class="col-sm-11">
                                     {{ form_row(form.scheduleMeeting) }}
                                 </div>
+                                <div class="col-sm-1">
+                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                       data-content="{{ 'Es wird eine Terminumfrage erstellt, keine Konferenz.'|trans }}"><i
+                                                class="fa fa-question-circle"></i></a>
+                                </div>
                             {% endif %}
-                            <div class="col-lg-12">
+
+
+                            <div class="col-sm-11">
                                 {{ form_row(form.onlyRegisteredUsers) }}
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-sm-1">
+                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                   data-content="{{ 'Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.'|trans }}"><i
+                                            class="fa fa-question-circle"></i></a>
+                            </div>
+                            <div class="col-sm-11">
                                 {{ form_row(form.public) }}
                             </div>
-                            <div id="maxParticipants" class=" collapse">
-                                <div class="col-lg-12">
-                                    {{ form_row(form.maxParticipants) }}
-                                </div>
-                                <div class="col-lg-12">
-                                    {{ form_row(form.waitinglist) }}
+                            <div class="col-sm-1">
+                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                   data-content="{{ 'Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.'|trans }}"><i
+                                            class="fa fa-question-circle"></i></a>
+                            </div>
+                            <div class="col-lg-12">
+                                <div id="maxParticipants" class=" collapse ">
+                                    <div class="row">
+                                        <div class="col-sm-11">
+                                            {{ form_row(form.maxParticipants) }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                               data-content="{{ 'Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können'|trans }}"><i
+                                                        class="fa fa-question-circle"></i></a>
+                                        </div>
+                                        <div class="col-sm-11">
+                                            {{ form_row(form.waitinglist) }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                               data-content="{{ 'Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren'|trans }}"><i
+                                                        class="fa fa-question-circle"></i></a>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
 
-                            <div class="col-lg-12">
+
+                            <div class="col-sm-11">
                                 {{ form_row(form.showRoomOnJoinpage) }}
                             </div>
-                            <div id="enableFeateureJwt" class="d-none">
-                                <div class="col-lg-12">
-                                    {{ form_row(form.dissallowScreenshareGlobal) }}
-                                </div>
-                                <div class="col-lg-12">
-                                    {{ form_row(form.dissallowPrivateMessage) }}
+                            <div class="col-sm-1">
+                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                   data-content="{{ 'Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.'|trans }}"><i
+                                            class="fa fa-question-circle"></i></a>
+                            </div>
+                            <div class="col-lg-12">
+                                <div id="enableFeateureJwt" class="d-none row">
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.dissallowScreenshareGlobal) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                           data-content="{{ 'Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
+                                    </div>
                                 </div>
                             </div>
 
+                            {% if form.totalOpenRooms is defined %}
+                                <div class="col-sm-11">
+                                    {{ form_row(form.totalOpenRooms) }}
+                                </div>
+                                <div class="col-sm-1">
+                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                       data-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}"><i
+                                                class="fa fa-question-circle"></i></a>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="collapse" id="totalOpenRoomsOpenTime">
+                                        <div class="row">
+                                            <div class="col-sm-11">
+                                                {{ form_row(form.totalOpenRoomsOpenTime) }}
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                   data-content="{{ 'Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.'|trans }}"><i
+                                                            class="fa fa-question-circle"></i></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            {% endif %}
                         </div>
                     </div>
                 </div>

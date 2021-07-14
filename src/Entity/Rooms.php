@@ -178,6 +178,16 @@ class Rooms
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $totalOpenRooms;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $totalOpenRoomsOpenTime;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -662,6 +672,30 @@ class Rooms
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getTotalOpenRooms(): ?bool
+    {
+        return $this->totalOpenRooms;
+    }
+
+    public function setTotalOpenRooms(?bool $totalOpenRooms): self
+    {
+        $this->totalOpenRooms = $totalOpenRooms;
+
+        return $this;
+    }
+
+    public function getTotalOpenRoomsOpenTime(): ?int
+    {
+        return $this->totalOpenRoomsOpenTime;
+    }
+
+    public function setTotalOpenRoomsOpenTime(?int $totalOpenRoomsOpenTime): self
+    {
+        $this->totalOpenRoomsOpenTime = $totalOpenRoomsOpenTime;
 
         return $this;
     }

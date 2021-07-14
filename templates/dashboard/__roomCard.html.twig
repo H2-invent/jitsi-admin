@@ -4,55 +4,9 @@
         {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
         <div class="col-md-6 hide">
 
+            {{ include('dashboard/__roomOptionModerator.twig') }}
+            {{ include('dashboard/__roomOptionParticipant.twig') }}
 
-            {% if room.moderator == app.user %}
-                {{ include('dashboard/__roomOption.html.twig') }}
-            {% endif %}
-
-            {% if room.moderator == app.user %}
-
-                <a href="{{ path('room_add_user',{'room':room.id}) }}"
-                   class=" element btn btn-outline-default loadContent">{{ 'Teilnehmer'|trans }}</a>
-            {% else %}
-                {% if room.scheduleMeeting %}
-
-                    {% if app.user != room.moderator %}
-
-                        <a class="element btn btn-outline-primary"
-                           href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}"
-                           target="_blank">
-                            {{ 'Terminplanung'|trans }}
-                        </a>
-                    {% endif %}
-
-                {% endif %}
-                <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-                   class="element btn btn-outline-default confirmHref">{{ 'Entfernen'|trans }}</a>
-
-            {% endif %}
-            {% if not room.scheduleMeeting %}
-                <div class="dropdown d-none d-lg-block ">
-                    <button class="caretdown btn btn-primary dropdown-toggle" type="button"
-                            id="dropdownMenu1"
-                            data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">{{ 'Starten'|trans }}
-                    </button>
-
-                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                        <li><a class="dropdown-item" href="{{ path('room_join',{'t':'b','room':room.id}) }}"
-                               target="_blank">{{ 'Im Browser'|trans }}</a></li>
-                        <li><a class="dropdown-item" title="In der Electron Jitsi Meet App"
-                               href="{{ path('room_join',{'t':'a','room':room.id}) }}"
-                               target="_blank">{{ 'In der App'|trans }}</a></li>
-                    </ul>
-                </div>
-
-                <div class="d-block d-lg-none">
-                    <a class="btn btn-primary"
-                       href="{{ path('room_join',{'t':'b','room':room.id}) }}"
-                       target="_blank">{{ 'Starten'|trans }}</a>
-                </div>
-            {% endif %}
         </div>
     </div>
 </div>

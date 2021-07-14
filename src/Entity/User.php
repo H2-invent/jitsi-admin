@@ -146,6 +146,16 @@ class User extends BaseUser
      */
     private $protoypeRooms;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $ownRoomUid;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="OwnRoomUSer")
+     */
+    private $myOwnRoomServer;
+
 
 
     public function __construct()
@@ -646,6 +656,30 @@ class User extends BaseUser
         if ($this->protoypeRooms->removeElement($protoypeRoom)) {
             $protoypeRoom->removePrototypeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getOwnRoomUid(): ?string
+    {
+        return $this->ownRoomUid;
+    }
+
+    public function setOwnRoomUid(?string $ownRoomUid): self
+    {
+        $this->ownRoomUid = $ownRoomUid;
+
+        return $this;
+    }
+
+    public function getMyOwnRoomServer(): ?Server
+    {
+        return $this->myOwnRoomServer;
+    }
+
+    public function setMyOwnRoomServer(?Server $myOwnRoomServer): self
+    {
+        $this->myOwnRoomServer = $myOwnRoomServer;
 
         return $this;
     }

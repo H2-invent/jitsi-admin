@@ -74,9 +74,8 @@ class RoomController extends AbstractController
 
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
-        if ($request->get('id')) {
-            $form->remove('scheduleMeeting');
-        }
+        $form->remove('scheduleMeeting');
+
         try {
             $form->handleRequest($request);
 
@@ -106,7 +105,12 @@ class RoomController extends AbstractController
                 if ($room->getScheduleMeeting()) {
                     $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
                 }
-                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                if(!$room->getTotalOpenRooms()){
+                    return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                }else{
+                    return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+                }
+
 
 
             }
@@ -165,7 +169,20 @@ class RoomController extends AbstractController
 
         if (in_array($this->getUser(), $room->getUser()->toarray())) {
             $url = $roomService->join($room, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
-            return $this->redirect($url);
+            if($this->getUser() == $room->getModerator() && $room->getTotalOpenRooms() && $room->getPersistantRoom()){
+                $room->setStart(new \DateTime());
+                if($room->getTotalOpenRoomsOpenTime()){
+                    $room->setEnddate((new \DateTime())->modify('+ '.$room->getTotalOpenRoomsOpenTime().' min'));
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+            }
+            $now = new \DateTime();
+            $start = (clone $room->getStart())->modify('-30min');
+            if(($start < $now  && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
+                return $this->redirect($url);
+            }
         }
 
         return $this->redirectToRoute('dashboard', ['join_room' => $room->getId(), 'type' => $t]);

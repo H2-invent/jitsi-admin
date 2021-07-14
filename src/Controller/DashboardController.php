@@ -78,6 +78,13 @@ class DashboardController extends AbstractController
             $em->persist($user);
             $em->flush();
         }
+        if(!$this->getUser()->getOwnRoomUid()){
+            $user = $this->getUser();
+            $user->setOwnRoomUid(md5(uniqid()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
         $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
         $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());

@@ -1,0 +1,42 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    <h1 class="h1-responsive text-center">{{ room.name }}</h1>
+{% endblock %}
+{% block content %}
+    <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
+
+        <h2 class="text-center">{{ 'Bitte warten. Die Konferenz ist noch nicht geöffnet'|trans }}</h2>
+        <div class="text-center">
+            <div class="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <h3 class="text-center" id="countdown"></h3>
+    </div>
+
+
+
+{% endblock %}
+{% block script %}
+
+    <script>
+        var checkUrl = '{{ path('room_waiting_check',{'name':name,'uid':room.uid,'type':type}) }}'
+        var uid = '{{ room.uid }}';
+        var name = '{{ name }}';
+        {% if not room.persistantRoom %}
+        var startDate = '{{ room.start|date() }}';
+        {% endif %}
+    </script>
+
+{% endblock %}
+{% block webpack %}
+
+    {{ encore_entry_script_tags('join') }}
+{% endblock %}

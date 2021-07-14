@@ -167,10 +167,10 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         dateFormat: 'Y-m-d H:i',
         altInput: true
     });
-    $( 'form' ).submit(function( event ) {
+    $('form').submit(function (event) {
         var btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
-        btn.prop("disabled",true)
+        btn.prop("disabled", true)
     });
     $('.generateApiKey').click(function (e) {
         e.preventDefault();
@@ -186,15 +186,40 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     if (typeof $('#room_persistantRoom') !== 'undefined') {
         if ($('#room_persistantRoom').prop('checked')) {
             $('#roomStartForm').collapse('hide')
-            console.log('test');
+            if ($('#room_totalOpenRooms').prop('checked')){
+                $('#totalOpenRoomsOpenTime').collapse('show');
+            } else {
+                $('#totalOpenRoomsOpenTime').collapse('hide');
+            }
         } else {
-            $('#roomStartForm').collapse('show')
+            $('#roomStartForm').collapse('show');
+            $('#totalOpenRoomsOpenTime').collapse('hide');
         }
         $('#room_persistantRoom').change(function () {
             if ($('#room_persistantRoom').prop('checked')) {
                 $('#roomStartForm').collapse('hide')
+                if ($('#room_totalOpenRooms').prop('checked')){
+                    $('#totalOpenRoomsOpenTime').collapse('show');
+                } else {
+                    $('#totalOpenRoomsOpenTime').collapse('hide');
+                }
             } else {
-                $('#roomStartForm').collapse('show')
+                $('#roomStartForm').collapse('show');
+                $('#totalOpenRoomsOpenTime').collapse('hide');
+            }
+        })
+    }
+    if (typeof $('#room_totalOpenRooms') !== 'undefined') {
+        if ($('#room_totalOpenRooms').prop('checked') && $('#room_persistantRoom').prop('checked')) {
+            $('#totalOpenRoomsOpenTime').collapse('show');
+        } else {
+            $('#totalOpenRoomsOpenTime').collapse('hide');
+        }
+        $('#room_totalOpenRooms').change(function () {
+            if ($('#room_totalOpenRooms').prop('checked') && $('#room_persistantRoom').prop('checked')) {
+                $('#totalOpenRoomsOpenTime').collapse('show');
+            } else {
+                $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         })
     }

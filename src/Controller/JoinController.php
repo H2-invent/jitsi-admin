@@ -31,13 +31,14 @@ class JoinController extends AbstractController
      * * @Route("/join/{slug}/{uid}", name="join_index_uid")
      * @Route("/join", name="join_index_no_slug")
      */
-    public function index($slug = null,$uid = null, Request $request, TranslatorInterface $translator, RoomService $roomService)
+    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null,$uid = null )
     {
         $data = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['slug' => $slug]);
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
         $dataStr = $request->get('data');
         $snack = $request->get('snack');
+        $color = 'success';
         $dataAll = base64_decode($dataStr);
         $data = array();
 
@@ -66,33 +67,47 @@ class JoinController extends AbstractController
         $form = $this->createForm(JoinViewType::class, $data);
         $form->handleRequest($request);
         $errors = array();
-        if ($form->isSubmitted() && $form->isValid()) {
-            $search = $form->getData();
-            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $search['email']]);
+        $now = new \DateTime();
+        $start = (clone $room->getStart())->modify('-30min');
+        if(($start < $now  && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $search = $form->getData();
+                $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
+                $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
-            if ($form->get('joinApp')->isClicked()) {
-                $type = 'a';
-            } elseif ($form->get('joinBrowser')->isClicked()) {
-                $type = 'b';
-            }
-
-            if (count($errors) == 0 && $room && $user && in_array($user, $room->getUser()->toarray())) {
-                if ($this->onlyWithUserAccount($room, $user) || $this->userAccountLogin($room, $user)) {
-                    return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => $type]);
+                if ($form->get('joinApp')->isClicked()) {
+                    $type = 'a';
+                } elseif ($form->get('joinBrowser')->isClicked()) {
+                    $type = 'b';
                 }
-                $url = $roomService->join($room, $user, $type, $search['name']);
-                $res = $this->redirect($url);
-                $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
-                return $res;
 
+                if (count($errors) == 0 && $room && $user && in_array($user, $room->getUser()->toarray())) {
+                    if ($this->onlyWithUserAccount($room, $user) || $this->userAccountLogin($room, $user)) {
+                        return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => $type]);
+                    }
+
+                    $url = $roomService->join($room, $user, $type, $search['name']);
+                    $res = $this->redirect($url);
+                    $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
+                    return $res;
+
+                }
+
+                $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
             }
-
-            $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
+        }else{
+            $snack = $translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+                array(
+                    '{from}'=>$start->format('d.m.Y H:i'),
+                    '{to}'=>$room->getEnddate()->format('d.m.Y H:i')
+                )
+            );
+            $color = 'danger';
         }
 
 
         return $this->render('join/index.html.twig', [
+            'color'=>$color,
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
