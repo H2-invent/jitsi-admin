@@ -137,7 +137,7 @@ class Server
     private $serverEmailBody;
 
     /**
-     * @ORM\OneToMany(targetEntity=KeycloakGroupsToServers::class, mappedBy="server")
+     * @ORM\OneToMany(targetEntity=KeycloakGroupsToServers::class, mappedBy="server", cascade={"persist"})
      */
     private $keycloakGroups;
 
@@ -528,4 +528,3 @@ class Server
     }
 
 }
-
