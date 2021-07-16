@@ -13,18 +13,21 @@ import('bootstrap');
 import('mdbootstrap');
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
-import flatpickr from 'flatpickr'
+import flatpickr from 'flatpickr';
 import {Calendar} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import momentPlugin from '@fullcalendar/moment';
 import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
-import autosize from 'autosize'
-import ClipboardJS from 'clipboard'
-import {initScheduling} from './scheduling'
-import * as Toastr from 'toastr'
-import {initGenerell} from './init'
+import autosize from 'autosize';
+import ClipboardJS from 'clipboard';
+import {initScheduling} from './scheduling';
+import * as Toastr from 'toastr';
+import {initGenerell} from './init';
+import {initKeycloakGroups} from './keyCloakGroupsInit';
+
+
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -201,6 +204,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     initSearchUser();
     initServerFeatures();
     initRepeater();
+    initKeycloakGroups();
     if(getCookie('room_server')){
         $('#room_server').val(getCookie('room_server'))
     }
