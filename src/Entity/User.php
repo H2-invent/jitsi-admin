@@ -146,6 +146,16 @@ class User extends BaseUser
      */
     private $protoypeRooms;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Addressgroup::class, mappedBy="user")
+     */
+    private $addressgroups;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Addressgroup::class, mappedBy="members")
+     */
+    private $yes;
+
 
 
     public function __construct()
@@ -163,6 +173,8 @@ class User extends BaseUser
         $this->notifications = new ArrayCollection();
         $this->repeaterUsers = new ArrayCollection();
         $this->protoypeRooms = new ArrayCollection();
+        $this->addressgroups = new ArrayCollection();
+        $this->yes = new ArrayCollection();
 
     }
 
@@ -645,6 +657,63 @@ class User extends BaseUser
     {
         if ($this->protoypeRooms->removeElement($protoypeRoom)) {
             $protoypeRoom->removePrototypeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Addressgroup[]
+     */
+    public function getAddressgroups(): Collection
+    {
+        return $this->addressgroups;
+    }
+
+    public function addAddressgroup(Addressgroup $addressgroup): self
+    {
+        if (!$this->addressgroups->contains($addressgroup)) {
+            $this->addressgroups[] = $addressgroup;
+            $addressgroup->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddressgroup(Addressgroup $addressgroup): self
+    {
+        if ($this->addressgroups->removeElement($addressgroup)) {
+            // set the owning side to null (unless already changed)
+            if ($addressgroup->getUser() === $this) {
+                $addressgroup->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Addressgroup[]
+     */
+    public function getYes(): Collection
+    {
+        return $this->yes;
+    }
+
+    public function addYe(Addressgroup $ye): self
+    {
+        if (!$this->yes->contains($ye)) {
+            $this->yes[] = $ye;
+            $ye->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeYe(Addressgroup $ye): self
+    {
+        if ($this->yes->removeElement($ye)) {
+            $ye->removeMember($this);
         }
 
         return $this;
