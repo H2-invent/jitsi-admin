@@ -6,12 +6,22 @@
         <b>{{ 'Agenda'|trans }}:</b>
     </p>
     <p>{{ room.agenda|markdown_to_html }}</p>
-
 {% endif %}
-<p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
-    {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
-    {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
-    {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}</p>
+{% if  room.persistantRoom %}
+    <p>
+    </p>
+{% endif %}
+<p>
+    {{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+    {% if not room.persistantRoom %}
+        {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
+        {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
+        {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}
+    {% else %}
+        {{ 'Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.'|trans }}
+        <br>
+    {% endif %}
+</p>
 <spacer size="16"></spacer>
 <p>
     {% trans with {'{email}': user.email,'{uid}': room.uid} %}
@@ -22,15 +32,15 @@
 </p>
 <spacer size="16"></spacer>
 {% if url is defined and url is not null %}
-<p>
-    <a href="{{ url }}">{{ 'Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.'|trans }}</a><br>
-    {{ 'Oder kopieren Sie den Link in Ihren Browser'|trans }}:<br>
-    <a href="{{ url }}">{{ url }}</a>
-</p>
+    <p>
+        <a href="{{ url }}">{{ 'Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.'|trans }}</a><br>
+        {{ 'Oder kopieren Sie den Link in Ihren Browser'|trans }}:<br>
+        <a href="{{ url }}">{{ url }}</a>
+    </p>
 {% endif %}
 <p>
     {% if server is defined and  server is not null and server|validateLicense and server.serverEmailBody is not null %}
-    {{ server.serverEmailBody|nl2br }}
+        {{ server.serverEmailBody|nl2br }}
     {% endif %}
 </p>
 

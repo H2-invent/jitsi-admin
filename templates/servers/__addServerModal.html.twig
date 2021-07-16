@@ -37,9 +37,9 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label for="add_item_link"> {{ 'KeyCloak Groups'|trans }}</label><br>
-                                <ul class="keycloakGroups" data-prototype="{{ form_widget(form.keycloakGroups.vars.prototype.keycloakGroup)|e('html_attr') }}">
+                                <ul class="keycloakGroups list-group" data-prototype="{{ form_widget(form.keycloakGroups.vars.prototype.keycloakGroup)|e('html_attr') }}">
                                     {% for keycloakGroupItem in form.keycloakGroups %}
-                                        <li class="d-inline-block">{{ form_widget(keycloakGroupItem.keycloakGroup) }}</li>
+                                        <li class="d-inline-block list-group-item d-flex justify-content-between">{{ form_widget(keycloakGroupItem.keycloakGroup) }}</li>
                                     {% endfor %}
                                 </ul>
                                 <button type="button" id="add_item_link" class="btn btn-primary add_item_link2" data-collection-holder-class="keycloakGroups">Add a Keycloak group</button>

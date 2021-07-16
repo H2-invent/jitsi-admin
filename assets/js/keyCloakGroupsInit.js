@@ -7,7 +7,7 @@ import $ from "jquery";
     newForm = newForm.replace(/__name__/g, index);
     $collectionHolder.data('index', index + 1);
     console.log('index', index);
-    let  $newFormLi = $('<li class="d-inline-block"></li>').append(newForm);
+    let  $newFormLi = $('<li class="d-inline-block list-group-item d-flex justify-content-between"></li>').append(newForm);
     $collectionHolder.append($newFormLi);
     addTagFormDeleteLink($newFormLi);
 
