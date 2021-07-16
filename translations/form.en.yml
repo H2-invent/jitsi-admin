@@ -114,6 +114,9 @@ label:
   montlyRelativeWeekday: Weekday
   montlyRelativeMonth: Month
   repeaterRemoved: Edit only this element, not the series
+  persistantRoom: Diese Konferenz hat kein Datum und ist immer verfügbar
+  totalOpenRooms: Teilnehmerliste deaktivieren. Beitreten mit Teilnehmerlink.
+  totalOpenRoomsOpenTime: Raumöffnungszeit
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
