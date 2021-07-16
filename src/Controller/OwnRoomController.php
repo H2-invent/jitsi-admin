@@ -18,16 +18,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OwnRoomController extends AbstractController
 {
 
     /**
      * @Route("/myRoom/start/{uid}", name="own_room_startPage")
-     * @ParamConverter("rooms", options={"mapping": {"uid": "uid"}})
      */
-    public function index(Rooms $rooms, Request $request, RoomService $roomService): Response
+    public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator): Response
     {
+        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$uid));
+        if(!$rooms){
+            return $this->redirectToRoute('join_index_no_slug',array('snack'=>$translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'),'color'=>'danger'));
+        }
         $data = array();
         if ($this->getUser()) {
             $data['name'] = $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName();
@@ -54,7 +58,7 @@ class OwnRoomController extends AbstractController
 
             $url = $roomService->joinUrl($type, $rooms->getServer(), $rooms->getUid(), $data['name'], $isModerator);
             if ($isModerator){
-                if($this->getUser() == $rooms->getModerator() && $rooms->getTotalOpenRooms()){
+                if($this->getUser() == $rooms->getModerator() && $rooms->getPersistantRoom()){
                     $rooms->setStart(new \DateTime());
                     if($rooms->getTotalOpenRoomsOpenTime()){
                         $rooms->setEnddate((new \DateTime())->modify('+ '.$rooms->getTotalOpenRoomsOpenTime().' min'));
@@ -116,7 +120,7 @@ class OwnRoomController extends AbstractController
     {
         $now = new \DateTime();
 
-        if(($rooms->getStart()< $now && $rooms->getEnddate() > $now) || ($rooms->getTotalOpenRoomsOpenTime() == null && $rooms->getPersistantRoom() == true)){
+        if(($rooms->getStart()< $now && $rooms->getEnddate() > $now) || ($rooms->getTotalOpenRoomsOpenTime() === null && $rooms->getPersistantRoom() === true)){
             return new JsonResponse(array('error'=>false,'url'=>$roomService->joinUrl($type,$rooms->getServer(),$rooms->getUid(),$name,false)));
         }else{
             return new JsonResponse(array('error'=>true));

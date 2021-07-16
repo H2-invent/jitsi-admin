@@ -186,7 +186,7 @@ class Rooms
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $totalOpenRoomsOpenTime;
+    private $totalOpenRoomsOpenTime = 30;
 
     public function __construct()
     {

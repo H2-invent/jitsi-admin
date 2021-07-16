@@ -105,12 +105,11 @@ class RoomController extends AbstractController
                 if ($room->getScheduleMeeting()) {
                     $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
                 }
-                if(!$room->getTotalOpenRooms()){
+                if (!$room->getTotalOpenRooms()) {
                     return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
-                }else{
+                } else {
                     return $this->redirectToRoute('dashboard', ['snack' => $snack]);
                 }
-
 
 
             }
@@ -169,10 +168,10 @@ class RoomController extends AbstractController
 
         if (in_array($this->getUser(), $room->getUser()->toarray())) {
             $url = $roomService->join($room, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
-            if($this->getUser() == $room->getModerator() && $room->getTotalOpenRooms() && $room->getPersistantRoom()){
+            if ($this->getUser() == $room->getModerator() && $room->getTotalOpenRooms() && $room->getPersistantRoom()) {
                 $room->setStart(new \DateTime());
-                if($room->getTotalOpenRoomsOpenTime()){
-                    $room->setEnddate((new \DateTime())->modify('+ '.$room->getTotalOpenRoomsOpenTime().' min'));
+                if ($room->getTotalOpenRoomsOpenTime()) {
+                    $room->setEnddate((new \DateTime())->modify('+ ' . $room->getTotalOpenRoomsOpenTime() . ' min'));
                 }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
@@ -180,7 +179,7 @@ class RoomController extends AbstractController
             }
             $now = new \DateTime();
             $start = (clone $room->getStart())->modify('-30min');
-            if(($start < $now  && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
+            if (($start < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
                 return $this->redirect($url);
             }
         }
@@ -312,19 +311,23 @@ class RoomController extends AbstractController
         if ($room->getPersistantRoom()) {
             $counter = 0;
             $slug = $serverService->slugify($room->getName());
-            $tmp = $slug;
-            while (true) {
-                $roomTmp = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $tmp]);
-                if (!$roomTmp) {
-                    $room->setUid($tmp);
-                    $room->setSlug($tmp);
-                    break;
-                } else {
-                    $counter++;
-                    $tmp = $slug . '-' . $counter;
+            $tmp = $slug.'-'.rand(10,1000);
+            if (!$room->getSlug()) {
+                while (true) {
+                    $roomTmp = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $tmp]);
+                    if (!$roomTmp) {
+                        $room->setUid($tmp);
+                        $room->setSlug($tmp);
+                        break;
+                    } else {
+                        $counter++;
+                        $tmp =$slug.'-'.rand(10,1000);
+                    }
                 }
             }
-            $room->setStart(new \DateTime());
+            $room->setStart(null);
+            $room->setEnddate(null);
+
         } else {
             $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
         }
