@@ -156,6 +156,16 @@ class User extends BaseUser
      */
     private $yes;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $ownRoomUid;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="OwnRoomUSer")
+     */
+    private $myOwnRoomServer;
+
 
 
     public function __construct()
@@ -173,8 +183,6 @@ class User extends BaseUser
         $this->notifications = new ArrayCollection();
         $this->repeaterUsers = new ArrayCollection();
         $this->protoypeRooms = new ArrayCollection();
-        $this->addressgroups = new ArrayCollection();
-        $this->yes = new ArrayCollection();
 
     }
 
@@ -715,6 +723,30 @@ class User extends BaseUser
         if ($this->yes->removeElement($ye)) {
             $ye->removeMember($this);
         }
+
+        return $this;
+    }
+
+    public function getOwnRoomUid(): ?string
+    {
+        return $this->ownRoomUid;
+    }
+
+    public function setOwnRoomUid(?string $ownRoomUid): self
+    {
+        $this->ownRoomUid = $ownRoomUid;
+
+        return $this;
+    }
+
+    public function getMyOwnRoomServer(): ?Server
+    {
+        return $this->myOwnRoomServer;
+    }
+
+    public function setMyOwnRoomServer(?Server $myOwnRoomServer): self
+    {
+        $this->myOwnRoomServer = $myOwnRoomServer;
 
         return $this;
     }

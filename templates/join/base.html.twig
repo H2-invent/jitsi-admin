@@ -205,12 +205,12 @@
 
     {{ include('base/__matomoOptOut.html.twig') }}
 </div>
-
+{% block script %}
+{% endblock %}
 {% block webpack %}
     {{ encore_entry_script_tags('frontend') }}
 {% endblock %}
-{% block script %}
-{% endblock %}
+
 </body>
 
 </html>

@@ -9,8 +9,9 @@
         {% if room.scheduleMeeting %}
             <li><a class="dropdown-item loadContent"
                    href="{{ path('schedule_admin',{'id':room.id}) }}">
-                {{ 'Terminplaner'|trans }}</a></li>{% endif %}
-        {% if room.public and room.repeater is null %}
+                {{ 'Terminplaner'|trans }}</a></li>
+        {% endif %}
+        {% if room.public and room.repeater is null and room.totalOpenRooms != true %}
             <li><a class="dropdown-item loadContent"
                    href="{{ path('share_link',{'id':room.id}) }}">
                 {{ 'Einladungslinks'|trans }}</a></li>
@@ -24,12 +25,10 @@
                 <li><a href="{{ path('room_new',{'id':room.id}) }}"
                        class="loadContent dropdown-item">
                         {{ 'Bearbeiten'|trans }}</a></li>
-
             {% endif %}
             <li><a href="{{ path('room_clone',{'room':room.id}) }}"
                    class="loadContent dropdown-item">
                     {{ 'Duplizieren'|trans }}</a></li>
-
             {% if room.repeater is not null %}
                 <li><a class="dropdown-item loadContent"
                        href="{{ path('repeater_edit_repeater',{'repeat':room.repeater.id}) }}">
@@ -45,9 +44,11 @@
                         {{ 'Serie löschen'|trans }}</a></li>
 
             {% else %}
+                {% if not room.persistantRoom and room.totalOpenRooms != true %}
                 <li><a class="dropdown-item loadContent"
                        href="{{ path('repeater_new',{'room':room.id}) }}">
                         {{ 'Neue Serien Termin'|trans }}</a></li>
+                    {% endif %}
             {% endif %}
         {% endif %}
         {% if room.scheduleMeeting %}
@@ -55,8 +56,10 @@
                    class="loadContent dropdown-item">
                     {{ 'Bearbeiten'|trans }}</a></li>
         {% endif %}
+        {% if room.totalOpenRooms != true  %}
         <li><a class="dropdown-item"
                href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">
                 {{ 'Mail an die Teilnehmer'|trans }}</a></li>
+        {% endif %}
     </ul>
 </div>

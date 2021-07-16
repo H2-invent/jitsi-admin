@@ -10,6 +10,7 @@ namespace App\Form\Type;
 
 
 use App\Entity\AuditTomAbteilung;
+use App\Entity\Rooms;
 use App\Entity\Server;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -41,6 +42,8 @@ class RoomType extends AbstractType
             ])
             ->add('name', TextType::class, ['required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
             ->add('agenda', TextareaType::class, ['required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
+            ->add('persistantRoom',CheckboxType::class,array('required'=>false,'label' => 'label.persistantRoom', 'translation_domain' => 'form'))
+
             ->add('start', DateTimeType::class, ['required'=>true,'attr'=>['class'=>'flatpickr'],'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add('duration', ChoiceType::class, [
                 'label' => 'label.dauerKonferenz',
@@ -72,11 +75,13 @@ class RoomType extends AbstractType
             ->add('scheduleMeeting',CheckboxType::class,array('required'=>false,'label' => 'label.scheduleMeeting', 'translation_domain' => 'form'))
             ->add('onlyRegisteredUsers',CheckboxType::class,array('required'=>false,'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form'))
             ->add('dissallowScreenshareGlobal',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'))
-            ->add('dissallowPrivateMessage',CheckboxType::class,array('required'=>false,'label' => 'label.dissallowPrivateMessage', 'translation_domain' => 'form'))
             ->add('public',CheckboxType::class,array('required'=>false,'label' => 'label.puplicRoom', 'translation_domain' => 'form'))
             ->add('showRoomOnJoinpage',CheckboxType::class,array('required'=>false,'label' => 'label.showRoomOnJoinpage', 'translation_domain' => 'form'))
             ->add('maxParticipants',NumberType::class,array('required'=>false,'label' => 'label.maxParticipants', 'translation_domain' => 'form','attr'=>array('placeholder'=>'placeholder.maxParticipants')))
             ->add('waitinglist',CheckboxType::class,array('required'=>false,'label' => 'label.waitinglist', 'translation_domain' => 'form'))
+            ->add('totalOpenRooms',CheckboxType::class,array('required'=>false,'label' => 'label.totalOpenRooms', 'translation_domain' => 'form'))
+            ->add('totalOpenRoomsOpenTime',NumberType::class,array('required'=>false,'label' => 'label.totalOpenRoomsOpenTime', 'translation_domain' => 'form','attr'=>array('placeholder'=>'placeholder.maxParticipants')))
+
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
@@ -84,6 +89,7 @@ class RoomType extends AbstractType
     {
         $resolver->setDefaults([
             'server'=>array(),
+            'data_class'=>Rooms::class
         ]);
 
     }

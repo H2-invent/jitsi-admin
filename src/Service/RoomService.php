@@ -51,7 +51,7 @@ class RoomService
     function join(Rooms $room, User $user, $t, $userName)
     {
         $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
-        if(!$roomUser){
+        if (!$roomUser) {
             $roomUser = new RoomsUser();
         }
         if ($t === 'a') {
@@ -85,8 +85,8 @@ class RoomService
         );
 
         $screen = array(
-                'screen-sharing' => true,
-                'private-message' => true,
+            'screen-sharing' => true,
+            'private-message' => true,
 
         );
         if ($room->getServer()->getFeatureEnableByJWT()) {
@@ -115,4 +115,61 @@ class RoomService
         return $url;
     }
 
+    /**
+     * Creates the JWT Token to send to the Information of the User to the jitsi-Meet Server
+     * @param Rooms $room
+     * @param User $user
+     * @param $t
+     * @param $userName
+     * @return string
+     * @author Emanuel Holzmann
+     * @de
+     */
+    function joinUrl($t,  Server $server, $uid, $name, $isModerator)
+    {
+
+        if ($t === 'a') {
+            $type = 'jitsi-meet://';
+        } else {
+            $type = 'https://';
+        }
+
+        $serverUrl = $server->getUrl();
+        $serverUrl = str_replace('https://', '', $serverUrl);
+        $serverUrl = str_replace('http://', '', $serverUrl);
+        $jitsi_server_url = $type . $serverUrl;
+        $jitsi_jwt_token_secret = $server->getAppSecret();
+
+
+        $payload = array(
+            "aud" => "jitsi_admin",
+            "iss" => $server->getAppId(),
+            "sub" => $server->getUrl(),
+            "room" => $uid,
+            "context" => [
+                'user' => [
+                    'name' => $name
+                ],
+            ],
+            "moderator" => $isModerator
+        );
+
+        $screen = array(
+            'screen-sharing' => true,
+            'private-message' => true,
+
+        );
+        if ($server->getFeatureEnableByJWT()) {
+            $payload['context']['features'] = $screen;
+        }
+
+        $token = JWT::encode($payload, $jitsi_jwt_token_secret);
+        if (!$server->getAppId() || !$server->getAppSecret()) {
+            $url = $jitsi_server_url . '/' . $uid;
+        } else {
+            $url = $jitsi_server_url . '/' . $uid . '?jwt=' . $token;
+        }
+
+        return $url;
+    }
 }

@@ -141,12 +141,18 @@ class Server
      */
     private $keycloakGroups;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="myOwnRoomServer")
+     */
+    private $OwnRoomUSer;
+
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->rooms = new ArrayCollection();
         $this->keycloakGroups = new ArrayCollection();
+        $this->OwnRoomUSer = new ArrayCollection();
 
     }
 
@@ -485,6 +491,36 @@ class Server
             // set the owning side to null (unless already changed)
             if ($keycloakGroup->getServer() === $this) {
                 $keycloakGroup->setServer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getOwnRoomUSer(): Collection
+    {
+        return $this->OwnRoomUSer;
+    }
+
+    public function addOwnRoomUSer(User $ownRoomUSer): self
+    {
+        if (!$this->OwnRoomUSer->contains($ownRoomUSer)) {
+            $this->OwnRoomUSer[] = $ownRoomUSer;
+            $ownRoomUSer->setMyOwnRoomServer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnRoomUSer(User $ownRoomUSer): self
+    {
+        if ($this->OwnRoomUSer->removeElement($ownRoomUSer)) {
+            // set the owning side to null (unless already changed)
+            if ($ownRoomUSer->getMyOwnRoomServer() === $this) {
+                $ownRoomUSer->setMyOwnRoomServer(null);
             }
         }
 

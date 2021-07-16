@@ -168,6 +168,26 @@ class Rooms
      */
     private $prototypeUsers;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $persistantRoom;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $totalOpenRooms;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $totalOpenRoomsOpenTime = 30;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -628,6 +648,54 @@ class Rooms
     public function removePrototypeUser(User $prototypeUser): self
     {
         $this->prototypeUsers->removeElement($prototypeUser);
+
+        return $this;
+    }
+
+    public function getPersistantRoom(): ?bool
+    {
+        return $this->persistantRoom;
+    }
+
+    public function setPersistantRoom(?bool $persistantRoom): self
+    {
+        $this->persistantRoom = $persistantRoom;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getTotalOpenRooms(): ?bool
+    {
+        return $this->totalOpenRooms;
+    }
+
+    public function setTotalOpenRooms(?bool $totalOpenRooms): self
+    {
+        $this->totalOpenRooms = $totalOpenRooms;
+
+        return $this;
+    }
+
+    public function getTotalOpenRoomsOpenTime(): ?int
+    {
+        return $this->totalOpenRoomsOpenTime;
+    }
+
+    public function setTotalOpenRoomsOpenTime(?int $totalOpenRoomsOpenTime): self
+    {
+        $this->totalOpenRoomsOpenTime = $totalOpenRoomsOpenTime;
 
         return $this;
     }

@@ -17,6 +17,7 @@ Encore
     //.enableSingleRuntimeChunk()
     .disableSingleRuntimeChunk()
     .addEntry('app', './assets/js/app.js')
+    .addEntry('join', './assets/js/join.js')
     .addEntry('black', './assets/js/black.js')
     .addEntry('frontend', './assets/js/frontend.js')
     .addEntry('startpage', './assets/js/startpage.js')
