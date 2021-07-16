@@ -28,7 +28,7 @@ class JoinController extends AbstractController
 
     /**
      * @Route("/join/{slug}", name="join_index")
-     * * @Route("/join/{slug}/{uid}", name="join_index_uid")
+     * @Route("/join/{slug}/{uid}", name="join_index_uid")
      * @Route("/join", name="join_index_no_slug")
      */
     public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null,$uid = null )
