@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AddressgroupRepository;
+use App\Repository\AddressGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AddressgroupRepository::class)
+ * @ORM\Entity(repositoryClass=AddressGroupRepository::class)
  */
-class Addressgroup
+class AddressGroup
 {
     /**
      * @ORM\Id
@@ -20,20 +20,20 @@ class Addressgroup
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addressgroups")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="yes")
-     */
-    private $members;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="AddressGroupLeader")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $leader;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="AddressGroupMember")
+     */
+    private $member;
 
     /**
      * @ORM\Column(type="datetime_immutable")
@@ -47,48 +47,12 @@ class Addressgroup
 
     public function __construct()
     {
-        $this->members = new ArrayCollection();
+        $this->member = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getMembers(): Collection
-    {
-        return $this->members;
-    }
-
-    public function addMember(User $member): self
-    {
-        if (!$this->members->contains($member)) {
-            $this->members[] = $member;
-        }
-
-        return $this;
-    }
-
-    public function removeMember(User $member): self
-    {
-        $this->members->removeElement($member);
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -99,6 +63,42 @@ class Addressgroup
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getLeader(): ?User
+    {
+        return $this->leader;
+    }
+
+    public function setLeader(?User $leader): self
+    {
+        $this->leader = $leader;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getMember(): Collection
+    {
+        return $this->member;
+    }
+
+    public function addMember(User $member): self
+    {
+        if (!$this->member->contains($member)) {
+            $this->member[] = $member;
+        }
+
+        return $this;
+    }
+
+    public function removeMember(User $member): self
+    {
+        $this->member->removeElement($member);
 
         return $this;
     }

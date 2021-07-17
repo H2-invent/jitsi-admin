@@ -147,16 +147,6 @@ class User extends BaseUser
     private $protoypeRooms;
 
     /**
-     * @ORM\OneToMany(targetEntity=Addressgroup::class, mappedBy="user")
-     */
-    private $addressgroups;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Addressgroup::class, mappedBy="members")
-     */
-    private $yes;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $ownRoomUid;
@@ -165,6 +155,16 @@ class User extends BaseUser
      * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="OwnRoomUSer")
      */
     private $myOwnRoomServer;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AddressGroup::class, mappedBy="leader")
+     */
+    private $AddressGroupLeader;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=AddressGroup::class, mappedBy="member")
+     */
+    private $AddressGroupMember;
 
 
 
@@ -183,6 +183,8 @@ class User extends BaseUser
         $this->notifications = new ArrayCollection();
         $this->repeaterUsers = new ArrayCollection();
         $this->protoypeRooms = new ArrayCollection();
+        $this->AddressGroupLeader = new ArrayCollection();
+        $this->AddressGroupMember = new ArrayCollection();
 
     }
 
@@ -670,63 +672,6 @@ class User extends BaseUser
         return $this;
     }
 
-    /**
-     * @return Collection|Addressgroup[]
-     */
-    public function getAddressgroups(): Collection
-    {
-        return $this->addressgroups;
-    }
-
-    public function addAddressgroup(Addressgroup $addressgroup): self
-    {
-        if (!$this->addressgroups->contains($addressgroup)) {
-            $this->addressgroups[] = $addressgroup;
-            $addressgroup->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddressgroup(Addressgroup $addressgroup): self
-    {
-        if ($this->addressgroups->removeElement($addressgroup)) {
-            // set the owning side to null (unless already changed)
-            if ($addressgroup->getUser() === $this) {
-                $addressgroup->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Addressgroup[]
-     */
-    public function getYes(): Collection
-    {
-        return $this->yes;
-    }
-
-    public function addYe(Addressgroup $ye): self
-    {
-        if (!$this->yes->contains($ye)) {
-            $this->yes[] = $ye;
-            $ye->addMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeYe(Addressgroup $ye): self
-    {
-        if ($this->yes->removeElement($ye)) {
-            $ye->removeMember($this);
-        }
-
-        return $this;
-    }
-
     public function getOwnRoomUid(): ?string
     {
         return $this->ownRoomUid;
@@ -747,6 +692,63 @@ class User extends BaseUser
     public function setMyOwnRoomServer(?Server $myOwnRoomServer): self
     {
         $this->myOwnRoomServer = $myOwnRoomServer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AddressGroup[]
+     */
+    public function getAddressGroupLeader(): Collection
+    {
+        return $this->AddressGroupLeader;
+    }
+
+    public function addAddressGroupLeader(AddressGroup $addressGroupLeader): self
+    {
+        if (!$this->AddressGroupLeader->contains($addressGroupLeader)) {
+            $this->AddressGroupLeader[] = $addressGroupLeader;
+            $addressGroupLeader->setLeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddressGroupLeader(AddressGroup $addressGroupLeader): self
+    {
+        if ($this->AddressGroupLeader->removeElement($addressGroupLeader)) {
+            // set the owning side to null (unless already changed)
+            if ($addressGroupLeader->getLeader() === $this) {
+                $addressGroupLeader->setLeader(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AddressGroup[]
+     */
+    public function getAddressGroupMember(): Collection
+    {
+        return $this->AddressGroupMember;
+    }
+
+    public function addAddressGroupMember(AddressGroup $addressGroupMember): self
+    {
+        if (!$this->AddressGroupMember->contains($addressGroupMember)) {
+            $this->AddressGroupMember[] = $addressGroupMember;
+            $addressGroupMember->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddressGroupMember(AddressGroup $addressGroupMember): self
+    {
+        if ($this->AddressGroupMember->removeElement($addressGroupMember)) {
+            $addressGroupMember->removeMember($this);
+        }
 
         return $this;
     }

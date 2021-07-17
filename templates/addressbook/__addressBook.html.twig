@@ -1,4 +1,4 @@
-<h3 class="h3-responsive mt-2">{{ 'Adressbuch'|trans }}</h3>
+
 <ul class="list-group">
     {% set name = null %}
     {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
@@ -24,6 +24,6 @@
                                          {% endfor %}
                                     </div>
                                     <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
-                                                class="fa fa-trash"></i> </a></span></li>
+                                                class="fa fa-trash text-danger"></i> </a></span></li>
     {% endfor %}
 </ul>

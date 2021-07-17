@@ -1,29 +1,30 @@
-<h3 class="h3-responsive mt-2">{{ 'Gruppen'|trans }}</h3>
+
 <ul class="list-group">
+    <a href="{{ path('address_group_new') }}" class="btn-outline-primary btn loadContent">{{ 'Neue Gruppe'|trans }}</a>
     {% set name = null %}
-    {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
-        {% if u.email|first|upper != name %}
-            {{ u.email|first|upper }}
-            {% set name = u.email|first|upper %}
+    {% for g in app.user.addressGroupLeader|sort((a, b) => a.name|lower <=> b.name|lower) %}
+        {% if g.name|first|upper != name %}
+            {{ g.name|first|upper }}
+            {% set name = g.name|first|upper %}
         {% endif %}
 
         <li class="list-group-item" style="display: flex; justify-content: space-between">
-            <span class="breakWord">{{ u.email }} </span>
+            <span class="breakWord">
+                {{ g.name }} ({{ g.member|length }})
+
+            </span>
             <span class="noBreak">
-                                    <a class="caretdown dropdown-toggle mr-1 text-success" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-phone"></i>
+<a tabindex="0" data-toggle="popover" data-trigger="focus"
+   title="{{ 'Mitglieder'|trans }}"
+   data-content="<ul>{% for m in g.member|sort((a, b) => a.email|lower <=> b.email|lower) %}<li>{{ m.email }}</li>  {% endfor %}</ul>"><i
+            class="fa fa-info-circle"></i></a>
+                <a href="{{ path('address_group_new',{'id':g.id}) }}" class="loadContent">
+                    <i class="fa fa-edit"></i>
+                </a>
+                                    <a class="confirmHref" href="{{ path('address_group_remove',{'id':g.id}) }}"><i
+                                                class="fa fa-trash text-danger"></i>
                                     </a>
-                                    <div class="dropdown-menu">
-
-                                         {% for s in servers %}
-                                             <a class="dropdown-item confirmHref"
-                                                data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                                                href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.url }}</a>
-
-                                         {% endfor %}
-                                    </div>
-                                    <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
-                                                class="fa fa-trash"></i> </a></span></li>
+            </span>
+        </li>
     {% endfor %}
 </ul>

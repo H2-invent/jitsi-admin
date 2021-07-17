@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Addressgroup;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -12,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Addressgroup[]    findAll()
  * @method Addressgroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AddressgroupRepository extends ServiceEntityRepository
+class AddressGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -47,4 +48,17 @@ class AddressgroupRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findMyAddressBookGroupsByName($value, User $user)
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->innerJoin(' g.leader', 'leader')
+            ->andWhere('leader = :user')
+            ->setParameter('user', $user);
+
+        return $qb->andWhere($qb->expr()->like('g.name', ':search'))
+            ->setParameter('search', '%' . $value . '%')
+            ->getQuery()
+            ->getResult();
+
+    }
 }
