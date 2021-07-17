@@ -429,7 +429,7 @@
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
         <target>Diese Mail wurde Ihnen gesendet im Auftrag von:</target>
       </trans-unit>
-      <trans-unit id="agYP7CA" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
+      <trans-unit id="pHW05Of" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
         <target>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
       </trans-unit>
@@ -1076,6 +1076,106 @@
       <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
         <source>Oder kopieren Sie den Link in Ihren Browser</source>
         <target>Oder kopieren Sie den Link in Ihren Browser</target>
+      </trans-unit>
+      <trans-unit id="OedXAN4" resname="Neue Kontaktgruppe erstellen">
+        <source>Neue Kontaktgruppe erstellen</source>
+        <target>Neue Kontaktgruppe erstellen</target>
+      </trans-unit>
+      <trans-unit id="qRJdY.M" resname="Kontaktgruppe bearbeiten">
+        <source>Kontaktgruppe bearbeiten</source>
+        <target>Kontaktgruppe bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="phX8Xu2" resname="Kontaktgruppe erfolgreich angelegt">
+        <source>Kontaktgruppe erfolgreich angelegt</source>
+        <target>Kontaktgruppe erfolgreich angelegt</target>
+      </trans-unit>
+      <trans-unit id="J6sbtdY" resname="Kontaktgruppe gelöscht">
+        <source>Kontaktgruppe gelöscht</source>
+        <target>Kontaktgruppe gelöscht</target>
+      </trans-unit>
+      <trans-unit id="3QzPV8F" resname="Der Beitritt ist nur von {from} bis {to} möglich">
+        <source>Der Beitritt ist nur von {from} bis {to} möglich</source>
+        <target>Der Beitritt ist nur von {from} bis {to} möglich</target>
+      </trans-unit>
+      <trans-unit id="zAjLutF" resname="Neue Gruppe">
+        <source>Neue Gruppe</source>
+        <target>Neue Gruppe</target>
+      </trans-unit>
+      <trans-unit id="vBZ55s_" resname="Mitglieder">
+        <source>Mitglieder</source>
+        <target>Mitglieder</target>
+      </trans-unit>
+      <trans-unit id="vc0NZNW" resname="Kontakte">
+        <source>Kontakte</source>
+        <target>Kontakte</target>
+      </trans-unit>
+      <trans-unit id="j9J2yMz" resname="Gruppen">
+        <source>Gruppen</source>
+        <target>Gruppen</target>
+      </trans-unit>
+      <trans-unit id="SAJ77OP" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
+        <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
+        <target>Es wird eine Terminumfrage erstellt, keine Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="1wyQOH0" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
+        <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
+        <target>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</target>
+      </trans-unit>
+      <trans-unit id="9UX9V9a" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
+        <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
+        <target>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</target>
+      </trans-unit>
+      <trans-unit id="C9MwZGx" resname="Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können">
+        <source>Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</source>
+        <target>Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</target>
+      </trans-unit>
+      <trans-unit id="3rRkPRX" resname="Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren">
+        <source>Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</source>
+        <target>Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</target>
+      </trans-unit>
+      <trans-unit id="_899YzG" resname="Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.">
+        <source>Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</source>
+        <target>Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="sdf9Y.b" resname="Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden">
+        <source>Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</source>
+        <target>Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</target>
+      </trans-unit>
+      <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
+        <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
+        <target>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</target>
+      </trans-unit>
+      <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
+        <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
+        <target>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</target>
+      </trans-unit>
+      <trans-unit id="nii024c" resname="Feste Konferenzen">
+        <source>Feste Konferenzen</source>
+        <target>Feste Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="Zr7SwSE" resname="Beitretenlink">
+        <source>Beitretenlink</source>
+        <target>Beitretenlink</target>
+      </trans-unit>
+      <trans-unit id="orGQbDb" resname="Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.">
+        <source>Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</source>
+        <target>Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</target>
+      </trans-unit>
+      <trans-unit id="xuvd5Tx" resname="Bitte warten. Die Konferenz ist noch nicht geöffnet">
+        <source>Bitte warten. Die Konferenz ist noch nicht geöffnet</source>
+        <target>Bitte warten. Die Konferenz ist noch nicht geöffnet</target>
+      </trans-unit>
+      <trans-unit id="D9T4ViQ" resname="Beitretenlink für Teilnehmer">
+        <source>Beitretenlink für Teilnehmer</source>
+        <target>Beitretenlink für Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="9xu2DxS" resname="KeyCloak Gruppen oder E-Maildomains">
+        <source>KeyCloak Gruppen oder E-Maildomains</source>
+        <target>KeyCloak Gruppen oder E-Maildomains</target>
+      </trans-unit>
+      <trans-unit id="4cAQl7b" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
+        <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
+        <target>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</target>
       </trans-unit>
     </body>
   </file>
