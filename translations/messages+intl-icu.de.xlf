@@ -551,10 +551,7 @@
         <source>Erlauben seinen Desktop zu Teilen</source>
         <target>Erlauben seinen Desktop zu Teilen</target>
       </trans-unit>
-      <trans-unit id="1KCN0lU" resname="Erlaube private Nachrichten an andere Teilnehmer zu senden">
-        <source>Erlaube private Nachrichten an andere Teilnehmer zu senden</source>
-        <target>Erlaube private Nachrichten an andere Teilnehmer zu senden</target>
-      </trans-unit>
+
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
         <target>Organisator</target>
@@ -957,10 +954,7 @@
         <source>Serienelement bearbeiten</source>
         <target>Serienelement bearbeiten</target>
       </trans-unit>
-      <trans-unit id="I.AEB32" resname="Selbstregistrierung">
-        <source>Selbstregistrierung</source>
-        <target>Selbstregistrierung</target>
-      </trans-unit>
+
       <trans-unit id="q3dDpK2" resname="Serie">
         <source>Serie</source>
         <target>Serie</target>
@@ -985,10 +979,6 @@
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
         <target>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
       </trans-unit>
-      <trans-unit id="T2dYIGp" resname="Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
-        <source>Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
-        <target>Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
-      </trans-unit>
       <trans-unit id="fZdNwVM" resname="Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.">
         <source>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</source>
         <target>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</target>
@@ -997,10 +987,7 @@
         <source>Serienvideokonferenz geändert</source>
         <target>Serienvideokonferenz geändert</target>
       </trans-unit>
-      <trans-unit id="6ygviQp" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
-        <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
-      </trans-unit>
+
       <trans-unit id="lAiGCC9" resname="Videokonferenz in Serienvideokonferenz umgewandelt">
         <source>Videokonferenz in Serienvideokonferenz umgewandelt</source>
         <target>Videokonferenz in Serienvideokonferenz umgewandelt</target>
@@ -1009,17 +996,9 @@
         <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
         <target>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
       </trans-unit>
-      <trans-unit id="SZi18dm" resname="Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
-        <source>Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
-        <target>Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
-      </trans-unit>
       <trans-unit id="iZMDeDm" resname="Die Serienvideokonferenz wurde abgesagt">
         <source>Die Serienvideokonferenz wurde abgesagt</source>
         <target>Die Serienvideokonferenz wurde abgesagt</target>
-      </trans-unit>
-      <trans-unit id="XO0dRjN" resname="Der Serienterm {name} wurde abgesagt.">
-        <source>Der Serienterm {name} wurde abgesagt.</source>
-        <target>Der Serienterm {name} wurde abgesagt.</target>
       </trans-unit>
       <trans-unit id="padgvWA" resname="Serien Termin">
         <source>Serien Termin</source>
@@ -1057,10 +1036,7 @@
         <source>Alle Serienelement der Serie bearbeiten</source>
         <target>Alle Serienelement der Serie bearbeiten</target>
       </trans-unit>
-      <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
-        <source>Nur dieses Serienelement bearbeiten</source>
-        <target>Nur dieses Serienelement bearbeiten</target>
-      </trans-unit>
+
       <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
         <target>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</target>
