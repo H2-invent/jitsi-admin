@@ -23,7 +23,7 @@ class ParticipantController extends AbstractController
         $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByEmail($string, $this->getUser());
         $group = $this->getDoctrine()->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
-        $res = array();
+        $res = array('user'=>array(),'group'=>array());
         foreach ($user as $data) {
             $res['user'][] = $data->getEmail();
         }

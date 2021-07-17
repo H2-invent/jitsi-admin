@@ -37,7 +37,7 @@ class RoomAddService
             foreach ($lines as $line) {
                 $newMember = trim($line);
                 if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
-                    $user = $this->createUserParticipant($newMember, $room);
+                    $this->createUserParticipant($newMember, $room);
                 } else {
                     if (strlen($newMember) > 0) {
                         $falseEmail[] = $newMember;
@@ -94,19 +94,21 @@ class RoomAddService
     {
         $user = $this->inviteService->newUser($email);
         if ($room->getRepeater()) {
-            $room = $room->getRepeater()->getPrototyp();
-            $user->addProtoypeRoom($room);
-        } else {
-            $user->addRoom($room);
-            $this->userService->addUser($user, $room);
-        }
+            if(!in_array($user,$room->getPrototypeUsers()->toArray())){
+                $room = $room->getRepeater()->getPrototyp();
+                $user->addProtoypeRoom($room);
+                $this->removeRoomUser($user, $room);
+            }
 
+        } else {
+            if(!in_array($user,$room->getUser()->toArray())){
+                $user->addRoom($room);
+                $this->userService->addUser($user, $room);
+                $this->removeRoomUser($user,$room);
+            }
+        }
         $user->addAddressbookInverse($room->getModerator());
         $this->em->persist($user);
-        $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
-        if ($roomsUser) {
-            $this->em->remove($roomsUser);
-        }
         $this->em->flush();
         return $user;
     }
@@ -132,6 +134,12 @@ class RoomAddService
             $this->em->persist($rooms);
             $this->em->flush();
         }
-
     }
+   private function removeRoomUser(User $user, Rooms $rooms){
+       $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+       if ($roomsUser) {
+           $this->em->remove($roomsUser);
+       }
+       $this->em->flush();
+   }
 }
