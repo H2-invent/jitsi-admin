@@ -551,7 +551,6 @@
         <source>Erlauben seinen Desktop zu Teilen</source>
         <target>Erlauben seinen Desktop zu Teilen</target>
       </trans-unit>
-
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
         <target>Organisator</target>
@@ -950,11 +949,6 @@
         <source>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
         <target>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
       </trans-unit>
-      <trans-unit id="3iuiLlw" resname="Serienelement bearbeiten">
-        <source>Serienelement bearbeiten</source>
-        <target>Serienelement bearbeiten</target>
-      </trans-unit>
-
       <trans-unit id="q3dDpK2" resname="Serie">
         <source>Serie</source>
         <target>Serie</target>
@@ -987,7 +981,6 @@
         <source>Serienvideokonferenz geändert</source>
         <target>Serienvideokonferenz geändert</target>
       </trans-unit>
-
       <trans-unit id="lAiGCC9" resname="Videokonferenz in Serienvideokonferenz umgewandelt">
         <source>Videokonferenz in Serienvideokonferenz umgewandelt</source>
         <target>Videokonferenz in Serienvideokonferenz umgewandelt</target>
@@ -1036,7 +1029,6 @@
         <source>Alle Serienelement der Serie bearbeiten</source>
         <target>Alle Serienelement der Serie bearbeiten</target>
       </trans-unit>
-
       <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
         <target>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</target>
@@ -1152,6 +1144,10 @@
       <trans-unit id="4cAQl7b" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
         <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
         <target>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</target>
+      </trans-unit>
+      <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
+        <source>Nur dieses Serienelement bearbeiten</source>
+        <target>Nur dieses Serienelement bearbeiten</target>
       </trans-unit>
     </body>
   </file>
