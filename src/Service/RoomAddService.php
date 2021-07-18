@@ -135,6 +135,7 @@ class RoomAddService
             $this->em->flush();
         }
     }
+
    private function removeRoomUser(User $user, Rooms $rooms){
        $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
        if ($roomsUser) {
