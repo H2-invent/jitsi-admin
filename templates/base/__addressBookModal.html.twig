@@ -4,40 +4,31 @@
     <div class="modal-dialog modal-full-height modal-right" role="document">
         <div class="modal-content" style="height: 100vh;display: flex; flex-direction: column">
             <div class="modal-header">
-                <h4 class="h4-responsive" id="exampleModalPreviewLabel">{{ 'Adressbuch'|trans }}</h4>
+                <h4 class="h4-responsive" id="exampleModalPreviewLabel">{{ 'Kontakte'|trans }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" style="flex-grow: 1;overflow-y: auto">
-                <div style="">
-                    <ul class="list-group">
-                        {% set name = null %}
-                        {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
-                            {% if u.email|first|upper != name %}
-                                {{ u.email|first|upper }}
-                                {% set name = u.email|first|upper %}
-                            {% endif %}
-
-                            <li class="list-group-item" style="display: flex; justify-content: space-between">
-                                <span class="breakWord">{{ u.email }} </span>
-                                <span class="noBreak">
-                                    <a class="caretdown dropdown-toggle mr-1 text-success" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-phone"></i>
-                                    </a>
-                                    <div class="dropdown-menu">
-
-                                         {% for s in servers %}
-                                             <a class="dropdown-item confirmHref" data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                                                    href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.url }}</a>
-
-                                         {% endfor %}
-                                    </div>
-                                    <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
-                                                class="fa fa-trash"></i> </a></span></li>
-                        {% endfor %}
+                <div>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                               aria-selected="true">{{ 'Adressbuch'|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                               aria-selected="false"> {{ 'Gruppen'|trans }}</a>
+                        </li>
                     </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            {{ include('addressbook/__addressBook.html.twig') }}
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            {{ include('addressbook/__addressGroups.html.twig') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

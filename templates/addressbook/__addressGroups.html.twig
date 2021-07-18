@@ -1,0 +1,30 @@
+
+<ul class="list-group">
+    <a href="{{ path('address_group_new') }}" class="btn-outline-primary btn loadContent">{{ 'Neue Gruppe'|trans }}</a>
+    {% set name = null %}
+    {% for g in app.user.addressGroupLeader|sort((a, b) => a.name|lower <=> b.name|lower) %}
+        {% if g.name|first|upper != name %}
+            {{ g.name|first|upper }}
+            {% set name = g.name|first|upper %}
+        {% endif %}
+
+        <li class="list-group-item" style="display: flex; justify-content: space-between">
+            <span class="breakWord">
+                {{ g.name }} ({{ g.member|length }})
+
+            </span>
+            <span class="noBreak">
+<a tabindex="0" data-toggle="popover" data-trigger="focus"
+   title="{{ 'Mitglieder'|trans }}"
+   data-content="<ul>{% for m in g.member|sort((a, b) => a.email|lower <=> b.email|lower) %}<li>{{ m.email }}</li>  {% endfor %}</ul>"><i
+            class="fa fa-info-circle"></i></a>
+                <a href="{{ path('address_group_new',{'id':g.id}) }}" class="loadContent">
+                    <i class="fa fa-edit"></i>
+                </a>
+                                    <a class="confirmHref" href="{{ path('address_group_remove',{'id':g.id}) }}"><i
+                                                class="fa fa-trash text-danger"></i>
+                                    </a>
+            </span>
+        </li>
+    {% endfor %}
+</ul>
