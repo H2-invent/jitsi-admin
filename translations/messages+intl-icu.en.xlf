@@ -888,7 +888,7 @@
       </trans-unit>
       <trans-unit id="QbDh_pE" resname="Die Serienvideokonferenz {name} wurde bearbeitet">
         <source>Die Serienvideokonferenz {name} wurde bearbeitet</source>
-        <target state="needs-translation">Die Serienvideokonferenz {name} wurde bearbeitet</target>
+        <target state="translated">The repeating conference {name} was edited</target>
       </trans-unit>
       <trans-unit id="iHWAl7b" resname="Hier beitreten">
         <source>Hier beitreten</source>
@@ -896,27 +896,27 @@
       </trans-unit>
       <trans-unit id="qjr7pXm" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
-        <target state="needs-translation">Die Serienvideokonferenz {name} wurde gelöscht</target>
+        <target state="translated">The repeating conference {name} was deleted</target>
       </trans-unit>
       <trans-unit id="JBp5T7M" resname="Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.">
         <source>Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</source>
-        <target state="needs-translation">Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.</target>
+        <target state="translated">You have been invited to the videoconference {name} by {organizer}.</target>
       </trans-unit>
       <trans-unit id="ScBzAnw" resname="Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.">
         <source>Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</source>
-        <target state="needs-translation">Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</target>
+        <target state="translated">You have been invited to find a date {name} by {organizer}.</target>
       </trans-unit>
       <trans-unit id="E97lvGG" resname="Sie wurden auf die Warteliste für:  {name} hinzugefügt ">
         <source>Sie wurden auf die Warteliste für:  {name} hinzugefügt </source>
-        <target state="needs-translation">Sie wurden auf die Warteliste für:  {name} hinzugefügt </target>
+        <target state="translated">You have been added to the waitinglist for: {name} </target>
       </trans-unit>
       <trans-unit id="ERPvUJ." resname="Die Videokonferenz {name} wurde von {organizer} abgesagt.">
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
-        <target state="needs-translation">Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
+        <target state="translated">The videoconference {name} was cancelled by {organizer}.</target>
       </trans-unit>
       <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
         <source>Die Videokonferenz {name} von startet gleich.</source>
-        <target state="needs-translation">Die Videokonferenz {name} von startet gleich.</target>
+        <target state="translated">The videoconference {name} starts soon.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
@@ -924,27 +924,27 @@
       </trans-unit>
       <trans-unit id="ub8NVvM" resname="Sie dürfen nur maximal {amount} Wiederholungen angeben">
         <source>Sie dürfen nur maximal {amount} Wiederholungen angeben</source>
-        <target state="needs-translation">Sie dürfen nur maximal {amount} Wiederholungen angeben</target>
+        <target state="translated">Only {amount} repetations are allowed</target>
       </trans-unit>
       <trans-unit id="1e.pJ8Y" resname="Eine neue Serienvideokonferenz wurde erstellt">
         <source>Eine neue Serienvideokonferenz wurde erstellt</source>
-        <target state="needs-translation">Eine neue Serienvideokonferenz wurde erstellt</target>
+        <target state="translated">A new repeating videoconference was scheduled</target>
       </trans-unit>
       <trans-unit id="67HDiZC" resname="Sie haben Erfolgreich einen Serientermin erstellt">
         <source>Sie haben Erfolgreich einen Serientermin erstellt</source>
-        <target state="needs-translation">Sie haben Erfolgreich einen Serientermin erstellt</target>
+        <target state="translated">You have successfully created a repeating appointment</target>
       </trans-unit>
       <trans-unit id="sdMaLqo" resname="Sie haben Erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben Erfolgreich einen Serientermin bearbeitet</source>
-        <target state="needs-translation">Sie haben Erfolgreich einen Serientermin bearbeitet</target>
+        <target state="translated">You have successfully edited a repeating appointment</target>
       </trans-unit>
       <trans-unit id="kTF_a3z" resname="Sie haben Erfolgreich einen Serientermin gelöscht">
         <source>Sie haben Erfolgreich einen Serientermin gelöscht</source>
-        <target state="needs-translation">Sie haben Erfolgreich einen Serientermin gelöscht</target>
+        <target state="translated">You have successfully deleted a repeating appointment</target>
       </trans-unit>
       <trans-unit id="Yb1QPZ2" resname="Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet">
         <source>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
-        <target state="needs-translation">Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
+        <target state="translated">You have successfully edited an appointment from a repeating appointment</target>
       </trans-unit>
       <trans-unit id="3iuiLlw" resname="Serienelement bearbeiten">
         <source>Serienelement bearbeiten</source>
@@ -972,31 +972,31 @@
       </trans-unit>
       <trans-unit id="eEdqI9E" resname="Sie wurden zu einer Serienvideokonferenz hinzugefügt">
         <source>Sie wurden zu einer Serienvideokonferenz hinzugefügt</source>
-        <target state="needs-translation">Sie wurden zu einer Serienvideokonferenz hinzugefügt</target>
+        <target state="translated">You have beed added to a repeating videoconference</target>
       </trans-unit>
       <trans-unit id="9OpdI6M" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+        <target state="translated">You have beed added to a repeating appointment {name}. You will receive an email with a link to join before every appointment.</target>
       </trans-unit>
       <trans-unit id="T2dYIGp" resname="Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
         <source>Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
-        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
+        <target state="translated">The attached ics file contains all elements of the series but has to be added to your calender by the import-function, not via doubleclick.</target>
       </trans-unit>
       <trans-unit id="fZdNwVM" resname="Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.">
         <source>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</source>
-        <target state="needs-translation">Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</target>
+        <target state="translated">It is recommended to use the iCal function of Jitsi-Admin.</target>
       </trans-unit>
       <trans-unit id="UtG9LK6" resname="Serienvideokonferenz geändert">
         <source>Serienvideokonferenz geändert</source>
-        <target state="needs-translation">Serienvideokonferenz geändert</target>
+        <target state="translated">Repeating videoconference changed</target>
       </trans-unit>
       <trans-unit id="6ygviQp" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
         <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+        <target state="translated">The repeating appointment {name} was edited. You will receive an email with a link to join before every appointment.</target>
       </trans-unit>
       <trans-unit id="lAiGCC9" resname="Videokonferenz in Serienvideokonferenz umgewandelt">
         <source>Videokonferenz in Serienvideokonferenz umgewandelt</source>
-        <target state="needs-translation">Videokonferenz in Serienvideokonferenz umgewandelt</target>
+        <target state="translated">Videoconference was converted to a repeating videoconference</target>
       </trans-unit>
       <trans-unit id="maPhtKz" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
         <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
