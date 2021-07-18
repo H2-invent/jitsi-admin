@@ -4,7 +4,6 @@
  */
 
 import $ from 'jquery';
-import 'lib-jitsi-meet-dist/dist/external_api.min'
 
 import('bootstrap');
 import('popper.js');
