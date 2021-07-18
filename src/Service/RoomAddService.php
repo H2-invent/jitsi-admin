@@ -112,7 +112,7 @@ class RoomAddService
         $this->em->flush();
         return $user;
     }
-
+    
     public function removeUserFromRoom(User $user, Rooms $rooms)
     {
         if ($rooms->getRepeater()) {
