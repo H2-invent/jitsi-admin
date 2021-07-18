@@ -67,6 +67,7 @@ class ScheduleController extends AbstractController
         $form->remove('start');
         $form->remove('persistantRoom');
         $form->remove('totalOpenRooms');
+        $form->remove('totalOpenRoomsOpenTime');
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {

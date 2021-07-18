@@ -178,13 +178,23 @@ class RoomController extends AbstractController
                 $em->flush();
             }
             $now = new \DateTime();
-            $start = (clone $room->getStart())->modify('-30min');
-            if (($start < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
+            if (($room->getStart() === null || $room->getStart()->modify('-30min') < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
                 return $this->redirect($url);
             }
+            return $this->redirectToRoute('dashboard', ['color' => 'danger', 'snack' => $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+                    array(
+                        '{from}' => $room->getStart()->format('d.m.Y H:i'),
+                        '{to}' => $room->getEnddate()->format('d.m.Y H:i')
+                    ))
+                ]
+            );
         }
 
-        return $this->redirectToRoute('dashboard', ['join_room' => $room->getId(), 'type' => $t]);
+        return $this->redirectToRoute('dashboard', [
+            'color' => 'danger',
+                'snack' => $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben')
+            ]
+        );
     }
 
     /**
@@ -311,7 +321,7 @@ class RoomController extends AbstractController
         if ($room->getPersistantRoom()) {
             $counter = 0;
             $slug = $serverService->slugify($room->getName());
-            $tmp = $slug.'-'.rand(10,1000);
+            $tmp = $slug . '-' . rand(10, 1000);
             if (!$room->getSlug()) {
                 while (true) {
                     $roomTmp = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $tmp]);
@@ -321,7 +331,7 @@ class RoomController extends AbstractController
                         break;
                     } else {
                         $counter++;
-                        $tmp =$slug.'-'.rand(10,1000);
+                        $tmp = $slug . '-' . rand(10, 1000);
                     }
                 }
             }
