@@ -428,9 +428,9 @@
         <source>Diese Mail wurde Ihnen gesendet im Auftrag von:</source>
         <target state="translated">此邮件代表：</target>
       </trans-unit>
-      <trans-unit id="agYP7CA" resname="Powered by Jitsi Manager, die Open Source Jitsi Planer Software">
-        <source>Powered by Jitsi Manager, die Open Source Jitsi Planer Software</source>
-        <target state="translated">版权归 Jitsi Manager所有</target>
+      <trans-unit id="pHW05Of" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
+        <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
+        <target state="needs-translation">Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
@@ -549,10 +549,6 @@
       <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
         <source>Erlauben seinen Desktop zu Teilen</source>
         <target state="translated">授予桌面共享权限</target>
-      </trans-unit>
-      <trans-unit id="1KCN0lU" resname="Erlaube private Nachrichten an andere Teilnehmer zu senden">
-        <source>Erlaube private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="translated">允许向其他成员发送私信</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
@@ -946,14 +942,6 @@
         <source>Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
         <target state="needs-translation">Sie haben Erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
       </trans-unit>
-      <trans-unit id="3iuiLlw" resname="Serienelement bearbeiten">
-        <source>Serienelement bearbeiten</source>
-        <target state="needs-translation">Serienelement bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="I.AEB32" resname="Selbstregistrierung">
-        <source>Selbstregistrierung</source>
-        <target state="needs-translation">Selbstregistrierung</target>
-      </trans-unit>
       <trans-unit id="q3dDpK2" resname="Serie">
         <source>Serie</source>
         <target state="needs-translation">Serie</target>
@@ -978,10 +966,6 @@
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
         <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
       </trans-unit>
-      <trans-unit id="T2dYIGp" resname="Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
-        <source>Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
-        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie, muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
-      </trans-unit>
       <trans-unit id="fZdNwVM" resname="Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.">
         <source>Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</source>
         <target state="needs-translation">Es wird empfohlen die iCal Funktion des Jitsi-Admins zu nutzen.</target>
@@ -989,10 +973,6 @@
       <trans-unit id="UtG9LK6" resname="Serienvideokonferenz geändert">
         <source>Serienvideokonferenz geändert</source>
         <target state="needs-translation">Serienvideokonferenz geändert</target>
-      </trans-unit>
-      <trans-unit id="6ygviQp" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
-        <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
       </trans-unit>
       <trans-unit id="lAiGCC9" resname="Videokonferenz in Serienvideokonferenz umgewandelt">
         <source>Videokonferenz in Serienvideokonferenz umgewandelt</source>
@@ -1002,17 +982,9 @@
         <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
         <target state="needs-translation">Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
       </trans-unit>
-      <trans-unit id="SZi18dm" resname="Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.">
-        <source>Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</source>
-        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie. Diese muss jedoch in ihrem Email-Programm über die Import Funktion importiert werden und nicht über Doppelklick.</target>
-      </trans-unit>
       <trans-unit id="iZMDeDm" resname="Die Serienvideokonferenz wurde abgesagt">
         <source>Die Serienvideokonferenz wurde abgesagt</source>
         <target state="needs-translation">Die Serienvideokonferenz wurde abgesagt</target>
-      </trans-unit>
-      <trans-unit id="XO0dRjN" resname="Der Serienterm {name} wurde abgesagt.">
-        <source>Der Serienterm {name} wurde abgesagt.</source>
-        <target state="needs-translation">Der Serienterm {name} wurde abgesagt.</target>
       </trans-unit>
       <trans-unit id="padgvWA" resname="Serien Termin">
         <source>Serien Termin</source>
@@ -1045,6 +1017,130 @@
       <trans-unit id="rcE9dqU" resname="Die Serienvideokonferenz {name} wurde abgesagt.">
         <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
         <target state="needs-translation">Die Serienvideokonferenz {name} wurde abgesagt.</target>
+      </trans-unit>
+      <trans-unit id="1YU8isJ" resname="Alle Serienelement der Serie bearbeiten">
+        <source>Alle Serienelement der Serie bearbeiten</source>
+        <target state="needs-translation">Alle Serienelement der Serie bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
+        <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
+        <target state="needs-translation">Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</target>
+      </trans-unit>
+      <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
+        <source>Alle Serienelemente bearbeiten</source>
+        <target state="needs-translation">Alle Serienelemente bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="16Cp82G" resname="Einzelnes Serienelement bearbeiten">
+        <source>Einzelnes Serienelement bearbeiten</source>
+        <target state="needs-translation">Einzelnes Serienelement bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
+        <source>Oder kopieren Sie den Link in Ihren Browser</source>
+        <target state="needs-translation">Oder kopieren Sie den Link in Ihren Browser</target>
+      </trans-unit>
+      <trans-unit id="OedXAN4" resname="Neue Kontaktgruppe erstellen">
+        <source>Neue Kontaktgruppe erstellen</source>
+        <target state="needs-translation">Neue Kontaktgruppe erstellen</target>
+      </trans-unit>
+      <trans-unit id="qRJdY.M" resname="Kontaktgruppe bearbeiten">
+        <source>Kontaktgruppe bearbeiten</source>
+        <target state="needs-translation">Kontaktgruppe bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="phX8Xu2" resname="Kontaktgruppe erfolgreich angelegt">
+        <source>Kontaktgruppe erfolgreich angelegt</source>
+        <target state="needs-translation">Kontaktgruppe erfolgreich angelegt</target>
+      </trans-unit>
+      <trans-unit id="J6sbtdY" resname="Kontaktgruppe gelöscht">
+        <source>Kontaktgruppe gelöscht</source>
+        <target state="needs-translation">Kontaktgruppe gelöscht</target>
+      </trans-unit>
+      <trans-unit id="3QzPV8F" resname="Der Beitritt ist nur von {from} bis {to} möglich">
+        <source>Der Beitritt ist nur von {from} bis {to} möglich</source>
+        <target state="needs-translation">Der Beitritt ist nur von {from} bis {to} möglich</target>
+      </trans-unit>
+      <trans-unit id="zAjLutF" resname="Neue Gruppe">
+        <source>Neue Gruppe</source>
+        <target state="needs-translation">Neue Gruppe</target>
+      </trans-unit>
+      <trans-unit id="vBZ55s_" resname="Mitglieder">
+        <source>Mitglieder</source>
+        <target state="needs-translation">Mitglieder</target>
+      </trans-unit>
+      <trans-unit id="vc0NZNW" resname="Kontakte">
+        <source>Kontakte</source>
+        <target state="needs-translation">Kontakte</target>
+      </trans-unit>
+      <trans-unit id="j9J2yMz" resname="Gruppen">
+        <source>Gruppen</source>
+        <target state="needs-translation">Gruppen</target>
+      </trans-unit>
+      <trans-unit id="SAJ77OP" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
+        <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
+        <target state="needs-translation">Es wird eine Terminumfrage erstellt, keine Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="1wyQOH0" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
+        <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
+        <target state="needs-translation">Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</target>
+      </trans-unit>
+      <trans-unit id="9UX9V9a" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
+        <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
+        <target state="needs-translation">Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</target>
+      </trans-unit>
+      <trans-unit id="C9MwZGx" resname="Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können">
+        <source>Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</source>
+        <target state="needs-translation">Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</target>
+      </trans-unit>
+      <trans-unit id="3rRkPRX" resname="Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren">
+        <source>Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</source>
+        <target state="needs-translation">Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</target>
+      </trans-unit>
+      <trans-unit id="_899YzG" resname="Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.">
+        <source>Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</source>
+        <target state="needs-translation">Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="sdf9Y.b" resname="Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden">
+        <source>Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</source>
+        <target state="needs-translation">Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</target>
+      </trans-unit>
+      <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
+        <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
+        <target state="needs-translation">Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</target>
+      </trans-unit>
+      <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
+        <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
+        <target state="needs-translation">Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</target>
+      </trans-unit>
+      <trans-unit id="nii024c" resname="Feste Konferenzen">
+        <source>Feste Konferenzen</source>
+        <target state="needs-translation">Feste Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="Zr7SwSE" resname="Beitretenlink">
+        <source>Beitretenlink</source>
+        <target state="needs-translation">Beitretenlink</target>
+      </trans-unit>
+      <trans-unit id="orGQbDb" resname="Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.">
+        <source>Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</source>
+        <target state="needs-translation">Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</target>
+      </trans-unit>
+      <trans-unit id="xuvd5Tx" resname="Bitte warten. Die Konferenz ist noch nicht geöffnet">
+        <source>Bitte warten. Die Konferenz ist noch nicht geöffnet</source>
+        <target state="needs-translation">Bitte warten. Die Konferenz ist noch nicht geöffnet</target>
+      </trans-unit>
+      <trans-unit id="D9T4ViQ" resname="Beitretenlink für Teilnehmer">
+        <source>Beitretenlink für Teilnehmer</source>
+        <target state="needs-translation">Beitretenlink für Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="9xu2DxS" resname="KeyCloak Gruppen oder E-Maildomains">
+        <source>KeyCloak Gruppen oder E-Maildomains</source>
+        <target state="needs-translation">KeyCloak Gruppen oder E-Maildomains</target>
+      </trans-unit>
+      <trans-unit id="4cAQl7b" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
+        <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
+        <target state="needs-translation">Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</target>
+      </trans-unit>
+      <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
+        <source>Nur dieses Serienelement bearbeiten</source>
+        <target state="needs-translation">Nur dieses Serienelement bearbeiten</target>
       </trans-unit>
     </body>
   </file>

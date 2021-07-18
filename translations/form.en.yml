@@ -34,37 +34,37 @@ option.420min: 7 hours
 option.450min: 7:30 hours
 option.480min: 8 hours
 option:
-  monday: Montag
-  tuesday: Dienstag
-  wednesday: Mittwoch
-  thursday: Donnerstag
-  friday: Freitag
-  saturday: Samstag
-  sunday: Sonntag
-  weekly: Wöchentlich
-  daily: Täglich
-  montly: Monatlich
-  yearly: Jährlich
-  montlyRelative: Monatlich Relativ
-  yearlyRelative: Jährlich Relativ
-  first: Erster
-  second: Zweiter
-  third: Dritter
-  fourth: Vierter
-  fifth: Fünfter
-  last: Letzter
-  january: Januar
-  february: Februar
-  march: März
+  monday: Monday
+  tuesday: Tuesday
+  wednesday: Wednesday
+  thursday: Thursday
+  friday: Friday
+  saturday: Saturday
+  sunday: Sunday
+  weekly: Weekly
+  daily: Daily
+  montly: Monthly
+  yearly: Yearly
+  montlyRelative: Monthly relative
+  yearlyRelative: Yearly relative
+  first: First
+  second: Second
+  third: Third
+  fourth: Fourth
+  fifth: Fifth
+  last: Last
+  january: January
+  february: February
+  march: March
   april: April
-  may: Mai
-  june: Juni
-  july: Juli
+  may: May
+  june: June
+  july: July
   august: August
   septembre: September
-  octobre: Oktober
+  octobre: October
   novembre: November
-  decembre: Dezember
+  decembre: December
 lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
 label.appSecret: App secret
@@ -95,7 +95,7 @@ label:
   featureEnalbeByJwt: "\"Enable Feature by JWT\" plugin is active on the server"
   dissallowScreenshareGlobal: Only moderators are allowed to share screen
   dissallowPrivateMessage: Only moderators are allowed to send private messages to participants
-  puplicRoom: Einladungslinks freischalten
+  puplicRoom: Enable invitation links
   showRoomOnJoinpage: Show conference on joinpage
   subscribe: Subscribe
   vorname: Firstname
@@ -103,17 +103,22 @@ label:
   maxParticipants: Allow maximum number of participants
   waitinglist: Activate waiting list
   teilnehmerEmailhinzufuegenModerator: Enter email addresses of new MODERATORS
-  weekday: Wochentag
-  repetation: Endet nach x Terminen
-  repeatType: Serienmuster
-  repeaterDays: Nach X Tagen wiederholen
-  repeaterWeeks: Nach X Wochen wiederholen
-  repeatMontly: Nach X Monaten wiederholen
-  repeatYearly: Nach X Jahren wiederholen
-  montlyRelativeNumber: Wievielte Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
-  montlyRelativeMonth: Monat
-  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
+  weekday: Weekday
+  repetation: Ends after x appointments
+  repeatType: Seriespattern
+  repeaterDays: Repeat after x days
+  repeaterWeeks: Repeat after x weeks
+  repeatMontly: Repeat after x month
+  repeatYearly: Repeat after x years
+  montlyRelativeNumber: X-th weekday in month
+  montlyRelativeWeekday: Weekday
+  montlyRelativeMonth: Month
+  repeaterRemoved: Edit only this element, not the series
+  persistantRoom: This conference has no date and is permanently available
+  totalOpenRooms: Participants deactivated. Enter with participants-link.
+  totalOpenRoomsOpenTime: Room-opening-time
+  addressgroupName: Gruppenname
+  addressgroupMember: Gruppenmitglieder
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
