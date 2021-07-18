@@ -114,7 +114,7 @@ label:
   montlyRelativeWeekday: Jour de la semaine
   montlyRelativeMonth: Mois
   repeaterRemoved: Modifier uniquement cet élélment, pas toute la série
-  persistantRoom: Diese Konferenz hat kein Datum und ist immer verfügbar
+  persistantRoom: Cette conférence n'a pas de date et reste toujours disponible
   totalOpenRooms: Teilnehmerliste deaktivieren. Beitreten mit Teilnehmerlink.
   totalOpenRoomsOpenTime: Raumöffnungszeit
 choice:
