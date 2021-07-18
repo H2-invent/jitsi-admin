@@ -115,8 +115,8 @@ label:
   montlyRelativeMonth: Mois
   repeaterRemoved: Modifier uniquement cet élélment, pas toute la série
   persistantRoom: Cette conférence n'a pas de date et reste toujours disponible
-  totalOpenRooms: Teilnehmerliste deaktivieren. Beitreten mit Teilnehmerlink.
-  totalOpenRoomsOpenTime: Raumöffnungszeit
+  totalOpenRooms: Désactiver la liste des participants. Participer avec le lien de participants.
+  totalOpenRoomsOpenTime: Heure d'ouverture de la salle de conférence
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
