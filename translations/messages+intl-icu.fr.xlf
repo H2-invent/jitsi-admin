@@ -95,7 +95,7 @@
       </trans-unit>
       <trans-unit id="T.mgfUM" resname="Bestätigung ihrer Anmeldung zur Konferenz: {name}">
         <source>Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target state="needs-translation">Bestätigung ihrer Anmeldung zur Konferenz: {name}</target>
+        <target state="translated">Confirmer votre inscription à la conférence: {name}</target>
       </trans-unit>
       <trans-unit id="vnxSnbr" resname="Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.">
         <source>Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</source>
