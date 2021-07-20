@@ -117,8 +117,8 @@ label:
   persistantRoom: Cette conférence n'a pas de date et reste toujours disponible
   totalOpenRooms: Désactiver la liste des participants. Participer avec le lien de participants.
   totalOpenRoomsOpenTime: Heure d'ouverture de la salle de conférence
-  addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder
+  addressgroupName: Nom de groupe
+  addressgroupMember: Membres du groupe
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
