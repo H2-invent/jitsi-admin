@@ -919,7 +919,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
         <source>Die Videokonferenz {name} von startet gleich.</source>
-        <target state="translated">Visioconférence {name} commence bientôt.</target>
+        <target state="translated">Visioconférence {name} de l'organisateur commence bientôt.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
@@ -927,7 +927,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="ub8NVvM" resname="Sie dürfen nur maximal {amount} Wiederholungen angeben">
         <source>Sie dürfen nur maximal {amount} Wiederholungen angeben</source>
-        <target state="needs-translation">Sie dürfen nur maximal {amount} Wiederholungen angeben</target>
+        <target state="translated">Vous pouvez mentionner un maximum de {amount} répétitions</target>
       </trans-unit>
       <trans-unit id="1e.pJ8Y" resname="Eine neue Serienvideokonferenz wurde erstellt">
         <source>Eine neue Serienvideokonferenz wurde erstellt</source>
