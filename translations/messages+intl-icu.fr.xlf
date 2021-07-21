@@ -123,179 +123,179 @@
       </trans-unit>
       <trans-unit id="IrOsoSS" resname="Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.">
         <source>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</source>
-        <target state="needs-translation">Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</target>
+        <target state="translated">Ce lien est invalide. Il a probablement déjà été validé.</target>
       </trans-unit>
       <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
         <source>Neue Einladung zu einer Videokonferenz</source>
-        <target state="needs-translation">Neue Einladung zu einer Videokonferenz</target>
+        <target state="translated">Nouvelle invitation à une visioconférence</target>
       </trans-unit>
       <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
         <source>Videokonferenz wurde bearbeitet</source>
-        <target state="needs-translation">Videokonferenz wurde bearbeitet</target>
+        <target state="translated">La visioconférence a été modifiée</target>
       </trans-unit>
       <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
         <source>Videokonferenz abgesagt</source>
-        <target state="needs-translation">Videokonferenz abgesagt</target>
+        <target state="translated">Visioconférence annulée</target>
       </trans-unit>
       <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
         <source>Videokonferenz {room} startet gleich</source>
-        <target state="needs-translation">Videokonferenz {room} startet gleich</target>
+        <target state="translated">Visioconférence {room} commence bientôt</target>
       </trans-unit>
       <trans-unit id="cfdSBrO" resname="Fehler, Der User wurde nicht gefunden">
         <source>Fehler, Der User wurde nicht gefunden</source>
-        <target state="needs-translation">Fehler, Der User wurde nicht gefunden</target>
+        <target state="translated">Erreur, l'utilisateur n'a pas été trouvé</target>
       </trans-unit>
       <trans-unit id="_jBye0V" resname="Fehler, Der Server wurde nicht gefunden">
         <source>Fehler, Der Server wurde nicht gefunden</source>
-        <target state="needs-translation">Fehler, Der Server wurde nicht gefunden</target>
+        <target state="translated">Erreur, le serveur n'a pas été trouvé</target>
       </trans-unit>
       <trans-unit id="f3YYUGJ" resname="Konferenz mit {n}">
         <source>Konferenz mit {n}</source>
-        <target state="needs-translation">Konferenz mit {n}</target>
+        <target state="translated">Conférence avec {n}</target>
       </trans-unit>
       <trans-unit id="9GGCLP1" resname="Der Moderator wurde erfolgreich hinzugefügt">
         <source>Der Moderator wurde erfolgreich hinzugefügt</source>
-        <target state="needs-translation">Der Moderator wurde erfolgreich hinzugefügt</target>
+        <target state="translated">Le modérateur a été ajouté avec succès</target>
       </trans-unit>
       <trans-unit id="dIC9IrN" resname="Zugangsdaten in das Formular eingeben">
         <source>Zugangsdaten in das Formular eingeben</source>
-        <target state="needs-translation">Zugangsdaten in das Formular eingeben</target>
+        <target state="translated">Insérer les données d'accès dans le formulaire</target>
       </trans-unit>
       <trans-unit id="G2uTOjB" resname="Konferenz nicht gefunden. Zugangsdaten erneut eingeben">
         <source>Konferenz nicht gefunden. Zugangsdaten erneut eingeben</source>
-        <target state="needs-translation">Konferenz nicht gefunden. Zugangsdaten erneut eingeben</target>
+        <target state="translated">Conférence introuvable. Veuillez ressaisir vos données d'accès</target>
       </trans-unit>
       <trans-unit id="FD0bqtt" resname="Jitsi-Meet-Server bearbeiten">
         <source>Jitsi-Meet-Server bearbeiten</source>
-        <target state="needs-translation">Jitsi-Meet-Server bearbeiten</target>
+        <target state="translated">Modifier le serveur Jitsi-Meet</target>
       </trans-unit>
       <trans-unit id="zeZVk._" resname="Jitsi-Meet-Server erstellen">
         <source>Jitsi-Meet-Server erstellen</source>
-        <target state="needs-translation">Jitsi-Meet-Server erstellen</target>
+        <target state="translated">Créer un serveur Jitsi-Meet</target>
       </trans-unit>
       <trans-unit id="c69DPqK" resname="Jitsi-Admin Enterprise Einstellungen">
         <source>Jitsi-Admin Enterprise Einstellungen</source>
-        <target state="needs-translation">Jitsi-Admin Enterprise Einstellungen</target>
+        <target state="translated">Réglage du Jitsi-Admin Enterprise</target>
       </trans-unit>
       <trans-unit id="hpwhjtz" resname="Organisator zu Server hinzufügen">
         <source>Organisator zu Server hinzufügen</source>
-        <target state="needs-translation">Organisator zu Server hinzufügen</target>
+        <target state="translated">Ajouter l'organisateur au serveur</target>
       </trans-unit>
       <trans-unit id="kaqu5DF" resname="Berechtigung gelöscht">
         <source>Berechtigung gelöscht</source>
-        <target state="needs-translation">Berechtigung gelöscht</target>
+        <target state="translated">Permission supprimée</target>
       </trans-unit>
       <trans-unit id="85TO077" resname="Server gelöscht">
         <source>Server gelöscht</source>
-        <target state="needs-translation">Server gelöscht</target>
+        <target state="translated">Serveur supprimé</target>
       </trans-unit>
       <trans-unit id="AxonmHj" resname="SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten">
         <source>SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</source>
-        <target state="needs-translation">SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten</target>
+        <target state="translated">Les paramètres SMTP sont corrects. Vous devriez recevoir un E-Mail sous peu</target>
       </trans-unit>
       <trans-unit id="Nv4YxL3" resname="Fehler, der Server ist nicht registriert">
         <source>Fehler, der Server ist nicht registriert</source>
-        <target state="needs-translation">Fehler, der Server ist nicht registriert</target>
+        <target state="translated">Erreur, ce serveur n'est pas registré</target>
       </trans-unit>
       <trans-unit id="4.zj4c0" resname="Testmail vom Jitsi-Admin">
         <source>Testmail vom Jitsi-Admin</source>
-        <target state="needs-translation">Testmail vom Jitsi-Admin</target>
+        <target state="translated">E-Mail test du Jitsi-admin</target>
       </trans-unit>
       <trans-unit id="ccYxFsK" resname="Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet">
         <source>Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet</source>
-        <target state="needs-translation">Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet</target>
+        <target state="translated">Vous avez installé avec succès un serveur SMTP pour votre serveur Jitsi</target>
       </trans-unit>
       <trans-unit id="F2PfdIA" resname="Fehler, Ihre SMTP-Parameter sind fehlerhaft">
         <source>Fehler, Ihre SMTP-Parameter sind fehlerhaft</source>
-        <target state="needs-translation">Fehler, Ihre SMTP-Parameter sind fehlerhaft</target>
+        <target state="translated">Erreur, vos paramètres SMTP sont incorrects</target>
       </trans-unit>
       <trans-unit id="bTX_0de" resname="Bitte geben Sie ihre Daten ein">
         <source>Bitte geben Sie ihre Daten ein</source>
-        <target state="needs-translation">Bitte geben Sie ihre Daten ein</target>
+        <target state="translated">Veuillez saisir vos données d'accès</target>
       </trans-unit>
       <trans-unit id="zPVs_1Q" resname="Konferenzen">
         <source>Konferenzen</source>
-        <target state="needs-translation">Konferenzen</target>
+        <target state="translated">Conférences</target>
       </trans-unit>
       <trans-unit id="QVc9ywt" resname="Teilnehmer">
         <source>Teilnehmer</source>
-        <target state="needs-translation">Teilnehmer</target>
+        <target state="translated">Participants</target>
       </trans-unit>
       <trans-unit id="Qz_pA9e" resname="Organisatoren">
         <source>Organisatoren</source>
-        <target state="needs-translation">Organisatoren</target>
+        <target state="translated">Organisateurs</target>
       </trans-unit>
       <trans-unit id="N32k9a1" resname="Neue Version von Jitsi Admin verfügbar">
         <source>Neue Version von Jitsi Admin verfügbar</source>
-        <target state="needs-translation">Neue Version von Jitsi Admin verfügbar</target>
+        <target state="translated">Une nouvelle version du Jitsi Admin est disponible</target>
       </trans-unit>
       <trans-unit id="6EwrsHz" resname="Aktuellste Jitsi Admin Version installiert">
         <source>Aktuellste Jitsi Admin Version installiert</source>
-        <target state="needs-translation">Aktuellste Jitsi Admin Version installiert</target>
+        <target state="translated">Ladernière version du Jitsi Admin est installée</target>
       </trans-unit>
       <trans-unit id="MhTMC2j" resname="Anzahl Konferenzen">
         <source>Anzahl Konferenzen</source>
-        <target state="needs-translation">Anzahl Konferenzen</target>
+        <target state="translated">Nombre de conférences</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
         <source>Anzahl Teilnehmer</source>
-        <target state="needs-translation">Anzahl Teilnehmer</target>
+        <target state="translated">Nombre de participants</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
-        <target state="needs-translation">Adressbuch</target>
+        <target state="translated">Carnet d'adresses</target>
       </trans-unit>
       <trans-unit id="AHH1fKI" resname="Wollen Sie mit diesem Teilnehmer eine Konferenz starten">
         <source>Wollen Sie mit diesem Teilnehmer eine Konferenz starten</source>
-        <target state="needs-translation">Wollen Sie mit diesem Teilnehmer eine Konferenz starten</target>
+        <target state="translated">Voulez-vous démarrer une conférence avec ce participant</target>
       </trans-unit>
       <trans-unit id="uKYFGSP" resname="Impressum">
         <source>Impressum</source>
-        <target state="needs-translation">Impressum</target>
+        <target state="translated">Mentions légales</target>
       </trans-unit>
       <trans-unit id="_dSc6FV" resname="Datenschutzhinweis">
         <source>Datenschutzhinweis</source>
-        <target state="needs-translation">Datenschutzhinweis</target>
+        <target state="translated">Note de confidentialité</target>
       </trans-unit>
       <trans-unit id="o59tO2Q" resname="Fehler oder neue Idee melden">
         <source>Fehler oder neue Idee melden</source>
-        <target state="needs-translation">Fehler oder neue Idee melden</target>
+        <target state="translated">Signaler une erreur ou une nouvelle idée</target>
       </trans-unit>
       <trans-unit id="t9BKvkB" resname="Erweiterte Optionen">
         <source>Erweiterte Optionen</source>
-        <target state="needs-translation">Erweiterte Optionen</target>
+        <target state="translated">Options avancées</target>
       </trans-unit>
       <trans-unit id="4mfTQ4I" resname="Profil">
         <source>Profil</source>
-        <target state="needs-translation">Profil</target>
+        <target state="translated">Votre profil</target>
       </trans-unit>
       <trans-unit id="3NHVIj9" resname="Name">
         <source>Name</source>
-        <target state="needs-translation">Name</target>
+        <target state="translated">Nom</target>
       </trans-unit>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="needs-translation">Email</target>
+        <target state="translated">E-Mail</target>
       </trans-unit>
       <trans-unit id="TyMI.d2" resname="Profil bearbeiten">
         <source>Profil bearbeiten</source>
-        <target state="needs-translation">Profil bearbeiten</target>
+        <target state="translated">Modifier votre profil</target>
       </trans-unit>
       <trans-unit id="TabP5k8" resname="Passwort ändern">
         <source>Passwort ändern</source>
-        <target state="needs-translation">Passwort ändern</target>
+        <target state="translated">Changer le mot de passe</target>
       </trans-unit>
       <trans-unit id="0FJ_Sz1" resname="Logout">
         <source>Logout</source>
-        <target state="needs-translation">Logout</target>
+        <target state="translated">Se déconnecter</target>
       </trans-unit>
       <trans-unit id="lUcvZQo" resname="Hilfe">
         <source>Hilfe</source>
-        <target state="needs-translation">Hilfe</target>
+        <target state="translated">Centre d'aide</target>
       </trans-unit>
       <trans-unit id="upr4qb5" resname="Jitsi-Meet-Servereinstellungen">
         <source>Jitsi-Meet-Servereinstellungen</source>
-        <target state="needs-translation">Jitsi-Meet-Servereinstellungen</target>
+        <target state="translated">Paramètres du serveur Jitsi-Meet</target>
       </trans-unit>
       <trans-unit id="JXfQNhT" resname="Zukünftige Konferenzen">
         <source>Zukünftige Konferenzen</source>
@@ -517,71 +517,71 @@
       </trans-unit>
       <trans-unit id="MSCBZaM" resname="Füllen Sie das Formular aus um der Konferenz beizutreten">
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
-        <target state="needs-translation">Füllen Sie das Formular aus um der Konferenz beizutreten</target>
+        <target state="translated">Veuillez compléter ce formulaire pour participer à la conférence</target>
       </trans-unit>
       <trans-unit id="4E0kxSs" resname="Startseite">
         <source>Startseite</source>
-        <target state="needs-translation">Startseite</target>
+        <target state="translated">Page d'acceuil</target>
       </trans-unit>
       <trans-unit id="Z7aWRoY" resname="Dashboard">
         <source>Dashboard</source>
-        <target state="needs-translation">Dashboard</target>
+        <target state="translated">Tableau de bord</target>
       </trans-unit>
       <trans-unit id="O63JhDQ" resname="Registrieren">
         <source>Registrieren</source>
-        <target state="needs-translation">Registrieren</target>
+        <target state="translated">S'enregistrer</target>
       </trans-unit>
       <trans-unit id="8Y_4LyT" resname="Öffentliche Konferenzen">
         <source>Öffentliche Konferenzen</source>
-        <target state="needs-translation">Öffentliche Konferenzen</target>
+        <target state="translated">Conférences publiques</target>
       </trans-unit>
       <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="needs-translation">Anmelden</target>
+        <target state="translated">Se connecter</target>
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
-        <target state="needs-translation">Teilnehmerliste</target>
+        <target state="translated">Liste de participants</target>
       </trans-unit>
       <trans-unit id="YUsgpjC" resname="Zum Moderator ernennen">
         <source>Zum Moderator ernennen</source>
-        <target state="needs-translation">Zum Moderator ernennen</target>
+        <target state="translated">Désigner comme modérateur</target>
       </trans-unit>
       <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
         <source>Erlauben seinen Desktop zu Teilen</source>
-        <target state="needs-translation">Erlauben seinen Desktop zu Teilen</target>
+        <target state="translated">Autoiser le partage de son écran</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
-        <target state="needs-translation">Organisator</target>
+        <target state="translated">Organisateur</target>
       </trans-unit>
       <trans-unit id="MCfbPRp" resname="Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?">
         <source>Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?</target>
+        <target state="translated">Êtes-vous sûr de vouloir faire du participant un modérateur?</target>
       </trans-unit>
       <trans-unit id="17r8k18" resname="Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?">
         <source>Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?</target>
+        <target state="translated">Êtes-vous sûr de vraiment vouloir supprimer le participant en tant que modérateur?</target>
       </trans-unit>
       <trans-unit id="glLZAnW" resname="Diesem Nutzer erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer erlauben seinen Bildschirm zu teilen</target>
+        <target state="translated">Permettre cet utilisateur de partager son écran</target>
       </trans-unit>
       <trans-unit id="olQS0LU" resname="Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen">
         <source>Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen</target>
+        <target state="translated">Ne plus autoriser cet utilisateur à partager son écran</target>
       </trans-unit>
       <trans-unit id="0yF1shO" resname="Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">Autoriser cet utilisateur à envoyer des messages privés à d'autres paricipants</target>
       </trans-unit>
       <trans-unit id="JJdcoFT" resname="Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden">
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
-        <target state="needs-translation">Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
+        <target state="translated">Ne plus autoriser cet utilisateur à envoyer des messages privés à d'autres paricipants</target>
       </trans-unit>
       <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
         <source>Teilnehmer Suchen</source>
-        <target state="needs-translation">Teilnehmer Suchen</target>
+        <target state="translated">Rechercher des participants</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
