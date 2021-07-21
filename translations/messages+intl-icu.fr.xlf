@@ -907,23 +907,23 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="ScBzAnw" resname="Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.">
         <source>Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</source>
-        <target state="needs-translation">Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.</target>
+        <target state="translated">Vous avez été invité à plannifier un rende-vous {name} par {organizer}.</target>
       </trans-unit>
       <trans-unit id="E97lvGG" resname="Sie wurden auf die Warteliste für:  {name} hinzugefügt ">
         <source>Sie wurden auf die Warteliste für:  {name} hinzugefügt </source>
-        <target state="needs-translation">Sie wurden auf die Warteliste für:  {name} hinzugefügt </target>
+        <target state="translated">Vous avez été ajouté sur la liste d'attente pour: {name} </target>
       </trans-unit>
       <trans-unit id="ERPvUJ." resname="Die Videokonferenz {name} wurde von {organizer} abgesagt.">
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
-        <target state="needs-translation">Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
+        <target state="translated">La visioconférence {name} à été annulé par {organizer}.</target>
       </trans-unit>
       <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
         <source>Die Videokonferenz {name} von startet gleich.</source>
-        <target state="needs-translation">Die Videokonferenz {name} von startet gleich.</target>
+        <target state="translated">Visioconférence {name} commence bientôt.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
-        <target state="needs-translation">Fehler, Bitte füllen Sie alle Felder aus</target>
+        <target state="translated">Erreur, veuillez compléter tous les champs</target>
       </trans-unit>
       <trans-unit id="ub8NVvM" resname="Sie dürfen nur maximal {amount} Wiederholungen angeben">
         <source>Sie dürfen nur maximal {amount} Wiederholungen angeben</source>
@@ -1107,15 +1107,15 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="sdf9Y.b" resname="Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden">
         <source>Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</source>
-        <target state="needs-translation">Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</target>
+        <target state="translated">Les participants ne sont pas autorisés à partager leur écran. Cela peut être ajusté individuellement pour chaque participant dans l'aperçu des participants</target>
       </trans-unit>
       <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
         <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
-        <target state="needs-translation">Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</target>
+        <target state="translated">Il n'y a pas de liste de participants. Les participants peuvent rejoindre la conférence via le lien généré.</target>
       </trans-unit>
       <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
         <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
-        <target state="needs-translation">Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</target>
+        <target state="translated">L'organisateur ouvre la salle de conférence pour la durée indiquée dès qu'il participe à la conférence en cliquant sur ce lien .</target>
       </trans-unit>
       <trans-unit id="nii024c" resname="Feste Konferenzen">
         <source>Feste Konferenzen</source>
@@ -1123,19 +1123,19 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="Zr7SwSE" resname="Beitretenlink">
         <source>Beitretenlink</source>
-        <target state="needs-translation">Beitretenlink</target>
+        <target state="translated">Lien pour rejoindre</target>
       </trans-unit>
       <trans-unit id="orGQbDb" resname="Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.">
         <source>Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</source>
-        <target state="needs-translation">Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</target>
+        <target state="translated">Cette conférence n'est pas datée à une date fixe. Le modérateur vous avertira d'une autre manière à quel moment la conférence débuta.</target>
       </trans-unit>
       <trans-unit id="xuvd5Tx" resname="Bitte warten. Die Konferenz ist noch nicht geöffnet">
         <source>Bitte warten. Die Konferenz ist noch nicht geöffnet</source>
-        <target state="needs-translation">Bitte warten. Die Konferenz ist noch nicht geöffnet</target>
+        <target state="translated">Veuillez patienter. La conférence nést pas encore ouverte</target>
       </trans-unit>
       <trans-unit id="D9T4ViQ" resname="Beitretenlink für Teilnehmer">
         <source>Beitretenlink für Teilnehmer</source>
-        <target state="needs-translation">Beitretenlink für Teilnehmer</target>
+        <target state="translated">Lien de participation pour les participants</target>
       </trans-unit>
       <trans-unit id="9xu2DxS" resname="KeyCloak Gruppen oder E-Maildomains">
         <source>KeyCloak Gruppen oder E-Maildomains</source>
@@ -1143,7 +1143,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="4cAQl7b" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
         <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
-        <target state="needs-translation">Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</target>
+        <target state="translated">Ici vous pouvez entrer des groupes KeyCloak ou des domaines E-Mail. Les groupes KeyCloak doivent être précédés d'un "\" à (p.e. \all). Les utilisateurs avec ce groupe KeyCloak ou la domaine E-Mail, peuvent utiliser ce serveur pour créer des conférences sans avoir à se nommer explicitement en tant qu'organisateurs.</target>
       </trans-unit>
       <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
         <source>Nur dieses Serienelement bearbeiten</source>
