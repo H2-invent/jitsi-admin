@@ -500,9 +500,9 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="needs-translation">Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
-        Ihre E-Mail-Adresse: {email}&lt;br&gt;
-        Konferenz ID: {uid}</target>
+        <target state="translated">Vous avez besoin des données suivantes pour rejoindre la conférence: &lt;br&gt;
+Votre adresse E-Mail: {email}&lt;br&gt;
+L'identifiant de la conférence:{uid}</target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
@@ -594,7 +594,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
       </trans-unit>
       <trans-unit id="BwLPq1q" resname="Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.">
         <source>Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</source>
-        <target state="needs-translation">Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.</target>
+        <target state="translated">Entrez votre Pro-License Key ici, si vous en avez acheté une. Apprenez plus sur Jitsi-Admin Enterprise ici.</target>
       </trans-unit>
       <trans-unit id="83zKG81" resname="Enterprise bis">
         <source>Enterprise bis</source>
@@ -606,27 +606,27 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
-        <target state="needs-translation">Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</target>
+        <target state="translated">Ici, vous pouvez insérer une URL vers votre logo afin que les participants puissent voir votre logo sur la page jointe.</target>
       </trans-unit>
       <trans-unit id="FG8Lso9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
-        <target state="needs-translation">Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</target>
+        <target state="translated">Saisissez ici un lien vers les informations sur la protection des données du serveur Jitsi-Meet afin que les participants puissent en être informés.</target>
       </trans-unit>
       <trans-unit id="m3V30Ni" resname="SMTP-Einstellungen">
         <source>SMTP-Einstellungen</source>
-        <target state="needs-translation">SMTP-Einstellungen</target>
+        <target state="translated">Paramètres SMTP</target>
       </trans-unit>
       <trans-unit id="K81G__p" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
-        <target state="needs-translation">Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</target>
+        <target state="translated">Ici, vous pouvez spécifier votre propre serveur SMTP pour envoyer des E-Mails. Si aucun serveur SMTP n'est spécifié, le serveur standard de jitsi-admin est utilisé.</target>
       </trans-unit>
       <trans-unit id="pDSuNQy" resname="Hintergrundbild">
         <source>Hintergrundbild</source>
-        <target state="needs-translation">Hintergrundbild</target>
+        <target state="translated">Fond d'écran</target>
       </trans-unit>
       <trans-unit id="Yy7_Sw2" resname="API-Key neu genereieren">
         <source>API-Key neu genereieren</source>
-        <target state="needs-translation">API-Key neu genereieren</target>
+        <target state="translated">Générer à nouveau l'API-Key</target>
       </trans-unit>
       <trans-unit id="X0bsKL4" resname="Server hinzufügen">
         <source>Server hinzufügen</source>
@@ -716,7 +716,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
-        <target state="needs-translation">Klicken Sie hier um über den optimalen Termin abzustimmen.</target>
+        <target state="translated">Cliquez ici pour voter pour la date optimale.</target>
       </trans-unit>
       <trans-unit id="BzawdAw" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
         <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
@@ -724,27 +724,27 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="MjqSQuA" resname="Zeit wählen">
         <source>Zeit wählen</source>
-        <target state="needs-translation">Zeit wählen</target>
+        <target state="translated">Choisissez l'heure</target>
       </trans-unit>
       <trans-unit id="6RsEYIW" resname="Hier zur Abstimmung">
         <source>Hier zur Abstimmung</source>
-        <target state="needs-translation">Hier zur Abstimmung</target>
+        <target state="translated">Ici pour voter</target>
       </trans-unit>
       <trans-unit id="zenlipp" resname="Ja">
         <source>Ja</source>
-        <target state="needs-translation">Ja</target>
+        <target state="translated">Oui</target>
       </trans-unit>
       <trans-unit id="kOvBveb" resname="Nein">
         <source>Nein</source>
-        <target state="needs-translation">Nein</target>
+        <target state="translated">Non</target>
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="needs-translation">Vielleicht</target>
+        <target state="translated">Peut-être</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
-        <target state="needs-translation">Welcher Termin passt für Sie am besten?</target>
+        <target state="translated">Quel date vous convient le mieux?</target>
       </trans-unit>
       <trans-unit id="KUyku5P" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
         <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
@@ -768,11 +768,11 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="LH_3egJ" resname="Einen Termin finden">
         <source>Einen Termin finden</source>
-        <target state="needs-translation">Einen Termin finden</target>
+        <target state="translated">Trouver une date</target>
       </trans-unit>
       <trans-unit id="_TZrqNN" resname="Terminplanung abgesagt">
         <source>Terminplanung abgesagt</source>
-        <target state="needs-translation">Terminplanung abgesagt</target>
+        <target state="translated">Planification annulée</target>
       </trans-unit>
       <trans-unit id="0t_QPzY" resname="Die Terminplanung {name} wurde abgesagt.">
         <source>Die Terminplanung {name} wurde abgesagt.</source>
@@ -788,7 +788,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="8ZQLRKd" resname="Mail an die Teilnehmer">
         <source>Mail an die Teilnehmer</source>
-        <target state="needs-translation">Mail an die Teilnehmer</target>
+        <target state="translated">E-Mail aux participants</target>
       </trans-unit>
       <trans-unit id="kaxOEsS" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            und die &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
@@ -812,7 +812,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="yUDlpqH" resname="{from} von {to}">
         <source>{from} von {to}</source>
-        <target state="needs-translation">{from} von {to}</target>
+        <target state="translated">{from} de {to}</target>
       </trans-unit>
       <trans-unit id="pRkRXRz" resname="Abstimmung">
         <source>Abstimmung</source>
@@ -848,7 +848,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="7a4K8pX" resname="Warteliste">
         <source>Warteliste</source>
-        <target state="needs-translation">Warteliste</target>
+        <target state="translated">Liste d'attente</target>
       </trans-unit>
       <trans-unit id="uOs4egz" resname="Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen">
         <source>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</source>
@@ -880,11 +880,11 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="XMBOY_s" resname="Darkmode">
         <source>Darkmode</source>
-        <target state="needs-translation">Darkmode</target>
+        <target state="translated">Darkmode</target>
       </trans-unit>
       <trans-unit id="jChD8ic" resname="iCal Link">
         <source>iCal Link</source>
-        <target state="needs-translation">iCal Link</target>
+        <target state="translated">Lien iCal</target>
       </trans-unit>
       <trans-unit id="QbDh_pE" resname="Die Serienvideokonferenz {name} wurde bearbeitet">
         <source>Die Serienvideokonferenz {name} wurde bearbeitet</source>
