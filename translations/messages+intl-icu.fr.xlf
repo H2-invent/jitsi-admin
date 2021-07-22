@@ -429,27 +429,27 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
       </trans-unit>
       <trans-unit id="pHW05Of" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
+        <target state="translated">Powered by Jitsi Admin, le logiciel open source Jitsi Planer</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
-        <target state="needs-translation">Videokonferenz bearbeitet</target>
+        <target state="translated">Modifier la visioconférence</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+        <target state="translated">L'événement {name} vient de changer. Vous pouvez facilement rejoindre la visioconférence en utilisant le lien ci-joint.</target>
       </trans-unit>
       <trans-unit id="F8UXAUj" resname="Erinnerung zur Videokonferenz">
         <source>Erinnerung zur Videokonferenz</source>
-        <target state="needs-translation">Erinnerung zur Videokonferenz</target>
+        <target state="translated">Rappel à la visioconférence</target>
       </trans-unit>
       <trans-unit id="rFiFMV5" resname="Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Die Videokonferenz auf dem Server {url} startet gleich. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</target>
+        <target state="translated">La visioconférence sur le serveur {url} commence bientôt. Vous pouvez facilement rejoindre la vidéoconférence en utilisant le lien ci-joint.</target>
       </trans-unit>
       <trans-unit id="nIeMrFU" resname="Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.">
         <source>Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde abgesagt und kann aus dem Kalender entfernt werden.</target>
+        <target state="translated">L'évènement {name} à été annulé et peut être supprimé du calendrier.</target>
       </trans-unit>
       <trans-unit id="kTWILTI" resname="Datum">
         <source>Datum</source>
@@ -479,23 +479,23 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
         <source>Login</source>
-        <target state="needs-translation">Login</target>
+        <target state="translated">Connexion</target>
       </trans-unit>
       <trans-unit id="OmOD76j" resname="Server Administrator">
         <source>Server Administrator</source>
-        <target state="needs-translation">Server Administrator</target>
+        <target state="translated">Administrateur du serveur</target>
       </trans-unit>
       <trans-unit id="BqiajhC" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">Confirmation de votre inscription</target>
       </trans-unit>
       <trans-unit id="qmIRYPu" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
-        <target state="needs-translation">Sie haben sich zur Konferenz {name} angemeldet.</target>
+        <target state="translated">Vous vous êtes inscrit à la conférence {name}.</target>
       </trans-unit>
       <trans-unit id="tSAgi7x" resname="Klicken Sie hier um die Anmeldung abzuschließen">
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
-        <target state="needs-translation">Klicken Sie hier um die Anmeldung abzuschließen</target>
+        <target state="translated">Cliquez ici pour accomplir votre insciption</target>
       </trans-unit>
       <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
@@ -507,11 +507,11 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
-        <target state="needs-translation">Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</target>
+        <target state="translated">Cliquez ici pour accéder directement à la visioconférence.</target>
       </trans-unit>
       <trans-unit id="9YuFDjT" resname="Konferenz beitreten">
         <source>Konferenz beitreten</source>
-        <target state="needs-translation">Konferenz beitreten</target>
+        <target state="translated">Rejoignez la conférence</target>
       </trans-unit>
       <trans-unit id="MSCBZaM" resname="Füllen Sie das Formular aus um der Konferenz beizutreten">
         <source>Füllen Sie das Formular aus um der Konferenz beizutreten</source>
@@ -949,7 +949,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="q3dDpK2" resname="Serie">
         <source>Serie</source>
-        <target state="needs-translation">Serie</target>
+        <target state="translated">Série</target>
       </trans-unit>
       <trans-unit id="K1wfW2y" resname="Serienart bearbeiten">
         <source>Serienart bearbeiten</source>
@@ -957,7 +957,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="39O7jAk" resname="Serie löschen">
         <source>Serie löschen</source>
-        <target state="needs-translation">Serie löschen</target>
+        <target state="translated">Supprimer la série</target>
       </trans-unit>
       <trans-unit id="6R7jKP3" resname="Neue Serien Termin">
         <source>Neue Serien Termin</source>
@@ -1065,7 +1065,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="zAjLutF" resname="Neue Gruppe">
         <source>Neue Gruppe</source>
-        <target state="needs-translation">Neue Gruppe</target>
+        <target state="translated">Nouveau groupe</target>
       </trans-unit>
       <trans-unit id="vBZ55s_" resname="Mitglieder">
         <source>Mitglieder</source>
@@ -1073,11 +1073,11 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="vc0NZNW" resname="Kontakte">
         <source>Kontakte</source>
-        <target state="needs-translation">Kontakte</target>
+        <target state="translated">Contacts</target>
       </trans-unit>
       <trans-unit id="j9J2yMz" resname="Gruppen">
         <source>Gruppen</source>
-        <target state="needs-translation">Gruppen</target>
+        <target state="translated">Groupes</target>
       </trans-unit>
       <trans-unit id="SAJ77OP" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
         <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
