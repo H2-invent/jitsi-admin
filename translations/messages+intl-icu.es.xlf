@@ -430,7 +430,7 @@
       </trans-unit>
       <trans-unit id="pHW05Of" resname="Powered by Jitsi Admin, die Open Source Jitsi Planer Software">
         <source>Powered by Jitsi Admin, die Open Source Jitsi Planer Software</source>
-        <target state="needs-translation">Powered by Jitsi Admin, die Open Source Jitsi Planer Software</target>
+        <target state="translated">Desarrollado por Jitsi Admin, el software planificador Open Source para Jitsi</target>
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
@@ -1042,103 +1042,103 @@
       </trans-unit>
       <trans-unit id="OedXAN4" resname="Neue Kontaktgruppe erstellen">
         <source>Neue Kontaktgruppe erstellen</source>
-        <target state="needs-translation">Neue Kontaktgruppe erstellen</target>
+        <target state="translated">Crear nuevo grupo de contactos</target>
       </trans-unit>
       <trans-unit id="qRJdY.M" resname="Kontaktgruppe bearbeiten">
         <source>Kontaktgruppe bearbeiten</source>
-        <target state="needs-translation">Kontaktgruppe bearbeiten</target>
+        <target state="translated">Editar grupo de contactos</target>
       </trans-unit>
       <trans-unit id="phX8Xu2" resname="Kontaktgruppe erfolgreich angelegt">
         <source>Kontaktgruppe erfolgreich angelegt</source>
-        <target state="needs-translation">Kontaktgruppe erfolgreich angelegt</target>
+        <target state="translated">Grupo de contactos creado con éxito</target>
       </trans-unit>
       <trans-unit id="J6sbtdY" resname="Kontaktgruppe gelöscht">
         <source>Kontaktgruppe gelöscht</source>
-        <target state="needs-translation">Kontaktgruppe gelöscht</target>
+        <target state="translated">Grupo de contactos eliminado</target>
       </trans-unit>
       <trans-unit id="3QzPV8F" resname="Der Beitritt ist nur von {from} bis {to} möglich">
         <source>Der Beitritt ist nur von {from} bis {to} möglich</source>
-        <target state="needs-translation">Der Beitritt ist nur von {from} bis {to} möglich</target>
+        <target state="translated">Sólo puedes unirte desde {from} hasta {to}</target>
       </trans-unit>
       <trans-unit id="zAjLutF" resname="Neue Gruppe">
         <source>Neue Gruppe</source>
-        <target state="needs-translation">Neue Gruppe</target>
+        <target state="translated">Nuevo grupo</target>
       </trans-unit>
       <trans-unit id="vBZ55s_" resname="Mitglieder">
         <source>Mitglieder</source>
-        <target state="needs-translation">Mitglieder</target>
+        <target state="translated">Miembros</target>
       </trans-unit>
       <trans-unit id="vc0NZNW" resname="Kontakte">
         <source>Kontakte</source>
-        <target state="needs-translation">Kontakte</target>
+        <target state="translated">Contactos</target>
       </trans-unit>
       <trans-unit id="j9J2yMz" resname="Gruppen">
         <source>Gruppen</source>
-        <target state="needs-translation">Gruppen</target>
+        <target state="translated">Grupos</target>
       </trans-unit>
       <trans-unit id="SAJ77OP" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
         <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
-        <target state="needs-translation">Es wird eine Terminumfrage erstellt, keine Konferenz.</target>
+        <target state="translated">Se crea una encuesta de citas, no una conferencia.</target>
       </trans-unit>
       <trans-unit id="1wyQOH0" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
         <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
-        <target state="needs-translation">Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</target>
+        <target state="translated">Solo los usuarios que tengan una cuenta en la plataforma pueden unirse a esta reunión. Por lo tanto, se requieren el nombre de usuario y la contraseña. Esto introduce una protección adicional.</target>
       </trans-unit>
       <trans-unit id="9UX9V9a" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
         <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
-        <target state="needs-translation">Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</target>
+        <target state="translated">Se creará un enlace que podrá compartir. Los participantes pueden usar este enlace para apuntarse a la lista de participantes. Puede editar la lista de participantes y eliminarlos.</target>
       </trans-unit>
       <trans-unit id="C9MwZGx" resname="Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können">
         <source>Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</source>
-        <target state="needs-translation">Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</target>
+        <target state="translated">Número máximo de participantes que pueden autoinscribirse a la conferencia</target>
       </trans-unit>
       <trans-unit id="3rRkPRX" resname="Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren">
         <source>Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</source>
-        <target state="needs-translation">Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</target>
+        <target state="translated">Si hay un número limitado de participantes, los participantes pueden apuntaerse a una lista de espera y el moderador puede aceptarlos manualmente</target>
       </trans-unit>
       <trans-unit id="_899YzG" resname="Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.">
         <source>Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</source>
-        <target state="needs-translation">Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</target>
+        <target state="translated">Esta conferencia se muestra en la página de participación de un servidor.</target>
       </trans-unit>
       <trans-unit id="sdf9Y.b" resname="Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden">
         <source>Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</source>
-        <target state="needs-translation">Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</target>
+        <target state="translated">Los participantes no pueden compartir su pantalla. Esto se puede ajustar individualmente para cada participante en el resumen de participantes</target>
       </trans-unit>
       <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
         <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
-        <target state="needs-translation">Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</target>
+        <target state="translated">No hay lista de participantes. Los participantes pueden unirse a la conferencia a través del enlace generado.</target>
       </trans-unit>
       <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
         <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
-        <target state="needs-translation">Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</target>
+        <target state="translated">El organizador, al hacer clic en Iniciar, desbloquea durante el tiempo especificado la sala de conferencias.</target>
       </trans-unit>
       <trans-unit id="nii024c" resname="Feste Konferenzen">
         <source>Feste Konferenzen</source>
-        <target state="needs-translation">Feste Konferenzen</target>
+        <target state="translated">Conferencias fijas</target>
       </trans-unit>
       <trans-unit id="Zr7SwSE" resname="Beitretenlink">
         <source>Beitretenlink</source>
-        <target state="needs-translation">Beitretenlink</target>
+        <target state="translated">Enlace para unirse</target>
       </trans-unit>
       <trans-unit id="orGQbDb" resname="Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.">
         <source>Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</source>
-        <target state="needs-translation">Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</target>
+        <target state="translated">Esta conferencia no tiene una fecha fija. El moderador le informará sobre cuándo comienza la conferencia.</target>
       </trans-unit>
       <trans-unit id="xuvd5Tx" resname="Bitte warten. Die Konferenz ist noch nicht geöffnet">
         <source>Bitte warten. Die Konferenz ist noch nicht geöffnet</source>
-        <target state="needs-translation">Bitte warten. Die Konferenz ist noch nicht geöffnet</target>
+        <target state="translated">Espere por favor. La conferencia aún no está abierta</target>
       </trans-unit>
       <trans-unit id="D9T4ViQ" resname="Beitretenlink für Teilnehmer">
         <source>Beitretenlink für Teilnehmer</source>
-        <target state="needs-translation">Beitretenlink für Teilnehmer</target>
+        <target state="translated">Enlace de unión para asistentes</target>
       </trans-unit>
       <trans-unit id="9xu2DxS" resname="KeyCloak Gruppen oder E-Maildomains">
         <source>KeyCloak Gruppen oder E-Maildomains</source>
-        <target state="needs-translation">KeyCloak Gruppen oder E-Maildomains</target>
+        <target state="translated">Grupos de KeyCloak o dominios de correo electrónico</target>
       </trans-unit>
       <trans-unit id="4cAQl7b" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
         <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
-        <target state="needs-translation">Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</target>
+        <target state="translated">Aquí puede insertar los grupos de KeyCloak o los dominios de correo electrónico. Los grupos de KeyCloak deben estar precedidos por "\" (por ejemplo, "\all"). Los usuarios con el grupo KeyCloak o el dominio de correo electrónico pueden usar este servidor para crear reuniones sin tener que nombrarlos explícitamente como organizadores.</target>
       </trans-unit>
       <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
         <source>Nur dieses Serienelement bearbeiten</source>

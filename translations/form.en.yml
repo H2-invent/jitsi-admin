@@ -117,8 +117,8 @@ label:
   persistantRoom: This conference has no date and is permanently available
   totalOpenRooms: Participants deactivated. Enter with participants-link.
   totalOpenRoomsOpenTime: Room-opening-time
-  addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder
+  addressgroupName: Group Name
+  addressgroupMember: Group Members
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
