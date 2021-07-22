@@ -474,8 +474,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
       <trans-unit id="TUr.7W8" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="needs-translation">Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
-        sich einen Benutzer.</target>
+        <target state="translated">Vous pouvez désormais gérer les conférences Jitsi Meet via l'administrateur Jitsi. Connectez-vous ou créez un compte.</target>
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
         <source>Login</source>
