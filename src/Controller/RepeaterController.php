@@ -188,7 +188,7 @@ class RepeaterController extends AbstractController
         if ($room->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Not found');
         }
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['id' => $room->getId()])]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['type'=>$request->get('type'),'id' => $room->getId()])]);
 
         try {
             $form->handleRequest($request);
@@ -197,6 +197,7 @@ class RepeaterController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $room = $form->getData();
                 if ($room->getRepeaterRemoved()) {
+                    $room->setEnddate((clone $room->getStart())->modify('+'.$room->getDuration().'min'));
                     $em->persist($room);
                     $em->flush();
                     $repeater = $room->getRepeater();
@@ -208,7 +209,6 @@ class RepeaterController extends AbstractController
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
                 }
 
-                $repeater = $room->getRepeater();
                 $repeater = $repeaterService->replaceRooms($room);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
 

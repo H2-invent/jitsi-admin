@@ -52,8 +52,9 @@ class UserNewRoomAddService
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('Neue Einladung zu einer Videokonferenz');
-
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
+        $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
+        $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room,$attachement);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
@@ -136,7 +137,6 @@ class UserNewRoomAddService
      */
     function addWaitinglist(User $user, Rooms $room)
     {
-
         $content = $this->twig->render('email/waitingList.html.twig', ['user' => $user, 'room' => $room]);
         $subject = $this->translator->trans('Hinzugefügt zur Warteliste');
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
@@ -151,5 +151,4 @@ class UserNewRoomAddService
         }
         return true;
     }
-
 }
