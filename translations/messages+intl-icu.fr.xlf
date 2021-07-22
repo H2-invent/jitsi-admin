@@ -299,11 +299,11 @@
       </trans-unit>
       <trans-unit id="JXfQNhT" resname="Zukünftige Konferenzen">
         <source>Zukünftige Konferenzen</source>
-        <target state="needs-translation">Zukünftige Konferenzen</target>
+        <target state="translated">Conférences à venir</target>
       </trans-unit>
       <trans-unit id="a6JwAmN" resname="Vergangene Konferenzen">
         <source>Vergangene Konferenzen</source>
-        <target state="needs-translation">Vergangene Konferenzen</target>
+        <target state="translated">Conférences passées</target>
       </trans-unit>
       <trans-unit id="o66NgUz" resname="Eine Konferenz planen">
         <source>Eine Konferenz planen</source>
