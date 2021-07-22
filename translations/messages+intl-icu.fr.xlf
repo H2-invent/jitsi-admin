@@ -720,7 +720,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="BzawdAw" resname="Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.">
         <source>Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</source>
-        <target state="needs-translation">Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.</target>
+        <target state="translated">Ajoutez les dates à sélectionner ici. Les participants peuvent alors sélectionner leurs favoris et vous pouvez ensuite établir ce rendez-vous.</target>
       </trans-unit>
       <trans-unit id="MjqSQuA" resname="Zeit wählen">
         <source>Zeit wählen</source>
@@ -748,23 +748,23 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="KUyku5P" resname="Wollen Sie diese Terminplanung in eine Konferenz umwandeln?">
         <source>Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</source>
-        <target state="needs-translation">Wollen Sie diese Terminplanung in eine Konferenz umwandeln?</target>
+        <target state="translated">Voulez-vous convertir cette planification en conférence ?</target>
       </trans-unit>
       <trans-unit id="fnDondQ" resname="Terminplanung erfolgreich bearbeitet">
         <source>Terminplanung erfolgreich bearbeitet</source>
-        <target state="needs-translation">Terminplanung erfolgreich bearbeitet</target>
+        <target state="translated">Planification modifiée avec succès</target>
       </trans-unit>
       <trans-unit id="DDgU1Ma" resname="Terminplanung bearbeiten">
         <source>Terminplanung bearbeiten</source>
-        <target state="needs-translation">Terminplanung bearbeiten</target>
+        <target state="translated">Modifier la planification</target>
       </trans-unit>
       <trans-unit id="JOM3vOw" resname="Terminplanung erfolgreich erstellt">
         <source>Terminplanung erfolgreich erstellt</source>
-        <target state="needs-translation">Terminplanung erfolgreich erstellt</target>
+        <target state="translated">Planification créée avec succès</target>
       </trans-unit>
       <trans-unit id="JzM7Kww" resname="Neue Terminplanung erstellen">
         <source>Neue Terminplanung erstellen</source>
-        <target state="needs-translation">Neue Terminplanung erstellen</target>
+        <target state="translated">Créer une nouvelle planification</target>
       </trans-unit>
       <trans-unit id="LH_3egJ" resname="Einen Termin finden">
         <source>Einen Termin finden</source>
@@ -776,7 +776,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="0t_QPzY" resname="Die Terminplanung {name} wurde abgesagt.">
         <source>Die Terminplanung {name} wurde abgesagt.</source>
-        <target state="needs-translation">Die Terminplanung {name} wurde abgesagt.</target>
+        <target state="translated">La planification {name} a été annulée.</target>
       </trans-unit>
       <trans-unit id="F4Q5os1" resname="Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.">
         <source>Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.</source>
@@ -796,19 +796,19 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
             und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="needs-translation">Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
-            und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
-            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
-            gelesen und nehme diese zur Kenntnis.</target>
+        <target state="translated">J'ai lu les &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;remarques concernant les protectons des donnés du Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            et les &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;remarques concernant les protectons des donnés de {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+            et en prends note.</target>
       </trans-unit>
       <trans-unit id="vj_Mqv." resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="needs-translation">Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
-            gelesen und nehme diese zur Kenntnis.</target>
+        <target state="translated">J'ai lu les &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt;informations sur la protection des données de Jitsi Admin &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
+            &lt;u&gt; et j'en prends note.</target>
       </trans-unit>
       <trans-unit id="yUDlpqH" resname="{from} von {to}">
         <source>{from} von {to}</source>
@@ -816,23 +816,23 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="pRkRXRz" resname="Abstimmung">
         <source>Abstimmung</source>
-        <target state="needs-translation">Abstimmung</target>
+        <target state="translated">Vote</target>
       </trans-unit>
       <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
         <source>Keine Abstimmungen</source>
-        <target state="needs-translation">Keine Abstimmungen</target>
+        <target state="translated">Pas de votes</target>
       </trans-unit>
       <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
-        <target state="needs-translation">Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
-                            eine neue Konferenz.</target>
+        <target state="translated">Il n'y a pas de conférences actuellement. Créez
+ &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
+une nouvlle conférence.</target>
       </trans-unit>
       <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>
-        <target state="needs-translation">Hinzugefügt zur Warteliste</target>
+        <target state="translated">Ajouté à la liste d'attente</target>
       </trans-unit>
       <trans-unit id="dFgRTL4" resname="Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.">
         <source>Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</source>
