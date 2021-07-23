@@ -984,83 +984,83 @@ une nouvlle conférence.</target>
       </trans-unit>
       <trans-unit id="maPhtKz" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.">
         <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine Email mit dem Link zur Einwahl.</target>
+        <target state="translated">L'évènement {name} a été converti en rendez-vous de série. Avant chaque rendez-vous, vous recevrez un E-Mail avec le lien pour vous connecter.</target>
       </trans-unit>
       <trans-unit id="iZMDeDm" resname="Die Serienvideokonferenz wurde abgesagt">
         <source>Die Serienvideokonferenz wurde abgesagt</source>
-        <target state="needs-translation">Die Serienvideokonferenz wurde abgesagt</target>
+        <target state="translated">La visioconférence en série a été supprimée</target>
       </trans-unit>
       <trans-unit id="padgvWA" resname="Serien Termin">
         <source>Serien Termin</source>
-        <target state="needs-translation">Serien Termin</target>
+        <target state="translated">Rendez-vous en série</target>
       </trans-unit>
       <trans-unit id="_w.eQXo" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Serientermin bearbeitet</target>
+        <target state="translated">Vous avez modifié un rendez-vous récurrent avec succès</target>
       </trans-unit>
       <trans-unit id="EQb8YHp" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet">
         <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
-        <target state="needs-translation">Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</target>
+        <target state="translated">Vous avez modifié un rendez-vous parmi une série de rendez-vous avec succès</target>
       </trans-unit>
       <trans-unit id="Fh87GFQ" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+        <target state="translated">Vous avez été ajouté à la visioconférence en série {name}. Avant chaque rendez-vous, vous recevrez un E-Mail avec le lien pour vous connecter.</target>
       </trans-unit>
       <trans-unit id="goltkDr" resname="Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.">
         <source>Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</source>
-        <target state="needs-translation">Die angehängte ics Datei enthält alle Termine der Serie als neuen Kalender.</target>
+        <target state="translated">Le fichier joint "ics" contient toutes les dates de la série sous forme de nouveau calendrier.</target>
       </trans-unit>
       <trans-unit id="YyrA.0T" resname="Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
         <source>Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Der Serientermin {name} wurde geändert. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+        <target state="translated">La visioconférence en série {name} a été modifiée. Avant chaque rendez-vous, vous recevrez un E-Mail avec le lien pour vous connecter.</target>
       </trans-unit>
       <trans-unit id="THWcDaJ" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
         <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
-        <target state="needs-translation">Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</target>
+        <target state="translated">L'évènement {name} a été converti en rendez-vous de série. Avant chaque rendez-vous, vous recevrez un E-Mail avec le lien pour vous connecter.</target>
       </trans-unit>
       <trans-unit id="rcE9dqU" resname="Die Serienvideokonferenz {name} wurde abgesagt.">
         <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
-        <target state="needs-translation">Die Serienvideokonferenz {name} wurde abgesagt.</target>
+        <target state="translated">La visioconférence en série {name} a été annulée.</target>
       </trans-unit>
       <trans-unit id="1YU8isJ" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="needs-translation">Alle Serienelement der Serie bearbeiten</target>
+        <target state="translated">Modifier tous les éléments de la série dans la série</target>
       </trans-unit>
       <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
-        <target state="needs-translation">Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</target>
+        <target state="translated">La date n'est pas prise en compte car elle est déjà déterminée par la série</target>
       </trans-unit>
       <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
         <source>Alle Serienelemente bearbeiten</source>
-        <target state="needs-translation">Alle Serienelemente bearbeiten</target>
+        <target state="translated">Modifier tous les éléments de la série</target>
       </trans-unit>
       <trans-unit id="16Cp82G" resname="Einzelnes Serienelement bearbeiten">
         <source>Einzelnes Serienelement bearbeiten</source>
-        <target state="needs-translation">Einzelnes Serienelement bearbeiten</target>
+        <target state="translated">Modifier un seul élément de série</target>
       </trans-unit>
       <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
         <source>Oder kopieren Sie den Link in Ihren Browser</source>
-        <target state="needs-translation">Oder kopieren Sie den Link in Ihren Browser</target>
+        <target state="translated">Ou copiez le lien ci-dessous dans votre navigateur</target>
       </trans-unit>
       <trans-unit id="OedXAN4" resname="Neue Kontaktgruppe erstellen">
         <source>Neue Kontaktgruppe erstellen</source>
-        <target state="needs-translation">Neue Kontaktgruppe erstellen</target>
+        <target state="translated">Créer un nouveau groupe de contacts</target>
       </trans-unit>
       <trans-unit id="qRJdY.M" resname="Kontaktgruppe bearbeiten">
         <source>Kontaktgruppe bearbeiten</source>
-        <target state="needs-translation">Kontaktgruppe bearbeiten</target>
+        <target state="translated">Modifier le groupe de contacts</target>
       </trans-unit>
       <trans-unit id="phX8Xu2" resname="Kontaktgruppe erfolgreich angelegt">
         <source>Kontaktgruppe erfolgreich angelegt</source>
-        <target state="needs-translation">Kontaktgruppe erfolgreich angelegt</target>
+        <target state="translated">Groupe de contacts créé avec succès</target>
       </trans-unit>
       <trans-unit id="J6sbtdY" resname="Kontaktgruppe gelöscht">
         <source>Kontaktgruppe gelöscht</source>
-        <target state="needs-translation">Kontaktgruppe gelöscht</target>
+        <target state="translated">Groupe de contacts supprimée</target>
       </trans-unit>
       <trans-unit id="3QzPV8F" resname="Der Beitritt ist nur von {from} bis {to} möglich">
         <source>Der Beitritt ist nur von {from} bis {to} möglich</source>
-        <target state="needs-translation">Der Beitritt ist nur von {from} bis {to} möglich</target>
+        <target state="translated">Vous ne pouvez rejoindre que de {from} à {to}</target>
       </trans-unit>
       <trans-unit id="zAjLutF" resname="Neue Gruppe">
         <source>Neue Gruppe</source>
@@ -1068,7 +1068,7 @@ une nouvlle conférence.</target>
       </trans-unit>
       <trans-unit id="vBZ55s_" resname="Mitglieder">
         <source>Mitglieder</source>
-        <target state="needs-translation">Mitglieder</target>
+        <target state="translated">Membres</target>
       </trans-unit>
       <trans-unit id="vc0NZNW" resname="Kontakte">
         <source>Kontakte</source>
@@ -1080,7 +1080,7 @@ une nouvlle conférence.</target>
       </trans-unit>
       <trans-unit id="SAJ77OP" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
         <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
-        <target state="needs-translation">Es wird eine Terminumfrage erstellt, keine Konferenz.</target>
+        <target state="translated">Un sondage de rendez-vous est créé, non pas une conférence.</target>
       </trans-unit>
       <trans-unit id="1wyQOH0" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
         <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
