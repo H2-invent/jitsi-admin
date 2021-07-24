@@ -1020,7 +1020,7 @@
       </trans-unit>
       <trans-unit id="1YU8isJ" resname="Alle Serienelement der Serie bearbeiten">
         <source>Alle Serienelement der Serie bearbeiten</source>
-        <target state="translated">Edit all elements of the series</target>
+        <target state="translated">Edit all elements from the series</target>
       </trans-unit>
       <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
@@ -1028,7 +1028,7 @@
       </trans-unit>
       <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
         <source>Alle Serienelemente bearbeiten</source>
-        <target state="translated">Edit all elements from series</target>
+        <target state="translated">Edit all elements from the series</target>
       </trans-unit>
       <trans-unit id="16Cp82G" resname="Einzelnes Serienelement bearbeiten">
         <source>Einzelnes Serienelement bearbeiten</source>
