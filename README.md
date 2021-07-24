@@ -31,7 +31,7 @@ We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, BÃ
 
 
 ## Translation
-Please help us to improve our localiczation
+Please help us to improve our localization
 
 [![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 # Features
