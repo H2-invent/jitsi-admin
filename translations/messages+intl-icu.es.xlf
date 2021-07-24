@@ -790,7 +790,7 @@
       </trans-unit>
       <trans-unit id="8ZQLRKd" resname="Mail an die Teilnehmer">
         <source>Mail an die Teilnehmer</source>
-        <target state="needs-translation">Mail an die Teilnehmer</target>
+        <target state="translated">Correo electrónico a los participantes</target>
       </trans-unit>
       <trans-unit id="kaxOEsS" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            und die &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
@@ -814,11 +814,11 @@
       </trans-unit>
       <trans-unit id="pRkRXRz" resname="Abstimmung">
         <source>Abstimmung</source>
-        <target state="needs-translation">Abstimmung</target>
+        <target state="translated">Encuesta</target>
       </trans-unit>
       <trans-unit id="Nagsjgj" resname="Keine Abstimmungen">
         <source>Keine Abstimmungen</source>
-        <target state="needs-translation">Keine Abstimmungen</target>
+        <target state="translated">No hay encuesta</target>
       </trans-unit>
       <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
@@ -826,43 +826,43 @@
                             eine neue Konferenz.</source>
         <target state="translated">No hay conferencias anteriores. Crear
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;aquí&lt;/a&gt;&lt;/u&gt;
-                            una nueva Conferencia.</target>
+                            una nueva conferencia.</target>
       </trans-unit>
       <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>
-        <target state="needs-translation">Hinzugefügt zur Warteliste</target>
+        <target state="translated">Agregado a la lista de espera</target>
       </trans-unit>
       <trans-unit id="dFgRTL4" resname="Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.">
         <source>Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</source>
-        <target state="needs-translation">Die maximale Teilnehmeranzahl ist bereits erreicht. Aber sie können sich auf die Warteliste einschreiben.</target>
+        <target state="translated">Se alcanzó el número máximo de participantes. Pero puedes registrarte en la lista de espera.</target>
       </trans-unit>
       <trans-unit id="HqYBTct" resname="Sie sind auf der Warteliste">
         <source>Sie sind auf der Warteliste</source>
-        <target state="needs-translation">Sie sind auf der Warteliste</target>
+        <target state="translated">Estas en lista de espera</target>
       </trans-unit>
       <trans-unit id="z1kridY" resname="Sie sind auf der Warteliste für die Konferenz {name} eingetragen.">
         <source>Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</source>
-        <target state="needs-translation">Sie sind auf der Warteliste für die Konferenz {name} eingetragen.</target>
+        <target state="translated">Estas en lista de espera para la conferencia {name}.</target>
       </trans-unit>
       <trans-unit id="7a4K8pX" resname="Warteliste">
         <source>Warteliste</source>
-        <target state="needs-translation">Warteliste</target>
+        <target state="translated">Lista de espera</target>
       </trans-unit>
       <trans-unit id="uOs4egz" resname="Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen">
         <source>Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen</target>
+        <target state="translated">¿Está seguro de que desea agregar al participante a la conferencia?</target>
       </trans-unit>
       <trans-unit id="gzHOfne" resname="Noch {spaces} Plätze frei">
         <source>Noch {spaces} Plätze frei</source>
-        <target state="needs-translation">Noch {spaces} Plätze frei</target>
+        <target state="translated">{spaces} espacios libres</target>
       </trans-unit>
       <trans-unit id="3CYPbpJ" resname="Noch ein Platz frei">
         <source>Noch ein Platz frei</source>
-        <target state="needs-translation">Noch ein Platz frei</target>
+        <target state="translated">Solo hay un espacio disponible</target>
       </trans-unit>
       <trans-unit id="zUuUQi_" resname="Keine Plätze mehr frei">
         <source>Keine Plätze mehr frei</source>
-        <target state="needs-translation">Keine Plätze mehr frei</target>
+        <target state="translated">No hay más espacio disponible</target>
       </trans-unit>
       <trans-unit id="DW95e1g" resname="Unbegrenzte Teilnehmerzahl">
         <source>Unbegrenzte Teilnehmerzahl</source>

@@ -502,7 +502,7 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="translated">Please privide following details to join the conference:&lt;br&gt;
+        <target state="translated">Please provide the following details to join the conference:&lt;br&gt;
         Your email address: {email}&lt;br&gt;
         Conference ID: {uid}</target>
       </trans-unit>
@@ -620,7 +620,7 @@
       </trans-unit>
       <trans-unit id="K81G__p" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
-        <target state="translated">Enter you own SMTP Server for sending emails here. If you do not enter a SMTP server the standard server of Jitsi-Admin will be used.</target>
+        <target state="translated">Enter you own SMTP Server for sending emails here. If you do not enter a SMTP server, the default server of Jitsi-Admin will be used.</target>
       </trans-unit>
       <trans-unit id="pDSuNQy" resname="Hintergrundbild">
         <source>Hintergrundbild</source>
@@ -798,7 +798,7 @@
             und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated">I have read, understand and agree to the rivacy statement of &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;&lt;u&gt;Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;and &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt; &lt;u&gt;{url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;.</target>
+        <target state="translated">I have read, understand and agree to the privacy statement of &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;&lt;u&gt;Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;and &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt; &lt;u&gt;{url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;.</target>
       </trans-unit>
       <trans-unit id="vj_Mqv." resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
@@ -904,7 +904,7 @@
       </trans-unit>
       <trans-unit id="E97lvGG" resname="Sie wurden auf die Warteliste für:  {name} hinzugefügt ">
         <source>Sie wurden auf die Warteliste für:  {name} hinzugefügt </source>
-        <target state="translated">You have been added to the waitinglist for: {name} </target>
+        <target state="translated">You have been added to the waiting list for: {name} </target>
       </trans-unit>
       <trans-unit id="ERPvUJ." resname="Die Videokonferenz {name} wurde von {organizer} abgesagt.">
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
@@ -956,7 +956,7 @@
       </trans-unit>
       <trans-unit id="6R7jKP3" resname="Neue Serien Termin">
         <source>Neue Serien Termin</source>
-        <target state="translated">New seriesappointment</target>
+        <target state="translated">New recurring appointment</target>
       </trans-unit>
       <trans-unit id="eEdqI9E" resname="Sie wurden zu einer Serienvideokonferenz hinzugefügt">
         <source>Sie wurden zu einer Serienvideokonferenz hinzugefügt</source>
@@ -988,7 +988,7 @@
       </trans-unit>
       <trans-unit id="padgvWA" resname="Serien Termin">
         <source>Serien Termin</source>
-        <target state="translated">Seriesappointment</target>
+        <target state="translated">Recurring appointment</target>
       </trans-unit>
       <trans-unit id="_w.eQXo" resname="Sie haben erfolgreich einen Serientermin bearbeitet">
         <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
@@ -1028,11 +1028,11 @@
       </trans-unit>
       <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
         <source>Alle Serienelemente bearbeiten</source>
-        <target state="translated">Edit all serieselements</target>
+        <target state="translated">Edit all elements from series</target>
       </trans-unit>
       <trans-unit id="16Cp82G" resname="Einzelnes Serienelement bearbeiten">
         <source>Einzelnes Serienelement bearbeiten</source>
-        <target state="translated">Edit single serieselement</target>
+        <target state="translated">Edit single element from series</target>
       </trans-unit>
       <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
         <source>Oder kopieren Sie den Link in Ihren Browser</source>
@@ -1076,11 +1076,11 @@
       </trans-unit>
       <trans-unit id="SAJ77OP" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
         <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
-        <target state="translated">A poll is created, no conference.</target>
+        <target state="translated">A poll was created, not a conference.</target>
       </trans-unit>
       <trans-unit id="1wyQOH0" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
         <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
-        <target state="translated">Only users, which have an account on the platform can join the meeting. Username and password are. This is an additional protection.</target>
+        <target state="translated">Only users which have an account on the platform can join the meeting. Username and password are thus required. This is an additional protection.</target>
       </trans-unit>
       <trans-unit id="9UX9V9a" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
         <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
@@ -1092,7 +1092,7 @@
       </trans-unit>
       <trans-unit id="3rRkPRX" resname="Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren">
         <source>Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</source>
-        <target state="translated">When there is a limited number of participants, it is possible to subscribe to a waitinglist and the moderator can accept them manually</target>
+        <target state="translated">When there is a limited number of participants, it is possible to subscribe to a waiting list and the moderator can accept them manually</target>
       </trans-unit>
       <trans-unit id="_899YzG" resname="Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.">
         <source>Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</source>
@@ -1104,11 +1104,11 @@
       </trans-unit>
       <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
         <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
-        <target state="translated">There is no participant-list. The participants can join the conference with the generated link.</target>
+        <target state="translated">There is no list of participants. The participants can join the conference using the generated link.</target>
       </trans-unit>
       <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
         <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
-        <target state="translated">The organizer opens the conference at the given time when joining by klicking on start.</target>
+        <target state="translated">The organizer will unlock the conference room for the agreed duration by joining and clicking on start.</target>
       </trans-unit>
       <trans-unit id="nii024c" resname="Feste Konferenzen">
         <source>Feste Konferenzen</source>
@@ -1136,11 +1136,11 @@
       </trans-unit>
       <trans-unit id="4cAQl7b" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
         <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
-        <target state="translated">Here you can enter KeyCloak groups or email domains. KeyCloak groups musst begin with a "\" (such as \all). Users with the KeyCloak group or email domain can create meetings on this server without have to be an organizer.</target>
+        <target state="translated">Here you can enter KeyCloak groups or email domains. KeyCloak groups must begin with a "\" (such as \all). Users with the KeyCloak group or email domain can create meetings on this server without requiring to set themselves as an organizer.</target>
       </trans-unit>
       <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
         <source>Nur dieses Serienelement bearbeiten</source>
-        <target state="translated">Edit only this serieselement</target>
+        <target state="translated">Edit only this element from the series</target>
       </trans-unit>
     </body>
   </file>
