@@ -19,6 +19,7 @@ use App\Service\UserService;
 use App\Service\InviteService;
 
 use App\Service\RoomService;
+use App\UtilsHelper;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -320,7 +321,7 @@ class RoomController extends AbstractController
     {
         if ($room->getPersistantRoom()) {
             $counter = 0;
-            $slug = $serverService->slugify($room->getName());
+            $slug = UtilsHelper::slugify($room->getName());
             $tmp = $slug . '-' . rand(10, 1000);
             if (!$room->getSlug()) {
                 while (true) {

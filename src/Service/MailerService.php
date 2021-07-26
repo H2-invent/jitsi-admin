@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\Server;
+use App\UtilsHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -26,6 +27,7 @@ class MailerService
     private $customMailer;
     private $userName;
     private $licenseService;
+
     public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
         $this->smtp = $smtp;
@@ -92,7 +94,7 @@ class MailerService
             $message->setReplyTo($replyTo);
         }
         foreach ($attachment as $data) {
-            $message->attach(new \Swift_Attachment($data['body'], $data['filename'], $data['type']));
+            $message->attach(new \Swift_Attachment($data['body'], UtilsHelper::slugify($data['filename']), $data['type']));
         };
 
         try {
