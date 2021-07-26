@@ -27,9 +27,8 @@ class MailerService
     private $customMailer;
     private $userName;
     private $licenseService;
-    private $serverService;
 
-    public function __construct(ServerService $serverService, LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
+    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
         $this->smtp = $smtp;
         $this->swift = $swift_Mailer;
@@ -39,7 +38,6 @@ class MailerService
         $this->customMailer = null;
         $this->userName = null;
         $this->licenseService = $licenseService;
-        $this->serverService = $serverService;
     }
 
     public function buildTransport(Server $server)
@@ -96,7 +94,7 @@ class MailerService
             $message->setReplyTo($replyTo);
         }
         foreach ($attachment as $data) {
-            $message->attach(new \Swift_Attachment($data['body'], $data['filename'], $data['type']));
+            $message->attach(new \Swift_Attachment($data['body'], UtilsHelper::slugify($data['filename']), $data['type']));
         };
 
         try {
