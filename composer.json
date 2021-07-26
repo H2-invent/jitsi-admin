@@ -25,6 +25,7 @@
     "symfony/framework-bundle": "5.3.*",
     "symfony/http-client": "5.3.*",
     "symfony/intl": "5.3.*",
+    "symfony/ldap": "5.3.*",
     "symfony/mailer": "5.3.*",
     "symfony/monolog-bundle": "^3.1",
     "symfony/orm-pack": "*",
