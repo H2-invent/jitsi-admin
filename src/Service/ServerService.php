@@ -50,6 +50,7 @@ class ServerService
     {
         $counter = 0;
         $slug = UtilsHelper::slugify($urlString);
+        $slug = preg_replace('/[^\w\-\ ]/', '', $slug);
         $tmp = $slug;
         while (true) {
             $server = $this->em->getRepository(Server::class)->findOneBy(['slug' => $tmp]);
