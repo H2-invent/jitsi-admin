@@ -27,6 +27,16 @@ parameters:
     laf_max_repeat: '%env(laf_max_repeat)%'
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
+    ldap_url: '%env(ldap_url)%'
+    ldap_bind_dn: '%env(ldap_bind_dn)%'
+    ldap_password: '%env(ldap_password)%'
+    ldap_user_dn: '%env(ldap_user_dn)%'
+    ldap_search_scope: '%env(ldap_search_scope)%'
+    ldap_user_object_classes: '%env(ldap_user_object_classes)%'
+    ldap_userName_attribute: '%env(ldap_userName_attribute)%'
+    ldap_attribute_mapper: '%env(ldap_attribute_mapper)%'
+    ldap_connect_all_user_addressbook: '%env(ldap_connect_all_user_addressbook)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:

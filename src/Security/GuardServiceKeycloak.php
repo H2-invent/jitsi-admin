@@ -59,6 +59,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $id = $keycloakUser->getId();
         $firstName = $keycloakUser->toArray()['given_name'];
         $lastName = $keycloakUser->toArray()['family_name'];
+        $username = isset($keycloakUser->toArray()['username'])?$keycloakUser->toArray()['username']:null;
         $groups = null;
         if(isset($keycloakUser->toArray()['groups'])){
             $groups = $keycloakUser->toArray()['groups'];
@@ -77,9 +78,12 @@ class GuardServiceKeycloak extends SocialAuthenticator
             return $existingUser;
         }
 
-        // 1) it is an old USer from FOS USer time never loged in from keycloak
+        // 1) it is an USer which was invited via the invitiation email. This USer tries now to get an access via keycloak
         $existingUser = null;
         $existingUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $email));
+        if(!$existingUser && $username !== null){
+            $existingUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $username));
+        }
         if ($existingUser) {
             $existingUser->setKeycloakId($id);
             $existingUser->setLastLogin(new \DateTime());
