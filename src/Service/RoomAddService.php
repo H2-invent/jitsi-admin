@@ -42,7 +42,6 @@ class RoomAddService
                     if (strlen($newMember) > 0) {
                         $falseEmail[] = $newMember;
                     }
-
                 }
             }
         }

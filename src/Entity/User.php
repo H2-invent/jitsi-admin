@@ -157,7 +157,7 @@ class User extends BaseUser
     private $myOwnRoomServer;
 
     /**
-     * @ORM\OneToMany(targetEntity=AddressGroup::class, mappedBy="leader")
+     * @ORM\OneToMany(targetEntity=AddressGroup::class, mappedBy="leader",cascade={"remove"})
      */
     private $AddressGroupLeader;
 
@@ -165,6 +165,21 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity=AddressGroup::class, mappedBy="member")
      */
     private $AddressGroupMember;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $ldapDn;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $ldapHost;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ldapPort;
 
 
 
@@ -749,6 +764,42 @@ class User extends BaseUser
         if ($this->AddressGroupMember->removeElement($addressGroupMember)) {
             $addressGroupMember->removeMember($this);
         }
+
+        return $this;
+    }
+
+    public function getLdapDn(): ?string
+    {
+        return $this->ldapDn;
+    }
+
+    public function setLdapDn(?string $ldapDn): self
+    {
+        $this->ldapDn = $ldapDn;
+
+        return $this;
+    }
+
+    public function getLdapHost(): ?string
+    {
+        return $this->ldapHost;
+    }
+
+    public function setLdapHost(?string $ldapHost): self
+    {
+        $this->ldapHost = $ldapHost;
+
+        return $this;
+    }
+
+    public function getLdapPort(): ?int
+    {
+        return $this->ldapPort;
+    }
+
+    public function setLdapPort(?int $ldapPort): self
+    {
+        $this->ldapPort = $ldapPort;
 
         return $this;
     }

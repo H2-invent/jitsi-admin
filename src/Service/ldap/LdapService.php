@@ -5,10 +5,13 @@ namespace App\Service\ldap;
 
 
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\InvalidCredentialsException;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Exception\NotBoundException;
@@ -18,9 +21,11 @@ class LdapService
 {
 
     private $ldapUserService;
-    public function __construct(LdapUserService $ldapUserService)
+    private $em;
+    public function __construct(LdapUserService $ldapUserService, EntityManagerInterface $entityManager)
     {
         $this->ldapUserService = $ldapUserService;
+        $this->em = $entityManager;
     }
 
     /**
@@ -96,7 +101,7 @@ class LdapService
 
             $table = new Table($output);
             foreach ($user as $u) {
-                $us = $this->ldapUserService->retrieveUserfromDatabase($u, $usernameAttribute,$mapper);
+                $us = $this->ldapUserService->retrieveUserfromDatabase($u, $usernameAttribute,$mapper,$url);
                 $table->addRow([implode(',', $u->getAttribute('mail')), implode(',', $u->getAttribute('uid')), $u->getDn()]);
             }
 
@@ -114,6 +119,39 @@ class LdapService
             $io->error('Fehler: ' . $e->getMessage());
             return null;
         }
+        $this->syncDeletedUser($ldap,$url);
         return $user;
     }
+    public function syncDeletedUser(Ldap $ldap,$url){
+        $user = $this->em->getRepository(User::class)->findBy(array('ldapHost'=>$url));
+
+        foreach ($user as $data){
+            $this->updateUserfromLDAP($data,$ldap);
+        }
+    }
+
+    public function updateUserfromLDAP(User $user, Ldap $ldap){
+        try {
+            $query = $ldap->query($user->getLdapDn(),'(&(cn=*))');
+            $object = $query->execute();
+        }catch (LdapException $e){
+            $this->deleteUser($user);
+        }
+    }
+   public function deleteUser(User $user){
+       foreach ($user->getAddressbookInverse() as $u){
+           $u->removeAddressbook($user);
+           $this->em->persist($u);
+       }
+       foreach ($user->getRooms() as $r){
+           $user->removeRoom($r);
+       }
+       foreach ($user->getRoomModerator() as $r){
+           $user->removeRoomModerator($r);
+       }
+       $this->em->persist($user);
+       $this->em->flush();
+       $this->em->remove($user);
+       $this->em->flush();
+   }
 }

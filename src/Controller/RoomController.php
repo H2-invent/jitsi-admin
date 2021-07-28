@@ -121,43 +121,7 @@ class RoomController extends AbstractController
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
 
-    /**
-     * @Route("/room/add-user", name="room_add_user")
-     */
-    public function roomAddUser(Request $request, RoomAddService $roomAddService)
-    {
-        $newMember = array();
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if ($room->getModerator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
-        }
-        $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('room_add_user', ['room' => $room->getId()])]);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-            $newMembers = $form->getData();
-            $falseEmail = [];
-            $falseEmail = array_merge(
-                $roomAddService->createParticipants($newMembers['member'], $room),
-                $roomAddService->createModerators($newMembers['moderator'], $room)
-            );
-
-            if (sizeof($falseEmail) > 0) {
-                $emails = implode(", ", $falseEmail);
-                $snack = $this->translator->trans("Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden", array('{emails}' => $emails));
-            } else {
-                $snack = $this->translator->trans('Teilnehmer wurden eingeladen');
-            }
-
-            return $this->redirectToRoute('dashboard', ['snack' => $snack]);
-        }
-
-        $title = $this->translator->trans('Teilnehmer verwalten');
-
-        return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room' => $room));
-    }
 
     /**
      * @Route("/room/join/{t}/{room}", name="room_join")
@@ -198,37 +162,6 @@ class RoomController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/room/user/remove", name="room_user_remove")
-     */
-    public
-    function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
-    {
-
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        $repeater = false;
-
-        if ($room->getRepeater()) {
-            $repeater = true;
-        }
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
-        $snack = 'Keine Berechtigung';
-        if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
-            if (!$repeater) {
-                $room->removeUser($user);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($room);
-                $em->flush();
-                $userService->removeRoom($user, $room);
-            } else {
-                $roomAddService->removeUserFromRoom($user, $room);
-            }
-
-            $snack = $this->translator->trans('Teilnehmer gelöscht');
-        }
-
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
-    }
 
     /**
      * @Route("/room/remove", name="room_remove")
