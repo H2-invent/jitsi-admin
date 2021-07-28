@@ -176,10 +176,7 @@ class User extends BaseUser
      */
     private $ldapHost;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $ldapPort;
+
 
 
 
@@ -791,19 +788,5 @@ class User extends BaseUser
 
         return $this;
     }
-
-    public function getLdapPort(): ?int
-    {
-        return $this->ldapPort;
-    }
-
-    public function setLdapPort(?int $ldapPort): self
-    {
-        $this->ldapPort = $ldapPort;
-
-        return $this;
-    }
-
-
 
 }

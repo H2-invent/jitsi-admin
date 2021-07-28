@@ -88,7 +88,19 @@ class LdapService
     }
 
 
-    public function fetchLdap(Ldap $ldap, $userDn, $objectClasses, $scope,$mapper,$url,$usernameAttribute, OutputInterface $output,InputInterface $input){
+    /**
+     * @param Ldap $ldap
+     * @param $userDn
+     * @param $objectClasses
+     * @param $scope
+     * @param $mapper
+     * @param $url
+     * @param $usernameAttribute
+     * @param OutputInterface $output
+     * @param InputInterface $input
+     * @return Entry[]|null
+     */
+    public function fetchLdap(Ldap $ldap, $userDn, $objectClasses, $scope, $mapper, $url, $usernameAttribute, OutputInterface $output, InputInterface $input){
         $io = new SymfonyStyle($input, $output);
         try {
             $user =
@@ -101,7 +113,7 @@ class LdapService
 
             $table = new Table($output);
             foreach ($user as $u) {
-                $us = $this->ldapUserService->retrieveUserfromDatabase($u, $usernameAttribute,$mapper,$url);
+                $us = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $usernameAttribute,$mapper,$url);
                 $table->addRow([implode(',', $u->getAttribute('mail')), implode(',', $u->getAttribute('uid')), $u->getDn()]);
             }
 
@@ -119,39 +131,7 @@ class LdapService
             $io->error('Fehler: ' . $e->getMessage());
             return null;
         }
-        $this->syncDeletedUser($ldap,$url);
+        $this->ldapUserService->syncDeletedUser($ldap,$url);
         return $user;
     }
-    public function syncDeletedUser(Ldap $ldap,$url){
-        $user = $this->em->getRepository(User::class)->findBy(array('ldapHost'=>$url));
-
-        foreach ($user as $data){
-            $this->updateUserfromLDAP($data,$ldap);
-        }
-    }
-
-    public function updateUserfromLDAP(User $user, Ldap $ldap){
-        try {
-            $query = $ldap->query($user->getLdapDn(),'(&(cn=*))');
-            $object = $query->execute();
-        }catch (LdapException $e){
-            $this->deleteUser($user);
-        }
-    }
-   public function deleteUser(User $user){
-       foreach ($user->getAddressbookInverse() as $u){
-           $u->removeAddressbook($user);
-           $this->em->persist($u);
-       }
-       foreach ($user->getRooms() as $r){
-           $user->removeRoom($r);
-       }
-       foreach ($user->getRoomModerator() as $r){
-           $user->removeRoomModerator($r);
-       }
-       $this->em->persist($user);
-       $this->em->flush();
-       $this->em->remove($user);
-       $this->em->flush();
-   }
 }
