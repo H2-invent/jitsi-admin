@@ -166,15 +166,11 @@ class User extends BaseUser
      */
     private $AddressGroupMember;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $ldapDn;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\OneToOne(targetEntity=LdapUserProperties::class, mappedBy="user",  cascade={"persist", "remove"})
      */
-    private $ldapHost;
+    private $ldapUserProperties;
 
 
 
@@ -765,26 +761,19 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getLdapDn(): ?string
+    public function getLdapUserProperties(): ?LdapUserProperties
     {
-        return $this->ldapDn;
+        return $this->ldapUserProperties;
     }
 
-    public function setLdapDn(?string $ldapDn): self
+    public function setLdapUserProperties(LdapUserProperties $ldapUserProperties): self
     {
-        $this->ldapDn = $ldapDn;
+        // set the owning side of the relation if necessary
+        if ($ldapUserProperties->getUser() !== $this) {
+            $ldapUserProperties->setUser($this);
+        }
 
-        return $this;
-    }
-
-    public function getLdapHost(): ?string
-    {
-        return $this->ldapHost;
-    }
-
-    public function setLdapHost(?string $ldapHost): self
-    {
-        $this->ldapHost = $ldapHost;
+        $this->ldapUserProperties = $ldapUserProperties;
 
         return $this;
     }

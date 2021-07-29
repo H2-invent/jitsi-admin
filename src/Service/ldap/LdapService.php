@@ -69,7 +69,6 @@ class LdapService
         );
         $query = $ldap->query($userDn, $objectclass, $options);
         $user = $query->execute();
-
         return $user->toArray();
     }
 

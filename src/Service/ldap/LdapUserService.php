@@ -4,6 +4,7 @@
 namespace App\Service\ldap;
 
 
+use App\Entity\LdapUserProperties;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Ldap\Entry;
@@ -41,8 +42,10 @@ class LdapUserService
             $user->setCreatedAt(new \DateTime());
             $user->setUid(md5(uniqid()));
             $user->setUuid(md5(uniqid()));
-            $user->setLdapDn($entry->getDn());
-            $user->setLdapHost($url);
+            $ldap = new LdapUserProperties();
+            $ldap->setLdapHost($url);
+            $ldap->setLdapDn($entry->getDn());
+            $user->setLdapUserProperties($ldap);
         }
         $user->setEmail($email);
         $user->setFirstName($firstName);
@@ -74,11 +77,11 @@ class LdapUserService
      * @param $url
      */
     public function syncDeletedUser(Ldap $ldap, $url){
-        $user = $this->em->getRepository(User::class)->findBy(array('ldapHost'=>$url));
+        $user = $this->em->getRepository(User::class)->findUsersByLdapHost($url);
         foreach ($user as $data){
             $this->checkUserInLdap($data,$ldap);
         }
-        $user = $this->em->getRepository(User::class)->findBy(array('ldapHost'=>$url));
+        $user = $this->em->getRepository(User::class)->findUsersByLdapHost($url);
         return $user;
     }
 
@@ -90,7 +93,7 @@ class LdapUserService
     public function checkUserInLdap(User $user, Ldap $ldap):?Entry{
         $object = null;
         try {
-            $query = $ldap->query($user->getLdapDn(),'(&(cn=*))');
+            $query = $ldap->query($user->getLdapUserProperties()->getLdapDn(),'(&(cn=*))');
             $object = $query->execute();
         }catch (LdapException $e){
             $this->deleteUser($user);

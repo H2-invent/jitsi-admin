@@ -65,9 +65,17 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->andWhere($qb->expr()->like('u.email', ':search'))
             ->setParameter('search', '%' . $value . '%')
-
             ->getQuery()
             ->getResult();
 
+    }
+    public function findUsersByLdapHost($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.ldapUserProperties', 'ldap_user_properties')
+            ->andWhere('ldap_user_properties.ldapHost = :host')
+            ->setParameter('host', $value)
+            ->getQuery()
+            ->getResult();
     }
 }
