@@ -55,11 +55,21 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
         /** @var KeycloakUser $keycloakUser */
         $keycloakUser = $this->getauth0Client()->fetchUserFromToken($credentials);
-        $email = $keycloakUser->getEmail();
+        try {
+            $email = $keycloakUser->getEmail();
+        }catch (\Exception $e){
+            try {
+                $email = $keycloakUser->toArray()['preferred_username'];
+            }catch (\Exception $e){
+
+            }
+
+        }
+        dump($keycloakUser);
         $id = $keycloakUser->getId();
         $firstName = $keycloakUser->toArray()['given_name'];
         $lastName = $keycloakUser->toArray()['family_name'];
-        $username = isset($keycloakUser->toArray()['username'])?$keycloakUser->toArray()['username']:null;
+        $username = isset($keycloakUser->toArray()['preferred_username'])?$keycloakUser->toArray()['preferred_username']:null;
         $groups = null;
         if(isset($keycloakUser->toArray()['groups'])){
             $groups = $keycloakUser->toArray()['groups'];
