@@ -36,6 +36,16 @@ parameters:
     ldap_userName_attribute: '%env(ldap_userName_attribute)%'
     ldap_attribute_mapper: '%env(ldap_attribute_mapper)%'
     ldap_connect_all_user_addressbook: '%env(ldap_connect_all_user_addressbook)%'
+    strict_username_only: '%env(strict_username_only)%'
+    strict_allow_user_creation: '%env(strict_allow_user_creation)%'
+    input_settings_persistant_rooms: '%env(input_settings_persistant_rooms)%'
+    input_settings_only_registered: '%env(input_settings_only_registered)%'
+    input_settings_share_link: '%env(input_settings_share_link)%'
+    input_settings_max_participants: '%env(input_settings_max_participants)%'
+    input_settings_waitinglist: '%env(input_settings_waitinglist)%'
+    input_settings_conference_join_page: '%env(input_settings_conference_join_page)%'
+    input_settings_deactivate_participantsList: '%env(input_settings_deactivate_participantsList)%'
+    input_settings_dissallow_screenshare: '%env(input_settings_dissallow_screenshare)%'
 
 services:
     # default configuration for services in *this* file

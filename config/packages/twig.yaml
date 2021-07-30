@@ -23,3 +23,5 @@ twig:
         laf_administratorEmail: '%env(laf_administratorEmail)%'
         laf_notificationUrl: '%env(laf_notificationUrl)%'
         laf_bbb_Url: '%env(laf_bbb_Url)%'
+        input_settings_allow_sheduling: '%env(input_settings_allow_sheduling)%'
+        input_settings_allow_roomPlanning: '%env(input_settings_allow_roomPlanning)%'
