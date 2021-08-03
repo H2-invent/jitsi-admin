@@ -31,7 +31,7 @@ class JoinController extends AbstractController
      * @Route("/join/{slug}/{uid}", name="join_index_uid")
      * @Route("/join", name="join_index_no_slug")
      */
-    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null,$uid = null )
+    public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null, $uid = null)
     {
         $data = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['slug' => $slug]);
@@ -67,10 +67,16 @@ class JoinController extends AbstractController
         $form = $this->createForm(JoinViewType::class, $data);
         $form->handleRequest($request);
         $errors = array();
+
         if ($room) {
             $now = new \DateTime();
-            $start = (clone $room->getStart())->modify('-30min');
-            if (($start < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator() || ($room->getPersistantRoom() && !$room->getTotalOpenRooms())) {
+            $start = null;
+            if($room->getStart()){
+                $start = (clone $room->getStart())->modify('-30min');
+            }
+
+
+            if (($start && $start < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator() || ($room->getPersistantRoom() && !$room->getTotalOpenRooms())) {
                 if ($form->isSubmitted() && $form->isValid()) {
                     $search = $form->getData();
                     $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
@@ -108,7 +114,7 @@ class JoinController extends AbstractController
         }
 
         return $this->render('join/index.html.twig', [
-            'color'=>$color,
+            'color' => $color,
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
@@ -120,8 +126,8 @@ class JoinController extends AbstractController
     /**
      * function onlyWithUserAccount
      * Return if only users with account can join the conference
-     * @author Andreas Holzmann
      * @return boolean
+     * @author Andreas Holzmann
      */
     function onlyWithUserAccount(?Rooms $room)
     {
@@ -135,8 +141,8 @@ class JoinController extends AbstractController
     /**
      * function userAccountLogin
      * Return boolean if account must login to join the conference
-     * @author Andreas Holzmann
      * @return boolean
+     * @author Andreas Holzmann
      */
     function userAccountLogin(?Rooms $room, ?User $user)
     {
