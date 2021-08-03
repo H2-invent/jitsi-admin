@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\Server;
+use App\Entity\User;
 use App\UtilsHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -60,8 +61,14 @@ class MailerService
         }
     }
 
-    public function sendEmail($to, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
+    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
     {
+        $to = $user->getEmail();
+        if($user->getLdapUserProperties() && filter_var($to, FILTER_VALIDATE_EMAIL) == false){
+            $this->logger->debug('We sent no email, because the User is an LDAP User and the email is not a valid Email');
+            return true;
+        }
+
         try {
             $this->logger->info('Mail To: ' . $to);
             $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server,$replyTo, $attachment);

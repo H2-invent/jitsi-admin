@@ -44,7 +44,7 @@ class ReminderLizenseController extends AbstractController
                 $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('licenseKey' => $data->getLicenseKey()));
                 if($server){
                     $mailerService->sendEmail(
-                        $server->getAdministrator()->getEmail(),
+                        $server->getAdministrator(),
                         $translator->trans('Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus'),
                         $this->renderView('email/licenseReminder.html.twig', array('server' => $server, 'license' => $data)),
                         $server);

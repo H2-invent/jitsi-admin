@@ -74,7 +74,7 @@ class NotificationService
     function sendNotification($content, $subject, User $user, Server $server, Rooms $rooms = null, $attachement = array()):bool
     {
         return $this->mailer->sendEmail(
-            $user->getEmail(),
+            $user,
             $subject,
             $content,
             $server,
@@ -90,7 +90,7 @@ class NotificationService
     function sendCron($content, $subject, User $user, Server $server,Rooms $rooms):bool
     {
        return $this->mailer->sendEmail(
-            $user->getEmail(),
+            $user,
             $subject,
             $content,
             $server,

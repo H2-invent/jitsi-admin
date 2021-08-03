@@ -221,7 +221,7 @@ class ServersController extends AbstractController
         } else {
             try {
                 $r = $mailerService->sendEmail(
-                    $this->getUser()->getEmail(),
+                    $this->getUser(),
                     $translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl(),
                     '<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
                     . $server->getSmtpHost() . '<br>'

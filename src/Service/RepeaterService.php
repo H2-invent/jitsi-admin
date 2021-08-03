@@ -383,7 +383,8 @@ class RepeaterService
             $attachement = array();
             $attachement[] = array('type' => 'text/calendar', 'filename' => $repeat->getPrototyp()->getName() . '.ics', 'body' => $ics);
             $this->mailer->sendEmail(
-                $user->getEmail(), $subject,
+                $user,
+                $subject,
                 $this->twig->render($template, $templateAttr),
                 $repeat->getPrototyp()->getServer(),
                 $repeat->getPrototyp()->getModerator()->getEmail(),

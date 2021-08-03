@@ -114,10 +114,8 @@ class RoomType extends AbstractType
           if ($this->paramterBag->get('input_settings_dissallow_screenshare') == 1) {
               $this->logger->debug('Add the possibility to dissallow screenshare');
               $builder->add('dissallowScreenshareGlobal', CheckboxType::class, array('required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'));
-          };
-
-
-              $builder->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
+          }
+          $builder->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
