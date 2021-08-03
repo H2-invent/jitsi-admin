@@ -31,6 +31,8 @@ twig:
         dropdown_settings_duplicate: '%env(dropdown_settings_duplicate)%'
         dropdown_settings_series_adit_one: '%env(dropdown_settings_series_adit_one)%'
         dropdown_settings_series_edit_all: '%env(dropdown_settings_series_edit_all)%'
+        dropdown_settings_series_type: '%env(dropdown_settings_series_type)%'
+        dropdown_settings_series_delete: '%env(dropdown_settings_series_delete)%'
         dropdown_settings_mail_to_all: '%env(dropdown_settings_mail_to_all)%'
         dropdown_settings_series_new: '%env(dropdown_settings_series_new)%'
         dropdown_settings_start_browser: '%env(dropdown_settings_start_browser)%'

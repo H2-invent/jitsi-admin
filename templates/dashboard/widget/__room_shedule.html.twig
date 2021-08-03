@@ -1,0 +1,23 @@
+<li><a class="dropdown-item loadContent"
+       href="{{ path('schedule_admin',{'id':room.id}) }}">
+        {{ 'Terminplaner'|trans }}</a></li>
+
+{% if room.public and room.repeater is null and room.totalOpenRooms != true %}
+    <li><a class="dropdown-item loadContent"
+           href="{{ path('share_link',{'id':room.id}) }}">
+            {{ 'Einladungslinks'|trans }}</a></li>
+{% endif %}
+
+<li><a class="dropdown-item confirmHref"
+       href="{{ path('room_remove',{'room':room.id}) }}">
+        {{ 'Löschen'|trans }}</a></li>
+
+
+<li><a href="{{ path('schedule_admin_new',{'id':room.id}) }}"
+       class="loadContent dropdown-item">
+        {{ 'Bearbeiten'|trans }}</a></li>
+
+<li><a class="dropdown-item"
+       href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">
+        {{ 'Mail an die Teilnehmer'|trans }}</a></li>
+
