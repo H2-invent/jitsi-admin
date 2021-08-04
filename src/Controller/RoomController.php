@@ -166,7 +166,6 @@ class RoomController extends AbstractController
     public
     function joinRoom(RoomService $roomService, Rooms $room, $t)
     {
-
         if (in_array($this->getUser(), $room->getUser()->toarray())) {
             $url = $roomService->join($room, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
             if ($this->getUser() == $room->getModerator() && $room->getTotalOpenRooms() && $room->getPersistantRoom()) {
