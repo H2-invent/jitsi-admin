@@ -19,6 +19,7 @@ $(document).ready(function () {
                 $('#snackbar').removeClass('show');
             }, 3000);
         }, 500);
+    checkRoom();
     initSchedulePublic()
 });
 $(window).on('load', function () {

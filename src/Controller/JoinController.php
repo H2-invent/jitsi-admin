@@ -76,7 +76,11 @@ class JoinController extends AbstractController
             }
 
 
-            if (($start && $start < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator() || ($room->getPersistantRoom() && !$room->getTotalOpenRooms())) {
+            if (
+                ($start && $start < $now && $room->getEnddate() > $now)
+                || $this->getUser() == $room->getModerator()
+                || ($room->getPersistantRoom())
+            ) {
                 if ($form->isSubmitted() && $form->isValid()) {
                     $search = $form->getData();
                     $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
@@ -88,28 +92,44 @@ class JoinController extends AbstractController
                         $type = 'b';
                     }
 
-                    if (count($errors) == 0 && $room && $user && in_array($user, $room->getUser()->toarray())) {
+                    if (
+                        count($errors) == 0
+                        && $room
+                        && $user
+                        && (in_array($user, $room->getUser()->toarray()) || $room->getTotalOpenRooms())
+                    ) {
                         if ($this->onlyWithUserAccount($room, $user) || $this->userAccountLogin($room, $user)) {
                             return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => $type]);
                         }
 
                         $url = $roomService->join($room, $user, $type, $search['name']);
+
                         $res = $this->redirect($url);
                         $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
                         return $res;
 
                     }
-
+                    if($room->getTotalOpenRooms()){
+                        $url = $this->generateUrl('room_waiting',array('name'=>$search['name'],'uid'=>$room->getUid(),'type'=>$type));
+                        $res = $this->redirect($url);
+                        $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
+                        return $res;
+                    }
                     $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
                 }
             } else {
-                $snack = $translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                    array(
-                        '{from}' => $start->format('d.m.Y H:i'),
-                        '{to}' => $room->getEnddate()->format('d.m.Y H:i')
-                    )
-                );
-                $color = 'danger';
+                try {
+                    $snack = $translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+                        array(
+                            '{from}' => $start->format('d.m.Y H:i'),
+                            '{to}' => $room->getEnddate()->format('d.m.Y H:i')
+                        )
+                    );
+                    $color = 'danger';
+                }catch (\Exception $exception){
+
+                }
+
             }
         }
 
