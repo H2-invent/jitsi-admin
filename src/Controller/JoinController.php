@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Service\JoinService;
 use App\Service\PexelService;
 use App\Service\RoomService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,10 +21,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class JoinController extends AbstractController
 {
     private $parameterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag)
+    private $joinService;
+    public function __construct(ParameterBagInterface $parameterBag, JoinService $joinService)
     {
         $this->parameterBag = $parameterBag;
+        $this->joinService = $joinService;
     }
 
     /**
@@ -66,73 +68,11 @@ class JoinController extends AbstractController
 
         $form = $this->createForm(JoinViewType::class, $data);
         $form->handleRequest($request);
-        $errors = array();
-
-        if ($room) {
-            $now = new \DateTime();
-            $start = null;
-            if($room->getStart()){
-                $start = (clone $room->getStart())->modify('-30min');
-            }
-
-
-            if (
-                ($start && $start < $now && $room->getEnddate() > $now)
-                || $this->getUser() == $room->getModerator()
-                || ($room->getPersistantRoom())
-            ) {
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $search = $form->getData();
-                    $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
-                    $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $search['email']]);
-
-                    if ($form->get('joinApp')->isClicked()) {
-                        $type = 'a';
-                    } elseif ($form->get('joinBrowser')->isClicked()) {
-                        $type = 'b';
-                    }
-
-                    if (
-                        count($errors) == 0
-                        && $room
-                        && $user
-                        && (in_array($user, $room->getUser()->toarray()) || $room->getTotalOpenRooms())
-                    ) {
-                        if ($this->onlyWithUserAccount($room, $user) || $this->userAccountLogin($room, $user)) {
-                            return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => $type]);
-                        }
-
-                        $url = $roomService->join($room, $user, $type, $search['name']);
-
-                        $res = $this->redirect($url);
-                        $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
-                        return $res;
-
-                    }
-                    if($room->getTotalOpenRooms()){
-                        $url = $this->generateUrl('room_waiting',array('name'=>$search['name'],'uid'=>$room->getUid(),'type'=>$type));
-                        $res = $this->redirect($url);
-                        $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
-                        return $res;
-                    }
-                    $snack = $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
-                }
-            } else {
-                try {
-                    $snack = $translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                        array(
-                            '{from}' => $start->format('d.m.Y H:i'),
-                            '{to}' => $room->getEnddate()->format('d.m.Y H:i')
-                        )
-                    );
-                    $color = 'danger';
-                }catch (\Exception $exception){
-
-                }
-
-            }
+        //here is where the magic happens
+        $res = $this->joinService->join($form,$room,$this->getUser(),$snack,$color);
+        if($res){
+            return $res;
         }
-
         return $this->render('join/index.html.twig', [
             'color' => $color,
             'form' => $form->createView(),

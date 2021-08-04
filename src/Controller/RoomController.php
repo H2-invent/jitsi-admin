@@ -84,7 +84,11 @@ class RoomController extends AbstractController
 
                 $room = $form->getData();
                 if (!$room->getStart() && !$room->getPersistantRoom()) {
-                    $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+                    $snack = $translator->trans('Fehler, das Startdatum darf nicht leer sein');
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                }
+                if (!$room->getName()) {
+                    $snack = $translator->trans('Fehler, der Name darf nicht leer sein');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
                 $room = $this->setRoomProps($room, $serverService);
