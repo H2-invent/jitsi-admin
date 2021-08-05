@@ -1149,6 +1149,22 @@
         <source>Nur dieses Serienelement bearbeiten</source>
         <target>Nur dieses Serienelement bearbeiten</target>
       </trans-unit>
+      <trans-unit id="ZUQB5jY" resname="Fehler, das Startdatum darf nicht leer sein">
+        <source>Fehler, das Startdatum darf nicht leer sein</source>
+        <target>Fehler, das Startdatum darf nicht leer sein</target>
+      </trans-unit>
+      <trans-unit id="jGFMqpn" resname="Fehler, der Name darf nicht leer sein">
+        <source>Fehler, der Name darf nicht leer sein</source>
+        <target>Fehler, der Name darf nicht leer sein</target>
+      </trans-unit>
+      <trans-unit id="CkD2mrU" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
+        <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
+        <target>Leiten Sie diesen Link an die Teilnehmer weiter</target>
+      </trans-unit>
+      <trans-unit id="LqbhhU9" resname="Wollen Sie den Teilnehmer wirklich löschen?">
+        <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
+        <target>Wollen Sie den Teilnehmer wirklich löschen?</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
