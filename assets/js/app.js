@@ -271,6 +271,41 @@ $(document).on('click', '.directSend', function (e) {
         $(target).closest('div').load($targetUrl + ' ' + target);
     })
 });
+$(document).on('click', '.directSendWithConfirm', function (e) {
+    e.preventDefault();
+    var $url = $(this).prop('href');
+    var $targetUrl = $(this).data('url');
+    var target = $(this).data('target');
+
+    var text = $(this).data('text');
+    if (typeof text === 'undefined') {
+        text = 'Wollen Sie die Aktion durchführen?'
+    }
+
+    $.confirm({
+        title: 'Bestätigung',
+        content: text,
+        theme: 'material',
+        buttons: {
+            confirm: {
+                text: 'OK', // text for button
+                btnClass: 'btn-outline-danger btn', // class for the button
+                action: function () {
+                    $.get($url, function () {
+                        $(target).closest('div').load($targetUrl + ' ' + target);
+                    })
+                },
+
+
+            },
+            cancel: {
+                text: 'Abbrechen', // text for button
+                btnClass: 'btn-outline-primary btn', // class for the button
+            },
+        }
+    });
+
+});
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });

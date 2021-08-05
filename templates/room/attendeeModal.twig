@@ -67,9 +67,13 @@
                                     ><i class="far fa-comments"></i></a>
                                 {% endif %}
 
-                                <a class="small confirmHref"
-                                   href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"><i
-                                            class="fa fa-trash"></i> </a>
+                                <a class="small directSendWithConfirm"
+                                   href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
+                                            data-target="#atendeeList"
+                                            data-text="{{ 'Wollen Sie den Teilnehmer wirklich löschen?'|trans }}"
+                                            data-url="{{ path('room_add_user',{'room':room.id}) }}">
+                                    <i class="fa fa-trash "></i>
+                                </a>
                             </li>
                         {% endif %}
                     {% endfor %}
