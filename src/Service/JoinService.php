@@ -64,23 +64,12 @@ class JoinService
                         && $user
                         && (in_array($user, $room->getUser()->toarray()) || $room->getTotalOpenRooms())
                     ) {
-                        if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
-                            return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
-                        }
-
-                        $url = $this->roomService->join($room, $user, $type, $search['name']);
-
-                        $res = new RedirectResponse($url);
-                        $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
-                        return $res;
-
+                      return $this->generateResponseCommonRoom($type,$search['name'],$room,$user);
                     }
                     if($room->getTotalOpenRooms()){
-                        $url = $this->urlGenerator->generate('room_waiting',array('name'=>$search['name'],'uid'=>$room->getUid(),'type'=>$type));
-                        $res = new RedirectResponse(($url));
-                        $res->headers->setCookie(new Cookie('name', $search['name'], (new \DateTime())->modify('+365 days')));
-                        return $res;
+                        return $this->generateResponseOpenRoom($type,$search['name'],$room);
                     }
+
                     $snack = $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
                 }
             } else {
@@ -126,5 +115,37 @@ class JoinService
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference
         }
         return false;
+    }
+
+    /**
+     * This Function generates te Response when the Room is a normal room with a atendece List
+     * @param $type
+     * @param $name
+     * @param Rooms $room
+     * @param User $user
+     * @return RedirectResponse
+     */
+    private function generateResponseCommonRoom($type, $name, Rooms $room, User $user){
+        if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
+            return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
+        }
+        $url = $this->roomService->join($room, $user, $type, $name);
+        $res = new RedirectResponse($url);
+        $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
+        return $res;
+    }
+
+    /**
+     * This Function generates te Response when the Room is has no attendece list
+     * @param $type
+     * @param $name
+     * @param Rooms $room
+     * @return RedirectResponse
+     */
+    private function generateResponseOpenRoom($type, $name, Rooms $room){
+        $url = $this->urlGenerator->generate('room_waiting',array('name'=>$name,'uid'=>$room->getUid(),'type'=>$type));
+        $res = new RedirectResponse(($url));
+        $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
+        return $res;
     }
 }
