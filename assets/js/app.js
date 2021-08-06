@@ -241,7 +241,6 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         })
     }
     initCopytoClipboard();
-
     initSearchUser();
     initServerFeatures();
     initRepeater();
@@ -292,7 +291,10 @@ $(document).on('click', '.directSendWithConfirm', function (e) {
                 btnClass: 'btn-outline-danger btn', // class for the button
                 action: function () {
                     $.get($url, function () {
-                        $(target).closest('div').load($targetUrl + ' ' + target);
+                        $(target).closest('div').load($targetUrl + ' ' + target,function () {
+                            initSearchUser();
+                        });
+
                     })
                 },
 
