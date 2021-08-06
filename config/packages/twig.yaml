@@ -45,3 +45,4 @@ twig:
         dropdown_settings_shedule_mail_to_all: '%env(dropdown_settings_shedule_mail_to_all)%'
         start_dropdown_allow_browser: '%env(start_dropdown_allow_browser)%'
         start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
+        helpText: '%env(helpText)%'
