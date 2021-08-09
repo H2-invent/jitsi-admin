@@ -146,6 +146,11 @@ class Server
      */
     private $OwnRoomUSer;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $jwtModeratorPosition;
+
 
     public function __construct()
     {
@@ -523,6 +528,18 @@ class Server
                 $ownRoomUSer->setMyOwnRoomServer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getJwtModeratorPosition(): ?int
+    {
+        return $this->jwtModeratorPosition;
+    }
+
+    public function setJwtModeratorPosition(int $jwtModeratorPosition): self
+    {
+        $this->jwtModeratorPosition = $jwtModeratorPosition;
 
         return $this;
     }

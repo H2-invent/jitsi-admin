@@ -83,6 +83,8 @@ class RoomController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $room = $form->getData();
+
+                $now = new \DateTime();
                 if (!$room->getStart() && !$room->getPersistantRoom()) {
                     $snack = $translator->trans('Fehler, das Startdatum darf nicht leer sein');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
@@ -91,8 +93,12 @@ class RoomController extends AbstractController
                     $snack = $translator->trans('Fehler, der Name darf nicht leer sein');
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
-                $room = $this->setRoomProps($room, $serverService);
 
+                $room = $this->setRoomProps($room, $serverService);
+                if(($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()){
+                    $snack = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
+                    return $this->redirectToRoute('dashboard', ['snack' => $snack,'color'=>'danger']);
+                }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
@@ -146,6 +152,7 @@ class RoomController extends AbstractController
                 $em->flush();
             }
             $now = new \DateTime();
+            return 0;
             if (($room->getStart() === null || $room->getStart()->modify('-30min') < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
                 return $this->redirect($url);
             }

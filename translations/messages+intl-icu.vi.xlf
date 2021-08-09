@@ -547,8 +547,8 @@
         <source>Zum Moderator ernennen</source>
         <target state="translated">Bổ nhiệm làm người kiểm duyệt</target>
       </trans-unit>
-      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
-        <source>Erlauben seinen Desktop zu Teilen</source>
+      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu teilen">
+        <source>Erlauben seinen Desktop zu teilen</source>
         <target state="translated">Cho phép chia sẻ màn hình</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
@@ -579,8 +579,8 @@
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
         <target state="translated">Không cho phép người dùng này gửi tin nhắn riêng tư cho những người tham dự khác</target>
       </trans-unit>
-      <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
-        <source>Teilnehmer Suchen</source>
+      <trans-unit id="KVhmSG4" resname="Teilnehmer suchen">
+        <source>Teilnehmer suchen</source>
         <target state="translated">Tìm người tham dự</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">

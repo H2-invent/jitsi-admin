@@ -65,6 +65,8 @@ option:
   octobre: Oktober
   novembre: November
   decembre: Dezember
+  user: Im User Claim
+  root: Im Root Claim
 
 
 lable.serverUrl: Jitsi-Meet-Server URL
@@ -121,6 +123,7 @@ label:
   totalOpenRoomsOpenTime: Raumöffnungszeit
   addressgroupName: Gruppenname
   addressgroupMember: Gruppenmitglieder
+  jwtModeratorPosition: Moderator position im JWT Token
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

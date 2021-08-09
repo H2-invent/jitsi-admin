@@ -81,9 +81,15 @@ class RoomService
                     'name' => $userName
                 ],
             ],
-            "moderator" => $moderator
-        );
 
+        );
+        $contextUser = array('name'=>$userName);
+
+        if ($room->getServer()->getJwtModeratorPosition() == 0) {
+            $payload['moderator'] = $moderator;
+        }elseif ($room->getServer()->getJwtModeratorPosition() == 1){
+            $payload['context']['user']['moderator'] = $moderator;
+        }
         $screen = array(
             'screen-sharing' => true,
             'private-message' => true,
@@ -111,7 +117,7 @@ class RoomService
         } else {
             $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
         }
-
+        dump($url);
         return $url;
     }
 
@@ -125,7 +131,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function joinUrl($t,  Server $server, $uid, $name, $isModerator)
+    function joinUrl($t, Server $server, $uid, $name, $isModerator)
     {
 
         if ($t === 'a') {

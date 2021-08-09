@@ -546,8 +546,8 @@
         <source>Zum Moderator ernennen</source>
         <target state="translated">指定为主持人</target>
       </trans-unit>
-      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
-        <source>Erlauben seinen Desktop zu Teilen</source>
+      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu teilen">
+        <source>Erlauben seinen Desktop zu teilen</source>
         <target state="translated">授予桌面共享权限</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
@@ -578,8 +578,8 @@
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
         <target state="translated">不再允许该用户向其他成员发送私信</target>
       </trans-unit>
-      <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
-        <source>Teilnehmer Suchen</source>
+      <trans-unit id="KVhmSG4" resname="Teilnehmer suchen">
+        <source>Teilnehmer suchen</source>
         <target state="translated">查找成员</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
