@@ -547,7 +547,7 @@
         <source>Zum Moderator ernennen</source>
         <target>Zum Moderator ernennen</target>
       </trans-unit>
-      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu teilen">
+      <trans-unit id="sqsX.gs" resname="Erlauben seinen Desktop zu teilen">
         <source>Erlauben seinen Desktop zu teilen</source>
         <target>Erlauben seinen Desktop zu teilen</target>
       </trans-unit>
@@ -579,7 +579,7 @@
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
         <target>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
       </trans-unit>
-      <trans-unit id="KVhmSG4" resname="Teilnehmer suchen">
+      <trans-unit id="2Pr8ySk" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
         <target>Teilnehmer suchen</target>
       </trans-unit>
@@ -1164,6 +1164,14 @@
       <trans-unit id="LqbhhU9" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
         <target>Wollen Sie den Teilnehmer wirklich löschen?</target>
+      </trans-unit>
+      <trans-unit id="tFfAytG" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
+        <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
+        <target>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</target>
+      </trans-unit>
+      <trans-unit id="uAj26XB" resname="Schließen">
+        <source>Schließen</source>
+        <target>Schließen</target>
       </trans-unit>
     </body>
   </file>
