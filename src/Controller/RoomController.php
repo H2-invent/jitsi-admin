@@ -152,7 +152,6 @@ class RoomController extends AbstractController
                 $em->flush();
             }
             $now = new \DateTime();
-            return 0;
             if (($room->getStart() === null || $room->getStart()->modify('-30min') < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
                 return $this->redirect($url);
             }
