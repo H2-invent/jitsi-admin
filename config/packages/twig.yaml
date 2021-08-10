@@ -47,3 +47,4 @@ twig:
         start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
         helpText: '%env(helpText)%'
         laf_refreshTimeDashboard: '%env(laf_refreshTimeDashboard)%'
+        laf_darkmodeAsDefault: '%env(laf_darkmodeAsDefault)%'

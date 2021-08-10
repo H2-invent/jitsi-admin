@@ -14,7 +14,11 @@ use App\Entity\User;
 use App\Form\Type\JoinViewType;
 use App\Service\ServerUserManagment;
 use Firebase\JWT\JWT;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -59,7 +63,7 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment)
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment,ParameterBagInterface $parameterBag)
     {
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
@@ -90,7 +94,7 @@ class DashboardController extends AbstractController
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
         $persistantRooms = $this->getDoctrine()->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        return $this->render('dashboard/index.html.twig', [
+        $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
             'runningRooms'=>$roomsNow,
@@ -99,6 +103,12 @@ class DashboardController extends AbstractController
             'snack' => $request->get('snack'),
             'servers'=>$servers,
         ]);
+        if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){
+            $res = $this->redirectToRoute('dashboard');
+            $res->headers->setCookie(Cookie::create('DARK_MODE',1));
+        }
+
+        return $res ;
     }
 
 }

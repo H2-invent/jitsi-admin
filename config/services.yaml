@@ -25,6 +25,7 @@ parameters:
     laF_emailTextLogin: '%env(laF_emailTextLogin)%'
     laf_keycloakGroupToCreateServer: '%env(laf_keycloakGroupToCreateServer)'
     laf_max_repeat: '%env(laf_max_repeat)%'
+    laf_darkmodeAsDefault: '%env(laf_darkmodeAsDefault)%'
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
     ldap_url: '%env(ldap_url)%'
