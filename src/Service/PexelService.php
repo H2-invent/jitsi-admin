@@ -26,6 +26,7 @@ class PexelService
         if($this->parameterBag->get('laF_pexel_api_key') !== '' && $this->parameterBag->get('enterprise_noExternal')  == 0){
         try {
             $cache = new FilesystemAdapter();
+
             $value = $cache->get('pexels_image', function (ItemInterface $item) {
                 $item->expiresAfter(intval($this->parameterBag->get('laF_pexel_refresh_time')));
 

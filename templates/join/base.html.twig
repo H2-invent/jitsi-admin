@@ -174,8 +174,17 @@
                             {% endif %}
                         </div>
                         <div class="col-md-6">
-                            <a href="{{ dataPrivacy }}" target="_blank"
-                               class="small">{{ 'Datenschutzhinweis'|trans }}</a><br>
+                            {% if theme %}
+                                {% if theme.footerGdprEnable == true %}
+                                    <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
+                                       href="{{ dataPrivacy }}" class="small">{{ theme.footerGdprText }}</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{{ dataPrivacy }}" target="_blank"
+                                   class="small">{{ 'Datenschutzhinweis'|trans }}</a><br>
+                            {% endif %}
+
+
                             <a href="https://jitsi-admin.de" target="_blank" class="small">Powered by Jitsi
                                 Admin</a><br>
                             {% if matomo_enable == 'true' %}
@@ -183,9 +192,19 @@
                                     Matomo Opt-out
                                 </a><br>
                             {% endif %}
-                            <a href="https://h2-invent.com" target="_blank" class="small">Made with ❤ by H2 invent •
-                                2019-{{ 'now'|date('Y') }}
-                                • v{{ laf_version }}</a>
+                            {% if theme %}
+                                {% if theme.footerReportIssueEnable == true %}
+                                    <a href="{{ theme.footerContributionUrl }}"
+                                       referrerpolicy="no-referrer" target="_blank" class="small">{{ theme.footerContributionText }} •
+                                        {{ 'now'|date('Y') }}
+                                        • v{{ laf_version }}</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="https://h2-invent.com" target="_blank" class="small">Made with ❤ by H2 invent •
+                                    2019-{{ 'now'|date('Y') }}
+                                    • v{{ laf_version }}</a>
+                            {% endif %}
+
                         </div>
                         <div class="col-md-2 text-md-center d-none d-sm-block">
                             <a href="https://github.com/H2-invent/jitsi-admin/blob/master/LICENSE" target="_blank"

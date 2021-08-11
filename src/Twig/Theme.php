@@ -45,7 +45,8 @@ class Theme extends AbstractExtension
     {
         if($this->parameterBag->get('enterprise_theme_url') != ''){
             $cache = new FilesystemAdapter();
-            $value = $cache->get('pexels_image', function (ItemInterface $item) {
+
+            $value = $cache->get('theme', function (ItemInterface $item) {
                 $item->expiresAfter(21600);
                 $response = $this->client->request('GET', $this->parameterBag->get('enterprise_theme_url'))->getContent();
                 $valid = $this->licenseService->verifySignature($response);
