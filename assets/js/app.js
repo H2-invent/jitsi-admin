@@ -28,7 +28,7 @@ import {initGenerell} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
 import {initAddressGroupSearch} from './addressGroup';
 import {initSearchUser} from './searchUser';
-import {refreshDashboard} from './refreshDashboard';
+import {initRefreshDashboard} from './refreshDashboard';
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -73,7 +73,8 @@ $(document).ready(function () {
     }
     initGenerell();
     initDropDown();
-    setInterval(refreshDashboard,refreshDashboardTime);
+    initRefreshDashboard(refreshDashboardTime,refreshDashboardUrl)
+
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
         $('#sidebar').removeClass('active');

@@ -1,23 +1,28 @@
 import $ from "jquery";
+var refreshUrl
+function initRefreshDashboard(time,url){
+    setInterval(refreshDashboard,time);
+    refreshUrl = url;
+}
 
 function refreshDashboard() {
     var $div1 = $('<div>');
     var $id1 = '#ex1-tabs-1';
     var $id2 = '#ex1-tabs-2';
-   refreshDashboardUrl
 
-    $div1.load(refreshDashboardUrl, function (data) {
+    $div1.load(refreshUrl, function (data) {
         var $openDropdown = $('.dropdown-menu.show');
         if ($openDropdown.length === 0) {
-            var $oldContent = $($id1).html();
-            var $newContent = $(this)[0].find($id1).contents();
-            $($id1).html($newContent);
-            $oldContent = $($id2).html();
-            $newContent = $(this)[0].find($id2).contents();
-            $($id2).html($newContent);
-
+            if ($($id1).contents().length !== $(data).find($id1).contents().length){
+                $($id1).html($(data).find($id1).contents());
+                console.log('1.2');
+            }
+            if ($($id2).contents().length !== $(data).find($id2).contents().length){
+                $($id2).html($(data).find($id2).contents());
+                console.log('1.3');
+            }
+            $('[data-toggle="popover"]').popover({html: true});
         }
     });
 }
-
-export {refreshDashboard};
+export {initRefreshDashboard};
