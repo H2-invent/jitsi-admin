@@ -105,9 +105,16 @@ class DashboardController extends AbstractController
         ]);
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){
             $res = $this->redirectToRoute('dashboard');
-            $res->headers->setCookie(Cookie::create('DARK_MODE',1));
+            $res->headers->setCookie(Cookie::create(
+                'DARK_MODE',
+                1,
+                time() + ( 2 * 365 * 24 * 60 * 60),
+                '/',      // Path.
+                null,     // Domain.
+                false,    // Xmit secure https.
+                false     // HttpOnly Flag
+            ));
         }
-
         return $res ;
     }
 
