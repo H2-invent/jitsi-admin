@@ -51,26 +51,40 @@
                 <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
             </a>
             <div class="dropdown-menu" style="min-width: unset; background-color: unset; border: none">
+                {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
                 <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
                             src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
+                {% endif %}
+                {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
                 <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
                             src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
+                {% endif %}
+                {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
                 <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
                             src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
+                {% endif %}
+                {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
                 <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
                             src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
+                {% endif %}
+                {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
                 <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
                             src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
-                            src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
+                {% endif %}
+                {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
+                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
+                                src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
+                {% endif %}
 
             </div>
         </li>
         <!-- Basic dropdown -->
 
         <!-- Basic dropdown -->
+        {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
         <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" class="iconSytle"
                                                 title="{{ 'Logout'|trans }}"></a>
+        {% endif %}
 
     </div>
 

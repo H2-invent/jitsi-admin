@@ -1,0 +1,4 @@
+jms_i18n_routing:
+  default_locale: de
+  locales: [de, en, fr, es, vi, zh]
+  strategy: prefix_except_default
