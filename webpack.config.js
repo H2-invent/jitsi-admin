@@ -1,5 +1,8 @@
 // webpack.config.js
 var Encore = require('@symfony/webpack-encore');
+if (!Encore.isRuntimeEnvironmentConfigured()) {
+    Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
+}
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 Encore
 
