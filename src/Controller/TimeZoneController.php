@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\Type\RoomType;
 use App\Form\Type\TimeZoneType;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,24 +30,22 @@ class TimeZoneController extends AbstractController
     /**
      * @Route("/room/timezone/save", name="time_zone_save")
      */
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request, TranslatorInterface $translator,LoggerInterface $logger): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(TimeZoneType::class, $user, ['action' => $this->generateUrl('time_zone_save')]);
-
-//        try {
+        try {
             $form->handleRequest($request);
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $user = $form->getData();
                 $em = $this->getDOctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
             }
-//        }catch (\Exception $exception){
-//            return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler'),'color'=>'danger'));
-//
-//        }
+        }catch (\Exception $exception){
+            $logger->error($exception->getMessage());
+            return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler'),'color'=>'danger'));
+        }
         return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Zeitzone erfolgreich geändert auf: {timeZone}',array('{timeZone}'=>$user->getTimeZone()))));
     }
 }

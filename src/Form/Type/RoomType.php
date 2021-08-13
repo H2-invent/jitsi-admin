@@ -12,6 +12,7 @@ namespace App\Form\Type;
 use App\Entity\AuditTomAbteilung;
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Service\ThemeService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -31,10 +32,12 @@ class RoomType extends AbstractType
 {
     private $paramterBag;
     private $logger;
-    public function __construct(ParameterBagInterface $parameterBag, LoggerInterface $logger)
+    private $theme;
+    public function __construct(ParameterBagInterface $parameterBag, LoggerInterface $logger,ThemeService $themeService)
     {
         $this->paramterBag = $parameterBag;
         $this->logger = $logger;
+        $this->theme = $themeService->getTheme();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -116,7 +119,7 @@ class RoomType extends AbstractType
               $this->logger->debug('Add the possibility to dissallow screenshare');
               $builder->add('dissallowScreenshareGlobal', CheckboxType::class, array('required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'));
           }
-        if ($this->paramterBag->get('input_settings_allow_timezone') == 1) {
+        if ($this->theme && $this->theme['allowTimeZoneSwitch'] == true) {
             $this->logger->debug('Add the possibility to select a Timezone');
             $builder->add('timeZone', TimezoneType::class, array('required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form'));
         }

@@ -37,7 +37,10 @@
     <p class="text-black-50 small">
         {{ 'Organisator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
         {{ 'Server'|trans }}: {{ room.server.url }}<br>
-        {{ 'Anzahl Teilnehmer'|trans }}: {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans%}{% else %}{{ room.user|length }}{% endif %}
+        {{ 'Anzahl Teilnehmer'|trans }}: {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans%}{% else %}{{ room.user|length }}{% endif %}<br>
+        {% if theme is not null and theme.allowTimeZoneSwitch == true  %}
+            {{ 'Zeitzone'|trans }}: {% if room.timeZone is null %}{{ room.moderator.timeZone }}{% else %}{{ room.timeZone }}{% endif %}
+        {% endif %}
     </p>
 
 </div>
