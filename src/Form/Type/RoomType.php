@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -115,6 +116,10 @@ class RoomType extends AbstractType
               $this->logger->debug('Add the possibility to dissallow screenshare');
               $builder->add('dissallowScreenshareGlobal', CheckboxType::class, array('required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'));
           }
+        if ($this->paramterBag->get('input_settings_allow_timezone') == 1) {
+            $this->logger->debug('Add the possibility to select a Timezone');
+            $builder->add('timeZone', TimezoneType::class, array('required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form'));
+        }
           $builder->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

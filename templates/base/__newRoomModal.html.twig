@@ -40,7 +40,16 @@
                         {{ form_row(form.duration) }}
                     </div>
                 </div>
-
+                {% if form.timeZone is defined %}
+                    <div class="col-sm-11">
+                        {{ form_row(form.timeZone) }}
+                    </div>
+                    <div class="col-sm-1">
+                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                           data-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
+                                    class="fa fa-question-circle"></i></a>
+                    </div>
+                {% endif %}
             </div>
             <div class="mb-2">
                 <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"

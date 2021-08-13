@@ -172,6 +172,11 @@ class User extends BaseUser
      */
     private $ldapUserProperties;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $timeZone;
+
 
 
 
@@ -774,6 +779,18 @@ class User extends BaseUser
         }
 
         $this->ldapUserProperties = $ldapUserProperties;
+
+        return $this;
+    }
+
+    public function getTimeZone(): ?string
+    {
+        return $this->timeZone;
+    }
+
+    public function setTimeZone(?string $timeZone): self
+    {
+        $this->timeZone = $timeZone;
 
         return $this;
     }

@@ -124,6 +124,7 @@ label:
   addressgroupName: Gruppenname
   addressgroupMember: Gruppenmitglieder
   jwtModeratorPosition: Moderator position im JWT Token
+  timezone: Zeitzone
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

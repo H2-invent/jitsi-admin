@@ -75,10 +75,11 @@ class DashboardController extends AbstractController
         foreach ($roomsFuture as $data) {
             $future[$data->getStart()->format('Ymd')][] = $data;
         }
+        $em = $this->getDoctrine()->getManager();
         if(!$this->getUser()->getUid()){
             $user = $this->getUser();
             $user->setUid(md5(uniqid()));
-            $em = $this->getDoctrine()->getManager();
+
             $em->persist($user);
             $em->flush();
         }
@@ -103,6 +104,12 @@ class DashboardController extends AbstractController
             'snack' => $request->get('snack'),
             'servers'=>$servers,
         ]);
+        if (!$this->getUser()->getTimezone()){
+            $user = $this->getUser();
+            $user->setTimezone(date_default_timezone_get());
+            $em->persist($user);
+            $em->flush();
+        }
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){
             $res = $this->redirectToRoute('dashboard');
             $res->headers->setCookie(Cookie::create(

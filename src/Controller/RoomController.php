@@ -67,7 +67,9 @@ class RoomController extends AbstractController
             $room->setUidReal(md5(uniqid('h2-invent', true)));
             $room->setUidModerator(md5(uniqid('h2-invent', true)));
             $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-
+            if($this->getUser()->getTimeZone()){
+                $room->setTimeZone($this->getUser()->getTimeZone());
+            }
             $snack = $translator->trans('Konferenz erfolgreich erstellt');
             $title = $translator->trans('Neue Konferenz erstellen');
         }

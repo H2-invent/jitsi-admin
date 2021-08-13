@@ -188,6 +188,11 @@ class Rooms
      */
     private $totalOpenRoomsOpenTime = 30;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $timeZone;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -696,6 +701,18 @@ class Rooms
     public function setTotalOpenRoomsOpenTime(?int $totalOpenRoomsOpenTime): self
     {
         $this->totalOpenRoomsOpenTime = $totalOpenRoomsOpenTime;
+
+        return $this;
+    }
+
+    public function getTimeZone(): ?string
+    {
+        return $this->timeZone;
+    }
+
+    public function setTimeZone(?string $timeZone): self
+    {
+        $this->timeZone = $timeZone;
 
         return $this;
     }
