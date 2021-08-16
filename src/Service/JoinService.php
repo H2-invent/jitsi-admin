@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -24,7 +25,8 @@ class JoinService
     private $urlGenerator;
     private $roomService;
     private $response;
-    public function __construct(RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag,EntityManagerInterface $entityManager,TranslatorInterface $translator)
+    private $security;
+    public function __construct(Security $security,RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag,EntityManagerInterface $entityManager,TranslatorInterface $translator)
     {
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
@@ -32,16 +34,22 @@ class JoinService
         $this->urlGenerator = $urlGenerator;
         $this->roomService = $roomService;
         $this->response = $response;
+        $this->security = $security;
     }
 
     public function join(FormInterface  $form,?Rooms $room,?User $aktUser,&$snack, &$color){
         $errors = array();
         if ($room) {
-            $now = new \DateTime();
+            if ($this->security->getUser()->getTimeZone()){
+                $now = new \DateTime('now',new \DateTimeZone($this->security->getUser()->getTimeZone()));
+            }
+
             $start = null;
             if($room->getStart()){
-                $start = (clone $room->getStart())->modify('-30min');
+                $start = (clone $room->getStartwithTimeZone($this->security->getUser()))->modify('-30min');
             }
+
+
             if (
                 ($start && $start < $now && $room->getEnddate() > $now)
                 || $aktUser === $room->getModerator()

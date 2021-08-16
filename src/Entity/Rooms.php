@@ -6,12 +6,15 @@ use App\Repository\RoomsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass=RoomsRepository::class)
  */
 class Rooms
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -74,7 +77,7 @@ class Rooms
     /**
      * @ORM\Column(type="boolean")
      */
-    private $onlyRegisteredUsers= false;
+    private $onlyRegisteredUsers = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -158,7 +161,6 @@ class Rooms
 
     /**
      * @ORM\OneToOne(targetEntity=Repeat::class, mappedBy="prototyp", cascade={"persist", "remove"})
-
      */
     private $repeaterProtoype;
 
@@ -222,11 +224,13 @@ class Rooms
 
     public function getStart(): ?\DateTimeInterface
     {
+
         return $this->start;
     }
 
     public function setStart(?\DateTimeInterface $start): self
     {
+
         $this->start = $start;
 
         return $this;
@@ -715,5 +719,35 @@ class Rooms
         $this->timeZone = $timeZone;
 
         return $this;
+    }
+
+    public function getTimeZoneAuto(): ?string
+    {
+        if ($this->timeZone) {
+            return $this->timeZone;
+        } else {
+            return $this->moderator->getTimeZone();
+        }
+
+    }
+    public function getStartwithTimeZone(User $user) :?\DateTimeInterface{
+        if ($this->timeZone && $user->getTimeZone()){
+            $data = new \DateTime($this->start->format('Y-m-d H:i:s'),new \DateTimeZone($this->timeZone));
+            $laTimezone = new \DateTimeZone( $user->getTimeZone());
+            $data->setTimezone($laTimezone);
+            return $data;
+        }else{
+            return $this->start;
+        }
+    }
+    public function getEndwithTimeZone(User $user) :?\DateTimeInterface{
+        if ($this->timeZone && $user->getTimeZone()){
+            $data = new \DateTime($this->enddate->format('Y-m-d H:i:s'),new \DateTimeZone($this->timeZone));
+            $laTimezone = new \DateTimeZone( $user->getTimeZone());
+            $data->setTimezone($laTimezone);
+            return $data;
+        }else{
+            return $this->enddate;
+        }
     }
 }
