@@ -217,7 +217,7 @@ class Rooms
     }
 
     /**
-     * @ORM\PreUpdate
+      * @ORM\PreFlush
      */
     public function preUpdate()
     {
