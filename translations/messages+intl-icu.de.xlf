@@ -1173,6 +1173,26 @@
         <source>Schließen</source>
         <target>Schließen</target>
       </trans-unit>
+      <trans-unit id="hr7a.Nt" resname="Zeitzone einstellen">
+        <source>Zeitzone einstellen</source>
+        <target>Zeitzone einstellen</target>
+      </trans-unit>
+      <trans-unit id="WdcAY52" resname="Zeitzone erfolgreich geändert auf: {timeZone}">
+        <source>Zeitzone erfolgreich geändert auf: {timeZone}</source>
+        <target>Zeitzone erfolgreich geändert auf: {timeZone}</target>
+      </trans-unit>
+      <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
+        <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
+        <target>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</target>
+      </trans-unit>
+      <trans-unit id="89E.tGV" resname="Zeitzone ändern">
+        <source>Zeitzone ändern</source>
+        <target>Zeitzone ändern</target>
+      </trans-unit>
+      <trans-unit id="Dy7C0FG" resname="Erstellt in Zeitzone">
+        <source>Erstellt in Zeitzone</source>
+        <target>Erstellt in Zeitzone</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

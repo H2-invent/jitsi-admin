@@ -37,7 +37,7 @@ class ThemeService
                 if($valid) {
 
                     $entry = json_decode($response, true);
-                    if(new \DateTime($entry['validUntil']) > new \DateTime()){
+                    if(new \DateTime($entry['entry']['validUntil']) > new \DateTime()){
                         return $entry['entry'];
                     }else{
                         return false;

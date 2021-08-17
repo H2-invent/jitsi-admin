@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 /**
  * @ORM\Entity(repositoryClass=RoomsRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Rooms
 {
@@ -195,6 +196,16 @@ class Rooms
      */
     private $timeZone;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $startUtc;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $endDateUtc;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -204,6 +215,25 @@ class Rooms
         $this->waitinglists = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
     }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+
+        $timezone = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
+
+        if ($this->start) {
+            $dateStart = new \DateTime($this->start->format('Y-m-d H:i:s'), $timezone);
+            $this->startUtc = $dateStart->setTimezone(new \DateTimeZone('utc'));
+        }
+        if ($this->enddate) {
+            $dateEnd = new \DateTime($this->enddate->format('Y-m-d H:i:s'), $timezone);
+            $this->endDateUtc = $dateEnd->setTimezone(new \DateTimeZone('utc'));
+        }
+    }
+
 
     public function getId(): ?int
     {
@@ -228,11 +258,12 @@ class Rooms
         return $this->start;
     }
 
+
+
+
     public function setStart(?\DateTimeInterface $start): self
     {
-
         $this->start = $start;
-
         return $this;
     }
 
@@ -730,24 +761,52 @@ class Rooms
         }
 
     }
-    public function getStartwithTimeZone(User $user) :?\DateTimeInterface{
-        if ($this->timeZone && $user->getTimeZone()){
-            $data = new \DateTime($this->start->format('Y-m-d H:i:s'),new \DateTimeZone($this->timeZone));
-            $laTimezone = new \DateTimeZone( $user->getTimeZone());
+
+    public function getStartwithTimeZone(User $user): ?\DateTimeInterface
+    {
+        if ($this->timeZone && $user->getTimeZone()) {
+            $data = new \DateTime($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $laTimezone = new \DateTimeZone($user->getTimeZone());
             $data->setTimezone($laTimezone);
             return $data;
-        }else{
+        } else {
             return $this->start;
         }
     }
-    public function getEndwithTimeZone(User $user) :?\DateTimeInterface{
-        if ($this->timeZone && $user->getTimeZone()){
-            $data = new \DateTime($this->enddate->format('Y-m-d H:i:s'),new \DateTimeZone($this->timeZone));
-            $laTimezone = new \DateTimeZone( $user->getTimeZone());
+
+    public function getEndwithTimeZone(User $user): ?\DateTimeInterface
+    {
+        if ($this->timeZone && $user->getTimeZone()) {
+            $data = new \DateTime($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
+            $laTimezone = new \DateTimeZone($user->getTimeZone());
             $data->setTimezone($laTimezone);
             return $data;
-        }else{
+        } else {
             return $this->enddate;
         }
+    }
+
+    public function getStartUtc(): ?\DateTimeInterface
+    {
+        return $this->startUtc;
+    }
+
+    public function setStartUtc(?\DateTimeInterface $startUtc): self
+    {
+        $this->startUtc = $startUtc;
+
+        return $this;
+    }
+
+    public function getEndDateUtc(): ?\DateTimeInterface
+    {
+        return $this->endDateUtc;
+    }
+
+    public function setEndDateUtc(?\DateTimeInterface $endDateUtc): self
+    {
+        $this->endDateUtc = $endDateUtc;
+
+        return $this;
     }
 }

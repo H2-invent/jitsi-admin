@@ -51,11 +51,12 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime();
+        $now = new \DateTime('now',new \DateTimeZone($user->getTimeZone()));
+        $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
-            ->andWhere('r.enddate > :now')
+            ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
@@ -67,11 +68,12 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsInPast(User $user)
     {
-        $now = new \DateTime();
+        $now = new \DateTime('now',new \DateTimeZone($user->getTimeZone()));
+        $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
-            ->andWhere('r.enddate < :now')
+            ->andWhere('r.endDateUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
@@ -97,12 +99,13 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRuningRooms(User $user)
     {
-        $now = new \DateTime();
+
+        $now = new \DateTime('now',new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
-            ->andWhere('r.enddate > :now')
-            ->andWhere('r.start < :now')
+            ->andWhere('r.endDateUtc > :now')
+            ->andWhere('r.startUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)

@@ -79,7 +79,7 @@ class RoomController extends AbstractController
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
         $form->remove('scheduleMeeting');
 
-        try {
+//        try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -126,52 +126,15 @@ class RoomController extends AbstractController
 
 
             }
-        } catch (\Exception $e) {
-            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-        }
+//        } catch (\Exception $e) {
+//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+//        }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
 
 
 
-    /**
-     * @Route("/room/join/{t}/{room}", name="room_join")
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
-     */
-    public
-    function joinRoom(RoomService $roomService, Rooms $room, $t)
-    {
-        if (in_array($this->getUser(), $room->getUser()->toarray())) {
-            $url = $roomService->join($room, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
-            if ($this->getUser() == $room->getModerator() && $room->getTotalOpenRooms() && $room->getPersistantRoom()) {
-                $room->setStart(new \DateTime());
-                if ($room->getTotalOpenRoomsOpenTime()) {
-                    $room->setEnddate((new \DateTime())->modify('+ ' . $room->getTotalOpenRoomsOpenTime() . ' min'));
-                }
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($room);
-                $em->flush();
-            }
-            $now = new \DateTime();
-            if (($room->getStart() === null || $room->getStart()->modify('-30min') < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
-                return $this->redirect($url);
-            }
-            return $this->redirectToRoute('dashboard', ['color' => 'danger', 'snack' => $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                    array(
-                        '{from}' => $room->getStart()->format('d.m.Y H:i'),
-                        '{to}' => $room->getEnddate()->format('d.m.Y H:i')
-                    ))
-                ]
-            );
-        }
-
-        return $this->redirectToRoute('dashboard', [
-            'color' => 'danger',
-                'snack' => $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben')
-            ]
-        );
-    }
 
 
     /**
