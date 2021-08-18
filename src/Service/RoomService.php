@@ -117,7 +117,6 @@ class RoomService
         } else {
             $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
         }
-        dump($url);
         return $url;
     }
 
