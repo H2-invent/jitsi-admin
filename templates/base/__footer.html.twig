@@ -43,7 +43,7 @@
             </li>
             <li class="nav-item d-none d-xl-block">
                 {% if theme %}
-                    {% if theme.footerReportIssueEnable == true %}
+                    {% if theme.footerContributionEnable == true %}
                         <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
                            href="{{ theme.footerContributionUrl }}">{{ theme.footerContributionText }}
                             • {{ 'now'|date('Y') }}
