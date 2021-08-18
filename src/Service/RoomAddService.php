@@ -40,7 +40,7 @@ class RoomAddService
             foreach ($lines as $line) {
                 $newMember = trim($line);
                 $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username'=>$newMember));
-                if (filter_var($newMember, FILTER_VALIDATE_EMAIL) || ($tmpUser && $this->parameterBag->get('strict_username_only') === 1)){
+                if (filter_var($newMember, FILTER_VALIDATE_EMAIL) || ($tmpUser && $this->parameterBag->get('strict_username_only') == 1)){
                     $this->createUserParticipant($newMember, $room);
                 } else {
                     if (strlen($newMember) > 0) {
@@ -64,7 +64,7 @@ class RoomAddService
             foreach ($lines as $line) {
                 $newMember = trim($line);
                 $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username'=>$newMember));
-                if (filter_var($newMember, FILTER_VALIDATE_EMAIL) || ($tmpUser && $this->parameterBag->get('strict_username_only') === 1)) {
+                if (filter_var($newMember, FILTER_VALIDATE_EMAIL) || ($tmpUser && $this->parameterBag->get('strict_username_only') == 1)) {
                     $user = $this->createUserParticipant($newMember, $room);
                     $roomsUser = new RoomsUser();
                     $roomsUser->setUser($user);
