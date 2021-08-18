@@ -38,14 +38,14 @@ class StartController extends AbstractController
                 $em->persist($room);
                 $em->flush();
             }
-            $now = new \DateTime();
-            if (($room->getStart() === null || $room->getStart()->modify('-30min') < $now && $room->getEnddate() > $now) || $this->getUser() == $room->getModerator()) {
+            $now = new \DateTime('now',new \DateTimeZone('utc'));
+            if (($room->getStart() === null || $room->getStartUtc()->modify('-30min') < $now && $room->getEndDateUtc() > $now) || $this->getUser() == $room->getModerator()) {
                 return $this->redirect($url);
             }
             return $this->redirectToRoute('dashboard', ['color' => 'danger', 'snack' => $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
                     array(
-                        '{from}' => $room->getStart()->format('d.m.Y H:i'),
-                        '{to}' => $room->getEnddate()->format('d.m.Y H:i')
+                        '{from}' => $room->getStartwithTimeZone($this->getUser())->modify('-30min')->format('d.m.Y H:i'),
+                        '{to}' => $room->getEndwithTimeZone($this->getUser())->format('d.m.Y H:i')
                     ))
                 ]
             );
