@@ -9,6 +9,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomAddService
@@ -18,13 +19,15 @@ class RoomAddService
     private $userService;
     private $translator;
     private $repeaterService;
-    public function __construct(RepeaterService  $repeaterService,InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
+    private $parameterBag;
+    public function __construct(ParameterBagInterface $parameterBag, RepeaterService  $repeaterService,InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
     {
         $this->inviteService = $inviteService;
         $this->em = $entityManager;
         $this->userService = $userService;
         $this->translator = $translator;
         $this->repeaterService = $repeaterService;
+        $this->parameterBag = $parameterBag;
     }
 
 
@@ -36,7 +39,8 @@ class RoomAddService
         if (!empty($lines)) {
             foreach ($lines as $line) {
                 $newMember = trim($line);
-                if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
+                $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username'=>$newMember));
+                if (filter_var($newMember, FILTER_VALIDATE_EMAIL) || ($tmpUser && $this->parameterBag->get('strict_username_only') === 1)){
                     $this->createUserParticipant($newMember, $room);
                 } else {
                     if (strlen($newMember) > 0) {
@@ -59,7 +63,8 @@ class RoomAddService
         if (!empty($lines)) {
             foreach ($lines as $line) {
                 $newMember = trim($line);
-                if (filter_var($newMember, FILTER_VALIDATE_EMAIL)) {
+                $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username'=>$newMember));
+                if (filter_var($newMember, FILTER_VALIDATE_EMAIL) || ($tmpUser && $this->parameterBag->get('strict_username_only') === 1)) {
                     $user = $this->createUserParticipant($newMember, $room);
                     $roomsUser = new RoomsUser();
                     $roomsUser->setUser($user);
