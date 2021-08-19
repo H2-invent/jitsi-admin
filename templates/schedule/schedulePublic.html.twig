@@ -17,7 +17,7 @@
                         <small>{{ s.time|format_date(pattern="EE",locale=locale,timezone=false) }}</small>
                         <p>{{ s.timeWithTimeZone(user)|date('d.m.Y',false) }}
                         {% if theme and theme.allowTimeZoneSwitch == true  %}
-                            <br><small>{{ user.timeZone }}</small>
+                            <br><small>{% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZone }}{% endif %}</small>
                         {% endif %}
                         </p>
                         <hr>
