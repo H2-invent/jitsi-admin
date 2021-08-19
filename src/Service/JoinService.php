@@ -26,7 +26,8 @@ class JoinService
     private $roomService;
     private $response;
     private $security;
-    public function __construct(Security $security,RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag,EntityManagerInterface $entityManager,TranslatorInterface $translator)
+
+    public function __construct(Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
@@ -37,21 +38,30 @@ class JoinService
         $this->security = $security;
     }
 
-    public function join(FormInterface  $form,?Rooms $room,?User $aktUser,&$snack, &$color){
+    public function join(FormInterface $form, ?Rooms $room, ?User $aktUser, &$snack, &$color)
+    {
         $errors = array();
         if ($room) {
-            if ($this->security->getUser()->getTimeZone()){
-                $now = new \DateTime('now',new \DateTimeZone($this->security->getUser()->getTimeZone()));
+            $timezone = null;
+            if ($this->security->getUser()) {
+                if ($this->security->getUser()->getTimeZone()) {
+                    $timezone = new \DateTimeZone($this->security->getUser()->getTimeZone());
+                }
             }
+
+            $now = new \DateTime('now', $timezone);
 
             $start = null;
-            if($room->getStart()){
+            if ($room->getStart()) {
                 $start = (clone $room->getStartwithTimeZone($this->security->getUser()))->modify('-30min');
             }
-
+            $endDate = null;
+            if ($room->getEnddate()) {
+                $endDate = $room->getEndwithTimeZone($this->security->getUser());
+            }
 
             if (
-                ($start && $start < $now && $room->getEnddate() > $now)
+                ($start && $start < $now && $endDate > $now)
                 || $aktUser === $room->getModerator()
                 || ($room->getPersistantRoom())
             ) {
@@ -72,10 +82,10 @@ class JoinService
                         && $user
                         && (in_array($user, $room->getUser()->toarray()) || $room->getTotalOpenRooms())
                     ) {
-                      return $this->generateResponseCommonRoom($type,$search['name'],$room,$user);
+                        return $this->generateResponseCommonRoom($type, $search['name'], $room, $user);
                     }
-                    if($room->getTotalOpenRooms()){
-                        return $this->generateResponseOpenRoom($type,$search['name'],$room);
+                    if ($room->getTotalOpenRooms()) {
+                        return $this->generateResponseOpenRoom($type, $search['name'], $room);
                     }
 
                     $snack = $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
@@ -85,17 +95,18 @@ class JoinService
                     $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
                         array(
                             '{from}' => $start->format('d.m.Y H:i'),
-                            '{to}' => $room->getEnddate()->format('d.m.Y H:i')
+                            '{to}' => $endDate->format('d.m.Y H:i')
                         )
                     );
                     $color = 'danger';
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
 
                 }
             }
         }
         return null;
     }
+
     /**
      * function onlyWithUserAccount
      * Return if only users with account can join the conference
@@ -133,7 +144,8 @@ class JoinService
      * @param User $user
      * @return RedirectResponse
      */
-    private function generateResponseCommonRoom($type, $name, Rooms $room, User $user){
+    private function generateResponseCommonRoom($type, $name, Rooms $room, User $user)
+    {
         if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
             return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
         }
@@ -150,8 +162,9 @@ class JoinService
      * @param Rooms $room
      * @return RedirectResponse
      */
-    private function generateResponseOpenRoom($type, $name, Rooms $room){
-        $url = $this->urlGenerator->generate('room_waiting',array('name'=>$name,'uid'=>$room->getUid(),'type'=>$type));
+    private function generateResponseOpenRoom($type, $name, Rooms $room)
+    {
+        $url = $this->urlGenerator->generate('room_waiting', array('name' => $name, 'uid' => $room->getUid(), 'type' => $type));
         $res = new RedirectResponse(($url));
         $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
         return $res;

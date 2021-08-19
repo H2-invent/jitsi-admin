@@ -217,7 +217,7 @@ class Rooms
     }
 
     /**
-      * @ORM\PreFlush
+     * @ORM\PreFlush
      */
     public function preUpdate()
     {
@@ -257,8 +257,6 @@ class Rooms
 
         return $this->start;
     }
-
-
 
 
     public function setStart(?\DateTimeInterface $start): self
@@ -762,9 +760,9 @@ class Rooms
 
     }
 
-    public function getStartwithTimeZone(User $user): ?\DateTimeInterface
+    public function getStartwithTimeZone(?User $user): ?\DateTimeInterface
     {
-        if ($this->timeZone && $user->getTimeZone()) {
+        if ($this->timeZone && $user && $user->getTimeZone()) {
             $data = new \DateTime($this->start->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
             $data->setTimezone($laTimezone);
@@ -774,9 +772,9 @@ class Rooms
         }
     }
 
-    public function getEndwithTimeZone(User $user): ?\DateTimeInterface
+    public function getEndwithTimeZone(?User $user): ?\DateTimeInterface
     {
-        if ($this->timeZone && $user->getTimeZone()) {
+        if ($this->timeZone && $user && $user->getTimeZone()) {
             $data = new \DateTime($this->enddate->format('Y-m-d H:i:s'), new \DateTimeZone($this->timeZone));
             $laTimezone = new \DateTimeZone($user->getTimeZone());
             $data->setTimezone($laTimezone);

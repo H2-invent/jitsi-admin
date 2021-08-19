@@ -7,6 +7,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
+use App\Service\TimeZoneService;
 use App\Service\UserService;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -33,10 +34,13 @@ class AdHocMeetingController extends AbstractController
         if(!in_array($server,$servers)){
             return $this->redirectToRoute('dashboard',array('color'=>'danger','snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden')));
         }
+
+        $now = new \DateTime('now',TimeZoneService::getTimeZone($this->getUser()));
         $room = new Rooms();
         $room->setModerator($this->getUser());
-        $room->setStart(new \DateTime());
-        $room->setEnddate((new \DateTime())->modify('+ 1 hour'));
+        $room->setStart($now);
+        $room->setTimeZone($this->getUser()->getTimeZone());
+        $room->setEnddate((clone $now)->modify('+ 1 hour'));
         $room->setDuration(60);
         $room->setSequence(0);
         $room->setUidReal(md5(uniqid()));

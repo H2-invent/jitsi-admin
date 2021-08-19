@@ -20,7 +20,7 @@ use Symfony\Component\Mailer\Transport\TransportInterface;
 class MailerService
 {
 
-    private $smtp;
+
     private $swift;
     private $parameter;
     private $kernel;
@@ -29,9 +29,8 @@ class MailerService
     private $userName;
     private $licenseService;
 
-    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
+    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
-        $this->smtp = $smtp;
         $this->swift = $swift_Mailer;
         $this->parameter = $parameterBag;
         $this->kernel = $kernel;

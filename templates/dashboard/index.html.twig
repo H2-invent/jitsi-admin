@@ -5,30 +5,29 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 text-right">
-            <div class="custom-control custom-switch mb-2">
-<div class="d-flex justify-content-end">
-    {% if theme and theme.allowTimeZoneSwitch %}<span class="mr-3"><p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 text-right">
+                <div class="custom-control custom-switch mb-2">
+                    <div class="d-flex justify-content-end">
+                        {% if theme and theme.allowTimeZoneSwitch %}<span class="mr-3">
+                            <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
+                        <span class="mr-5"><i class="fas fa-sun"></i></span>
+                        <input type="checkbox" class="custom-control-input switchDarkmode"
+                                {{ app.request.cookies.get('DARK_MODE') }}
+                                {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                                    checked
+                                {% endif %}
+                               id="switchDarkmode2">
+                        <label class="custom-control-label" for="switchDarkmode2">
+                            <i class="fas fa-moon"></i>
+                        </label>
+                    </div>
 
-    <span class="mr-5"><i class="fas fa-sun"></i></span>
-    <input type="checkbox" class="custom-control-input switchDarkmode"
-            {{ app.request.cookies.get('DARK_MODE') }}
-            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                checked
-            {% endif%}
-           id="switchDarkmode2">
-    <label class="custom-control-label" for="switchDarkmode2">
-            <i class="fas fa-moon"></i>
-    </label>
-
-</div>
-
+                </div>
             </div>
         </div>
     </div>
-</div>
     <div class="container">
 
 
@@ -89,26 +88,26 @@
             >
                 <div class="row">
                     {% if input_settings_allow_sheduling == 1 %}
-                    <div class="col-md-6 mb-3">
-                        <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
-                            <div class=" btn-block btn btn-dashboard">
-                                <p class="mt-2 mb-2 text-center">
-                                    {{ 'Eine Konferenz planen'|trans }}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
+                                <div class=" btn-block btn btn-dashboard">
+                                    <p class="mt-2 mb-2 text-center">
+                                        {{ 'Eine Konferenz planen'|trans }}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
                     {% endif %}
                     {% if input_settings_allow_roomPlanning == 1 %}
-                    <div class="col-md-6 mb-3">
-                        <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
-                            <div class=" btn-block btn btn-outline-dashboard">
-                                <p class="mt-2 mb-2 text-center ">
-                                    {{ 'Einen Termin finden'|trans }}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
+                                <div class=" btn-block btn btn-outline-dashboard">
+                                    <p class="mt-2 mb-2 text-center ">
+                                        {{ 'Einen Termin finden'|trans }}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
                     {% endif %}
                 </div>
                 {% if myScheduledMeeting(app.user)|length > 0 %}
@@ -127,10 +126,10 @@
                     <div class="card card-body">
                         <p class="text-center">
                             {% trans with {'{url}':path('room_new')} %}
-                            Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                            <u><a href="{url}" class="loadContent">hier</a></u>
-                            eine neue Konferenz.
-                        {% endtrans %}
+                                Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                                <u><a href="{url}" class="loadContent">hier</a></u>
+                                eine neue Konferenz.
+                            {% endtrans %}
                         </p>
                     </div>
                 {% elseif todayRooms |length == 0 %}

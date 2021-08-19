@@ -61,7 +61,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
-            ->orderBy('r.start', 'ASC')
+            ->orderBy('r.startUtc', 'ASC')
             ->getQuery()
             ->getResult();
     }
