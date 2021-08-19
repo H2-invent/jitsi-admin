@@ -73,13 +73,13 @@
             h5.modal-title, button.close {
                 color: {{ theme.colorModalHeaderTextColor }}!important;
             }
-            .btn-outline-primary{
+            .btn-outline-primary, .btn-outline-primary:hover{
                 color: {{ theme.colorButtonOutlinecolor }} !important;
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
             }
-            .btn-outline-primary:hover{
-                color: {{ theme.colorButtonOutlinecolor }} !important;
-                border-color: {{ theme.colorButtonOutlinecolor }} !important;
+            .blackMode .btn-outline-primary, .blackMode .btn-outline-primary:hover{
+                color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
+                border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
             }
             .blackMode a{
                 color: {{ theme.primaryColor }} ;
