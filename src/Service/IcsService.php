@@ -131,31 +131,30 @@ class IcsService
             'CALSCALE:GREGORIAN',
             'METHOD:' . $this->method,
         );
-        $ics_props[] = 'BEGIN:VTIMEZONE';
-        $ics_props[] = 'TZID:' . $this->timezoneId;
-
-        $this->timezoneStart = $this->timezoneStart->modify('first day of last year')->modify('last sunday of march');
-        $timezoneStandard = clone $this->timezoneStart;
-        $timezoneStandard->modify('last sunday of october');
-        $ics_props[] = 'BEGIN:DAYLIGHT';
-        $ics_props[] = 'DTSTART:'.$this->timezoneStart->format('Ymd').'T020000';//19501029T020000';
-        $ics_props[] = 'TZOFFSETFROM:'.$this->timezoneStart->format('O');//+0100';
-        $ics_props[] = 'TZOFFSETTO:'.$timezoneStandard->format('O');//+0200';
-        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=3';
-        $ics_props[] = 'END:DAYLIGHT';
-
-
-
-        $ics_props[] = 'BEGIN:STANDARD';
-        $ics_props[] = 'DTSTART:'.$timezoneStandard->format('Ymd').'T020000';//19501029T020000';//19500326T020000';
-        $ics_props[] = 'TZNAME:' . $timezoneStandard->format('T');
-        $ics_props[] = 'TZOFFSETFROM:' . $timezoneStandard->format('O');
-        $ics_props[] = 'TZOFFSETTO:' . $this->timezoneStart->format('O');
-        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=10';
-
-        $ics_props[] = 'END:STANDARD';
-        $ics_props[] = 'END:VTIMEZONE';
-
+//        $ics_props[] = 'BEGIN:VTIMEZONE';
+//        $ics_props[] = 'TZID:' . $this->timezoneId;
+//
+//        $this->timezoneStart = $this->timezoneStart->modify('first day of last year')->modify('last sunday of march');
+//        $timezoneStandard = clone $this->timezoneStart;
+//        $timezoneStandard->modify('last sunday of october');
+//        $ics_props[] = 'BEGIN:DAYLIGHT';
+//        $ics_props[] = 'DTSTART:' . $this->timezoneStart->format('Ymd') . 'T020000';//19501029T020000';
+//        $ics_props[] = 'TZOFFSETFROM:' . $this->timezoneStart->format('O');//+0100';
+//        $ics_props[] = 'TZOFFSETTO:' . $timezoneStandard->format('O');//+0200';
+//        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=3';
+//        $ics_props[] = 'END:DAYLIGHT';
+//
+//
+//        $ics_props[] = 'BEGIN:STANDARD';
+//        $ics_props[] = 'DTSTART:' . $timezoneStandard->format('Ymd') . 'T020000';//19501029T020000';//19500326T020000';
+//        $ics_props[] = 'TZNAME:' . $timezoneStandard->format('T');
+//        $ics_props[] = 'TZOFFSETFROM:' . $timezoneStandard->format('O');
+//        $ics_props[] = 'TZOFFSETTO:' . $this->timezoneStart->format('O');
+//        $ics_props[] = 'RRULE:FREQ=YEARLY;BYMINUTE=0;BYHOUR=2;BYDAY=-1SU;BYMONTH=10';
+//        $ics_props[] = 'END:STANDARD';
+//        $ics_props[] = 'END:VTIMEZONE';
+        $ics_props = array_merge($ics_props, $this->generateTimeZoneString($this->timezoneId, (clone $this->timezoneStart)->modify('first day of January this year'), (clone $this->timezoneStart)->modify('last day of december this year')));
+        dump($ics_props);
         // Build ICS properties - add header
         foreach ($this->appointments as $data) {
             $ics_props[] = 'BEGIN:VEVENT';
@@ -178,15 +177,15 @@ class IcsService
 
             // Append properties
             foreach ($props as $k => $v) {
-                if($k === 'DTSTART' || $k ==='DTEND'){
-                    $k = $k.';TZID='.$this->timezoneId.'';
+                if ($k === 'DTSTART' || $k === 'DTEND') {
+                    $k = $k . ';TZID=' . $this->timezoneId . '';
                 }
                 $ics_props[] = "$k:$v";
             }
-            $ics_props[]='BEGIN:VALARM';
+            $ics_props[] = 'BEGIN:VALARM';
             $ics_props[] = 'ACTION:DISPLAY';
             $ics_props[] = 'TRIGGER:-PT10M';
-            $ics_props[] = 'DESCRIPTION:'.$data['summary'];
+            $ics_props[] = 'DESCRIPTION:' . $data['summary'];
             $ics_props[] = 'END:VALARM';
             $ics_props[] = 'END:VEVENT';
         }
@@ -225,4 +224,47 @@ class IcsService
         return preg_replace('/([\,;])/', '\\\$1', $str);
     }
 
+    private function generateTimeZoneString(string $timeZone, \DateTime $start, \DateTime $end)
+    {
+        dump($start);
+        dump($end);
+        $tmpTimeZone = new \DateTimeZone($timeZone);
+        $transitions = $tmpTimeZone->getTransitions($start->getTimestamp(), $end->getTimestamp());
+        dump($transitions);
+        dump($tmpTimeZone);
+        $ics_props[] = 'BEGIN:VTIMEZONE';
+        $ics_props[] = 'TZID:' . $timeZone;
+        foreach ($transitions as $data) {
+            $tmpDate = new \DateTime($data['time']);
+            $tmpDate->setTimezone($tmpTimeZone);
+            dump($tmpDate);
+            if ($tmpDate->format('I') == 1) {
+                $ics_props[] = 'BEGIN:DAYLIGHT';
+            } else {
+                $ics_props[] = 'BEGIN:STANDARD';
+            }
+
+            $ics_props[] = 'DTSTART:' . $tmpDate->format('Ymd') . 'T' . $tmpDate->format('His');//19501029T020000';
+            $ics_props[] = 'TZOFFSETFROM:' . $tmpDate->format('O');//+0100';
+            //$ics_props[] = 'TZOFFSETTO:' . $timezoneStandard->format('O');//+0200';
+
+            if ($tmpDate->format('I') == 1) {
+                $ics_props[] = 'END:DAYLIGHT';
+            } else {
+                $ics_props[] = 'END:STANDARD';
+            }
+        }
+        $this->timezoneStart = $this->timezoneStart->modify('first day of last year')->modify('last sunday of march');
+        $timezoneStandard = clone $this->timezoneStart;
+        $timezoneStandard->modify('last sunday of october');
+        $ics_props[] = 'END:VTIMEZONE';
+        return $ics_props;
+    }
+
+    private function timezoneDoesDST($tzId)
+    {
+        $tz = new \DateTimeZone($tzId);
+        $trans = $tz->getTransitions();
+        return ((count($trans) && $trans[count($trans) - 1]['ts'] > time()));
+    }
 }
