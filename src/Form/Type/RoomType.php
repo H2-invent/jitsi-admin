@@ -37,7 +37,7 @@ class RoomType extends AbstractType
     {
         $this->paramterBag = $parameterBag;
         $this->logger = $logger;
-        $this->theme = $themeService->getTheme();
+        $this->theme = $themeService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -119,7 +119,7 @@ class RoomType extends AbstractType
               $this->logger->debug('Add the possibility to dissallow screenshare');
               $builder->add('dissallowScreenshareGlobal', CheckboxType::class, array('required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'));
           }
-        if ($this->theme && $this->theme['allowTimeZoneSwitch'] == true) {
+        if ($this->theme->getThemeProperty('allowTimeZoneSwitch') == true) {
             $this->logger->debug('Add the possibility to select a Timezone');
             $builder->add('timeZone', TimezoneType::class, array('required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form'));
         }

@@ -15,6 +15,7 @@ use App\Service\RoomAddService;
 use App\Service\SchedulingService;
 use App\Service\ServerService;
 use App\Service\ServerUserManagment;
+use App\Service\ThemeService;
 use App\Service\UserService;
 use App\Service\InviteService;
 
@@ -39,7 +40,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
+    public function newRoom(ThemeService $themeService, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -67,7 +68,7 @@ class RoomController extends AbstractController
             $room->setUidReal(md5(uniqid('h2-invent', true)));
             $room->setUidModerator(md5(uniqid('h2-invent', true)));
             $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            if($this->getUser()->getTimeZone()){
+            if($this->getUser()->getTimeZone() && $themeService->getThemeProperty('allowTimeZoneSwitch')){
                 $room->setTimeZone($this->getUser()->getTimeZone());
             }
             $snack = $translator->trans('Konferenz erfolgreich erstellt');

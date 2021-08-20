@@ -11,6 +11,7 @@ use App\Form\Type\RoomType;
 use App\Service\PexelService;
 use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
+use App\Service\ThemeService;
 use App\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,7 @@ class ScheduleController extends AbstractController
     /**
      * @Route("room/schedule/new", name="schedule_admin_new")
      */
-    public function new( Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService  $schedulingService): Response
+    public function new( ThemeService $themeService, Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService  $schedulingService): Response
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -54,7 +55,9 @@ class ScheduleController extends AbstractController
             $room->setUidReal(md5(uniqid('h2-invent', true)));
             $room->setUidModerator(md5(uniqid('h2-invent', true)));
             $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-
+            if($this->getUser()->getTimeZone() && $themeService->getThemeProperty('allowTimeZoneSwitch')){
+                $room->setTimeZone($this->getUser()->getTimeZone());
+            }
             $snack = $translator->trans('Terminplanung erfolgreich erstellt');
             $title = $translator->trans('Neue Terminplanung erstellen');
         }

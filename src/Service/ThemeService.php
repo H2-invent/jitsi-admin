@@ -52,5 +52,15 @@ class ThemeService
         }
         return false;
     }
-
+    public function getThemeProperty($property){
+        $theme = $this->getTheme();
+        if($theme){
+            try {
+                return $theme[$property];
+            }catch (\Exception $e){
+                return false;
+            }
+        }
+        return false;
+    }
 }

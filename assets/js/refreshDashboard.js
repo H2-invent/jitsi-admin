@@ -24,7 +24,7 @@ function refreshDashboard() {
             }
             $('[data-toggle="popover"]').popover({html: true});
         }
-
+        $('#actualTime').html($(data).find('#actualTime').contents());
 
     });
 }

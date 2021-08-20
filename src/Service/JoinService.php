@@ -44,9 +44,7 @@ class JoinService
         if ($room) {
             $timezone = null;
             if ($this->security->getUser()) {
-                if ($this->security->getUser()->getTimeZone()) {
-                    $timezone = new \DateTimeZone($this->security->getUser()->getTimeZone());
-                }
+                $timezone = TimeZoneService::getTimeZone($this->security->getUser());
             }
 
             $now = new \DateTime('now', $timezone);

@@ -7,6 +7,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
+use App\Service\ThemeService;
 use App\Service\TimeZoneService;
 use App\Service\UserService;
 use phpDocumentor\Reflection\Types\This;
@@ -23,7 +24,7 @@ class AdHocMeetingController extends AbstractController
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
      * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
      */
-    public function index(User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
+    public function index(ThemeService $themeService, User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
     {
 
         if(!in_array($user,$this->getUser()->getAddressbook()->toArray())){
@@ -39,7 +40,10 @@ class AdHocMeetingController extends AbstractController
         $room = new Rooms();
         $room->setModerator($this->getUser());
         $room->setStart($now);
-        $room->setTimeZone($this->getUser()->getTimeZone());
+        if ($themeService->getThemeProperty('allowTimeZoneSwitch')){
+            $room->setTimeZone($this->getUser()->getTimeZone());
+        }
+
         $room->setEnddate((clone $now)->modify('+ 1 hour'));
         $room->setDuration(60);
         $room->setSequence(0);
