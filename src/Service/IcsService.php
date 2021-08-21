@@ -249,6 +249,10 @@ class IcsService
         $transitions = array_splice($transitions,1);
         $ics_props[] = 'BEGIN:VTIMEZONE';
         $ics_props[] = 'TZID:' . $timeZone;
+        if(sizeof($transitions) == 0){
+           $transitions[]['time'] = (clone $start)->format('Y-m-d H:i:s');
+
+        }
         foreach ($transitions as $data) {
             $tmpDate = new \DateTime($data['time']);
             $tmpDate->setTimezone($tmpTimeZone);

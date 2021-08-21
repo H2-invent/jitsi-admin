@@ -79,7 +79,7 @@ class RoomController extends AbstractController
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
         $form->remove('scheduleMeeting');
 
-        try {
+//        try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -126,10 +126,10 @@ class RoomController extends AbstractController
 
 
             }
-        } catch (\Exception $e) {
-            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-        }
+//        } catch (\Exception $e) {
+//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+//        }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
 
