@@ -13,7 +13,10 @@
             <div class="modal-body">
                 <p>
                     {{ 'Name'|trans }}: {{ app.user.firstName }} {{ app.user.lastName }}<br>
-                    {{ 'Email'|trans }}: {{ app.user.email }}
+                    {{ 'Email'|trans }}: {{ app.user.email }}<br>
+                    {% if theme  and theme.allowTimeZoneSwitch == true  %}
+                    {{ 'Zeitzone'|trans }}: {{ app.user.timeZone }}
+                    {% endif %}
                 </p>
                 <div class="custom-control custom-switch mb-2">
                     <input type="checkbox" class="custom-control-input switchDarkmode"

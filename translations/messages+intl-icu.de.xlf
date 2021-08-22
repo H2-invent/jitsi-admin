@@ -1193,6 +1193,22 @@
         <source>Erstellt in Zeitzone</source>
         <target>Erstellt in Zeitzone</target>
       </trans-unit>
+      <trans-unit id="AFB7I6E" resname="Zeitzone">
+        <source>Zeitzone</source>
+        <target>Zeitzone</target>
+      </trans-unit>
+      <trans-unit id="7757HgF" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                                eine neue Konferenz.">
+        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                                &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
+                                eine neue Konferenz.</source>
+        <target><![CDATA[Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                                <u><a href="{url}" class="loadContent">hier</a></u>
+                                eine neue Konferenz.]]></target>
+      </trans-unit>
+      <trans-unit id="2nxOXuK" resname="Zeitangaben in Zeitzone">
+        <source>Zeitangaben in Zeitzone</source>
+        <target>Zeitangaben in Zeitzone</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
