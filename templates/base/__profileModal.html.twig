@@ -48,7 +48,7 @@
                        href="{{ path('connect_keycloak_password') }}"
                        target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
                 {% endif %}
-                {% if theme is not null and theme.allowTimeZoneSwitch == true  %}
+                {% if theme  and theme.allowTimeZoneSwitch == true  %}
                 <a class="btn btn-primary btn-sm loadContent"
                    href="{{ path('time_zone_change') }}"
                    target="_blank">{% trans %}Zeitzone ändern{% endtrans %}</a>

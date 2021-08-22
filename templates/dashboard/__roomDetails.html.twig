@@ -1,7 +1,7 @@
 <div class="col-md-2">
     {% if not (room.scheduleMeeting or room.persistantRoom)  %}
     <h5 class="h5-responsive">{{ room.startwithTimeZone(app.user)|date('H:i',false) }} – {{ room.endwithTimeZone(app.user)|date('H:i',false) }}</h5>
-        {% if theme is not null and theme.allowTimeZoneSwitch == true and room.persistantRoom == false %}
+        {% if theme  and theme.allowTimeZoneSwitch == true and room.persistantRoom == false %}
        <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
         {% endif %}
     {% endif %}
@@ -41,7 +41,7 @@
         {{ 'Organisator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
         {{ 'Server'|trans }}: {{ room.server.url }}<br>
         {{ 'Anzahl Teilnehmer'|trans }}: {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans%}{% else %}{{ room.user|length }}{% endif %}<br>
-        {% if theme is not null and theme.allowTimeZoneSwitch == true and room.persistantRoom == false %}
+        {% if theme and theme.allowTimeZoneSwitch == true and room.persistantRoom == false %}
             {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}
         {% endif %}
     </p>
