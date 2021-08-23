@@ -190,7 +190,7 @@ class RepeaterController extends AbstractController
         }
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['type'=>$request->get('type'),'id' => $room->getId()])]);
 
-        try {
+//        try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -216,10 +216,10 @@ class RepeaterController extends AbstractController
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
             }
 
-        } catch (\Exception $exception) {
-            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-        }
+//        } catch (\Exception $exception) {
+//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+//        }
         return $this->render('base/__newRoomModal.html.twig', [
             'form' => $form->createView(),
             'title' => $title,

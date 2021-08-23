@@ -31,6 +31,8 @@ class IcalService
     private $userService;
     private $user;
     private $translator;
+    private $rooms;
+
 
     public function __construct(TranslatorInterface $translator, LicenseService $licenseService, EntityManagerInterface $entityManager, UserService $userService)
     {
@@ -51,13 +53,15 @@ class IcalService
             }
         }
         $value = '';
-        if ($isEnterprise) {
-            $value = $this->getIcalString($this->user);
 
+        if ($isEnterprise) {
+            $this->initRooms($this->user);
+            $value = $this->getIcalString($this->user);
         } else {
             $cache = new FilesystemAdapter();
             $value = $cache->get('ical_' . $user->getUid(), function (ItemInterface $item) {
                 $item->expiresAfter(900);
+                $this->initRooms($this->user);
                 return $this->getIcalString($this->user);
             });
         }
@@ -66,18 +70,22 @@ class IcalService
 
     }
 
-    private function getIcalString(User $user)
-    {
-        $events = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, '-1 month');
+    public function initRooms(User $user){
+        $this->rooms = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, '-1 month');
+        $this->rooms = array_values($this->rooms);
+    }
 
+    public function getIcalString(User $user)
+    {
         $cal = new Calendar();
 
         $timeZone = TimeZoneService::getTimeZone($user);
         $start = new \DateTime();
         $end = new \DateTime();
-        if (sizeof($events) > 1) {
-            $start = $events[0]->getStart()->modify('-1year');
-            $end = $events[sizeof($events) - 1]->getEndDate()->modify('+1year');
+        dump($this->rooms);
+        if (sizeof($this->rooms) > 1) {
+            $start = (clone $this->rooms[0]->getStart())->modify('-1year');
+            $end = (clone $this->rooms[sizeof($this->rooms) - 1]->getEndDate())->modify('+1year');
             $timeTransitions = $timeZone->getTransitions($start->getTimeStamp(), $end->getTimeStamp());
             $timeTransitions = array_splice($timeTransitions,1);
             $cout = 0;
@@ -97,7 +105,7 @@ class IcalService
 
             }
         }
-        foreach ($events as $event) {
+        foreach ($this->rooms as $event) {
             $vEvent = new Event();
             $url = $this->userService->generateUrl($event, $user);
             $vEvent
@@ -128,57 +136,21 @@ class IcalService
         return $value;
     }
 
-
-    public function getIcalStringfromRepeater(Repeat $repeat, User $user)
+    /**
+     * @return mixed
+     */
+    public function getRooms()
     {
-        $tmp = $repeat->getRooms()->toArray();
-        $events = array();
-        foreach ($tmp as $data) {
-            $events[] = $data;
-        }
-        $cal = new Calendar();
-        $timeZone = new \DateTimeZone('Europe/Berlin');
-        $start = new \DateTime();
-        $end = new \DateTime();
-        if (sizeof($events) > 1) {
-            $start = $events[0]->getStart();
-            $end = $events[sizeof($events) - 1]->getEndDate();
-        }
-        $cal->addTimeZone(
-            TimeZone::createFromPhpDateTimeZone(
-                $timeZone,
-                $start,
-                $end
-            )
-        );
-        foreach ($events as $event) {
-            $vEvent = new Event();
-            $url = $this->userService->generateUrl($event, $user);
-            $vEvent
-                ->setOccurrence(new TimeSpan(
-                        new DateTime($event->getStart(), true),
-                        new DateTime($event->getEndDate(), true)
-                    )
-                )
-                ->setSummary($event->getName())
-                ->setDescription($event->getName() .
-                    "\n" . $event->getAgenda() .
-                    "\n" . $this->translator->trans('Hier beitreten') . ': ' . $url .
-                    "\n" . $this->translator->trans('Organisator') . ': ' . $event->getModerator()->getFirstName() . ' ' . $event->getModerator()->getLastName())
-                ->setLocation(new Location('Jitsi Meet-Konferenz'));
-
-            $alarmInterval = new \DateInterval('PT10M');
-            $alarmInterval->invert = 1;
-            $vEvent->addAlarm(
-                new \Eluceo\iCal\Domain\ValueObject\Alarm(new \Eluceo\iCal\Domain\ValueObject\Alarm\AudioAction(),
-                    new \Eluceo\iCal\Domain\ValueObject\Alarm\RelativeTrigger($alarmInterval)
-                )
-            );
-            $cal->addEvent($vEvent);
-
-        }
-        $componentFactory = new CalendarFactory();
-        $value = $componentFactory->createCalendar($cal);
-        return $value;
+        return $this->rooms;
     }
+
+    /**
+     * @param mixed $rooms
+     */
+    public function setRooms($rooms): void
+    {
+        $this->rooms = array_values($rooms);
+
+    }
+
 }
