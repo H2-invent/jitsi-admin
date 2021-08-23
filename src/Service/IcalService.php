@@ -71,27 +71,39 @@ class IcalService
         $events = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, '-1 month');
 
         $cal = new Calendar();
-        $timeZone = new \DateTimeZone('Europe/Berlin');
+
+        $timeZone = TimeZoneService::getTimeZone($user);
         $start = new \DateTime();
         $end = new \DateTime();
         if (sizeof($events) > 1) {
-            $start = $events[0]->getStart();
-            $end = $events[sizeof($events) - 1]->getEndDate();
+            $start = $events[0]->getStart()->modify('-1year');
+            $end = $events[sizeof($events) - 1]->getEndDate()->modify('+1year');
+            $timeTransitions = $timeZone->getTransitions($start->getTimeStamp(), $end->getTimeStamp());
+            $timeTransitions = array_splice($timeTransitions,1);
+            $cout = 0;
+            foreach ($timeTransitions as $data) {
+                try {
+                    $cal->addTimeZone(
+                        TimeZone::createFromPhpDateTimeZone(
+                            $timeZone,
+                            new \DateTime($data['time']),
+                            new \DateTime($timeTransitions[$cout+1]['time'])
+                        )
+                    );
+                    $cout++;
+                }catch (\Exception $exception){
+                    break;
+                }
+
+            }
         }
-        $cal->addTimeZone(
-            TimeZone::createFromPhpDateTimeZone(
-                $timeZone,
-                $start,
-                $end
-            )
-        );
         foreach ($events as $event) {
             $vEvent = new Event();
             $url = $this->userService->generateUrl($event, $user);
             $vEvent
                 ->setOccurrence(new TimeSpan(
-                        new DateTime($event->getStart(), true),
-                        new DateTime($event->getEndDate(), true)
+                        new DateTime($event->getStartWithTimeZone($user)->setTimeZone($timeZone), true),
+                        new DateTime($event->getEndwithTimeZone($user)->setTimeZone($timeZone), true)
                     )
                 )
                 ->setSummary($event->getName())
@@ -117,12 +129,11 @@ class IcalService
     }
 
 
-
     public function getIcalStringfromRepeater(Repeat $repeat, User $user)
     {
         $tmp = $repeat->getRooms()->toArray();
         $events = array();
-        foreach ($tmp as $data){
+        foreach ($tmp as $data) {
             $events[] = $data;
         }
         $cal = new Calendar();
