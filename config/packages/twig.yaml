@@ -48,3 +48,4 @@ twig:
         helpText: '%env(helpText)%'
         laf_refreshTimeDashboard: '%env(laf_refreshTimeDashboard)%'
         laf_darkmodeAsDefault: '%env(laf_darkmodeAsDefault)%'
+        allowTimeZoneSwitch: '%env(allowTimeZoneSwitch)%'

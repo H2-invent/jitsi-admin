@@ -24,6 +24,7 @@ use App\UtilsHelper;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -40,7 +41,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(ThemeService $themeService, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
+    public function newRoom(ParameterBagInterface  $parameterBag, ThemeService $themeService, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -68,7 +69,7 @@ class RoomController extends AbstractController
             $room->setUidReal(md5(uniqid('h2-invent', true)));
             $room->setUidModerator(md5(uniqid('h2-invent', true)));
             $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            if($this->getUser()->getTimeZone() && $themeService->getThemeProperty('allowTimeZoneSwitch')){
+            if($this->getUser()->getTimeZone() && $parameterBag->get('allowTimeZoneSwitch') == 1){
                 $room->setTimeZone($this->getUser()->getTimeZone());
             }
             $snack = $translator->trans('Konferenz erfolgreich erstellt');

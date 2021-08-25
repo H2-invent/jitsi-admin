@@ -48,6 +48,7 @@ parameters:
     input_settings_deactivate_participantsList: '%env(input_settings_deactivate_participantsList)%'
     input_settings_dissallow_screenshare: '%env(input_settings_dissallow_screenshare)%'
     input_settings_allow_timezone: '%env(input_settings_allow_timezone)%'
+    allowTimeZoneSwitch: '%env(allowTimeZoneSwitch)%'
 
 services:
     # default configuration for services in *this* file

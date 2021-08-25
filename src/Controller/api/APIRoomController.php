@@ -131,4 +131,5 @@ class APIRoomController extends AbstractController
         $res['error'] = false;
         return new JsonResponse($res);
     }
+
 }

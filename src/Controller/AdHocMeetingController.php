@@ -13,6 +13,7 @@ use App\Service\UserService;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,7 +25,7 @@ class AdHocMeetingController extends AbstractController
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
      * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
      */
-    public function index(ThemeService $themeService, User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
+    public function index(ParameterBagInterface $parameterBag, ThemeService $themeService, User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
     {
 
         if(!in_array($user,$this->getUser()->getAddressbook()->toArray())){
@@ -40,7 +41,7 @@ class AdHocMeetingController extends AbstractController
         $room = new Rooms();
         $room->setModerator($this->getUser());
         $room->setStart($now);
-        if ($themeService->getThemeProperty('allowTimeZoneSwitch')){
+        if ($parameterBag->get('allowTimeZoneSwitch') == 1){
             $room->setTimeZone($this->getUser()->getTimeZone());
         }
 

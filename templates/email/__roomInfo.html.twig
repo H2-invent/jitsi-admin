@@ -14,7 +14,7 @@
 <p>
     {{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
     {% if not room.persistantRoom %}
-        {% if theme and theme.allowTimeZoneSwitch == true %}
+        {% allowTimeZoneSwitch == 1 %}
             {{ 'Zeitangaben in Zeitzone'|trans }}: {% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZoneAuto }}{% endif %}<br>
         {% endif %}
         {{ 'Datum'|trans }}: {{ room.startwithTimeZone(user)|date('d.m.Y',false) }}<br>

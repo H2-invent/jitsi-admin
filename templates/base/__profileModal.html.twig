@@ -14,7 +14,7 @@
                 <p>
                     {{ 'Name'|trans }}: {{ app.user.firstName }} {{ app.user.lastName }}<br>
                     {{ 'Email'|trans }}: {{ app.user.email }}<br>
-                    {% if theme  and theme.allowTimeZoneSwitch == true  %}
+                    {% if allowTimeZoneSwitch == 1  %}
                     {{ 'Zeitzone'|trans }}: {{ app.user.timeZone }}
                     {% endif %}
                 </p>
@@ -27,6 +27,7 @@
                            id="switchDarkmode">
                     <label class="custom-control-label" for="switchDarkmode">{{ 'Darkmode'|trans }}</label>
                 </div>
+                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
                 <div class="row">
                     <div class="col-lg-12 mt-3">
                         <p>{{ 'iCal Link'|trans }}</p>
@@ -41,6 +42,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
                     <a class="btn btn-primary btn-sm"
                        href="{{ path('connect_keycloak_edit') }}"
@@ -51,7 +53,7 @@
                        href="{{ path('connect_keycloak_password') }}"
                        target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
                 {% endif %}
-                {% if theme  and theme.allowTimeZoneSwitch == true  %}
+                {% if allowTimeZoneSwitch == 1 %}
                 <a class="btn btn-primary btn-sm loadContent"
                    href="{{ path('time_zone_change') }}"
                    target="_blank">{% trans %}Zeitzone ändern{% endtrans %}</a>
