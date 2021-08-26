@@ -388,6 +388,7 @@ class RepeaterService
                 $this->twig->render($template, $templateAttr),
                 $repeat->getPrototyp()->getServer(),
                 $repeat->getPrototyp()->getModerator()->getEmail(),
+                $repeat->getPrototyp(),
                 $attachement
             );
         }

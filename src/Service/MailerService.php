@@ -9,6 +9,7 @@
 namespace App\Service;
 
 
+use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\UtilsHelper;
@@ -60,7 +61,7 @@ class MailerService
         }
     }
 
-    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
+    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null,Rooms $rooms = null, $attachment = array()):bool
     {
         $to = $user->getEmail();
         if($user->getLdapUserProperties() && filter_var($to, FILTER_VALIDATE_EMAIL) == false){
@@ -70,7 +71,7 @@ class MailerService
 
         try {
             $this->logger->info('Mail To: ' . $to);
-            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server,$replyTo, $attachment);
+            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server,$replyTo, $rooms, $attachment);
 
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
@@ -78,7 +79,7 @@ class MailerService
         return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
+    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null,Rooms $rooms = null, $attachment = array()):bool
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -88,6 +89,9 @@ class MailerService
         } else {
             $sender = $this->parameter->get('registerEmailAdress');
             $senderName = $this->parameter->get('registerEmailName');
+        }
+        if($this->parameter->get('emailSenderIsModerator')){
+            $senderName = $rooms->getModerator()->getFirstName().' '.$rooms->getModerator()->getLastName();
         }
         $message = (new \Swift_Message($betreff))
             ->setFrom(array($sender => $senderName))

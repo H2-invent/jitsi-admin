@@ -83,6 +83,7 @@ class NotificationService
             $content,
             $server,
             $rooms ? $rooms->getModerator()->getEmail() : null,
+            $rooms,
             $attachement
         );
 
@@ -97,7 +98,7 @@ class NotificationService
             $subject,
             $content,
             $server,
-            $rooms->getModerator()->getEmail()
+            $rooms->getModerator()->getEmail(),
         );
 
     }

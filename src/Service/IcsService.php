@@ -184,7 +184,7 @@ class IcsService
             $ics_props[] = 'END:VEVENT';
         }
         $ics_props[] = 'END:VCALENDAR';
-        dump($ics_props);
+
         // Build ICS properties - add footer
 
         return $ics_props;

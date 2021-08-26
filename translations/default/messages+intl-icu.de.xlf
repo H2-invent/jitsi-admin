@@ -77,10 +77,6 @@
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
         <target>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</target>
       </trans-unit>
-      <trans-unit id="13JKXFh" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
-        <source>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
-        <target>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</target>
-      </trans-unit>
       <trans-unit id="h0jrwnB" resname="Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.">
         <source>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</source>
         <target>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</target>
@@ -92,10 +88,6 @@
       <trans-unit id="5w8fLA7" resname="Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.">
         <source>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</source>
         <target>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</target>
-      </trans-unit>
-      <trans-unit id="T.mgfUM" resname="Bestätigung ihrer Anmeldung zur Konferenz: {name}">
-        <source>Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target>Bestätigung ihrer Anmeldung zur Konferenz: {name}</target>
       </trans-unit>
       <trans-unit id="vnxSnbr" resname="Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.">
         <source>Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</source>
@@ -125,21 +117,9 @@
         <source>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</source>
         <target>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</target>
       </trans-unit>
-      <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
-        <source>Neue Einladung zu einer Videokonferenz</source>
-        <target>Neue Einladung zu einer Videokonferenz</target>
-      </trans-unit>
-      <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
-        <source>Videokonferenz wurde bearbeitet</source>
-        <target>Videokonferenz wurde bearbeitet</target>
-      </trans-unit>
       <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
         <source>Videokonferenz abgesagt</source>
         <target>Videokonferenz abgesagt</target>
-      </trans-unit>
-      <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
-        <source>Videokonferenz {room} startet gleich</source>
-        <target>Videokonferenz {room} startet gleich</target>
       </trans-unit>
       <trans-unit id="cfdSBrO" resname="Fehler, Der User wurde nicht gefunden">
         <source>Fehler, Der User wurde nicht gefunden</source>
@@ -689,10 +669,6 @@
         <source>Hier verlängern</source>
         <target>Hier verlängern</target>
       </trans-unit>
-      <trans-unit id="pm52BiU" resname="Neue Einladung zu einer Terminplanung">
-        <source>Neue Einladung zu einer Terminplanung</source>
-        <target>Neue Einladung zu einer Terminplanung</target>
-      </trans-unit>
       <trans-unit id="crDnbJt" resname="Sie haben den Terminplan erfolgreich umgewandelt">
         <source>Sie haben den Terminplan erfolgreich umgewandelt</source>
         <target>Sie haben den Terminplan erfolgreich umgewandelt</target>
@@ -1208,6 +1184,50 @@
       <trans-unit id="2nxOXuK" resname="Zeitangaben in Zeitzone">
         <source>Zeitangaben in Zeitzone</source>
         <target>Zeitangaben in Zeitzone</target>
+      </trans-unit>
+      <trans-unit id="MM_kpXC" resname="[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
+        <source>[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
+        <target>[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</target>
+      </trans-unit>
+      <trans-unit id="cp.tY0I" resname="[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}">
+        <source>[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
+        <target>[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}</target>
+      </trans-unit>
+      <trans-unit id="7WayfUa" resname="[Videokonferenz] Videokonferenz {name} abgesagt">
+        <source>[Videokonferenz] Videokonferenz {name} abgesagt</source>
+        <target>[Videokonferenz] Videokonferenz {name} abgesagt</target>
+      </trans-unit>
+      <trans-unit id="TuTcCiZ" resname="[Videokonferenz] Videokonferenz abgesagt">
+        <source>[Videokonferenz] Videokonferenz abgesagt</source>
+        <target>[Videokonferenz] Videokonferenz abgesagt</target>
+      </trans-unit>
+      <trans-unit id="0gbS.CE" resname="[Terminplanung] Terminplanung abgesagt">
+        <source>[Terminplanung] Terminplanung abgesagt</source>
+        <target>[Terminplanung] Terminplanung abgesagt</target>
+      </trans-unit>
+      <trans-unit id="DF724eR" resname="[Videokonferenz] Videokonferenz {name} wurde bearbeitet">
+        <source>[Videokonferenz] Videokonferenz {name} wurde bearbeitet</source>
+        <target>[Videokonferenz] Videokonferenz {name} wurde bearbeitet</target>
+      </trans-unit>
+      <trans-unit id="EtO0xG8" resname="[Terminplanung] Neue Einladung zu der Terminplanung {name}">
+        <source>[Terminplanung] Neue Einladung zu der Terminplanung {name}</source>
+        <target>[Terminplanung] Neue Einladung zu der Terminplanung {name}</target>
+      </trans-unit>
+      <trans-unit id="fje2ysN" resname="[Videokonferenz] Neue Einladung zur Videokonferenz {name}">
+        <source>[Videokonferenz] Neue Einladung zur Videokonferenz {name}</source>
+        <target>[Videokonferenz] Neue Einladung zur Videokonferenz {name}</target>
+      </trans-unit>
+      <trans-unit id="VQ5q3RR" resname="[Terminplanung] Neue Einladung zur Terminplanung {name}">
+        <source>[Terminplanung] Neue Einladung zur Terminplanung {name}</source>
+        <target>[Terminplanung] Neue Einladung zur Terminplanung {name}</target>
+      </trans-unit>
+      <trans-unit id="UE6M382" resname="[Videokonferenz] Hinzugefügt zur Warteliste">
+        <source>[Videokonferenz] Hinzugefügt zur Warteliste</source>
+        <target>[Videokonferenz] Hinzugefügt zur Warteliste</target>
+      </trans-unit>
+      <trans-unit id="vawr.RD" resname="[Erinnerung] Videokonferenz {room} startet gleich">
+        <source>[Erinnerung] Videokonferenz {room} startet gleich</source>
+        <target>[Erinnerung] Videokonferenz {room} startet gleich</target>
       </trans-unit>
     </body>
   </file>

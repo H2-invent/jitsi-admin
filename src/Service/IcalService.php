@@ -82,7 +82,7 @@ class IcalService
         $timeZone = TimeZoneService::getTimeZone($user);
         $start = new \DateTime();
         $end = new \DateTime();
-        dump($this->rooms);
+
         if (sizeof($this->rooms) > 1) {
             $start = (clone $this->rooms[0]->getStart())->modify('-1year');
             $end = (clone $this->rooms[sizeof($this->rooms) - 1]->getEndDate())->modify('+1year');
