@@ -51,7 +51,6 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime('now',new \DateTimeZone($user->getTimeZone()));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
