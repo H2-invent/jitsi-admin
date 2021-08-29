@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
@@ -16,9 +17,11 @@ use function Doctrine\ORM\QueryBuilder;
  */
 class RoomsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $timeZoneService;
+    public function __construct(ManagerRegistry $registry,TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
+        $this->timeZoneService = $timeZoneService;
     }
 
     // /**
@@ -51,7 +54,7 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime('now',new \DateTimeZone($user->getTimeZone()));
+        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -68,7 +71,7 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsInPast(User $user)
     {
-        $now = new \DateTime('now',new \DateTimeZone($user->getTimeZone()));
+        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -100,7 +103,7 @@ class RoomsRepository extends ServiceEntityRepository
     public function findRuningRooms(User $user)
     {
 
-        $now = new \DateTime('now',new \DateTimeZone('utc'));
+        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
