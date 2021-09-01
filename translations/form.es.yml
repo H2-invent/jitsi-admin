@@ -101,7 +101,7 @@ label:
   vorname: Nombre
   nachname: Apellido
   maxParticipants: Permitir número máximo de participantes
-  waitinglist: Warteliste aktivieren
+  waitinglist: Activar la lista de espera
   teilnehmerEmailhinzufuegenModerator: Ingrese la dirección de correo electrónico de los nuevos MODERADORES
   weekday: Día de la semana
   repetation: Termina después de x fechas
