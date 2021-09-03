@@ -4,6 +4,7 @@
 namespace App\Service\ldap;
 
 
+use App\data\LdapType;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,12 +28,12 @@ class LdapUserService
      * @param $mapper
      * @return User|object
      */
-    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, string $userNameAttribute, $mapper, $url)
+    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry,LdapType $ldapType)
     {
-        $uid = $entry->getAttribute($userNameAttribute)[0];
-        $email = $entry->getAttribute($mapper['email'])[0];
-        $firstName = $entry->getAttribute($mapper['firstName'])[0];
-        $lastName = $entry->getAttribute($mapper['lastName'])[0];
+        $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
+        $email = $entry->getAttribute($ldapType->getMapper()['email'])[0];
+        $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
+        $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0];
 
         $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
 
@@ -43,9 +44,13 @@ class LdapUserService
             $user->setUid(md5(uniqid()));
             $user->setUuid(md5(uniqid()));
             $ldap = new LdapUserProperties();
-            $ldap->setLdapHost($url);
+            $ldap->setLdapHost($ldapType->getUrl());
             $ldap->setLdapDn($entry->getDn());
+            $ldap->setLdapNumber($ldapType->getSerVerId());
             $user->setLdapUserProperties($ldap);
+            if ($ldapType->getRdn()) {
+                $ldap->setRdn($ldapType->getRdn().'='.$entry->getAttribute($ldapType->getRdn())[0]);
+            }
         }
         $user->setEmail($email);
         $user->setFirstName($firstName);
@@ -60,10 +65,11 @@ class LdapUserService
      * So everyon can search for everyone in the whole jitsi-admin system
      *
      */
-    public function connectUserwithAllUSersInAdressbock(){
+    public function connectUserwithAllUSersInAdressbock()
+    {
         $allUSer = $this->em->getRepository(User::class)->findAll();
-        foreach ($allUSer as $data){
-            foreach ($allUSer as $data2){
+        foreach ($allUSer as $data) {
+            foreach ($allUSer as $data2) {
                 $data->addAddressbook($data2);
             }
             $this->em->persist($data);
@@ -74,14 +80,15 @@ class LdapUserService
     /**
      * returns all valid users from the database which are in the ldap and the Database
      * @param Ldap $ldap
-     * @param $url
+     * @param $ldapServerId
      */
-    public function syncDeletedUser(Ldap $ldap, $url){
-        $user = $this->em->getRepository(User::class)->findUsersByLdapHost($url);
-        foreach ($user as $data){
-            $this->checkUserInLdap($data,$ldap);
+    public function syncDeletedUser(Ldap $ldap, LdapType $ldapType)
+    {
+        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
+        foreach ($user as $data) {
+            $this->checkUserInLdap($data, $ldap);
         }
-        $user = $this->em->getRepository(User::class)->findUsersByLdapHost($url);
+        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
         return $user;
     }
 
@@ -90,14 +97,15 @@ class LdapUserService
      * @param User $user
      * @param Ldap $ldap
      */
-    public function checkUserInLdap(User $user, Ldap $ldap):?Entry{
+    public function checkUserInLdap(User $user, Ldap $ldap): ?Entry
+    {
         $object = null;
         try {
-            $query = $ldap->query($user->getLdapUserProperties()->getLdapDn(),'(&(cn=*))');
+            $query = $ldap->query($user->getLdapUserProperties()->getLdapDn(), '(&(cn=*))');
             $object = $query->execute();
-        }catch (LdapException $e){
+        } catch (LdapException $e) {
             $this->deleteUser($user);
-            return  null;
+            return null;
         }
         return $object->toArray()[0];
     }
@@ -106,15 +114,16 @@ class LdapUserService
      * Delete User and remove all Addressbooks entrys
      * @param User $user
      */
-    public function deleteUser(User $user){
-        foreach ($user->getAddressbookInverse() as $u){
+    public function deleteUser(User $user)
+    {
+        foreach ($user->getAddressbookInverse() as $u) {
             $u->removeAddressbook($user);
             $this->em->persist($u);
         }
-        foreach ($user->getRooms() as $r){
+        foreach ($user->getRooms() as $r) {
             $user->removeRoom($r);
         }
-        foreach ($user->getRoomModerator() as $r){
+        foreach ($user->getRoomModerator() as $r) {
             $user->removeRoomModerator($r);
         }
         $this->em->persist($user);

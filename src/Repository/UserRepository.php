@@ -69,12 +69,12 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
 
     }
-    public function findUsersByLdapHost($value)
+    public function findUsersByLdapServerId($value)
     {
         return $this->createQueryBuilder('u')
             ->innerJoin('u.ldapUserProperties', 'ldap_user_properties')
-            ->andWhere('ldap_user_properties.ldapHost = :host')
-            ->setParameter('host', $value)
+            ->andWhere('ldap_user_properties.ldapNumber = :serverId')
+            ->setParameter('serverId', $value)
             ->getQuery()
             ->getResult();
     }

@@ -33,6 +33,16 @@ class LdapUserProperties
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $rdn;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $ldapNumber;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +80,30 @@ class LdapUserProperties
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRdn(): ?string
+    {
+        return $this->rdn;
+    }
+
+    public function setRdn(?string $rdn): self
+    {
+        $this->rdn = $rdn;
+
+        return $this;
+    }
+
+    public function getLdapNumber(): ?string
+    {
+        return $this->ldapNumber;
+    }
+
+    public function setLdapNumber(?string $ldapNumber): self
+    {
+        $this->ldapNumber = $ldapNumber;
 
         return $this;
     }

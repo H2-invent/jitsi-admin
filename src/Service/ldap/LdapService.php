@@ -5,6 +5,7 @@ namespace App\Service\ldap;
 
 
 
+use App\data\LdapType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -22,10 +23,12 @@ class LdapService
 
     private $ldapUserService;
     private $em;
+
     public function __construct(LdapUserService $ldapUserService, EntityManagerInterface $entityManager)
     {
         $this->ldapUserService = $ldapUserService;
         $this->em = $entityManager;
+
     }
 
     /**
@@ -37,17 +40,18 @@ class LdapService
      * @param OutputInterface $output
      * @return Ldap|null
      */
-    public function createLDAP($url, $login, $password, InputInterface $input, OutputInterface $output): ?Ldap
+    public function createLDAP($url, $login, $password, $anonym = false): ?Ldap
     {
-        $io = new SymfonyStyle($input, $output);
         try {
             $tmp = Ldap::create('ext_ldap', ['connection_string' => $url]);
-            $tmp->bind($login, $password);
-            $io->success('We connect successfully to: ' . $url);
+            if($anonym === false){
+                $tmp->bind($login, $password);
+            }else{
+                $tmp->bind();
+            }
             return $tmp;
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
-            throw new InvalidCredentialsException();
+            throw $e;
         }
 
     }
@@ -67,7 +71,7 @@ class LdapService
         $options = array(
             'scope' => $scope
         );
-        $query = $ldap->query($userDn, $objectclass, $options);
+        $query = $ldap->query($userDn, $this->buildObjectClass($objectclass), $options);
         $user = $query->execute();
         return $user->toArray();
     }
@@ -99,38 +103,24 @@ class LdapService
      * @param InputInterface $input
      * @return Entry[]|null
      */
-    public function fetchLdap(Ldap $ldap, $userDn, $objectClasses, $scope, $mapper, $url, $usernameAttribute, OutputInterface $output, InputInterface $input){
-        $io = new SymfonyStyle($input, $output);
+    public function fetchLdap(LdapType $ldap){
+
+        $user = null;
         try {
-            $user =
+            $userLdap =
                 $this->retrieveUser(
-                    $ldap,
-                    $userDn,
-                    $this->buildObjectClass($objectClasses),
-                    $scope
+                    $ldap->getLdap(),
+                    $ldap->getUserDn(),
+                    $ldap->getObjectClass(),
+                    $ldap->getScope()
                 );
-
-            $table = new Table($output);
-            foreach ($user as $u) {
-                $us = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $usernameAttribute,$mapper,$url);
-                $table->addRow([implode(',', $u->getAttribute('mail')), implode(',', $u->getAttribute('uid')), $u->getDn()]);
-            }
-
-            $table->setHeaders(['email', 'uid', 'dn']);
-            $table->setHeaderTitle($url);
-            $table->setStyle('borderless');
-            $table->render();
-
-        } catch (LdapException $e) {
-            $io->error('Fehler in LDAP: ' . $url);
-            $io->error('Fehler: ' . $e->getMessage());
-            return null;
-        } catch (NotBoundException $e) {
-            $io->error('Fehler in LDAP: ' . $url);
-            $io->error('Fehler: ' . $e->getMessage());
-            return null;
+            foreach ($userLdap as $u) {
+                $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap);
+                  }
+        } catch (\Exception $e) {
+            throw $e;
         }
-        $this->ldapUserService->syncDeletedUser($ldap,$url);
-        return $user;
+        $this->ldapUserService->syncDeletedUser($ldap->getLdap(),$ldap);
+        return array('ldap'=>$ldap,'user'=>$user);
     }
 }

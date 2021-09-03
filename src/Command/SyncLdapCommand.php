@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\data\LdapType;
+use App\Entity\User;
 use App\Service\ldap\LdapService;
 use App\Service\ldap\LdapUserService;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +22,7 @@ use Symfony\Component\Ldap\Ldap;
 
 class SyncLdapCommand extends Command
 {
-    protected static $defaultName = 'app:sync:ldap';
+    protected static $defaultName = 'app:ldap:sync';
     protected static $defaultDescription = 'This commands syncs a ldap server with users database';
     private $paramterBag;
     private $ldapService;
@@ -34,6 +36,10 @@ class SyncLdapCommand extends Command
     private $OBJECTCLASSES;
     private $USERNAMEATTRIBUTE;
     private $MAPPER;
+    private $RDN;
+    private $BINDTYPE;
+    private $LDAPSERVERID;
+
     public function __construct(LdapUserService $ldapUserService, string $name = null, ParameterBagInterface $parameterBag, LdapService $ldapService)
     {
         parent::__construct($name);
@@ -48,10 +54,13 @@ class SyncLdapCommand extends Command
         $this->SCOPE = explode(';', $this->paramterBag->get('ldap_search_scope'));
         $this->OBJECTCLASSES = explode(';', $this->paramterBag->get('ldap_user_object_classes'));
         $this->USERNAMEATTRIBUTE = explode(';', $this->paramterBag->get('ldap_userName_attribute'));
+        $this->RDN = explode(',', $this->paramterBag->get('ldap_rdn_ldap_attribute'));
+        $this->BINDTYPE = explode(',', $this->paramterBag->get('ldap_bind_type'));
+        $this->LDAPSERVERID = explode(',', $parameterBag->get('ldap_server_individualName'));
 
         $tmp = explode(';', $this->paramterBag->get('ldap_attribute_mapper'));
         foreach ($tmp as $data) {
-            $this->MAPPER[] = json_decode($data,true);
+            $this->MAPPER[] = json_decode($data, true);
         }
     }
 
@@ -70,30 +79,70 @@ class SyncLdapCommand extends Command
         $error = false;
         if (sizeof($this->URL) > 0) {
             foreach ($this->URL as $data) {
+                $ldap = new LdapType($this->ldapService);
+                $ldap->setBindDn($this->LOGIN[$count]);
+                $ldap->setRdn($this->RDN[$count]);
+                $ldap->setBindType($this->BINDTYPE[$count]);
+                $ldap->setMapper($this->MAPPER[$count]);
+                $ldap->setPassword($this->PASSWORD[$count]);
+                $ldap->setScope($this->SCOPE[$count]);
+                $ldap->setSerVerId($this->LDAPSERVERID[$count]);
+                $ldap->setUserNameAttribute($this->USERNAMEATTRIBUTE[$count]);
+                $ldap->setUrl($data);
+                $ldap->setObjectClass($this->OBJECTCLASSES[$count]);
+                $ldap->setUserDn($this->USERDN[$count]);
                 $io->info('Try to connect to: ' . $data);
                 try {
-                    $ldap = $this->ldapService->createLDAP($data, $this->LOGIN[$count], $this->PASSWORD[$count], $input, $output);
-                } catch (InvalidCredentialsException $e) {
+                    $ldap->createLDAP();
+                    $io->success('Sucessfully connect to ' . $ldap->getUrl());
+                } catch (\Exception $exception) {
+                    $error = true;
+                    $io->error($exception->getMessage());
                     return Command::FAILURE;
                 }
                 $this->LDAP[] = $ldap;
                 $count++;
             }
         }
-        $count = 0;
+
+        $numberUsers = 0;
         if (sizeof($this->LDAP) > 0) {
             foreach ($this->LDAP as $data) {
-                $res = $this->ldapService->fetchLdap($data,$this->USERDN[$count],$this->OBJECTCLASSES[$count],$this->SCOPE[$count],$this->MAPPER[$count],$this->URL[$count],$this->USERNAMEATTRIBUTE[$count],$output,$input);
-                if ($res !== null){
-                    $result = array_merge($res,$result);
+
+                $resTmp = null;
+                try {
+                    $resTmp = $this->ldapService->fetchLdap($data);
+                } catch (LdapException $e) {
+                    $error = true;
+                    $io->error('Fehler in LDAP: ' . $ldap->getUrl());
+                    $io->error('Fehler: ' . $e->getMessage());
+
+                } catch (NotBoundException $e) {
+                    $error = true;
+                    $io->error('Fehler in LDAP-Bound: ' . $ldap->getUrl());
+                    $io->error('Fehler: ' . $e->getMessage());
                 }
-                $count++;
+
+                if ($resTmp !== null) {
+                    $result[] = $resTmp;
+                }
+                $numberUsers++;
+                $table = new Table($output);
+                $table->setHeaders(['email', 'uid', 'dn', 'rdn']);
+                $table->setHeaderTitle($ldap->getUrl());
+                $table->setStyle('borderless');
+                foreach ($resTmp['user'] as $data2) {
+                    $table->addRow([$data2->getEmail(), $data2->getUserName(), $data2->getLdapUserProperties()->getLdapDn(), $data2->getLdapUserProperties()->getRdn()]);
+                }
+                $table->render();
             }
+
         }
-        if($this->paramterBag->get('ldap_connect_all_user_addressbook')== 1){
+        if ($this->paramterBag->get('ldap_connect_all_user_addressbook') == 1) {
             $this->ldapUserService->connectUserwithAllUSersInAdressbock();
         }
-        $io->info('We found # users: ' . sizeof($result));
+
+        $io->info('We found # users: ' . $numberUsers);
         if ($error == false) {
             $io->success('All LDAPS could be synced correctly');
             return Command::SUCCESS;
