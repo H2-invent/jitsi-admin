@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -69,12 +70,23 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+
     public function findUsersByLdapServerId($value)
     {
         return $this->createQueryBuilder('u')
             ->innerJoin('u.ldapUserProperties', 'ldap_user_properties')
             ->andWhere('ldap_user_properties.ldapNumber = :serverId')
             ->setParameter('serverId', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUsersfromLdapService()
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->join('u.ldapUserProperties', 'ldap_user_properties')
+            ->andWhere($qb->expr()->isNotNull('ldap_user_properties'))
             ->getQuery()
             ->getResult();
     }

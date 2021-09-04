@@ -64,13 +64,13 @@ class LdapRemoveImportedCommand extends Command
         $confirm = $io->confirm('Do you realy want to delete all Users?',false);
 
         if (!$confirm){
-            $io->error('We stop the deletion');
+            $io->warning('Aborted');
             return Command::FAILURE;
         }
         $io->success('we start to delete');
         $table = new Table($output);
         $table->setHeaderTitle('Removed User');
-        $table->setHeaders(['uid', 'name','email']);
+        $table->setHeaders(['username', 'name','email']);
         $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($this->LDAPSERVERID[$selection]);
         foreach ($user as $data){
             $this->ldapUserService->deleteUser($data);

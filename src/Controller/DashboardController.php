@@ -90,6 +90,13 @@ class DashboardController extends AbstractController
             $em->persist($user);
             $em->flush();
         }
+        if (!$this->getUser()->getTimezone()){
+            $user = $this->getUser();
+            $user->setTimezone(date_default_timezone_get());
+            $em->persist($user);
+            $em->flush();
+        }
+
         $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
         $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
@@ -104,12 +111,6 @@ class DashboardController extends AbstractController
             'snack' => $request->get('snack'),
             'servers'=>$servers,
         ]);
-        if (!$this->getUser()->getTimezone()){
-            $user = $this->getUser();
-            $user->setTimezone(date_default_timezone_get());
-            $em->persist($user);
-            $em->flush();
-        }
 
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){
             $res = $this->redirectToRoute('dashboard');

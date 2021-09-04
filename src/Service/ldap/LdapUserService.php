@@ -67,7 +67,7 @@ class LdapUserService
      */
     public function connectUserwithAllUSersInAdressbock()
     {
-        $allUSer = $this->em->getRepository(User::class)->findAll();
+        $allUSer = $this->em->getRepository(User::class)->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
                 $data->addAddressbook($data2);
