@@ -38,3 +38,4 @@ yarn-error.log
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+*.signed*

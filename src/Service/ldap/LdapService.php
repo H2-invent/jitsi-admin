@@ -76,6 +76,7 @@ class LdapService
         return $user->toArray();
     }
 
+
     /**
      * @param $objectClassString
      * @return string
@@ -92,16 +93,9 @@ class LdapService
 
 
     /**
-     * @param Ldap $ldap
-     * @param $userDn
-     * @param $objectClasses
-     * @param $scope
-     * @param $mapper
-     * @param $url
-     * @param $usernameAttribute
-     * @param OutputInterface $output
-     * @param InputInterface $input
-     * @return Entry[]|null
+     * @param LdapType $ldap
+     * @return array
+     * @throws \Exception
      */
     public function fetchLdap(LdapType $ldap){
 
