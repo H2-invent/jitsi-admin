@@ -87,6 +87,14 @@ class LicenseService
         }
         return true;
     }
+    public function verifyValidUntil($string){
+        $entry = json_decode($string, true);
+        if (new \DateTime($entry['entry']['validUntil']) > new \DateTime()) {
+            return $entry['entry'];
+        } else {
+            return false;
+        }
+    }
     public function generateNewLicense($licenseString){
         if (!$this->verifySignature($licenseString)) {
             return array('error' => true, 'text' => 'Invalid Signature');

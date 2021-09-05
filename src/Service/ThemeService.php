@@ -31,20 +31,18 @@ class ThemeService
         try {
             $finder = new Finder();
             $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('theme.json.signed');
-            if ($finder->count()>0){
+            if ($finder->count() > 0) {
                 $arr = iterator_to_array($finder);
-                $theme =reset($arr)->getContents();
+                $theme = reset($arr)->getContents();
                 $valid = $this->licenseService->verifySignature($theme);
                 if ($valid){
-                    $entry = json_decode($theme, true);
-                    if (new \DateTime($entry['entry']['validUntil']) > new \DateTime()) {
-                        return $entry['entry'];
-                    } else {
-                        return false;
+                    $res = $this->licenseService->verifyValidUntil($theme);
+                    if ($res !== false) {
+                        return $res;
                     }
                 }
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
         }
 
@@ -59,24 +57,14 @@ class ThemeService
                 $item->expiresAfter(21600);
 
 
-
-
                 $response = $this->client->request('GET', $this->parameterBag->get('enterprise_theme_url'))->getContent();
                 $valid = $this->licenseService->verifySignature($response);
                 if ($valid) {
-
-                    $entry = json_decode($response, true);
-                    if (new \DateTime($entry['entry']['validUntil']) > new \DateTime()) {
-                        return $entry['entry'];
-                    } else {
-                        return false;
-                    }
-
+                    return $this->licenseService->verifyValidUntil($response);
                 } else {
                     return false;
                 }
             });
-
             return $value;
         }
         return false;
