@@ -19,7 +19,7 @@ class ThemeService
     private $parameterBag;
     private $client;
 
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService)
     {
         $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;
