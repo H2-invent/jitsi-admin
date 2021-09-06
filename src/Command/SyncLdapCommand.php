@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\data\LdapType;
+use App\dataType\LdapType;
 use App\Entity\User;
 use App\Service\ldap\LdapService;
 use App\Service\ldap\LdapUserService;

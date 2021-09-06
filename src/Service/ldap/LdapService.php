@@ -5,7 +5,7 @@ namespace App\Service\ldap;
 
 
 
-use App\data\LdapType;
+use App\dataType\LdapType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Helper\Table;
