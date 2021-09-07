@@ -126,6 +126,10 @@ class LdapUserService
         foreach ($user->getRoomModerator() as $r) {
             $user->removeRoomModerator($r);
         }
+        foreach ($user->getNotifications() as $data){
+            $user->removeNotification($data);
+            $this->em->remove($data);
+        }
         $this->em->persist($user);
         $this->em->flush();
         $this->em->remove($user);

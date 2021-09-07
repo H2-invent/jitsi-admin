@@ -23,35 +23,34 @@ class StartController extends AbstractController
 
     /**
      * @Route("/room/join/{t}/{room}", name="room_join")
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
     public
-    function joinRoom(RoomService $roomService, Rooms $room, $t)
+    function joinRoom(RoomService $roomService, $room, $t)
     {
-
-        if (in_array($this->getUser(), $room->getUser()->toarray())) {
-            $url = $roomService->join($room, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
-            if ($this->getUser() == $room->getModerator() && $room->getTotalOpenRooms() && $room->getPersistantRoom()) {
-                $room->setStart(new \DateTime());
-                if ($room->getTotalOpenRoomsOpenTime()) {
-                    $room->setEnddate((new \DateTime())->modify('+ ' . $room->getTotalOpenRoomsOpenTime() . ' min'));
+        $roomL = $this->getDoctrine()->getRepository(Rooms::class)->find($room);
+        if ($roomL && in_array($this->getUser(), $roomL->getUser()->toarray())) {
+            $url = $roomService->join($roomL, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
+            if ($this->getUser() == $roomL->getModerator() && $roomL->getTotalOpenRooms() && $roomL->getPersistantRoom()) {
+                $roomL->setStart(new \DateTime());
+                if ($roomL->getTotalOpenRoomsOpenTime()) {
+                    $roomL->setEnddate((new \DateTime())->modify('+ ' . $roomL->getTotalOpenRoomsOpenTime() . ' min'));
                 }
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($room);
+                $em->persist($roomL);
                 $em->flush();
             }
             $now = new \DateTime();
-            if ($room->getTimeZone()){
+            if ($roomL->getTimeZone()){
                 $now = new \DateTime('now',TimeZoneService::getTimeZone($this->getUser()));
             }
 
-            if (($room->getStart() === null || $room->getStartwithTimeZone($this->getUser())->modify('-30min') < $now && $room->getEndwithTimeZone($this->getUser()) > $now) || $this->getUser() == $room->getModerator()) {
+            if (($roomL->getStart() === null || $roomL->getStartwithTimeZone($this->getUser())->modify('-30min') < $now && $roomL->getEndwithTimeZone($this->getUser()) > $now) || $this->getUser() == $roomL->getModerator()) {
                 return $this->redirect($url);
             }
             return $this->redirectToRoute('dashboard', ['color' => 'danger', 'snack' => $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
                     array(
-                        '{from}' => $room->getStartwithTimeZone($this->getUser())->format('d.m.Y H:i'),
-                        '{to}' => $room->getEndwithTimeZone($this->getUser())->format('d.m.Y H:i')
+                        '{from}' => $roomL->getStartwithTimeZone($this->getUser())->format('d.m.Y H:i'),
+                        '{to}' => $roomL->getEndwithTimeZone($this->getUser())->format('d.m.Y H:i')
                     ))
                 ]
             );
