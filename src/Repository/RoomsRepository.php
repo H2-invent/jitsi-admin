@@ -105,7 +105,6 @@ class RoomsRepository extends ServiceEntityRepository
 
         $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
-        dump($now);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
