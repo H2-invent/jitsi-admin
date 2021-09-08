@@ -23,10 +23,26 @@ class LdapType
     public static $ANONYMOUS = 1;
     public static $SIMPLE = 0;
     private $ldapService;
-
+    private $specialFields;
     public function __construct(LdapService $ldapService)
     {
         $this->ldapService = $ldapService;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSpecialFields()
+    {
+        return $this->specialFields;
+    }
+
+    /**
+     * @param mixed $specialFields
+     */
+    public function setSpecialFields($specialFields): void
+    {
+        $this->specialFields = $specialFields;
     }
 
     /**

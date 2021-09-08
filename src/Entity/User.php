@@ -177,6 +177,11 @@ class User extends BaseUser
      */
     private $timeZone;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $spezialProperties = [];
+
 
 
 
@@ -791,6 +796,18 @@ class User extends BaseUser
     public function setTimeZone(?string $timeZone): self
     {
         $this->timeZone = $timeZone;
+
+        return $this;
+    }
+
+    public function getSpezialProperties(): ?array
+    {
+        return $this->spezialProperties;
+    }
+
+    public function setSpezialProperties(?array $spezialProperties): self
+    {
+        $this->spezialProperties = $spezialProperties;
 
         return $this;
     }

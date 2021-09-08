@@ -40,6 +40,7 @@ parameters:
     ldap_attribute_mapper: '%env(ldap_attribute_mapper)%'
     ldap_connect_all_user_addressbook: '%env(ldap_connect_all_user_addressbook)%'
     ldap_server_individualName: '%env(ldap_server_individualName)%'
+    ldap_special_Fields: '%env(ldap_special_Fields)%'
     strict_username_only: '%env(strict_username_only)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'
     input_settings_persistant_rooms: '%env(input_settings_persistant_rooms)%'

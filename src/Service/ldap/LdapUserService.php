@@ -43,15 +43,25 @@ class LdapUserService
             $user->setCreatedAt(new \DateTime());
             $user->setUid(md5(uniqid()));
             $user->setUuid(md5(uniqid()));
+
+        }
+        if(!$user->getLdapUserProperties()){
             $ldap = new LdapUserProperties();
             $ldap->setLdapHost($ldapType->getUrl());
             $ldap->setLdapDn($entry->getDn());
-            $ldap->setLdapNumber($ldapType->getSerVerId());
             $user->setLdapUserProperties($ldap);
-            if ($ldapType->getRdn()) {
-                $ldap->setRdn($ldapType->getRdn().'='.$entry->getAttribute($ldapType->getRdn())[0]);
-            }
         }
+
+        if ($ldapType->getRdn()) {
+            $user->getLdapUserProperties()->setRdn($ldapType->getRdn().'='.$entry->getAttribute($ldapType->getRdn())[0]);
+        }
+        $specialField = array();
+        foreach ($ldapType->getSpecialFields() as $data){
+            $specialField[$data] = $entry->getAttribute($data)[0];
+        }
+
+        dump($specialField);
+        $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
         $user->setEmail($email);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
@@ -129,6 +139,15 @@ class LdapUserService
         foreach ($user->getNotifications() as $data){
             $user->removeNotification($data);
             $this->em->remove($data);
+        }
+        foreach ($user->getServers() as $server){
+            $user->removeServer($server);
+        }
+        foreach ($user->getServerAdmins() as $server){
+            foreach ($server->getUser() as $serverUser){
+                $serverUser->removeServer($server);
+            }
+            $user->removeServerAdmin($server);
         }
         $this->em->persist($user);
         $this->em->flush();
