@@ -59,8 +59,7 @@ class LdapUserService
         foreach ($ldapType->getSpecialFields() as $data){
             $specialField[$data] = $entry->getAttribute($data)[0];
         }
-
-        dump($specialField);
+        $user->setSpezialProperties($specialField);
         $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
         $user->setEmail($email);
         $user->setFirstName($firstName);

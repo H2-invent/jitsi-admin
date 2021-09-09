@@ -183,9 +183,6 @@ class User extends BaseUser
     private $spezialProperties = [];
 
 
-
-
-
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -812,4 +809,47 @@ class User extends BaseUser
         return $this;
     }
 
+    public function getFormatedName($string)
+    {
+        $pattern = '/user.[a-zA-Z0-9._-]*\$/';
+        $arr = null;
+        preg_match_all($pattern, $string, $arr);
+        $tmp1 = $arr[0];
+
+        foreach ($tmp1 as $data) {
+            $tmp = str_replace('$', '', $data);
+            $tmp = substr($tmp, strpos($tmp, '.') + 1);
+            $value = '';
+            try {
+
+                if (strpos($tmp, 'specialField') !== false) {
+                    // we have a spezialField to read
+                    $tmp = substr($tmp, strpos($tmp, '.') + 1);
+                    $value = $this->spezialProperties[$tmp];
+                } else {
+                    switch ($tmp) {
+                        case 'firstName':
+                            $value = $this->firstName;
+                            break;
+                        case 'lastName':
+                            $value = $this->lastName;
+                            break;
+                        case 'email':
+                            $value = $this->email;
+                            break;
+                        case 'username':
+                           $value = $this->username;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            } catch (\Exception $exception) {
+
+            }
+            $string = str_replace($data,$value,$string);
+        }
+        return $string;
+    }
 }

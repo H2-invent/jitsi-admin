@@ -192,6 +192,7 @@ class RoomController extends AbstractController
 
             $servers = $serverUserManagment->getServersFromUser($this->getUser());
             $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $room->getId()])]);
+            $form->remove('scheduleMeeting');
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
