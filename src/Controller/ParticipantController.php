@@ -9,6 +9,7 @@ use App\Form\Type\NewMemberType;
 use App\Service\RoomAddService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +20,12 @@ use function GuzzleHttp\Psr7\str;
 class ParticipantController extends AbstractController
 {
     private $translator;
-    public function __construct(TranslatorInterface $translator)
+    private $parameterBag;
+
+    public function __construct(TranslatorInterface $translator, ParameterBagInterface $parameterBag)
     {
         $this->translator = $translator;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -33,22 +37,28 @@ class ParticipantController extends AbstractController
         $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByEmail($string, $this->getUser());
         $group = $this->getDoctrine()->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
-        $res = array('user'=>array(),'group'=>array());
+        $res = array('user' => array(), 'group' => array());
         foreach ($user as $data) {
-            $res['user'][] = $data->getEmail();
+            $res['user'][] = array(
+                'name' => $data->getFormatedName($this->parameterBag->get('laf_showName')),
+                'id' => $data->getUsername()
+            );
         }
         foreach ($group as $data) {
             $tmp = array('name' => '', 'user' => '');
             $tmpUser = array();
             $tmp['name'] = $data->getName();
             foreach ($data->getMember() as $m) {
-                $tmpUser[] = $m->getEmail();
+                $tmpUser[] = $m->getUsername();
             }
             $tmp['user'] = implode($tmpUser, "\n");
             $res['group'][] = $tmp;
         }
         if (sizeof($user) == 0) {
-            $res['user'][] = $string;
+            $res['user'][] = array(
+                'name' => $string,
+                'id' => $string
+            );
         }
         return new JsonResponse($res);
     }

@@ -18,10 +18,9 @@ function initSearchUser() {
                     $target.append('<h5>Email</h5>');
                 }
                 for (var i = 0; i < $email.length; i++) {
-                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $email[i] + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i> ' + $email[i] + '</a>');
+                    $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $email[i].id + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i> ' + $email[i].name + '</a>');
                 }
                 var $group = data.group;
-                console.log($group);
                 if($group.length > 0){
                     $target.append('<h5>Gruppe</h5>');
                 }

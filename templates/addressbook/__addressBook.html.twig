@@ -1,14 +1,14 @@
 
 <ul class="list-group">
     {% set name = null %}
-    {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
-        {% if u.email|first|upper != name %}
-            {{ u.email|first|upper }}
-            {% set name = u.email|first|upper %}
+    {% for u in app.user.addressbook|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}
+        {% if u|nameOfUser|first|upper != name %}
+            {{ u|nameOfUser|first|upper }}
+            {% set name = u|nameOfUser|first|upper %}
         {% endif %}
 
         <li class="list-group-item" style="display: flex; justify-content: space-between">
-            <span class="breakWord">{{ u.formatedName(laf_showName) }} </span>
+            <span class="breakWord">{{ u|nameOfUser }} </span>
             <span class="noBreak">
                                     <a class="caretdown dropdown-toggle mr-1 text-success" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">

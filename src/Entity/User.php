@@ -245,7 +245,10 @@ class User extends BaseUser
 
         return $this;
     }
-
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
     public function getLastLogin(): ?\DateTimeInterface
     {
         return $this->lastLogin;
@@ -821,12 +824,12 @@ class User extends BaseUser
             $tmp = substr($tmp, strpos($tmp, '.') + 1);
             $value = '';
             try {
-
                 if (strpos($tmp, 'specialField') !== false) {
                     // we have a spezialField to read
                     $tmp = substr($tmp, strpos($tmp, '.') + 1);
                     $value = $this->spezialProperties[$tmp];
                 } else {
+                    // we have a standard field to read
                     switch ($tmp) {
                         case 'firstName':
                             $value = $this->firstName;
@@ -838,7 +841,7 @@ class User extends BaseUser
                             $value = $this->email;
                             break;
                         case 'username':
-                           $value = $this->username;
+                            $value = $this->username;
                             break;
                         default:
                             break;
@@ -846,9 +849,9 @@ class User extends BaseUser
                 }
 
             } catch (\Exception $exception) {
-
+                $value = '';
             }
-            $string = str_replace($data,$value,$string);
+            $string = str_replace($data, $value, $string);
         }
         return $string;
     }

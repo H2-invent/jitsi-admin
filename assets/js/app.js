@@ -39,14 +39,18 @@ $.urlParam = function (name) {
 addEventListener('load', function () {
     var url = (new URLSearchParams(window.location.search)).get('modalUrl');
     if (url !== null) {
-        $('#loadContentModal').load(atob(url), function (data, status) {
-            if (status === "error") {
-                window.location.reload();
-            } else {
-                $('#loadContentModal ').modal('show');
-            }
+        url = atob(url);
+        if (url.startsWith('/')){
+            $('#loadContentModal').load(url, function (data, status) {
+                if (status === "error") {
+                    window.location.reload();
+                } else {
+                    $('#loadContentModal ').modal('show');
+                }
 
-        });
+            });
+        }
+
     }
 });
 

@@ -9,11 +9,9 @@ use App\Entity\Server;
 use App\Service\LicenseService;
 use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
 use function Doctrine\ORM\QueryBuilder;
 use function GuzzleHttp\Psr7\str;
 
