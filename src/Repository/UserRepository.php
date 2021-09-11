@@ -64,7 +64,15 @@ class UserRepository extends ServiceEntityRepository
             ->andWhere('user = :user')
             ->setParameter('user', $user);
 
-        return $qb->andWhere($qb->expr()->like('u.email', ':search'))
+        return $qb->andWhere($qb->expr()->orX()->addMultiple(
+            [
+                $qb->expr()->like('u.email', ':search'),
+                $qb->expr()->like('u.firstName', ':search'),
+                $qb->expr()->like('u.lastName', ':search'),
+                $qb->expr()->like('u.username', ':search'),
+                $qb->expr()->like('u.spezialProperties', ':search'),
+            ]
+        ))
             ->setParameter('search', '%' . $value . '%')
             ->getQuery()
             ->getResult();

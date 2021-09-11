@@ -26,7 +26,7 @@ import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
 import {initGenerell} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
-import {initAddressGroupSearch} from './addressGroup';
+import {initAddressGroupSearch, initListSearch} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 $.urlParam = function (name) {
@@ -78,7 +78,7 @@ $(document).ready(function () {
     initGenerell();
     initDropDown();
     initRefreshDashboard(refreshDashboardTime,refreshDashboardUrl)
-
+    initListSearch();
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
         $('#sidebar').removeClass('active');

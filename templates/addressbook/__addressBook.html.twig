@@ -1,4 +1,10 @@
-
+<div class="row">
+    <div class="col mt-4">
+        <div class="form-group">
+            <input type="text"  placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
+        </div>
+    </div>
+</div>
 <ul class="list-group">
     {% set name = null %}
     {% for u in app.user.addressbook|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}
