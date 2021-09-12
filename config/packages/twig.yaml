@@ -24,6 +24,7 @@ twig:
         laf_notificationUrl: '%env(laf_notificationUrl)%'
         laf_bbb_Url: '%env(laf_bbb_Url)%'
         laf_showName: '%env(laf_showName)%'
+        laf_addParticipantsNoInput: '%env(laf_addParticipantsNoInput)%'
         input_settings_allow_sheduling: '%env(input_settings_allow_sheduling)%'
         input_settings_allow_roomPlanning: '%env(input_settings_allow_roomPlanning)%'
         dropdown_settings_common_share_links: '%env(dropdown_settings_common_share_links)%'

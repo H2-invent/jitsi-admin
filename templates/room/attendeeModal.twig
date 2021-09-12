@@ -26,11 +26,11 @@
                                 <a class="small directSend {% if roomPermissions(user,room).moderator == true %}text-success{% endif %}"
                                    href="{{ path('room_add_moderator',{'room':room.id,'user':user.id}) }}"
                                    data-text="
-{% if roomPermissions(user,room).moderator == false %}
-{{ 'Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?'|trans }}
-{% else %}
-{{ 'Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?'|trans }}
-{% endif %}
+                                    {% if roomPermissions(user,room).moderator == false %}
+                                    {{ 'Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?'|trans }}
+                                    {% else %}
+                                    {{ 'Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?'|trans }}
+                                    {% endif %}
 "
                                    data-target="#atendeeList"
                                    data-url="{{ path('room_add_user',{'room':room.id}) }}"
@@ -69,9 +69,9 @@
 
                                 <a class="small directSendWithConfirm"
                                    href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
-                                            data-target="#atendeeList"
-                                            data-text="{{ 'Wollen Sie den Teilnehmer wirklich löschen?'|trans }}"
-                                            data-url="{{ path('room_add_user',{'room':room.id}) }}">
+                                   data-target="#atendeeList"
+                                   data-text="{{ 'Wollen Sie den Teilnehmer wirklich löschen?'|trans }}"
+                                   data-url="{{ path('room_add_user',{'room':room.id}) }}">
                                     <i class="fa fa-trash "></i>
                                 </a>
                             </li>
@@ -115,13 +115,29 @@
             </div>
 
             {{ form_start(form) }}
-            <div class="row">
+            <div class="row {% if laf_addParticipantsNoInput == 1 %}d-none{% endif %}">
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 ">
                     {{ form_row(form.member) }}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 ">
                     {{ form_row(form.moderator) }}
+                </div>
+            </div>
+
+
+            <div  class="row {% if laf_addParticipantsNoInput == 0 %}d-none {% endif %}">
+                <div class="col-lg-6">
+                    {{ 'Teilnehmer'|trans }}:
+                    <ul class="list-group" id="participantsListAdd">
+                    <li class="list-group-item helpItem">{{ 'Suchen und durch klicken auf <i class="fas fa-plus"></i> hinzufügen'|trans|raw }}</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    {{ 'Moderator'|trans }}:
+                    <ul class="list-group" id="moderatorListAdd">
+                        <li class="list-group-item helpItem">{{ 'Suchen und durch klicken auf <i class="fas fa-crown"></i> hinzufügen'|trans|raw }}</li>
+                    </ul>
                 </div>
             </div>
 

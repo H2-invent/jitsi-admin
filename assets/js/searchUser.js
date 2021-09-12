@@ -28,12 +28,16 @@ function initSearchUser() {
                     $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $group[i].user + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i> ' + $group[i].name + '</a>');
                 }
                 $('[data-toggle="tooltip"]').tooltip();
+
                 $('.chooseParticipant').click(function (e) {
                     e.preventDefault();
                     var $textarea = $('#new_member_member');
                     var data = $textarea.val();
                     $textarea.val('').val($(this).data('val') + "\n" + data);
                     $('#searchUser').val('');
+                    $('#participantsListAdd')
+                        .append('<li class="list-group-item">'+$(this).text()+'</li>')
+                        .find('.helpItem').remove();
                     autosize.update($textarea);
                 })
                 $('.chooseModerator').click(function (e) {
@@ -43,6 +47,9 @@ function initSearchUser() {
                     var data = $textarea.val();
                     $textarea.val('').val($(this).closest('.chooseParticipant').data('val') + "\n" + data);
                     $('#searchUser').val('');
+                    $('#moderatorListAdd')
+                        .append('<li class="list-group-item">'+$(this).closest('.chooseParticipant').text()+'</li>')
+                        .find('.helpItem').remove();
                     autosize.update($textarea);
                 })
             })

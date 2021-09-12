@@ -238,6 +238,10 @@ class User extends BaseUser
 
         return $this;
     }
+    public function getUsername(): ?string
+    {
+      return $this->username;
+    }
 
     public function setUsername(?string $username): self
     {
@@ -245,10 +249,7 @@ class User extends BaseUser
 
         return $this;
     }
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
+
     public function getLastLogin(): ?\DateTimeInterface
     {
         return $this->lastLogin;

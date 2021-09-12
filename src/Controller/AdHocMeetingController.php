@@ -51,7 +51,7 @@ class AdHocMeetingController extends AbstractController
         $room->setUidReal(md5(uniqid()));
         $room->setUid(rand(01, 99) . time());
         $room->setServer($server);
-        $room->setName($translator->trans('Konferenz mit {n}',array('{n}'=>$user->getEmail())));
+        $room->setName($translator->trans('Konferenz mit {n}',array('{n}'=>$user->getFormatedName($parameterBag->get('laf_showName')))));
         $room->setOnlyRegisteredUsers(false);
         $em = $this->getDoctrine()->getManager();
         $em->persist($room);
