@@ -15,8 +15,8 @@
                     <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
                 {% endif %}
             </p>
-            <div id="atendeeList">
-                <ul>
+            <div>
+                <ul id="atendeeList">
                     <li>{{ room.moderator|nameOfUser }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                     {% for user in room.user %}
                         {% if user != room.moderator %}
@@ -97,8 +97,9 @@
                     {% endfor %}
                 </ul>
 
-            </div>
+
             {% endif %}
+            </div>
             <hr>
             <div class="row mb-2">
                 <div class="col-md-6">
