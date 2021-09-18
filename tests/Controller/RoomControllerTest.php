@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Tests\Controller;
+use App\Entity\Rooms;
 use App\Entity\User;
+use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class RoomControllerTest extends WebTestCase
 {
@@ -13,7 +16,7 @@ class RoomControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        $testUser = $userRepository->findOneByUsername('testemanuel');
+        $testUser = $userRepository->findOneByUsername('test@local.de');
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
@@ -29,12 +32,13 @@ class RoomControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        $testUser = $userRepository->findOneByUsername('testemanuel');
+        $testUser = $userRepository->findOneByUsername('test@local.de');
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
-
-        $client->request('GET', '/room/new?id=1915');
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'No Right'));
+        $client->request('GET', '/room/new?id='.$room->getId());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
     }
@@ -44,12 +48,13 @@ class RoomControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        $testUser = $userRepository->findOneByUsername('testemanuel');
+        $testUser = $userRepository->findOneByUsername('test@local.de');
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
-
-        $client->request('GET', '/room/new?id=2012');
+        $roomRepo = static::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 1'));
+        $client->request('GET', '/room/new?id='.$room->getId());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5', 'Konferenz bearbeiten');
 
@@ -60,7 +65,7 @@ class RoomControllerTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        $testUser = $userRepository->findOneByUsername('testemanuel');
+        $testUser = $userRepository->findOneByUsername('test@local.de');
 
         // simulate $testUser being logged in
         $client->loginUser($testUser);
