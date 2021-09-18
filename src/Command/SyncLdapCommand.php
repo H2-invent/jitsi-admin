@@ -136,9 +136,11 @@ class SyncLdapCommand extends Command
                 $table->setHeaders(['email', 'uid', 'dn', 'rdn']);
                 $table->setHeaderTitle($ldap->getUrl());
                 $table->setStyle('borderless');
-                foreach ($resTmp['user'] as $data2) {
-                    $numberUsers++;
-                    $table->addRow([$data2->getEmail(), $data2->getUserName(), $data2->getLdapUserProperties()->getLdapDn(), $data2->getLdapUserProperties()->getRdn()]);
+                if(is_array($resTmp['user'])) {
+                    foreach ($resTmp['user'] as $data2) {
+                        $numberUsers++;
+                        $table->addRow([$data2->getEmail(), $data2->getUserName(), $data2->getLdapUserProperties()->getLdapDn(), $data2->getLdapUserProperties()->getRdn()]);
+                    }
                 }
                 $table->render();
             }

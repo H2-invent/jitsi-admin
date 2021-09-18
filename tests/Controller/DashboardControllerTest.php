@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DashboardControllerTest extends WebTestCase
 {
+
     public function testdashboardUserSuccess()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail('test@test.com');
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('testemanuel');
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

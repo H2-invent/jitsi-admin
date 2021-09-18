@@ -45,6 +45,9 @@ class RoomController extends AbstractController
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
+            if (!$room){
+                return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler'),'color'=>'danger'));
+            }
             if ($room->getModerator() !== $this->getUser()) {
                 return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Keine Berechtigung')]);
             }

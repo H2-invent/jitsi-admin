@@ -48,6 +48,11 @@ class UserBase implements UserInterface
         return $this->uuid;
     }
 
+    public function getUserIdentifier()
+    {
+        return $this->uuid;
+    }
+
     /**
      * @see UserInterface
      */
@@ -72,7 +77,7 @@ class UserBase implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self

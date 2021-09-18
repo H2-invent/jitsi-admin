@@ -856,4 +856,8 @@ class User extends BaseUser
         }
         return $string;
     }
+    public function getUserIdentifier()
+    {
+        return $this->username;
+    }
 }

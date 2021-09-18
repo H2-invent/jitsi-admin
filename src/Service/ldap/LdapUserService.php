@@ -148,6 +148,10 @@ class LdapUserService
             }
             $user->removeServerAdmin($server);
         }
+        foreach ($user->getRoomsAttributes() as $attribute){
+            $user->removeRoomsAttributes($attribute);
+            $this->em->remove($attribute);
+        }
         $this->em->persist($user);
         $this->em->flush();
         $this->em->remove($user);
