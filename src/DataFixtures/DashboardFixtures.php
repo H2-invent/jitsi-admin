@@ -11,8 +11,6 @@ class DashboardFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $user = new \App\Entity\User();
-        $user->setUsername('testemanuel');
         $manager->flush();
     }
 }

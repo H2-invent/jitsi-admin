@@ -16,7 +16,7 @@ class DashboardControllerTest extends WebTestCase
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
-        $testUser = $userRepository->findOneByUsername('testemanuel');
+        $testUser = $userRepository->findOneByUsername('test@local.de');
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

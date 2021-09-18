@@ -20,6 +20,11 @@ class User extends Fixture
         $user->setFirstName('Test');
         $user->setLastName('User');
         $user->setRegisterId(123456);
+        $user->setSpezialProperties(array('ou'=>'Test1','departmentNumber'=>'1234',));
+        $user->setTimeZone('Europe/Berlin');
+        $user->setUuid('lksdhflkjdsljflkjds');
+        $user->setUsername('test@local.de');
+        $user->setCreatedAt(new \DateTime());
         $manager->persist($user);
 
         // USer ohne Keycloak ID, also einfach eingeladen
