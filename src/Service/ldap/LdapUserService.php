@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
+use function GuzzleHttp\Promise\all;
 
 class LdapUserService
 {
@@ -84,6 +85,7 @@ class LdapUserService
             $this->em->persist($data);
         }
         $this->em->flush();
+        return $allUSer;
     }
 
     /**
@@ -110,8 +112,13 @@ class LdapUserService
     {
         $object = null;
         try {
-            $query = $ldap->query($user->getLdapUserProperties()->getLdapDn(), '(&(cn=*))');
-            $object = $query->execute();
+            if($user->getLdapUserProperties()){
+                $query = $ldap->query($user->getLdapUserProperties()->getLdapDn(), '(&(cn=*))');
+                $object = $query->execute();
+            }else{
+                return null;
+            }
+
         } catch (LdapException $e) {
             $this->deleteUser($user);
             return null;
