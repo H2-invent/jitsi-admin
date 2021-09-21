@@ -46,7 +46,7 @@ class LdapUserServiceTest extends KernelTestCase
         $this->assertEquals(3,sizeof($users));
         $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
         foreach ($allUSers as $data){
-            echo $data->getUsername();
+
             $this->assertEquals(sizeof($allUSers),sizeof($data->getAddressbook()));
         }
 
@@ -59,10 +59,9 @@ class LdapUserServiceTest extends KernelTestCase
         $ldapUserService->deleteUser($user);
         $allUSerNew = $userRepository->findUsersfromLdapService();
         foreach ($allUSerNew as $data){
-            echo $data->getUsername();
+
             $this->assertEquals(sizeof($allUSers)-1,sizeof($data->getAddressbook()));
         }
-
     }
     public function testremoveUserFromLdap(): void
     {
