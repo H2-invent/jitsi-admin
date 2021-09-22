@@ -25,6 +25,7 @@ use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -43,6 +44,7 @@ class RoomController extends AbstractController
      */
     public function newRoom(ParameterBagInterface $parameterBag, ThemeService $themeService, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
     {
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if (!$room) {
@@ -64,6 +66,14 @@ class RoomController extends AbstractController
 
         } else {
             $room = new Rooms();
+            if ($request->cookies->has('room_server')) {
+
+                $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
+
+                if ($server && in_array($server,$servers)) {
+                    $room->setServer($server);
+                }
+            }
             $room->addUser($this->getUser());
             $room->setDuration(60);
             $room->setUid(rand(01, 99) . time());
@@ -79,7 +89,6 @@ class RoomController extends AbstractController
             if ($parameterBag->get('input_settings_max_participants_default') > 0) {
                 $room->setMaxParticipants($parameterBag->get('input_settings_max_participants_default'));
             }
-
             $room->setWaitinglist($parameterBag->get('input_settings_waitinglist_default'));
             $room->setShowRoomOnJoinpage($parameterBag->get('input_settings_conference_join_page_default'));
             $room->setTotalOpenRooms($parameterBag->get('input_settings_deactivate_participantsList_default'));
@@ -90,69 +99,71 @@ class RoomController extends AbstractController
 
             if ($this->getUser()->getTimeZone() && $parameterBag->get('allowTimeZoneSwitch') == 1) {
                 $room->setTimeZone($this->getUser()->getTimeZone());
-                if ($parameterBag->get('input_settings_allow_timezone_default') !== 0){
+                if ($parameterBag->get('input_settings_allow_timezone_default') != 0) {
                     $room->setTimeZone($parameterBag->get('input_settings_allow_timezone_default'));
                 }
             }
             $snack = $translator->trans('Konferenz erfolgreich erstellt');
             $title = $translator->trans('Neue Konferenz erstellen');
         }
-        $servers = $serverUserManagment->getServersFromUser($this->getUser());
+
 
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
         $form->remove('scheduleMeeting');
 
-//        try {
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $room = $form->getData();
+                $room = $form->getData();
 
-            $now = new \DateTime();
-            if (!$room->getStart() && !$room->getPersistantRoom()) {
-                $snack = $translator->trans('Fehler, das Startdatum darf nicht leer sein');
-                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-            }
-            if (!$room->getName()) {
-                $snack = $translator->trans('Fehler, der Name darf nicht leer sein');
-                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-            }
-
-            $room = $this->setRoomProps($room, $serverService);
-            if (($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()) {
-                $snack = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
-                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'color' => 'danger']);
-            }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
-            $schedulingService->createScheduling($room);
-
-            if ($request->get('id')) {
-                foreach ($room->getUser() as $user) {
-                    $userService->editRoom($user, $room);
+                $now = new \DateTime();
+                if (!$room->getStart() && !$room->getPersistantRoom()) {
+                    $snack = $translator->trans('Fehler, das Startdatum darf nicht leer sein');
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
-            } else {
-                $userService->addUser($room->getModerator(), $room);
-            }
+                if (!$room->getName()) {
+                    $snack = $translator->trans('Fehler, der Name darf nicht leer sein');
+                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                }
 
-            $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
-            if ($room->getScheduleMeeting()) {
-                $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
-            }
-            if (!$room->getTotalOpenRooms()) {
-                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
-            } else {
-                return $this->redirectToRoute('dashboard', ['snack' => $snack]);
-            }
+                $room = $this->setRoomProps($room, $serverService);
+                if (($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()) {
+                    $snack = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
+                    return $this->redirectToRoute('dashboard', ['snack' => $snack, 'color' => 'danger']);
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+                $schedulingService->createScheduling($room);
 
+                if ($request->get('id')) {
+                    foreach ($room->getUser() as $user) {
+                        $userService->editRoom($user, $room);
+                    }
+                } else {
+                    $userService->addUser($room->getModerator(), $room);
+                }
 
+                $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
+                if ($room->getScheduleMeeting()) {
+                    $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
+                }
+                if (!$room->getTotalOpenRooms()) {
+                    $res = $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                } else {
+                    $res = $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                }
+                $res->headers->setCookie(Cookie::create('room_server', $room->getServer()->getId(), time() + 1000000));
+                return $res;
+            }
+        } catch (\Exception $e) {
+            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            $res = $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+
+            return $res;
         }
-//        } catch (\Exception $e) {
-//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-//        }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
 

@@ -154,7 +154,6 @@ $(document).on('click', '.loadContent', function (e) {
 });
 
 function initServerFeatures() {
-
     getMoreFeature($('.moreFeatures').val())
     $('.moreFeatures').change(function () {
         getMoreFeature($(this).val());
@@ -251,13 +250,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     initRepeater();
     initKeycloakGroups();
     initAddressGroupSearch();
-    if(getCookie('room_server')){
-        $('#room_server').val(getCookie('room_server'))
-    }
-    $('#room_server').change(function () {
-        console.log($(this).val());
-        setCookie('room_server', $(this).val(), 1000);
-    })
+
     var ctx = document.getElementById("lineChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',

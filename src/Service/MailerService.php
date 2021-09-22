@@ -30,7 +30,7 @@ class MailerService
     private $userName;
     private $licenseService;
 
-    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
+    public function __construct(LicenseService $licenseService, LoggerInterface $logger, ParameterBagInterface $parameterBag, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
         $this->swift = $swift_Mailer;
         $this->parameter = $parameterBag;
@@ -61,25 +61,26 @@ class MailerService
         }
     }
 
-    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null,Rooms $rooms = null, $attachment = array()):bool
+    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
     {
         $to = $user->getEmail();
-        if($user->getLdapUserProperties() && filter_var($to, FILTER_VALIDATE_EMAIL) == false){
+        if ($user->getLdapUserProperties() && filter_var($to, FILTER_VALIDATE_EMAIL) == false) {
             $this->logger->debug('We sent no email, because the User is an LDAP User and the email is not a valid Email');
             return true;
         }
 
-        try {
-            $this->logger->info('Mail To: ' . $to);
-            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server,$replyTo, $rooms, $attachment);
+        // try {
+        $this->logger->info('Mail To: ' . $to);
+        $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment);
 
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //    $this->logger->error($e->getMessage());
+        //     $res = false;
+        //}
         return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null,Rooms $rooms = null, $attachment = array()):bool
+    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -90,8 +91,8 @@ class MailerService
             $sender = $this->parameter->get('registerEmailAdress');
             $senderName = $this->parameter->get('registerEmailName');
         }
-        if($this->parameter->get('emailSenderIsModerator')){
-            $senderName = $rooms->getModerator()->getFirstName().' '.$rooms->getModerator()->getLastName();
+        if ($this->parameter->get('emailSenderIsModerator')) {
+            $senderName = $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName();
         }
         $message = (new \Swift_Message($betreff))
             ->setFrom(array($sender => $senderName))
@@ -100,8 +101,11 @@ class MailerService
                 $content
                 , 'text/html'
             );
-        if($replyTo){
-            $message->setReplyTo($replyTo);
+
+        if ($replyTo) {
+            if (filter_var($replyTo, FILTER_VALIDATE_EMAIL) == true) {
+                $message->setReplyTo($replyTo);
+            }
         }
         foreach ($attachment as $data) {
             $message->attach(new \Swift_Attachment($data['body'], UtilsHelper::slugify($data['filename']), $data['type']));

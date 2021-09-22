@@ -26,12 +26,12 @@ class ReminderService
     public function sendReminder()
     {
         set_time_limit(600);
-        $now10 = new \DateTime();
-        $now10->modify('+ 10 minutes');
+        $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
+        $now10 = (clone $now)->modify('+ 10 minutes');
 
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
-        $qb->where('rooms.start > :now')
-            ->andWhere('rooms.start < :now10')
+        $qb->where('rooms.startUtc > :now')
+            ->andWhere('rooms.startUtc < :now10')
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->eq('rooms.scheduleMeeting', ':false'),
@@ -39,8 +39,8 @@ class ReminderService
                 )
             )
             ->setParameter('now10', $now10)
-            ->setParameter('now', new \DateTime())
-        ->setParameter(':false',false);
+            ->setParameter('now', $now)
+            ->setParameter(':false', false);
         $query = $qb->getQuery();
         $rooms = $query->getResult();
         $emails = 0;
