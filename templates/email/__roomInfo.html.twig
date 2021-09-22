@@ -12,7 +12,7 @@
     </p>
 {% endif %}
 <p>
-    {{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+    {{ 'Moderator'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
     {% if not room.persistantRoom %}
         {% if allowTimeZoneSwitch == 1 %}
             {{ 'Zeitangaben in Zeitzone'|trans }}: {% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZoneAuto }}{% endif %}<br>

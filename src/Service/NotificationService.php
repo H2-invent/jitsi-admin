@@ -98,7 +98,7 @@ class NotificationService
             $subject,
             $content,
             $server,
-            $rooms->getModerator()->getEmail(),
+            $rooms->getModerator()->getEmail()
         );
 
     }

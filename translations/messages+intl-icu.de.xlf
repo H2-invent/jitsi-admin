@@ -77,6 +77,10 @@
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
         <target>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</target>
       </trans-unit>
+      <trans-unit id="13JKXFh" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
+        <source>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
+        <target>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</target>
+      </trans-unit>
       <trans-unit id="h0jrwnB" resname="Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.">
         <source>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</source>
         <target>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</target>
@@ -88,6 +92,10 @@
       <trans-unit id="5w8fLA7" resname="Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.">
         <source>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</source>
         <target>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</target>
+      </trans-unit>
+      <trans-unit id="T.mgfUM" resname="Bestätigung ihrer Anmeldung zur Konferenz: {name}">
+        <source>Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
+        <target>Bestätigung ihrer Anmeldung zur Konferenz: {name}</target>
       </trans-unit>
       <trans-unit id="vnxSnbr" resname="Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.">
         <source>Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</source>
@@ -117,9 +125,21 @@
         <source>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</source>
         <target>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</target>
       </trans-unit>
+      <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
+        <source>Neue Einladung zu einer Videokonferenz</source>
+        <target>Neue Einladung zu einer Videokonferenz</target>
+      </trans-unit>
+      <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
+        <source>Videokonferenz wurde bearbeitet</source>
+        <target>Videokonferenz wurde bearbeitet</target>
+      </trans-unit>
       <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
         <source>Videokonferenz abgesagt</source>
         <target>Videokonferenz abgesagt</target>
+      </trans-unit>
+      <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
+        <source>Videokonferenz {room} startet gleich</source>
+        <target>Videokonferenz {room} startet gleich</target>
       </trans-unit>
       <trans-unit id="cfdSBrO" resname="Fehler, Der User wurde nicht gefunden">
         <source>Fehler, Der User wurde nicht gefunden</source>
@@ -668,6 +688,10 @@
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
         <source>Hier verlängern</source>
         <target>Hier verlängern</target>
+      </trans-unit>
+      <trans-unit id="pm52BiU" resname="Neue Einladung zu einer Terminplanung">
+        <source>Neue Einladung zu einer Terminplanung</source>
+        <target>Neue Einladung zu einer Terminplanung</target>
       </trans-unit>
       <trans-unit id="crDnbJt" resname="Sie haben den Terminplan erfolgreich umgewandelt">
         <source>Sie haben den Terminplan erfolgreich umgewandelt</source>
@@ -1228,6 +1252,22 @@
       <trans-unit id="vawr.RD" resname="[Erinnerung] Videokonferenz {room} startet gleich">
         <source>[Erinnerung] Videokonferenz {room} startet gleich</source>
         <target>[Erinnerung] Videokonferenz {room} startet gleich</target>
+      </trans-unit>
+      <trans-unit id="pPKSLi2" resname="Suche">
+        <source>Suche</source>
+        <target>Suche</target>
+      </trans-unit>
+      <trans-unit id="47ienTP" resname="Username">
+        <source>Username</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;&gt;&lt;/i&gt; hinzufügen">
+        <source>Suchen und durch klicken auf &lt;i class="fas fa-plus"&gt;&lt;/i&gt; hinzufügen</source>
+        <target><![CDATA[Suchen und durch klicken auf <i class="fas fa-plus"></i> hinzufügen]]></target>
+      </trans-unit>
+      <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
+        <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>
+        <target><![CDATA[Suchen und durch klicken auf <i class="fas fa-crown"></i> hinzufügen]]></target>
       </trans-unit>
     </body>
   </file>

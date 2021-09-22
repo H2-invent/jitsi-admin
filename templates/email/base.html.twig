@@ -144,7 +144,7 @@
                 <p style="text-align: center">
                     {% if room is defined %}
                         {% trans %}Diese Mail wurde Ihnen gesendet im Auftrag von:{% endtrans %}<br>
-                        {{ room.moderator.firstName }} {{ room.moderator.lastName }}
+                        {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}
                     {% endif %}
                 </p>
 

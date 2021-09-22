@@ -57,12 +57,16 @@
 
             </div>
             <div class="mb-2">
+                {% if laf_roomsMoreOptionsCollapsed == 1 %}
                 <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
                    aria-controls="collapseExample">
                     {{ 'Erweiterte Optionen'|trans }}
                 </a>
                 <div class="collapse" id="collapseExample">
+                    {% endif %}
                     <div class="mt-3">
+
+
                         <div class="row">
                             {% if form.scheduleMeeting is defined %}
 
@@ -177,7 +181,10 @@
                             {% endif %}
                         </div>
                     </div>
+
+                {% if laf_roomsMoreOptionsCollapsed == 1 %}
                 </div>
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>

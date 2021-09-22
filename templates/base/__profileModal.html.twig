@@ -12,8 +12,8 @@
             </div>
             <div class="modal-body">
                 <p>
-                    {{ 'Name'|trans }}: {{ app.user.firstName }} {{ app.user.lastName }}<br>
-                    {{ 'Email'|trans }}: {{ app.user.email }}<br>
+                    {{ 'Name'|trans }}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
+                    {{ 'Username'|trans }}: {{ app.user.userIdentifier }}<br>
                     {% if allowTimeZoneSwitch == 1  %}
                     {{ 'Zeitzone'|trans }}: {{ app.user.timeZone }}
                     {% endif %}
