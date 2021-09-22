@@ -15,14 +15,16 @@ class ReminderService
     private $em;
     private $parameterBag;
     private $userService;
-    public function __construct(EntityManagerInterface  $entityManager, ParameterBagInterface $parameterBag,UserService  $userService)
+
+    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, UserService $userService)
     {
         $this->em = $entityManager;
         $this->parameterBag = $parameterBag;
         $this->userService = $userService;
     }
 
-    public function sendReminder(){
+    public function sendReminder()
+    {
         set_time_limit(600);
         $now10 = new \DateTime();
         $now10->modify('+ 10 minutes');
@@ -30,19 +32,25 @@ class ReminderService
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->where('rooms.start > :now')
             ->andWhere('rooms.start < :now10')
-            ->andWhere('rooms.scheduleMeeting != true')
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('rooms.scheduleMeeting', ':false'),
+                    $qb->expr()->isNull('rooms.scheduleMeeting')
+                )
+            )
             ->setParameter('now10', $now10)
-            ->setParameter('now', new \DateTime());
+            ->setParameter('now', new \DateTime())
+        ->setParameter(':false',false);
         $query = $qb->getQuery();
         $rooms = $query->getResult();
         $emails = 0;
         foreach ($rooms as $room) {
             foreach ($room->getUser() as $data) {
-                $this->userService->notifyUser($data,$room);
-                ++ $emails;
+                $this->userService->notifyUser($data, $room);
+                ++$emails;
             }
         }
-        $message = ['error' => false, 'hinweis' => 'Cron ok', 'Konferenzen'=>count($rooms), 'Emails' => $emails];
+        $message = ['error' => false, 'hinweis' => 'Cron ok', 'Konferenzen' => count($rooms), 'Emails' => $emails];
         return $message;
     }
 
