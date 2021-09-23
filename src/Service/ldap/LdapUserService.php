@@ -80,7 +80,9 @@ class LdapUserService
         $allUSer = $this->em->getRepository(User::class)->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
-                $data->addAddressbook($data2);
+                if ($data !== $data2){
+                    $data->addAddressbook($data2);
+                }
             }
             $this->em->persist($data);
         }
