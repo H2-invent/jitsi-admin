@@ -29,6 +29,8 @@ import {initKeycloakGroups} from './keyCloakGroupsInit';
 import {initAddressGroupSearch, initListSearch} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
+import {initdateTimePicker} from './dateTimePicker';
+
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -95,11 +97,11 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    $('.flatpickr').flatpickr({
-        minDate: "today",
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
-    });
+    // $('.flatpickr').flatpickr({
+    //     minDate: "today",
+    //     enableTime: true,
+    //     dateFormat: "Y-m-d H:i",
+    // });
     initCopytoClipboard();
 
 });
@@ -163,17 +165,17 @@ function initServerFeatures() {
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
     $('[data-toggle="popover"]').popover({html: true});
-
-    $('.flatpickr').flatpickr({
-        minDate: "today",
-        enableTime: true,
-        time_24hr: true,
-        defaultMinute: 0,
-        minuteIncrement: 15,
-        altFormat: 'd.m.Y H:i',
-        dateFormat: 'Y-m-d H:i',
-        altInput: true
-    });
+    initdateTimePicker('.flatpickr');
+    // $('.flatpickr').flatpickr({
+    //     minDate: "today",
+    //     enableTime: true,
+    //     time_24hr: true,
+    //     defaultMinute: 0,
+    //     minuteIncrement: 15,
+    //     altFormat: 'd.m.Y H:i',
+    //     dateFormat: 'Y-m-d H:i',
+    //     altInput: true
+    // });
     $('form').submit(function (event) {
         var btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
