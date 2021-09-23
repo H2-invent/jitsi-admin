@@ -28,6 +28,20 @@ class RoomFixture extends Fixture
         $user->setCreatedAt(new \DateTime());
         $manager->persist($user);
 
+        $user2 = new \App\Entity\User();
+        $user2->setEmail('test@local.de');
+        $user2->setCreatedAt(new \DateTime());
+        $user2->setKeycloakId(123456);
+        $user2->setFirstName('Test');
+        $user2->setLastName('User');
+        $user2->setRegisterId(123456);
+        $user2->setSpezialProperties(array('ou'=>'Test1','departmentNumber'=>'1234',));
+        $user2->setTimeZone('Europe/Berlin');
+        $user2->setUuid('lksdhflkjdsljflkjds');
+        $user2->setUsername('test@local.de');
+        $user2->setCreatedAt(new \DateTime());
+        $manager->persist($user2);
+
         //create a server
         $server = new Server();
         $server->setUrl('meet.jit.si');
@@ -47,14 +61,37 @@ class RoomFixture extends Fixture
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
             $room->setDissallowScreenshareGlobal(true);
-            $start = (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin'));
+            $start = (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('+'.($i*2).'minutes');
             $end = clone $start;
             $end->modify('+60min');
             $room->setStart($start);
-            $room->setStartUtc((clone $start)->setTimezone(new \DateTimeZone('UTC')));
             $room->setEnddate($end);
-            $room->setEndDateUtc((clone $end)->setTimezone(new \DateTimeZone('UTC')));
             $room->addUser($user);
+            $room->addUser($user2);
+            $room->setUid(md5(uniqid()));
+            $room->setUidReal(md5(uniqid()));
+            $room->setSlug('test');
+            $room->setScheduleMeeting(false);
+            $room->setName('TestMeeting: '.$i);
+            $room->setSequence(0);
+            $room->setServer($server);
+            $manager->persist($room);
+        }
+        for ($i = 0; $i < 20; $i++) {
+            $room = new Rooms();
+            $room->setTimeZone('America/Adak');
+            $room->setModerator($user);
+            $room->setAgenda('Testagenda:'.$i);
+            $room->setDuration(60);
+            $room->setDissallowPrivateMessage(true);
+            $room->setDissallowScreenshareGlobal(true);
+            $start = (new \DateTime())->setTimezone(new \DateTimeZone('America/Adak'))->modify('+'.($i*2).'minutes');
+            $end = clone $start;
+            $end->modify('+60min');
+            $room->setStart($start);
+            $room->setEnddate($end);
+            $room->addUser($user);
+            $room->addUser($user2);
             $room->setUid(md5(uniqid()));
             $room->setUidReal(md5(uniqid()));
             $room->setSlug('test');

@@ -58,7 +58,9 @@ class MailerService
                 $this->logger->info('The Transport is new and we take him');
                 $this->customMailer = $tmpMailer;
             }
+            return $tmpMailer;
         }
+        return false;
     }
 
     public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
@@ -69,14 +71,14 @@ class MailerService
             return true;
         }
 
-        // try {
+         try {
         $this->logger->info('Mail To: ' . $to);
         $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment);
 
-        // } catch (\Exception $e) {
-        //    $this->logger->error($e->getMessage());
-        //     $res = false;
-        //}
+         } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+             $res = false;
+        }
         return $res;
     }
 
@@ -124,7 +126,7 @@ class MailerService
         } catch (\Exception $e) {
             $this->swift->send($message);
             $this->logger->error($e->getMessage());
-            return false;
+            throw $e;
         }
         return true;
     }

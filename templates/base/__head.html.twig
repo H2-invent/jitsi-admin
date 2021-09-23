@@ -42,16 +42,16 @@
 
     {{ include('base/__matomo.html.twig') }}
 
-        <!-- Our Custom CSS -->
-   {% if css is defined and css is not null %}
-       {{ encore_entry_link_tags(css) }}
+    <!-- Our Custom CSS -->
+    {% if css is defined and css is not null %}
+        {{ encore_entry_link_tags(css) }}
     {% else %}
-    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-        {{ encore_entry_link_tags('black') }}
+        {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+            {{ encore_entry_link_tags('black') }}
         {% else %}
             {{ encore_entry_link_tags('app') }}
-    {% endif%}
-   {% endif %}
+        {% endif %}
+    {% endif %}
 
 
 
@@ -60,74 +60,90 @@
 
     {% if theme %}
         <style>
-            .btn-dashboard, .btn-dashboard p{
+            .btn-dashboard, .btn-dashboard p {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
-            .btn-outline-dashboard{
+
+            .btn-outline-dashboard {
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;;
             }
-            .light-blue.darken-3{
+
+            .light-blue.darken-3 {
                 background-color: {{ theme.colorModalHeader }} !important;
             }
+
             h5.modal-title, button.close {
-                color: {{ theme.colorModalHeaderTextColor }}!important;
+                color: {{ theme.colorModalHeaderTextColor }} !important;
             }
-            .btn-outline-primary, .btn-outline-primary:hover{
+
+            .btn-outline-primary, .btn-outline-primary:hover {
                 color: {{ theme.colorButtonOutlinecolor }} !important;
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
             }
-            .blackMode .btn-outline-primary, .blackMode .btn-outline-primary:hover{
+
+            .blackMode .btn-outline-primary, .blackMode .btn-outline-primary:hover {
                 color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
                 border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
             }
-            .blackMode a{
-                color: {{ theme.primaryColor }} ;
+
+            .blackMode a {
+                color: {{ theme.primaryColor }};
             }
-            .btn-outline-secondary, .btn-outline-default{
+
+            .btn-outline-secondary, .btn-outline-default {
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
                 color: {{ theme.colorButtonOutlineTextcolor }} !important;
             }
-            .blackMode .btn-outline-secondary, .blackMode .btn-outline-default{
+
+            .blackMode .btn-outline-secondary, .blackMode .btn-outline-default {
                 border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
                 color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
             }
+
             .btn-outline-secondary .active, .btn-outline-default .active,
             .btn-outline-secondary:hover, .btn-outline-default:hover,
             .btn-outline-secondary:active, .btn-outline-default:active,
             .btn-outline-secondary:focus, .btn-outline-default:focus,
-            .show>.btn-outline-secondary.dropdown-toggle{
+            .show > .btn-outline-secondary.dropdown-toggle {
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
                 color: {{ theme.colorButtonOutlineTextcolor }} !important;
             }
+
             .blackMode .btn-outline-secondary .active, .blackMode .btn-outline-default .active,
             .blackMode .btn-outline-secondary:hover, .blackMode .btn-outline-default:hover,
             .blackMode .btn-outline-secondary:active, .blackMode .btn-outline-default:active,
             .blackMode .btn-outline-secondary:focus, .blackMode .btn-outline-default:focus,
-            .blackMode .show>.btn-outline-secondary.dropdown-toggle{
+            .blackMode .show > .btn-outline-secondary.dropdown-toggle {
                 border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
                 color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
             }
-            .btn-primary{
+
+            .btn-primary {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
-            .btn-primary.dropdown-toggle{
+
+            .btn-primary.dropdown-toggle {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
-            .btn-primary.dropdown-toggle:hover{
+
+            .btn-primary.dropdown-toggle:hover {
                 background-color: {{ theme.colorButtonHover }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
-            .btn-primary.dropdown-toggle:active, .show>.btn-primary.dropdown-toggle, .show>.btn-primary.dropdown-toggle:active{
+
+            .btn-primary.dropdown-toggle:active, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:active {
                 background-color: {{ theme.colorButtonActive }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
-            .blackMode #content{
+
+            .blackMode #content {
                 background-color: {{ theme.darkmodeBackgroudcolor }} !important;
             }
-            .blackMode .card{
+
+            .blackMode .card {
                 background-color: {{ theme.darkmodeBackgroudcolorContrast }} !important;
             }
         </style>

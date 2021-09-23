@@ -183,7 +183,7 @@ class RepeaterController extends AbstractController
          $room->setRepeaterRemoved(true);
          $title = $translator->trans('Nur dieses Serienelement bearbeiten');
         }elseif ($request->get('type') === 'all'){
-            $extra = $translator->trans('Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist');
+            $extra = $translator->trans('Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist');
         }
         if ($room->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Not found');

@@ -3,20 +3,18 @@
 namespace App\Tests;
 
 use App\dataType\LdapType;
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\ldap\LdapService;
 use App\Service\ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use function GuzzleHttp\Promise\all;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class LdapUserServiceTest extends KernelTestCase
+class LdapUserServiceTest extends WebTestCase
 {
     public function testRetrieveUserfromDatabasefromUserNameAttribute(): void
     {
         // (1) boot the Symfony kernel
-        self::bootKernel();
+        $client = static::createClient();
 
         // (2) use static::getContainer() to access the service container
         $container = static::getContainer();
@@ -46,22 +44,29 @@ class LdapUserServiceTest extends KernelTestCase
         $this->assertEquals(3,sizeof($users));
         $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
         foreach ($allUSers as $data){
-
             $this->assertEquals(sizeof($allUSers),sizeof($data->getAddressbook()));
         }
 
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneBy(array('username'=>'unitTest1'));
+        $user = $userRepository->findOneBy(array('username'=>'UnitTest1'));
         $this->assertNotEquals(null,$ldapUserService->checkUserInLdap($user,$ldap));
         $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
         $this->assertEquals(null,$ldapUserService->checkUserInLdap($user,$ldap));
+
         $ldapUserService->deleteUser($user);
         $allUSerNew = $userRepository->findUsersfromLdapService();
         foreach ($allUSerNew as $data){
-
             $this->assertEquals(sizeof($allUSers)-1,sizeof($data->getAddressbook()));
         }
+        foreach ($allUSerNew as $data){
+            $this->assertEquals('AA',$data->getSpezialProperties()['ou']);
+            $this->assertEquals('45689',$data->getSpezialProperties()['departmentNumber']);
+        }
+
+
+
+
     }
     public function testremoveUserFromLdap(): void
     {
