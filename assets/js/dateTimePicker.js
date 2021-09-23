@@ -30,6 +30,9 @@ function initdateTimePicker($element,
         for (var $c = 0; $c < $ele[$i].classList.length; $c++){
             $input.classList.add($ele[$i].classList[$c]);
         }
+        if ($ele[$i].value !==""){
+            $input.value = moment($ele[$i].value).format($options.altFormat);
+        }
         $input.classList.add($name+'_alt');
         $ele[$i].parentNode.appendChild($input);
     }
@@ -53,7 +56,12 @@ function initdateTimePicker($element,
                         }
                     }
                 })
-                mdtimepicker(datepicker.input, 'setValue', moment().format('HH:mm'));
+                if(datepicker.input.parentNode.querySelector('.original').value ===''){
+                    mdtimepicker(datepicker.input, 'setValue', moment().format('HH:mm'));
+                }else {
+                    mdtimepicker(datepicker.input, 'setValue', moment(datepicker.input.parentNode.querySelector('.original').value).format('HH:mm'));
+                }
+
                 mdtimepicker(datepicker.input,'show');
             }
         }
