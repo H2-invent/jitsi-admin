@@ -112,7 +112,7 @@ $(document).on('click', '.confirmHref', function (e) {
 	text = '¿Desea continuar?' //Translation
 
     }
-    console.log(text);
+
     $.confirm({
         title: 'Confirmacion',
         content: text,
@@ -214,7 +214,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         $('#room_server').val(getCookie('room_server'))
     }
     $('#room_server').change(function (){
-        console.log($(this).val());
+
         setCookie('room_server',$(this).val(),1000);
     })
     var ctx = document.getElementById("lineChart").getContext('2d');

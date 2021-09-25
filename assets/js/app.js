@@ -118,7 +118,7 @@ $(document).on('click', '.confirmHref', function (e) {
 
         text = 'Wollen Sie die Aktion durchführen?'
     }
-    console.log(text);
+
     $.confirm({
         title: 'Bestätigung',
         content: text,

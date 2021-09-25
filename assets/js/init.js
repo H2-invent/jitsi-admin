@@ -12,7 +12,7 @@ function initGenerell(){
                     icon: '/favicon.ico',
                     link:data[i].url,
                     onClick: function (ele) {
-                        console.log(this);
+
                         window.focus();
                         this.close();
                     }

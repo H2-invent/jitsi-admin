@@ -13,7 +13,7 @@ function initScheduling() {
     $ele.parentNode.querySelector('.input-group').appendChild($ele);
     $('.addSchedule').click(function (e) {
         e.preventDefault();
-        console.log('test');
+
         var $date = $('#schedulePickr').val();
         reload = $(this).data('reload');
         if($date != ''){
