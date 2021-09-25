@@ -47,5 +47,17 @@ class DashboardControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
-
+    public function testDayDescription()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $crawler = $client->request('GET', '/room/dashboard');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h4','Heute');
+        $this->assertSelectorTextContains('.badge','Läuft gerade');
+    }
 }

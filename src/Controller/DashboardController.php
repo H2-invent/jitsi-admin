@@ -102,6 +102,8 @@ class DashboardController extends AbstractController
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
         $persistantRooms = $this->getDoctrine()->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
+        $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
+        $tomorrow = (clone $today)->modify('+1day');
         $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
@@ -110,6 +112,8 @@ class DashboardController extends AbstractController
             'todayRooms' => $roomsToday,
             'snack' => $request->get('snack'),
             'servers'=>$servers,
+            'today'=>$today,
+            'tomorrow'=>$tomorrow
         ]);
 
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){

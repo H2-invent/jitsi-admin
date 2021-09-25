@@ -101,6 +101,7 @@ h5 {
 
 a {
   color: $black_link-color;
+
   &:hover {
     color: $black_link-color;
     text-decoration: underline;
@@ -119,38 +120,95 @@ a {
 #modalAdressbook a[aria-expanded="true"] {
   background: $black_navbar;
 }
-.jconfirm-box{
-  background-color: $black_modal!important;
-  color: $black_font-color!important;
-  .jconfirm-title-c{
-    color: $black_font-color!important;
+
+.jconfirm-box {
+  background-color: $black_modal !important;
+  color: $black_font-color !important;
+
+  .jconfirm-title-c {
+    color: $black_font-color !important;
   }
-  .jconfirm-content{
-    color: $black_font-color!important;
+
+  .jconfirm-content {
+    color: $black_font-color !important;
   }
 }
-.close{
+
+.close {
   color: white;
-  &:hover{
+
+  &:hover {
     color: white;
   }
 }
+
 .list-group-item {
   border: 1px solid #c9d1d9 !important;
 }
-.brightmode{
+
+.brightmode {
   color: $black_font-color;
 }
-.jconfirm-box{
-  background-color: $black_modal!important;
-  color: $black_font-color!important;
-  .jconfirm-title-c{
-    color: $black_font-color!important;
+
+.jconfirm-box {
+  background-color: $black_modal !important;
+  color: $black_font-color !important;
+
+  .jconfirm-title-c {
+    color: $black_font-color !important;
   }
-  .jconfirm-content{
-    color: $black_font-color!important;
+
+  .jconfirm-content {
+    color: $black_font-color !important;
   }
 }
-.language-dropdown .dropdown-item:hover{
+
+.language-dropdown .dropdown-item:hover {
   background-color: $black_navbar;
 }
+
+.mdtimepicker .mdtp__clock_holder, .dudp__cal-container {
+  background-color: $black_background !important;
+}
+
+.mdtimepicker .mdtp__clock_holder .mdtp__clock {
+  background-color: $black_modal;
+}
+
+.mdtp__digit span {
+  color: white;
+}
+
+.dudp__calendar {
+  .dudp__date{
+    color: white!important;
+  }
+
+  .disabled {
+    color: grey!important;
+  }
+
+  .dudp__nm {
+    color: lightgray!important;
+  }
+  .dudp__cal-month-year, .dudp__btn-cal-next, .dudp__btn-cal-prev{
+    color: lightgray;
+  }
+}
+.dudp__btn-cal-next, .dudp__btn-cal-prev{
+  color: lightgray;
+}
+.dudp__weekdays span{
+  color: lightgray!important;
+}
+.dudp__years-view{
+  background-color: $black_modal!important;
+}
+.dudp__month, .dudp__year{
+  color: lightgray;
+
+}
+.dudp__month.selected, .dudp__year.selected {
+  color: white!important;
+}
+

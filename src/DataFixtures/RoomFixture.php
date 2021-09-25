@@ -38,7 +38,7 @@ class RoomFixture extends Fixture
         $user2->setSpezialProperties(array('ou'=>'Test1','departmentNumber'=>'1234',));
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflkjds');
-        $user2->setUsername('test@local.de');
+        $user2->setUsername('test2@local.de');
         $user2->setCreatedAt(new \DateTime());
         $manager->persist($user2);
 
@@ -101,6 +101,7 @@ class RoomFixture extends Fixture
             $room->setServer($server);
             $manager->persist($room);
         }
+
         $room = new Rooms();
         $room->setTimeZone('Europe/Berlin');
         $room->setModerator(null);
@@ -112,14 +113,36 @@ class RoomFixture extends Fixture
         $end = clone $start;
         $end->modify('+60min');
         $room->setStart($start);
-        $room->setStartUtc((clone $start)->setTimezone(new \DateTimeZone('UTC')));
         $room->setEnddate($end);
-        $room->setEndDateUtc((clone $end)->setTimezone(new \DateTimeZone('UTC')));
         $room->setUid(md5(uniqid()));
         $room->setUidReal(md5(uniqid()));
         $room->setSlug('test');
         $room->setScheduleMeeting(false);
         $room->setName('No Right');
+        $room->setSequence(0);
+        $room->setServer($server);
+        $manager->persist($room);
+        $manager->flush();
+
+        $room = new Rooms();
+        $room->setTimeZone('Europe/Berlin');
+        $room->setAgenda('Testagenda:'.$i);
+        $room->setDuration(60);
+        $room->setDissallowPrivateMessage(true);
+        $room->setDissallowScreenshareGlobal(true);
+        $start = (new \DateTime('tomorrow'))->setTimezone(new \DateTimeZone('Europe/Berlin'))->setTime(10,0);
+        $end = clone $start;
+        $end->modify('+60min');
+        $room->setStart($start);
+        $room->setEnddate($end);
+        $room->setModerator($user);
+        $room->addUser($user);
+        $room->addUser($user2);
+        $room->setUid(md5(uniqid()));
+        $room->setUidReal(md5(uniqid()));
+        $room->setSlug('test');
+        $room->setScheduleMeeting(false);
+        $room->setName('Room Tomorrow');
         $room->setSequence(0);
         $room->setServer($server);
         $manager->persist($room);

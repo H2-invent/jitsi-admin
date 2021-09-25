@@ -146,7 +146,26 @@
             .blackMode .card {
                 background-color: {{ theme.darkmodeBackgroudcolorContrast }} !important;
             }
+
+            .dudp__calendar-header, .mdtp__wrapper[data-theme='blue'] .mdtp__time_holder {
+                background-color: {{ theme.colorModalHeader }} !important;
+            }
+
+            .dudp__calendar .selected:before {
+                background-color: {{ theme.colorButton }} !important;
+            }
+
+            .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit.active span,
+            .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit:not(.digit--disabled) span:hover,
+            .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit.active:before,
+            .mdtp__clock_dot{
+                background-color: {{ theme.colorButton }} !important;
+            }
+            .mdtp__button {
+                color: {{ theme.colorButton }}!important;
+            }
         </style>
+
     {% endif %}
 
 </head>

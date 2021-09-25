@@ -1,30 +1,27 @@
 import $ from "jquery";
-import flatpickr from 'flatpickr'
+import {initdateTimePicker,cleanDateTimePicker} from '@holema/h2datetimepicker';
 
 var reload = '';
 
 function initScheduling() {
+    initdateTimePicker('#schedulePickr')
+
+    var $ele = document.getElementById('scheduleAppendBtn');
+    if ($ele === null){
+        return;
+    }
+    $ele.parentNode.querySelector('.input-group').appendChild($ele);
     $('.addSchedule').click(function (e) {
         e.preventDefault();
-        var $date = $(this).closest('.input-group').find('input').val();
+        console.log('test');
+        var $date = $('#schedulePickr').val();
         reload = $(this).data('reload');
         if($date != ''){
             $.post($(this).data('url'), {date: $date}, function (data) {
                 if (data.error == false) {
                     $('#scheduleSlots').load(reload + ' #slot', function () {
                         initRemove();
-                        $('#schedulePickr').val('');
-                        $('#schedulePickr').flatpickr({
-                            minDate: "today",
-                            enableTime: true,
-                            time_24hr: true,
-                            defaultMinute: 0,
-                            minuteIncrement: 15,
-                            altFormat: 'd.m.Y H:i',
-                            dateFormat: 'Y-m-d H:i',
-                            altInput: true
-                        });
-
+                        cleanDateTimePicker(document.getElementById('schedulePickr'))
                     })
 
                 }

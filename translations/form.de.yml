@@ -131,3 +131,4 @@ choice:
   none: Keine
 placeholder:
   maxParticipants: Keine Limitierung
+  chooseTime: Zeit und Datum auswählen
