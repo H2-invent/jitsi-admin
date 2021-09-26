@@ -3,6 +3,16 @@ import autosize from "autosize";
 
 
 function initSearchUser() {
+    $('#searchUser').focus(function () {
+        $(this).next('.dropdown-menu').dropdown('show');
+        $(document).on("click", function(event){
+            var $trigger = $(".dropdown");
+            if($trigger !== event.target && !$trigger.has(event.target).length){
+                $(".dropdown-menu").dropdown("hide");
+            }
+        });
+    })
+
     autosize($('#new_member_member'));
     autosize($('#new_member_moderator'));
     $('#searchUser').keyup(function (e) {

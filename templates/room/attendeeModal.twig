@@ -81,78 +81,27 @@
 
                 {% if room.waitinglists|length > 0 %}
 
-                <b>{{ 'Warteliste'|trans }}</b>
-                <hr>
-                <ul>
-                    {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
-                        <li>{{ w.user.email }}
-                            <a class="small directSend"
-                               href="{{ path('accept_waitingList',{'id':w.id}) }}"
-                               data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
-                               data-target="#atendeeList"
-                               data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                            ><i class="fa fa-check"></i>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                    <b>{{ 'Warteliste'|trans }}</b>
+                    <hr>
+                    <ul>
+                        {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
+                            <li>{{ w.user.email }}
+                                <a class="small directSend"
+                                   href="{{ path('accept_waitingList',{'id':w.id}) }}"
+                                   data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
+                                   data-target="#atendeeList"
+                                   data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                ><i class="fa fa-check"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
 
 
-            {% endif %}
+                {% endif %}
             </div>
             <hr>
-            <div class="row mb-2">
-                <div class="col-md-6">
-                    <label for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
-                    <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
-                           href="{{ path('search_participant') }}"
-                           data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                    <div class="dropdown-menu" id="participantUser">
-                        <a class="dropdown-item" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
-                    </div>
-                </div>
-
-            </div>
-
-            {{ form_start(form) }}
-            <div class="row {% if laf_addParticipantsNoInput == 1 %}d-none{% endif %}">
-
-                <div class="col-lg-6 ">
-                    {{ form_row(form.member) }}
-                </div>
-                <div class="col-lg-6 ">
-                    {{ form_row(form.moderator) }}
-                </div>
-            </div>
-
-
-            <div  class="row {% if laf_addParticipantsNoInput == 0 %}d-none {% endif %}">
-                <div class="col-lg-6">
-                    {{ 'Teilnehmer'|trans }}:
-                    <ul class="list-group" id="participantsListAdd">
-                    <li class="list-group-item helpItem">{{ 'Suchen und durch klicken auf <i class="fas fa-plus"></i> hinzufügen'|trans|raw }}</li>
-                    </ul>
-                </div>
-                <div class="col-lg-6">
-                    {{ 'Moderator'|trans }}:
-                    <ul class="list-group" id="moderatorListAdd">
-                        <li class="list-group-item helpItem">{{ 'Suchen und durch klicken auf <i class="fas fa-crown"></i> hinzufügen'|trans|raw }}</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-7">
-                    {{ form_row(form.submit) }}
-                </div>
-                <div class="col-md-5">
-                    <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
-                        {{ 'Abbrechen' | trans }}
-                    </a>
-                </div>
-            </div>
-            {{ form_end(form) }}
+            {{ include('room/__addAtendee.twig') }}
         </div>
     </div>
 </div>

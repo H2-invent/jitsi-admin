@@ -42,7 +42,7 @@ addEventListener('load', function () {
     var url = (new URLSearchParams(window.location.search)).get('modalUrl');
     if (url !== null) {
         url = atob(url);
-        if (url.startsWith('/')){
+        if (url.startsWith('/')) {
             $('#loadContentModal').load(url, function (data, status) {
                 if (status === "error") {
                     window.location.reload();
@@ -79,7 +79,7 @@ $(document).ready(function () {
     }
     initGenerell();
     initDropDown();
-    initRefreshDashboard(refreshDashboardTime,refreshDashboardUrl)
+    initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
@@ -186,7 +186,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     if (typeof $('#room_persistantRoom') !== 'undefined') {
         if ($('#room_persistantRoom').prop('checked')) {
             $('#roomStartForm').collapse('hide')
-            if ($('#room_totalOpenRooms').prop('checked')){
+            if ($('#room_totalOpenRooms').prop('checked')) {
                 $('#totalOpenRoomsOpenTime').collapse('show');
             } else {
                 $('#totalOpenRoomsOpenTime').collapse('hide');
@@ -198,7 +198,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         $('#room_persistantRoom').change(function () {
             if ($('#room_persistantRoom').prop('checked')) {
                 $('#roomStartForm').collapse('hide')
-                if ($('#room_totalOpenRooms').prop('checked')){
+                if ($('#room_totalOpenRooms').prop('checked')) {
                     $('#totalOpenRoomsOpenTime').collapse('show');
                 } else {
                     $('#totalOpenRoomsOpenTime').collapse('hide');
@@ -243,13 +243,14 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     initRepeater();
     initKeycloakGroups();
     initAddressGroupSearch();
-
-    var ctx = document.getElementById("lineChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: options
-    });
+    if (document.getElementById("lineChart") !== null) {
+        var ctx = document.getElementById("lineChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
 });
 $(document).on('click', '.directSend', function (e) {
     var $url = $(this).prop('href');
@@ -282,7 +283,7 @@ $(document).on('click', '.directSendWithConfirm', function (e) {
                 btnClass: 'btn-outline-danger btn', // class for the button
                 action: function () {
                     $.get($url, function () {
-                        $(target).closest('div').load($targetUrl + ' ' + target,function () {
+                        $(target).closest('div').load($targetUrl + ' ' + target, function () {
                             initSearchUser();
                         });
 
