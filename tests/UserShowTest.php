@@ -48,7 +48,7 @@ class UserShowTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.breakWord', 'AA, 45689, Hase, Hans');
+        $this->assertSelectorTextContains('.breakWord', ', , Hase, Hans');
         $this->assertSelectorTextNotContains('.breakWord', 'unitTest2');
     }
 }

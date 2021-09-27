@@ -41,7 +41,7 @@ class LdapUserServiceTest extends WebTestCase
         foreach ($entry as $data){
             $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data,$ldapType);
         }
-        $this->assertEquals(3,sizeof($users));
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP,sizeof($users));
         $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
         foreach ($allUSers as $data){
             $this->assertEquals(sizeof($allUSers)-1,sizeof($data->getAddressbook()));
@@ -60,8 +60,14 @@ class LdapUserServiceTest extends WebTestCase
             $this->assertEquals(sizeof($allUSerNew)-1,sizeof($data->getAddressbook()));
         }
         foreach ($allUSerNew as $data){
-            $this->assertEquals('AA',$data->getSpezialProperties()['ou']);
-            $this->assertEquals('45689',$data->getSpezialProperties()['departmentNumber']);
+            if($data->getUsername() !== 'unitTestnoSF'){
+                $this->assertEquals('AA',$data->getSpezialProperties()['ou']);
+                $this->assertEquals('45689',$data->getSpezialProperties()['departmentNumber']);
+            }else{
+                $this->assertEquals('',$data->getSpezialProperties()['ou']);
+                $this->assertEquals('',$data->getSpezialProperties()['departmentNumber']);
+            }
+
         }
 
 
@@ -100,7 +106,7 @@ class LdapUserServiceTest extends WebTestCase
         }
         $userRepository = static::getContainer()->get(UserRepository::class);
         $users = $userRepository->findUsersfromLdapService();
-        $this->assertEquals(3,sizeof($users));
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP,sizeof($users));
         $user = $userRepository->findOneBy(array('username'=>'unitTest1'));
         $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
         $em = static::getContainer()->get(EntityManagerInterface::class);
@@ -108,6 +114,6 @@ class LdapUserServiceTest extends WebTestCase
         $em->flush();
         $ldapUserService->syncDeletedUser($ldap,$ldapType);
         $users = $userRepository->findUsersfromLdapService();
-        $this->assertEquals(2,sizeof($users));
+        $this->assertEquals(3,sizeof($users));
     }
 }

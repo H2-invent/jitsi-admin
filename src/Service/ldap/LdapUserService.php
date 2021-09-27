@@ -58,7 +58,12 @@ class LdapUserService
         }
         $specialField = array();
         foreach ($ldapType->getSpecialFields() as $data){
-            $specialField[$data] = $entry->getAttribute($data)[0];
+            if($entry->getAttribute($data)){
+                $specialField[$data] = $entry->getAttribute($data)[0];
+            }else{
+                $specialField[$data] = '';
+            }
+
         }
         $user->setSpezialProperties($specialField);
         $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());

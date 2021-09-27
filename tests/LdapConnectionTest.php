@@ -8,8 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class LdapConnectionTest extends KernelTestCase
 {
+    public static $UserInLDAP = 4;
+    public static $UserInSubLDAP = 2;
+    public static $UserInOneLDAP = 2;
     public function testConnectionOhneLogin(): void
     {
+
         // (1) boot the Symfony kernel
         self::bootKernel();
 
@@ -19,7 +23,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', '', '', true);
-        $this->assertEquals(3, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'sub'))->execute()->count());
+        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'sub'))->execute()->count());
     }
 
     public function testConnectionMitLogin(): void
@@ -33,7 +37,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', 'uid=admin,ou=system', 'password');
-        $this->assertEquals(3, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'sub'))->execute()->count());
+        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'sub'))->execute()->count());
     }
 
     public function testConnectionMitLoginOne(): void
@@ -47,7 +51,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', 'uid=admin,ou=system', 'password');
-        $this->assertEquals(2, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'one'))->execute()->count());
+        $this->assertEquals(self::$UserInOneLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'one'))->execute()->count());
     }
 
     public function testcreateObjectClass(): void
@@ -118,7 +122,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapType->setLdap($ldap);
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
-        $this->assertEquals(3, sizeof($ldapConnection->fetchLdap($ldapType)['user']));
+        $this->assertEquals(self::$UserInLDAP, sizeof($ldapConnection->fetchLdap($ldapType)['user']));
     }
 
     public function testRetrieveUserOne(): void
@@ -132,7 +136,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', 'uid=admin,ou=system', 'password');
-        $this->assertEquals(2, sizeof($ldapConnection->retrieveUser(
+        $this->assertEquals(self::$UserInOneLDAP, sizeof($ldapConnection->retrieveUser(
             $ldap,
             'o=unitTest,dc=example,dc=com',
             'person,organizationalPerson,user',
@@ -150,7 +154,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', 'uid=admin,ou=system', 'password');
-        $this->assertEquals(3, sizeof($ldapConnection->retrieveUser(
+        $this->assertEquals(self::$UserInLDAP, sizeof($ldapConnection->retrieveUser(
             $ldap,
             'o=unitTest,dc=example,dc=com',
             'person,organizationalPerson,user',
