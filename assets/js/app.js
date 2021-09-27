@@ -57,6 +57,7 @@ addEventListener('load', function () {
 });
 
 $(document).ready(function () {
+
     $('.switchDarkmode').change(function (e) {
         var val = 0;
         if ($(this).prop('checked')) {
@@ -144,6 +145,7 @@ $(document).on('click', '.confirmHref', function (e) {
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
+    console.log('1.5');
     var url = $(this).attr('href');
     $('#loadContentModal').load(url, function (data, status) {
         if (status === "error") {
