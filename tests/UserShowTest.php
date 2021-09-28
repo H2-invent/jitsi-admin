@@ -48,7 +48,50 @@ class UserShowTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.breakWord', ', , Hase, Hans');
-        $this->assertSelectorTextNotContains('.breakWord', 'unitTest2');
+        $this->assertEquals(
+            1,
+        $crawler->filter('.breakWord:contains(", , Reh, Rainer")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.breakWord:contains("AA, 45689, Hase, Hans")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.breakWord:contains("AA, 45689, Maus, Maike")')->count()
+        );
+        $this->assertEquals(
+            0,
+            $crawler->filter('.breakWord:contains("AA, 45689, Forelle, Frieder")')->count()
+        );
+        $this->assertEquals(
+            0,
+            $crawler->filter('.breakWord:contains("unitTest")')->count()
+        );
+
+        $testUser = $userRepository->findOneBy(array('username' => 'unitTest1'));
+        $client->loginUser($testUser);
+        $crawler = $client->request('GET', '/room/dashboard');
+        $this->assertResponseIsSuccessful();
+        $this->assertEquals(
+            1,
+            $crawler->filter('.breakWord:contains(", , Reh, Rainer")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.breakWord:contains("AA, 45689, Hase, Hans")')->count()
+        );
+        $this->assertEquals(
+            0,
+            $crawler->filter('.breakWord:contains("AA, 45689, Maus, Maike")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.breakWord:contains("AA, 45689, Forelle, Frieder")')->count()
+        );
+        $this->assertEquals(
+            0,
+            $crawler->filter('.breakWord:contains("unitTest")')->count()
+        );
     }
 }

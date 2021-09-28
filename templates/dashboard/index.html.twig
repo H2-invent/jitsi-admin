@@ -140,7 +140,7 @@
                 {% endif %}
                 {% set locale =  app.request.locale %}
                 {% for date in roomsFuture %}
-                    <h4 style="padding-top: 16px" class="day">
+                    <h4 style="padding-top: 16px" class="day h4-responsive pl-xl-3">
                         {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
                         {{ 'Heute'|trans }}
                         {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}

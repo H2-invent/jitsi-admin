@@ -17,6 +17,9 @@
             "./config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
     },
+    "dbrekelmans/bdi": {
+        "version": "0.3"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -194,6 +197,9 @@
     },
     "php": {
         "version": "7.4"
+    },
+    "php-webdriver/webdriver": {
+        "version": "1.11.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.1.0"
@@ -514,6 +520,15 @@
     },
     "symfony/options-resolver": {
         "version": "v4.4.8"
+    },
+    "symfony/panther": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "877d853a05c6713665a2f4b954734592680abff6"
+        }
     },
     "symfony/password-hasher": {
         "version": "v5.3.3"

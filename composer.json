@@ -34,6 +34,7 @@
     "symfony/ldap": "5.3.*",
     "symfony/mailer": "5.3.*",
     "symfony/monolog-bundle": "^3.1",
+    "symfony/panther": "^1.1",
     "symfony/process": "5.3.*",
     "symfony/property-access": "5.3.*",
     "symfony/property-info": "5.3.*",
@@ -57,6 +58,7 @@
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^6.6",
+    "dbrekelmans/bdi": "^0.3.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "phpunit/phpunit": "^9.5",
     "symfony/browser-kit": "5.3.*",
