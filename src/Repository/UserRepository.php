@@ -98,4 +98,14 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findUsersfromLdapdn($userDn)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->join('u.ldapUserProperties', 'ldap_user_properties')
+            ->andWhere('ldap_user_properties.ldapDn = :ldapdn')
+            ->setParameter('ldapdn',$userDn)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

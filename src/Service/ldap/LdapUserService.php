@@ -36,21 +36,20 @@ class LdapUserService
         $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
         $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0];
 
-        $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
+        $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
 
         if (!$user) {
             $user = new User();
-            $user->setUsername($uid);
             $user->setCreatedAt(new \DateTime());
             $user->setUid(md5(uniqid()));
             $user->setUuid(md5(uniqid()));
-
         }
         if(!$user->getLdapUserProperties()){
             $ldap = new LdapUserProperties();
             $ldap->setLdapHost($ldapType->getUrl());
             $ldap->setLdapDn($entry->getDn());
             $user->setLdapUserProperties($ldap);
+            $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
         }
 
         if ($ldapType->getRdn()) {
@@ -66,10 +65,11 @@ class LdapUserService
 
         }
         $user->setSpezialProperties($specialField);
-        $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
+
         $user->setEmail($email);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
+        $user->setUsername($uid);
         $this->em->persist($user);
         $this->em->flush();
         return $user;

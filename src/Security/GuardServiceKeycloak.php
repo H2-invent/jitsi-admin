@@ -85,7 +85,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser->setEmail($email);
             $existingUser->setFirstName($firstName);
             $existingUser->setLastName($lastName);
-            $existingUser->setUsername($email);
+            $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
             $this->em->flush();
@@ -104,7 +104,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser->setEmail($email);
             $existingUser->setFirstName($firstName);
             $existingUser->setLastName($lastName);
-            $existingUser->setUsername($email);
+            $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
             $this->em->flush();
@@ -123,7 +123,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
                 ->setCreatedAt(new \DateTime())
                 ->setLastLogin(new \DateTime())
                 ->setKeycloakId($id)
-                ->setUsername($email)
+                ->setUsername($username)
                 ->setGroups($groups);
             $this->em->persist($newUser);
             $this->em->flush();
