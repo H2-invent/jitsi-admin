@@ -187,26 +187,26 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
     if (typeof $('#room_persistantRoom') !== 'undefined') {
         if ($('#room_persistantRoom').prop('checked')) {
-            $('#roomStartForm').collapse('hide')
+            $('#roomStartForm').collapse('hide').find('input').attr('required',false);
             if ($('#room_totalOpenRooms').prop('checked')) {
                 $('#totalOpenRoomsOpenTime').collapse('show');
             } else {
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         } else {
-            $('#roomStartForm').collapse('show');
+            $('#roomStartForm').collapse('show').find('input').attr('required',true);
             $('#totalOpenRoomsOpenTime').collapse('hide');
         }
         $('#room_persistantRoom').change(function () {
             if ($('#room_persistantRoom').prop('checked')) {
-                $('#roomStartForm').collapse('hide')
+                $('#roomStartForm').collapse('hide').find('input').attr('required',false);
                 if ($('#room_totalOpenRooms').prop('checked')) {
                     $('#totalOpenRoomsOpenTime').collapse('show');
                 } else {
                     $('#totalOpenRoomsOpenTime').collapse('hide');
                 }
             } else {
-                $('#roomStartForm').collapse('show');
+                $('#roomStartForm').collapse('show').find('input').attr('required',true);
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         })
@@ -352,7 +352,6 @@ function getMoreFeature(id) {
             }
         })
     }
-
 }
 
 function setCookie(cname, cvalue, exdays) {
