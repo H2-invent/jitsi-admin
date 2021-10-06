@@ -199,7 +199,11 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
                 }else {
                     $('.formError').remove();
                     for (var i = 0; i<$res['messages'].length; i++){
-                        $('<div class="alert alert-danger formError" role="alert">'+$res['messages'][i]+'</div>').insertBefore(form)
+                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">'+$res['messages'][i]+'  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                            '    <span aria-hidden="true">&times;</span>\n' +
+                            '  </button>' +
+                            '</div>')
+                            .insertBefore(form.find('button[type=submit]'))
                     }
                     var btn = form.find('button[type=submit]');
                     btn.find('.fas').remove();
