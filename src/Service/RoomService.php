@@ -112,11 +112,11 @@ class RoomService
             $payload['context']['features'] = $screen;
         }
         $token = JWT::encode($payload, $jitsi_jwt_token_secret);
-        if (!$room->getServer()->getAppId() || !$room->getServer()->getAppSecret()) {
-            $url = $jitsi_server_url . '/' . $room->getUid();
-        } else {
-            $url = $jitsi_server_url . '/' . $room->getUid() . '?jwt=' . $token;
+        $url = $jitsi_server_url . '/' . $room->getUid();
+        if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
+            $url = $url. '?jwt=' . $token;
         }
+        $url = $url .'#config.subject=%22'.$room->getName().'%22';
         return $url;
     }
 

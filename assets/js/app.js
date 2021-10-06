@@ -174,6 +174,41 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
     });
+    $("#newRoom_form").submit(function(e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $(this);
+        var url = form.attr('action');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                var $res = data;
+                if($res['error'] === false){
+                    if(typeof $res['cookie'] !== 'undefined' ){
+                        for (const [key, value] of Object.entries($res['cookie'])) {
+                            console.log(key, value);
+                            setCookie(key,value,1000);
+                        }
+                    }
+                    window.location.href = $res['redirectUrl'];
+                }else {
+                    $('.formError').remove();
+                    for (var i = 0; i<$res['messages'].length; i++){
+                        $('<div class="alert alert-danger formError" role="alert">'+$res['messages'][i]+'</div>').insertBefore(form)
+                    }
+                    var btn = form.find('button[type=submit]');
+                    btn.find('.fas').remove();
+                    btn.prop("disabled", false)
+                }
+            }
+        });
+    });
+
     $('.generateApiKey').click(function (e) {
         e.preventDefault();
         $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
@@ -187,26 +222,26 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
     if (typeof $('#room_persistantRoom') !== 'undefined') {
         if ($('#room_persistantRoom').prop('checked')) {
-            $('#roomStartForm').collapse('hide').find('input').attr('required',false);
+            $('#roomStartForm').collapse('hide')
             if ($('#room_totalOpenRooms').prop('checked')) {
                 $('#totalOpenRoomsOpenTime').collapse('show');
             } else {
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         } else {
-            $('#roomStartForm').collapse('show').find('input').attr('required',true);
+            $('#roomStartForm').collapse('show')
             $('#totalOpenRoomsOpenTime').collapse('hide');
         }
         $('#room_persistantRoom').change(function () {
             if ($('#room_persistantRoom').prop('checked')) {
-                $('#roomStartForm').collapse('hide').find('input').attr('required',false);
+                $('#roomStartForm').collapse('hide')
                 if ($('#room_totalOpenRooms').prop('checked')) {
                     $('#totalOpenRoomsOpenTime').collapse('show');
                 } else {
                     $('#totalOpenRoomsOpenTime').collapse('hide');
                 }
             } else {
-                $('#roomStartForm').collapse('show').find('input').attr('required',true);
+                $('#roomStartForm').collapse('show')
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         })

@@ -5,7 +5,12 @@
         <!-- Button trigger modal -->
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal" data-target="#helpModal">
-            <img src="{{ asset('images/question.png') }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
+            {% if theme != false %}
+                <img src="{{ asset(theme.iconHelp) }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
+            {% else %}
+                <img src="{{ asset('images/question.png') }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
+            {% endif %}
+
         </a>
         <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModal"
              aria-hidden="true">
@@ -21,7 +26,8 @@
                         {{ helpText|raw }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'Schließen'|trans }}</button>
+                        <button type="button" class="btn btn-primary"
+                                data-dismiss="modal">{{ 'Schließen'|trans }}</button>
 
                     </div>
                 </div>
@@ -31,19 +37,32 @@
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#modalAdressbook">
-            <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
+            {% if theme != false %}
+                <img src="{{ asset(theme.iconAdressbook) }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
+            {% else %}
+                <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
+            {% endif %}
         </a>
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#settings">
-            <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
-                 title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+            {% if theme != false %}
+                <img src="{{ asset(theme.iconSettings) }}" class="iconSytle"
+                     title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+            {% else %}
+                <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
+                     title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+            {% endif %}
         </a>
         <!-- Button trigger modal -->
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#sideModalTR">
-            <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+            {% if theme != false %}
+                <img src="{{ asset(theme.iconProfile) }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+            {% else %}
+                <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+            {% endif %}
         </a>
 
 
@@ -54,24 +73,24 @@
             </a>
             <div class="dropdown-menu" style="min-width: unset; background-color: unset; border: none">
                 {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
-                            src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
+                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
+                                src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
                 {% endif %}
                 {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
-                            src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
+                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
+                                src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
                 {% endif %}
                 {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
-                            src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
+                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
+                                src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
                 {% endif %}
                 {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
-                            src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
+                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
+                                src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
                 {% endif %}
                 {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
-                            src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
+                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
+                                src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
                 {% endif %}
                 {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
                     <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
@@ -84,8 +103,13 @@
 
         <!-- Basic dropdown -->
         {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
-        <a href="{{ path('app_logout') }}"><img src="{{ asset('images/logout.svg') }}" class="iconSytle"
-                                                title="{{ 'Logout'|trans }}"></a>
+            <a href="{{ path('app_logout') }}">
+                {% if theme != false %}
+                    <img src="{{ asset(theme.iconLogout) }}" class="iconSytle" title="{{ 'Logout'|trans }}">
+                {% else %}
+                    <img src="{{ asset('images/logout.svg') }}" class="iconSytle" title="{{ 'Logout'|trans }}">
+                {% endif %}
+            </a>
         {% endif %}
 
     </div>

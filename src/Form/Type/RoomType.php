@@ -54,9 +54,9 @@ class RoomType extends AbstractType
                 'required' => true,
                 'attr' => array('class' => 'moreFeatures')
             ])
-            ->add('name', TextType::class, ['required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['required' => false, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
             ->add('agenda', TextareaType::class, ['required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
-            ->add('start', DateTimeType::class, ['required' => true, 'attr' => ['class' => 'flatpickr','placeholder'=>'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add('start', DateTimeType::class, ['required' => false, 'attr' => ['class' => 'flatpickr','placeholder'=>'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add('duration', ChoiceType::class, [
                 'label' => 'label.dauerKonferenz',
                 'translation_domain' => 'form',
@@ -130,7 +130,8 @@ class RoomType extends AbstractType
     {
         $resolver->setDefaults([
             'server' => array(),
-            'data_class' => Rooms::class
+            'data_class' => Rooms::class,
+            'attr' => ['id' => 'newRoom_form']
         ]);
 
     }

@@ -26,6 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -70,7 +71,7 @@ class RoomController extends AbstractController
 
                 $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
 
-                if ($server && in_array($server,$servers)) {
+                if ($server && in_array($server, $servers)) {
                     $room->setServer($server);
                 }
             }
@@ -119,20 +120,24 @@ class RoomController extends AbstractController
                 $room = $form->getData();
 
                 $now = new \DateTime();
+                $error = array();
                 if (!$room->getStart() && !$room->getPersistantRoom()) {
-                    $snack = $translator->trans('Fehler, das Startdatum darf nicht leer sein');
-                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                    $error[] = $translator->trans('Fehler, das Startdatum darf nicht leer sein');
                 }
                 if (!$room->getName()) {
-                    $snack = $translator->trans('Fehler, der Name darf nicht leer sein');
-                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                    $error[] = $translator->trans('Fehler, der Name darf nicht leer sein');
+                }
+                if($room->getStart()){
+                    $room = $this->setRoomProps($room, $serverService);
+                    if (($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()) {
+                        $error[] = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
+                    }
                 }
 
-                $room = $this->setRoomProps($room, $serverService);
-                if (($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()) {
-                    $snack = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
-                    return $this->redirectToRoute('dashboard', ['snack' => $snack, 'color' => 'danger']);
+                if (sizeof($error) > 0) {
+                    return new JsonResponse(array('error' => true, 'messages' => $error));
                 }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
@@ -151,18 +156,19 @@ class RoomController extends AbstractController
                     $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
                 }
                 if (!$room->getTotalOpenRooms()) {
-                    $res = $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                    $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
                 } else {
-                    $res = $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                    $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
                 }
-                $res->headers->setCookie(Cookie::create('room_server', $room->getServer()->getId(), time() + 1000000));
-                return $res;
+
+                return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
+
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $res = $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
 
-            return $res;
+            return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
