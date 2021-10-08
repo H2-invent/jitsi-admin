@@ -41,32 +41,36 @@ class JoinService
     public function join(FormInterface $form, ?Rooms $room, ?User $aktUser, &$snack, &$color)
     {
         $errors = array();
-        if ($room) {
-            $timezone = null;
-            if ($this->security->getUser()) {
-                $timezone = TimeZoneService::getTimeZone($this->security->getUser());
-            }
 
-            $now = new \DateTime('now', $timezone);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData();
+            $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
 
-            $start = null;
-            if ($room->getStart()) {
-                $start = (clone $room->getStartwithTimeZone($this->security->getUser()))->modify('-30min');
-            }
-            $endDate = null;
-            if ($room->getEnddate()) {
-                $endDate = $room->getEndwithTimeZone($this->security->getUser());
-            }
+            if ($room) {
+                $timezone = null;
+                if ($this->security->getUser()) {
+                    $timezone = TimeZoneService::getTimeZone($this->security->getUser());
+                }
 
-            if (
-                ($start && $start < $now && $endDate > $now)
-                || $aktUser === $room->getModerator()
-                || ($room->getPersistantRoom())
-            ) {
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $search = $form->getData();
-                    $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
-                    $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
+                $now = new \DateTime('now', $timezone);
+
+                $start = null;
+                if ($room->getStart()) {
+                    $start = (clone $room->getStartwithTimeZone($this->security->getUser()))->modify('-30min');
+                }
+                $endDate = null;
+                if ($room->getEnddate()) {
+                    $endDate = $room->getEndwithTimeZone($this->security->getUser());
+                }
+
+
+                if (
+                    ($start && $start < $now && $endDate > $now)
+                    || $aktUser === $room->getModerator()
+                    || ($room->getPersistantRoom())
+                ) {
+
 
                     if ($form->get('joinApp')->isClicked()) {
                         $type = 'a';
@@ -87,18 +91,18 @@ class JoinService
                     }
 
                     $snack = $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
-                }
-            } else {
-                try {
-                    $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                        array(
-                            '{from}' => $start->format('d.m.Y H:i'),
-                            '{to}' => $endDate->format('d.m.Y H:i')
-                        )
-                    );
-                    $color = 'danger';
-                } catch (\Exception $exception) {
+                } else {
+                    try {
+                        $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+                            array(
+                                '{from}' => $start->format('d.m.Y H:i'),
+                                '{to}' => $endDate->format('d.m.Y H:i')
+                            )
+                        );
+                        $color = 'danger';
+                    } catch (\Exception $exception) {
 
+                    }
                 }
             }
         }

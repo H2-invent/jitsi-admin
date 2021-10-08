@@ -16,10 +16,10 @@ class ReminderServiceTest extends WebTestCase
         $reminderTest = self::$container->get(ReminderService::class);
         $res = $reminderTest->sendReminder();
         $this->assertEquals(10, $res['Konferenzen']);
-        $this->assertEquals(20, $res['Emails']);
+        $this->assertEquals(30, $res['Emails']);
         $this->assertEquals('Cron ok', $res['hinweis']);
         $this->assertEquals(false, $res['error']);
         $reminderRepo = self::$container->get(NotificationRepository::class);
-        $this->assertEquals(20, sizeof($reminderRepo->findAll()));
+        $this->assertEquals(30, sizeof($reminderRepo->findAll()));
     }
 }

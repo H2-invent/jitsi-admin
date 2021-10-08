@@ -14,7 +14,12 @@
 
 
             <style>
-                {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+                {% if server
+                is defined and
+                server is not null and
+                server|validateLicense and
+                server.showStaticBackgroundColor and
+                server.staticBackgroundColor is not null %}
                 .imageBackground {
                     background-color: {{ server.staticBackgroundColor }};
                     position: fixed;
