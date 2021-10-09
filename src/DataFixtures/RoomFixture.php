@@ -50,6 +50,13 @@ class RoomFixture extends Fixture
         $user3->setCreatedAt(new \DateTime());
         $manager->persist($user3);
 
+        $user4 = new \App\Entity\User();
+        $user4->setEmail('test@local4.de');
+        $user4->setCreatedAt(new \DateTime());
+        $user4->setRegisterId(123456);
+        $user4->setCreatedAt(new \DateTime());
+        $manager->persist($user4);
+
         //create a server
         $server = new Server();
         $server->setUrl('meet.jit.si');

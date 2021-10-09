@@ -67,7 +67,7 @@ class JoinService
 
                 if (
                     ($start && $start < $now && $endDate > $now)
-                    || $aktUser === $room->getModerator()
+                    || $user === $room->getModerator()
                     || ($room->getPersistantRoom())
                 ) {
 
