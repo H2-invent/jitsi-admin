@@ -55,8 +55,7 @@ class OwnRoomController extends AbstractController
             } elseif ($form->get('joinBrowser')->isClicked()) {
                 $type = 'b';
             }
-
-            $url = $roomService->joinUrl($type, $rooms->getServer(), $rooms->getUid(), $data['name'], $isModerator);
+            $url = $roomService->joinUrl($type, $rooms, $data['name'], $isModerator);
             if ($isModerator){
                 if($this->getUser() == $rooms->getModerator() && $rooms->getPersistantRoom()){
                     $rooms->setStart(new \DateTime());
@@ -121,7 +120,7 @@ class OwnRoomController extends AbstractController
         $now = new \DateTime();
 
         if(($rooms->getStart()< $now && $rooms->getEnddate() > $now) || ($rooms->getTotalOpenRoomsOpenTime() === null && $rooms->getPersistantRoom() === true)){
-            return new JsonResponse(array('error'=>false,'url'=>$roomService->joinUrl($type,$rooms->getServer(),$rooms->getUid(),$name,false)));
+            return new JsonResponse(array('error'=>false,'url'=>$roomService->joinUrl($type,$rooms, $name,false)));
         }else{
             return new JsonResponse(array('error'=>true));
         }
