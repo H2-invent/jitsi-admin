@@ -23,13 +23,5 @@ class JoinServiceTest extends KernelTestCase
         self::assertEquals(false, $joinService->onlyWithUserAccount(null));
     }
 
-    public function testJwtToken(): void
-    {
-        $kernel = self::bootKernel();
-        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findAll()[0];
-        $joinService = $this->getContainer()->get(RoomService::class);
-        $room->setOnlyRegisteredUsers(true);
-        //todo jwt test schreiben
-    }
+
 }
