@@ -57,7 +57,7 @@ class DashboardControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h4','Heute');
-        $this->assertSelectorTextContains('.badge','Läuft gerade');
+        $crawler->filter('h4:contains("Heute")')->count();
+        $crawler->filter('.badge:contains("Läuft gerade")')->count();
     }
 }
