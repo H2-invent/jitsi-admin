@@ -64,6 +64,7 @@ parameters:
     input_settings_deactivate_participantsList_default: '%env(input_settings_deactivate_participantsList_default)%'
     input_settings_dissallow_screenshare_default: '%env(input_settings_dissallow_screenshare_default)%'
     input_settings_allow_timezone_default: '%env(input_settings_allow_timezone_default)%'
+    DISALLOW_ALL_EMAILS: '%env(DISALLOW_ALL_EMAILS)%'
 
     allowTimeZoneSwitch: '%env(allowTimeZoneSwitch)%'
     emailSenderIsModerator: '%env(emailSenderIsModerator)%'

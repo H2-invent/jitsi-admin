@@ -193,4 +193,5 @@ class LdapUserServiceTest extends WebTestCase
         $this->assertEquals(LdapConnectionTest::$UserInLDAP-1, sizeof($users));
     }
 
+
 }

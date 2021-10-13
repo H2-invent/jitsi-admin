@@ -70,14 +70,17 @@ class MailerService
             $this->logger->debug('We sent no email, because the User is an LDAP User and the email is not a valid Email');
             return true;
         }
+        if ($this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
+            $this->logger->debug('We don`t send emails at all so we  dont send any emails here');
+            return true;
+        }
+        try {
+            $this->logger->info('Mail To: ' . $to);
+            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment);
 
-         try {
-        $this->logger->info('Mail To: ' . $to);
-        $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment);
-
-         } catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-             $res = false;
+            $res = false;
         }
         return $res;
     }
