@@ -16,7 +16,6 @@ use App\UtilsHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Mailer\Transport\TransportInterface;
 
 class MailerService
 {

@@ -151,6 +151,11 @@ class Server
      */
     private $jwtModeratorPosition;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $serverName;
+
 
     public function __construct()
     {
@@ -540,6 +545,18 @@ class Server
     public function setJwtModeratorPosition(int $jwtModeratorPosition): self
     {
         $this->jwtModeratorPosition = $jwtModeratorPosition;
+
+        return $this;
+    }
+
+    public function getServerName(): ?string
+    {
+        return $this->serverName;
+    }
+
+    public function setServerName(string $serverName): self
+    {
+        $this->serverName = $serverName;
 
         return $this;
     }

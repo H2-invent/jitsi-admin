@@ -68,6 +68,7 @@ class RoomFixture extends Fixture
         $server->setAppId('jitsiId');
         $server->setJwtModeratorPosition(0);
         $server->setPrivacyPolicy('https://privacy.dev');
+        $server->setServerName('Server without License');
         $manager->persist($server);
         $manager->flush();
         $license = new License();
@@ -88,6 +89,7 @@ class RoomFixture extends Fixture
         $server->setJwtModeratorPosition(0);
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
         $server->setShowStaticBackgroundColor(false);
+        $server->setServerName('Server with License');
         $manager->persist($server);
         $manager->flush();
         // create rooms

@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Command;
+
+use App\Entity\Server;
+use App\Service\RenameServerService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+class MigrateServernameCommand extends Command
+{
+    protected static $defaultName = 'app:migrate:servername';
+    protected static $defaultDescription = 'Add a short description for your command';
+    private $em;
+    private $serverRename;
+    public function __construct($name = null, EntityManagerInterface $entityManager, RenameServerService $renameServerService)
+    {
+        parent::__construct($name);
+        $this->em = $entityManager;
+        $this->serverRename = $renameServerService;
+    }
+
+    protected function configure(): void
+    {
+
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $io = new SymfonyStyle($input, $output);
+        $server = $this->em->getRepository(Server::class)->findAll();
+        $res = $this->serverRename->renameServer($server);
+        foreach ($res as $data){
+            $io->info(sprintf('We rename the server with the url %s',$data->getUrl()));
+        }
+        $io->success(sprintf('We rename # %u of servers',sizeof($res)));
+        return Command::SUCCESS;
+    }
+}
