@@ -45,7 +45,7 @@ class RoomType extends AbstractType
 
         $builder
             ->add('server', EntityType::class, [
-                'choice_label' => 'url',
+                'choice_label' => 'serverName',
                 'class' => Server::class,
                 'choices' => $options['server'],
                 'label' => 'label.serverKonferenz',

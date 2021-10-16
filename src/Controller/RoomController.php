@@ -155,11 +155,7 @@ class RoomController extends AbstractController
                 if ($room->getScheduleMeeting()) {
                     $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
                 }
-                if (!$room->getTotalOpenRooms()) {
-                    $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
-                } else {
-                    $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
-                }
+                $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
 
                 return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
 

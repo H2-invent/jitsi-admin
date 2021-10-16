@@ -1029,9 +1029,9 @@
         <source>Alle Serienelement der Serie bearbeiten</source>
         <target>Alle Serienelement der Serie bearbeiten</target>
       </trans-unit>
-      <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
-        <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
-        <target>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</target>
+      <trans-unit id="RKtrtRq" resname="Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist">
+        <source>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</source>
+        <target>Das Datum wird nicht berücksichtig, da diese bereits durch die Serie festgelegt ist</target>
       </trans-unit>
       <trans-unit id="ahaO0xj" resname="Alle Serienelemente bearbeiten">
         <source>Alle Serienelemente bearbeiten</source>
@@ -1165,6 +1165,10 @@
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
         <target>Wollen Sie den Teilnehmer wirklich löschen?</target>
       </trans-unit>
+      <trans-unit id="MaXA.F3" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
+        <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
+        <target>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</target>
+      </trans-unit>
       <trans-unit id="tFfAytG" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
         <target>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</target>
@@ -1268,6 +1272,10 @@
       <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>
         <target><![CDATA[Suchen und durch klicken auf <i class="fas fa-crown"></i> hinzufügen]]></target>
+      </trans-unit>
+      <trans-unit id="xHhboX4" resname="Morgen">
+        <source>Morgen</source>
+        <target>Morgen</target>
       </trans-unit>
     </body>
   </file>

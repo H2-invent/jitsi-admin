@@ -57,7 +57,22 @@ class DashboardControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-        $crawler->filter('h4:contains("Heute")')->count();
-        $crawler->filter('.badge:contains("Läuft gerade")')->count();
+        self::assertEquals(1,$crawler->filter('h4:contains("Heute")')->count());
+    }
+    public function testservername()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $crawler = $client->request('GET', '/room/dashboard');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        self::assertGreaterThanOrEqual(1, $crawler->filter('p:contains("Server: Server with License")')->count());
+        self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
+        self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
+        self::assertEquals(1, $crawler->filter('.dropdown-item:contains("Server with License")')->count());
+        self::assertEquals(1, $crawler->filter('#settings:contains("Server with License")')->count());
     }
 }

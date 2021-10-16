@@ -24,7 +24,7 @@
             {% for s in servers %}
                 <a class="dropdown-item confirmHref"
                    data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                   href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.url }}</a>
+                   href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.serverName }}</a>
             {% endfor %}
 
         </div>

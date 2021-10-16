@@ -44,10 +44,9 @@
             <li class="nav-item d-none d-xl-block">
                 {% if theme %}
                     {% if theme.footerContributionEnable == true %}
-                        <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                           href="{{ theme.footerContributionUrl }}">{{ theme.footerContributionText }}
+                        {{ theme.footerContributionText|raw }}
                             • {{ 'now'|date('Y') }}
-                            • v{{ laf_version }}</a>
+                            • v{{ laf_version }}
                     {% endif %}
                 {% else %}
                     <a class="nav-link" target="_blank" referrerpolicy="no-referrer"

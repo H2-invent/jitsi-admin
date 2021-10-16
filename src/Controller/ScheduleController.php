@@ -28,7 +28,7 @@ class ScheduleController extends AbstractController
     /**
      * @Route("room/schedule/new", name="schedule_admin_new")
      */
-    public function new( ParameterBagInterface $parameterBag, Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService  $schedulingService): Response
+    public function new(ParameterBagInterface $parameterBag, Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService $schedulingService): Response
     {
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
@@ -56,7 +56,7 @@ class ScheduleController extends AbstractController
             $room->setUidReal(md5(uniqid('h2-invent', true)));
             $room->setUidModerator(md5(uniqid('h2-invent', true)));
             $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            if($this->getUser()->getTimeZone() && $parameterBag->get('allowTimeZoneSwitch') == 1){
+            if ($this->getUser()->getTimeZone() && $parameterBag->get('allowTimeZoneSwitch') == 1) {
                 $room->setTimeZone($this->getUser()->getTimeZone());
             }
             $snack = $translator->trans('Terminplanung erfolgreich erstellt');
@@ -74,32 +74,44 @@ class ScheduleController extends AbstractController
         $form->remove('totalOpenRoomsOpenTime');
         try {
             $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $room = $form->getData();
+                $error = array();
+
+                if (!$room->getName()) {
+                    $error[] = $translator->trans('Fehler, der Name darf nicht leer sein');
+                }
+
+                if (sizeof($error) > 0) {
+                    return new JsonResponse(array('error' => true, 'messages' => $error));
+                }
+
+                $room->setScheduleMeeting(true);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+                $schedulingService->createScheduling($room);
+
+                if ($request->get('id')) {
+                    foreach ($room->getUser() as $user) {
+                        $userService->editRoom($user, $room);
+                    }
+                } else {
+                    $userService->addUser($room->getModerator(), $room);
+                }
+
+                $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
+                $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
+
+            }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-        }
-        if ($form->isSubmitted() && $form->isValid()) {
+            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
 
-            $room = $form->getData();
-            $room->setScheduleMeeting(true);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
-            $schedulingService->createScheduling($room);
-
-            if ($request->get('id')) {
-                foreach ($room->getUser() as $user) {
-                    $userService->editRoom($user, $room);
-                }
-            } else {
-                $userService->addUser($room->getModerator(), $room);
-            }
-
-            $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
-
-            return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
-
-
+            return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
         return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
     }
@@ -210,7 +222,6 @@ class ScheduleController extends AbstractController
         }
 
         $server = $scheduling->getRoom()->getServer();
-
 
 
         return $this->render('schedule/schedulePublic.html.twig', array('user' => $user, 'scheduling' => $scheduling, 'room' => $scheduling->getRoom(), 'server' => $server));

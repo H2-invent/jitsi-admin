@@ -57,6 +57,10 @@ class RoomFixture extends Fixture
         $user4->setCreatedAt(new \DateTime());
         $manager->persist($user4);
 
+        $user->addAddressbook($user2);
+        $manager->persist($user);
+        $manager->flush();
+
         //create a server
         $server = new Server();
         $server->setUrl('meet.jit.si');

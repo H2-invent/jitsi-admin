@@ -39,7 +39,7 @@
                     class="fa fa-info-circle"></i></a></h5>
     <p class="text-black-50 small">
         {{ 'Organisator'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
-        {{ 'Server'|trans }}: {{ room.server.url }}<br>
+        {{ 'Server'|trans }}: {{ room.server.serverName }}<br>
         {{ 'Anzahl Teilnehmer'|trans }}: {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans%}{% else %}{{ room.user|length }}{% endif %}<br>
         {% if  allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
             {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}
