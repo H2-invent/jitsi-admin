@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\AddressGroup;
 use App\Entity\License;
 use App\Entity\Rooms;
 use App\Entity\Server;
@@ -58,6 +59,12 @@ class RoomFixture extends Fixture
         $manager->persist($user4);
 
         $user->addAddressbook($user2);
+        $group = new AddressGroup();
+        $group->setLeader($user);
+        $group->setCreatedAt(new \DateTimeImmutable());
+        $group->addMember($user2);
+        $group->setName('Testgruppe');
+        $manager->persist($group);
         $manager->persist($user);
         $manager->flush();
 

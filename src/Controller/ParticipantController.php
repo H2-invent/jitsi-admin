@@ -54,7 +54,7 @@ class ParticipantController extends AbstractController
             $tmp['user'] = implode($tmpUser, "\n");
             $res['group'][] = $tmp;
         }
-        if (sizeof($user) == 0) {
+        if (sizeof($user) === 0 && $this->parameterBag->get('strict_allow_user_creation') == 0) {
             $res['user'][] = array(
                 'name' => $string,
                 'id' => $string
