@@ -45,14 +45,15 @@
                 {% if theme %}
                     {% if theme.footerContributionEnable == true %}
                         {{ theme.footerContributionText|raw }}
-                            • {{ 'now'|date('Y') }}
-                            • v{{ laf_version }}
+                        •
                     {% endif %}
                 {% else %}
                     <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                       href="https://h2-invent.com/">Made with ❤ by H2 invent • {{ 'now'|date('Y') }}
-                        • v{{ laf_version }}</a>
+                       href="https://h2-invent.com/">Made with ❤ by H2 invent </a>
+                    •
                 {% endif %}
+                {{ 'now'|date('Y') }}
+                • v{{ laf_version }}
             </li>
             {% if matomo_enable == 'true' %}
                 <li class="nav-item">
