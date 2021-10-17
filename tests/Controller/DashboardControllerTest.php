@@ -72,7 +72,7 @@ class DashboardControllerTest extends WebTestCase
         self::assertGreaterThanOrEqual(1, $crawler->filter('p:contains("Server: Server with License")')->count());
         self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
         self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
-        self::assertEquals(1, $crawler->filter('.dropdown-item:contains("Server with License")')->count());
+        self::assertEquals(2, $crawler->filter('.dropdown-item:contains("Server with License")')->count());
         self::assertEquals(1, $crawler->filter('#settings:contains("Server with License")')->count());
     }
 }

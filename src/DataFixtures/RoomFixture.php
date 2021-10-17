@@ -46,6 +46,7 @@ class RoomFixture extends Fixture
 
         $user3 = new \App\Entity\User();
         $user3->setEmail('test@local3.de');
+        $user3->setUsername('test@local3.de');
         $user3->setCreatedAt(new \DateTime());
         $user3->setRegisterId(123456);
         $user3->setCreatedAt(new \DateTime());
@@ -53,16 +54,19 @@ class RoomFixture extends Fixture
 
         $user4 = new \App\Entity\User();
         $user4->setEmail('test@local4.de');
+        $user4->setUsername('test@local4.de');
         $user4->setCreatedAt(new \DateTime());
         $user4->setRegisterId(123456);
         $user4->setCreatedAt(new \DateTime());
         $manager->persist($user4);
 
         $user->addAddressbook($user2);
+        $user->addAddressbook($user3);
         $group = new AddressGroup();
         $group->setLeader($user);
         $group->setCreatedAt(new \DateTimeImmutable());
         $group->addMember($user2);
+        $group->addMember($user3);
         $group->setName('Testgruppe');
         $manager->persist($group);
         $manager->persist($user);
