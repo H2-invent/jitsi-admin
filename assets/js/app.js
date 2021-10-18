@@ -188,25 +188,29 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
     if (typeof $('#room_persistantRoom') !== 'undefined') {
         if ($('#room_persistantRoom').prop('checked')) {
-            $('#roomStartForm').collapse('hide')
+            $('#roomStartForm').collapse('hide');
+            $('#roomStartForm > div:first-of-type > input').removeAttr('required');
             if ($('#room_totalOpenRooms').prop('checked')){
                 $('#totalOpenRoomsOpenTime').collapse('show');
             } else {
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         } else {
+            $('#roomStartForm > div:first-of-type > input').prop('required',true);
             $('#roomStartForm').collapse('show');
             $('#totalOpenRoomsOpenTime').collapse('hide');
         }
         $('#room_persistantRoom').change(function () {
             if ($('#room_persistantRoom').prop('checked')) {
-                $('#roomStartForm').collapse('hide')
+                $('#roomStartForm').collapse('hide');
+                $('#roomStartForm > div:first-of-type > input').removeAttr('required');
                 if ($('#room_totalOpenRooms').prop('checked')){
                     $('#totalOpenRoomsOpenTime').collapse('show');
                 } else {
                     $('#totalOpenRoomsOpenTime').collapse('hide');
                 }
             } else {
+                $('#roomStartForm > div:first-of-type > input').prop('required',true);
                 $('#roomStartForm').collapse('show');
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
