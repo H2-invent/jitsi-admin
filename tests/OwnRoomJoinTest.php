@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OwnRoomJoinTest extends WebTestCase
@@ -135,9 +136,9 @@ class OwnRoomJoinTest extends WebTestCase
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->joinUrl('b',$room,'Test User 123',true)));
-
+        $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
         $crawler = $client->request('GET', $url->generate('room_join',array('t'=>'b','room'=>$room->getId())));
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->joinUrl('b',$room,$user->getFirstName().' '.$user->getLastName(),true)));
+        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->joinUrl('b',$room,$user->getFormatedName($parameterBag->get('laf_showNameInConference')),true)));
 
         $user = $this->getUSerByEmail('test@local2.de');
         $client->loginUser($user);

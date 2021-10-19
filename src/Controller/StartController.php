@@ -8,6 +8,7 @@ use App\Service\ThemeService;
 use App\Service\TimeZoneService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -15,10 +16,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class StartController extends AbstractController
 {
     private $translator;
+    private $parameterBag;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, ParameterBagInterface $parameterBag)
     {
         $this->translator = $translator;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -29,7 +32,7 @@ class StartController extends AbstractController
     {
         $roomL = $this->getDoctrine()->getRepository(Rooms::class)->find($room);
         if ($roomL && in_array($this->getUser(), $roomL->getUser()->toarray())) {
-            $url = $roomService->join($roomL, $this->getUser(), $t, $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName());
+            $url = $roomService->join($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
             if ($this->getUser() == $roomL->getModerator() && $roomL->getTotalOpenRooms() && $roomL->getPersistantRoom()) {
                 $roomL->setStart(new \DateTime());
                 if ($roomL->getTotalOpenRoomsOpenTime()) {

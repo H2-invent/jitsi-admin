@@ -28,6 +28,17 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <div class="row mb-3">
+            {% if persistantRooms|length > 0 %}
+                {% for r in persistantRooms %}
+                    {% include'dashboard/widget/__persistantRoom.html.twig' with {'room':r} %}
+                {% endfor %}
+            {% endif %}
+
+
+        </div>
+    </div>
     <div class="container">
 
 
@@ -60,6 +71,7 @@
 
             </ul>
         </div>
+
         <div class="d-md-none tabDropdown">
             <button class="caretdown btn btn-primary dropdown-toggle mr-4" type="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">{{ 'Zukünftige Konferenzen'|trans }}
@@ -111,18 +123,22 @@
                     {% endif %}
                 </div>
                 {% if myScheduledMeeting(app.user)|length > 0 %}
+
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Terminplanung'|trans }} </h4>
                     {% for r in myScheduledMeeting(app.user) %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
                 {% endif %}
                 {% if persistantRooms|length > 0 %}
+                    <hr>
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
                     {% for r in persistantRooms %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
+
                 {% endif %}
                 {% if  roomsFuture |length == 0 %}
+                    <hr>
                     <div class="card card-body">
                         <p class="text-center">
                             {% trans with {'{url}':path('room_new')} %}

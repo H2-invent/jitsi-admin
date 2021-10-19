@@ -26,13 +26,16 @@ class AdressBookUITest extends WebTestCase
             1,
             $crawler->filter('.breakWord:contains("Test1, 1234, User, Test")')->count()
         );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.breakWord:contains(", , , ")')->count()
+        );
     }
 
     public function testSearchUser(): void
     {
         $client = static::createClient(array('environment'=>'test'));
         $crawler = $client->request('GET', '/');
-
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
         $testUser = $userRepository->findOneByUsername('test@local.de');
@@ -41,10 +44,22 @@ class AdressBookUITest extends WebTestCase
 
         $url = $urlGenerator->generate('search_participant', array('search' => 'test@local2.de'));
         $crawler = $client->request('GET', $url);
-        self::assertEquals(json_encode(array('user' => array(array('name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de')), 'group' => array())), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(array('user' => array(
+            array(
+                'name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de'
+            )
+        ), 'group' => array()
+        )
+        ), $client->getResponse()->getContent());
         $url = $urlGenerator->generate('search_participant', array('search' => 'local2.de'));
         $crawler = $client->request('GET', $url);
-        self::assertEquals(json_encode(array('user' => array(array('name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de')), 'group' => array())), $client->getResponse()->getContent());
+        self::assertEquals(json_encode(array('user' => array(
+            array(
+                'name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de'
+            )
+        ), 'group' => array()
+        )
+        ), $client->getResponse()->getContent());
         $url = $urlGenerator->generate('search_participant', array('search' => 'test'));
         $crawler = $client->request('GET', $url);
         self::assertEquals(json_encode(

@@ -6,6 +6,7 @@ use App\Entity\AddressGroup;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
+use App\Service\ParticipantSearchService;
 use App\Service\RoomAddService;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,35 +32,19 @@ class ParticipantController extends AbstractController
     /**
      * @Route("/room/participant/search", name="search_participant")
      */
-    public function index(Request $request, TranslatorInterface $translator): Response
+    public function index(Request $request, TranslatorInterface $translator, ParticipantSearchService $participantSearchService): Response
     {
         $string = $request->get('search');
         $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByEmail($string, $this->getUser());
         $group = $this->getDoctrine()->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
-        $res = array('user' => array(), 'group' => array());
-        foreach ($user as $data) {
-            $res['user'][] = array(
-                'name' => $data->getFormatedName($this->parameterBag->get('laf_showName')),
-                'id' => $data->getUsername()
-            );
+        $res = array();
+        if($this->parameterBag->get('strict_allow_user_creation') == 0){
+            $res['user'] = $participantSearchService->generateUserwithEmptyUser($user,$string);
+        }else{
+            $res['user'] = $participantSearchService->generateUserwithoutEmptyUser($user);
         }
-        foreach ($group as $data) {
-            $tmp = array('name' => '', 'user' => '');
-            $tmpUser = array();
-            $tmp['name'] = $data->getName();
-            foreach ($data->getMember() as $m) {
-                $tmpUser[] = $m->getUsername();
-            }
-            $tmp['user'] = implode($tmpUser, "\n");
-            $res['group'][] = $tmp;
-        }
-        if (sizeof($user) === 0 && $this->parameterBag->get('strict_allow_user_creation') == 0) {
-            $res['user'][] = array(
-                'name' => $string,
-                'id' => $string
-            );
-        }
+        $res['group'] = $participantSearchService->generateGroup($group);
         return new JsonResponse($res);
     }
 

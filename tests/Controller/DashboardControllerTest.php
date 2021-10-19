@@ -59,7 +59,7 @@ class DashboardControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         self::assertEquals(1,$crawler->filter('h4:contains("Heute")')->count());
     }
-    public function testservername()
+    public function testservernameInSettings()
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -69,10 +69,43 @@ class DashboardControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-        self::assertGreaterThanOrEqual(1, $crawler->filter('p:contains("Server: Server with License")')->count());
-        self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
-        self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
-        self::assertEquals(2, $crawler->filter('.dropdown-item:contains("Server with License")')->count());
         self::assertEquals(1, $crawler->filter('#settings:contains("Server with License")')->count());
+    }
+    public function testservernameinAddhockCall()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $crawler = $client->request('GET', '/room/dashboard');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(2, $crawler->filter('.dropdown-item:contains("Server with License")')->count());
+
+    }
+    public function testservernameinConferenceCard()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $crawler = $client->request('GET', '/room/dashboard');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(44, $crawler->filter('p:contains("Server: Server with License")')->count());
+    }
+    public function testservernameinnoForeignServerConferenceCard()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $crawler = $client->request('GET', '/room/dashboard');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
     }
 }
