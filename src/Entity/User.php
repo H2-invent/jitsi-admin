@@ -182,6 +182,11 @@ class User extends BaseUser
      */
     private $spezialProperties = [];
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Rooms::class, inversedBy="favoriteUsers")
+     */
+    private $favorites;
+
 
     public function __construct()
     {
@@ -200,6 +205,7 @@ class User extends BaseUser
         $this->protoypeRooms = new ArrayCollection();
         $this->AddressGroupLeader = new ArrayCollection();
         $this->AddressGroupMember = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
 
     }
 
@@ -859,5 +865,29 @@ class User extends BaseUser
     public function getUserIdentifier()
     {
         return $this->username;
+    }
+
+    /**
+     * @return Collection|Rooms[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Rooms $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Rooms $favorite): self
+    {
+        $this->favorites->removeElement($favorite);
+
+        return $this;
     }
 }

@@ -206,6 +206,11 @@ class Rooms
      */
     private $endDateUtc;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favorites")
+     */
+    private $favoriteUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -214,6 +219,7 @@ class Rooms
         $this->schedulings = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
+        $this->favoriteUsers = new ArrayCollection();
     }
 
     /**
@@ -804,6 +810,33 @@ class Rooms
     public function setEndDateUtc(?\DateTimeInterface $endDateUtc): self
     {
         $this->endDateUtc = $endDateUtc;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getFavoriteUsers(): Collection
+    {
+        return $this->favoriteUsers;
+    }
+
+    public function addFavoriteUser(User $favoriteUser): self
+    {
+        if (!$this->favoriteUsers->contains($favoriteUser)) {
+            $this->favoriteUsers[] = $favoriteUser;
+            $favoriteUser->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteUser(User $favoriteUser): self
+    {
+        if ($this->favoriteUsers->removeElement($favoriteUser)) {
+            $favoriteUser->removeFavorite($this);
+        }
 
         return $this;
     }

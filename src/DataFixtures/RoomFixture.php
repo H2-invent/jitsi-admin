@@ -19,7 +19,7 @@ class RoomFixture extends Fixture
         $user = new \App\Entity\User();
         $user->setEmail('test@local.de');
         $user->setCreatedAt(new \DateTime());
-        $user->setKeycloakId(123456);
+        $user->setKeycloakId('123456');
         $user->setFirstName('Test');
         $user->setLastName('User');
         $user->setRegisterId(123456);
@@ -103,6 +103,8 @@ class RoomFixture extends Fixture
         $server->setAppId('jitsiId');
         $server->setJwtModeratorPosition(0);
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
+        $server->setApiKey('TestApi');
+
         $server->setShowStaticBackgroundColor(false);
         $server->setServerName('Server with License');
         $manager->persist($server);

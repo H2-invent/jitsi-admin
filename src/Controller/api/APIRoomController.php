@@ -56,7 +56,12 @@ class APIRoomController extends AbstractController
         //If there is no server, then we take the default server which is accessabl for all jitsi admin users
 
         // We initialize the Room with the data;
-        $room = $roomService->createRoom($user, $server, $start, $duration, $name);
+        try {
+            $room = $roomService->createRoom($user, $server, $start, $duration, $name);
+        }catch (\Exception $exception){
+            return new JsonResponse(array('error'=>true));
+        }
+
         return new JsonResponse(array('error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich angelegt'));
     }
 

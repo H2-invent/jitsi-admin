@@ -28,10 +28,10 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row mb-3">
+    <div class="container-fluid ">
+        <div class="row justify-content-center mb-3">
             {% if persistantRooms|length > 0 %}
-                {% for r in persistantRooms %}
+                {% for r in app.user.favorites %}
                     {% include'dashboard/widget/__persistantRoom.html.twig' with {'room':r} %}
                 {% endfor %}
             {% endif %}
@@ -57,6 +57,17 @@
                     >{{ 'Zukünftige Konferenzen'|trans }}</a>
                 </li>
                 <li class="nav-item">
+                <a data-toggle="tab"
+                   class="nav-link "
+                   id="ex1-tab-3-tab"
+                   data-mdb-toggle="tab"
+                   href="#ex1-tabs-3"
+                   role="tab"
+                   aria-controls="ex1-tabs-3"
+                   aria-selected="true"
+                >{{ 'Feste Konferenzen'|trans }}</a>
+                </li>
+                <li class="nav-item">
                     <a data-toggle="tab"
                        class="nav-link"
                        id="ex1-tab-2-tab"
@@ -80,6 +91,10 @@
                 <a class="dropdown-item dropdownTabToggle"
                    href="#ex1-tab-1-tab">
                     {{ 'Zukünftige Konferenzen'|trans }}
+                </a>
+                <a class="dropdown-item dropdownTabToggle"
+                   href="#ex1-tab-3-tab">
+                    {{ 'Feste Konferenzen'|trans }}
                 </a>
                 <a href="#ex1-tab-2-tab"
                    class="dropdown-item dropdownTabToggle">
@@ -129,16 +144,9 @@
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
                 {% endif %}
-                {% if persistantRooms|length > 0 %}
-                    <hr>
-                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
-                    {% for r in persistantRooms %}
-                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
-                    {% endfor %}
-
-                {% endif %}
+                <hr>
+                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Meine Videokonferenzen'|trans }} </h4>
                 {% if  roomsFuture |length == 0 %}
-                    <hr>
                     <div class="card card-body">
                         <p class="text-center">
                             {% trans with {'{url}':path('room_new')} %}
@@ -180,8 +188,16 @@
                     </div>
                 {% endif %}
                 {% for room in roomsPast %}
-                    {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
+                    {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
                 {% endfor %}
+            </div>
+            <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
+                {% if persistantRooms|length > 0 %}
+                    {% for r in persistantRooms %}
+                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
         <!-- Tabs content -->
