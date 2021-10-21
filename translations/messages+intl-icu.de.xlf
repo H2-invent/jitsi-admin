@@ -1277,6 +1277,10 @@
         <source>Morgen</source>
         <target>Morgen</target>
       </trans-unit>
+      <trans-unit id=".K6witM" resname="Meine Videokonferenzen">
+        <source>Meine Videokonferenzen</source>
+        <target>Meine Videokonferenzen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
