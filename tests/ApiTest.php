@@ -33,7 +33,7 @@ class ApiTest extends WebTestCase
             'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
             'keycloakId' => '123456'
         ));
-        echo $client->getResponse()->getContent();
+
         $this->assertEquals(true, json_decode($client->getResponse()->getContent(), true)['error']);
     }
     public function testgetOptions(): void
@@ -47,7 +47,7 @@ class ApiTest extends WebTestCase
             'start' => (new \DateTime())->format('Y-m-d') . 'T' . (new \DateTime())->format('H:i'),
             'keycloakId' => '123456'
         ));
-        echo $client->getResponse()->getContent();
+
         $this->assertEquals(false, json_decode($client->getResponse()->getContent(), true)['error']);
         $this->assertEquals('Meeting erfolgreich angelegt', json_decode($client->getResponse()->getContent(), true)['text']);
         $uid = json_decode($client->getResponse()->getContent(),true)['uid'];

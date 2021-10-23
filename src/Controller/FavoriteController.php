@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Service\FavoriteService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,11 @@ class FavoriteController extends AbstractController
     /**
      * @Route("/room/favorite/toggle", name="room_favorite_toogle")
      */
-    public function index(Request $request,TranslatorInterface $translator): Response
+    public function index(Request $request,TranslatorInterface $translator, FavoriteService $favoriteService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $request->get('uid')));
         $user = $this->getUser();
+
         if (in_array($user, $room->getUser()->toArray())) {
             if (in_array($room, $this->getUser()->getFavorites()->toArray())) {
                 $user->removeFavorite($room);

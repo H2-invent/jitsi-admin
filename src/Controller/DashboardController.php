@@ -12,6 +12,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use Firebase\JWT\JWT;
 
@@ -63,7 +64,7 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment,ParameterBagInterface $parameterBag)
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment,ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
     {
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
@@ -96,7 +97,7 @@ class DashboardController extends AbstractController
             $em->persist($user);
             $em->flush();
         }
-
+        $favoriteService->cleanFavorites($this->getUser());
         $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
         $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
