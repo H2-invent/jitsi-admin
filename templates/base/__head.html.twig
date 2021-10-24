@@ -90,7 +90,11 @@
             .blackMode a {
                 color: {{ theme.primaryColor }};
             }
-
+            .btn-outline-primary {
+                color: {{ theme.colorButton }} !important;
+                background-color: transparent !important;
+                border: 2px solid {{ theme.colorButton }} !important;
+            }
             .btn-outline-secondary, .btn-outline-default {
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
                 color: {{ theme.colorButtonOutlineTextcolor }} !important;
