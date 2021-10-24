@@ -28,9 +28,9 @@ class OwnRoomController extends AbstractController
      */
     public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator): Response
     {
-        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$uid));
-        if(!$rooms){
-            return $this->redirectToRoute('join_index_no_slug',array('snack'=>$translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'),'color'=>'danger'));
+        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $uid));
+        if (!$rooms) {
+            return $this->redirectToRoute('join_index_no_slug', array('snack' => $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'), 'color' => 'danger'));
         }
         $data = array();
         if ($this->getUser()) {
@@ -50,26 +50,26 @@ class OwnRoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            if ($form->get('joinApp')->isClicked()) {
+            if ($form->has('joinApp') && $form->get('joinApp')->isClicked()) {
                 $type = 'a';
-            } elseif ($form->get('joinBrowser')->isClicked()) {
+            } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
                 $type = 'b';
             }
             $url = $roomService->joinUrl($type, $rooms, $data['name'], $isModerator);
-            if ($isModerator){
-                if($this->getUser() == $rooms->getModerator() && $rooms->getPersistantRoom()){
+            if ($isModerator) {
+                if ($this->getUser() == $rooms->getModerator() && $rooms->getPersistantRoom()) {
                     $rooms->setStart(new \DateTime());
-                    if($rooms->getTotalOpenRoomsOpenTime()){
-                        $rooms->setEnddate((new \DateTime())->modify('+ '.$rooms->getTotalOpenRoomsOpenTime().' min'));
+                    if ($rooms->getTotalOpenRoomsOpenTime()) {
+                        $rooms->setEnddate((new \DateTime())->modify('+ ' . $rooms->getTotalOpenRoomsOpenTime() . ' min'));
                     }
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($rooms);
                     $em->flush();
                 }
                 $res = $this->redirect($url);
-                return  $res;
-            }else{
-                $res = $this->redirectToRoute('room_waiting',array('name'=>$data['name'],'uid'=>$rooms->getUid(),'type'=>$type));
+                return $res;
+            } else {
+                $res = $this->redirectToRoute('room_waiting', array('name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type));
             }
             $res->headers->setCookie(new Cookie('name', $data['name'], (new \DateTime())->modify('+365 days')));
             return $res;
@@ -77,52 +77,55 @@ class OwnRoomController extends AbstractController
         }
 
         return $this->render('own_room/index.html.twig', [
-            'room'=>$rooms,
+            'room' => $rooms,
             'server' => $rooms->getServer(),
             'form' => $form->createView()
         ]);
     }
+
     /**
      * @Route("/mywaiting/waiting", name="room_waiting")
      */
     public function waiting(Request $request): Response
     {
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$request->get('uid')));
+        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $request->get('uid')));
         $name = $request->get('name');
         $type = $request->get('type');
         return $this->render('own_room/waiting.html.twig', [
-            'room'=>$room,
-            'server'=>$room->getServer(),
-            'name'=>$name,
-            'type'=>$type
+            'room' => $room,
+            'server' => $room->getServer(),
+            'name' => $name,
+            'type' => $type
         ]);
     }
+
     /**
      * @Route("/room/enterLink/{uid}", name="room_enter_link")
      * @ParamConverter("rooms", options={"mapping": {"uid": "uid"}})
      */
     public function link(Rooms $rooms, Request $request): Response
     {
-       if($rooms->getModerator()!= $this->getUser()){
-           throw new NotFoundHttpException('Room not Found');
-       }
+        if ($rooms->getModerator() != $this->getUser()) {
+            throw new NotFoundHttpException('Room not Found');
+        }
 
         return $this->render('own_room/__enterLinkModal.html.twig', [
             'room' => $rooms,
         ]);
     }
+
     /**
      * @Route("/mywaiting/check/{uid}/{name}/{type}", name="room_waiting_check")
      * @ParamConverter("rooms", options={"mapping": {"uid": "uid"}})
      */
-    public function checkWaiting(Rooms $rooms,$name,$type, Request $request,RoomService $roomService): Response
+    public function checkWaiting(Rooms $rooms, $name, $type, Request $request, RoomService $roomService): Response
     {
         $now = new \DateTime();
 
-        if(($rooms->getStart()< $now && $rooms->getEnddate() > $now) || ($rooms->getTotalOpenRoomsOpenTime() === null && $rooms->getPersistantRoom() === true)){
-            return new JsonResponse(array('error'=>false,'url'=>$roomService->joinUrl($type,$rooms, $name,false)));
-        }else{
-            return new JsonResponse(array('error'=>true));
+        if (($rooms->getStart() < $now && $rooms->getEnddate() > $now) || ($rooms->getTotalOpenRoomsOpenTime() === null && $rooms->getPersistantRoom() === true)) {
+            return new JsonResponse(array('error' => false, 'url' => $roomService->joinUrl($type, $rooms, $name, false)));
+        } else {
+            return new JsonResponse(array('error' => true));
         }
     }
 }

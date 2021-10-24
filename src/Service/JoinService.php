@@ -72,9 +72,9 @@ class JoinService
                 ) {
 
 
-                    if ($form->get('joinApp')->isClicked()) {
+                    if ($form->has('joinApp') && $form->get('joinApp')->isClicked()) {
                         $type = 'a';
-                    } elseif ($form->get('joinBrowser')->isClicked()) {
+                    } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
                         $type = 'b';
                     }
 
