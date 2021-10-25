@@ -28,6 +28,7 @@ parameters:
     laf_darkmodeAsDefault: '%env(laf_darkmodeAsDefault)%'
     laf_showName: '%env(laf_showName)%'
     laf_showNameInConference: '%env(laf_showNameInConference)%'
+    laf_showNameFrontend: '%env(laf_showNameFrontend)%'
     laf_roomsMoreOptionsCollapsed: '%env(laf_roomsMoreOptionsCollapsed)%'
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
