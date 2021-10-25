@@ -78,11 +78,11 @@
             }
 
             .btn-outline-primary, .btn-outline-primary:hover {
-                color: {{ theme.colorButtonOutlinecolor }} !important;
+                color: {{ theme.colorButtonOutlineTextcolor }} !important;
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
             }
 
-            .blackMode .btn-outline-primary, .blackMode .btn-outline-primary:hover {
+            .blackMode .btn-outline-primary, .blackMode {
                 color: {{ theme.colorButtonOutlineTextcolorDarkMode }} !important;
                 border-color: {{ theme.colorButtonOutlinecolorDarkMode }} !important;
             }
@@ -90,11 +90,7 @@
             .blackMode a {
                 color: {{ theme.primaryColor }};
             }
-            .btn-outline-primary {
-                color: {{ theme.colorButton }} !important;
-                background-color: transparent !important;
-                border: 2px solid {{ theme.colorButton }} !important;
-            }
+
             .btn-outline-secondary, .btn-outline-default {
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
                 color: {{ theme.colorButtonOutlineTextcolor }} !important;
