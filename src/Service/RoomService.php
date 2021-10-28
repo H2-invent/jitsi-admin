@@ -55,13 +55,11 @@ class RoomService
         if (!$roomUser) {
             $roomUser = new RoomsUser();
         }
+        $moderator = false;
         if ($room->getModerator() === $user || $roomUser->getModerator()) {
             $moderator = true;
-        } else {
-            $moderator = false;
         }
         $url = $this->createUrl($t, $room, $moderator, $roomUser, $userName);
-
         return $url;
     }
 
@@ -87,17 +85,20 @@ class RoomService
         } else {
             $type = 'https://';
         }
-        if ($isModerator) {
-            $moderator = true;
-        } else {
-            $moderator = false;
-        }
         $serverUrl = $room->getServer()->getUrl();
         $serverUrl = str_replace('https://', '', $serverUrl);
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-
+        $token = JWT::encode($this->genereateJwtPayload($userName,$room,$room->getServer(),$isModerator, $roomUser), $jitsi_jwt_token_secret);
+        $url = $jitsi_server_url . '/' . $room->getUid();
+        if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
+            $url = $url . '?jwt=' . $token;
+        }
+        $url =  $url . '#config.subject=%22' . $room->getName() . '%22';
+        return $url;
+    }
+    public function genereateJwtPayload($userName, Rooms $room, Server  $server, $moderator, RoomsUser $roomUser = null){
 
         $payload = array(
             "aud" => "jitsi_admin",
@@ -125,25 +126,19 @@ class RoomService
         if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
                 $screen['screen-sharing'] = false;
-                if (($roomUser && $roomUser->getShareDisplay()) || $isModerator) {
+                if (($roomUser && $roomUser->getShareDisplay()) || $moderator) {
                     $screen['screen-sharing'] = true;
 
                 }
             }
             if ($room->getDissallowPrivateMessage()) {
                 $screen['private-message'] = false;
-                if ($roomUser && $roomUser->getPrivateMessage() || $isModerator) {
+                if (($roomUser && $roomUser->getPrivateMessage()) || $moderator) {
                     $screen['private-message'] = true;
                 }
             }
             $payload['context']['features'] = $screen;
         }
-        $token = JWT::encode($payload, $jitsi_jwt_token_secret);
-        $url = $jitsi_server_url . '/' . $room->getUid();
-        if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
-            $url = $url . '?jwt=' . $token;
-        }
-        $url =  $url . '#config.subject=%22' . $room->getName() . '%22';
-        return $url;
+        return $payload;
     }
 }
