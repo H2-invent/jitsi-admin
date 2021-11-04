@@ -44,7 +44,7 @@ class APIRoomController extends AbstractController
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
         $server = $this->getDoctrine()->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $email, $apiKey);
-        if (!$server && $licenseService->verify($server) ) {
+        if (!$server || !$licenseService->verify($server) ) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
         //we create the start Datetime
@@ -109,7 +109,7 @@ class APIRoomController extends AbstractController
         $apiKey = substr($apiKey, 7);
         $server = $this->getDoctrine()->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(),$apiKey);
         //If there is no server, then we take the default server which is accessabl for all jitsi admin users
-        if (!$server && $licenseService->verify($server) ) {
+        if (!$server || !$licenseService->verify($server) ) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
         // We initialize the Room with the data;

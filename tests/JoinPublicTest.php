@@ -58,6 +58,8 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
+//        echo $client->getResponse()->getContent();
+        echo (new \DateTime())->format('d.m.Y H:i');
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/'.$room->getId()));
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();

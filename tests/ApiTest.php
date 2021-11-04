@@ -10,7 +10,9 @@ class ApiTest extends WebTestCase
 {
     public function testcreateRoomSucess(): void
     {
-        $client = static::createClient([], ['Bearer' => 'TestApi']);
+        $client = static::createClient([], [
+            'HTTP_AUTHORIZATION' => 'Bearer:TestApi',
+        ]);
         $crawler = $client->request('POST', '/api/v1/room', array(
             'email' => 'test@local.de',
             'name' => 'TestApi',
@@ -25,7 +27,9 @@ class ApiTest extends WebTestCase
     }
     public function testcreateRoomRoom(): void
     {
-        $client = static::createClient([], ['Bearer' => 'TestApi']);
+        $client = static::createClient([], [
+            'HTTP_AUTHORIZATION' => 'Bearer:TestApi',
+        ]);
         $crawler = $client->request('POST', '/api/v1/room', array(
             'email' => 'test@local.de',
             'duration' => 70,
@@ -38,7 +42,9 @@ class ApiTest extends WebTestCase
     }
     public function testgetOptions(): void
     {
-        $client = static::createClient([], ['Bearer' => 'TestApi']);
+        $client = static::createClient([], [
+            'HTTP_AUTHORIZATION' => 'Bearer:TestApi',
+        ]);
         $crawler = $client->request('POST', '/api/v1/room', array(
             'email' => 'test@local.de',
             'name' => 'TestApi',
