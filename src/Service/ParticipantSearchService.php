@@ -48,7 +48,7 @@ class ParticipantSearchService
             foreach ($data->getMember() as $m) {
                 $tmpUser[] = $m->getUsername();
             }
-            $tmp['user'] = implode($tmpUser, "\n");
+            $tmp['user'] = implode("\n",$tmpUser );
             $res[] = $tmp;
         }
         return $res;

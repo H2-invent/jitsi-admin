@@ -32,7 +32,7 @@ class LicenseService
         $this->parameterBag = $parameterBag;
     }
 
-    function verify(Server $server): bool
+    function verify(?Server $server): bool
     {
         $license = $this->em->getRepository(License::class)->findOneBy(array('licenseKey' => $server->getLicenseKey()));
 

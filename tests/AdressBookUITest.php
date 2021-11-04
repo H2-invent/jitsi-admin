@@ -12,7 +12,6 @@ class AdressBookUITest extends WebTestCase
     public function testAdressbookUI(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
