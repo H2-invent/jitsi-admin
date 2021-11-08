@@ -41,6 +41,7 @@ function initSearchUser() {
 
                     $('.chooseParticipant').mousedown(function (e) {
                         e.preventDefault();
+                        console.log('participant');
                         var $textarea = $('#new_member_member');
                         var data = $textarea.val();
                         $textarea.val('').val($(this).data('val') + "\n" + data);
@@ -52,6 +53,8 @@ function initSearchUser() {
                     })
                     $('.chooseModerator').mousedown(function (e) {
                         e.preventDefault();
+                        e.stopPropagation();
+                        console.log('moderator');
                         $('#moderatorCollapse').collapse('show');
                         var $textarea = $('#new_member_moderator');
                         var data = $textarea.val();
