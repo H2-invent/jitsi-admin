@@ -211,6 +211,11 @@ class Rooms
      */
     private $favoriteUsers;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $lobby;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -837,6 +842,18 @@ class Rooms
         if ($this->favoriteUsers->removeElement($favoriteUser)) {
             $favoriteUser->removeFavorite($this);
         }
+
+        return $this;
+    }
+
+    public function getLobby(): ?bool
+    {
+        return $this->lobby;
+    }
+
+    public function setLobby(?bool $lobby): self
+    {
+        $this->lobby = $lobby;
 
         return $this;
     }

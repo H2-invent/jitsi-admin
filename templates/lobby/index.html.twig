@@ -1,0 +1,21 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}Lobby für die Konferenz: {name}</h1>
+{% endblock %}
+{% block content %}
+
+
+
+{% endblock %}
+{% block script %}
+
+    <script>
+
+
+    </script>
+
+{% endblock %}
+{% block webpack %}
+
+    {{ encore_entry_script_tags('join') }}
+{% endblock %}
