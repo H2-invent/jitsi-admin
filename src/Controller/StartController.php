@@ -48,6 +48,9 @@ class StartController extends AbstractController
             }
 
             if (($roomL->getStart() === null || $roomL->getStartwithTimeZone($this->getUser())->modify('-30min') < $now && $roomL->getEndwithTimeZone($this->getUser()) > $now) || $this->getUser() == $roomL->getModerator()) {
+                if($roomL->getLobby()){
+                    return $this->redirectToRoute('lobby_moderator',array('uid'=>$roomL->getUid()));
+                }
                 return $this->redirect($url);
             }
             return $this->redirectToRoute('dashboard', ['color' => 'danger', 'snack' => $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',

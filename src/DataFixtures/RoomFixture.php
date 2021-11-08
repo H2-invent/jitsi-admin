@@ -326,5 +326,33 @@ class RoomFixture extends Fixture
         $room->setServer($server);
         $manager->persist($room);
         $manager->flush();
+
+
+        $room = new Rooms();
+        $room->setTimeZone('Europe/Berlin');
+        $room->setAgenda('Testagenda:' . $i);
+        $room->setDuration(60);
+        $room->setDissallowPrivateMessage(true);
+        $room->setDissallowScreenshareGlobal(true);
+        $start = (new \DateTime())->setTimezone(new \DateTimeZone('Europe/Berlin'))->modify('-10min');
+        $end = clone $start;
+        $end->modify('+60min');
+        $room->setStart($start);
+        $room->setEnddate($end);
+        $room->setModerator($user);
+        $room->addUser($user);
+        $room->addUser($user2);
+        $room->addUser($user3);
+        $room->setUid('12313231sdf');
+        $room->setUidReal('561984sdf');
+        $room->setSlug('lobby_room');
+        $room->setScheduleMeeting(false);
+        $room->setName('This is a room with Lobby');
+        $room->setSequence(0);
+        $room->setServer($server);
+        $room->setLobby(true);
+        $manager->persist($room);
+        $manager->flush();
+
     }
 }

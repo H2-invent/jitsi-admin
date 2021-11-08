@@ -71,6 +71,8 @@ parameters:
     start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
     allowTimeZoneSwitch: '%env(allowTimeZoneSwitch)%'
     emailSenderIsModerator: '%env(emailSenderIsModerator)%'
+    input_settings_allowLobby: '%env(input_settings_allowLobby)%'
+    input_settings_allowLobby_default: '%env(input_settings_allowLobby_default)%'
 services:
     # default configuration for services in *this* file
     _defaults:

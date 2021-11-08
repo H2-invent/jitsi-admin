@@ -14,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LobbyController extends AbstractController
 {
     /**
-     * @Route("/room/lobby/moderator/{uid}", name="lobby")
+     * @Route("/room/lobby/moderator/{uid}", name="lobby_moderator")
      */
     public function index(Request  $request, TranslatorInterface $translator,LoggerInterface $logger, $uid): Response
     {
@@ -27,7 +27,8 @@ class LobbyController extends AbstractController
 
 
         return $this->render('lobby/index.html.twig', [
-            'controller_name' => 'LobbyController',
+            'room' => $room,
+            'server'=>$room->getServer()
         ]);
     }
 }

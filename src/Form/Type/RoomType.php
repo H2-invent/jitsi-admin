@@ -123,6 +123,10 @@ class RoomType extends AbstractType
             $this->logger->debug('Add the possibility to select a Timezone');
             $builder->add('timeZone', TimezoneType::class, array('required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form'));
         }
+        if ($this->paramterBag->get('input_settings_allowLobby') == 1) {
+            $this->logger->debug('Add the possibility to select the lobby');
+            $builder->add('lobby', CheckboxType::class, array('required' => false, 'label' => 'label.lobby', 'translation_domain' => 'form'));
+        }
           $builder->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

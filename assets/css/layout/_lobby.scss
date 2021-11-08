@@ -1,0 +1,31 @@
+#lobbyWebcam{
+  width: 100%;
+  height: auto;
+}
+.webcamArea{
+  position: relative;
+  background-image: url("../../image/defaultUser.webp");
+  background-size: cover;
+  background-position: center;
+}
+.webcamToolbar{
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  padding: 3px;
+  padding-left: 8px;
+  opacity: 0;
+  transition: opacity 0.5s;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.webcamArea:hover > .webcamToolbar{
+  opacity: 1;
+}
+
+.webcamToolbar > i{
+  cursor: pointer;
+}

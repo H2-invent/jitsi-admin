@@ -138,6 +138,20 @@
                                                 class="fa fa-question-circle"></i></a>
                                 </div>
                             {% endif %}
+                            {% if form.lobby is defined %}
+                                <div class="col-lg-12">
+                                    <div id="lobby" class="row">
+                                        <div class="col-sm-11">
+                                            {{ form_row(form.lobby) }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                               data-content="{{ 'Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmer einzeln zu der Konferenz zulassen'|trans }}"><i
+                                                        class="fa fa-question-circle"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
                             {% if form.dissallowScreenshareGlobal is defined %}
                                 <div class="col-lg-12">
                                     <div id="enableFeateureJwt" class="d-none row">

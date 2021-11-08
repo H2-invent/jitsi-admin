@@ -127,6 +127,7 @@ label:
   jwtModeratorPosition: Moderator position im JWT Token
   timezone: Zeitzone
   serverName: Servername
+  lobby: Lobby aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

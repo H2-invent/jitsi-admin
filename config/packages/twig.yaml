@@ -25,6 +25,7 @@ twig:
         laf_bbb_Url: '%env(laf_bbb_Url)%'
         laf_showName: '%env(laf_showName)%'
         laf_showNameFrontend: '%env(laf_showNameFrontend)%'
+        laf_showNameInConference: '%env(laf_showNameInConference)%'
         laf_addParticipantsNoInput: '%env(laf_addParticipantsNoInput)%'
         laf_roomsMoreOptionsCollapsed: '%env(laf_roomsMoreOptionsCollapsed)%'
         input_settings_allow_sheduling: '%env(input_settings_allow_sheduling)%'

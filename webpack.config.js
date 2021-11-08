@@ -24,6 +24,7 @@ Encore
     .addEntry('black', './assets/js/black.js')
     .addEntry('frontend', './assets/js/frontend.js')
     .addEntry('startpage', './assets/js/startpage.js')
+    .addEntry('lobbyModerator', './assets/js/lobbyModerator.js')
 
     // empty the outputPath dir before each build
     .cleanupOutputBeforeBuild()

@@ -1,8 +1,30 @@
-{% extends 'join/base.html.twig' %}
+{% extends 'join/base_fluid.html.twig' %}
 {% block header %}
-    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}Lobby für die Konferenz: {name}</h1>
+    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}Lobby für die Konferenz: {name}{% endtrans %}</h1>
 {% endblock %}
 {% block content %}
+
+        <div class="col-lg-3">
+            <div class="card webcamArea">
+                <video autoplay="true" id="lobbyWebcam"></video>
+                <div class="webcamToolbar">
+                    <i class="fa fa-video" id="webcamSwitch"></i>
+                    {{ app.user.formatedName(laf_showNameInConference) }}
+                    {% if app.user == room.moderator %}
+                    <i class="fa fa-star"></i>
+                    {% endif %}
+                </div>
+
+            </div>
+                <a class="caretdown btn btn-primary dropdown-toggle" type="button"
+                        id="selectWebcamDropdown"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">{{ 'Webcams'|trans }}
+                </a>
+                <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+                </ul>
+
+        </div>
 
 
 
@@ -17,5 +39,5 @@
 {% endblock %}
 {% block webpack %}
 
-    {{ encore_entry_script_tags('join') }}
+    {{ encore_entry_script_tags('lobbyModerator') }}
 {% endblock %}

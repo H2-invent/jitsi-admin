@@ -1267,7 +1267,7 @@
       </trans-unit>
       <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-plus"&gt;&lt;/i&gt; hinzufügen</source>
-        <target><![CDATA[Suchen und durch klicken auf <i class="fas fa-plus"></i> hinzufügen]]></target>
+        <target><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmer. Sollen die Teilnehmer als Moderatoren fungieren, klicken Sie bitte auf <i class="fas fa-crown"></i>. ]]></target>
       </trans-unit>
       <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>
