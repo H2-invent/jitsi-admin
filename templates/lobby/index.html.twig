@@ -4,27 +4,68 @@
 {% endblock %}
 {% block content %}
 
-        <div class="col-lg-3">
-            <div class="card webcamArea">
-                <video autoplay="true" id="lobbyWebcam"></video>
-                <div class="webcamToolbar">
-                    <i class="fa fa-video" id="webcamSwitch"></i>
-                    {{ app.user.formatedName(laf_showNameInConference) }}
-                    {% if app.user == room.moderator %}
-                    <i class="fa fa-star"></i>
-                    {% endif %}
-                </div>
+    <div class="col-lg-3">
+        <div class="row mb-4">
+            <div class="col-12">
+                {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
+                    <div class="dropdown d-none d-lg-block ">
+                        <button class="caretdown btn btn-primary dropdown-toggle" type="button"
+                                id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">{{ 'Starten'|trans }}
+                        </button>
+                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+                            <li><a class="dropdown-item" href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
+                                   target="_blank">{{ 'Im Browser'|trans }}</a></li>
+                            <li><a class="dropdown-item" title="In der Electron Jitsi Meet App"
+                                   href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
+                                   target="_blank">{{ 'In der App'|trans }}</a></li>
+                        </ul>
+                    </div>
+                {% elseif start_dropdown_allow_app == 1 %}
+                    <div class="d-none d-lg-block ">
+                        <a class="btn btn-primary"
+                           href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
+                           target="_blank">{{ 'Starten'|trans }}</a>
+                    </div>
+                {% elseif start_dropdown_allow_browser == 1 %}
+                    <div class="d-none d-lg-block ">
+                        <a class="btn btn-primary"
+                           href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
+                           target="_blank">{{ 'Starten'|trans }}</a>
+                    </div>
+                {% endif %}
 
+                <div class="d-block d-lg-none">
+                    <a class="btn btn-primary"
+                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
+                       target="_blank">{{ 'Starten'|trans }}</a>
+                </div>
             </div>
-                <a class="caretdown btn btn-primary dropdown-toggle" type="button"
-                        id="selectWebcamDropdown"
-                        data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">{{ 'Webcams'|trans }}
-                </a>
-                <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
-                </ul>
+        </div>
+        <div class="card webcamArea">
+            <video autoplay="true" id="lobbyWebcam"></video>
+            <div class="webcamToolbar">
+                <i class="fa fa-video" id="webcamSwitch"></i>
+                {{ app.user.formatedName(laf_showNameInConference) }}
+                {% if app.user == room.moderator %}
+                    <i class="fa fa-star"></i>
+                {% endif %}
+            </div>
 
         </div>
+        <a class="caretdown btn btn-primary dropdown-toggle" type="button"
+           id="selectWebcamDropdown"
+           data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false">{{ 'Keine Webcam gefunden'|trans }}
+        </a>
+        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+        </ul>
+
+    </div>
+    <div class="col-lg-9">
+
+    </div>
 
 
 

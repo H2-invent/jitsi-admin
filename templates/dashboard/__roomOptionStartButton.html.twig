@@ -1,0 +1,35 @@
+
+                {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
+                    <div class="dropdown d-none d-lg-block ">
+                        <button class="caretdown btn btn-primary dropdown-toggle" type="button"
+                                id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">{{ 'Starten'|trans }}
+                        </button>
+                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+                            <li><a class="dropdown-item" href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                                   target="_blank">{{ 'Im Browser'|trans }}</a></li>
+                            <li><a class="dropdown-item" title="In der Electron Jitsi Meet App"
+                                   href="{{ path('room_join',{'t':'a','room':room.id}) }}"
+                                   target="_blank">{{ 'In der App'|trans }}</a></li>
+                        </ul>
+                    </div>
+                {% elseif start_dropdown_allow_app == 1 %}
+                    <div class="d-none d-lg-block ">
+                        <a class="btn btn-primary"
+                           href="{{ path('room_join',{'t':'a','room':room.id}) }}"
+                           target="_blank">{{ 'Starten'|trans }}</a>
+                    </div>
+                {% elseif start_dropdown_allow_browser == 1 %}
+                    <div class="d-none d-lg-block ">
+                        <a class="btn btn-primary"
+                           href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                           target="_blank">{{ 'Starten'|trans }}</a>
+                    </div>
+                {% endif %}
+
+                <div class="d-block d-lg-none">
+                    <a class="btn btn-primary"
+                       href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                       target="_blank">{{ 'Starten'|trans }}</a>
+                </div>

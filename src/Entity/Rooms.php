@@ -216,6 +216,11 @@ class Rooms
      */
     private $lobby;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LobbyWaitungUser::class, mappedBy="room", orphanRemoval=true)
+     */
+    private $lobbyWaitungUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -225,6 +230,7 @@ class Rooms
         $this->waitinglists = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
+        $this->lobbyWaitungUsers = new ArrayCollection();
     }
 
     /**
@@ -854,6 +860,36 @@ class Rooms
     public function setLobby(?bool $lobby): self
     {
         $this->lobby = $lobby;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LobbyWaitungUser[]
+     */
+    public function getLobbyWaitungUsers(): Collection
+    {
+        return $this->lobbyWaitungUsers;
+    }
+
+    public function addLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if (!$this->lobbyWaitungUsers->contains($lobbyWaitungUser)) {
+            $this->lobbyWaitungUsers[] = $lobbyWaitungUser;
+            $lobbyWaitungUser->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if ($this->lobbyWaitungUsers->removeElement($lobbyWaitungUser)) {
+            // set the owning side to null (unless already changed)
+            if ($lobbyWaitungUser->getRoom() === $this) {
+                $lobbyWaitungUser->setRoom(null);
+            }
+        }
 
         return $this;
     }

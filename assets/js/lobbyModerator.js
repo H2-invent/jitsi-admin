@@ -82,3 +82,6 @@ function setButtonName(button, text) {
     console.log(text);
     button.text(text);
 }
+function startMeeting(e){
+    e.pre
+}

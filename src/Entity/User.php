@@ -187,6 +187,11 @@ class User extends BaseUser
      */
     private $favorites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LobbyWaitungUser::class, mappedBy="user")
+     */
+    private $lobbyWaitungUsers;
+
 
     public function __construct()
     {
@@ -206,6 +211,7 @@ class User extends BaseUser
         $this->AddressGroupLeader = new ArrayCollection();
         $this->AddressGroupMember = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->lobbyWaitungUsers = new ArrayCollection();
 
     }
 
@@ -887,6 +893,36 @@ class User extends BaseUser
     public function removeFavorite(Rooms $favorite): self
     {
         $this->favorites->removeElement($favorite);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LobbyWaitungUser[]
+     */
+    public function getLobbyWaitungUsers(): Collection
+    {
+        return $this->lobbyWaitungUsers;
+    }
+
+    public function addLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if (!$this->lobbyWaitungUsers->contains($lobbyWaitungUser)) {
+            $this->lobbyWaitungUsers[] = $lobbyWaitungUser;
+            $lobbyWaitungUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if ($this->lobbyWaitungUsers->removeElement($lobbyWaitungUser)) {
+            // set the owning side to null (unless already changed)
+            if ($lobbyWaitungUser->getUser() === $this) {
+                $lobbyWaitungUser->setUser(null);
+            }
+        }
 
         return $this;
     }
