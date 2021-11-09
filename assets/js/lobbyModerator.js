@@ -82,6 +82,10 @@ function setButtonName(button, text) {
     console.log(text);
     button.text(text);
 }
-function startMeeting(e){
-    e.pre
+
+console.log('websocket');
+const es = new EventSource(topic);
+es.onmessage = e => {
+    // Will be called every time an update is published by the server
+    console.log(JSON.parse(e.data));
 }
