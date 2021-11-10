@@ -28,7 +28,7 @@ class SheduleNewTest extends WebTestCase
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, der Name darf nicht leer sein'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, bitte den Namen angeben.'))), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[duration]'] = "60";
@@ -127,7 +127,7 @@ class SheduleNewTest extends WebTestCase
         $form['room[name]'] = '';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, der Name darf nicht leer sein'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, bitte den Namen angeben.'))), $client->getResponse()->getContent());
 
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '765456654456';

@@ -198,7 +198,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
+        $this->assertSelectorTextContains('#snackbar','Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.');
     }
     public function testJoinConferenceNotcorrectRoom(): void
     {
@@ -216,7 +216,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Zugangsdaten in das Formular eingeben');
+        $this->assertSelectorTextContains('#snackbar','Bitte geben Sie Ihre Zugangsdaten in das Formular ein.');
     }
     public function testJoinConferenceUserdoesnotexist(): void
     {
@@ -234,7 +234,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] ='test@local6.de';
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Zugangsdaten in das Formular eingeben');
+        $this->assertSelectorTextContains('#snackbar','Bitte geben Sie Ihre Zugangsdaten in das Formular ein.');
     }
     public function testJoinConferencefixedroomCorrectuserUserloginuserUserismoderatorCorrectroomnumber(): void
     {
@@ -331,6 +331,6 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
+        $this->assertSelectorTextContains('#snackbar','Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.');
     }
 }
