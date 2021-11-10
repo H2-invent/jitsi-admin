@@ -24,7 +24,7 @@ class RoomControllerTest extends WebTestCase
         $client->request('GET', '/room/new');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h5', 'Neue Konferenz erstellen');
+        $this->assertSelectorTextContains('h5', 'Bitte neue Konferenz erstellen');
     }
     public function testEditNoRight()
     {
@@ -70,7 +70,7 @@ class RoomControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
 
-        $client->request('GET', '/room/new?id=5000');
+        $client->request('GET', '/room/new?id=50n00000000');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
     }

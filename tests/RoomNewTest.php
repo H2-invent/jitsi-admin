@@ -29,19 +29,19 @@ class RoomNewTest extends WebTestCase
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, das Startdatum darf nicht leer sein', 'Fehler, der Name darf nicht leer sein'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, bitte das Startdatum eingeben.', 'Fehler, bitte den Namen angeben.'))), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = '';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, das Startdatum darf nicht leer sein'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, bitte das Startdatum eingeben.'))), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = '2020-01-01T20:00:00';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.'))), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
         $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
@@ -54,7 +54,7 @@ class RoomNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Konferenz erfolgreich erstellt','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich erstellt.','modalUrl'=>$modalUrl)),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -88,7 +88,7 @@ class RoomNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Konferenz erfolgreich erstellt','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich erstellt.','modalUrl'=>$modalUrl)),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -128,7 +128,7 @@ class RoomNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Konferenz erfolgreich erstellt','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich erstellt.','modalUrl'=>$modalUrl)),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -144,25 +144,25 @@ class RoomNewTest extends WebTestCase
         $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, der Name darf nicht leer sein'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, bitte den Namen angeben.'))), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '765456654456';
         $form['room[start]'] = '';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, das Startdatum darf nicht leer sein'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, bitte das Startdatum eingeben.'))), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '';
         $form['room[start]'] = '';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, das Startdatum darf nicht leer sein','Fehler, der Name darf nicht leer sein'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, bitte das Startdatum eingeben.','Fehler, bitte den Namen angeben.'))), $client->getResponse()->getContent());
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = 'test';
         $form['room[start]'] = '2020-01-01T20:00:00';
         $form['room[duration]'] = "60";
         $client->submit($form);
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit'))), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.'))), $client->getResponse()->getContent());
 
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '765456654456';
@@ -178,7 +178,7 @@ class RoomNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Konferenz erfolgreich bearbeitet','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich bearbeitet.','modalUrl'=>$modalUrl)),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )

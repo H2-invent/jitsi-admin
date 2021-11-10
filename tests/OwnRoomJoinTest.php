@@ -103,7 +103,7 @@ class OwnRoomJoinTest extends WebTestCase
         $manager->persist($room);
         $manager->flush();
         $crawler = $client->request('GET', $url->generate('room_waiting',array('uid'=>$room->getUid(),'name'=>'Test User 123','type'=>'a')));
-        $this->assertSelectorTextContains('h2','Bitte warten. Die Konferenz ist noch nicht geöffnet');
+        $this->assertSelectorTextContains('h2','Bitte warten. Die Konferenz ist noch nicht eröffnet.');
         $crawler = $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/Test User 123/a');
         $this->assertResponseIsSuccessful();
         self::assertEquals(json_encode(
@@ -124,7 +124,7 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertEquals('{"error":true}',$client->getResponse()->getContent());
         $crawler = $client->request('GET', $url->generate('room_waiting',array('uid'=>$room->getUid(),'name'=>'Test User 123','type'=>'a')));
-        $this->assertSelectorTextContains('h2','Bitte warten. Die Konferenz ist noch nicht geöffnet');
+        $this->assertSelectorTextContains('h2','Bitte warten. Die Konferenz ist noch nicht eröffnet.');
         $user = $this->getUSerByEmail('test@local.de');
         $client->loginUser($user);
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
