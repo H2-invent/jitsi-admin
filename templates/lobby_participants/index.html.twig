@@ -1,20 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}Lobby für die Konferenz: {name}{% endtrans %}</h1>
+{% endblock %}
+{% block content %}
+    <div class=" col-12 col-lg-8 offset-lg-2">
+        <div class="card webcamArea">
+            <video autoplay="true" id="lobbyWebcam"></video>
+            <div class="webcamToolbar">
+                <i class="fa fa-video" id="webcamSwitch"></i>
+                {{ app.user.formatedName(laf_showNameInConference) }}
+                {% if app.user == room.moderator %}
+                    <i class="fa fa-star"></i>
+                {% endif %}
+            </div>
+        </div>
+        <a class="caretdown btn btn-primary dropdown-toggle" type="button"
+           id="selectWebcamDropdown"
+           data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false">{{ 'Keine Webcam gefunden'|trans }}
+        </a>
+        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+        </ul>
+        <a href="{{ path('lobby_participants_renew',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary renew">{{ 'Erneut anklopfen'|trans }}</a>
+    </div>
 
-{% block title %}Hello LobbyParticipantsController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% endblock %}
+{% block script %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/emanuel/Documents/projekte/jitsi-admin/src/Controller/LobbyParticipantsController.php'|file_link(0) }}">src/Controller/LobbyParticipantsController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/emanuel/Documents/projekte/jitsi-admin/templates/lobby_participants/index.html.twig'|file_link(0) }}">templates/lobby_participants/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <script>
+        var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+    </script>
+
+{% endblock %}
+{% block webpack %}
+    {{ encore_entry_script_tags('lobbyParticipant') }}
 {% endblock %}

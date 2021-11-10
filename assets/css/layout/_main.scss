@@ -171,4 +171,46 @@ strong{
     transform: rotate(360deg);
   }
 }
+.btn-floating {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 0;
+  margin: 10px;
+  overflow: hidden;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+  box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  width: 47px;
+  height: 47px;
+}
+.btn-floating.btn-lg {
+  width: 61.1px;
+  height: 61.1px;
+}
+.btn-floating.btn-sm {
+  width: 36.15385px;
+  height: 36.15385px;
+}
+.btn-floating.btn-lg i {
+  font-size: 1.625rem;
+  line-height: 61.1px;
+}
+.btn-floating i {
+  display: inline-block;
+  width: inherit;
+  text-align: center;
+}
+.btn-floating i {
+  font-size: 1.25rem;
+  line-height: 47px;
+}
+.btn-floating.btn-sm i {
+  font-size: .96154rem;
+  line-height: 36.15385px;
+}
 

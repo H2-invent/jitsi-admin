@@ -39,6 +39,7 @@
         "popper.js": "^1.16.1",
         "push.js": "^1.0.12",
         "sass": "^1.32.8",
+        "string-to-color": "^2.2.2",
         "swiper": "^6.6.2",
         "toastr": "^2.1.4"
     }

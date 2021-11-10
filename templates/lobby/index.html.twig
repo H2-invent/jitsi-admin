@@ -3,46 +3,7 @@
     <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}Lobby für die Konferenz: {name}{% endtrans %}</h1>
 {% endblock %}
 {% block content %}
-
-    <div class="col-lg-3">
-        <div class="row mb-4">
-            <div class="col-12">
-                {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
-                    <div class="dropdown d-none d-lg-block ">
-                        <button class="caretdown btn btn-primary dropdown-toggle" type="button"
-                                id="dropdownMenu1"
-                                data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">{{ 'Starten'|trans }}
-                        </button>
-                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                            <li><a class="dropdown-item" href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
-                                   target="_blank">{{ 'Im Browser'|trans }}</a></li>
-                            <li><a class="dropdown-item" title="In der Electron Jitsi Meet App"
-                                   href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
-                                   target="_blank">{{ 'In der App'|trans }}</a></li>
-                        </ul>
-                    </div>
-                {% elseif start_dropdown_allow_app == 1 %}
-                    <div class="d-none d-lg-block ">
-                        <a class="btn btn-primary"
-                           href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
-                           target="_blank">{{ 'Starten'|trans }}</a>
-                    </div>
-                {% elseif start_dropdown_allow_browser == 1 %}
-                    <div class="d-none d-lg-block ">
-                        <a class="btn btn-primary"
-                           href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
-                           target="_blank">{{ 'Starten'|trans }}</a>
-                    </div>
-                {% endif %}
-
-                <div class="d-block d-lg-none">
-                    <a class="btn btn-primary"
-                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
-                       target="_blank">{{ 'Starten'|trans }}</a>
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-3 col-md-6">
         <div class="card webcamArea">
             <video autoplay="true" id="lobbyWebcam"></video>
             <div class="webcamToolbar">
@@ -63,17 +24,77 @@
         </ul>
 
     </div>
-    <div class="col-lg-9">
+    <div class="col-lg-9 col-md-6">
+        <div id="waitingUserWrapper">
+            <div id="waitingUser" class="row w-100 mb-3">
+                {% for wU in room.lobbyWaitungUsers %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card ">
+                            <div class="card-body text-center d-flex flex-column align-items-center">
+                                <div class="initialCircle">{% if wU.user.firstName != '' %}{{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}{% else %}{{ wU.user.username[:1] }}{% endif %}</div>
+                                {{ wU.user.formatedName(laf_showNameInConference) }}
+                            </div>
+                            <div class="card-footer text-center">
 
+                                <a class="btn-floating btn-sm ">
+                                    <i class="fas fa-user-check "></i>
+                                </a>
+                                    <a class="btn-floating btn-sm">
+                                    <i class="fas fa-user-times "></i>
+                                    </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
+            <div class="dropdown d-none d-lg-block ">
+                <button class="caretdown btn btn-primary dropdown-toggle" type="button"
+                        id="dropdownMenu1"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">{{ 'Starten'|trans }}
+                </button>
+                <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+                    <li><a class="dropdown-item"
+                           href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
+                           target="_blank">{{ 'Im Browser'|trans }}</a></li>
+                    <li><a class="dropdown-item" title="In der Electron Jitsi Meet App"
+                           href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
+                           target="_blank">{{ 'In der App'|trans }}</a></li>
+                </ul>
+            </div>
+        {% elseif start_dropdown_allow_app == 1 %}
+            <div class="d-none d-lg-block ">
+                <a class="btn btn-primary"
+                   href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
+                   target="_blank">{{ 'Starten'|trans }}</a>
+            </div>
+        {% elseif start_dropdown_allow_browser == 1 %}
+            <div class="d-none d-lg-block ">
+                <a class="btn btn-primary"
+                   href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
+                   target="_blank">{{ 'Starten'|trans }}</a>
+            </div>
+        {% endif %}
+
+        <div class="d-block d-lg-none">
+            <a class="btn btn-primary"
+               href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
+               target="_blank">{{ 'Starten'|trans }}</a>
+        </div>
     </div>
-
 
 
 {% endblock %}
 {% block script %}
 
     <script>
-    var topic= {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
     </script>
 
