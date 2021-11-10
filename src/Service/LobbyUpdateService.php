@@ -12,6 +12,7 @@ use Symfony\Component\Mercure\Publisher;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class LobbyUpdateService
 {
@@ -21,7 +22,7 @@ class LobbyUpdateService
     private $logger;
     private $translator;
 
-    public function __construct(HubInterface $publisher, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger,TranslatorInterface $translator)
+    public function __construct(HubInterface $publisher, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->publisher = $publisher;
         $this->urlgenerator = $urlGenerator;
@@ -30,27 +31,48 @@ class LobbyUpdateService
         $this->translator = $translator;
     }
 
-    public function publishLobby(LobbyWaitungUser $lobbyWaitungUser)
+    public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
         $room = $lobbyWaitungUser->getRoom();
         $user = $lobbyWaitungUser->getUser();
         try {
-        $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
-        $data = array(
-            'user' => $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')),
-            'createdAt' => $lobbyWaitungUser->getCreatedAt()->format('Y-m-d H:i:s'),
-            'reloadUrl' => $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid())) . ' #waitingUser',
-            'title' => $this->translator->trans('{name} ist in der Lobby', array('{name}'=>$user->getFormatedName($this->parameterBag->get('laf_showNameInConference')))),
-            'message' => $this->translator->trans('Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten',array(
-                '{name}'=>$user->getFormatedName($this->parameterBag->get('laf_showNameInConference')),
-                '{room}'=>$room->getName()
-            ))
-        );
-        $update = new Update($topic, json_encode($data));
-        $res = $this->publisher->publish($update);
-        return true;
-        }catch (RuntimeException $e){
-            $this->logger->error('Mercure Hub not available: '.$e->getMessage());
+            $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
+            $data = array(
+                'type' => 'notification',
+                'user' => $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')),
+                'createdAt' => $lobbyWaitungUser->getCreatedAt()->format('Y-m-d H:i:s'),
+                'title' => $this->translator->trans('{name} ist in der Lobby', array('{name}' => $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')))),
+                'message' => $this->translator->trans('Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten', array(
+                    '{name}' => $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')),
+                    '{room}' => $room->getName()
+                ))
+            );
+            $update = new Update($topic, json_encode($data));
+            $res = $this->publisher->publish($update);
+            return true;
+        } catch (RuntimeException $e) {
+            $this->logger->error('Mercure Hub not available: ' . $e->getMessage());
+            return false;
+        }
+
+
+    }
+
+    public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
+    {
+        $room = $lobbyWaitungUser->getRoom();
+        $user = $lobbyWaitungUser->getUser();
+        try {
+            $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
+            $data = array(
+                'type' => 'refresh',
+                'reloadUrl' => $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid())) . ' #waitingUser',
+            );
+            $update = new Update($topic, json_encode($data));
+            $res = $this->publisher->publish($update);
+            return true;
+        } catch (RuntimeException $e) {
+            $this->logger->error('Mercure Hub not available: ' . $e->getMessage());
             return false;
         }
 

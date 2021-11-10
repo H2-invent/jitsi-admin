@@ -3,13 +3,8 @@ import $ from 'jquery';
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initCircle} from './initCircle'
-function notifymoderator(data) {
-    var reloadUrl = data.reloadUrl;
-    console.log(reloadUrl)
-    $('#waitingUserWrapper').load(reloadUrl,function () {
-        initCircle();
-    });
 
+function notifymoderator(data) {
     Push.Permission.request();
     Push.create(data.title, {
         body: data.message,
@@ -21,4 +16,10 @@ function notifymoderator(data) {
         }
     });
 }
-export {notifymoderator}
+function refresh(data){
+    var reloadUrl = data.reloadUrl;
+    $('#waitingUserWrapper').load(reloadUrl,function () {
+        initCircle();
+    });
+}
+export {notifymoderator, refresh}

@@ -10,50 +10,61 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LobbyParticipantsController extends AbstractController
 {
+    private $translator;
+    private $lobbyUpdateService;
+    public function __construct(TranslatorInterface $translator, LobbyUpdateService $lobbyUpdateService)
+    {
+        $this->translator = $translator;
+        $this->lobbyUpdateService = $lobbyUpdateService;
+    }
+
     /**
      * @Route("/lobby/participants/{roomUid}/{userUid}", name="lobby_participants_wait")
      */
-    public function index(LobbyUpdateService $lobbyUpdateService,$roomUid, $userUid): Response
+    public function index($roomUid, $userUid): Response
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
+
         if(!$lobbyUser){
             $lobbyUser = new LobbyWaitungUser();
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room);
-            $lobbyUpdateService->publishLobby($lobbyUser);
+            $lobbyUser->setCreatedAt(new \DateTime());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($lobbyUser);
+            $em->flush();
+            $this->lobbyUpdateService->newParticipantInLobby($lobbyUser);
+            $this->lobbyUpdateService->refreshLobby($lobbyUser);
         }
-        $lobbyUser->setCreatedAt(new \DateTime());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($lobbyUser);
-        $em->flush();
 
        return $this->render('lobby_participants/index.html.twig',array('room'=>$room, 'server'=>$room->getServer(),'user'=>$user));
     }
     /**
      * @Route("/lobby/renew/participants/{roomUid}/{userUid}", name="lobby_participants_renew")
      */
-    public function renew(LobbyUpdateService $lobbyUpdateService,$roomUid, $userUid): Response
+    public function renew($roomUid, $userUid): Response
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
         if($lobbyUser){
-            $lobbyUpdateService->publishLobby($lobbyUser);
-            return new JsonResponse(array('error'=>false));
+            $this->lobbyUpdateService->newParticipantInLobby($lobbyUser);
+            return new JsonResponse(array('error'=>false,'message'=>$this->translator->trans('Sie haben Ihren Beitritt erfolgreich angefordert.'),'color'=>'success'));
         }
-        return new JsonResponse(array('error'=>true));
+        return new JsonResponse(array('error'=>true,'message'=>$this->translator->trans('Fehler')));
     }
     /**
      * @Route("/lobby/leave/participants/{roomUid}/{userUid}", name="lobby_participants_leave")
      */
-    public function remove(LobbyUpdateService $lobbyUpdateService,$roomUid, $userUid): Response
+    public function remove($roomUid, $userUid): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
@@ -62,6 +73,7 @@ class LobbyParticipantsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->remove($lobbyUser);
             $em->flush();
+            $this->lobbyUpdateService->refreshLobby($lobbyUser);
             return new JsonResponse(array('error'=>false));
         }
         return new JsonResponse(array('error'=>true));

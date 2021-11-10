@@ -21,7 +21,13 @@
         </a>
         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
         </ul>
-        <a href="{{ path('lobby_participants_renew',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary renew">{{ 'Erneut anklopfen'|trans }}</a>
+        <div class="row">
+            <div class="col-12">
+            <a href="{{ path('lobby_participants_renew',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary renew">{{ 'Erneut anklopfen'|trans }}</a>
+            <a href="{{ path('lobby_participants_leave',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary leave">{{ 'Exit'|trans }}</a>
+            </div>
+        </div>
+
     </div>
 
 
@@ -30,7 +36,8 @@
 {% block script %}
 
     <script>
-        var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var topic = {{ mercure(absolute_url(path('lobby_participants_wait',{'roomUid':room.uid,'userUid':user.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var removeUrl = '{{ path('lobby_participants_leave',{'roomUid':room.uid,'userUid':user.uid}) }}';
     </script>
 
 {% endblock %}

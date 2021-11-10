@@ -9,10 +9,11 @@ import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
-import stc from'string-to-color/index';
+import stc from 'string-to-color/index';
 import {notifymoderator} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam} from './cameraUtils'
+
 initWebcam()
 const es = new EventSource(topic);
 es.onmessage = e => {
@@ -20,10 +21,39 @@ es.onmessage = e => {
     notifymoderator(data)
 }
 initCircle();
-$('.renew').click(function (e){
+var counter = 0;
+var interval;
+var text;
+$('.renew').click(function (e) {
     e.preventDefault();
-    $.get($(this).attr('href'),function (data) {
-        console.log(data);
-    })
+    if(counter === 0){
+        text = $(this).text();
+        $.get($(this).attr('href'), function (data) {
+            counter = 60;
+            interval = setInterval(function () {
+                counter = counter-1;
+                $('.renew').text(text+' ('+counter+')');
+                if (counter === 0){
+                    $('.renew').text(text);
+                    clearInterval(interval);
+                }
+            },1000);
+            $('#snackbar').text(data.message).removeClass('d-none').addClass('show bg-' + data.color).click(function (e) {
+                $('#snackbar').removeClass('show');
+            })
+        })
+    }
 })
+$('.leave').click(function (e) {
+    e.preventDefault();
 
+        text = $(this).text();
+        $.get($(this).attr('href'), function (data) {
+            window.location.href = "/";
+        })
+
+})
+console.log('handler');
+window.addEventListener("beforeunload", function(event) {
+    $.get(url)
+});
