@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
-class LobbyUpdateService
+class DirectSendService
 {
     private $publisher;
     private $urlgenerator;
@@ -84,63 +84,96 @@ class LobbyUpdateService
 
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
-//        try {
-        $topic = $this->urlgenerator->generate('lobby_participants_wait', array('roomUid' => $lobbyWaitungUser->getRoom()->getUid(), 'userUid' => $lobbyWaitungUser->getUser()->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
-        if ($this->parameterBag->get('start_dropdown_allow_browser') == 1 && $this->parameterBag->get('start_dropdown_allow_app') == 1) {
+            $topic = $this->urlgenerator->generate('lobby_participants_wait', array('roomUid' => $lobbyWaitungUser->getRoom()->getUid(), 'userUid' => $lobbyWaitungUser->getUser()->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
+           $appUrl = $this->roomService->join(
+               $lobbyWaitungUser->getRoom(),
+               $lobbyWaitungUser->getUser(),
+               'a',
+               $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
+           );
+           $browserUrl =$this->roomService->join(
+               $lobbyWaitungUser->getRoom(),
+               $lobbyWaitungUser->getUser(),
+               'b',
+               $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
+           );
+            if ($this->parameterBag->get('start_dropdown_allow_browser') == 1 && $this->parameterBag->get('start_dropdown_allow_app') == 1) {
+                $content =
+                    $this->twig->render('lobby_participants/choose.html.twig', array('appUrl' => $appUrl, 'browserUrl' => $browserUrl));
+                $this->sendModal($topic,$content);
+            } elseif ($this->parameterBag->get('start_dropdown_allow_browser') == 1) {
+             $this->sendRedirect($topic,$browserUrl,3000);
+            } elseif ($this->parameterBag->get('start_dropdown_allow_app') == 1) {
+                $this->sendRedirect($topic,$appUrl,3000);
+            }
 
-            $data = $this->buildModal(
-                $this->twig->render('lobby_participants/choose.html.twig',
-                    array('appUrl' => $this->roomService->join(
-                        $lobbyWaitungUser->getRoom(),
-                        $lobbyWaitungUser->getUser(),
-                        'a',
-                        $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
-                    ),
-                        'browserUrl' => $this->roomService->join(
-                            $lobbyWaitungUser->getRoom(),
-                            $lobbyWaitungUser->getUser(),
-                            'b',
-                            $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
-                        )
-                    )
-                )
-            );
 
-        } elseif ($this->parameterBag->get('start_dropdown_allow_browser') == 1) {
-            $data = $this->buildRedirect($this->roomService->join($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), 'b', $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))));
-
-        } elseif ($this->parameterBag->get('start_dropdown_allow_app') == 1) {
-            $data = $this->buildRedirect($this->roomService->join($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), 'a', $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))));
-
-        }
-
-        $update = new Update($topic, json_encode($data));
-        $res = $this->publisher->publish($update);
-        return true;
-//        } catch (RuntimeException $e) {
-//            $this->logger->error('Mercure Hub not available: ' . $e->getMessage());
-//            return false;
-//        }
     }
 
-    private function buildModal($content)
+    public function sendSnackbar($topic, $text,$color)
     {
-        $res = array(
+        $data = array(
+            'type' => 'snackbar',
+            'message' => $text,
+            'color'=>$color
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+
+
+    }
+    public function sendBrowserNotification($topic, $title, $message)
+    {
+        $data = array(
+            'type' => 'notification',
+            'title' => $title,
+            'message' =>$message
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+    }
+    public function sendModal($topic, $content)
+    {
+
+        $data = array(
             'type' => 'modal',
             'content' => $content,
 
         );
-        return $res;
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+
     }
 
-    private function buildRedirect($url)
+    public function sendRedirect($topic, $url,$timeout=1000)
     {
-        $res = array(
+
+        $data = array(
             'type' => 'redirect',
             'url' => $url,
             'message' => $this->translator->trans('lobby.participant.accept'),
-            'timeout' => 1000,
+            'timeout' => $timeout,
         );
-        return $res;
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
+    public function sendRefresh($topic,$url){
+        $data = array(
+            'type' => 'refresh',
+            'reloadUrl' => $url,
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+    private function sendUpdate(Update $update)
+    {
+        try {
+            $res = $this->publisher->publish($update);
+            return true;
+        } catch (RuntimeException $e) {
+            $this->logger->error('Mercure Hub not available: ' . $e->getMessage());
+            return false;
+        }
     }
 }

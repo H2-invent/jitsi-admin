@@ -5,7 +5,7 @@ namespace App\Tests;
 use App\Entity\LobbyWaitungUser;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\LobbyUpdateService;
+use App\Service\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
@@ -18,7 +18,7 @@ class LobbyUpdateServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
         $this->assertSame('test', $kernel->getEnvironment());
 
-        $lobbyUpdateService = $this->getContainer()->get(LobbyUpdateService::class);
+        $lobbyUpdateService = $this->getContainer()->get(DirectSendService::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $user = $userRepo->findOneBy(array('email'=>'test@local2.de'));

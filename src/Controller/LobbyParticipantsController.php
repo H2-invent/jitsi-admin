@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Service\LobbyUpdateService;
+use App\Service\DirectSendService;
+use App\Service\ToModeratorWebsocketService;
+use App\Service\ToParticipantWebsocketService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,11 +17,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LobbyParticipantsController extends AbstractController
 {
     private $translator;
-    private $lobbyUpdateService;
-    public function __construct(TranslatorInterface $translator, LobbyUpdateService $lobbyUpdateService)
+    private $toModerator;
+    private $toParticipant;
+    public function __construct(ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService,TranslatorInterface $translator, DirectSendService $lobbyUpdateService)
     {
         $this->translator = $translator;
         $this->lobbyUpdateService = $lobbyUpdateService;
+        $this->toModerator = $toModeratorWebsocketService;
+        $this->toParticipant = $toParticipantWebsocketService;
     }
 
     /**
@@ -40,8 +45,8 @@ class LobbyParticipantsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($lobbyUser);
             $em->flush();
-            $this->lobbyUpdateService->newParticipantInLobby($lobbyUser);
-            $this->lobbyUpdateService->refreshLobby($lobbyUser);
+            $this->toModerator->newParticipantInLobby($lobbyUser);
+            $this->toModerator->refreshLobby($lobbyUser);
         }
 
        return $this->render('lobby_participants/index.html.twig',array('room'=>$room, 'server'=>$room->getServer(),'user'=>$user));
@@ -56,7 +61,7 @@ class LobbyParticipantsController extends AbstractController
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
         if($lobbyUser){
-            $this->lobbyUpdateService->newParticipantInLobby($lobbyUser);
+            $this->toModerator->newParticipantInLobby($lobbyUser);
             return new JsonResponse(array('error'=>false,'message'=>$this->translator->trans('lobby.participant.ask.sucess'),'color'=>'success'));
         }
         return new JsonResponse(array('error'=>true,'message'=>$this->translator->trans('Fehler')));
@@ -73,7 +78,7 @@ class LobbyParticipantsController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->remove($lobbyUser);
             $em->flush();
-            $this->lobbyUpdateService->refreshLobby($lobbyUser);
+            $this->toModerator->refreshLobby($lobbyUser);
             return new JsonResponse(array('error'=>false));
         }
         return new JsonResponse(array('error'=>true));

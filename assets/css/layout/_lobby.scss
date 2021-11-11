@@ -21,6 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+
+
 }
 .webcamArea:hover > .webcamToolbar{
   opacity: 1;
@@ -43,4 +45,23 @@
 #waitingUserWrapper{
   max-height: 60vh;
   overflow-y: auto;
+}
+.webcamArea > .overlay{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgb(0,0,0,0.4);
+  opacity: 1;
+  transition: opacity 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+}
+.webcamArea:hover > .overlay{
+  opacity: 0;
+}
+.webcamArea > .overlay> .lds-roller div:after {
+  background: white;
 }

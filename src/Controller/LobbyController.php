@@ -8,8 +8,10 @@ use App\Entity\RoomsUser;
 use App\Entity\User;
 use App\Service\JoinUrlGeneratorService;
 use App\Service\LobbyUpdateModeratorService;
-use App\Service\LobbyUpdateService;
+use App\Service\DirectSendService;
 use App\Service\RoomService;
+use App\Service\ToModeratorWebsocketService;
+use App\Service\ToParticipantWebsocketService;
 use PHPUnit\Util\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,13 +28,15 @@ class LobbyController extends AbstractController
     private $parameterBag;
     private $translator;
     private $logger;
-    private $lobbyUpdateService;
-    public function __construct(LobbyUpdateService $lobbyUpdateService, ParameterBagInterface $parameterBag, TranslatorInterface $translator, LoggerInterface $logger)
+    private $toModerator;
+    private $toParticipant;
+    public function __construct(ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag, TranslatorInterface $translator, LoggerInterface $logger)
     {
         $this->parameterBag = $parameterBag;
         $this->translator = $translator;
         $this->logger = $logger;
-        $this->lobbyUpdateService = $lobbyUpdateService;
+        $this->toModerator = $toModeratorWebsocketService;
+        $this->toParticipant = $toParticipantWebsocketService;
     }
 
     /**
@@ -80,16 +84,28 @@ class LobbyController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($lobbyUser);
         $em->flush();
-        $this->lobbyUpdateService->acceptLobbyUser($lobbyUser);
-        $this->lobbyUpdateService->refreshLobby($lobbyUser);
+        $this->toParticipant->acceptLobbyUser($lobbyUser);
+        $this->toModerator->refreshLobby($lobbyUser);
         return new JsonResponse(array('error'=>false, 'message'=>$this->translator->trans('lobby.moderator.accept.success'),'color'=>'success'));
     }
 
     /**
      * @Route("/room/lobby/decline/{uidRoom}/{uidUser}", name="lobby_moderator_decline")
      */
-    public function decline(Request $request, $room, RoomService $roomService): Response
+    public function decline(Request $request, $uidRoom,$uidUser, RoomService $roomService): Response
     {
-        return new JsonResponse(array('error'=>true));
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$uidUser));
+        $room =$this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$uidRoom));
+        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
+        if ($room->getModerator() !== $this->getUser()) {
+            $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
+            return new JsonResponse(array('error'=>false, 'message'=>$this->translator->trans('lobby.moderator.accept.error'),'color'=>'danger'));
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($lobbyUser);
+        $em->flush();
+        $this->toParticipant->sendDecline($lobbyUser);
+        $this->toModerator->refreshLobby($lobbyUser);
+        return new JsonResponse(array('error'=>false, 'message'=>$this->translator->trans('lobby.moderator.decline.success'),'color'=>'success'));
     }
 }

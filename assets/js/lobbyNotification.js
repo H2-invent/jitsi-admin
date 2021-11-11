@@ -14,11 +14,17 @@ function masterNotify(data) {
     }
     else if (data.type === 'redirect') {
         redirect(data)
+    } else if (data.type === 'snackbar') {
+        setSnackbar(data.message,data.color)
     }else {
         alert('Error, Please reload the page')
     }
 }
-
+function setSnackbar(text, color){
+    $('#snackbar').text(text).removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').removeClass('d-none').addClass('show bg-' + color).click(function (e) {
+        $('#snackbar').removeClass('show');
+    })
+}
 function notifymoderator(data) {
     Push.Permission.request();
     Push.create(data.title, {
