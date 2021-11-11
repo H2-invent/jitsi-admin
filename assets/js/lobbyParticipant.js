@@ -10,15 +10,15 @@ import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
 import stc from 'string-to-color/index';
-import {notifymoderator} from './lobbyNotification'
+import {masterNotify} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam} from './cameraUtils'
-
+import * as url from "url";
 initWebcam()
 const es = new EventSource(topic);
 es.onmessage = e => {
     var data = JSON.parse(e.data)
-    notifymoderator(data)
+    masterNotify(data)
 }
 initCircle();
 var counter = 0;
@@ -55,5 +55,5 @@ $('.leave').click(function (e) {
 })
 console.log('handler');
 window.addEventListener("beforeunload", function(event) {
-    $.get(url)
+    $.get(removeUrl)
 });

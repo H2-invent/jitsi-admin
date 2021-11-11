@@ -1,6 +1,6 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}Lobby für die Konferenz: {name}{% endtrans %}</h1>
+    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}lobby.participant.title{% endtrans %}</h1>
 {% endblock %}
 {% block content %}
     <div class=" col-12 col-lg-8 offset-lg-2">
@@ -17,14 +17,14 @@
         <a class="caretdown btn btn-primary dropdown-toggle" type="button"
            id="selectWebcamDropdown"
            data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">{{ 'Keine Webcam gefunden'|trans }}
+           aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
         </a>
         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
         </ul>
         <div class="row">
             <div class="col-12">
-            <a href="{{ path('lobby_participants_renew',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary renew">{{ 'Erneut anklopfen'|trans }}</a>
-            <a href="{{ path('lobby_participants_leave',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary leave">{{ 'Exit'|trans }}</a>
+            <a href="{{ path('lobby_participants_renew',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
+            <a href="{{ path('lobby_participants_leave',{'roomUid':room.uid,'userUid':user.uid}) }}" class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
             </div>
         </div>
 

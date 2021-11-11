@@ -5,6 +5,10 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target state="translated">E-Mail-Adresse</target>
+      </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
         <target>Keine Berechtigung</target>
@@ -273,10 +277,6 @@
         <source>Name</source>
         <target>Name</target>
       </trans-unit>
-      <trans-unit id="lpzL089" resname="Email">
-        <source>Email</source>
-        <target state="translated">E-Mail-Adresse</target>
-      </trans-unit>
       <trans-unit id="TyMI.d2" resname="Profil bearbeiten">
         <source>Profil bearbeiten</source>
         <target>Profil bearbeiten</target>
@@ -397,7 +397,7 @@
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
         <target state="translated">Sie wurden soeben zu einer Videokonferenz auf dem Jitsi-Server {url} eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
       </trans-unit>
-      <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br>&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;>hier&lt;/a>&amp;nbsp;an.">
+      <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
@@ -405,7 +405,7 @@
                                     <br>
                                     Dann melden Sie sich bitte <a href="{url}">hier</a>&nbsp;an.]]></target>
       </trans-unit>
-      <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b>kostenlos&lt;/b> planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br>&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;>hier&lt;/a>&amp;nbsp;&lt;b>kostenlos&lt;/b>&#10;                                    an.">
+      <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
                                     &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel
                                                      in einer Übersicht verwalten?&lt;br&gt;
@@ -499,7 +499,7 @@
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
         <target state="translated">Bitte klicken Sie hier, um die Anmeldung abzuschließen.</target>
       </trans-unit>
-      <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br>&#10;        Ihre E-Mail-Adresse: {email}&lt;br>&#10;        Konferenz ID: {uid}">
+      <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
@@ -679,7 +679,7 @@
         <source>Ihre Lizenz für den Jitsi-Meet-Server mit der Url: {url} läuft am {date} aus</source>
         <target state="translated">Ihre Lizenz für den Jitsi Meet Server mit der Url: {url} endet am {date}.</target>
       </trans-unit>
-      <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br>&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
+      <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
         <target state="translated"><![CDATA[Ihre Jitsi-Admin-Enterprise-Lizenz endet bald. <br>
@@ -793,7 +793,7 @@
         <source>Mail an die Teilnehmer</source>
         <target state="translated">E-Mail an die Teilnehmenden</target>
       </trans-unit>
-      <trans-unit id="kaxOEsS" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;>&#10;            &lt;u>Datenschutzhinweise von Jitsi Admin&lt;/u> &lt;i class=&quot;fa fa-external-link-alt&quot;>&lt;/i>&lt;/a>&#10;            und die &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;>&#10;            &lt;u>Datenschutzhinweise von {url}&lt;/u>&lt;i class=&quot;fa fa-external-link-alt&quot;>&lt;/i>&lt;/a>&#10;            gelesen und nehme diese zur Kenntnis.">
+      <trans-unit id="kaxOEsS" resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            und die &lt;a href=&quot;{privacyUrl}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
@@ -805,7 +805,7 @@
             <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
             gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
-      <trans-unit id="vj_Mqv." resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;>&#10;            &lt;u>Datenschutzhinweise von Jitsi Admin&lt;/u> &lt;i class=&quot;fa fa-external-link-alt&quot;>&lt;/i>&lt;/a>&#10;            gelesen und nehme diese zur Kenntnis.">
+      <trans-unit id="vj_Mqv." resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
@@ -825,7 +825,7 @@
         <source>Keine Abstimmungen</source>
         <target>Keine Abstimmungen</target>
       </trans-unit>
-      <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u>&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;>hier&lt;/a>&lt;/u>&#10;                            eine neue Konferenz.">
+      <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
@@ -1201,7 +1201,7 @@
         <source>Zeitzone</source>
         <target>Zeitzone</target>
       </trans-unit>
-      <trans-unit id="7757HgF" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                &lt;u>&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;>hier&lt;/a>&lt;/u>&#10;                                eine neue Konferenz.">
+      <trans-unit id="7757HgF" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                                eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                                 &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                                 eine neue Konferenz.</source>
@@ -1265,11 +1265,11 @@
         <source>Username</source>
         <target>Username</target>
       </trans-unit>
-      <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;>&lt;/i> hinzufügen">
+      <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-plus"&gt;&lt;/i&gt; hinzufügen</source>
         <target state="translated"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Sollen die Teilnehmenden als Moderatoren fungieren, klicken Sie bitte <i class="fas fa-plus"></i>.]]></target>
       </trans-unit>
-      <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;>&lt;/i> hinzufügen">
+      <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>
         <target state="translated"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Sollen die Teilnehmenden als Moderatoren fungieren, klicken Sie bitte <i class="fas fa-crown"></i>.]]></target>
       </trans-unit>
@@ -1280,6 +1280,58 @@
       <trans-unit id=".K6witM" resname="Meine Videokonferenzen">
         <source>Meine Videokonferenzen</source>
         <target>Meine Videokonferenzen</target>
+      </trans-unit>
+      <trans-unit id="0NUhwSD" resname="lobby.participant.ask.sucess">
+        <source>lobby.participant.ask.sucess</source>
+        <target>Sie haben Ihren Beitritt erfolgreich angefordert.</target>
+      </trans-unit>
+      <trans-unit id="N9O9mYb" resname="lobby.notification.newUser.title">
+        <source>lobby.notification.newUser.title</source>
+        <target>{name} ist in der Lobby</target>
+      </trans-unit>
+      <trans-unit id="IbBrCkB" resname="lobby.notification.newUser.message">
+        <source>lobby.notification.newUser.message</source>
+        <target>Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten</target>
+      </trans-unit>
+      <trans-unit id="BvZfePO" resname="room.new.help.lobby">
+        <source>room.new.help.lobby</source>
+        <target>Für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmer einzeln zu der Konferenz zulassen</target>
+      </trans-unit>
+      <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
+        <source>lobby.moderator.title</source>
+        <target>Lobby für die Konferenz: {name}</target>
+      </trans-unit>
+      <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
+        <source>lobby.noWebCamFound</source>
+        <target>Keine Webcam gefunden</target>
+      </trans-unit>
+      <trans-unit id="DamWI5n" resname="jitsi.start">
+        <source>jitsi.start</source>
+        <target>Starten</target>
+      </trans-unit>
+      <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
+        <source>jitsi.start.browser</source>
+        <target>Im Browser</target>
+      </trans-unit>
+      <trans-unit id="39zBg5g" resname="jitsi.start.app">
+        <source>jitsi.start.app</source>
+        <target>In der App</target>
+      </trans-unit>
+      <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
+        <source>lobby.participant.title</source>
+        <target>Lobby für die Konferenz: {name}</target>
+      </trans-unit>
+      <trans-unit id="rsZTp96" resname="lobby.renew">
+        <source>lobby.renew</source>
+        <target>Erneut anklopfen</target>
+      </trans-unit>
+      <trans-unit id="5fCeszY" resname="lobby.exit">
+        <source>lobby.exit</source>
+        <target>Lobby verlassen</target>
+      </trans-unit>
+      <trans-unit id="27m6wen" resname="input.placeholder.search">
+        <source>input.placeholder.search</source>
+        <target>Hier suchen</target>
       </trans-unit>
     </body>
   </file>

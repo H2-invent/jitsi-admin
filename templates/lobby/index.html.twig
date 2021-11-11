@@ -1,6 +1,6 @@
 {% extends 'join/base_fluid.html.twig' %}
 {% block header %}
-    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}Lobby für die Konferenz: {name}{% endtrans %}</h1>
+    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}</h1>
 {% endblock %}
 {% block content %}
     <div class="col-lg-3 col-md-6">
@@ -18,7 +18,7 @@
         <a class="caretdown btn btn-primary dropdown-toggle" type="button"
            id="selectWebcamDropdown"
            data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">{{ 'Keine Webcam gefunden'|trans }}
+           aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
         </a>
         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
         </ul>
@@ -36,10 +36,10 @@
                             </div>
                             <div class="card-footer text-center">
 
-                                <a class="btn-floating btn-sm ">
+                                <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_accept',{'uidRoom':wU.room.uid,'uidUser':wU.user.uid}) }}">
                                     <i class="fas fa-user-check "></i>
                                 </a>
-                                    <a class="btn-floating btn-sm">
+                                    <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_decline',{'uidRoom':wU.room.uid,'uidUser':wU.user.uid}) }}">
                                     <i class="fas fa-user-times "></i>
                                     </a>
 
@@ -57,35 +57,35 @@
                 <button class="caretdown btn btn-primary dropdown-toggle" type="button"
                         id="dropdownMenu1"
                         data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">{{ 'Starten'|trans }}
+                        aria-expanded="false">{{ 'jitsi.start'|trans }}
                 </button>
                 <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
                     <li><a class="dropdown-item"
                            href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
-                           target="_blank">{{ 'Im Browser'|trans }}</a></li>
+                           target="_blank">{{ 'jitsi.start.browser'|trans }}</a></li>
                     <li><a class="dropdown-item" title="In der Electron Jitsi Meet App"
                            href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
-                           target="_blank">{{ 'In der App'|trans }}</a></li>
+                           target="_blank">{{ 'jitsi.start.app'|trans }}</a></li>
                 </ul>
             </div>
         {% elseif start_dropdown_allow_app == 1 %}
             <div class="d-none d-lg-block ">
                 <a class="btn btn-primary"
                    href="{{ path('lobby_moderator_start',{'t':'a','room':room.id}) }}"
-                   target="_blank">{{ 'Starten'|trans }}</a>
+                   target="_blank">{{ 'jitsi.start'|trans }}</a>
             </div>
         {% elseif start_dropdown_allow_browser == 1 %}
             <div class="d-none d-lg-block ">
                 <a class="btn btn-primary"
                    href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
-                   target="_blank">{{ 'Starten'|trans }}</a>
+                   target="_blank">{{ 'jitsi.start'|trans }}</a>
             </div>
         {% endif %}
 
         <div class="d-block d-lg-none">
             <a class="btn btn-primary"
                href="{{ path('lobby_moderator_start',{'t':'b','room':room.id}) }}"
-               target="_blank">{{ 'Starten'|trans }}</a>
+               target="_blank">{{ 'jitsi.start'|trans }}</a>
         </div>
     </div>
 
