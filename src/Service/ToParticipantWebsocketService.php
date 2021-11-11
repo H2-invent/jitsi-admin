@@ -40,7 +40,9 @@ class ToParticipantWebsocketService
 
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
+
         $topic = $this->urlgenerator->generate('lobby_participants_wait', array('roomUid' => $lobbyWaitungUser->getRoom()->getUid(), 'userUid' => $lobbyWaitungUser->getUser()->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $this->directSend->sendSnackbar($topic,$this->translator->trans('lobby.participant.accept'),'success');
         $appUrl = $this->roomService->join(
             $lobbyWaitungUser->getRoom(),
             $lobbyWaitungUser->getUser(),
@@ -59,9 +61,9 @@ class ToParticipantWebsocketService
                 $this->twig->render('lobby_participants/choose.html.twig', array('appUrl' => $appUrl, 'browserUrl' => $browserUrl));
             $this->directSend->sendModal($topic, $content);
         } elseif ($this->parameterBag->get('start_dropdown_allow_browser') == 1) {
-            $this->directSend->sendRedirect($topic, $browserUrl, 3000);
+            $this->directSend->sendRedirect($topic, $browserUrl, 5000);
         } elseif ($this->parameterBag->get('start_dropdown_allow_app') == 1) {
-            $this->directSend->sendRedirect($topic, $appUrl, 3000);
+            $this->directSend->sendRedirect($topic, $appUrl, 5000);
         }
     }
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser){

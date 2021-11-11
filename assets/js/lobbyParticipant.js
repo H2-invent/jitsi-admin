@@ -54,6 +54,6 @@ $('.leave').click(function (e) {
 
 })
 console.log('handler');
-window.addEventListener("beforeunload", function(event) {
-    $.get(removeUrl)
-});
+// window.addEventListener("beforeunload", function(event) {
+//     $.get(removeUrl)
+// });

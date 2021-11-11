@@ -1333,6 +1333,38 @@
         <source>input.placeholder.search</source>
         <target>Hier suchen</target>
       </trans-unit>
+      <trans-unit id="r8FPafb" resname="lobby.moderator.accept.error">
+        <source>lobby.moderator.accept.error</source>
+        <target>Fehler, bitte laden Sie die Seite neu</target>
+      </trans-unit>
+      <trans-unit id="0rcT2h8" resname="lobby.moderator.accept.success">
+        <source>lobby.moderator.accept.success</source>
+        <target>Sie haben den Teilnehmer erfolgreich der Konferenz hinzugefüt</target>
+      </trans-unit>
+      <trans-unit id="8UJiDMP" resname="lobby.moderator.decline.success">
+        <source>lobby.moderator.decline.success</source>
+        <target>Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="jRL3d6b" resname="lobby.participant.accept">
+        <source>lobby.participant.accept</source>
+        <target>Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.</target>
+      </trans-unit>
+      <trans-unit id="aP4D.Vc" resname="lobby.participant.decline">
+        <source>lobby.participant.decline</source>
+        <target>Sie wurden von dem Moderator nicht zur Konferenz zugelassen. Bitte entschuldigen Sie die Unannehmhlichkeit.</target>
+      </trans-unit>
+      <trans-unit id="7sKnidl" resname="lobby.participant.modal.accept.title">
+        <source>lobby.participant.modal.accept.title</source>
+        <target>Der Moderator hat Sie zur Konferenz hinzugefügt</target>
+      </trans-unit>
+      <trans-unit id="Scz6Klf" resname="lobby.participant.modal.accept.message">
+        <source>lobby.participant.modal.accept.message</source>
+        <target>Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</target>
+      </trans-unit>
+      <trans-unit id=".6u1w8z" resname="lobby.participant.pleaseWait">
+        <source>lobby.participant.pleaseWait</source>
+        <target>Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
