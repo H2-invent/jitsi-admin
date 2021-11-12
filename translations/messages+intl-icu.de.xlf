@@ -1119,7 +1119,7 @@
       </trans-unit>
       <trans-unit id="nii024c" resname="Feste Konferenzen">
         <source>Feste Konferenzen</source>
-        <target state="translated">Offene Konferenzen</target>
+        <target state="translated">Dauerhafte Konferenzen</target>
       </trans-unit>
       <trans-unit id="Zr7SwSE" resname="Beitretenlink">
         <source>Beitretenlink</source>
