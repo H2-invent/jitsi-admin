@@ -3,7 +3,7 @@
         <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
             <label for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
             <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
-                   href="{{ path('search_participant') }}">
+                   href="{{ path('search_participant') }}" placeholder="{{ 'search.placeholder'|trans }}">
             <div class="dropdown-menu" id="participantUser">
                 <a class="dropdown-item" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
             </div>
