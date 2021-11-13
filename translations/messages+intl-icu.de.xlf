@@ -549,7 +549,7 @@
       </trans-unit>
       <trans-unit id="sqsX.gs" resname="Erlauben seinen Desktop zu teilen">
         <source>Erlauben seinen Desktop zu teilen</source>
-        <target state="translated">Erlauben Sie bitte, seinen Desktop zu teilen.</target>
+        <target state="translated">Erlauben, seinen Desktop zu teilen.</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
@@ -1119,7 +1119,7 @@
       </trans-unit>
       <trans-unit id="nii024c" resname="Feste Konferenzen">
         <source>Feste Konferenzen</source>
-        <target state="translated">Offene Konferenzen</target>
+        <target state="translated">Dauerhafte Konferenzen</target>
       </trans-unit>
       <trans-unit id="Zr7SwSE" resname="Beitretenlink">
         <source>Beitretenlink</source>
@@ -1267,7 +1267,7 @@
       </trans-unit>
       <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-plus"&gt;&lt;/i&gt; hinzufügen</source>
-        <target state="translated"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Sollen die Teilnehmenden als Moderatoren fungieren, klicken Sie bitte <i class="fas fa-plus"></i>.]]></target>
+        <target state="translated"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Klicken Sie bitte <i class="fas fa-plus"></i> um den Teilnehmenden hinzuzufügen.]]></target>
       </trans-unit>
       <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>

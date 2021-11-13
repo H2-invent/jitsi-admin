@@ -1,23 +1,23 @@
-label.konferenzId: Konferenz ID
+label.konferenzId: Konferenz-ID
 label.email: E-Mail-Adresse
-label.name: Name
+label.name: Ihr Name
 
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen TEILNEHMERN eingeben
-label.teilnehmerSpeichern: Einladungsemail versenden
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
-help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
+help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
 label.organisatorhinzufuegen: Organisator hinzufügen
-label.serverKonferenz: Jitsi-Meet-Server
+label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Name der Konferenz
 label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten
+label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
 label.speichern: Speichern
 option.15min: 15 Minuten
 option.30min: 30 Minuten
 option.45min: 45 Minuten
 option.60min: 1 Stunde
-option.75min: 1:15 Stunde
+option.75min: 1:15 Stunden
 option.90min: 1:30 Stunden
 option.105min: 1:45 Stunden
 option.120min: 2 Stunden
@@ -45,8 +45,8 @@ option:
   daily: Täglich
   montly: Monatlich
   yearly: Jährlich
-  montlyRelative: Monatlich Relativ
-  yearlyRelative: Jährlich Relativ
+  montlyRelative: Monatlich flexibel festlegen
+  yearlyRelative: Jährlich flexibel festlegen
   first: Erster
   second: Zweiter
   third: Dritter
@@ -69,15 +69,15 @@ option:
   root: Im Root Claim
 
 
-lable.serverUrl: Jitsi-Meet-Server URL
+lable.serverUrl: Jitsi Meet Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
-label.scheduleMeeting: Einen Termin finden
+label.scheduleMeeting: Termin vorschlagen
 help:
-  serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
-  featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
-  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
-  serverName: Geben Sie hier den Servername an. Dieser wird den Teilnehmern angezeigt.
+  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
+  featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
+  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
+  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten
@@ -85,46 +85,46 @@ label:
   serverSmtpHostPort:  SMTP-Port
   serverSmtpEncryption:  Verschlüsselung
   serverSmtpUsername: SMTP-Benutzername
-  serverSmtpPassword: SMTP Passwort
+  serverSmtpPassword: SMTP-Passwort
   serverSmtpSenderEmail: Absender-E-Mail
-  serverSmtpSenderName: Absender-Name
+  serverSmtpSenderName: Absendername
   serverLintLogo: Link zu Logo
   serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für Email
-  serverEmailBody: Individuellen Content für Email
-  serverLicenseKey: Jitsi-Admin-Lizenkey eingeben
+  serverEmailHeader: Individuelle Überschrift für E-Mail
+  serverEmailBody: Individueller Content für E-Mail
+  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
   apiKey: Api-Key für diesen Server
   agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Joinseite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Joinseite
-  featureEnalbeByJwt: "\"Enable Feature By JWT\" Plugin ist auf dem Server aktiviert"
-  dissallowScreenshareGlobal: Nur der Moderator darf seinen Bildschirm teilen
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden
-  puplicRoom: Einladungslinks freischalten
-  showRoomOnJoinpage: Konferenz auf Joinseite anzeigen
+  staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
+  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
+  featureEnalbeByJwt: „Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.
+  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
+  puplicRoom: Link zur Einladung freischalten
+  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
-  maxParticipants: Maximale Anzahl an Teilnehmer zulassen
+  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
   waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
   repetation: Endet nach x Terminen
   repeatType: Serienmuster
-  repeaterDays: Nach X Tagen wiederholen
-  repeaterWeeks: Nach X Wochen wiederholen
-  repeatMontly: Nach X Monaten wiederholen
-  repeatYearly: Nach X Jahren wiederholen
-  montlyRelativeNumber: Wievielte Wochentag im Monat
+  repeaterDays: Nach x Tagen wiederholen
+  repeaterWeeks: Nach x Wochen wiederholen
+  repeatMontly: Nach x Monaten wiederholen
+  repeatYearly: Nach x Jahren wiederholen
+  montlyRelativeNumber: Wie vielter Wochentag im Monat
   montlyRelativeWeekday: Wochentag
   montlyRelativeMonth: Monat
-  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
-  persistantRoom: Diese Konferenz hat kein Datum und ist immer verfügbar
-  totalOpenRooms: Teilnehmerliste deaktivieren. Beitreten mit Teilnehmerlink.
+  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
+  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
+  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
   totalOpenRoomsOpenTime: Raumöffnungszeit
   addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder
-  jwtModeratorPosition: Moderator position im JWT Token
+  addressgroupMember: Gruppenmitglieder auswählen
+  jwtModeratorPosition: Moderatorposition im JWT Token
   timezone: Zeitzone
   serverName: Servername
   lobby: Lobby aktivieren
@@ -133,5 +133,5 @@ choice:
   ssl: SSL
   none: Keine
 placeholder:
-  maxParticipants: Keine Limitierung
+  maxParticipants: Keine Begrenzung
   chooseTime: Zeit und Datum auswählen
