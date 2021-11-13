@@ -7,25 +7,93 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;
+use Twig\Environment;
 
 class LobbyDirectSendTest extends KernelTestCase
 {
-    public function testSomething(): void
+    public function testSnackbar(): void
     {
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
         $directSend = $this->getContainer()->get(DirectSendService::class);
-        $directSend->sendSnackbar('test/test/numberofUser','TestText','danger');
+
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            var_dump($update->getTopics());
-            $this->assertFalse($update->isPrivate());
+            self::assertEquals('{"type":"snackbar","message":"TestText","color":"danger"}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';
         });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendSnackbar('test/test/numberofUser', 'TestText', 'danger');
+    }
+
+    public function testBrowserNotification(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
 
 
-            //$routerService = self::$container->get('router');
-        //$myCustomService = self::$container->get(CustomService::class);
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            self::assertEquals('{"type":"notification","title":"Title of Browser Notification","message":"I`m the message which is in the body part"}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendBrowserNotification('test/test/numberofUser', 'Title of Browser Notification', 'I`m the message which is in the body part');
+    }
+
+    public function testRedirectResponse(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            self::assertEquals('{"type":"redirect","url":"\/rooms\/testMe","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","timeout":1000}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendRedirect('test/test/numberofUser', '/rooms/testMe', 1000);
+    }
+
+    public function testRefreshResponse(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            echo $update->getData();
+            self::assertEquals('{"type":"refresh","reloadUrl":"\/rooms\/testMe #testId"}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendRefresh('test/test/numberofUser', '/rooms/testMe #testId');
+    }
+
+    public function testModal(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $twig = self::getContainer()->get(Environment::class);
+        $content = $twig->render('lobby_participants/choose.html.twig', array('appUrl' => 'https://test.de/app', 'browserUrl' => 'https://test.de/browser'));
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            self::assertEquals('{"type":"modal","content":"<div class=\"modal-dialog modal-dialog-centered\">\n    <div class=\"modal-content\">\n        <div class=\"modal-header  light-blue darken-3 white-text\">\n            <h5 class=\"modal-title\">Der Moderator hat Sie zur Konferenz hinzugef\u00fcgt<\/h5>\n            <button style=\"color: white\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                <span aria-hidden=\"true\">\u00d7<\/span>\n            <\/button>\n        <\/div>\n        <div class=\"modal-body\">\n           <p>Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, w\u00e4hlen Sie &quot;Im Browser&quot;.<\/p>\n        <\/div>\n        <div class=\"btn-group\">\n            <a href=\"https:\/\/test.de\/browser\" class=\"btn btn-outline-primary\">Im Browser<\/a>\n            <a href=\"https:\/\/test.de\/app\" class=\"btn btn-outline-primary\">In der App<\/a>\n        <\/div>\n\n    <\/div>\n<\/div>"}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendModal('test/test/numberofUser', $content);
     }
 }

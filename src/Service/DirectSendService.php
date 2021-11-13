@@ -35,7 +35,9 @@ class DirectSendService
         $this->roomService = $roomService;
         $this->twig = $environment;
     }
-
+    public function setMercurePublisher(HubInterface $hub){
+        $this->publisher = $hub;
+    }
     public function sendSnackbar($topic, $text,$color)
     {
         $data = array(

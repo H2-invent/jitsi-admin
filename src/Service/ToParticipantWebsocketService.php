@@ -37,7 +37,9 @@ class ToParticipantWebsocketService
         $this->twig = $environment;
         $this->directSend = $directSendService;
     }
-
+    public function setDirectSend(DirectSendService $directSendService){
+        $this->directSend = $directSendService;
+    }
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
 
