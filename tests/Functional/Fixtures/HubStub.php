@@ -23,6 +23,7 @@ class HubStub implements HubInterface
 
     public function getPublicUrl(): string
     {
+        return 'test';
         // TODO: Implement getPublicUrl() method.
     }
 

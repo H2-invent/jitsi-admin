@@ -21,8 +21,8 @@
             <video autoplay="true" id="lobbyWebcam"></video>
             <div class="webcamToolbar">
                 <i class="fa fa-video" id="webcamSwitch"></i>
-                {{ app.user.formatedName(laf_showNameInConference) }}
-                {% if app.user == room.moderator %}
+                {{ user.formatedName(laf_showNameInConference) }}
+                {% if user == room.moderator %}
                     <i class="fa fa-star"></i>
                 {% endif %}
             </div>

@@ -7,7 +7,6 @@ use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
 use App\Service\JoinUrlGeneratorService;
-use App\Service\LobbyUpdateModeratorService;
 use App\Service\DirectSendService;
 use App\Service\RoomService;
 use App\Service\ToModeratorWebsocketService;
@@ -23,13 +22,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class LobbyController extends AbstractController
+class LobbyModeratorController extends AbstractController
 {
     private $parameterBag;
     private $translator;
     private $logger;
     private $toModerator;
     private $toParticipant;
+
     public function __construct(ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag, TranslatorInterface $translator, LoggerInterface $logger)
     {
         $this->parameterBag = $parameterBag;
@@ -38,6 +38,8 @@ class LobbyController extends AbstractController
         $this->toModerator = $toModeratorWebsocketService;
         $this->toParticipant = $toParticipantWebsocketService;
     }
+
+
 
     /**
      * @Route("/room/lobby/moderator/{uid}", name="lobby_moderator")
@@ -58,7 +60,7 @@ class LobbyController extends AbstractController
     /**
      * @Route("/room/lobby/start/moderator/{t}/{room}", name="lobby_moderator_start")
      */
-    public function startMeeting(Request $request, $room, $t, RoomService $roomService): Response
+    public function startMeeting( $room, $t, RoomService $roomService): Response
     {
         $roomL = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $room));
         if ($roomL->getModerator() !== $this->getUser()) {
@@ -70,42 +72,46 @@ class LobbyController extends AbstractController
     }
 
     /**
-     * @Route("/room/lobby/accept/{uidRoom}/{uidUser}", name="lobby_moderator_accept")
+     * @Route("/room/lobby/accept/{wUid}", name="lobby_moderator_accept")
      */
-    public function accept(Request $request, $uidRoom,$uidUser, RoomService $roomService): Response
+    public function accept(Request $request, $wUid): Response
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$uidUser));
-        $room =$this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$uidRoom));
-        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
+        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid'=>$wUid));
+        if(!$lobbyUser){
+            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
+        }
+        $room = $lobbyUser->getRoom();
         if ($room->getModerator() !== $this->getUser()) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
-            return new JsonResponse(array('error'=>false, 'message'=>$this->translator->trans('lobby.moderator.accept.error'),'color'=>'danger'));
+            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $em = $this->getDoctrine()->getManager();
         $em->remove($lobbyUser);
         $em->flush();
         $this->toParticipant->acceptLobbyUser($lobbyUser);
         $this->toModerator->refreshLobby($lobbyUser);
-        return new JsonResponse(array('error'=>false, 'message'=>$this->translator->trans('lobby.moderator.accept.success'),'color'=>'success'));
+        return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.success'), 'color' => 'success'));
     }
 
     /**
-     * @Route("/room/lobby/decline/{uidRoom}/{uidUser}", name="lobby_moderator_decline")
+     * @Route("/room/lobby/decline/{wUid}", name="lobby_moderator_decline")
      */
-    public function decline(Request $request, $uidRoom,$uidUser, RoomService $roomService): Response
+    public function decline( $wUid): Response
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$uidUser));
-        $room =$this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$uidRoom));
-        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
+        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid'=>$wUid));
+        if(!$lobbyUser){
+            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
+        }
+        $room = $lobbyUser->getRoom();
         if ($room->getModerator() !== $this->getUser()) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
-            return new JsonResponse(array('error'=>false, 'message'=>$this->translator->trans('lobby.moderator.accept.error'),'color'=>'danger'));
+            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $em = $this->getDoctrine()->getManager();
         $em->remove($lobbyUser);
         $em->flush();
         $this->toParticipant->sendDecline($lobbyUser);
         $this->toModerator->refreshLobby($lobbyUser);
-        return new JsonResponse(array('error'=>false, 'message'=>$this->translator->trans('lobby.moderator.decline.success'),'color'=>'success'));
+        return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.decline.success'), 'color' => 'success'));
     }
 }

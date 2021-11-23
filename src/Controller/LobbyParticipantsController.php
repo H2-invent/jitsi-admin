@@ -42,6 +42,7 @@ class LobbyParticipantsController extends AbstractController
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room);
             $lobbyUser->setCreatedAt(new \DateTime());
+            $lobbyUser->setUid(md5(uniqid()));
             $em = $this->getDoctrine()->getManager();
             $em->persist($lobbyUser);
             $em->flush();

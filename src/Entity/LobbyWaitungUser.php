@@ -35,6 +35,11 @@ class LobbyWaitungUser
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $uid;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +77,18 @@ class LobbyWaitungUser
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(string $uid): self
+    {
+        $this->uid = $uid;
 
         return $this;
     }

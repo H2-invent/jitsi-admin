@@ -40,6 +40,7 @@ class RoomFixture extends Fixture
         $user2->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234',));
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflkjds');
+        $user2->setUid('kljlsdkjflkjdslfjsdlkjsdflkj');
         $user2->setUsername('test2@local.de');
         $user2->setCreatedAt(new \DateTime());
         $manager->persist($user2);
@@ -343,8 +344,8 @@ class RoomFixture extends Fixture
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);
-        $room->setUid('12313231sdf');
-        $room->setUidReal('561984sdf');
+        $room->setUid('12313231ghjsdf');
+        $room->setUidReal('561ghj984sdf');
         $room->setSlug('lobby_room');
         $room->setScheduleMeeting(false);
         $room->setName('This is a room with Lobby');

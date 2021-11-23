@@ -31,15 +31,16 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="card ">
                             <div class="card-body text-center d-flex flex-column align-items-center">
-                                <div class="initialCircle">{% if wU.user.firstName != '' %}{{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}{% else %}{{ wU.user.username[:1] }}{% endif %}</div>
-                                {{ wU.user.formatedName(laf_showNameInConference) }}
+                                <div class="initialCircle ">
+                                        {% if wU.user.firstName != '' %}{{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}{% else %}{{ wU.user.username[:1] }}{% endif %}</div>
+                                <div class="participantsName">{{ wU.user.formatedName(laf_showNameInConference) }}</div>
+
                             </div>
                             <div class="card-footer text-center">
-
-                                <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_accept',{'uidRoom':wU.room.uid,'uidUser':wU.user.uid}) }}">
+                                <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                                     <i class="fas fa-user-check "></i>
                                 </a>
-                                    <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_decline',{'uidRoom':wU.room.uid,'uidUser':wU.user.uid}) }}">
+                                    <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                                     <i class="fas fa-user-times "></i>
                                     </a>
 
