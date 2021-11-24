@@ -104,4 +104,5 @@ class LobbyParticipantsControllerTest extends WebTestCase
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
        }
+
 }

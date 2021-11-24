@@ -111,7 +111,7 @@ class LobbyModeratorController extends AbstractController
             $this->toModerator->refreshLobby($data);
         }
 
-        return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.success'), 'color' => 'success'));
+        return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.all.success'), 'color' => 'success'));
     }
     /**
      * @Route("/room/lobby/decline/{wUid}", name="lobby_moderator_decline")

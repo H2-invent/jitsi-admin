@@ -1369,6 +1369,10 @@
         <source>lobby.allowAllUsers</source>
         <target>Alle Teilnehmende zulassen</target>
       </trans-unit>
+      <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
+        <source>lobby.moderator.accept.all.success</source>
+        <target>Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
