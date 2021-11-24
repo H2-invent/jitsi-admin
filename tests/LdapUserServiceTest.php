@@ -24,6 +24,7 @@ class LdapUserServiceTest extends WebTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldapUserService = $container->get(LdapUserService::class);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
         $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', 'uid=admin,ou=system', 'password');
         $ldapType = new LdapType($ldapConnection);
         $ldapType->setUrl('ldap://localhost:10389');
@@ -48,7 +49,20 @@ class LdapUserServiceTest extends WebTestCase
         foreach ($allUSers as $data) {
             $this->assertEquals(sizeof($allUSers) - 1, sizeof($data->getAddressbook()));
         }
-
+        foreach ($allUSers as $data) {
+            foreach ($allUSers as $data2) {
+                $data->addAddressbook($data2);
+                $em->persist($data);
+            }
+        }
+        $em->flush();
+        foreach ($allUSers as $data) {
+            $this->assertEquals(sizeof($allUSers), sizeof($data->getAddressbook()));
+        }
+        $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
+        foreach ($allUSers as $data) {
+            $this->assertEquals(sizeof($allUSers) - 1, sizeof($data->getAddressbook()));
+        }
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneBy(array('username' => 'UnitTest1'));
@@ -58,9 +72,12 @@ class LdapUserServiceTest extends WebTestCase
 
         $ldapUserService->deleteUser($user);
         $allUSerNew = $userRepository->findUsersfromLdapService();
+        $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
         foreach ($allUSerNew as $data) {
             $this->assertEquals(sizeof($allUSerNew) - 1, sizeof($data->getAddressbook()));
         }
+
+
         foreach ($allUSerNew as $data) {
             if ($data->getUsername() === 'unitTestnoSF') {
                 $this->assertEquals('', $data->getSpezialProperties()['ou']);

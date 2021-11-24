@@ -1365,6 +1365,10 @@
         <source>lobby.participant.pleaseWait</source>
         <target>Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
       </trans-unit>
+      <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
+        <source>lobby.allowAllUsers</source>
+        <target>Alle Teilnehmende zulassen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

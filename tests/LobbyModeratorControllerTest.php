@@ -6,7 +6,7 @@ use App\Entity\LobbyWaitungUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\DirectSendService;
+use App\Service\Lobby\DirectSendService;
 use App\Service\JoinUrlGeneratorService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,13 +32,13 @@ class LobbyModeratorControllerTest extends WebTestCase
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            echo $update->getData();
+
             self::assertEquals('{"type":"refresh","reloadUrl":"\/rooms\/testMe #testId"}', $update->getData());
             self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';
         });
         $directSend->setMercurePublisher($hub);
-        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUid());
+        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUidReal());
         $this->assertEquals(
             0,
             $crawler->filter('.participantsName:contains("User, Test, test@local2.de")')->count()
@@ -51,14 +51,14 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $em->persist($lobbyUser);
         $em->flush();
-        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUid());
+        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUidReal());
         $this->assertEquals(
             1,
             $crawler->filter('.participantsName:contains("User, Test, test@local2.de")')->count()
         );
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
-        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUid());
+        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUidReal());
         self::assertResponseRedirects('/room/dashboard?snack=Fehler&color=danger');
     }
 
@@ -154,10 +154,14 @@ class LobbyModeratorControllerTest extends WebTestCase
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlGenerator = self::getContainer()->get(RoomService::class);
-        $startUrl = $url->generate('lobby_moderator_start', array('room' => $room->getId(), 't' => 'a'));
+        $startUrl = $url->generate('lobby_moderator_start', array('room' => $room->getUidReal(), 't' => 'a'));
         $crawler = $client->request('GET', $startUrl);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         self::assertResponseRedirects($urlGenerator->joinUrl('a', $room, $moderator->getFormatedName($paramterBag->get('laf_showNameInConference')),true));
+        $startUrl = $url->generate('lobby_moderator_start', array('room' => $room->getUidReal(), 't' => 'b'));
+        $crawler = $client->request('GET', $startUrl);
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        self::assertResponseRedirects($urlGenerator->joinUrl('b', $room, $moderator->getFormatedName($paramterBag->get('laf_showNameInConference')),true));
         $client->loginUser($user2);
         $crawler = $client->request('GET', $startUrl);
         self::assertResponseRedirects('/room/dashboard?snack=Fehler&color=danger');

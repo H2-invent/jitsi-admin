@@ -14,7 +14,7 @@ class RenameServerService
     public function renameServer($servers){
         $res = array();
         foreach ($servers as $data){
-            if ($data->getServerName() === ''){
+            if ($data->getServerName() === '' || $data->getServerName() === null){
                 $data->setServerName($data->getUrl());
                 $this->em->persist($data);
                 $res[] = $data;

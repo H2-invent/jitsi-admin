@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
+use App\Service\RoomService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mercure\Exception\RuntimeException;
@@ -48,7 +49,7 @@ class ToModeratorWebsocketService
                 '{room}' => $room->getName()
             )
         );
-        $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal()), UrlGeneratorInterface::ABSOLUTE_URL);
         $this->directSend->sendBrowserNotification($topic,$title ,$message);
     }
 
@@ -57,7 +58,7 @@ class ToModeratorWebsocketService
     public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
         $room = $lobbyWaitungUser->getRoom();
-        $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUid())) . ' #waitingUser');
+        $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal())) . ' #waitingUser');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Tests;
 
-use App\Service\DirectSendService;
+use App\Service\Lobby\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
@@ -71,7 +71,6 @@ class LobbyDirectSendTest extends KernelTestCase
 
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            echo $update->getData();
             self::assertEquals('{"type":"refresh","reloadUrl":"\/rooms\/testMe #testId"}', $update->getData());
             self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';

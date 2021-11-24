@@ -101,10 +101,9 @@ h5 {
 
 a {
   color: $black_link-color;
-
   &:hover {
-    color: $black_link-color;
-    text-decoration: underline;
+    color: darken($black_link-color,10%);
+    text-decoration: none;
   }
 }
 

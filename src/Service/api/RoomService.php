@@ -82,6 +82,11 @@ class RoomService
         }
         $room->setModerator(null);
         $this->em->persist($room);
+        foreach ($room->getFavoriteUsers() as $data){
+            $data->removeFavorite($room);
+            $this->em->persist($data);
+        }
+
         $this->em->flush();
         return $room;
     }

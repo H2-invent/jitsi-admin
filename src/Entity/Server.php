@@ -554,7 +554,7 @@ class Server
         return $this->serverName;
     }
 
-    public function setServerName(string $serverName): self
+    public function setServerName(?string $serverName): self
     {
         $this->serverName = $serverName;
 

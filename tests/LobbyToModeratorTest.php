@@ -2,7 +2,7 @@
 
 namespace App\Tests;
 
-use App\Service\DirectSendService;
+use App\Service\Lobby\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;

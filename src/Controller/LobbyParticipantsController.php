@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
-use App\Service\DirectSendService;
-use App\Service\ToModeratorWebsocketService;
-use App\Service\ToParticipantWebsocketService;
+use App\Service\Lobby\DirectSendService;
+use App\Service\Lobby\ToModeratorWebsocketService;
+use App\Service\Lobby\ToParticipantWebsocketService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ class LobbyParticipantsController extends AbstractController
     public function index($roomUid, $userUid): Response
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$roomUid));
+        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
 
@@ -58,7 +58,7 @@ class LobbyParticipantsController extends AbstractController
     public function renew($roomUid, $userUid): Response
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$roomUid));
+        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
         if($lobbyUser){
@@ -72,7 +72,7 @@ class LobbyParticipantsController extends AbstractController
      */
     public function remove($roomUid, $userUid): Response
     {
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid'=>$roomUid));
+        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
         if($lobbyUser){

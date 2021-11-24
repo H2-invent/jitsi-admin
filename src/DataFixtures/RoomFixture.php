@@ -344,8 +344,8 @@ class RoomFixture extends Fixture
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);
-        $room->setUid('12313231ghjsdf');
-        $room->setUidReal('561ghj984sdf');
+        $room->setUid('12313231ghjgfdsdf');
+        $room->setUidReal('561ghj984ssdfdf');
         $room->setSlug('lobby_room');
         $room->setScheduleMeeting(false);
         $room->setName('This is a room with Lobby');

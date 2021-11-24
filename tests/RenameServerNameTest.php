@@ -38,6 +38,13 @@ class RenameServerNameTest extends KernelTestCase
         $serverTmp = $serverRepo->findOneBy(array('url'=>'testRename.de'));
         $this->assertEquals('testRename.de',$serverTmp->getServerName());
         $this->assertEquals(1,sizeof($server));
+        $s->setServerName(null);
+        $server = array();
+        $server[] = $s;
+        $serverrename->renameServer($server);
+        $serverTmp = $serverRepo->findOneBy(array('url'=>'testRename.de'));
+        $this->assertEquals('testRename.de',$serverTmp->getServerName());
+        $this->assertEquals(1,sizeof($server));
     }
     public function testExecute()
     {

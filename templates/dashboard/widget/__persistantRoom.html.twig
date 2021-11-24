@@ -2,11 +2,11 @@
     <div class="card text-center h-100">
 
         <div class="card-body d-flex flex-column justify-content-between">
-            <h5 class="card-title">
+            <h5 class="card-title favoriteTitle">
                 {{ room.name }}
-                {% if room.persistantRoom == true %}<i  data-toggle="tooltip" title="{{ 'Feste Konferenzen'|trans }}"
+                {% if room.persistantRoom == true %}<i data-toggle="tooltip" title="{{ 'Feste Konferenzen'|trans }}"
                                                         class="fas fa-thumbtack"></i>{% endif %}
-                {% if room.scheduleMeeting == true %}<i  data-toggle="tooltip" title="{{ 'Terminplaner'|trans }}"
+                {% if room.scheduleMeeting == true %}<i data-toggle="tooltip" title="{{ 'Terminplaner'|trans }}"
                                                          class="fas fa-calendar"></i>{% endif %}
             </h5>
             {% if room.persistantRoom != true and room.scheduleMeeting != true %}

@@ -194,6 +194,10 @@ class RoomController extends AbstractController
                 $room->setRepeater(null);
             }
             $room->setModerator(null);
+            foreach ($room->getFavoriteUsers() as $data){
+                $data->removeFavorite($room);
+                $em->persist($data);
+            }
             $em->persist($room);
             $em->flush();
             $snack = $this->translator->trans('Konferenz gelöscht');

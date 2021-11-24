@@ -87,6 +87,10 @@ class LdapUserService
             foreach ($allUSer as $data2) {
                 if ($data !== $data2){
                     $data->addAddressbook($data2);
+                }else{
+                    if(in_array($data2,$data->getAddressbook()->toArray())){
+                        $data->removeAddressbook($data2);
+                    }
                 }
             }
             $this->em->persist($data);

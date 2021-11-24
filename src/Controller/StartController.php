@@ -49,7 +49,13 @@ class StartController extends AbstractController
 
             if (($roomL->getStart() === null || $roomL->getStartwithTimeZone($this->getUser())->modify('-30min') < $now && $roomL->getEndwithTimeZone($this->getUser()) > $now) || $this->getUser() == $roomL->getModerator()) {
                 if($roomL->getLobby()){
-                    return $this->redirectToRoute('lobby_moderator',array('uid'=>$roomL->getUid()));
+                    $res = $this->redirectToRoute('dashboard');
+                    if($this->getUser() === $roomL->getModerator()){
+                        $res = $this->redirectToRoute('lobby_moderator',array('uid'=>$roomL->getUidReal()));
+                    }else{
+                        $res = $this->redirectToRoute('lobby_participants_wait',array('roomUid'=>$roomL->getUidReal(),'userUid'=>$this->getUser()->getUid()));
+                    }
+                    return $res;
                 }
                 return $this->redirect($url);
             }
