@@ -5,6 +5,7 @@ import Push from "push.js";
 import {initCircle} from './initCircle'
 
 function masterNotify(data) {
+    Push.Permission.request();
     if (data.type === 'notification') {
         notifymoderator(data)
     } else if (data.type === 'refresh') {
@@ -24,10 +25,12 @@ function setSnackbar(text, color) {
     $('#snackbar').text(text).removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').removeClass('d-none').addClass('show bg-' + color).click(function (e) {
         $('#snackbar').removeClass('show');
     })
+    $('.dragger').removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').addClass('bg-' + color).mouseover(function (e){
+        $(this).removeClass('bg-warning').removeClass('bg-success').removeClass('bg-warning')
+    })
 }
 
 function notifymoderator(data) {
-    Push.Permission.request();
     Push.create(data.title, {
         body: data.message,
         icon: '/favicon.ico',
@@ -37,6 +40,7 @@ function notifymoderator(data) {
             this.close();
         }
     });
+    setSnackbar(data.message,'success');
 }
 
 function refresh(data) {

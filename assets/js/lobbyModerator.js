@@ -25,28 +25,30 @@ $('.directSend').click(function (e) {
         })
     })
 })
-
-$('.startIframe').click(function (e) {
-    $(this).remove();
-    $('#colWebcam').remove();
-    $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
-    e.preventDefault();
-    moveWrapper();
-    options.device = choosenId;
-    const api = new JitsiMeetExternalAPI(domain, options);
-    $('#jitsiWrapper').find('iframe').css('height', '100vh');
-})
 es.onmessage = e => {
     var data = JSON.parse(e.data)
     masterNotify(data)
 }
 
+$('.startIframe').click(function (e) {
+    e.preventDefault();
+    $(this).remove();
+    $('#colWebcam').remove();
+    $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
+    moveWrapper();
+    options.device = choosenId;
+    const api = new JitsiMeetExternalAPI(domain, options);
+    $('#jitsiWrapper').find('iframe').css('height', '100vh');
+})
+
 function moveWrapper() {
-    $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('.lobbyWindow').css('height', 'inherit').find('#jitsiWindow').css('height', 'inherit');
+    $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').css('height', 'inherit');
+    $('#snackbar').appendTo('body');
     $('#jitsiWindow').css('height', '100vh');
     $('.container-fluid').remove();
     $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Hier Ziehen</div>');
-    $('#col-waitinglist').addClass('large').closest('.container-fluid').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+    $('#col-waitinglist').addClass('large');
+    $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
 }
 
 initCircle();
