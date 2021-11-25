@@ -98,6 +98,9 @@ class RoomService
         $url =  $url . '#config.subject=%22' . $room->getName() . '%22';
         return $url;
     }
+    public function generateJwt($payload,$secret){
+        return  JWT::encode($payload, $secret);
+    }
     public function genereateJwtPayload($userName, Rooms $room, Server  $server, $moderator, RoomsUser $roomUser = null){
 
         $payload = array(

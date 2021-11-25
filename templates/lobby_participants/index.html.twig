@@ -38,7 +38,7 @@
             <div class="col-12">
                 <a href="{{ path('lobby_participants_renew',{'roomUid':room.uid,'userUid':user.uid}) }}"
                    class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
-                <a href="{{ path('lobby_participants_leave',{'roomUid':room.uid,'userUid':user.uid}) }}"
+                <a href="{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}"
                    class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
             </div>
         </div>

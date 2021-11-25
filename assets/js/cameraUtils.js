@@ -81,4 +81,4 @@ function stopWebcam() {
 function setButtonName(button, text) {
     button.text(text);
 }
-export {initWebcam}
+export {initWebcam,choosenId}

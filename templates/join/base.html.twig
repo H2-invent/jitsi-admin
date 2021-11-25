@@ -2,7 +2,7 @@
 <html>
 
 {% set theme =  getThemeProperties() %}
-{% include'base/__head.html.twig' with {'css':'app'}  %}
+{% include'base/__head.html.twig' with {'css':'app'} %}
 
 {% set image = pexelsImage() %}
 <body style="background-color: #C9C9C9">
@@ -73,10 +73,10 @@
                                      style="display: flex; justify-content: center; align-items: center">
                                     {% if server is defined and  server is not null and server|validateLicense %}
                                         {% if server.logoUrl is not null %}
-                                            <img src="{{ server.logoUrl }}" style="width: 100%">
+                                            <img src="{{ server.logoUrl }}" style="max-height:80px; width: auto %">
                                         {% endif %}
                                     {% else %}
-                                        <img src="{{ asset('logo.png') }}" style="width: 100%">
+                                        <img src="{{ asset('logo.png') }}" style="max-height:80px; width: auto">
                                     {% endif %}
                                 </div>
                                 <div class="col-md-6">
@@ -107,14 +107,22 @@
 
                         </div>
                         <div class="card-footer text-center">
+                            {% if theme is null or (theme is not null and theme.allowHomePage == true) %}
                             <a href="{{ path('index') }}"
                                class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
+                            {% endif %}
+                            {% if theme is null or (theme is not null and theme.allowDashboard == true) %}
                             <a href="{{ path('dashboard') }}"
                                class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
+                            {% endif %}
+                            {% if theme is null or (theme is not null and theme.allowRegister == true) %}
                             <a href="{{ path('register_keycloak') }}"
                                class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
+                            {% endif %}
+                            {% if theme is null or (theme is not null and theme.allowHelp == true) %}
                             <a href="{{ helpUrlParticipants }}" target="_blank"
                                class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
+                            {% endif %}
                             {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
 
                             {% elseif image is not null %}
@@ -170,20 +178,21 @@
 
 
         </div>
-        <div class="row justify-content-center ">
-            <div class="col-12">
-                <div class="card card-body mt-4 text-center">
+        <div class="row  mt-5">
+            <div class="col-12   ">
+                <div class="card  card-body">
                     <div class="row">
-                        <div class="col-md-3 text-md-left">
-
+                        <div class="col-lg-4 footerContent">
                             {% if server is defined and  server is not null and server|validateLicense %}
 
                             {% else %}
                                 <a href="https://jitsi-admin.de" target="_blank" class="small"><img
-                                            src="{{ asset('logo.png') }}" style="height: 50px"></a>
+                                            src="{{ asset('logo.png') }}"></a>
                             {% endif %}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-4 footerContent">
+
+
                             {% if theme %}
                                 {% if theme.footerGdprEnable == true %}
                                     <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
@@ -205,7 +214,9 @@
                             {% if theme %}
                                 {% if theme.footerReportIssueEnable == true %}
                                     <a href="{{ theme.footerContributionUrl }}"
-                                       referrerpolicy="no-referrer" target="_blank" class="small">{{ theme.footerContributionText }} •
+                                       referrerpolicy="no-referrer" target="_blank"
+                                       class="small">{{ theme.footerContributionText }}
+                                        •
                                         {{ 'now'|date('Y') }}
                                         • v{{ laf_version }}</a>
                                 {% endif %}
@@ -214,34 +225,34 @@
                                     2019-{{ 'now'|date('Y') }}
                                     • v{{ laf_version }}</a>
                             {% endif %}
-
                         </div>
-                        <div class="col-md-2 text-md-center d-none d-sm-block">
+                        <div class="col-lg-4 footerContent">
                             <a href="https://github.com/H2-invent/jitsi-admin/blob/master/LICENSE" target="_blank"
-                               referrerpolicy="no-referrer" rel="noopener"> <img src="{{ asset('images/agpl.png') }}"
-                                                                                 style="width: 100%"></a>
+                               referrerpolicy="no-referrer" rel="noopener">
+                                <img src="{{ asset('images/agpl.png') }}"></a>
+
+                            <a href="https://opensource.org/" referrerpolicy="no-referrer" rel="noopener">
+                                <img src="{{ asset('images/open-source-logo.png') }}"></a>
                         </div>
-                        <div class="col-md-1 text-md-right d-none d-sm-block">
-                            <a href="https://opensource.org/" referrerpolicy="no-referrer" rel="noopener"><img
-                                        src="{{ asset('images/open-source-logo.png') }}" style="width: 100%"></a>
-                        </div>
+                    </div>
+
+
+
                     </div>
                 </div>
             </div>
         </div>
-
+        {{ include('base/__matomoOptOut.html.twig') }}
     </div>
-
-    {{ include('base/__matomoOptOut.html.twig') }}
-</div>
-<div class="modal fade" id="loadContentModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="loadContentModal"
-     aria-hidden="true">
-</div>
-{% block script %}
-{% endblock %}
-{% block webpack %}
-    {{ encore_entry_script_tags('frontend') }}
-{% endblock %}
+    <div class="modal fade" id="loadContentModal" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="loadContentModal"
+         aria-hidden="true">
+    </div>
+    {% block script %}
+    {% endblock %}
+    {% block webpack %}
+        {{ encore_entry_script_tags('frontend') }}
+    {% endblock %}
 
 </body>
 

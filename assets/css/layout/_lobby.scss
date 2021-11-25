@@ -1,14 +1,16 @@
-#lobbyWebcam{
+#lobbyWebcam {
   width: 100%;
   height: auto;
 }
-.webcamArea{
+
+.webcamArea {
   position: relative;
   background-image: url("../../image/defaultUser.webp");
   background-size: cover;
   background-position: center;
 }
-.webcamToolbar{
+
+.webcamToolbar {
   position: absolute;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
@@ -24,14 +26,16 @@
 
 
 }
-.webcamArea:hover > .webcamToolbar{
+
+.webcamArea:hover > .webcamToolbar {
   opacity: 1;
 }
 
-.webcamToolbar > i{
+.webcamToolbar > i {
   cursor: pointer;
 }
-.initialCircle{
+
+.initialCircle {
   background-color: black;
   display: flex;
   justify-content: center;
@@ -42,15 +46,17 @@
   font-size: 50px;
   color: white;
 }
-#waitingUserWrapper{
+
+#waitingUserWrapper {
   max-height: 60vh;
   overflow-y: auto;
 }
-.webcamArea > .overlay{
+
+.webcamArea > .overlay {
   height: 100%;
   width: 100%;
   position: absolute;
-  background-color: rgb(0,0,0,0.4);
+  background-color: rgb(0, 0, 0, 0.4);
   opacity: 1;
   transition: opacity 0.5s;
   display: flex;
@@ -60,9 +66,60 @@
   color: white;
   padding: 18px;
 }
-.webcamArea:hover > .overlay{
+
+.webcamArea:hover > .overlay {
   opacity: 0;
 }
-.webcamArea > .overlay> .lds-roller div:after {
+
+.webcamArea > .overlay > .lds-roller div:after {
   background: white;
 }
+
+.jitsiWrapper {
+  position: relative;
+  padding: 8px;
+}
+
+#jitsiWindow {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.container-fluid {
+  &.waitinglist {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+#col-waitinglist {
+  &.large {
+    padding-top: 18px;
+    background-color: lightgray;
+  }
+}
+
+.dragger {
+  padding-right: 50px;
+  padding-left: 50px;
+  background-color: lightgrey;
+  border-radius: 0 0 20px 20px;
+}
+
+.lobbyWindow {
+  display: flex;
+  justify-content: center;
+}
+
+#sliderTop:hover {
+  transition: top 0.5s;
+  &:hover {
+    top: 0 !important;
+    transition: top 0.5s;
+  }
+
+
+}
+
