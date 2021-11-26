@@ -44,17 +44,18 @@
         </div>
 
     </div>
+    <div class="w-100" id="jitsiWindow">
 
+    </div>
 
 
 {% endblock %}
 {% block script %}
-
+    <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
         var topic = {{ mercure(absolute_url(path('lobby_participants_wait',{'roomUid':room.uidReal,'userUid':user.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var removeUrl = '{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}';
     </script>
-
 {% endblock %}
 {% block webpack %}
     {{ encore_entry_script_tags('lobbyParticipant') }}

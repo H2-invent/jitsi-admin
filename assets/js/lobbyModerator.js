@@ -13,7 +13,7 @@ import stc from 'string-to-color/index';
 import {masterNotify} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
-
+var jitsiApi;
 initWebcam()
 const es = new EventSource(topic);
 
@@ -32,12 +32,13 @@ es.onmessage = e => {
 
 $('.startIframe').click(function (e) {
     e.preventDefault();
+    document.title = conferenzeName;
     $(this).remove();
     $('#colWebcam').remove();
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
     moveWrapper();
     options.device = choosenId;
-    const api = new JitsiMeetExternalAPI(domain, options);
+    jitsiApi = new JitsiMeetExternalAPI(domain, options);
     $('#jitsiWrapper').find('iframe').css('height', '100vh');
 })
 
@@ -49,6 +50,7 @@ function moveWrapper() {
     $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+
 }
 
 initCircle();

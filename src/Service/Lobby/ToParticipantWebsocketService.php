@@ -38,14 +38,17 @@ class ToParticipantWebsocketService
         $this->twig = $environment;
         $this->directSend = $directSendService;
     }
-    public function setDirectSend(DirectSendService $directSendService){
+
+    public function setDirectSend(DirectSendService $directSendService)
+    {
         $this->directSend = $directSendService;
     }
+
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
 
         $topic = $this->urlgenerator->generate('lobby_participants_wait', array('roomUid' => $lobbyWaitungUser->getRoom()->getUidReal(), 'userUid' => $lobbyWaitungUser->getUser()->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->directSend->sendSnackbar($topic,$this->translator->trans('lobby.participant.accept'),'success');
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success');
         $appUrl = $this->roomService->join(
             $lobbyWaitungUser->getRoom(),
             $lobbyWaitungUser->getUser(),
@@ -64,14 +67,27 @@ class ToParticipantWebsocketService
                 $this->twig->render('lobby_participants/choose.html.twig', array('appUrl' => $appUrl, 'browserUrl' => $browserUrl));
             $this->directSend->sendModal($topic, $content);
         } elseif ($this->parameterBag->get('start_dropdown_allow_browser') == 1) {
-            $this->directSend->sendRedirect($topic, $browserUrl, 5000);
+            $options = array(
+                'options' => array(
+                    'jwt' => $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))),
+                    'roomName' => $lobbyWaitungUser->getRoom()->getUid(),
+                    'width' => '100%',
+                    'height' => 400,
+                ),
+                'roomName'=>$lobbyWaitungUser->getRoom()->getName(),
+                'domain'=>$lobbyWaitungUser->getRoom()->getServer()->getUrl(),
+                'parentNode' => '#jitsiWindow',
+            );
+            $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
         } elseif ($this->parameterBag->get('start_dropdown_allow_app') == 1) {
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
         }
     }
-    public function sendDecline(LobbyWaitungUser $lobbyWaitungUser){
+
+    public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)
+    {
         $topic = $this->urlgenerator->generate('lobby_participants_wait', array('roomUid' => $lobbyWaitungUser->getRoom()->getUidReal(), 'userUid' => $lobbyWaitungUser->getUser()->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
-        $this->directSend->sendSnackbar($topic,$this->translator->trans('lobby.participant.decline'),'danger');
-        $this->directSend->sendRedirect($topic,$this->urlgenerator->generate('index'),3000);
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger');
+        $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), 3000);
     }
 }

@@ -76,7 +76,6 @@ class DirectSendService
 
     public function sendRedirect($topic, $url,$timeout=1000)
     {
-
         $data = array(
             'type' => 'redirect',
             'url' => $url,
@@ -86,7 +85,15 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
-
+    public function sendNewJitsiMeeting($topic, $options,$timeout=1000)
+    {
+        $data = array(
+            'type' => 'newJitsi',
+            'options' => $options,
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
     public function sendRefresh($topic,$url){
         $data = array(
             'type' => 'refresh',

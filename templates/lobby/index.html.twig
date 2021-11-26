@@ -119,7 +119,7 @@
             jwt: '{{ jwtFromRoom(app.user,room) }}'
         };
 
-
+        var conferenzeName = '{{ room.name }}';
         var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
     </script>

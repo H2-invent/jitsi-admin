@@ -17,6 +17,8 @@ function masterNotify(data) {
         redirect(data)
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message, data.color)
+    }else if (data.type === 'newJitsi') {
+
     } else {
         alert('Error, Please reload the page')
     }

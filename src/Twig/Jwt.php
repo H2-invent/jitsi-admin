@@ -32,9 +32,6 @@ class Jwt extends AbstractExtension
     }
     public function jwtFromRoom(User $user,Rooms $rooms)
     {
-        return $this->roomService->generateJwt(
-            $this->roomService->genereateJwtPayload($user->getFormatedName($this->paramterBag->get('laf_showNameInConference')),$rooms,$rooms->getServer(),true,null),
-            $rooms->getServer()->getAppSecret()
-        );
+        return $this->roomService->generateJwt($rooms,$user,$user->getFormatedName($this->paramterBag->get('laf_showNameInConference')));
     }
 }

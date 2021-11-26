@@ -98,8 +98,16 @@ class RoomService
         $url =  $url . '#config.subject=%22' . $room->getName() . '%22';
         return $url;
     }
-    public function generateJwt($payload,$secret){
-        return  JWT::encode($payload, $secret);
+    public function generateJwt(Rooms $room, User $user, $userName){
+        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
+        if (!$roomUser) {
+            $roomUser = new RoomsUser();
+        }
+        $moderator = false;
+        if ($room->getModerator() === $user || $roomUser->getModerator()) {
+            $moderator = true;
+        }
+        return  JWT::encode($this->genereateJwtPayload($userName,$room,$room->getServer(),$moderator,$roomUser),$room->getServer()->getAppSecret());
     }
     public function genereateJwtPayload($userName, Rooms $room, Server  $server, $moderator, RoomsUser $roomUser = null){
 
