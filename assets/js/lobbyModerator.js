@@ -46,7 +46,7 @@ function moveWrapper() {
     $('#snackbar').appendTo('body');
     $('#jitsiWindow').css('height', '100vh');
     $('.container-fluid').remove();
-    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Hier Ziehen</div>');
+    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger"><i class="fas fa-caret-down"></i> Lobby <i class="fas fa-caret-down"></i></div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
 }

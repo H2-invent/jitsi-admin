@@ -11,21 +11,21 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class LifeCycleTest extends PantherTestCase
 {
-    protected function runTest(): void
-    {
-        $this->markTestSkipped('Skip Lifecycle');
-    }
+//    protected function runTest(): void
+//    {
+//        $this->markTestSkipped('Skip Lifecycle');
+//    }
 
-    public function testSomething(): void
-    {
-        $client = static::createPantherClient();
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
-
-        $crawler = $client->request('GET', '/room/dashboard');
-        $client->takeScreenshot('screenshot/homepage.png');
-        $this->assertSelectorTextContains('h1', 'Online Jitsi Verwaltung');
-    }
+//    public function testSomething(): void
+//    {
+//        $client = static::createPantherClient();
+//        $userRepo = self::getContainer()->get(UserRepository::class);
+//        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+//
+//        $crawler = $client->request('GET', '/room/dashboard');
+//        $client->takeScreenshot('screenshot/homepage.png');
+//        $this->assertSelectorTextContains('h1', 'Online Jitsi Verwaltung');
+//    }
 
     protected function loginPantherClient(Client $client, User $user)
     {

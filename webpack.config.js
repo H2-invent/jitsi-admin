@@ -26,7 +26,13 @@ Encore
     .addEntry('startpage', './assets/js/startpage.js')
     .addEntry('lobbyModerator', './assets/js/lobbyModerator.js')
     .addEntry('lobbyParticipant', './assets/js/lobbyParticipant.js')
-
+    .addLoader({
+        test: /\.mp3$/,
+        loader: 'file-loader',
+        query: {
+            name: 'static/media/[name].[hash:8].[ext]'
+        }
+    })
     // empty the outputPath dir before each build
     .cleanupOutputBeforeBuild()
 

@@ -3,6 +3,7 @@ import $ from 'jquery';
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initCircle} from './initCircle'
+import notificationSound from '../sound/notification.mp3'
 
 function masterNotify(data) {
     Push.Permission.request();
@@ -31,6 +32,8 @@ function setSnackbar(text, color) {
 }
 
 function notifymoderator(data) {
+    var audio = new Audio(notificationSound);
+    audio.play();
     Push.create(data.title, {
         body: data.message,
         icon: '/favicon.ico',
