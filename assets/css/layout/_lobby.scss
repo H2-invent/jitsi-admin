@@ -99,7 +99,14 @@
   -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   transition: background-color 1s;
+  &:before{
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f107\00a0";
+  }
+  &:after{
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\00a0\f107";
+  }
 }
+
 
 .lobbyWindow {
   display: flex;
@@ -111,9 +118,21 @@
   position: absolute;
   top: 0;
   left: 0;
-  &:hover {
+  &:hover{
     top: 0 !important;
     transition: top 0.5s;
+    .dragger{
+      &:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f106\00a0"!important;
+      }
+      &:after{
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\00a0\f106"!important;
+      }
+    }
   }
 }
 
