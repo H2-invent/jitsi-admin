@@ -41,19 +41,22 @@
                 {% endif %}
 
             </li>
-            <li class="nav-item d-none d-xl-block">
+            <li class="nav-item d-none d-xl-block ">
+
                 {% if theme %}
                     {% if theme.footerContributionEnable == true %}
                         {{ theme.footerContributionText|raw }}
-                        •
+
                     {% endif %}
                 {% else %}
-                    <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                       href="https://h2-invent.com/">Made with ❤ by H2 invent </a>
-                    •
+                    <a class="nav-link float-left" target="_blank" referrerpolicy="no-referrer"
+                       href="https://h2-invent.com/">Made with ❤ by H2 invent</a>
                 {% endif %}
-                {{ 'now'|date('Y') }}
-                • v{{ laf_version }}
+
+
+            </li>
+            <li class="nav-item d-none d-xl-block ">
+                <a class="nav-link" href="#">{{ 'now'|date('Y') }} • v{{ laf_version }}</a>
             </li>
             {% if matomo_enable == 'true' %}
                 <li class="nav-item">
