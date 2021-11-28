@@ -26,7 +26,10 @@ function masterNotify(data) {
 
 function setSnackbar(text, color) {
     $('#snackbar').text(text).removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').removeClass('d-none').addClass('show bg-' + color).click(function (e) {
-        $('#snackbar').removeClass('show');
+        $(this).removeClass('show');
+    });
+    $('#snackbar').mouseleave(function (e) {
+        $(this).removeClass('show');
     })
     $('.dragger').removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').addClass('bg-' + color).mouseover(function (e){
         $(this).removeClass('bg-warning').removeClass('bg-success').removeClass('bg-warning')

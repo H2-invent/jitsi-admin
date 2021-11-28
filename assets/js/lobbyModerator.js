@@ -13,6 +13,7 @@ import stc from 'string-to-color/index';
 import {masterNotify} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
+import {initJitsi} from './jitsiUtils'
 var jitsiApi;
 initWebcam()
 const es = new EventSource(topic);
@@ -38,7 +39,8 @@ $('.startIframe').click(function (e) {
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
     moveWrapper();
     options.device = choosenId;
-    jitsiApi = new JitsiMeetExternalAPI(domain, options);
+    initJitsi(options,domain);
+
     $('#jitsiWrapper').find('iframe').css('height', '100vh');
 })
 
@@ -46,7 +48,8 @@ function moveWrapper() {
     $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').css('height', 'inherit');
     $('#snackbar').appendTo('body');
     $('#jitsiWindow').css('height', '100vh');
-    $('.container-fluid').remove();
+    $('#content').remove();
+    $('.imageBackground').remove();
     $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
