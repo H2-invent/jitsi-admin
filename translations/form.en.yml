@@ -1,17 +1,17 @@
 ---
 label.konferenzId: Conference ID
 label.email: Email address
-label.name: Your name
-label.teilnehmerEmailhinzufuegen: Enter email addresses of new participants
-label.teilnehmerSpeichern: Send invite mail
+label.name: Name
+label.teilnehmerEmailhinzufuegen: Enter email addresses of new PARTICIPANTS
+label.teilnehmerSpeichern: Send invitation email
 label.emailModerator: Enter email address of organizer
-help.emailTextfeld: Multiple email addresses can be added at once. Please enter one email address per line.
+help.emailTextfeld: Multiple email addresses can be added at once. Each email address has to be written into a new line.
 label.organisatorhinzufuegen: Add organizer
 label.serverKonferenz: Jitsi meet server
 label.konferenzName: Conference name
 label.start: Start
 label.dauerKonferenz: Conference duration
-label.nurRegistriertenutzer: Only signed up users can join this conference.
+label.nurRegistriertenutzer: Only signed up users can join this conference
 label.speichern: Save
 option.15min: 15 minutes
 option.30min: 30 minutes
@@ -45,8 +45,8 @@ option:
   daily: Daily
   montly: Monthly
   yearly: Yearly
-  montlyRelative: Set monthly felxible
-  yearlyRelative: Set annual felxible
+  montlyRelative: Monthly relative
+  yearlyRelative: Yearly relative
   first: First
   second: Second
   third: Third
@@ -70,10 +70,10 @@ option:
 lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
 label.appSecret: App secret
-label.scheduleMeeting: Suggest time
+label.scheduleMeeting: Create an appointment poll
 help:
   serverUrl: Enter without "https://" (such as meet.jit.si)
-  featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server.
+  featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
   serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
 label:
@@ -95,17 +95,17 @@ label:
   agenda: Short agenda for this meeting (markdown)
   staticBackgroundColor: Set background color for joinpage
   schowStaticBackgroundColor: Show static color instead of pictures on joinpage
-  featureEnalbeByJwt: '"Enable Feature by JWT plugin" is active on the server.'
-  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
-  dissallowPrivateMessage: Only moderators are allowed to send private messages to participants.
-  puplicRoom: Enable invite link
+  featureEnalbeByJwt: '"Enable Feature by JWT" plugin is active on the server'
+  dissallowScreenshareGlobal: Only moderators are allowed to share screen
+  dissallowPrivateMessage: Only moderators are allowed to send private messages to participants
+  puplicRoom: Enable invitation links
   showRoomOnJoinpage: Show conference on joinpage
   subscribe: Subscribe
   vorname: Firstname
   nachname: Lastname
   maxParticipants: Allow maximum number of participants
   waitinglist: Activate waiting list
-  teilnehmerEmailhinzufuegenModerator: Enter email addresses of new moderators
+  teilnehmerEmailhinzufuegenModerator: Enter email addresses of new MODERATORS
   weekday: Weekday
   repetation: Ends after x appointments
   repeatType: Seriespattern
@@ -116,12 +116,12 @@ label:
   montlyRelativeNumber: X-th weekday in month
   montlyRelativeWeekday: Weekday
   montlyRelativeMonth: Month
-  repeaterRemoved: Edit only this element (not the series)
-  persistantRoom: This conference has no date and is permanently available.
-  totalOpenRooms: Participants list deactivated. Enter via link
+  repeaterRemoved: Edit only this element, not the series
+  persistantRoom: This conference has no date and is permanently available
+  totalOpenRooms: Participants deactivated. Enter with participants-link.
   totalOpenRoomsOpenTime: Room-opening-time
   addressgroupName: Group Name
-  addressgroupMember: Select group members
+  addressgroupMember: Group Members
   jwtModeratorPosition: Moderator position in JWT token
   timezone: Timezone
   serverName: Server Name
@@ -130,5 +130,5 @@ choice:
   ssl: SSL
   none: None
 placeholder:
-  maxParticipants: No limit
+  maxParticipants: No Limitation
   chooseTime: Pick date and time
