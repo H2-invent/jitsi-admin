@@ -65,6 +65,8 @@ option:
   octobre: Oktober
   novembre: November
   decembre: Dezember
+  user: Im User Claim
+  root: Im Root Claim
 lable.serverUrl: Jitsi-Meet服务器网址
 label.appId: 应用 ID
 label.appSecret: App密钥
@@ -73,6 +75,7 @@ help:
   serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）
   featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
   teilnehmerEmailhinzufuegenModerator: 可以同时添加多个邮箱。每个邮箱必须写入新的一行。
+  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
@@ -92,7 +95,7 @@ label:
   agenda: 本次会议简要议程（如下）
   staticBackgroundColor: 设计登录页面的背景色
   schowStaticBackgroundColor: 纯色显示，不显示登录页面上的图片
-  featureEnalbeByJwt: "在服务器上激活\"JWT 启用功能\"插件"
+  featureEnalbeByJwt: 在服务器上激活"JWT 启用功能"插件
   dissallowScreenshareGlobal: 只有主持人才能共享屏幕
   dissallowPrivateMessage: 只有主持人可以各参会者发私信
   puplicRoom: Einladungslinks freischalten
@@ -119,9 +122,13 @@ label:
   totalOpenRoomsOpenTime: Raumöffnungszeit
   addressgroupName: Gruppenname
   addressgroupMember: Gruppenmitglieder
+  jwtModeratorPosition: Moderatorposition im JWT Token
+  timezone: Zeitzone
+  serverName: Servername
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: 无
 placeholder:
   maxParticipants: 无限制
+  chooseTime: Zeit und Datum auswählen

@@ -65,6 +65,8 @@ option:
   octobre: October
   novembre: November
   decembre: December
+  user: Im User Claim
+  root: Im Root Claim
 lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
 label.appSecret: App secret
@@ -73,6 +75,7 @@ help:
   serverUrl: Enter without "https://" (such as meet.jit.si)
   featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
+  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -92,7 +95,7 @@ label:
   agenda: Short agenda for this meeting (markdown)
   staticBackgroundColor: Set background color for joinpage
   schowStaticBackgroundColor: Show static color instead of pictures on joinpage
-  featureEnalbeByJwt: "\"Enable Feature by JWT\" plugin is active on the server"
+  featureEnalbeByJwt: '"Enable Feature by JWT" plugin is active on the server'
   dissallowScreenshareGlobal: Only moderators are allowed to share screen
   dissallowPrivateMessage: Only moderators are allowed to send private messages to participants
   puplicRoom: Enable invitation links
@@ -119,9 +122,13 @@ label:
   totalOpenRoomsOpenTime: Room-opening-time
   addressgroupName: Group Name
   addressgroupMember: Group Members
+  jwtModeratorPosition: Moderator position in JWT token
+  timezone: Timezone
+  serverName: Server Name
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: None
 placeholder:
   maxParticipants: No Limitation
+  chooseTime: Pick date and time

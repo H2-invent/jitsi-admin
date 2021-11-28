@@ -65,6 +65,8 @@ option:
   octobre: Octubre
   novembre: Noviembre
   decembre: Diciembre
+  user: Im User Claim
+  root: Im Root Claim
 lable.serverUrl: Url del servidor Jitsi Meet
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
@@ -73,6 +75,7 @@ help:
   serverUrl: Acceder sin "https://" (ej. meet.jit.si)
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
   teilnehmerEmailhinzufuegenModerator: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
+  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -92,7 +95,7 @@ label:
   agenda: Agenda abreviada para esta reunión (Markdown)
   staticBackgroundColor: Configurar un color de fondo en la pantalla de unión
   schowStaticBackgroundColor: Mostrar un color fijo en vez de imágenes en la pantalla de unión
-  featureEnalbeByJwt: "El plugin \"Enable Feature By JWT\" está activado en este servidor"
+  featureEnalbeByJwt: El plugin "Enable Feature By JWT" está activado en este servidor
   dissallowScreenshareGlobal: Sólo el moderador puede compartir la pantalla
   dissallowPrivateMessage: Sólo el moderador puede enviar mensajes privados a otros participantes
   puplicRoom: Activar enlaces de invitación
@@ -101,7 +104,7 @@ label:
   vorname: Nombre
   nachname: Apellido
   maxParticipants: Permitir número máximo de participantes
-  waitinglist: Warteliste aktivieren
+  waitinglist: Activar la lista de espera
   teilnehmerEmailhinzufuegenModerator: Ingrese la dirección de correo electrónico de los nuevos MODERADORES
   weekday: Día de la semana
   repetation: Termina después de x fechas
@@ -119,9 +122,13 @@ label:
   totalOpenRoomsOpenTime: Hora de apertura de la sala
   addressgroupName: Nombre de Grupo
   addressgroupMember: Miembros del grupo
+  jwtModeratorPosition: Moderatorposition im JWT Token
+  timezone: Zeitzone
+  serverName: Servername
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: Ningúno
 placeholder:
   maxParticipants: Ninguna limitación
+  chooseTime: Zeit und Datum auswählen
