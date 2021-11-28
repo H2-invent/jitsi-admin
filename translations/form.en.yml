@@ -65,8 +65,8 @@ option:
   octobre: October
   novembre: November
   decembre: December
-  user: Im User Claim
-  root: Im Root Claim
+  user: In user claim
+  root: In root claim
 lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
 label.appSecret: App secret
@@ -75,7 +75,7 @@ help:
   serverUrl: Enter without "https://" (such as meet.jit.si)
   featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
-  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
+  serverName: Please enter a server name. This will be shown to the participants.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
