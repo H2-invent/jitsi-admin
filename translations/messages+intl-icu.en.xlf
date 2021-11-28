@@ -1144,111 +1144,110 @@
       </trans-unit>
       <trans-unit id="ZUQB5jY" resname="Fehler, das Startdatum darf nicht leer sein">
         <source>Fehler, das Startdatum darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte das Startdatum eingeben.</target>
+        <target state="translated">Error, please enter start date.</target>
       </trans-unit>
       <trans-unit id="jGFMqpn" resname="Fehler, der Name darf nicht leer sein">
         <source>Fehler, der Name darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte den Namen angeben.</target>
+        <target state="translated">Error, please enter start name.</target>
       </trans-unit>
       <trans-unit id="CkD2mrU" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="needs-translation">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Please forward this link to participants.</target>
       </trans-unit>
       <trans-unit id="LqbhhU9" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
-        <target state="needs-translation">Wollen Sie den Namen des Teilnehmenden wirklich löschen?</target>
+        <target state="translated">Really delete the name of this participant?</target>
       </trans-unit>
       <trans-unit id="MaXA.F3" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
-        <target state="needs-translation">Das Datum wird nicht berücksichtigt, da es bereits durch die Serie festgelegt ist.</target>
+        <target state="translated">The date is not taken into account as this is already determined by the series.</target>
       </trans-unit>
       <trans-unit id="tFfAytG" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
-        <target state="needs-translation">Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.</target>
+        <target state="translated">Error, start and end date are in the past.</target>
       </trans-unit>
       <trans-unit id="uAj26XB" resname="Schließen">
         <source>Schließen</source>
-        <target state="needs-translation">Bitte schließen</target>
+        <target state="translated">Please close</target>
       </trans-unit>
       <trans-unit id="hr7a.Nt" resname="Zeitzone einstellen">
         <source>Zeitzone einstellen</source>
-        <target state="needs-translation">Bitte eine Zeitzone einstellen</target>
+        <target state="translated">Please set timezone</target>
       </trans-unit>
       <trans-unit id="WdcAY52" resname="Zeitzone erfolgreich geändert auf: {timeZone}">
         <source>Zeitzone erfolgreich geändert auf: {timeZone}</source>
-        <target state="needs-translation">Zeitzone erfolgreich geändert auf: {timeZone}</target>
+        <target state="translated">Timezone changed to: {timeZone}</target>
       </trans-unit>
       <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Benutzer in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Please select the timezone for the meeting. Users in other timezones will receive the conference in their local timezone.</target>
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
-        <target state="needs-translation">Bitte Zeitzone ändern</target>
+        <target state="translated">Please change timezone</target>
       </trans-unit>
       <trans-unit id="Dy7C0FG" resname="Erstellt in Zeitzone">
         <source>Erstellt in Zeitzone</source>
-        <target state="needs-translation">Erstellt in Zeitzone</target>
+        <target state="translated">Created in timezone</target>
       </trans-unit>
       <trans-unit id="AFB7I6E" resname="Zeitzone">
         <source>Zeitzone</source>
-        <target state="needs-translation">Zeitzone</target>
+        <target state="translated">Timezone</target>
       </trans-unit>
       <trans-unit id="7757HgF" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                                eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                                 &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                                 eine neue Konferenz.</source>
-        <target state="needs-translation"><![CDATA[Aktuell sind keine Konferenzen vorhanden. Bitte erstellen Sie
-                                <u><a href="{url}" class="loadContent">hier</a></u>
-                                eine neue Konferenz.]]></target>
+        <target state="translated"><![CDATA[No conferences found. Please create one
+                                <u><a href="{url}" class="loadContent">hier</a></u>.]]></target>
       </trans-unit>
       <trans-unit id="2nxOXuK" resname="Zeitangaben in Zeitzone">
         <source>Zeitangaben in Zeitzone</source>
-        <target state="needs-translation">Zeitangaben in Zeitzone</target>
+        <target state="translated">Times in timezone</target>
       </trans-unit>
       <trans-unit id="MM_kpXC" resname="[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
         <source>[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
-        <target state="needs-translation">[Serverorganisation] Ihr Name wurde zu einem Jitsi Meet Server hinzugefügt.</target>
+        <target state="translated">[Serverorganization] Your name was added to a jitsi meet server.</target>
       </trans-unit>
       <trans-unit id="cp.tY0I" resname="[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}">
         <source>[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target state="needs-translation">[Videokonferenz] Bitte bestätigen Sie Ihre Anmeldung zur Konferenz: {name}</target>
+        <target state="translated">[Videoconference] Please confirm your registration to conference: {name}</target>
       </trans-unit>
       <trans-unit id="7WayfUa" resname="[Videokonferenz] Videokonferenz {name} abgesagt">
         <source>[Videokonferenz] Videokonferenz {name} abgesagt</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz {name} wurde abgesagt.</target>
+        <target state="translated">[Videoconference] The videoconference {name} was cancelled.</target>
       </trans-unit>
       <trans-unit id="TuTcCiZ" resname="[Videokonferenz] Videokonferenz abgesagt">
         <source>[Videokonferenz] Videokonferenz abgesagt</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz wurde abgesagt.</target>
+        <target state="translated">[Videoconference] The videoconference was cancelled.</target>
       </trans-unit>
       <trans-unit id="0gbS.CE" resname="[Terminplanung] Terminplanung abgesagt">
         <source>[Terminplanung] Terminplanung abgesagt</source>
-        <target state="needs-translation">[Terminplanung] Die Terminplanung wurde abgesagt.</target>
+        <target state="translated">[Appointmentplanning] The appointment poll [Terminplanung] was cancelled.</target>
       </trans-unit>
       <trans-unit id="DF724eR" resname="[Videokonferenz] Videokonferenz {name} wurde bearbeitet">
         <source>[Videokonferenz] Videokonferenz {name} wurde bearbeitet</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz {name} wurde bearbeitet.</target>
+        <target state="translated">[Videoconference] The videoconference {name} was edited.</target>
       </trans-unit>
       <trans-unit id="EtO0xG8" resname="[Terminplanung] Neue Einladung zu der Terminplanung {name}">
         <source>[Terminplanung] Neue Einladung zu der Terminplanung {name}</source>
-        <target state="needs-translation">[Terminplanung] Es gibt eine neue Einladung zur Terminplanung {name}.</target>
+        <target state="translated">[Appointmentplanning] There is an invitation to the appointmentplanning {name}.</target>
       </trans-unit>
       <trans-unit id="fje2ysN" resname="[Videokonferenz] Neue Einladung zur Videokonferenz {name}">
         <source>[Videokonferenz] Neue Einladung zur Videokonferenz {name}</source>
-        <target state="needs-translation">[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz {name}.</target>
+        <target state="translated">[Videoconference] There is an invitation to the videoconference {name}.</target>
       </trans-unit>
       <trans-unit id="VQ5q3RR" resname="[Terminplanung] Neue Einladung zur Terminplanung {name}">
         <source>[Terminplanung] Neue Einladung zur Terminplanung {name}</source>
-        <target state="needs-translation">[Terminplanung] Es gibt eine neue Einladung zur Terminplanung {name}.</target>
+        <target state="translated">[Appointmentplanning] There is a new invitation to the appointmentplanning {name}.</target>
       </trans-unit>
       <trans-unit id="UE6M382" resname="[Videokonferenz] Hinzugefügt zur Warteliste">
         <source>[Videokonferenz] Hinzugefügt zur Warteliste</source>
-        <target state="needs-translation">[Videokonferenz] Hinzugefügt zur Warteliste</target>
+        <target state="translated">[Videoconference] Added to waiting list</target>
       </trans-unit>
       <trans-unit id="vawr.RD" resname="[Erinnerung] Videokonferenz {room} startet gleich">
         <source>[Erinnerung] Videokonferenz {room} startet gleich</source>
-        <target state="needs-translation">[Erinnerung] Die Videokonferenz {room} beginnt gleich.</target>
+        <target state="translated">[Reminder] The videoconference {room} starts soon.</target>
       </trans-unit>
       <trans-unit id="pPKSLi2" resname="Suche">
         <source>Suche</source>
@@ -1260,11 +1259,11 @@
       </trans-unit>
       <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-plus"&gt;&lt;/i&gt; hinzufügen</source>
-        <target state="needs-translation"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Klicken Sie bitte <i class="fas fa-plus"></i> um den Teilnehmenden hinzuzufügen.]]></target>
+        <target state="translated"><![CDATA[Find participants by typing into the search field. Click <i class="fas fa-plus"></i> to add the participant.]]></target>
       </trans-unit>
       <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>
-        <target state="needs-translation"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Sollen die Teilnehmenden als Moderatoren fungieren, klicken Sie bitte <i class="fas fa-crown"></i>.]]></target>
+        <target state="translated"><![CDATA[Find participants by typing into the search field. If you want to add participants as moderator, click <i class="fas fa-crown"></i>.]]></target>
       </trans-unit>
       <trans-unit id="xHhboX4" resname="Morgen">
         <source>Morgen</source>
@@ -1272,11 +1271,11 @@
       </trans-unit>
       <trans-unit id=".K6witM" resname="Meine Videokonferenzen">
         <source>Meine Videokonferenzen</source>
-        <target state="needs-translation">Meine Videokonferenzen</target>
+        <target state="translated">My videoconferences</target>
       </trans-unit>
       <trans-unit id="lQ8QeGr" resname="search.placeholder">
         <source>Hier suchen</source>
-        <target state="needs-translation">Hier suchen</target>
+        <target state="translated">Search here</target>
       </trans-unit>
     </body>
   </file>
