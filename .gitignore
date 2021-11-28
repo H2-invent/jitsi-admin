@@ -37,3 +37,7 @@ yarn-error.log
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+/theme/theme.json.signed
+/translations/custom/messages+intl-icu.de.xlf
+
+*.signed*

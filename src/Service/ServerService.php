@@ -41,7 +41,7 @@ class ServerService
     function addPermission(Server $server, User $user)
     {
         $content = $this->twig->render('email/serverPermission.html.twig', ['user' => $user, 'server' => $server]);
-        $subject = $this->translator->trans('Sie wurden zu einem Jitsi-Meet-Server hinzugefügt');
+        $subject = $this->translator->trans('[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt');
         $this->notification->sendNotification($content, $subject, $user, $server);
 
         return true;

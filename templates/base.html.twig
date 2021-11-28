@@ -37,6 +37,12 @@
                     {% endif %}
 
                 </a>
+                {% if theme != false  %}
+                    <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
+                        {{ theme.headerLine }}
+                    </p>
+
+                {% endif %}
                 {% block CTA %}{% endblock %}
                 {{ include('base/__topnav.html.twig') }}
 
@@ -44,8 +50,9 @@
         </nav>
         {% block body %}{% endblock %}
 
-        {{ include('base/__addressBookModal.html.twig') }}
+
         {{ include('servers/__serverModal.html.twig') }}
+        {{ include('base/__addressBookModal.html.twig') }}
         {{ include('base/__profileModal.html.twig') }}
         {{ include('base/__snack.html.twig') }}
         {{ include('base/__footer.html.twig') }}
@@ -63,6 +70,8 @@
     var moreFeatureUrl = '{{ path('more_features') }}';
     var notificationUrl = "{{ laf_notificationUrl }}";
     var bbbUrl = "{{ laf_bbb_Url }}";
+    var refreshDashboardTime = {{ laf_refreshTimeDashboard }};
+    var refreshDashboardUrl = '{{ path('dashboard') }}';
 </script>
 {{ include('base/__script.html.twig') }}
 {% block javascripts %}{% endblock %}

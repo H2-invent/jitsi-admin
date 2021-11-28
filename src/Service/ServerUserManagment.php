@@ -49,14 +49,18 @@ class ServerUserManagment
                 }
             }
         }
-
-        $domain = explode('@', $user->getEmail())[1];
-        $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' =>$domain ));
-        foreach ($tmpE as $data2) {
-            if (!in_array($data2->getServer(), $servers)) {
-                $servers[] = $data2->getServer();
+        try {
+            $domain = explode('@', $user->getEmail())[1];
+            $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' =>$domain ));
+            foreach ($tmpE as $data2) {
+                if (!in_array($data2->getServer(), $servers)) {
+                    $servers[] = $data2->getServer();
+                }
             }
+        }catch (\Exception $exception){
+
         }
+
 
         $default = $this->em->getRepository(Server::class)->find($this->parameter->get('default_jitsi_server_id'));
         //here we add the default group which is set in the env

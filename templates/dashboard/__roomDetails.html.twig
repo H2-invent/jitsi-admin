@@ -1,11 +1,14 @@
 <div class="col-md-2">
     {% if not (room.scheduleMeeting or room.persistantRoom)  %}
-    <h5 class="h5-responsive">{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</h5>
+    <h5 class="h5-responsive">{{ room.startwithTimeZone(app.user)|date('H:i',false) }} – {{ room.endwithTimeZone(app.user)|date('H:i',false) }}</h5>
+        {% if allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
+       <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
+        {% endif %}
     {% endif %}
-    {% if room in runningRooms %}<small class="badge badge-success">{{ 'Läuft gerade'|trans }}</small><br>{% endif %}
+    {% if room in runningRooms %}<small class="badge badge-success" {% if theme %} style="background-color: {{ theme.colorBadgeRunningNow }} !important;" {% endif %}>{{ 'Läuft gerade'|trans }}</small><br>{% endif %}
     {% if app.user == room.moderator %}
 
-        <span class="badge badge-info">{{ 'Moderator'|trans }}</span><br>
+        <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ 'Moderator'|trans }}</span><br>
     {% endif %}
     {% if app.user == room.scheduleMeeting %}
         <a
@@ -16,28 +19,31 @@
                     href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}" target="_blank"
                 {% endif %}
         >
-            <span class="badge badge-danger">{{ 'Terminplanung'|trans }}</span>
+            <span class="badge badge-danger" {% if theme %} style="background-color: {{ theme.colorBadgeShedule }} !important;" {% endif %}>{{ 'Terminplanung'|trans }}</span>
         </a>
         <br>
     {% endif %}
     {% if app.user == room.onlyRegisteredUsers %}
-        <span class="badge badge-warning">{{ 'Intern'|trans }}</span><br>
+        <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeInternal }} !important;" {% endif %}>{{ 'Intern'|trans }}</span><br>
     {% endif %}
 
     {% if room.repeater is not null %}
-        <span class="badge badge-warning">{{ 'Serie'|trans }}</span><br>
+        <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeSeries }} !important;" {% endif %}>{{ 'Serie'|trans }}</span><br>
     {% endif %}
 
 </div>
 <div class="col-md-4">
-    <h5 class="h5-responsive">{{ room.name }} <a tabindex="0" data-toggle="popover" data-trigger="focus"
+    <h5 class="h5-responsive">{{ room.name }} <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a> <a tabindex="0" data-toggle="popover" data-trigger="focus"
                                                  title="{{ 'Agenda'|trans }}"
                                                  data-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
                     class="fa fa-info-circle"></i></a></h5>
     <p class="text-black-50 small">
-        {{ 'Organisator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
-        {{ 'Server'|trans }}: {{ room.server.url }}<br>
-        {{ 'Anzahl Teilnehmer'|trans }}: {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans%}{% else %}{{ room.user|length }}{% endif %}
+        {{ 'Organisator'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
+        {{ 'Server'|trans }}: {{ room.server.serverName }}<br>
+        {{ 'Anzahl Teilnehmer'|trans }}: {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans%}{% else %}{{ room.user|length }}{% endif %}<br>
+        {% if  allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
+            {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}
+        {% endif %}
     </p>
 
 </div>

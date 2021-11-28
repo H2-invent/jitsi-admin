@@ -10,15 +10,15 @@
         <div class="modal-body">
             <small>{{ 'Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.'|trans }}</small>
 
-            <div class="input-group mb-3">
-                <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control flatpickr" id="schedulePickr">
-                <div class="input-group-append">
+
+                <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control" id="schedulePickr">
+                <div class="input-group-append" id="scheduleAppendBtn">
                     <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect addSchedule"
                             type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
                             data-url="{{ path('schedule_admin_add',{'id':room.id}) }}"><i class="fas fa-plus"></i>
                     </button>
                 </div>
-            </div>
+
             <div id="scheduleSlots">
                 <div id="slot">
                     {% if room.schedulings|length>0 %}

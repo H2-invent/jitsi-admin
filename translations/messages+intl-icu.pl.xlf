@@ -547,9 +547,9 @@
         <source>Zum Moderator ernennen</source>
         <target state="needs-translation">Zum Moderator ernennen</target>
       </trans-unit>
-      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
-        <source>Erlauben seinen Desktop zu Teilen</source>
-        <target state="needs-translation">Erlauben seinen Desktop zu Teilen</target>
+      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu teilen">
+        <source>Erlauben seinen Desktop zu teilen</source>
+        <target state="needs-translation">Erlauben seinen Desktop zu teilen</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
@@ -579,9 +579,9 @@
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
         <target state="needs-translation">Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</target>
       </trans-unit>
-      <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
-        <source>Teilnehmer Suchen</source>
-        <target state="needs-translation">Teilnehmer Suchen</target>
+      <trans-unit id="KVhmSG4" resname="Teilnehmer suchen">
+        <source>Teilnehmer suchen</source>
+        <target state="needs-translation">Teilnehmer suchen</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>

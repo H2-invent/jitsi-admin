@@ -14,12 +14,17 @@ class User extends Fixture
 
         // USer mit Keycloak ID
         $user = new \App\Entity\User();
-        $user->setEmail('test@local.de');
+        $user->setEmail('test@local123.de');
         $user->setCreatedAt(new \DateTime());
         $user->setKeycloakId(123456);
         $user->setFirstName('Test');
         $user->setLastName('User');
         $user->setRegisterId(123456);
+        $user->setSpezialProperties(array('ou'=>'Test1','departmentNumber'=>'1234',));
+        $user->setTimeZone('Europe/Berlin');
+        $user->setUuid('lksdhflkjdsljflkjds');
+        $user->setUsername('test@local123.de');
+        $user->setCreatedAt(new \DateTime());
         $manager->persist($user);
 
         // USer ohne Keycloak ID, also einfach eingeladen

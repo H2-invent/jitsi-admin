@@ -545,8 +545,8 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
         <source>Zum Moderator ernennen</source>
         <target state="translated">Désigner comme modérateur</target>
       </trans-unit>
-      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu Teilen">
-        <source>Erlauben seinen Desktop zu Teilen</source>
+      <trans-unit id="ocFliJI" resname="Erlauben seinen Desktop zu teilen">
+        <source>Erlauben seinen Desktop zu teilen</source>
         <target state="translated">Autoiser le partage de son écran</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
@@ -577,8 +577,8 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.</target
         <source>Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden</source>
         <target state="translated">Ne plus autoriser cet utilisateur à envoyer des messages privés à d'autres paricipants</target>
       </trans-unit>
-      <trans-unit id="KVhmSG4" resname="Teilnehmer Suchen">
-        <source>Teilnehmer Suchen</source>
+      <trans-unit id="KVhmSG4" resname="Teilnehmer suchen">
+        <source>Teilnehmer suchen</source>
         <target state="translated">Rechercher des participants</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">

@@ -15,12 +15,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                {{ form_row(form.joinBrowser) }}
-            </div>
-            <div class="col-md-6 d-none d-md-block">
-                {{ form_row(form.joinApp) }}
-            </div>
+            {% if form.joinBrowser is defined %}
+                <div class="col-md-6">
+                    {{ form_row(form.joinBrowser) }}
+                </div>
+            {% endif %}
+            {% if form.joinApp is defined %}
+                <div class="col-md-6 d-none d-md-block">
+                    {{ form_row(form.joinApp) }}
+                </div>
+            {% endif %}
         </div>
 
         {{ form_end(form) }}

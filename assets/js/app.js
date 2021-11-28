@@ -26,8 +26,10 @@ import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
 import {initGenerell} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
-import {initAddressGroupSearch} from './addressGroup';
+import {initAddressGroupSearch, initListSearch} from './addressGroup';
 import {initSearchUser} from './searchUser';
+import {initRefreshDashboard} from './refreshDashboard';
+import {initdateTimePicker} from '@holema/h2datetimepicker';
 
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -39,18 +41,23 @@ $.urlParam = function (name) {
 addEventListener('load', function () {
     var url = (new URLSearchParams(window.location.search)).get('modalUrl');
     if (url !== null) {
-        $('#loadContentModal').load(atob(url), function (data, status) {
-            if (status === "error") {
-                window.location.reload();
-            } else {
-                $('#loadContentModal ').modal('show');
-            }
+        url = atob(url);
+        if (url.startsWith('/')) {
+            $('#loadContentModal').load(url, function (data, status) {
+                if (status === "error") {
+                    window.location.reload();
+                } else {
+                    $('#loadContentModal ').modal('show');
+                }
 
-        });
+            });
+        }
+
     }
 });
 
 $(document).ready(function () {
+
     $('.switchDarkmode').change(function (e) {
         var val = 0;
         if ($(this).prop('checked')) {
@@ -73,7 +80,8 @@ $(document).ready(function () {
     }
     initGenerell();
     initDropDown();
-
+    initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
+    initListSearch();
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
         $('#sidebar').removeClass('active');
@@ -90,11 +98,11 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    $('.flatpickr').flatpickr({
-        minDate: "today",
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
-    });
+    // $('.flatpickr').flatpickr({
+    //     minDate: "today",
+    //     enableTime: true,
+    //     dateFormat: "Y-m-d H:i",
+    // });
     initCopytoClipboard();
 
 });
@@ -111,7 +119,7 @@ $(document).on('click', '.confirmHref', function (e) {
 
         text = 'Wollen Sie die Aktion durchführen?'
     }
-    console.log(text);
+
     $.confirm({
         title: 'Bestätigung',
         content: text,
@@ -137,6 +145,7 @@ $(document).on('click', '.confirmHref', function (e) {
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
+    console.log('1.5');
     var url = $(this).attr('href');
     $('#loadContentModal').load(url, function (data, status) {
         if (status === "error") {
@@ -149,7 +158,6 @@ $(document).on('click', '.loadContent', function (e) {
 });
 
 function initServerFeatures() {
-
     getMoreFeature($('.moreFeatures').val())
     $('.moreFeatures').change(function () {
         getMoreFeature($(this).val());
@@ -159,22 +167,52 @@ function initServerFeatures() {
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
     $('[data-toggle="popover"]').popover({html: true});
+    initdateTimePicker('.flatpickr');
 
-    $('.flatpickr').flatpickr({
-        minDate: "today",
-        enableTime: true,
-        time_24hr: true,
-        defaultMinute: 0,
-        minuteIncrement: 15,
-        altFormat: 'd.m.Y H:i',
-        dateFormat: 'Y-m-d H:i',
-        altInput: true
-    });
     $('form').submit(function (event) {
         var btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
     });
+    $("#newRoom_form").submit(function(e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $(this);
+        var url = form.attr('action');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                var $res = data;
+                if($res['error'] === false){
+                    if(typeof $res['cookie'] !== 'undefined' ){
+                        for (const [key, value] of Object.entries($res['cookie'])) {
+                            console.log(key, value);
+                            setCookie(key,value,1000);
+                        }
+                    }
+                    window.location.href = $res['redirectUrl'];
+                }else {
+                    $('.formError').remove();
+                    for (var i = 0; i<$res['messages'].length; i++){
+                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">'+$res['messages'][i]+'  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                            '    <span aria-hidden="true">&times;</span>\n' +
+                            '  </button>' +
+                            '</div>')
+                            .insertBefore(form.find('button[type=submit]'))
+                    }
+                    var btn = form.find('button[type=submit]');
+                    btn.find('.fas').remove();
+                    btn.prop("disabled", false)
+                }
+            }
+        });
+    });
+
     $('.generateApiKey').click(function (e) {
         e.preventDefault();
         $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
@@ -188,30 +226,26 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
     });
     if (typeof $('#room_persistantRoom') !== 'undefined') {
         if ($('#room_persistantRoom').prop('checked')) {
-            $('#roomStartForm').collapse('hide');
-            $('#roomStartForm > div:first-of-type > input').removeAttr('required');
-            if ($('#room_totalOpenRooms').prop('checked')){
+            $('#roomStartForm').collapse('hide')
+            if ($('#room_totalOpenRooms').prop('checked')) {
                 $('#totalOpenRoomsOpenTime').collapse('show');
             } else {
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         } else {
-            $('#roomStartForm > div:first-of-type > input').prop('required',true);
-            $('#roomStartForm').collapse('show');
+            $('#roomStartForm').collapse('show')
             $('#totalOpenRoomsOpenTime').collapse('hide');
         }
         $('#room_persistantRoom').change(function () {
             if ($('#room_persistantRoom').prop('checked')) {
-                $('#roomStartForm').collapse('hide');
-                $('#roomStartForm > div:first-of-type > input').removeAttr('required');
-                if ($('#room_totalOpenRooms').prop('checked')){
+                $('#roomStartForm').collapse('hide')
+                if ($('#room_totalOpenRooms').prop('checked')) {
                     $('#totalOpenRoomsOpenTime').collapse('show');
                 } else {
                     $('#totalOpenRoomsOpenTime').collapse('hide');
                 }
             } else {
-                $('#roomStartForm > div:first-of-type > input').prop('required',true);
-                $('#roomStartForm').collapse('show');
+                $('#roomStartForm').collapse('show')
                 $('#totalOpenRoomsOpenTime').collapse('hide');
             }
         })
@@ -245,25 +279,19 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         })
     }
     initCopytoClipboard();
-
     initSearchUser();
     initServerFeatures();
     initRepeater();
     initKeycloakGroups();
     initAddressGroupSearch();
-    if(getCookie('room_server')){
-        $('#room_server').val(getCookie('room_server'))
+    if (document.getElementById("lineChart") !== null) {
+        var ctx = document.getElementById("lineChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
     }
-    $('#room_server').change(function () {
-        console.log($(this).val());
-        setCookie('room_server', $(this).val(), 1000);
-    })
-    var ctx = document.getElementById("lineChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: options
-    });
 });
 $(document).on('click', '.directSend', function (e) {
     var $url = $(this).prop('href');
@@ -274,6 +302,44 @@ $(document).on('click', '.directSend', function (e) {
     $.get($url, function () {
         $(target).closest('div').load($targetUrl + ' ' + target);
     })
+});
+$(document).on('click', '.directSendWithConfirm', function (e) {
+    e.preventDefault();
+    var $url = $(this).prop('href');
+    var $targetUrl = $(this).data('url');
+    var target = $(this).data('target');
+
+    var text = $(this).data('text');
+    if (typeof text === 'undefined') {
+        text = 'Wollen Sie die Aktion durchführen?'
+    }
+
+    $.confirm({
+        title: 'Bestätigung',
+        content: text,
+        theme: 'material',
+        buttons: {
+            confirm: {
+                text: 'OK', // text for button
+                btnClass: 'btn-outline-danger btn', // class for the button
+                action: function () {
+                    $.get($url, function () {
+                        $(target).closest('div').load($targetUrl + ' ' + target, function () {
+                            initSearchUser();
+                        });
+
+                    })
+                },
+
+
+            },
+            cancel: {
+                text: 'Abbrechen', // text for button
+                btnClass: 'btn-outline-primary btn', // class for the button
+            },
+        }
+    });
+
 });
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
@@ -325,7 +391,6 @@ function getMoreFeature(id) {
             }
         })
     }
-
 }
 
 function setCookie(cname, cvalue, exdays) {

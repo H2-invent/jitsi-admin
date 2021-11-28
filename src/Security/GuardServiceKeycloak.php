@@ -12,6 +12,7 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -24,18 +25,21 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class GuardServiceKeycloak extends SocialAuthenticator
 {
     use TargetPathTrait;
+
     private $clientRegistry;
     private $em;
     private $router;
     private $tokenStorage;
     private $userManager;
+    private $paramterBag;
 
-    public function __construct(TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    public function __construct(ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->router = $router;
         $this->tokenStorage = $tokenStorage;
+        $this->paramterBag = $parameterBag;
     }
 
     public function supports(Request $request)
@@ -46,7 +50,6 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
     public function getCredentials(Request $request)
     {
-
         return $this->fetchAccessToken($this->getauth0Client());
     }
 
@@ -55,60 +58,78 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
         /** @var KeycloakUser $keycloakUser */
         $keycloakUser = $this->getauth0Client()->fetchUserFromToken($credentials);
-        $email = $keycloakUser->getEmail();
+
+        try {
+            //When the keycloak USer delivers a
+            $email = $keycloakUser->getEmail();
+        } catch (\Exception $e) {
+            try {
+                $email = $keycloakUser->toArray()['preferred_username'];
+            } catch (\Exception $e) {
+
+            }
+
+        }
         $id = $keycloakUser->getId();
         $firstName = $keycloakUser->toArray()['given_name'];
         $lastName = $keycloakUser->toArray()['family_name'];
+        $username = isset($keycloakUser->toArray()['preferred_username']) ? $keycloakUser->toArray()['preferred_username'] : null;
         $groups = null;
-        if(isset($keycloakUser->toArray()['groups'])){
+        if (isset($keycloakUser->toArray()['groups'])) {
             $groups = $keycloakUser->toArray()['groups'];
         }
-        // 1) have they logged in with keycloak befor then login the user
+        // 1) have they logged in with keycloak before then login the user
         $existingUser = $this->em->getRepository(User::class)->findOneBy(array('keycloakId' => $id));
         if ($existingUser) {
             $existingUser->setLastLogin(new \DateTime());
             $existingUser->setEmail($email);
             $existingUser->setFirstName($firstName);
             $existingUser->setLastName($lastName);
-            $existingUser->setUsername($email);
+            $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
             $this->em->flush();
             return $existingUser;
         }
 
-        // 1) it is an old USer from FOS USer time never loged in from keycloak
+        // 2) it is an USer which was invited via the invitiation email or the user is a synced user from the LDAP. This USer tries now to get an access via keycloak
         $existingUser = null;
         $existingUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $email));
+        if (!$existingUser && $username !== null) {
+            $existingUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $username));
+        }
         if ($existingUser) {
             $existingUser->setKeycloakId($id);
             $existingUser->setLastLogin(new \DateTime());
             $existingUser->setEmail($email);
             $existingUser->setFirstName($firstName);
             $existingUser->setLastName($lastName);
-            $existingUser->setUsername($email);
+            $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
             $this->em->flush();
             return $existingUser;
         }
 
-        // the user never logged in with this email adress or keycloak
-        $newUser = new User();
-        $newUser->setPassword('123')
-            ->setFirstName($firstName)
-            ->setLastName($lastName)
-            ->setUuid($email)
-            ->setEmail($email)
-            ->setCreatedAt(new \DateTime())
-            ->setLastLogin(new \DateTime())
-            ->setKeycloakId($id)
-            ->setUsername($email)
-            ->setGroups($groups);
-        $this->em->persist($newUser);
-        $this->em->flush();
-        return $newUser;
-
+        // the user never logged in with this email adress neither keycloak
+        if ($this->paramterBag->get('strict_allow_user_creation') === 1) {
+            // if the creation of a user is allowed from the security policies
+            $newUser = new User();
+            $newUser->setPassword('123')
+                ->setFirstName($firstName)
+                ->setLastName($lastName)
+                ->setUuid($email)
+                ->setEmail($email)
+                ->setCreatedAt(new \DateTime())
+                ->setLastLogin(new \DateTime())
+                ->setKeycloakId($id)
+                ->setUsername($username)
+                ->setGroups($groups);
+            $this->em->persist($newUser);
+            $this->em->flush();
+            return $newUser;
+        }
+        return null;
     }
 
     /**

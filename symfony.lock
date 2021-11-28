@@ -1,4 +1,10 @@
 {
+    "cron/cron": {
+        "version": "1.5.1"
+    },
+    "cron/cron-bundle": {
+        "version": "2.6.0"
+    },
     "dama/doctrine-test-bundle": {
         "version": "4.0",
         "recipe": {
@@ -10,6 +16,9 @@
         "files": [
             "./config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
+    },
+    "dbrekelmans/bdi": {
+        "version": "0.3"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -188,6 +197,9 @@
     },
     "php": {
         "version": "7.4"
+    },
+    "php-webdriver/webdriver": {
+        "version": "1.11.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.1.0"
@@ -378,9 +390,6 @@
             "./config/packages/dev/debug.yaml"
         ]
     },
-    "symfony/debug-pack": {
-        "version": "v1.0.9"
-    },
     "symfony/dependency-injection": {
         "version": "v4.4.8"
     },
@@ -464,6 +473,9 @@
     "symfony/intl": {
         "version": "v4.4.8"
     },
+    "symfony/ldap": {
+        "version": "v5.3.0"
+    },
     "symfony/mailer": {
         "version": "4.3",
         "recipe": {
@@ -509,8 +521,14 @@
     "symfony/options-resolver": {
         "version": "v4.4.8"
     },
-    "symfony/orm-pack": {
-        "version": "v1.0.8"
+    "symfony/panther": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "877d853a05c6713665a2f4b954734592680abff6"
+        }
     },
     "symfony/password-hasher": {
         "version": "v5.3.3"
@@ -559,9 +577,6 @@
     },
     "symfony/process": {
         "version": "v4.4.8"
-    },
-    "symfony/profiler-pack": {
-        "version": "v1.0.5"
     },
     "symfony/property-access": {
         "version": "v4.4.8"
@@ -613,9 +628,6 @@
     "symfony/serializer": {
         "version": "v4.4.8"
     },
-    "symfony/serializer-pack": {
-        "version": "v1.0.3"
-    },
     "symfony/service-contracts": {
         "version": "v2.0.1"
     },
@@ -641,9 +653,6 @@
     },
     "symfony/templating": {
         "version": "v4.4.8"
-    },
-    "symfony/test-pack": {
-        "version": "v1.0.7"
     },
     "symfony/translation": {
         "version": "3.3",
@@ -677,9 +686,6 @@
             "./config/packages/twig.yaml",
             "./templates/base.html.twig"
         ]
-    },
-    "symfony/twig-pack": {
-        "version": "v1.0.0"
     },
     "symfony/validator": {
         "version": "4.3",

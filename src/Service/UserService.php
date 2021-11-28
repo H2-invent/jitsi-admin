@@ -117,7 +117,7 @@ class UserService
     {
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
+        $subject = $this->translator->trans('[Erinnerung] Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
         $this->notificationService->sendCron($content, $subject, $user, $room->getServer(), $room);
         $url = $this->url->generate('join_index_no_slug', array(), UrlGeneratorInterface::ABSOLUTE_URL);
         if ($this->licenseService->verify($room->getServer())) {
@@ -126,7 +126,7 @@ class UserService
         $this->pushService->generatePushNotification(
             $subject,
             $this->translator->trans('Die Videokonferenz {name} von startet gleich.',
-                array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')),
                     '{name}' => $room->getName())),
             $user,
             $url

@@ -54,7 +54,7 @@ class RepeaterService
         'December',
     );
 
-    public function __construct(IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager  )
+    public function __construct(IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager)
     {
         $this->icsService = $icsService;
         $this->em = $entityManager;
@@ -294,7 +294,7 @@ class RepeaterService
                     $data->removeUserAttribute($data2);
                     $this->em->remove($data2);
                 }
-                foreach ($data->getSchedulings() as $data2){
+                foreach ($data->getSchedulings() as $data2) {
                     $data->removeScheduling($data2);
                     $this->em->remove($data2);
                 }
@@ -309,7 +309,7 @@ class RepeaterService
         return $repeat;
     }
 
-    public function replaceRooms(Rooms $rooms):Repeat
+    public function replaceRooms(Rooms $rooms): Repeat
     {
 
         $repeater = $rooms->getRepeater();
@@ -347,9 +347,9 @@ class RepeaterService
             $data->setRoom($newPrototype);
             $this->em->persist($data);
         }
-        $newPrototype->setSequence(($newPrototype->getSequence())+1);
+        $newPrototype->setSequence(($newPrototype->getSequence()) + 1);
 
-        foreach ($oldPrototype->getSchedulings() as $data2){
+        foreach ($oldPrototype->getSchedulings() as $data2) {
             $oldPrototype->removeScheduling($data2);
             $this->em->remove($data2);
         }
@@ -372,9 +372,9 @@ class RepeaterService
         $this->em->flush();
     }
 
-    function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = array(), $method = 'REQUEST',$users = array())
+    function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = array(), $method = 'REQUEST', $users = array())
     {
-        if(sizeof($users) === 0){
+        if (sizeof($users) === 0) {
             $users = $repeat->getPrototyp()->getPrototypeUsers();
         }
         foreach ($users as $user) {
@@ -383,18 +383,21 @@ class RepeaterService
             $attachement = array();
             $attachement[] = array('type' => 'text/calendar', 'filename' => $repeat->getPrototyp()->getName() . '.ics', 'body' => $ics);
             $this->mailer->sendEmail(
-                $user->getEmail(), $subject,
+                $user,
+                $subject,
                 $this->twig->render($template, $templateAttr),
                 $repeat->getPrototyp()->getServer(),
                 $repeat->getPrototyp()->getModerator()->getEmail(),
+                $repeat->getPrototyp(),
                 $attachement
             );
         }
     }
 
-    private function createIcs(Repeat $repeat, User $user):string
+    private function createIcs(Repeat $repeat, User $user): string
     {
-      return $this->icalService->getIcalStringfromRepeater($repeat,$user);
+        $this->icalService->setRooms($repeat->getRooms()->toArray());
+        return $this->icalService->getIcalString($user);
     }
 
     public function addUserRepeat(Repeat $repeat)
@@ -431,45 +434,46 @@ class RepeaterService
         }
         $this->em->flush();
     }
-    public function checkData(Repeat $repeat):bool
+
+    public function checkData(Repeat $repeat): bool
     {
         switch ($repeat->getRepeatType()) {
             case 0:
-                if (!$repeat->getRepeaterDays()){
+                if (!$repeat->getRepeaterDays()) {
                     return false;
                 }
                 break;
             case 1:
-                if (!$repeat->getRepeaterWeeks()){
+                if (!$repeat->getRepeaterWeeks()) {
                     return false;
                 }
                 break;
             case 2:
-                if (!$repeat->getRepeatMontly()){
+                if (!$repeat->getRepeatMontly()) {
                     return false;
                 }
                 break;
             case 3:
-                if ($repeat->getRepatMonthRelativNumber()=== null ){
+                if ($repeat->getRepatMonthRelativNumber() === null) {
                     return false;
                 }
-                if ($repeat->getRepatMonthRelativWeekday()=== null){
+                if ($repeat->getRepatMonthRelativWeekday() === null) {
                     return false;
                 }
-                if ($repeat->getRepeatMonthlyRelativeHowOften()=== null){
+                if ($repeat->getRepeatMonthlyRelativeHowOften() === null) {
                     return false;
                 }
                 break;
             case 4:
-                if (!$repeat->getRepeatYearly() ){
+                if (!$repeat->getRepeatYearly()) {
                     return false;
                 }
                 break;
             case 5:
-                if ($repeat->getRepeatYearlyRelativeHowOften()=== null ||
-                    $repeat->getRepeatYearlyRelativeNumber()=== null ||
-                    $repeat->getRepeatYearlyRelativeWeekday()=== null ||
-                    $repeat->getRepeatYearlyRelativeMonth()=== null){
+                if ($repeat->getRepeatYearlyRelativeHowOften() === null ||
+                    $repeat->getRepeatYearlyRelativeNumber() === null ||
+                    $repeat->getRepeatYearlyRelativeWeekday() === null ||
+                    $repeat->getRepeatYearlyRelativeMonth() === null) {
                     return false;
                 }
                 break;

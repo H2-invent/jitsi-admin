@@ -1,11 +1,11 @@
 {% extends 'email/base.html.twig' %}
 {% block header %}
-    -- {{ server.url }} --
+    -- {{ server.serverName }} --
 {% endblock %}
 
 {% block content %}
     <h4 class="text-center">
-        {% trans with {'{url}':server.url } %}Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen{% endtrans %}
+        {% trans with {'{url}':server.serverName } %}Sie können jetzt Konferenzen mit dem Jitsi Server {url} erstellen{% endtrans %}
     </h4>
     <b>
         {{'Hallo!'|trans}}

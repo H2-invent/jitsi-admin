@@ -1,29 +1,37 @@
-
+<div class="row">
+    <div class="col mt-4">
+        <div class="form-group">
+            <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
+        </div>
+    </div>
+</div>
 <ul class="list-group">
     {% set name = null %}
-    {% for u in app.user.addressbook|sort((a, b) => a.email|lower <=> b.email|lower) %}
-        {% if u.email|first|upper != name %}
-            {{ u.email|first|upper }}
-            {% set name = u.email|first|upper %}
+    {% for u in app.user.addressbook|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}
+        {% if u|nameOfUser|first|upper != name %}
+            {{ u|nameOfUser|first|upper }}
+            {% set name = u|nameOfUser|first|upper %}
         {% endif %}
 
         <li class="list-group-item" style="display: flex; justify-content: space-between">
-            <span class="breakWord">{{ u.email }} </span>
+            <span class="breakWord">{{ u|nameOfUser }} </span>
             <span class="noBreak">
-                                    <a class="caretdown dropdown-toggle mr-1 text-success" data-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
+        <a class="caretdown dropdown-toggle mr-1 text-success" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-phone"></i>
                                     </a>
-                                    <div class="dropdown-menu">
+        <div class="dropdown-menu">
+            {% for s in servers %}
+                <a class="dropdown-item confirmHref"
+                   data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
+                   href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.serverName }}</a>
+            {% endfor %}
 
-                                         {% for s in servers %}
-                                             <a class="dropdown-item confirmHref"
-                                                data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                                                href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.url }}</a>
-
-                                         {% endfor %}
-                                    </div>
-                                    <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
-                                                class="fa fa-trash text-danger"></i> </a></span></li>
+        </div>
+        {% if theme == false or theme.trashOnAdressBook == true %}
+            <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
+                        class="fa fa-trash text-danger"></i> </a>
+        {% endif %}
+        </span></li>
     {% endfor %}
 </ul>

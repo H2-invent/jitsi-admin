@@ -12,25 +12,25 @@
             <p class="small">
                 <i class="fa fa-crown"></i> {{ 'Zum Moderator ernennen'|trans }}
                 {% if room.dissallowScreenshareGlobal %}
-                    <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu Teilen'|trans }}
+                    <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
                 {% endif %}
             </p>
-            <div id="atendeeList">
-                <ul>
-                    <li>{{ room.moderator.email }} <span class="small">({{ 'Organisator'|trans }})</span></li>
+            <div>
+                <ul id="atendeeList">
+                    <li>{{ room.moderator|nameOfUser }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                     {% for user in room.user %}
                         {% if user != room.moderator %}
-                            <li>{{ user.email }}
+                            <li>{{ user|nameOfUser }}
 
 
                                 <a class="small directSend {% if roomPermissions(user,room).moderator == true %}text-success{% endif %}"
                                    href="{{ path('room_add_moderator',{'room':room.id,'user':user.id}) }}"
                                    data-text="
-{% if roomPermissions(user,room).moderator == false %}
-{{ 'Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?'|trans }}
-{% else %}
-{{ 'Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?'|trans }}
-{% endif %}
+                                    {% if roomPermissions(user,room).moderator == false %}
+                                    {{ 'Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?'|trans }}
+                                    {% else %}
+                                    {{ 'Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?'|trans }}
+                                    {% endif %}
 "
                                    data-target="#atendeeList"
                                    data-url="{{ path('room_add_user',{'room':room.id}) }}"
@@ -67,9 +67,13 @@
                                     ><i class="far fa-comments"></i></a>
                                 {% endif %}
 
-                                <a class="small confirmHref"
-                                   href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"><i
-                                            class="fa fa-trash"></i> </a>
+                                <a class="small directSendWithConfirm"
+                                   href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
+                                   data-target="#atendeeList"
+                                   data-text="{{ 'Wollen Sie den Teilnehmer wirklich löschen?'|trans }}"
+                                   data-url="{{ path('room_add_user',{'room':room.id}) }}">
+                                    <i class="fa fa-trash "></i>
+                                </a>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -77,61 +81,27 @@
 
                 {% if room.waitinglists|length > 0 %}
 
-                <b>{{ 'Warteliste'|trans }}</b>
-                <hr>
-                <ul>
-                    {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
-                        <li>{{ w.user.email }}
-                            <a class="small directSend"
-                               href="{{ path('accept_waitingList',{'id':w.id}) }}"
-                               data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
-                               data-target="#atendeeList"
-                               data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                            ><i class="fa fa-check"></i>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                    <b>{{ 'Warteliste'|trans }}</b>
+                    <hr>
+                    <ul>
+                        {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
+                            <li>{{ w.user.email }}
+                                <a class="small directSend"
+                                   href="{{ path('accept_waitingList',{'id':w.id}) }}"
+                                   data-text="{{ 'Wollen Sie den Teilnehmer wirklich zur Konferenz hinzufügen'|trans }}"
+                                   data-target="#atendeeList"
+                                   data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                ><i class="fa fa-check"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
 
+
+                {% endif %}
             </div>
-            {% endif %}
             <hr>
-            <div class="row mb-2">
-                <div class="col-md-6">
-                    <label for="searchUser">{{ 'Teilnehmer Suchen'|trans }}</label>
-                    <input autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
-                           href="{{ path('search_participant') }}"
-                           data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                    <div class="dropdown-menu" id="participantUser">
-                        <a class="dropdown-item" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
-                    </div>
-                </div>
-
-            </div>
-
-            {{ form_start(form) }}
-            <div class="row">
-
-                <div class="col-lg-6">
-                    {{ form_row(form.member) }}
-                </div>
-                <div class="col-lg-6">
-                    {{ form_row(form.moderator) }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-7">
-                    {{ form_row(form.submit) }}
-                </div>
-                <div class="col-md-5">
-                    <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
-                        {{ 'Abbrechen' | trans }}
-                    </a>
-                </div>
-            </div>
-            {{ form_end(form) }}
+            {{ include('room/__addAtendee.twig') }}
         </div>
     </div>
 </div>

@@ -44,8 +44,5 @@ class CronSendReminderCommand extends Command
             $io->error('Fehler');
             return Command::FAILURE;
         }
-
-
-
     }
 }

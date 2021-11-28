@@ -42,7 +42,7 @@ class UserServiceRemoveRoom
 
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
-        $subject = $this->translator->trans('Videokonferenz abgesagt');
+        $subject = $this->translator->trans('[Videokonferenz] Videokonferenz {name} abgesagt',array('{name}'=>$room->getName()));
         $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
         $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room, $attachement);
@@ -61,7 +61,7 @@ class UserServiceRemoveRoom
     function removePersistantRoom(User $user, Rooms $room)
     {
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
-        $subject = $this->translator->trans('Videokonferenz abgesagt');
+        $subject = $this->translator->trans('[Videokonferenz] Videokonferenz abgesagt');
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
@@ -79,7 +79,7 @@ class UserServiceRemoveRoom
     {
 
         $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room,]);
-        $subject = $this->translator->trans('Terminplanung abgesagt');
+        $subject = $this->translator->trans('[Terminplanung] Terminplanung abgesagt');
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
         return true;
     }

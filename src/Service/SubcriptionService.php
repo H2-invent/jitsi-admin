@@ -91,7 +91,7 @@ class SubcriptionService
             }
             $this->notifier->sendNotification(
                 $this->twig->render('email/subscriptionToRoom.html.twig', array('room' => $rooms, 'subsription' => $subscriber)),
-                $this->translator->trans('Bestätigung ihrer Anmeldung zur Konferenz: {name}', array('{name}' => $rooms->getName())),
+                $this->translator->trans('[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}', array('{name}' => $rooms->getName())),
                 $user,
                 $rooms->getServer(),
                 $rooms

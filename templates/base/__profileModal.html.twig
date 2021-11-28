@@ -11,42 +11,73 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>
-                    {{ 'Name'|trans }}: {{ app.user.firstName }} {{ app.user.lastName }}<br>
-                    {{ 'Email'|trans}}: {{ app.user.email }}
+                <p> {% if theme != false %}
+                    {{ theme.nameIdentifier }}
+                    {% else %}
+                    {{ 'Name'|trans }}
+                    {% endif %}
+                    :  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
+                    {% if theme != false %}
+                    {{ theme.usernameIdentifier }}
+                    {% else %}
+                    {{ 'Username'|trans }}
+                    {% endif %}
+                    : {{ app.user.userIdentifier }}<br>
+                    {% if allowTimeZoneSwitch == 1  %}
+                    {% if  theme != false %}
+                        {{ theme.timeZoneIdentifier }}
+                    {% else %}
+                        {{ 'Zeitzone'|trans }}
+                        {% endif %}
+                        : {{ app.user.timeZone }}
+                    {% endif %}
                 </p>
                 <div class="custom-control custom-switch mb-2">
                     <input type="checkbox" class="custom-control-input switchDarkmode"
-                           {{ app.request.cookies.get('DARK_MODE') }}
+                            {{ app.request.cookies.get('DARK_MODE') }}
                             {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
                                 checked
-                            {% endif%}
+                            {% endif %}
                            id="switchDarkmode">
                     <label class="custom-control-label" for="switchDarkmode">{{ 'Darkmode'|trans }}</label>
                 </div>
+                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
                 <div class="row">
                     <div class="col-lg-12 mt-3">
                         <p>{{ 'iCal Link'|trans }}</p>
                         <div class="input-group mb-3">
-                            <input id="linkical" readonly type="text" class="form-control" value="{{ absolute_url(path('ical',{'id':app.user.uid})) }}">
+                            <input id="linkical" readonly type="text" class="form-control"
+                                   value="{{ absolute_url(path('ical',{'id':app.user.uid})) }}">
                             <div class="input-group-append">
-                                <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink" type="button"  data-clipboard-target="#linkical" >   <i class="far fa-clipboard"></i></button>
+                                <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink"
+                                        type="button" data-clipboard-target="#linkical"><i class="far fa-clipboard"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <a class="btn btn-primary btn-sm"
-                   href="{{ path('connect_keycloak_edit') }}"
-                   target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a>
-                <a class="btn btn-primary btn-sm"
-                   href="{{ path('connect_keycloak_password') }}"
-                   target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
-
+                {% endif %}
+                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
+                    <a class="btn btn-primary btn-sm"
+                       href="{{ path('connect_keycloak_edit') }}"
+                       target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a>
+                {% endif %}
+                {% if theme == false  or (theme is not null and theme.profileAllowPasswortreset == true  ) %}
+                    <a class="btn btn-primary btn-sm"
+                       href="{{ path('connect_keycloak_password') }}"
+                       target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
+                {% endif %}
+                {% if allowTimeZoneSwitch == 1 %}
+                <a class="btn btn-primary btn-sm loadContent"
+                   href="{{ path('time_zone_change') }}"
+                   target="_blank">{% trans %}Zeitzone ändern{% endtrans %}</a>
+                {% endif %}
             </div>
 
             <div class="modal-footer">
-                <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">{{ 'Logout'|trans }}</a>
+                {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
+                    <a href="{{ path('app_logout') }}" class="btn btn-danger btn-sm">{{ 'Logout'|trans }}</a>
+                {% endif %}
             </div>
         </div>
     </div>
