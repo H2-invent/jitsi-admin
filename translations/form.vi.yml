@@ -1,23 +1,23 @@
 ---
-label.konferenzId: ID phòng họp
+label.konferenzId: Konferenz-ID
 label.email: Địa chỉ Email
-label.name: Tên
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen TEILNEHMERN eingeben
-label.teilnehmerSpeichern: Gửi email lời mời
+label.name: Ihr Name
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: Nhập địa chỉ email công ty
-help.emailTextfeld: Nhiều địa chỉ email có thể được thêm vào cùng một lúc. Mỗi địa chỉ email phải được viết trên một dòng mới.
+help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
 label.organisatorhinzufuegen: Thêm tổ chức
-label.serverKonferenz: Máy chủ Jitsi
+label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Tên hội nghị
 label.start: Bắt đầu
 label.dauerKonferenz: Thời lượng của hội nghị
-label.nurRegistriertenutzer: Chỉ những người đã đăng ký mới được phép tham gia hội nghị
+label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
 label.speichern: Lưu
 option.15min: 15 Phút
 option.30min: 30 Phút
 option.45min: 45 Phút
 option.60min: 60 Phút
-option.75min: 1:15 Stunde
+option.75min: 1:15 Stunden
 option.90min: 1:30 Stunden
 option.105min: 1:45 Stunden
 option.120min: 2 Giờ
@@ -45,8 +45,8 @@ option:
   daily: Täglich
   montly: Monatlich
   yearly: Jährlich
-  montlyRelative: Monatlich Relativ
-  yearlyRelative: Jährlich Relativ
+  montlyRelative: Monatlich flexibel festlegen
+  yearlyRelative: Jährlich flexibel festlegen
   first: Erster
   second: Zweiter
   third: Dritter
@@ -65,14 +65,17 @@ option:
   octobre: Oktober
   novembre: November
   decembre: Dezember
-lable.serverUrl: Máy chủ Jitsi URL
+  user: Im User Claim
+  root: Im Root Claim
+lable.serverUrl: Jitsi Meet Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
-label.scheduleMeeting: Sắp xếp cuộc họp
+label.scheduleMeeting: Termin vorschlagen
 help:
-  serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
-  featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
-  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
+  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
+  featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
+  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
+  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Tham gia với App
   beitretenBrowser: Tham gia với trình duyệt
@@ -80,48 +83,52 @@ label:
   serverSmtpHostPort: SMTP-Port
   serverSmtpEncryption: Mã hóa
   serverSmtpUsername: Tên người dùng - SMTP
-  serverSmtpPassword: Mật khẩu SMTP
+  serverSmtpPassword: SMTP-Passwort
   serverSmtpSenderEmail: Địa chỉ Email
-  serverSmtpSenderName: Tên người gửi
+  serverSmtpSenderName: Absendername
   serverLintLogo: Đường dẫn biểu tượng
   serverPrivacyPolicy: Thông tin bảo vệ dữ liệu
-  serverEmailHeader: Tiêu đề
-  serverEmailBody: Nội dung
-  serverLicenseKey: Giấy phép Jitsi-Admin
+  serverEmailHeader: Individuelle Überschrift für E-Mail
+  serverEmailBody: Individueller Content für E-Mail
+  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
   apiKey: Khóa API cho máy chủ này
   agenda: Chương trình nghị sự cho cuộc họp này (đánh dấu)
-  staticBackgroundColor: Đặt màu nền trên trang tham dự
-  schowStaticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
-  featureEnalbeByJwt: "Tính năng \"Token - JWT\" được kích hoạt trên máy chủ"
-  dissallowScreenshareGlobal: Chỉ người kiểm duyệt mới có thể chia sẻ màn hình
-  dissallowPrivateMessage: Chỉ người kiểm duyệt mới có thể gửi tin nhắn riêng tư cho người tham dự
-  puplicRoom: Einladungslinks freischalten
-  showRoomOnJoinpage: Hiển thị hội nghị trên trang tham gia
+  staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
+  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
+  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
+  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
+  puplicRoom: Link zur Einladung freischalten
+  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Đăng nhập
   vorname: Tên
   nachname: Họ
-  maxParticipants: Số lượng người tham gia tối đa cho phép
+  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
   waitinglist: Kích hoạt danh sách chờ
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
   repetation: Endet nach x Terminen
   repeatType: Serienmuster
-  repeaterDays: Nach X Tagen wiederholen
-  repeaterWeeks: Nach X Wochen wiederholen
-  repeatMontly: Nach X Monaten wiederholen
-  repeatYearly: Nach X Jahren wiederholen
-  montlyRelativeNumber: Wievielte Wochentag im Monat
+  repeaterDays: Nach x Tagen wiederholen
+  repeaterWeeks: Nach x Wochen wiederholen
+  repeatMontly: Nach x Monaten wiederholen
+  repeatYearly: Nach x Jahren wiederholen
+  montlyRelativeNumber: Wie vielter Wochentag im Monat
   montlyRelativeWeekday: Wochentag
   montlyRelativeMonth: Monat
-  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
-  persistantRoom: Diese Konferenz hat kein Datum und ist immer verfügbar
-  totalOpenRooms: Teilnehmerliste deaktivieren. Beitreten mit Teilnehmerlink.
+  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
+  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
+  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
   totalOpenRoomsOpenTime: Raumöffnungszeit
   addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder
+  addressgroupMember: Gruppenmitglieder auswählen
+  jwtModeratorPosition: Moderatorposition im JWT Token
+  timezone: Zeitzone
+  serverName: Servername
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: Không
 placeholder:
-  maxParticipants: Không giới hạn
+  maxParticipants: Keine Begrenzung
+  chooseTime: Zeit und Datum auswählen
