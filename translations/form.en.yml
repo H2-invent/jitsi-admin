@@ -1,13 +1,13 @@
 ---
-label.konferenzId: Konferenz-ID
+label.konferenzId: Conference ID
 label.email: Email address
-label.name: Ihr Name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.name: Your name
+label.teilnehmerEmailhinzufuegen: Enter email addresses of new participants
 label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: Enter email address of organizer
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
 label.organisatorhinzufuegen: Add organizer
-label.serverKonferenz: Jitsi Meet Server
+label.serverKonferenz: Jitsi meet server
 label.konferenzName: Conference name
 label.start: Start
 label.dauerKonferenz: Conference duration
@@ -17,7 +17,7 @@ option.15min: 15 minutes
 option.30min: 30 minutes
 option.45min: 45 minutes
 option.60min: 1 hour
-option.75min: 1:15 Stunden
+option.75min: 1:15 hours
 option.90min: 1:30 hours
 option.105min: 1:45 hours
 option.120min: 2 hours
@@ -67,12 +67,12 @@ option:
   decembre: December
   user: Im User Claim
   root: Im Root Claim
-lable.serverUrl: Jitsi Meet Server URL
+lable.serverUrl: Jitsi Meet server url
 label.appId: App ID
 label.appSecret: App secret
-label.scheduleMeeting: Termin vorschlagen
+label.scheduleMeeting: Suggest time
 help:
-  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
+  serverUrl: Enter without "https://" (such as meet.jit.si)
   featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
   teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
   serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
@@ -83,37 +83,37 @@ label:
   serverSmtpHostPort: SMTP Port
   serverSmtpEncryption: Encryption
   serverSmtpUsername: SMTP Username
-  serverSmtpPassword: SMTP-Passwort
+  serverSmtpPassword: SMTP password
   serverSmtpSenderEmail: From E-Mail
-  serverSmtpSenderName: Absendername
+  serverSmtpSenderName: Sender name
   serverLintLogo: Link to logo
   serverPrivacyPolicy: Privacy policy for this server
-  serverEmailHeader: Individuelle Überschrift für E-Mail
-  serverEmailBody: Individueller Content für E-Mail
-  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
+  serverEmailHeader: Individual email subject
+  serverEmailBody: Individual email content
+  serverLicenseKey: Enter Jitsi-Admin license key
   apiKey: API-Key for this server
   agenda: Short agenda for this meeting (markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
+  staticBackgroundColor: Set background color for joinpage
+  schowStaticBackgroundColor: Show static color instead of pictures on joinpage
   featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
   puplicRoom: Link zur Einladung freischalten
-  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
+  showRoomOnJoinpage: Show conference on joinpage
   subscribe: Subscribe
   vorname: Firstname
   nachname: Lastname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
+  maxParticipants: Allow maximum number of participants
   waitinglist: Activate waiting list
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Weekday
   repetation: Ends after x appointments
   repeatType: Seriespattern
-  repeaterDays: Nach x Tagen wiederholen
-  repeaterWeeks: Nach x Wochen wiederholen
-  repeatMontly: Nach x Monaten wiederholen
-  repeatYearly: Nach x Jahren wiederholen
-  montlyRelativeNumber: Wie vielter Wochentag im Monat
+  repeaterDays: Repeat after x days
+  repeaterWeeks: Repeat after x weeks
+  repeatMontly: Repeat after x month
+  repeatYearly: Repeat after x years
+  montlyRelativeNumber: X-th weekday in month
   montlyRelativeWeekday: Weekday
   montlyRelativeMonth: Month
   repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
@@ -121,14 +121,14 @@ label:
   totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
   totalOpenRoomsOpenTime: Room-opening-time
   addressgroupName: Group Name
-  addressgroupMember: Gruppenmitglieder auswählen
+  addressgroupMember: Select group members
   jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
+  timezone: Timezone
+  serverName: Server Name
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: None
 placeholder:
-  maxParticipants: Keine Begrenzung
-  chooseTime: Zeit und Datum auswählen
+  maxParticipants: No limit
+  chooseTime: Pick date and time
