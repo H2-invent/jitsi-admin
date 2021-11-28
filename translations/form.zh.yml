@@ -1,23 +1,23 @@
 ---
-label.konferenzId: 会议编号
+label.konferenzId: Konferenz-ID
 label.email: 邮箱地址
-label.name: 姓名
-label.teilnehmerEmailhinzufuegen: 输入参会者的邮箱
-label.teilnehmerSpeichern: 发送邀请邮件
+label.name: Ihr Name
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: 输入组织者的电子邮件地址
-help.emailTextfeld: 可以同时添加多个电子邮件地址。每个电子邮件地址必须单独一行。
+help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
 label.organisatorhinzufuegen: 添加组织者
-label.serverKonferenz: Jitsi meet 服务器
+label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: 会议名称
 label.start: 开始
 label.dauerKonferenz: 会议持续时间
-label.nurRegistriertenutzer: 仅允许注册用户加入会议
+label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
 label.speichern: 保存
 option.15min: 15分钟
 option.30min: 30分钟
 option.45min: 45分钟
 option.60min: 1小时
-option.75min: 1小时15分
+option.75min: 1:15 Stunden
 option.90min: 1小时30分
 option.105min: 1小时45分
 option.120min: 2 小时
@@ -45,8 +45,8 @@ option:
   daily: Täglich
   montly: Monatlich
   yearly: Jährlich
-  montlyRelative: Monatlich Relativ
-  yearlyRelative: Jährlich Relativ
+  montlyRelative: Monatlich flexibel festlegen
+  yearlyRelative: Jährlich flexibel festlegen
   first: Erster
   second: Zweiter
   third: Dritter
@@ -65,14 +65,17 @@ option:
   octobre: Oktober
   novembre: November
   decembre: Dezember
-lable.serverUrl: Jitsi-Meet服务器网址
+  user: Im User Claim
+  root: Im Root Claim
+lable.serverUrl: Jitsi Meet Server URL
 label.appId: 应用 ID
 label.appSecret: App密钥
-label.scheduleMeeting: 进行预约
+label.scheduleMeeting: Termin vorschlagen
 help:
-  serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）
-  featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
-  teilnehmerEmailhinzufuegenModerator: 可以同时添加多个邮箱。每个邮箱必须写入新的一行。
+  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
+  featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
+  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
+  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
@@ -80,48 +83,52 @@ label:
   serverSmtpHostPort: SMTP端口
   serverSmtpEncryption: 加密
   serverSmtpUsername: SMTP用户
-  serverSmtpPassword: SMTP密码
+  serverSmtpPassword: SMTP-Passwort
   serverSmtpSenderEmail: 发件人电子邮件
-  serverSmtpSenderName: 发件人姓名
+  serverSmtpSenderName: Absendername
   serverLintLogo: 链接到Logo
   serverPrivacyPolicy: 该服务器的隐私策略
-  serverEmailHeader: 个人电子邮件标题
-  serverEmailBody: 个人电子邮件内容
-  serverLicenseKey: 输入Jitsi-Admin的许可证密钥
+  serverEmailHeader: Individuelle Überschrift für E-Mail
+  serverEmailBody: Individueller Content für E-Mail
+  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
   apiKey: 该服务器的API-Key
   agenda: 本次会议简要议程（如下）
-  staticBackgroundColor: 设计登录页面的背景色
-  schowStaticBackgroundColor: 纯色显示，不显示登录页面上的图片
-  featureEnalbeByJwt: "在服务器上激活\"JWT 启用功能\"插件"
-  dissallowScreenshareGlobal: 只有主持人才能共享屏幕
-  dissallowPrivateMessage: 只有主持人可以各参会者发私信
-  puplicRoom: Einladungslinks freischalten
-  showRoomOnJoinpage: 在登录页面上查看会议
+  staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
+  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
+  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
+  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
+  puplicRoom: Link zur Einladung freischalten
+  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: 订阅
   vorname: 名
   nachname: 姓
-  maxParticipants: 最大参会人数
+  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
   waitinglist: 激活等待列表
-  teilnehmerEmailhinzufuegenModerator: 输入新主持人的邮箱
+  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
   repetation: Endet nach x Terminen
   repeatType: Serienmuster
-  repeaterDays: Nach X Tagen wiederholen
-  repeaterWeeks: Nach X Wochen wiederholen
-  repeatMontly: Nach X Monaten wiederholen
-  repeatYearly: Nach X Jahren wiederholen
-  montlyRelativeNumber: Wievielte Wochentag im Monat
+  repeaterDays: Nach x Tagen wiederholen
+  repeaterWeeks: Nach x Wochen wiederholen
+  repeatMontly: Nach x Monaten wiederholen
+  repeatYearly: Nach x Jahren wiederholen
+  montlyRelativeNumber: Wie vielter Wochentag im Monat
   montlyRelativeWeekday: Wochentag
   montlyRelativeMonth: Monat
-  repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
-  persistantRoom: Diese Konferenz hat kein Datum und ist immer verfügbar
-  totalOpenRooms: Teilnehmerliste deaktivieren. Beitreten mit Teilnehmerlink.
+  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
+  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
+  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
   totalOpenRoomsOpenTime: Raumöffnungszeit
   addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder
+  addressgroupMember: Gruppenmitglieder auswählen
+  jwtModeratorPosition: Moderatorposition im JWT Token
+  timezone: Zeitzone
+  serverName: Servername
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: 无
 placeholder:
-  maxParticipants: 无限制
+  maxParticipants: Keine Begrenzung
+  chooseTime: Zeit und Datum auswählen
