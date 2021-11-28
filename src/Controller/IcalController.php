@@ -30,6 +30,7 @@ class IcalController extends AbstractController
         $response->headers->set('Content-Type', 'text/calendar; charset=utf-8');
         $response->headers->set('Content-Disposition', 'inline; filename="cal.ics"');
         $response->setContent($icalService->getIcal($user));
+
         return $response;
     }
 }

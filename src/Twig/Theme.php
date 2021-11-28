@@ -7,6 +7,7 @@ use App\Entity\MyUser;
 use App\Entity\Server;
 use App\Service\LicenseService;
 use App\Service\MessageService;
+use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -23,14 +24,10 @@ class Theme extends AbstractExtension
 {
 
 
-    private $licenseService;
-    private $parameterBag;
-    private $client;
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    private $themeService;
+    public function __construct(ThemeService $themeService)
     {
-        $this->licenseService = $licenseService;
-        $this->parameterBag = $parameterBag;
-        $this->client = $httpClient;
+        $this->themeService = $themeService;
     }
 
     public function getFunctions(): array
@@ -43,22 +40,6 @@ class Theme extends AbstractExtension
 
     public function getThemeProperties()
     {
-        if($this->parameterBag->get('enterprise_theme_url') != ''){
-            $cache = new FilesystemAdapter();
-            $value = $cache->get('pexels_image', function (ItemInterface $item) {
-                $item->expiresAfter(21600);
-                $response = $this->client->request('GET', $this->parameterBag->get('enterprise_theme_url'))->getContent();
-                $valid = $this->licenseService->verifySignature($response);
-                if($valid) {
-                    $entry = json_decode($response, true);
-                    return $entry['entry'];
-                }else{
-                    return false;
-                }
-            });
-
-                return $value;
-            }
-        return false;
+        return $this->themeService->getTheme();
     }
 }

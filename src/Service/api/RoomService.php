@@ -143,6 +143,7 @@ class RoomService
         foreach ($room->getUser() as $data) {
             $user[] = $data->getEmail();
         }
+        $res['timeZone']=$room->getTimeZoneAuto();
         $res['error']= false;
         $res['teilnehmer'] = $user;
         $res['start'] = $room->getStart()->format('Y-m-dTH:i:s');

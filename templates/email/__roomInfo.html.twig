@@ -12,10 +12,13 @@
     </p>
 {% endif %}
 <p>
-    {{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>
+    {{ 'Moderator'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
     {% if not room.persistantRoom %}
-        {{ 'Datum'|trans }}: {{ room.start|date('d.m.Y') }}<br>
-        {{ 'Startzeit'|trans }}: {{ room.start|date('H:i') }}<br>
+        {% if allowTimeZoneSwitch == 1 %}
+            {{ 'Zeitangaben in Zeitzone'|trans }}: {% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZoneAuto }}{% endif %}<br>
+        {% endif %}
+        {{ 'Datum'|trans }}: {{ room.startwithTimeZone(user)|date('d.m.Y',false) }}<br>
+        {{ 'Startzeit'|trans }}: {{ room.startwithTimeZone(user)|date('H:i',false) }}<br>
         {{ 'Geplante Dauer'|trans }}: {{ room.duration }} {{ 'Minuten'|trans }}
     {% else %}
         {{ 'Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.'|trans }}
@@ -37,6 +40,11 @@
         {{ 'Oder kopieren Sie den Link in Ihren Browser'|trans }}:<br>
         <a href="{{ url }}">{{ url }}</a>
     </p>
+{% endif %}
+{% if room.totalOpenRooms and user == room.moderator %}
+    {{ 'Leiten Sie diesen Link an die Teilnehmer weiter'|trans }}:
+    <br>
+    {{ laF_baseUrl ~path('own_room_startPage',{'uid':room.uid}) }}
 {% endif %}
 <p>
     {% if server is defined and  server is not null and server|validateLicense and server.serverEmailBody is not null %}

@@ -12,9 +12,14 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use Firebase\JWT\JWT;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -59,7 +64,7 @@ class DashboardController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment)
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment,ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
     {
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
@@ -69,12 +74,13 @@ class DashboardController extends AbstractController
         $r = array();
         $future = array();
         foreach ($roomsFuture as $data) {
-            $future[$data->getStart()->format('Ymd')][] = $data;
+            $future[$data->getStartwithTimeZone($this->getUser())->format('Ymd')][] = $data;
         }
+        $em = $this->getDoctrine()->getManager();
         if(!$this->getUser()->getUid()){
             $user = $this->getUser();
             $user->setUid(md5(uniqid()));
-            $em = $this->getDoctrine()->getManager();
+
             $em->persist($user);
             $em->flush();
         }
@@ -85,12 +91,21 @@ class DashboardController extends AbstractController
             $em->persist($user);
             $em->flush();
         }
+        if (!$this->getUser()->getTimezone()){
+            $user = $this->getUser();
+            $user->setTimezone(date_default_timezone_get());
+            $em->persist($user);
+            $em->flush();
+        }
+        $favoriteService->cleanFavorites($this->getUser());
         $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
         $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
         $persistantRooms = $this->getDoctrine()->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
-        return $this->render('dashboard/index.html.twig', [
+        $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
+        $tomorrow = (clone $today)->modify('+1day');
+        $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
             'runningRooms'=>$roomsNow,
@@ -98,7 +113,23 @@ class DashboardController extends AbstractController
             'todayRooms' => $roomsToday,
             'snack' => $request->get('snack'),
             'servers'=>$servers,
+            'today'=>$today,
+            'tomorrow'=>$tomorrow
         ]);
+
+        if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){
+            $res = $this->redirectToRoute('dashboard');
+            $res->headers->setCookie(Cookie::create(
+                'DARK_MODE',
+                1,
+                time() + ( 2 * 365 * 24 * 60 * 60),
+                '/',      // Path.
+                null,     // Domain.
+                false,    // Xmit secure https.
+                false     // HttpOnly Flag
+            ));
+        }
+        return $res ;
     }
 
 }

@@ -5,27 +5,40 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 text-right">
-            <div class="custom-control custom-switch mb-2">
-<div class="d-flex justify-content-end">
-    <span class="mr-5"><i class="fas fa-sun"></i></span>
-    <input type="checkbox" class="custom-control-input switchDarkmode"
-            {{ app.request.cookies.get('DARK_MODE') }}
-            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                checked
-            {% endif%}
-           id="switchDarkmode2">
-    <label class="custom-control-label" for="switchDarkmode2">
-            <i class="fas fa-moon"></i>
-    </label>
-</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 text-right">
+                <div class="custom-control custom-switch mb-2">
+                    <div class="d-flex justify-content-end" >
+                        {% if allowTimeZoneSwitch == 1 %}<span class="mr-3" id="actualTime">
+                            <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
+                        <span class="mr-5"><i class="fas fa-sun brightmode"></i></span>
+                        <input type="checkbox" class="custom-control-input switchDarkmode"
+                                {{ app.request.cookies.get('DARK_MODE') }}
+                                {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                                    checked
+                                {% endif %}
+                               id="switchDarkmode2">
+                        <label class="custom-control-label" for="switchDarkmode2">
+                            <i class="fas fa-moon"></i>
+                        </label>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="container-fluid ">
+        <div class="row justify-content-center mb-3">
+            {% if persistantRooms|length > 0 %}
+                {% for r in app.user.favorites %}
+                    {% include'dashboard/widget/__persistantRoom.html.twig' with {'room':r} %}
+                {% endfor %}
+            {% endif %}
+
+
+        </div>
+    </div>
     <div class="container">
 
 
@@ -44,6 +57,17 @@
                     >{{ 'Zukünftige Konferenzen'|trans }}</a>
                 </li>
                 <li class="nav-item">
+                <a data-toggle="tab"
+                   class="nav-link "
+                   id="ex1-tab-3-tab"
+                   data-mdb-toggle="tab"
+                   href="#ex1-tabs-3"
+                   role="tab"
+                   aria-controls="ex1-tabs-3"
+                   aria-selected="true"
+                >{{ 'Feste Konferenzen'|trans }}</a>
+                </li>
+                <li class="nav-item">
                     <a data-toggle="tab"
                        class="nav-link"
                        id="ex1-tab-2-tab"
@@ -58,6 +82,7 @@
 
             </ul>
         </div>
+
         <div class="d-md-none tabDropdown">
             <button class="caretdown btn btn-primary dropdown-toggle mr-4" type="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">{{ 'Zukünftige Konferenzen'|trans }}
@@ -66,6 +91,10 @@
                 <a class="dropdown-item dropdownTabToggle"
                    href="#ex1-tab-1-tab">
                     {{ 'Zukünftige Konferenzen'|trans }}
+                </a>
+                <a class="dropdown-item dropdownTabToggle"
+                   href="#ex1-tab-3-tab">
+                    {{ 'Feste Konferenzen'|trans }}
                 </a>
                 <a href="#ex1-tab-2-tab"
                    class="dropdown-item dropdownTabToggle">
@@ -85,45 +114,46 @@
                     aria-labelledby="ex1-tab-1"
             >
                 <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
-                            <div class=" btn-block btn btn-dashboard">
-                                <p class="mt-2 mb-2 text-center">
-                                    {{ 'Eine Konferenz planen'|trans }}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
-                            <div class=" btn-block btn btn-outline-dashboard">
-                                <p class="mt-2 mb-2 text-center ">
-                                    {{ 'Einen Termin finden'|trans }}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
+                    {% if input_settings_allow_sheduling == 1 %}
+                        <div class="col-md-6 mb-3">
+                            <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
+                                <div class=" btn-block btn btn-dashboard">
+                                    <p class="mt-2 mb-2 text-center">
+                                        {{ 'Eine Konferenz planen'|trans }}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% if input_settings_allow_roomPlanning == 1 %}
+                        <div class="col-md-6 mb-3">
+                            <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
+                                <div class=" btn-block btn btn-outline-dashboard">
+                                    <p class="mt-2 mb-2 text-center ">
+                                        {{ 'Einen Termin finden'|trans }}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
                 {% if myScheduledMeeting(app.user)|length > 0 %}
+
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Terminplanung'|trans }} </h4>
                     {% for r in myScheduledMeeting(app.user) %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
                 {% endif %}
-                {% if persistantRooms|length > 0 %}
-                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
-                    {% for r in persistantRooms %}
-                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
-                    {% endfor %}
-                {% endif %}
+                <hr>
+                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Meine Videokonferenzen'|trans }} </h4>
                 {% if  roomsFuture |length == 0 %}
                     <div class="card card-body">
                         <p class="text-center">
                             {% trans with {'{url}':path('room_new')} %}
-                            Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                            <u><a href="{url}" class="loadContent">hier</a></u>
-                            eine neue Konferenz.
-                        {% endtrans %}
+                                Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
+                                <u><a href="{url}" class="loadContent">hier</a></u>
+                                eine neue Konferenz.
+                            {% endtrans %}
                         </p>
                     </div>
                 {% elseif todayRooms |length == 0 %}
@@ -134,9 +164,16 @@
                 {% endif %}
                 {% set locale =  app.request.locale %}
                 {% for date in roomsFuture %}
-                    <h4 style="padding-top: 16px"
-                        class="h4-responsive pl-xl-3">{{ date[0].start|format_date(pattern="EEEE",locale=locale) }}
-                        | {{ date[0].start|format_datetime('long', 'none', locale=locale) }}</h4>
+                    <h4 style="padding-top: 16px" class="day h4-responsive pl-xl-3">
+                        {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
+                        {{ 'Heute'|trans }}
+                        {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
+                        {{ 'Morgen'|trans }}
+                        {% else %}
+                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=false) }}
+                            | {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=false) }}
+                            {% endif %}
+                    </h4>
                     {% for room in date %}
                         {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
                     {% endfor %}
@@ -151,8 +188,16 @@
                     </div>
                 {% endif %}
                 {% for room in roomsPast %}
-                    {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
+                    {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
                 {% endfor %}
+            </div>
+            <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
+                {% if persistantRooms|length > 0 %}
+                    {% for r in persistantRooms %}
+                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
         <!-- Tabs content -->

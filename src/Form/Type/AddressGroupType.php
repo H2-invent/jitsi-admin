@@ -12,6 +12,7 @@ use App\Entity\Addressgroup;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,6 +22,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AddressGroupType extends AbstractType
 {
+    private $parameterBag;
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->parameterBag = $parameterBag;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -32,7 +39,10 @@ class AddressGroupType extends AbstractType
                 'class' => User::class,
                 'multiple' => true,
                 'expanded' => true,
-                'choice_label' => 'email',
+                'choice_label' => function(User $user){
+                    return $user->getFormatedName($this->parameterBag->get('laf_showName'));
+
+                },
                 'choices' => $user->getAddressbook(),
                 'translation_domain' => 'form'
             ))

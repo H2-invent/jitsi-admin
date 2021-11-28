@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -63,11 +64,48 @@ class UserRepository extends ServiceEntityRepository
             ->andWhere('user = :user')
             ->setParameter('user', $user);
 
-        return $qb->andWhere($qb->expr()->like('u.email', ':search'))
+        return $qb->andWhere($qb->expr()->orX()->addMultiple(
+            [
+                $qb->expr()->like('u.email', ':search'),
+                $qb->expr()->like('u.firstName', ':search'),
+                $qb->expr()->like('u.lastName', ':search'),
+                $qb->expr()->like('u.username', ':search'),
+                $qb->expr()->like('u.spezialProperties', ':search'),
+            ]
+        ))
             ->setParameter('search', '%' . $value . '%')
-
             ->getQuery()
             ->getResult();
 
+    }
+
+    public function findUsersByLdapServerId($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.ldapUserProperties', 'ldap_user_properties')
+            ->andWhere('ldap_user_properties.ldapNumber = :serverId')
+            ->setParameter('serverId', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUsersfromLdapService()
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->join('u.ldapUserProperties', 'ldap_user_properties')
+            ->andWhere($qb->expr()->isNotNull('ldap_user_properties'))
+            ->getQuery()
+            ->getResult();
+    }
+    public function findUsersfromLdapdn($userDn)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->join('u.ldapUserProperties', 'ldap_user_properties')
+            ->andWhere('ldap_user_properties.ldapDn = :ldapdn')
+            ->setParameter('ldapdn',$userDn)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

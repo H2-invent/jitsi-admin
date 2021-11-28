@@ -146,6 +146,16 @@ class Server
      */
     private $OwnRoomUSer;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $jwtModeratorPosition;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $serverName;
+
 
     public function __construct()
     {
@@ -523,6 +533,30 @@ class Server
                 $ownRoomUSer->setMyOwnRoomServer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getJwtModeratorPosition(): ?int
+    {
+        return $this->jwtModeratorPosition;
+    }
+
+    public function setJwtModeratorPosition(int $jwtModeratorPosition): self
+    {
+        $this->jwtModeratorPosition = $jwtModeratorPosition;
+
+        return $this;
+    }
+
+    public function getServerName(): ?string
+    {
+        return $this->serverName;
+    }
+
+    public function setServerName(string $serverName): self
+    {
+        $this->serverName = $serverName;
 
         return $this;
     }

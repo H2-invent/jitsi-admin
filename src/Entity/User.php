@@ -157,7 +157,7 @@ class User extends BaseUser
     private $myOwnRoomServer;
 
     /**
-     * @ORM\OneToMany(targetEntity=AddressGroup::class, mappedBy="leader")
+     * @ORM\OneToMany(targetEntity=AddressGroup::class, mappedBy="leader",cascade={"remove"})
      */
     private $AddressGroupLeader;
 
@@ -166,6 +166,26 @@ class User extends BaseUser
      */
     private $AddressGroupMember;
 
+
+    /**
+     * @ORM\OneToOne(targetEntity=LdapUserProperties::class, mappedBy="user",  cascade={"persist", "remove"})
+     */
+    private $ldapUserProperties;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $timeZone;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $spezialProperties = [];
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Rooms::class, inversedBy="favoriteUsers")
+     */
+    private $favorites;
 
 
     public function __construct()
@@ -185,6 +205,7 @@ class User extends BaseUser
         $this->protoypeRooms = new ArrayCollection();
         $this->AddressGroupLeader = new ArrayCollection();
         $this->AddressGroupMember = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
 
     }
 
@@ -222,6 +243,10 @@ class User extends BaseUser
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+    public function getUsername(): ?string
+    {
+      return $this->username;
     }
 
     public function setUsername(?string $username): self
@@ -753,6 +778,116 @@ class User extends BaseUser
         return $this;
     }
 
+    public function getLdapUserProperties(): ?LdapUserProperties
+    {
+        return $this->ldapUserProperties;
+    }
 
+    public function setLdapUserProperties(LdapUserProperties $ldapUserProperties): self
+    {
+        // set the owning side of the relation if necessary
+        if ($ldapUserProperties->getUser() !== $this) {
+            $ldapUserProperties->setUser($this);
+        }
 
+        $this->ldapUserProperties = $ldapUserProperties;
+
+        return $this;
+    }
+
+    public function getTimeZone(): ?string
+    {
+        return $this->timeZone;
+    }
+
+    public function setTimeZone(?string $timeZone): self
+    {
+        $this->timeZone = $timeZone;
+
+        return $this;
+    }
+
+    public function getSpezialProperties(): ?array
+    {
+        return $this->spezialProperties;
+    }
+
+    public function setSpezialProperties(?array $spezialProperties): self
+    {
+        $this->spezialProperties = $spezialProperties;
+
+        return $this;
+    }
+
+    public function getFormatedName($string)
+    {
+        $pattern = '/user.[a-zA-Z0-9._-]*\$/';
+        $arr = null;
+        preg_match_all($pattern, $string, $arr);
+        $tmp1 = $arr[0];
+
+        foreach ($tmp1 as $data) {
+            $tmp = str_replace('$', '', $data);
+            $tmp = substr($tmp, strpos($tmp, '.') + 1);
+            $value = '';
+            try {
+                if (strpos($tmp, 'specialField') !== false) {
+                    // we have a spezialField to read
+                    $tmp = substr($tmp, strpos($tmp, '.') + 1);
+                    $value = $this->spezialProperties[$tmp];
+                } else {
+                    // we have a standard field to read
+                    switch ($tmp) {
+                        case 'firstName':
+                            $value = $this->firstName;
+                            break;
+                        case 'lastName':
+                            $value = $this->lastName;
+                            break;
+                        case 'email':
+                            $value = $this->email;
+                            break;
+                        case 'username':
+                            $value = $this->username;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            } catch (\Exception $exception) {
+                $value = '';
+            }
+            $string = str_replace($data, $value, $string);
+        }
+        return $string;
+    }
+    public function getUserIdentifier()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return Collection|Rooms[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Rooms $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Rooms $favorite): self
+    {
+        $this->favorites->removeElement($favorite);
+
+        return $this;
+    }
 }

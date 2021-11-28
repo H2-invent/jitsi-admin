@@ -18,7 +18,7 @@ Jitsi Manager or Jitsi Admin is a tool to manage Jitsi conferences and server wi
 
 If you want to be notified, if there are new updates or releases, you can subscribe to the __Jitsi Admin Update__ mailing list.
 H2 invent will send out information to the mailing list concering releases, updates or new features.
-This is __not__ a marketing-newsletter.
+This is __not__ a marketing newsletter.
 
 If you want to join the mailing list just click on the link [Mailing List](https://verteiler.h2-invent.com/?p=subscribe&id=1) and enter your email address.
 We use a double-opt-in process where you will receive a confirmation email containing a link with with you confirm, that you want to join to mailing list.
@@ -31,18 +31,18 @@ We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, BÃ
 
 
 ## Translation
-Please help us to improve our localiczation
+Please help us to improve our localization
 
 [![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 # Features
 
-The following features are already part of Jitsi Administrator:
+The following features are already part of Jitsi Admin:
 
 * Managing of conferences
 * Managing of Jitsi servers with JWT enabled
 * Adding participants to a conference
 * Sending out emails to the participants
-* Sending out email prior to the conference based on a Cron job
+* Sending out emails prior to the conference based on a Cron job
 
 ### The Dashboard
 
@@ -52,7 +52,7 @@ The Dashboard is the central view where all information to all conferences is di
 ### The Servers
 
 All servers can be managed centrally and different permissions can be configured.
-Multiple Jitsi Servers can be combined to one Setup and managed acordingly
+Multiple Jitsi Servers can be combined to one setup and managed accordingly
 ![Server](docs/images/server.jpg)
 
 ### Login
@@ -63,11 +63,11 @@ The login uses a SSO Server, e.g. Keycloak or other Identidy Providers
 ### Join of the conference
 
 Guests are able to join a conference through a link received via email __without__ having a user account in Jitsi Manager.
-The is a joining page where the conference ID, the email-address and the name are entered.
+There is a page for joining where the conference ID, the email address and the name are entered.
 After that a JWT will be generated and the guest is able to join the conference.
 ![Join](docs/images/join.jpg)
 
-User with a user account are able to join conferences directly via Jitsi Manager, either by using the web-page or the Jitsi Electron Desktop App.
+Users with a user account are able to join conferences directly via Jitsi Manager, either by using the web page or the Jitsi Electron Desktop App.
 ![Join](docs/images/joint-internal.jpg)
 
 More information can be found at https://jitsi-admin.de

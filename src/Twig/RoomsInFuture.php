@@ -9,11 +9,10 @@ use App\Entity\Server;
 use App\Service\LicenseService;
 use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
+use function Doctrine\ORM\QueryBuilder;
 use function GuzzleHttp\Psr7\str;
 
 class RoomsInFuture extends AbstractExtension
@@ -42,6 +41,10 @@ class RoomsInFuture extends AbstractExtension
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->andWhere('rooms.server = :server')
             ->andWhere('rooms.showRoomOnJoinpage = true')
+            ->leftJoin('rooms.repeaterProtoype','repeaterProtoype')
+            ->andWhere($qb->expr()->isNull('repeaterProtoype.id'))
+            ->leftJoin('rooms.repeater','repeater')
+            ->andWhere($qb->expr()->isNull('repeater.id'))
             ->andWhere('rooms.start > :now')
             ->andWhere($qb->expr()->isNotNull('rooms.moderator'))
             ->setParameter('server', $server)

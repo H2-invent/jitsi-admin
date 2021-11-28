@@ -7,10 +7,13 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
+use App\Service\ThemeService;
+use App\Service\TimeZoneService;
 use App\Service\UserService;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,7 +25,7 @@ class AdHocMeetingController extends AbstractController
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
      * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
      */
-    public function index(User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
+    public function index(ParameterBagInterface $parameterBag, ThemeService $themeService, User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
     {
 
         if(!in_array($user,$this->getUser()->getAddressbook()->toArray())){
@@ -33,16 +36,22 @@ class AdHocMeetingController extends AbstractController
         if(!in_array($server,$servers)){
             return $this->redirectToRoute('dashboard',array('color'=>'danger','snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden')));
         }
+
+        $now = new \DateTime('now',TimeZoneService::getTimeZone($this->getUser()));
         $room = new Rooms();
         $room->setModerator($this->getUser());
-        $room->setStart(new \DateTime());
-        $room->setEnddate((new \DateTime())->modify('+ 1 hour'));
+        $room->setStart($now);
+        if ($parameterBag->get('allowTimeZoneSwitch') == 1){
+            $room->setTimeZone($this->getUser()->getTimeZone());
+        }
+
+        $room->setEnddate((clone $now)->modify('+ 1 hour'));
         $room->setDuration(60);
         $room->setSequence(0);
         $room->setUidReal(md5(uniqid()));
         $room->setUid(rand(01, 99) . time());
         $room->setServer($server);
-        $room->setName($translator->trans('Konferenz mit {n}',array('{n}'=>$user->getEmail())));
+        $room->setName($translator->trans('Konferenz mit {n}',array('{n}'=>$user->getFormatedName($parameterBag->get('laf_showName')))));
         $room->setOnlyRegisteredUsers(false);
         $em = $this->getDoctrine()->getManager();
         $em->persist($room);

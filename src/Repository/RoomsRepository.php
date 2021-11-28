@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
@@ -16,9 +17,11 @@ use function Doctrine\ORM\QueryBuilder;
  */
 class RoomsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $timeZoneService;
+    public function __construct(ManagerRegistry $registry,TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
+        $this->timeZoneService = $timeZoneService;
     }
 
     // /**
@@ -51,27 +54,29 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime();
+        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
-            ->andWhere('r.enddate > :now')
+            ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
             ->setParameter('user', $user)
-            ->orderBy('r.start', 'ASC')
+            ->orderBy('r.startUtc', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
     public function findRoomsInPast(User $user)
     {
-        $now = new \DateTime();
+        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
-            ->andWhere('r.enddate < :now')
+            ->andWhere('r.endDateUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)
@@ -97,12 +102,14 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRuningRooms(User $user)
     {
-        $now = new \DateTime();
+
+        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->andWhere('user = :user')
-            ->andWhere('r.enddate > :now')
-            ->andWhere('r.start < :now')
+            ->andWhere('r.endDateUtc > :now')
+            ->andWhere('r.startUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('now', $now)

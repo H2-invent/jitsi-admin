@@ -14,11 +14,16 @@
                 {% set locale =  app.request.locale %}
                 {% for s in scheduling.schedulingTimes |sort((a, b) => a.time <=> b.time) %}
                     <div class="scrollEle mr-3 text-center">
-                        <small>{{ s.time|format_date(pattern="EE",locale=locale) }}</small>
-                        <p>{{ s.time|date('d.m.Y') }}</p>
+                        <small>{{ s.time|format_date(pattern="EE",locale=locale,timezone=false) }}</small>
+                        <p>{{ s.timeWithTimeZone(user)|date('d.m.Y',false) }}
+                        {% if allowTimeZoneSwitch == 1  %}
+                            <br><small>{% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZone }}{% endif %}</small>
+                        {% endif %}
+                        </p>
                         <hr>
-                        <b>{{ s.time|date('H:i') }}
-                            - {{ s.time|date_modify("+"~room.duration~"min")|date('H:i') }}</b><br>
+                        <b>{{ s.timeWithTimeZone(user)|date('H:i',false) }}
+                            - {{ s.timeWithTimeZone(user)|date_modify("+"~room.duration~"min")|date('H:i',false) }}</b><br>
+
                         <small>{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}</small><br>
                         <small>{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}</small><br>
                         <small>{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</small><br>

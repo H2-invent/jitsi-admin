@@ -98,4 +98,18 @@ class SchedulingTime
 
         return $this;
     }
+
+    public function getTimeWithTimeZone(User $user): ?\DateTimeInterface
+    {
+        $timeZone = $this->scheduling->getRoom()->getTimeZone() ? new \DateTimeZone($this->scheduling->getRoom()->getTimeZone()) : null;
+        $time = new \DateTime($this->time->format('Y-m-d H:i:s'), $timeZone);
+        $usrTimeZone = $user->getTimeZone() ? new \DateTimeZone($user->getTimeZone()) : null;
+        if ($timeZone){
+            if ($usrTimeZone) {
+                $time->setTimezone($usrTimeZone);
+            }
+        }
+        return $time;
+    }
+
 }

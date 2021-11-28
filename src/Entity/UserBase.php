@@ -43,14 +43,14 @@ class UserBase implements UserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
-        return (string) $this->uuid;
+        return $this->uuid;
+    }
+
+    public function getUserIdentifier()
+    {
+        return $this->uuid;
     }
 
     /**
@@ -77,7 +77,7 @@ class UserBase implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self

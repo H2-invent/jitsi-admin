@@ -9,16 +9,18 @@
 namespace App\Service;
 
 
+use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\User;
+use App\UtilsHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Mailer\Transport\TransportInterface;
 
 class MailerService
 {
 
-    private $smtp;
+
     private $swift;
     private $parameter;
     private $kernel;
@@ -26,9 +28,9 @@ class MailerService
     private $customMailer;
     private $userName;
     private $licenseService;
-    public function __construct(LicenseService $licenseService,LoggerInterface $logger, ParameterBagInterface $parameterBag, TransportInterface $smtp, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
+
+    public function __construct(LicenseService $licenseService, LoggerInterface $logger, ParameterBagInterface $parameterBag, \Swift_Mailer $swift_Mailer, KernelInterface $kernel)
     {
-        $this->smtp = $smtp;
         $this->swift = $swift_Mailer;
         $this->parameter = $parameterBag;
         $this->kernel = $kernel;
@@ -55,22 +57,34 @@ class MailerService
                 $this->logger->info('The Transport is new and we take him');
                 $this->customMailer = $tmpMailer;
             }
+            return $tmpMailer;
         }
+        return false;
     }
 
-    public function sendEmail($to, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
+    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
     {
+        $to = $user->getEmail();
+        if ($user->getLdapUserProperties() && filter_var($to, FILTER_VALIDATE_EMAIL) == false) {
+            $this->logger->debug('We sent no email, because the User is an LDAP User and the email is not a valid Email');
+            return true;
+        }
+        if ($this->parameter->get('DISALLOW_ALL_EMAILS') === 1) {
+            $this->logger->debug('We don`t send emails at all so we  dont send any emails here');
+            return true;
+        }
         try {
             $this->logger->info('Mail To: ' . $to);
-            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server,$replyTo, $attachment);
+            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment);
 
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
+            $res = false;
         }
         return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null, $attachment = array()):bool
+    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -81,6 +95,9 @@ class MailerService
             $sender = $this->parameter->get('registerEmailAdress');
             $senderName = $this->parameter->get('registerEmailName');
         }
+        if ($this->parameter->get('emailSenderIsModerator')) {
+            $senderName = $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName();
+        }
         $message = (new \Swift_Message($betreff))
             ->setFrom(array($sender => $senderName))
             ->setTo($to)
@@ -88,11 +105,14 @@ class MailerService
                 $content
                 , 'text/html'
             );
-        if($replyTo){
-            $message->setReplyTo($replyTo);
+
+        if ($replyTo) {
+            if (filter_var($replyTo, FILTER_VALIDATE_EMAIL) == true) {
+                $message->setReplyTo($replyTo);
+            }
         }
         foreach ($attachment as $data) {
-            $message->attach(new \Swift_Attachment($data['body'], $data['filename'], $data['type']));
+            $message->attach(new \Swift_Attachment($data['body'], UtilsHelper::slugify($data['filename']), $data['type']));
         };
 
         try {
@@ -108,7 +128,7 @@ class MailerService
         } catch (\Exception $e) {
             $this->swift->send($message);
             $this->logger->error($e->getMessage());
-            return false;
+            throw $e;
         }
         return true;
     }

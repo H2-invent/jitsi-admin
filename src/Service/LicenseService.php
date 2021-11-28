@@ -32,7 +32,7 @@ class LicenseService
         $this->parameterBag = $parameterBag;
     }
 
-    function verify(Server $server): bool
+    function verify(?Server $server): bool
     {
         $license = $this->em->getRepository(License::class)->findOneBy(array('licenseKey' => $server->getLicenseKey()));
 
@@ -86,6 +86,14 @@ class LicenseService
             return false;
         }
         return true;
+    }
+    public function verifyValidUntil($string){
+        $entry = json_decode($string, true);
+        if (new \DateTime($entry['entry']['validUntil']) > new \DateTime()) {
+            return $entry['entry'];
+        } else {
+            return false;
+        }
     }
     public function generateNewLicense($licenseString){
         if (!$this->verifySignature($licenseString)) {
