@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">Agenda</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe">
         <source>Keine Angabe</source>
@@ -548,7 +548,7 @@
       </trans-unit>
       <trans-unit id="sqsX.gs" resname="Erlauben seinen Desktop zu teilen">
         <source>Erlauben seinen Desktop zu teilen</source>
-        <target state="needs-translation">Erlauben, seinen Desktop zu teilen.</target>
+        <target state="translated">Se le permite compartir su escritorio.</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
@@ -580,7 +580,7 @@
       </trans-unit>
       <trans-unit id="2Pr8ySk" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
-        <target state="needs-translation">Teilnehmende suchen</target>
+        <target state="translated">Buscando participantes</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
@@ -810,7 +810,7 @@
       </trans-unit>
       <trans-unit id="yUDlpqH" resname="{from} von {to}">
         <source>{from} von {to}</source>
-        <target state="needs-translation">{from} von {to}</target>
+        <target state="translated">{from} a {to}</target>
       </trans-unit>
       <trans-unit id="pRkRXRz" resname="Abstimmung">
         <source>Abstimmung</source>
@@ -946,7 +946,7 @@
       </trans-unit>
       <trans-unit id="q3dDpK2" resname="Serie">
         <source>Serie</source>
-        <target state="needs-translation">Serie</target>
+        <target state="translated">Serie</target>
       </trans-unit>
       <trans-unit id="K1wfW2y" resname="Serienart bearbeiten">
         <source>Serienart bearbeiten</source>
@@ -1146,11 +1146,11 @@
       </trans-unit>
       <trans-unit id="ZUQB5jY" resname="Fehler, das Startdatum darf nicht leer sein">
         <source>Fehler, das Startdatum darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte das Startdatum eingeben.</target>
+        <target state="translated">Error, completa la fecha de inicio.</target>
       </trans-unit>
       <trans-unit id="jGFMqpn" resname="Fehler, der Name darf nicht leer sein">
         <source>Fehler, der Name darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte den Namen angeben.</target>
+        <target state="translated">Error, completa el nombre.</target>
       </trans-unit>
       <trans-unit id="CkD2mrU" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
