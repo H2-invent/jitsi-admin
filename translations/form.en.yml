@@ -75,7 +75,7 @@ help:
   serverUrl: Enter without "https://" (such as meet.jit.si)
   featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
-  serverName: Please enter a server name. This will be shown to the participants.
+  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
