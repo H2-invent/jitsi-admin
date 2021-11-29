@@ -65,8 +65,8 @@ option:
   octobre: Octubre
   novembre: Noviembre
   decembre: Diciembre
-  user: Im User Claim
-  root: Im Root Claim
+  user: Reclamación de usuario
+  root: Reclamación de administrador
 lable.serverUrl: Url del servidor Jitsi Meet
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
@@ -75,7 +75,7 @@ help:
   serverUrl: Acceder sin "https://" (ej. meet.jit.si)
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
   teilnehmerEmailhinzufuegenModerator: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
-  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
+  serverName: Introduzca aquí el nombre del servidor. Esto se muestra a los participantes.
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -122,13 +122,13 @@ label:
   totalOpenRoomsOpenTime: Hora de apertura de la sala
   addressgroupName: Nombre de Grupo
   addressgroupMember: Miembros del grupo
-  jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
+  jwtModeratorPosition: Posición de moderador en el token JWT
+  timezone: Zona horaria
+  serverName: Nombre del servidor
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: Ningúno
 placeholder:
   maxParticipants: Ninguna limitación
-  chooseTime: Zeit und Datum auswählen
+  chooseTime: Seleccione fecha y hora
