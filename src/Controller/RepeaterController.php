@@ -14,6 +14,7 @@ use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -190,7 +191,7 @@ class RepeaterController extends AbstractController
         }
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['type'=>$request->get('type'),'id' => $room->getId()])]);
 
-//        try {
+        try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -206,20 +207,24 @@ class RepeaterController extends AbstractController
                     $em->persist($room);
                     $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                     $snack = $translator->trans('Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet');
-                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+                    $res = $this->generateUrl('dashboard', ['snack' => $snack, 'color' => 'success']);
+                    return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res));
                 }
 
                 $repeater = $repeaterService->replaceRooms($room);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
 
                 $snack = $translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
-                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+                $res = $this->generateUrl('dashboard', ['snack' => $snack, 'color' => 'success']);
+                return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res));
             }
 
-//        } catch (\Exception $exception) {
-//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-//            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
-//        }
+        } catch (\Exception $exception) {
+            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
+
+            return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
+        }
         return $this->render('base/__newRoomModal.html.twig', [
             'form' => $form->createView(),
             'title' => $title,
