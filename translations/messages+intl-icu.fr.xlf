@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">Agenda</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe" approved="yes">
         <source>Keine Angabe</source>
@@ -547,7 +547,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       </trans-unit>
       <trans-unit id="sqsX.gs" resname="Erlauben seinen Desktop zu teilen">
         <source>Erlauben seinen Desktop zu teilen</source>
-        <target state="needs-translation">Erlauben, seinen Desktop zu teilen.</target>
+        <target state="translated">Autoriser de partager l'écran.</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator" approved="yes">
         <source>Organisator</source>
@@ -579,7 +579,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       </trans-unit>
       <trans-unit id="2Pr8ySk" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
-        <target state="needs-translation">Teilnehmende suchen</target>
+        <target state="translated">Rechercher des particpants</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen" approved="yes">
         <source>Tippen zum Suchen</source>
@@ -603,7 +603,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       </trans-unit>
       <trans-unit id="1wfcLxk" resname="Logo">
         <source>Logo</source>
-        <target state="needs-translation">Logo</target>
+        <target state="translated">Logo</target>
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird." approved="yes">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
@@ -1147,27 +1147,27 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="ZUQB5jY" resname="Fehler, das Startdatum darf nicht leer sein">
         <source>Fehler, das Startdatum darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte das Startdatum eingeben.</target>
+        <target state="translated">Erreur, veuillez saisir la date de début.</target>
       </trans-unit>
       <trans-unit id="jGFMqpn" resname="Fehler, der Name darf nicht leer sein">
         <source>Fehler, der Name darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte den Namen angeben.</target>
+        <target state="translated">Erreur veuillez saisir le nom.</target>
       </trans-unit>
       <trans-unit id="CkD2mrU" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="needs-translation">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Merci de transmettre ce lien aux participants.</target>
       </trans-unit>
       <trans-unit id="LqbhhU9" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
-        <target state="needs-translation">Wollen Sie den Namen des Teilnehmenden wirklich löschen?</target>
+        <target state="translated">Voulez-vous vraiment supprimer le nom du participant?</target>
       </trans-unit>
       <trans-unit id="MaXA.F3" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
-        <target state="needs-translation">Das Datum wird nicht berücksichtigt, da es bereits durch die Serie festgelegt ist.</target>
+        <target state="translated">La date n'est pas prise en compte car elle est déjà déterminée par la série.</target>
       </trans-unit>
       <trans-unit id="tFfAytG" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
-        <target state="needs-translation">Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.</target>
+        <target state="translated">Erreur, la date de début et la date de fin sont dans le passé.</target>
       </trans-unit>
       <trans-unit id="uAj26XB" resname="Schließen">
         <source>Schließen</source>
