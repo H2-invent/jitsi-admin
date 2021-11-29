@@ -95,7 +95,6 @@
                            target="_blank">{{ 'jitsi.start'|trans }}</a>
                     </div>
                     <a class="btn btn-outline-primary directSend" href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                <a href="#" class="btn btn-outline-primary d-none" id="closeSecure">{{ 'lobby.close.secure'|trans }}</a>
                 </div>
 
             </div>
@@ -122,6 +121,7 @@
 
         var conferenzeName = '{{ room.name }}';
         var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
     </script>
 

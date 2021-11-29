@@ -84,4 +84,5 @@ class LobbyParticipantsController extends AbstractController
         }
         return new JsonResponse(array('error'=>true));
     }
+
 }

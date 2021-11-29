@@ -54,6 +54,8 @@
     <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
         var topic = {{ mercure(absolute_url(path('lobby_participants_wait',{'roomUid':room.uidReal,'userUid':user.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+
         var removeUrl = '{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}';
     </script>
 {% endblock %}

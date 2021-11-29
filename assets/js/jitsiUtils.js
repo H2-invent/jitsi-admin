@@ -24,26 +24,28 @@ function initJitsi(options, domain) {
     api.addListener('participantJoined', function (id, name) {
         renewPartList()
     });
-    api.addListener('readyToClose',function (e) {
+    api.addListener('readyToClose', function (e) {
         endMeeting();
+    })
+    api.addListener('readyToClose',function (e) {
+        api.dispose();
+        window.location.href = '/';
     })
     $('#closeSecure').removeClass('d-none').click(function (e) {
         e.preventDefault();
         endMeeting();
-        api.dispose();
-      //  window.location.href='/';
-    })
-    window.addEventListener('unload', function(e) {
-        api.dispose();
-    });
-}
-function endMeeting() {
-    participants = api.getParticipantsInfo()
-    console.log(participants);
+        $.getJSON(($(this).attr('href')));
 
-    for (var i = 0; i<participants.length; i++){
-        api.executeCommand('kickParticipant',participants[i].participantId);
+    })
+
+}
+
+function endMeeting() {
+    participants = api.getParticipantsInfo();
+    for (var i = 0; i < participants.length; i++) {
+        api.executeCommand('kickParticipant', participants[i].participantId);
     }
+    return 0;
 }
 
 function renewPartList() {
@@ -51,8 +53,4 @@ function renewPartList() {
 }
 
 
-console.log('handler');
-// window.addEventListener("beforeunload", function(event) {
-//     $.get(removeUrl)
-// });
 export {initJitsi}

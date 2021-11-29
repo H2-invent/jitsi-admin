@@ -17,6 +17,10 @@ import {initJitsi} from './jitsiUtils'
 var jitsiApi;
 initWebcam()
 const es = new EventSource(topic);
+es.onmessage = e => {
+    var data = JSON.parse(e.data)
+    masterNotify(data)
+}
 
 $('.directSend').click(function (e) {
     e.preventDefault();
@@ -26,9 +30,11 @@ $('.directSend').click(function (e) {
         })
     })
 })
-es.onmessage = e => {
-    var data = JSON.parse(e.data)
-    masterNotify(data)
+
+const broadcast = new EventSource(topicBroadcast);
+broadcast.onmessage = e => {
+    var data = JSON.parse(e.data);
+
 }
 
 $('.startIframe').click(function (e) {
@@ -53,7 +59,6 @@ function moveWrapper() {
     $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
-
 }
 
 initCircle();

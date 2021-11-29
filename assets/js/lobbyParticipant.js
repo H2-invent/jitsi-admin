@@ -24,6 +24,12 @@ es.onmessage = e => {
         initJitsiMeet(data);
     }
 }
+const broadcast = new EventSource(topicBroadcast);
+broadcast.onmessage = e => {
+    var data = JSON.parse(e.data);
+
+}
+
 initCircle();
 var counter = 0;
 var interval;

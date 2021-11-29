@@ -19,7 +19,9 @@ function masterNotify(data) {
         setSnackbar(data.message, data.color)
     }else if (data.type === 'newJitsi') {
 
-    } else {
+    } else if (data.type === 'endMeeting') {
+        window.location.href=data.forwardUrl;
+    }else {
         alert('Error, Please reload the page')
     }
 }
@@ -51,6 +53,7 @@ function notifymoderator(data) {
     setSnackbar(data.message,'success');
 }
 
+
 function refresh(data) {
     var reloadUrl = data.reloadUrl;
     $('#waitingUserWrapper').load(reloadUrl, function () {
@@ -58,9 +61,11 @@ function refresh(data) {
     });
 }
 
+
 function loadModal(data) {
     $('#loadContentModal').html(data.content).modal('show');
 }
+
 
 function redirect(data) {
     setTimeout(function () {
