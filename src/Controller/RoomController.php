@@ -193,6 +193,9 @@ class RoomController extends AbstractController
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                 $room->setRepeater(null);
             }
+            foreach ($room->getFavoriteUsers() as $data){
+                $room->removeFavoriteUser($data);
+            }
             $room->setModerator(null);
             foreach ($room->getFavoriteUsers() as $data){
                 $data->removeFavorite($room);

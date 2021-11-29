@@ -462,9 +462,12 @@ input[type='checkbox'] {
 
 .navbar .logo-image img {
   width: 133px;
-  height: 32px;
+  height: auto;
+  transition: width 1s;
 }
-
+.top-nav-collapse img{
+  width: 100px!important;
+}
 .navbar .logo-text {
   color: #252c38;
   font-weight: 600;
