@@ -31,7 +31,7 @@ function initJitsi(options, domain) {
         e.preventDefault();
         endMeeting();
         api.dispose();
-        window.location.href='/';
+      //  window.location.href='/';
     })
     window.addEventListener('unload', function(e) {
         api.dispose();
@@ -39,6 +39,8 @@ function initJitsi(options, domain) {
 }
 function endMeeting() {
     participants = api.getParticipantsInfo()
+    console.log(participants);
+
     for (var i = 0; i<participants.length; i++){
         api.executeCommand('kickParticipant',participants[i].participantId);
     }
