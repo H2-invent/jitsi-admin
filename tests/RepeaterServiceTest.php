@@ -18,7 +18,7 @@ class RepeaterServiceTest extends KernelTestCase
         $repeaterService = self::getContainer()->get(RepeaterService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $this->prepareRoom($roomRepo);
-        $userAttr = new
+
         $repeat = new Repeat();
         $repeat->setRepeatType(0);
         $repeat->setPrototyp($room);
