@@ -402,8 +402,8 @@
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
         <target state="translated"><![CDATA[¿Quieres crear una videoconferencia tú mismo o planificarla cómodamente en una aplicación?
-                                    &lt;br&gt;
-                                    Entonces ponte en contacto &lt;a href="{url}"&gt;aquí&lt;/a&gt;&amp;nbsp;.]]></target>
+                                    <br>
+                                    Entonces ponte en contacto <a href="{url}">aquí</a>&nbsp;.]]></target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
@@ -412,9 +412,9 @@
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
                                     an.</source>
         <target state="translated"><![CDATA[¿Quieres crear una videoconferencia tú mismo
-                                    &lt;b&gt;gratis&lt;/b&gt; o planificarla cómodamente
-                                                     en una aplicación?&lt;br&gt;
-                                    Entonces ponte en contacto &lt;a href="{url}"&gt;aquí&lt;/a&gt;&amp;nbsp;&lt;b&gt;gratis&lt;/b&gt;.]]></target>
+                                    <b>gratis</b> o planificarla cómodamente
+                                                     en una aplicación?<br>
+                                    Entonces ponte en contacto <a href="{url}">aquí</a>&nbsp;<b>gratis</b>.]]></target>
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
@@ -502,8 +502,8 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="translated"><![CDATA[Necesita la siguiente información para unirse a la conferencia:&lt;br&gt;
-        Su correo electrónico: {email}&lt;br&gt;
+        <target state="translated"><![CDATA[Necesita la siguiente información para unirse a la conferencia:<br>
+        Su correo electrónico: {email}<br>
         ID de conferencia: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
@@ -681,7 +681,7 @@
       <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="translated"><![CDATA[Su licencia de Jitsi-Admin-Enterprise caducará pronto. &lt;br&gt;
+        <target state="translated"><![CDATA[Su licencia de Jitsi-Admin-Enterprise caducará pronto. <br>
             Renueve su licencia para que pueda seguir utilizando todas las funciones como hasta ahora.]]></target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
@@ -806,7 +806,7 @@
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated"><![CDATA[He leído la  &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;                                                    &lt;u&gt;política de protección de datos de Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt; y acepto sus condiciones.]]></target>
+        <target state="translated"><![CDATA[He leído la  <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">                                                    <u>política de protección de datos de Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a> y acepto sus condiciones.]]></target>
       </trans-unit>
       <trans-unit id="yUDlpqH" resname="{from} von {to}">
         <source>{from} von {to}</source>
@@ -825,7 +825,7 @@
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
         <target state="translated"><![CDATA[No hay conferencias anteriores. Crear
-                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;aquí&lt;/a&gt;&lt;/u&gt;
+                            <u><a href="{url}" class="loadContent">aquí</a></u>
                             una nueva conferencia.]]></target>
       </trans-unit>
       <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">
