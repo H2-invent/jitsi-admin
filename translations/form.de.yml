@@ -2,7 +2,7 @@ label.konferenzId: Konferenz-ID
 label.email: E-Mail-Adresse
 label.name: Ihr Name
 
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerEmailhinzufuegen: EMail-Adressen von neuen Teilnehmenden eingeben
 label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.

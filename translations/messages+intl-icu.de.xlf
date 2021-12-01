@@ -370,8 +370,8 @@
         <target>Optionen</target>
       </trans-unit>
       <trans-unit id="F8.sMjK" resname="Einladungslinks">
-        <source>Einladungslinks</source>
-        <target>Einladungslinks</target>
+        <source>Einladungslink</source>
+        <target>Einladungslink</target>
       </trans-unit>
       <trans-unit id="bC01IWH" resname="Löschen">
         <source>Löschen</source>
@@ -548,8 +548,8 @@
         <target state="translated">Moderator ernennen</target>
       </trans-unit>
       <trans-unit id="sqsX.gs" resname="Erlauben seinen Desktop zu teilen">
-        <source>Erlauben seinen Desktop zu teilen</source>
-        <target state="translated">Erlauben, seinen Desktop zu teilen.</target>
+        <source>Erlauben, die Ansicht auf seinem Bildschirm zu teilen</source>
+        <target state="translated">Erlauben, die Ansicht auf seinem Bildschirm zu teilen</target>
       </trans-unit>
       <trans-unit id="n3XJNcP" resname="Organisator">
         <source>Organisator</source>
@@ -1043,7 +1043,7 @@
       </trans-unit>
       <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
         <source>Oder kopieren Sie den Link in Ihren Browser</source>
-        <target state="translated">Wahlweise können Sie den Link in Ihren Browser kopieren.</target>
+        <target state="translated">Wahlweise können Sie den Link in Ihren Browser kopieren</target>
       </trans-unit>
       <trans-unit id="OedXAN4" resname="Neue Kontaktgruppe erstellen">
         <source>Neue Kontaktgruppe erstellen</source>
@@ -1159,7 +1159,7 @@
       </trans-unit>
       <trans-unit id="CkD2mrU" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="translated">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Bitte leiten Sie diesen Link an die Teilnehmenden weiter</target>
       </trans-unit>
       <trans-unit id="LqbhhU9" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
