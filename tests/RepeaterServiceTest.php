@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Entity\Repeat;
 use App\Entity\Rooms;
+use App\Entity\RoomsUser;
 use App\Repository\RoomsRepository;
 use App\Service\RepeaterService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -255,7 +256,31 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[4]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[5]->getUser()));
     }
+    public function testRepeatSendEmail(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+        $repeaterService = self::getContainer()->get(RepeaterService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $this->prepareRoom($roomRepo);
+        $repeat = new Repeat();
+        $repeat->setRepeatType(0);
+        $repeat->setPrototyp($room);
+        $repeat->setStartDate($room->getStart());
+        $repeat->setRepetation(3);
+        $repeat->setRepeaterDays(1);
+        $repeaterService->createNewRepeater($repeat);
+        self::assertEquals(3, sizeof($repeat->getRooms()));
+        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
+        self::assertEquals(new \DateTime('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
+        self::assertEquals(new \DateTime('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
+        self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
+        self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
+        self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
+        $repeaterService->sendEMail($repeat, 'email/repeaterNew.html.twig', 'Eine neue Serienvideokonferenz wurde erstellt', array('room' => $repeat->getPrototyp()));
+        $repeaterService->sendEMail($repeat, 'email/repeaterNew.html.twig', 'Eine neue Serienvideokonferenz wurde erstellt', array('room' => $repeat->getPrototyp()),'REQUEST',$repeat->getPrototyp()->getUser());
 
+    }
     public function testChangeRepeaterRooms(): void
     {
         $kernel = self::bootKernel();
@@ -303,8 +328,21 @@ class RepeaterServiceTest extends KernelTestCase
 
     private function prepareRoom(RoomsRepository $roomsRepository)
     {
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+
         $rooms = $roomsRepository->findOneBy(array('name' => 'TestMeeting: 0'));
         $rooms = $this->changeStart($rooms, '2021-01-15T15:00');
+        foreach ($rooms->getUser() as $data){
+            if($data !== $rooms->getModerator()){
+                $userAttr = new RoomsUser();
+                $userAttr->setRoom($rooms);
+                $userAttr->setUser($data);
+                $userAttr->setModerator(true);
+                $userAttr->setShareDisplay(true);
+                $manager->persist($userAttr);
+            }
+        }
+        $manager->flush();
         return $rooms;
     }
 
