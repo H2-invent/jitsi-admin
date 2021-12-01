@@ -66,10 +66,8 @@ $('.leave').click(function (e) {
 
 function initJitsiMeet(data) {
     var options =data.options.options;
-    console.log(options);
     options.device = choosenId;
     options.parentNode = document.querySelector( data.options.parentNode);
-    console.log(options);
     const api = new JitsiMeetExternalAPI(data.options.domain, options);
     $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
     $('#content').remove();
@@ -77,7 +75,6 @@ function initJitsiMeet(data) {
     document.title = data.options.roomName
 }
 
-console.log('handler');
 // window.addEventListener("beforeunload", function(event) {
 //     $.get(removeUrl)
 // });

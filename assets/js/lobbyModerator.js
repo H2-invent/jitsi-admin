@@ -13,9 +13,11 @@ import stc from 'string-to-color/index';
 import {masterNotify} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
+import {initAUdio, micId, audioId} from './audioUtils'
 import {initJitsi} from './jitsiUtils'
 var jitsiApi;
-initWebcam()
+initWebcam();
+initAUdio();
 const es = new EventSource(topic);
 es.onmessage = e => {
     var data = JSON.parse(e.data)

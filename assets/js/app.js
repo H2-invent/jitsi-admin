@@ -145,7 +145,6 @@ $(document).on('click', '.confirmHref', function (e) {
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
-    console.log('1.5');
     var url = $(this).attr('href');
     $('#loadContentModal').load(url, function (data, status) {
         if (status === "error") {
@@ -191,7 +190,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
                 if($res['error'] === false){
                     if(typeof $res['cookie'] !== 'undefined' ){
                         for (const [key, value] of Object.entries($res['cookie'])) {
-                            console.log(key, value);
+
                             setCookie(key,value,1000);
                         }
                     }

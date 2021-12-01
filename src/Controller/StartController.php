@@ -55,6 +55,7 @@ class StartController extends AbstractController
                     }else{
                         $res = $this->redirectToRoute('lobby_participants_wait',array('roomUid'=>$roomL->getUidReal(),'userUid'=>$this->getUser()->getUid()));
                     }
+
                     return $res;
                 }
                 return $this->redirect($url);

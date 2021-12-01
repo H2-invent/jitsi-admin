@@ -4,9 +4,7 @@ import autosize from "autosize";
 
 function initSearchUser() {
     if ($('#searchUser') !== null) {
-        console.log('1.6');
         $('#selectAtendeeArea').attr("tabindex",-1).focusin(function () {
-            console.log('1.2');
             $(this).find('.dropdown-menu').dropdown('show');
         })
         $('#selectAtendeeArea').focusout(function (e) {
@@ -41,7 +39,6 @@ function initSearchUser() {
 
                     $('.chooseParticipant').mousedown(function (e) {
                         e.preventDefault();
-                        console.log('participant');
                         var $textarea = $('#new_member_member');
                         var data = $textarea.val();
                         $textarea.val('').val($(this).data('val') + "\n" + data);
@@ -54,7 +51,6 @@ function initSearchUser() {
                     $('.chooseModerator').mousedown(function (e) {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('moderator');
                         $('#moderatorCollapse').collapse('show');
                         var $textarea = $('#new_member_moderator');
                         var data = $textarea.val();
