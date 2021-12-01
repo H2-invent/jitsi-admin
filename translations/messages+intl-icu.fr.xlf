@@ -401,9 +401,9 @@
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
-        <target state="final"><![CDATA[Voulez-vous gérer confortablement cette conférence en un seul aperçu ?
-&lt;br&gt;
-Alors vous pouvez vous  &lt;a href="{url}"&gt; inscrire ici &lt;/a&gt;&amp;nbsp;.]]></target>
+        <target state="final"><![CDATA[Voulez-vous gérer confortablement cette conférence en un seul aperçu?
+<br>
+Alors vous pouvez vous  <a href="{url}">inscrire ici </a>.]]></target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an." approved="yes">
         <source>Sie wollen selber eine Videokonferenz
