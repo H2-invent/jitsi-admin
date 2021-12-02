@@ -403,8 +403,8 @@
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
         <target state="translated"><![CDATA[您希望在信息面板中方便管理此会议吗？
-                                    &lt;br&gt;
-                                    注册 &lt;a href="{url}"&gt;这里&lt;/a&gt;&amp;nbsp;。]]></target>
+                                    <br>
+                                    注册 <a href="{url}">这里</a>&nbsp;。]]></target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
@@ -412,9 +412,9 @@
                                                      in einer Übersicht verwalten?&lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
                                     an.</source>
-        <target state="translated"><![CDATA[                                    &lt;b&gt;自由&lt;/b&gt; 或通过管理使此会议顺畅
-                                                     在信息面板中吗?&lt;br&gt;
-                                    注册 &lt;a href="{url}"&gt;这里&lt;/a&gt;&amp;nbsp;&lt;b&gt;自由&lt;/b&gt;.]]></target>
+        <target state="translated"><![CDATA[<b>自由</b> 或通过管理使此会议顺畅
+                                                     在信息面板中吗?<br>
+                                    注册 <a href="{url}">这里</a>&nbsp;<b>自由</b>.]]></target>
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
@@ -502,8 +502,8 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="translated"><![CDATA[请提供参会如下详情:&lt;br&gt;
-        您的邮箱: {email}&lt;br&gt;
+        <target state="translated"><![CDATA[请提供参会如下详情:<br>
+        您的邮箱: {email}<br>
         会议ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
@@ -681,7 +681,7 @@
       <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="translated"><![CDATA[您的Jitsi-Admin-Enterprise许可证将到期， &lt;br&gt;
+        <target state="translated"><![CDATA[您的Jitsi-Admin-Enterprise许可证将到期， <br>
             请立即更新许可证，以便继续使用所有功能。]]></target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
@@ -798,13 +798,13 @@
             und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated"><![CDATA[我已经阅读，理解和同意有关隐私声明&lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;&lt;u&gt;Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;and &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt; &lt;u&gt;{url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;.]]></target>
+        <target state="translated"><![CDATA[我已经阅读，理解和同意有关隐私声明<a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>Jitsi Admin</u> <i class="fa fa-external-link-alt"></i> </a>and <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"> <u>{url}</u><i class="fa fa-external-link-alt"></i> </a>.]]></target>
       </trans-unit>
       <trans-unit id="vj_Mqv." resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated"><![CDATA[我已经阅读，理解和同意有关隐私声明&lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;&lt;u&gt;Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;and &lt;a href="" target="_blank" referrerpolicy="no-referrer"&gt; &lt;u&gt;&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt; &lt;/a&gt;.]]></target>
+        <target state="translated"><![CDATA[我已经阅读，理解和同意有关隐私声明<a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>Jitsi Admin</u> <i class="fa fa-external-link-alt"></i> </a>.]]></target>
       </trans-unit>
       <trans-unit id="yUDlpqH" resname="{from} von {to}">
         <source>{from} von {to}</source>
@@ -823,8 +823,8 @@
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
         <target state="translated"><![CDATA[目前无会议，请创建
-                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;此处&lt;/a&gt;&lt;/u&gt;
-                            新的会议&lt;.]]></target>
+                            <u><a href="{url}" class="loadContent">此处</a></u>
+                            新的会议<.]]></target>
       </trans-unit>
       <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">
         <source>Hinzugefügt zur Warteliste</source>

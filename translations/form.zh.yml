@@ -75,7 +75,7 @@ help:
   serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）
   featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
   teilnehmerEmailhinzufuegenModerator: 可以同时添加多个邮箱。每个邮箱必须写入新的一行。
-  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
+  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
