@@ -1,8 +1,8 @@
+---
 label.konferenzId: Konferenz-ID
 label.email: E-Mail-Adresse
 label.name: Ihr Name
-
-label.teilnehmerEmailhinzufuegen: EMail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
 label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
@@ -67,8 +67,6 @@ option:
   decembre: Dezember
   user: Im User Claim
   root: Im Root Claim
-
-
 lable.serverUrl: Jitsi Meet Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
@@ -82,8 +80,8 @@ label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten
   serverSmtpHostName: SMTP-Hostname
-  serverSmtpHostPort:  SMTP-Port
-  serverSmtpEncryption:  Verschlüsselung
+  serverSmtpHostPort: SMTP-Port
+  serverSmtpEncryption: Verschlüsselung
   serverSmtpUsername: SMTP-Benutzername
   serverSmtpPassword: SMTP-Passwort
   serverSmtpSenderEmail: Absender-E-Mail
@@ -97,7 +95,7 @@ label:
   agenda: Kurze Agenda für dieses Meeting (Markdown)
   staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
   schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
-  featureEnalbeByJwt: „Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.
+  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
   puplicRoom: Link zur Einladung freischalten
@@ -127,7 +125,6 @@ label:
   jwtModeratorPosition: Moderatorposition im JWT Token
   timezone: Zeitzone
   serverName: Servername
-  lobby: Lobby aktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

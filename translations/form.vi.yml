@@ -65,6 +65,8 @@ option:
   octobre: Oktober
   novembre: November
   decembre: Dezember
+  user: Im User Claim
+  root: Im Root Claim
 lable.serverUrl: Máy chủ Jitsi URL
 label.appId: App-ID
 label.appSecret: App-Secret
@@ -73,6 +75,7 @@ help:
   serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
   featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
   teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
+  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Tham gia với App
   beitretenBrowser: Tham gia với trình duyệt
@@ -92,7 +95,7 @@ label:
   agenda: Chương trình nghị sự cho cuộc họp này (đánh dấu)
   staticBackgroundColor: Đặt màu nền trên trang tham dự
   schowStaticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
-  featureEnalbeByJwt: "Tính năng \"Token - JWT\" được kích hoạt trên máy chủ"
+  featureEnalbeByJwt: Tính năng "Token - JWT" được kích hoạt trên máy chủ
   dissallowScreenshareGlobal: Chỉ người kiểm duyệt mới có thể chia sẻ màn hình
   dissallowPrivateMessage: Chỉ người kiểm duyệt mới có thể gửi tin nhắn riêng tư cho người tham dự
   puplicRoom: Einladungslinks freischalten
@@ -119,9 +122,13 @@ label:
   totalOpenRoomsOpenTime: Raumöffnungszeit
   addressgroupName: Gruppenname
   addressgroupMember: Gruppenmitglieder
+  jwtModeratorPosition: Moderatorposition im JWT Token
+  timezone: Zeitzone
+  serverName: Servername
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: Không
 placeholder:
   maxParticipants: Không giới hạn
+  chooseTime: Zeit und Datum auswählen
