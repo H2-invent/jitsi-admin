@@ -17,19 +17,9 @@
                     {{ 'Name'|trans }}
                     {% endif %}
                     :  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
-                    {% if theme != false %}
-                    {{ theme.usernameIdentifier }}
-                    {% else %}
-                    {{ 'Username'|trans }}
-                    {% endif %}
-                    : {{ app.user.userIdentifier }}<br>
+                    {% if theme != false %}{{ theme.usernameIdentifier }}{% else %}{{ 'Username'|trans }}{% endif %}: {{ app.user.userIdentifier }}<br>
                     {% if allowTimeZoneSwitch == 1  %}
-                    {% if  theme != false %}
-                        {{ theme.timeZoneIdentifier }}
-                    {% else %}
-                        {{ 'Zeitzone'|trans }}
-                        {% endif %}
-                        : {{ app.user.timeZone }}
+                    {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% else %}{{ 'Zeitzone'|trans }}{% endif %}: {{ app.user.timeZone }}
                     {% endif %}
                 </p>
                 <div class="custom-control custom-switch mb-2">

@@ -45,6 +45,39 @@ class RoomAddServiceTest extends KernelTestCase
         }
         self::assertEquals(6,sizeof($room->getUser()->toArray()));
     }
+    public function testaddParticipantEmptyLine(): void
+    {
+        $kernel = self::bootKernel();
+        $roomAddService = self::getContainer()->get(RoomAddService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $user = "  \ntest@local4.de\ntest@local6.de";
+        $res = $roomAddService->createParticipants($user,$room);
+        self::assertEquals(0, sizeof($res));
+        $count = 0;
+        foreach ($room->getUser() as $data){
+            switch ($count){
+                case 0:
+                    self::assertEquals('test@local.de',$data->getEmail());
+                    break;
+                case 1:
+                    self::assertEquals('test@local2.de',$data->getEmail());
+                    break;
+                case 2:
+                    self::assertEquals('test@local3.de',$data->getEmail());
+                    break;
+                case 3:
+                    self::assertEquals('test@local4.de',$data->getEmail());
+                    break;
+                case 4:
+                    self::assertEquals('test@local6.de',$data->getEmail());
+                    break;
+
+            }
+            $count++;
+        }
+        self::assertEquals(5,sizeof($room->getUser()->toArray()));
+    }
     public function testaddParticipantWrongEmail(): void
     {
         $kernel = self::bootKernel();

@@ -19,73 +19,65 @@ var micId= null;
 
 function initAUdio() {
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
+
         devices.forEach(function (device) {
             if (device.kind === 'audiooutput') {
                 $('#audioOutputSelect').append(
-                    '<li><a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label + '</a></li>'
+                    '<a class="dropdown-item audio_outputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
                 )
                 audio.push(device);
             }
             if (device.kind === 'audioinput') {
                 $('#audioInputSelect').append(
-                    '<li><a class="dropdown-item audio_outputSelect" data-value="' + device.deviceId + '">' + device.label + '</a></li>'
+                    '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
                 )
                 mic.push(device);
             }
         });
         console.log(mic);
         console.log(audio);
-        $('.audio_outputSelect').click(function () {
-            setButtonName($('#audioInputSelect'), $(this).text());
+        $('.audio_inputSelect').click(function () {
+            $('.audio_inputSelect').removeClass('selectedDevice');
+            $(this).addClass('selectedDevice');
             audioId = $(this).data('value');
         })
+        $('.audio_outputSelect').click(function () {
+            $('.audio_outputSelect').removeClass('selectedDevice');
+            $(this).addClass('selectedDevice');
+            micId = $(this).data('value');
+        })
         audioId = audio[0].deviceId;
-        setButtonName($('#audioInputSelect'), audio[0].label);
+        console.log(audioId);
+        $('.audio_outputSelect[data-value="'+audioId+'"]').addClass('selectedDevice');
+        micId = mic[0].deviceId;
+        $('.audio_inputSelect[data-value="'+micId+'"]').addClass('selectedDevice');
     })
 
-    $('#webcamSwitch').click(function (e) {
+    $('#startEcho').click(function (e) {
         e.preventDefault();
-        toggleWebcam(e);
+        toggleEcho();
     })
 }
-function toggleWebcam(e){
-    if(toggle === 1){
-        stopWebcam();
-    }else {
-       startWebcam(choosenId);
-    }
-}
 
-function startWebcam(id){
+
+function toggleEcho(){
+    const audioCtx = new AudioContext();
     if (navigator.mediaDevices.getUserMedia) {
-        var constraints = { deviceId: { exact: id } };
-        navigator.mediaDevices.getUserMedia({video: constraints})
+        var constraints = {
+            'audio': {'echoCancellation': true,deviceId: micId},
+            'video': false,
+        };
+        navigator.mediaDevices.getUserMedia({audio: constraints})
             .then(function (stream) {
-                video.srcObject = stream;
-                toggle = 1;
-                video.style.height ='auto';
-                $('#webcamSwitch').removeClass('fa-video').addClass('fa-video-slash')
+                const microphone = audioCtx.createMediaStreamSource(stream)
+                var destination = audioCtx.createMediaStreamDestination({audio: {deviceId: {excat: audioId}}});
+                new Audio().srcObject = srcStream;
+                microphone.conntect(destination);
             })
             .catch(function (err0r) {
+                console.log(err0r);
                 console.log("Something went wrong!");
             });
     }
-}
-
-function stopWebcam() {
-    var stream = video.srcObject;
-    var tracks = stream.getTracks();
-    var $heigth = video.clientHeight;
-    video.style.height = $heigth+'px';
-    for (var i = 0; i < tracks.length; i++) {
-        var track = tracks[i];
-        track.stop();
-        $('#webcamSwitch').addClass('fa-video').removeClass('fa-video-slash')
-        toggle = 0;
-    }
-    video.srcObject = null;
-}
-function setButtonName(button, text) {
-    button.text(text);
 }
 export {initAUdio,micId, audioId}
