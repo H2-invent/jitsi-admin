@@ -75,7 +75,7 @@ help:
   serverUrl: 'Nhập không cần "https: //" (ví dụ: meet.saza.vn)'
   featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
   teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
-  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
+  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Tham gia với App
   beitretenBrowser: Tham gia với trình duyệt

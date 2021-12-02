@@ -402,8 +402,8 @@
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
         <target state="translated"><![CDATA[Bạn muốn quản lý hội nghị này?
-                                    &lt;br&gt;
-                                   Vui lòng kết nối &lt;a href="{url}"&gt;tại đây&lt;/a&gt;&amp;nbsp;.]]></target>
+                                    <br>
+                                   Vui lòng kết nối <a href="{url}">tại đây</a>&nbsp;.]]></target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an.">
         <source>Sie wollen selber eine Videokonferenz
@@ -412,9 +412,9 @@
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;
                                     an.</source>
         <target state="translated"><![CDATA[Bạn muốn tạo một hội nghị trực tuyến
-                                    &lt;b&gt;miễm phí&lt;/b&gt; hoặc lên kế hoạch cho một hội nghị này và
-                                                     quản lý?&lt;br&gt;
-                                    Vui lòng kết nối &lt;a href="{url}"&gt;tại đây&lt;/a&gt;&amp;nbsp;&lt;b&gt;&lt;/b&gt;
+                                    <b>miễm phí</b> hoặc lên kế hoạch cho một hội nghị này và
+                                                     quản lý?<br>
+                                    Vui lòng kết nối <a href="{url}">tại đây</a>&nbsp;<b></b>
                                     .]]></target>
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
@@ -503,8 +503,8 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="translated"><![CDATA[Thông tin tham dự hội nghị:&lt;br&gt;
-        Địa chỉ email của bạn: {email}&lt;br&gt;
+        <target state="translated"><![CDATA[Thông tin tham dự hội nghị:<br>
+        Địa chỉ email của bạn: {email}<br>
         ID Hội nghị: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
@@ -682,7 +682,7 @@
       <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="translated"><![CDATA[Giấy phép Jitsi-Admin-Enterprise của bạn sẽ sớm hết hạn.   &lt;br&gt;
+        <target state="translated"><![CDATA[Giấy phép Jitsi-Admin-Enterprise của bạn sẽ sớm hết hạn.   <br>
 Hãy gia hạn giấy phép của bạn ngay bây giờ để tiếp tục sử dụng tất cả các tính năng như bình thường.]]></target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern">
@@ -799,18 +799,18 @@ Hãy gia hạn giấy phép của bạn ngay bây giờ để tiếp tục sử 
             und die &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated"><![CDATA[Tôi có  &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-            &lt;u&gt; Chính sách quyền riêng tư của Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
-và &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
-            &lt;u&gt;Chính sách quyền riêng tư của {url}&lt;/u&gt;&lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+        <target state="translated"><![CDATA[Tôi có  <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u> Chính sách quyền riêng tư của Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Chính sách quyền riêng tư của {url}</u><i class="fa fa-external-link-alt"></i></a>
 đọc và ghi lại chúng.]]></target>
       </trans-unit>
       <trans-unit id="vj_Mqv." resname="Ich habe die &lt;a href=&quot;{dataPrivay}&quot; target=&quot;_blank&quot; referrerpolicy=&quot;no-referrer&quot;&gt;&#10;            &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class=&quot;fa fa-external-link-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#10;            gelesen und nehme diese zur Kenntnis.">
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated"><![CDATA[ Tôi có &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-            &lt;u&gt;Chính sách quyền riêng tư của Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
+        <target state="translated"><![CDATA[ Tôi có <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Chính sách quyền riêng tư của Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
             đọc và ghi lại chúng.]]></target>
       </trans-unit>
       <trans-unit id="yUDlpqH" resname="{from} von {to}">
@@ -830,7 +830,7 @@ và &lt;a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"&gt;
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
         <target state="translated"><![CDATA[Hiện tại không có hội nghị. Tạo tại
-                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;đây&lt;/a&gt;&lt;/u&gt;
+                            <u><a href="{url}" class="loadContent">đây</a></u>
                             một hội nghị mới.]]></target>
       </trans-unit>
       <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste">

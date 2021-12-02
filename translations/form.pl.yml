@@ -75,7 +75,7 @@ help:
   serverUrl: Ohne "https://" angeben (z.B meet.jit.si)
   featureEnalbeByJwt: Das Plugin "Enable Feature By JWT" muss auf dem Jitsi-Meet-Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet
   teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
-  serverName: Bitte geben Sie hier den Servername an. Dieser wird den Teilnehmenden angezeigt.
+  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten

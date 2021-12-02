@@ -401,9 +401,9 @@
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     &lt;br&gt;
                                     Dann melden Sie sich &lt;a href="{url}"&gt;hier&lt;/a&gt;&amp;nbsp;an.</source>
-        <target state="final"><![CDATA[Voulez-vous gérer confortablement cette conférence en un seul aperçu ?
-&lt;br&gt;
-Alors vous pouvez vous  &lt;a href="{url}"&gt; inscrire ici &lt;/a&gt;&amp;nbsp;.]]></target>
+        <target state="final"><![CDATA[Voulez-vous gérer confortablement cette conférence en un seul aperçu?
+<br>
+Alors vous pouvez vous  <a href="{url}">inscrire ici </a>.]]></target>
       </trans-unit>
       <trans-unit id="LLkbQV." resname="Sie wollen selber eine Videokonferenz&#10;                                    &lt;b&gt;kostenlos&lt;/b&gt; planen oder diese Konferenz komfortabel&#10;                                                     in einer Übersicht verwalten?&lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;&lt;b&gt;kostenlos&lt;/b&gt;&#10;                                    an." approved="yes">
         <source>Sie wollen selber eine Videokonferenz
@@ -680,7 +680,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       <trans-unit id="Yy5SFLm" resname="Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;&#10;            Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können." approved="yes">
         <source>Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus. &lt;br&gt;
             Verlängern Sie Ihre Lizenz jetzt gleich um weiterhin alle Features wie gewohnt nutzen zu können.</source>
-        <target state="final"><![CDATA[Votre licence Jitsi-Admin_Enterprise expira bintôt. &lt;br&gt;
+        <target state="final"><![CDATA[Votre licence Jitsi-Admin_Enterprise expira bintôt. <br>
 Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toutes les fonctionnalités comme d'habitude.]]></target>
       </trans-unit>
       <trans-unit id="XM_Q6r7" resname="Hier verlängern" approved="yes">
@@ -806,8 +806,8 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="final"><![CDATA[Je confirme avoir pris connaissance des &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
-            &lt;u&gt;Informations sur la protection des données de Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;]]></target>
+        <target state="final"><![CDATA[Je confirme avoir pris connaissance des <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Informations sur la protection des données de Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>.]]></target>
       </trans-unit>
       <trans-unit id="yUDlpqH" resname="{from} von {to}" approved="yes">
         <source>{from} von {to}</source>
@@ -826,7 +826,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
         <target state="final"><![CDATA[Il n'y a actuellement aucune conférence. Créer
-                            &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;ici&lt;/a&gt;&lt;/u&gt;
+                            <u><a href="{url}" class="loadContent">ici</a></u>
                             une nouvelle conférence.]]></target>
       </trans-unit>
       <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste" approved="yes">
