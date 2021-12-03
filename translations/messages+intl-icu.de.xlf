@@ -286,7 +286,7 @@
         <target>Passwort ändern</target>
       </trans-unit>
       <trans-unit id="0FJ_Sz1" resname="Logout">
-        <source>Log-out</source>
+        <source>Logout</source>
         <target state="translated">Log-out</target>
       </trans-unit>
       <trans-unit id="lUcvZQo" resname="Hilfe">
@@ -370,7 +370,7 @@
         <target>Optionen</target>
       </trans-unit>
       <trans-unit id="F8.sMjK" resname="Einladungslinks">
-        <source>Einladung</source>
+        <source>Einladungslinks</source>
         <target>Einladung</target>
       </trans-unit>
       <trans-unit id="bC01IWH" resname="Löschen">
@@ -480,7 +480,7 @@
         sich einen Benutzer.</target>
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
-        <source>Log-in</source>
+        <source>Login</source>
         <target state="translated">Log-in</target>
       </trans-unit>
       <trans-unit id="OmOD76j" resname="Server Administrator">
@@ -580,7 +580,7 @@
         <target state="translated">Diesem Nutzer nicht mehr erlauben, private Nachrichten an andere Teilnehmende zu senden</target>
       </trans-unit>
       <trans-unit id="2Pr8ySk" resname="Teilnehmer suchen">
-        <source>Teilnehmende finden</source>
+        <source>Teilnehmer suchen</source>
         <target state="translated">Teilnehmende finden</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
@@ -1366,12 +1366,24 @@
         <target>Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
-        <source>lobby.allowAllUsers</source>
+        <source>Alle Teilnehmende zulassen</source>
         <target>Alle Teilnehmende zulassen</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
-        <source>lobby.moderator.accept.all.success</source>
+        <source>Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen</source>
         <target>Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen</target>
+      </trans-unit>
+      <trans-unit id="DHTysqR" resname="lobby.start.echo">
+        <source>Echotest starten</source>
+        <target>Echotest starten</target>
+      </trans-unit>
+      <trans-unit id="8SH9Z2g" resname="lobby.echo.input">
+        <source>Eingangsgerät</source>
+        <target>Eingangsgerät</target>
+      </trans-unit>
+      <trans-unit id="1sryeOJ" resname="lobby.echo.output">
+        <source>Ausgabegerät</source>
+        <target>Ausgabegerät</target>
       </trans-unit>
     </body>
   </file>

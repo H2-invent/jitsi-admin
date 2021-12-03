@@ -52,7 +52,7 @@ function toggleWebcam(e){
 function startWebcam(id){
     if (navigator.mediaDevices.getUserMedia) {
         var constraints = { deviceId: { exact: id } };
-        navigator.mediaDevices.getUserMedia({video: constraints})
+        navigator.mediaDevices.getUserMedia({video: constraints,audio:false})
             .then(function (stream) {
                 video.srcObject = stream;
                 toggle = 1;

@@ -15,7 +15,7 @@ var echoTest = 0;
 var audio = [];
 var mic = [];
 var audioId = null;
-var micId= null;
+var micId = null;
 
 function initAUdio() {
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
@@ -34,45 +34,59 @@ function initAUdio() {
                 mic.push(device);
             }
         });
-        console.log(mic);
-        console.log(audio);
         $('.audio_inputSelect').click(function () {
             $('.audio_inputSelect').removeClass('selectedDevice');
             $(this).addClass('selectedDevice');
-            audioId = $(this).data('value');
+            micId = $(this).data('value');
         })
         $('.audio_outputSelect').click(function () {
             $('.audio_outputSelect').removeClass('selectedDevice');
             $(this).addClass('selectedDevice');
-            micId = $(this).data('value');
+            audioId = $(this).data('value');
         })
         audioId = audio[0].deviceId;
         console.log(audioId);
-        $('.audio_outputSelect[data-value="'+audioId+'"]').addClass('selectedDevice');
+        $('.audio_outputSelect[data-value="' + audioId + '"]').addClass('selectedDevice');
         micId = mic[0].deviceId;
-        $('.audio_inputSelect[data-value="'+micId+'"]').addClass('selectedDevice');
+        $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
     })
 
     $('#startEcho').click(function (e) {
+        var text;
+        if(echoTest === 0){
+            echoTest = 1;
+            text = $(this).data('textoff');
+            $(this).text(text);
+        }else {
+            echoTest = 0;
+            text = $(this).data('texton');
+            $(this).text(text);
+        }
         e.preventDefault();
         toggleEcho();
     })
 }
 
 
-function toggleEcho(){
-    const audioCtx = new AudioContext();
+function toggleEcho() {
     if (navigator.mediaDevices.getUserMedia) {
-        var constraints = {
-            'audio': {'echoCancellation': true,deviceId: micId},
-            'video': false,
-        };
-        navigator.mediaDevices.getUserMedia({audio: constraints})
+        var constraints = {'echoCancellation': true, deviceId: {exact: micId}};
+        navigator.mediaDevices.getUserMedia({audio: constraints, video: false})
             .then(function (stream) {
-                const microphone = audioCtx.createMediaStreamSource(stream)
+                var AudioContext = window.AudioContext || window.webkitAudioContext;
+                var audioCtx = new AudioContext();
+                var source = audioCtx.createMediaStreamSource(stream)
+                var delay = audioCtx.createDelay(2.0);
+                var gain = audioCtx.createGain(10);
                 var destination = audioCtx.createMediaStreamDestination({audio: {deviceId: {excat: audioId}}});
-                new Audio().srcObject = srcStream;
-                microphone.conntect(destination);
+                source.connect(delay);
+                delay.connect(gain);
+                if(echoTest === 1){
+                    gain.connect(audioCtx.destination);
+                }else {
+                    gain.disconnect(audioCtx.destination);
+                }
+
             })
             .catch(function (err0r) {
                 console.log(err0r);
@@ -80,4 +94,5 @@ function toggleEcho(){
             });
     }
 }
-export {initAUdio,micId, audioId}
+
+export {initAUdio, micId, audioId}
