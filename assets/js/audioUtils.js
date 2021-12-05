@@ -16,6 +16,8 @@ var audio = [];
 var mic = [];
 var audioId = null;
 var micId = null;
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var audioCtx = new AudioContext();
 
 function initAUdio() {
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
@@ -73,8 +75,7 @@ function toggleEcho() {
         var constraints = {'echoCancellation': true, deviceId: {exact: micId}};
         navigator.mediaDevices.getUserMedia({audio: constraints, video: false})
             .then(function (stream) {
-                var AudioContext = window.AudioContext || window.webkitAudioContext;
-                var audioCtx = new AudioContext();
+
                 var source = audioCtx.createMediaStreamSource(stream)
                 var delay = audioCtx.createDelay(2.0);
                 var gain = audioCtx.createGain(10);
@@ -85,6 +86,7 @@ function toggleEcho() {
                     gain.connect(audioCtx.destination);
                 }else {
                     gain.disconnect(audioCtx.destination);
+                    audioCtx.close();
                 }
 
             })
