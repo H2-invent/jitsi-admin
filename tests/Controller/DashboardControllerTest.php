@@ -94,7 +94,7 @@ class DashboardControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-        self::assertEquals(47, $crawler->filter('p:contains("Server: Server with License")')->count());
+        self::assertEquals(67, $crawler->filter('p:contains("Server: Server with License")')->count());
     }
     public function testservernameinnoForeignServerConferenceCard()
     {

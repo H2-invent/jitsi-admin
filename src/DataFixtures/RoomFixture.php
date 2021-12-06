@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use App\Entity\AddressGroup;
 use App\Entity\License;
 use App\Entity\Rooms;
+use App\Entity\Scheduling;
+use App\Entity\SchedulingTime;
 use App\Entity\Server;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -128,14 +130,50 @@ class RoomFixture extends Fixture
             $room->addUser($user);
             $room->addUser($user2);
             $room->addUser($user3);
-            $room->setUid('12345678'.$i);
-            $room->setUidReal('987654321'.$i);
+            $room->setUid('12345678' . $i);
+            $room->setUidReal('987654321' . $i);
             $room->setSlug('test');
             $room->setScheduleMeeting(false);
             $room->setName('TestMeeting: ' . $i);
             $room->setSequence(0);
             $room->setServer($server);
             $manager->persist($room);
+        }
+        $start = new \DateTime('2021-01-01T15:00');
+        for ($i = 0; $i < 20; $i++) {
+            $room = new Rooms();
+            $room->setTimeZone('Europe/Berlin');
+            $room->setModerator($user);
+            $room->setAgenda('Testagenda:' . $i);
+            $room->setDuration(60);
+            $room->setDissallowPrivateMessage(true);
+            $room->setDissallowScreenshareGlobal(true);
+            $room->setStart($start);
+            $room->setEnddate($end);
+            $room->addUser($user);
+            $room->addUser($user2);
+            $room->addUser($user3);
+            $room->setUid('12345678' . $i);
+            $room->setUidReal('987654321' . $i);
+            $room->setSlug('test');
+            $room->setScheduleMeeting(true);
+            $room->setName('Termin finden: ' . $i);
+            $room->setSequence(0);
+            $room->setServer($server);
+            $selectDate = new Scheduling();
+            $selectDate->setUid(md5(uniqid()));
+            $selectDate->setDescription('test');
+            $selectDate->setRoom($room);
+            for ($c = 0; $c < 5; $c++) {
+                $time = new SchedulingTime();
+                $time->setTime(clone $start);
+                $start->modify('+1day');
+                $selectDate->addSchedulingTime($time);
+                $manager->persist($time);
+            }
+            $manager->persist($selectDate);
+            $manager->persist($room);
+
         }
         for ($i = 0; $i < 20; $i++) {
             $room = new Rooms();
@@ -153,8 +191,8 @@ class RoomFixture extends Fixture
             $room->addUser($user);
             $room->addUser($user2);
             $room->addUser($user3);
-            $room->setUid('13579'.$i);
-            $room->setUid('97531'.$i);
+            $room->setUid('13579' . $i);
+            $room->setUid('97531' . $i);
             $room->setSlug('test');
             $room->setScheduleMeeting(false);
             $room->setName('TestMeeting_Amerika: ' . $i);
@@ -286,9 +324,6 @@ class RoomFixture extends Fixture
         $room->setDuration(0);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
-        $start = (null);
-        $room->setStart($start);
-        $room->setEnddate($end);
         $room->setModerator($user);
         $room->addUser($user);
         $room->addUser($user2);
