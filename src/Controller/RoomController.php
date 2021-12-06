@@ -94,7 +94,7 @@ class RoomController extends AbstractController
             $room->setShowRoomOnJoinpage($parameterBag->get('input_settings_conference_join_page_default'));
             $room->setTotalOpenRooms($parameterBag->get('input_settings_deactivate_participantsList_default'));
             $room->setDissallowScreenshareGlobal($parameterBag->get('input_settings_dissallow_screenshare_default'));
-
+            $room->setLobby($parameterBag->get('input_settings_allowLobby_default'));
 
             //end default values
 
