@@ -14,6 +14,9 @@
                 {% if room.dissallowScreenshareGlobal %}
                     <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
                 {% endif %}
+                {% if room.lobby %}
+                    <br><i class="fas fa-couch"></i> {{ 'addParticipants.lobbyModerator.help'|trans }}
+                {% endif %}
             </p>
             <div>
                 <ul id="atendeeList">
@@ -66,7 +69,19 @@
                                        data-url="{{ path('room_add_user',{'room':room.id}) }}"
                                     ><i class="far fa-comments"></i></a>
                                 {% endif %}
-
+                                {% if room.lobby %}
+                                    <a class="small directSend {% if roomPermissions(user,room).lobbyModerator == true %}text-success{% endif %}"
+                                       href="{{ path('room_add_lobby_moderator',{'room':room.id,'user':user.id}) }}"
+                                       data-text="
+{% if roomPermissions(user,room).privateMessage == false %}{{ 'addParticipants.lobbyModerator.add'|trans }}
+{% else %}
+{{ 'addParticipants.lobbyModerator.remove'|trans }}
+{% endif %}
+"
+                                       data-target="#atendeeList"
+                                       data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                    >   <i class="fas fa-couch"></i></a>
+                                {% endif %}
                                 <a class="small directSendWithConfirm"
                                    href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
                                    data-target="#atendeeList"

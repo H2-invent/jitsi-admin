@@ -71,4 +71,23 @@ class ChangePermissionsController extends AbstractController
         }
         return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
     }
+    /**
+     * @Route("/room/lobbyModerator", name="room_add_lobby_moderator")
+     */
+    public function roomTransferLobbyModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator)
+    {
+        $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
+        if(!$room){
+            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+        }
+        $userNew = $this->getDoctrine()->getRepository(User::class)->find($request->get('user'));
+        if(!$userNew){
+            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+        }
+        $userOld = $room->getModerator();
+        if($permissionChangeService->toggleLobbyModerator($userOld,$userNew,$room)){
+            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Der Moderator wurde erfolgreich hinzugefügt')]);
+        }
+        return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+    }
 }
