@@ -55,18 +55,8 @@ class ToParticipantWebsocketService
             'a',
             $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
         );
-        $browserUrl = $this->roomService->join(
-            $lobbyWaitungUser->getRoom(),
-            $lobbyWaitungUser->getUser(),
-            'b',
-            $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
-        );
 
-        if ($this->parameterBag->get('start_dropdown_allow_browser') == 1 && $this->parameterBag->get('start_dropdown_allow_app') == 1) {
-            $content =
-                $this->twig->render('lobby_participants/choose.html.twig', array('appUrl' => $appUrl, 'browserUrl' => $browserUrl));
-            $this->directSend->sendModal($topic, $content);
-        } elseif ($this->parameterBag->get('start_dropdown_allow_browser') == 1) {
+        if ($lobbyWaitungUser->getType() === 'b') {
             $options = array(
                 'options' => array(
                     'jwt' => $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))),
@@ -74,13 +64,14 @@ class ToParticipantWebsocketService
                     'width' => '100%',
                     'height' => 400,
                 ),
-                'roomName'=>$lobbyWaitungUser->getRoom()->getName(),
-                'domain'=>$lobbyWaitungUser->getRoom()->getServer()->getUrl(),
+                'roomName' => $lobbyWaitungUser->getRoom()->getName(),
+                'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
                 'parentNode' => '#jitsiWindow',
             );
             $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
-        } elseif ($this->parameterBag->get('start_dropdown_allow_app') == 1) {
+        } elseif ($lobbyWaitungUser->getType() === 'a') {
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
+            $this->directSend->sendRedirect($topic, '/', 6000);
         }
     }
 

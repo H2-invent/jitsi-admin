@@ -77,33 +77,16 @@
                         </div>
 
                     </div>
-                    {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
-                        <div class="dropdown d-none d-lg-block ">
-                            <button class="caretdown btn btn-primary dropdown-toggle" type="button"
-                                    id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">{{ 'jitsi.start'|trans }}
-                            </button>
-                            <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                                <li><a class="dropdown-item"
-                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                                       target="_blank">{{ 'jitsi.start.browser'|trans }}</a></li>
-                                <li><a class="dropdown-item" title="In der Electron Jitsi Meet App"
-                                       href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                                       target="_blank">{{ 'jitsi.start.app'|trans }}</a></li>
-                            </ul>
-                        </div>
-                    {% elseif start_dropdown_allow_app == 1 %}
+
+                    {% if type == 'a' %}
                         <div class="d-none d-lg-block ">
                             <a class="btn btn-primary"
-                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                               target="_blank">{{ 'jitsi.start'|trans }}</a>
+                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}" target="_blank">{{ 'jitsi.start'|trans }}</a>
                         </div>
-                    {% elseif start_dropdown_allow_browser == 1 %}
+                    {% elseif type == 'b' %}
                         <div class="d-none d-lg-block ">
                             <a class="btn btn-primary startIframe"
-                               href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                               target="_blank">{{ 'jitsi.start'|trans }}</a>
+                               href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}" target="_blank">{{ 'jitsi.start'|trans }}</a>
                         </div>
                     {% endif %}
 

@@ -40,6 +40,11 @@ class LobbyWaitungUser
      */
     private $uid;
 
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $type;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +94,18 @@ class LobbyWaitungUser
     public function setUid(string $uid): self
     {
         $this->uid = $uid;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

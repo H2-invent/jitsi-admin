@@ -51,9 +51,9 @@ class StartController extends AbstractController
                 if($roomL->getLobby()){
                     $res = $this->redirectToRoute('dashboard');
                     if($this->getUser() === $roomL->getModerator()){
-                        $res = $this->redirectToRoute('lobby_moderator',array('uid'=>$roomL->getUidReal()));
+                        $res = $this->redirectToRoute('lobby_moderator',array('uid'=>$roomL->getUidReal(),'type'=>$t));
                     }else{
-                        $res = $this->redirectToRoute('lobby_participants_wait',array('roomUid'=>$roomL->getUidReal(),'userUid'=>$this->getUser()->getUid()));
+                        $res = $this->redirectToRoute('lobby_participants_wait',array('type'=>$t, 'roomUid'=>$roomL->getUidReal(),'userUid'=>$this->getUser()->getUid()));
                     }
 
                     return $res;

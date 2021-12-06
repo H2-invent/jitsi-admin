@@ -42,9 +42,9 @@ class LobbyModeratorController extends AbstractController
 
 
     /**
-     * @Route("/room/lobby/moderator/{uid}", name="lobby_moderator")
+     * @Route("/room/lobby/moderator/{type}/{uid}", name="lobby_moderator", defaults={"type" = "a"})
      */
-    public function index(Request $request, $uid): Response
+    public function index(Request $request, $uid,$type): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uid));
         if ($room->getModerator() !== $this->getUser()) {
@@ -53,7 +53,8 @@ class LobbyModeratorController extends AbstractController
         }
         return $this->render('lobby/index.html.twig', [
             'room' => $room,
-            'server' => $room->getServer()
+            'server' => $room->getServer(),
+            'type'=>$type
         ]);
     }
 

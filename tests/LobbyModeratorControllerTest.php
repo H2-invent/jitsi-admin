@@ -38,7 +38,7 @@ class LobbyModeratorControllerTest extends WebTestCase
             return 'id';
         });
         $directSend->setMercurePublisher($hub);
-        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUidReal());
+        $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         $this->assertEquals(
             0,
             $crawler->filter('.participantsName:contains("User, Test, test@local2.de")')->count()
@@ -48,17 +48,18 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser->setRoom($room);
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
+        $lobbyUser->setType('a');
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $em->persist($lobbyUser);
         $em->flush();
-        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUidReal());
+        $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         $this->assertEquals(
             1,
             $crawler->filter('.participantsName:contains("User, Test, test@local2.de")')->count()
         );
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
-        $crawler = $client->request('GET', '/room/lobby/moderator/' . $room->getUidReal());
+        $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         self::assertResponseRedirects('/room/dashboard?snack=Fehler&color=danger');
     }
 
@@ -81,6 +82,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUser = new LobbyWaitungUser();
         $lobbyUser->setRoom($room);
+        $lobbyUser->setType('a');
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
@@ -120,6 +122,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUser = new LobbyWaitungUser();
         $lobbyUser->setRoom($room);
+        $lobbyUser->setType('a');
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
@@ -184,13 +187,14 @@ class LobbyModeratorControllerTest extends WebTestCase
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUser = new LobbyWaitungUser();
+        $lobbyUser->setType('a');
         $lobbyUser->setRoom($room);
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $em->persist($lobbyUser);
-
         $lobbyUser2 = new LobbyWaitungUser();
+        $lobbyUser2->setType('a');
         $lobbyUser2->setRoom($room);
         $lobbyUser2->setCreatedAt(new \DateTime());
         $lobbyUser2->setUser($moderator);

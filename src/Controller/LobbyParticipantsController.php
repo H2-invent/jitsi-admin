@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
 class LobbyParticipantsController extends AbstractController
 {
     private $translator;
@@ -28,17 +29,18 @@ class LobbyParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("/lobby/participants/{roomUid}/{userUid}", name="lobby_participants_wait")
+     * @Route("/lobby/participants/{type}/{roomUid}/{userUid}", name="lobby_participants_wait", defaults={"type" = "a"})
      */
-    public function index($roomUid, $userUid): Response
+    public function index($roomUid, $userUid,$type): Response
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
-
+        $em = $this->getDoctrine()->getManager();
         if(!$lobbyUser){
             $lobbyUser = new LobbyWaitungUser();
+            $lobbyUser->setType($type);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room);
             $lobbyUser->setCreatedAt(new \DateTime());
@@ -49,8 +51,11 @@ class LobbyParticipantsController extends AbstractController
             $this->toModerator->newParticipantInLobby($lobbyUser);
             $this->toModerator->refreshLobby($lobbyUser);
         }
+        $lobbyUser->setType($type);
+        $em->persist($lobbyUser);
+        $em->flush();
 
-       return $this->render('lobby_participants/index.html.twig',array('room'=>$room, 'server'=>$room->getServer(),'user'=>$user));
+       return $this->render('lobby_participants/index.html.twig',array('type'=>$type,'room'=>$room, 'server'=>$room->getServer(),'user'=>$user));
     }
     /**
      * @Route("/lobby/renew/participants/{roomUid}/{userUid}", name="lobby_participants_renew")
