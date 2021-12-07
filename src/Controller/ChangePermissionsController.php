@@ -72,7 +72,7 @@ class ChangePermissionsController extends AbstractController
         return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
     }
     /**
-     * @Route("/room/lobbyModerator", name="room_add_lobby_moderator")
+     * @Route("/room/change/lobbyModerator", name="room_add_lobby_moderator")
      */
     public function roomTransferLobbyModerator(Request $request, PermissionChangeService $permissionChangeService, TranslatorInterface $translator)
     {

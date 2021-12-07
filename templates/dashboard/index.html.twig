@@ -170,8 +170,8 @@
                         {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
                         {{ 'Morgen'|trans }}
                         {% else %}
-                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=false) }}
-                            | {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=false) }}
+                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=false) }},
+                            {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=false) }}
                             {% endif %}
                     </h4>
                     {% for room in date %}

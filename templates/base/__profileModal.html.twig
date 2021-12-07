@@ -11,12 +11,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p> {% if theme != false %}
-                    {{ theme.nameIdentifier }}
-                    {% else %}
-                    {{ 'Name'|trans }}
-                    {% endif %}
-                    :  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
+                <p> {% if theme != false %}{{ theme.nameIdentifier }}{% else %}{{ 'Name'|trans }}{% endif %}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
                     {% if theme != false %}{{ theme.usernameIdentifier }}{% else %}{{ 'Username'|trans }}{% endif %}: {{ app.user.userIdentifier }}<br>
                     {% if allowTimeZoneSwitch == 1  %}
                     {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% else %}{{ 'Zeitzone'|trans }}{% endif %}: {{ app.user.timeZone }}

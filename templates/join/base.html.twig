@@ -149,7 +149,7 @@
 
                                         {% for r in server|roomsinFuture %}
                                             <li class="list-group-item d-flex align-items-center justify-content-between">
-                                                <b>{{ r.start|date('d.m.Y | H:i') }}</b>
+                                                <b>{{ r.start|date('d.m.Y, H:i') }}</b>
                                                 <h5>{{ r.name }} <a tabindex="0" data-toggle="popover"
                                                                     data-trigger="focus"
                                                                     title="{{ 'Agenda'|trans }}"

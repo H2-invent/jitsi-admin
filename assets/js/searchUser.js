@@ -23,7 +23,7 @@ function initSearchUser() {
                     $target.empty();
                     var $email = data.user;
                     if ($email.length > 0) {
-                        $target.append('<h5>Email</h5>');
+                        $target.append('<h5>E-Mail</h5>');
                     }
                     for (var i = 0; i < $email.length; i++) {
                         $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $email[i].id + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i><span>' + $email[i].name + '</span> </a>');

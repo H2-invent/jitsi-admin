@@ -47,15 +47,17 @@ class LobbyModeratorController extends AbstractController
     public function index(Request $request, $uid,$type): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uid));
-        if ($room->getModerator() !== $this->getUser()) {
-            $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
-            return $this->redirectToRoute('dashboard', array('snack' => $this->translator->trans('Fehler'), 'color' => 'danger'));
+        if ($room->getModerator() === $this->getUser() || $this->getUser()->getPermissionForRoom($room)->getLobbyModerator() === true) {
+            return $this->render('lobby/index.html.twig', [
+                'room' => $room,
+                'server' => $room->getServer(),
+                'type'=>$type
+            ]);
         }
-        return $this->render('lobby/index.html.twig', [
-            'room' => $room,
-            'server' => $room->getServer(),
-            'type'=>$type
-        ]);
+
+        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
+        return $this->redirectToRoute('dashboard', array('snack' => $this->translator->trans('error.noPermission'), 'color' => 'danger'));
+
     }
 
     /**

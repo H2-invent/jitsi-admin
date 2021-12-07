@@ -926,4 +926,12 @@ class User extends BaseUser
 
         return $this;
     }
+    public function getPermissionForRoom(Rooms $rooms):RoomsUser{
+        foreach ($this->roomsAttributes as $data){
+            if($data->getRoom() == $rooms){
+                return $data;
+            }
+        }
+        return new RoomsUser();
+    }
 }
