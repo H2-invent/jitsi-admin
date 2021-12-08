@@ -68,18 +68,19 @@ class JoinController extends AbstractController
 
         $form = $this->createForm(JoinViewType::class, $data);
         $form->handleRequest($request);
-        //here is where the magic happens
-        $res = $this->joinService->join($form,$room,$this->getUser(),$snack,$color);
-        if($res){
-            return $res;
+        if ($form->isSubmitted() && $form->isValid()) {
+            //here is where the magic happens
+            $res = $this->joinService->join( $form->getData(),$snack,$color,$form->has('joinApp'), $form->get('joinApp')->isClicked(), $form->has('joinBrowser'), $form->get('joinBrowser')->isClicked());
+            if($res){
+                return $res;
+            }
         }
+
         return $this->render('join/index.html.twig', [
             'color' => $color,
             'form' => $form->createView(),
             'snack' => $snack,
             'server' => $server,
-
-
         ]);
     }
 
