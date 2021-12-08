@@ -48,6 +48,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser->setRoom($room);
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
+        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
         $lobbyUser->setType('a');
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $em->persist($lobbyUser);
@@ -86,6 +87,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
+        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
         $em->persist($lobbyUser);
         $em->flush();
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
@@ -126,6 +128,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
+        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
         $em->persist($lobbyUser);
         $em->flush();
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
@@ -192,6 +195,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser->setCreatedAt(new \DateTime());
         $lobbyUser->setUser($user2);
         $lobbyUser->setUid('lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
+        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
         $em->persist($lobbyUser);
         $lobbyUser2 = new LobbyWaitungUser();
         $lobbyUser2->setType('a');
@@ -199,6 +203,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $lobbyUser2->setCreatedAt(new \DateTime());
         $lobbyUser2->setUser($moderator);
         $lobbyUser2->setUid('lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf');
+        $lobbyUser2->setShowName($moderator->getFirstName().' '.$moderator->getLastName());
         $em->persist($lobbyUser2);
         $em->flush();
 

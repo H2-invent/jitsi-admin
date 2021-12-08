@@ -20,7 +20,7 @@ class LobbyWaitungUser
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="lobbyWaitungUsers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -44,6 +44,11 @@ class LobbyWaitungUser
      * @ORM\Column(type="string", length=5)
      */
     private $type;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $showName;
 
     public function getId(): ?int
     {
@@ -106,6 +111,18 @@ class LobbyWaitungUser
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getShowName(): ?string
+    {
+        return $this->showName;
+    }
+
+    public function setShowName(string $showName): self
+    {
+        $this->showName = $showName;
 
         return $this;
     }

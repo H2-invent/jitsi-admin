@@ -9,6 +9,7 @@ use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Lobby\ToParticipantWebsocketService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,12 +21,14 @@ class LobbyParticipantsController extends AbstractController
     private $translator;
     private $toModerator;
     private $toParticipant;
-    public function __construct(ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService,TranslatorInterface $translator, DirectSendService $lobbyUpdateService)
+    private $parameterBag;
+    public function __construct(ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService,TranslatorInterface $translator, DirectSendService $lobbyUpdateService, ParameterBagInterface $parameterBag)
     {
         $this->translator = $translator;
         $this->lobbyUpdateService = $lobbyUpdateService;
         $this->toModerator = $toModeratorWebsocketService;
         $this->toParticipant = $toParticipantWebsocketService;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -45,6 +48,7 @@ class LobbyParticipantsController extends AbstractController
             $lobbyUser->setRoom($room);
             $lobbyUser->setCreatedAt(new \DateTime());
             $lobbyUser->setUid(md5(uniqid()));
+            $lobbyUser->setShowName($user->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
             $em = $this->getDoctrine()->getManager();
             $em->persist($lobbyUser);
             $em->flush();

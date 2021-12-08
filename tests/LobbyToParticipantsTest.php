@@ -43,6 +43,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
         $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
         $manager->flush();
@@ -77,6 +78,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
         $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
         $manager->flush();
