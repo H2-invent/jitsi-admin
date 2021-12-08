@@ -39,7 +39,7 @@ class ParticipantController extends AbstractController
         $group = $this->getDoctrine()->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = array();
-        if($this->parameterBag->get('strict_allow_user_creation') == 0){
+        if($this->parameterBag->get('strict_allow_user_creation') == 1){
             $res['user'] = $participantSearchService->generateUserwithEmptyUser($user,$string);
         }else{
             $res['user'] = $participantSearchService->generateUserwithoutEmptyUser($user);

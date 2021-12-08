@@ -24,7 +24,7 @@ class ParticipantSearchService
     }
     public function generateUserwithEmptyUser($user,$searchString){
         $res = array();
-        if (sizeof($user) === 0 && $this->parameterBag->get('strict_allow_user_creation') == 0) {
+        if (sizeof($user) === 0) {
             $res[] = array(
                 'name' => $searchString,
                 'id' => $searchString
