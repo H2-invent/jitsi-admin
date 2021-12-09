@@ -56,7 +56,9 @@ function notifymoderator(data) {
 
 function refresh(data) {
     var reloadUrl = data.reloadUrl;
+
     $('#waitingUserWrapper').load(reloadUrl, function () {
+        $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
         initCircle();
     });
 }

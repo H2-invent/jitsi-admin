@@ -57,7 +57,7 @@
                                         <div class="card-body text-center d-flex flex-column align-items-center">
                                             <div class="initialCircle ">
                                                 {% if wU.user.firstName != '' %}{{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}{% else %}{{ wU.user.username[:1] }}{% endif %}</div>
-                                            <div class="participantsName">{{ wU.user.formatedName(laf_showNameInConference) }}</div>
+                                            <div class="participantsName">{{ wU.showName }}</div>
 
                                         </div>
                                         <div class="card-footer text-center">
@@ -96,6 +96,8 @@
                            target="_blank">{{ 'jitsi.start'|trans }}</a>
                     </div>
                     <a class="btn btn-outline-primary directSend" href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                    <a class="btn btn-outline-primary d-none" id="closeSecure" href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
+
                 </div>
 
             </div>

@@ -27,7 +27,7 @@ es.onmessage = e => {
 const broadcast = new EventSource(topicBroadcast);
 broadcast.onmessage = e => {
     var data = JSON.parse(e.data);
-
+    masterNotify(data);
 }
 
 initCircle();

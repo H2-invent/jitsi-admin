@@ -33,20 +33,5 @@ class LobbyBroadcastController extends AbstractController
         return new JsonResponse(array('error' => false));
     }
 
-    /**
-     * @Route("/lobby/broadcast/endMeeting/{roomUid}", name="lobby_broadcast_endMeeting")
-     */
-    public function broadcastWebsocketEndMeeting($roomUid): Response
-    {
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
-        if ($room) {
-            $this->directSendService->sendEndMeeting(
-                $this->generateUrl('lobby_broadcast_websocket', array('roomUid' => $room->getUidReal())),
-                $this->generateUrl('dashboard')
-            );
-            return new JsonResponse(array('error' => false));
-        }
-        return new JsonResponse(array('error' => true));
 
-    }
 }

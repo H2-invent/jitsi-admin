@@ -72,6 +72,7 @@ class LobbyParticipantsController extends AbstractController
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
         if($lobbyUser){
             $this->toModerator->newParticipantInLobby($lobbyUser);
+            $this->toModerator->refreshLobby($lobbyUser);
             return new JsonResponse(array('error'=>false,'message'=>$this->translator->trans('lobby.participant.ask.sucess'),'color'=>'success'));
         }
         return new JsonResponse(array('error'=>true,'message'=>$this->translator->trans('Fehler')));

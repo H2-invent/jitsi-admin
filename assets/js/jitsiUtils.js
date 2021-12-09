@@ -31,11 +31,12 @@ function initJitsi(options, domain) {
         api.dispose();
         window.location.href = '/';
     })
-    $('#closeSecure').removeClass('d-none').click(function (e) {
-        e.preventDefault();
-        endMeeting();
-        $.getJSON(($(this).attr('href')));
-
+    api.addListener('videoConferenceJoined',function (e) {
+        $('#closeSecure').removeClass('d-none').click(function (e) {
+            e.preventDefault();
+            endMeeting();
+            $.getJSON(($(this).attr('href')));
+        })
     })
 
 }
