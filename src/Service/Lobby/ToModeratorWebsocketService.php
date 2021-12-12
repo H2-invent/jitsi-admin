@@ -43,7 +43,7 @@ class ToModeratorWebsocketService
     {
         $room = $lobbyWaitungUser->getRoom();
         $user = $lobbyWaitungUser->getUser();
-        $title = $this->translator->trans('lobby.notification.newUser.title', array('{name}' => $user->getFormatedName($this->parameterBag->get('laf_showNameInConference'))));
+        $title = $this->translator->trans('lobby.notification.newUser.title', array('{name}' => $lobbyWaitungUser->getShowName()));
         $message =  $this->translator->trans('lobby.notification.newUser.message', array(
                 '{name}' => $lobbyWaitungUser->getShowName(),
                 '{room}' => $room->getName()

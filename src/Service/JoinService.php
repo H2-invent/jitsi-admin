@@ -26,8 +26,9 @@ class JoinService
     private $roomService;
     private $response;
     private $security;
+    private $startService;
 
-    public function __construct(Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(StartMeetingService $startMeetingService, Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
@@ -36,54 +37,52 @@ class JoinService
         $this->roomService = $roomService;
         $this->response = $response;
         $this->security = $security;
+        $this->startService = $startMeetingService;
     }
 
-    public function join($search, &$snack, &$color,$appAllowed, $appKlicked, $browerAllowed, $browserKlicked )
+    public function join($search, &$snack, &$color, $appAllowed, $appKlicked, $browerAllowed, $browserKlicked)
     {
-
-
         $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
-        $securityUser = $this->security->getUser();
-        if ($room) {
+        if ($room && in_array($user,$room->getUser()->toArray())) {
 
-            $timezone = TimeZoneService::getTimeZone($securityUser);
-            $now = new \DateTime('now', $timezone);
+            if ($appAllowed && $appKlicked) {
+                $type = 'a';
+            } elseif ($browerAllowed && $browserKlicked) {
+                $type = 'b';
+            }
             $start = null;
-            if ($room->getStart()) {
-                $start = (clone $room->getStartwithTimeZone($securityUser))->modify('-30min');
-            }
+            $now =  new \DateTime('now', new \DateTimeZone('utc'));
             $endDate = null;
-            if ($room->getEnddate()) {
-                $endDate = $room->getEndwithTimeZone($securityUser);
+            if(!$room->getPersistantRoom()){
+
+                $start = (clone $room->getStartUtc())->modify('-30min');
+                $endDate = clone $room->getEndDateUtc();
+
+                $startPrint = $room->getTimeZone()?clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+                $startPrint->modify('-30min');
+                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+
             }
+
             if (
                 ($start && $start < $now && $endDate > $now)
                 || $user === $room->getModerator()
-                || ($room->getPersistantRoom())
+                || $room->getPersistantRoom()
+                || $user->getKeycloakId()
             ) {
-                if ($appAllowed && $appKlicked) {
-                    $type = 'a';
-                } elseif ($browerAllowed && $browserKlicked) {
-                    $type = 'b';
+                if($user->getKeycloakId()){
+                    return new RedirectResponse($this->urlGenerator->generate('room_join',array('room'=>$room->getId(),'t'=>$type)));
+                }else{
+                    return $this->startService->startMeeting($room, $user, $type,$search['name']);
                 }
 
-                if ($room
-                    && $user
-                    && (in_array($user, $room->getUser()->toarray()) || $room->getTotalOpenRooms())
-                ) {
-                    return $this->generateResponseCommonRoom($type, $search['name'], $room, $user);
-                }
-                if ($room->getTotalOpenRooms()) {
-                    return $this->generateResponseOpenRoom($type, $search['name'], $room);
-                }
-                $snack = $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
             } else {
                 try {
                     $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
                         array(
-                            '{from}' => $start->format('d.m.Y H:i'),
-                            '{to}' => $endDate->format('d.m.Y H:i')
+                            '{from}' => $startPrint->format('d.m.Y H:i T'),
+                            '{to}' => $endPrint->format('d.m.Y H:i T')
                         )
                     );
                     $color = 'danger';
@@ -91,7 +90,11 @@ class JoinService
 
                 }
             }
+        }else{
+            $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            $color = 'danger';
         }
+
         return null;
     }
 
@@ -137,9 +140,9 @@ class JoinService
         if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
             return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
         }
-        if($room->getLobby()){
-            $res = new RedirectResponse($this->urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'type' => $type,'userUid'=>$user->getUid()]));
-        }else{
+        if ($room->getLobby()) {
+            $res = new RedirectResponse($this->urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'type' => $type, 'userUid' => $user->getUid()]));
+        } else {
             $url = $this->roomService->join($room, $user, $type, $name);
             $res = new RedirectResponse($url);
         }

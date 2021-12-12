@@ -33,7 +33,7 @@ class FavoriteService
         $favs = $user->getFavorites();
         $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
         foreach ($favs as $data){
-            if($data->getEndDateUtc() < $now && $data->getPersistantRoom() !== true && $data->getScheduleMeeting() !== true){
+            if($data->getPersistantRoom() !== true && $data->getScheduleMeeting() !== true && $data->getEndDateUtc() < $now ){
                 $user->removeFavorite($data);
             }
         }

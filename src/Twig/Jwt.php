@@ -30,8 +30,8 @@ class Jwt extends AbstractExtension
             new TwigFunction('jwtFromRoom', [$this, 'jwtFromRoom']),
         ];
     }
-    public function jwtFromRoom(User $user,Rooms $rooms)
+    public function jwtFromRoom(User $user,Rooms $rooms, $name)
     {
-        return $this->roomService->generateJwt($rooms,$user,$user->getFormatedName($this->paramterBag->get('laf_showNameInConference')));
+        return $this->roomService->generateJwt($rooms,$user,$name);
     }
 }

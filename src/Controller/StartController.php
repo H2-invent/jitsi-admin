@@ -18,9 +18,11 @@ class StartController extends AbstractController
 {
 
     private $startService;
-    public function __construct( StartMeetingService $startMeetingService)
+    private $paramterBag;
+    public function __construct( StartMeetingService $startMeetingService, ParameterBagInterface $paramterBag)
     {
         $this->startService = $startMeetingService;
+        $this->paramterBag = $paramterBag;
     }
 
     /**
@@ -30,7 +32,6 @@ class StartController extends AbstractController
     function joinRoom(RoomService $roomService, $room, $t)
     {
         $roomL = $this->getDoctrine()->getRepository(Rooms::class)->find($room);
-        return $this->redirect($this->startService->startMeeting($roomL,$this->getUser(),$t));
-
+        return $this->startService->startMeeting($roomL,$this->getUser(),$t,$this->getUser()->getFormatedName($this->paramterBag->get('laf_showNameInConference')));
     }
 }

@@ -56,7 +56,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         $this->assertEquals(
             1,
-            $crawler->filter('.participantsName:contains("User, Test, test@local2.de")')->count()
+            $crawler->filter('.participantsName:contains("Test User")')->count()
         );
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);

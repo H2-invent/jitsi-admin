@@ -53,13 +53,13 @@ class ToParticipantWebsocketService
             $lobbyWaitungUser->getRoom(),
             $lobbyWaitungUser->getUser(),
             'a',
-            $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))
+            $lobbyWaitungUser->getShowName()
         );
 
         if ($lobbyWaitungUser->getType() === 'b') {
             $options = array(
                 'options' => array(
-                    'jwt' => $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference'))),
+                    'jwt' => $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName()),
                     'roomName' => $lobbyWaitungUser->getRoom()->getUid(),
                     'width' => '100%',
                     'height' => 400,
@@ -67,6 +67,8 @@ class ToParticipantWebsocketService
                 'roomName' => $lobbyWaitungUser->getRoom()->getName(),
                 'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
                 'parentNode' => '#jitsiWindow',
+                'userInfo'=>array(
+                    'displayName'=>$lobbyWaitungUser->getShowName())
             );
             $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
         } elseif ($lobbyWaitungUser->getType() === 'a') {

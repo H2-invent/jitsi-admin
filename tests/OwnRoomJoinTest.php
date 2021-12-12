@@ -131,15 +131,12 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', $room->getName());
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->joinUrl('b',$room,'Test User 123',true)));
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
         $crawler = $client->request('GET', $url->generate('room_join',array('t'=>'b','room'=>$room->getId())));
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->joinUrl('b',$room,$user->getFormatedName($parameterBag->get('laf_showNameInConference')),true)));
-
         $user = $this->getUSerByEmail('test@local2.de');
         $client->loginUser($user);
         $crawler = $client->request('GET', '/mywaiting/check/' . $room->getUid() . '/Test User 123/a');
@@ -149,6 +146,7 @@ class OwnRoomJoinTest extends WebTestCase
                 'url'=>$urlGenerator->createUrl('a',$room,false,null,'Test User 123'))
         ),$client->getResponse()->getContent());
     }
+
     public function getRoomByName($name)
     {
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);

@@ -54,7 +54,8 @@ class LobbyModeratorController extends AbstractController
             return $this->render('lobby/index.html.twig', [
                 'room' => $room,
                 'server' => $room->getServer(),
-                'type' => $type
+                'type' => $type,
+                'user'=>$this->getUser()
             ]);
         }
 

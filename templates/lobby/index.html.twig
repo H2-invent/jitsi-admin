@@ -1,6 +1,6 @@
 {% extends 'join/base_fluid.html.twig' %}
 {% block header %}
-    <h1 class="h1-responsive text-center" >{% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}</h1>
+    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}</h1>
 {% endblock %}
 {% block content %}
     <div class="col-12">
@@ -14,8 +14,8 @@
                         <video autoplay="true" id="lobbyWebcam"></video>
                         <div class="webcamToolbar">
                             <i class="fa fa-video" id="webcamSwitch"></i>
-                            {{ app.user.formatedName(laf_showNameInConference) }}
-                            {% if app.user == room.moderator %}
+                            {{ user.formatedName(laf_showNameInConference) }}
+                            {% if user == room.moderator %}
                                 <i class="fa fa-star"></i>
                             {% endif %}
                         </div>
@@ -31,19 +31,22 @@
 
 
                     <div class="btn-group">
-                        <a href="#" type="button" class="btn btn-primary" id="startEcho" data-texton="{{ 'lobby.start.echo'|trans }}" data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
-                        <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                           <i class="fas fa-microphone"></i>
+                        <a href="#" type="button" class="btn btn-primary" id="startEcho"
+                           data-texton="{{ 'lobby.start.echo'|trans }}"
+                           data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
+                        <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-microphone"></i>
                         </a>
-                        <div class="dropdown-menu" >
+                        <div class="dropdown-menu">
                             <div id="audioInputSelect">
                                 <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                             </div>
 
                             <div class="dropdown-divider"></div>
                             <div id="audioOutputSelect">
-                            <a href="#"  class="dropdown-item"><b>{{ 'lobby.echo.output'|trans }}</b></a>
+                                <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.output'|trans }}</b></a>
                             </div>
                         </div>
                     </div>
@@ -61,10 +64,12 @@
 
                                         </div>
                                         <div class="card-footer text-center">
-                                            <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
+                                            <a class="btn-floating btn-sm senddirect"
+                                               href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                                                 <i class="fas fa-user-check "></i>
                                             </a>
-                                            <a class="btn-floating btn-sm senddirect" href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
+                                            <a class="btn-floating btn-sm senddirect"
+                                               href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                                                 <i class="fas fa-user-times "></i>
                                             </a>
 
@@ -81,12 +86,14 @@
                     {% if type == 'a' %}
                         <div class="d-none d-lg-block ">
                             <a class="btn btn-primary"
-                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}" target="_blank">{{ 'jitsi.start'|trans }}</a>
+                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                               target="_blank">{{ 'jitsi.start'|trans }}</a>
                         </div>
                     {% elseif type == 'b' %}
                         <div class="d-none d-lg-block ">
                             <a class="btn btn-primary startIframe"
-                               href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}" target="_blank">{{ 'jitsi.start'|trans }}</a>
+                               href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                               target="_blank">{{ 'jitsi.start'|trans }}</a>
                         </div>
                     {% endif %}
 
@@ -95,8 +102,10 @@
                            href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                            target="_blank">{{ 'jitsi.start'|trans }}</a>
                     </div>
-                    <a class="btn btn-outline-primary directSend" href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                    <a class="btn btn-outline-primary d-none" id="closeSecure" href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
+                    <a class="btn btn-outline-primary directSend"
+                       href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                    <a class="btn btn-outline-primary d-none" id="closeSecure"
+                       href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
 
                 </div>
 
@@ -111,23 +120,27 @@
 
 {% endblock %}
 {% block script %}
-    <script src='https://{{ room.server.url }}/external_api.js'></script>
-    <script>
-        const domain = '{{ room.server.url }}';
-        const options = {
-            roomName: '{{ room.uid }}',
-            width: '100%',
-            height: 700,
-            parentNode: document.querySelector('#jitsiWindow'),
-            jwt: '{{ jwtFromRoom(app.user,room) }}'
-        };
+    {% if name is defined and name is not null %}
+        <script src='https://{{ room.server.url }}/external_api.js'></script>
+        <script>
+            const domain = '{{ room.server.url }}';
+            const options = {
+                roomName: '{{ room.uid }}',
+                width: '100%',
+                height: 700,
+                parentNode: document.querySelector('#jitsiWindow'),
+                jwt: '{{ jwtFromRoom(user,room,name) }}',
+                userInfo: {
+                    displayName: '{{ name }}'
+                }
+            };
 
-        var conferenzeName = '{{ room.name }}';
-        var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-        var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+            var conferenzeName = '{{ room.name }}';
+            var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+            var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
-    </script>
-
+        </script>
+    {% endif %}
 {% endblock %}
 {% block webpack %}
 

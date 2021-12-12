@@ -803,7 +803,7 @@ class Rooms
 
     public function getStartUtc(): ?\DateTimeInterface
     {
-        return $this->startUtc;
+        return new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 
     public function setStartUtc(?\DateTimeInterface $startUtc): self
@@ -815,7 +815,7 @@ class Rooms
 
     public function getEndDateUtc(): ?\DateTimeInterface
     {
-        return $this->endDateUtc;
+        return new \DateTime($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 
     public function setEndDateUtc(?\DateTimeInterface $endDateUtc): self
