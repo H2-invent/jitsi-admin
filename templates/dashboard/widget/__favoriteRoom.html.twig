@@ -8,6 +8,9 @@
                                                         class="fas fa-thumbtack"></i>{% endif %}
                 {% if room.scheduleMeeting == true %}<i  data-toggle="tooltip" title="{{ 'Terminplaner'|trans }}"
                                                          class="fas fa-calendar"></i>{% endif %}
+                <small>
+                    <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="fa fa-star"></i> </a>
+                </small>
             </h5>
             {% if room.persistantRoom != true and room.scheduleMeeting != true %}
                 <p><small>{{ room.start|date('d.m.Y H:i') }}</small></p>
@@ -20,7 +23,7 @@
             {% if room.scheduleMeeting != true %} <div class="startConferenceFromFavorite">
                 {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
 
-                        <a class="btn btn-outline-primary dropdown-toggle btn-sm" type="button" data-toggle="dropdown"
+                        <a class="btn btn-outline-primary dropdown-toggle btn-sm d-none d-lg-inline " type="button" data-toggle="dropdown"
                            aria-haspopup="true"
                            aria-expanded="false"><i class="fa fa-play"></i></a>
 
@@ -30,6 +33,10 @@
                             <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'a'}) }}"
                                target="_blank">{{ 'In der App'|trans }}</a>
                         </div>
+
+                        <a class="btn btn-outline-primary bt-sm  d-lg-none"
+                           href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                           target="_blank"><i class="fa fa-play"></i></a>
 
                 {% elseif start_dropdown_allow_app == 1 %}
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm" href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank"><i class="fa fa-play"></i></a>

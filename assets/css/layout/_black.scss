@@ -103,8 +103,7 @@ a {
   color: $black_link-color;
 
   &:hover {
-    color: $black_link-color;
-    text-decoration: underline;
+    color: lighten($black_link-color,10);
   }
 }
 
