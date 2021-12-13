@@ -103,7 +103,9 @@ class StartServiceTest extends KernelTestCase
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         self::assertStringContainsString('topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-
+        $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));
+        self::assertNotNull($lobbyUser);
+        self::assertEquals('a',$lobbyUser->getType());
         self::assertStringContainsString('topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));

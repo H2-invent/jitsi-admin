@@ -14,7 +14,9 @@
                     {% if form.repeaterRemoved is defined %}
                         {{ form_row(form.repeaterRemoved) }}
                     {% endif %}
+                    {% if server|length > 1 %}
                     {{ form_row(form.server) }}
+                    {% endif %}
                 </div>
                 <div class="col-lg-12">
                     {{ form_row(form.name) }}

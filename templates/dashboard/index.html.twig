@@ -32,7 +32,7 @@
         <div class="row justify-content-center mb-3">
             {% if persistantRooms|length > 0 %}
                 {% for r in app.user.favorites %}
-                    {% include'dashboard/widget/__persistantRoom.html.twig' with {'room':r} %}
+                    {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
                 {% endfor %}
             {% endif %}
 

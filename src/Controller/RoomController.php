@@ -68,12 +68,13 @@ class RoomController extends AbstractController
         } else {
             $room = new Rooms();
             if ($request->cookies->has('room_server')) {
-
                 $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
-
                 if ($server && in_array($server, $servers)) {
                     $room->setServer($server);
                 }
+            }
+            if(sizeof($servers) === 1){
+                $room->setServer($servers[0]);
             }
             $room->addUser($this->getUser());
             $room->setDuration(60);
@@ -166,7 +167,7 @@ class RoomController extends AbstractController
 
             return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'form' => $form->createView(), 'title' => $title));
     }
 
 
