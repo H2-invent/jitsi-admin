@@ -101,6 +101,7 @@ h5 {
 
 a {
   color: $black_link-color;
+
   &:hover {
     color: darken($black_link-color,10%);
     text-decoration: none;

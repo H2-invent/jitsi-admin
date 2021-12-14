@@ -41,6 +41,7 @@ class UserShowTest extends WebTestCase
             $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);
         }
         $ldapUserService->connectUserwithAllUSersInAdressbock();
+        $ldapUserService->cleanUpAdressbook();
         //login as the ldap user and test if the name in the adressbook is written correctly
 
         $userRepository = static::getContainer()->get(UserRepository::class);

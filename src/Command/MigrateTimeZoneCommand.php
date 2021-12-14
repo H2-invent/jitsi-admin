@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrateTimeZoneCommand extends Command
 {
     protected static $defaultName = 'app:migrateTimeZone';
-    protected static $defaultDescription = 'Add a short description for your command';
+    protected static $defaultDescription = 'This command creates a UTC Time from the local start time. This command ist only one time important when you migrate to version ^0.71.xx';
     private $em;
 
     public function __construct(string $name = null, EntityManagerInterface $entityManager)

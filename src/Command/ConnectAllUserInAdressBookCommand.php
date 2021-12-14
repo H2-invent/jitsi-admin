@@ -20,7 +20,7 @@ class ConnectAllUserInAdressBookCommand extends Command
     }
 
     protected static $defaultName = 'app:ldap:ConnectAllUserInAdressBook';
-    protected static $defaultDescription = 'Add a short description for your command';
+    protected static $defaultDescription = 'This Command adds all LDAP Users in the Adressbook of each other. This command only works after app:ldap:sync';
 
     protected function configure(): void
     {
@@ -35,6 +35,7 @@ class ConnectAllUserInAdressBookCommand extends Command
         $io = new SymfonyStyle($input, $output);
         try {
             $count = sizeof($this->ldapUSerService->connectUserwithAllUSersInAdressbock());
+            $this->ldapUSerService->cleanUpAdressbook();
             $io->success(sprintf('We connect %i user in the adressbook',$count));
             return Command::SUCCESS;
         }catch (\Exception $exception){
