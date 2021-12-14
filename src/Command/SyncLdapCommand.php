@@ -146,9 +146,6 @@ class SyncLdapCommand extends Command
             }
 
         }
-        if ($this->paramterBag->get('ldap_connect_all_user_addressbook') == 1) {
-            $this->ldapUserService->connectUserwithAllUSersInAdressbock();
-        }
 
         $io->info('We found # users: ' . $numberUsers);
         if ($error == false) {
