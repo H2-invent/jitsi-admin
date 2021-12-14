@@ -35,6 +35,7 @@ class ConnectAllUserInAdressBookCommand extends Command
         $io = new SymfonyStyle($input, $output);
         try {
             $count = sizeof($this->ldapUSerService->connectUserwithAllUSersInAdressbock());
+            $this->ldapUSerService->cleanUpAdressbook();
             $io->success(sprintf('We connect %i user in the adressbook',$count));
             return Command::SUCCESS;
         }catch (\Exception $exception){
