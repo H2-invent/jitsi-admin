@@ -24,7 +24,7 @@ class MigrateToAdressbookCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command');
+            ->setDescription('This command collects all rooms which are moderator and puts the participants to the adressbook. This is only used when migrating from very old version.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
