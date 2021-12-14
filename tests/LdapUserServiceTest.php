@@ -46,7 +46,7 @@ class LdapUserServiceTest extends WebTestCase
         $this->assertEquals(LdapConnectionTest::$UserInLDAP, sizeof($users));
         $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
         foreach ($allUSers as $data) {
-            $this->assertEquals(sizeof($allUSers) - 1, sizeof($data->getAddressbook()));
+            $this->assertEquals(sizeof($allUSers), sizeof($data->getAddressbook()));
         }
 
 
@@ -59,7 +59,7 @@ class LdapUserServiceTest extends WebTestCase
         $ldapUserService->deleteUser($user);
         $allUSerNew = $userRepository->findUsersfromLdapService();
         foreach ($allUSerNew as $data) {
-            $this->assertEquals(sizeof($allUSerNew) - 1, sizeof($data->getAddressbook()));
+            $this->assertEquals(sizeof($allUSerNew), sizeof($data->getAddressbook()));
         }
         foreach ($allUSerNew as $data) {
             if ($data->getUsername() === 'unitTestnoSF') {
@@ -106,7 +106,7 @@ class LdapUserServiceTest extends WebTestCase
         $this->assertEquals(LdapConnectionTest::$UserInLDAP, sizeof($users));
         $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
         foreach ($allUSers as $data) {
-            $this->assertEquals(sizeof($allUSers) - 1, sizeof($data->getAddressbook()));
+            $this->assertEquals(sizeof($allUSers) , sizeof($data->getAddressbook()));
         }
         $em = static::getContainer()->get(EntityManagerInterface::class);
         $em->flush();
