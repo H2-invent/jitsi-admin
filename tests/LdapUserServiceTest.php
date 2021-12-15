@@ -61,9 +61,12 @@ class LdapUserServiceTest extends WebTestCase
         }
         $allUSers = $ldapUserService->connectUserwithAllUSersInAdressbock();
         foreach ($allUSers as $data) {
-            $this->assertEquals(sizeof($allUSers) - 1, sizeof($data->getAddressbook()));
+            $this->assertEquals(sizeof($allUSers), sizeof($data->getAddressbook()));
         }
-
+        $allUSers = $ldapUserService->cleanUpAdressbook();
+        foreach ($allUSers as $data) {
+            $this->assertEquals(sizeof($allUSers)-1, sizeof($data->getAddressbook()));
+        }
         $userRepository = static::getContainer()->get(UserRepository::class);
         $user = $userRepository->findOneBy(array('username' => 'UnitTest1'));
         $this->assertNotEquals(null, $ldapUserService->checkUserInLdap($user, $ldap));

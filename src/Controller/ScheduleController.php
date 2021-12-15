@@ -113,7 +113,7 @@ class ScheduleController extends AbstractController
 
             return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'form' => $form->createView(), 'title' => $title));
     }
 
     /**
