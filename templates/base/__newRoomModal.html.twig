@@ -14,7 +14,7 @@
                     {% if form.repeaterRemoved is defined %}
                         {{ form_row(form.repeaterRemoved) }}
                     {% endif %}
-                    {% if server|length > 1 %}
+                    {% if form.server is defined and form.server is not null %}
                     {{ form_row(form.server) }}
                     {% endif %}
                 </div>
