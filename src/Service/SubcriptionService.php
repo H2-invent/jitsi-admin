@@ -62,6 +62,8 @@ class SubcriptionService
         if (!$user) {
             $user = new User();
             $user->setEmail($userData['email']);
+            $user->setUsername($userData['email']);
+            $user->setCreatedAt(new \DateTime());
             $user->setFirstName($userData['firstName']);
             $user->setLastName($userData['lastName']);
             $this->em->persist($user);
