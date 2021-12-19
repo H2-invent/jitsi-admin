@@ -9,6 +9,7 @@ use App\Entity\Server;
 use App\Entity\User;
 
 use App\Service\InviteService;
+use App\Service\UserCreatorService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -20,12 +21,14 @@ class RoomService
     private $userService;
     private $inviteService;
     private $urlGenerator;
-    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager, UserService $userService, InviteService $inviteService)
+    private $userCreatorService;
+    public function __construct(UserCreatorService $userCreatorService, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager, UserService $userService, InviteService $inviteService)
     {
         $this->em = $entityManager;
         $this->userService = $userService;
         $this->inviteService = $inviteService;
         $this->urlGenerator = $urlGenerator;
+        $this->userCreatorService = $userCreatorService;
     }
 
     public function createRoom(User $user, Server $server, \DateTime $start, $duration, $name)
@@ -125,7 +128,7 @@ class RoomService
             return array('error' => true, 'text' => 'no Room found');
         };
 //Here we get the User from an email if the user with the email does not exist, then we we create it
-        $user = $this->inviteService->newUser($email);
+        $user = $this->userCreatorService->createUser($email,$email,'','');
         if (!in_array($user,$room->getUser()->toArray())){
             $user->addRoom($room);
             $user->addAddressbookInverse($room->getModerator());

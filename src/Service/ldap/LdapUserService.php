@@ -7,6 +7,7 @@ namespace App\Service\ldap;
 use App\dataType\LdapType;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
+use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
@@ -16,10 +17,11 @@ use function GuzzleHttp\Promise\all;
 class LdapUserService
 {
     private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    private $userCreationService;
+    public function __construct(EntityManagerInterface $entityManager,UserCreatorService $userCreationService)
     {
         $this->em = $entityManager;
+        $this->userCreationService = $userCreationService;
     }
 
     /**
@@ -39,8 +41,7 @@ class LdapUserService
         $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
 
         if (!$user) {
-            $user = new User();
-            $user->setCreatedAt(new \DateTime());
+            $user = $this->userCreationService->createUser($email,$uid,$firstName,$lastName);
             $user->setUid(md5(uniqid()));
             $user->setUuid(md5(uniqid()));
         }

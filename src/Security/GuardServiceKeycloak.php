@@ -7,6 +7,7 @@ namespace App\Security;
 use App\Entity\FosUser;
 use App\Entity\MyUser;
 use App\Entity\User;
+use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
@@ -32,14 +33,16 @@ class GuardServiceKeycloak extends SocialAuthenticator
     private $tokenStorage;
     private $userManager;
     private $paramterBag;
+    private $userCreatorService;
 
-    public function __construct(ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    public function __construct(UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->router = $router;
         $this->tokenStorage = $tokenStorage;
         $this->paramterBag = $parameterBag;
+        $this->userCreatorService = $userCreatorService;
     }
 
     public function supports(Request $request)
@@ -114,16 +117,11 @@ class GuardServiceKeycloak extends SocialAuthenticator
         // the user never logged in with this email adress neither keycloak
         if ($this->paramterBag->get('strict_allow_user_creation') == 1) {
             // if the creation of a user is allowed from the security policies
-            $newUser = new User();
-            $newUser->setPassword('123')
-                ->setFirstName($firstName)
-                ->setLastName($lastName)
-                ->setUuid($email)
+            $newUser = $this->userCreatorService->createUser($email, $username, $firstName, $lastName);
+            $newUser->setUuid($email)
                 ->setEmail($email)
-                ->setCreatedAt(new \DateTime())
                 ->setLastLogin(new \DateTime())
                 ->setKeycloakId($id)
-                ->setUsername($username)
                 ->setGroups($groups);
             $this->em->persist($newUser);
             $this->em->flush();

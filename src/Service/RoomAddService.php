@@ -20,7 +20,8 @@ class RoomAddService
     private $translator;
     private $repeaterService;
     private $parameterBag;
-    public function __construct(ParameterBagInterface $parameterBag, RepeaterService  $repeaterService,InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
+    private $userCreatorService;
+    public function __construct(UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, RepeaterService  $repeaterService,InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
     {
         $this->inviteService = $inviteService;
         $this->em = $entityManager;
@@ -28,6 +29,7 @@ class RoomAddService
         $this->translator = $translator;
         $this->repeaterService = $repeaterService;
         $this->parameterBag = $parameterBag;
+        $this->userCreatorService= $userCreatorService;
     }
 
 
@@ -96,7 +98,7 @@ class RoomAddService
 
     private function createUserParticipant($email, Rooms $room)
     {
-        $user = $this->inviteService->newUser($email);
+        $user = $this->userCreatorService->createUser($email,$email,'','');
         if ($room->getRepeater()) {
             if(!in_array($user,$room->getPrototypeUsers()->toArray())){
                 $room = $room->getRepeater()->getPrototyp();

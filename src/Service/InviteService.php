@@ -26,7 +26,6 @@ class InviteService
     private $mailer;
     private $parameterBag;
     private $twig;
-
     public function __construct(Environment $environment, ParameterBagInterface $parameterBag, MailerService $mailerService, EntityManagerInterface $entityManager, TranslatorInterface $translator, UrlGeneratorInterface $urlGenerator)
     {
         $this->translator = $translator;
@@ -37,25 +36,6 @@ class InviteService
         $this->twig = $environment;
     }
 
-    public function newUser($email)
-    {
-        $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $email));
-        if (!$user) {
-            $user = new User();
-            $user->setLastName('')
-                ->setFirstName('')
-                ->setCreatedAt(new \DateTime())
-                ->setRegisterId(md5(uniqid('ksdjhfkhsdkjhjksd', true)))
-                ->setUsername($email)
-                ->setEmail($email)
-                ->setPassword('123')
-                ->setUuid('123');
-            $user->setEmail($email);
-            $this->em->persist($user);
-            $this->em->flush();
-        }
-        return $user;
-    }
 
     public function connectUserWithEmail(User $userfromregisterId, User $user)
     {

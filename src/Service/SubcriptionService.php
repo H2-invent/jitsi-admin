@@ -21,14 +21,15 @@ class SubcriptionService
     private $translator;
     private $notifier;
     private $userService;
-
-    public function __construct(UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator)
+    private $userCreationService;
+    public function __construct(UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator,UserCreatorService $userCreationService)
     {
         $this->em = $entityManager;
         $this->twig = $environment;
         $this->translator = $translator;
         $this->notifier = $notificationService;
         $this->userService = $userService;
+        $this->userCreationService = $userCreationService;
     }
 
     /**
@@ -60,12 +61,7 @@ class SubcriptionService
         $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $userData['email']));
         //create a new User from the email entered
         if (!$user) {
-            $user = new User();
-            $user->setEmail($userData['email']);
-            $user->setFirstName($userData['firstName']);
-            $user->setLastName($userData['lastName']);
-            $this->em->persist($user);
-            $this->em->flush();
+            $user = $this->userCreationService->createUser($userData['email'],$userData['email'],$userData['firstName'],$userData['lastName']);
         }
 
         $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('room' => $rooms, 'user' => $user));
