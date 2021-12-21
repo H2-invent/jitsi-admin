@@ -7,9 +7,11 @@ use App\Repository\UserRepository;
 use App\Service\ldap\LdapService;
 use App\Service\ldap\LdapUserService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserShowTest extends WebTestCase
 {
+    public $LDAPURL = 'ldap://192.168.230.128:10389';
     public function testShowName(): void
     {
         $client = static::createClient();
@@ -21,9 +23,9 @@ class UserShowTest extends WebTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldapUserService = $container->get(LdapUserService::class);
-        $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', 'uid=admin,ou=system', 'password');
+        $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
         $ldapType = new LdapType($ldapConnection);
-        $ldapType->setUrl('ldap://localhost:10389');
+        $ldapType->setUrl($this->LDAPURL);
         $ldapType->setSerVerId('Server1');
         $ldapType->setPassword('password');
         $ldapType->setScope('sub');
@@ -84,9 +86,9 @@ class UserShowTest extends WebTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldapUserService = $container->get(LdapUserService::class);
-        $ldap = $ldapConnection->createLDAP('ldap://localhost:10389', 'uid=admin,ou=system', 'password');
+        $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
         $ldapType = new LdapType($ldapConnection);
-        $ldapType->setUrl('ldap://localhost:10389');
+        $ldapType->setUrl($this->LDAPURL);
         $ldapType->setSerVerId('Server1');
         $ldapType->setPassword('password');
         $ldapType->setScope('sub');
@@ -133,5 +135,10 @@ class UserShowTest extends WebTestCase
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
 
+    }
+    private function getParam()
+    {
+        $para = self::getContainer()->get(ParameterBagInterface::class);
+        $this->LDAPURL = $para->get('ldap_test_url');
     }
 }
