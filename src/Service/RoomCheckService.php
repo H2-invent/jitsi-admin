@@ -20,7 +20,6 @@ class RoomCheckService
     public function checkRoom(Rooms $room, &$error)
     {
         $now = new \DateTime();
-        dump($now);
         $error = array();
         if (!$room->getStart() && !$room->getPersistantRoom()) {
             $error[] = $this->translator->trans('Fehler, das Startdatum darf nicht leer sein');
