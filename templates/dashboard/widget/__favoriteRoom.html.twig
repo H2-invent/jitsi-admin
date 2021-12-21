@@ -13,7 +13,7 @@
                 </small>
             </h5>
             {% if room.persistantRoom != true and room.scheduleMeeting != true %}
-                <p><small>{{ room.start|date('d.m.Y H:i') }}</small></p>
+                <p><small>{{ room.getStartwithTimeZone(app.user)|date('d.m.Y H:i') }}</small></p>
 
             {% endif %}
             {% if room in runningRooms %}<small
