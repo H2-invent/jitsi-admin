@@ -88,7 +88,6 @@ function toggleEcho() {
                     gain.disconnect(audioCtx.destination);
                     audioCtx.close();
                 }
-
             })
             .catch(function (err0r) {
                 console.log(err0r);

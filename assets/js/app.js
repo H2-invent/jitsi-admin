@@ -140,7 +140,6 @@ $(document).on('click', '.confirmHref', function (e) {
             },
         }
     });
-
 })
 
 $(document).on('click', '.loadContent', function (e) {

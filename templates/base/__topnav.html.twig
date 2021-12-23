@@ -43,17 +43,19 @@
                 <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
             {% endif %}
         </a>
-        <a class="ml-auto mr-2 mr-sm-4"
-           data-toggle="modal"
-           data-target="#settings">
-            {% if theme != false %}
-                <img src="{{ asset(theme.iconSettings) }}" class="iconSytle"
-                     title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
-            {% else %}
-                <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
-                     title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
-            {% endif %}
-        </a>
+        {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
+            <a class="ml-auto mr-2 mr-sm-4"
+               data-toggle="modal"
+               data-target="#settings">
+                {% if theme != false %}
+                    <img src="{{ asset(theme.iconSettings) }}" class="iconSytle"
+                         title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+                {% else %}
+                    <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
+                         title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+                {% endif %}
+            </a>
+        {% endif %}
         <!-- Button trigger modal -->
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
