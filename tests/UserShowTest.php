@@ -19,7 +19,7 @@ class UserShowTest extends WebTestCase
 
         // (2) use static::getContainer() to access the service container
         $container = static::getContainer();
-
+        $this->getParam();
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldapUserService = $container->get(LdapUserService::class);
@@ -82,7 +82,7 @@ class UserShowTest extends WebTestCase
 
         // (2) use static::getContainer() to access the service container
         $container = static::getContainer();
-
+        $this->getParam();
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldapUserService = $container->get(LdapUserService::class);
