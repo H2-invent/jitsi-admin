@@ -17,7 +17,7 @@ var mic = [];
 var audioId = null;
 var micId = null;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
-var audioCtx = new AudioContext();
+var audioCtx;
 
 function initAUdio() {
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
@@ -55,14 +55,12 @@ function initAUdio() {
 
     $('#startEcho').click(function (e) {
         var text;
-        if(echoTest === 0){
+        if (echoTest === 0) {
             echoTest = 1;
             text = $(this).data('textoff');
             $(this).text(text);
-        }else {
+        } else {
             echoTest = 0;
-            text = $(this).data('texton');
-            $(this).text(text);
         }
         e.preventDefault();
         toggleEcho();
@@ -71,6 +69,10 @@ function initAUdio() {
 
 
 function toggleEcho() {
+    audioCtx = new AudioContext({
+        latencyHint: 'interactive',
+        sampleRate: 44100
+    });
     if (navigator.mediaDevices.getUserMedia) {
         var constraints = {'echoCancellation': true, deviceId: {exact: micId}};
         navigator.mediaDevices.getUserMedia({audio: constraints, video: false})
@@ -82,11 +84,13 @@ function toggleEcho() {
                 var destination = audioCtx.createMediaStreamDestination({audio: {deviceId: {excat: audioId}}});
                 source.connect(delay);
                 delay.connect(gain);
-                if(echoTest === 1){
+                if (echoTest === 1) {
                     gain.connect(audioCtx.destination);
-                }else {
-                    gain.disconnect(audioCtx.destination);
-                    audioCtx.close();
+                } else {
+                    source.audioCtx.close().then(function () {
+                        console.log('1.2');
+                        $('#startEcho').text($(this).data('textOn'));
+                    });
                 }
             })
             .catch(function (err0r) {
