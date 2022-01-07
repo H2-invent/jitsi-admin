@@ -110,7 +110,7 @@
         <target state="translated">Vielen Dank für Ihre Anmeldung.</target>
       </trans-unit>
       <trans-unit id="Vf9TBUu" resname="Erfolgreich bestätigt">
-        <source>E-Mail-Adresse erfolgreich bestätigt</source>
+        <source>Erfolgreich bestätigt</source>
         <target>E-Mail-Adresse erfolgreich bestätigt</target>
       </trans-unit>
       <trans-unit id="vpf7rgl" resname="Die maximale Teilnehmeranzahl ist bereits erreicht.">
@@ -499,10 +499,10 @@
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
         <target state="translated">Bitte klicken Sie hier, um die Anmeldung abzuschließen.</target>
       </trans-unit>
-      <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz-ID: {uid}">
+      <trans-unit id="j5jF23t" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz-ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
-        Konferenz ID: {uid}</source>
+        Konferenz-ID: {uid}</source>
         <target state="translated"><![CDATA[Folgende Daten benötigen Sie, um der Konferenz beizutreten:<br>
         Ihre E-Mail-Adresse: {email}<br>
         Konferenz-ID: {uid}]]></target>
@@ -1282,108 +1282,140 @@
         <target>Meine Videokonferenzen</target>
       </trans-unit>
       <trans-unit id="0NUhwSD" resname="lobby.participant.ask.sucess">
-        <source>lobby.participant.ask.sucess</source>
-        <target>__Sie haben Ihren Beitritt erfolgreich angefordert.</target>
+        <source>Sie haben Ihren Beitritt erfolgreich angefordert.</source>
+        <target>Sie haben Ihren Beitritt erfolgreich angefordert.</target>
       </trans-unit>
       <trans-unit id="N9O9mYb" resname="lobby.notification.newUser.title">
-        <source>lobby.notification.newUser.title</source>
-        <target>__{name} ist in der Lobby</target>
+        <source>{name} ist in der Lobby</source>
+        <target>{name} ist in der Lobby</target>
       </trans-unit>
       <trans-unit id="IbBrCkB" resname="lobby.notification.newUser.message">
-        <source>lobby.notification.newUser.message</source>
-        <target>__Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten</target>
+        <source>Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten</source>
+        <target>Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten</target>
       </trans-unit>
       <trans-unit id="BvZfePO" resname="room.new.help.lobby">
-        <source>room.new.help.lobby</source>
-        <target>__Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <source>Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</source>
+        <target>Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
-        <source>lobby.moderator.title</source>
-        <target>__Lobby für die Konferenz: {name}</target>
+        <source>Lobby für die Konferenz: {name}</source>
+        <target>Lobby für die Konferenz: {name}</target>
       </trans-unit>
       <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
-        <source>lobby.noWebCamFound</source>
-        <target>__Keine Webcam gefunden</target>
+        <source>Keine Webcam gefunden</source>
+        <target>Keine Webcam gefunden</target>
       </trans-unit>
       <trans-unit id="DamWI5n" resname="jitsi.start">
-        <source>jitsi.start</source>
-        <target>__Starten</target>
+        <source>Starten</source>
+        <target>Starten</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
-        <source>jitsi.start.browser</source>
-        <target>__Im Browser</target>
+        <source>Im Browser</source>
+        <target>Im Browser</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
-        <source>jitsi.start.app</source>
-        <target>__In der App</target>
+        <source>In der App</source>
+        <target>In der App</target>
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
-        <source>lobby.participant.title</source>
-        <target>__Lobby für die Konferenz: {name}</target>
+        <source>Lobby für die Konferenz: {name}</source>
+        <target>Lobby für die Konferenz: {name}</target>
       </trans-unit>
       <trans-unit id="rsZTp96" resname="lobby.renew">
-        <source>lobby.renew</source>
-        <target>__Erneut anklopfen</target>
+        <source>Erneut anklopfen</source>
+        <target>Erneut anklopfen</target>
       </trans-unit>
       <trans-unit id="5fCeszY" resname="lobby.exit">
-        <source>lobby.exit</source>
-        <target>__Lobby verlassen</target>
+        <source>Lobby verlassen</source>
+        <target>Lobby verlassen</target>
       </trans-unit>
       <trans-unit id="27m6wen" resname="input.placeholder.search">
-        <source>input.placeholder.search</source>
+        <source>Hier suchen</source>
         <target>Hier suchen</target>
       </trans-unit>
       <trans-unit id="r8FPafb" resname="lobby.moderator.accept.error">
-        <source>lobby.moderator.accept.error</source>
-        <target>__Fehler, bitte laden Sie die Seite neu</target>
+        <source>Fehler, bitte laden Sie die Seite neu</source>
+        <target>Fehler, bitte laden Sie die Seite neu</target>
       </trans-unit>
       <trans-unit id="0rcT2h8" resname="lobby.moderator.accept.success">
-        <source>lobby.moderator.accept.success</source>
-        <target>__Sie haben den Teilnehmer erfolgreich der Konferenz hinzugefüt</target>
+        <source>Sie haben den Teilnehmer erfolgreich der Konferenz hinzugefügt</source>
+        <target>Sie haben den Teilnehmer erfolgreich der Konferenz hinzugefügt</target>
       </trans-unit>
       <trans-unit id="8UJiDMP" resname="lobby.moderator.decline.success">
-        <source>lobby.moderator.decline.success</source>
-        <target>__Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</target>
+        <source>Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</source>
+        <target>Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</target>
       </trans-unit>
       <trans-unit id="jRL3d6b" resname="lobby.participant.accept">
-        <source>lobby.participant.accept</source>
-        <target>__Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.</target>
+        <source>Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.</source>
+        <target>Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.</target>
       </trans-unit>
       <trans-unit id="aP4D.Vc" resname="lobby.participant.decline">
-        <source>lobby.participant.decline</source>
-        <target>__Sie wurden von dem Moderator nicht zur Konferenz zugelassen. Bitte entschuldigen Sie die Unannehmhlichkeit.</target>
+        <source>Sie wurden von dem Moderator nicht zur Konferenz zugelassen. Bitte entschuldigen Sie die Unannehmhlichkeit.</source>
+        <target>Sie wurden von dem Moderator nicht zur Konferenz zugelassen. Bitte entschuldigen Sie die Unannehmhlichkeit.</target>
       </trans-unit>
       <trans-unit id="7sKnidl" resname="lobby.participant.modal.accept.title">
-        <source>lobby.participant.modal.accept.title</source>
-        <target>__Der Moderator hat Sie zur Konferenz hinzugefügt</target>
+        <source>Der Moderator hat Sie zur Konferenz hinzugefügt</source>
+        <target>Der Moderator hat Sie zur Konferenz hinzugefügt</target>
       </trans-unit>
       <trans-unit id="Scz6Klf" resname="lobby.participant.modal.accept.message">
         <source>lobby.participant.modal.accept.message</source>
         <target>__Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</target>
       </trans-unit>
       <trans-unit id=".6u1w8z" resname="lobby.participant.pleaseWait">
-        <source>lobby.participant.pleaseWait</source>
-        <target>__Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
+        <source>Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</source>
+        <target>Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>Alle Teilnehmende zulassen</source>
-        <target>__Alle Teilnehmende zulassen</target>
+        <target>Alle Teilnehmende zulassen</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
-        <source>Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen</source>
-        <target>__Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen</target>
+        <source>Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen.</source>
+        <target>Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen.</target>
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>Echotest starten</source>
-        <target>__Echotest starten</target>
+        <target>Echotest starten</target>
       </trans-unit>
       <trans-unit id="8SH9Z2g" resname="lobby.echo.input">
         <source>Eingangsgerät</source>
-        <target>__Eingangsgerät</target>
+        <target>Eingangsgerät</target>
       </trans-unit>
       <trans-unit id="1sryeOJ" resname="lobby.echo.output">
         <source>Ausgabegerät</source>
-        <target>__Ausgabegerät</target>
+        <target>Ausgabegerät</target>
+      </trans-unit>
+      <trans-unit id="abSRL0." resname="error.noPermission">
+        <source>Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</source>
+        <target>Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</target>
+      </trans-unit>
+      <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
+        <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
+        Ihre E-Mail-Adresse: {email}&lt;br&gt;
+        Konferenz ID: {uid}</source>
+        <target><![CDATA[__Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
+        Ihre E-Mail-Adresse: {email}<br>
+        Konferenz ID: {uid}]]></target>
+      </trans-unit>
+      <trans-unit id="wmT9oq4" resname="lobby.stop.echo">
+        <source>Echotest beenden</source>
+        <target>Echotest beenden</target>
+      </trans-unit>
+      <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
+        <source>Die Konferenz für alle Teilnehmenden beenden</source>
+        <target>Die Konferenz für alle Teilnehmenden beenden</target>
+      </trans-unit>
+      <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
+        <source>Den Teilnehmenden zum Lobbymoderator ernennen</source>
+        <target>Den Teilnehmenden zum Lobbymoderator ernennen</target>
+      </trans-unit>
+      <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
+        <source>Wollen Sie den Teilnehmenden als Lobymoderator hinzufügen?</source>
+        <target>Wollen Sie den Teilnehmenden als Lobymoderator hinzufügen?</target>
+      </trans-unit>
+      <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
+        <source>Wollen Sie den Teilnehmenden als Lobymoderator entfernen?</source>
+        <target>Wollen Sie den Teilnehmenden als Lobymoderator entfernen?</target>
       </trans-unit>
     </body>
   </file>
