@@ -61,7 +61,9 @@ class LobbyModeratorControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
-        self::assertResponseRedirects('/room/dashboard?snack=error.noPermission&color=danger');
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $url = $urlGenerator->generate('dashboard',array('snack'=>'Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.','color'=>'danger'));
+        self::assertResponseRedirects($url );
     }
 
     public function testAccept(): void
@@ -94,15 +96,15 @@ class LobbyModeratorControllerTest extends WebTestCase
         $acceptUrl = $url->generate('lobby_moderator_accept', array('wUid' => $lobbyUser->getUid()));
         self::assertNotNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"__Sie haben den Teilnehmer erfolgreich der Konferenz hinzugef\u00fct","color":"success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Sie haben den Teilnehmer erfolgreich der Konferenz hinzugef\u00fcgt","color":"success"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"__Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"__Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
     }
 
     public function testDecline(): void
@@ -135,15 +137,15 @@ class LobbyModeratorControllerTest extends WebTestCase
         $acceptUrl = $url->generate('lobby_moderator_decline', array('wUid' => $lobbyUser->getUid()));
         self::assertNotNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"__Dieser Teilnehmer hat keinen Zutritt zu der Konferenz","color":"success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Dieser Teilnehmer hat keinen Zutritt zu der Konferenz","color":"success"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"__Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"__Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
     }
 
     public function testStartConference(): void
@@ -212,10 +214,10 @@ class LobbyModeratorControllerTest extends WebTestCase
         self::assertEquals(2,$crawler->filter('.waitingUserCard')->count());
         $client->loginUser($user2);
         $crawler = $client->request('GET',$url->generate('lobby_moderator_accept_all',array('roomId'=>$room->getUidReal())));
-        self::assertEquals('{"error":false,"message":"__Fehler, bitte laden Sie die Seite neu","color":"danger"}',$client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}',$client->getResponse()->getContent());
         $client->loginUser($moderator);
         $crawler = $client->request('GET',$url->generate('lobby_moderator_accept_all',array('roomId'=>$room->getUidReal())));
-        self::assertEquals('{"error":false,"message":"__Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen","color":"success"}',$client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen.","color":"success"}',$client->getResponse()->getContent());
         $crawler = $client->request('GET',$url->generate('lobby_moderator',array('uid'=>$room->getUidReal())));
         self::assertEquals(0,$crawler->filter('.waitingUserCard')->count());
     }

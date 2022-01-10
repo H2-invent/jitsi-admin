@@ -42,3 +42,4 @@ yarn-error.log
 
 *.signed*
 /screenshot/*
+/test/result/res.xml

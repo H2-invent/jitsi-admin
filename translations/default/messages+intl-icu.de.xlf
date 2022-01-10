@@ -1358,8 +1358,8 @@
         <target>Der Moderator hat Sie zur Konferenz hinzugefügt</target>
       </trans-unit>
       <trans-unit id="Scz6Klf" resname="lobby.participant.modal.accept.message">
-        <source>lobby.participant.modal.accept.message</source>
-        <target>__Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</target>
+        <source>Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</source>
+        <target>Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</target>
       </trans-unit>
       <trans-unit id=".6u1w8z" resname="lobby.participant.pleaseWait">
         <source>Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</source>
@@ -1393,7 +1393,7 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target><![CDATA[__Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
+        <target><![CDATA[Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
         Ihre E-Mail-Adresse: {email}<br>
         Konferenz ID: {uid}]]></target>
       </trans-unit>

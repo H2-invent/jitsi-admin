@@ -73,7 +73,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $crawler = $client->request('GET', $url);
         self::assertNotNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
         $crawler = $client->request('GET', $urlRenew);
-        self::assertEquals('{"error":false,"message":"__Sie haben Ihren Beitritt erfolgreich angefordert.","color":"success"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Sie haben Ihren Beitritt erfolgreich angefordert.","color":"success"}', $client->getResponse()->getContent());
     }
     public function testLeave(): void
     {

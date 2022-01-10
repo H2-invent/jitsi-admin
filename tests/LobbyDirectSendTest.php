@@ -54,7 +54,7 @@ class LobbyDirectSendTest extends KernelTestCase
 
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            self::assertEquals('{"type":"redirect","url":"\/rooms\/testMe","message":"__Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","timeout":1000}', $update->getData());
+            self::assertEquals('{"type":"redirect","url":"\/rooms\/testMe","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","timeout":1000}', $update->getData());
             self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';
         });
@@ -88,7 +88,7 @@ class LobbyDirectSendTest extends KernelTestCase
         $content = $twig->render('lobby_participants/choose.html.twig', array('appUrl' => 'https://test.de/app', 'browserUrl' => 'https://test.de/browser'));
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            self::assertEquals('{"type":"modal","content":"<div class=\"modal-dialog modal-dialog-centered\">\n    <div class=\"modal-content\">\n        <div class=\"modal-header  light-blue darken-3 white-text\">\n            <h5 class=\"modal-title\">__Der Moderator hat Sie zur Konferenz hinzugef\u00fcgt<\/h5>\n            <button style=\"color: white\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                <span aria-hidden=\"true\">\u00d7<\/span>\n            <\/button>\n        <\/div>\n        <div class=\"modal-body\">\n           <p>__Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, w\u00e4hlen Sie &quot;Im Browser&quot;.<\/p>\n        <\/div>\n        <div class=\"btn-group\">\n            <a href=\"https:\/\/test.de\/browser\" class=\"btn btn-outline-primary\">__Im Browser<\/a>\n            <a href=\"https:\/\/test.de\/app\" class=\"btn btn-outline-primary\">__In der App<\/a>\n        <\/div>\n\n    <\/div>\n<\/div>"}', $update->getData());
+            self::assertEquals('{"type":"modal","content":"<div class=\"modal-dialog modal-dialog-centered\">\n    <div class=\"modal-content\">\n        <div class=\"modal-header  light-blue darken-3 white-text\">\n            <h5 class=\"modal-title\">Der Moderator hat Sie zur Konferenz hinzugef\u00fcgt<\/h5>\n            <button style=\"color: white\" type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                <span aria-hidden=\"true\">\u00d7<\/span>\n            <\/button>\n        <\/div>\n        <div class=\"modal-body\">\n           <p>Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, w\u00e4hlen Sie &quot;Im Browser&quot;.<\/p>\n        <\/div>\n        <div class=\"btn-group\">\n            <a href=\"https:\/\/test.de\/browser\" class=\"btn btn-outline-primary\">Im Browser<\/a>\n            <a href=\"https:\/\/test.de\/app\" class=\"btn btn-outline-primary\">In der App<\/a>\n        <\/div>\n\n    <\/div>\n<\/div>"}', $update->getData());
             self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';
         });
