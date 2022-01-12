@@ -32,6 +32,21 @@
            data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
         </a>
+        <div class="btn-group">
+            <a href="#" type="button" class="btn btn-primary" id="startEcho"
+               data-texton="{{ 'lobby.start.echo'|trans }}"
+               data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
+            <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
+               data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-microphone"></i>
+            </a>
+            <div class="dropdown-menu">
+                <div id="audioInputSelect">
+                    <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                </div>
+            </div>
+        </div>
         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
         </ul>
         <div class="row">

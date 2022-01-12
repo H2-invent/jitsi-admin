@@ -2,7 +2,7 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-
+import 'regenerator-runtime/runtime'
 import $ from 'jquery';
 
 import('bootstrap');
@@ -10,12 +10,15 @@ import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
 import stc from 'string-to-color/index';
-import {masterNotify} from './lobbyNotification'
+import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
+import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import * as url from "url";
+initNotofication();
+initAUdio();
+initWebcam();
 
-initWebcam()
 const es = new EventSource(topic);
 es.onmessage = e => {
     var data = JSON.parse(e.data)
