@@ -27,12 +27,7 @@ async function initAUdio() {
     await navigator.mediaDevices.getUserMedia({audio: true, video: true});
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
         devices.forEach(function (device) {
-            // if (device.kind === 'audiooutput') {
-            //     $('#audioOutputSelect').append(
-            //         '<a class="dropdown-item audio_outputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
-            //     )
-            //     audio.push(device);
-            // }
+
             if (device.kind === 'audioinput') {
                 $('#audioInputSelect').append(
                     '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
@@ -45,13 +40,7 @@ async function initAUdio() {
             $(this).addClass('selectedDevice');
             micId = $(this).data('value');
         })
-        // $('.audio_outputSelect').click(function () {
-        //     $('.audio_outputSelect').removeClass('selectedDevice');
-        //     $(this).addClass('selectedDevice');
-        //     audioId = $(this).data('value');
-        // })
-        // audioId = audio[0].deviceId;
-        // $('.audio_outputSelect[data-value="' + audioId + '"]').addClass('selectedDevice');
+
         micId = mic[0].deviceId;
         $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
     })
@@ -79,7 +68,7 @@ function echoOff() {
 function switchEchoOn() {
     audioCtx = new AudioContext({
         latencyHint: 'interactive',
-       // sampleRate: 44100
+
     });
     if (navigator.mediaDevices.getUserMedia) {
         var constraints = {'echoCancellation': false, deviceId: {exact: micId}};
@@ -91,9 +80,7 @@ function switchEchoOn() {
         navigator.mediaDevices.getUserMedia({audio: constraints, video: false})
             .then(function (stream) {
                 const audio = document.createElement('audio');
-                // audio.setSinkId(audioId).then(function () {
-                //     console.log('Audio is being played on ' + audio.sinkId);
-                // })
+
                 gStream = stream;
                 source = audioCtx.createMediaStreamSource(stream)
                 delay = audioCtx.createDelay(2.0);
