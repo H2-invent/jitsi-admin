@@ -4,7 +4,9 @@ global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initCircle} from './initCircle'
 import notificationSound from '../sound/notification.mp3'
-
+function initNotofication(){
+    Push.Permission.request();
+}
 function masterNotify(data) {
     Push.Permission.request();
     if (data.type === 'notification') {
@@ -76,4 +78,4 @@ function redirect(data) {
 
 }
 
-export {masterNotify}
+export {masterNotify, initNotofication}

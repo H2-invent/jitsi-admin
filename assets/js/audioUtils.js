@@ -18,17 +18,21 @@ var audioId = null;
 var micId = null;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx;
-
-function initAUdio() {
+var source;
+var delay;
+var gain;
+var destination;
+var gStream = null;
+async function initAUdio() {
+    await navigator.mediaDevices.getUserMedia({audio: true, video: true});
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
-
         devices.forEach(function (device) {
-            if (device.kind === 'audiooutput') {
-                $('#audioOutputSelect').append(
-                    '<a class="dropdown-item audio_outputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
-                )
-                audio.push(device);
-            }
+            // if (device.kind === 'audiooutput') {
+            //     $('#audioOutputSelect').append(
+            //         '<a class="dropdown-item audio_outputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
+            //     )
+            //     audio.push(device);
+            // }
             if (device.kind === 'audioinput') {
                 $('#audioInputSelect').append(
                     '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
@@ -41,14 +45,13 @@ function initAUdio() {
             $(this).addClass('selectedDevice');
             micId = $(this).data('value');
         })
-        $('.audio_outputSelect').click(function () {
-            $('.audio_outputSelect').removeClass('selectedDevice');
-            $(this).addClass('selectedDevice');
-            audioId = $(this).data('value');
-        })
-        audioId = audio[0].deviceId;
-        console.log(audioId);
-        $('.audio_outputSelect[data-value="' + audioId + '"]').addClass('selectedDevice');
+        // $('.audio_outputSelect').click(function () {
+        //     $('.audio_outputSelect').removeClass('selectedDevice');
+        //     $(this).addClass('selectedDevice');
+        //     audioId = $(this).data('value');
+        // })
+        // audioId = audio[0].deviceId;
+        // $('.audio_outputSelect[data-value="' + audioId + '"]').addClass('selectedDevice');
         micId = mic[0].deviceId;
         $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
     })
@@ -57,47 +60,64 @@ function initAUdio() {
         var text;
         if (echoTest === 0) {
             echoTest = 1;
-            text = $(this).data('textoff');
-            $(this).text(text);
+            switchEchoOn();
         } else {
             echoTest = 0;
+            switchEchoOff();
         }
         e.preventDefault();
-        toggleEcho();
     })
 }
 
-
-function toggleEcho() {
-    audioCtx = new AudioContext({
-        latencyHint: 'interactive',
-        sampleRate: 44100
-    });
-    if (navigator.mediaDevices.getUserMedia) {
-        var constraints = {'echoCancellation': true, deviceId: {exact: micId}};
-        navigator.mediaDevices.getUserMedia({audio: constraints, video: false})
-            .then(function (stream) {
-
-                var source = audioCtx.createMediaStreamSource(stream)
-                var delay = audioCtx.createDelay(2.0);
-                var gain = audioCtx.createGain(10);
-                var destination = audioCtx.createMediaStreamDestination({audio: {deviceId: {excat: audioId}}});
-                source.connect(delay);
-                delay.connect(gain);
-                if (echoTest === 1) {
-                    gain.connect(audioCtx.destination);
-                } else {
-                    source.audioCtx.close().then(function () {
-                        console.log('1.2');
-                        $('#startEcho').text($(this).data('textOn'));
-                    });
-                }
-            })
-            .catch(function (err0r) {
-                console.log(err0r);
-                console.log("Something went wrong!");
-            });
+function echoOff() {
+    if (echoTest === 1) {
+        echoTest = 0;
+        switchEchoOff();
     }
 }
 
-export {initAUdio, micId, audioId}
+function switchEchoOn() {
+    audioCtx = new AudioContext({
+        latencyHint: 'interactive',
+       // sampleRate: 44100
+    });
+    if (navigator.mediaDevices.getUserMedia) {
+        var constraints = {'echoCancellation': false, deviceId: {exact: micId}};
+        if (gStream !== null ){
+            for (var i = 0 ;i < gStream.getTracks().length;i++){
+                gStream.getTracks()[i].stop();
+            }
+        }
+        navigator.mediaDevices.getUserMedia({audio: constraints, video: false})
+            .then(function (stream) {
+                const audio = document.createElement('audio');
+                // audio.setSinkId(audioId).then(function () {
+                //     console.log('Audio is being played on ' + audio.sinkId);
+                // })
+                gStream = stream;
+                source = audioCtx.createMediaStreamSource(stream)
+                delay = audioCtx.createDelay(2.0);
+                gain = audioCtx.createGain(10);
+                destination = audioCtx.createMediaStreamDestination({audio: {deviceId: {excat: audioId}}});
+                source.connect(delay);
+                delay.connect(gain);
+                gain.connect(audioCtx.destination);
+                $('#startEcho').text($('#startEcho').data('textoff'));
+            }).catch(function (err0r) {
+            console.log(err0r);
+            console.log("Something went wrong!");
+        });
+    }
+}
+
+function switchEchoOff() {
+    audioCtx.close().then(function () {
+        $('#startEcho').text($('#startEcho').data('texton'));
+            for (var i = 0 ;i < gStream.getTracks().length;i++){
+                gStream.getTracks()[i].stop();
+            }
+
+    });
+}
+
+export {initAUdio, micId, audioId, echoOff}

@@ -15,7 +15,8 @@ var toggle = 0;
 var webcams = [];
 var choosenId= null;
 
-function initWebcam() {
+async function initWebcam() {
+    await navigator.mediaDevices.getUserMedia({audio: true, video: true});
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
         devices.forEach(function (device) {
             if (device.kind === 'videoinput') {

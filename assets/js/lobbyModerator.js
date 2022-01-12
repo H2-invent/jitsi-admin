@@ -2,7 +2,7 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-
+import 'regenerator-runtime/runtime'
 import $ from 'jquery';
 
 import('bootstrap');
@@ -10,14 +10,18 @@ import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
 import stc from 'string-to-color/index';
-import {masterNotify} from './lobbyNotification'
+import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
-import {initAUdio, micId, audioId} from './audioUtils'
+import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import {initJitsi} from './jitsiUtils'
 var jitsiApi;
-initWebcam();
+navigator.mediaDevices.getUserMedia({audio: true, video: true})
+initNotofication();
 initAUdio();
+initWebcam();
+
+
 const es = new EventSource(topic);
 es.onmessage = e => {
     var data = JSON.parse(e.data)
@@ -41,12 +45,17 @@ broadcast.onmessage = e => {
 
 $('.startIframe').click(function (e) {
     e.preventDefault();
+    echoOff();
     document.title = conferenzeName;
     $(this).remove();
     $('#colWebcam').remove();
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
     moveWrapper();
-    options.device = choosenId;
+    options.devices={
+        audioInput: choosenId,
+        audioOutput: audioId,
+        videoInput: micId
+    }
     initJitsi(options,domain);
 
     $('#jitsiWrapper').find('iframe').css('height', '100vh');
