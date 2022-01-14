@@ -32,6 +32,12 @@ class LobbyBroadcastController extends AbstractController
     {
         return new JsonResponse(array('error' => false));
     }
-
+    /**
+     * @Route("/lobby/broadcast/{wUUid}", name="lobby_WaitingUser_websocket")
+     */
+    public function waitinUserWebsocket( $wUUid): Response
+    {
+        return new JsonResponse(array('error' => false));
+    }
 
 }

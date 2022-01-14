@@ -62,14 +62,11 @@ class LobbyParticipantsController extends AbstractController
        return $this->render('lobby_participants/index.html.twig',array('type'=>$type,'room'=>$room, 'server'=>$room->getServer(),'user'=>$user));
     }
     /**
-     * @Route("/lobby/renew/participants/{roomUid}/{userUid}", name="lobby_participants_renew")
+     * @Route("/lobby/renew/participants/{userUid}", name="lobby_participants_renew")
      */
-    public function renew($roomUid, $userUid): Response
+    public function renew($userUid): Response
     {
-
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$roomUid));
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
-        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
+        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid'=>$userUid));
         if($lobbyUser){
             $this->toModerator->newParticipantInLobby($lobbyUser);
             $this->toModerator->refreshLobby($lobbyUser);
@@ -78,13 +75,12 @@ class LobbyParticipantsController extends AbstractController
         return new JsonResponse(array('error'=>true,'message'=>$this->translator->trans('Fehler')));
     }
     /**
-     * @Route("/lobby/leave/participants/{roomUid}/{userUid}", name="lobby_participants_leave")
+     * @Route("/lobby/leave/participants/{userUid}", name="lobby_participants_leave")
      */
-    public function remove($roomUid, $userUid): Response
+    public function remove( $userUid): Response
     {
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$roomUid));
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
-        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
+
+        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid'=>$userUid));
         if($lobbyUser){
             $em = $this->getDoctrine()->getManager();
             $em->remove($lobbyUser);

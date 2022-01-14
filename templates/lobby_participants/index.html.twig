@@ -16,14 +16,16 @@
                     <div></div>
                     <div></div>
                 </div>
-               <h4 class="text-center">{{ 'lobby.participant.pleaseWait'|trans }}</h4>
+                <h4 class="text-center">{{ 'lobby.participant.pleaseWait'|trans }}</h4>
             </div>
             <video autoplay="true" id="lobbyWebcam"></video>
             <div class="webcamToolbar">
                 <i class="fa fa-video" id="webcamSwitch"></i>
-                {{ user.formatedName(laf_showNameInConference) }}
-                {% if user == room.moderator %}
-                    <i class="fa fa-star"></i>
+                {{ user.showName }}
+                {% if user.user is not null %}
+                    {% if user == room.moderator %}
+                        <i class="fa fa-star"></i>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -50,14 +52,16 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <a href="{{ path('lobby_participants_renew',{'roomUid':room.uidReal,'userUid':user.uid}) }}"
-                   class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
-                <a href="{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}"
-                   class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
+            <div class="row">
+                <div class="col-12">
+
+                    <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}"
+                       class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
+                    <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}"
+                       class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
+                </div>
             </div>
-        </div>
+
 
     </div>
     <div class="w-100" id="jitsiWindow">
@@ -70,7 +74,7 @@
     <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
         var type = '{{ type }}';
-        var topic = {{ mercure(absolute_url(path('lobby_participants_wait',{'roomUid':room.uidReal,'userUid':user.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var topic = {{ mercure(absolute_url(path('lobby_WaitingUser_websocket',{'wUUid':user.uid})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
         var removeUrl = '{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}';

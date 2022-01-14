@@ -54,7 +54,16 @@
                                     <div class="card ">
                                         <div class="card-body text-center d-flex flex-column align-items-center">
                                             <div class="initialCircle ">
-                                                {% if wU.user.firstName != '' %}{{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}{% else %}{{ wU.user.username[:1] }}{% endif %}</div>
+                                                {% if wU.user is not null %}
+                                                    {% if wU.user.firstName != '' %}
+                                                        {{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}
+                                                    {% else %}
+                                                        {{ wU.user.username[:1] }}
+                                                    {% endif %}
+                                            {% else %}
+                                                    {{ wU.showName[:2] }}
+                                                {% endif %}
+                                                </div>
                                             <div class="participantsName">{{ wU.showName }}</div>
 
                                         </div>

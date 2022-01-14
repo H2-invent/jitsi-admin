@@ -49,7 +49,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function join(Rooms $room, User $user, $t, $userName)
+    function join(Rooms $room, ?User $user, $t, $userName)
     {
         $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
         if (!$roomUser) {
@@ -98,7 +98,7 @@ class RoomService
         $url =  $url . '#config.subject=%22' . $room->getName() . '%22';
         return $url;
     }
-    public function generateJwt(Rooms $room, User $user, $userName){
+    public function generateJwt(Rooms $room, ?User $user, $userName){
         $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
         if (!$roomUser) {
             $roomUser = new RoomsUser();

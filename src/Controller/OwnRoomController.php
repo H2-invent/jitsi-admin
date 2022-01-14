@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\Type\JoinMyRoomType;
 use App\Form\Type\JoinViewType;
 use App\Service\RoomService;
+use App\Service\StartMeetingService;
 use Firebase\JWT\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,12 +27,16 @@ class OwnRoomController extends AbstractController
     /**
      * @Route("/myRoom/start/{uid}", name="own_room_startPage")
      */
-    public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator): Response
+    public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
     {
-        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $uid));
+        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $uid, 'totalOpenRooms' => true));
         if (!$rooms) {
             return $this->redirectToRoute('join_index_no_slug', array('snack' => $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'), 'color' => 'danger'));
         }
+        if (!StartMeetingService::checkTime($rooms)) {
+            return $this->redirectToRoute('join_index_no_slug', array('snack' => $translator->trans('HIer kommt noch das zeugs mit der ZEit rein'), 'color' => 'danger'));
+        }
+
         $data = array();
         if ($this->getUser()) {
             $data['name'] = $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName();
@@ -40,10 +45,12 @@ class OwnRoomController extends AbstractController
                 $data['name'] = $request->cookies->get('name');
             }
         }
+
         $isModerator = false;
-        if ($this->getUser() == $rooms->getModerator()) {
+        if ($this->getUser() === $rooms->getModerator()) {
             $isModerator = true;
         }
+
         $form = $this->createForm(JoinMyRoomType::class, $data);
         $form->handleRequest($request);
 
@@ -55,25 +62,31 @@ class OwnRoomController extends AbstractController
             } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
                 $type = 'b';
             }
+            $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $data['name']);
+
             $url = $roomService->joinUrl($type, $rooms, $data['name'], $isModerator);
-            if ($isModerator) {
-                if ($this->getUser() == $rooms->getModerator() && $rooms->getPersistantRoom()) {
-                    $rooms->setStart(new \DateTime());
-                    if ($rooms->getTotalOpenRoomsOpenTime()) {
-                        $rooms->setEnddate((new \DateTime())->modify('+ ' . $rooms->getTotalOpenRoomsOpenTime() . ' min'));
-                    }
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($rooms);
-                    $em->flush();
+            //der Raum hat eine Zeit und damit einen Startpunkt
+            if ($rooms->getStart()) {
+                //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
+                // Der teilnehmer muss in der Lobby von einem Lobbymoderator in die Konferenz überführt werden
+                if ($rooms->getLobby()) {
+                    $res = $startMeetingService->createLobbyParticipantResponse();
+                } else {
+                    $res = $this->redirectToRoute('room_waiting', array('name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type));
                 }
-                $res = $this->redirect($url);
-                return $res;
             } else {
-                $res = $this->redirectToRoute('room_waiting', array('name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type));
+                //Der Raum hat die Lobby aktiviert
+                if ($rooms->getLobby()) {
+                    $res = $startMeetingService->createLobbyParticipantResponse();
+                } else {//Der Raum hat keine Lobby Aktiviert -->
+                    // Der Fall hier: 1. Keine Zeit angegeben,
+                    // 2. es ist keine Lobby aktiviert
+                    //Resultat:  also wird der Teilnehmer direkt in die Konferenz überführt. Es wird nichts weiter kontrolliert
+                    $res = $startMeetingService->roomDefault();
+                }
             }
             $res->headers->setCookie(new Cookie('name', $data['name'], (new \DateTime())->modify('+365 days')));
             return $res;
-
         }
 
         return $this->render('own_room/index.html.twig', [
@@ -86,11 +99,17 @@ class OwnRoomController extends AbstractController
     /**
      * @Route("/mywaiting/waiting", name="room_waiting")
      */
-    public function waiting(Request $request): Response
+    public function waiting(Request $request,StartMeetingService $startMeetingService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $request->get('uid')));
         $name = $request->get('name');
         $type = $request->get('type');
+        $now = new \DateTime('now', new \DateTimeZone('utc'));
+
+        if (($room->getStartUtc() < $now && $room->getEndDateUtc() > $now)) {
+            $startMeetingService -> setAttribute($room,null,$type,$name);
+            return $startMeetingService->roomDefault();
+        }
         return $this->render('own_room/waiting.html.twig', [
             'room' => $room,
             'server' => $room->getServer(),
@@ -105,7 +124,7 @@ class OwnRoomController extends AbstractController
      */
     public function link(Rooms $rooms, Request $request): Response
     {
-        if ($rooms->getModerator() != $this->getUser()) {
+        if ($rooms->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Room not Found');
         }
 
@@ -120,10 +139,10 @@ class OwnRoomController extends AbstractController
      */
     public function checkWaiting(Rooms $rooms, $name, $type, Request $request, RoomService $roomService): Response
     {
-        $now = new \DateTime();
+        $now = new \DateTime('now', new \DateTimeZone('utc'));
 
-        if (($rooms->getStart() < $now && $rooms->getEnddate() > $now) || ($rooms->getTotalOpenRoomsOpenTime() === null && $rooms->getPersistantRoom() === true)) {
-            return new JsonResponse(array('error' => false, 'url' => $roomService->joinUrl($type, $rooms, $name, false)));
+        if (($rooms->getStartUtc() < $now && $rooms->getEndDateUtc() > $now)) {
+            return new JsonResponse(array('error' => false, 'url' => $this->generateUrl('room_waiting',array('name'=>$name,'type'=>$type, 'uid'=>$rooms->getUid()))));
         } else {
             return new JsonResponse(array('error' => true));
         }
