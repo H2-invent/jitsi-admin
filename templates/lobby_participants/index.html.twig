@@ -32,6 +32,8 @@
            data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
         </a>
+        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+        </ul>
         <div class="btn-group">
             <a href="#" type="button" class="btn btn-primary" id="startEcho"
                data-texton="{{ 'lobby.start.echo'|trans }}"
@@ -47,8 +49,7 @@
                 </div>
             </div>
         </div>
-        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
-        </ul>
+
         <div class="row">
             <div class="col-12">
                 <a href="{{ path('lobby_participants_renew',{'roomUid':room.uidReal,'userUid':user.uid}) }}"
