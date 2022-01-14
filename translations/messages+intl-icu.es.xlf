@@ -1282,7 +1282,7 @@
       </trans-unit>
       <trans-unit id="Ta8QMX4" resname="email.ical.link">
         <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
-        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+        <target state="translated">Si desea administrar fácilmente todas las conferencias desde su aplicación de calendario habitual, puede suscribirse a este enlace de iCal.</target>
       </trans-unit>
     </body>
   </file>
