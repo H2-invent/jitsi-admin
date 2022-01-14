@@ -41,3 +41,4 @@ yarn-error.log
 /translations/custom/messages+intl-icu.de.xlf
 
 *.signed*
+/theme/theme.json
