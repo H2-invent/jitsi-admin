@@ -4,8 +4,8 @@
 
 {% if room.moderator == app.user and room.totalOpenRooms != true %}
 
-<a href="{{ path('room_add_user',{'room':room.id}) }}"
-   class=" element btn btn-outline-default loadContent">{{ 'Teilnehmer'|trans }}</a>
+    <a href="{{ path('room_add_user',{'room':room.id}) }}"
+       class=" element btn btn-outline-default loadContent">{{ 'Teilnehmer'|trans }}</a>
 {% endif %}
 {% if room.moderator == app.user and room.totalOpenRooms == true %}
     <a href="{{ path('room_enter_link',{'uid':room.uid}) }}"

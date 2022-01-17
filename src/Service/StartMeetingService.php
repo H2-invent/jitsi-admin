@@ -47,6 +47,9 @@ class StartMeetingService
     private $user;
     private $type;
     private $name;
+    private $lobbyUser;
+
+
     /**
      * @var ToModeratorWebsocketService
      */
@@ -66,6 +69,7 @@ class StartMeetingService
         $this->twig = $environment;
         $this->toModerator = $toModeratorWebsocketService;
         $this->logger = $logger;
+        $this->lobbyUser = null;
     }
 
     /**
@@ -162,9 +166,17 @@ class StartMeetingService
      * @throws \Twig\Error\SyntaxError
      * this function generates the page for the participant
      */
-    public function createLobbyParticipantResponse()
+    public function createLobbyParticipantResponse($wuid = null)
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $this->user, 'room' => $this->room));
+        if($wuid){
+            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wuid));
+            if ($lobbyUser){
+                $this->user = 1;
+            }
+
+        }
+
         if (!$lobbyUser || $this->user === null) {
             $lobbyUser = new LobbyWaitungUser();
             $lobbyUser->setType($this->type);
@@ -176,12 +188,14 @@ class StartMeetingService
             $this->em->persist($lobbyUser);
             $this->em->flush();
             $this->toModerator->newParticipantInLobby($lobbyUser);
-            $this->toModerator->refreshLobby($lobbyUser);
+
         }
         $lobbyUser->setShowName($this->name);
         $lobbyUser->setType($this->type);
         $this->em->persist($lobbyUser);
         $this->em->flush();
+        $this->toModerator->refreshLobby($lobbyUser);
+        $this->lobbyUser = $lobbyUser;
         return new Response($this->twig->render('lobby_participants/index.html.twig', array('type' => $lobbyUser->getType(), 'room' => $lobbyUser->getRoom(), 'server' => $lobbyUser->getRoom()->getServer(), 'user' => $lobbyUser)));
     }
 
@@ -248,5 +262,13 @@ class StartMeetingService
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return null
+     */
+    public function getLobbyUser():?LobbyWaitungUser
+    {
+        return $this->lobbyUser;
     }
 }

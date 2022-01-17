@@ -83,7 +83,12 @@ class OwnRoomController extends AbstractController
                     if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
                         $res = $startMeetingService->createLobbyModeratorResponse();
                     }else{
-                        $res = $startMeetingService->createLobbyParticipantResponse();
+                        $wui = null;
+                        if($request->cookies->has('waitinguser')){
+                            $wui = $request->cookies->get('waitinguser');
+                        }
+                        $res = $startMeetingService->createLobbyParticipantResponse($wui);
+                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTime())->modify('+6 hours')));
                     }
                 } else {
                     if($this->getUser() === $rooms->getModerator()){
@@ -99,7 +104,12 @@ class OwnRoomController extends AbstractController
                     if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
                         $res = $startMeetingService->createLobbyModeratorResponse();
                     }else{
-                        $res = $startMeetingService->createLobbyParticipantResponse();
+                        $wui = null;
+                        if($request->cookies->has('waitinguser')){
+                            $wui = $request->cookies->get('waitinguser');
+                        }
+                        $res = $startMeetingService->createLobbyParticipantResponse($wui);
+                        $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTime())->modify('+6 hours')));
                     }
 
                 } else {//Der Raum hat keine Lobby Aktiviert -->
