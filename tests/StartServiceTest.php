@@ -95,18 +95,18 @@ class StartServiceTest extends KernelTestCase
         self::assertNull($lobbyUser);
         self::assertStringContainsString('https://'.$room->getServer()->getUrl().'/external_api.js',
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString("var type = 'a'",
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString("var type = 'a'",
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString('topic=http%3A%2F%2Flocalhost%2Flobby%2Fparticipants%2Fa%2F'.$room->getUidReal().'%2F'.$user->getUid(),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString('topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
-            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));
         self::assertNotNull($lobbyUser);
+        self::assertStringContainsString("var type = 'a'",
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+        self::assertStringContainsString("var type = 'a'",
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+        self::assertStringContainsString('test?topic=http%3A%2F%2Flocalhost%2Flobby%2Fparticipants%2F'.$lobbyUser->getUid(),
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+        self::assertStringContainsString('test?topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
+            $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         self::assertEquals('a',$lobbyUser->getType());
-        self::assertStringContainsString('topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
+        self::assertStringContainsString('test?topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));
         self::assertNotNull($lobbyUser);

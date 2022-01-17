@@ -34,7 +34,17 @@ class OwnRoomController extends AbstractController
             return $this->redirectToRoute('join_index_no_slug', array('snack' => $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'), 'color' => 'danger'));
         }
         if (!StartMeetingService::checkTime($rooms)) {
-            return $this->redirectToRoute('join_index_no_slug', array('snack' => $translator->trans('HIer kommt noch das zeugs mit der ZEit rein'), 'color' => 'danger'));
+            $startPrint = $rooms->getTimeZone()?clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getStart();
+            $startPrint->modify('-30min');
+            $endPrint = $rooms->getTimeZone()?$rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getStart();
+            $snack = $translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+                array(
+                    '{from}' => $startPrint->format('d.m.Y H:i T'),
+                    '{to}' => $endPrint->format('d.m.Y H:i T')
+                )
+            );
+            $color = 'danger';
+            return $this->redirectToRoute('join_index_no_slug', array('snack' => $snack, 'color' => $color));
         }
 
         $data = array();
@@ -70,14 +80,28 @@ class OwnRoomController extends AbstractController
                 //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
                 // Der teilnehmer muss in der Lobby von einem Lobbymoderator in die Konferenz überführt werden
                 if ($rooms->getLobby()) {
-                    $res = $startMeetingService->createLobbyParticipantResponse();
+                    if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
+                        $res = $startMeetingService->createLobbyModeratorResponse();
+                    }else{
+                        $res = $startMeetingService->createLobbyParticipantResponse();
+                    }
                 } else {
-                    $res = $this->redirectToRoute('room_waiting', array('name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type));
+                    if($this->getUser() === $rooms->getModerator()){
+                        $res = $startMeetingService->roomDefault();
+                    }else{
+                        $res = $this->redirectToRoute('room_waiting', array('name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type));
+                    }
+
                 }
             } else {
                 //Der Raum hat die Lobby aktiviert
                 if ($rooms->getLobby()) {
-                    $res = $startMeetingService->createLobbyParticipantResponse();
+                    if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
+                        $res = $startMeetingService->createLobbyModeratorResponse();
+                    }else{
+                        $res = $startMeetingService->createLobbyParticipantResponse();
+                    }
+
                 } else {//Der Raum hat keine Lobby Aktiviert -->
                     // Der Fall hier: 1. Keine Zeit angegeben,
                     // 2. es ist keine Lobby aktiviert

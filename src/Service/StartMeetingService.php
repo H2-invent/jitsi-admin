@@ -224,6 +224,7 @@ class StartMeetingService
     public function roomDefault()
     {
         if ($this->type === 'a') {
+            $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
             return new Response($this->twig->render('start/index.html.twig', array('room' => $this->room, 'user' => $this->user, 'name' => $this->name)));

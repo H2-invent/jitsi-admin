@@ -59,7 +59,7 @@ class LobbyParticipantsController extends AbstractController
         $em->persist($lobbyUser);
         $em->flush();
 
-       return $this->render('lobby_participants/index.html.twig',array('type'=>$type,'room'=>$room, 'server'=>$room->getServer(),'user'=>$user));
+       return $this->render('lobby_participants/index.html.twig',array('type'=>$type,'room'=>$room, 'server'=>$room->getServer(),'user'=>$lobbyUser));
     }
     /**
      * @Route("/lobby/renew/participants/{userUid}", name="lobby_participants_renew")

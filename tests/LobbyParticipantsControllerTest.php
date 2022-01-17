@@ -32,16 +32,15 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-                 return 'id';
+            return 'id';
         });
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
+        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $url = $urlGenerator->generate('lobby_participants_wait',array('roomUid'=>$room->getUidReal(),'userUid'=>$user2->getUid()));
+        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
         $crawler = $client->request('GET', $url);
-        self::assertNotNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
-
+        self::assertNotNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
         $this->assertEquals(
             1,
             $crawler->filter('.overlay:contains("Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.")')->count()
@@ -65,16 +64,21 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $urlRenew = $urlGenerator->generate('lobby_participants_renew',array('roomUid'=>$room->getUidReal(),'userUid'=>$user2->getUid()));
+        $urlRenew = $urlGenerator->generate('lobby_participants_renew', array('userUid' => 'test'));
         $crawler = $client->request('GET', $urlRenew);
         self::assertEquals('{"error":true,"message":"Fehler"}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
-        $url = $urlGenerator->generate('lobby_participants_wait',array('roomUid'=>$room->getUidReal(),'userUid'=>$user2->getUid()));
+        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+
         $crawler = $client->request('GET', $url);
-        self::assertNotNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
+        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        $urlRenew = $urlGenerator->generate('lobby_participants_renew', array('userUid' => $lobbyUser->getUid()));
+        $this->assertStringContainsString('href="'.$urlRenew,$client->getResponse()->getContent());
+        self::assertNotNull($lobbyUser);
         $crawler = $client->request('GET', $urlRenew);
         self::assertEquals('{"error":false,"message":"Sie haben Ihren Beitritt erfolgreich angefordert.","color":"success"}', $client->getResponse()->getContent());
     }
+
     public function testLeave(): void
     {
         $client = static::createClient();
@@ -92,17 +96,19 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $urlLeave = $urlGenerator->generate('lobby_participants_leave',array('roomUid'=>$room->getUidReal(),'userUid'=>$user2->getUid()));
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array('userUid' => 'test'));
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":true}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
-        $url = $urlGenerator->generate('lobby_participants_wait',array('roomUid'=>$room->getUidReal(),'userUid'=>$user2->getUid()));
+        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
         $crawler = $client->request('GET', $url);
-        self::assertNotNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
-        $urlLeave = $urlGenerator->generate('lobby_participants_leave',array('roomUid'=>$room->getUidReal(),'userUid'=>$user2->getUid()));
+        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        self::assertNotNull($lobbyUser);
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array( 'userUid' => $lobbyUser->getUid()));
+        $this->assertStringContainsString('href="'.$urlLeave,$client->getResponse()->getContent());
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user'=>$user2, 'room'=>$room)));
-       }
+        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+    }
 
 }

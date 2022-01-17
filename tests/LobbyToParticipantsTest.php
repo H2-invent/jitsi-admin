@@ -54,20 +54,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
-        $directSend = $this->getContainer()->get(DirectSendService::class);
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            if(strpos($update->getData(),'newJitsi')>0){
-                self::assertEquals('{"type":"newJitsi","options":{"options":{"jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4","roomName":"12313231ghjgfdsdf","width":"100%","height":400},"roomName":"This is a room with Lobby","domain":"meet.jit.si2","parentNode":"#jitsiWindow","userInfo":{"displayName":"Test User"}}}', $update->getData());
-            }
-            if(strpos($update->getData(),'snackbar')>0){
-                self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
-            }
-            self::assertEquals(['http://localhost/lobby/participants/a/561ghj984ssdfdf/kljlsdkjflkjdslfjsdlkjsdflkj'], $update->getTopics());
-            return 'id';
-        });
-        $directSend->setMercurePublisher($hub);
-        $lobbyToParticipant = self::getContainer()->get(ToParticipantWebsocketService::class);
-        $lobbyToParticipant->setDirectSend($directSend);
+
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
@@ -82,6 +69,22 @@ class LobbyToParticipantsTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
         $manager->flush();
+
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            if(strpos($update->getData(),'newJitsi')>0){
+                self::assertEquals('{"type":"newJitsi","options":{"options":{"jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4","roomName":"12313231ghjgfdsdf","width":"100%","height":400},"roomName":"This is a room with Lobby","domain":"meet.jit.si2","parentNode":"#jitsiWindow","userInfo":{"displayName":"Test User"}}}', $update->getData());
+            }
+            if(strpos($update->getData(),'snackbar')>0){
+                self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
+            }
+            self::assertEquals(['http://localhost/lobby/participants/lkjhdslkfjhdskjhfkds'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $lobbyToParticipant = self::getContainer()->get(ToParticipantWebsocketService::class);
+        $lobbyToParticipant->setDirectSend($directSend);
         $lobbyToParticipant->acceptLobbyUser($lobbyUser);
     }
 }
