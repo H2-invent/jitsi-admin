@@ -65,13 +65,14 @@ class LdapService
      * @param string $scope
      * @return \Symfony\Component\Ldap\Entry[]
      */
-    public function retrieveUser(Ldap $ldap, string $userDn, string $objectclass, string $scope)
+    public function retrieveUser(Ldap $ldap, string $userDn, string $objectclass, string $scope, ?string $filter = null)
     {
 
         $options = array(
-            'scope' => $scope
+            'scope' => $scope,
         );
-        $query = $ldap->query($userDn, $this->buildObjectClass($objectclass), $options);
+
+        $query = $ldap->query($userDn, $this->buildObjectClass($objectclass,$filter), $options);
         $user = $query->execute();
         return $user->toArray();
     }
@@ -81,13 +82,17 @@ class LdapService
      * @param $objectClassString
      * @return string
      */
-    public function buildObjectClass($objectClassString): string
+    public function buildObjectClass($objectClassString, ?string $filter = null): string
     {
-        $objectclass = '(&(|';
+        $objectclass = '(|';
         foreach (explode(',', $objectClassString) as $data2) {
             $objectclass .= '(objectclass=' . $data2 . ')';
         }
-        $objectclass .= '))';
+        $objectclass .= ')';
+        if($filter){
+            $objectclass = ''.$objectclass.$filter;
+        }
+        $objectclass = '(&'.$objectclass.')';
         return $objectclass;
     }
 
@@ -100,13 +105,15 @@ class LdapService
     public function fetchLdap(LdapType $ldap){
 
         $user = null;
+
         try {
             $userLdap =
                 $this->retrieveUser(
                     $ldap->getLdap(),
                     $ldap->getUserDn(),
                     $ldap->getObjectClass(),
-                    $ldap->getScope()
+                    $ldap->getScope(),
+                    $ldap->getFilter()!==''?$ldap->getFilter():null
                 );
             foreach ($userLdap as $u) {
                 $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap);

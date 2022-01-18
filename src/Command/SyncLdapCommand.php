@@ -40,6 +40,7 @@ class SyncLdapCommand extends Command
     private $BINDTYPE;
     private $LDAPSERVERID;
     private $LDAP_SPECIALFIELD;
+    private $LDAPFILTER;
     public function __construct(LdapUserService $ldapUserService, string $name = null, ParameterBagInterface $parameterBag, LdapService $ldapService)
     {
         parent::__construct($name);
@@ -57,6 +58,7 @@ class SyncLdapCommand extends Command
         $this->RDN = explode(',', $this->paramterBag->get('ldap_rdn_ldap_attribute'));
         $this->BINDTYPE = explode(',', $this->paramterBag->get('ldap_bind_type'));
         $this->LDAPSERVERID = explode(',', $parameterBag->get('ldap_server_individualName'));
+        $this->LDAPFILTER = explode(';', $parameterBag->get('ldap_filter'));
 
         $tmp = explode(';', $this->paramterBag->get('ldap_attribute_mapper'));
         foreach ($tmp as $data) {
@@ -96,6 +98,7 @@ class SyncLdapCommand extends Command
                 $ldap->setObjectClass($this->OBJECTCLASSES[$count]);
                 $ldap->setUserDn($this->USERDN[$count]);
                 $ldap->setSpecialFields($this->LDAP_SPECIALFIELD[$count]);
+                $ldap->setFilter($this->LDAPFILTER[$count]);
                 $io->info('Try to connect to: ' . $data);
                 try {
                     $ldap->createLDAP();

@@ -33,7 +33,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP($this->LDAPURL, '', '', true);
-        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'sub'))->execute()->count());
+        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', array('scope' => 'sub'))->execute()->count());
     }
 
     public function testConnectionMitLogin(): void
@@ -47,7 +47,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
-        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'sub'))->execute()->count());
+        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', array('scope' => 'sub'))->execute()->count());
     }
 
     public function testConnectionMitLoginOne(): void
@@ -61,7 +61,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
-        $this->assertEquals(self::$UserInOneLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', array('scope' => 'one'))->execute()->count());
+        $this->assertEquals(self::$UserInOneLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', array('scope' => 'one'))->execute()->count());
     }
 
     public function testcreateObjectClass(): void
@@ -76,8 +76,8 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection = $container->get(LdapService::class);
         $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
 
+        $this->assertEquals('(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', $ldapConnection->buildObjectClass('person,organizationalPerson,user','(&(mail=*))'));
         $this->assertEquals('(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', $ldapConnection->buildObjectClass('person,organizationalPerson,user'));
-
     }
 
     public function testcreateFetchUserOne(): void
@@ -104,6 +104,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapType->setLdap($ldap);
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
+        $ldapType->setFilter('(&(mail=*))');
         $this->assertEquals(2, sizeof($ldapConnection->fetchLdap($ldapType)['user']));
 
     }
@@ -132,6 +133,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapType->setLdap($ldap);
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
+        $ldapType->setFilter('(&(mail=*))');
         $this->assertEquals(self::$UserInLDAP, sizeof($ldapConnection->fetchLdap($ldapType)['user']));
     }
 
@@ -150,7 +152,8 @@ class LdapConnectionTest extends KernelTestCase
             $ldap,
             'o=unitTest,dc=example,dc=com',
             'person,organizationalPerson,user',
-            'one'
+            'one',
+            '(&(mail=*))'
         )));
     }
     public function testRetrieveUserSub(): void
@@ -168,7 +171,8 @@ class LdapConnectionTest extends KernelTestCase
             $ldap,
             'o=unitTest,dc=example,dc=com',
             'person,organizationalPerson,user',
-            'sub'
+            'sub',
+            '(&(mail=*))'
         )));
     }
 }

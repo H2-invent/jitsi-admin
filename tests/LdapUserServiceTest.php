@@ -45,10 +45,13 @@ class LdapUserServiceTest extends WebTestCase
         $ldapType->setUserDn('o=unitTest,dc=example,dc=com');
         $ldapType->setBindType('none');
         $ldapType->setRdn('uid');
+        $ldapType->setFilter('(&(mail=*))');
         $ldapType->setLdap($ldap);
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
         $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub');
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP+1, sizeof($entry));
+        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub','(&(mail=*))');
         $users = array();
         foreach ($entry as $data) {
             $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);
@@ -124,10 +127,11 @@ class LdapUserServiceTest extends WebTestCase
         $ldapType->setUserDn('o=unitTest,dc=example,dc=com');
         $ldapType->setBindType('none');
         $ldapType->setRdn('uid');
+        $ldapType->setFilter('(&(mail=*))');
         $ldapType->setLdap($ldap);
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
-        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub');
+        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub','(&(mail=*))');
         $users = array();
         foreach ($entry as $data) {
             $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);
@@ -203,9 +207,10 @@ class LdapUserServiceTest extends WebTestCase
         $ldapType->setBindType('none');
         $ldapType->setRdn('uid');
         $ldapType->setLdap($ldap);
+        $ldapType->setFilter('(&(mail=*))');
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
-        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub');
+        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub','(&(mail=*))');
         $users = array();
         foreach ($entry as $data) {
             $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);

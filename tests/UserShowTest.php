@@ -37,7 +37,8 @@ class UserShowTest extends WebTestCase
         $ldapType->setLdap($ldap);
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
-        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub');
+        $ldapType->setFilter('(&(mail=*))');
+        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub','(&(mail=*))');
 
         foreach ($entry as $data) {
             $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);
@@ -100,7 +101,8 @@ class UserShowTest extends WebTestCase
         $ldapType->setLdap($ldap);
         $ldapType->setObjectClass('person,organizationalPerson,user');
         $ldapType->setUserNameAttribute('uid');
-        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub');
+        $ldapType->setFilter('(&(mail=*))');
+        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub','(&(mail=*))');
 
         foreach ($entry as $data) {
             $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);

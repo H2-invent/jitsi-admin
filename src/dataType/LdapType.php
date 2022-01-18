@@ -24,6 +24,8 @@ class LdapType
     public static $SIMPLE = 0;
     private $ldapService;
     private $specialFields;
+    private $filter;
+
     public function __construct(LdapService $ldapService)
     {
         $this->ldapService = $ldapService;
@@ -249,6 +251,22 @@ class LdapType
         } catch (\Exception $exception) {
             throw $exception;
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @param mixed $filter
+     */
+    public function setFilter($filter): void
+    {
+        $this->filter = $filter;
     }
 
 }
