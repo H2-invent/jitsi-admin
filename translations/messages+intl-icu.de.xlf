@@ -1382,7 +1382,7 @@
         <target>Eingangsgerät</target>
       </trans-unit>
       <trans-unit id="1sryeOJ" resname="lobby.echo.output">
-        <source>lobby.echo.output</source>
+        <source>Ausgabegerät</source>
         <target>Ausgabegerät</target>
       </trans-unit>
       <trans-unit id="abSRL0." resname="error.noPermission">
@@ -1420,6 +1420,16 @@
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</source>
         <target>Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</target>
+      </trans-unit>
+      <trans-unit id="vs1KLhV" resname="newRoom.error.noServer.addServer">
+        <source>Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</source>
+        <target>Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</target>
+      </trans-unit>
+      <trans-unit id="hj1.9Y_" resname="newRoom.error.noServer.askAdmin">
+        <source><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
+        <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></source>
+        <target><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
+        <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
       </trans-unit>
     </body>
   </file>

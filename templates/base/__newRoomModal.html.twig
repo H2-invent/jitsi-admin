@@ -8,201 +8,212 @@
             </button>
         </div>
         <div class="modal-body">
-            {{ form_start(form) }}
-            <div class="row">
-                <div class="col-lg-12">
-                    {% if form.repeaterRemoved is defined %}
-                        {{ form_row(form.repeaterRemoved) }}
-                    {% endif %}
-                    {% if form.server is defined and form.server is not null %}
-                    {{ form_row(form.server) }}
-                    {% endif %}
-                </div>
-                <div class="col-lg-12">
-                    {{ form_row(form.name) }}
-                </div>
-                <div class="col-lg-12">
-                    {{ form_row(form.agenda) }}
-                </div>
-
-                {% if form.persistantRoom is defined %}
+            {% if server|length > 0 %}
+                {{ form_start(form) }}
+                <div class="row">
                     <div class="col-lg-12">
-                        {{ form_row(form.persistantRoom) }}
-                    </div>
-                {% endif %}
-
-                <div class="col-lg-12">
-                    <div id="roomStartForm" class="collapse show">
-                        {% if extra is defined and extra is not null %}
-                            <p class="text-danger">{{ extra }}</p>
+                        {% if form.repeaterRemoved is defined %}
+                            {{ form_row(form.repeaterRemoved) }}
                         {% endif %}
-                        {% if form.start is defined %}
-                            {{ form_row(form.start) }}
-                        {% endif %}
-                        {{ form_row(form.duration) }}
-                        {% if form.timeZone is defined %}
-                            <div class="row">
-
-                                <div class="col-sm-11">
-                                    {{ form_row(form.timeZone) }}
-                                </div>
-                                <div class="col-sm-1">
-                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                       data-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
-                                                class="fa fa-question-circle"></i></a>
-                                </div>
-                            </div>
-
+                        {% if form.server is defined and form.server is not null %}
+                            {{ form_row(form.server) }}
                         {% endif %}
                     </div>
-                </div>
+                    <div class="col-lg-12">
+                        {{ form_row(form.name) }}
+                    </div>
+                    <div class="col-lg-12">
+                        {{ form_row(form.agenda) }}
+                    </div>
 
-            </div>
-            <div class="mb-2">
-                {% if laf_roomsMoreOptionsCollapsed == 1 %}
-                <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
-                   aria-controls="collapseExample">
-                    {{ 'Erweiterte Optionen'|trans }}
-                </a>
-                <div class="collapse" id="collapseExample">
+                    {% if form.persistantRoom is defined %}
+                        <div class="col-lg-12">
+                            {{ form_row(form.persistantRoom) }}
+                        </div>
                     {% endif %}
-                    <div class="mt-3">
 
-
-                        <div class="row">
-                            {% if form.scheduleMeeting is defined %}
-
-                                <div class="col-sm-11">
-                                    {{ form_row(form.scheduleMeeting) }}
-                                </div>
-                                <div class="col-sm-1">
-                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                       data-content="{{ 'Es wird eine Terminumfrage erstellt, keine Konferenz.'|trans }}"><i
-                                                class="fa fa-question-circle"></i></a>
-                                </div>
+                    <div class="col-lg-12">
+                        <div id="roomStartForm" class="collapse show">
+                            {% if extra is defined and extra is not null %}
+                                <p class="text-danger">{{ extra }}</p>
                             {% endif %}
-
-                            {% if form.onlyRegisteredUsers is defined %}
-                                <div class="col-sm-11">
-                                    {{ form_row(form.onlyRegisteredUsers) }}
-                                </div>
-                                <div class="col-sm-1">
-                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                       data-content="{{ 'Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.'|trans }}"><i
-                                                class="fa fa-question-circle"></i></a>
-                                </div>
+                            {% if form.start is defined %}
+                                {{ form_row(form.start) }}
                             {% endif %}
-                            {% if form.public is defined %}
-                                <div class="col-sm-11">
-                                    {{ form_row(form.public) }}
-                                </div>
-                                <div class="col-sm-1">
-                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                       data-content="{{ 'Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.'|trans }}"><i
-                                                class="fa fa-question-circle"></i></a>
-                                </div>
-                            {% endif %}
-                            {% if form.maxParticipants is defined %}
-                                <div class="col-lg-12">
-                                    <div id="maxParticipants" class=" collapse ">
-                                        <div class="row">
-                                            <div class="col-sm-11">
-                                                {{ form_row(form.maxParticipants) }}
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                                   data-content="{{ 'Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können'|trans }}"><i
-                                                            class="fa fa-question-circle"></i></a>
-                                            </div>
-                                            {% if form.waitinglist is defined %}
-                                                <div class="col-sm-11">
-                                                    {{ form_row(form.waitinglist) }}
-                                                </div>
-                                                <div class="col-sm-1">
-                                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                                       data-content="{{ 'Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren'|trans }}"><i
-                                                                class="fa fa-question-circle"></i></a>
-                                                </div>
-                                            {% endif %}
-                                        </div>
+                            {{ form_row(form.duration) }}
+                            {% if form.timeZone is defined %}
+                                <div class="row">
 
-
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.timeZone) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                           data-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
                                     </div>
                                 </div>
-                            {% endif %}
-                            {% if form.showRoomOnJoinpage is defined %}
-                                <div class="col-sm-11">
-                                    {{ form_row(form.showRoomOnJoinpage) }}
-                                </div>
-                                <div class="col-sm-1">
-                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                       data-content="{{ 'Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.'|trans }}"><i
-                                                class="fa fa-question-circle"></i></a>
-                                </div>
-                            {% endif %}
-                            {% if form.lobby is defined %}
-                                <div class="col-lg-12">
-                                    <div id="lobby" class="row">
-                                        <div class="col-sm-11">
-                                            {{ form_row(form.lobby) }}
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                               data-content="{{ 'room.new.help.lobby'|trans }}"><i
-                                                        class="fa fa-question-circle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if form.dissallowScreenshareGlobal is defined %}
-                                <div class="col-lg-12">
-                                    <div id="enableFeateureJwt" class="d-none row">
-                                        <div class="col-sm-11">
-                                            {{ form_row(form.dissallowScreenshareGlobal) }}
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                               data-content="{{ 'Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden'|trans }}"><i
-                                                        class="fa fa-question-circle"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if form.totalOpenRooms is defined %}
-                                <div class="col-sm-11">
-                                    {{ form_row(form.totalOpenRooms) }}
-                                </div>
-                                <div class="col-sm-1">
-                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                       data-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}"><i
-                                                class="fa fa-question-circle"></i></a>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="collapse" id="totalOpenRoomsOpenTime">
-                                        <div class="row">
-                                            <div class="col-sm-11">
-                                                {{ form_row(form.totalOpenRoomsOpenTime) }}
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                                   data-content="{{ 'Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.'|trans }}"><i
-                                                            class="fa fa-question-circle"></i></a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
 
                             {% endif %}
                         </div>
                     </div>
 
-                {% if laf_roomsMoreOptionsCollapsed == 1 %}
                 </div>
-                {% endif %}
-            </div>
-            {{ form_end(form) }}
+                <div class="mb-2">
+                    {% if laf_roomsMoreOptionsCollapsed == 1 %}
+                    <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
+                       aria-controls="collapseExample">
+                        {{ 'Erweiterte Optionen'|trans }}
+                    </a>
+                    <div class="collapse" id="collapseExample">
+                        {% endif %}
+                        <div class="mt-3">
+
+
+                            <div class="row">
+                                {% if form.scheduleMeeting is defined %}
+
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.scheduleMeeting) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                           data-content="{{ 'Es wird eine Terminumfrage erstellt, keine Konferenz.'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
+                                    </div>
+                                {% endif %}
+
+                                {% if form.onlyRegisteredUsers is defined %}
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.onlyRegisteredUsers) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                           data-content="{{ 'Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
+                                    </div>
+                                {% endif %}
+                                {% if form.public is defined %}
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.public) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                           data-content="{{ 'Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
+                                    </div>
+                                {% endif %}
+                                {% if form.maxParticipants is defined %}
+                                    <div class="col-lg-12">
+                                        <div id="maxParticipants" class=" collapse ">
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    {{ form_row(form.maxParticipants) }}
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                       data-content="{{ 'Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können'|trans }}"><i
+                                                                class="fa fa-question-circle"></i></a>
+                                                </div>
+                                                {% if form.waitinglist is defined %}
+                                                    <div class="col-sm-11">
+                                                        {{ form_row(form.waitinglist) }}
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                           data-content="{{ 'Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren'|trans }}"><i
+                                                                    class="fa fa-question-circle"></i></a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if form.showRoomOnJoinpage is defined %}
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.showRoomOnJoinpage) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                           data-content="{{ 'Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
+                                    </div>
+                                {% endif %}
+                                {% if form.lobby is defined %}
+                                    <div class="col-lg-12">
+                                        <div id="lobby" class="row">
+                                            <div class="col-sm-11">
+                                                {{ form_row(form.lobby) }}
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                   data-content="{{ 'room.new.help.lobby'|trans }}"><i
+                                                            class="fa fa-question-circle"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if form.dissallowScreenshareGlobal is defined %}
+                                    <div class="col-lg-12">
+                                        <div id="enableFeateureJwt" class="d-none row">
+                                            <div class="col-sm-11">
+                                                {{ form_row(form.dissallowScreenshareGlobal) }}
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                   data-content="{{ 'Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden'|trans }}"><i
+                                                            class="fa fa-question-circle"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if form.totalOpenRooms is defined %}
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.totalOpenRooms) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                           data-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="collapse" id="totalOpenRoomsOpenTime">
+                                            <div class="row">
+                                                <div class="col-sm-11">
+                                                    {{ form_row(form.totalOpenRoomsOpenTime) }}
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
+                                                       data-content="{{ 'Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.'|trans }}"><i
+                                                                class="fa fa-question-circle"></i></a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if laf_roomsMoreOptionsCollapsed == 1 %}
+                    </div>
+                    {% endif %}
+                </div>
+                {{ form_end(form) }}
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    {% if laf_CreateServerOpenToEveryone == 1 %}
+                        {{ 'newRoom.error.noServer.addServer'|trans }}
+                    {% else %}
+                        {{ ''|trans }}
+                        {%  trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
