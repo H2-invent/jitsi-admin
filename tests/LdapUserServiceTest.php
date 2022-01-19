@@ -51,6 +51,8 @@ class LdapUserServiceTest extends WebTestCase
         $ldapType->setUserNameAttribute('uid');
         $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub');
         $this->assertEquals(LdapConnectionTest::$UserInLDAP+1, sizeof($entry));
+        $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub','');
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP+1, sizeof($entry));
         $entry = $ldapConnection->retrieveUser($ldap, 'o=unitTest,dc=example,dc=com', 'person,organizationalPerson,user', 'sub','(&(mail=*))');
         $users = array();
         foreach ($entry as $data) {
