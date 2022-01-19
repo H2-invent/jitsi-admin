@@ -63,6 +63,21 @@ class RoomNewTest extends WebTestCase
             $client->getResponse()->getContent()
         );
     }
+    public function testNoServer(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test2@local.de');
+        $client->loginUser($testUser);
+        $server = $testUser->getServers();
+
+        $crawler = $client->request('GET', '/room/new');
+        $this->assertStringContainsString(
+          'Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.',
+            $client->getResponse()->getContent()
+        );
+    }
     public function testRemove(): void{
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
