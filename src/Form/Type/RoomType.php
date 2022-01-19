@@ -43,7 +43,7 @@ class RoomType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (sizeof($options['server']) > 1) {
+        if (sizeof($options['server']) !== 1) {
             $builder
                 ->add('server', EntityType::class, [
                     'choice_label' => 'serverName',
