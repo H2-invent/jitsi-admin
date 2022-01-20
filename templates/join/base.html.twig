@@ -15,32 +15,31 @@
 
 
             <img class="d-none d-sm-block" src="
-  {% if theme == false %}
-                                         {% if server is defined and  server is not null and server|validateLicense %}
-                                             {% if server.logoUrl is not null %}
-                                                 {{ server.logoUrl }}
-                                             {% endif %}
-                                         {% else %}
-                                             {{ asset('logo.png') }}
-                                         {% endif %}
-                                     {% else %}
-                                         {{ theme.logo }}
-                                     {% endif %}
-
-" alt="Logo"
+                    {% if server is defined and  server is not null and server|validateLicense %}
+                            {% if server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                            {% endif %}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo.png') }}
+                            {% endif %}
+                              {{ theme.logo }}
+                        {% endif %}"
+                 alt="Logo"
                  style="height: 50px; width: auto">
             <img class="d-block d-sm-none" src="
-{% if theme == false %}
-                                         {% if server is defined and  server is not null and server|validateLicense %}
-                                             {% if server.logoUrl is not null %}
-                                                 {{ server.logoUrl }}
-                                             {% endif %}
-                                         {% else %}
-                                             {{ asset('logo_small.png') }}
-                                         {% endif %}
-                                     {% else %}
-                                         {{ theme.logo }}
-                                     {% endif %}" alt="Logo"
+                        {% if server is defined and  server is not null and server|validateLicense %}
+                            {% if server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                            {% endif %}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo_small.png') }}
+                            {% endif %}
+                              {{ theme.logo }}
+                        {% endif %}
+                    "
+                 alt="Logo"
                  style="height: 50px; width: auto">
 
 
@@ -50,41 +49,44 @@
                 </p>
 
             {% endif %}
+            {% if app.request %}
             <ul class="nav navbar-nav">
                 <li class="nav-item dropdown language-dropdown">
                     <a class=" dropdown-toggle ml-auto mr-2 mr-sm-4" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                         <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
                     </a>
-                    <div class="dropdown-menu language-dropdown-menue" >
+                    <div class="dropdown-menu language-dropdown-menue">
                         {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
-                            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
+                            <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'de'})) }}"><img
                                         src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
                         {% endif %}
                         {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
-                            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
+                            <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'en'})) }}"><img
                                         src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
                         {% endif %}
                         {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
-                            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
+                            <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'fr'})) }}"><img
                                         src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
                         {% endif %}
                         {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
-                            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
+                            <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'es'})) }}"><img
                                         src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
                         {% endif %}
                         {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
-                            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
-                                        src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
+                            <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'vi'})) }}"><img
+                                        src="{{ asset('/images/locale/vi.png') }}" class="iconSytle"
+                                        alt="Tiếng Việt"></a>
                         {% endif %}
                         {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
-                            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
+                            <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({'_locale': 'zh'})) }}"><img
                                         src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
                         {% endif %}
 
                     </div>
                 </li>
             </ul>
+            {% endif%}
 
         </div>
     </nav>
@@ -153,7 +155,7 @@
                                     <h3 class="h3-responsive text-center w-100"> {% block header %}{% endblock %}</h3>
                                 </div>
                             </div>
-<hr>
+                            <hr>
                             <div class="row mb-5">
 
 

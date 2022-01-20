@@ -17,7 +17,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $this->assertStringNotContainsString('https://privacy.dev',$client->getResponse()->getContent());
         $this->assertStringNotContainsString('https://test.img',$client->getResponse()->getContent());
 
@@ -48,7 +48,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -77,7 +77,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -106,7 +106,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -125,7 +125,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -144,7 +144,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -170,7 +170,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -195,7 +195,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -213,7 +213,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -231,7 +231,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -249,7 +249,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -274,7 +274,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -300,7 +300,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
@@ -330,7 +330,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1','Konferenz beitreten');
+        $this->assertSelectorTextContains('h3','Konferenz beitreten');
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
