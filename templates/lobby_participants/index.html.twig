@@ -1,6 +1,6 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}lobby.participant.title{% endtrans %}</h1>
+    {{ room.name }}
 {% endblock %}
 {% block content %}
     <div class=" col-12 col-lg-8 offset-lg-2">
@@ -29,38 +29,40 @@
                 {% endif %}
             </div>
         </div>
-        <a class="caretdown btn btn-primary dropdown-toggle" type="button"
-           id="selectWebcamDropdown"
-           data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
-        </a>
-        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
-        </ul>
-        <div class="btn-group">
-            <a href="#" type="button" class="btn btn-primary" id="startEcho"
-               data-texton="{{ 'lobby.start.echo'|trans }}"
-               data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
-            <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
-               data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-microphone"></i>
-            </a>
-            <div class="dropdown-menu">
-                <div id="audioInputSelect">
-                    <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+        <div class="row ">
+            <div class="col-12 d-flex justify-content-center">
+                <a class="caretdown btn btn-primary dropdown-toggle " type="button"
+                   id="selectWebcamDropdown"
+                   data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
+                </a>
+                <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+                </ul>
+                <div class="btn-group">
+                    <a href="#" type="button" class="btn btn-primary " id="startEcho"
+                       data-texton="{{ 'lobby.start.echo'|trans }}"
+                       data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
+                    <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-microphone"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div id="audioInputSelect">
+                            <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+
+                <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}"
+                   class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
+                <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}"
+                   class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
             </div>
         </div>
-
-            <div class="row">
-                <div class="col-12">
-
-                    <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}"
-                       class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
-                    <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}"
-                       class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
-                </div>
-            </div>
 
 
     </div>

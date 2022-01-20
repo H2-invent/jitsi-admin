@@ -50,6 +50,7 @@ $('.startIframe').click(function (e) {
     $(this).remove();
     $('#colWebcam').remove();
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
+
     moveWrapper();
     options.devices={
         audioInput: choosenId,

@@ -21,9 +21,11 @@ async function initWebcam() {
         devices.forEach(function (device) {
             if (device.kind === 'videoinput') {
                 webcams[device.label] = device.deviceId
+                var name = device.label.substring(0,device.label.lastIndexOf('('));
                 $('#webcamSelect').append(
-                    '<li><a class="dropdown-item webcamSelect" data-value="' + device.deviceId + '">' + device.label + '</a></li>'
+                    '<li><a class="dropdown-item webcamSelect" data-value="' + device.deviceId + '">' + name + '</a></li>'
                 )
+                console.log(name)
                 webcams.push(device);
             }
         });
@@ -33,7 +35,8 @@ async function initWebcam() {
             startWebcam(choosenId);
         })
         choosenId = webcams[0].deviceId;
-        setButtonName($('#selectWebcamDropdown'), webcams[0].label);
+        var name = webcams[0].label.substring(0,webcams[0].label.lastIndexOf('('));
+        setButtonName($('#selectWebcamDropdown'), name);
         startWebcam(choosenId);
     })
 

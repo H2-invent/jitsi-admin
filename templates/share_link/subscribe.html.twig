@@ -1,18 +1,18 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    <h1 class="h1-responsive text-center">{{ room.name }}</h1>
+    <h4 class="h4-responsive text-center w-100">{{ room.name }}</h4>
     <p class=" text-center">  {% set locale =  app.request.locale %}
         {{ room.start|format_date(pattern="EEEE",locale=locale) }},
         {{ room.start|format_datetime('long', 'none', locale=locale) }},
         {{ room.start|date('H:i') }} - {{ room.endDate|date('H:i') }}</p>
     {% if room.maxParticipants is null %}
-        <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Unbegrenzte Teilnehmerzahl{% endtrans %}</h4>
+        {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Unbegrenzte Teilnehmerzahl{% endtrans %}
     {% elseif room.maxParticipants - room.user|length >1 %}
-        <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch {spaces} Plätze frei{% endtrans %}</h4>
+        {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch {spaces} Plätze frei{% endtrans %}
     {% elseif room.maxParticipants - room.user|length == 1 %}
-        <h4 class="text-center">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch ein Platz frei{% endtrans %}</h4>
+        {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch ein Platz frei{% endtrans %}
     {% elseif room.maxParticipants - room.user|length <= 0 and room.waitinglist == true %}
-        <h4 class="text-center">{% trans %}Warteliste{% endtrans %}</h4>
+        {% trans %}Warteliste{% endtrans %}
     {% endif %}
 {% endblock %}
 

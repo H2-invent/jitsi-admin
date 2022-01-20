@@ -116,8 +116,7 @@ class RoomType extends AbstractType
         };
         if ($this->paramterBag->get('input_settings_deactivate_participantsList') == 1) {
             $this->logger->debug('Add the possibility the users must not be on the participants list  to the Form');
-            $builder->add('totalOpenRooms', CheckboxType::class, array('required' => false, 'label' => 'label.totalOpenRooms', 'translation_domain' => 'form'))
-                ->add('totalOpenRoomsOpenTime', NumberType::class, array('required' => false, 'label' => 'label.totalOpenRoomsOpenTime', 'translation_domain' => 'form', 'attr' => array('placeholder' => 'placeholder.maxParticipants')));
+            $builder->add('totalOpenRooms', CheckboxType::class, array('required' => false, 'label' => 'label.totalOpenRooms', 'translation_domain' => 'form'));
         };
         if ($this->paramterBag->get('input_settings_dissallow_screenshare') == 1) {
             $this->logger->debug('Add the possibility to dissallow screenshare');

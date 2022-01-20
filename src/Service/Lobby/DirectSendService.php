@@ -102,10 +102,11 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
-    public function sendEndMeeting($topic,$url){
+    public function sendEndMeeting($topic,$url,$message){
         $data = array(
             'type' => 'endMeeting',
             'forwardUrl' => $url,
+            'message'=> $message
         );
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);

@@ -9,12 +9,6 @@ import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
-import stc from 'string-to-color/index';
-import {masterNotify} from './lobbyNotification'
-import {initCircle} from './initCircle'
-import {initWebcam, choosenId} from './cameraUtils'
-import * as url from "url";
-
 var api;
 var participants;
 

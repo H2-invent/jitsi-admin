@@ -178,27 +178,9 @@
                                            data-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="collapse" id="totalOpenRoomsOpenTime">
-                                            <div class="row">
-                                                <div class="col-sm-11">
-                                                    {{ form_row(form.totalOpenRoomsOpenTime) }}
-                                                </div>
-                                                <div class="col-sm-1">
-                                                    <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                                       data-content="{{ 'Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.'|trans }}"><i
-                                                                class="fa fa-question-circle"></i></a>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-
                                 {% endif %}
                             </div>
                         </div>
-
                         {% if laf_roomsMoreOptionsCollapsed == 1 %}
                     </div>
                     {% endif %}

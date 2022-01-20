@@ -30,7 +30,7 @@ async function initAUdio() {
 
             if (device.kind === 'audioinput') {
                 $('#audioInputSelect').append(
-                    '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label + '</a>'
+                    '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label.substring(0,device.label.lastIndexOf('(')) + '</a>'
                 )
                 mic.push(device);
             }

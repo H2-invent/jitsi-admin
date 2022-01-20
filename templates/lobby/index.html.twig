@@ -1,6 +1,6 @@
 {% extends 'join/base_fluid.html.twig' %}
 {% block header %}
-    <h1 class="h1-responsive text-center">{% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}</h1>
+   {% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}
 {% endblock %}
 {% block content %}
     <div class="col-12">
@@ -50,7 +50,7 @@
                     <div id="waitingUserWrapper">
                         <div id="waitingUser" class="row w-100 mb-3">
                             {% for wU in room.lobbyWaitungUsers %}
-                                <div class="col-lg-3 col-md-6 waitingUserCard">
+                                <div class="col-lg-3 col-md-6 waitingUserCard mb-3">
                                     <div class="card ">
                                         <div class="card-body text-center d-flex flex-column align-items-center">
                                             <div class="initialCircle ">
@@ -68,11 +68,11 @@
 
                                         </div>
                                         <div class="card-footer text-center">
-                                            <a class="btn-floating btn-sm senddirect"
+                                            <a class="btn-floating senddirect btn-success"
                                                href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                                                 <i class="fas fa-user-check "></i>
                                             </a>
-                                            <a class="btn-floating btn-sm senddirect"
+                                            <a class="btn-floating senddirect btn-danger"
                                                href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                                                 <i class="fas fa-user-times "></i>
                                             </a>

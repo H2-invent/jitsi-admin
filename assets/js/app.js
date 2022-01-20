@@ -251,20 +251,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             }
         })
     }
-    if (typeof $('#room_totalOpenRooms') !== 'undefined') {
-        if ($('#room_totalOpenRooms').prop('checked') && $('#room_persistantRoom').prop('checked')) {
-            $('#totalOpenRoomsOpenTime').collapse('show');
-        } else {
-            $('#totalOpenRoomsOpenTime').collapse('hide');
-        }
-        $('#room_totalOpenRooms').change(function () {
-            if ($('#room_totalOpenRooms').prop('checked') && $('#room_persistantRoom').prop('checked')) {
-                $('#totalOpenRoomsOpenTime').collapse('show');
-            } else {
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
-        })
-    }
+
     if (typeof $('#room_public') !== 'undefined') {
         if ($('#room_public').prop('checked')) {
             $('#maxParticipants').collapse('show')

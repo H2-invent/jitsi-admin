@@ -49,7 +49,6 @@ a {
 ----------------------------------------------------- */
 #content {
   width: 100%;
-  padding: 20px;
   min-height: 100vh;
   transition: all 0.3s;
   position: absolute;
@@ -217,4 +216,19 @@ strong{
 .dropdown-menu{
   max-height: 200px;
   overflow-y: auto;
+}
+.logoNavbar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.language-dropdown-menue{
+  background-color: white;
+  max-height: unset;
+  overflow-y: unset;
+  min-width: unset;
+  border: none
 }

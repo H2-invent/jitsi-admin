@@ -73,7 +73,7 @@
                aria-haspopup="true" aria-expanded="false">
                 <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
             </a>
-            <div class="dropdown-menu" style="min-width: unset; background-color: unset; border: none">
+            <div class="dropdown-menu language-dropdown-menue" >
                 {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
                     <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
                                 src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
