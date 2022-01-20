@@ -9,12 +9,10 @@ import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
-import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
-import * as url from "url";
 initNotofication();
 initAUdio();
 initWebcam();
@@ -42,7 +40,7 @@ $('.renew').click(function (e) {
     if (counter === 0) {
         text = $(this).text();
         $.get($(this).attr('href'), function (data) {
-            counter = 60;
+            counter = reknockingTime;
             interval = setInterval(function () {
                 counter = counter - 1;
                 $('.renew').text(text + ' (' + counter + ')');

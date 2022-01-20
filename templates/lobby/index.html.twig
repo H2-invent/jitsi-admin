@@ -106,9 +106,9 @@
                            href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                            target="_blank">{{ 'jitsi.start'|trans }}</a>
                     </div>
-                    <a class="btn btn-outline-primary directSend"
+                    <a class="btn btn-success directSend"
                        href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                    <a class="btn btn-outline-primary d-none" id="closeSecure"
+                    <a class="btn btn-danger d-none" id="closeSecure"
                        href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
 
                 </div>

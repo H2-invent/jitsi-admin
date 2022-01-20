@@ -16,6 +16,8 @@ parameters:
     registerEmailName: '%env(registerEmailName)%'
     registerEmailAdress: '%env(registerEmailAdress)%'
     default_jitsi_server_id: '%env(default_jitsi_server_id)%'
+
+
     laF_startpage: '%env(laF_startpage)%'
     laF_onlyRegisteredParticipents: '%env(laF_onlyRegisteredParticipents)%'
     delivery_addresses: ['%env(DEV_EMAIL)%']
@@ -30,6 +32,11 @@ parameters:
     laf_showNameInConference: '%env(laf_showNameInConference)%'
     laf_showNameFrontend: '%env(laf_showNameFrontend)%'
     laf_roomsMoreOptionsCollapsed: '%env(laf_roomsMoreOptionsCollapsed)%'
+    laf_endMeetingMessage: '%env(laf_endMeetingMessage)%'
+    laf_lobby_ReKnockTime: '%env(laf_lobby_ReKnockTime)%'
+    laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'
+
+
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
     ldap_url: '%env(ldap_url)%'
