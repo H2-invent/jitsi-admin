@@ -30,7 +30,7 @@ import {initAddressGroupSearch, initListSearch} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
-
+import {initAjaxSend} from './confirmation'
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -82,6 +82,7 @@ $(document).ready(function () {
     initDropDown();
     initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
+    initAjaxSend(confirmTitle, confirmCancel, confirmOk);
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
         $('#sidebar').removeClass('active');
@@ -111,36 +112,7 @@ $(window).on('load', function () {
 
 });
 
-$(document).on('click', '.confirmHref', function (e) {
-    e.preventDefault();
-    var url = $(this).prop('href');
-    var text = $(this).data('text');
-    if (typeof text === 'undefined') {
 
-        text = 'Wollen Sie die Aktion durchführen?'
-    }
-
-    $.confirm({
-        title: 'Bestätigung',
-        content: text,
-        theme: 'material',
-        buttons: {
-            confirm: {
-                text: 'OK', // text for button
-                btnClass: 'btn-outline-danger btn', // class for the button
-                action: function () {
-                    window.location.href = url;
-                },
-
-
-            },
-            cancel: {
-                text: 'Abbrechen', // text for button
-                btnClass: 'btn-outline-primary btn', // class for the button
-            },
-        }
-    });
-})
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
@@ -280,54 +252,6 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             options: options
         });
     }
-});
-$(document).on('click', '.directSend', function (e) {
-    var $url = $(this).prop('href');
-    var $targetUrl = $(this).data('url');
-    var target = $(this).data('target');
-
-    e.preventDefault();
-    $.get($url, function () {
-        $(target).closest('div').load($targetUrl + ' ' + target);
-    })
-});
-$(document).on('click', '.directSendWithConfirm', function (e) {
-    e.preventDefault();
-    var $url = $(this).prop('href');
-    var $targetUrl = $(this).data('url');
-    var target = $(this).data('target');
-
-    var text = $(this).data('text');
-    if (typeof text === 'undefined') {
-        text = 'Wollen Sie die Aktion durchführen?'
-    }
-
-    $.confirm({
-        title: 'Bestätigung',
-        content: text,
-        theme: 'material',
-        buttons: {
-            confirm: {
-                text: 'OK', // text for button
-                btnClass: 'btn-outline-danger btn', // class for the button
-                action: function () {
-                    $.get($url, function () {
-                        $(target).closest('div').load($targetUrl + ' ' + target, function () {
-                            initSearchUser();
-                        });
-
-                    })
-                },
-
-
-            },
-            cancel: {
-                text: 'Abbrechen', // text for button
-                btnClass: 'btn-outline-primary btn', // class for the button
-            },
-        }
-    });
-
 });
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");

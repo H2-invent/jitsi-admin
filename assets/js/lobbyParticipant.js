@@ -13,10 +13,11 @@ import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
+import {initAjaxSend} from './confirmation'
 initNotofication();
 initAUdio();
 initWebcam();
-
+initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 const es = new EventSource(topic);
 es.onmessage = e => {
     var data = JSON.parse(e.data)

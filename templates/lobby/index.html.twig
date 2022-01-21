@@ -72,7 +72,8 @@
                                                href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                                                 <i class="fas fa-user-check "></i>
                                             </a>
-                                            <a class="btn-floating senddirect btn-danger"
+                                            <a class="btn-floating directSendWithConfirm btn-danger"
+                                               data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
                                                href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                                                 <i class="fas fa-user-times "></i>
                                             </a>
@@ -97,7 +98,7 @@
                         </div>
                     {% elseif type == 'b' %}
                         <div class="d-none d-lg-block ">
-                            <a class="btn btn-primary startIframe"
+                            <a class="btn btn-primary btn-rounded startIframe"
                                href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                         </div>
@@ -109,11 +110,9 @@
                            target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                     </div>
 
-                    {% if room.lobbyWaitungUsers|length > 0 %}
-                        <a class="btn btn-success directSend"
-                           href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                    {% endif %}
-                    <a class="btn btn-danger d-none" id="closeSecure"
+                    <a class="btn btn-success btn-rounded directSend"
+                       href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                    <a class="btn btn-danger btn-rounded d-none" id="closeSecure"
                        href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
 
                 </div>

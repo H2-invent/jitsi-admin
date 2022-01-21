@@ -15,12 +15,14 @@
 {% endif %}
 {% if dropdown_settings_series_delete == 1 %}
     <li><a class="dropdown-item confirmHref"
-           href="{{ path('repeater_remove',{'repeat':room.repeater.id}) }}">
+           href="{{ path('repeater_remove',{'repeat':room.repeater.id}) }}"
+           data-text="{{ 'confirm.delete.series'|trans }}">
             {{ 'Serie löschen'|trans }}</a></li>
 {% endif %}
 {% if dropdown_settings_series_delete_one == 1 %}
     <li><a class="dropdown-item confirmHref"
-           href="{{ path('room_remove',{'room':room.id}) }}">
+           href="{{ path('room_remove',{'room':room.id}) }}"
+           data-text="{{ 'confirm.delete.room'|trans }}">
             {{ 'Löschen'|trans }}</a></li>
 
 {% endif %}

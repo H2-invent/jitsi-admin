@@ -31,6 +31,7 @@ function initJitsi(options, domain) {
             endMeeting();
             $.getJSON(($(this).attr('href')));
         })
+        // $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     })
 
 }

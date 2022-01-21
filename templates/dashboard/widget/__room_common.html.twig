@@ -7,7 +7,8 @@
 {% endif %}
 {% if dropdown_settings_common_delete == 1 %}
     <li><a class="dropdown-item confirmHref"
-           href="{{ path('room_remove',{'room':room.id}) }}">
+           href="{{ path('room_remove',{'room':room.id}) }}"
+           data-text="{{ 'confirm.delete.room'|trans }}">
             {{ 'Löschen'|trans }}</a></li>
 {% endif %}
 {% if dropdown_settings_common_edit == 1 %}

@@ -15,12 +15,13 @@ import {initCircle} from './initCircle'
 import {initWebcam, choosenId} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import {initJitsi} from './jitsiUtils'
+import {initAjaxSend} from './confirmation'
 var jitsiApi;
 navigator.mediaDevices.getUserMedia({audio: true, video: true})
 initNotofication();
 initAUdio();
 initWebcam();
-
+initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 const es = new EventSource(topic);
 es.onmessage = e => {
@@ -28,14 +29,6 @@ es.onmessage = e => {
     masterNotify(data)
 }
 
-$('.directSend').click(function (e) {
-    e.preventDefault();
-    $.get($(this).attr('href'), function (data) {
-        $('#snackbar').text(data.message).removeClass('d-none').addClass('show bg-' + data.color).click(function (e) {
-            $('#snackbar').removeClass('show');
-        })
-    })
-})
 
 const broadcast = new EventSource(topicBroadcast);
 broadcast.onmessage = e => {
@@ -71,8 +64,12 @@ function moveWrapper() {
     $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+    window.addEventListener('resize', function () {
+        $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+    });
 }
 
 initCircle();
+
 
 

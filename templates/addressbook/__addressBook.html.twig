@@ -29,7 +29,7 @@
 
         </div>
         {% if theme == false or theme.trashOnAdressBook == true %}
-            <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"><i
+            <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}" data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
                         class="fa fa-trash text-danger"></i> </a>
         {% endif %}
         </span></li>

@@ -1382,11 +1382,11 @@
         <target>Eingangsgerät</target>
       </trans-unit>
       <trans-unit id="1sryeOJ" resname="lobby.echo.output">
-        <source>Ausgabegerät</source>
+        <source>lobby.echo.output</source>
         <target>Ausgabegerät</target>
       </trans-unit>
       <trans-unit id="abSRL0." resname="error.noPermission">
-        <source>Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</source>
+        <source>error.noPermission</source>
         <target>Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</target>
       </trans-unit>
       <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
@@ -1398,38 +1398,73 @@
         Konferenz ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="wmT9oq4" resname="lobby.stop.echo">
-        <source>Echotest beenden</source>
+        <source>lobby.stop.echo</source>
         <target>Echotest beenden</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
-        <source>Die Konferenz für alle Teilnehmenden beenden</source>
+        <source>lobby.endMeeting</source>
         <target>Die Konferenz für alle Teilnehmenden beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
-        <source>Den Teilnehmenden zum Lobbymoderator ernennen</source>
+        <source>addParticipants.lobbyModerator.help</source>
         <target>Den Teilnehmenden zum Lobbymoderator ernennen</target>
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
-        <source>Wollen Sie den Teilnehmenden als Lobymoderator hinzufügen?</source>
+        <source>addParticipants.lobbyModerator.add</source>
         <target>Wollen Sie den Teilnehmenden als Lobymoderator hinzufügen?</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
-        <source>Wollen Sie den Teilnehmenden als Lobymoderator entfernen?</source>
+        <source>addParticipants.lobbyModerator.remove</source>
         <target>Wollen Sie den Teilnehmenden als Lobymoderator entfernen?</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
-        <source>Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</source>
+        <source>openRoom.addParticipants.help</source>
         <target>Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</target>
       </trans-unit>
       <trans-unit id="vs1KLhV" resname="newRoom.error.noServer.addServer">
-        <source>Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</source>
+        <source>newRoom.error.noServer.addServer</source>
         <target>Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</target>
       </trans-unit>
       <trans-unit id="hj1.9Y_" resname="newRoom.error.noServer.askAdmin">
-        <source><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
-        <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></source>
+        <source>newRoom.error.noServer.askAdmin</source>
         <target><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
         <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
+      </trans-unit>
+      <trans-unit id="Igadcd_" resname="confirm.delete.adressbookUser">
+        <source>Wollen Sie diesen Eintrag wirklich entfernen?</source>
+        <target>Wollen Sie diesen Eintrag wirklich entfernen?</target>
+      </trans-unit>
+      <trans-unit id="5oh_yoS" resname="confirm.delete.adressbookGroupUser">
+        <source>Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen entfernen?</source>
+        <target>Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen entfernen?</target>
+      </trans-unit>
+      <trans-unit id="YU4vd4T" resname="confirm.title">
+        <source>Bestätigung</source>
+        <target>Bestätigung</target>
+      </trans-unit>
+      <trans-unit id="jdg45Ei" resname="confirm.cancel">
+        <source>Abbrechen</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="jmbKTri" resname="confirm.ok">
+        <source>OK</source>
+        <target>OK</target>
+      </trans-unit>
+      <trans-unit id="jFaq_p7" resname="confirm.delete.room">
+        <source>Wollen Sie diese Konferenz wirklich löschen?</source>
+        <target>Wollen Sie diese Konferenz wirklich löschen?</target>
+      </trans-unit>
+      <trans-unit id="QI4Vqe9" resname="confirm.delete.series">
+        <source>Wollen Sie diese Serie wirklich löschen?</source>
+        <target>Wollen Sie diese Serie wirklich löschen?</target>
+      </trans-unit>
+      <trans-unit id="NfYmDes" resname="confirm.delete.lobbyUser">
+        <source>Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</source>
+        <target>Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</target>
+      </trans-unit>
+      <trans-unit id="NnxTjTc" resname="confirm.delete.server">
+        <source>Wollen Sie diesen Server wirklich löschen?</source>
+        <target>Wollen Sie diesen Server wirklich löschen?</target>
       </trans-unit>
     </body>
   </file>
