@@ -47,7 +47,7 @@ class ToParticipantWebsocketService
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
 
-        $topic = $this->urlgenerator->generate('lobby_WaitingUser_websocket', array('wUUid' => $lobbyWaitungUser->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $topic = 'lobby_WaitingUser_websocket/'.$lobbyWaitungUser->getUid();
         $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success');
         $appUrl = $this->roomService->join(
             $lobbyWaitungUser->getRoom(),
@@ -79,7 +79,7 @@ class ToParticipantWebsocketService
 
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)
     {
-        $topic = $this->urlgenerator->generate('lobby_WaitingUser_websocket', array('wUUid' => $lobbyWaitungUser->getUid()), UrlGeneratorInterface::ABSOLUTE_URL);        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger');
+        $topic = 'lobby_WaitingUser_websocket/'.$lobbyWaitungUser->getUid();
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
 }

@@ -79,7 +79,7 @@ class LobbyToParticipantsTest extends KernelTestCase
             if(strpos($update->getData(),'snackbar')>0){
                 self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
             }
-            self::assertEquals(['http://localhost/lobby/participants/lkjhdslkfjhdskjhfkds'], $update->getTopics());
+            self::assertEquals(['lobby_WaitingUser_websocket/lkjhdslkfjhdskjhfkds'], $update->getTopics());
             return 'id';
         });
         $directSend->setMercurePublisher($hub);

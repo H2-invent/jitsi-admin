@@ -154,7 +154,7 @@ class LobbyModeratorController extends AbstractController
             if ($this->getUser()->getPermissionForRoom($room)->getLobbyModerator() || $room->getModerator() == $this->getUser()) {
 
                 $this->directSend->sendEndMeeting(
-                    $this->generateUrl('lobby_broadcast_websocket', array('roomUid' => $room->getUidReal()), UrlGeneratorInterface::ABSOLUTE_URL),
+                    'lobby_broadcast_websocket/'.$room->getUidReal(),
                     $this->generateUrl('index'),
                     $this->translator->trans($this->parameterBag->get('laf_endMeetingMessage'))
                 );

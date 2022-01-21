@@ -1,6 +1,6 @@
 {% extends 'join/base_fluid.html.twig' %}
 {% block header %}
-   {% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}
+    {% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}
 {% endblock %}
 {% block content %}
     <div class="col-12">
@@ -60,10 +60,10 @@
                                                     {% else %}
                                                         {{ wU.user.username[:1] }}
                                                     {% endif %}
-                                            {% else %}
+                                                {% else %}
                                                     {{ wU.showName[:2] }}
                                                 {% endif %}
-                                                </div>
+                                            </div>
                                             <div class="participantsName">{{ wU.showName }}</div>
 
                                         </div>
@@ -83,6 +83,8 @@
 
                                 </div>
                             {% endfor %}
+
+
                         </div>
 
                     </div>
@@ -91,23 +93,26 @@
                         <div class="d-none d-lg-block ">
                             <a class="btn btn-primary"
                                href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                               target="_blank">{{ 'jitsi.start'|trans }}</a>
+                               target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                         </div>
                     {% elseif type == 'b' %}
                         <div class="d-none d-lg-block ">
                             <a class="btn btn-primary startIframe"
                                href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                               target="_blank">{{ 'jitsi.start'|trans }}</a>
+                               target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                         </div>
                     {% endif %}
 
                     <div class="d-block d-lg-none">
                         <a class="btn btn-primary"
                            href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                           target="_blank">{{ 'jitsi.start'|trans }}</a>
+                           target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                     </div>
-                    <a class="btn btn-success directSend"
-                       href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+
+                    {% if room.lobbyWaitungUsers|length > 0 %}
+                        <a class="btn btn-success directSend"
+                           href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                    {% endif %}
                     <a class="btn btn-danger d-none" id="closeSecure"
                        href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
 
@@ -140,8 +145,8 @@
             };
 
             var conferenzeName = '{{ room.name }}';
-            var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-            var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+            var topic = {{ mercure('lobby_moderator/'~room.uidReal)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+            var topicBroadcast = {{ mercure('lobby_broadcast_websocket/'~ room.uidReal)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
         </script>
     {% endif %}

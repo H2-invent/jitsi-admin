@@ -42,14 +42,13 @@ class ToModeratorWebsocketService
     public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
         $room = $lobbyWaitungUser->getRoom();
-        $user = $lobbyWaitungUser->getUser();
         $title = $this->translator->trans('lobby.notification.newUser.title', array('{name}' => $lobbyWaitungUser->getShowName()));
         $message =  $this->translator->trans('lobby.notification.newUser.message', array(
                 '{name}' => $lobbyWaitungUser->getShowName(),
                 '{room}' => $room->getName()
             )
         );
-        $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $topic ='lobby_moderator/'.$room->getUidReal();
         $this->directSend->sendBrowserNotification($topic,$title ,$message);
     }
 
@@ -58,7 +57,7 @@ class ToModeratorWebsocketService
     public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
         $room = $lobbyWaitungUser->getRoom();
-        $topic = $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $topic ='lobby_moderator/'.$room->getUidReal();
         $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal())) . ' #waitingUser');
     }
 }

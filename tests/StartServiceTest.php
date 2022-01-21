@@ -101,12 +101,12 @@ class StartServiceTest extends KernelTestCase
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         self::assertStringContainsString("var type = 'a'",
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString('test?topic=http%3A%2F%2Flocalhost%2Flobby%2Fparticipants%2F'.$lobbyUser->getUid(),
+        self::assertStringContainsString('topic=lobby_WaitingUser_websocket%2F'.$lobbyUser->getUid(),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString('test?topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
+        self::assertStringContainsString('topic=lobby_broadcast_websocket%2F'.$room->getUidReal(),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         self::assertEquals('a',$lobbyUser->getType());
-        self::assertStringContainsString('test?topic=http%3A%2F%2Flocalhost%2Flobby%2Fbroadcast%2F'.$room->getUidReal(),
+        self::assertStringContainsString('topic=lobby_broadcast_websocket%2F'.$room->getUidReal(),
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));
         self::assertNotNull($lobbyUser);
