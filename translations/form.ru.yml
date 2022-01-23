@@ -11,65 +11,65 @@ label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Name der Konferenz
 label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
-label.speichern: Speichern
-option.15min: 15 Minuten
-option.30min: 30 Minuten
-option.45min: 45 Minuten
-option.60min: 1 Stunde
-option.75min: 1:15 Stunden
-option.90min: 1:30 Stunden
-option.105min: 1:45 Stunden
-option.120min: 2 Stunden
-option.150min: 2:30 Stunden
-option.180min: 3 Stunden
-option.210min: 3:30 Stunden
-option.240min: 4 Stunden
-option.270min: 4:30 Stunden
-option.300min: 5 Stunden
-option.330min: 5:30 Stunden
-option.360min: 6 Stunden
-option.390min: 6:30 Stunden
-option.420min: 7 Stunden
-option.450min: 7:30 Stunden
-option.480min: 8 Stunden
+label.nurRegistriertenutzer: Только зарегистрированные пользователи могут подключиться
+label.speichern: Сохранить
+option.15min: 15 минут
+option.30min: 30 минут
+option.45min: 45 минут
+option.60min: 1 Час
+option.75min: 1 час 15 минут
+option.90min: 1 час 30 минут
+option.105min: 1 час 45 минут
+option.120min: 2 часа
+option.150min: 2 часа 30 минут
+option.180min: 3 часов
+option.210min: 3 часа 30 минут
+option.240min: 4 часа
+option.270min: 4 часа 30 минут
+option.300min: 5 часов
+option.330min: 5 часов 30 минут
+option.360min: 6 часов
+option.390min: 6 часов 30 минут
+option.420min: 7 часов
+option.450min: 7 часов 30 минут
+option.480min: 8 часов
 option:
-  monday: Montag
-  tuesday: Dienstag
-  wednesday: Mittwoch
-  thursday: Donnerstag
-  friday: Freitag
-  saturday: Samstag
-  sunday: Sonntag
-  weekly: Wöchentlich
-  daily: Täglich
-  montly: Monatlich
-  yearly: Jährlich
+  monday: Понедельник
+  tuesday: Вторник
+  wednesday: Среда
+  thursday: Четверг
+  friday: Пятница
+  saturday: Суббота
+  sunday: Воскресенье
+  weekly: Еженедельно
+  daily: Ежедневно
+  montly: Раз в месяц
+  yearly: Ежегодно
   montlyRelative: Monatlich flexibel festlegen
   yearlyRelative: Jährlich flexibel festlegen
-  first: Erster
-  second: Zweiter
-  third: Dritter
-  fourth: Vierter
-  fifth: Fünfter
-  last: Letzter
-  january: Januar
-  february: Februar
-  march: März
-  april: April
-  may: Mai
-  june: Juni
-  july: Juli
-  august: August
-  septembre: September
-  octobre: Oktober
-  novembre: November
-  decembre: Dezember
+  first: Первый
+  second: 2-ой
+  third: Третий
+  fourth: Четвертый
+  fifth: Пятый
+  last: Последний 
+  january: Январь
+  february: Февраль
+  march: Мар
+  april: Апрель
+  may: Май
+  june: Июнь
+  july: Июль
+  august: Август
+  septembre: Сентябрь
+  octobre: Октябрь
+  novembre: Ноябрь
+  decembre: Декабрь
   user: Im User Claim
   root: Im Root Claim
 lable.serverUrl: Jitsi Meet Server URL
-label.appId: App-ID
-label.appSecret: App-Secret
+label.appId: ID приложения
+label.appSecret: App secret
 label.scheduleMeeting: Termin vorschlagen
 help:
   serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
