@@ -1,12 +1,12 @@
 ---
 label.konferenzId: ID конференции
-label.email: E-Mail-Adresse
-label.name: Ihr Name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
-label.teilnehmerSpeichern: E-Mail zur Einladung versenden
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
-help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
-label.organisatorhinzufuegen: Organisator hinzufügen
+label.email: Адрес электронной почты
+label.name: Ваше имя
+label.teilnehmerEmailhinzufuegen: Введите адрес электронной почты новых участников
+label.teilnehmerSpeichern: Отправить приглашение по электронной почте
+label.emailModerator: Введите адрес электронной почты организатора
+help.emailTextfeld: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки. 
+label.organisatorhinzufuegen: Добавить организатора
 label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Name der Konferenz
 label.start: Start
