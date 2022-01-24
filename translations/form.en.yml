@@ -101,7 +101,7 @@ label:
   puplicRoom: Enable invitation links
   showRoomOnJoinpage: Show conference on joinpage
   subscribe: Subscribe
-  vorname: Firstname
+  vorname: First name
   nachname: Lastname
   maxParticipants: Allow maximum number of participants
   waitinglist: Activate waiting list
