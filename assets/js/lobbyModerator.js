@@ -35,6 +35,11 @@ broadcast.onmessage = e => {
     var data = JSON.parse(e.data);
     masterNotify(data);
 }
+const personal = new EventSource(topicPersonal);
+personal.onmessage = e => {
+    var data = JSON.parse(e.data);
+    masterNotify(data);
+}
 
 $('.startIframe').click(function (e) {
     e.preventDefault();

@@ -1431,45 +1431,50 @@
         <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
       </trans-unit>
       <trans-unit id="Igadcd_" resname="confirm.delete.adressbookUser">
-        <source>Wollen Sie diesen Eintrag wirklich entfernen?</source>
+        <source>confirm.delete.adressbookUser</source>
         <target>Wollen Sie diesen Eintrag wirklich entfernen?</target>
       </trans-unit>
       <trans-unit id="5oh_yoS" resname="confirm.delete.adressbookGroupUser">
-        <source>Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen entfernen?</source>
+        <source>confirm.delete.adressbookGroupUser</source>
         <target>Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen entfernen?</target>
       </trans-unit>
       <trans-unit id="YU4vd4T" resname="confirm.title">
-        <source>Bestätigung</source>
+        <source>confirm.title</source>
         <target>Bestätigung</target>
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
-        <source>Abbrechen</source>
+        <source>confirm.cancel</source>
         <target>Abbrechen</target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
-        <source>OK</source>
+        <source>confirm.ok</source>
         <target>OK</target>
       </trans-unit>
       <trans-unit id="jFaq_p7" resname="confirm.delete.room">
-        <source>Wollen Sie diese Konferenz wirklich löschen?</source>
+        <source>confirm.delete.room</source>
         <target>Wollen Sie diese Konferenz wirklich löschen?</target>
       </trans-unit>
       <trans-unit id="QI4Vqe9" resname="confirm.delete.series">
-        <source>Wollen Sie diese Serie wirklich löschen?</source>
+        <source>confirm.delete.series</source>
         <target>Wollen Sie diese Serie wirklich löschen?</target>
       </trans-unit>
       <trans-unit id="NfYmDes" resname="confirm.delete.lobbyUser">
-        <source>Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</source>
+        <source>confirm.delete.lobbyUser</source>
         <target>Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</target>
       </trans-unit>
       <trans-unit id="NnxTjTc" resname="confirm.delete.server">
-        <source>Wollen Sie diesen Server wirklich löschen?</source>
+        <source>confirm.delete.server</source>
         <target>Wollen Sie diesen Server wirklich löschen?</target>
       </trans-unit>
       <trans-unit id="Ta8QMX4" resname="email.ical.link">
-        <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
+        <source>email.ical.link</source>
         <target>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
       </trans-unit>
+      <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
+        <source>Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</source>
+        <target>Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
+      </trans-unit>
+
     </body>
   </file>
 </xliff>

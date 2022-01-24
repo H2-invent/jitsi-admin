@@ -51,6 +51,17 @@ class DirectSendService
 
 
     }
+    public function sendReloadPage($topic,$timeout)
+    {
+        $data = array(
+            'type' => 'reload',
+            'timeout' => $timeout,
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+
+
+    }
     public function sendBrowserNotification($topic, $title, $message)
     {
         $data = array(

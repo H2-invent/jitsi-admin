@@ -18,8 +18,11 @@ function initDirectSend() {
         var target = $(this).data('target');
 
         e.preventDefault();
-        $.get($url, function () {
+        $.get($url, function (data) {
             $(target).closest('div').load($targetUrl + ' ' + target);
+            if(typeof data.snack !== 'undefined'){
+                $('#snackbar').text(data.text).addClass('show');
+            }
         })
     });
 }
@@ -76,11 +79,13 @@ function initConfirmDirectSendHref() {
                     text: ok, // text for button
                     btnClass: 'btn-outline-danger btn', // class for the button
                     action: function () {
-                        $.get($url, function () {
+                        $.get($url, function (data) {
                             $(target).closest('div').load($targetUrl + ' ' + target, function () {
                                 initSearchUser();
                             });
-
+                            if(typeof data.snack !== 'undefined'){
+                                $('#snackbar').text(data.snack).addClass('show');
+                            }
                         })
                     },
 

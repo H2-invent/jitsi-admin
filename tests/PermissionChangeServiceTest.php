@@ -46,7 +46,7 @@ class PermissionChangeServiceTest extends KernelTestCase
         $testUser = $userRepository->findOneBy(array('email'=>'test@local2.de'));
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 1'));
-        $this->assertEquals(true,$changePermissionService->toggleLobbyModerator($room->getModerator(),$testUser,$room));
+        $this->assertEquals(true,$changePermissionService->toggleLobbyModerator($room->getModerator(),$testUser,$room)->getLobbyModerator());
         $this->assertEquals(false,$changePermissionService->toggleLobbyModerator($testUser,$testUser,$room));
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
         $userRoom = $userRoomRepo->findOneBy(array('user'=>$testUser,'room'=>$room));
@@ -54,7 +54,7 @@ class PermissionChangeServiceTest extends KernelTestCase
         $this->assertEquals(false,$userRoom->getModerator());
         $this->assertEquals(false,$userRoom->getPrivateMessage());
         $this->assertEquals(false,$userRoom->getShareDisplay());
-        $this->assertEquals(true,$changePermissionService->toggleLobbyModerator($room->getModerator(),$testUser,$room));
+        $this->assertNotNull($changePermissionService->toggleLobbyModerator($room->getModerator(),$testUser,$room));
         $this->assertEquals(false,$userRoom->getLobbyModerator());
         //$routerService = static::getContainer()->get('router');
         //$myCustomService = static::getContainer()->get(CustomService::class);

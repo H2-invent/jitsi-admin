@@ -25,6 +25,10 @@ function masterNotify(data) {
 
     } else if (data.type === 'endMeeting') {
         window.location.href = data.forwardUrl;
+    } else if (data.type === 'reload') {
+        setTimeout(function () {
+            location.reload();
+        }, data.timeout)
     } else {
         alert('Error, Please reload the page')
     }

@@ -146,7 +146,9 @@
             var conferenzeName = '{{ room.name }}';
             var topic = {{ mercure('lobby_moderator/'~room.uidReal)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
             var topicBroadcast = {{ mercure('lobby_broadcast_websocket/'~ room.uidReal)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-
+            {% if app.user is defined and app.user is not null %}
+            var topicPersonal = {{ mercure('lobby_personal'~room.uidReal~app.user.uid)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+            {% endif %}
         </script>
     {% endif %}
 {% endblock %}

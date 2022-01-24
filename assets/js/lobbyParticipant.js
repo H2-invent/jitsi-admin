@@ -31,6 +31,14 @@ broadcast.onmessage = e => {
     var data = JSON.parse(e.data);
     masterNotify(data);
 }
+if(typeof topicPersonal !== 'undefined'){
+    const personal = new EventSource(topicPersonal);
+    personal.onmessage = e => {
+        var data = JSON.parse(e.data);
+        masterNotify(data);
+    }
+}
+
 
 initCircle();
 var counter = 0;
@@ -72,9 +80,11 @@ function initJitsiMeet(data) {
     options.parentNode = document.querySelector( data.options.parentNode);
     const api = new JitsiMeetExternalAPI(data.options.domain, options);
     $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
+
     $('#content').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName
+    $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
 }
 
 // window.addEventListener("beforeunload", function(event) {

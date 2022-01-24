@@ -54,6 +54,7 @@ class RoomFixture extends Fixture
         $user3->setCreatedAt(new \DateTime());
         $user3->setRegisterId(123456);
         $user3->setCreatedAt(new \DateTime());
+        $user3->setUid('kjsdfhkjds');
         $manager->persist($user3);
 
         $user4 = new \App\Entity\User();
@@ -62,6 +63,7 @@ class RoomFixture extends Fixture
         $user4->setCreatedAt(new \DateTime());
         $user4->setRegisterId(123456);
         $user4->setCreatedAt(new \DateTime());
+        $user4->setUid('bjhxbcvuzcbxv7');
         $manager->persist($user4);
 
         $user->addAddressbook($user2);
