@@ -101,7 +101,7 @@ label:
   puplicRoom: Link zur Einladung freischalten
   showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Anmelden
-  vorname: Vorname
+  vorname: Имя
   nachname: Nachname
   maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
   waitinglist: Warteliste aktivieren
@@ -131,4 +131,4 @@ choice:
   none: Keine
 placeholder:
   maxParticipants: Keine Begrenzung
-  chooseTime: Zeit und Datum auswählen
+  chooseTime: Пожалуйста, выберите дату и время
