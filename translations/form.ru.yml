@@ -115,20 +115,20 @@ label:
   repeatYearly: Nach x Jahren wiederholen
   montlyRelativeNumber: Wie vielter Wochentag im Monat
   montlyRelativeWeekday: Wochentag
-  montlyRelativeMonth: Monat
+  montlyRelativeMonth: Месяц
   repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
   persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
   totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
-  totalOpenRoomsOpenTime: Raumöffnungszeit
-  addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder auswählen
-  jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
+  totalOpenRoomsOpenTime: Время открытия комнаты
+  addressgroupName: Название группы
+  addressgroupMember: Члены группы
+  jwtModeratorPosition: Положение модератора в токене JWT
+  timezone: Часовой пояс
+  serverName: Название сервера
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Keine
+  none: Отсутствует
 placeholder:
-  maxParticipants: Keine Begrenzung
+  maxParticipants: Без ограничения
   chooseTime: Пожалуйста, выберите дату и время
