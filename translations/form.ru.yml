@@ -72,27 +72,27 @@ label.appId: ID приложения
 label.appSecret: App secret
 label.scheduleMeeting: Termin vorschlagen
 help:
-  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
+  serverUrl: 'Введите без "https: //" (например, meet.jit.si)'
   featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
-  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
+  teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки. 
   serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
 label:
   beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
-  serverSmtpHostName: SMTP-Hostname
-  serverSmtpHostPort: SMTP-Port
-  serverSmtpEncryption: Verschlüsselung
-  serverSmtpUsername: SMTP-Benutzername
-  serverSmtpPassword: SMTP-Passwort
-  serverSmtpSenderEmail: Absender-E-Mail
-  serverSmtpSenderName: Absendername
-  serverLintLogo: Link zu Logo
-  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für E-Mail
-  serverEmailBody: Individueller Content für E-Mail
+  beitretenBrowser: Открыть в браузере
+  serverSmtpHostName: SMTP Хост
+  serverSmtpHostPort: SMTP порт
+  serverSmtpEncryption: Шифрование
+  serverSmtpUsername: Имя пользователя SMTP
+  serverSmtpPassword: SMTP-пароль
+  serverSmtpSenderEmail: Электронная почта отправителя
+  serverSmtpSenderName: Имя отправителя
+  serverLintLogo: Ссылка на логотип
+  serverPrivacyPolicy: Информация о защите данных для этого сервера
+  serverEmailHeader: Индивидуальный заголовок для электронной почты
+  serverEmailBody: Индивидуальный контент для электронной почты
   serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
   apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
+  agenda: Краткая программа мероприятия
   staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
   schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
   featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
