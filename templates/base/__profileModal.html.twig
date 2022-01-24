@@ -32,7 +32,7 @@
                         <p>{{ 'iCal Link'|trans }}</p>
                         <div class="input-group mb-3">
                             <input id="linkical" readonly type="text" class="form-control"
-                                   value="{{ absolute_url(path('ical',{'id':app.user.uid})) }}">
+                                   value="{{ laF_baseUrl~path('ical',{ 'id':app.user.uid }) }}">
                             <div class="input-group-append">
                                 <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink"
                                         type="button" data-clipboard-target="#linkical"><i class="far fa-clipboard"></i>

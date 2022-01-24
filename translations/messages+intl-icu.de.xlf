@@ -371,7 +371,7 @@
       </trans-unit>
       <trans-unit id="F8.sMjK" resname="Einladungslinks">
         <source>Einladungslinks</source>
-        <target>Einladung</target>
+        <target>Einladungslinks</target>
       </trans-unit>
       <trans-unit id="bC01IWH" resname="Löschen">
         <source>Löschen</source>
@@ -581,7 +581,7 @@
       </trans-unit>
       <trans-unit id="2Pr8ySk" resname="Teilnehmer suchen">
         <source>Teilnehmer suchen</source>
-        <target state="translated">Teilnehmende finden</target>
+        <target state="translated">Teilnehmende suchen</target>
       </trans-unit>
       <trans-unit id="nOHT1Kl" resname="Tippen zum Suchen">
         <source>Tippen zum Suchen</source>
@@ -621,7 +621,7 @@
       </trans-unit>
       <trans-unit id="K81G__p" resname="Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.">
         <source>Hier können Sie einen eigenen SMTP Server zum Versenden von Emails angeben. Wenn kein SMTP Server angegeben ist wird der Standard Server von jitsi-admin verwendet.</source>
-        <target state="translated">Hier können Sie einen eigenen SMTP Server zum Versenden von E-Mails angeben. Ist kein SMTP Server angegeben, wird der StandardServer von Jitsi Admin verwendet.</target>
+        <target state="translated">Hier können Sie einen eigenen SMTP Server zum Versenden von E-Mails angeben. Ist kein SMTP Server angegeben, wird der Standard-Server von Jitsi Admin verwendet.</target>
       </trans-unit>
       <trans-unit id="pDSuNQy" resname="Hintergrundbild">
         <source>Hintergrundbild</source>
@@ -1465,6 +1465,10 @@
       <trans-unit id="NnxTjTc" resname="confirm.delete.server">
         <source>Wollen Sie diesen Server wirklich löschen?</source>
         <target>Wollen Sie diesen Server wirklich löschen?</target>
+      </trans-unit>
+      <trans-unit id="Ta8QMX4" resname="email.ical.link">
+        <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
+        <target>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
       </trans-unit>
     </body>
   </file>
