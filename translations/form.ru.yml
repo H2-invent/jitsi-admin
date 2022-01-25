@@ -7,10 +7,10 @@ label.teilnehmerSpeichern: Отправить приглашение по эле
 label.emailModerator: Введите адрес электронной почты организатора
 help.emailTextfeld: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки. 
 label.organisatorhinzufuegen: Добавить организатора
-label.serverKonferenz: Jitsi Meet Server
-label.konferenzName: Name der Konferenz
-label.start: Start
-label.dauerKonferenz: Dauer der Konferenz
+label.serverKonferenz: Сервер встреч Jitsi
+label.konferenzName: Название конференции
+label.start: Начать
+label.dauerKonferenz: Продолжительность конференции
 label.nurRegistriertenutzer: Только зарегистрированные пользователи могут подключиться
 label.speichern: Сохранить
 option.15min: 15 минут
@@ -65,19 +65,19 @@ option:
   octobre: Октябрь
   novembre: Ноябрь
   decembre: Декабрь
-  user: Im User Claim
-  root: Im Root Claim
-lable.serverUrl: Jitsi Meet Server URL
+  user: In user claim
+  root: In root claim
+lable.serverUrl: URL-адрес сервера Jitsi Meet
 label.appId: ID приложения
 label.appSecret: App secret
-label.scheduleMeeting: Termin vorschlagen
+label.scheduleMeeting: Создайте опрос о встрече
 help:
   serverUrl: 'Введите без "https: //" (например, meet.jit.si)'
-  featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
+  featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" должен быть включен на сервере jitsi meet. В противном случае JWT не будет правильно распознан с сервера
   teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки. 
-  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
+  serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
 label:
-  beitretenApp: Mit der Elektron-App beitreten
+  beitretenApp: Присоединяйтесь с приложением Elektron
   beitretenBrowser: Открыть в браузере
   serverSmtpHostName: SMTP Хост
   serverSmtpHostPort: SMTP порт
@@ -90,35 +90,35 @@ label:
   serverPrivacyPolicy: Информация о защите данных для этого сервера
   serverEmailHeader: Индивидуальный заголовок для электронной почты
   serverEmailBody: Индивидуальный контент для электронной почты
-  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
-  apiKey: Api-Key für diesen Server
+  serverLicenseKey: Введите лицензионный ключ Jitsi-Администратора
+  apiKey: API - Команды для этого сервера
   agenda: Краткая программа мероприятия
-  staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
-  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
-  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
-  puplicRoom: Link zur Einladung freischalten
-  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
-  subscribe: Anmelden
+  staticBackgroundColor: Установите цвет фона на странице присоединения
+  schowStaticBackgroundColor: Показывать статический цвет вместо изображений на странице соединения
+  featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" активен на сервере
+  dissallowScreenshareGlobal: Только модераторам разрешается делиться экраном
+  dissallowPrivateMessage: Только модераторам разрешается отправлять личные сообщения участникам
+  puplicRoom: Включить ссылки на приглашения
+  showRoomOnJoinpage: Показать конференцию на странице присоединения
+  subscribe: зарегистрироваться
   vorname: Имя
-  nachname: Nachname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
-  waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
-  weekday: Wochentag
-  repetation: Endet nach x Terminen
-  repeatType: Serienmuster
-  repeaterDays: Nach x Tagen wiederholen
-  repeaterWeeks: Nach x Wochen wiederholen
-  repeatMontly: Nach x Monaten wiederholen
-  repeatYearly: Nach x Jahren wiederholen
-  montlyRelativeNumber: Wie vielter Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
+  nachname: Фамилия
+  maxParticipants: Разрешить максимальное количество участников
+  waitinglist: Активировать список ожидания
+  teilnehmerEmailhinzufuegenModerator: Введите адреса электронной почты новых модераторов
+  weekday: День недели
+  repetation: Заканчивается после x встреч
+  repeatType: Серийный образец
+  repeaterDays: Повторить через x дней
+  repeaterWeeks: Повторить через x недель
+  repeatMontly: Повторите через x месяцев
+  repeatYearly: Повторить через x лет
+  montlyRelativeNumber: X-й день недели в месяце
+  montlyRelativeWeekday: День недели
   montlyRelativeMonth: Месяц
-  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
-  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
-  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
+  repeaterRemoved: Редактировать только этот элемент, а не серию
+  persistantRoom: Эта конференция не имеет даты и доступна постоянно
+  totalOpenRooms: Участники деактивированы. Войти с участниками-ссылка
   totalOpenRoomsOpenTime: Время открытия комнаты
   addressgroupName: Название группы
   addressgroupMember: Члены группы
@@ -126,7 +126,7 @@ label:
   timezone: Часовой пояс
   serverName: Название сервера
 choice:
-  tls: STARTTLS/TLS
+  tls: STARTTLS / TLS 
   ssl: SSL
   none: Отсутствует
 placeholder:
