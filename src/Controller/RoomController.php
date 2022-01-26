@@ -126,7 +126,6 @@ class RoomController extends AbstractController
                 if (sizeof($error) > 0) {
                     return new JsonResponse(array('error' => true, 'messages' => $error));
                 }
-
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
