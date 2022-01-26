@@ -84,6 +84,9 @@ class GuardServiceKeycloak extends SocialAuthenticator
         // 1) have they logged in with keycloak before then login the user
         $existingUser = $this->em->getRepository(User::class)->findOneBy(array('keycloakId' => $id));
         if ($existingUser) {
+            if (!$username) {
+                $username = $email;
+            }
             $existingUser->setLastLogin(new \DateTime());
             $existingUser->setEmail($email);
             $existingUser->setFirstName($firstName);
@@ -102,7 +105,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $username));
         }
         if ($existingUser) {
-            if (!$username){
+            if (!$username) {
                 $username = $email;
             }
             $existingUser->setKeycloakId($id);
@@ -120,13 +123,11 @@ class GuardServiceKeycloak extends SocialAuthenticator
         // the user never logged in with this email adress neither keycloak
         if ($this->paramterBag->get('strict_allow_user_creation') == 1) {
             // if the creation of a user is allowed from the security policies
-
-            if (!$username){
+            if (!$username) {
                 $username = $email;
             }
             $newUser = $this->userCreatorService->createUser($email, $username, $firstName, $lastName);
-            $newUser->setUuid($email)
-                ->setEmail($email)
+            $newUser
                 ->setLastLogin(new \DateTime())
                 ->setKeycloakId($id)
                 ->setGroups($groups);
