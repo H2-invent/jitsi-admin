@@ -79,6 +79,7 @@ function refresh(data) {
             $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
         }
         initCircle();
+        countParts();
     });
 }
 
@@ -93,6 +94,10 @@ function redirect(data) {
         window.location.href = data.url;
     }, data.timeout)
 
+}
+
+function countParts() {
+    $('#lobbyCounter').text($('.waitingUserCard').length);
 }
 
 export {masterNotify, initNotofication}

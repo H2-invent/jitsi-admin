@@ -26,7 +26,7 @@ initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 const es = new EventSource(topic);
 es.onmessage = e => {
     var data = JSON.parse(e.data)
-    masterNotify(data)
+    masterNotify(data);
 }
 
 
@@ -34,6 +34,7 @@ const broadcast = new EventSource(topicBroadcast);
 broadcast.onmessage = e => {
     var data = JSON.parse(e.data);
     masterNotify(data);
+    countParts();
 }
 const personal = new EventSource(topicPersonal);
 personal.onmessage = e => {
@@ -66,12 +67,13 @@ function moveWrapper() {
     $('#jitsiWindow').css('height', '100vh');
     $('#content').remove();
     $('.imageBackground').remove();
-    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby</div>');
+    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby ( <span id="lobbyCounter">'+$('.waitingUserCard').length+'</span> )</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     window.addEventListener('resize', function () {
         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     });
+    countParts();
 }
 
 initCircle();
