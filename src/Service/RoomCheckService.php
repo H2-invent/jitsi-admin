@@ -11,6 +11,7 @@ class RoomCheckService
 {
     private $translator;
     private $em;
+
     public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager)
     {
         $this->translator = $translator;
@@ -27,8 +28,9 @@ class RoomCheckService
         if (!$room->getName()) {
             $error[] = $this->translator->trans('Fehler, der Name darf nicht leer sein');
         }
-        if($room->getStart()){
-            $room = $this->setRoomProps($room);
+
+        $room = $this->setRoomProps($room);
+        if ($room->getStart()) {
             if (($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()) {
                 $error[] = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
             }
@@ -59,7 +61,9 @@ class RoomCheckService
             $room->setEnddate(null);
 
         } else {
-            $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+            if($room->getStart()){
+                $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
+            }
         }
         return $room;
     }

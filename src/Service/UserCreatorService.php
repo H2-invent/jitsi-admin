@@ -26,11 +26,10 @@ class UserCreatorService
                 ->setEmail($email)
                 ->setRegisterId(md5(uniqid('ksdjhfkhsdkjhjksd', true)))
                 ->setPassword('123')
-                ->setUuid('123');
+                ->setUid(md5(uniqid()));
             $this->em->persist($user);
             $this->em->flush();
         }
         return $user;
-
     }
 }

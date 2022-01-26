@@ -76,7 +76,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $id = $keycloakUser->getId();
         $firstName = $keycloakUser->toArray()['given_name'];
         $lastName = $keycloakUser->toArray()['family_name'];
-        $username = isset($keycloakUser->toArray()['preferred_username']) ? $keycloakUser->toArray()['preferred_username'] : null;
+        $username = isset($keycloakUser->toArray()['preferred_username']) ? $keycloakUser->toArray()['preferred_username'] : $keycloakUser->toArray()['email'];
         $groups = null;
         if (isset($keycloakUser->toArray()['groups'])) {
             $groups = $keycloakUser->toArray()['groups'];
@@ -118,10 +118,9 @@ class GuardServiceKeycloak extends SocialAuthenticator
         if ($this->paramterBag->get('strict_allow_user_creation') == 1) {
             // if the creation of a user is allowed from the security policies
             $newUser = $this->userCreatorService->createUser($email, $username, $firstName, $lastName);
-            $newUser->setUuid($email)
-                ->setEmail($email)
-                ->setLastLogin(new \DateTime())
+            $newUser->setLastLogin(new \DateTime())
                 ->setKeycloakId($id)
+                ->setUsername($username)
                 ->setGroups($groups);
             $this->em->persist($newUser);
             $this->em->flush();
