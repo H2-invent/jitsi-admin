@@ -120,18 +120,14 @@ class GuardServiceKeycloak extends SocialAuthenticator
         // the user never logged in with this email adress neither keycloak
         if ($this->paramterBag->get('strict_allow_user_creation') == 1) {
             // if the creation of a user is allowed from the security policies
-            $newUser = $this->userCreatorService->createUser($email, $username, $firstName, $lastName);
-            $newUser->setUuid($email)
+
 
             $newUser = new User();
             if (!$username){
                 $username = $email;
             }
+            $newUser = $this->userCreatorService->createUser($email, $username, $firstName, $lastName);
             $newUser->setPassword('123')
-                ->setFirstName($firstName)
-                ->setLastName($lastName)
-                ->setUuid($email)
-                ->setEmail($email)
                 ->setLastLogin(new \DateTime())
                 ->setKeycloakId($id)
                 ->setGroups($groups);
