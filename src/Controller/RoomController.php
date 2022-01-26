@@ -128,16 +128,14 @@ class RoomController extends AbstractController
                     $error[] = $translator->trans('Fehler, der Name darf nicht leer sein');
                 }
                 if($room->getStart()){
-                    $room = $this->setRoomProps($room, $serverService);
                     if (($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()) {
                         $error[] = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
                     }
                 }
-
                 if (sizeof($error) > 0) {
                     return new JsonResponse(array('error' => true, 'messages' => $error));
                 }
-
+                $room = $this->setRoomProps($room);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
@@ -242,7 +240,7 @@ class RoomController extends AbstractController
                 $room->setUidParticipant(md5(uniqid()));
                 $room->setSequence(0);
                 $room->setUid(rand(0, 99) . time());
-                $this->setRoomProps($room, $serverService);
+                $this->setRoomProps($room);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
@@ -261,7 +259,7 @@ class RoomController extends AbstractController
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
 
-    function setRoomProps(Rooms $room, ServerService $serverService)
+    function setRoomProps(Rooms $room)
     {
         if ($room->getPersistantRoom()) {
             $counter = 0;

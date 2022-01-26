@@ -190,7 +190,7 @@ class RepeaterController extends AbstractController
             throw new NotFoundHttpException('Not found');
         }
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['type'=>$request->get('type'),'id' => $room->getId()])]);
-
+        $form->remove('scheduleMeeting');
         try {
             $form->handleRequest($request);
 
