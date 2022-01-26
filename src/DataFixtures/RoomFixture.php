@@ -43,7 +43,7 @@ class RoomFixture extends Fixture
         $user2->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234',));
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflhjkkjds');
-        $user2->setUid('kljlsdkjflkjdslfjsdlkjsdflkj');
+        $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
         $user2->setUsername('test2@local.de');
         $user2->setCreatedAt(new \DateTime());
         $manager->persist($user2);
