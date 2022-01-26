@@ -261,4 +261,5 @@ class RoomController extends AbstractController
         return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
     }
 
+
 }
