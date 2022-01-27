@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
@@ -145,7 +146,14 @@ class PermissionChangeService
             if ($repeater) {
                 $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
             }
+            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
+            if($lobbyUser){
+                $this->em->remove($lobbyUser);
+                $this->em->flush();
+            }
             $topic = 'lobby_personal' . $rooms->getUidReal()  . $user->getUid();
+            $this->websocketService->sendRefresh('lobby_moderator/'.$rooms->getUidReal(),
+                $this->urlGen->generate('lobby_moderator', array('uid' => $rooms->getUidReal())) . ' #waitingUser');
             $this->websocketService->sendSnackbar($topic, $this->translator->trans('lobby.change.moderator.permissions'), 'success');
             $this->websocketService->sendReloadPage($topic, $this->parameterBag->get('laf_lobby_popUpDuration'));
             return $roomsUser;
