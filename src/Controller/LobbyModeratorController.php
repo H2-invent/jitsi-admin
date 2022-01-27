@@ -50,7 +50,7 @@ class LobbyModeratorController extends AbstractController
     public function index(Request $request, $uid, $type): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uid));
-        if ($room->getModerator() === $this->getUser() || $this->getUser()->getPermissionForRoom($room)->getLobbyModerator() === true) {
+        if ($this->checkPermissions($room,$this->getUser())) {
             return $this->render('lobby/index.html.twig', [
                 'room' => $room,
                 'server' => $room->getServer(),
@@ -70,7 +70,7 @@ class LobbyModeratorController extends AbstractController
     public function startMeeting($room, $t, RoomService $roomService): Response
     {
         $roomL = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $room));
-        if ($roomL->getModerator() !== $this->getUser()) {
+        if (!$this->checkPermissions($room,$this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $roomL->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return $this->redirectToRoute('dashboard', array('snack' => $this->translator->trans('Fehler'), 'color' => 'danger'));
         }
@@ -88,7 +88,7 @@ class LobbyModeratorController extends AbstractController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $room = $lobbyUser->getRoom();
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!$this->checkPermissions($room,$this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -106,7 +106,7 @@ class LobbyModeratorController extends AbstractController
     public function acceptAll(Request $request, $roomId): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomId));
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!$this->checkPermissions($room,$this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -132,7 +132,7 @@ class LobbyModeratorController extends AbstractController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $room = $lobbyUser->getRoom();
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!$this->checkPermissions($room,$this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -151,7 +151,7 @@ class LobbyModeratorController extends AbstractController
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
         if ($room) {
-            if ($this->getUser()->getPermissionForRoom($room)->getLobbyModerator() || $room->getModerator() == $this->getUser()) {
+            if ($this->checkPermissions($room,$this->getUser())) {
 
                 $this->directSend->sendEndMeeting(
                     'lobby_broadcast_websocket/'.$room->getUidReal(),
@@ -162,5 +162,18 @@ class LobbyModeratorController extends AbstractController
             }
         }
         return new JsonResponse(array('error' => true));
+    }
+
+
+
+    private function checkPermissions(Rooms $room, User  $user){
+        if($room->getModerator() === $user){
+            return true;
+        }
+        dump($user->getPermissionForRoom($room)->getLobbyModerator());
+        if($user->getPermissionForRoom($room)->getLobbyModerator() === true){
+            return true;
+        }
+        return false;
     }
 }
