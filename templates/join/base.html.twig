@@ -27,9 +27,7 @@
                  style="height: 50px; width: auto">
             <img class="d-block d-sm-none" src="
                         {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
-                            {% if server.logoUrl is not null %}
                                 {{ server.logoUrl }}
-                            {% endif %}
                         {% else %}
                             {% if theme == false %}
                                 {{ asset('logo_small.png') }}
