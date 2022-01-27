@@ -2,12 +2,15 @@
 
 namespace App\Tests;
 
+use App\Entity\LobbyWaitungUser;
 use App\Entity\Repeat;
+use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\RoomsUserRepository;
 use App\Repository\UserRepository;
 use App\Service\PermissionChangeService;
 use App\Service\RepeaterService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PermissionChangeServiceTest extends KernelTestCase
@@ -50,14 +53,19 @@ class PermissionChangeServiceTest extends KernelTestCase
         $this->assertEquals(false,$changePermissionService->toggleLobbyModerator($testUser,$testUser,$room));
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
         $userRoom = $userRoomRepo->findOneBy(array('user'=>$testUser,'room'=>$room));
+        $lobbyWaitingUSer = (new LobbyWaitungUser())->setRoom($room)->setUser($testUser)->setShowName('test123')->setType('a')->setUid('kjdshfkhds')->setCreatedAt(new \DateTime());
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($lobbyWaitingUSer);
+        $em->flush();
+        $lobbyWaitungRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        self::assertEquals(1,sizeof($lobbyWaitungRepo->findBy(array('user'=>$testUser,'room'=>$room))));
         $this->assertEquals(true,$userRoom->getLobbyModerator());
         $this->assertEquals(false,$userRoom->getModerator());
         $this->assertEquals(false,$userRoom->getPrivateMessage());
         $this->assertEquals(false,$userRoom->getShareDisplay());
         $this->assertNotNull($changePermissionService->toggleLobbyModerator($room->getModerator(),$testUser,$room));
         $this->assertEquals(false,$userRoom->getLobbyModerator());
-        //$routerService = static::getContainer()->get('router');
-        //$myCustomService = static::getContainer()->get(CustomService::class);
+        self::assertEquals(0,sizeof($lobbyWaitungRepo->findBy(array('user'=>$testUser,'room'=>$room))));
     }
     public function testchangeShareScreen(): void
     {
