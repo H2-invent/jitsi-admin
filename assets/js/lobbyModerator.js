@@ -73,7 +73,7 @@ function moveWrapper() {
     window.addEventListener('resize', function () {
         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     });
-    countParts();
+
 }
 
 initCircle();
