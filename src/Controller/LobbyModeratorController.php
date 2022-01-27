@@ -70,7 +70,7 @@ class LobbyModeratorController extends AbstractController
     public function startMeeting($room, $t, RoomService $roomService): Response
     {
         $roomL = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $room));
-        if (!$this->checkPermissions($room,$this->getUser())) {
+        if (!$this->checkPermissions($roomL,$this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $roomL->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return $this->redirectToRoute('dashboard', array('snack' => $this->translator->trans('Fehler'), 'color' => 'danger'));
         }
@@ -166,7 +166,7 @@ class LobbyModeratorController extends AbstractController
 
 
 
-    private function checkPermissions(Rooms $room, User  $user){
+    private function checkPermissions(Rooms $room, ?User  $user){
         if($room->getModerator() === $user){
             return true;
         }
