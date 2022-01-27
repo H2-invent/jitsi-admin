@@ -125,7 +125,6 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString( "displayName: 'Test User 123'",$client->getResponse()->getContent());
         self::assertStringContainsString( " roomName: '".$room->getUid()."'",$client->getResponse()->getContent());
 
-        echo $client->getResponse()->getContent();
     }
 
     public function testmyWaiting(): void
