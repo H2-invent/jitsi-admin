@@ -29,8 +29,9 @@ class LdapUserService
      * @param $mapper
      * @return User|object
      */
-    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry,LdapType $ldapType)
+    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType)
     {
+        //Here we get the attributes from the LDAP (username, email, firstname, lastname)
         $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
         $email = $entry->getAttribute($ldapType->getMapper()['email'])[0];
         $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
@@ -38,13 +39,17 @@ class LdapUserService
 
         $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
 
+        if (!$user){
+            $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
+        }
+
+
         if (!$user) {
             $user = new User();
             $user->setCreatedAt(new \DateTime());
             $user->setUid(md5(uniqid()));
-            $user->setUuid(md5(uniqid()));
         }
-        if(!$user->getLdapUserProperties()){
+        if (!$user->getLdapUserProperties()) {
             $ldap = new LdapUserProperties();
             $ldap->setLdapHost($ldapType->getUrl());
             $ldap->setLdapDn($entry->getDn());
@@ -53,13 +58,13 @@ class LdapUserService
         }
 
         if ($ldapType->getRdn()) {
-            $user->getLdapUserProperties()->setRdn($ldapType->getRdn().'='.$entry->getAttribute($ldapType->getRdn())[0]);
+            $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
         }
         $specialField = array();
-        foreach ($ldapType->getSpecialFields() as $data){
-            if($entry->getAttribute($data)){
+        foreach ($ldapType->getSpecialFields() as $data) {
+            if ($entry->getAttribute($data)) {
                 $specialField[$data] = $entry->getAttribute($data)[0];
-            }else{
+            } else {
                 $specialField[$data] = '';
             }
 
@@ -85,7 +90,7 @@ class LdapUserService
         $allUSer = $this->em->getRepository(User::class)->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
-                if ($data !== $data2){
+                if ($data !== $data2) {
                     $data->addAddressbook($data2);
                 }
             }
@@ -119,10 +124,10 @@ class LdapUserService
     {
         $object = null;
         try {
-            if($user->getLdapUserProperties()){
+            if ($user->getLdapUserProperties()) {
                 $query = $ldap->query($user->getLdapUserProperties()->getLdapDn(), '(&(cn=*))');
                 $object = $query->execute();
-            }else{
+            } else {
                 return null;
             }
 
@@ -149,20 +154,20 @@ class LdapUserService
         foreach ($user->getRoomModerator() as $r) {
             $user->removeRoomModerator($r);
         }
-        foreach ($user->getNotifications() as $data){
+        foreach ($user->getNotifications() as $data) {
             $user->removeNotification($data);
             $this->em->remove($data);
         }
-        foreach ($user->getServers() as $server){
+        foreach ($user->getServers() as $server) {
             $user->removeServer($server);
         }
-        foreach ($user->getServerAdmins() as $server){
-            foreach ($server->getUser() as $serverUser){
+        foreach ($user->getServerAdmins() as $server) {
+            foreach ($server->getUser() as $serverUser) {
                 $serverUser->removeServer($server);
             }
             $user->removeServerAdmin($server);
         }
-        foreach ($user->getRoomsAttributes() as $attribute){
+        foreach ($user->getRoomsAttributes() as $attribute) {
             $user->removeRoomsAttributes($attribute);
             $this->em->remove($attribute);
         }
