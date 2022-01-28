@@ -5,12 +5,14 @@
 import '../css/app.scss';
 //import(/* webpackChunkName: "H2" */ '../css/app.scss');
 import $ from 'jquery';
+
 global.$ = global.jQuery = $;
 import ('jquery-confirm');
 
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
+
 function initDirectSend() {
     $(document).on('click', '.directSend', function (e) {
         var $url = $(this).prop('href');
@@ -19,13 +21,18 @@ function initDirectSend() {
 
         e.preventDefault();
         $.get($url, function (data) {
-            $(target).closest('div').load($targetUrl + ' ' + target);
-            if(typeof data.snack !== 'undefined'){
+            $(target).closest('div').load($targetUrl + ' ' + target, function () {
+                $('[data-toggle="popover"]').popover({html: true});
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            if (typeof data.snack !== 'undefined') {
                 $('#snackbar').text(data.text).addClass('show');
             }
+
         })
     });
 }
+
 function initconfirmHref() {
 
     $(document).on('click', '.confirmHref', function (e) {
@@ -59,6 +66,7 @@ function initconfirmHref() {
         });
     })
 }
+
 function initConfirmDirectSendHref() {
     $(document).on('click', '.directSendWithConfirm', function (e) {
         e.preventDefault();
@@ -82,10 +90,15 @@ function initConfirmDirectSendHref() {
                         $.get($url, function (data) {
                             $(target).closest('div').load($targetUrl + ' ' + target, function () {
                                 initSearchUser();
+                                $('[data-toggle="popover"]').popover({html: true});
+                                $('[data-toggle="tooltip"]').tooltip();
+
                             });
-                            if(typeof data.snack !== 'undefined'){
+                            if (typeof data.snack !== 'undefined') {
                                 $('#snackbar').text(data.snack).addClass('show');
                             }
+                            $('[data-toggle="popover"]').popover({html: true});
+                            $('[data-toggle="tooltip"]').tooltip()
                         })
                     },
 
@@ -109,4 +122,5 @@ function initAjaxSend(titleL, cancelL, okL) {
     initDirectSend();
     initconfirmHref()
 }
+
 export {initAjaxSend, initDirectSend, initConfirmDirectSendHref, initconfirmHref}

@@ -109,7 +109,7 @@ $(document).ready(function () {
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
-
+    $('[data-toggle="tooltip"]').tooltip()
 });
 
 
@@ -140,6 +140,7 @@ function initServerFeatures() {
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
     $('[data-toggle="popover"]').popover({html: true});
+    $('[data-toggle="tooltip"]').tooltip()
     initdateTimePicker('.flatpickr');
 
     $('form').submit(function (event) {

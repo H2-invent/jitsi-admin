@@ -170,7 +170,6 @@ class LobbyModeratorController extends AbstractController
         if($room->getModerator() === $user){
             return true;
         }
-        dump($user->getPermissionForRoom($room)->getLobbyModerator());
         if($user->getPermissionForRoom($room)->getLobbyModerator() === true){
             return true;
         }

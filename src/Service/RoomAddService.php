@@ -106,7 +106,10 @@ class RoomAddService
 
     private function createUserParticipant($email, Rooms $room, ?User $user = null)
     {
-        $user = $this->userCreatorService->createUser($email,$email,'','');
+        if (!$user){
+            $user = $this->userCreatorService->createUser($email,$email,'','');
+        }
+
         if ($room->getRepeater()) {
             if (!in_array($user, $room->getPrototypeUsers()->toArray())) {
                 $room = $room->getRepeater()->getPrototyp();
