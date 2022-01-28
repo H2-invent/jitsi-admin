@@ -33,6 +33,7 @@ class LdapUserService
      */
     public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType)
     {
+        //Here we get the attributes from the LDAP (username, email, firstname, lastname)
         $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
         $email = $entry->getAttribute($ldapType->getMapper()['email'])[0];
         $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
@@ -40,10 +41,14 @@ class LdapUserService
 
         $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
 
+        if (!$user){
+            $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
+        }
+
+
         if (!$user) {
             $user = $this->userCreationService->createUser($email,$uid,$firstName,$lastName);
             $user->setUid(md5(uniqid()));
-            $user->setUuid(md5(uniqid()));
         }
         if (!$user->getLdapUserProperties()) {
             $ldap = new LdapUserProperties();
