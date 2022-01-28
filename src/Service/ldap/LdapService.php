@@ -101,14 +101,14 @@ class LdapService
 
         $user = null;
         try {
-            $userLdap =
+            $userLdap =//Here we fetch all coresponding users from the LDAP
                 $this->retrieveUser(
                     $ldap->getLdap(),
                     $ldap->getUserDn(),
                     $ldap->getObjectClass(),
                     $ldap->getScope()
                 );
-            foreach ($userLdap as $u) {
+            foreach ($userLdap as $u) {// Here we itterate over the user from user
                 $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap);
                   }
         } catch (\Exception $e) {
