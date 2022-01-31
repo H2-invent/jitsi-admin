@@ -162,7 +162,6 @@ class LobbyModeratorController extends AbstractController
                 $this->directSend->sendRedirect(
                     'lobby_broadcast_websocket/' . $room->getUidReal(),
                     $this->generateUrl('index'),
-//                    $this->translator->trans($this->parameterBag->get('laf_endMeetingMessage')),
                     $this->parameterBag->get('laf_lobby_popUpDuration')
                 );
                 return new JsonResponse(array('error' => false));
