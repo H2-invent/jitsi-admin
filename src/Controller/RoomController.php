@@ -13,6 +13,7 @@ use App\Service\PermissionChangeService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\RoomCheckService;
+use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
 use App\Service\ServerService;
 use App\Service\ServerUserManagment;
@@ -45,7 +46,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(ParameterBagInterface $parameterBag, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, RoomCheckService $roomCheckService)
+    public function newRoom(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, RoomCheckService $roomCheckService)
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
@@ -68,45 +69,18 @@ class RoomController extends AbstractController
             }
 
         } else {
-            $room = new Rooms();
+            $serverChhose = null;
             if ($request->cookies->has('room_server')) {
                 $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
                 if ($server && in_array($server, $servers)) {
-                    $room->setServer($server);
+                    $serverChhose = $server;
                 }
             }
             if (sizeof($servers) === 1) {
-                $room->setServer($servers[0]);
-            }
-            $room->addUser($this->getUser());
-            $room->setDuration(60);
-            $room->setUid(rand(01, 99) . time());
-            $room->setModerator($this->getUser());
-            $room->setSequence(0);
-            $room->setUidReal(md5(uniqid('h2-invent', true)));
-            $room->setUidModerator(md5(uniqid('h2-invent', true)));
-            $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            // here we set the default values
-            $room->setPersistantRoom($parameterBag->get('input_settings_persistant_rooms_default'));
-            $room->setOnlyRegisteredUsers($parameterBag->get('input_settings_only_registered_default'));
-            $room->setPublic($parameterBag->get('input_settings_share_link_default'));
-            if ($parameterBag->get('input_settings_max_participants_default') > 0) {
-                $room->setMaxParticipants($parameterBag->get('input_settings_max_participants_default'));
-            }
-            $room->setWaitinglist($parameterBag->get('input_settings_waitinglist_default'));
-            $room->setShowRoomOnJoinpage($parameterBag->get('input_settings_conference_join_page_default'));
-            $room->setTotalOpenRooms($parameterBag->get('input_settings_deactivate_participantsList_default'));
-            $room->setDissallowScreenshareGlobal($parameterBag->get('input_settings_dissallow_screenshare_default'));
-            $room->setLobby($parameterBag->get('input_settings_allowLobby_default'));
 
-            //end default values
-
-            if ($this->getUser()->getTimeZone() && $parameterBag->get('allowTimeZoneSwitch') == 1) {
-                $room->setTimeZone($this->getUser()->getTimeZone());
-                if ($parameterBag->get('input_settings_allow_timezone_default') != 0) {
-                    $room->setTimeZone($parameterBag->get('input_settings_allow_timezone_default'));
-                }
+                $serverChhose = $servers[0];
             }
+            $room = $roomGeneratorService->createRoom($this->getUser(),$serverChhose);
             $snack = $translator->trans('Konferenz erfolgreich erstellt');
             $title = $translator->trans('Neue Konferenz erstellen');
         }

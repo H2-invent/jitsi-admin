@@ -8,6 +8,7 @@ use App\Entity\RoomsUser;
 use App\Entity\User;
 use App\Service\JoinUrlGeneratorService;
 use App\Service\Lobby\DirectSendService;
+use App\Service\Lobby\LobbyUtils;
 use App\Service\RoomService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Lobby\ToParticipantWebsocketService;
@@ -50,12 +51,12 @@ class LobbyModeratorController extends AbstractController
     public function index(Request $request, $uid, $type): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uid));
-        if ($this->checkPermissions($room,$this->getUser())) {
+        if ($this->checkPermissions($room, $this->getUser())) {
             return $this->render('lobby/index.html.twig', [
                 'room' => $room,
                 'server' => $room->getServer(),
                 'type' => $type,
-                'user'=>$this->getUser()
+                'user' => $this->getUser()
             ]);
         }
 
@@ -70,7 +71,7 @@ class LobbyModeratorController extends AbstractController
     public function startMeeting($room, $t, RoomService $roomService): Response
     {
         $roomL = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $room));
-        if (!$this->checkPermissions($roomL,$this->getUser())) {
+        if (!$this->checkPermissions($roomL, $this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $roomL->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return $this->redirectToRoute('dashboard', array('snack' => $this->translator->trans('Fehler'), 'color' => 'danger'));
         }
@@ -88,7 +89,7 @@ class LobbyModeratorController extends AbstractController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $room = $lobbyUser->getRoom();
-        if (!$this->checkPermissions($room,$this->getUser())) {
+        if (!$this->checkPermissions($room, $this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -106,7 +107,7 @@ class LobbyModeratorController extends AbstractController
     public function acceptAll(Request $request, $roomId): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomId));
-        if (!$this->checkPermissions($room,$this->getUser())) {
+        if (!$this->checkPermissions($room, $this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -132,7 +133,7 @@ class LobbyModeratorController extends AbstractController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $room = $lobbyUser->getRoom();
-        if (!$this->checkPermissions($room,$this->getUser())) {
+        if (!$this->checkPermissions($room, $this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -147,14 +148,14 @@ class LobbyModeratorController extends AbstractController
     /**
      * @Route("/lobby/moderator/endMeeting/{roomUid}", name="lobby_Moderator_endMeeting")
      */
-    public function broadcastWebsocketEndMeeting($roomUid): Response
+    public function broadcastWebsocketEndMeeting($roomUid, LobbyUtils $lobbyUtils): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
         if ($room) {
-            if ($this->checkPermissions($room,$this->getUser())) {
-
+            if ($this->checkPermissions($room, $this->getUser())) {
+               $lobbyUtils->cleanLobby($room);
                 $this->directSend->sendEndMeeting(
-                    'lobby_broadcast_websocket/'.$room->getUidReal(),
+                    'lobby_broadcast_websocket/' . $room->getUidReal(),
                     $this->generateUrl('index'),
                     $this->translator->trans($this->parameterBag->get('laf_endMeetingMessage'))
                 );
@@ -165,14 +166,16 @@ class LobbyModeratorController extends AbstractController
     }
 
 
-
-    private function checkPermissions(Rooms $room, ?User  $user){
-        if($room->getModerator() === $user){
+    private function checkPermissions(Rooms $room, ?User $user)
+    {
+        if ($room->getModerator() === $user) {
             return true;
         }
-        if($user->getPermissionForRoom($room)->getLobbyModerator() === true){
+        if ($user->getPermissionForRoom($room)->getLobbyModerator() === true) {
             return true;
         }
         return false;
     }
+
+
 }

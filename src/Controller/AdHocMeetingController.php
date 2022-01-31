@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Service\RoomGeneratorService;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
 use App\Service\ThemeService;
@@ -25,7 +26,7 @@ class AdHocMeetingController extends AbstractController
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
      * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
      */
-    public function index(ParameterBagInterface $parameterBag, ThemeService $themeService, User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
+    public function index(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, ThemeService $themeService, User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
     {
 
         if(!in_array($user,$this->getUser()->getAddressbook()->toArray())){
@@ -36,23 +37,16 @@ class AdHocMeetingController extends AbstractController
         if(!in_array($server,$servers)){
             return $this->redirectToRoute('dashboard',array('color'=>'danger','snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden')));
         }
+        $room = $roomGeneratorService->createRoom($this->getUser(),$server);
 
         $now = new \DateTime('now',TimeZoneService::getTimeZone($this->getUser()));
-        $room = new Rooms();
-        $room->setModerator($this->getUser());
         $room->setStart($now);
         if ($parameterBag->get('allowTimeZoneSwitch') == 1){
             $room->setTimeZone($this->getUser()->getTimeZone());
         }
-
         $room->setEnddate((clone $now)->modify('+ 1 hour'));
         $room->setDuration(60);
-        $room->setSequence(0);
-        $room->setUidReal(md5(uniqid()));
-        $room->setUid(rand(01, 99) . time());
-        $room->setServer($server);
         $room->setName($translator->trans('Konferenz mit {n}',array('{n}'=>$user->getFormatedName($parameterBag->get('laf_showName')))));
-        $room->setOnlyRegisteredUsers(false);
         $em = $this->getDoctrine()->getManager();
         $em->persist($room);
         $em->flush();
