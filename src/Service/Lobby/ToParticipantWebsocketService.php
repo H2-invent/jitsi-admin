@@ -80,6 +80,7 @@ class ToParticipantWebsocketService
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)
     {
         $topic = 'lobby_WaitingUser_websocket/'.$lobbyWaitungUser->getUid();
+        $this->directSend->sendSnackbar($topic,$this->translator->trans('lobby.participant.decline'),'danger');
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
 }

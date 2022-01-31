@@ -90,7 +90,6 @@ class DirectSendService
         $data = array(
             'type' => 'redirect',
             'url' => $url,
-            'message' => $this->translator->trans('lobby.participant.accept'),
             'timeout' => $timeout,
         );
         $update = new Update($topic, json_encode($data));

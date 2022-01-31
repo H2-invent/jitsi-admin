@@ -117,9 +117,8 @@ class LobbyModeratorController extends AbstractController
             $em->remove($data);
             $em->flush();
             $this->toParticipant->acceptLobbyUser($data);
-            $this->toModerator->refreshLobby($data);
         }
-
+        $this->toModerator->refreshLobby($data);
         return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.all.success'), 'color' => 'success'));
     }
 

@@ -54,7 +54,7 @@ class LobbyDirectSendTest extends KernelTestCase
 
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            self::assertEquals('{"type":"redirect","url":"\/rooms\/testMe","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","timeout":1000}', $update->getData());
+            self::assertEquals('{"type":"redirect","url":"\/rooms\/testMe","timeout":1000}', $update->getData());
             self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';
         });
