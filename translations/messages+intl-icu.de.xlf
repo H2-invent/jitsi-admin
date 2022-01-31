@@ -1471,10 +1471,25 @@
         <target>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
       </trans-unit>
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
-        <source>Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</source>
+        <source>lobby.change.moderator.permissions</source>
         <target>Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
       </trans-unit>
-
+      <trans-unit id="47DEQpj" resname="">
+        <source></source>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
+        <source>Die Konferenz wurde beendet.</source>
+        <target>Die Konferenz wurde beendet.</target>
+      </trans-unit>
+      <trans-unit id="D3hjQyh" resname="lobby.participant.modal.end.text">
+        <source>Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</source>
+        <target>Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
+      </trans-unit>
+      <trans-unit id="SNlgrt7" resname="text.continue">
+        <source>Weiter</source>
+        <target>Weiter</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

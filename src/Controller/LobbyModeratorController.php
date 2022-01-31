@@ -154,10 +154,16 @@ class LobbyModeratorController extends AbstractController
         if ($room) {
             if ($this->checkPermissions($room, $this->getUser())) {
                $lobbyUtils->cleanLobby($room);
-                $this->directSend->sendEndMeeting(
+               $this->directSend->sendModal(
+                   'lobby_broadcast_websocket/' . $room->getUidReal(),
+               $this->renderView('lobby_participants/endMeeting.html.twig',array('url'=> $this->generateUrl('index')))
+               );
+
+                $this->directSend->sendRedirect(
                     'lobby_broadcast_websocket/' . $room->getUidReal(),
                     $this->generateUrl('index'),
-                    $this->translator->trans($this->parameterBag->get('laf_endMeetingMessage'))
+//                    $this->translator->trans($this->parameterBag->get('laf_endMeetingMessage')),
+                    $this->parameterBag->get('laf_lobby_popUpDuration')
                 );
                 return new JsonResponse(array('error' => false));
             }
