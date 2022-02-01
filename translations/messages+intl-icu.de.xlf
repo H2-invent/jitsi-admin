@@ -1490,6 +1490,10 @@
         <source>Weiter</source>
         <target>Weiter</target>
       </trans-unit>
+      <trans-unit id=".sBFCa5" resname="fixed.name">
+        <source>Dauerhaft</source>
+        <target>Dauerhaft</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
