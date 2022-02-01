@@ -1479,16 +1479,28 @@
         <target>__</target>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
-        <source>Die Konferenz wurde beendet.</source>
+        <source>lobby.participant.modal.end.title</source>
         <target>Die Konferenz wurde beendet.</target>
       </trans-unit>
       <trans-unit id="D3hjQyh" resname="lobby.participant.modal.end.text">
-        <source>Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</source>
+        <source>lobby.participant.modal.end.text</source>
         <target>Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
       </trans-unit>
       <trans-unit id="SNlgrt7" resname="text.continue">
-        <source>Weiter</source>
+        <source>text.continue</source>
         <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="_kvL9Eu" resname="fixed.Room.name">
+        <source>fixed.Room.name</source>
+        <target>Dauerhaft</target>
+      </trans-unit>
+      <trans-unit id="fvdvbiY" resname="favorite.sidebar.title">
+        <source>favorite.sidebar.title</source>
+        <target>Favoriten</target>
+      </trans-unit>
+      <trans-unit id="S9ZHICp" resname="favorite.sidebar.help">
+        <source>favorite.sidebar.help</source>
+        <target><![CDATA[Drücken Sie <i class="far fa-star"></i> um Konferenzen als Favoriten zu markieren.]]></target>
       </trans-unit>
     </body>
   </file>

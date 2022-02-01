@@ -31,6 +31,7 @@ import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
+
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -113,11 +114,10 @@ $(window).on('load', function () {
 });
 
 
-
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
-    if( $('#loadContentModal ').hasClass('show')){
+    if ($('#loadContentModal ').hasClass('show')) {
         $('#loadContentModal').modal('hide');
     }
     $('#loadContentModal').load(url, function (data, status) {
@@ -148,7 +148,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
     });
-    $("#newRoom_form").submit(function(e) {
+    $("#newRoom_form").submit(function (e) {
 
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
@@ -159,21 +159,20 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             type: "POST",
             url: url,
             data: form.serialize(), // serializes the form's elements.
-            success: function(data)
-            {
+            success: function (data) {
                 var $res = data;
-                if($res['error'] === false){
-                    if(typeof $res['cookie'] !== 'undefined' ){
+                if ($res['error'] === false) {
+                    if (typeof $res['cookie'] !== 'undefined') {
                         for (const [key, value] of Object.entries($res['cookie'])) {
 
-                            setCookie(key,value,1000);
+                            setCookie(key, value, 1000);
                         }
                     }
                     window.location.href = $res['redirectUrl'];
-                }else {
+                } else {
                     $('.formError').remove();
-                    for (var i = 0; i<$res['messages'].length; i++){
-                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">'+$res['messages'][i]+'  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                    for (var i = 0; i < $res['messages'].length; i++) {
+                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">' + $res['messages'][i] + '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                             '    <span aria-hidden="true">&times;</span>\n' +
                             '  </button>' +
                             '</div>')
@@ -344,3 +343,9 @@ function initRepeater() {
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
 }
+
+$('.sidebarToggle').click(function () {
+    $('#sidebar').toggleClass('showSidebar');
+    $('#main').toggleClass('d-none');
+
+})

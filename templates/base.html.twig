@@ -15,53 +15,75 @@
 
 
 <body {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-    class="blackMode"{% endif%}>
+    class="blackMode"{% endif %}>
 
 <div id="mainContent" class="wrapper">
 
     <!-- Page Content  -->
-    <div id="content">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a href="{{ path('dashboard') }}">
-                    {% if theme %}
-                        <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                        <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                    {% else %}
-                        <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                        <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                    {% endif %}
-
-                </a>
-                {% if theme != false  %}
-                    <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
-                        {{ theme.headerLine }}
-                    </p>
-
+    <div class="window" id="window">
+        <div class="navigation z-depth-1">
+            <a href="{{ path('dashboard') }}">
+                {% if theme %}
+                    <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
+                         style="height: 50px; width: auto">
+                    <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo"
+                         style="height: 50px; width: auto">
+                {% else %}
+                    <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
+                         style="height: 50px; width: auto">
+                    <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
+                         style="height: 50px; width: auto">
                 {% endif %}
-                {% block CTA %}{% endblock %}
-                {{ include('base/__topnav.html.twig') }}
 
+            </a>
+            {% if theme != false %}
+                <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
+                    {{ theme.headerLine }}
+                </p>
+
+            {% endif %}
+            {% block CTA %}{% endblock %}
+            {{ include('base/__topnav.html.twig') }}
+
+
+        </div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebarToggle" >
+                <i class="fa fa-times fa-2x"></i>
             </div>
-        </nav>
-        {% block body %}{% endblock %}
+            <div class="sidebarContent" >
+                {% block sidebar %}{% endblock %}
+            </div>
 
+        </div>
+        <div class="main" id="main">
+            <div class="mainContent">
+                {% block body %}{% endblock %}
+            </div>
+            <div class="sidebarToggle">
+                <i class="far fa-star fa-2x"></i>
+            </div>
+        </div>
+        <div class="footer z-depth-1">
+            {{ include('base/__footer.html.twig') }}
+        </div>
 
-        {{ include('servers/__serverModal.html.twig') }}
-        {{ include('base/__addressBookModal.html.twig') }}
-        {{ include('base/__profileModal.html.twig') }}
-        {{ include('base/__snack.html.twig') }}
-        {{ include('base/__footer.html.twig') }}
     </div>
 
 
-    <div class="modal fade" id="loadContentModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="loadContentModal"
-         aria-hidden="true">
-    </div>
+    {{ include('servers/__serverModal.html.twig') }}
+    {{ include('base/__addressBookModal.html.twig') }}
+    {{ include('base/__profileModal.html.twig') }}
+    {{ include('base/__snack.html.twig') }}
+
+</div>
+
+
+<div class="modal fade" id="loadContentModal" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="loadContentModal"
+     aria-hidden="true">
+</div>
 </div>
 <!-- Dark Overlay element -->
 <div class="overlay"></div>
