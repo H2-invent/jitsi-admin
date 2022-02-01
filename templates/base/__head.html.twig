@@ -40,9 +40,16 @@
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
+            .nav-tabs .nav-link.active{
 
+                border-bottom: solid 2px {{ theme.colorButton }} !important;
+                color: {{ theme.colorButton }} !important;
+            }
+            .nav-tabs .nav-link:hover {
+                   background: rgba(0, 0, 0, 0.05);
+            }
             .btn-outline-dashboard {
-                border-color: {{ theme.colorButtonOutlinecolor }} !important;;
+                border-color: {{ theme.colorButtonOutlinecolor }} !important;
             }
 
             .light-blue.darken-3 {

@@ -284,7 +284,7 @@ strong {
     height: 50px;
     width: 50px;
     position: absolute;
-    background-color: #2ea44f ;
+    background-color: #2ea44f;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -426,4 +426,26 @@ strong {
 
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+.nav-tabs {
+  .nav-item{
+    flex: 1;
+    text-align: center;
+  }
+  .nav-link {
+    border-bottom: solid 3px transparent;
+    &.active {
+      border: none;
+      border-bottom: solid 3px  #2ea44f;
+      background-color: unset;
+      color:  #2ea44f !important;
+      border-radius: 1px;
+    }
+    &:hover {
+      background: rgba(46, 164, 79, 0.05);
+      color: inherit;
+      border-radius: 1px;
+    }
+  }
 }
