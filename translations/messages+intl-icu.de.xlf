@@ -1479,15 +1479,15 @@
         <target>__</target>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
-        <source>lobby.participant.modal.end.title</source>
+        <source>Die Konferenz wurde beendet.</source>
         <target>Die Konferenz wurde beendet.</target>
       </trans-unit>
       <trans-unit id="D3hjQyh" resname="lobby.participant.modal.end.text">
-        <source>lobby.participant.modal.end.text</source>
+        <source>Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</source>
         <target>Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
       </trans-unit>
       <trans-unit id="SNlgrt7" resname="text.continue">
-        <source>text.continue</source>
+        <source>Weiter</source>
         <target>Weiter</target>
       </trans-unit>
       <trans-unit id="_kvL9Eu" resname="fixed.Room.name">
