@@ -452,6 +452,7 @@ strong {
     }
   }
   .nav-link {
+    transition: color .5s;
     &.active {
       border: none;
       background-color: unset;

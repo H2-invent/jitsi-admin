@@ -14,11 +14,6 @@ import('mdbootstrap');
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';
-import {Calendar} from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import bootstrapPlugin from '@fullcalendar/bootstrap';
-import momentPlugin from '@fullcalendar/moment';
-import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
 import autosize from 'autosize';
 import ClipboardJS from 'clipboard';
@@ -65,11 +60,7 @@ $( window ).resize(function() {
 })
 
 $(document).ready(function () {
-    $('.underline').each(function (e) {
-        var ele = $(this);
-        ele.width(ele.closest('.nav-tabs').find('.active').width());
-        ele.css('left',ele.closest('.nav-tabs').find('.active').position().left);
-    })
+
     $('.switchDarkmode').change(function (e) {
         var val = 0;
         if ($(this).prop('checked')) {
@@ -117,7 +108,11 @@ $(document).ready(function () {
     //     dateFormat: "Y-m-d H:i",
     // });
     initCopytoClipboard();
-
+    $('.underline').each(function (e) {
+        var ele = $(this);
+        ele.width(ele.closest('.nav-tabs').find('.active').width());
+        ele.css('left',ele.closest('.nav-tabs').find('.active').position().left);
+    })
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
