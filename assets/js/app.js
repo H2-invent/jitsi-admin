@@ -54,12 +54,19 @@ addEventListener('load', function () {
 $( window ).resize(function() {
     $('.underline').each(function (e) {
         var ele = $(this);
-        ele.width(ele.closest('.nav-tabs').find('.active').width());
-        ele.css('left',ele.closest('.nav-tabs').find('.active').position().left);
+        console.log(ele.closest('.nav-tabs').find('.active').width());
+        ele.width(ele.closest('.nav-tabs').find('.active').closest('.nav-item').width());
+        ele.css('left',ele.closest('.nav-tabs').find('.active').closest('.nav-item').position().left);
     })
 })
 
 $(document).ready(function () {
+    $('.underline').each(function (e) {
+        var ele = $(this);
+        console.log(ele.closest('.nav-tabs').find('.active').width());
+        ele.width(ele.closest('.nav-tabs').find('.active').closest('.nav-item').width());
+        ele.css('left',ele.closest('.nav-tabs').find('.active').closest('.nav-item').position().left);
+    })
 
     $('.switchDarkmode').change(function (e) {
         var val = 0;
@@ -108,11 +115,7 @@ $(document).ready(function () {
     //     dateFormat: "Y-m-d H:i",
     // });
     initCopytoClipboard();
-    $('.underline').each(function (e) {
-        var ele = $(this);
-        ele.width(ele.closest('.nav-tabs').find('.active').width());
-        ele.css('left',ele.closest('.nav-tabs').find('.active').position().left);
-    })
+
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});

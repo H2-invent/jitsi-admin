@@ -445,13 +445,14 @@ strong {
       border: none;
       color: inherit;
     }
-    a{
-      &:focus-visible{
-        border: none;
-      }
+    &:hover {
+      background: rgba(46, 164, 79, 0.05);
+      color: inherit;
+      border-radius: 1px;
     }
   }
   .nav-link {
+    border: none;
     transition: color .5s;
     &.active {
       border: none;
@@ -459,10 +460,11 @@ strong {
       color:  #2ea44f !important;
       border-radius: 1px;
     }
-    &:hover {
-      background: rgba(46, 164, 79, 0.05);
-      color: inherit;
-      border-radius: 1px;
+    &:focus-visible{
+      border: none;
+    }
+    &:hover{
+      border: none;
     }
   }
 }
