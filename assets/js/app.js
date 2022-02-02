@@ -26,6 +26,7 @@ import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
+import {attach,init} from 'node-waves'
 
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -54,7 +55,7 @@ addEventListener('load', function () {
 $( window ).resize(function() {
     $('.underline').each(function (e) {
         var ele = $(this);
-        console.log(ele.closest('.nav-tabs').find('.active').width());
+
         ele.width(ele.closest('.nav-tabs').find('.active').closest('.nav-item').width());
         ele.css('left',ele.closest('.nav-tabs').find('.active').closest('.nav-item').position().left);
     })
@@ -63,11 +64,13 @@ $( window ).resize(function() {
 $(document).ready(function () {
     $('.underline').each(function (e) {
         var ele = $(this);
-        console.log(ele.closest('.nav-tabs').find('.active').width());
+
         ele.width(ele.closest('.nav-tabs').find('.active').closest('.nav-item').width());
         ele.css('left',ele.closest('.nav-tabs').find('.active').closest('.nav-item').position().left);
     })
-
+    attach('.btn', ['waves-effect']);
+    attach('.nav-item', ['waves-effect']);
+    init();
     $('.switchDarkmode').change(function (e) {
         var val = 0;
         if ($(this).prop('checked')) {

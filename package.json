@@ -36,6 +36,7 @@
         "jquery-confirm": "^3.3.4",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
+        "node-waves": "^0.7.6",
         "popper.js": "^1.16.1",
         "push.js": "^1.0.12",
         "sass": "^1.32.8",
