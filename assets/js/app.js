@@ -56,9 +56,20 @@ addEventListener('load', function () {
 
     }
 });
+$( window ).resize(function() {
+    $('.underline').each(function (e) {
+        var ele = $(this);
+        ele.width(ele.closest('.nav-tabs').find('.active').width());
+        ele.css('left',ele.closest('.nav-tabs').find('.active').position().left);
+    })
+})
 
 $(document).ready(function () {
-
+    $('.underline').each(function (e) {
+        var ele = $(this);
+        ele.width(ele.closest('.nav-tabs').find('.active').width());
+        ele.css('left',ele.closest('.nav-tabs').find('.active').position().left);
+    })
     $('.switchDarkmode').change(function (e) {
         var val = 0;
         if ($(this).prop('checked')) {
@@ -257,24 +268,8 @@ $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });
 $('#ex1-tab-3-tab').on('shown.bs.tab', function (e) {
-    renderCalendar();
+
 })
-
-function renderCalendar() {
-
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin, bootstrapPlugin, momentPlugin, listPlugin],
-        themeSystem: 'bootstrap',
-        events: '/api/v1/getAllEntries',
-        lang: 'de',
-        timeFormat: 'H(:mm)',
-        displayEventEnd: true,
-
-    });
-    calendar.render();
-
-}
 
 function initDropDown() {
     $('.dropdownTabToggle').click(function (e) {
@@ -349,3 +344,8 @@ $('.sidebarToggle').click(function () {
     $('#main').toggleClass('d-none');
 
 })
+$('.nav-item').click(function () {
+    var ele = $(this);
+    ele.closest('.nav-tabs').find('.underline').width(ele.width()).css('left', ele.position().left);
+})
+
