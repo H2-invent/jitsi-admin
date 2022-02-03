@@ -269,4 +269,23 @@ class LdapType
         $this->filter = $filter;
     }
 
+
+    /**
+     * @param $objectClassString
+     * @return string
+     * This Function build the Query String to find the user in the LDAP
+     */
+    public function buildObjectClass(): string
+    {
+        $objectclass = '(|';
+        foreach (explode(',', $this->objectClass) as $data2) {
+            $objectclass .= '(objectclass=' . $data2 . ')';
+        }
+        $objectclass .= ')';
+        if($this->filter){
+            $objectclass = ''.$objectclass.$this->filter;
+        }
+        $objectclass = '(&'.$objectclass.')';
+        return $objectclass;
+    }
 }

@@ -18,7 +18,8 @@ class LdapUserService
 {
     private $em;
     private $userCreationService;
-    public function __construct(EntityManagerInterface $entityManager,UserCreatorService $userCreationService)
+
+    public function __construct(EntityManagerInterface $entityManager, UserCreatorService $userCreationService)
     {
         $this->em = $entityManager;
         $this->userCreationService = $userCreationService;
@@ -39,11 +40,11 @@ class LdapUserService
         $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
         $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0];
         $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
-        if (!$user){
+        if (!$user) {
             $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
         }
         if (!$user) {
-            $user = $this->userCreationService->createUser($email,$uid,$firstName,$lastName);
+            $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName);
             $user->setUid(md5(uniqid()));
         }
         if (!$user->getLdapUserProperties()) {
@@ -88,7 +89,7 @@ class LdapUserService
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
 
-                    $data->addAddressbook($data2);
+                $data->addAddressbook($data2);
             }
             $this->em->persist($data);
         }
@@ -121,11 +122,11 @@ class LdapUserService
      * @param Ldap $ldap
      * @param $ldapServerId
      */
-    public function syncDeletedUser(Ldap $ldap, LdapType $ldapType)
+    public function syncDeletedUser( LdapType $ldapType)
     {
         $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
         foreach ($user as $data) {
-            $this->checkUserInLdap($data, $ldap);
+            $this->checkUserInLdap($data, $ldapType);
         }
         $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
         return $user;
@@ -136,17 +137,22 @@ class LdapUserService
      * @param User $user
      * @param Ldap $ldap
      */
-    public function checkUserInLdap(User $user, Ldap $ldap): ?Entry
+    public function checkUserInLdap(User $user, LdapType $ldap): ?Entry
     {
         $object = null;
+        $filterString = $ldap->buildObjectClass();
+
         try {
             if ($user->getLdapUserProperties()) {
-                $query = $ldap->query($user->getLdapUserProperties()->getLdapDn(), '(&(cn=*))');
+                $query = $ldap->getLdap()->query($user->getLdapUserProperties()->getLdapDn(), $filterString);
                 $object = $query->execute();
             } else {
                 return null;
             }
-
+        if (sizeof($object->toArray()) === 0){
+            $this->deleteUser($user);
+            return null;
+        }
         } catch (LdapException $e) {
             $this->deleteUser($user);
             return null;
@@ -168,8 +174,8 @@ class LdapUserService
             $user->removeRoom($r);
         }
         $rooms = $user->getRoomModerator();
-        foreach ($rooms as $r){
-            foreach ($r->getUser() as $u){
+        foreach ($rooms as $r) {
+            foreach ($r->getUser() as $u) {
                 $r->removeUser($u);
             }
             $this->em->persist($r);
@@ -195,7 +201,7 @@ class LdapUserService
             $user->removeRoomsAttributes($attribute);
             $this->em->remove($attribute);
         }
-        if($user->getLdapUserProperties()){
+        if ($user->getLdapUserProperties()) {
             $this->em->remove($user->getLdapUserProperties());
         }
         $this->em->persist($user);

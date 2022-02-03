@@ -65,36 +65,18 @@ class LdapService
      * @param string $scope
      * @return \Symfony\Component\Ldap\Entry[]
      */
-    public function retrieveUser(Ldap $ldap, string $userDn, string $objectclass, string $scope, ?string $filter = null)
+    public function retrieveUser(LdapType $ldap)
     {
 
         $options = array(
-            'scope' => $scope,
+            'scope' => $ldap->getScope(),
         );
 
-        $query = $ldap->query($userDn, $this->buildObjectClass($objectclass,$filter), $options);
+        $query = $ldap->getLdap()->query($ldap->getUserDn(), $ldap->buildObjectClass(), $options);
         $user = $query->execute();
         return $user->toArray();
     }
 
-
-    /**
-     * @param $objectClassString
-     * @return string
-     */
-    public function buildObjectClass($objectClassString, ?string $filter = null): string
-    {
-        $objectclass = '(|';
-        foreach (explode(',', $objectClassString) as $data2) {
-            $objectclass .= '(objectclass=' . $data2 . ')';
-        }
-        $objectclass .= ')';
-        if($filter){
-            $objectclass = ''.$objectclass.$filter;
-        }
-        $objectclass = '(&'.$objectclass.')';
-        return $objectclass;
-    }
 
 
     /**
@@ -108,20 +90,14 @@ class LdapService
 
         try {
             $userLdap =//Here we fetch all coresponding users from the LDAP
-                $this->retrieveUser(
-                    $ldap->getLdap(),
-                    $ldap->getUserDn(),
-                    $ldap->getObjectClass(),
-                    $ldap->getScope(),
-                    $ldap->getFilter()!==''?$ldap->getFilter():null
-                );
+                $this->retrieveUser($ldap);
             foreach ($userLdap as $u) {// Here we itterate over the user from user
                 $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap);
                   }
         } catch (\Exception $e) {
             throw $e;
         }
-        $this->ldapUserService->syncDeletedUser($ldap->getLdap(),$ldap);
+        $this->ldapUserService->syncDeletedUser($ldap);
         return array('ldap'=>$ldap,'user'=>$user);
     }
 }
