@@ -26,19 +26,6 @@ es.onmessage = e => {
         initJitsiMeet(data);
     }
 }
-const broadcast = new EventSource(topicBroadcast);
-broadcast.onmessage = e => {
-    var data = JSON.parse(e.data);
-    masterNotify(data);
-}
-if(typeof topicPersonal !== 'undefined'){
-    const personal = new EventSource(topicPersonal);
-    personal.onmessage = e => {
-        var data = JSON.parse(e.data);
-        masterNotify(data);
-    }
-}
-
 
 initCircle();
 var counter = 0;

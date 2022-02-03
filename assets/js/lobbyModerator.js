@@ -23,24 +23,13 @@ initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
-const es = new EventSource(topic);
+const es = new EventSource([topic]);
 es.onmessage = e => {
     var data = JSON.parse(e.data)
     masterNotify(data);
-}
-
-
-const broadcast = new EventSource(topicBroadcast);
-broadcast.onmessage = e => {
-    var data = JSON.parse(e.data);
-    masterNotify(data);
     countParts();
 }
-const personal = new EventSource(topicPersonal);
-personal.onmessage = e => {
-    var data = JSON.parse(e.data);
-    masterNotify(data);
-}
+
 
 $('.startIframe').click(function (e) {
     e.preventDefault();

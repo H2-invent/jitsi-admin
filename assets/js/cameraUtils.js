@@ -70,17 +70,20 @@ function startWebcam(id){
 }
 
 function stopWebcam() {
-    var stream = video.srcObject;
-    var tracks = stream.getTracks();
-    var $heigth = video.clientHeight;
-    video.style.height = $heigth+'px';
-    for (var i = 0; i < tracks.length; i++) {
-        var track = tracks[i];
-        track.stop();
-        $('#webcamSwitch').addClass('fa-video').removeClass('fa-video-slash')
-        toggle = 0;
+    console.log('1.2');
+        var stream = video.srcObject;
+        if(typeof stream !== 'undefined' && stream !== null) {
+        var tracks = stream.getTracks();
+        var $heigth = video.clientHeight;
+        video.style.height = $heigth + 'px';
+        for (var i = 0; i < tracks.length; i++) {
+            var track = tracks[i];
+            track.stop();
+            $('#webcamSwitch').addClass('fa-video').removeClass('fa-video-slash')
+            toggle = 0;
+        }
+        video.srcObject = null;
     }
-    video.srcObject = null;
 }
 function setButtonName(button, text) {
     button.text(text);
