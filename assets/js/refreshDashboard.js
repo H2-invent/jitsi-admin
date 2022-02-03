@@ -20,15 +20,15 @@ function refreshDashboard() {
         var $openDropdown = $('.dropdown-menu.show');
 
         if ($openDropdown.length === 0) {
-            if ($($id1).contents().length !== $(data).find($id1).contents().length) {
+            if ($($id1).contents().text() !== $(data).find($id1).contents().text()) {
                 console.log('1.7');
                 $($id1).html($(data).find($id1).contents());
             }
-            if ($($id2).contents().length !== $(data).find($id2).contents().length) {
+            if ($($id2).contents().text() !== $(data).find($id2).contents().text()) {
                 console.log('1.8');
                 $($id2).html($(data).find($id2).contents());
             }
-            if ($($id3).contents().length !== $(data).find($id3).contents().length) {
+            if ($($id3).contents().text() !== $(data).find($id3).contents().text()) {
                 console.log('1.9');
                 $($id3).html($(data).find($id3).contents());
             }

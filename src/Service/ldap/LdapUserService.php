@@ -42,8 +42,6 @@ class LdapUserService
         if (!$user){
             $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
         }
-
-
         if (!$user) {
             $user = $this->userCreationService->createUser($email,$uid,$firstName,$lastName);
             $user->setUid(md5(uniqid()));
