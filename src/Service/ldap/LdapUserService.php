@@ -38,9 +38,7 @@ class LdapUserService
         $email = $entry->getAttribute($ldapType->getMapper()['email'])[0];
         $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
         $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0];
-
         $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
-
         if (!$user){
             $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
         }
@@ -171,6 +169,14 @@ class LdapUserService
         foreach ($user->getRooms() as $r) {
             $user->removeRoom($r);
         }
+        $rooms = $user->getRoomModerator();
+        foreach ($rooms as $r){
+            foreach ($r->getUser() as $u){
+                $r->removeUser($u);
+            }
+            $this->em->persist($r);
+        }
+
         foreach ($user->getRoomModerator() as $r) {
             $user->removeRoomModerator($r);
         }
@@ -190,6 +196,9 @@ class LdapUserService
         foreach ($user->getRoomsAttributes() as $attribute) {
             $user->removeRoomsAttributes($attribute);
             $this->em->remove($attribute);
+        }
+        if($user->getLdapUserProperties()){
+            $this->em->remove($user->getLdapUserProperties());
         }
         $this->em->persist($user);
         $this->em->flush();
