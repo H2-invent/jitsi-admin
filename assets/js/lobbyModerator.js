@@ -12,7 +12,7 @@ import('mdbootstrap');
 import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId} from './cameraUtils'
+import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import {initJitsi} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
@@ -62,6 +62,7 @@ $('.startIframe').click(function (e) {
 })
 
 function moveWrapper() {
+    stopWebcam();
     $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').css('height', 'inherit');
     $('#snackbar').appendTo('body');
     $('#jitsiWindow').css('height', '100vh');

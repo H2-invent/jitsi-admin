@@ -11,7 +11,7 @@ global.$ = global.jQuery = $;
 import('mdbootstrap');
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId} from './cameraUtils'
+import {initWebcam, choosenId,stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 initNotofication();
@@ -75,6 +75,7 @@ $('.leave').click(function (e) {
 })
 
 function initJitsiMeet(data) {
+    stopWebcam();
     var options =data.options.options;
     options.device = choosenId;
     options.parentNode = document.querySelector( data.options.parentNode);
