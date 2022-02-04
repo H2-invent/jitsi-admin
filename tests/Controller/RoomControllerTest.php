@@ -70,7 +70,7 @@ class RoomControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
 
-        $client->request('GET', '/room/new?id=50n00000000');
+        $client->request('GET', '/room/new?id=-1');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
 
     }
