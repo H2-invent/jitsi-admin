@@ -47,28 +47,28 @@ The following features are already part of Jitsi Admin:
 ### The Dashboard
 
 The Dashboard is the central view where all information to all conferences is displayed
-![Dashboard](docs/images/dashboard-heading.jpg)
+![Dashboard](docs/images/dashboard-heading.png)
 
 ### The Servers
 
 All servers can be managed centrally and different permissions can be configured.
 Multiple Jitsi Servers can be combined to one setup and managed accordingly
-![Server](docs/images/server.jpg)
+![Server](docs/images/server.png)
 
 ### Login
 
 The login uses a SSO Server, e.g. Keycloak or other Identidy Providers
-![Login](docs/images/login.jpg)
+![Login](docs/images/login.png)
 
 ### Join of the conference
 
 Guests are able to join a conference through a link received via email __without__ having a user account in Jitsi Manager.
 There is a page for joining where the conference ID, the email address and the name are entered.
 After that a JWT will be generated and the guest is able to join the conference.
-![Join](docs/images/join.jpg)
+![Join](docs/images/join.png)
 
 Users with a user account are able to join conferences directly via Jitsi Manager, either by using the web page or the Jitsi Electron Desktop App.
-![Join](docs/images/joint-internal.jpg)
+![Join](docs/images/joint-internal.png)
 
 More information can be found at https://jitsi-admin.de
 
