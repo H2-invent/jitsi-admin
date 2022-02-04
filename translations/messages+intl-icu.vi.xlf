@@ -1285,6 +1285,10 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <source>Hier suchen</source>
         <target state="needs-translation">Hier suchen</target>
       </trans-unit>
+      <trans-unit id="Ta8QMX4" resname="email.ical.link">
+        <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
+        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

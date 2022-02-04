@@ -307,7 +307,7 @@
       </trans-unit>
       <trans-unit id="o66NgUz" resname="Eine Konferenz planen">
         <source>Eine Konferenz planen</source>
-        <target state="translated">Planear una conferencia</target>
+        <target state="translated">Programar una conferencia</target>
       </trans-unit>
       <trans-unit id="Ruov.3p" resname="Heute">
         <source>Heute</source>
@@ -1279,6 +1279,10 @@
       <trans-unit id="lQ8QeGr" resname="search.placeholder">
         <source>Hier suchen</source>
         <target state="translated">Busque aquí</target>
+      </trans-unit>
+      <trans-unit id="Ta8QMX4" resname="email.ical.link">
+        <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
+        <target state="translated">Si desea administrar fácilmente todas las conferencias desde su aplicación de calendario habitual, puede suscribirse a este enlace de iCal.</target>
       </trans-unit>
     </body>
   </file>
