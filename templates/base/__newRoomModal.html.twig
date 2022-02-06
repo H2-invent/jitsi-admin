@@ -8,6 +8,7 @@
             </button>
         </div>
         <div class="modal-body">
+            {% set server = getServer(app.user) %}
             {% if server|length > 0 %}
                 {{ form_start(form) }}
                 <div class="row">

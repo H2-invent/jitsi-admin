@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-centered modal-xl">
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" id="atendeeModalScroll">
     <div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
@@ -18,7 +18,7 @@
                     <br><i class="fas fa-couch"></i> {{ 'addParticipants.lobbyModerator.help'|trans }}
                 {% endif %}
             </p>
-            <div>
+            <div class="attendeeScroll">
                 <ul id="atendeeList">
                     <li class="d-flex flex-column flex-lg-row align-items-lg-center">{{ room.moderator|nameOfUser }} <span class="small">({{ 'Organisator'|trans }})</span></li>
                     {% for user in room.user %}

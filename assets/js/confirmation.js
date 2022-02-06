@@ -24,6 +24,7 @@ function initDirectSend() {
             $(target).closest('div').load($targetUrl + ' ' + target, function () {
                 $('[data-toggle="popover"]').popover({html: true});
                 $('[data-toggle="tooltip"]').tooltip();
+                hideTooltip();
             });
             if (typeof data.snack !== 'undefined') {
                 $('#snackbar').text(data.text).addClass('show');
@@ -92,7 +93,7 @@ function initConfirmDirectSendHref() {
                                 initSearchUser();
                                 $('[data-toggle="popover"]').popover({html: true});
                                 $('[data-toggle="tooltip"]').tooltip();
-
+                                hideTooltip();
                             });
                             if (typeof data.snack !== 'undefined') {
                                 $('#snackbar').text(data.snack).addClass('show');
@@ -121,6 +122,9 @@ function initAjaxSend(titleL, cancelL, okL) {
     initConfirmDirectSendHref();
     initDirectSend();
     initconfirmHref()
+}
+function hideTooltip() {
+    $('.tooltip').remove();
 }
 
 export {initAjaxSend, initDirectSend, initConfirmDirectSendHref, initconfirmHref}

@@ -431,7 +431,8 @@ strong {
 
 .nav-tabs {
   position: relative;
-  .underline{
+
+  .underline {
     position: absolute;
     height: fit-content;
     border-bottom: solid 3px #2ea44f;
@@ -439,34 +440,88 @@ strong {
     transition: left .5s ease;
     -webkit-transition: left .5s ease;
   }
-  .nav-item{
+
+  .nav-item {
     flex: 1;
     text-align: center;
-    &:focus{
+
+    &:focus {
       border: none;
       color: inherit;
     }
+
     &:hover {
       background: rgba(46, 164, 79, 0.05);
       color: inherit;
       border-radius: 1px;
     }
   }
+
   .nav-link {
     border: none;
     transition: color .5s;
+
     &.active {
       border: none;
       background-color: unset;
-      color:  #2ea44f !important;
+      color: #2ea44f !important;
       border-radius: 1px;
     }
-    &:focus-visible{
+
+    &:focus-visible {
       border: none;
     }
-    &:hover{
+
+    &:hover {
       border: none;
       color: inherit;
+    }
+  }
+}
+
+.language-dropdown {
+  .dropdown-item {
+    padding: 1rem;
+  }
+}
+
+.participantRow {
+  &:hover {
+    a {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      padding: 0;
+      margin: 10px;
+      overflow: hidden;
+      vertical-align: middle;
+      cursor: pointer;
+      border-radius: 50%;
+      -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+      box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+      -webkit-transition: all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
+      width: 36.15385px;
+      height: 36.15385px;
+
+      i {
+        position: absolute;
+      }
+    }
+  }
+
+}
+
+#atendeeModalScroll {
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    .attendeeScroll {
+      flex-grow: 1;
+      overflow: auto;
     }
   }
 }
