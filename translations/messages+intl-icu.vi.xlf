@@ -1289,6 +1289,10 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
         <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
       </trans-unit>
+      <trans-unit id="GKvYLg2" resname="participant.resend.invitation">
+        <source>Einladung nochmals an den Teilnehmenden senden.</source>
+        <target state="needs-translation">Einladung nochmals an den Teilnehmenden senden.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
