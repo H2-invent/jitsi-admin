@@ -4,7 +4,24 @@ global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initCircle} from './initCircle'
 import notificationSound from '../sound/notification.mp3'
-
+import * as Toastr from "toastr";
+Toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "10000",
+    "extendedTimeOut": "200",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
 function initNotofication() {
     Push.Permission.request();
 }
@@ -35,13 +52,17 @@ function masterNotify(data) {
 }
 
 function setSnackbar(text, color) {
-    $('#snackbar').text(text).removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').removeClass('d-none').addClass('show bg-' + color).click(function (e) {
-        $(this).removeClass('show');
-    });
-    $('#snackbar').mouseleave(function (e) {
-        $(this).removeClass('show');
-    })
-
+    if(color == 'danger'){
+        color = 'error';
+    }
+    console.log('1.4');
+    Toastr[color](text)
+    // $('#snackbar').text(text).removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').removeClass('d-none').addClass('show bg-' + color).click(function (e) {
+    //     $(this).removeClass('show');
+    // });
+    // $('#snackbar').mouseleave(function (e) {
+    //     $(this).removeClass('show');
+    // })
 }
 
 function notifymoderator(data) {
