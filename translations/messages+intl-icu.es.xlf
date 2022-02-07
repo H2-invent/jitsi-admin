@@ -1284,6 +1284,10 @@
         <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
         <target state="translated">Si desea administrar fácilmente todas las conferencias desde su aplicación de calendario habitual, puede suscribirse a este enlace de iCal.</target>
       </trans-unit>
+      <trans-unit id="GKvYLg2" resname="participant.resend.invitation">
+        <source>Einladung nochmals an den Teilnehmenden senden.</source>
+        <target state="needs-translation">Einladung nochmals an den Teilnehmenden senden.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
