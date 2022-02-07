@@ -11,6 +11,7 @@
             <p>{{ 'Teilnehmerliste'|trans }}</p>
             <p class="small">
                 <i class="fa fa-crown"></i> {{ 'Zum Moderator ernennen'|trans }}
+                <i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
                 {% if room.dissallowScreenshareGlobal %}
                     <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
                 {% endif %}
@@ -66,7 +67,10 @@
                                        data-url="{{ path('room_add_user',{'room':room.id}) }}"
                                     ><i class="far fa-comments"></i></a>
                                 {% endif %}
-
+                                <a class="small"
+                                   href="{{ path('room_user_resend',{'room':room.uidReal,'user':user.id}) }}">
+                                    <i class="fas fa-share-square"></i>
+                                </a>
                                 <a class="small directSendWithConfirm"
                                    href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
                                    data-target="#atendeeList"
