@@ -118,5 +118,21 @@ class ParticipantController extends AbstractController
 
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
-
+    /**
+     * @Route("/room/participant/resend", name="room_user_resend")
+     */
+    public
+    function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
+    {
+        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$request->get('room')));
+        if ($room->getModerator() !== $this->getUser()) {
+            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+        }
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('id'=>$request->get('user')));
+        if(!in_array($room,$user->getRooms()->toArray())){
+            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+        }
+        $userService->addUser($user,$room);
+        return $this->redirectToRoute('dashboard', ['snack' => $this->translator->trans('participant.resend.invitation')]);
+    }
 }
