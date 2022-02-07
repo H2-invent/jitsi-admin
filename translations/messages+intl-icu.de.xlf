@@ -1043,7 +1043,7 @@
       </trans-unit>
       <trans-unit id="myiokyd" resname="Oder kopieren Sie den Link in Ihren Browser">
         <source>Oder kopieren Sie den Link in Ihren Browser</source>
-        <target state="translated">Wahlweise können Sie den Link in Ihren Browser kopieren</target>
+        <target state="translated">Wahlweise können Sie den Link in Ihren Browser kopieren.</target>
       </trans-unit>
       <trans-unit id="OedXAN4" resname="Neue Kontaktgruppe erstellen">
         <source>Neue Kontaktgruppe erstellen</source>
@@ -1159,7 +1159,7 @@
       </trans-unit>
       <trans-unit id="CkD2mrU" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="translated">Bitte leiten Sie diesen Link an die Teilnehmenden weiter</target>
+        <target state="translated">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
       </trans-unit>
       <trans-unit id="LqbhhU9" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
@@ -1267,11 +1267,11 @@
       </trans-unit>
       <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-plus"&gt;&lt;/i&gt; hinzufügen</source>
-        <target state="translated"><![CDATA[Sie finden über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Bitte klicken Sie auf <i class="fas fa-plus"></i>, um einen Teilnehmenden hinzuzufügen.]]></target>
+        <target state="translated"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Klicken Sie bitte <i class="fas fa-plus"></i> um den Teilnehmenden hinzuzufügen.]]></target>
       </trans-unit>
       <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>
-        <target state="translated"><![CDATA[Sie finden über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Soll ein Teilnehmender oder mehrere als Moderatoren fungieren, klicken Sie bitte auf <i class="fas fa-crown"></i>.]]></target>
+        <target state="translated"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Sollen die Teilnehmenden als Moderatoren fungieren, klicken Sie bitte <i class="fas fa-crown"></i>.]]></target>
       </trans-unit>
       <trans-unit id="xHhboX4" resname="Morgen">
         <source>Morgen</source>
@@ -1467,7 +1467,7 @@
         <target>Wollen Sie diesen Server wirklich löschen?</target>
       </trans-unit>
       <trans-unit id="Ta8QMX4" resname="email.ical.link">
-        <source>email.ical.link</source>
+        <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
         <target>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
       </trans-unit>
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
@@ -1501,6 +1501,10 @@
       <trans-unit id="S9ZHICp" resname="favorite.sidebar.help">
         <source>favorite.sidebar.help</source>
         <target><![CDATA[Drücken Sie <i class="far fa-star"></i> um Konferenzen als Favoriten zu markieren.]]></target>
+      </trans-unit>
+      <trans-unit id="GKvYLg2" resname="participant.resend.invitation">
+        <source>Einladung nochmals an den Teilnehmenden senden.</source>
+        <target>Einladung nochmals an den Teilnehmenden senden.</target>
       </trans-unit>
     </body>
   </file>
