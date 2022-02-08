@@ -133,6 +133,6 @@ class ParticipantController extends AbstractController
             return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
         }
         $userService->addUser($user,$room);
-        return $this->redirectToRoute('dashboard', ['snack' => $this->translator->trans('participant.resend.invitation')]);
+        return $this->redirectToRoute('dashboard', ['snack' => $this->translator->trans('participant.resend.invitation.sucess')]);
     }
 }

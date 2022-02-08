@@ -11,7 +11,9 @@
             <p>{{ 'Teilnehmerliste'|trans }}</p>
             <p class="small">
                 <i class="fa fa-crown"></i> {{ 'Zum Moderator ernennen'|trans }}
-                <i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
+                {% if laf_show_resendInvitation == 1 %}
+                <br><i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
+                {% endif %}
                 {% if room.dissallowScreenshareGlobal %}
                     <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
                 {% endif %}
@@ -89,6 +91,12 @@
                                            data-toggle="tooltip" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
                                         > <i class="fas fa-couch"></i></a>
                                     {% endif %}
+                                        {% if laf_show_resendInvitation == 1 %}
+                                      <a class="small"
+                                         href="{{ path('room_user_resend',{'room':room.uidReal,'user':user.id}) }}">
+                                    <i class="fas fa-share-square"></i>
+                                          {% endif %}
+                                </a>
                                 <a class="directSendWithConfirm"
                                    href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
                                    data-target="#atendeeList"
