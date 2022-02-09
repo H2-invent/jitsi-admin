@@ -8,10 +8,11 @@ use Doctrine\ORM\EntityManagerInterface;
 class UserCreatorService
 {
     private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    private $indexer;
+    public function __construct(EntityManagerInterface $entityManager, IndexUserService $indexUserService)
     {
         $this->em = $entityManager;
+        $this->indexer = $indexUserService;
     }
 
     public function createUser($email, $userName, $firstName = null, $lastName = null): User
@@ -27,6 +28,7 @@ class UserCreatorService
                 ->setRegisterId(md5(uniqid('ksdjhfkhsdkjhjksd', true)))
                 ->setPassword('123')
                 ->setUid(md5(uniqid()));
+            $user->setIndexer($this->indexer->indexUser($user));
             $this->em->persist($user);
             $this->em->flush();
         }

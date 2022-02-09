@@ -192,6 +192,10 @@ class User extends BaseUser
      */
     private $lobbyWaitungUsers;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $indexer;
 
     public function __construct()
     {
@@ -934,4 +938,18 @@ class User extends BaseUser
         }
         return new RoomsUser();
     }
+
+    public function getIndexer(): ?string
+    {
+        return $this->indexer;
+    }
+
+    public function setIndexer(?string $indexer): self
+    {
+        $this->indexer = $indexer;
+
+        return $this;
+    }
+
+
 }

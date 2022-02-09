@@ -7,6 +7,7 @@ namespace App\Service\ldap;
 use App\dataType\LdapType;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
+use App\Service\IndexUserService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Ldap\Entry;
@@ -18,11 +19,12 @@ class LdapUserService
 {
     private $em;
     private $userCreationService;
-
-    public function __construct(EntityManagerInterface $entityManager, UserCreatorService $userCreationService)
+    private $indexer;
+    public function __construct(EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
     {
         $this->em = $entityManager;
         $this->userCreationService = $userCreationService;
+        $this->indexer = $indexUserService;
     }
 
     /**
@@ -73,6 +75,8 @@ class LdapUserService
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
         $user->setUsername($uid);
+
+        $user->setIndexer($this->indexer->indexUser($user));
         $this->em->persist($user);
         $this->em->flush();
         return $user;

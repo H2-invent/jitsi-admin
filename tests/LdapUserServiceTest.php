@@ -6,6 +6,7 @@ use App\dataType\LdapType;
 use App\Entity\Rooms;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
+use App\Service\IndexUserService;
 use App\Service\ldap\LdapService;
 use App\Service\ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +34,7 @@ class LdapUserServiceTest extends WebTestCase
         // (3) run some service & test the result
         $ldapConnection = $container->get(LdapService::class);
         $ldapUserService = $container->get(LdapUserService::class);
+        $indexer = $container->get(IndexUserService::class);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
         $ldapType = new LdapType($ldapConnection);
@@ -106,7 +108,9 @@ class LdapUserServiceTest extends WebTestCase
         foreach ($allUSerNew as $data) {
             $this->assertEquals(sizeof($allUSerNew), sizeof($data->getAddressbook()));
         }
-
+        foreach ($allUSerNew as $data){
+            self::assertEquals($indexer->indexUser($data),$data->getIndexer());
+        }
 
         foreach ($allUSerNew as $data) {
             if ($data->getUsername() === 'unitTestnoSF') {

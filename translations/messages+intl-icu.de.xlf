@@ -1175,11 +1175,11 @@
       </trans-unit>
       <trans-unit id="uAj26XB" resname="Schließen">
         <source>Schließen</source>
-        <target state="translated">Bitte schließen</target>
+        <target state="translated">Schließen</target>
       </trans-unit>
       <trans-unit id="hr7a.Nt" resname="Zeitzone einstellen">
         <source>Zeitzone einstellen</source>
-        <target state="translated">Bitte eine Zeitzone einstellen</target>
+        <target state="translated">Zeitzone einstellen</target>
       </trans-unit>
       <trans-unit id="WdcAY52" resname="Zeitzone erfolgreich geändert auf: {timeZone}">
         <source>Zeitzone erfolgreich geändert auf: {timeZone}</source>

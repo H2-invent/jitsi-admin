@@ -7,6 +7,7 @@ namespace App\Security;
 use App\Entity\FosUser;
 use App\Entity\MyUser;
 use App\Entity\User;
+use App\Service\IndexUserService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -34,8 +35,8 @@ class GuardServiceKeycloak extends SocialAuthenticator
     private $userManager;
     private $paramterBag;
     private $userCreatorService;
-
-    public function __construct(UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    private $indexer;
+    public function __construct(IndexUserService $indexUserService, UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
@@ -43,6 +44,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $this->tokenStorage = $tokenStorage;
         $this->paramterBag = $parameterBag;
         $this->userCreatorService = $userCreatorService;
+        $this->indexer = $indexUserService;
     }
 
     public function supports(Request $request)
@@ -93,6 +95,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser->setLastName($lastName);
             $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
+            $existingUser->setIndexer($this->indexer->indexUser($existingUser));
             $this->em->persist($existingUser);
             $this->em->flush();
             return $existingUser;
@@ -116,6 +119,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
+            $existingUser->setIndexer($this->indexer->indexUser($existingUser));
             $this->em->flush();
             return $existingUser;
         }
@@ -131,6 +135,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
                 ->setLastLogin(new \DateTime())
                 ->setKeycloakId($id)
                 ->setGroups($groups);
+            $newUser->setIndexer($this->indexer->indexUser($newUser));
             $this->em->persist($newUser);
             $this->em->flush();
             return $newUser;

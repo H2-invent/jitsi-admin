@@ -31,6 +31,7 @@ class RoomFixture extends Fixture
         $user->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
         $user->setUsername('test@local.de');
         $user->setCreatedAt(new \DateTime());
+        $user->setIndexer('test@local.de test@local.de test user test1 1234');
         $manager->persist($user);
 
         $user2 = new \App\Entity\User();
@@ -46,6 +47,7 @@ class RoomFixture extends Fixture
         $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
         $user2->setUsername('test2@local.de');
         $user2->setCreatedAt(new \DateTime());
+        $user2->setIndexer('test@local2.de test@local2.de test user test1 1234');
         $manager->persist($user2);
 
         $user3 = new \App\Entity\User();
@@ -55,6 +57,7 @@ class RoomFixture extends Fixture
         $user3->setRegisterId(123456);
         $user3->setCreatedAt(new \DateTime());
         $user3->setUid('kjsdfhkjds');
+        $user3->setIndexer('test@local3.de test@local3.de');
         $manager->persist($user3);
 
         $user4 = new \App\Entity\User();
@@ -64,6 +67,7 @@ class RoomFixture extends Fixture
         $user4->setRegisterId(123456);
         $user4->setCreatedAt(new \DateTime());
         $user4->setUid('bjhxbcvuzcbxv7');
+        $user4->setIndexer('test@local4.de test@local4.de');
         $manager->persist($user4);
 
         $user->addAddressbook($user2);

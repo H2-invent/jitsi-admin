@@ -57,28 +57,21 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findMyUserByEmail($value, User $user)
+
+    public function findMyUserByIndex($value, User $user)
     {
+        $value = strtolower($value);
         $qb = $this->createQueryBuilder('u')
             ->innerJoin(' u.addressbookInverse', 'user')
             ->andWhere('user = :user')
             ->setParameter('user', $user);
 
-        return $qb->andWhere($qb->expr()->orX()->addMultiple(
-            [
-                $qb->expr()->like('u.email', ':search'),
-                $qb->expr()->like('u.firstName', ':search'),
-                $qb->expr()->like('u.lastName', ':search'),
-                $qb->expr()->like('u.username', ':search'),
-                $qb->expr()->like('u.spezialProperties', ':search'),
-            ]
-        ))
+        return $qb->andWhere($qb->expr()->like('u.indexer', ':search'))
             ->setParameter('search', '%' . $value . '%')
             ->getQuery()
             ->getResult();
 
     }
-
     public function findUsersByLdapServerId($value)
     {
         return $this->createQueryBuilder('u')
