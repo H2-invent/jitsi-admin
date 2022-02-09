@@ -14,6 +14,7 @@ import {initCircle} from './initCircle'
 import {initWebcam, choosenId,stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import {initAjaxSend} from './confirmation'
+import {setSnackbar} from './myToastr';
 initNotofication();
 initAUdio();
 initWebcam();
@@ -45,9 +46,7 @@ $('.renew').click(function (e) {
                     clearInterval(interval);
                 }
             }, 1000);
-            $('#snackbar').text(data.message).removeClass('d-none').addClass('show bg-' + data.color).click(function (e) {
-                $('#snackbar').removeClass('show');
-            })
+            setSnackbar(data.message,data.color);
         })
     }
 })

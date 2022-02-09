@@ -45,10 +45,6 @@
   color: white;
 }
 
-#waitingUserWrapper {
-  max-height: 60vh;
-  overflow-y: auto;
-}
 
 .webcamArea > .overlay {
   height: 100%;
@@ -157,4 +153,26 @@
     content: "\f0da"!important;
   }
 }
+#col-waitinglist{
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
+  align-content: stretch;
+}
+#waitingUserWrapper{
+  flex-grow: 1;
+  overflow-y: auto;
+}
+.lobbyButtons{
+   display: flex;
+   flex-direction: row;
+   width: max-content;
+   max-width: 100%;
+ }
+.lobbyCard{
+  .lobbyButtons{
+    flex-direction: column;
+  }
+}
+
 
