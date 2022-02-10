@@ -42,7 +42,7 @@
 "
                                    data-target="#atendeeList"
                                    data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                   data-toggle="tooltip" title="{{ 'Zum Moderator ernennen'|trans }}"
+                                   data-toggle="tooltip" data-boundary="viewport" title="{{ 'Zum Moderator ernennen'|trans }}"
                                 ><i class="fa fa-crown"></i></a>
 
 
@@ -56,8 +56,9 @@
 {% endif %}
 "
                                        data-target="#atendeeList"
+
                                        data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                       data-toggle="tooltip" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
+                                       data-toggle="tooltip" data-boundary="viewport" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
                                     ><i
                                                 class="fas fa-desktop"></i></a>
                                 {% endif %}
@@ -73,12 +74,13 @@
 {{ 'Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
 {% endif %}
 "
+                                           data-boundary="viewport"
                                            data-target="#atendeeList"
                                            data-url="{{ path('room_add_user',{'room':room.id}) }}"
                                         ><i class="far fa-comments"></i></a>
                                     {% endif %}
                                     {% if room.lobby %}
-                                        <a class="btn-sm btn-floating directSend {% if roomPermissions(user,room).lobbyModerator == true %}btn-success{% endif %}"
+                                        <a class="btn-sm btn-floating directSendWithConfirm {% if roomPermissions(user,room).lobbyModerator == true %}btn-success{% endif %}"
                                            href="{{ path('room_add_lobby_moderator',{'room':room.id,'user':user.id}) }}"
                                            data-text="
 {% if roomPermissions(user,room).privateMessage == false %}{{ 'addParticipants.lobbyModerator.add'|trans }}
@@ -86,9 +88,10 @@
 {{ 'addParticipants.lobbyModerator.remove'|trans }}
 {% endif %}
 "
+
                                            data-target="#atendeeList"
                                            data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                           data-toggle="tooltip" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
+                                           data-toggle="tooltip" data-boundary="viewport" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
                                         > <i class="fas fa-couch"></i></a>
                                     {% endif %}
                                         {% if laf_show_resendInvitation == 1 %}

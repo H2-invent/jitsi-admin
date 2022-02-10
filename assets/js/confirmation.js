@@ -8,7 +8,7 @@ import $ from 'jquery';
 
 global.$ = global.jQuery = $;
 import ('jquery-confirm');
-
+import {initSearchUser} from './searchUser'
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
@@ -22,9 +22,10 @@ function initDirectSend() {
         e.preventDefault();
         $.get($url, function (data) {
             $(target).closest('div').load($targetUrl + ' ' + target, function () {
+                console.log('1.4');
+                hideTooltip();
                 $('[data-toggle="popover"]').popover({html: true});
                 $('[data-toggle="tooltip"]').tooltip();
-                hideTooltip();
             });
             if (typeof data.snack !== 'undefined') {
                 $('#snackbar').text(data.text).addClass('show');
@@ -91,9 +92,10 @@ function initConfirmDirectSendHref() {
                         $.get($url, function (data) {
                             $(target).closest('div').load($targetUrl + ' ' + target, function () {
                                 initSearchUser();
+                                hideTooltip();
                                 $('[data-toggle="popover"]').popover({html: true});
                                 $('[data-toggle="tooltip"]').tooltip();
-                                hideTooltip();
+
                             });
                             if (typeof data.snack !== 'undefined') {
                                 $('#snackbar').text(data.snack).addClass('show');

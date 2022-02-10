@@ -27,7 +27,7 @@ import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach,init} from 'node-waves'
-
+import { createPopper } from '@popperjs/core';
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -122,7 +122,7 @@ $(document).ready(function () {
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 
@@ -152,6 +152,7 @@ function initServerFeatures() {
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
     $('[data-toggle="popover"]').popover({html: true});
+
     $('[data-toggle="tooltip"]').tooltip()
 
     initdateTimePicker('.flatpickr');
