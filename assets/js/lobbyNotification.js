@@ -82,7 +82,10 @@ function endMeeting(data){
             window.location.href = data.url;
         }, data.timeout)
     }else {
-        window.close();
+        setTimeout(function () {
+            window.close();
+        }, 2000)
+
     }
 }
 

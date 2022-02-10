@@ -96,12 +96,12 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendEndMeeting($topic, $url,$timeout=1000)
+    public function sendEndMeeting($topic, $url, $timeout=1000)
     {
         $data = array(
             'type' => 'endMeeting',
             'url' => $url,
-            'timeout' => $timeout,
+            'timeout' => $timeout
         );
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
