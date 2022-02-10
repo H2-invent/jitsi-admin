@@ -83,7 +83,8 @@
                                         <a class="btn-sm btn-floating directSendWithConfirm {% if roomPermissions(user,room).lobbyModerator == true %}btn-success{% endif %}"
                                            href="{{ path('room_add_lobby_moderator',{'room':room.id,'user':user.id}) }}"
                                            data-text="
-{% if roomPermissions(user,room).privateMessage == false %}{{ 'addParticipants.lobbyModerator.add'|trans }}
+{% if roomPermissions(user,room).lobbyModerator == false %}
+{{ 'addParticipants.lobbyModerator.add'|trans }}
 {% else %}
 {{ 'addParticipants.lobbyModerator.remove'|trans }}
 {% endif %}
