@@ -13,6 +13,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
 use App\Entity\User;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use phpDocumentor\Reflection\Types\This;
@@ -95,7 +96,7 @@ class RoomService
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $url = $url . '?jwt=' . $token;
         }
-        $url =  $url . '#config.subject=%22' . $room->getName() . '%22';
+        $url =  $url . '#config.subject=%22' . UtilsHelper::slugify($room->getName()). '%22';
         return $url;
     }
     public function genereateJwtPayload($userName, Rooms $room, Server  $server, $moderator, RoomsUser $roomUser = null){
