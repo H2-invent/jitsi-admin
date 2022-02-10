@@ -12,7 +12,7 @@ function refreshDashboard() {
     var $id1 = '#ex1-tabs-1';
     var $id2 = '#ex1-tabs-2';
     var $id3 = '#ex1-tabs-3';
-
+    var $id4 = '#favorite-Container';
     $div1.load(refreshUrl, function (data, statusTxt) {
         if (statusTxt === "error") {
             window.location.reload();
@@ -31,6 +31,10 @@ function refreshDashboard() {
             if ($($id3).contents().text() !== $(data).find($id3).contents().text()) {
                 console.log('1.9');
                 $($id3).html($(data).find($id3).contents());
+            }
+            if ($($id4).contents().text() !== $(data).find($id4).contents().text()) {
+                console.log('1.10');
+                $($id4).html($(data).find($id4).contents());
             }
             $('[data-toggle="popover"]').popover({html: true});
         }

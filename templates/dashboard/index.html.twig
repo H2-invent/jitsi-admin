@@ -4,15 +4,18 @@
 
 {% endblock %}
  {% block sidebar %}
-     <h5 class="text-center">{{ 'favorite.sidebar.title'|trans }}</h5>
-     <hr>
-     {% if app.user.favorites|length > 0 %}
-         {% for r in app.user.favorites %}
-             {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
-         {% endfor %}
-     {% else %}
-        <p>{% trans %}favorite.sidebar.help{% endtrans %}</p>
-     {% endif %}
+     <div id="favorite-Container">
+         <h5 class="text-center">{{ 'favorite.sidebar.title'|trans }}</h5>
+         <hr>
+         {% if app.user.favorites|length > 0 %}
+             {% for r in app.user.favorites %}
+                 {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
+             {% endfor %}
+         {% else %}
+             <p>{% trans %}favorite.sidebar.help{% endtrans %}</p>
+         {% endif %}
+     </div>
+
  {% endblock %}
 
 {% block body %}
