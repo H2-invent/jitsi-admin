@@ -158,7 +158,7 @@ class LobbyModeratorController extends AbstractController
                $this->renderView('lobby_participants/endMeeting.html.twig',array('url'=> $this->generateUrl('index')))
                );
 
-                $this->directSend->sendRedirect(
+                $this->directSend->sendEndMeeting(
                     'lobby_broadcast_websocket/' . $room->getUidReal(),
                     $this->generateUrl('index'),
                     $this->parameterBag->get('laf_lobby_popUpDuration')

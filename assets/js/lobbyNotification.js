@@ -25,7 +25,7 @@ function masterNotify(data) {
     } else if (data.type === 'newJitsi') {
 
     } else if (data.type === 'endMeeting') {
-        window.location.href = data.forwardUrl;
+        endMeeting(data)
     } else if (data.type === 'reload') {
         setTimeout(function () {
             location.reload();
@@ -76,6 +76,15 @@ function refresh(data) {
     });
 }
 
+function endMeeting(data){
+    if(window.opener == null){
+        setTimeout(function () {
+            window.location.href = data.url;
+        }, data.timeout)
+    }else {
+        window.close();
+    }
+}
 
 function loadModal(data) {
     $('#loadContentModal').html(data.content).modal('show');

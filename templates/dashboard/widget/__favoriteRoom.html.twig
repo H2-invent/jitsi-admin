@@ -32,22 +32,22 @@
                        aria-expanded="false"><i class="fa fa-play"></i></a>
 
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'b'}) }}"
+                        <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" rel=opener
                            target="_blank">{{ 'Im Browser'|trans }}</a>
-                        <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'a'}) }}"
+                        <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" rel=opener
                            target="_blank">{{ 'In der App'|trans }}</a>
                     </div>
 
-                    <a class="btn btn-outline-primary bt-sm  d-lg-none"
+                    <a class="btn btn-outline-primary bt-sm  d-lg-none" rel=opener
                        href="{{ path('room_join',{'t':'b','room':room.id}) }}"
                        target="_blank"><i class="fa fa-play"></i></a>
 
                 {% elseif start_dropdown_allow_app == 1 %}
-                    <a class="btn btn-outline-primary dropdown-toggle btn-sm"
+                    <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
                        href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank"><i
                                 class="fa fa-play"></i></a>
                 {% elseif start_dropdown_allow_browser == 1 %}
-                    <a class="btn btn-outline-primary dropdown-toggle btn-sm"
+                    <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
                        href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank"><i
                                 class="fa fa-play"></i></a>
                 {% endif %}

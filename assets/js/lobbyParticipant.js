@@ -73,6 +73,4 @@ function initJitsiMeet(data) {
     $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
 }
 
-// window.addEventListener("beforeunload", function(event) {
-//     $.get(removeUrl)
-// });
+

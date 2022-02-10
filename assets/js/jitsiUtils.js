@@ -21,10 +21,6 @@ function initJitsi(options, domain) {
     api.addListener('readyToClose', function (e) {
         endMeeting();
     })
-    api.addListener('readyToClose',function (e) {
-        api.dispose();
-        window.location.href = '/';
-    })
     api.addListener('videoConferenceJoined',function (e) {
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
