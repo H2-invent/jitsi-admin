@@ -4,6 +4,8 @@ namespace App\Tests;
 
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use App\Service\RoomService;
+use App\UtilsHelper;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class JoinControllerTest extends WebTestCase
@@ -33,6 +35,9 @@ class JoinControllerTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/join/a/'.$room->getId());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        self::assertTrue($client->getResponse()->isRedirect('jitsi-meet://meet.jit.si2/123456781?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIn19LCJtb2RlcmF0b3IiOnRydWV9.rgoK2HJlevbuRz1M3cIrkmJSARhQ6addjyaBG6zP4qU#config.subject=%22TestMeeting: 1%22'));
+        $jwtFactory = self::getContainer()->get(RoomService::class);
+        $jwt = $jwtFactory->generateJwt($room,$testUser,'User, Test, test@local.de');
+        $slugyfy= UtilsHelper::slugify($room->getName());
+        self::assertTrue($client->getResponse()->isRedirect('jitsi-meet://'.$room->getServer()->getUrl().'/'.$room->getUid().'?jwt='.$jwt.'#config.subject=%22'.$slugyfy.'%22'));
     }
 }

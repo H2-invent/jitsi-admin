@@ -1,6 +1,6 @@
-$main-color: rgb(0, 88, 176);
-$main-color-hover: rgb(0, 158, 251);
-$main-color-activ: rgb(179, 230, 255);
+$main-color: #2ea44f ;
+$main-color-hover: lighten($main-color ,10%);
+$main-color-activ: darken($main-color ,10%);
 $sec-color: rgb(245, 26, 32);
 $sec-color-hover: rgb(201, 2, 0);
 $sec-color-activ: rgb(244, 105, 104);

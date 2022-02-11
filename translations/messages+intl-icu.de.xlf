@@ -1191,7 +1191,7 @@
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
-        <target state="translated">Bitte Zeitzone ändern</target>
+        <target state="translated">Zeitzone ändern</target>
       </trans-unit>
       <trans-unit id="Dy7C0FG" resname="Erstellt in Zeitzone">
         <source>Erstellt in Zeitzone</source>

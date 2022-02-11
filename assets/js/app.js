@@ -62,9 +62,11 @@ $( window ).resize(function() {
 })
 
 $(document).ready(function () {
+    $('.nav-tabs').each(function (e) {
+        $(this).append('<span class="underline"></span>')
+    })
     $('.underline').each(function (e) {
         var ele = $(this);
-
         ele.width(ele.closest('.nav-tabs').find('.active').closest('.nav-item').width());
         ele.css('left',ele.closest('.nav-tabs').find('.active').closest('.nav-item').position().left);
     })

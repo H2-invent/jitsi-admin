@@ -284,7 +284,7 @@ strong {
     height: 50px;
     width: 50px;
     position: absolute;
-    background-color: #2ea44f;
+    background-color: $main-color;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -435,7 +435,7 @@ strong {
   .underline {
     position: absolute;
     height: fit-content;
-    border-bottom: solid 3px #2ea44f;
+    border-bottom: solid 3px $main-color;
     bottom: 0;
     transition: left .5s ease;
     -webkit-transition: left .5s ease;
@@ -464,7 +464,7 @@ strong {
     &.active {
       border: none;
       background-color: unset;
-      color: #2ea44f !important;
+      color: $main-color !important;
       border-radius: 1px;
     }
 
@@ -523,5 +523,26 @@ strong {
       flex-grow: 1;
       overflow: auto;
     }
+  }
+}
+.btn-primary,.btn-primary.dropdown-toggle{
+  background-color: $main-color !important;
+  &:hover{
+    background-color: $main-color-hover !important;
+  }
+}
+.show>.btn-primary.dropdown-toggle{
+  background-color: $main-color-activ!important;
+}
+.show>.btn-outline-primary.dropdown-toggle{
+  border-color: $main-color-activ!important;
+  color: $main-color-activ!important;
+}
+.btn-outline-primary{
+  border-color: $main-color !important;
+  color: $main-color !important;
+  &:hover{
+    border-color: $main-color-hover !important;
+    color: $main-color-hover !important;
   }
 }
