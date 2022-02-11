@@ -770,8 +770,8 @@
         <target>Neue Terminplanung erstellen</target>
       </trans-unit>
       <trans-unit id="LH_3egJ" resname="Einen Termin finden">
-        <source>Einen Termin finden</source>
-        <target>Einen Termin finden</target>
+        <source>Terminumfrage</source>
+        <target>Terminumfrage</target>
       </trans-unit>
       <trans-unit id="_TZrqNN" resname="Terminplanung abgesagt">
         <source>Terminplanung abgesagt</source>

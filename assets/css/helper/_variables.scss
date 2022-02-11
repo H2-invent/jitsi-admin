@@ -1,4 +1,4 @@
-$main-color: #2ea44f ;
+$main-color: #2561ef;
 $main-color-hover: lighten($main-color ,10%);
 $main-color-activ: darken($main-color ,10%);
 $sec-color: rgb(245, 26, 32);
@@ -15,7 +15,7 @@ $black_navbar: #161b22;
 $black_font-color:#c9d1d9;
 $black_modal: #202529;
 $black_link-color: #58a6ff;
-$btn-primary: #2ea44f;
+$btn-primary: $main-color;
 $black_background : #0d1117;
 $black_background_active : #2d3443;
 $black_navbar: #161b22;

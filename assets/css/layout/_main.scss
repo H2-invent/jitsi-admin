@@ -75,6 +75,10 @@ a {
 .btn-dashboard {
   background-color: $btn-primary !important;
   border: none !important;
+  p{
+    color: $contrast-extra-light;
+
+  }
 }
 
 .btn-outline-dashboard {
@@ -545,4 +549,7 @@ strong {
     border-color: $main-color-hover !important;
     color: $main-color-hover !important;
   }
+}
+.light-blue.darken-3 {
+  background-color: $main-color !important;
 }

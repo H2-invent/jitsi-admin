@@ -73,10 +73,7 @@ label {
   color: $black_font-color;
 }
 
-.light-blue.darken-3 {
-  background-color: $black_modal_header !important;
-  color: $black_font-color;
-}
+
 
 .modal-header {
   background-color: $black_modal_header !important;
@@ -106,9 +103,6 @@ a {
   }
 }
 
-.dashboardBtn p {
-  color: white;
-}
 
 .dashboardBtn:hover {
   text-decoration: none;
