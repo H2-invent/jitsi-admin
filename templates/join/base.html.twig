@@ -39,17 +39,33 @@
     <div class="window" id="window">
         <div class="navigation z-depth-1">
             <a href="{{ path('index') }}">
-                {% if theme %}
-                    <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
-                         style="height: 50px; width: auto">
-                    <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo"
-                         style="height: 50px; width: auto">
-                {% else %}
-                    <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
-                         style="height: 50px; width: auto">
-                    <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
-                         style="height: 50px; width: auto">
-                {% endif %}
+                <img class="d-none d-sm-block" src="
+                    {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo.png') }}
+                            {% else %}
+                                {{ theme.logo }}
+                            {% endif %}
+
+                        {% endif %}"
+                     alt="Logo"
+                     style="height: 50px; width: auto">
+                <img class="d-block d-sm-none" src="
+                        {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo_small.png') }}
+                            {% else %}
+                                {{ theme.logo }}
+                            {% endif %}
+
+                        {% endif %}
+                    "
+                     alt="Logo"
+                     style="height: 50px; width: auto">
 
             </a>
             {% if theme != false %}
@@ -139,7 +155,8 @@
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
-    {% if app.request.cookies.get('DARK_MODE') ==""  %}
+
+    {% if app.request is not null and app.request.cookies.get('DARK_MODE') ==""  %}
 
     function getCookie(cname) {
         let name = cname + "=";
@@ -165,6 +182,7 @@
         setCookie('DARK_MODE', {{ laf_darkmodeAsDefault }},700);
         location.reload();
     {% endif %}
+
 </script>
 {% block script %}
 {% endblock %}
