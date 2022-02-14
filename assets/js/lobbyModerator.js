@@ -16,6 +16,8 @@ import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import {initJitsi} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
+import {initGenerell} from './init';
+
 var jitsiApi;
 navigator.mediaDevices.getUserMedia({audio: true, video: true})
 initNotofication();
@@ -67,6 +69,8 @@ function moveWrapper() {
 }
 
 initCircle();
-
+$(document).ready(function () {
+    initGenerell()
+})
 
 

@@ -43,3 +43,43 @@ strong {
     border-radius: 5000px!important;
   }
 }
+.window{
+  grid-template-columns: auto ;
+  background-color: unset;
+  .main{
+    position: relative;
+    .imageBackground{
+      position: absolute;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+      background-position: center;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+
+  }
+  .navigation{
+    grid-column: unset;
+  }
+  .footer{
+    grid-column: unset;
+  }
+}
+
+@supports (-webkit-appearance:none) {
+  .frozenGlas {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+  }
+}
+
+@supports (-moz-appearance:none) {
+  .frozenGlas {
+    background-color: white;
+
+  }
+}

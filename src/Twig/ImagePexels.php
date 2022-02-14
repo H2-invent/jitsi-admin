@@ -42,6 +42,7 @@ class ImagePexels extends AbstractExtension
     }
     public function pexelsImage()
     {
+
        return $this->pexelsService->getImageFromPexels();
     }
 

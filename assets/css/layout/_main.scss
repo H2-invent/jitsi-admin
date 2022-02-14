@@ -272,6 +272,7 @@ strong {
 
 .window {
   display: grid;
+  background-color: #f3f3f3;
   @media only screen and (min-width: 1502px) {
     grid-column-gap: 18px;
   }
@@ -282,7 +283,7 @@ strong {
   left: 0;
   grid-template-columns: auto 4fr;
   grid-template-rows: min-content auto min-content;
-  background-color: #f3f3f3;
+
 
   .sidebarToggle {
     height: 50px;
@@ -314,6 +315,7 @@ strong {
     padding-bottom: 8px;
     background-color: white;
     height: fit-content;
+
   }
 
   .footer {

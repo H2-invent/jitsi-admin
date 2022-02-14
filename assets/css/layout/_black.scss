@@ -1,3 +1,7 @@
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
+
 .window {
   background-color: $black_background;
 }
@@ -24,7 +28,17 @@ p {
 }
 
 .navigation {
-  background-color: #c5c5c5 !important;
+  background-color: $black_font-color !important;
+
+  .custom-control {
+    .brightmode {
+      color: black;
+    }
+
+    label {
+      color: black;
+    }
+  }
 }
 
 .nav-tabs .nav-link {
@@ -74,7 +88,6 @@ label {
 }
 
 
-
 .modal-header {
   background-color: $black_modal_header !important;
   color: $black_font-color;
@@ -98,7 +111,7 @@ a {
   color: $black_link-color;
 
   &:hover {
-    color: darken($black_link-color,10%);
+    color: darken($black_link-color, 10%);
     text-decoration: none;
   }
 }
@@ -138,6 +151,7 @@ a {
   border: 1px solid #c9d1d9 !important;
 }
 
+
 .brightmode {
   color: $black_font-color;
 }
@@ -172,36 +186,42 @@ a {
 }
 
 .dudp__calendar {
-  .dudp__date{
-    color: white!important;
+  .dudp__date {
+    color: white !important;
   }
 
   .disabled {
-    color: grey!important;
+    color: grey !important;
   }
 
   .dudp__nm {
-    color: lightgray!important;
+    color: lightgray !important;
   }
-  .dudp__cal-month-year, .dudp__btn-cal-next, .dudp__btn-cal-prev{
+
+  .dudp__cal-month-year, .dudp__btn-cal-next, .dudp__btn-cal-prev {
     color: lightgray;
   }
 }
-.dudp__btn-cal-next, .dudp__btn-cal-prev{
+
+.dudp__btn-cal-next, .dudp__btn-cal-prev {
   color: lightgray;
 }
-.dudp__weekdays span{
-  color: lightgray!important;
+
+.dudp__weekdays span {
+  color: lightgray !important;
 }
-.dudp__years-view{
-  background-color: $black_modal!important;
+
+.dudp__years-view {
+  background-color: $black_modal !important;
 }
-.dudp__month, .dudp__year{
+
+.dudp__month, .dudp__year {
   color: lightgray;
 
 }
+
 .dudp__month.selected, .dudp__year.selected {
-  color: white!important;
+  color: white !important;
 }
 
 ::-webkit-scrollbar {
@@ -245,3 +265,14 @@ a {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+.footer {
+  background-color: $black_navbar;
+}
+
+
+.btn[class*="btn-outline-"] {
+  border-color: white !important;
+  color: white !important;
+}
+

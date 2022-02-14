@@ -1,7 +1,7 @@
 import $ from 'jquery';
 global.$ = global.jQuery = $;
 import Push from "push.js";
-
+import {initDarkmodeSwitch} from './switchDarkmode'
 function initGenerell(){
     Push.Permission.request();
     var myVar = setInterval(function () {
@@ -20,5 +20,8 @@ function initGenerell(){
             }
         })
     }, 20000);
+    initDarkmodeSwitch();
 }
+
+
 export {initGenerell}

@@ -73,14 +73,6 @@ $(document).ready(function () {
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
-    $('.switchDarkmode').change(function (e) {
-        var val = 0;
-        if ($(this).prop('checked')) {
-            val = 1
-        }
-        setCookie('DARK_MODE', val, 365);
-        window.location.reload();
-    })
     setTimeout(function () {
         $('#snackbar').addClass('show').click(function (e) {
             $('#snackbar').removeClass('show');

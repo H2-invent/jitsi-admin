@@ -1,0 +1,60 @@
+
+    <div class="row  mt-5">
+        <div class="col-12   ">
+            <div class="card  card-body">
+                <div class="row ">
+                    <div class="col-lg-4 footerContent">
+                        {% if theme == false %}
+                            {% if server is defined and  server is not null and server|validateLicense %}
+                            {% else %}
+                                <a href="https://jitsi-admin.de" target="_blank"><img
+                                            src="{{ asset('logo.png') }}"></a>
+                            {% endif %}
+                        {% else %}
+                            <img src="{{ theme.logo }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-4 footerContent">
+
+                        <p class="small text-center">
+                            {% if theme != false %}
+                                {% if theme.footerGdprEnable == true %}
+                                    <a class="nav-link" target="_blank"
+                                       referrerpolicy="no-referrer"
+                                       href="{{ dataPrivacy }}">{{ theme.footerGdprText }}</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{{ dataPrivacy }}" target="_blank"
+                                >{{ 'Datenschutzhinweis'|trans }}</a><br>
+                            {% endif %}
+
+                            {% if theme is not defined or theme == false %}
+                                <a href="https://jitsi-admin.de" target="_blank">Powered by
+                                    Jitsi
+                                    Admin</a><br>
+                            {% endif %}
+                            {% if matomo_enable == 'true' %}
+                                <a href="#" data-toggle="modal" data-target="#exampleModal">
+                                    Matomo Opt-out
+                                </a><br>
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% if theme is not defined or theme == false %}
+                        <div class="col-lg-4 footerContent">
+
+                            <a href="https://github.com/H2-invent/jitsi-admin/blob/master/LICENSE"
+                               target="_blank"
+                               referrerpolicy="no-referrer" rel="noopener">
+                                <img src="{{ asset('images/agpl.png') }}"></a>
+                            <a href="https://opensource.org/" referrerpolicy="no-referrer"
+                               rel="noopener">
+                                <img src="{{ asset('images/open-source-logo.png') }}"></a>
+
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+

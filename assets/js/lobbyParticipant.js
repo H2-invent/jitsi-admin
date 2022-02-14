@@ -15,10 +15,13 @@ import {initWebcam, choosenId,stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
+import {initGenerell} from './init';
+
 initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+
 const es = new EventSource(topic);
 es.onmessage = e => {
     var data = JSON.parse(e.data)
@@ -72,5 +75,8 @@ function initJitsiMeet(data) {
     document.title = data.options.roomName
     $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
 }
+$(document).ready(function () {
+    initGenerell()
+})
 
 

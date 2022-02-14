@@ -12,7 +12,9 @@ global.$ = global.jQuery = $;
 import('mdbootstrap');
 import {initSchedulePublic} from './scheduling'
 
+import {initGenerell} from './init';
 $(document).ready(function () {
+    initGenerell()
     var domain =
         setTimeout(function () {
             $('#snackbar').addClass('show');
