@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import stc from "string-to-color";
-
+import {setSnackbar} from './myToastr'
 global.$ = global.jQuery = $;
 
 function initCircle(){
@@ -10,9 +10,8 @@ function initCircle(){
     $('.senddirect').click(function (e) {
         e.preventDefault();
         $.get($(this).attr('href'), function (data) {
-            $('#snackbar').text(data.message).removeClass('d-none').addClass('show bg-' + data.color).click(function (e) {
-                $('#snackbar').removeClass('show');
-            })
+            setSnackbar(data.message,data.color);
+
         })
     })
 }

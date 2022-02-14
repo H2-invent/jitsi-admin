@@ -64,13 +64,14 @@ $('.leave').click(function (e) {
 })
 
 function initJitsiMeet(data) {
+    console.log('1.2');
     stopWebcam();
     var options =data.options.options;
     options.device = choosenId;
     options.parentNode = document.querySelector( data.options.parentNode);
     const api = new JitsiMeetExternalAPI(data.options.domain, options);
     $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
-    $('#content').remove();
+    $('#window').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName
     $('body').append('<div id="snackbar" class="bg-success d-none"></div>')

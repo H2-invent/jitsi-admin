@@ -275,4 +275,18 @@ a {
   border-color: white !important;
   color: white !important;
 }
-
+.dropdown-item {
+  color: white!important;
+  &:hover{
+    color: $black_background!important;
+  }
+}
+.dragger{
+  color: black;
+}
+#col-waitinglist{
+  background-color: $black_background!important;
+  .card{
+    background-color: $black_modal!important;
+  }
+}
