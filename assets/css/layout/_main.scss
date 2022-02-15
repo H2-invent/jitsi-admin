@@ -439,12 +439,14 @@ strong {
   position: relative;
 
   .underline {
+    width: 100%;
     position: absolute;
+    transform-origin: left center;
     height: fit-content;
     border-bottom: solid 3px $main-color;
     bottom: 0;
-    transition: left .5s ease;
-    -webkit-transition: left .5s ease;
+    transition: transform .2s ease;
+    -webkit-transition: transform .2s ease;
   }
 
   .nav-item {
@@ -480,7 +482,7 @@ strong {
 
     &:hover {
       border: none;
-      color: inherit;
+      color: $main-color !important;
     }
   }
 }

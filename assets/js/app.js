@@ -26,8 +26,9 @@ import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
-import {attach,init} from 'node-waves'
-import { createPopper } from '@popperjs/core';
+import {attach, init} from 'node-waves'
+import {createPopper} from '@popperjs/core';
+import {initTabs} from './tabHelper'
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -52,24 +53,12 @@ addEventListener('load', function () {
 
     }
 });
-$( window ).resize(function() {
-    $('.underline').each(function (e) {
-        var ele = $(this);
-
-        ele.width(ele.closest('.nav-tabs').find('.active').closest('.nav-item').width());
-        ele.css('left',ele.closest('.nav-tabs').find('.active').closest('.nav-item').position().left);
-    })
-})
 
 $(document).ready(function () {
     $('.nav-tabs').each(function (e) {
         $(this).append('<span class="underline"></span>')
     })
-    $('.underline').each(function (e) {
-        var ele = $(this);
-        ele.width(ele.closest('.nav-tabs').find('.active').closest('.nav-item').width());
-        ele.css('left',ele.closest('.nav-tabs').find('.active').closest('.nav-item').position().left);
-    })
+   initTabs();
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
@@ -341,8 +330,3 @@ $('.sidebarToggle').click(function () {
     $('#main').toggleClass('d-none');
 
 })
-$('.nav-item').click(function () {
-    var ele = $(this);
-    ele.closest('.nav-tabs').find('.underline').width(ele.width()).css('left', ele.position().left);
-})
-
