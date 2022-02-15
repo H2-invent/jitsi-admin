@@ -468,18 +468,15 @@ strong {
   .nav-link {
     border: none;
     transition: color .5s;
-
     &.active {
       border: none;
       background-color: unset;
-      color: $main-color !important;
+      color: $main-color;
       border-radius: 1px;
     }
-
     &:focus-visible {
       border: none;
     }
-
     &:hover {
       border: none;
       color: $main-color ;
