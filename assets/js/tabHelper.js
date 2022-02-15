@@ -49,7 +49,8 @@ function initalSetUnderline() {
 
         var leftAtfter = newLeft / parentwidth * 100;
         var widthAfter = ele.width() / parentwidth;
-        parent.find('.underline').css('transform', 'translateX(' + leftAtfter + '%) scaleX(' + widthAfter + ')');
+        parent.find('.underline').css('transform', 'translateX(' + leftAtfter + '%) scaleX(' + widthAfter + ')').css('display','block');
+
     })
 }
 export {initTabs}
