@@ -36,7 +36,7 @@ function initTabs() {
         var widthAfter = eleWidth / parentwidth;
         setTimeout(function () {
             parent.find('.underline').css('transform', 'translateX(' + leftAtfter + '%) scaleX(' + widthAfter + ')');
-        }, 250);
+        }, 180);
     })
 }
 
