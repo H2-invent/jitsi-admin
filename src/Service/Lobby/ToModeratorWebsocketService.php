@@ -50,6 +50,15 @@ class ToModeratorWebsocketService
         );
         $topic ='lobby_moderator/'.$room->getUidReal();
         $this->directSend->sendBrowserNotification($topic,$title ,$message);
+        foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data){
+            if($data->getLobbyModerator()){
+                $topic ='personal/'.$data->getUser()->getUid();
+                $this->directSend->sendBrowserNotification($topic,$title, $message);
+            }
+
+        }
+        $topic ='personal/'.$room->getModerator()->getUid();
+        $this->directSend->sendBrowserNotification($topic,$title, $message);
     }
 
 

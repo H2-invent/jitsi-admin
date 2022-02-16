@@ -29,6 +29,7 @@ import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
 import {createPopper} from '@popperjs/core';
 import {initTabs} from './tabHelper'
+import {initDashboardnotification} from './dashBoardNotification'
 $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -62,6 +63,7 @@ $(document).ready(function () {
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
+    initDashboardnotification(topic);
     setTimeout(function () {
         $('#snackbar').addClass('show').click(function (e) {
             $('#snackbar').removeClass('show');

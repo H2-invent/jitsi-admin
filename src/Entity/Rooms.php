@@ -893,4 +893,5 @@ class Rooms
 
         return $this;
     }
+
 }
