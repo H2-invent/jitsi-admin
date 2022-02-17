@@ -411,9 +411,7 @@ strong {
   border-radius: 50px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
-}
+
 
 ::-webkit-scrollbar-thumb:active {
   background: #000000;
@@ -425,9 +423,7 @@ strong {
   border-radius: 50px;
 }
 
-::-webkit-scrollbar-track:hover {
-  background: #666666;
-}
+
 
 ::-webkit-scrollbar-track:active {
   background: #333333;
@@ -579,7 +575,7 @@ strong {
   .tab-pane {
     opacity: 1 !important;
     display: block;
-    transition: transform .25s linear;
+    transition: transform .35s ease;
   }
   .tab-content-watch {
     padding: 5px;
@@ -594,6 +590,7 @@ strong {
     flex-grow: 1;
     &.active{
       position: relative;
+      z-index: 2;
     }
     &:nth-child(n+2){
       .tab-pane{
