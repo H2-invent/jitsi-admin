@@ -17,7 +17,7 @@ class MigrateTimeZoneCommand extends Command
     protected static $defaultDescription = 'This command creates a UTC Time from the local start time. This command ist only one time important when you migrate to version ^0.71.xx';
     private $em;
 
-    public function __construct(string $name = null, EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

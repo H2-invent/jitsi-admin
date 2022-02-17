@@ -14,7 +14,7 @@ class CronSendReminderCommand extends Command
 {
     protected static $defaultName = 'app:cron:sendReminder';
     private $reminderService;
-    public function __construct(string $name = null, ReminderService $reminderService)
+    public function __construct( ReminderService $reminderService, string $name = null)
     {
         parent::__construct($name);
         $this->reminderService = $reminderService;

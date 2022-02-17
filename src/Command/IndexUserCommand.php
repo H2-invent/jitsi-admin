@@ -24,7 +24,7 @@ class IndexUserCommand extends Command
 
     }
 
-    public function __construct(string $name = null, EntityManagerInterface $entityManager, IndexUserService $indexUserService)
+    public function __construct( EntityManagerInterface $entityManager, IndexUserService $indexUserService, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
