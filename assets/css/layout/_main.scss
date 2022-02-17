@@ -75,7 +75,8 @@ a {
 .btn-dashboard {
   background-color: $btn-primary !important;
   border: none !important;
-  p{
+
+  p {
     color: $contrast-extra-light;
 
   }
@@ -336,6 +337,7 @@ strong {
       padding-top: 16px;
       padding-bottom: 16px;
       overflow-y: auto;
+      flex-grow: 1;
     }
 
     .sidebarToggle {
@@ -469,18 +471,21 @@ strong {
   .nav-link {
     border: none;
     transition: color .5s;
+
     &.active {
       border: none;
       background-color: unset;
       color: $main-color;
       border-radius: 1px;
     }
+
     &:focus-visible {
       border: none;
     }
+
     &:hover {
       border: none;
-      color: $main-color ;
+      color: $main-color;
     }
   }
 }
@@ -525,33 +530,76 @@ strong {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+
     .attendeeScroll {
       flex-grow: 1;
       overflow: auto;
     }
   }
 }
-.btn-primary,.btn-primary.dropdown-toggle{
+
+.btn-primary, .btn-primary.dropdown-toggle {
   background-color: $main-color !important;
-  &:hover{
+
+  &:hover {
     background-color: $main-color-hover !important;
   }
 }
-.show>.btn-primary.dropdown-toggle{
-  background-color: $main-color-activ!important;
+
+.show > .btn-primary.dropdown-toggle {
+  background-color: $main-color-activ !important;
 }
-.show>.btn-outline-primary.dropdown-toggle{
-  border-color: $main-color-activ!important;
-  color: $main-color-activ!important;
+
+.show > .btn-outline-primary.dropdown-toggle {
+  border-color: $main-color-activ !important;
+  color: $main-color-activ !important;
 }
-.btn-outline-primary{
+
+.btn-outline-primary {
   border-color: $main-color !important;
   color: $main-color !important;
-  &:hover{
+
+  &:hover {
     border-color: $main-color-hover !important;
     color: $main-color-hover !important;
   }
 }
+
 .light-blue.darken-3 {
   background-color: $main-color !important;
+}
+
+.tab-content {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  flex-basis: 100%;
+  overflow: hidden;
+  transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
+  .tab-pane {
+    opacity: 1 !important;
+    display: block;
+  }
+  .tab-content-watch {
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: left center;
+    display: block !important;
+    opacity: 1;
+    width: 100%;
+    flex-basis: 100%;
+    flex-grow: 1;
+    &.active{
+      position: relative;
+    }
+    &:nth-child(n+2){
+      .tab-pane{
+        transform: translateX(110%);
+        transition: transform .18s ease;
+      }
+    }
+  }
+
 }

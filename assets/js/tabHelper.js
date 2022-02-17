@@ -13,11 +13,8 @@ function initTabs() {
         var eleOld = parent.find('.active').closest('.nav-item');
         var parentwidth = parent.width();
         var eleWidth = ele.width();
-
-
         var oldRight = eleOld.position().left + eleOld.width();
         var oldLeft = eleOld.position().left;
-
         var newRight = ele.position().left + ele.width();
         var newLeft = ele.position().left;
         var oldWidth = ele.width();
@@ -25,8 +22,9 @@ function initTabs() {
         if (oldLeft < newLeft) {
             tmpWidth = newRight - oldLeft;
         }
+        var direction = newLeft < oldLeft? 1 : 0;
 
-        if (newLeft < oldLeft) {//we move to the left
+        if (direction === 1) {//we move to the left
             parent.find('.underline').css('transform', 'translateX(' + newLeft / parentwidth * 100 + '%) scaleX(' + tmpWidth / parentwidth + ')');
         } else {
             parent.find('.underline').css('transform', 'translateX(' + oldLeft / parentwidth * 100 + '%) scaleX(' + tmpWidth / parentwidth + ')');
@@ -37,7 +35,39 @@ function initTabs() {
         setTimeout(function () {
             parent.find('.underline').css('transform', 'translateX(' + leftAtfter + '%) scaleX(' + widthAfter + ')');
         }, 180);
+
+        changeTabContent( ele.find('a').attr('href'),direction);
     })
+
+    $('.dropdownTabToggle').click(function (e) {
+        e.preventDefault();
+        var $ele = $(this);
+        var $target = $ele.attr('href');
+        changeTabContent($($target).attr('href'),1);
+        $ele.closest('.dropdown-menu').find('.dropdown-item').each(function () {
+            $(this).removeClass('active');
+        })
+        $ele.addClass('active');
+    })
+}
+
+
+
+
+function changeTabContent(href,direction = 1) {
+    console.log(href);
+    var target = $(href);
+    var oldEle =  target.closest('.tab-content').find('.active')
+
+    if (direction === 1) {//we move to the left
+        oldEle.find('.tab-pane').css('transform', 'translateX(110%)');
+    } else {
+        oldEle.find('.tab-pane').css('transform', 'translateX(-110%)');
+    }
+    oldEle.removeClass('active');
+    target.closest('.tab-content-watch').addClass('active');
+    target.css('transform', 'translateX(0%)');
+    target.closest('.tab-content-watch').addClass('active');
 }
 
 function initalSetUnderline() {
@@ -49,9 +79,10 @@ function initalSetUnderline() {
 
         var leftAtfter = newLeft / parentwidth * 100;
         var widthAfter = ele.width() / parentwidth;
-        parent.find('.underline').css('transform', 'translateX(' + leftAtfter + '%) scaleX(' + widthAfter + ')').css('display','block');
+        parent.find('.underline').css('transform', 'translateX(' + leftAtfter + '%) scaleX(' + widthAfter + ')').css('display', 'block');
 
     })
 }
+
 export {initTabs}
 

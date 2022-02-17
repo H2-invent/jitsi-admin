@@ -77,7 +77,6 @@ $(document).ready(function () {
         h2Button.initNotification(notificationUrl);
     }
     initGenerell();
-    initDropDown();
     initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
     initAjaxSend(confirmTitle, confirmCancel, confirmOk);
@@ -259,19 +258,7 @@ $('#ex1-tab-3-tab').on('shown.bs.tab', function (e) {
 
 })
 
-function initDropDown() {
-    $('.dropdownTabToggle').click(function (e) {
-        e.preventDefault();
-        var $ele = $(this);
-        var $target = $ele.attr('href');
-        $($target).tab('show');
-        $ele.closest('.tabDropdown').find('button').text($ele.text());
-        $ele.closest('.dropdown-menu').find('.active').removeClass('active');
-        $ele.addClass('active');
-    })
 
-
-}
 
 function getMoreFeature(id) {
     if (typeof id !== 'undefined') {
