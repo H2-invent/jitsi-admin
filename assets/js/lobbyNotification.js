@@ -5,12 +5,14 @@ import Push from "push.js";
 import {initCircle} from './initCircle'
 import notificationSound from '../sound/notification.mp3'
 import {setSnackbar} from './myToastr';
+import {TabUtils} from './tabBroadcast'
 
 function initNotofication() {
     Push.Permission.request();
 }
 
 function masterNotify(data) {
+
     Push.Permission.request();
     if (data.type === 'notification') {
         notifymoderator(data)
@@ -38,18 +40,12 @@ function masterNotify(data) {
 
 function notifymoderator(data) {
     var audio = new Audio(notificationSound);
-    audio.play();
-    if (document.hidden) {
-        Push.create(data.title, {
-            body: data.message,
-            icon: '/favicon.ico',
-            onClick: function (ele) {
-                window.focus();
-                this.close();
-            }
-        });
-    }
+    TabUtils.lockFunction('audio'+data.messageId,function (){audio.play()},3000);
+
+    showPush(data);
+
     setSnackbar(data.message, 'success');
+
     $('.dragger').addClass('active');
 
     $('#sliderTop')
@@ -76,12 +72,13 @@ function refresh(data) {
     });
 }
 
-function endMeeting(data){
-    if(window.opener == null){
+function endMeeting(data) {
+
+    if (window.opener == null) {
         setTimeout(function () {
             window.location.href = data.url;
         }, data.timeout)
-    }else {
+    } else {
         setTimeout(function () {
             window.close();
         }, 2000)
@@ -103,6 +100,21 @@ function redirect(data) {
 
 function countParts() {
     $('#lobbyCounter').text($('.waitingUserCard').length);
+}
+
+function showPush(data){
+    TabUtils.lockFunction(data.messageId, function () {
+        if (document.hidden) {
+            Push.create(data.title, {
+                body: data.message,
+                icon: '/favicon.ico',
+                onClick: function (ele) {
+                    window.focus();
+                    this.close();
+                }
+            });
+        }
+    },3000)
 }
 
 export {masterNotify, initNotofication}

@@ -41,6 +41,7 @@ class ToModeratorWebsocketService
 
     public function newParticipantInLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
+
         $room = $lobbyWaitungUser->getRoom();
         $title = $this->translator->trans('lobby.notification.newUser.title', array('{name}' => $lobbyWaitungUser->getShowName()));
         $message =  $this->translator->trans('lobby.notification.newUser.message', array(
@@ -50,6 +51,7 @@ class ToModeratorWebsocketService
         );
         $topic ='lobby_moderator/'.$room->getUidReal();
         $this->directSend->sendBrowserNotification($topic,$title ,$message);
+        sleep(1);
         foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data){
             if($data->getLobbyModerator()){
                 $topic ='personal/'.$data->getUser()->getUid();
@@ -60,8 +62,6 @@ class ToModeratorWebsocketService
         $topic ='personal/'.$room->getModerator()->getUid();
         $this->directSend->sendBrowserNotification($topic,$title, $message);
     }
-
-
 
     public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
