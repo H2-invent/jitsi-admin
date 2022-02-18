@@ -10,6 +10,7 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -53,7 +54,7 @@ class UserNewRoomAddService
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}',array('{name}'=>$room->getName()));
         $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
-        $attachement[] = array('type' => 'text/calendar', 'filename' => $room->getName() . '.ics', 'body' => $ics);
+        $attachement[] = array('type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()),0,10) . '.ics', 'body' => $ics);
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room,$attachement);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
