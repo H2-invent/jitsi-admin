@@ -57,7 +57,6 @@ class ToModeratorWebsocketService
                 $topic ='personal/'.$data->getUser()->getUid();
                 $this->directSend->sendBrowserNotification($topic,$title, $message);
             }
-
         }
         $topic ='personal/'.$room->getModerator()->getUid();
         $this->directSend->sendBrowserNotification($topic,$title, $message);
