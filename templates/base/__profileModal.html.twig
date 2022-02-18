@@ -57,6 +57,11 @@
                    href="{{ path('time_zone_change') }}"
                    target="_blank">{% trans %}Zeitzone ändern{% endtrans %}</a>
                 {% endif %}
+                {% if theme == false  or (theme is not null and theme.profileAllowSecondEmail == true  ) %}
+                    <a class="btn btn-primary btn-sm loadContent"
+                       href="{{ path('second_email_change') }}"
+                       target="_blank">{% trans %}Weitere E-Mailadressen{% endtrans %}</a>
+                {% endif %}
             </div>
 
             <div class="modal-footer">

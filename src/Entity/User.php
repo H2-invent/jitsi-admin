@@ -197,6 +197,11 @@ class User extends BaseUser
      */
     private $indexer;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $secondEmail;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -947,6 +952,18 @@ class User extends BaseUser
     public function setIndexer(?string $indexer): self
     {
         $this->indexer = $indexer;
+
+        return $this;
+    }
+
+    public function getSecondEmail(): ?string
+    {
+        return $this->secondEmail;
+    }
+
+    public function setSecondEmail(?string $secondEmail): self
+    {
+        $this->secondEmail = $secondEmail;
 
         return $this;
     }

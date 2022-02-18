@@ -14,7 +14,8 @@ class UtilsHelper
     }
     public static function slugifywithDot($urlString)
     {
-        $slug = preg_replace("/[^a-zA-Z0-9.]/", "", $urlString);
+        $slug = preg_replace("/[^a-zA-Z0-9. ]/", "", $urlString);
+        $slug = preg_replace("/[ ]/", "_", $slug);
         return $slug;
     }
 

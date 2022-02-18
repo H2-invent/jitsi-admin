@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SlugifyTest extends KernelTestCase
 {
-    public function testSomething(): void
+    public function testnoDot(): void
     {
         $kernel = self::bootKernel();
 
@@ -16,5 +16,15 @@ class SlugifyTest extends KernelTestCase
         self::assertEquals('asdf1234',UtilsHelper::slugify('!/")(§äöüasdf!"$§"$&%$1234'));
         self::assertEquals('asdf_1234',UtilsHelper::slugify('!/")(§äöüasdf !"$§"$&%$1234'));
         self::assertEquals('asdf_1234_qwert',UtilsHelper::slugify('!/")(§äöüasdf !"$§"$&%$1234 !&/"%qwert'));
+    }
+    public function testwithDot(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        self::assertEquals('asdf123.4',UtilsHelper::slugifywithDot('asdf!"$§"$&%$123.4'));
+        self::assertEquals('asdf1234',UtilsHelper::slugifywithDot('!/")(§äöüasdf!"$§"$&%$1234'));
+        self::assertEquals('.asdf_1234',UtilsHelper::slugifywithDot('!/")(.§äöüasdf !"$§"$&%$1234'));
+        self::assertEquals('a.sdf_1234_qwert',UtilsHelper::slugifywithDot('!/")(§äöüa.sdf !"$§"$&%$1234 !&/"%qwert'));
     }
 }
