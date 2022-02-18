@@ -112,7 +112,7 @@ class MailerService
             }
         }
         foreach ($attachment as $data) {
-            $message->attach(new \Swift_Attachment($data['body'], UtilsHelper::slugify($data['filename']), $data['type']));
+            $message->attach(new \Swift_Attachment($data['body'], UtilsHelper::slugifywithDot($data['filename']), $data['type']));
         };
 
         try {
