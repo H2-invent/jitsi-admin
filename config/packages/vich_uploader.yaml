@@ -1,0 +1,46 @@
+knp_gaufrette:
+    stream_wrapper: ~
+    adapters:
+        document_adapter:
+            aws_s3:
+                service_id: ct_file_store.s3
+                bucket_name: '%env(AWS_BUCKET_NAME)%'
+                detect_content_type: true
+                options:
+                    create: true
+                    directory: profile
+    filesystems:
+        document_fs:
+            adapter:    document_adapter
+
+vich_uploader:
+    db_driver: orm
+    storage: gaufrette
+    mappings:
+        profile:
+            inject_on_load: true
+            uri_prefix: "%env(AWS_BASE_URL)%/%env(AWS_BUCKET_NAME)%/profile"
+            upload_destination: document_fs
+            delete_on_update: true
+            delete_on_remove: true
+            namer: vich_uploader.namer_uniqid
+
+#vich_uploader:
+#    db_driver: orm
+#    storage:   flysystem
+#    mappings:
+#        profile:
+#            uri_prefix: '%app.path.product_images%'
+#            upload_destination: oneup_flysystem.asset_filesystem12_filesystem
+#            namer: vich_uploader.namer_uniqid
+
+#vich_uploader:
+#    db_driver: orm
+#    storage:   flysystem
+#    mappings:
+#        profile:
+#            uri_prefix: "%env(AWS_BASE_URL)%/%env(AWS_BUCKET_NAME)%/profile"
+#            upload_destination: oneup_flysystem.assets_fs_filesystem
+#            namer: vich_uploader.namer_uniqid
+
+

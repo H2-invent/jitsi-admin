@@ -1,4 +1,10 @@
 {
+    "aws/aws-crt-php": {
+        "version": "v1.0.2"
+    },
+    "aws/aws-sdk-php": {
+        "version": "3.209.27"
+    },
     "cron/cron": {
         "version": "1.5.1"
     },
@@ -141,8 +147,20 @@
     "guzzlehttp/psr7": {
         "version": "1.7.0"
     },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
     "jms/i18n-routing-bundle": {
         "version": "dev-master"
+    },
+    "jms/metadata": {
+        "version": "2.6.1"
+    },
+    "knplabs/gaufrette": {
+        "version": "v0.9.0"
+    },
+    "knplabs/knp-gaufrette-bundle": {
+        "version": "v0.7.1"
     },
     "knpuniversity/oauth2-client-bundle": {
         "version": "1.20",
@@ -174,14 +192,39 @@
     "lcobucci/jwt": {
         "version": "4.0.4"
     },
+    "league/flysystem": {
+        "version": "2.4.3"
+    },
+    "league/flysystem-aws-s3-v3": {
+        "version": "2.4.3"
+    },
+    "league/mime-type-detection": {
+        "version": "1.9.0"
+    },
     "league/oauth2-client": {
         "version": "2.2.1"
+    },
+    "liip/imagine-bundle": {
+        "version": "2.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        },
+        "files": [
+            "./config/packages/liip_imagine.yaml",
+            "./config/routes/liip_imagine.yaml"
+        ]
     },
     "lorenzo/pinky": {
         "version": "1.0.5"
     },
     "monolog/monolog": {
         "version": "1.25.3"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.6.1"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
@@ -194,6 +237,18 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
+    },
+    "oneup/flysystem-bundle": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "3ae1b83985e89138f5443bbc2d9b8c074b497d49"
+        },
+        "files": [
+            "./config/packages/oneup_flysystem.yaml"
+        ]
     },
     "phar-io/manifest": {
         "version": "2.0.1"
@@ -819,6 +874,18 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
+    },
+    "vich/uploader-bundle": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.7",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        },
+        "files": [
+            "./config/packages/vich_uploader.yaml"
+        ]
     },
     "webmozart/assert": {
         "version": "1.8.0"

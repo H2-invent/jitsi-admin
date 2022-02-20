@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\Type\SecondEmailType;
 use App\Form\Type\TimeZoneType;
 use http\Exception\InvalidArgumentException;
@@ -41,13 +42,14 @@ class SecondEmailChangeController extends AbstractController
     public function new(Request $request, TranslatorInterface $translator,LoggerInterface $logger): Response
     {
         $user = $this->getUser();
+
         $form = $this->createForm(SecondEmailType::class, $user, ['action' => $this->generateUrl('second_email_save')]);
         try {
             $form->handleRequest($request);
-            dump($form);
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $user = $form->getData();
-                dump($user);
+
                 if($user->getSecondEmail()){
                     foreach (explode(',',$user->getSecondEmail()) as $data){
                         if(!filter_var(trim($data), FILTER_VALIDATE_EMAIL)){
@@ -55,9 +57,18 @@ class SecondEmailChangeController extends AbstractController
                         }
                     }
                 }
+
+                $user->getProfilePicture()->setUpdatedAt(new \DateTime());
+                $user->setUpdatedAt(new \DateTime());
                 $em = $this->getDOctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
+                $user = $this->getUser();
+                if($user->getProfilePicture() && !$user->getProfilePicture()->getDocumentFileName()){
+                    $user->setProfilePicture(null);
+                    $em->persist($user);
+                    $em->flush();
+                }
             }
         }
         catch (\InvalidArgumentException $exception){

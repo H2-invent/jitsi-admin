@@ -41,11 +41,19 @@
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#sideModalTR">
-            {% if theme != false %}
-                <img src="{{ asset(theme.iconProfile) }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+            {% if app.user.profilePicture %}
+             <div class="iconSytle imageIcon"
+             style="background-image: url('{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}')">
+
+             </div>
             {% else %}
-                <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+                {% if theme != false %}
+                    <img src="{{ asset(theme.iconProfile) }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+                {% else %}
+                    <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+                {% endif %}
             {% endif %}
+
         </a>
 
 

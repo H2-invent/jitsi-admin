@@ -1,18 +1,19 @@
 <?php
-// src/Entity/User.php
-
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\UserBase as BaseUser;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\UserRepository;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Vich\Uploadable()
  */
 class User extends BaseUser
 {
@@ -201,6 +202,19 @@ class User extends BaseUser
      * @ORM\Column(type="text", nullable=true)
      */
     private $secondEmail;
+
+    /**
+     * @var Documents
+     * @ORM\OneToOne(targetEntity=Documents::class, cascade={"persist", "remove"})
+     */
+    private $profilePicture;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+    
+
 
     public function __construct()
     {
@@ -967,6 +981,32 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function getProfilePicture(): ?Documents
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?Documents $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+
 
 
 }

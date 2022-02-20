@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app.path.product_images: /uploads/images
+    app.path.uploads: /uploads
     app.path.images: /uploads/images/products
     secret: '%env(APP_SECRET)%'
     defaultEmail: '%env(DEFAULT_EMAIL)%'
@@ -102,3 +104,17 @@ services:
     dpolac.twig_lambda.extension:
         class: DPolac\TwigLambda\LambdaExtension
         tags: [ { name: twig.extension } ]
+
+    ct_file_store.s3:
+        class: Aws\S3\S3Client
+        factory: [Aws\S3\S3Client, 'factory']
+        arguments:
+            -
+                version: '%env(YOUR_AWS_S3_VERSION)%'
+                region: '%env(YOUR_AWS_S3_REGION)%'
+                credentials:
+                    key: '%env(AWS_KEY)%'
+                    secret: '%env(AWS_SECRET_KEY)%'
+
+
+

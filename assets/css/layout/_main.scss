@@ -601,3 +601,14 @@ strong {
     }
   }
 }
+.imageIcon{
+  width: 25px;
+  background-size: cover;
+  height: 100%;
+  border-radius: 5000px;
+}
+@media only screen and (min-width: 768px){
+  .imageIcon{
+    width: 30px;
+  }
+}

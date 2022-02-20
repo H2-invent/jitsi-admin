@@ -44,3 +44,7 @@ yarn-error.log
 /screenshot/*
 /test/result/res.xml
 /theme/theme.json
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###

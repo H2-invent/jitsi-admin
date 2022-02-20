@@ -1,0 +1,18 @@
+# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+
+liip_imagine:
+    driver: "gd"
+    resolvers:
+        aws_s3_resolver:
+            aws_s3:
+                client_config:
+                    credentials:
+                        key: "%env(AWS_KEY)%"
+                        secret: "%env(AWS_SECRET_KEY)%"
+                    region: "%env(YOUR_AWS_S3_REGION)%"
+                    version: "%env(YOUR_AWS_S3_VERSION)%"
+                bucket: "%env(AWS_BUCKET_NAME)%"
+                get_options:
+                    Scheme: https
+                put_options:
+                    CacheControl: "max-age=86400"
