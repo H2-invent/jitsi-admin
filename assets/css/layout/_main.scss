@@ -575,6 +575,7 @@ strong {
     opacity: 1 !important;
     display: block;
     transition: transform .35s ease;
+    margin-bottom: 100px;
   }
 
   .tab-content-watch {
@@ -610,5 +611,24 @@ strong {
 @media only screen and (min-width: 768px){
   .imageIcon{
     width: 30px;
+  }
+}
+.vich-image{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .vichImageWrapper{
+    height: 200px;
+    width: 200px;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+    img{
+      width: auto!important;
+      position: absolute;
+      height: 100%;
+      margin-left: -25%;
+    }
   }
 }

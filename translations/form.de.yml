@@ -130,6 +130,7 @@ label:
   serverName: Servername
   lobby: Lobby aktivieren
   secondEmail: CC-E-Mail
+  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
 
 choice:
   tls: STARTTLS/TLS

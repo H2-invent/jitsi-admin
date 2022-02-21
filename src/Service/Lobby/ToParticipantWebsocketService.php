@@ -14,6 +14,7 @@ use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class ToParticipantWebsocketService
@@ -26,8 +27,8 @@ class ToParticipantWebsocketService
     private $roomService;
     private $twig;
     private $directSend;
-
-    public function __construct(DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
+    private $uploadHelper;
+    public function __construct(UploaderHelper $uploaderHelper, DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->publisher = $publisher;
         $this->urlgenerator = $urlGenerator;
@@ -37,6 +38,7 @@ class ToParticipantWebsocketService
         $this->roomService = $roomService;
         $this->twig = $environment;
         $this->directSend = $directSendService;
+        $this->uploadHelper = $uploaderHelper;
     }
 
     public function setDirectSend(DirectSendService $directSendService)
@@ -68,8 +70,11 @@ class ToParticipantWebsocketService
                 'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
                 'parentNode' => '#jitsiWindow',
                 'userInfo'=>array(
-                    'displayName'=>$lobbyWaitungUser->getShowName())
+                    'displayName'=>$lobbyWaitungUser->getShowName()),
             );
+            if($lobbyWaitungUser->getUser() && $lobbyWaitungUser->getUser()->getProfilePicture()){
+                $options['userInfo']['avatarUrl']=  $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(),'documentFile');
+            }
             $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
         } elseif ($lobbyWaitungUser->getType() === 'a') {
             $this->directSend->sendRedirect($topic, $appUrl, 5000);

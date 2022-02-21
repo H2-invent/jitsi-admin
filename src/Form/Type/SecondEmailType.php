@@ -23,7 +23,7 @@ class SecondEmailType extends AbstractType
 
         $builder
             ->add('secondEmail', TextType::class, ['required' => false, 'label' => 'label.secondEmail', 'translation_domain' => 'form'])
-            ->add('profilePicture', ImageType::class)
+            ->add('profilePicture', ImageType::class,['label'=>false])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

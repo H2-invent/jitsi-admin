@@ -42,6 +42,7 @@ function endMeeting() {
 
 function renewPartList() {
     participants = api.getParticipantsInfo();
+    console.log(participants);
 }
 
 

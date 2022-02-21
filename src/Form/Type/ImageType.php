@@ -27,7 +27,7 @@ class ImageType extends AbstractType
                 'required' => false,
                 'allow_delete' => true,
                 'delete_label' => 'Löschen',
-                'label' => 'Ein schönes Bild von dir',
+                'label' => 'label.profilImage',
                 'translation_domain' => 'form'
             ]);
     }
