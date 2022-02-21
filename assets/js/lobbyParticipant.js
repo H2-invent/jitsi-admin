@@ -64,7 +64,6 @@ $('.leave').click(function (e) {
 })
 
 function initJitsiMeet(data) {
-    console.log('1.2');
     stopWebcam();
     var options =data.options.options;
     options.device = choosenId;

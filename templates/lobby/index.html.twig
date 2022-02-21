@@ -139,13 +139,19 @@
                 width: '100%',
                 height: 700,
                 parentNode: document.querySelector('#jitsiWindow'),
+            {% if room.server.appId is not null %}
                 jwt: '{{ jwtFromRoom(user,room,name) }}',
+                {% endif %}
                 userInfo: {
-                    displayName: '{{ name }}'
+                    displayName: '{{ name }}',
+
                 }
             };
 
             var conferenzeName = '{{ room.name }}';
+            {% if app.user and app.user.profilePicture %}
+            var avatarUrl = '{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}';
+                    {% endif %}
             var topic =
                     {% if app.user is defined and app.user is not null %}
                     {{ mercure([

@@ -21,7 +21,9 @@
             width: '100%',
             height: 700,
             parentNode: document.querySelector('#jitsiWindow'),
+            {% if room.server.appId is not null %}
             jwt: '{{ jwtFromRoom(user,room,name) }}',
+        {% endif %}
             userInfo: {
                 displayName: '{{ name }}'
             }

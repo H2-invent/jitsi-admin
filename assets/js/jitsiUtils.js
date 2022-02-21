@@ -15,6 +15,9 @@ var participants;
 function initJitsi(options, domain) {
     api = new JitsiMeetExternalAPI(domain, options);
     renewPartList()
+    if(typeof avatarUrl !== 'undefined'){
+        api.executeCommand('avatarUrl', avatarUrl);
+    }
     api.addListener('participantJoined', function (id, name) {
         renewPartList()
     });
@@ -28,6 +31,7 @@ function initJitsi(options, domain) {
             $.getJSON(($(this).attr('href')));
         })
          $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+
     })
 
 }
