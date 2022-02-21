@@ -17,7 +17,7 @@ class MigrateTimeZoneCommand extends Command
     protected static $defaultDescription = 'Add a short description for your command';
     private $em;
 
-    public function __construct(string $name = null, EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

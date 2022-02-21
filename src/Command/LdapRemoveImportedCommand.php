@@ -27,7 +27,7 @@ class LdapRemoveImportedCommand extends Command
     private $LDAPSERVERID;
     private $URL;
     private $em;
-    public function __construct(LdapUserService $ldapUserService, string $name = null, ParameterBagInterface $parameterBag, LdapService $ldapService, EntityManagerInterface $entityManager)
+    public function __construct(LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, LdapService $ldapService, EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
         $this->paramterBag = $parameterBag;

@@ -40,7 +40,7 @@ class SyncLdapCommand extends Command
     private $BINDTYPE;
     private $LDAPSERVERID;
     private $LDAP_SPECIALFIELD;
-    public function __construct(LdapUserService $ldapUserService, string $name = null, ParameterBagInterface $parameterBag, LdapService $ldapService)
+    public function __construct(LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, LdapService $ldapService, string $name = null)
     {
         parent::__construct($name);
         $this->paramterBag = $parameterBag;
