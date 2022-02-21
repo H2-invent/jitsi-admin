@@ -79,7 +79,7 @@
 #col-waitinglist {
   &.large {
     padding-top: 18px;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   }
@@ -93,18 +93,35 @@
   -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   transition: background-color 1s;
-  &:before{
-    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f107\00a0";
+
+  &:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f107\00a0";
   }
-  &:after{
-    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\00a0\f107";
+
+  &:after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\00a0\f107";
   }
+
   @keyframes blinkGreen {
-    0%   {background-color: white; color: black}
-    50%  {background-color: #00c851; color: white}
-    100%  {background-color: white; color: black}
+    0% {
+      background-color: white;
+      color: black
+    }
+    50% {
+      background-color: #00c851;
+      color: white
+    }
+    100% {
+      background-color: white;
+      color: black
+    }
   }
-  &.active{
+
+  &.active {
     background-color: #00c851;
     color: white;
     animation-name: blinkGreen;
@@ -119,60 +136,76 @@
   justify-content: center;
 }
 
-#sliderTop{
+#sliderTop {
   transition: top 0.5s;
   position: absolute;
   top: 0;
   left: 0;
-  &:hover{
+
+  &:hover {
     top: 0 !important;
     transition: top 0.5s;
-    .dragger{
+
+    .dragger {
       &:before {
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        content: "\f106\00a0"!important;
+        content: "\f106\00a0" !important;
       }
-      &:after{
+
+      &:after {
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        content: "\00a0\f106"!important;
+        content: "\00a0\f106" !important;
       }
     }
   }
 }
 
-#waitingUserWrapper{
+#waitingUserWrapper {
   padding: 8px;
 }
-.selectedDevice{
+
+.selectedDevice {
   font-weight: bold;
-  &:before{
+
+  &:before {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: "\f0da"!important;
+    content: "\f0da" !important;
   }
 }
-#col-waitinglist{
+
+#col-waitinglist {
   display: flex;
   flex-direction: column;
   max-height: 60vh;
   align-content: stretch;
 }
-#waitingUserWrapper{
+
+#waitingUserWrapper {
   flex-grow: 1;
   overflow-y: auto;
 }
-.lobbyButtons{
-   display: flex;
-   flex-direction: row;
-   width: max-content;
-   max-width: 100%;
- }
-.lobbyCard{
-  .lobbyButtons{
+
+.lobbyButtons {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  max-width: 100%;
+}
+
+.lobbyCard {
+  .lobbyButtons {
     flex-direction: column;
   }
+}
+
+.blackMode.joinPage .modal {
+  background-image: radial-gradient($main-color, black);
+}
+.joinPage .modal {
+  background-image: radial-gradient($main-color, white);
 }
 
 

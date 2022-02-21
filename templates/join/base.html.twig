@@ -11,8 +11,8 @@
 {% set image = pexelsImage() %}
 
 <body style="background-color: #C9C9C9"
-        {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-    class="blackMode"{% endif %}>
+      class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+    blackMode{% endif %} joinPage">
 <style>
     {% if server
     is defined and

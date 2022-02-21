@@ -148,6 +148,12 @@
             .mdtp__button {
                 color: {{ theme.colorButton }}!important;
             }
+            .blackMode.joinPage .modal {
+                background-image: radial-gradient({{ theme.colorButton }}, black);
+            }
+            .joinPage .modal {
+                background-image: radial-gradient({{ theme.colorButton }}, white);
+            }
         </style>
 
     {% endif %}
