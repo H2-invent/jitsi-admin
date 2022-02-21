@@ -75,6 +75,7 @@ function refresh(data) {
 function endMeeting(data) {
 
     if (window.opener == null) {
+
         setTimeout(function () {
             window.location.href = data.url;
         }, data.timeout)

@@ -149,9 +149,7 @@
             };
 
             var conferenzeName = '{{ room.name }}';
-            {% if app.user and app.user.profilePicture %}
-            var avatarUrl = '{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}';
-                    {% endif %}
+
             var topic =
                     {% if app.user is defined and app.user is not null %}
                     {{ mercure([

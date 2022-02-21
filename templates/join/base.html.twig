@@ -155,7 +155,9 @@
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
-
+    {% if app.user and app.user.profilePicture %}
+    var avatarUrl = '{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}';
+    {% endif %}
     {% if app.request is not null and app.request.cookies.get('DARK_MODE') ==""  %}
 
     function getCookie(cname) {
