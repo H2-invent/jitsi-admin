@@ -18,7 +18,7 @@ class UserRemoveCommand extends Command
     protected static $defaultDescription = 'Removes a user by Username';
     private $em;
     private $ldapUserService;
-    public function __construct(string $name = null, EntityManagerInterface $entityManager, LdapUserService $ldapUser)
+    public function __construct( EntityManagerInterface $entityManager, LdapUserService $ldapUser, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;

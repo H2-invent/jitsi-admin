@@ -16,7 +16,7 @@ class MigrationAddUsernameSameEmailCommand extends Command
     protected static $defaultName = 'app:migration:addUsernameSameEmail';
     protected static $defaultDescription = 'Add a short description for your command';
     protected $em;
-    public function __construct($name = null, EntityManagerInterface $entityManager)
+    public function __construct( EntityManagerInterface $entityManager, $name = null)
     {
         $this->em = $entityManager;
         parent::__construct($name);
