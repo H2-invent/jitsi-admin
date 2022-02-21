@@ -825,7 +825,7 @@
         <source>Keine Abstimmungen</source>
         <target>Keine Abstimmungen</target>
       </trans-unit>
-      <trans-unit id="2D3g8AS" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                            &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                            eine neue Konferenz.">
+      <trans-unit id="2D3g8AS" resname="dashboard.noconference">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                             &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                             eine neue Konferenz.</source>
@@ -1530,14 +1530,7 @@
         <source>Download</source>
         <target>Download</target>
       </trans-unit>
-      <trans-unit id="DnjRzrz" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                    &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                                    eine neue Konferenz.">
-        <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                                    &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
-                                    eine neue Konferenz.</source>
-        <target><![CDATA[__Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                                    <u><a href="{url}" class="loadContent">hier</a></u>
-                                    eine neue Konferenz.]]></target>
-      </trans-unit>
+
     </body>
   </file>
 </xliff>

@@ -158,11 +158,7 @@
                     {% if  roomsFuture |length == 0 %}
                         <div class="card card-body">
                             <p class="text-center">
-                                {% trans with {'{url}':path('room_new')} %}
-                                    Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                                    <u><a href="{url}" class="loadContent">hier</a></u>
-                                    eine neue Konferenz.
-                                {% endtrans %}
+                                {% trans with {'{url}':path('room_new')} %}dashboard.noconference{% endtrans %}
                             </p>
                         </div>
                     {% elseif todayRooms |length == 0 %}
