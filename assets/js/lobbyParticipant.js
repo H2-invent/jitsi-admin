@@ -17,6 +17,7 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 
+
 initNotofication();
 initAUdio();
 initWebcam();
@@ -84,5 +85,6 @@ function initJitsiMeet(data) {
 $(document).ready(function () {
     initGenerell()
 })
+
 
 
