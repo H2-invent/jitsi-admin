@@ -122,13 +122,13 @@ label:
   totalOpenRoomsOpenTime: 开放时间
   addressgroupName: 团队
   addressgroupMember: Gruppenmitglieder
-  jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
+  jwtModeratorPosition: 支持人JWT令牌
+  timezone: 时区
+  serverName: 服务器名
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
   none: 无
 placeholder:
   maxParticipants: 无限制
-  chooseTime: Zeit und Datum auswählen
+  chooseTime: 选择时间和日期
