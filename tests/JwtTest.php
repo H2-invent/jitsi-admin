@@ -41,6 +41,27 @@ class JwtTest extends KernelTestCase
         $this->assertEquals('https://'.$server->getUrl().'/'.$room->getUid().'?jwt='.JWT::encode($payload,$server->getAppSecret()).'#config.subject=%22' . UtilsHelper::slugify($room->getName()). '%22',$url);
 
     }
+    public function testJwtServerhasNoAppId(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $jwtService = $this->getContainer()->get(RoomService::class);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $server = $room->getServer();
+        $server->setFeatureEnableByJWT(false);
+        $server->setAppId(null);
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, true);
+        $res = null;
+        $this->assertEquals($res, $payload);
+        $url =  $jwtService->createUrl('a',$room,true,null,'Test User');
+        $this->assertEquals('jitsi-meet://'.$server->getUrl().'/'.$room->getUid().'#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22',$url);
+        $url = $jwtService->createUrl('b',$room,true,null,'Test User');
+        $this->assertEquals('https://'.$server->getUrl().'/'.$room->getUid().'#config.subject=%22' . UtilsHelper::slugify($room->getName()). '%22',$url);
+
+    }
+
 
     public function testJwtModeratorWithJwtOptions(): void
     {

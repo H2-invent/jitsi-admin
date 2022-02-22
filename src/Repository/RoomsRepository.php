@@ -181,5 +181,13 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    public function findFavoriteRooms(User $user){
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.favoriteUsers', 'user')
+            ->andWhere('user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.start', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

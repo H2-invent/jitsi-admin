@@ -7,9 +7,16 @@
      <div id="favorite-Container">
          <h5 class="text-center">{{ 'favorite.sidebar.title'|trans }}</h5>
          <hr>
-         {% if app.user.favorites|length > 0 %}
-             {% for r in app.user.favorites %}
-                 {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
+         {% if favorite|length > 0 %}
+             {% for r in favorite %}
+                 {% if r in runningRooms %}
+                     {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
+                 {% endif %}
+             {% endfor %}
+             {% for r in favorite %}
+                 {% if r not in runningRooms %}
+                     {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
+                 {% endif %}
              {% endfor %}
          {% else %}
              <p>{% trans %}favorite.sidebar.help{% endtrans %}</p>
@@ -112,9 +119,8 @@
         <!-- Tabs content -->
 
 
-
-            <div class="tab-content" id="ex1-content">
-                <div class="tab-content-watch active">
+        <div class="tab-content" id="ex1-content">
+            <div class="tab-content-watch active">
                 <div
                         class="tab-pane fade show "
                         id="ex1-tabs-1"

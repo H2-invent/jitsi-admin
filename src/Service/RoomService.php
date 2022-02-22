@@ -122,7 +122,9 @@ class RoomService
 
     public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, RoomsUser $roomUser = null,$avatar = null)
     {
-
+        if(!$server->getAppId()){
+            return null;
+        }
         $payload = array(
             "aud" => "jitsi_admin",
             "iss" => $room->getServer()->getAppId(),
