@@ -92,7 +92,7 @@
                     <div class="lobbyButtons">
                         {% if type == 'a' %}
 
-                            <a class="btn btn-primary " d-none d-lg-block "
+                            <a class="btn btn-primary d-none d-lg-block "
                             href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
                             target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
 
@@ -139,7 +139,7 @@
                 width: '100%',
                 height: 700,
                 parentNode: document.querySelector('#jitsiWindow'),
-            {% if room.server.appId is not null %}
+                {% if room.server.appId is not null %}
                 jwt: '{{ jwtFromRoom(user,room,name) }}',
                 {% endif %}
                 userInfo: {

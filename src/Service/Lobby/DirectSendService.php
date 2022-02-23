@@ -62,14 +62,14 @@ class DirectSendService
 
 
     }
-    public function sendBrowserNotification($topic, $title, $message)
+    public function sendBrowserNotification($topic, $title, $message,$pushMessage, $id)
     {
-        $messageId = md5($title.$message);
         $data = array(
             'type' => 'notification',
             'title' => $title,
             'message' =>$message,
-            'messageId'=>$messageId
+            'pushNotification'=>$pushMessage,
+            'messageId'=>$id
         );
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);

@@ -49,17 +49,28 @@ class ToModeratorWebsocketService
                 '{room}' => $room->getName()
             )
         );
+        $id = md5($title.$message);
         $topic ='lobby_moderator/'.$room->getUidReal();
-        $this->directSend->sendBrowserNotification($topic,$title ,$message);
+        // this message goes to the moderators wich are in the lobby
+        $this->directSend->sendBrowserNotification($topic,$title ,$message, $message, $id);
         sleep(1);
+
+        $messageDashboard =  $this->translator->trans('lobby.dashboard.newUser.message', array(
+                '{name}' => $lobbyWaitungUser->getShowName(),
+                '{room}' => $room->getName(),
+                '{url}'=>$this->urlgenerator->generate('room_join',array('room'=>$room->getId(),'t'=>'b'))
+            )
+        );
+
+        //this message goes to the moderators which are not already in the lobby
         foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data){
             if($data->getLobbyModerator()){
                 $topic ='personal/'.$data->getUser()->getUid();
-                $this->directSend->sendBrowserNotification($topic,$title, $message);
+                $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard,$message, $id);
             }
         }
         $topic ='personal/'.$room->getModerator()->getUid();
-        $this->directSend->sendBrowserNotification($topic,$title, $message);
+        $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard, $message, $id);
     }
 
     public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)

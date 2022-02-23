@@ -40,7 +40,7 @@ function masterNotify(data) {
 
 function notifymoderator(data) {
     var audio = new Audio(notificationSound);
-    TabUtils.lockFunction('audio'+data.messageId,function (){audio.play()},3000);
+    TabUtils.lockFunction('audio'+data.messageId,function (){audio.play()},1500);
 
     showPush(data);
 
@@ -107,7 +107,7 @@ function showPush(data){
     TabUtils.lockFunction(data.messageId, function () {
         if (document.hidden) {
             Push.create(data.title, {
-                body: data.message,
+                body: data.pushNotification,
                 icon: '/favicon.ico',
                 onClick: function (ele) {
                     window.focus();
@@ -115,7 +115,7 @@ function showPush(data){
                 }
             });
         }
-    },3000)
+    },1500)
 }
 
 export {masterNotify, initNotofication}

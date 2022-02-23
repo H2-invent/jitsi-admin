@@ -91,7 +91,6 @@ var TabUtils = new (function () {
         }
 
         var localStorageKey = keyPrefix + lockname;
-        console.log(localStorageKey);
         if (localStorage.getItem(localStorageKey) === null) {
             fn();
         }
