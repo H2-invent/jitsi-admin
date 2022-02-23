@@ -30,17 +30,12 @@ import {attach, init} from 'node-waves'
 import {createPopper} from '@popperjs/core';
 import {initTabs} from './tabHelper'
 import {initDashboardnotification} from './dashBoardNotification'
-$.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results == null) {
-        return null;
-    }
-    return decodeURI(results[1]) || 0;
-}
+
 addEventListener('load', function () {
-    var url = (new URLSearchParams(window.location.search)).get('modalUrl');
-    if (url !== null) {
-        url = atob(url);
+    var param = (new URLSearchParams(window.location.search)).get('modalUrl');
+    let url = '';
+    if (param !== null) {
+        url = atob(param);
         if (url.startsWith('/')) {
             $('#loadContentModal').load(url, function (data, status) {
                 if (status === "error") {
@@ -51,7 +46,14 @@ addEventListener('load', function () {
 
             });
         }
+        let search = new URLSearchParams(window.location.search);
+        search.delete('modalUrl');
+        let location = window.location.pathname;
+        if(search.toString().length>0){
+            location +='?'+search.toString();
+        }
 
+        window.history.pushState({}, document.title, location);
     }
 });
 
@@ -102,7 +104,13 @@ $(document).ready(function () {
     //     dateFormat: "Y-m-d H:i",
     // });
     initCopytoClipboard();
-
+    let url = new URLSearchParams(window.location.search);
+    url.delete('snack');
+    let location = window.location.pathname;
+    if(url.toString().length>0){
+        location +='?'+url.toString();
+    }
+    window.history.pushState({}, document.title, location);
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
