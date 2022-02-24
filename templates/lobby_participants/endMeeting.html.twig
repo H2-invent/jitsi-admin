@@ -7,13 +7,22 @@
             </button>
         </div>
         <div class="modal-body">
-           <p>{{ 'lobby.participant.modal.end.text'|trans }}
-           </p>
+            <p>{{ 'lobby.participant.modal.end.text'|trans }}
+            </p>
         </div>
         <div class="modal-footer">
 
-                <a href="{{ url }}" class="btn btn-block btn-outline-primary">{{ 'text.continue'|trans }}</a>
+            <a id="closeWindow" class="btn btn-block btn-outline-primary">{{ 'text.continue'|trans }}</a>
+            <script>
+                document.getElementById("closeWindow").onclick = function () {
+                    if (window.opener == null) {
+                        window.location.href = "{{ url }}";
+                    } else {
+                        window.close();
+                    }
+                };
 
+            </script>
         </div>
 
     </div>

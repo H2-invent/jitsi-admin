@@ -82,8 +82,7 @@ function endMeeting(data) {
     } else {
         setTimeout(function () {
             window.close();
-        }, 2000)
-
+        }, data.timeout)
     }
 }
 
