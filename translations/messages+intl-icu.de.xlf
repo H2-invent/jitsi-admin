@@ -1530,7 +1530,15 @@
       </trans-unit>
       <trans-unit id="ynT5s9D" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
-          <target><![CDATA[Der Teilnehmende {name} ist der Lobby der Konferenz {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Zur Lobby</a>]]></target>
+        <target><![CDATA[Der Teilnehmende {name} ist der Lobby der Konferenz {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Zur Lobby</a>]]></target>
+      </trans-unit>
+      <trans-unit id="ioC7pky" resname="Diese Aktion ist nicht erlaubt.">
+        <source>Diese Aktion ist nicht erlaubt.</source>
+        <target>__Diese Aktion ist nicht erlaubt.</target>
+      </trans-unit>
+      <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
+        <source>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</source>
+        <target>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
     </body>
   </file>

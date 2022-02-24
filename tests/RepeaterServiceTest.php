@@ -224,38 +224,7 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
     }
 
-    public function testChangeRepeaterRoomsbyPrototype(): void
-    {
-        $kernel = self::bootKernel();
-        $this->assertSame('test', $kernel->getEnvironment());
-        $repeaterService = self::getContainer()->get(RepeaterService::class);
-        $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $this->prepareRoom($roomRepo);
-        $repeat = new Repeat();
-        $repeat->setRepeatType(0);
-        $repeat->setPrototyp($room);
-        $repeat->setStartDate($room->getStart());
-        $repeat->setRepetation(3);
-        $repeat->setRepeaterDays(1);
-        $repeaterService->createNewRepeater($repeat);
-        self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
-        self::assertEquals(new \DateTime('2021-01-16T15:00'), $repeat->getRooms()[1]->getStart());
-        self::assertEquals(new \DateTime('2021-01-17T15:00'), $repeat->getRooms()[2]->getStart());
-        self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
-        self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
-        self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
-        $roomNew = clone $room;
-        $roomNew = $this->changeStart($roomNew, '2021-01-16T17:00');
-        $repeaterService->changeRooms($repeat, $roomNew);
-        self::assertEquals(3, sizeof($repeat->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T17:00'), $repeat->getRooms()[3]->getStart());
-        self::assertEquals(new \DateTime('2021-01-16T17:00'), $repeat->getRooms()[4]->getStart());
-        self::assertEquals(new \DateTime('2021-01-17T17:00'), $repeat->getRooms()[5]->getStart());
-        self::assertEquals(3, sizeof($repeat->getRooms()[3]->getUser()));
-        self::assertEquals(3, sizeof($repeat->getRooms()[4]->getUser()));
-        self::assertEquals(3, sizeof($repeat->getRooms()[5]->getUser()));
-    }
+
     public function testRepeatSendEmail(): void
     {
         $kernel = self::bootKernel();
@@ -303,7 +272,8 @@ class RepeaterServiceTest extends KernelTestCase
         $repeat->setRepetation(3);
         $repeat->setRepeaterDays(1);
         $repeat = $repeaterService->createNewRepeater($repeat);
-
+        $manager->persist($repeat);
+        $manager->flush();
         $repeaterService->addUserRepeat($repeat);
         self::assertEquals(3, sizeof($repeat->getRooms()));
         self::assertEquals(new \DateTime('2021-01-15T15:00'), $repeat->getRooms()[0]->getStart());
@@ -313,17 +283,24 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
         self::assertEquals(3, sizeof($repeat->getPrototyp()->getPrototypeUsers()));
-        $roomNew = $repeat->getRooms()[2];
-        $roomNew = $this->changeStart($roomNew, '2021-01-17T18:00');
+        $manager->persist($repeat);
+        $manager->flush();
+        $roomTmp = $roomRepo->find($repeat->getRooms()[2]->getId());
+        $repTmp = $roomTmp->getRepeater();
+        $roomNew = $repTmp -> getPrototyp();
+        $roomNew->setRepeaterProtoype($repTmp);
+        $roomNew->setDuration(90);
+        $roomNew->setStart(new \DateTime('2021-01-20T18:00'));
         $rep = $repeaterService->replaceRooms($roomNew);
 
-        self::assertEquals(3, sizeof($rep->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-15T18:00'), $rep->getRooms()[3]->getStart());
-        self::assertEquals(new \DateTime('2021-01-16T18:00'), $rep->getRooms()[4]->getStart());
-        self::assertEquals(new \DateTime('2021-01-17T18:00'), $rep->getRooms()[5]->getStart());
-        self::assertEquals(3, sizeof($repeat->getRooms()[3]->getUser()));
-        self::assertEquals(3, sizeof($repeat->getRooms()[4]->getUser()));
-        self::assertEquals(3, sizeof($repeat->getRooms()[5]->getUser()));
+        self::assertEquals('Sie haben erfolgreich einen Serientermin bearbeitet.',$rep);
+        self::assertEquals(3, sizeof($repTmp->getRooms()));
+        self::assertEquals(new \DateTime('2021-01-20T18:00'), $repTmp->getRooms()[3]->getStart());
+        self::assertEquals(new \DateTime('2021-01-21T18:00'), $repTmp->getRooms()[4]->getStart());
+        self::assertEquals(new \DateTime('2021-01-22T18:00'), $repTmp->getRooms()[5]->getStart());
+        self::assertEquals(3, sizeof($repTmp->getRooms()[3]->getUser()));
+        self::assertEquals(3, sizeof($repTmp->getRooms()[4]->getUser()));
+        self::assertEquals(3, sizeof($repTmp->getRooms()[5]->getUser()));
     }
 
     private function prepareRoom(RoomsRepository $roomsRepository)

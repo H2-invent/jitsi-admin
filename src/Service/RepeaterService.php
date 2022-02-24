@@ -317,50 +317,6 @@ class RepeaterService
         return $room;
     }
 
-    /**
-     * This function changes all rooms in a repeater series.
-     * This is important when a complete series is changed. A Room which is edited seperatly is not changed in this function. 
-     * Such a room is an independent room in a series
-     * @author Emanuel Holzmann
-     * @param Repeat $repeat
-     * @param Rooms $prototype
-     * @return Repeat
-     */
-    public function changeRooms(Repeat $repeat, Rooms $prototype): Repeat
-    {
-        foreach ($repeat->getRooms() as $data) {
-            if (!$data->getRepeaterRemoved()) {
-                $room = clone $prototype;
-                $room->setUid($data->getUid());
-                $room->setUidReal($data->getUidReal());
-                $room->setUidParticipant($data->getUidParticipant());
-                $room->setUidModerator($data->getUidModerator());
-                $room->setRepeater($repeat);
-                $room->setStart($data->getStart()->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i')));
-                $end = clone $room->getStart();
-                $end->modify('+' . $room->getDuration() . ' min');
-                $room->setEnddate($end);
-                foreach ($data->getUser() as $data2) {
-                    $data->removeUser($data2);
-                }
-                foreach ($data->getUserAttributes() as $data2) {
-                    $data->removeUserAttribute($data2);
-                    $this->em->remove($data2);
-                }
-                foreach ($data->getSchedulings() as $data2) {
-                    $data->removeScheduling($data2);
-                    $this->em->remove($data2);
-                }
-                $this->em->persist($room);
-                $repeat->removeRoom($data);
-                $this->em->remove($data);
-                $repeat->addRoom($room);
-            }
-        }
-        $this->em->persist($repeat);
-        $this->em->flush();
-        return $repeat;
-    }
 
     /**
      * This function takes a new room and sets the new room as prototype in the repeater series which it belongs to.
@@ -368,16 +324,26 @@ class RepeaterService
      * @param Rooms $rooms
      * @return Repeat
      */
-    public function replaceRooms(Rooms $rooms): Repeat
+    public function replaceRooms(Rooms $rooms): string
     {
+        //first show me the old repeater
+        if(!$rooms->getRepeaterProtoype()){
+            return $this->translator->trans('Diese Aktion ist nicht erlaubt.');
+        }
+        $rooms->setEnddate((clone $rooms->getStart())->modify('+'.$rooms->getDuration().'min'));
+        $this->em->persist($rooms);
+        $this->em->flush();
 
-        $repeater = $rooms->getRepeater();
-        $oldProto = $repeater->getPrototyp();
-        $repeater = $this->replacePrototype($rooms, $repeater);
-        $repeater = $this->changeRooms($repeater, $repeater->getPrototyp());
+        $repeater = $rooms->getRepeaterProtoype();
+        $repeater->setStartDate($rooms->getStart());
+        $repeater =  $this->cleanRepeater($repeater);
+        $repeater = $this->createNewRepeater($repeater);
         $this->addUserRepeat($repeater);
-        $this->cleanUp($repeater);
-        return $repeater;
+        $this->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+        $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
+
+        // here we have the old prototype but with new Time and new Settings
+        return $snack;
     }
 
     /**
@@ -583,5 +549,23 @@ class RepeaterService
 
         }
         return true;
+    }
+    public function cleanRepeater(Repeat  $repeater){
+        foreach ($repeater->getRooms() as $data) {
+            foreach ($data->getUser() as $data2) {
+                $data2->removeRoom($data);
+                $this->em->persist($data2);
+            }
+            foreach ($data->getUserAttributes() as $data2) {
+                $this->em->remove($data2);
+                $data->removeUserAttribute($data2);
+            }
+            $this->em->remove($data);
+            $repeater->removeRoom($data);
+        }
+        $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence()) + 1);
+        $this->em->persist($repeater);
+        $this->em->flush();
+        return $repeater;
     }
 }
