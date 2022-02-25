@@ -24,7 +24,7 @@
         "@fullcalendar/list": "^5.5.0",
         "@fullcalendar/moment": "^5.5.0",
         "@fullcalendar/resource-common": "^5.5.0",
-        "@holema/h2datetimepicker": "^1.9.0",
+        "@holema/h2datetimepicker": "^1.10.0",
         "@popperjs/core": "^2.11.2",
         "autosize": "^4.0.2",
         "bootstrap": "^4.5.3",

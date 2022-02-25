@@ -107,7 +107,7 @@ class RepeaterController extends AbstractController
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
                 $em = $this->getDoctrine()->getManager();
-                $repeater =  $repeaterService->cleanRepeater($repeater);
+                $repeater = $repeaterService->cleanRepeater($repeater);
                 $repeater = $repeaterService->createNewRepeater($repeater);
                 $repeaterService->addUserRepeat($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
@@ -166,26 +166,36 @@ class RepeaterController extends AbstractController
         $extra = null;
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $room = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('id'));
-        if($request->get('type') === 'single'){
-         $room->setRepeaterRemoved(true);
-         $title = $translator->trans('Nur dieses Serienelement bearbeiten');
-        }elseif ($request->get('type') === 'all'){
+        if ($request->get('type') === 'single') {
+            $room->setRepeaterRemoved(true);
+            $title = $translator->trans('Nur dieses Serienelement bearbeiten');
+        } elseif ($request->get('type') === 'all') {
             $extra = $translator->trans('repeater.edit.warning');
-            $room = $room->getRepeater() !== null?$room->getRepeater()->getPrototyp(): $room;
+            $room = $room->getRepeater() !== null ? $room->getRepeater()->getPrototyp() : $room;
         }
         if ($room->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Not found');
         }
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('repeater_edit_room', ['type'=>$request->get('type'),'id' => $room->getId()])]);
+        $option = [
+            'server' => $servers,
+            'action' => $this->generateUrl('repeater_edit_room', ['type' => $request->get('type'), 'id' => $room->getId()])
+        ];
+        if ($request->get('type') === 'all') {
+            if(new \DateTime() > $room->getStart()) {
+                $option['minDate'] = $room->getStart()->format('m/d/Y');
+            }
+        }
+        $form = $this->createForm(RoomType::class, $room,$option);
         $form->remove('scheduleMeeting');
         $form->remove('persistantRoom');
+
         try {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $room = $form->getData();
                 if ($room->getRepeaterRemoved()) {//this is a single room. So we take the room out of the series
-                    $room->setEnddate((clone $room->getStart())->modify('+'.$room->getDuration().'min'));
+                    $room->setEnddate((clone $room->getStart())->modify('+' . $room->getDuration() . 'min'));
                     $em->persist($room);
                     $em->flush();
                     $repeater = $room->getRepeater();
@@ -195,24 +205,24 @@ class RepeaterController extends AbstractController
                     $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                     $snack = $translator->trans('Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet');
                     $res = $this->generateUrl('dashboard', ['snack' => $snack, 'color' => 'success']);
-                    return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res));
+                    return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
                 }
                 //here we generate a new series. For this we take the old room Prototype and create a new series from it
                 $snack = $repeaterService->replaceRooms($room);
                 $res = $this->generateUrl('dashboard', ['snack' => $snack, 'color' => 'success']);
-                return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res));
+                return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
             }
 
         } catch (\Exception $exception) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
 
-            return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
+            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
         return $this->render('base/__newRoomModal.html.twig', [
             'form' => $form->createView(),
             'title' => $title,
-            'extra'=>$extra
+            'extra' => $extra
         ]);
     }
 
