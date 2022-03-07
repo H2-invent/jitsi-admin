@@ -651,4 +651,6 @@ strong {
   display: flex;
   align-items: center;
   width: max-content;
+  max-width: -moz-available;
+  max-width: -webkit-fill-available;;
 }
