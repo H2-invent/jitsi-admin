@@ -22,7 +22,7 @@ function initTabs() {
         if (oldLeft < newLeft) {
             tmpWidth = newRight - oldLeft;
         }
-        var direction = newLeft < oldLeft? 1 : 0;
+        var direction = newLeft < oldLeft ? 1 : 0;
 
         if (direction === 1) {//we move to the left
             parent.find('.underline').css('transform', 'translateX(' + newLeft / parentwidth * 100 + '%) scaleX(' + tmpWidth / parentwidth + ')');
@@ -36,14 +36,14 @@ function initTabs() {
             parent.find('.underline').css('transform', 'translateX(' + leftAtfter + '%) scaleX(' + widthAfter + ')');
         }, 180);
 
-        changeTabContent( ele.find('a').attr('href'),direction);
+        changeTabContent(ele.find('a').attr('href'), direction);
     })
 
     $('.dropdownTabToggle').click(function (e) {
         e.preventDefault();
         var $ele = $(this);
         var $target = $ele.attr('href');
-        changeTabContent($($target).attr('href'),1);
+        changeTabContent($($target).attr('href'), 1);
         $ele.closest('.dropdown-menu').find('.dropdown-item').each(function () {
             $(this).removeClass('active');
         })
@@ -52,22 +52,25 @@ function initTabs() {
 }
 
 
-
-
-function changeTabContent(href,direction = 1) {
-    console.log(href);
+function changeTabContent(href, direction = 1) {
     var target = $(href);
-    var oldEle =  target.closest('.tab-content').find('.active')
-
+    var oldEle = target.closest('.tab-content').find('.active')
+    target.addClass('noAnimation')
     if (direction === 1) {//we move to the left
+        target.css('transform', 'translateX(-110%)')
         oldEle.find('.tab-pane').css('transform', 'translateX(110%)');
     } else {
         oldEle.find('.tab-pane').css('transform', 'translateX(-110%)');
+        target.css('transform', 'translateX(110%)')
     }
-    oldEle.removeClass('active');
-    target.closest('.tab-content-watch').addClass('active');
-    target.css('transform', 'translateX(0%)');
-    target.closest('.tab-content-watch').addClass('active');
+    setTimeout(function () {
+        target.removeClass('noAnimation')
+        oldEle.removeClass('active');
+        target.closest('.tab-content-watch').addClass('active');
+        target.css('transform', 'translateX(0%)');
+        target.closest('.tab-content-watch').addClass('active');
+    },0);
+
 }
 
 function initalSetUnderline() {

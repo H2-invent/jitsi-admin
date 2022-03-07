@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
 use App\Service\PermissionChangeService;
+use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\RoomCheckService;
@@ -136,36 +137,23 @@ class RoomController extends AbstractController
      * @Route("/room/remove", name="room_remove")
      */
     public
-    function roomRemove(Request $request, UserService $userService, RepeaterService $repeaterService, TranslatorInterface $translator)
+    function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $snack = 'Keine Berechtigung';
         if ($this->getUser() === $room->getModerator()) {
-            $em = $this->getDoctrine()->getManager();
-            foreach ($room->getUser() as $user) {
-                if (!$room->getRepeater()) {
-                    $userService->removeRoom($user, $room);
-                }
-                $room->removeUser($user);
-                $em->persist($room);
-            }
             if ($room->getRepeater()) {
                 $repeater = $room->getRepeater();
-                $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+                $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                 $room->setRepeater(null);
             }
-            foreach ($room->getFavoriteUsers() as $data) {
-                $room->removeFavoriteUser($data);
+            if ( $removeRoomService->deleteRoom($room)){
+                $snack = $this->translator->trans('Konferenz gelöscht');
+            }else{
+                $snack = $this->translator->trans('Fehler, Bitte Laden Sie die Seite neu');
             }
-            $room->setModerator(null);
-            foreach ($room->getFavoriteUsers() as $data) {
-                $data->removeFavorite($room);
-                $em->persist($data);
-            }
-            $em->persist($room);
-            $em->flush();
-            $snack = $this->translator->trans('Konferenz gelöscht');
+
         }
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }

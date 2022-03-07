@@ -7,6 +7,7 @@ use App\Entity\Rooms;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RepeaterType;
 use App\Form\Type\RoomType;
+use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\ServerUserManagment;
@@ -127,7 +128,7 @@ class RepeaterController extends AbstractController
     /**
      * @Route("/room/repeater/remove", name="repeater_remove")
      */
-    public function removeRepeater(Request $request, TranslatorInterface $translator, RepeaterService $repeaterService): Response
+    public function removeRepeater(Request $request, TranslatorInterface $translator, RepeaterService $repeaterService, RemoveRoomService $removeRoomService): Response
     {
 
         $repeater = $this->getDoctrine()->getRepository(Repeat::class)->find($request->get('repeat'));
@@ -143,11 +144,9 @@ class RepeaterController extends AbstractController
             'CANCEL');
 
         $em = $this->getDoctrine()->getManager();
+
         foreach ($repeater->getRooms() as $data) {
-            foreach ($data->getUser() as $data2) {
-                $data->removeUser($data2);
-                $em->persist($data);
-            }
+            $removeRoomService->deleteRoom($data);
         }
 
         $repeater->setPrototyp(null);

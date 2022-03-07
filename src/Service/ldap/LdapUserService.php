@@ -206,6 +206,10 @@ class LdapUserService
             $user->removeRoomsAttributes($attribute);
             $this->em->remove($attribute);
         }
+        foreach ($user->getLobbyWaitungUsers() as $data) {
+            $user->removeLobbyWaitungUser($data);
+            $this->em->remove($data);
+        }
         if ($user->getLdapUserProperties()) {
             $this->em->remove($user->getLdapUserProperties());
         }
