@@ -52,7 +52,7 @@ class ToModeratorWebsocketService
         $id = md5($title.$message);
         $topic ='lobby_moderator/'.$room->getUidReal();
         // this message goes to the moderators wich are in the lobby
-        $this->directSend->sendBrowserNotification($topic,$title ,$message, $message, $id);
+        $this->directSend->sendBrowserNotification($topic,$title ,$message, $message, $id,'info');
         sleep(1);
 
         $messageDashboard =  $this->translator->trans('lobby.dashboard.newUser.message', array(
@@ -66,11 +66,11 @@ class ToModeratorWebsocketService
         foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data){
             if($data->getLobbyModerator()){
                 $topic ='personal/'.$data->getUser()->getUid();
-                $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard,$message, $id);
+                $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard,$message, $id,'info');
             }
         }
         $topic ='personal/'.$room->getModerator()->getUid();
-        $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard, $message, $id);
+        $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard, $message, $id,'info');
     }
 
     public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)

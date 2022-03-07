@@ -654,3 +654,6 @@ strong {
   max-width: -moz-available;
   max-width: -webkit-fill-available;;
 }
+#toast-container > div {
+  opacity:0.95;
+}

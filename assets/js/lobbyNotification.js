@@ -44,7 +44,7 @@ function notifymoderator(data) {
 
     showPush(data);
 
-    setSnackbar(data.message, 'success');
+    setSnackbar(data.message, data.color);
 
     $('.dragger').addClass('active');
 

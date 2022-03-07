@@ -38,14 +38,14 @@ var interval;
 var text;
 $('.renew').click(function (e) {
     e.preventDefault();
-    if (counter === 0) {
+    if (counter <= 0) {
         text = $(this).text();
         $.get($(this).attr('href'), function (data) {
             counter = reknockingTime;
             interval = setInterval(function () {
                 counter = counter - 1;
                 $('.renew').text(text + ' (' + counter + ')');
-                if (counter < 0) {
+                if (counter <= 0) {
                     $('.renew').text(text);
                     clearInterval(interval);
                 }

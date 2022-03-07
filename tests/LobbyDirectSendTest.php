@@ -37,13 +37,13 @@ class LobbyDirectSendTest extends KernelTestCase
 
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            self::assertEquals('{"type":"notification","title":"Title of Browser Notification","message":"I`m the message which is in the body part","pushNotification":"I`m the message in the pushnotification from the OS","messageId":"'.md5('Title of Browser Notification'.'I`m the message which is in the body part').'"}', $update->getData());
+            self::assertEquals('{"type":"notification","title":"Title of Browser Notification","message":"I`m the message which is in the body part","pushNotification":"I`m the message in the pushnotification from the OS","messageId":"'.md5('Title of Browser Notification'.'I`m the message which is in the body part').'","color":"success"}', $update->getData());
             self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';
         });
         $directSend->setMercurePublisher($hub);
         $id = md5('Title of Browser Notification'.'I`m the message which is in the body part');
-        $directSend->sendBrowserNotification('test/test/numberofUser', 'Title of Browser Notification', 'I`m the message which is in the body part','I`m the message in the pushnotification from the OS',$id);
+        $directSend->sendBrowserNotification('test/test/numberofUser', 'Title of Browser Notification', 'I`m the message which is in the body part','I`m the message in the pushnotification from the OS',$id,'success');
     }
 
     public function testRedirectResponse(): void

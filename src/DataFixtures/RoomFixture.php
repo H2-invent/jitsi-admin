@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\AddressGroup;
 use App\Entity\License;
+use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
@@ -411,29 +412,42 @@ class RoomFixture extends Fixture
         $manager->persist($room);
         $manager->flush();
 
-        $room = new Rooms();
-        $room->setTimeZone('Europe/Berlin');
-        $room->setAgenda('Testagenda:' . $i);
-        $room->setDuration(60);
-        $room->setDissallowPrivateMessage(true);
-        $room->setDissallowScreenshareGlobal(true);
+        $room1 = new Rooms();
+        $room1->setTimeZone('Europe/Berlin');
+        $room1->setAgenda('Testagenda:' . $i);
+        $room1->setDuration(60);
+        $room1->setDissallowPrivateMessage(true);
+        $room1->setDissallowScreenshareGlobal(true);
         $start = (new \DateTime('tomorrow'))->setTimezone(new \DateTimeZone('Europe/Berlin'));
         $end = clone $start;
         $end->modify('+60min');
-        $room->setStart($start);
-        $room->setEnddate($end);
-        $room->setModerator($user);
-        $room->addUser($user);
-        $room->setUid('wertzzrtrrew');
-        $room->setUidReal('sdfgfhhjtr980joifjhg');
-        $room->setSlug('test534');
-        $room->setScheduleMeeting(false);
-        $room->setName('Room with Start and no Participants list and Lobby Activated');
-        $room->setSequence(0);
-        $room->setTotalOpenRooms(true);
-        $room->setLobby(true);
-        $room->setServer($server);
-        $manager->persist($room);
+        $room1->setStart($start);
+        $room1->setEnddate($end);
+        $room1->setModerator($user);
+        $room1->addUser($user);
+        $room1->setUid('wertzzrtrrew');
+        $room1->setUidReal('sdfgfhhjtr980joifjhg');
+        $room1->setSlug('test534');
+        $room1->setScheduleMeeting(false);
+        $room1->setName('Room with Start and no Participants list and Lobby Activated');
+        $room1->setSequence(0);
+        $room1->setTotalOpenRooms(true);
+        $room1->setLobby(true);
+        $room1->setServer($server);
+        $manager->persist($room1);
+        $manager->flush();
+        $lobbyTime = new \DateTime();
+        for ($i = 0; $i < 10; $i++){
+            $lobbyUser = new LobbyWaitungUser();
+            $lobbyUser->setUser($user);
+            $lobbyUser->setRoom($room1);
+            $lobbyUser->setUid(md5($i));
+            $lobbyUser->setCreatedAt(clone ($lobbyTime->modify('-1 hour')));
+            $lobbyUser->setShowName('LobbyUser '.$i);
+            $lobbyUser->setType('a');
+            $manager->persist($lobbyUser);
+
+        }
         $manager->flush();
 
         $room = new Rooms();
