@@ -56,6 +56,9 @@ function initTabs() {
 function changeTabContent(href, direction = 1) {
     var target = $(href);
     var oldEle = target.closest('.tab-content').find('.active')
+    if(target.hasClass('active')){
+        return false;
+    }
     target.addClass('noAnimation')
     if (direction === 1) {//we move to the left
         target.css('transform', 'translateX(-110%)')
@@ -71,7 +74,7 @@ function changeTabContent(href, direction = 1) {
         target.css('transform', 'translateX(0%)');
         target.closest('.tab-content-watch').addClass('active');
     },0);
-
+        return  true;
 }
 
 function initalSetUnderline() {
