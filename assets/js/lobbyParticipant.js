@@ -45,7 +45,7 @@ $('.renew').click(function (e) {
             interval = setInterval(function () {
                 counter = counter - 1;
                 $('.renew').text(text + ' (' + counter + ')');
-                if (counter === 0) {
+                if (counter < 0) {
                     $('.renew').text(text);
                     clearInterval(interval);
                 }
