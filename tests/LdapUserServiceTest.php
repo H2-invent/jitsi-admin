@@ -3,7 +3,12 @@
 namespace App\Tests;
 
 use App\dataType\LdapType;
+use App\Entity\LobbyWaitungUser;
+use App\Entity\Notification;
 use App\Entity\Rooms;
+use App\Entity\RoomsUser;
+use App\Entity\Waitinglist;
+use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
 use App\Service\IndexUserService;
@@ -287,6 +292,66 @@ class LdapUserServiceTest extends WebTestCase
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$UserInLDAP, sizeof($users));
 
+    }
+    public function testremoveUserFunction(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+        $this->getParam();
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $ldapUserService = $container->get(LdapUserService::class);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
+        $lobbyUSer = new LobbyWaitungUser();
+        $lobbyUSer->setUser($user);
+        $lobbyUSer->setRoom($room);
+        $lobbyUSer->setCreatedAt(new \DateTime());
+        $lobbyUSer->setUid('test');
+        $lobbyUSer->setShowName('test');
+        $lobbyUSer->setType('a');
+        $em->persist($lobbyUSer);
+        $em->flush();
+
+        $wait = new Waitinglist();
+        $wait->setCreatedAt(new \DateTime());
+        $wait->setRoom($room);
+        $wait->setUser($user);
+
+        $em->persist($wait);
+        $em->flush();
+
+        $user->addFavorite($room);
+        $notification = new Notification();
+        $notification->setCreatedAt(new \DateTime());
+        $notification->setUser($user);
+        $notification->setUrl('test');
+        $notification->setText('test');
+        $notification->setTitle('test');
+        $em->persist($notification);
+        $em->flush();
+
+        $user->addProtoypeRoom($room);
+
+        $attr = new RoomsUser();
+        $attr->setUser($user);
+        $attr->setRoom($room);
+        $attr->setLobbyModerator(true);
+        $em->persist($attr);
+        $em->flush();
+
+        $user->addAddressbookInverse($user2);
+        $user->addAddressbook($user2);
+        $user->getServers()[0]->addUser($user2);
+        $ldapUserService->deleteUser($user);
+
+        self::assertNull($userRepo->findOneBy(array('email'=>'test@local.de')));
     }
     private function getParam()
     {

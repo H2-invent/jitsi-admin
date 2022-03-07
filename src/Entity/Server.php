@@ -47,7 +47,7 @@ class Server
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="serverAdmins")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $administrator;
 

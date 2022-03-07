@@ -48,6 +48,7 @@ function initTabs() {
             $(this).removeClass('active');
         })
         $ele.addClass('active');
+        $ele.closest('.tabDropdown').find('button').text($ele.text());
     })
 }
 

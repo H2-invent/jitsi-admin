@@ -128,7 +128,7 @@ class User extends BaseUser
     private $uid;
 
     /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user", cascade={"remove"})
      */
     private $waitinglists;
 
@@ -189,7 +189,7 @@ class User extends BaseUser
     private $favorites;
 
     /**
-     * @ORM\OneToMany(targetEntity=LobbyWaitungUser::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=LobbyWaitungUser::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $lobbyWaitungUsers;
 
