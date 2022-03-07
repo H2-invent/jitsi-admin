@@ -121,7 +121,7 @@ class Rooms
     private $uidModerator;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="room")
+     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="room", cascade={"persist", "remove"})
      */
     private $subscribers;
 
@@ -146,7 +146,7 @@ class Rooms
     private $waitinglist;
 
     /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room")
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room", cascade={"persist", "remove"})
      */
     private $waitinglists;
 
