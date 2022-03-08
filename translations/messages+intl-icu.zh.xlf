@@ -1467,7 +1467,7 @@
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
-        <target>__</target>
+        <target/>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
@@ -1527,7 +1527,7 @@
       </trans-unit>
       <trans-unit id="ioC7pky" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
-        <target state="needs-translation">__Diese Aktion ist nicht erlaubt.</target>
+        <target state="needs-translation">Diese Aktion ist nicht erlaubt.</target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
         <source>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</source>
