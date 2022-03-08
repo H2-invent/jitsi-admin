@@ -76,6 +76,7 @@ help:
   featureEnalbeByJwt: Le Plugin "Enable Feature By JWT" doit être activé sur le serveur Jitsi-Meet. Autrement le JWT ne sera pas correctement reconnu et traité par le serveur
   teilnehmerEmailhinzufuegenModerator: Plusieurs adresses E-Mail peuvent être rajoutés. Chaque adresse E-Mail doit être écrit sur une nouvelle ligne.
   serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
+  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
 label:
   beitretenApp: Rejoindre via l'application Elektron
   beitretenBrowser: Rejoindre via le navigateur
@@ -93,7 +94,7 @@ label:
   serverLicenseKey: Entrer le Jitsi-Admin-Lizenkey
   apiKey: Api-Key pour ce serveur
   agenda: Courte agenda pour cette réunion (Markdown)
-  staticBackgroundColor: Fixer une couleur de fond sur la page d'acceuil
+  staticBackgroundColor:
   schowStaticBackgroundColor: Montre une couleur fixe au lieu d'images sur la page d'acceuil
   featureEnalbeByJwt: Le Plugin "Enable Feature By JWT" est activé sur le serveur
   dissallowScreenshareGlobal: Seul le modérateur peut partager son écran
@@ -125,6 +126,9 @@ label:
   jwtModeratorPosition: Position de modérateur dans le jeton JWT
   timezone: Fuseau horaire
   serverName: Nom du serveur
+  lobby: Lobby aktivieren
+  secondEmail: CC-E-Mail
+  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
