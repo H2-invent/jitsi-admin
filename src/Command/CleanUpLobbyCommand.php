@@ -32,7 +32,7 @@ class CleanUpLobbyCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $arg1 = $input->getArgument('maxAge');
-        if (!$arg1) {
+        if ($arg1 === null) {
             $arg1 = 72;
         }
         $io->note(sprintf('We delete all Lobbyusers which are older then %d hours', $arg1));

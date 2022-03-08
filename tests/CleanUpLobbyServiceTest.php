@@ -45,7 +45,7 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:lobby:cleanUp');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('arg1'=>4));
+        $commandTester->execute(array('maxAge'=>4));
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [NOTE] We delete all Lobbyusers which are older then 4 hours', $output);
         $this->assertStringContainsString(' [OK] We deleted 7 lobby users', $output);
@@ -60,5 +60,16 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [NOTE] We delete all Lobbyusers which are older then 72 hours', $output);
         $this->assertStringContainsString(' [OK] We deleted 0 lobby users', $output);
+    }
+    public function test0hwithCommand(): void
+    {
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
+        $command = $application->find('app:lobby:cleanUp');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array('maxAge'=>0));
+        $output = $commandTester->getDisplay();
+        $this->assertStringContainsString(' [NOTE] We delete all Lobbyusers which are older then 0 hours', $output);
+        $this->assertStringContainsString(' [OK] We deleted 10 lobby users', $output);
     }
 }
