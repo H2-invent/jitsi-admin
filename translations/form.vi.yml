@@ -76,6 +76,7 @@ help:
   featureEnalbeByJwt: Plugin "Enable Feature By JWT" phải được kích hoạt trên máy chủ Jitsi-Meet. Nếu không, JWT sẽ không được máy chủ nhận dạng và xử lý chính xác
   teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Jede E-Mail-Adresse muss in eine neue Zeile geschrieben werden.
   serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
+  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
 label:
   beitretenApp: Tham gia với App
   beitretenBrowser: Tham gia với trình duyệt
@@ -93,7 +94,7 @@ label:
   serverLicenseKey: Giấy phép Jitsi-Admin
   apiKey: Khóa API cho máy chủ này
   agenda: Chương trình nghị sự cho cuộc họp này (đánh dấu)
-  staticBackgroundColor: Đặt màu nền trên trang tham dự
+  staticBackgroundColor:
   schowStaticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
   featureEnalbeByJwt: Tính năng "Token - JWT" được kích hoạt trên máy chủ
   dissallowScreenshareGlobal: Chỉ người kiểm duyệt mới có thể chia sẻ màn hình
@@ -125,6 +126,9 @@ label:
   jwtModeratorPosition: Moderatorposition im JWT Token
   timezone: Zeitzone
   serverName: Servername
+  lobby: Lobby aktivieren
+  secondEmail: CC-E-Mail
+  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
