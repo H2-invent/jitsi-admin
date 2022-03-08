@@ -5,7 +5,7 @@ label.name: Ваше имя
 label.teilnehmerEmailhinzufuegen: Введите адрес электронной почты новых участников
 label.teilnehmerSpeichern: Отправить приглашение по электронной почте
 label.emailModerator: Введите адрес электронной почты организатора
-help.emailTextfeld: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки. 
+help.emailTextfeld: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки.
 label.organisatorhinzufuegen: Добавить организатора
 label.serverKonferenz: Сервер встреч Jitsi
 label.konferenzName: Название конференции
@@ -52,7 +52,7 @@ option:
   third: Третий
   fourth: Четвертый
   fifth: Пятый
-  last: Последний 
+  last: Последний
   january: Январь
   february: Февраль
   march: Мар
@@ -74,8 +74,9 @@ label.scheduleMeeting: Создайте опрос о встрече
 help:
   serverUrl: 'Введите без "https: //" (например, meet.jit.si)'
   featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" должен быть включен на сервере jitsi meet. В противном случае JWT не будет правильно распознан с сервера
-  teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки. 
+  teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки.
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
+  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
   beitretenBrowser: Открыть в браузере
@@ -93,7 +94,7 @@ label:
   serverLicenseKey: Введите лицензионный ключ Jitsi-Администратора
   apiKey: API - Команды для этого сервера
   agenda: Краткая программа мероприятия
-  staticBackgroundColor: Установите цвет фона на странице присоединения
+  staticBackgroundColor:
   schowStaticBackgroundColor: Показывать статический цвет вместо изображений на странице соединения
   featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" активен на сервере
   dissallowScreenshareGlobal: Только модераторам разрешается делиться экраном
@@ -125,8 +126,11 @@ label:
   jwtModeratorPosition: Положение модератора в токене JWT
   timezone: Часовой пояс
   serverName: Название сервера
+  lobby: Lobby aktivieren
+  secondEmail: CC-E-Mail
+  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
 choice:
-  tls: STARTTLS / TLS 
+  tls: STARTTLS / TLS
   ssl: SSL
   none: Отсутствует
 placeholder:
