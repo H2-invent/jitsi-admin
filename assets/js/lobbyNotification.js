@@ -104,7 +104,7 @@ function countParts() {
 
 function showPush(data){
     TabUtils.lockFunction(data.messageId, function () {
-        if (document.hidden) {
+        if (document.visibilityState === 'hidden') {
             Push.create(data.title, {
                 body: data.pushNotification,
                 icon: '/favicon.ico',
