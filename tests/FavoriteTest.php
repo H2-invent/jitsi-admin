@@ -118,7 +118,7 @@ class FavoriteTest extends WebTestCase
         );
         $this->assertEquals(
             1,
-            $crawler->filter('.favorites:contains("Läuft zurzeit")')->count()
+            $crawler->filter('.favorites.successBorder')->count()
         );
         $this->assertEquals(
             1,
