@@ -79,7 +79,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(json_encode(
             array(
                 'user' => array(
-                    array('name' => 'Testgruppe', 'id' => 'Testgruppe')
+                    array('name' => 'testgruppe', 'id' => 'testgruppe')
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
