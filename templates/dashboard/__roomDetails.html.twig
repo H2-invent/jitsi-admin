@@ -5,7 +5,6 @@
        <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
         {% endif %}
     {% endif %}
-    {% if room in runningRooms %}<small class="badge badge-success" {% if theme %} style="background-color: {{ theme.colorBadgeRunningNow }} !important;" {% endif %}>{{ 'Läuft gerade'|trans }}</small><br>{% endif %}
     {% if app.user == room.moderator %}
 
         <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ 'Moderator'|trans }}</span><br>

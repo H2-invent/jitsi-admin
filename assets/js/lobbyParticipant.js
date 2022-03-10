@@ -39,9 +39,9 @@ var text;
 $('.renew').click(function (e) {
     e.preventDefault();
     if (counter <= 0) {
+        counter = reknockingTime;
         text = $(this).text();
         $.get($(this).attr('href'), function (data) {
-            counter = reknockingTime;
             interval = setInterval(function () {
                 counter = counter - 1;
                 $('.renew').text(text + ' (' + counter + ')');
