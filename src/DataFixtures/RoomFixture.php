@@ -73,8 +73,10 @@ class RoomFixture extends Fixture
 
         $user->addAddressbook($user2);
         $user->addAddressbook($user3);
+
         $group = new AddressGroup();
         $group->setLeader($user);
+        $group->setIndexer('testgruppe');
         $group->setCreatedAt(new \DateTimeImmutable());
         $group->addMember($user2);
         $group->addMember($user3);

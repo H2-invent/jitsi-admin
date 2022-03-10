@@ -35,7 +35,8 @@ class ParticipantController extends AbstractController
     public function index(Request $request, TranslatorInterface $translator, ParticipantSearchService $participantSearchService): Response
     {
         $string = $request->get('search');
-        $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByIndex(strtolower($string), $this->getUser());
+        $string = strtolower($string);
+        $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByIndex($string, $this->getUser());
         $group = $this->getDoctrine()->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = array();

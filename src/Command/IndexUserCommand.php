@@ -2,7 +2,9 @@
 
 namespace App\Command;
 
+use App\Entity\AddressGroup;
 use App\Entity\User;
+use App\Service\IndexGroupsService;
 use App\Service\IndexUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -16,19 +18,21 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class IndexUserCommand extends Command
 {
     protected static $defaultName = 'app:index:user';
-    protected static $defaultDescription = 'Add a short description for your command';
+    protected static $defaultDescription = 'This command reindex the user and the addressbookgroups name';
     private $em;
     private $indexer;
+    private $groupIndexer;
     protected function configure(): void
     {
 
     }
 
-    public function __construct( EntityManagerInterface $entityManager, IndexUserService $indexUserService, string $name = null)
+    public function __construct( EntityManagerInterface $entityManager, IndexUserService $indexUserService, IndexGroupsService $indexGroupsService, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
         $this->indexer = $indexUserService;
+        $this->groupIndexer = $indexGroupsService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -44,8 +48,20 @@ class IndexUserCommand extends Command
         }
         $this->em->flush();
         $progressBar->finish();
-        $io->success('we reindex all users');
+        $io->success(sprintf('we reindex %d users',sizeof($user)));
 
+        $group = $this->em->getRepository(AddressGroup::class)->findAll();
+        $progressBar = new ProgressBar($output, sizeof($group));
+        $progressBar->start();
+        foreach ($group as $data) {
+            $progressBar->advance();
+            $data->setIndexer($this->groupIndexer->indexGroup($data));
+            $this->em->persist($data);
+        }
+        $this->em->flush();
+        $progressBar->finish();
+        $io->newLine();
+        $io->success(sprintf('we reindex %d Groups',sizeof($group)));
         return Command::SUCCESS;
     }
 }
