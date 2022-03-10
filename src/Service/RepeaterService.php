@@ -465,7 +465,6 @@ class RepeaterService
     public function addUserRepeat(Repeat $repeat)
     {
         $prototype = $repeat->getPrototyp();
-
         foreach ($repeat->getRooms() as $data) {
             foreach ($data->getUser() as $data2) {
                 $data->removeUser($data2);
@@ -485,14 +484,13 @@ class RepeaterService
             }
             $this->em->persist($data);
         }
+
         foreach ($repeat->getRooms() as $data) {
             foreach ($prototype->getUserAttributes() as $data2) {
                 $tmp = clone $data2;
                 $tmp->setRoom($data);
-                $data->addUserAttribute($tmp);
                 $this->em->persist($tmp);
             }
-            $this->em->persist($data);
         }
         $this->em->flush();
     }
