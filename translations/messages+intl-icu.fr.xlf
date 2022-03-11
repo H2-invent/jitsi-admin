@@ -1426,7 +1426,7 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="5oh_yoS" resname="confirm.delete.adressbookGroupUser">
         <source>confirm.delete.adressbookGroupUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen?</target>
+        <target state="translated">Voulez-vous vraiment supprimer cette entrée du groupe ?</target>
       </trans-unit>
       <trans-unit id="YU4vd4T" resname="confirm.title">
         <source>confirm.title</source>
@@ -1454,15 +1454,15 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="NnxTjTc" resname="confirm.delete.server">
         <source>confirm.delete.server</source>
-        <target state="needs-translation">Wollen Sie diesen Server wirklich löschen?</target>
+        <target state="translated">Êtes-vous sûr de vouloir supprimer cet serveur?</target>
       </trans-unit>
       <trans-unit id="Ta8QMX4" resname="email.ical.link">
         <source>email.ical.link</source>
-        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+        <target state="translated">Si vous souhaitez gérer facilement toutes les conférences dans votre calendrier, vous pouvez vous abonner à ce lien iCal dans votre calendrier en tant que calendrier Internet.</target>
       </trans-unit>
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
-        <target state="needs-translation">Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
+        <target state="translated">Votre autorisation dans le Lobby a été modifiée. Cette page se rechargera dans quelques secondes.</target>
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
@@ -1470,51 +1470,51 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
-        <target state="needs-translation">Die Konferenz wurde beendet.</target>
+        <target state="translated">Cette conférence à été terminée.</target>
       </trans-unit>
       <trans-unit id="D3hjQyh" resname="lobby.participant.modal.end.text">
         <source>lobby.participant.modal.end.text</source>
-        <target state="needs-translation">Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
+        <target state="translated">Un modérateur a mis fin à la conférence pour tous les participants. Merci pour votre participation.</target>
       </trans-unit>
       <trans-unit id="SNlgrt7" resname="text.continue">
         <source>text.continue</source>
-        <target state="needs-translation">Weiter</target>
+        <target state="translated">Suivant</target>
       </trans-unit>
       <trans-unit id="_kvL9Eu" resname="fixed.Room.name">
         <source>fixed.Room.name</source>
-        <target state="needs-translation">Dauerhaft</target>
+        <target state="translated">Permanent</target>
       </trans-unit>
       <trans-unit id="fvdvbiY" resname="favorite.sidebar.title">
         <source>favorite.sidebar.title</source>
-        <target state="needs-translation">Favoriten</target>
+        <target state="translated">Favoris</target>
       </trans-unit>
       <trans-unit id="S9ZHICp" resname="favorite.sidebar.help">
         <source>favorite.sidebar.help</source>
-        <target state="needs-translation"><![CDATA[Drücken Sie <i class="far fa-star"></i> um Konferenzen als Favoriten zu markieren.]]></target>
+        <target state="translated"><![CDATA[Appuyez sur <i class="far fa-star"></i> pour marquer les conférences comme favorites.]]></target>
       </trans-unit>
       <trans-unit id="GKvYLg2" resname="participant.resend.invitation">
         <source>participant.resend.invitation</source>
-        <target state="needs-translation">Einladung nochmals an den Teilnehmenden senden.</target>
+        <target state="translated">Renvoyez l'invitation au participant.</target>
       </trans-unit>
       <trans-unit id="gdZJZYw" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Die Einladung wurde erfolgreich versandt.</target>
+        <target state="translated">L'invitation a été envoyée avec succès.</target>
       </trans-unit>
       <trans-unit id="g4jtVF_" resname="secondEmail.help">
         <source>secondEmail.help</source>
-        <target state="needs-translation">Alle E-Mails werden auch noch an diese E-Mail-Adresse geschickt.</target>
+        <target state="translated">Tous les e-mails seront également envoyés à cette adresse e-mail.</target>
       </trans-unit>
       <trans-unit id="TKFDNHO" resname="second.email.title">
         <source>second.email.title</source>
-        <target state="needs-translation">Persönliche Einstellungen</target>
+        <target state="translated">Paramètres personnels</target>
       </trans-unit>
       <trans-unit id="m642WuG" resname="CC-E-Mails erfolgreich geändert auf: {secondEmails}">
         <source>CC-E-Mails erfolgreich geändert auf: {secondEmails}</source>
-        <target state="needs-translation">Persönliche Einstellungen erfolgreich geändert.</target>
+        <target state="translated">Paramètres personnelles du profil édités avec succès.</target>
       </trans-unit>
       <trans-unit id="nse36ub" resname="Weitere E-Mailadressen">
         <source>Weitere E-Mailadressen</source>
-        <target state="needs-translation">Weitere E-Mailadressen</target>
+        <target state="translated">Autres adresses e-mail</target>
       </trans-unit>
       <trans-unit id="1ur_gjW" resname="Download">
         <source>Download</source>
@@ -1522,15 +1522,15 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="ynT5s9D" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
-        <target state="needs-translation"><![CDATA[Der Teilnehmende {name} ist der Lobby der Konferenz {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Zur Lobby</a>]]></target>
+        <target state="translated"><![CDATA[Le participant {name} a rejoint le lobby de la conférence {room}<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Vers le lobby</a >]]></target>
       </trans-unit>
       <trans-unit id="ioC7pky" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
-        <target state="needs-translation">Diese Aktion ist nicht erlaubt.</target>
+        <target state="translated">Cette action n’est pas autorisée.</target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
         <source>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</source>
-        <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
+        <target state="translated">Cette date indique la première date de la série. Si vous avez modifié des rendez-vous individuels de la série, ils seront réinitialisés.</target>
       </trans-unit>
     </body>
   </file>
