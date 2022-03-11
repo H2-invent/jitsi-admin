@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">Agenda</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe" approved="yes">
         <source>Keine Angabe</source>
@@ -603,7 +603,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       </trans-unit>
       <trans-unit id="1wfcLxk" resname="Logo">
         <source>Logo</source>
-        <target state="needs-translation">Logo</target>
+        <target state="translated">Logo</target>
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird." approved="yes">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
@@ -1299,15 +1299,15 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="DamWI5n" resname="jitsi.start">
         <source>jitsi.start</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">Démarrer</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
         <source>jitsi.start.browser</source>
-        <target state="needs-translation">Im Browser</target>
+        <target state="translated">Dans le navigateur</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">Dans l'application</target>
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
@@ -1323,7 +1323,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="27m6wen" resname="input.placeholder.search">
         <source>input.placeholder.search</source>
-        <target state="needs-translation">Hier suchen</target>
+        <target state="translated">Rechercher ici</target>
       </trans-unit>
       <trans-unit id="r8FPafb" resname="lobby.moderator.accept.error">
         <source>lobby.moderator.accept.error</source>
@@ -1436,11 +1436,11 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
         <source>confirm.cancel</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">Annuler</target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
         <source>confirm.ok</source>
-        <target state="needs-translation">OK</target>
+        <target state="translated">Ok</target>
       </trans-unit>
       <trans-unit id="jFaq_p7" resname="confirm.delete.room">
         <source>confirm.delete.room</source>
@@ -1520,7 +1520,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="1ur_gjW" resname="Download">
         <source>Download</source>
-        <target state="needs-translation">Download</target>
+        <target state="translated">Télécharchement</target>
       </trans-unit>
       <trans-unit id="ynT5s9D" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
