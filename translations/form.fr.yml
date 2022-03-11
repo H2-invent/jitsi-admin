@@ -68,15 +68,15 @@ option:
   user: Dans le User Claim
   root: Dans le Roots Claim
 lable.serverUrl: URL du Serveur Jitsi-Meet
-label.appId: App-ID
+label.appId: Identifiant de l’application
 label.appSecret: Secret de l'application
 label.scheduleMeeting: Trouver un rendez-vous
 help:
   serverUrl: Spécifier sans "https://" (p.e. meet.jit.si)
   featureEnalbeByJwt: Le Plugin "Enable Feature By JWT" doit être activé sur le serveur Jitsi-Meet. Autrement le JWT ne sera pas correctement reconnu et traité par le serveur
   teilnehmerEmailhinzufuegenModerator: Plusieurs adresses E-Mail peuvent être rajoutés. Chaque adresse E-Mail doit être écrit sur une nouvelle ligne.
-  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  serverName: Veuillez entrer le nom du serveur ici. Celui-ci est affiché aux participants.
+  secondEmail: Tous les e-mails doivent être envoyés à ces adresses e-mail en plus de mon adresse e-mail standard (séparée par des virgules).
 label:
   beitretenApp: Rejoindre via l'application Elektron
   beitretenBrowser: Rejoindre via le navigateur
@@ -126,9 +126,9 @@ label:
   jwtModeratorPosition: Position de modérateur dans le jeton JWT
   timezone: Fuseau horaire
   serverName: Nom du serveur
-  lobby: Lobby aktivieren
-  secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  lobby: Activer le Lobby
+  secondEmail: E-mail CC
+  profilImage: Photo de profil (sera affichée lors de la réunion Jitsi-Meet)
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
