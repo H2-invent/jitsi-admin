@@ -501,9 +501,9 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz-ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie, um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz-ID: {uid}]]></target>
+        <target state="translated"><![CDATA[Vous avez besoin des données suivantes pour rejoindre la conférence:<br>
+        Votre adresse e-mail: {email}<br>
+        L'identifiant de la conférence: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen." approved="yes">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
@@ -823,9 +823,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="DRmOwG." resname="dashboard.noconference">
         <source>dashboard.noconference</source>
-        <target state="needs-translation"><![CDATA[Aktuell sind keine Konferenzen vorhanden. Bitte erstellen Sie
-                            <u><a href="{url}" class="loadContent">hier</a></u>
-                            eine neue Konferenz.]]></target>
+        <target state="translated"><![CDATA[Il n'y a actuellement aucune conférence disponible. Veuillez créer                            une nouvelle conférence <u><a href="{url}" class="loadContent"> ici</a></u>.]]></target>
       </trans-unit>
       <trans-unit id="Jk72Pn4" resname="Hinzugefügt zur Warteliste" approved="yes">
         <source>Hinzugefügt zur Warteliste</source>
@@ -1275,27 +1273,27 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="0NUhwSD" resname="lobby.participant.ask.sucess">
         <source>lobby.participant.ask.sucess</source>
-        <target state="needs-translation">Sie haben Ihren Beitritt erfolgreich angefordert.</target>
+        <target state="translated">Vous avez fait une demande de participation avec succès.</target>
       </trans-unit>
       <trans-unit id="N9O9mYb" resname="lobby.notification.newUser.title">
         <source>lobby.notification.newUser.title</source>
-        <target state="needs-translation">{name} ist in der Lobby</target>
+        <target state="translated">{name} est dans le Lobby</target>
       </trans-unit>
       <trans-unit id="IbBrCkB" resname="lobby.notification.newUser.message">
         <source>lobby.notification.newUser.message</source>
-        <target state="needs-translation">Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten</target>
+        <target state="translated">Le participant {name} a rejoint le lobby de la conférence {room}</target>
       </trans-unit>
       <trans-unit id="BvZfePO" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
-        <target state="needs-translation">Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <target state="translated">Veuillez activer le lobby pour cette conférence. Vous pouvez admettre chaque participant individuellement à la conférence.</target>
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">Lobby für die Konferenz: {name}</target>
+        <target state="translated">Lobby pour la conférence: {name}</target>
       </trans-unit>
       <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
-        <target state="needs-translation">Keine Webcam gefunden</target>
+        <target state="translated">Aucune Webcam trouvée</target>
       </trans-unit>
       <trans-unit id="DamWI5n" resname="jitsi.start">
         <source>jitsi.start</source>
@@ -1311,15 +1309,15 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
-        <target state="needs-translation">Lobby für die Konferenz: {name}</target>
+        <target state="translated">Lobby pour la conférence: {name}</target>
       </trans-unit>
       <trans-unit id="rsZTp96" resname="lobby.renew">
         <source>lobby.renew</source>
-        <target state="needs-translation">Erneut anklopfen</target>
+        <target state="translated">Renouveler l'appel</target>
       </trans-unit>
       <trans-unit id="5fCeszY" resname="lobby.exit">
         <source>lobby.exit</source>
-        <target state="needs-translation">Lobby verlassen</target>
+        <target state="translated">Quitter le lobby</target>
       </trans-unit>
       <trans-unit id="27m6wen" resname="input.placeholder.search">
         <source>input.placeholder.search</source>
@@ -1327,59 +1325,60 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="r8FPafb" resname="lobby.moderator.accept.error">
         <source>lobby.moderator.accept.error</source>
-        <target state="needs-translation">Fehler, bitte laden Sie die Seite neu</target>
+        <target state="translated">Erreur, veuillez actualiser la page</target>
       </trans-unit>
       <trans-unit id="0rcT2h8" resname="lobby.moderator.accept.success">
         <source>lobby.moderator.accept.success</source>
-        <target state="needs-translation">Sie haben den Teilnehmer erfolgreich der Konferenz hinzugefügt</target>
+        <target state="translated">Vous avez ajouté avec succès le participant à la conférence</target>
       </trans-unit>
       <trans-unit id="8UJiDMP" resname="lobby.moderator.decline.success">
         <source>lobby.moderator.decline.success</source>
-        <target state="needs-translation">Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</target>
+        <target state="translated">Ce participant n'a pas d'accès à la conférence</target>
       </trans-unit>
       <trans-unit id="jRL3d6b" resname="lobby.participant.accept">
         <source>lobby.participant.accept</source>
-        <target state="needs-translation">Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.</target>
+        <target state="translated">Vous avez été admis à la conférence et serez transféré dans quelques secondes.</target>
       </trans-unit>
       <trans-unit id="aP4D.Vc" resname="lobby.participant.decline">
         <source>lobby.participant.decline</source>
-        <target state="needs-translation">Sie wurden von dem Moderator nicht zur Konferenz zugelassen. Bitte entschuldigen Sie die Unannehmhlichkeit.</target>
+        <target state="translated">Vous n'avez pas été admis à la conférence par le modérateur. Veuillez excuser le désagrément.</target>
       </trans-unit>
       <trans-unit id="7sKnidl" resname="lobby.participant.modal.accept.title">
         <source>lobby.participant.modal.accept.title</source>
-        <target state="needs-translation">Der Moderator hat Sie zur Konferenz hinzugefügt</target>
+        <target state="translated">Le modérateur vous a ajouté à la conférence</target>
       </trans-unit>
       <trans-unit id="Scz6Klf" resname="lobby.participant.modal.accept.message">
         <source>lobby.participant.modal.accept.message</source>
-        <target state="needs-translation">Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</target>
+        <target state="translated">Vous avez le choix de rejoindre la réunion avec le navigateur ou l'application Jitsi-Meet Electro. Si vous n'êtes pas sûr, sélectionnez "Dans le navigateur".</target>
       </trans-unit>
       <trans-unit id=".6u1w8z" resname="lobby.participant.pleaseWait">
         <source>lobby.participant.pleaseWait</source>
-        <target state="needs-translation">Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
+        <target state="translated">Veuillez patienter s'il vous plaît. 
+Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Teilnehmende zulassen</target>
+        <target state="translated">Autoriser tous les participants</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">Tous les participants ont été admis avec succès à la conférence.</target>
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
-        <target state="needs-translation">Echotest starten</target>
+        <target state="translated">Démarrer l'essai du micro</target>
       </trans-unit>
       <trans-unit id="8SH9Z2g" resname="lobby.echo.input">
         <source>lobby.echo.input</source>
-        <target state="needs-translation">Eingangsgerät</target>
+        <target state="translated">Périphérique d'entrée</target>
       </trans-unit>
       <trans-unit id="1sryeOJ" resname="lobby.echo.output">
         <source>lobby.echo.output</source>
-        <target state="needs-translation">Ausgabegerät</target>
+        <target state="translated">Périphérique de sortie</target>
       </trans-unit>
       <trans-unit id="abSRL0." resname="error.noPermission">
         <source>error.noPermission</source>
-        <target state="needs-translation">Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</target>
+        <target state="translated">Erreur. Vous n'êtes pas autorisé à effectuer cette action.</target>
       </trans-unit>
       <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}" approved="yes">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
@@ -1391,11 +1390,11 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="wmT9oq4" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
-        <target state="needs-translation">Echotest beenden</target>
+        <target state="translated">Terminer l'essai du micro</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="needs-translation">Die Konferenz für alle Teilnehmenden beenden</target>
+        <target state="translated">Terminer la conférence pour tous les participants</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
