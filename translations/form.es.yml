@@ -76,7 +76,7 @@ help:
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
   teilnehmerEmailhinzufuegenModerator: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
   serverName: Introduzca aquí el nombre del servidor. Esto se muestra a los participantes.
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  secondEmail: Todos los correos electrónicos deben enviarse a estas direcciones, además de a su dirección de correo electrónico estándar (separadas por comas).
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -126,9 +126,9 @@ label:
   jwtModeratorPosition: Posición de moderador en el token JWT
   timezone: Zona horaria
   serverName: Nombre del servidor
-  lobby: Lobby aktivieren
-  secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  lobby: Activar sala de espera
+  secondEmail: CC Correo Electrónico
+  profilImage: Imagen de perfil (se mostrará en la conferencia de Jitsi-Meet)
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
