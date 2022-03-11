@@ -1281,11 +1281,11 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="Ta8QMX4" resname="email.ical.link">
         <source>Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</source>
-        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+        <target state="translated">Si vous souhaitez gérer facilement toutes les conférences dans votre calendrier, vous pouvez vous abonner à ce lien iCal dans votre calendrier en tant que calendrier Internet.</target>
       </trans-unit>
       <trans-unit id="GKvYLg2" resname="participant.resend.invitation">
         <source>Einladung nochmals an den Teilnehmenden senden.</source>
-        <target state="needs-translation">Einladung nochmals an den Teilnehmenden senden.</target>
+        <target state="translated">Renvoyez l'invitation au participant.</target>
       </trans-unit>
     </body>
   </file>
