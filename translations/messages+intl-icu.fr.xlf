@@ -1398,40 +1398,39 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
-        <target state="needs-translation">Den Teilnehmenden zum Lobbymoderator ernennen</target>
+        <target state="translated">Nommer ce participant comme modérateur du lobby</target>
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobymoderator hinzufügen?</target>
+        <target state="translated">Voulez-vous ajouter le participant en tant que modérateur du lobby ?</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobymoderator entfernen?</target>
+        <target state="translated">Voulez-vous supprimer le participant en tant que modérateur du lobby ?</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
-        <target state="needs-translation">Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</target>
+        <target state="translated">Ajoutez des participants et accordez-leur des autorisations en tant que modérateur de lobby ou modérateur de conférence.</target>
       </trans-unit>
       <trans-unit id="vs1KLhV" resname="newRoom.error.noServer.addServer">
         <source>newRoom.error.noServer.addServer</source>
-        <target state="needs-translation">Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</target>
+        <target state="translated">Vous n'avez pas créé de serveur ou un serveur ne vous a pas encore été attribué. Veuillez créer un serveur en cliquant sur le symbole d'engrenage dans la navigation.</target>
       </trans-unit>
       <trans-unit id="hj1.9Y_" resname="newRoom.error.noServer.askAdmin">
         <source>newRoom.error.noServer.askAdmin</source>
-        <target state="needs-translation"><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
-        <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
+        <target state="translated"><![CDATA[Aucun serveur de conférence ne vous a encore été attribué. Veuillez contacter votre administrateur par l'adresse e-mail suivante:        <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
       </trans-unit>
       <trans-unit id="Igadcd_" resname="confirm.delete.adressbookUser">
         <source>confirm.delete.adressbookUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich entfernen?</target>
+        <target state="translated">Voulez-vous vraiment supprimer cette entrée ?</target>
       </trans-unit>
       <trans-unit id="5oh_yoS" resname="confirm.delete.adressbookGroupUser">
         <source>confirm.delete.adressbookGroupUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen entfernen?</target>
+        <target state="translated">Voulez-vous vraiment supprimer cette entrée du groupe ?</target>
       </trans-unit>
       <trans-unit id="YU4vd4T" resname="confirm.title">
         <source>confirm.title</source>
-        <target state="needs-translation">Bestätigung</target>
+        <target state="translated">Confirmation</target>
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
         <source>confirm.cancel</source>
@@ -1443,15 +1442,15 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="jFaq_p7" resname="confirm.delete.room">
         <source>confirm.delete.room</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich löschen?</target>
+        <target state="translated">Êtes-vous sûr de vouloir supprimer cette conférence?</target>
       </trans-unit>
       <trans-unit id="QI4Vqe9" resname="confirm.delete.series">
         <source>confirm.delete.series</source>
-        <target state="needs-translation">Wollen Sie diese Serie wirklich löschen?</target>
+        <target state="translated">Êtes-vous sûr de vouloir supprimer cette série?</target>
       </trans-unit>
       <trans-unit id="NfYmDes" resname="confirm.delete.lobbyUser">
         <source>confirm.delete.lobbyUser</source>
-        <target state="needs-translation">Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</target>
+        <target state="translated">Voulez-vous vraiment supprimer ce participant du lobby ?</target>
       </trans-unit>
       <trans-unit id="NnxTjTc" resname="confirm.delete.server">
         <source>confirm.delete.server</source>
