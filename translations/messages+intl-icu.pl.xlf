@@ -1537,8 +1537,16 @@
         <target state="needs-translation">Diese Aktion ist nicht erlaubt.</target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
-        <source>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</source>
+        <source>repeater.edit.warning</source>
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
+      </trans-unit>
+      <trans-unit id="t1d0iZI" resname="common.save">
+        <source>Speichern</source>
+        <target state="needs-translation">Speichern</target>
+      </trans-unit>
+      <trans-unit id="YZqDLMj" resname="common.success.save">
+        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
       </trans-unit>
     </body>
   </file>
