@@ -1532,8 +1532,16 @@
         <target state="translated">Esta acción no está permitida.</target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
-        <source>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</source>
+        <source>repeater.edit.warning</source>
         <target state="translated">Esta fecha indica la primera fecha de la serie. Si ha editado conferencias individuales de la serie, se restablecerán.</target>
+      </trans-unit>
+      <trans-unit id="t1d0iZI" resname="common.save">
+        <source>Speichern</source>
+        <target state="translated">Guardar</target>
+      </trans-unit>
+      <trans-unit id="YZqDLMj" resname="common.success.save">
+        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <target state="translated">Sus datos se han guardado con éxito.</target>
       </trans-unit>
     </body>
   </file>
