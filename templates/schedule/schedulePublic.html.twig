@@ -66,7 +66,10 @@
                     </div>
                 {% endfor %}
             </div>
+
         </div>
+        <button  class="btn btn-outline-primary"  data-toggle="modal" data-target="#saveModal">{{ 'common.save'|trans }}</button>
+
         <div class="row form-group">
             <div class="col-12">
                 {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
@@ -84,4 +87,23 @@
 
 
 
+{% endblock %}
+{% block pageEnd %}
+    <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModal" aria-hidden="true" data-mdb-backdrop="false" data-mdb-keyboard="true">
+    <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ 'common.success.save'|trans }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Schließen'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -201,10 +201,10 @@
   }
 }
 
-.blackMode.joinPage .modal {
+.blackMode.joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, black);
 }
-.joinPage .modal {
+.joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, white);
 }
 
