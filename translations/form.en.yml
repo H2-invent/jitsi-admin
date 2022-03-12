@@ -127,7 +127,7 @@ label:
   timezone: Timezone
   serverName: Server Name
   lobby: Lobby aktivieren
-  secondEmail: CC-E-Mail
+  secondEmail: CC Email
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
 choice:
   tls: STARTTLS/TLS
