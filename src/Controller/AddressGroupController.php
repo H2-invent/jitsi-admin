@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AddressGroup;
 use App\Form\Type\AddressGroupType;
+use App\Service\IndexGroupsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class AddressGroupController extends AbstractController
     /**
      * @Route("room/address/group/new", name="address_group_new")
      */
-    public function new(Request $request, TranslatorInterface $translator): Response
+    public function new(Request $request, TranslatorInterface $translator, IndexGroupsService $indexGroupsService): Response
     {
         $addressgroup = new AddressGroup();
         $addressgroup->setCreatedAt(new \DateTimeImmutable());
@@ -35,9 +36,11 @@ class AddressGroupController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $addressgroup->setUpdatedAt(new \DateTimeImmutable());
                 $addressgroup = $form->getData();
+                $addressgroup->setIndexer($indexGroupsService->indexGroup($addressgroup));
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($addressgroup);
                 $em->flush();
+
                 return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Kontaktgruppe erfolgreich angelegt')));
             }
         } catch (\Exception $e) {
