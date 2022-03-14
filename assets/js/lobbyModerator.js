@@ -14,12 +14,17 @@ import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId,echoOff} from './audioUtils'
-import {initJitsi} from './jitsiUtils'
+import {initJitsi, hangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
 
 var jitsiApi;
-navigator.mediaDevices.getUserMedia({audio: true, video: true})
+try {
+    navigator.mediaDevices.getUserMedia({audio: true, video: true})
+}catch ($e){
+    console.log($e)
+}
+
 initNotofication();
 initAUdio();
 initWebcam();
@@ -29,7 +34,9 @@ const es = new EventSource([topic]);
 es.onmessage = e => {
     var data = JSON.parse(e.data)
     masterNotify(data);
-    countParts();
+    if (data.type === 'endMeeting'){
+        hangup();
+    }
 }
 
 

@@ -15,22 +15,22 @@ var participants;
 function initJitsi(options, domain) {
     api = new JitsiMeetExternalAPI(domain, options);
     renewPartList()
-    if(typeof avatarUrl !== 'undefined'){
+    if (typeof avatarUrl !== 'undefined') {
         api.executeCommand('avatarUrl', avatarUrl);
     }
     api.addListener('participantJoined', function (id, name) {
         renewPartList()
     });
-    api.addListener('readyToClose', function (e) {
-        endMeeting();
-    })
-    api.addListener('videoConferenceJoined',function (e) {
+    // api.addListener('readyToClose', function (e) {
+    //     endMeeting();
+    // })
+    api.addListener('videoConferenceJoined', function (e) {
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             endMeeting();
             $.getJSON(($(this).attr('href')));
         })
-         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+        $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
 
     })
 
@@ -44,9 +44,13 @@ function endMeeting() {
     return 0;
 }
 
+function hangup() {
+    api.executeCommand('hangup');
+}
+
 function renewPartList() {
     participants = api.getParticipantsInfo();
 }
 
 
-export {initJitsi}
+export {initJitsi, hangup}

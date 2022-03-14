@@ -16,29 +16,39 @@ var webcams = [];
 var choosenId= null;
 
 async function initWebcam() {
-    await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    navigator.mediaDevices.enumerateDevices().then(function (devices) {
-        devices.forEach(function (device) {
-            if (device.kind === 'videoinput') {
-                webcams[device.label] = device.deviceId
-                var name = device.label.substring(0,device.label.lastIndexOf('('));
-                $('#webcamSelect').append(
-                    '<li><a class="dropdown-item webcamSelect" data-value="' + device.deviceId + '">' + name + '</a></li>'
-                )
-                console.log(name)
-                webcams.push(device);
-            }
-        });
-        $('.webcamSelect').click(function () {
-            setButtonName($('#selectWebcamDropdown'), $(this).text());
-            choosenId = $(this).data('value');
+
+    try {
+        await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+    }catch (e){
+        console.log(e);
+    }
+    try {
+
+        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+            devices.forEach(function (device) {
+                if (device.kind === 'videoinput') {
+                    webcams[device.label] = device.deviceId
+                    var name = device.label.substring(0, device.label.lastIndexOf('('));
+                    $('#webcamSelect').append(
+                        '<li><a class="dropdown-item webcamSelect" data-value="' + device.deviceId + '">' + name + '</a></li>'
+                    )
+                    console.log(name)
+                    webcams.push(device);
+                }
+            });
+            $('.webcamSelect').click(function () {
+                setButtonName($('#selectWebcamDropdown'), $(this).text());
+                choosenId = $(this).data('value');
+                startWebcam(choosenId);
+            })
+            choosenId = webcams[0].deviceId;
+            var name = webcams[0].label.substring(0, webcams[0].label.lastIndexOf('('));
+            setButtonName($('#selectWebcamDropdown'), name);
             startWebcam(choosenId);
         })
-        choosenId = webcams[0].deviceId;
-        var name = webcams[0].label.substring(0,webcams[0].label.lastIndexOf('('));
-        setButtonName($('#selectWebcamDropdown'), name);
-        startWebcam(choosenId);
-    })
+    }catch (e){
+        console.log(e);
+    }
 
     $('#webcamSwitch').click(function (e) {
         e.preventDefault();

@@ -11,8 +11,8 @@ global.$ = global.jQuery = $;
 import('mdbootstrap');
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId,stopWebcam} from './cameraUtils'
-import {initAUdio, micId, audioId,echoOff} from './audioUtils'
+import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
+import {initAUdio, micId, audioId, echoOff} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
@@ -24,11 +24,15 @@ initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 const es = new EventSource(topic);
+var api;
 es.onmessage = e => {
     var data = JSON.parse(e.data)
     masterNotify(data)
     if (data.type === 'newJitsi') {
         initJitsiMeet(data);
+    } else if (data.type === 'endMeeting') {
+        hangup()
+        $('#jitsiWindow').remove();
     }
 }
 
@@ -50,7 +54,7 @@ $('.renew').click(function (e) {
                     clearInterval(interval);
                 }
             }, 1000);
-            setSnackbar(data.message,data.color);
+            setSnackbar(data.message, data.color);
         })
     }
 })
@@ -66,22 +70,27 @@ $('.leave').click(function (e) {
 
 function initJitsiMeet(data) {
     stopWebcam();
-    var options =data.options.options;
+    var options = data.options.options;
     options.device = choosenId;
-    options.parentNode = document.querySelector( data.options.parentNode);
-    const api = new JitsiMeetExternalAPI(data.options.domain, options);
+    options.parentNode = document.querySelector(data.options.parentNode);
+    api = new JitsiMeetExternalAPI(data.options.domain, options);
     setTimeout(function () {
-        if(typeof avatarUrl !== 'undefined'){
+        if (typeof avatarUrl !== 'undefined') {
             console.log(avatarUrl);
             api.executeCommand('avatarUrl', avatarUrl);
         }
-    },2000);
+    }, 2000);
     $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
     $('#window').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName
     $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
 }
+
+function hangup() {
+    api.command('hangup')
+}
+
 $(document).ready(function () {
     initGenerell()
 })
