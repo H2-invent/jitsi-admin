@@ -21,9 +21,18 @@ function initJitsi(options, domain) {
     api.addListener('participantJoined', function (id, name) {
         renewPartList()
     });
-    // api.addListener('readyToClose', function (e) {
-    //     endMeeting();
-    // })
+     api.addListener('readyToClose', function (e) {
+         endMeeting();
+         if (window.opener == null) {
+             setTimeout(function () {
+                 window.location.href = data.url;
+             }, data.timeout)
+         } else {
+             setTimeout(function () {
+                 window.close();
+             }, data.timeout)
+         }
+     })
     api.addListener('videoConferenceJoined', function (e) {
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();

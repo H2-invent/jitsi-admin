@@ -80,11 +80,20 @@ function initJitsiMeet(data) {
             api.executeCommand('avatarUrl', avatarUrl);
         }
     }, 2000);
+    api.addListener('readyToClose', function (e) {
+        if (window.opener == null) {
+                window.location.href = '/';
+        } else {
+                window.close();
+        }
+    })
     $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
     $('#window').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName
     $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
+
+
 }
 
 function hangup() {
