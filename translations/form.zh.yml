@@ -34,38 +34,38 @@ option.420min: 7小时
 option.450min: 7小时30分
 option.480min: 8 小时
 option:
-  monday: Montag
-  tuesday: Dienstag
-  wednesday: Mittwoch
-  thursday: Donnerstag
-  friday: Freitag
-  saturday: Samstag
-  sunday: Sonntag
-  weekly: Wöchentlich
-  daily: Täglich
-  montly: Monatlich
-  yearly: Jährlich
+  monday: 星期一
+  tuesday: 星期二
+  wednesday: 星期三
+  thursday: 星期四
+  friday: 星期五
+  saturday: 星期六
+  sunday: 星期日
+  weekly: 每周
+  daily: 每天
+  montly: 每月
+  yearly: 每年
   montlyRelative: Monatlich Relativ
   yearlyRelative: Jährlich Relativ
-  first: Erster
-  second: Zweiter
-  third: Dritter
-  fourth: Vierter
-  fifth: Fünfter
-  last: Letzter
-  january: Januar
-  february: Februar
-  march: März
-  april: April
-  may: Mai
-  june: Juni
-  july: Juli
-  august: August
-  septembre: September
-  octobre: Oktober
-  novembre: November
-  decembre: Dezember
-  user: Im User Claim
+  first: 第一
+  second: 第二
+  third: 第三
+  fourth: 第四
+  fifth: 第五
+  last: 最后
+  january: 一月
+  february: 二月
+  march: 三月
+  april: 四月
+  may: 五月
+  june: 6 月
+  july: 七月
+  august: 8 月
+  septembre: 九月
+  octobre: 十月
+  novembre: 十一月
+  decembre: 十二月
+  user: 在用户声明中
   root: Im Root Claim
 lable.serverUrl: Jitsi-Meet服务器网址
 label.appId: 应用 ID
@@ -75,8 +75,8 @@ help:
   serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）
   featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
   teilnehmerEmailhinzufuegenModerator: 可以同时添加多个邮箱。每个邮箱必须写入新的一行。
-  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  serverName: 请在此处输入服务器名称，将向参会者展示。
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
@@ -94,7 +94,7 @@ label:
   serverLicenseKey: 输入Jitsi-Admin的许可证密钥
   apiKey: 该服务器的API-Key
   agenda: 本次会议简要议程（如下）
-  staticBackgroundColor:
+  staticBackgroundColor: 设计登录页面的背景色
   schowStaticBackgroundColor: 纯色显示，不显示登录页面上的图片
   featureEnalbeByJwt: 在服务器上激活"JWT 启用功能"插件
   dissallowScreenshareGlobal: 只有主持人才能共享屏幕
@@ -107,25 +107,25 @@ label:
   maxParticipants: 最大参会人数
   waitinglist: 激活等待列表
   teilnehmerEmailhinzufuegenModerator: 输入新主持人的邮箱
-  weekday: Wochentag
-  repetation: Endet nach x Terminen
+  weekday: 星期几
+  repetation: 在x天后结束
   repeatType: Serienmuster
   repeaterDays: Nach X Tagen wiederholen
   repeaterWeeks: Nach X Wochen wiederholen
   repeatMontly: Nach X Monaten wiederholen
   repeatYearly: Nach X Jahren wiederholen
   montlyRelativeNumber: Wievielte Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
-  montlyRelativeMonth: Monat
+  montlyRelativeWeekday: 星期几
+  montlyRelativeMonth: 月份
   repeaterRemoved: Nur dieses Element bearbeiten, nicht die gesamte Serie
   persistantRoom: Diese Konferenz hat kein Datum und ist immer verfügbar
   totalOpenRooms: Teilnehmerliste deaktivieren. Beitreten mit Teilnehmerlink.
-  totalOpenRoomsOpenTime: Raumöffnungszeit
-  addressgroupName: Gruppenname
+  totalOpenRoomsOpenTime: 开放时间
+  addressgroupName: 团队
   addressgroupMember: Gruppenmitglieder
-  jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
+  jwtModeratorPosition: 支持人JWT令牌
+  timezone: 时区
+  serverName: 服务器名
   lobby: Lobby aktivieren
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
@@ -135,4 +135,4 @@ choice:
   none: 无
 placeholder:
   maxParticipants: 无限制
-  chooseTime: Zeit und Datum auswählen
+  chooseTime: 选择时间和日期
