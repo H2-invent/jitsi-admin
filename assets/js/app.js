@@ -28,7 +28,7 @@ import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
 import {createPopper} from '@popperjs/core';
-import {initTabs} from './tabHelper'
+import {initTabs} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 
 addEventListener('load', function () {
@@ -49,8 +49,8 @@ addEventListener('load', function () {
         let search = new URLSearchParams(window.location.search);
         search.delete('modalUrl');
         let location = window.location.pathname;
-        if(search.toString().length>0){
-            location +='?'+search.toString();
+        if (search.toString().length > 0) {
+            location += '?' + search.toString();
         }
 
         window.history.pushState({}, document.title, location);
@@ -58,10 +58,8 @@ addEventListener('load', function () {
 });
 
 $(document).ready(function () {
-    $('.nav-tabs').each(function (e) {
-        $(this).append('<span class="underline"></span>')
-    })
-   initTabs();
+
+    initTabs('.nav-tabs');
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
@@ -107,8 +105,8 @@ $(document).ready(function () {
     let url = new URLSearchParams(window.location.search);
     url.delete('snack');
     let location = window.location.pathname;
-    if(url.toString().length>0){
-        location +='?'+url.toString();
+    if (url.toString().length > 0) {
+        location += '?' + url.toString();
     }
     window.history.pushState({}, document.title, location);
 });
@@ -265,7 +263,6 @@ $(".clickable-row").click(function () {
 $('#ex1-tab-3-tab').on('shown.bs.tab', function (e) {
 
 })
-
 
 
 function getMoreFeature(id) {
