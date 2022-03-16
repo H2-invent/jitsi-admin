@@ -58,6 +58,7 @@ class RoomWebhookService
             }
 
             $roomStatus = $this->em->getRepository(RoomStatus::class)->findOneBy(array('room' => $room, 'jitsiRoomId' => $data['room_jid']));
+
             if ($roomStatus) {
                 $this->logger->error('Room already created', array('roomJidID' => $data['room_jid']));
                 return false;
