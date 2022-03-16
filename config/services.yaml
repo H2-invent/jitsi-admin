@@ -81,6 +81,7 @@ parameters:
     emailSenderIsModerator: '%env(emailSenderIsModerator)%'
     input_settings_allowLobby: '%env(input_settings_allowLobby)%'
     input_settings_allowLobby_default: '%env(input_settings_allowLobby_default)%'
+    JITSI_EVENTS_TOKEN: '%env(JITSI_EVENTS_TOKEN)%'
 services:
     # default configuration for services in *this* file
     _defaults:

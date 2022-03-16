@@ -6,9 +6,14 @@
         {% endif %}
     {% endif %}
     {% if app.user == room.moderator %}
-
         <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ 'Moderator'|trans }}</span><br>
     {% endif %}
+    {% if RoomStatusOpen(room) == true %}
+        <span class="badge badge-success"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ 'Läuft gerade'|trans }}</span><br>
+        <span class="badge badge-success"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ RoomStatusOccupats(room) }} Teilnehmer</span><br>
+
+    {% endif %}
+
     {% if app.user == room.scheduleMeeting %}
         <a
                 {% if app.user == room.moderator %}
