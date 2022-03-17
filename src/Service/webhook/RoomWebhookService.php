@@ -7,16 +7,18 @@ use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RoomWebhookService
 {
     private $em;
     private $logger;
-
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+    private $paramterBag;
+    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, ParameterBagInterface $parameterBag)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
+        $this->paramterBag = $parameterBag;
     }
 
     public function startWebhook($data): ?string
@@ -95,21 +97,30 @@ class RoomWebhookService
                 $this->logger->error($text, array('roomId' => $data['event_name']));
                 return $text;
             }
+
             $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId( $data['room_jid']);
             if (!$roomStatus) {
                 $text = 'Room Jitsi ID not found';
                 $this->logger->error($text, array('jitsiID' => $data['room_jid']));
                 return $text;
             }
-
+            if ($this->paramterBag->get('JITSI_EVENTS_HISTORY') == 0){
+                $statusOld = $this->em->getRepository(RoomStatus::class)->findBy(array('jitsiRoomId'=>$data['room_jid']));
+                foreach ($statusOld as $data){
+                    $this->em->remove($data);
+                    $this->em->flush();
+                }
+                return null;
+            }
             $roomStatus->setDestroyedAt(\DateTime::createFromFormat('U', $data['destroyed_at']))
                 ->setUpdatedAt(new \DateTime())
                 ->setDestroyed(true);
             $this->em->persist($roomStatus);
             $this->em->flush();
+
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            return 'ERROR';
+            return $exception->getMessage();
         }
         return null;
     }
