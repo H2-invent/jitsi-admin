@@ -61,4 +61,15 @@ class RoomStatusRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+    public function findCreatedRoomsbyJitsiId($jitsiId): ?RoomStatus
+    {
+
+        $qb =  $this->createQueryBuilder('r');
+
+        return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
+            ->andWhere('r.jitsiRoomId =:jitsiid')
+            ->setParameter('jitsiid', $jitsiId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

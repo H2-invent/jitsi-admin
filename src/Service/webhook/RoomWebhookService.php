@@ -19,9 +19,9 @@ class RoomWebhookService
         $this->logger = $logger;
     }
 
-    public function startWebhook($data): bool
+    public function startWebhook($data): ?string
     {
-        $res = false;
+        $res = 'No event defined';;
         if (isset($data['event_name'])) {
             switch ($data['event_name']) {
                 case 'muc-room-created':
@@ -38,39 +38,35 @@ class RoomWebhookService
                     break;
                 default:
                     $this->logger->error('Wrong event_name', array('event_name' => $data['event_name']));
+                    $res = 'Wrong event_name';
             }
         }
         return $res;
     }
 
 
-    public function roomCreated($data): bool
+    public function roomCreated($data): ?string
     {
         try {
             if ($data['event_name'] !== "muc-room-created") {
-                $this->logger->error('Wrong event_name', array('roomId' => $data['event_name']));
-                return false;
+                $text='Wrong event_name';
+                $this->logger->error($text, array('roomId' => $data['event_name']));
+                return $text;
             }
             $room = $this->em->getRepository(Rooms::class)->findOneBy(array('uid' => $data['room_name']));
             if (!$room) {
-                $this->logger->error('Room name not found', array('roomId' => $data['room_name']));
-                return false;
+                $text = 'Room name not found';
+                $this->logger->error($text, array('roomId' => $data['room_name']));
+                return $text;
             }
 
-            $roomStatus = $this->em->getRepository(RoomStatus::class)->findOneBy(array('room' => $room, 'jitsiRoomId' => $data['room_jid']));
+            $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRooms($room);
 
             if ($roomStatus) {
-                $this->logger->error('Room already created', array('roomJidID' => $data['room_jid']));
-                return false;
+                $text = 'Room already created';
+                $this->logger->error($text, array('roomJidID' => $data['room_jid']));
+                return $text;
             }
-            $oldRooms = $this->em->getRepository(RoomStatus::class)->findBy(array('room'=>$room));
-            foreach ($oldRooms as $i){
-                $i->setDestroyedAt(new \DateTime())
-                    ->setDestroyed(true)
-                ->setUpdatedAt(new \DateTime());
-                $this->em->persist($i);
-            }
-            $this->em->flush();
 
             if (!$roomStatus) {
                 $roomStatus = new RoomStatus();
@@ -86,28 +82,26 @@ class RoomWebhookService
             $this->em->flush();
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            return false;
+            return 'ERROR';
         }
-        return true;
+        return null;
     }
 
-    public function roomDestroyed($data): bool
+    public function roomDestroyed($data): ?string
     {
         try {
             if ($data['event_name'] !== "muc-room-destroyed") {
-                $this->logger->error('Wrong event_name', array('roomId' => $data['event_name']));
-                return false;
+                $text = 'Wrong event_name';
+                $this->logger->error($text, array('roomId' => $data['event_name']));
+                return $text;
             }
-            $roomStatus = $this->em->getRepository(RoomStatus::class)->findOneBy(array('jitsiRoomId' => $data['room_jid']));
+            $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId( $data['room_jid']);
             if (!$roomStatus) {
-                $this->logger->error('Room Jitsi ID name not found', array('jitsiID' => $data['room_jid']));
-                return false;
+                $text = 'Room Jitsi ID not found';
+                $this->logger->error($text, array('jitsiID' => $data['room_jid']));
+                return $text;
             }
 
-            if ($roomStatus->getDestroyed()) {
-                $this->logger->error('Room is already destroyed', array('jitsiID' => $data['room_jid']));
-                return false;
-            }
             $roomStatus->setDestroyedAt(\DateTime::createFromFormat('U', $data['destroyed_at']))
                 ->setUpdatedAt(new \DateTime())
                 ->setDestroyed(true);
@@ -115,27 +109,31 @@ class RoomWebhookService
             $this->em->flush();
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            return false;
+            return 'ERROR';
         }
-        return true;
+        return null;
     }
 
-    public function roomParticipantJoin($data): bool
+    public function roomParticipantJoin($data): ?string
     {
         try {
             if ($data['event_name'] !== "muc-occupant-joined") {
-                $this->logger->error('Wrong event_name', array('roomId' => $data['event_name']));
-                return false;
+                $text = 'Wrong event_name';
+                $this->logger->error($text, array('roomId' => $data['event_name']));
+                return $text;
             }
-            $roomStatus = $this->em->getRepository(RoomStatus::class)->findOneBy(array('jitsiRoomId' => $data['room_jid']));
+            $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($data['room_jid']);
             if (!$roomStatus) {
-                $this->logger->error('Room Jitsi ID name not found', array('jitsiID' => $data['room_jid']));
-                return false;
+                $text = 'Room Jitsi ID not found';
+                $this->logger->error($text, array('jitsiID' => $data['room_jid']));
+                return $text;
             }
-            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(array('roomStatus' => $roomStatus, 'participantId' => $data['occupant']['occupant_jid']));
+
+            $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(array('participantId' => $data['occupant']['occupant_jid']));
             if ($roomPart) {
-                $this->logger->error('Wrong Occupate ID. The Occupant is not in the database', array('occupantID' => $data['occupant']['occupant_jid']));
-                return false;
+                $text= 'The occupant already joind with the same occupant ID';
+                $this->logger->error($text, array('occupantID' => $data['occupant']['occupant_jid']));
+                return $text;
             }
             $roomPart = new RoomStatusParticipant();
             $roomPart->setEnteredRoomAt(\DateTime::createFromFormat('U', $data['occupant']['joined_at']))
@@ -150,24 +148,30 @@ class RoomWebhookService
             $this->em->flush();
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            return false;
+            return 'ERROR';
         }
-        return true;
+        return null;
     }
 
-    public function roomParticipantLeft($data): bool
+    public function roomParticipantLeft($data): ?string
     {
         try {
             if ($data['event_name'] !== "muc-occupant-left") {
-                $this->logger->error('Wrong event_name', array('roomId' => $data['event_name']));
-                return false;
+                $text = 'Wrong event_name';
+                $this->logger->error($text, array('roomId' => $data['event_name']));
+                return $text;
             }
 
             $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(array('participantId' => $data['occupant']['occupant_jid']));
             if (!$roomPart) {
-                $this->logger->error('Wrong Occupate ID. The Occupant is not in the database', array('occupantID' => $data['occupant']['occupant_jid']));
-
-                return false;
+                $text = 'Wrong occupant ID. The occupant is not in the database';
+                $this->logger->error($text, array('occupantID' => $data['occupant']['occupant_jid']));
+                return $text;
+            }
+            if ($roomPart->getInRoom()!== true){
+                $text = 'The occupant already left the room. It cannot left the room twice';
+                $this->logger->error($text, array('occupantID' => $data['occupant']['occupant_jid']));
+                return $text;
             }
             $roomPart->setLeftRoomAt(\DateTime::createFromFormat('U', $data['occupant']['left_at']))
                 ->setInRoom(false);
@@ -176,8 +180,8 @@ class RoomWebhookService
 
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            return false;
+            return 'ERROR';
         }
-        return true;
+        return null;
     }
 }

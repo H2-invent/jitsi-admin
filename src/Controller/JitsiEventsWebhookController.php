@@ -38,7 +38,12 @@ class JitsiEventsWebhookController extends AbstractController
             return $check;
         }
         $data = json_decode($request->getContent(),true);
-        return new JsonResponse(array('succcess' => $this->webhookService->startWebhook($data)));
+        $res = $this->webhookService->startWebhook($data);
+        $arr = array('success'=>true);
+        if ($res !== null){
+            $arr= array('succes'=>false,'error'=>$res);
+        }
+        return new JsonResponse($arr);
     }
     /**
      * @Route("/jitsi/events/room/destroyed", name="jitsi_events_webhook_destroy", methods={"POST"})
@@ -50,7 +55,12 @@ class JitsiEventsWebhookController extends AbstractController
             return $check;
         }
         $data = json_decode($request->getContent(),true);
-        return new JsonResponse(array('succcess' => $this->webhookService->startWebhook($data)));
+        $res = $this->webhookService->startWebhook($data);
+        $arr = array('success'=>true);
+        if ($res !== null){
+            $arr= array('succes'=>false,'error'=>$res);
+        }
+        return new JsonResponse($arr);
     }
     /**
      * @Route("/jitsi/events/occupant/joined", name="jitsi_events_webhook_joined", methods={"POST"})
@@ -62,7 +72,12 @@ class JitsiEventsWebhookController extends AbstractController
             return $check;
         }
         $data = json_decode($request->getContent(),true);
-        return new JsonResponse(array('succcess' => $this->webhookService->startWebhook($data)));
+        $res = $this->webhookService->startWebhook($data);
+        $arr = array('success'=>true);
+        if ($res !== null){
+            $arr= array('succes'=>false,'error'=>$res);
+        }
+        return new JsonResponse($arr);
     }
     /**
      * @Route("/jitsi/events/occupant/left", name="jitsi_events_webhook_left", methods={"POST"})
@@ -74,7 +89,12 @@ class JitsiEventsWebhookController extends AbstractController
             return $check;
         }
         $data = json_decode($request->getContent(),true);
-        return new JsonResponse(array('succcess' => $this->webhookService->startWebhook($data)));
+        $res = $this->webhookService->startWebhook($data);
+        $arr = array('success'=>true);
+        if ($res !== null){
+           $arr= array('succes'=>false,'error'=>$res);
+        }
+        return new JsonResponse($arr);
     }
 
 
@@ -82,7 +102,7 @@ class JitsiEventsWebhookController extends AbstractController
     {
         $authHeader = $request->headers->get('Authorization');
         if ($authHeader !== $this->token ) {
-            $array = array('authorized' => $authHeader.$this->token);
+            $array = array('authorized' => false);
             $response = new JsonResponse($array, 401);
             return $response;
         }
