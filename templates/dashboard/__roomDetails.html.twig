@@ -5,7 +5,7 @@
                 {{ RoomStatusOccupats(room) }}
             </div>
             <div class="text">
-                {{ 'In der Konferenz'|trans }}
+                {{ 'status.inconference'|trans }}
             </div>
 
         </div>
@@ -13,7 +13,7 @@
     {% if RoomStatusClosed(room) == true %}
         <div class="occupant text-danger">
             <div class="text">
-                {{ 'Konferenz beendet'|trans }}
+                {{ 'status.finished'|trans }}
             </div>
         </div>
     {% endif %}
