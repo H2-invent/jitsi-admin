@@ -72,7 +72,7 @@ class JitsiEventsWebhookController extends AbstractController
             return $check;
         }
         $data = json_decode($request->getContent(),true);
-        sleep(5);
+        sleep(2);
         $res = $this->webhookService->startWebhook($data);
         $arr = array('success'=>true);
         if ($res !== null){
