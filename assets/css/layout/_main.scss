@@ -560,3 +560,15 @@ strong {
 .successBorder{
   border: #00c851 solid 4px!important; ;
 }
+.occupant{
+  display: flex;
+  flex-direction: column;
+  color: #00c851;
+  .text{
+
+  }
+  .number{
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
