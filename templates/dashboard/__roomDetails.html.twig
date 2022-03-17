@@ -10,6 +10,13 @@
 
         </div>
     {% endif %}
+    {% if RoomStatusClosed(room) == true %}
+        <div class="occupant text-danger">
+            <div class="text">
+                {{ 'Konferenz beendet'|trans }}
+            </div>
+        </div>
+    {% endif %}
     {% if not (room.scheduleMeeting or room.persistantRoom)  %}
     <h5 class="h5-responsive">{{ room.startwithTimeZone(app.user)|date('H:i',false) }} – {{ room.endwithTimeZone(app.user)|date('H:i',false) }}</h5>
         {% if allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
