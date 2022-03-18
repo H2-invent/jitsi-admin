@@ -46,10 +46,7 @@ class RoomStatusFrontendService
                 return false;
             }
         }
-        dump($rooms);
         foreach ($status as $data){
-            dump($data->getDestroyedUtc());
-            dump($rooms->getStartUtc());
             if ($data->getDestroyedUtc() > $rooms->getStartUtc()){
               return true;
             }
