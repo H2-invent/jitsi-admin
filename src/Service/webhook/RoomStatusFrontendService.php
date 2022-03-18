@@ -34,6 +34,7 @@ class RoomStatusFrontendService
     public function isRoomClosed(Rooms $rooms):bool
     {
         $status = $this->em->getRepository(RoomStatus::class)->findBy(array('room'=>$rooms));
+
         if(sizeof($status) === 0){
             return false;
         }
@@ -45,6 +46,15 @@ class RoomStatusFrontendService
                 return false;
             }
         }
-        return true;
+        dump($rooms);
+        foreach ($status as $data){
+            dump($data->getDestroyedUtc());
+            dump($rooms->getStartUtc());
+            if ($data->getDestroyedUtc() > $rooms->getStartUtc()){
+              return true;
+            }
+        }
+
+        return false;
     }
 }

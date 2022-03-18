@@ -7,6 +7,7 @@
                 <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="fa fa-star"></i> </a>
             </small>
         </h5>
+        {% if RoomStatusOpen(room) == false %}
         <p><small>
                 {% if room.persistantRoom != true and room.scheduleMeeting != true %}
                     {{ room.getStartwithTimeZone(app.user)|date('d.m.Y H:i') }}
@@ -18,6 +19,20 @@
                     {{ 'fixed.Room.name'|trans }}
                 {% endif %}
             </small></p>
+        {% endif %}
+        {% if RoomStatusOpen(room) == true %}
+
+                <div class="occupant">
+                    <div class="number">
+                        <small>  {{ RoomStatusOccupats(room) }}</small>
+                    </div>
+                    <div class="text">
+                    <small>{{ 'status.inconference'|trans }}</small>
+                    </div>
+                </div>
+
+        {% endif %}
+
 
         {% if room.scheduleMeeting != true %}
             <div class="startConferenceFromFavorite">

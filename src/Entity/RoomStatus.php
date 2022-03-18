@@ -202,4 +202,12 @@ class RoomStatus
 
         return $this;
     }
+    public function getCreatedUtc(): ?\DateTimeInterface
+    {
+        return new \DateTime($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+    }
+    public function getDestroyedUtc(): ?\DateTimeInterface
+    {
+        return new \DateTime($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+    }
 }

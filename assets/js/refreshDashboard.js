@@ -13,9 +13,14 @@ function refreshDashboard() {
     var $id2 = '#ex1-tabs-2';
     var $id3 = '#ex1-tabs-3';
     var $id4 = '#favorite-Container';
+    var $failures = 0;
     $div1.load(refreshUrl, function (data, statusTxt) {
         if (statusTxt === "error") {
-            window.location.reload();
+            $failures++;
+            if ($failures > 5){
+                window.location.reload();
+            }
+            return
         }
         var $openDropdown = $('.dropdown-menu.show');
 
