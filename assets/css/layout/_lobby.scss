@@ -207,5 +207,15 @@
 .joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, white);
 }
+.lobbyCard {
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    max-width: -moz-available;
+    max-width: -webkit-fill-available;
+    width: max-content;
+  }
+}
+
 
 
