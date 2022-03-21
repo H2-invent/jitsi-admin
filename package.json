@@ -33,7 +33,7 @@
         "copy-webpack-plugin": "^6.4.1",
         "flatpickr": "^4.6.9",
         "h2-invent-apps": "^2.4.0",
-        "h2-invent-material-tabs": "^1.9.0",
+        "h2-invent-material-tabs": "^1.10.0",
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
         "mdbootstrap": "^4.19.2",
