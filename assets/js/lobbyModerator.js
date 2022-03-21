@@ -19,7 +19,12 @@ import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
 
 var jitsiApi;
-navigator.mediaDevices.getUserMedia({audio: true, video: true})
+try {
+    navigator.mediaDevices.getUserMedia({audio: true, video: true})
+}catch (e) {
+    console.log(e);
+}
+
 initNotofication();
 initAUdio();
 initWebcam();

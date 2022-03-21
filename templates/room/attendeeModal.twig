@@ -23,7 +23,7 @@
             </p>
             <div class="attendeeScroll">
                 <ul id="atendeeList">
-                    <li class="d-flex flex-column flex-lg-row align-items-lg-center">{{ room.moderator|nameOfUser }} <span class="small">({{ 'Organisator'|trans }})</span></li>
+                    <li class="d-flex flex-column flex-lg-row align-items-lg-center">{{ room.moderator|nameOfUser }} <span class="small">&nbsp;({{ 'Organisator'|trans }})</span></li>
                     {% for user in room.user %}
                         {% if user != room.moderator %}
                             <li class="d-flex flex-column flex-lg-row align-items-lg-center">

@@ -31,7 +31,6 @@ class SecondEmailChangeController extends AbstractController
         $form = $this->createForm(SecondEmailType::class, $user, ['action' => $this->generateUrl('second_email_save')]);
         return $this->render('time_zone/index.html.twig', array(
             'form' => $form->createView(),
-            'message'=>$translator->trans('secondEmail.help'),
             'title'=> $translator->trans('second.email.title')
         ));
     }

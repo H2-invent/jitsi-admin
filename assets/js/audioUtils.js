@@ -24,7 +24,10 @@ var gain;
 var destination;
 var gStream = null;
 async function initAUdio() {
-    await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+    try {
+        await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+
+
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
         devices.forEach(function (device) {
 
@@ -44,6 +47,9 @@ async function initAUdio() {
         micId = mic[0].deviceId;
         $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
     })
+    }catch (e) {
+        console.log(e);
+    }
 
     $('#startEcho').click(function (e) {
         var text;
