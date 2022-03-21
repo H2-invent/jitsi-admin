@@ -26,32 +26,31 @@ var gStream = null;
 async function initAUdio() {
     try {
         await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    }catch (e){
+
+
+    navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        devices.forEach(function (device) {
+
+            if (device.kind === 'audioinput') {
+                $('#audioInputSelect').append(
+                    '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label.substring(0,device.label.lastIndexOf('(')) + '</a>'
+                )
+                mic.push(device);
+            }
+        });
+        $('.audio_inputSelect').click(function () {
+            $('.audio_inputSelect').removeClass('selectedDevice');
+            $(this).addClass('selectedDevice');
+            micId = $(this).data('value');
+        })
+
+        micId = mic[0].deviceId;
+        $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
+    })
+    }catch (e) {
         console.log(e);
     }
-    try {
-        navigator.mediaDevices.enumerateDevices().then(function (devices) {
-            devices.forEach(function (device) {
 
-                if (device.kind === 'audioinput') {
-                    $('#audioInputSelect').append(
-                        '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label.substring(0, device.label.lastIndexOf('(')) + '</a>'
-                    )
-                    mic.push(device);
-                }
-            });
-            $('.audio_inputSelect').click(function () {
-                $('.audio_inputSelect').removeClass('selectedDevice');
-                $(this).addClass('selectedDevice');
-                micId = $(this).data('value');
-            })
-
-            micId = mic[0].deviceId;
-            $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
-        })
-    }catch (e) {
-        console.log(e)
-    }
     $('#startEcho').click(function (e) {
         var text;
         if (echoTest === 0) {

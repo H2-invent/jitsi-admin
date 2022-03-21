@@ -63,7 +63,11 @@ class RoomService
         if ($room->getModerator() === $user || $roomUser->getModerator()) {
             $moderator = true;
         }
-        $url = $this->createUrl($t, $room, $moderator, $roomUser, $userName);
+        $avatar = null;
+        if ($user && $user->getProfilePicture()){
+            $avatar =  $this->uploadHelper->asset($user->getProfilePicture(),'documentFile');
+        }
+        $url = $this->createUrl($t, $room, $moderator, $roomUser, $userName,$avatar);
         return $url;
     }
 
@@ -82,7 +86,7 @@ class RoomService
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
 
-    public function createUrl($t, Rooms $room, $isModerator, ?RoomsUser $roomUser, $userName)
+    public function createUrl($t, Rooms $room, $isModerator, ?RoomsUser $roomUser, $userName, $avatar = null)
     {
         if ($t === 'a') {
             $type = 'jitsi-meet://';
@@ -94,7 +98,7 @@ class RoomService
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser), $jitsi_jwt_token_secret);
+        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser,$avatar), $jitsi_jwt_token_secret);
         $url = $jitsi_server_url . '/' . $room->getUid();
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $url = $url . '?jwt=' . $token;
@@ -137,6 +141,11 @@ class RoomService
             ],
 
         );
+        if ($roomUser && !$avatar){
+            if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()){
+                $avatar =  $this->uploadHelper->asset($roomUser->getUser()->getProfilePicture(),'documentFile');
+            }
+        }
         if ($avatar){
             $payload['context']['user']['avatar'] = $avatar;
         }

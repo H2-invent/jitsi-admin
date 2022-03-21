@@ -477,6 +477,9 @@ strong {
       flex-grow: 1;
       overflow: auto;
     }
+    ul{
+      padding-left: 0;
+    }
   }
 }
 
@@ -542,7 +545,6 @@ strong {
       width: auto !important;
       position: absolute;
       height: 100%;
-      margin-left: -25%;
     }
   }
 }
@@ -550,9 +552,12 @@ strong {
 .dropdown-toggle {
   display: flex;
   align-items: center;
-  width: max-content;
   max-width: -moz-available;
-  max-width: -webkit-fill-available;;
+  max-width: -webkit-fill-available;
+  width: max-content;
+}
+#searchUser{
+  width: 100%;
 }
 #toast-container > div {
   opacity:0.95;

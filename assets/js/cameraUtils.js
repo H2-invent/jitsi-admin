@@ -16,14 +16,9 @@ var webcams = [];
 var choosenId= null;
 
 async function initWebcam() {
-
     try {
+
         await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    }catch (e){
-        console.log(e);
-    }
-    try {
-
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
             devices.forEach(function (device) {
                 if (device.kind === 'videoinput') {
@@ -46,10 +41,9 @@ async function initWebcam() {
             setButtonName($('#selectWebcamDropdown'), name);
             startWebcam(choosenId);
         })
-    }catch (e){
-        console.log(e);
+    }catch (e) {
+        console.log(e)
     }
-
     $('#webcamSwitch').click(function (e) {
         e.preventDefault();
         toggleWebcam(e);
