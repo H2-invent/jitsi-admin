@@ -1536,12 +1536,20 @@
         <target state="translated">Esta fecha indica la primera fecha de la serie. Si ha editado conferencias individuales de la serie, se restablecerán.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target state="translated">Guardar</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
-        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <source>common.success.save</source>
         <target state="translated">Sus datos se han guardado con éxito.</target>
+      </trans-unit>
+      <trans-unit id="EWa057N" resname="status.inconference">
+        <source>In der Konferenz</source>
+        <target state="needs-translation">In der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="FjHZo91" resname="status.finished">
+        <source>Beendet</source>
+        <target state="needs-translation">Beendet</target>
       </trans-unit>
     </body>
   </file>
