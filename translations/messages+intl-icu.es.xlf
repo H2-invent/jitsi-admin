@@ -1545,11 +1545,11 @@
       </trans-unit>
       <trans-unit id="EWa057N" resname="status.inconference">
         <source>In der Konferenz</source>
-        <target state="needs-translation">In der Konferenz</target>
+        <target state="translated">En conferencia</target>
       </trans-unit>
       <trans-unit id="FjHZo91" resname="status.finished">
         <source>Beendet</source>
-        <target state="needs-translation">Beendet</target>
+        <target state="translated">Finalizado</target>
       </trans-unit>
     </body>
   </file>
