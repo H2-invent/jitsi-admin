@@ -1541,12 +1541,20 @@
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target state="needs-translation">Speichern</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
-        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <source>common.success.save</source>
         <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="EWa057N" resname="status.inconference">
+        <source>In der Konferenz</source>
+        <target state="needs-translation">In der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="FjHZo91" resname="status.finished">
+        <source>Beendet</source>
+        <target state="needs-translation">Beendet</target>
       </trans-unit>
     </body>
   </file>
