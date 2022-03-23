@@ -156,6 +156,11 @@ class Server
      */
     private $serverName;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $corsHeader;
+
 
     public function __construct()
     {
@@ -557,6 +562,18 @@ class Server
     public function setServerName(?string $serverName): self
     {
         $this->serverName = $serverName;
+
+        return $this;
+    }
+
+    public function getCorsHeader(): ?bool
+    {
+        return $this->corsHeader;
+    }
+
+    public function setCorsHeader(?bool $corsHeader): self
+    {
+        $this->corsHeader = $corsHeader;
 
         return $this;
     }

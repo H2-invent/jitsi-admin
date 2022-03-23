@@ -72,14 +72,10 @@ function initJitsiMeet(data) {
     stopWebcam();
     var options = data.options.options;
     options.device = choosenId;
+    options.parentNode = document.querySelector( data.options.parentNode);
+    const api = new JitsiMeetExternalAPI(data.options.domain, options);
     options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
-    setTimeout(function () {
-        if (typeof avatarUrl !== 'undefined') {
-            console.log(avatarUrl);
-            api.executeCommand('avatarUrl', avatarUrl);
-        }
-    }, 2000);
     api.addListener('readyToClose', function (e) {
         if (window.opener == null) {
                 window.location.href = '/';

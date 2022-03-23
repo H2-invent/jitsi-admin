@@ -3,7 +3,7 @@
 <head>
     <title>{{ room.name }}</title>
 </head>
-<body style="margin: 0">
+<body style="margin: 0" >
 
 
 <div id="jitsiWrapper">
@@ -13,6 +13,12 @@
 </div>
 </body>
 {% if name is defined and name is not null %}
+    <script>
+        if({{ room.server.corsHeader }}){
+            window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
+        }
+    </script>
+
     <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
         const domain = '{{ room.server.url }}';
@@ -28,14 +34,16 @@
                 displayName: '{{ name }}'
             }
         };
-
         var conferenzeName = '{{ room.name }}';
         var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+
         api = new JitsiMeetExternalAPI(domain, options);
+
         var iframe = document.querySelector('#jitsiConferenceFrame0');
         iframe.style.height = '100vh';
     </script>
+
 {% endif %}
 
 </html>

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211206124803 extends AbstractMigration
+final class Version20220323074215 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20211206124803 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE userRoomsAttributes ADD lobby_moderator TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE server ADD cors_header TINYINT(1) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE userRoomsAttributes DROP lobby_moderator');
+        $this->addSql('ALTER TABLE server DROP cors_header');
     }
 }
