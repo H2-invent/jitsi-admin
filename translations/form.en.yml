@@ -77,6 +77,7 @@ help:
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
   serverName: Please enter the server name. This will be shown to the participants.
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -129,6 +130,7 @@ label:
   lobby: Lobby aktivieren
   secondEmail: CC Email
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  corsHeader: CORS-Header oder frame-ancestor Header
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
