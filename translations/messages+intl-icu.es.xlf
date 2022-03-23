@@ -1553,7 +1553,7 @@
       </trans-unit>
       <trans-unit id="jg.IqQl" resname="server.checkHeader">
         <source>Meinen Server überprüfen</source>
-        <target state="needs-translation">Meinen Server überprüfen</target>
+        <target state="translated">Revisar mi servidor</target>
       </trans-unit>
     </body>
   </file>
