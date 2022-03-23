@@ -11,6 +11,13 @@
             {{ form_start(form) }}
             {{ form_row(form.url) }}
             {{ form_row(form.serverName) }}
+            {{ form_row(form.corsHeader) }}
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="{{ path('room_check_cors') }}" class="btn btn-outline-primary btn-sm testVideo" target="_blank">{{ 'server.checkHeader'|trans }}</a>
+                </div>
+            </div>
+
             <input id="jwtServer" type="checkbox" name="jwtServer" value="jwtServer" {% if server.appId %}checked{% endif %}>
             <label for="jwtServer"> {{ 'Server ID und Secret anzeigen'|trans }}</label><br>
             <div id="appId" class="collapse {% if server.appId %}show{% endif %}">

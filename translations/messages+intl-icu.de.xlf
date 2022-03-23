@@ -1541,12 +1541,16 @@
         <target>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target>Speichern</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
-        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <source>common.success.save</source>
         <target>Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="jg.IqQl" resname="server.checkHeader">
+        <source>Meinen Server überprüfen</source>
+        <target>Meinen Server überprüfen</target>
       </trans-unit>
     </body>
   </file>

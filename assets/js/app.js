@@ -295,6 +295,16 @@ function initCopytoClipboard() {
     var clipboard = new ClipboardJS('.copyLink');
 }
 
+$(document).on('click','.testVideo', function (e) {
+    e.preventDefault();
+    var $url = $(this).attr('href');
+    $url += '?url='+$('#server_url').val();
+    $url += '&cors='+$('#server_corsHeader').prop('checked');
+    console.log($url);
+    window.open($url, '_blank').focus();
+})
+
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);

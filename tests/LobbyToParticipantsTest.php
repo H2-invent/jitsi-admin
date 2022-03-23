@@ -49,6 +49,44 @@ class LobbyToParticipantsTest extends KernelTestCase
         $manager->flush();
         $lobbyToParticipant->acceptLobbyUser($lobbyUser);
     }
+
+    public function testInBrowserCorsRedirect(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            if(strpos($update->getData(),'snackbar')>0){
+                self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
+            }
+            if(strpos($update->getData(),'jitsi-meet')>0){
+                self::assertEquals('{"type":"redirect","url":"https:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4#config.subject=%22This_is_a_room_with_Lobby%22","timeout":5000}', $update->getData());
+            }
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $lobbyToParticipant = self::getContainer()->get(ToParticipantWebsocketService::class);
+        $lobbyToParticipant->setDirectSend($directSend);
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $lobbyUser = new LobbyWaitungUser();
+        $lobbyUser->setType('b');
+        $lobbyUser->setUser($user2);
+        $lobbyUser->setRoom($room);
+        $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
+        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $server = $lobbyUser->getRoom()->getServer();
+        $server->setCorsHeader(true);
+        $manager->persist($server);
+        $manager->persist($lobbyUser);
+        $manager->flush();
+        $lobbyToParticipant->acceptLobbyUser($lobbyUser);
+    }
     public function testinBrowser(): void
     {
         $kernel = self::bootKernel();

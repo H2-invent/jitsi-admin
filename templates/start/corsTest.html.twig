@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TestRoom</title>
+</head>
+<body style="margin: 0" >
+
+
+<div id="jitsiWrapper">
+    <div class="w-100" id="jitsiWindow">
+
+    </div>
+</div>
+</body>
+    <script src='https://{{ serverUrl }}/external_api.js'></script>
+    <script>
+        if({{ cors }}){
+            window.location.replace("{{ weiterleitung }}");
+        }
+        const domain = '{{ serverUrl }}';
+        const options = {
+            roomName: 'testRoom',
+            width: '100%',
+            height: 700,
+            parentNode: document.querySelector('#jitsiWindow'),
+            userInfo: {
+                displayName: 'testUser'
+            }
+        };
+        var conferenzeName = 'TestRoom';
+
+        api = new JitsiMeetExternalAPI(domain, options);
+
+        var iframe = document.querySelector('#jitsiConferenceFrame0');
+        iframe.style.height = '100vh';
+    </script>
+
+
+</html>

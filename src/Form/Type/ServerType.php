@@ -40,7 +40,7 @@ class ServerType extends AbstractType
             ->add('serverName', TextType::class, ['required' => true, 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName'])
             ->add('appId', TextType::class, ['required' => false, 'label' => 'label.appId', 'translation_domain' => 'form'])
             ->add('appSecret', TextType::class, ['required' => false, 'label' => 'label.appSecret', 'translation_domain' => 'form'])
-
+            ->add('corsHeader', CheckboxType::class, ['required' => false, 'label' => 'label.corsHeader','help'=>'help.corsHeader', 'translation_domain' => 'form'])
             ->add('keycloakGroups', CollectionType::class,
                 ['entry_type' => KeycloakGroupsToServersType::class,
                 'entry_options' => ['label' => 'false',],

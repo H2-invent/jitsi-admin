@@ -78,7 +78,19 @@ class ToParticipantWebsocketService
             if($lobbyWaitungUser->getUser() && $lobbyWaitungUser->getUser()->getProfilePicture()){
                 $options['userInfo']['avatarUrl']=  $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(),'documentFile');
             }
-            $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
+            if($lobbyWaitungUser->getRoom()->getServer()->getCorsHeader()){
+                $browserUrl = $this->roomService->join(
+                    $lobbyWaitungUser->getRoom(),
+                    $lobbyWaitungUser->getUser(),
+                    'b',
+                    $lobbyWaitungUser->getShowName()
+                );
+                $this->directSend->sendRedirect($topic, $browserUrl, 5000);
+                $this->directSend->sendRedirect($topic, '/', 6000);
+            }else{
+                $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
+            }
+
         } elseif ($lobbyWaitungUser->getType() === 'a') {
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
             $this->directSend->sendRedirect($topic, '/', 6000);
