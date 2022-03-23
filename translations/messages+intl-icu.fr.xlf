@@ -1533,11 +1533,11 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <target state="translated">Cette date indique la première date de la série. Si vous avez modifié des rendez-vous individuels de la série, ils seront réinitialisés.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>common.save</source>
+        <source>Speichern</source>
         <target state="translated">Sauvegarder</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
-        <source>common.success.save</source>
+        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
         <target state="translated">Vos informations ont été enregistrées avec succès.</target>
       </trans-unit>
       <trans-unit id="EWa057N" resname="status.inconference">
@@ -1547,6 +1547,10 @@ Le modérateur a été informé et vous laissera entrer.</target>
       <trans-unit id="FjHZo91" resname="status.finished">
         <source>Beendet</source>
         <target state="needs-translation">Beendet</target>
+      </trans-unit>
+      <trans-unit id="jg.IqQl" resname="server.checkHeader">
+        <source>Meinen Server überprüfen</source>
+        <target state="needs-translation">Meinen Server überprüfen</target>
       </trans-unit>
     </body>
   </file>
