@@ -18,7 +18,8 @@ use function Doctrine\ORM\QueryBuilder;
 class RoomsRepository extends ServiceEntityRepository
 {
     private $timeZoneService;
-    public function __construct(ManagerRegistry $registry,TimeZoneService $timeZoneService)
+
+    public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
         $this->timeZoneService = $timeZoneService;
@@ -54,7 +55,7 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -71,7 +72,7 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsInPast(User $user)
     {
-        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -103,7 +104,7 @@ class RoomsRepository extends ServiceEntityRepository
     public function findRuningRooms(User $user)
     {
 
-        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -181,14 +182,32 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findFavoriteRooms(User $user){
+
+    public function findFavoriteRooms(User $user)
+    {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.favoriteUsers', 'user')
             ->andWhere('user = :user')
             ->setParameter('user', $user)
             ->addSelect('CASE WHEN r.start IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
-            ->addOrderBy('list_order_is_null','DESC') // always ASC
-            ->addOrderBy('r.start','ASC') //DESC or ASC
+            ->addOrderBy('list_order_is_null', 'DESC') // always ASC
+            ->addOrderBy('r.start', 'ASC') //DESC or ASC
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFutureRoomsWithNoCallerId($now)
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.callerRoom', 'callerRoom')
+//            ->andWhere($qb->expr()->isNull('callerRoom'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->gte('r.endTimestamp',':now'),
+                    $qb->expr()->eq('r.persistantRoom', true)
+                )
+            )
+            ->setParameter('now', $now)
             ->getQuery()
             ->getResult();
     }

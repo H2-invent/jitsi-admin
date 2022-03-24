@@ -226,6 +226,21 @@ class Rooms
      */
     private $roomstatuses;
 
+    /**
+     * @ORM\OneToOne(targetEntity=CallerRoom::class, mappedBy="room", cascade={"persist", "remove"})
+     */
+    private $callerRoom;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $startTimestamp;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $endTimestamp;
+
 
 
     public function __construct()
@@ -252,10 +267,12 @@ class Rooms
         if ($this->start) {
             $dateStart = new \DateTime($this->start->format('Y-m-d H:i:s'), $timezone);
             $this->startUtc = $dateStart->setTimezone(new \DateTimeZone('utc'));
+            $this->startTimestamp = $dateStart->getTimestamp();
         }
         if ($this->enddate) {
             $dateEnd = new \DateTime($this->enddate->format('Y-m-d H:i:s'), $timezone);
             $this->endDateUtc = $dateEnd->setTimezone(new \DateTimeZone('utc'));
+            $this->endTimestamp = $dateEnd->getTimestamp();
         }
     }
 
@@ -928,6 +945,47 @@ class Rooms
                 $roomstatus->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCallerRoom(): ?CallerRoom
+    {
+        return $this->callerRoom;
+    }
+
+    public function setCallerRoom(CallerRoom $callerRoom): self
+    {
+        // set the owning side of the relation if necessary
+        if ($callerRoom->getRoom() !== $this) {
+            $callerRoom->setRoom($this);
+        }
+
+        $this->callerRoom = $callerRoom;
+
+        return $this;
+    }
+
+    public function getStartTimestamp(): ?int
+    {
+        return $this->startTimestamp;
+    }
+
+    public function setStartTimestamp(?int $startTimestamp): self
+    {
+        $this->startTimestamp = $startTimestamp;
+
+        return $this;
+    }
+
+    public function getEndTimestamp(): ?int
+    {
+        return $this->endTimestamp;
+    }
+
+    public function setEndTimestamp(?int $endTimestamp): self
+    {
+        $this->endTimestamp = $endTimestamp;
 
         return $this;
     }
