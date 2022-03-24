@@ -20,5 +20,9 @@ class IndexerServiceTest extends KernelTestCase
         $index = $indexer->indexUser($user);
         self::assertEquals($user->getIndexer(), $index);
         self::assertNull($indexer->indexUser(null));
+        $user->setSpezialProperties(null);
+        $index = $indexer->indexUser($user);
+        self::assertEquals('test@local.de test@local.de test user', $index);
+        self::assertNull($indexer->indexUser(null));
     }
 }
