@@ -71,7 +71,8 @@ class IcalService
 
     }
 
-    public function initRooms(User $user){
+    public function initRooms(User $user)
+    {
         $this->rooms = $this->em->getRepository(Rooms::class)->findRoomsFutureAndPast($user, '-1 month');
         $this->rooms = array_values($this->rooms);
     }
@@ -81,7 +82,7 @@ class IcalService
         $cal = new Calendar();
 
         $timeZone = TimeZoneService::getTimeZone($user);
-        if (!$timeZone){
+        if (!$timeZone) {
             $timeZone = new \DateTimeZone(date_default_timezone_get());
         }
         //start muss das erste element in den rooms sein :)
@@ -89,33 +90,17 @@ class IcalService
         $start = new \DateTime();
         $end = new \DateTime();
 
+
+        if (sizeof($this->rooms) > 1) {
+            $start = (clone $this->rooms[0]->getStart())->modify('-1year');
+            $end = (clone $this->rooms[sizeof($this->rooms) - 1]->getEndDate())->modify('+1year');
+        }
+
         $cal->addTimeZone(TimeZone::createFromPhpDateTimeZone($timeZone,
             new DateTimeImmutable($start->format('Y-m-d H:i:s'), $timeZone),
             new DateTimeImmutable($end->format('Y-m-d H:i:s'), $timeZone)
         )
         );
-//        if (sizeof($this->rooms) > 1) {
-//            $start = (clone $this->rooms[0]->getStart())->modify('-1year');
-//            $end = (clone $this->rooms[sizeof($this->rooms) - 1]->getEndDate())->modify('+1year');
-//            $timeTransitions = $timeZone->getTransitions($start->getTimeStamp(), $end->getTimeStamp());
-//            $timeTransitions = array_splice($timeTransitions,1);
-//            $cout = 0;
-//            foreach ($timeTransitions as $data) {
-//                try {
-//                    $cal->addTimeZone(
-//                        TimeZone::createFromPhpDateTimeZone(
-//                            $timeZone,
-//                            new \DateTime($data['time']),
-//                            new \DateTime($timeTransitions[$cout+1]['time'])
-//                        )
-//                    );
-//                    $cout++;
-//                }catch (\Exception $exception){
-//                    break;
-//                }
-//
-//            }
-//        }
         foreach ($this->rooms as $event) {
             $vEvent = new Event();
             $url = $this->userService->generateUrl($event, $user);
