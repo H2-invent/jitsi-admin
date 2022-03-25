@@ -199,8 +199,8 @@ class RoomsRepository extends ServiceEntityRepository
     public function findFutureRoomsWithNoCallerId($now)
     {
         $qb = $this->createQueryBuilder('r');
-        return $qb->innerJoin('r.callerRoom', 'callerRoom')
-//            ->andWhere($qb->expr()->isNull('callerRoom'))
+        return $qb->leftJoin('r.callerRoom','callerRoom')
+            ->andWhere($qb->expr()->isNull('callerRoom'))
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->gte('r.endTimestamp',':now'),
@@ -211,4 +211,5 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
 }

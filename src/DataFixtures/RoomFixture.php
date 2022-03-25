@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\AddressGroup;
+use App\Entity\CallerRoom;
 use App\Entity\License;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
@@ -197,6 +198,7 @@ class RoomFixture extends Fixture
                 $selectDate->addSchedulingTime($time);
                 $manager->persist($time);
             }
+
             $manager->persist($selectDate);
             $manager->persist($room);
 
@@ -224,6 +226,10 @@ class RoomFixture extends Fixture
             $room->setName('TestMeeting_Amerika: ' . $i);
             $room->setSequence(0);
             $room->setServer($server);
+            $callerRoom = new CallerRoom();
+            $callerRoom->setCallerId('1234'.$i);
+            $callerRoom->setCreatedAt(new \DateTime());
+            $room->setCallerRoom($callerRoom);
             $manager->persist($room);
         }
 
@@ -294,6 +300,10 @@ class RoomFixture extends Fixture
         $room->setName('Room Yesterday');
         $room->setSequence(0);
         $room->setServer($server);
+        $callerRoom = new CallerRoom();
+        $callerRoom->setCallerId('123456'.$i);
+        $callerRoom->setCreatedAt(new \DateTime());
+        $room->setCallerRoom($callerRoom);
         $manager->persist($room);
         $manager->flush();
 

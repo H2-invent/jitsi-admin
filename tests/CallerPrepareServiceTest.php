@@ -6,7 +6,9 @@ use App\Entity\CallerRoom;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Tester\CommandTester;
 
 class CallerPrepareServiceTest extends KernelTestCase
 {
@@ -87,7 +89,31 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        self::assertEquals(0,sizeof($callerPrpareService->addNewId()));
-
+        self::assertEquals(49, sizeof($callerPrpareService->addNewId()));
+        self::assertEquals(0, sizeof($callerPrpareService->addNewId()));
     }
+    public function testDeleteCallerIdfromPastRoom(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        self::assertEquals(1, sizeof($callerPrpareService->deleteOldId()));
+        self::assertEquals(0, sizeof($callerPrpareService->deleteOldId()));
+    }
+    public function testPrepareCallerCommand(): void
+    {
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
+        $command = $application->find('app:caller:prepare');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array());
+        $output = $commandTester->getDisplay();
+        $this->assertStringContainsString(' [OK] We added to all Rooms which had no caller-Id a caller-Id', $output);
+        $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
+
+        self::assertEquals(0, sizeof($callerPrpareService->deleteOldId()));
+        self::assertEquals(0, sizeof($callerPrpareService->addNewId()));
+    }
+
 }

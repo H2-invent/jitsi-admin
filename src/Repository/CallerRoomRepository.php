@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\CallerRoom;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method CallerRoom|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,5 +48,21 @@ class CallerRoomRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findPastRoomsWithCallerId($now)
+    {
+        $qb = $this->createQueryBuilder('c');
+        return $qb->innerJoin('c.room','room')
+            ->andWhere($qb->expr()->lte('room.endTimestamp',':now'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->eq("room.persistantRoom", ':false'),
+                    $qb->expr()->isNull("room.persistantRoom")
+                )
+            )
+            ->setParameter('now', $now)
+            ->setParameter('false',false)
+            ->getQuery()
+            ->getResult();
+    }
 
 }

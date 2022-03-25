@@ -25,13 +25,14 @@ class CallerPrepareService
     public function deleteOldId()
     {
         $now = (new \DateTime())->getTimestamp();
-        $oldCallerId = $this->em->getRepository(CallerRoom::class)->findAll();
+        $oldCallerId = $this->em->getRepository(CallerRoom::class)->findPastRoomsWithCallerId($now);
         foreach ($oldCallerId as $data) {
             if ($data->getRoom()->getEndTimestamp() < $now) {
                 $this->em->remove($data);
             }
             $this->em->flush();
         }
+        return $oldCallerId;
     }
 
     public function addNewId()
