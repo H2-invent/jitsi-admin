@@ -1,7 +1,12 @@
+FROM composer as builder
+WORKDIR /app/
+COPY composer.* ./
+RUN composer install
 FROM thecodingmachine/php:7.4.27-v4-apache-node16
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 USER root
+COPY --from=builder /app/vendor /var/www/vendor
 RUN usermod -a -G www-data docker
 COPY . /var/www/html
 RUN npm install
