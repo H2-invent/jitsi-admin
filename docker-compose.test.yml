@@ -60,6 +60,8 @@ services:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
       PHP_INI_MEMORY_LIMIT: "1G"
+      PHP_EXTENSION_LDAP: 1
+      PHP_EXTENSION_INTL: 1
       APP_ENV: dev
       APP_DEBUG: 1
       DATABASE_URL: mysql://jitsiadmin:test@db:3306/jitsiadmin
