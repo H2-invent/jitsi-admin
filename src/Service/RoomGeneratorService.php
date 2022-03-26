@@ -2,17 +2,21 @@
 
 namespace App\Service;
 
+use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Service\caller\CallerPrepareService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RoomGeneratorService
 {
     private $parameterBag;
-    public function __construct(ParameterBagInterface $parameterBag)
+    private $callerPrepareService;
+    public function __construct(ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService)
     {
         $this->parameterBag = $parameterBag;
+        $this->callerPrepareService = $callerPrepareService;
     }
     public function createRoom(User $user, ?Server $server = null):Rooms{
         $room = new Rooms();
@@ -46,7 +50,10 @@ class RoomGeneratorService
                 $room->setTimeZone($this->parameterBag->get('input_settings_allow_timezone_default'));
             }
         }
-
+        $roomCaller = new CallerRoom();
+        $roomCaller->setCallerId($this->callerPrepareService->generateRoomId(999999));
+        $roomCaller->setCreatedAt(new \DateTime());
+        $room->setCallerRoom($roomCaller);
         return $room;
     }
 }

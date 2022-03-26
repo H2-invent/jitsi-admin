@@ -4,15 +4,18 @@ namespace App\Service\caller;
 
 use App\Entity\CallerRoom;
 use App\Entity\Rooms;
+
 use Doctrine\ORM\EntityManagerInterface;
+use Prophecy\Call\Call;
 
 class CallerPrepareService
 {
     private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    private $callerService;
+    public function __construct(EntityManagerInterface $entityManager, CallerFindRoomService $callerService)
     {
         $this->em = $entityManager;
+        $this->callerService = $callerService;
     }
 
     public function prepareCallerId()

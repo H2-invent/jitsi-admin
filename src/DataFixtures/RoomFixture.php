@@ -164,6 +164,10 @@ class RoomFixture extends Fixture
             $room->setName('TestMeeting: ' . $i);
             $room->setSequence(0);
             $room->setServer($server);
+            $callerRoom = new CallerRoom();
+            $callerRoom->setCallerId('1234'.$i);
+            $callerRoom->setCreatedAt(new \DateTime());
+            $room->setCallerRoom($callerRoom);
             $manager->persist($room);
         }
         $start = new \DateTime('2021-01-01T15:00');
@@ -226,10 +230,6 @@ class RoomFixture extends Fixture
             $room->setName('TestMeeting_Amerika: ' . $i);
             $room->setSequence(0);
             $room->setServer($server);
-            $callerRoom = new CallerRoom();
-            $callerRoom->setCallerId('1234'.$i);
-            $callerRoom->setCreatedAt(new \DateTime());
-            $room->setCallerRoom($callerRoom);
             $manager->persist($room);
         }
 
@@ -301,7 +301,7 @@ class RoomFixture extends Fixture
         $room->setSequence(0);
         $room->setServer($server);
         $callerRoom = new CallerRoom();
-        $callerRoom->setCallerId('123456'.$i);
+        $callerRoom->setCallerId('123456');
         $callerRoom->setCreatedAt(new \DateTime());
         $room->setCallerRoom($callerRoom);
         $manager->persist($room);

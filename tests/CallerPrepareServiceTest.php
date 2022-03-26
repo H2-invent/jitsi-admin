@@ -18,7 +18,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('123456');
@@ -36,7 +36,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
@@ -53,7 +53,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
@@ -72,14 +72,14 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
         self::assertNull($room->getCallerRoom());
         $callerPrpareService->addCallerIdToRoom($room);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
         self::assertNotNull($room->getCallerRoom());
         $id = $room->getCallerRoom();
         self::assertEquals($id, $callerPrpareService->addCallerIdToRoom($room));
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
         self::assertEquals($id, $room->getCallerRoom());
     }
 
