@@ -4,30 +4,56 @@ services:
 
   traefik:
     image: traefik:1.7
-    command: --docker --docker.exposedbydefault=false
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.ldap.address=:443"
+      - "--api.dashboard=true"
     ports:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
   app:
-    image: thecodingmachine/php:7.3-v2-apache-node10
-    labels:
-      - traefik.enable=true
-      - traefik.backend=odc
-      - traefik.frontend.rule=Host:odc.localhost
+    build: .
+    depends_on:
+      - db
+      - keycloak
+    ports:
+      - "8080:80"
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
       PHP_INI_MEMORY_LIMIT: "1G"
-    volumes:
-      - .:/var/www/html:rw
+      APP_ENV: dev
+      APP_DEBUG: 1
+      DATABASE_URL: mysql://datenschutzcenter:test@db:3306/datenschutzcenter
+      MAILER_HOST: ""
+      MAILER_PORT: 587
+      MAILER_PASSWORD: ""
+      MAILER_USERNAME: ""
+      MAILER_ENCRYPTION: tls
+      MAILER_TRANSPORT: smtp
+      OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
+      OAUTH_KEYCLOAK_SERVER: http://<publicip>:8081
+      OAUTH_KEYCLOAK_REALM: master
+      MERCURE_URL: http://localhost:3000.well-known/mercure
+      MERCURE_PUBLIC_URL: <yourdomain>.well-known/mercure
+      MERCURE_JWT_SECRET: test
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jitsi-admin.rule=Host(`jitsi-admin.myDomain`)"
+      - "traefik.http.routers.jitsi-admin.entrypoints=web"
+      - "traefik.http.services.jitsi-admin.loadbalancer.server.port=80"
+
 ###> symfony/mercure-bundle ###
   mercure:
     image: dunglas/mercure
     restart: unless-stopped
     environment:
-      SERVER_NAME: ':80'
+      SERVER_NAME: ':3000'
       MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
       # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive

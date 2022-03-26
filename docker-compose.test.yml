@@ -1,0 +1,115 @@
+version: '3.7'
+
+services:
+  traefik:
+    image: "traefik:v2.5"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--api.dashboard=true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.entryPoints=traefik"
+      - "traefik.http.routers.api.rule=PathPrefix(`/api`) || PathPrefix(`/dashboard`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.middlewares=api-auth"
+      - "traefik.http.middlewares.api-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
+
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./tools/certs:/tools/certs
+      - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
+      -
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS
+      #SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: 'test'
+      MERCURE_SUBSCRIBER_JWT_KEY: 'test'
+      SERVER_NAME: ':3000'
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure.rule=Host(`mercure.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure.entrypoints=web"
+      - "traefik.http.services.mercure.loadbalancer.server.port=3000"
+    #    ports:
+    #      - "3000:3000"
+    #      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+  app:
+    build: .
+    depends_on:
+      - db
+      - keycloak
+    ports:
+      - "8080:80"
+    environment:
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_INI_MEMORY_LIMIT: "1G"
+      APP_ENV: dev
+      APP_DEBUG: 1
+      DATABASE_URL: mysql://jitsiadmin:test@db:3306/jitsiadmin
+      MAILER_HOST: ""
+      MAILER_PORT: 587
+      MAILER_PASSWORD: ""
+      MAILER_USERNAME: ""
+      MAILER_ENCRYPTION: tls
+      MAILER_TRANSPORT: smtp
+      OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
+      OAUTH_KEYCLOAK_SERVER: http://${PUBLIC_URL}:8081
+      OAUTH_KEYCLOAK_REALM: master
+      MERCURE_URL: http://mercure:3000/.well-known/mercure
+      MERCURE_PUBLIC_URL: http://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_JWT_SECRET: test
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure.rule=Host(`${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure.entrypoints=web"
+      - "traefik.http.services.mercure.loadbalancer.server.port=80"
+    volumes:
+      - ./:/var/www/html:rw
+
+  db:
+    image: mariadb:latest
+    environment:
+      MARIADB_ROOT_PASSWORD: test
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: ["start-dev"]
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: test
+      KC_DB_URL: jdbc:mariadb://db:3306/keycloak
+      KC_DB: mariadb
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: test
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure.entrypoints=web"
+      # KC_HOSTNAME not required because of start-dev
+volumes:
+  mariadb:
+  caddy_data:
+  caddy_config:
