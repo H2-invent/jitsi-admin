@@ -1,7 +1,7 @@
 FROM thecodingmachine/php:7.4.27-v4-apache-node16
 USER root
 RUN apt update
-RUN apt-get install php-ldap
+RUN apt-get install php-ldap -y
 RUN usermod -a -G www-data docker
 COPY . /var/www/html
 RUN npm install
