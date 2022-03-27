@@ -107,10 +107,10 @@ services:
       KEYCLOAK_PASSWORD: test
       DB_VENDOR: mariadb
       DB_ADDR: db-ja
-      KC_DB: mariadb
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: test
+      DB_PORT: 3306
       KEYCLOAK_IMPORT: ./keycloak/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled
     labels:
       - "traefik.enable=true"
