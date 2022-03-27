@@ -57,7 +57,7 @@ services:
       - keycloak-ja
       - mercure-ja
       - traefik-ja
-    command: [ "dockerRun.sh" ]
+    #command: [ "dockerRun.sh" ]
 
     environment:
       APACHE_DOCUMENT_ROOT: "public/"

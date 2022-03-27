@@ -1,8 +1,10 @@
-echo We check for initial startup:
-FILE=installDocker.sh
-if test -f "$FILE"; then
-    echo "this is the first run"
-    /bin/bash installDocker.sh
-    rm installDocker.sh
+CONTAINER_ALREADY_STARTED="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
+if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
+    touch $CONTAINER_ALREADY_STARTED
+    echo "-- First container startup --"
+     /bin/bash installDocker.sh
+       rm installDocker.sh
+else
+    echo "-- Not first container startup --"
 fi
 
