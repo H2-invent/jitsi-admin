@@ -104,6 +104,8 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: test
+      KEYCLOAK_ADMIN_EMAIL: test@test.de
+      KEYCLOAK_ADMIN_FIRSTNAME: test
       KC_DB_URL: jdbc:mariadb://db-ja:3306/keycloak
       KC_DB: mariadb
       KC_DB_USERNAME: keycloak
