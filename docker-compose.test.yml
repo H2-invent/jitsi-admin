@@ -99,6 +99,7 @@ services:
   keycloak-ja:
     image: quay.io/keycloak/keycloak:latest
     command: ["start-dev"]
+    hostname: keycloak.${PUBLIC_URL}
     depends_on:
       - db-ja
     environment:
