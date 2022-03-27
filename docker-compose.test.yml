@@ -57,7 +57,6 @@ services:
       - keycloak-ja
       - mercure-ja
       - traefik-ja
-    command: [ ]
 
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
