@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  traefik:
+  traefikJA:
     image: "traefik:v2.5"
     container_name: "traefik"
     command:
@@ -9,7 +9,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.address=:90"
       - "--api.dashboard=true"
     labels:
       - "traefik.enable=true"
@@ -20,14 +20,14 @@ services:
       - "traefik.http.middlewares.api-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
 
     ports:
-      - "8080:80"
+      - "90:90"
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - ./tools/certs:/tools/certs
       - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
-  mercure:
+  mercureJA:
     image: dunglas/mercure
     restart: unless-stopped
     environment:
@@ -49,11 +49,12 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-  app:
+  appJA:
     build: .
     depends_on:
-      - db
-      - keycloak
+      - dbJA
+      - keycloakJA
+      - mercureJA
     ports:
       - "8080:80"
     environment:
@@ -72,7 +73,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
-      OAUTH_KEYCLOAK_SERVER: http://${PUBLIC_URL}:8081
+      OAUTH_KEYCLOAK_SERVER: http://keycloak.${PUBLIC_URL}
       OAUTH_KEYCLOAK_REALM: master
       MERCURE_URL: http://mercure:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: http://mercure.${PUBLIC_URL}/.well-known/mercure
@@ -85,18 +86,16 @@ services:
     #volumes:
     #  - ./:/var/www/html:rw
 
-  db:
+  dbJA:
     image: mariadb:latest
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-  keycloak:
+  keycloakJA:
     image: quay.io/keycloak/keycloak:latest
     command: ["start-dev"]
-    ports:
-      - "8081:8080"
     depends_on:
       - db
     environment:
