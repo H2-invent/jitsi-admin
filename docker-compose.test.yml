@@ -3,7 +3,7 @@ version: '3.7'
 services:
   traefik-ja:
     image: "traefik:v2.5"
-    container_name: "traefik"
+    container_name: "traefik-ja"
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
