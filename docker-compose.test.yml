@@ -98,11 +98,9 @@ services:
 
 
   keycloak-ja:
-    image: quay.io/keycloak/keycloak:latest
+    image: jboss/keycloak:latest
     command:
       - "start-dev"
-      - "-b 0.0.0.0 -Djboss.http.port=8080 -Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
-
     hostname: keycloak.${PUBLIC_URL}
     depends_on:
       - db-ja
