@@ -55,6 +55,7 @@ services:
       - db-ja
       - keycloak-ja
       - mercure-ja
+      - traefik-ja
     ports:
       - "8080:80"
     environment:
@@ -97,7 +98,7 @@ services:
     image: quay.io/keycloak/keycloak:latest
     command: ["start-dev"]
     depends_on:
-      - db
+      - db-ja
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: test
