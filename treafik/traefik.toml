@@ -1,0 +1,3 @@
+logLevel = "DEBUG"
+[accessLog] # <-- remove because not needed
+  filePath = "./access.log"
