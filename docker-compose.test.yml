@@ -114,6 +114,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
+      - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
       # KC_HOSTNAME not required because of start-dev
 volumes:
   mariadb:
