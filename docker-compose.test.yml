@@ -4,6 +4,8 @@ services:
   traefik-ja:
     image: "traefik:v2.5"
     container_name: "traefik-ja"
+    hostname: keycloak.${PUBLIC_URL}
+
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
@@ -74,7 +76,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
-      OAUTH_KEYCLOAK_CLIENT_SECRET: wLR9qXB4tuBqdsp3WtQ7OwVuDkxiJT7m
+      OAUTH_KEYCLOAK_CLIENT_SECRET: wLR9qXB4tuBqdsp3WtQ7OwVuDkxiJT7m    td8AUUCMAqL3xrhEJUOhSH0dXXVpDnJV
       OAUTH_KEYCLOAK_SERVER: http://keycloak.${PUBLIC_URL}/auth
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
@@ -99,7 +101,7 @@ services:
 
   keycloak-ja:
     image: jboss/keycloak:latest
-    hostname: keycloak.${PUBLIC_URL}
+
     depends_on:
       - db-ja
     environment:
