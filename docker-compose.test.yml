@@ -74,7 +74,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
-      OAUTH_KEYCLOAK_CLIENT_SECRET: Zjma9CUPqCz6eL8mD6OdV5N1J76tDrPr
+      OAUTH_KEYCLOAK_CLIENT_SECRET: wLR9qXB4tuBqdsp3WtQ7OwVuDkxiJT7m
       OAUTH_KEYCLOAK_SERVER: http://keycloak.${PUBLIC_URL}
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
@@ -111,7 +111,7 @@ services:
       DB_USER: keycloak
       DB_PASSWORD: test
       DB_PORT: 3306
-      KEYCLOAK_IMPORT: ./keycloak/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
@@ -119,7 +119,7 @@ services:
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
       # KC_HOSTNAME not required because of start-dev
     volumes:
-      - ./keycloak/realm-export.json:/opt/jboss/keycloak/imports/realm-export.json
+      - ./keycloak/realm-export.json:/tmp/realm-export.json
 
 
 
