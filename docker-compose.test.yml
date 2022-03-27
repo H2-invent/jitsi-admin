@@ -82,8 +82,8 @@ services:
       - "traefik.http.routers.mercure.rule=Host(`${PUBLIC_URL}`)"
       - "traefik.http.routers.mercure.entrypoints=web"
       - "traefik.http.services.mercure.loadbalancer.server.port=80"
-    volumes:
-      - ./:/var/www/html:rw
+    #volumes:
+    #  - ./:/var/www/html:rw
 
   db:
     image: mariadb:latest
