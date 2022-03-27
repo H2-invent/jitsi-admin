@@ -57,6 +57,7 @@ services:
       - keycloak-ja
       - mercure-ja
       - traefik-ja
+    command: [ "dockerRun.sh" ]
 
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
@@ -75,7 +76,7 @@ services:
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: wLR9qXB4tuBqdsp3WtQ7OwVuDkxiJT7m
-      OAUTH_KEYCLOAK_SERVER: http://keycloak.${PUBLIC_URL}
+      OAUTH_KEYCLOAK_SERVER: http://keycloak.${PUBLIC_URL}/auth
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: http://mercure.${PUBLIC_URL}/.well-known/mercure

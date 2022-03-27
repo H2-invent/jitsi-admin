@@ -12,5 +12,5 @@ RUN chmod -R 775 public/build
 RUN mkdir -p var/cache
 RUN chown -R www-data:www-data var
 RUN chmod -R 775 var
-
 USER docker
+ENTRYPOINT []
