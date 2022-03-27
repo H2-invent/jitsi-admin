@@ -1,4 +1,5 @@
 *
+!translations
 !assets
 !bin
 !config
@@ -6,6 +7,8 @@
 !public.key
 !src
 !templates
+!theme
+!migrations
 !tests
 !*.sh
 !composer.json
@@ -14,5 +17,5 @@
 !package.json
 !symfony.lock
 !webpack.config.js
-!.env
+!.env*
 !local-php-security-checker
