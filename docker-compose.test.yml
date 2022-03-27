@@ -76,7 +76,7 @@ services:
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_SERVER: http://keycloak.${PUBLIC_URL}
       OAUTH_KEYCLOAK_REALM: master
-      MERCURE_URL: http://mercure:3000/.well-known/mercure
+      MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: http://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: test
     labels:
