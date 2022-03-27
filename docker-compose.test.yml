@@ -99,7 +99,10 @@ services:
 
   keycloak-ja:
     image: quay.io/keycloak/keycloak:latest
-    command: ["start-dev"]
+    command:
+      - "start-dev"
+      - "-b 0.0.0.0 -Djboss.http.port=8080 -Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json"
+
     hostname: keycloak.${PUBLIC_URL}
     depends_on:
       - db-ja
@@ -119,6 +122,10 @@ services:
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
       # KC_HOSTNAME not required because of start-dev
+    volumes:
+      - ./keycloak/realm-export.json:/opt/jboss/keycloak/imports/realm-export.json
+
+
 
 volumes:
   mariadb:
