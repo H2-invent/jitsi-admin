@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  traefikJA:
+  traefik-ja:
     image: "traefik:v2.5"
     container_name: "traefik"
     command:
@@ -27,7 +27,7 @@ services:
       - ./tools/certs:/tools/certs
       - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
-  mercureJA:
+  mercure-ja:
     image: dunglas/mercure
     restart: unless-stopped
     environment:
@@ -49,12 +49,12 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-  appJA:
+  app-ja:
     build: .
     depends_on:
-      - dbJA
-      - keycloakJA
-      - mercureJA
+      - db-ja
+      - keycloak-ja
+      - mercure-ja
     ports:
       - "8080:80"
     environment:
@@ -86,14 +86,14 @@ services:
     #volumes:
     #  - ./:/var/www/html:rw
 
-  dbJA:
+  db-ja:
     image: mariadb:latest
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-  keycloakJA:
+  keycloak-ja:
     image: quay.io/keycloak/keycloak:latest
     command: ["start-dev"]
     depends_on:
