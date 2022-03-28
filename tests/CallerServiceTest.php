@@ -3,6 +3,9 @@
 namespace App\Tests;
 
 
+use App\Entity\CallerSession;
+use App\Repository\CallerSessionRepository;
+use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerPinService;
@@ -64,7 +67,7 @@ class CallerServiceTest extends KernelTestCase
         $id = 'unknownId';
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'Room Yesterday'));
-        self::assertEquals(array('auth_ok' => false,'links' => array()), $callerPinService->getPin($id,'0000'));
+        self::assertEquals(null, $callerPinService->getPin($id,'0000'));
     }
     public function testGetPinRoomCorrectPinWrong(): void
     {
@@ -74,7 +77,7 @@ class CallerServiceTest extends KernelTestCase
         $id = '123419';
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
-        self::assertEquals(array('auth_ok' => false,'links' => array()), $callerPinService->getPin($id,'0000'));
+        self::assertEquals(null, $callerPinService->getPin($id,'0000'));
     }
     public function testGetPinRoomCorrectPinCorrect(): void
     {
@@ -88,6 +91,24 @@ class CallerServiceTest extends KernelTestCase
         $callerPrepareService->createUserCallerIDforRoom($room);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $caller = $room->getCallerIds()[0];
-        self::assertEquals(array('auth_ok' => true,'links' => array('session'=>'url','left'=>'urlHangup')), $callerPinService->getPin($id,$caller->getCallerId()));
+        $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $lobbyWaitingUser = $lobbyUSerRepo->findOneBy(array('room'=>$room,'user'=>$caller->getUser()));
+        $sessionRepo  = self::getContainer()->get(CallerSessionRepository::class);
+        $session = $sessionRepo->findOneBy(array('lobbyWaitingUser'=>$lobbyWaitingUser));
+        self::assertNull($session);
+        self::assertNull($lobbyWaitingUser);
+        self::assertNotNull($callerPinService->getPin($id,$caller->getCallerId()));
+        $lobbyWaitingUser = $lobbyUSerRepo->findOneBy(array('room'=>$room,'user'=>$caller->getUser()));
+        $session = $sessionRepo->findOneBy(array('lobbyWaitingUser'=>$lobbyWaitingUser));
+
+        self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
+        self::assertEquals($lobbyWaitingUser, $session->getLobbyWaitingUser());
+        self::assertFalse($session->getAuthOk());
+        self::assertNotNull($session);
+        self::assertNotNull($lobbyWaitingUser);
+        self::assertEquals('c',$lobbyWaitingUser->getType());
+        self::assertEquals('User, Test, test@local.de',$lobbyWaitingUser->getShowName());
+        self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
+        self::assertEquals(null, $callerPinService->getPin($id,$caller->getCallerId()));
     }
 }

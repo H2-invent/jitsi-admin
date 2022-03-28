@@ -15,12 +15,9 @@ class CreateLobbyUserService
     private $toModerator;
     private $parameterBag;
 
-    public function __construct(EntityManagerInterface $entityManager, ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService, TranslatorInterface $translator, DirectSendService $lobbyUpdateService, ParameterBagInterface $parameterBag)
+    public function __construct(EntityManagerInterface $entityManager,  ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag)
     {
-        $this->translator = $translator;
-        $this->lobbyUpdateService = $lobbyUpdateService;
         $this->toModerator = $toModeratorWebsocketService;
-        $this->toParticipant = $toParticipantWebsocketService;
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
     }

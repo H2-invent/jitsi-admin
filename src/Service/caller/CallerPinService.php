@@ -4,48 +4,67 @@ namespace App\Service\caller;
 
 use App\Entity\CallerId;
 use App\Entity\CallerRoom;
+use App\Entity\CallerSession;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\Lobby\CreateLobbyUserService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CallerPinService
 {
     private $em;
+    private $createLobbyUserService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, CreateLobbyUserService $createLobbyUserService)
     {
         $this->em = $entityManager;
+        $this->createLobbyUserService = $createLobbyUserService;
     }
 
-    public function getPin($roomId, $pin)
+    public function getPin($roomId, $pin): ?CallerSession
     {
-        $room = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId'=>$roomId));
-        if (!$room) {
-            return array(
-                'auth_ok' => false,
-                'links' => array()
-            );
+        $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId' => $roomId));
+        if (!$callerRoom) {
+            return null;
+//            return array(
+//                'auth_ok' => false,
+//                'links' => array()
+//            );
         }
-        $callInUser = $this->em->getRepository(CallerId::class)->findOneBy(array('room' => $room->getRoom(), 'callerId' => $pin));
+        $room = $callerRoom->getRoom();
+        $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);
         if (!$callInUser) {
-            return array(
-                'auth_ok' => false,
-                'links' => array()
-            );
+            return null;
+//            return array(
+//                'auth_ok' => false,
+//                'links' => array()
+//            );
         }
-        //todo hier den Lobbywaitinguser bauen
+        $lobbyUser = $this->createLobbyUserService->createNewLobbyUser($callInUser->getUser(), $callInUser->getRoom(), 'c');
+        $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('lobbyWaitingUser' => $lobbyUser));
 
-        return array(
-            'auth_ok' => true,
-            'links' => array(
-                //todo hier der link rein
-                'session'=>'url',
-                'left'=> 'urlHangup'
-            )
-        );
+        if ($session) {
+            return null;
+        }
 
-    }
-    public function createLobbyUser(User $user, Rooms $rooms){
+        if (!$session) {
+            $session = new CallerSession();
+            $session->setSessionId(md5(uniqid()))
+                ->setCreatedAt(new \DateTime())
+                ->setAuthOk(false)
+                ->setLobbyWaitingUser($lobbyUser);
+            $this->em->persist($session);
+            $this->em->flush();
+        }
+        return $session;
 
+//        return array(
+//            'auth_ok' => true,
+//            'links' => array(
+//                //todo hier der link rein
+//                'session'=>'url',
+//                'left'=> 'urlHangup'
+//            )
+//        );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CallerId;
+use App\Entity\Rooms;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,17 @@ class CallerIdRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByRoomAndPin(Rooms $rooms, $pin): ?CallerId
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.room', 'room')
+            ->andWhere('room = :room')
+            ->andWhere('c.callerId = :pin')
+            ->setParameter('pin', $pin)
+            ->setParameter('room', $rooms)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
 }
