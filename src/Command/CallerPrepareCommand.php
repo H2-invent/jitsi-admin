@@ -33,8 +33,7 @@ class CallerPrepareCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $this->callerPrepareService->prepareCallerId();
-        $this->callerPrepareService->deleteOldId();
-
+        $this->callerPrepareService->createUserCallerId();
         $io->success('We added to all Rooms which had no caller-Id a caller-Id');
 
         return Command::SUCCESS;

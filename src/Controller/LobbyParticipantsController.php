@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\Lobby\CreateLobbyUserService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Lobby\ToParticipantWebsocketService;
@@ -22,13 +23,15 @@ class LobbyParticipantsController extends AbstractController
     private $toModerator;
     private $toParticipant;
     private $parameterBag;
-    public function __construct(ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService,TranslatorInterface $translator, DirectSendService $lobbyUpdateService, ParameterBagInterface $parameterBag)
+    private $createLobbyUserService;
+    public function __construct(CreateLobbyUserService $createLobbyUserService, ToParticipantWebsocketService $toParticipantWebsocketService, ToModeratorWebsocketService $toModeratorWebsocketService,TranslatorInterface $translator, DirectSendService $lobbyUpdateService, ParameterBagInterface $parameterBag)
     {
         $this->translator = $translator;
         $this->lobbyUpdateService = $lobbyUpdateService;
         $this->toModerator = $toModeratorWebsocketService;
         $this->toParticipant = $toParticipantWebsocketService;
         $this->parameterBag = $parameterBag;
+        $this->createLobbyUserService = $createLobbyUserService;
     }
 
     /**
@@ -39,25 +42,7 @@ class LobbyParticipantsController extends AbstractController
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$roomUid));
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('uid'=>$userUid));
-        $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$room));
-        $em = $this->getDoctrine()->getManager();
-        if(!$lobbyUser){
-            $lobbyUser = new LobbyWaitungUser();
-            $lobbyUser->setType($type);
-            $lobbyUser->setUser($user);
-            $lobbyUser->setRoom($room);
-            $lobbyUser->setCreatedAt(new \DateTime());
-            $lobbyUser->setUid(md5(uniqid()));
-            $lobbyUser->setShowName($user->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($lobbyUser);
-            $em->flush();
-            $this->toModerator->newParticipantInLobby($lobbyUser);
-            $this->toModerator->refreshLobby($lobbyUser);
-        }
-        $lobbyUser->setType($type);
-        $em->persist($lobbyUser);
-        $em->flush();
+       $lobbyUser =  $this->createLobbyUserService->createNewLobbyUser($user,$room,$type);
 
        return $this->render('lobby_participants/index.html.twig',array('type'=>$type,'room'=>$room, 'server'=>$room->getServer(),'user'=>$lobbyUser));
     }

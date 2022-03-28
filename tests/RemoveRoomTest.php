@@ -8,6 +8,7 @@ use App\Entity\Rooms;
 use App\Entity\Subscriber;
 use App\Entity\Waitinglist;
 use App\Repository\RoomsRepository;
+use App\Service\caller\CallerPrepareService;
 use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +22,7 @@ class RemoveRoomTest extends KernelTestCase
 
         $this->assertSame('test', $kernel->getEnvironment());
         $removeRoomService = self::getContainer()->get(RemoveRoomService::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
         $em = self::getContainer()->get(EntityManagerInterface::class);
@@ -50,16 +52,29 @@ class RemoveRoomTest extends KernelTestCase
         $wait->setRoom($room);
         $em->persist($wait);
         $em->flush();
+
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $callerPrepareService->addCallerIdToRoom($room);
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        self::assertEquals(3, sizeof($room->getCallerIds()));
+        self::assertNotNull($room->getCallerRoom()->getId());
+
         self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
         self::assertEquals(1, sizeof($room->getSubscribers()));
         self::assertEquals(1, sizeof($room->getWaitinglists()));
+
         self::assertEquals(true, $removeRoomService->deleteRoom($room));
+
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
         self::assertEquals(0, sizeof($room->getUser()));
         self::assertNull($room->getModerator());
         self::assertEquals(0, sizeof($room->getFavoriteUsers()));
         self::assertEquals(0, sizeof($room->getLobbyWaitungUsers()));
         self::assertEquals(0, sizeof($room->getSubscribers()));
         self::assertEquals(0, sizeof($room->getWaitinglists()));
+        self::assertEquals(0, sizeof($room->getCallerIds()));
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        self::assertNull( $room->getCallerRoom()->getId());
     }
 
     public function testRemovefromRepeat(): void

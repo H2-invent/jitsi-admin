@@ -59,6 +59,7 @@ class CallerRoomRepository extends ServiceEntityRepository
                     $qb->expr()->isNull("room.persistantRoom")
                 )
             )
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('room.scheduleMeeting'), 'room.scheduleMeeting = false'))
             ->setParameter('now', $now)
             ->setParameter('false',false)
             ->getQuery()

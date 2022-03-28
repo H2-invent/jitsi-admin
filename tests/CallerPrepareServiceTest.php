@@ -89,7 +89,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        self::assertEquals(49, sizeof($callerPrpareService->addNewId()));
+        self::assertEquals(29, sizeof($callerPrpareService->addNewId()));
         self::assertEquals(0, sizeof($callerPrpareService->addNewId()));
     }
     public function testDeleteCallerIdfromPastRoom(): void
@@ -101,6 +101,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         self::assertEquals(1, sizeof($callerPrpareService->deleteOldId()));
         self::assertEquals(0, sizeof($callerPrpareService->deleteOldId()));
     }
+
     public function testPrepareCallerCommand(): void
     {
         $kernel = self::bootKernel();

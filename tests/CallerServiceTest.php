@@ -5,6 +5,8 @@ namespace App\Tests;
 
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerFindRoomService;
+use App\Service\caller\CallerPinService;
+use App\Service\caller\CallerPrepareService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CallerServiceTest extends KernelTestCase
@@ -53,5 +55,39 @@ class CallerServiceTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'Room Yesterday'));
         self::assertEquals(array('status' => 'ROOM_ID_UKNOWN','reason'=>'ROOM_ID_UKNOWN', 'links' => array()), $callerService->findRoom($id));
 
+    }
+    public function testGetPinRoomUnknown(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = 'unknownId';
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'Room Yesterday'));
+        self::assertEquals(array('auth_ok' => false,'links' => array()), $callerPinService->getPin($id,'0000'));
+    }
+    public function testGetPinRoomCorrectPinWrong(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '123419';
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        self::assertEquals(array('auth_ok' => false,'links' => array()), $callerPinService->getPin($id,'0000'));
+    }
+    public function testGetPinRoomCorrectPinCorrect(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '123419';
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $caller = $room->getCallerIds()[0];
+        self::assertEquals(array('auth_ok' => true,'links' => array('session'=>'url','left'=>'urlHangup')), $callerPinService->getPin($id,$caller->getCallerId()));
     }
 }

@@ -14,6 +14,7 @@ class RemoveRoomService
     private $repeaterService;
     private $logger;
     private $translator;
+
     public function __construct(EntityManagerInterface $entityManager, UserService $userService, RepeaterService $repeaterService, LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->em = $entityManager;
@@ -56,11 +57,20 @@ class RemoveRoomService
                 $room->removeWaitinglist($data);
                 $this->em->remove($data);
             }
+            foreach ($room->getCallerIds() as $data) {
+                $this->em->remove($data);
+                $room->removeCallerId($data);
+            }
             $this->em->persist($room);
-           $this->em->flush();
-        }catch (\Exception $e){
+            $this->em->flush();
+            $callerRoom = $room->getCallerRoom();
+            $this->em->remove($callerRoom);
+            $this->em->flush();
+
+
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            return  false;
+            return false;
         }
 
         return true;

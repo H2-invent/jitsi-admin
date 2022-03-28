@@ -241,6 +241,11 @@ class Rooms
      */
     private $endTimestamp;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="room", orphanRemoval=true)
+     */
+    private $callerIds;
+
 
 
     public function __construct()
@@ -254,6 +259,7 @@ class Rooms
         $this->favoriteUsers = new ArrayCollection();
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->roomstatuses = new ArrayCollection();
+        $this->callerIds = new ArrayCollection();
     }
 
     /**
@@ -986,6 +992,36 @@ class Rooms
     public function setEndTimestamp(?int $endTimestamp): self
     {
         $this->endTimestamp = $endTimestamp;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CallerId[]
+     */
+    public function getCallerIds(): Collection
+    {
+        return $this->callerIds;
+    }
+
+    public function addCallerId(CallerId $callerId): self
+    {
+        if (!$this->callerIds->contains($callerId)) {
+            $this->callerIds[] = $callerId;
+            $callerId->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCallerId(CallerId $callerId): self
+    {
+        if ($this->callerIds->removeElement($callerId)) {
+            // set the owning side to null (unless already changed)
+            if ($callerId->getRoom() === $this) {
+                $callerId->setRoom(null);
+            }
+        }
 
         return $this;
     }
