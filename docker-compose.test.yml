@@ -77,7 +77,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
-      OAUTH_KEYCLOAK_CLIENT_SECRET: JdSjLjdcBXJ16aNspTKCPqjXN3hDhOuC
+      OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
       OAUTH_KEYCLOAK_SERVER: http://keycloak.${PUBLIC_URL}/auth
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
