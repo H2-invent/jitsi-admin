@@ -6,6 +6,8 @@ use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
+use App\Repository\CallerSessionRepository;
+use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
@@ -29,7 +31,7 @@ class CallerSessionTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId());
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
         // vorbereitung
         self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSession('12345'));
     }
@@ -48,7 +50,7 @@ class CallerSessionTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId());
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
         // vorbereitung
 
         self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'NOT_STARTED'), $sessionService->getSession($session->getSessionId()));
@@ -68,7 +70,7 @@ class CallerSessionTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId());
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
@@ -96,7 +98,7 @@ class CallerSessionTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId());
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
@@ -132,7 +134,7 @@ class CallerSessionTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId());
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
@@ -162,7 +164,7 @@ class CallerSessionTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId());
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
         // vorbereitung
         $status = new RoomStatus();
         $status->setRoom($room)
@@ -196,7 +198,7 @@ class CallerSessionTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId());
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
         $manager->remove($session->getLobbyWaitingUser());
         $session->setLobbyWaitingUser(null);
         $manager->persist($session);
@@ -207,4 +209,47 @@ class CallerSessionTest extends KernelTestCase
         self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSession($session->getSessionId()));
     }
 
+    public function testWaitingAccepted(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[0];
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
+
+        // vorbereitung
+        $session->setAuthOk(true);
+        $manager->persist($session);
+        $manager->flush();
+        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR','number_of_participants'=>0,'status_of_meeting'=>'STARTED'), $sessionService->getSession($session->getSessionId()));
+    }
+    public function testAccept(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[0];
+        $session = $callerPinService->getPin($id, $caller->getCallerId(),'012345');
+        $lobbyWaitinguserRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $lobbywaitinguser = $lobbyWaitinguserRepo->findOneBy(array('room'=>$room,'user'=>$session->getCaller()->getUser()));
+        self::assertTrue($sessionService->acceptCallerUser($lobbywaitinguser));
+        self::assertTrue($session->getAuthOk());
+        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR','number_of_participants'=>0,'status_of_meeting'=>'STARTED'), $sessionService->getSession($session->getSessionId()));
+    }
 }

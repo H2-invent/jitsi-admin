@@ -39,6 +39,11 @@ class CallerId
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToOne(targetEntity=CallerSession::class, inversedBy="caller", cascade={"persist", "remove"})
+     */
+    private $callerSession;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,6 +93,18 @@ class CallerId
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCallerSession(): ?CallerSession
+    {
+        return $this->callerSession;
+    }
+
+    public function setCallerSession(?CallerSession $callerSession): self
+    {
+        $this->callerSession = $callerSession;
 
         return $this;
     }

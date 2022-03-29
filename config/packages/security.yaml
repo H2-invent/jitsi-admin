@@ -39,6 +39,7 @@ security:
         - { path: /backend/, role: ROLE_ADMIN }
         - { path: /login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /jitsi/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /api/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /cron/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /health/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /register, role: IS_AUTHENTICATED_ANONYMOUSLY }

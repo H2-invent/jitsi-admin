@@ -4,13 +4,15 @@ namespace App\Service\caller;
 
 use App\Entity\CallerRoom;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerFindRoomService
 {
     private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    private $urlGen;
+    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager)
     {
+        $this->urlGen = $urlGenerator;
         $this->em = $entityManager;
     }
 
@@ -46,7 +48,7 @@ class CallerFindRoomService
             'endTime' => $caller->getRoom()->getEndTimestamp(),
             'roomName' => $caller->getRoom()->getName(),
             //todo hier die url rein
-            'links' => array('pin' => 'url')
+            'links' => array('pin' => $this->urlGen->generate('caller_pin',array('roomId'=>$id)) )
         );
     }
 

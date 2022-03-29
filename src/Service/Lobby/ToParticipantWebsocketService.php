@@ -5,6 +5,7 @@ namespace App\Service\Lobby;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Service\RoomService;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mercure\Exception\RuntimeException;
@@ -28,7 +29,8 @@ class ToParticipantWebsocketService
     private $twig;
     private $directSend;
     private $uploadHelper;
-    public function __construct(UploaderHelper $uploaderHelper, DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
+    private $em;
+    public function __construct(EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper, DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->publisher = $publisher;
         $this->urlgenerator = $urlGenerator;
@@ -39,6 +41,7 @@ class ToParticipantWebsocketService
         $this->twig = $environment;
         $this->directSend = $directSendService;
         $this->uploadHelper = $uploaderHelper;
+        $this->em = $entityManager;
     }
 
     public function setDirectSend(DirectSendService $directSendService)

@@ -38,6 +38,16 @@ class CallerSession
      */
     private $authOk;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $callerId;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CallerId::class, mappedBy="callerSession", cascade={"persist"})
+     */
+    private $caller;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +97,40 @@ class CallerSession
     public function setAuthOk(bool $authOk): self
     {
         $this->authOk = $authOk;
+
+        return $this;
+    }
+
+    public function getCallerId(): ?string
+    {
+        return $this->callerId;
+    }
+
+    public function setCallerId(?string $callerId): self
+    {
+        $this->callerId = $callerId;
+
+        return $this;
+    }
+
+    public function getCaller(): ?CallerId
+    {
+        return $this->caller;
+    }
+
+    public function setCaller(?CallerId $caller): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($caller === null && $this->caller !== null) {
+            $this->caller->setCallerSession(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($caller !== null && $caller->getCallerSession() !== $this) {
+            $caller->setCallerSession($this);
+        }
+
+        $this->caller = $caller;
 
         return $this;
     }

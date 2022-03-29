@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\api\CheckAuthorizationService;
 use App\Service\webhook\RoomWebhookService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@ class JitsiEventsWebhookController extends AbstractController
      */
     public function create(Request $request, LoggerInterface $logger): Response
     {
-        $check = $this->checkHEader($request);
+        $check = CheckAuthorizationService::checkHEader($request,$this->token);
         if ($check) {
             return $check;
         }
@@ -50,7 +51,7 @@ class JitsiEventsWebhookController extends AbstractController
      */
     public function destroy(Request $request, LoggerInterface $logger): Response
     {
-        $check = $this->checkHEader($request);
+        $check = CheckAuthorizationService::checkHEader($request,$this->token);
         if ($check) {
             return $check;
         }
@@ -67,7 +68,7 @@ class JitsiEventsWebhookController extends AbstractController
      */
     public function joined(Request $request, LoggerInterface $logger): Response
     {
-        $check = $this->checkHEader($request);
+        $check = CheckAuthorizationService::checkHEader($request,$this->token);
         if ($check) {
             return $check;
         }
@@ -85,7 +86,7 @@ class JitsiEventsWebhookController extends AbstractController
      */
     public function left(Request $request, LoggerInterface $logger): Response
     {
-        $check = $this->checkHEader($request);
+        $check = CheckAuthorizationService::checkHEader($request,$this->token);
         if ($check) {
             return $check;
         }
@@ -98,17 +99,4 @@ class JitsiEventsWebhookController extends AbstractController
         return new JsonResponse($arr);
     }
 
-
-    private function checkHEader(Request $request): ?Response
-    {
-        $authHeader = $request->headers->get('Authorization');
-        if ($authHeader !== $this->token ) {
-            $array = array('authorized' => false);
-            $response = new JsonResponse($array, 401);
-            return $response;
-        }
-
-        return null;
-
-    }
 }

@@ -83,6 +83,8 @@ parameters:
     input_settings_allowLobby_default: '%env(input_settings_allowLobby_default)%'
     JITSI_EVENTS_TOKEN: '%env(JITSI_EVENTS_TOKEN)%'
     JITSI_EVENTS_HISTORY: '%env(JITSI_EVENTS_HISTORY)%'
+    SIP_CALLER_SECRET: '%env(SIP_CALLER_SECRET)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:

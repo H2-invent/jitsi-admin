@@ -16,12 +16,14 @@ class CallerPrepareService
     private $callerService;
     private $callerPinService;
     private $callerSessionService;
-    public function __construct(CallerSessionService $callerSessionService, CallerPinService $callerPinService, EntityManagerInterface $entityManager, CallerFindRoomService $callerService)
+    private $callerLeftService;
+    public function __construct(CallerLeftService $callerLeftService, CallerSessionService $callerSessionService, CallerPinService $callerPinService, EntityManagerInterface $entityManager, CallerFindRoomService $callerService)
     {
         $this->em = $entityManager;
         $this->callerService = $callerService;
         $this->callerPinService = $callerPinService;
         $this->callerSessionService = $callerSessionService;
+        $this->callerLeftService = $callerLeftService;
     }
 
     public function prepareCallerId()
