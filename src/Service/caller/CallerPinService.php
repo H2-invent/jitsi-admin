@@ -53,7 +53,11 @@ class CallerPinService
             ->setCallerId($callerId)
             ->setShowName($lobbyUser->getShowName())
             ->setCaller($callInUser);
+
         $this->em->persist($session);
+        $this->em->flush();
+        $lobbyUser->setCallerSession($session);
+        $this->em->persist($lobbyUser);
         $this->em->flush();
         $this->loggger->debug('Session was successfully build',array('roomId'=>$roomId,'callerId'=>$callerId,'pin'=>$pin));
         return $session;

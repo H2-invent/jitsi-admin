@@ -323,6 +323,46 @@ class CallerControllerTest extends WebTestCase
         )), $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
     }
+    public function testAcceptAllCaller(): void
+    {
+        $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
+        $sessionLink = $this->startWorkflow($client);
+
+        $roomService = self::getContainer()->get(RoomService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
+
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $status = new RoomStatus();
+        $status->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($status);
+        $manager->flush();
+
+
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":0,"status_of_meeting":"STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+
+        $client->loginUser($room->getModerator());
+        $lobbyWaitinguser = $this->getLobbyWaitinguser($sessionLink);
+        $crawler = $client->request('GET', '/room/lobby/acceptAll/' . $lobbyWaitinguser->getRoom()->getUidReal());
+        $crawler = $client->request('GET', $sessionLink);
+        $session = $this->getSessionfromLink($sessionLink);
+        $this->assertJsonStringEqualsJsonString(json_encode(array(
+            'status' => 'ACCEPTED',
+            'reason' => 'ACCEPTED_BY_MODERATOR',
+            'number_of_participants' => 0,
+            'status_of_meeting' => 'STARTED',
+            'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())
+        )), $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+    }
 
     function startWorkflow(KernelBrowser $client)
     {
@@ -362,7 +402,6 @@ class CallerControllerTest extends WebTestCase
 
     function getLobbyWaitinguser($link): ?LobbyWaitungUser
     {
-
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];
         $sessionRepo = self::getContainer()->get(CallerSessionRepository::class);
@@ -374,12 +413,10 @@ class CallerControllerTest extends WebTestCase
         $manager->persist($lobbyUser);
         $manager->flush();
         return $lobbyUser;
-
     }
 
     function getSessionfromLink($link): ?CallerSession
     {
-
         $sessionId = explode('=', $link);
         $sessionId = $sessionId[sizeof($sessionId) - 1];
         $sessionRepo = self::getContainer()->get(CallerSessionRepository::class);
