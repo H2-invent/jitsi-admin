@@ -48,6 +48,11 @@ class CallerSession
      */
     private $caller;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $showName;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -131,6 +136,18 @@ class CallerSession
         }
 
         $this->caller = $caller;
+
+        return $this;
+    }
+
+    public function getShowName(): ?string
+    {
+        return $this->showName;
+    }
+
+    public function setShowName(?string $showName): self
+    {
+        $this->showName = $showName;
 
         return $this;
     }

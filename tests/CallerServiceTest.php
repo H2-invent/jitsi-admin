@@ -108,6 +108,7 @@ class CallerServiceTest extends KernelTestCase
         self::assertFalse($session->getAuthOk());
         self::assertNotNull($session);
         self::assertNotNull($lobbyWaitingUser);
+        self::assertEquals($lobbyWaitingUser->getShowName(),$session->getShowName());
         self::assertEquals('c',$lobbyWaitingUser->getType());
         self::assertEquals('User, Test, test@local.de',$lobbyWaitingUser->getShowName());
         self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));

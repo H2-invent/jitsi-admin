@@ -12,6 +12,8 @@ use App\Repository\RoomsRepository;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
 use App\Service\caller\CallerSessionService;
+use App\Service\RoomService;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -215,6 +217,7 @@ class CallerSessionTest extends KernelTestCase
 
         $this->assertSame('test', $kernel->getEnvironment());
         $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $roomService = self::getContainer()->get(RoomService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
@@ -229,7 +232,7 @@ class CallerSessionTest extends KernelTestCase
         $session->setAuthOk(true);
         $manager->persist($session);
         $manager->flush();
-        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR','number_of_participants'=>0,'status_of_meeting'=>'STARTED'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR','number_of_participants'=>0,'status_of_meeting'=>'STARTED','jwt'=>$roomService->generateJwt($session->getCaller()->getRoom(),$session->getCaller()->getUser(),$session->getShowName())), $sessionService->getSession($session->getSessionId()));
     }
     public function testAccept(): void
     {
@@ -238,6 +241,8 @@ class CallerSessionTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $roomService = self::getContainer()->get(RoomService::class);
+
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
@@ -250,6 +255,6 @@ class CallerSessionTest extends KernelTestCase
         $lobbywaitinguser = $lobbyWaitinguserRepo->findOneBy(array('room'=>$room,'user'=>$session->getCaller()->getUser()));
         self::assertTrue($sessionService->acceptCallerUser($lobbywaitinguser));
         self::assertTrue($session->getAuthOk());
-        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR','number_of_participants'=>0,'status_of_meeting'=>'STARTED'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR','number_of_participants'=>0,'status_of_meeting'=>'STARTED','jwt'=>$roomService->generateJwt($session->getCaller()->getRoom(),$session->getCaller()->getUser(),$session->getShowName())), $sessionService->getSession($session->getSessionId()));
     }
 }

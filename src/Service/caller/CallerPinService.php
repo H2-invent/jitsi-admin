@@ -51,6 +51,7 @@ class CallerPinService
             ->setAuthOk(false)
             ->setLobbyWaitingUser($lobbyUser)
             ->setCallerId($callerId)
+            ->setShowName($lobbyUser->getShowName())
             ->setCaller($callInUser);
         $this->em->persist($session);
         $this->em->flush();

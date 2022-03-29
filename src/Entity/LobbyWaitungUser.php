@@ -51,7 +51,8 @@ class LobbyWaitungUser
     private $showName;
 
     /**
-     * @ORM\OneToOne(targetEntity=CallerSession::class, mappedBy="lobbyWaitingUser", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=CallerSession::class, mappedBy="lobbyWaitingUser", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $callerSession;
 

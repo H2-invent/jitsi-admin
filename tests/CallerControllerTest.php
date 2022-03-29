@@ -2,13 +2,23 @@
 
 namespace App\Tests;
 
+use App\Entity\CallerSession;
+use App\Entity\LobbyWaitungUser;
+use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
+use App\Repository\CallerSessionRepository;
+use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
 use App\Service\caller\CallerSessionService;
+use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use function mysql_xdevapi\getSession;
 
 class CallerControllerTest extends WebTestCase
 {
@@ -53,7 +63,7 @@ class CallerControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/123419');
         $this->assertResponseIsSuccessful();
 
-        $this->assertJsonStringEqualsJsonString(json_encode(array('status' => 'HANGUP', 'reason'=>'TO_EARLY','endTime'=>$room->getEndTimestamp(), 'startTime' => $room->getStartTimestamp(),  'links' => array())), $client->getResponse()->getContent());
+        $this->assertJsonStringEqualsJsonString(json_encode(array('status' => 'HANGUP', 'reason' => 'TO_EARLY', 'endTime' => $room->getEndTimestamp(), 'startTime' => $room->getStartTimestamp(), 'links' => array())), $client->getResponse()->getContent());
         $crawler = $client->request('GET', '/api/v1/lobby/sip/room/1234190');
         $this->assertResponseIsSuccessful();
         $this->assertJsonStringEqualsJsonString(json_encode(array('status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => array())), $client->getResponse()->getContent());
@@ -76,11 +86,11 @@ class CallerControllerTest extends WebTestCase
 
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, array());
-        $this->assertEquals(404,$client->getResponse()->getStatusCode());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString(json_encode(array('error' => 'MISSING_ARGUMENT', 'argument' => array('pin', 'caller_id'))), $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, array('pin' => '1234'));
-        $this->assertEquals(404,$client->getResponse()->getStatusCode());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString(json_encode(array('error' => 'MISSING_ARGUMENT', 'argument' => array('caller_id'))), $client->getResponse()->getContent());
 
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, array('pin' => '1234', 'caller_id' => '1234'));
@@ -104,14 +114,15 @@ class CallerControllerTest extends WebTestCase
         $caller = $room->getCallerIds()[0];
         $session = $caller->getCallerSession();
         $this->assertJsonStringEqualsJsonString(json_encode(array(
-            'auth_ok' => true,
-            'links' => array(
-                'session' => '/api/v1/lobby/sip/session?session_id='.$session->getSessionId(),
-                'left' => '/api/v1/lobby/sip/session/left?session_id='.$session->getSessionId()
+                'auth_ok' => true,
+                'links' => array(
+                    'session' => '/api/v1/lobby/sip/session?session_id=' . $session->getSessionId(),
+                    'left' => '/api/v1/lobby/sip/session/left?session_id=' . $session->getSessionId()
+                )
             )
-        )
         ), $client->getResponse()->getContent());
     }
+
     public function testGetCallerSession(): void
     {
         $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
@@ -133,14 +144,15 @@ class CallerControllerTest extends WebTestCase
         $caller = $room->getCallerIds()[0];
         $session = $caller->getCallerSession();
 
-        $crawler = $client->request('GET',  '/api/v1/lobby/sip/session');
-        $this->assertEquals(404,$client->getResponse()->getStatusCode());
+        $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString(json_encode(array('error' => 'MISSING_ARGUMENT', 'argument' => array('session_id'))), $client->getResponse()->getContent());
 
-        $crawler = $client->request('GET',  '/api/v1/lobby/sip/session', array('session_id' => $caller->getCallerId()));
+        $crawler = $client->request('GET', '/api/v1/lobby/sip/session', array('session_id' => $caller->getCallerId()));
         $this->assertResponseIsSuccessful();
 
     }
+
     public function testGetCallerLeft(): void
     {
         $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
@@ -162,17 +174,158 @@ class CallerControllerTest extends WebTestCase
         $caller = $room->getCallerIds()[0];
         $session = $caller->getCallerSession();
 
-        $crawler = $client->request('GET',  '/api/v1/lobby/sip/session');
-        $this->assertEquals(404,$client->getResponse()->getStatusCode());
+        $crawler = $client->request('GET', '/api/v1/lobby/sip/session');
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
         $this->assertJsonStringEqualsJsonString(json_encode(array('error' => 'MISSING_ARGUMENT', 'argument' => array('session_id'))), $client->getResponse()->getContent());
 
-        $crawler = $client->request('GET',  '/api/v1/lobby/sip/session/left', array('session_id' => $caller->getCallerId()));
+        $crawler = $client->request('GET', '/api/v1/lobby/sip/session/left', array('session_id' => $caller->getCallerId()));
         $this->assertResponseIsSuccessful();
 
     }
-    public function testWokflowUserDeclined(): void
+
+
+    /**
+     * @return int|string
+     */
+    public function testFinishMeeing(): void
     {
         $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
+        $sessionLink = $this->startWorkflow($client);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $status = new RoomStatus();
+        $status->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($status);
+        $manager->flush();
+
+
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":0,"status_of_meeting":"STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $status = $room->getRoomstatuses()[0];
+        $roomPart = new RoomStatusParticipant();
+        $roomPart->setParticipantName('test12')
+            ->setEnteredRoomAt(new \DateTime())
+            ->setRoomStatus($status)
+            ->setInRoom(true)
+            ->setParticipantId('1234');
+        $manager->persist($roomPart);
+        $manager->flush();
+
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":1,"status_of_meeting":"STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+
+        $roomPart = new RoomStatusParticipant();
+        $roomPart->setParticipantName('test122')
+            ->setEnteredRoomAt(new \DateTime())
+            ->setRoomStatus($status)
+            ->setInRoom(true)
+            ->setParticipantId('12345');
+        $manager->persist($roomPart);
+        $manager->flush();
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":2,"status_of_meeting":"STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+
+        $status->setDestroyedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime())
+            ->setCreated(false)
+            ->setDestroyed(true);
+        $manager->persist($status);
+        $manager->flush();
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"HANGUP","reason":"MEETING_HAS_FINISHED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+    }
+
+
+    public function testDeclineCaller(): void
+    {
+        $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
+        $sessionLink = $this->startWorkflow($client);
+
+
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
+
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $status = new RoomStatus();
+        $status->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($status);
+        $manager->flush();
+
+
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":0,"status_of_meeting":"STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+
+        $client->loginUser($room->getModerator());
+        $session = $this->getLobbyWaitinguser($sessionLink);;
+        $crawler = $client->request('GET', '/room/lobby/decline/' . $session->getUid());
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"HANGUP","reason":"DECLINED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testAcceptCaller(): void
+    {
+        $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
+        $sessionLink = $this->startWorkflow($client);
+
+        $roomService = self::getContainer()->get(RoomService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
+
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $status = new RoomStatus();
+        $status->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($status);
+        $manager->flush();
+
+
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":0,"status_of_meeting":"STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+
+        $client->loginUser($room->getModerator());
+        $lobbyWaitinguser = $this->getLobbyWaitinguser($sessionLink);
+        $crawler = $client->request('GET', '/room/lobby/accept/' . $lobbyWaitinguser->getUid());
+        $crawler = $client->request('GET', $sessionLink);
+        $session = $this->getSessionfromLink($sessionLink);
+        $this->assertJsonStringEqualsJsonString(json_encode(array(
+            'status' => 'ACCEPTED',
+            'reason' => 'ACCEPTED_BY_MODERATOR',
+            'number_of_participants' => 0,
+            'status_of_meeting' => 'STARTED',
+            'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())
+        )), $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+    }
+
+    function startWorkflow(KernelBrowser $client)
+    {
 
         $callerLEftService = self::getContainer()->get(CallerLeftService::class);
         $sessionService = self::getContainer()->get(CallerSessionService::class);
@@ -180,23 +333,58 @@ class CallerControllerTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
-        $id = '123419';
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
-        $callerPrepareService->createUserCallerIDforRoom($room);
-        $caller = $room->getCallerIds()[0];
+        $id = '12340';
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
 
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[1];
+        //enter the room and check if the room is okay
+        $crawler = $client->request('GET', '/api/v1/lobby/sip/room/' . $id);
+        $this->assertResponseIsSuccessful();
+
+        //enter the users pin
         $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, array('pin' => $caller->getCallerId(), 'caller_id' => '1234'));
         $this->assertResponseIsSuccessful();
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
-        $caller = $room->getCallerIds()[0];
-        $session = $caller->getCallerSession();
+        $sessionLink = json_decode($client->getResponse()->getContent(), true)['links']['session'];
+        $leafLink = json_decode($client->getResponse()->getContent(), true)['links']['left'];
 
-        $crawler = $client->request('GET',  '/api/v1/lobby/sip/session');
-        $this->assertEquals(404,$client->getResponse()->getStatusCode());
-        $this->assertJsonStringEqualsJsonString(json_encode(array('error' => 'MISSING_ARGUMENT', 'argument' => array('session_id'))), $client->getResponse()->getContent());
-
-        $crawler = $client->request('GET',  '/api/v1/lobby/sip/session/left', array('session_id' => $caller->getCallerId()));
+        //try entering again. the user should not be access again
+        $crawler = $client->request('POST', '/api/v1/lobby/sip/pin/' . $id, array('pin' => $caller->getCallerId(), 'caller_id' => '1234'));
+        $this->assertJsonStringEqualsJsonString(json_encode(array('auth_ok' => false, 'links' => array())), $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
+
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":0,"status_of_meeting":"NOT_STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        return $sessionLink;
+    }
+
+    function getLobbyWaitinguser($link): ?LobbyWaitungUser
+    {
+
+        $sessionId = explode('=', $link);
+        $sessionId = $sessionId[sizeof($sessionId) - 1];
+        $sessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $session = $sessionRepo->findOneBy(array('sessionId' => $sessionId));
+        $lobbyUserRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $lobbyUser = $lobbyUserRepo->findOneBy(array('uid' => $session->getLobbyWaitingUser()->getUid()));
+        $lobbyUser->setCallerSession($session);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $manager->persist($lobbyUser);
+        $manager->flush();
+        return $lobbyUser;
+
+    }
+
+    function getSessionfromLink($link): ?CallerSession
+    {
+
+        $sessionId = explode('=', $link);
+        $sessionId = $sessionId[sizeof($sessionId) - 1];
+        $sessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $session = $sessionRepo->findOneBy(array('sessionId' => $sessionId));
+        return $session;
 
     }
 }

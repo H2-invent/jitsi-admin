@@ -6,6 +6,7 @@ use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
+use App\Service\caller\CallerSessionService;
 use App\Service\JoinUrlGeneratorService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\LobbyUtils;
@@ -82,7 +83,7 @@ class LobbyModeratorController extends AbstractController
     /**
      * @Route("/room/lobby/accept/{wUid}", name="lobby_moderator_accept")
      */
-    public function accept(Request $request, $wUid): Response
+    public function accept(Request $request, $wUid, CallerSessionService $callerSessionService): Response
     {
         $lobbyUser = $this->getDoctrine()->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wUid));
         if (!$lobbyUser) {
@@ -94,8 +95,11 @@ class LobbyModeratorController extends AbstractController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $em = $this->getDoctrine()->getManager();
+        $callerSessionService->acceptCallerUser($lobbyUser);
+
         $em->remove($lobbyUser);
         $em->flush();
+
         $this->toParticipant->acceptLobbyUser($lobbyUser);
         $this->toModerator->refreshLobby($lobbyUser);
         return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.success'), 'color' => 'success'));
@@ -104,7 +108,7 @@ class LobbyModeratorController extends AbstractController
     /**
      * @Route("/room/lobby/acceptAll/{roomId}", name="lobby_moderator_accept_all")
      */
-    public function acceptAll(Request $request, $roomId): Response
+    public function acceptAll(Request $request, $roomId,  CallerSessionService $callerSessionService): Response
     {
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomId));
         if (!$this->checkPermissions($room, $this->getUser())) {
@@ -114,6 +118,7 @@ class LobbyModeratorController extends AbstractController
         $lobbyUser = $room->getLobbyWaitungUsers();
         $em = $this->getDoctrine()->getManager();
         foreach ($lobbyUser as $data) {
+            $callerSessionService->acceptCallerUser($data);
             $em->remove($data);
             $em->flush();
             $this->toParticipant->acceptLobbyUser($data);
@@ -137,6 +142,12 @@ class LobbyModeratorController extends AbstractController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $em = $this->getDoctrine()->getManager();
+        if ($lobbyUser->getCallerSession()){
+            $session = $lobbyUser->getCallerSession();
+            $session->setLobbyWaitingUser(null);
+            $em->persist($session);
+            $em->flush();
+        }
         $em->remove($lobbyUser);
         $em->flush();
         $this->toParticipant->sendDecline($lobbyUser);

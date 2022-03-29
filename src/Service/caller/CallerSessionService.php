@@ -5,6 +5,7 @@ namespace App\Service\caller;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Service\Lobby\ToModeratorWebsocketService;
+use App\Service\RoomService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -15,12 +16,14 @@ class CallerSessionService
     private $roomStatus;
     private $loggger;
     private $toModerator;
-    public function __construct(ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
+    private $roomService;
+    public function __construct(RoomService $roomService, ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
         $this->roomStatus = $roomStatusFrontendService;
         $this->loggger = $logger;
         $this->toModerator = $toModeratorWebsocketService;
+        $this->roomService = $roomService;
     }
 
     public function getSession($sessionId)
@@ -40,12 +43,13 @@ class CallerSessionService
         $authOk = $session->getAuthOk();
 
         if ($authOk) {
-            $this->loggger->debug('The user is accepted and is allowed to enter the room',array('sessionId'=>$sessionId,'callerId'=>$session->getCallerId(),'name'=>$session->getLobbyWaitingUser()->getShowName()));
+            $this->loggger->debug('The user is accepted and is allowed to enter the room',array('sessionId'=>$sessionId,'callerId'=>$session->getCallerId(),'user'=>$session->getCaller()->getUser()->getId()));
             return array(
                 'status' => 'ACCEPTED',
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => $participants,
-                'status_of_meeting' => 'STARTED'
+                'status_of_meeting' => 'STARTED',
+                'jwt'=>$this->roomService->generateJwt($session->getCaller()->getRoom(),$session->getCaller()->getUser(),$session->getShowName())
             );
         }
 
@@ -123,9 +127,11 @@ class CallerSessionService
         $this->loggger->debug('The Callersession is sucessfully destroyed',array('room'=>$callerSession->getSessionId()));
         return true;
     }
+
      public function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser){
         if ($lobbyWaitungUser->getCallerSession()){
             $caller = $lobbyWaitungUser->getCallerSession();
+            $caller->setLobbyWaitingUser(null);
             $caller->setAuthOk(true);
             $this->em->persist($caller);
             $this->em->flush();
