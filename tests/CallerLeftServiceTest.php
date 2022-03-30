@@ -29,7 +29,7 @@ class CallerLeftServiceTest extends KernelTestCase
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->getPin($id, $caller->getCallerId(), '012345');
 
-        self::assertFalse($callerLEftService->callerLeft('12345'));
+        self::assertTrue($callerLEftService->callerLeft('12345'));
 
         //$routerService = static::getContainer()->get('router');
         //$myCustomService = static::getContainer()->get(CustomService::class);
@@ -53,7 +53,7 @@ class CallerLeftServiceTest extends KernelTestCase
         $session = $callerPinService->getPin($id, $caller->getCallerId(), '012345');
         self::assertNotNull($session);
         self::assertNull($callerPinService->getPin($id, $caller->getCallerId(), '012345'));
-        self::assertTrue($callerLEftService->callerLeft($session->getSessionId()));
+        self::assertFalse($callerLEftService->callerLeft($session->getSessionId()));
         self::assertNotNull($callerPinService->getPin($id, $caller->getCallerId(), '012345'));
         //$routerService = static::getContainer()->get('router');
         //$myCustomService = static::getContainer()->get(CustomService::class);

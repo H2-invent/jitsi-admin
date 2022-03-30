@@ -190,7 +190,7 @@ class CallerControllerTest extends WebTestCase
     public function testFinishMeeing(): void
     {
         $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
-        $sessionLink = $this->startWorkflow($client);
+        $sessionLink = $this->startWorkflow($client)[0];
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
 
@@ -252,7 +252,7 @@ class CallerControllerTest extends WebTestCase
     public function testDeclineCaller(): void
     {
         $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
-        $sessionLink = $this->startWorkflow($client);
+        $sessionLink = $this->startWorkflow($client)[0];
 
 
         $manager = self::getContainer()->get(EntityManagerInterface::class);
@@ -286,7 +286,7 @@ class CallerControllerTest extends WebTestCase
     public function testAcceptCaller(): void
     {
         $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
-        $sessionLink = $this->startWorkflow($client);
+        $sessionLink = $this->startWorkflow($client)[0];
 
         $roomService = self::getContainer()->get(RoomService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
@@ -326,7 +326,7 @@ class CallerControllerTest extends WebTestCase
     public function testAcceptAllCaller(): void
     {
         $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
-        $sessionLink = $this->startWorkflow($client);
+        $sessionLink = $this->startWorkflow($client)[0];
 
         $roomService = self::getContainer()->get(RoomService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
@@ -364,6 +364,51 @@ class CallerControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testCallerLeft(): void
+    {
+        $client = static::createClient(array(), array('HTTP_authorization' => 'Bearer 123456'));
+        $links = $this->startWorkflow($client);
+        $sessionLink = $links[0];
+        $leafLink = $links[1];
+        $roomService = self::getContainer()->get(RoomService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
+
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $status = new RoomStatus();
+        $status->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($status);
+        $manager->flush();
+
+
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":0,"status_of_meeting":"STARTED"}', $client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+
+        $crawler = $client->request('GET', $leafLink);
+        $this->assertJsonStringEqualsJsonString(json_encode(array(
+            'error' => false,
+        )), $client->getResponse()->getContent());
+        $crawler = $client->request('GET', $leafLink);
+        $this->assertJsonStringEqualsJsonString(json_encode(array(
+            'error' => true,
+        )), $client->getResponse()->getContent());
+        $crawler = $client->request('GET', $sessionLink);
+        $this->assertJsonStringEqualsJsonString(json_encode(array(
+            'status' => 'HANGUP',
+            'reason'=> 'WRONG_SESSION'
+        )), $client->getResponse()->getContent());
+        $session = $this->getSessionfromLink($sessionLink);
+
+        $this->assertResponseIsSuccessful();
+    }
+
     function startWorkflow(KernelBrowser $client)
     {
 
@@ -397,7 +442,7 @@ class CallerControllerTest extends WebTestCase
         $this->assertJsonStringEqualsJsonString('{"status":"WAITING","reason":"NOT_ACCEPTED","number_of_participants":0,"status_of_meeting":"NOT_STARTED"}', $client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
-        return $sessionLink;
+        return array($sessionLink,$leafLink);
     }
 
     function getLobbyWaitinguser($link): ?LobbyWaitungUser

@@ -22,11 +22,11 @@ class CallerLeftService
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId'=>$sessionId));
         if (!$session){
             $this->loggger->error('Session not found',array('sessionId'=>$sessionId));
-            return false;
+            return true;
         }
         $this->loggger->debug('The Session is cleaned up', array('sessionId'=>$sessionId));
 
         $this->sessionService->cleanUpSession($session);
-        return true;
+        return false;
     }
 }
