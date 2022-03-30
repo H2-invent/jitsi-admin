@@ -24,7 +24,7 @@ class CallerFindRoomService
             return array('status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => array());
         }
 
-        if ($caller->getRoom()->getStartTimestamp() > $now) {
+        if ($caller->getRoom()->getStartTimestamp() > $now && $caller->getRoom()->getPersistantRoom() !== true) {
             return array(
                 'status' => 'HANGUP',
                 'reason' => 'TO_EARLY',
@@ -33,7 +33,7 @@ class CallerFindRoomService
                 'links' => array()
             );
         }
-        if ($caller->getRoom()->getEndTimestamp() < $now) {
+        if ($caller->getRoom()->getEndTimestamp() < $now && $caller->getRoom()->getPersistantRoom() !== true) {
             return array(
                 'status' => 'HANGUP',
                 'reason' => 'TO_LATE',

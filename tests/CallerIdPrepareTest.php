@@ -60,6 +60,6 @@ class CallerIdPrepareTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        self::assertEquals(46, sizeof($callerPrpareService->createUserCallerId()));
+        self::assertEquals(49, sizeof($callerPrpareService->createUserCallerId()));
     }
 }

@@ -56,3 +56,4 @@ twig:
         laf_refreshTimeDashboard: '%env(laf_refreshTimeDashboard)%'
         laf_darkmodeAsDefault: '%env(laf_darkmodeAsDefault)%'
         allowTimeZoneSwitch: '%env(allowTimeZoneSwitch)%'
+        SIP_CALLER_SHOW_IN_FRONTEND: '%env(SIP_CALLER_SHOW_IN_FRONTEND)%'

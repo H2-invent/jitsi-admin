@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerServiceTest extends KernelTestCase
 {
-    public function testGetrromSuccess(): void
+    public function testGetroomSuccess(): void
     {
         $kernel = self::bootKernel();
         $callerService = self::getContainer()->get(CallerFindRoomService::class);
@@ -25,6 +25,23 @@ class CallerServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
 
+        self::assertEquals(array('status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => array('pin' => $urlGen->generate('caller_pin',array('roomId'=>$id)))), $callerService->findRoom($id));
+
+    }
+    public function testGetPersistantRoomSuccess(): void
+    {
+        $kernel = self::bootKernel();
+        $callerService = self::getContainer()->get(CallerFindRoomService::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'This is a fixed room'));
+        $callerPrepareService->addCallerIdToRoom($room);
+        $room = $roomRepo->findOneBy(array('name' => 'This is a fixed room'));
+        $id = $room->getCallerRoom()->getCallerId();
         self::assertEquals(array('status' => 'ACCEPTED', 'startTime' => $room->getStartTimestamp(), 'endTime' => $room->getEndTimestamp(), 'roomName' => $room->getName(), 'links' => array('pin' => $urlGen->generate('caller_pin',array('roomId'=>$id)))), $callerService->findRoom($id));
 
     }

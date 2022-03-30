@@ -215,11 +215,15 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRoomsnotInPast()
     {
-        $now = new \DateTime('now');
-        $now->setTimezone(new \DateTimeZone('utc'));
+        $now = (new \DateTime('now'))->getTimestamp();
         $qb = $this->createQueryBuilder('r');
         return $qb
-            ->andWhere('r.endDateUtc > :now')
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->gte('r.endTimestamp', ':now'),
+                    $qb->expr()->eq('r.persistantRoom', true)
+                )
+            )
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->setParameter('now', $now)
             ->orderBy('r.startUtc', 'ASC')

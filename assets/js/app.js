@@ -115,6 +115,10 @@ $(window).on('load', function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+$(document).on('click', '.stopCloseDropdown', function (e) {
+    console.log('1.2sdf');
+    e.stopPropagation();
+});
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
