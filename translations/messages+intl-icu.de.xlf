@@ -1541,25 +1541,37 @@
         <target>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target>Speichern</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
-        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <source>common.success.save</source>
         <target>Ihre Eingabe wurde Erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="EWa057N" resname="status.inconference">
-        <source>In der Konferenz</source>
+        <source>status.inconference</source>
         <target>In der Konferenz</target>
       </trans-unit>
       <trans-unit id="FjHZo91" resname="status.finished">
-        <source>Beendet</source>
+        <source>status.finished</source>
         <target>Beendet</target>
       </trans-unit>
-        <trans-unit id="jg.IqQl" resname="server.checkHeader">
-        <source>Meinen Server überprüfen</source>
+      <trans-unit id="jg.IqQl" resname="server.checkHeader">
+        <source>server.checkHeader</source>
         <target>Meinen Server überprüfen</target>
-        </trans-unit>
+      </trans-unit>
+      <trans-unit id="72KJHkb" resname="Private Nachrichten">
+        <source>Private Nachrichten</source>
+        <target>Private Nachrichten</target>
+      </trans-unit>
+      <trans-unit id="jXWbBTG" resname="Lobbymoderator">
+        <source>Lobbymoderator</source>
+        <target>Lobbymoderator</target>
+      </trans-unit>
+      <trans-unit id="TrVDjRp" resname="sip.caller.data">
+        <source>Einwahl-Informationen</source>
+        <target>Einwahl-Informationen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

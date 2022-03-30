@@ -276,9 +276,9 @@ a {
   color: white !important;
 }
 .dropdown-item {
-  color: white!important;
+  color: white;
   &:hover{
-    color: $black_background!important;
+    color: $black_background;
   }
 }
 .dragger{
@@ -294,4 +294,11 @@ a {
 }
 .participantsName{
   color: $black_font-color;
+}
+.dropdown-item{
+  &[data-toggle="collapse"]:focus {
+    color: white;
+    text-decoration: none;
+    background-color: inherit;
+  }
 }
