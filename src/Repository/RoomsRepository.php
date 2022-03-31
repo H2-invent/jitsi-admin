@@ -204,11 +204,12 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->gte('r.endTimestamp', ':now'),
-                    $qb->expr()->eq('r.persistantRoom', true)
+                    $qb->expr()->eq('r.persistantRoom', ':true')
                 )
             )
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->setParameter('now', $now)
+            ->setParameter('true', true)
             ->getQuery()
             ->getResult();
     }
@@ -221,11 +222,13 @@ class RoomsRepository extends ServiceEntityRepository
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->gte('r.endTimestamp', ':now'),
-                    $qb->expr()->eq('r.persistantRoom', true)
+                    $qb->expr()->eq('r.persistantRoom', ':true')
                 )
             )
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = :false'))
             ->setParameter('now', $now)
+            ->setParameter('true', true)
+            ->setParameter('false', false)
             ->orderBy('r.startUtc', 'ASC')
             ->getQuery()
             ->getResult();
