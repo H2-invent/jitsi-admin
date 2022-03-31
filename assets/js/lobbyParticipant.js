@@ -73,8 +73,6 @@ function initJitsiMeet(data) {
     var options = data.options.options;
     options.device = choosenId;
     options.parentNode = document.querySelector( data.options.parentNode);
-    const api = new JitsiMeetExternalAPI(data.options.domain, options);
-    options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
     api.addListener('readyToClose', function (e) {
         if (window.opener == null) {
