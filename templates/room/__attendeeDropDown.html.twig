@@ -73,7 +73,7 @@
                                             <i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}</a>
                                     {% endif %}
                                     {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 %}
-                                        {% if sipPinFromRoomAndUser(room,user) is not null %}
+                                        {% if  sipPinFromRoomAndUser(room,user) is not null %}
                                         <a class=" dropdown-item stopCloseDropdown"
                                            href="#sipCaller{{ user.id }}" type="button" data-toggle="collapse"
                                            aria-expanded="false" aria-controls="sipCaller{{ user.id }}">

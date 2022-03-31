@@ -8,6 +8,7 @@ use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
+use App\Service\caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Guides\RestructuredText\Directives\Replace;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,6 +23,7 @@ class RepeaterService
     private $userService;
     private $translator;
     private $twig;
+    private $callerUserService;
     private $days = array(
         1 => 'Monday',
         2 => 'Tuesday',
@@ -54,7 +56,7 @@ class RepeaterService
         'December',
     );
 
-    public function __construct(IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager)
+    public function __construct(CallerPrepareService $callerPrepareService, IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager)
     {
         $this->icsService = $icsService;
         $this->em = $entityManager;
@@ -64,6 +66,7 @@ class RepeaterService
         $this->translator = $translator;
         $this->twig = $environment;
         $this->icalService = $icalService;
+        $this->callerUserService = $callerPrepareService;
     }
 
     /**
@@ -99,8 +102,10 @@ class RepeaterService
         foreach ($userAttribute as $data) {
             $repeat->getPrototyp()->addUserAttribute($data);
         }
+
         return $repeat;
     }
+
 
     /**
      * @param Repeat $repeat
@@ -299,10 +304,21 @@ class RepeaterService
      */
     function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTime $start): Rooms
     {
+        if ($prototype->getCallerRoom()){
+            $this->em->remove($prototype->getCallerRoom());
+            $this->em->flush();
+            $this->em->refresh($prototype);
+        }
+        foreach ($prototype->getCallerIds() as $data){
+            $prototype->removeCallerId($data);
+            $this->em->remove($data);
+        }
+        $this->em->flush();
         $room = clone $prototype;
         foreach ($room->getUserAttributes() as $data) {
             $room->removeUserAttribute($data);
         }
+
 
         $room->setUid(rand(0, 999) . time());
         $room->setUidReal(md5(uniqid()));
@@ -339,6 +355,7 @@ class RepeaterService
         $repeater = $this->cleanRepeater($repeater);
         $repeater = $this->createNewRepeater($repeater);
         $this->addUserRepeat($repeater);
+        $this->createNewCaller($repeater);
         $this->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
         $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
 
@@ -549,6 +566,10 @@ class RepeaterService
         return true;
     }
 
+    /**
+     * @param Repeat $repeater
+     * @return Repeat
+     */
     public function cleanRepeater(Repeat $repeater)
     {
         foreach ($repeater->getRooms() as $data) {
@@ -562,8 +583,6 @@ class RepeaterService
                 $this->em->persist($data2);
             }
 
-            $repeater->removeRoom($data);
-
         }
         $this->em->flush();
         foreach ($repeater->getRooms() as $data) {
@@ -573,5 +592,19 @@ class RepeaterService
         $this->em->persist($repeater);
         $this->em->flush();
         return $repeater;
+    }
+
+    /**
+     * @param Repeat $repeat
+     * @return void
+     * This Function creates the caller Id for each Room which is generated in the Repeater Session
+     */
+    public function createNewCaller(Repeat $repeat)
+    {
+        foreach ($repeat->getRooms() as $data) {
+            $this->callerUserService->addCallerIdToRoom($data);
+            $this->callerUserService->createUserCallerIDforRoom($data);
+
+        }
     }
 }

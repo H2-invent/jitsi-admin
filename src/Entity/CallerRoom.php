@@ -23,7 +23,7 @@ class CallerRoom
     private $callerId;
 
     /**
-     * @ORM\OneToOne(targetEntity=Rooms::class, inversedBy="callerRoom")
+     * @ORM\OneToOne(targetEntity=Rooms::class, inversedBy="callerRoom", cascade={"refresh"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $room;

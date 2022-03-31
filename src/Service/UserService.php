@@ -10,6 +10,7 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -31,8 +32,8 @@ class UserService
     private $userAddService;
     private $userEditService;
     private $userRemoveService;
-
-    public function __construct(UserServiceRemoveRoom $userServiceRemoveRoom, UserServiceEditRoom $userEditService, UserNewRoomAddService $userNewRoomAddService, LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    private $callerUserService;
+    public function __construct(CallerPrepareService $callerPrepareService, UserServiceRemoveRoom $userServiceRemoveRoom, UserServiceEditRoom $userEditService, UserNewRoomAddService $userNewRoomAddService, LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
@@ -46,6 +47,7 @@ class UserService
         $this->userAddService = $userNewRoomAddService;
         $this->userEditService = $userEditService;
         $this->userRemoveService = $userServiceRemoveRoom;
+        $this->callerUserService = $callerPrepareService;
     }
 
     function generateUrl(Rooms $room, User $user)
@@ -63,11 +65,14 @@ class UserService
             $this->em->persist($user);
             $this->em->flush();
         }
+
         if ($room->getScheduleMeeting()) {
             return $this->userAddService->addUserSchedule($user, $room);
         } elseif ($room->getPersistantRoom()) {
+            $this->callerUserService->createUserCallerIDforRoom($room);
             return $this->userAddService->addUserToPersistantRoom($user, $room);
         } else {
+            $this->callerUserService->createUserCallerIDforRoom($room);
             return $this->userAddService->addUserToRoom($user, $room);
         }
 

@@ -26,6 +26,10 @@ class CallerPrepareService
         $this->callerLeftService = $callerLeftService;
     }
 
+    /**
+     * @return void
+     * This Function creates Caller Ids for all Rooms and all USers which are participants in the rooms
+     */
     public function prepareCallerId()
     {
         $this->addNewId();;
@@ -33,6 +37,10 @@ class CallerPrepareService
 
     }
 
+    /**
+     * @return float|int|mixed|string
+     * This FUnction delete Caller Ids from Rooms which are in the past and the call id is not need anymore
+     */
     public function deleteOldId()
     {
         $now = (new \DateTime())->getTimestamp();
@@ -44,6 +52,10 @@ class CallerPrepareService
         return $oldCallerId;
     }
 
+    /**
+     * @return float|int|mixed|string
+     * This Function adds new Ids to all Rooms in the future and persistant rooms.
+     */
     public function addNewId()
     {
         $now = (new \DateTime())->getTimestamp();
@@ -54,9 +66,15 @@ class CallerPrepareService
         return $futureRooms;
     }
 
+    /**
+     * @param Rooms $rooms Room to check if the room has a caller Id and if not then add a caller Id
+     * @return CallerRoom|null
+     * Adds a caller Room Id to the given Room
+     */
     public function addCallerIdToRoom(Rooms $rooms)
     {
         $callerId = $rooms->getCallerRoom();
+
         if (!$callerId) {
             $callerId = new CallerRoom();
             $callerId->setRoom($rooms);
@@ -68,6 +86,11 @@ class CallerPrepareService
         return $callerId;
     }
 
+    /**
+     * @param $max
+     * @return string
+     * generates the random Caller ID. The Function checks if the caller Id is already used
+     */
     public function generateRoomId($max): string
     {
         $finding = false;
@@ -80,12 +103,22 @@ class CallerPrepareService
         return $rand;
     }
 
+    /**
+     * @param $random
+     * @return bool
+     * Checks if the random Id is already used
+     */
     public function checkRandomId($random): bool
     {
         $finding = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId' => $random));
         return $finding ? true : false;
     }
 
+    /**
+     * @return float|int|mixed|string
+     * This Function serches for all Rooms which are in the fuuture or persistant rooms
+     * Then it adds a PIN for every Participant
+     */
     public function createUserCallerId(){
         $rooms = $this->em->getRepository(Rooms::class)->findRoomsnotInPast();
         foreach ($rooms as $data){
@@ -95,6 +128,11 @@ class CallerPrepareService
     }
 
 
+    /**
+     * @param Rooms $rooms
+     * @return CallerId[]|\Doctrine\Common\Collections\Collection
+     * Generates callerId for a given Room
+     */
     public function createUserCallerIDforRoom(Rooms $rooms)
     {
 
@@ -115,6 +153,12 @@ class CallerPrepareService
         return $rooms->getCallerIds();
     }
 
+    /**
+     * @param Rooms $rooms
+     * @param $max
+     * @return string
+     * Creates the unique Caller PIN for this it needs the room to search if no other user has the same caller Id
+     */
     public function generateCallerUserId(Rooms $rooms, $max): string
     {
         $finding = false;
@@ -127,6 +171,12 @@ class CallerPrepareService
         return $rand;
     }
 
+    /**
+     * @param $random
+     * @param Rooms $rooms
+     * @return bool
+     * CHecks if the id is already added to the room
+     */
     public function checkRandomCallerUserId($random, Rooms $rooms): bool
     {
         $finding = $this->em->getRepository(CallerId::class)->findOneBy(array('callerId' => $random,'room'=>$rooms));

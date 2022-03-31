@@ -201,6 +201,7 @@ class RoomsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r');
         return $qb->leftJoin('r.callerRoom', 'callerRoom')
             ->andWhere($qb->expr()->isNull('callerRoom'))
+            ->andWhere($qb->expr()->isNotNull('r.moderator'))
             ->andWhere(
                 $qb->expr()->orX(
                     $qb->expr()->gte('r.endTimestamp', ':now'),
@@ -225,6 +226,7 @@ class RoomsRepository extends ServiceEntityRepository
                     $qb->expr()->eq('r.persistantRoom', ':true')
                 )
             )
+            ->andWhere($qb->expr()->isNotNull('r.moderator'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = :false'))
             ->setParameter('now', $now)
             ->setParameter('true', true)

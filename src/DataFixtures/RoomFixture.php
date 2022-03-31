@@ -236,7 +236,12 @@ class RoomFixture extends Fixture
         $room = new Rooms();
         $room->setTimeZone('Europe/Berlin');
         $room->setModerator(null);
-        $room->setAgenda('Testagenda:' . $i);
+        $callerRoom = new CallerRoom();
+        $callerRoom->setCallerId('1234noRight');
+        $callerRoom->setCreatedAt(new \DateTime());
+        $room->setCallerRoom($callerRoom);
+        $room->setCallerRoom($callerRoom);
+        $room->setAgenda('Testagenda:');
         $room->setDuration(60);
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);

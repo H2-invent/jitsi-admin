@@ -67,6 +67,7 @@ class RepeaterController extends AbstractController
                 $userAttributes = $repeater->getPrototyp()->getUserAttributes()->toArray();
                 $repeater = $repeaterService->createNewRepeater($repeater);
                 $repeaterService->addUserRepeat($repeater);
+                $repeaterService->createNewCaller($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterNew.html.twig', $translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), array('room' => $repeater->getPrototyp()));
                 $snack = $translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
@@ -86,7 +87,6 @@ class RepeaterController extends AbstractController
      */
     public function editRepeater(ParameterBagInterface $parameterBag, Request $request, TranslatorInterface $translator, RepeaterService $repeaterService, RoomAddService $roomAddService): Response
     {
-        //todo check if allowed
         $repeater = $this->getDoctrine()->getRepository(Repeat::class)->find($request->get('repeat'));
         if ($repeater->getPrototyp()->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Not found');
@@ -111,6 +111,7 @@ class RepeaterController extends AbstractController
                 $repeater = $repeaterService->cleanRepeater($repeater);
                 $repeater = $repeaterService->createNewRepeater($repeater);
                 $repeaterService->addUserRepeat($repeater);
+                $repeaterService->createNewCaller($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                 $snack = $translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
                 return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
@@ -188,7 +189,7 @@ class RepeaterController extends AbstractController
         $form->remove('scheduleMeeting');
         $form->remove('persistantRoom');
 
-        try {
+//        try {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
@@ -208,16 +209,17 @@ class RepeaterController extends AbstractController
                 }
                 //here we generate a new series. For this we take the old room Prototype and create a new series from it
                 $snack = $repeaterService->replaceRooms($room);
+
                 $res = $this->generateUrl('dashboard', ['snack' => $snack, 'color' => 'success']);
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
             }
 
-        } catch (\Exception $exception) {
-            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
-
-            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
-        }
+//        } catch (\Exception $exception) {
+//            $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+//            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
+//
+//            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
+//        }
         return $this->render('base/__newRoomModal.html.twig', [
             'form' => $form->createView(),
             'title' => $title,

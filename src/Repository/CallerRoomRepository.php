@@ -51,17 +51,21 @@ class CallerRoomRepository extends ServiceEntityRepository
     public function findPastRoomsWithCallerId($now)
     {
         $qb = $this->createQueryBuilder('c');
-        return $qb->innerJoin('c.room','room')
-            ->andWhere($qb->expr()->lte('room.endTimestamp',':now'))
+        return $qb->innerJoin('c.room', 'room')
             ->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->eq("room.persistantRoom", ':false'),
-                    $qb->expr()->isNull("room.persistantRoom")
+                    $qb->expr()->andX(
+                        $qb->expr()->lte('room.endTimestamp', ':now'),
+                        $qb->expr()->orX(
+                            $qb->expr()->eq("room.persistantRoom", ':false'),
+                            $qb->expr()->isNull("room.persistantRoom")
+                        )
+                    ),
+                    $qb->expr()->isNull('room.moderator')
                 )
             )
-            ->andWhere($qb->expr()->orX($qb->expr()->isNull('room.scheduleMeeting'), 'room.scheduleMeeting = false'))
             ->setParameter('now', $now)
-            ->setParameter('false',false)
+            ->setParameter('false', false)
             ->getQuery()
             ->getResult();
     }
