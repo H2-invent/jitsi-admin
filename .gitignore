@@ -48,3 +48,5 @@ yarn-error.log
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+/public/uploads/images/*
+!/public/uploads/images/index.html

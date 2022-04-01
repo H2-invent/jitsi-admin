@@ -26,7 +26,7 @@ class RoomsUser
 
     /**
      * @ORM\ManyToOne(targetEntity=Rooms::class, inversedBy="userAttributes",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $room;
 

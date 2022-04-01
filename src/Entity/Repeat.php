@@ -13,6 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Repeat
 {
+    public function __toString()
+    {
+        return intval($this->id);
+        // TODO: Implement __toString() method.
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

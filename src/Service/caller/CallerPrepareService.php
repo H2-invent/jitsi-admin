@@ -83,6 +83,7 @@ class CallerPrepareService
             $callerId->setCallerId($this->generateRoomId(999999));
             $this->em->persist($callerId);
             $this->em->flush();
+            $rooms->setCallerRoom($callerId);
         }
         return $callerId;
     }

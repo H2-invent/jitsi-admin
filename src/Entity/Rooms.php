@@ -86,7 +86,7 @@ class Rooms
     private $agenda;
 
     /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room",cascade={"persist"}, orphanRemoval=true)
      */
     private $userAttributes;
 
@@ -227,7 +227,7 @@ class Rooms
     private $roomstatuses;
 
     /**
-     * @ORM\OneToOne(targetEntity=CallerRoom::class, mappedBy="room", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=CallerRoom::class, mappedBy="room", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $callerRoom;
 
@@ -242,7 +242,7 @@ class Rooms
     private $endTimestamp;
 
     /**
-     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="room", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="room", orphanRemoval=true,cascade={"persist"})
      */
     private $callerIds;
 

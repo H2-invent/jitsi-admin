@@ -5,6 +5,7 @@ namespace App\Tests\Repeater;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
+use App\Repository\RepeatRepository;
 use App\Repository\RoomsRepository;
 use App\Service\RepeaterService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -292,16 +293,16 @@ class RepeaterServiceTest extends KernelTestCase
         $roomNew->setDuration(90);
         $roomNew->setStart(new \DateTime('2021-01-20T18:00'));
         $rep = $repeaterService->replaceRooms($roomNew);
-
+        $repRepo = self::getContainer()->get(RepeatRepository::class);
+        $repTmp  = $repRepo->find($repTmp->getId());
         self::assertEquals('Sie haben erfolgreich einen Serientermin bearbeitet.',$rep);
         self::assertEquals(3, sizeof($repTmp->getRooms()));
-        self::assertEquals(new \DateTime('2021-01-20T18:00'), $repTmp->getRooms()[3]->getStart());
-        self::assertEquals(new \DateTime('2021-01-21T18:00'), $repTmp->getRooms()[4]->getStart());
-        self::assertEquals(new \DateTime('2021-01-22T18:00'), $repTmp->getRooms()[5]->getStart());
-        self::assertEquals(3, sizeof($repTmp->getRooms()[3]->getUser()));
-        self::assertEquals(3, sizeof($repTmp->getRooms()[4]->getUser()));
-        self::assertEquals(3, sizeof($repTmp->getRooms()[5]->getUser()));
+
+        $date = new \DateTime('2021-01-20T18:00');
         foreach ($repTmp->getRooms() as $data){
+            self::assertEquals($date, $data->getStart());
+            $date->modify('+1day');
+            self::assertEquals(3, sizeof($data->getUser()));
             self::assertEquals(3, sizeof($data->getCallerIds()));
             self::assertNotNull($data->getCallerRoom());
         }

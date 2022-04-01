@@ -76,6 +76,7 @@ class RepeaterService
      */
     function createNewRepeater(Repeat $repeat): Repeat
     {
+
         $userAttribute = $repeat->getPrototyp()->getUserAttributes()->toArray();
         switch ($repeat->getRepeatType()) {
             case 0:
@@ -116,7 +117,7 @@ class RepeaterService
     {
         //hier bauen wir alle X tage einen neuenRoom
         $start = $repeat->getStartDate();
-        $prototype = $repeat->getPrototyp();
+        $prototype = $this->em->getRepository(Rooms::class)->find($repeat->getPrototyp()->getId());
         $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
 
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
@@ -304,15 +305,6 @@ class RepeaterService
      */
     function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTime $start): Rooms
     {
-        if ($prototype->getCallerRoom()){
-            $this->em->remove($prototype->getCallerRoom());
-        }
-        foreach ($prototype->getCallerIds() as $data){
-
-            $this->em->remove($data);
-        }
-        $this->em->flush();
-        $this->em->refresh($prototype);
 
         $room = clone $prototype;
         foreach ($room->getUserAttributes() as $data) {
@@ -355,7 +347,6 @@ class RepeaterService
         $repeater = $this->cleanRepeater($repeater);
         $repeater = $this->createNewRepeater($repeater);
         $this->addUserRepeat($repeater);
-        $this->createNewCaller($repeater);
         $this->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
         $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
 
@@ -510,6 +501,7 @@ class RepeaterService
             }
         }
         $this->em->flush();
+        $this->createNewCaller($repeat);
     }
 
     /**
@@ -572,25 +564,42 @@ class RepeaterService
      */
     public function cleanRepeater(Repeat $repeater)
     {
+
+        if ($repeater->getPrototyp()->getCallerRoom()) {
+            $callerRoom = $repeater->getPrototyp()->getCallerRoom();
+            $this->em->remove($callerRoom);
+            $this->em->flush();
+        }
+        $this->em->refresh($repeater);
+        $this->em->refresh($repeater->getPrototyp());
+
         foreach ($repeater->getRooms() as $data) {
 
             foreach ($data->getUserAttributes() as $data2) {
                 $data->removeUserAttribute($data2);
-                $this->em->remove($data2);
             }
             foreach ($data->getUser() as $data2) {
                 $data2->removeRoom($data);
                 $this->em->persist($data2);
             }
-
+            $this->em->persist($data);
         }
+
         $this->em->flush();
+
         foreach ($repeater->getRooms() as $data) {
             $this->em->remove($data);
         }
         $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence()) + 1);
         $this->em->persist($repeater);
         $this->em->flush();
+        foreach ($repeater->getPrototyp()->getCallerIds() as $data) {
+            $repeater->getPrototyp()->removeCallerId($data);
+        }
+        $this->em->persist($repeater);
+        $this->em->flush();
+
+
         return $repeater;
     }
 
