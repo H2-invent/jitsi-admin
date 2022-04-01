@@ -17,6 +17,7 @@ class CallerPrepareService
     private $callerPinService;
     private $callerSessionService;
     private $callerLeftService;
+
     public function __construct(CallerLeftService $callerLeftService, CallerSessionService $callerSessionService, CallerPinService $callerPinService, EntityManagerInterface $entityManager, CallerFindRoomService $callerService)
     {
         $this->em = $entityManager;
@@ -27,8 +28,8 @@ class CallerPrepareService
     }
 
     /**
-     * @return void
      * This Function creates Caller Ids for all Rooms and all USers which are participants in the rooms
+     * @return void
      */
     public function prepareCallerId()
     {
@@ -46,15 +47,15 @@ class CallerPrepareService
         $now = (new \DateTime())->getTimestamp();
         $oldCallerId = $this->em->getRepository(CallerRoom::class)->findPastRoomsWithCallerId($now);
         foreach ($oldCallerId as $data) {
-                $this->em->remove($data);
+            $this->em->remove($data);
             $this->em->flush();
         }
         return $oldCallerId;
     }
 
     /**
-     * @return float|int|mixed|string
      * This Function adds new Ids to all Rooms in the future and persistant rooms.
+     * @return float|int|mixed|string
      */
     public function addNewId()
     {
@@ -67,9 +68,9 @@ class CallerPrepareService
     }
 
     /**
+     * Adds a caller Room Id to the given Room
      * @param Rooms $rooms Room to check if the room has a caller Id and if not then add a caller Id
      * @return CallerRoom|null
-     * Adds a caller Room Id to the given Room
      */
     public function addCallerIdToRoom(Rooms $rooms)
     {
@@ -87,9 +88,9 @@ class CallerPrepareService
     }
 
     /**
+     * generates the random Caller ID. The Function checks if the caller Id is already used
      * @param $max
      * @return string
-     * generates the random Caller ID. The Function checks if the caller Id is already used
      */
     public function generateRoomId($max): string
     {
@@ -115,13 +116,14 @@ class CallerPrepareService
     }
 
     /**
+     * Then it adds a PIN for every Participant
      * @return float|int|mixed|string
      * This Function serches for all Rooms which are in the fuuture or persistant rooms
-     * Then it adds a PIN for every Participant
      */
-    public function createUserCallerId(){
+    public function createUserCallerId()
+    {
         $rooms = $this->em->getRepository(Rooms::class)->findRoomsnotInPast();
-        foreach ($rooms as $data){
+        foreach ($rooms as $data) {
             $this->createUserCallerIDforRoom($data);
         }
         return $rooms;
@@ -129,9 +131,9 @@ class CallerPrepareService
 
 
     /**
+     * Generates callerId for a given Room
      * @param Rooms $rooms
      * @return CallerId[]|\Doctrine\Common\Collections\Collection
-     * Generates callerId for a given Room
      */
     public function createUserCallerIDforRoom(Rooms $rooms)
     {
@@ -146,7 +148,7 @@ class CallerPrepareService
                     ->setCreatedAt(new \DateTime())
                     ->setCallerId($this->generateCallerUserId($rooms, 999999));
                 $rooms->addCallerId($callerID);
-           }
+            }
             $this->em->persist($callerID);
         }
         $this->em->flush();
@@ -154,10 +156,10 @@ class CallerPrepareService
     }
 
     /**
+     * Creates the unique Caller PIN for this it needs the room to search if no other user has the same caller Id
      * @param Rooms $rooms
      * @param $max
      * @return string
-     * Creates the unique Caller PIN for this it needs the room to search if no other user has the same caller Id
      */
     public function generateCallerUserId(Rooms $rooms, $max): string
     {
@@ -172,14 +174,14 @@ class CallerPrepareService
     }
 
     /**
+     * CHecks if the id is already added to the room
      * @param $random
      * @param Rooms $rooms
      * @return bool
-     * CHecks if the id is already added to the room
      */
     public function checkRandomCallerUserId($random, Rooms $rooms): bool
     {
-        $finding = $this->em->getRepository(CallerId::class)->findOneBy(array('callerId' => $random,'room'=>$rooms));
+        $finding = $this->em->getRepository(CallerId::class)->findOneBy(array('callerId' => $random, 'room' => $rooms));
         return $finding ? true : false;
     }
 }

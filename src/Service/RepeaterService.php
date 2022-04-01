@@ -306,14 +306,14 @@ class RepeaterService
     {
         if ($prototype->getCallerRoom()){
             $this->em->remove($prototype->getCallerRoom());
-            $this->em->flush();
-            $this->em->refresh($prototype);
         }
         foreach ($prototype->getCallerIds() as $data){
-            $prototype->removeCallerId($data);
+
             $this->em->remove($data);
         }
         $this->em->flush();
+        $this->em->refresh($prototype);
+
         $room = clone $prototype;
         foreach ($room->getUserAttributes() as $data) {
             $room->removeUserAttribute($data);
