@@ -69,7 +69,7 @@ services:
       PHP_EXTENSION_INTL: 1
       APP_ENV: dev
       APP_DEBUG: 1
-      DATABASE_URL: mysql://jitsiadmin:test@db-ja:3306/jitsiadmin
+      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
       MAILER_HOST: ""
       MAILER_PORT: 587
       MAILER_PASSWORD: ""
@@ -112,7 +112,7 @@ services:
       DB_ADDR: db-ja
       DB_DATABASE: keycloak
       DB_USER: keycloak
-      DB_PASSWORD: test
+      DB_PASSWORD: ${KEYCLOAK_PW}
       DB_PORT: 3306
       KEYCLOAK_IMPORT: /tmp/realm-export.json
     labels:
@@ -123,8 +123,6 @@ services:
       # KC_HOSTNAME not required because of start-dev
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json
-
-
 
 volumes:
   mariadb:
