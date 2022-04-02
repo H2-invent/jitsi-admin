@@ -84,7 +84,7 @@ services:
       MAILER_USERNAME: ${MAILER_USERNAME}
       MAILER_ENCRYPTION: ${MAILER_ENCRYPTION}
       MAILER_DSN: ${MAILER_DSN}
-      laF_baseUrl:${HTTP_METHOD}://${PUBLIC_URL}
+      laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
