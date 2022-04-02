@@ -603,18 +603,18 @@
     {
       "id": "e0d7a685-a075-4834-a6ca-cb40d734f4af",
       "clientId": "jitsiadmin",
-      "rootUrl": "clientUrl",
-      "adminUrl": "clientUrl",
+      "rootUrl": "<clientUrl>",
+      "adminUrl": "<clientUrl>",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "<clientsecret>",
       "redirectUris": [
-        "clientUrl/*"
+        "<clientUrl>/*"
       ],
       "webOrigins": [
-        "clientUrl"
+        "<clientUrl>"
       ],
       "notBefore": 0,
       "bearerOnly": false,
