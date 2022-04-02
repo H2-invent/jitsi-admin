@@ -79,8 +79,6 @@ chmod -R 775 var/cache
 echo --------------------------------------------------------------------------
 echo ----------------Create Upload Folder and Set permissions------------------
 echo --------------------------------------------------------------------------
-mkdir public/uploads
-mkdir public/uploads/images
 chown -R www-data:www-data public/uploads/images
 chmod -R 775 public/uploads/images
 echo --------------------------------------------------------------------------
