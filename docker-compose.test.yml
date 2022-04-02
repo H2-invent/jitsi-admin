@@ -67,8 +67,8 @@ services:
       PHP_INI_MEMORY_LIMIT: "1G"
       PHP_EXTENSION_LDAP: 1
       PHP_EXTENSION_INTL: 1
-      APP_ENV: dev
-      APP_DEBUG: 1
+      #APP_ENV: dev
+      #APP_DEBUG: 1
       DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
@@ -84,6 +84,7 @@ services:
       MAILER_USERNAME: ${MAILER_USERNAME}
       MAILER_ENCRYPTION: ${MAILER_ENCRYPTION}
       MAILER_DSN: ${MAILER_DSN}
+      registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
@@ -109,7 +110,7 @@ services:
       - db-ja
     environment:
       KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: test
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
       DB_VENDOR: mariadb
       DB_ADDR: db-ja
       DB_DATABASE: keycloak
