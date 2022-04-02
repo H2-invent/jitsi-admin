@@ -1,6 +1,6 @@
 echo Welcome to the installer:
 FILE=docker.conf
-if test -f "$FILE"; then
+if [ -f "$FILE" ]; then
   source $FILE
 else
   NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
@@ -58,4 +58,4 @@ export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 
 docker-compose -f docker-compose.test.yml build
 docker-compose -f docker-compose.test.yml up -d
-docker exec -d jitsi-admin_app-ja_1 bash /var/www/dockerupdate.sh
+docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
