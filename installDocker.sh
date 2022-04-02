@@ -53,6 +53,8 @@ export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
 export PUBLIC_URL=$PUBLIC_URL
 export OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
 export HTTP_METHOD=$HTTP_METHOD
+export KEYCLOAK_PW=$KEYCLOAK_PW
+export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 
 docker-compose -f docker-compose.test.yml build
 docker-compose -f docker-compose.test.yml up -d
