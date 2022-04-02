@@ -70,11 +70,6 @@ services:
       APP_ENV: dev
       APP_DEBUG: 1
       DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
-      MAILER_HOST: ""
-      MAILER_PORT: 587
-      MAILER_PASSWORD: ""
-      MAILER_USERNAME: ""
-      MAILER_ENCRYPTION: tls
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
@@ -82,7 +77,14 @@ services:
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
-      MERCURE_JWT_SECRET: test
+      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      MAILER_HOST: ${MAILER_HOST}
+      MAILER_PORT: ${MAILER_PORT}
+      MAILER_PASSWORD: ${MAILER_PASSWORD}
+      MAILER_USERNAME: ${MAILER_USERNAME}
+      MAILER_ENCRYPTION: ${MAILER_ENCRYPTION}
+      MAILER_DSN: ${MAILER_DSN}
+      laF_baseUrl:${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
