@@ -120,6 +120,7 @@ services:
       DB_PASSWORD: ${KEYCLOAK_PW}
       DB_PORT: 3306
       KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.tls=true"
