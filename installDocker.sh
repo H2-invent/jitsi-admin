@@ -50,9 +50,9 @@ export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
 
 export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
 
-export PUBLIC_URL=PUBLIC_URL
-export OAUTH_KEYCLOAK_CLIENT_SECRET=NEW_UUID
-export HTTP_METHOD=HTTP_METHOD
+export PUBLIC_URL=$PUBLIC_URL
+export OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
+export HTTP_METHOD=$HTTP_METHOD
 
 docker-compose -f docker-compose.test.yml build
 docker-compose -f docker-compose.test.yml up -d
