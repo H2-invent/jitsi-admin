@@ -52,4 +52,5 @@ yarn-error.log
 /docker-compose.test.override.yml
 /public/uploads/images/*
 !/public/uploads/images/index.html
+docker.conf
 
