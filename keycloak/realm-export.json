@@ -603,18 +603,18 @@
     {
       "id": "e0d7a685-a075-4834-a6ca-cb40d734f4af",
       "clientId": "jitsiadmin",
-      "rootUrl": "http://jadevelop2",
-      "adminUrl": "http://jadevelop2",
+      "rootUrl": "clientUrl",
+      "adminUrl": "clientUrl",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://jadevelop2/*"
+        "clientUrl/*"
       ],
       "webOrigins": [
-        "http://jadevelop2"
+        "clientUrl"
       ],
       "notBefore": 0,
       "bearerOnly": false,

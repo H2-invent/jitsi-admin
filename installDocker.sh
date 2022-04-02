@@ -1,6 +1,11 @@
 echo Welcome to the installer:
 
-php bin/console cache:clear
-php bin/console doctrine:schema:update --force --no-interaction
-php bin/console doctrine:migrations:version --add --all --no-interaction
-php bin/console doc:mig:mig --no-interaction
+NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+
+sed -i "s|**********|$NEW_UUID|g" keycloak/realm-export.json
+sed -i "s|clientUrl|$1$2|g" keycloak/realm-export.json
+docker-compose -f docker-compose.test.yml build
+export PUBLIC_URL=$2
+export OAUTH_KEYCLOAK_CLIENT_SECRET=NEW_UUID
+export HTTP_METHOD=$1
+docker-compose -f docker-compose.test.yml
