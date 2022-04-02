@@ -11,7 +11,7 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.address=:443"
       - "--api.dashboard=true"
     labels:
       - "traefik.enable=true"
@@ -23,7 +23,7 @@ services:
 
     ports:
       - "80:80"
-      #- "443:443"
+      - "443:443"
       - "8181:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -46,6 +46,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
       - "traefik.http.routers.mercure-ja.entrypoints=web"
+      - "traefik.http.routers.mercure-ja.tls=true"
       - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
     #    ports:
     #      - "3000:3000"
@@ -88,6 +89,7 @@ services:
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.app-ja.tls=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
       - "traefik.http.routers.app-ja.entrypoints=web"
       - "traefik.http.services.app-ja.loadbalancer.server.port=80"
@@ -120,6 +122,7 @@ services:
       KEYCLOAK_IMPORT: /tmp/realm-export.json
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-ja.tls=true"
       - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
