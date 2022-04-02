@@ -48,7 +48,7 @@ export MAILER_ENCRYPTION=$smtpEncryption
 export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
 export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
 
-eport MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
+export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
 
 export PUBLIC_URL=PUBLIC_URL
 export OAUTH_KEYCLOAK_CLIENT_SECRET=NEW_UUID
@@ -56,4 +56,4 @@ export HTTP_METHOD=HTTP_METHOD
 
 docker-compose -f docker-compose.test.yml build
 docker-compose -f docker-compose.test.yml up -d
-docker exec -d app-ja bash /var/www/dockerupdate.sh
+docker exec -d jitsi-admin_app-ja_1 bash /var/www/dockerupdate.sh
