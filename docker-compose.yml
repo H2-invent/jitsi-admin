@@ -1,73 +1,155 @@
 version: '3.7'
 
 services:
-
-  traefik:
-    image: traefik:1.7
+  traefik-ja:
+    image: "traefik:v2.5"
+    container_name: "traefik-ja"
     command:
-      - "--api.insecure=true"
+      #- "--log.level=DEBUG"
+      - "--api.insecure=false"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.ldap.address=:443"
-      - "--api.dashboard=true"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.web.address=:443"
+
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http
+      - --certificatesresolvers.letsencrypt.acme.email=${EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.entryPoints=traefik"
+
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.middlewares=api-auth"
+      #- "traefik.http.middlewares.api-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
+      - "traefik.http.routers.to-web.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.to-web.entrypoints=http"
+      - "traefik.http.routers.to-web.middlewares=to-web"
+
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${PUBLIC_URL}`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+
+      - "traefik.http.middlewares.to-web.redirectscheme.scheme=web"
+
+
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      -  ./data/letsencrypt:/letsencrypt
+      #- ./traefik/traefik.toml:/traefik.toml
+      - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
-  app:
+  #Here is the mercure hub
+  mercure-ja:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+
+      MERCURE_PUBLISHER_JWT_KEY: 'test'
+      MERCURE_SUBSCRIBER_JWT_KEY: 'test'
+      SERVER_NAME: ':3000'
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure-ja.entrypoints=web"
+      - "traefik.http.routers.mercure-ja.tls=true"
+      - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
+      - "traefik.http.routers.https.tls.certresolver=letsencrypt"
+
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+  #Here is the Jitsi-Admin app
+  app-ja:
     build: .
     depends_on:
-      - db
-      - keycloak
-    ports:
-      - "8080:80"
+      - db-ja
+      - keycloak-ja
+      - mercure-ja
+      - traefik-ja
+
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
       PHP_INI_MEMORY_LIMIT: "1G"
-      APP_ENV: dev
-      APP_DEBUG: 1
-      DATABASE_URL: mysql://datenschutzcenter:test@db:3306/datenschutzcenter
-      MAILER_HOST: ""
-      MAILER_PORT: 587
-      MAILER_PASSWORD: ""
-      MAILER_USERNAME: ""
-      MAILER_ENCRYPTION: tls
+      PHP_EXTENSION_LDAP: 1
+      PHP_EXTENSION_INTL: 1
+      #APP_ENV: dev
+      #APP_DEBUG: 1
+      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
-      OAUTH_KEYCLOAK_SERVER: http://<publicip>:8081
-      OAUTH_KEYCLOAK_REALM: master
-      MERCURE_URL: http://localhost:3000.well-known/mercure
-      MERCURE_PUBLIC_URL: <yourdomain>.well-known/mercure
-      MERCURE_JWT_SECRET: test
+      OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+      OAUTH_KEYCLOAK_REALM: jitsiadmin
+      MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      MAILER_HOST: ${MAILER_HOST}
+      MAILER_PORT: ${MAILER_PORT}
+      MAILER_PASSWORD: ${MAILER_PASSWORD}
+      MAILER_USERNAME: ${MAILER_USERNAME}
+      MAILER_ENCRYPTION: ${MAILER_ENCRYPTION}
+      MAILER_DSN: ${MAILER_DSN}
+      registerEmailAdress: ${registerEmailAdress}
+      laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jitsi-admin.rule=Host(`jitsi-admin.myDomain`)"
-      - "traefik.http.routers.jitsi-admin.entrypoints=web"
-      - "traefik.http.services.jitsi-admin.loadbalancer.server.port=80"
+      - "traefik.http.routers.app-ja.tls=true"
+      - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
+      - "traefik.http.routers.app-ja.entrypoints=web"
+      - "traefik.http.services.app-ja.loadbalancer.server.port=80"
+      - "traefik.http.routers.https.tls.certresolver=letsencrypt"
+    #volumes:
+    #  - ./:/var/www/html:rw
 
-###> symfony/mercure-bundle ###
-  mercure:
-    image: dunglas/mercure
-    restart: unless-stopped
+  db-ja:
+    image: mariadb:latest
     environment:
-      SERVER_NAME: ':3000'
-      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
-      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
-      # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
-      MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins http://127.0.0.1:8000
-    # Comment the following line to disable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+      MARIADB_ROOT_PASSWORD: test
     volumes:
-      - mercure_data:/data
-      - mercure_config:/config
-###< symfony/mercure-bundle ###
+      - mariadb:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+
+  keycloak-ja:
+    image: jboss/keycloak:latest
+
+    depends_on:
+      - db-ja
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
+      DB_VENDOR: mariadb
+      DB_ADDR: db-ja
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: ${KEYCLOAK_PW}
+      DB_PORT: 3306
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-ja.tls=true"
+      - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.keycloak-ja.entrypoints=web"
+      - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
+      - "traefik.http.routers.https.tls.certresolver=letsencrypt"
+    volumes:
+      - ./keycloak/realm-export.json:/tmp/realm-export.json
 
 volumes:
-###> symfony/mercure-bundle ###
-  mercure_data:
-  mercure_config:
-###< symfony/mercure-bundle ###
+  mariadb:
+  caddy_data:
+  caddy_config:

@@ -4,13 +4,13 @@ if [ -f "$FILE" ]; then
   source $FILE
 else
   NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-  HTTP_METHOD=$1
+  read -p "Enter the environment dev/prod[dev]: " ENVIRONMENT
+  ENVIRONMENT=${ENVIRONMENT:dev}
   read -p "Enter http/https for testing on local environment ALWAYS use http [http]: " HTTP_METHOD
   HTTP_METHOD=${HTTP_METHOD:http}
   read -p "Enter the url you want to enter the jitsi-admin [jadevelop2]: " PUBLIC_URL
   PUBLIC_URL=${PUBLIC_URL:jadevelop2}
-  read -p "Enter the environment dev/prod[dev]: " ENVIRONMENT
-  ENVIRONMENT=${ENVIRONMENT:dev}
+
   KEYCLOAK_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
   JITSI_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
   MERCURE_JWT_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
@@ -92,6 +92,6 @@ if [ "$ENVIRONMENT" == 'dev' ]; then
   docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 else
   #todo hier das letsencrypt file rein
- docker-compose -f docker-compose.test.yml up -d
+ docker-compose -f docker-compose.yml up -d
   docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 fi
