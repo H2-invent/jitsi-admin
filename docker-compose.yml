@@ -11,7 +11,7 @@ services:
       - "--api.dashboard=true"
 
       - "--providers.docker.exposedbydefault=false"
-      -
+
       - "--entrypoints.unsecure.address=:80"
       - "--entrypoints.web.address=:443"
       # Global HTTP -> HTTPS
