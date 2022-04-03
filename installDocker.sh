@@ -5,7 +5,12 @@ if [ -f "$FILE" ]; then
 else
   NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
   HTTP_METHOD=$1
-  PUBLIC_URL=$2
+  read -p "Enter http/https for testing on local environment ALWAYS use http [http]: " HTTP_METHOD
+  HTTP_METHOD=${HTTP_METHOD:http}
+  read -p "Enter the url you want to enter the jitsi-admin [jadevelop2]: " PUBLIC_URL
+  PUBLIC_URL=${PUBLIC_URL:jadevelop2}
+  read -p "Enter the environment dev/prod[dev]: " ENVIRONMENT
+  ENVIRONMENT=${ENVIRONMENT:dev}
   KEYCLOAK_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
   JITSI_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
   MERCURE_JWT_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
@@ -17,7 +22,7 @@ else
   echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
   echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
   echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
-
+  echo "ENVIRONMENT=$ENVIRONMENT" >> $FILE
   echo --------------------------------------------------------------------------
   echo -----------------We looking for all the other parameters-------------------
   echo --------------------------------------------------------------------------
@@ -35,7 +40,7 @@ else
   echo "smtpUsername=$smtpUsername" >> $FILE
   echo "smtpPassword=$smtpPassword" >> $FILE
   echo "smtpEncryption=$smtpEncryption" >> $FILE
-   echo "smtpFrom=$smtpFrom" >> $FILE
+  echo "smtpFrom=$smtpFrom" >> $FILE
 fi
 
   echo -------------------------------------------------------------
@@ -82,5 +87,11 @@ export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
 docker-compose -f docker-compose.test.yml build
-docker-compose -f docker-compose.test.yml up -d
-docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+if [ "$ENVIRONMENT" == 'dev' ]; then
+  docker-compose -f docker-compose.test.yml up -d
+  docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+else
+  #todo hier das letsencrypt file rein
+ docker-compose -f docker-compose.test.yml up -d
+  docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+fi

@@ -8,6 +8,7 @@ RUN npm install
 RUN composer install
 RUN mkdir -m 777 -p public/build
 RUN npm run build
+RUN rm -rf node_modules/
 RUN chmod -R 775 public/build
 RUN mkdir -p var/cache
 RUN chown -R www-data:www-data var
