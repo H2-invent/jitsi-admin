@@ -34,7 +34,7 @@ else
   read -p "Enter smtp username: " smtpUsername
   read -p "Enter smtp password: " smtpPassword
   read -p "Enter SMTP encrytion tls/ssl/none: " smtpEncryption
-   read -p "Enter smtp FROM mail: " smtpFrom
+  read -p "Enter smtp FROM mail: " smtpFrom
   echo "smtpHost=$smtpHost" >> $FILE
   echo "smtpPort=$smtpPort" >> $FILE
   echo "smtpUsername=$smtpUsername" >> $FILE
@@ -92,6 +92,6 @@ if [ "$ENVIRONMENT" == 'dev' ]; then
   docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 else
   #todo hier das letsencrypt file rein
- docker-compose -f docker-compose.yml up -d
+  docker-compose -f docker-compose.yml up -d
   docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 fi
