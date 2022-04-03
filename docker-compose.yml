@@ -145,7 +145,7 @@ services:
       - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
-      - "traefik.http.routers.https.keycloak-ja.certresolver=letsencrypt"
+      - "traefik.http.routers.keycloak-ja.certresolver=letsencrypt"
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json
 
