@@ -19,7 +19,7 @@ services:
       - "--entrypoints.unsecure.http.redirections.entryPoint.scheme=https"
       # SSL configuration
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=unsecure"
       - "--certificatesresolvers.letsencrypt.acme.email=${registerEmailAdress}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
 
@@ -30,12 +30,14 @@ services:
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
-      - "traefik.http.routers.traefik-ja.rule=Host(`trafik.${PUBLIC_URL}`)"
+      - "traefik.http.routers.traefik-ja.rule=Host(`traefik.${PUBLIC_URL}`)"
       - "traefik.http.routers.traefik-ja.entrypoints=web"
       - "traefik.http.routers.traefik-ja.tls.certresolver=letsencrypt"
       - "traefik.http.routers.traefik-ja.service=api@internal"
       - "traefik.http.routers.traefik-ja.middlewares=traefik-auth"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$8EVjn/nj$$GiLUZqcbueTFeD23SuB6x0"
+      #- "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$8EVjn/nj$$GiLUZqcbueTFeD23SuB6x0"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
+
 
 
     ports:
