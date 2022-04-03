@@ -29,6 +29,8 @@ It is always possible to leave the mailing list.
 ![re@di Digital](docs/images/readi.png)<br>
 We cooperate with the city administrations of Baden-Baden, Bretten, Bruchsal, Bühl, Ettlingen, Gaggenau, Rastatt, Rheinstetten and Stutensee
 
+## Docker installation
+follow the instruction at[Dockerinstruction](installDocker.md)
 
 ## Translation
 Please help us to improve our localization
