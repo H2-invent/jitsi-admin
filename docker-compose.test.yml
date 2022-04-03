@@ -28,15 +28,12 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - ./tools/certs:/tools/certs
-      #- ./traefik/traefik.toml:/traefik.toml
       - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
   mercure-ja:
     image: dunglas/mercure
     restart: unless-stopped
     environment:
-      # Uncomment the following line to disable HTTPS
-      #SERVER_NAME: ':80'
       MERCURE_PUBLISHER_JWT_KEY: 'test'
       MERCURE_SUBSCRIBER_JWT_KEY: 'test'
       SERVER_NAME: ':3000'
@@ -46,11 +43,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
       - "traefik.http.routers.mercure-ja.entrypoints=web"
-      #- "traefik.http.routers.mercure-ja.tls=true"
       - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
-    #    ports:
-    #      - "3000:3000"
-    #      - "443:443"
+
     volumes:
       - caddy_data:/data
       - caddy_config:/config
@@ -89,12 +83,10 @@ services:
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
-      #- "traefik.http.routers.app-ja.tls=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
       - "traefik.http.routers.app-ja.entrypoints=web"
       - "traefik.http.services.app-ja.loadbalancer.server.port=80"
-    #volumes:
-    #  - ./:/var/www/html:rw
+
 
   db-ja:
     image: mariadb:latest
@@ -123,11 +115,9 @@ services:
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
     labels:
       - "traefik.enable=true"
-      #- "traefik.http.routers.keycloak-ja.tls=true"
       - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
-      # KC_HOSTNAME not required because of start-dev
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json
 

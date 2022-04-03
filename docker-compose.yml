@@ -8,7 +8,7 @@ services:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
       - "--providers.docker=true"
-      - "--api.dashboard=true"
+      #- "--api.dashboard=true"
 
       - "--providers.docker.exposedbydefault=false"
 
@@ -35,7 +35,6 @@ services:
       - "traefik.http.routers.traefik-ja.tls.certresolver=letsencrypt"
       - "traefik.http.routers.traefik-ja.service=api@internal"
       - "traefik.http.routers.traefik-ja.middlewares=traefik-auth"
-      #- "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$8EVjn/nj$$GiLUZqcbueTFeD23SuB6x0"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
 
 
@@ -46,13 +45,15 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       -  ./data/letsencrypt:/letsencrypt
-      #- ./traefik/traefik.toml:/traefik.toml
       - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
   #Here is the mercure hub
   mercure-ja:
     image: dunglas/mercure
     restart: unless-stopped
+    depends_on:
+      - traefik-ja
+
     environment:
 
       MERCURE_PUBLISHER_JWT_KEY: 'test'
@@ -87,8 +88,6 @@ services:
       PHP_INI_MEMORY_LIMIT: "1G"
       PHP_EXTENSION_LDAP: 1
       PHP_EXTENSION_INTL: 1
-      #APP_ENV: dev
-      #APP_DEBUG: 1
       DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
@@ -113,8 +112,7 @@ services:
       - "traefik.http.routers.app-ja.entrypoints=web"
       - "traefik.http.services.app-ja.loadbalancer.server.port=80"
       - "traefik.http.routers.app-ja.tls.certresolver=letsencrypt"
-    #volumes:
-    #  - ./:/var/www/html:rw
+
 
   db-ja:
     image: mariadb:latest
@@ -130,6 +128,8 @@ services:
 
     depends_on:
       - db-ja
+      - traefik-ja
+
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
