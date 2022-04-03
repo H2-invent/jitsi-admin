@@ -56,8 +56,8 @@ services:
 
     environment:
 
-      MERCURE_PUBLISHER_JWT_KEY: 'test'
-      MERCURE_SUBSCRIBER_JWT_KEY: 'test'
+      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
       SERVER_NAME: ':3000'
     # Uncomment the following line to enable the development mode
     command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
