@@ -57,9 +57,6 @@ services:
       - traefik-ja
 
     environment:
-      TZ: Europe/Berlin
-      CRON_SCHEDULE_1: "* * * * *"
-      CRON_COMMAND_1: "bin/console cron:run"
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
       PHP_INI_MEMORY_LIMIT: "1G"
