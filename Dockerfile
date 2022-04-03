@@ -1,6 +1,9 @@
 FROM thecodingmachine/php:7.4.27-v4-apache-node16
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
+ENV TZ=Europe/Berlin
+ENV CRON_SCHEDULE_1="* * * * *"
+ENV CRON_COMMAND_1="bin/console cron:run"
 USER root
 RUN usermod -a -G www-data docker
 COPY . /var/www/html
