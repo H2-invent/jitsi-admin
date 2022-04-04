@@ -107,6 +107,8 @@ class RepeaterController extends AbstractController
                     return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
                 }
                 $em = $this->getDoctrine()->getManager();
+                $em->persist($repeater);
+                $em->flush();
                 $repeater = $repeaterService->cleanRepeater($repeater);
                 $repeater = $repeaterService->createNewRepeater($repeater);
                 $repeaterService->addUserRepeat($repeater);
