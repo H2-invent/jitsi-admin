@@ -334,16 +334,11 @@ class RepeaterService
      */
     public function replaceRooms(Rooms $rooms): string
     {
-        //first show me the old repeater
         if (!$rooms->getRepeaterProtoype()) {
             return $this->translator->trans('Diese Aktion ist nicht erlaubt.');
         }
-        $rooms->setEnddate((clone $rooms->getStart())->modify('+' . $rooms->getDuration() . 'min'));
-        $this->em->persist($rooms);
-        $this->em->flush();
-
-        $repeater = $rooms->getRepeaterProtoype();
-        $repeater->setStartDate($rooms->getStart());
+        $repeater = $this->prepareRepeater($rooms);
+        //first show me the old repeater
         $repeater = $this->cleanRepeater($repeater);
         $repeater = $this->createNewRepeater($repeater);
         $this->addUserRepeat($repeater);
@@ -354,6 +349,23 @@ class RepeaterService
         return $snack;
     }
 
+    /**
+     * @param Rooms $rooms
+     * @return Repeat|null
+     * This function Prepares the repeater to have the new startdate
+     */
+    public function prepareRepeater(Rooms $rooms){
+
+        $rooms->setEnddate((clone $rooms->getStart())->modify('+' . $rooms->getDuration() . 'min'));
+        $this->em->persist($rooms);
+        $this->em->flush();
+
+        $repeater = $rooms->getRepeaterProtoype();
+        $repeater->setStartDate($rooms->getStart());
+        $this->em->persist($repeater);
+        $this->em->flush();
+        return $repeater;
+    }
     /**
      * this function replaces the prototype in a repeater and hangs all attributes from the old prototype to the new prototype
      * @param Rooms $rooms

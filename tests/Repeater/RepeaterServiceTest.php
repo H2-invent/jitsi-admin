@@ -292,6 +292,8 @@ class RepeaterServiceTest extends KernelTestCase
         $roomNew->setRepeaterProtoype($repTmp);
         $roomNew->setDuration(90);
         $roomNew->setStart(new \DateTime('2021-01-20T18:00'));
+        $rep = $repeaterService->prepareRepeater($roomNew);
+        self::assertEquals('2021-01-20T18:00', $rep->getStartDate()->format('Y-m-d').'T'.$rep->getStartDate()->format('H:i'));
         $rep = $repeaterService->replaceRooms($roomNew);
         $repRepo = self::getContainer()->get(RepeatRepository::class);
         $repTmp  = $repRepo->find($repTmp->getId());
