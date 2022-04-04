@@ -251,6 +251,6 @@ class ScheduleController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($scheduleTimeUser);
         $em->flush();
-        return new JsonResponse(array('error' => false, 'text' => $translator->trans('Erfolgreich bestätigt'), 'color' => 'success'));
+        return new JsonResponse(array('error' => false, 'text' => $translator->trans('common.success.save'), 'color' => 'success'));
     }
 }
