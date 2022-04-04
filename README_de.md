@@ -12,7 +12,8 @@ Jitsi Manager oder Jitsi Admin zum Verwalten von Jitsi Konferenzen und Server mi
 
 ![Server](docs/images/ct-logo.png)
 
-
+## Docker Installation
+Folge der Anleitung [Dockeranweisung](installDocker.md)
 
 ### Verteilerliste
 

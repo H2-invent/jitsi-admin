@@ -19,8 +19,7 @@ import {initGenerell} from './init';
 
 
 initNotofication();
-initAUdio();
-initWebcam();
+
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 const es = new EventSource(topic);
@@ -96,6 +95,8 @@ function hangup() {
 
 $(document).ready(function () {
     initGenerell()
+    initAUdio();
+    initWebcam();
 })
 
 

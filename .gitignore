@@ -48,5 +48,9 @@ yarn-error.log
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+/docker-compose.override.yml
+/docker-compose.test.override.yml
 /public/uploads/images/*
 !/public/uploads/images/index.html
+docker.conf
+
