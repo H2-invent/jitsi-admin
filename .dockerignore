@@ -10,7 +10,7 @@
 !theme
 !migrations
 !tests
-!*.sh
+!dockerupdate.sh
 !composer.json
 !composer.lock
 !package-lock.json
