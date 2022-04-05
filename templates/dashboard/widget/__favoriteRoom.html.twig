@@ -1,0 +1,69 @@
+<div class="card text-center favorites">
+
+    <div class="card-body d-flex flex-column justify-content-between">
+        <h5 class="card-title favoriteTitle">
+            {{ room.name }}
+            <small>
+                <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="fa fa-star"></i> </a>
+            </small>
+        </h5>
+        <p><small>
+                {% if room.persistantRoom != true and room.scheduleMeeting != true %}
+                    {{ room.getStartwithTimeZone(app.user)|date('d.m.Y H:i') }}
+                {% endif %}
+                {% if room.scheduleMeeting == true %}
+                    {{ 'Terminplanung'|trans }}
+                {% endif %}
+                {% if room.persistantRoom == true %}
+                    {{ 'fixed.Room.name'|trans }}
+                {% endif %}
+            </small></p>
+        {% if room in runningRooms %}<small
+            class="badge badge-success" {% if theme %} style="background-color: {{ theme.colorBadgeRunningNow }} !important;" {% endif %}>{{ 'Läuft gerade'|trans }}</small>
+            <br>{% endif %}
+
+        {% if room.scheduleMeeting != true %}
+            <div class="startConferenceFromFavorite">
+                {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
+
+                    <a class="btn btn-outline-primary dropdown-toggle btn-sm d-none d-lg-inline " type="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false"><i class="fa fa-play"></i></a>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" rel=opener
+                           target="_blank">{{ 'Im Browser'|trans }}</a>
+                        <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" rel=opener
+                           target="_blank">{{ 'In der App'|trans }}</a>
+                    </div>
+
+                    <a class="btn btn-outline-primary bt-sm  d-lg-none" rel=opener
+                       href="{{ path('room_join',{'t':'b','room':room.id}) }}"
+                       target="_blank"><i class="fa fa-play"></i></a>
+
+                {% elseif start_dropdown_allow_app == 1 %}
+                    <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
+                       href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank"><i
+                                class="fa fa-play"></i></a>
+                {% elseif start_dropdown_allow_browser == 1 %}
+                    <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
+                       href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank"><i
+                                class="fa fa-play"></i></a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="test">
+                <a
+                        {% if app.user == room.moderator %}
+                            class="loadContent btn btn-outline-primary dropdown-toggle btn-sm"
+                            href="{{ path('schedule_admin',{'id':room.id}) }}"
+                        {% else %}
+                            class="btn btn-outline-primary dropdown-toggle btn-sm"
+                            href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}" target="_blank"
+                        {% endif %}
+                ><i class="fa fa-calendar"></i></a>
+            </div>
+        {% endif %}
+    </div>
+</div>

@@ -3,13 +3,34 @@
 {% block CTA %}
 
 {% endblock %}
+ {% block sidebar %}
+     <div id="favorite-Container">
+         <h5 class="text-center">{{ 'favorite.sidebar.title'|trans }}</h5>
+         <hr>
+         {% if favorite|length > 0 %}
+             {% for r in favorite %}
+                 {% if r in runningRooms %}
+                     {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
+                 {% endif %}
+             {% endfor %}
+             {% for r in favorite %}
+                 {% if r not in runningRooms %}
+                     {% include'dashboard/widget/__favoriteRoom.html.twig' with {'room':r} %}
+                 {% endif %}
+             {% endfor %}
+         {% else %}
+             <p>{% trans %}favorite.sidebar.help{% endtrans %}</p>
+         {% endif %}
+     </div>
+
+ {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 text-right">
                 <div class="custom-control custom-switch mb-2">
-                    <div class="d-flex justify-content-end" >
+                    <div class="d-flex justify-content-end">
                         {% if allowTimeZoneSwitch == 1 %}<span class="mr-3" id="actualTime">
                             <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
                         <span class="mr-5"><i class="fas fa-sun brightmode"></i></span>
@@ -28,17 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid ">
-        <div class="row justify-content-center mb-3">
-            {% if persistantRooms|length > 0 %}
-                {% for r in app.user.favorites %}
-                    {% include'dashboard/widget/__persistantRoom.html.twig' with {'room':r} %}
-                {% endfor %}
-            {% endif %}
 
-
-        </div>
-    </div>
     <div class="container">
 
 
@@ -57,15 +68,15 @@
                     >{{ 'Zukünftige Konferenzen'|trans }}</a>
                 </li>
                 <li class="nav-item">
-                <a data-toggle="tab"
-                   class="nav-link "
-                   id="ex1-tab-3-tab"
-                   data-mdb-toggle="tab"
-                   href="#ex1-tabs-3"
-                   role="tab"
-                   aria-controls="ex1-tabs-3"
-                   aria-selected="true"
-                >{{ 'Feste Konferenzen'|trans }}</a>
+                    <a data-toggle="tab"
+                       class="nav-link "
+                       id="ex1-tab-3-tab"
+                       data-mdb-toggle="tab"
+                       href="#ex1-tabs-3"
+                       role="tab"
+                       aria-controls="ex1-tabs-3"
+                       aria-selected="true"
+                    >{{ 'Feste Konferenzen'|trans }}</a>
                 </li>
                 <li class="nav-item">
                     <a data-toggle="tab"
@@ -106,101 +117,114 @@
         <!-- Tabs navs -->
 
         <!-- Tabs content -->
+
+
         <div class="tab-content" id="ex1-content">
-            <div
-                    class="tab-pane fade show active"
-                    id="ex1-tabs-1"
-                    role="tabpanel"
-                    aria-labelledby="ex1-tab-1"
-            >
-                <div class="row">
-                    {% if input_settings_allow_sheduling == 1 %}
-                        <div class="col-md-6 mb-3">
-                            <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
-                                <div class=" btn-block btn btn-dashboard">
-                                    <p class="mt-2 mb-2 text-center">
-                                        {{ 'Eine Konferenz planen'|trans }}
-                                    </p>
-                                </div>
-                            </a>
+            <div class="tab-content-watch active">
+                <div
+                        class="tab-pane fade show active"
+                        id="ex1-tabs-1"
+                        role="tabpanel"
+                        aria-labelledby="ex1-tab-1"
+                >
+                    <div class="row">
+                        {% if input_settings_allow_sheduling == 1 %}
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ path('room_new') }}" class="loadContent dashboardBtn">
+                                    <div class=" btn-block btn btn-dashboard">
+                                        <p class="mt-2 mb-2 text-center">
+                                            {{ 'Eine Konferenz planen'|trans }}
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if input_settings_allow_roomPlanning == 1 %}
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
+                                    <div class=" btn-block btn btn-outline-dashboard">
+                                        <p class="mt-2 mb-2 text-center ">
+                                            {{ 'Einen Termin finden'|trans }}
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if myScheduledMeeting(app.user)|length > 0 %}
+
+                        <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Terminplanung'|trans }} </h4>
+                        {% for r in myScheduledMeeting(app.user) %}
+                            {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+                        {% endfor %}
+                    {% endif %}
+                    <hr>
+                    <h4 style="padding-top: 16px"
+                        class="h4-responsive pl-xl-3">{{ 'Meine Videokonferenzen'|trans }} </h4>
+                    {% if  roomsFuture |length == 0 %}
+                        <div class="card card-body">
+                            <p class="text-center">
+                                {% trans with {'{url}':path('room_new')} %}dashboard.noconference{% endtrans %}
+                            </p>
+                        </div>
+                    {% elseif todayRooms |length == 0 %}
+                        <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
+                        <div class="card card-body">
+                            <p class="text-center">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
                         </div>
                     {% endif %}
-                    {% if input_settings_allow_roomPlanning == 1 %}
-                        <div class="col-md-6 mb-3">
-                            <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
-                                <div class=" btn-block btn btn-outline-dashboard">
-                                    <p class="mt-2 mb-2 text-center ">
-                                        {{ 'Einen Termin finden'|trans }}
-                                    </p>
-                                </div>
-                            </a>
+                    {% set locale =  app.request.locale %}
+                    {% for date in roomsFuture %}
+                        <h4 style="padding-top: 16px" class="day h4-responsive pl-xl-3">
+                            {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
+                                {{ 'Heute'|trans }}
+                            {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
+                                {{ 'Morgen'|trans }}
+                            {% else %}
+                                {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=false) }},
+                                {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=false) }}
+                            {% endif %}
+                        </h4>
+                        {% for room in date %}
+                            {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
+                        {% endfor %}
+                    {% endfor %}
+
+
+                </div>
+            </div>
+            <div class="tab-content-watch">
+                <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+                    {% if roomsPast |length == 0 %}
+                        <div class="card card-body">
+                            <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
                         </div>
+                    {% endif %}
+                    {% for room in roomsPast %}
+                        {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-content-watch">
+                <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
+                    {% if persistantRooms|length > 0 %}
+                        {% for r in persistantRooms %}
+                            {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+                        {% endfor %}
                     {% endif %}
                 </div>
-                {% if myScheduledMeeting(app.user)|length > 0 %}
-
-                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Terminplanung'|trans }} </h4>
-                    {% for r in myScheduledMeeting(app.user) %}
-                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
-                    {% endfor %}
-                {% endif %}
-                <hr>
-                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Meine Videokonferenzen'|trans }} </h4>
-                {% if  roomsFuture |length == 0 %}
-                    <div class="card card-body">
-                        <p class="text-center">
-                            {% trans with {'{url}':path('room_new')} %}
-                                Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
-                                <u><a href="{url}" class="loadContent">hier</a></u>
-                                eine neue Konferenz.
-                            {% endtrans %}
-                        </p>
-                    </div>
-                {% elseif todayRooms |length == 0 %}
-                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
-                    <div class="card card-body">
-                        <p class="text-center">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
-                    </div>
-                {% endif %}
-                {% set locale =  app.request.locale %}
-                {% for date in roomsFuture %}
-                    <h4 style="padding-top: 16px" class="day h4-responsive pl-xl-3">
-                        {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
-                        {{ 'Heute'|trans }}
-                        {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
-                        {{ 'Morgen'|trans }}
-                        {% else %}
-                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=false) }}
-                            | {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=false) }}
-                            {% endif %}
-                    </h4>
-                    {% for room in date %}
-                        {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
-                    {% endfor %}
-                {% endfor %}
-
-
-            </div>
-            <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-                {% if roomsPast |length == 0 %}
-                    <div class="card card-body">
-                        <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
-                    </div>
-                {% endif %}
-                {% for room in roomsPast %}
-                    {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
-                {% endfor %}
-            </div>
-            <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
-                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
-                {% if persistantRooms|length > 0 %}
-                    {% for r in persistantRooms %}
-                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
-                    {% endfor %}
-                {% endif %}
             </div>
         </div>
         <!-- Tabs content -->
     </div>
 
+{% endblock %}
+{% block javascripts %}
+    <script>
+        var topic =
+                {{ mercure([
+                    'personal/'~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+        ;
+    </script>
 {% endblock %}

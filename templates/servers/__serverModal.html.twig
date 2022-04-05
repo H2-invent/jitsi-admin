@@ -66,11 +66,15 @@
                                        class="loadContent">{{ 'Statistiken'|trans }}</a>
                                     <br>
                                     <a href="{{ path('server_delete',{'id':server.id}) }}" data-dismiss="modal"
-                                       class="confirmHref">{{ 'Server löschen'|trans }}</a>
+                                       class="confirmHref"
+                                       data-text="{{ 'confirm.delete.server'|trans }}">
+                                        {{ 'Server löschen'|trans }}
+                                    </a>
 
                                 {% else %}
                                     {% if server in app.user.servers %}
                                     <a class="confirmHref"
+                                       data-text="{{ 'confirm.delete.server'|trans }}"
                                        href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i
                                                 class="fa fa-trash"></i></a>
                                         {% endif %}

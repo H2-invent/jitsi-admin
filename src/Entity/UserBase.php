@@ -48,6 +48,9 @@ class UserBase implements UserInterface
         return $this->uuid;
     }
 
+    /**
+     * @return string
+     */
     public function getUserIdentifier()
     {
         return $this->uuid;
@@ -89,6 +92,7 @@ class UserBase implements UserInterface
 
     /**
      * @see UserInterface
+     * @return string
      */
     public function getSalt()
     {

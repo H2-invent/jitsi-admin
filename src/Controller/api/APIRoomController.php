@@ -11,6 +11,7 @@ use App\Service\api\KeycloakService;
 use App\Service\api\RoomService;
 use App\Service\LicenseService;
 use App\Service\ServerUserManagment;
+use App\Service\UserCreatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,7 +25,7 @@ class APIRoomController extends AbstractController
     /**
      * @Route("/api/v1/room", name="api_room_create",methods={"POST"})
      */
-    public function index(LicenseService $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
+    public function index(UserCreatorService $userCreatorService, LicenseService $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 
         //we are looking for the user
@@ -33,11 +34,7 @@ class APIRoomController extends AbstractController
         $user = $keycloakService->getUSer($email, $request->get('keycloakId'));
         // if the user does not exist then we make a new one with the Email
         if (!$user) {
-
-            $user = new User();
-            $user->setEmail($email);
-            $user->setCreatedAt(new \DateTime());
-            $user->setUsername($email);
+            $user = $userCreatorService->createUser($email, $email, '','');
         }
         $serverUrl = $request->get('server');
         $apiKey = $request->headers->get('Authorization');

@@ -19,7 +19,16 @@
                     <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink" type="button"  data-clipboard-target="#linkPart" >   <i class="far fa-clipboard"></i></button>
                 </div>
             </div>
+            {%  if room.lobby %}
+        <div class="row">
 
+            <div class="col-lg-12">
+                <p>{{ 'openRoom.addParticipants.help'|trans }}</p>
+                <a href="{{ path('room_add_user',{'room':room.id}) }}"
+                   class=" element btn btn-outline-default loadContent"><i class="fas fa-plus"></i> {{ 'Teilnehmer'|trans }}</a>
+            </div>
+        </div>
+            {% endif %}
         </div>
     </div>
 </div>

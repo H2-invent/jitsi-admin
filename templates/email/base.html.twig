@@ -47,12 +47,10 @@
             color: {{theme.emailLinkcolor}};
         }
 
-        .body-border {
-            border-top: 8px solid{{theme.emailColor}};
-        }
+
 
         .body-border {
-            border-top: 8px solid{{theme.emailColor}};
+            border-top: 8px solid {{theme.emailColor}};
         }
 
 
@@ -168,10 +166,10 @@
                 </p>
                 <hr>
                 <spacer size="32"></spacer>
-                {% if user is defined and user is not null %}
+                {% if user is defined and user is not null and user.uid is not null %}
                     <p style="text-align: center">{{ 'email.ical.link'|trans }}</p>
                     <p style="text-align: center">{{ laF_baseUrl~path('ical',{ 'id':user.uid }) }}</p>
-                    <a href="https://h2-invent.com/post/howtos/ical-link-kalender-importieren">{{ 'Hilfe'|trans }}</a>
+                    <p style="text-align: center"> <a href="https://h2-invent.com/post/howtos/ical-link-kalender-importieren">{{ 'Hilfe'|trans }}</a></p>
                 {% endif %}
 
 

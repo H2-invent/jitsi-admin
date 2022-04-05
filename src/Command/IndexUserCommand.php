@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Command;
+
+use App\Entity\User;
+use App\Service\IndexUserService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+class IndexUserCommand extends Command
+{
+    protected static $defaultName = 'app:index:user';
+    protected static $defaultDescription = 'Add a short description for your command';
+    private $em;
+    private $indexer;
+    protected function configure(): void
+    {
+
+    }
+
+    public function __construct( EntityManagerInterface $entityManager, IndexUserService $indexUserService, string $name = null)
+    {
+        parent::__construct($name);
+        $this->em = $entityManager;
+        $this->indexer = $indexUserService;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $io = new SymfonyStyle($input, $output);
+        $user = $this->em->getRepository(User::class)->findAll();
+        $progressBar = new ProgressBar($output, sizeof($user));
+        $progressBar->start();
+        foreach ($user as $data) {
+            $progressBar->advance();
+            $data->setIndexer($this->indexer->indexUser($data));
+            $this->em->persist($data);
+        }
+        $this->em->flush();
+        $progressBar->finish();
+        $io->success('we reindex all users');
+
+        return Command::SUCCESS;
+    }
+}

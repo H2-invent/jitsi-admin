@@ -6,9 +6,11 @@ use App\Entity\Rooms;
 use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
+use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\RoomType;
 use App\Service\PexelService;
+use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
 use App\Service\ThemeService;
@@ -28,8 +30,9 @@ class ScheduleController extends AbstractController
     /**
      * @Route("room/schedule/new", name="schedule_admin_new")
      */
-    public function new(ParameterBagInterface $parameterBag, Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService $schedulingService): Response
+    public function new(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService $schedulingService): Response
     {
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
             $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if ($room->getModerator() !== $this->getUser()) {
@@ -47,18 +50,18 @@ class ScheduleController extends AbstractController
             }
 
         } else {
-            $room = new Rooms();
-            $room->addUser($this->getUser());
-            $room->setDuration(60);
-            $room->setUid(rand(01, 99) . time());
-            $room->setModerator($this->getUser());
-            $room->setSequence(0);
-            $room->setUidReal(md5(uniqid('h2-invent', true)));
-            $room->setUidModerator(md5(uniqid('h2-invent', true)));
-            $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            if ($this->getUser()->getTimeZone() && $parameterBag->get('allowTimeZoneSwitch') == 1) {
-                $room->setTimeZone($this->getUser()->getTimeZone());
+            $serverChhose = null;
+            if ($request->cookies->has('room_server')) {
+                $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
+                if ($server && in_array($server, $servers)) {
+                    $serverChhose = $server;
+                }
             }
+            if (sizeof($servers) === 1) {
+
+                $serverChhose = $servers[0];
+            }
+            $room = $roomGeneratorService->createRoom($this->getUser(),$serverChhose);
             $snack = $translator->trans('Terminplanung erfolgreich erstellt');
             $title = $translator->trans('Neue Terminplanung erstellen');
         }
@@ -113,7 +116,7 @@ class ScheduleController extends AbstractController
 
             return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'form' => $form->createView(), 'title' => $title));
     }
 
     /**
@@ -248,6 +251,6 @@ class ScheduleController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($scheduleTimeUser);
         $em->flush();
-        return new JsonResponse(array('error' => false, 'text' => $translator->trans('Erfolgreich bestätigt'), 'color' => 'success'));
+        return new JsonResponse(array('error' => false, 'text' => $translator->trans('common.success.save'), 'color' => 'success'));
     }
 }

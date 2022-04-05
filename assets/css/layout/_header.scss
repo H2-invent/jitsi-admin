@@ -9,19 +9,6 @@
     MEDIAQUERIES
 ----------------------------------------------------- */
 
-@media (max-width: 1500px) {
-  #sidebar {
-    margin-left: -250px;
-  }
-
-  #sidebar.active {
-    margin-left: 0;
-  }
-
-  #sidebarCollapse span {
-    display: none;
-  }
-}
 
 
 /* ---------------------------------------------------
@@ -58,14 +45,12 @@ label.required:after {
 #snackbar {
   visibility: hidden;
   width: 100%;
-
   background-color: #4b515d;
   color: #fff;
   text-align: center;
   border-radius: 2px;
   padding: 16px;
   position: fixed;
-  z-index: 1;
   right: 0;
   bottom: 0;
   font-size: 17px;
@@ -195,18 +180,28 @@ label.required:after {
   align-items: center;
 
 }
-.caretdown[aria-expanded="false"]:before{
-  margin-right: 4px;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f0d7";;
+.caretdown{
+  i{
+    white-space: nowrap;
+  }
+  &[aria-expanded="false"]:before{
+    margin-right: 4px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f0d7";
+    float: left;
+
+  }
+  &[aria-expanded="true"]:before{
+    margin-right: 4px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f0d8";
+    float: left;
+
+  }
 }
-.caretdown[aria-expanded="true"]:before{
-  margin-right: 4px;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f0d8";;
-}
+
 .iconSytle{
   max-height: 25px;
 }
@@ -222,7 +217,7 @@ label.required:after {
   }
 }
 .breakWord{
-  word-break: break-all;
+  word-break: break-word;
   padding-right: 5px;
 }
 .noBreak{

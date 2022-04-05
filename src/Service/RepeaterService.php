@@ -66,6 +66,11 @@ class RepeaterService
         $this->icalService = $icalService;
     }
 
+    /**
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     function createNewRepeater(Repeat $repeat): Repeat
     {
         $userAttribute = $repeat->getPrototyp()->getUserAttributes()->toArray();
@@ -97,6 +102,11 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     function createDaily(Repeat $repeat): Repeat
     {
         //hier bauen wir alle X tage einen neuenRoom
@@ -116,6 +126,11 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     function createWeekly(Repeat $repeat): Repeat
     {
 
@@ -135,6 +150,11 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     function createMontly(Repeat $repeat): Repeat
     {
 
@@ -154,6 +174,11 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     function createMontlyRelative(Repeat $repeat): Repeat
     {
 
@@ -194,6 +219,11 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     function createYearly(Repeat $repeat): Repeat
     {
         $s = $repeat->getStartDate();
@@ -212,6 +242,12 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * This function creates yearly relative roomy for a repeater
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     function createYearlyRelative(Repeat $repeat): Repeat
     {
 
@@ -253,6 +289,14 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * This function clones the prototype and sets all paramters which are necesarry
+     * @param Rooms $prototype
+     * @param Repeat $repeat
+     * @param \DateTime $start
+     * @return Rooms
+     * @author Emanuel Holzmann
+     */
     function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTime $start): Rooms
     {
         $room = clone $prototype;
@@ -273,54 +317,42 @@ class RepeaterService
         return $room;
     }
 
-    public function changeRooms(Repeat $repeat, Rooms $prototype): Repeat
+
+    /**
+     * This function takes a new room and sets the new room as prototype in the repeater series which it belongs to.
+     * @param Rooms $rooms
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
+    public function replaceRooms(Rooms $rooms): string
     {
-        foreach ($repeat->getRooms() as $data) {
-            if (!$data->getRepeaterRemoved()) {
-                $room = clone $prototype;
-                $room->setUid($data->getUid());
-                $room->setUidReal($data->getUidReal());
-                $room->setUidParticipant($data->getUidParticipant());
-                $room->setUidModerator($data->getUidModerator());
-                $room->setRepeater($repeat);
-                $room->setStart($data->getStart()->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i')));
-                $end = clone $room->getStart();
-                $end->modify('+' . $room->getDuration() . ' min');
-                $room->setEnddate($end);
-                foreach ($data->getUser() as $data2) {
-                    $data->removeUser($data2);
-                }
-                foreach ($data->getUserAttributes() as $data2) {
-                    $data->removeUserAttribute($data2);
-                    $this->em->remove($data2);
-                }
-                foreach ($data->getSchedulings() as $data2) {
-                    $data->removeScheduling($data2);
-                    $this->em->remove($data2);
-                }
-                $this->em->persist($room);
-                $repeat->removeRoom($data);
-                $this->em->remove($data);
-                $repeat->addRoom($room);
-            }
+        //first show me the old repeater
+        if (!$rooms->getRepeaterProtoype()) {
+            return $this->translator->trans('Diese Aktion ist nicht erlaubt.');
         }
-        $this->em->persist($repeat);
+        $rooms->setEnddate((clone $rooms->getStart())->modify('+' . $rooms->getDuration() . 'min'));
+        $this->em->persist($rooms);
         $this->em->flush();
-        return $repeat;
-    }
 
-    public function replaceRooms(Rooms $rooms): Repeat
-    {
-
-        $repeater = $rooms->getRepeater();
-        $oldProto = $repeater->getPrototyp();
-        $repeater = $this->replacePrototype($rooms, $repeater);
-        $repeater = $this->changeRooms($repeater, $repeater->getPrototyp());
+        $repeater = $rooms->getRepeaterProtoype();
+        $repeater->setStartDate($rooms->getStart());
+        $repeater = $this->cleanRepeater($repeater);
+        $repeater = $this->createNewRepeater($repeater);
         $this->addUserRepeat($repeater);
-        $this->cleanUp($repeater);
-        return $repeater;
+        $this->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+        $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
+
+        // here we have the old prototype but with new Time and new Settings
+        return $snack;
     }
 
+    /**
+     * this function replaces the prototype in a repeater and hangs all attributes from the old prototype to the new prototype
+     * @param Rooms $rooms
+     * @param Repeat $repeat
+     * @return Repeat
+     * @author Emanuel Holzmann
+     */
     private function replacePrototype(Rooms $rooms, Repeat $repeat): Repeat
     {
         $newPrototype = clone $rooms;
@@ -361,6 +393,11 @@ class RepeaterService
         return $repeat;
     }
 
+    /**
+     * remove all prototype user from the generated rooms which are not a prototype
+     * @param Repeat $repeat
+     * @author Emanuel Holzmann
+     */
     private function cleanUp(Repeat $repeat)
     {
         foreach ($repeat->getRooms() as $data) {
@@ -372,6 +409,19 @@ class RepeaterService
         $this->em->flush();
     }
 
+    /**
+     * this function sends an email with the changes series
+     * @param Repeat $repeat
+     * @param $template
+     * @param $subject
+     * @param array $templateAttr
+     * @param string $method
+     * @param array $users
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @author Emanuel Holzmann
+     */
     function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = array(), $method = 'REQUEST', $users = array())
     {
         if (sizeof($users) === 0) {
@@ -394,16 +444,27 @@ class RepeaterService
         }
     }
 
+    /**
+     * this function creates the ICS for the series. this is a new calendar
+     * @param Repeat $repeat
+     * @param User $user
+     * @return string
+     * @author Emanuel Holzmann
+     */
     private function createIcs(Repeat $repeat, User $user): string
     {
         $this->icalService->setRooms($repeat->getRooms()->toArray());
         return $this->icalService->getIcalString($user);
     }
 
+    /**
+     *
+     * @param Repeat $repeat
+     * @author Emanuel Holzmann
+     */
     public function addUserRepeat(Repeat $repeat)
     {
         $prototype = $repeat->getPrototyp();
-
         foreach ($repeat->getRooms() as $data) {
             foreach ($data->getUser() as $data2) {
                 $data->removeUser($data2);
@@ -423,18 +484,22 @@ class RepeaterService
             }
             $this->em->persist($data);
         }
+
         foreach ($repeat->getRooms() as $data) {
             foreach ($prototype->getUserAttributes() as $data2) {
                 $tmp = clone $data2;
                 $tmp->setRoom($data);
-                $data->addUserAttribute($tmp);
                 $this->em->persist($tmp);
             }
-            $this->em->persist($data);
         }
         $this->em->flush();
     }
 
+    /**
+     * @param Repeat $repeat
+     * @return bool
+     * @author Emanuel Holzmann
+     */
     public function checkData(Repeat $repeat): bool
     {
         switch ($repeat->getRepeatType()) {
@@ -482,5 +547,31 @@ class RepeaterService
 
         }
         return true;
+    }
+
+    public function cleanRepeater(Repeat $repeater)
+    {
+        foreach ($repeater->getRooms() as $data) {
+
+            foreach ($data->getUserAttributes() as $data2) {
+                $data->removeUserAttribute($data2);
+                $this->em->remove($data2);
+            }
+            foreach ($data->getUser() as $data2) {
+                $data2->removeRoom($data);
+                $this->em->persist($data2);
+            }
+
+            $repeater->removeRoom($data);
+
+        }
+        $this->em->flush();
+        foreach ($repeater->getRooms() as $data) {
+            $this->em->remove($data);
+        }
+        $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence()) + 1);
+        $this->em->persist($repeater);
+        $this->em->flush();
+        return $repeater;
     }
 }

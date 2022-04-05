@@ -42,7 +42,10 @@ class AdminService
             $chart[$date->format('Ymd')]['participants'] = 0;
             $chart[$date->format('Ymd')]['rooms'] = 0;
             foreach ($rooms as $data) {
-                if ( $data->getStart() && $data->getScheduleMeeting() != true && $data->getStart()->format('Ymd') === $date->format('Ymd')) {
+                if ($data->getScheduleMeeting() != true
+                    && $data->getStart()
+                    && !$data->getRepeaterProtoype()
+                    && $data->getStart()->format('Ymd') === $date->format('Ymd')) {
                     $chart[$date->format('Ymd')]['rooms'] = $chart[$date->format('Ymd')]['rooms'] + 1;
                     $chart[$date->format('Ymd')]['participants'] = $chart[$date->format('Ymd')]['participants'] + count($data->getUser());
                 }

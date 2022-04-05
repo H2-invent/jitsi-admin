@@ -1,4 +1,10 @@
 {
+    "aws/aws-crt-php": {
+        "version": "v1.0.2"
+    },
+    "aws/aws-sdk-php": {
+        "version": "3.209.27"
+    },
     "cron/cron": {
         "version": "1.5.1"
     },
@@ -141,8 +147,20 @@
     "guzzlehttp/psr7": {
         "version": "1.7.0"
     },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
     "jms/i18n-routing-bundle": {
         "version": "dev-master"
+    },
+    "jms/metadata": {
+        "version": "2.6.1"
+    },
+    "knplabs/gaufrette": {
+        "version": "v0.9.0"
+    },
+    "knplabs/knp-gaufrette-bundle": {
+        "version": "v0.7.1"
     },
     "knpuniversity/oauth2-client-bundle": {
         "version": "1.20",
@@ -168,14 +186,45 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.4"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.0.4"
+    },
+    "league/flysystem": {
+        "version": "2.4.3"
+    },
+    "league/flysystem-aws-s3-v3": {
+        "version": "2.4.3"
+    },
+    "league/mime-type-detection": {
+        "version": "1.9.0"
+    },
     "league/oauth2-client": {
         "version": "2.2.1"
+    },
+    "liip/imagine-bundle": {
+        "version": "2.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        },
+        "files": [
+            "./config/packages/liip_imagine.yaml",
+            "./config/routes/liip_imagine.yaml"
+        ]
     },
     "lorenzo/pinky": {
         "version": "1.0.5"
     },
     "monolog/monolog": {
         "version": "1.25.3"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.6.1"
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
@@ -188,6 +237,18 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
+    },
+    "oneup/flysystem-bundle": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "3ae1b83985e89138f5443bbc2d9b8c074b497d49"
+        },
+        "files": [
+            "./config/packages/oneup_flysystem.yaml"
+        ]
     },
     "phar-io/manifest": {
         "version": "2.0.1"
@@ -335,6 +396,9 @@
     "swiftmailer/swiftmailer": {
         "version": "v6.2.3"
     },
+    "symfony/amqp-messenger": {
+        "version": "v5.4.0"
+    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {
@@ -398,6 +462,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.8"
+    },
+    "symfony/doctrine-messenger": {
+        "version": "v5.4.0"
     },
     "symfony/dom-crawler": {
         "version": "v4.4.8"
@@ -497,6 +564,33 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/mercure": {
+        "version": "v0.6.0"
+    },
+    "symfony/mercure-bundle": {
+        "version": "0.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "0.3",
+            "ref": "e0a854b5439186e04b28fb8887b42c54f24a0d32"
+        },
+        "files": [
+            "./config/packages/mercure.yaml"
+        ]
+    },
+    "symfony/messenger": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "25e3c964d3aee480b3acc3114ffb7940c89edfed"
+        },
+        "files": [
+            "./config/packages/messenger.yaml"
+        ]
+    },
     "symfony/mime": {
         "version": "v4.4.8"
     },
@@ -586,6 +680,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.18"
+    },
+    "symfony/redis-messenger": {
+        "version": "v5.4.2"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -777,6 +874,18 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
+    },
+    "vich/uploader-bundle": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.7",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        },
+        "files": [
+            "./config/packages/vich_uploader.yaml"
+        ]
     },
     "webmozart/assert": {
         "version": "1.8.0"

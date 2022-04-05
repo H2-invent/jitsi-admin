@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrationAddUsernameSameEmailCommand extends Command
 {
     protected static $defaultName = 'app:migration:addUsernameSameEmail';
-    protected static $defaultDescription = 'Add a short description for your command';
+    protected static $defaultDescription = 'This command finds empts username and sets the user = email';
     protected $em;
     public function __construct( EntityManagerInterface $entityManager, $name = null)
     {

@@ -2,7 +2,7 @@ label.konferenzId: Konferenz-ID
 label.email: E-Mail-Adresse
 label.name: Ihr Name
 
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerEmailhinzufuegen: EMail-Adressen von neuen Teilnehmenden eingeben
 label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
@@ -78,6 +78,9 @@ help:
   featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
   teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
   serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
+  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
+
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten
@@ -95,8 +98,8 @@ label:
   serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
   apiKey: Api-Key für diesen Server
   agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Hintergrundfarbe auf der Join-Seite festlegen
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
+  staticBackgroundColor:
+  schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
   featureEnalbeByJwt: „Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
@@ -127,6 +130,12 @@ label:
   jwtModeratorPosition: Moderatorposition im JWT Token
   timezone: Zeitzone
   serverName: Servername
+  lobby: Lobby aktivieren
+  secondEmail: CC-E-Mail
+  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  corsHeader:  CORS-Header oder frame-ancestor Header
+
+
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

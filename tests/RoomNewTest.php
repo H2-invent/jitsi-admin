@@ -63,6 +63,21 @@ class RoomNewTest extends WebTestCase
             $client->getResponse()->getContent()
         );
     }
+    public function testNoServer(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test2@local.de');
+        $client->loginUser($testUser);
+        $server = $testUser->getServers();
+
+        $crawler = $client->request('GET', '/room/new');
+        $this->assertStringContainsString(
+          'Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.',
+            $client->getResponse()->getContent()
+        );
+    }
     public function testRemove(): void{
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -96,11 +111,18 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
+        self::assertEquals(1, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
+        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
+        self::assertEquals(0, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
+        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
         $client->request('GET',$urlGenerator->generate('room_remove',array('room'=>$room->getId())));
         $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Konferenz%20gel%C3%B6scht'));
         $room = $roomRepo->findOneBy(array('name' => '198273987321'));
         $this->assertEquals(0,sizeof($room->getUser()));
         $this->assertNull($room->getModerator());
+        self::assertEquals(0, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
+
     }
 
     public function testEdit(): void{

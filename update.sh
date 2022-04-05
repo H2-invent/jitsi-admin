@@ -8,7 +8,7 @@ echo ----------------Create Database-------------------------------------------
 echo ----------------Please Backup your database-------------------------------
 echo --------------------------------------------------------------------------
 php bin/console cache:clear
-php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate --no-interaction
 echo --------------------------------------------------------------------------
 echo -----------------Clear Cache----------------------------------------------
 echo --------------------------------------------------------------------------

@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app.path.product_images: /uploads/images
+    app.path.uploads: /uploads
     app.path.images: /uploads/images/products
     secret: '%env(APP_SECRET)%'
     defaultEmail: '%env(DEFAULT_EMAIL)%'
@@ -16,6 +18,8 @@ parameters:
     registerEmailName: '%env(registerEmailName)%'
     registerEmailAdress: '%env(registerEmailAdress)%'
     default_jitsi_server_id: '%env(default_jitsi_server_id)%'
+
+
     laF_startpage: '%env(laF_startpage)%'
     laF_onlyRegisteredParticipents: '%env(laF_onlyRegisteredParticipents)%'
     delivery_addresses: ['%env(DEV_EMAIL)%']
@@ -30,6 +34,10 @@ parameters:
     laf_showNameInConference: '%env(laf_showNameInConference)%'
     laf_showNameFrontend: '%env(laf_showNameFrontend)%'
     laf_roomsMoreOptionsCollapsed: '%env(laf_roomsMoreOptionsCollapsed)%'
+    laf_lobby_ReKnockTime: '%env(laf_lobby_ReKnockTime)%'
+    laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'
+
+
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
     ldap_url: '%env(ldap_url)%'
@@ -42,9 +50,9 @@ parameters:
     ldap_user_object_classes: '%env(ldap_user_object_classes)%'
     ldap_userName_attribute: '%env(ldap_userName_attribute)%'
     ldap_attribute_mapper: '%env(ldap_attribute_mapper)%'
-    ldap_connect_all_user_addressbook: '%env(ldap_connect_all_user_addressbook)%'
     ldap_server_individualName: '%env(ldap_server_individualName)%'
     ldap_special_Fields: '%env(ldap_special_Fields)%'
+    ldap_filter: '%env(ldap_filter)%'
     strict_username_only: '%env(strict_username_only)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'
     input_settings_persistant_rooms: '%env(input_settings_persistant_rooms)%'
@@ -71,6 +79,8 @@ parameters:
     start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
     allowTimeZoneSwitch: '%env(allowTimeZoneSwitch)%'
     emailSenderIsModerator: '%env(emailSenderIsModerator)%'
+    input_settings_allowLobby: '%env(input_settings_allowLobby)%'
+    input_settings_allowLobby_default: '%env(input_settings_allowLobby_default)%'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -94,3 +104,17 @@ services:
     dpolac.twig_lambda.extension:
         class: DPolac\TwigLambda\LambdaExtension
         tags: [ { name: twig.extension } ]
+
+    ct_file_store.s3:
+        class: Aws\S3\S3Client
+        factory: [Aws\S3\S3Client, 'factory']
+        arguments:
+            -
+                version: '%env(YOUR_AWS_S3_VERSION)%'
+                region: '%env(YOUR_AWS_S3_REGION)%'
+                credentials:
+                    key: '%env(AWS_KEY)%'
+                    secret: '%env(AWS_SECRET_KEY)%'
+
+
+

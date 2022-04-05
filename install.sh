@@ -26,10 +26,8 @@ else
     sed -i "s%^DATABASE_URL=.*%DATABASE_URL=mysql://$databaseUsername:$databasePassword@$databaseHost:$databasePort/$databaseName%g" .env.local
 fi
 
-php bin/console doctrine:schema:create
+php bin/console doctrine:mig:mig --no-interaction
 php bin/console cache:clear
-php bin/console doctrine:schema:update --force
-php bin/console doctrine:migrations:version --add --all
 echo --------------------------------------------------------------------------
 echo -----------------We looking for all the other parameters-------------------
 echo --------------------------------------------------------------------------
@@ -79,8 +77,6 @@ chmod -R 775 var/cache
 echo --------------------------------------------------------------------------
 echo ----------------Create Upload Folder and Set permissions------------------
 echo --------------------------------------------------------------------------
-mkdir public/uploads
-mkdir public/uploads/images
 chown -R www-data:www-data public/uploads/images
 chmod -R 775 public/uploads/images
 echo --------------------------------------------------------------------------

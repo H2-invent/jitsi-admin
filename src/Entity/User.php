@@ -1,18 +1,19 @@
 <?php
-// src/Entity/User.php
-
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\UserBase as BaseUser;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\UserRepository;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Vich\Uploadable()
  */
 class User extends BaseUser
 {
@@ -127,7 +128,7 @@ class User extends BaseUser
     private $uid;
 
     /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user", cascade={"remove"})
      */
     private $waitinglists;
 
@@ -187,6 +188,33 @@ class User extends BaseUser
      */
     private $favorites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=LobbyWaitungUser::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $lobbyWaitungUsers;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $indexer;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $secondEmail;
+
+    /**
+     * @var Documents
+     * @ORM\OneToOne(targetEntity=Documents::class, cascade={"persist", "remove"})
+     */
+    private $profilePicture;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+    
+
 
     public function __construct()
     {
@@ -206,6 +234,7 @@ class User extends BaseUser
         $this->AddressGroupLeader = new ArrayCollection();
         $this->AddressGroupMember = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->lobbyWaitungUsers = new ArrayCollection();
 
     }
 
@@ -890,4 +919,94 @@ class User extends BaseUser
 
         return $this;
     }
+
+    /**
+     * @return Collection|LobbyWaitungUser[]
+     */
+    public function getLobbyWaitungUsers(): Collection
+    {
+        return $this->lobbyWaitungUsers;
+    }
+
+    public function addLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if (!$this->lobbyWaitungUsers->contains($lobbyWaitungUser)) {
+            $this->lobbyWaitungUsers[] = $lobbyWaitungUser;
+            $lobbyWaitungUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if ($this->lobbyWaitungUsers->removeElement($lobbyWaitungUser)) {
+            // set the owning side to null (unless already changed)
+            if ($lobbyWaitungUser->getUser() === $this) {
+                $lobbyWaitungUser->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    public function getPermissionForRoom(Rooms $rooms):RoomsUser{
+        foreach ($this->roomsAttributes as $data){
+            if($data->getRoom() == $rooms){
+                return $data;
+            }
+        }
+        return new RoomsUser();
+    }
+
+    public function getIndexer(): ?string
+    {
+        return $this->indexer;
+    }
+
+    public function setIndexer(?string $indexer): self
+    {
+        $this->indexer = $indexer;
+
+        return $this;
+    }
+
+    public function getSecondEmail(): ?string
+    {
+        return $this->secondEmail;
+    }
+
+    public function setSecondEmail(?string $secondEmail): self
+    {
+        $this->secondEmail = $secondEmail;
+
+        return $this;
+    }
+
+    public function getProfilePicture(): ?Documents
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(?Documents $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+
+
+
 }

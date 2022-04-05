@@ -12,27 +12,8 @@
             {% endif %}
 
         </a>
-        <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModal"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header  light-blue darken-3 white-text">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ 'Hilfe'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        {{ helpText|raw }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary"
-                                data-dismiss="modal">{{ 'Schließen'|trans }}</button>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
@@ -43,35 +24,45 @@
                 <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
             {% endif %}
         </a>
-        <a class="ml-auto mr-2 mr-sm-4"
-           data-toggle="modal"
-           data-target="#settings">
-            {% if theme != false %}
-                <img src="{{ asset(theme.iconSettings) }}" class="iconSytle"
-                     title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
-            {% else %}
-                <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
-                     title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
-            {% endif %}
-        </a>
+        {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
+            <a class="ml-auto mr-2 mr-sm-4"
+               data-toggle="modal"
+               data-target="#settings">
+                {% if theme != false %}
+                    <img src="{{ asset(theme.iconSettings) }}" class="iconSytle"
+                         title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+                {% else %}
+                    <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
+                         title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
+                {% endif %}
+            </a>
+        {% endif %}
         <!-- Button trigger modal -->
         <a class="ml-auto mr-2 mr-sm-4"
            data-toggle="modal"
            data-target="#sideModalTR">
-            {% if theme != false %}
-                <img src="{{ asset(theme.iconProfile) }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+            {% if app.user.profilePicture %}
+             <div class="iconSytle imageIcon"
+             style="background-image: url('{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}')">
+
+             </div>
             {% else %}
-                <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+                {% if theme != false %}
+                    <img src="{{ asset(theme.iconProfile) }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+                {% else %}
+                    <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+                {% endif %}
             {% endif %}
+
         </a>
 
 
-        <li class="nav-item dropdown language-dropdown">
+        <li class="dropdown language-dropdown">
             <a class=" dropdown-toggle ml-auto mr-2 mr-sm-4" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
             </a>
-            <div class="dropdown-menu" style="min-width: unset; background-color: unset; border: none">
+            <div class="dropdown-menu language-dropdown-menue" >
                 {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
                     <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
                                 src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>

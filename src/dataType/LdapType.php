@@ -24,6 +24,8 @@ class LdapType
     public static $SIMPLE = 0;
     private $ldapService;
     private $specialFields;
+    private $filter;
+
     public function __construct(LdapService $ldapService)
     {
         $this->ldapService = $ldapService;
@@ -251,4 +253,39 @@ class LdapType
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @param mixed $filter
+     */
+    public function setFilter($filter): void
+    {
+        $this->filter = $filter;
+    }
+
+
+    /**
+     * @param $objectClassString
+     * @return string
+     * This Function build the Query String to find the user in the LDAP
+     */
+    public function buildObjectClass(): string
+    {
+        $objectclass = '(|';
+        foreach (explode(',', $this->objectClass) as $data2) {
+            $objectclass .= '(objectclass=' . $data2 . ')';
+        }
+        $objectclass .= ')';
+        if($this->filter){
+            $objectclass = ''.$objectclass.$this->filter;
+        }
+        $objectclass = '(&'.$objectclass.')';
+        return $objectclass;
+    }
 }

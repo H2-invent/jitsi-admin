@@ -1,0 +1,24 @@
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle
+oneup_flysystem:
+    adapters:
+        assets_adapter:
+            awss3v3:
+                client: ct_file_store.s3
+                bucket: "%env(AWS_BUCKET_NAME)%"
+                prefix: profile
+
+    filesystems:
+        assets_fs:
+            adapter: assets_adapter
+            mount: assets_fs
+
+#oneup_flysystem:
+#    adapters:
+#        asset_adapter12:
+#            local:
+#                location: '%kernel.project_dir%/public%app.path.product_images%'
+#    filesystems:
+#        asset_filesystem12:
+#            adapter: asset_adapter12
+#            alias: League\Flysystem\Asset
+#            mount: asset_filesystem12

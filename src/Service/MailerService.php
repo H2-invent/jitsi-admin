@@ -65,6 +65,15 @@ class MailerService
     public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
     {
         $to = $user->getEmail();
+        $cc = array();
+        if ($user->getSecondEmail()) {
+            foreach (explode(',', $user->getSecondEmail()) as $data) {
+                $e = trim($data);
+                if (filter_var($e, FILTER_VALIDATE_EMAIL)) {
+                    $cc[] = $e;
+                }
+            }
+        }
         if ($user->getLdapUserProperties() && filter_var($to, FILTER_VALIDATE_EMAIL) == false) {
             $this->logger->debug('We sent no email, because the User is an LDAP User and the email is not a valid Email');
             return true;
@@ -75,7 +84,7 @@ class MailerService
         }
         try {
             $this->logger->info('Mail To: ' . $to);
-            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment);
+            $res = $this->sendViaSwiftMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment,$cc);
 
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
@@ -84,7 +93,7 @@ class MailerService
         return $res;
     }
 
-    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
+    private function sendViaSwiftMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array(), $cc = array()): bool
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -101,6 +110,7 @@ class MailerService
         $message = (new \Swift_Message($betreff))
             ->setFrom(array($sender => $senderName))
             ->setTo($to)
+
             ->setBody(
                 $content
                 , 'text/html'
@@ -114,7 +124,9 @@ class MailerService
         foreach ($attachment as $data) {
             $message->attach(new \Swift_Attachment($data['body'], UtilsHelper::slugifywithDot($data['filename']), $data['type']));
         };
-
+        foreach ($cc as $data){
+            $message->addCc($data);
+        }
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {

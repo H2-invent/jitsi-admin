@@ -35,7 +35,7 @@ class ParticipantController extends AbstractController
     public function index(Request $request, TranslatorInterface $translator, ParticipantSearchService $participantSearchService): Response
     {
         $string = $request->get('search');
-        $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByEmail($string, $this->getUser());
+        $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByIndex(strtolower($string), $this->getUser());
         $group = $this->getDoctrine()->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = array();
@@ -133,6 +133,6 @@ class ParticipantController extends AbstractController
             return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
         }
         $userService->addUser($user,$room);
-        return $this->redirectToRoute('dashboard', ['snack' => $this->translator->trans('participant.resend.invitation')]);
+        return $this->redirectToRoute('dashboard', ['snack' => $this->translator->trans('participant.resend.invitation.sucess')]);
     }
 }

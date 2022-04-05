@@ -14,11 +14,6 @@ import('mdbootstrap');
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';
-import {Calendar} from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import bootstrapPlugin from '@fullcalendar/bootstrap';
-import momentPlugin from '@fullcalendar/moment';
-import listPlugin from '@fullcalendar/list';
 import Chart from 'chart.js';
 import autosize from 'autosize';
 import ClipboardJS from 'clipboard';
@@ -30,18 +25,17 @@ import {initAddressGroupSearch, initListSearch} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
+import {initAjaxSend} from './confirmation'
+import {attach, init} from 'node-waves'
+import {createPopper} from '@popperjs/core';
+import {initTabs} from './tabHelper'
+import {initDashboardnotification} from './dashBoardNotification'
 
-$.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results == null) {
-        return null;
-    }
-    return decodeURI(results[1]) || 0;
-}
 addEventListener('load', function () {
-    var url = (new URLSearchParams(window.location.search)).get('modalUrl');
-    if (url !== null) {
-        url = atob(url);
+    var param = (new URLSearchParams(window.location.search)).get('modalUrl');
+    let url = '';
+    if (param !== null) {
+        url = atob(param);
         if (url.startsWith('/')) {
             $('#loadContentModal').load(url, function (data, status) {
                 if (status === "error") {
@@ -52,20 +46,26 @@ addEventListener('load', function () {
 
             });
         }
+        let search = new URLSearchParams(window.location.search);
+        search.delete('modalUrl');
+        let location = window.location.pathname;
+        if(search.toString().length>0){
+            location +='?'+search.toString();
+        }
 
+        window.history.pushState({}, document.title, location);
     }
 });
 
 $(document).ready(function () {
-
-    $('.switchDarkmode').change(function (e) {
-        var val = 0;
-        if ($(this).prop('checked')) {
-            val = 1
-        }
-        setCookie('DARK_MODE', val, 365);
-        window.location.reload();
+    $('.nav-tabs').each(function (e) {
+        $(this).append('<span class="underline"></span>')
     })
+   initTabs();
+    attach('.btn', ['waves-effect']);
+    attach('.nav-item', ['waves-effect']);
+    init();
+    initDashboardnotification(topic);
     setTimeout(function () {
         $('#snackbar').addClass('show').click(function (e) {
             $('#snackbar').removeClass('show');
@@ -79,9 +79,9 @@ $(document).ready(function () {
         h2Button.initNotification(notificationUrl);
     }
     initGenerell();
-    initDropDown();
     initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
+    initAjaxSend(confirmTitle, confirmCancel, confirmOk);
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
         $('#sidebar').removeClass('active');
@@ -104,56 +104,33 @@ $(document).ready(function () {
     //     dateFormat: "Y-m-d H:i",
     // });
     initCopytoClipboard();
-
+    let url = new URLSearchParams(window.location.search);
+    url.delete('snack');
+    let location = window.location.pathname;
+    if(url.toString().length>0){
+        location +='?'+url.toString();
+    }
+    window.history.pushState({}, document.title, location);
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
-
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
-$(document).on('click', '.confirmHref', function (e) {
-    e.preventDefault();
-    var url = $(this).prop('href');
-    var text = $(this).data('text');
-    if (typeof text === 'undefined') {
-
-        text = 'Wollen Sie die Aktion durchführen?'
-    }
-
-    $.confirm({
-        title: 'Bestätigung',
-        content: text,
-        theme: 'material',
-        buttons: {
-            confirm: {
-                text: 'OK', // text for button
-                btnClass: 'btn-outline-danger btn', // class for the button
-                action: function () {
-                    window.location.href = url;
-                },
-
-
-            },
-            cancel: {
-                text: 'Abbrechen', // text for button
-                btnClass: 'btn-outline-primary btn', // class for the button
-            },
-        }
-    });
-
-})
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
-    console.log('1.5');
     var url = $(this).attr('href');
+    if ($('#loadContentModal ').hasClass('show')) {
+        $('#loadContentModal').modal('hide');
+    }
     $('#loadContentModal').load(url, function (data, status) {
         if (status === "error") {
             window.location.reload();
         } else {
-            $('#loadContentModal ').modal('show');
-        }
 
+            $('#loadContentModal').modal('show');
+        }
     });
 });
 
@@ -167,6 +144,9 @@ function initServerFeatures() {
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
     $('[data-toggle="popover"]').popover({html: true});
+
+    $('[data-toggle="tooltip"]').tooltip()
+
     initdateTimePicker('.flatpickr');
 
     $('form').submit(function (event) {
@@ -174,7 +154,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
     });
-    $("#newRoom_form").submit(function(e) {
+    $("#newRoom_form").submit(function (e) {
 
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
@@ -185,21 +165,20 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             type: "POST",
             url: url,
             data: form.serialize(), // serializes the form's elements.
-            success: function(data)
-            {
+            success: function (data) {
                 var $res = data;
-                if($res['error'] === false){
-                    if(typeof $res['cookie'] !== 'undefined' ){
+                if ($res['error'] === false) {
+                    if (typeof $res['cookie'] !== 'undefined') {
                         for (const [key, value] of Object.entries($res['cookie'])) {
-                            console.log(key, value);
-                            setCookie(key,value,1000);
+
+                            setCookie(key, value, 1000);
                         }
                     }
                     window.location.href = $res['redirectUrl'];
-                }else {
+                } else {
                     $('.formError').remove();
-                    for (var i = 0; i<$res['messages'].length; i++){
-                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">'+$res['messages'][i]+'  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                    for (var i = 0; i < $res['messages'].length; i++) {
+                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">' + $res['messages'][i] + '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
                             '    <span aria-hidden="true">&times;</span>\n' +
                             '  </button>' +
                             '</div>')
@@ -250,20 +229,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             }
         })
     }
-    if (typeof $('#room_totalOpenRooms') !== 'undefined') {
-        if ($('#room_totalOpenRooms').prop('checked') && $('#room_persistantRoom').prop('checked')) {
-            $('#totalOpenRoomsOpenTime').collapse('show');
-        } else {
-            $('#totalOpenRoomsOpenTime').collapse('hide');
-        }
-        $('#room_totalOpenRooms').change(function () {
-            if ($('#room_totalOpenRooms').prop('checked') && $('#room_persistantRoom').prop('checked')) {
-                $('#totalOpenRoomsOpenTime').collapse('show');
-            } else {
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
-        })
-    }
+
     if (typeof $('#room_public') !== 'undefined') {
         if ($('#room_public').prop('checked')) {
             $('#maxParticipants').collapse('show')
@@ -293,90 +259,14 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
         });
     }
 });
-$(document).on('click', '.directSend', function (e) {
-    var $url = $(this).prop('href');
-    var $targetUrl = $(this).data('url');
-    var target = $(this).data('target');
-
-    e.preventDefault();
-    $.get($url, function () {
-        $(target).closest('div').load($targetUrl + ' ' + target);
-    })
-});
-$(document).on('click', '.directSendWithConfirm', function (e) {
-    e.preventDefault();
-    var $url = $(this).prop('href');
-    var $targetUrl = $(this).data('url');
-    var target = $(this).data('target');
-
-    var text = $(this).data('text');
-    if (typeof text === 'undefined') {
-        text = 'Wollen Sie die Aktion durchführen?'
-    }
-
-    $.confirm({
-        title: 'Bestätigung',
-        content: text,
-        theme: 'material',
-        buttons: {
-            confirm: {
-                text: 'OK', // text for button
-                btnClass: 'btn-outline-danger btn', // class for the button
-                action: function () {
-                    $.get($url, function () {
-                        $(target).closest('div').load($targetUrl + ' ' + target, function () {
-                            initSearchUser();
-                        });
-
-                    })
-                },
-
-
-            },
-            cancel: {
-                text: 'Abbrechen', // text for button
-                btnClass: 'btn-outline-primary btn', // class for the button
-            },
-        }
-    });
-
-});
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });
 $('#ex1-tab-3-tab').on('shown.bs.tab', function (e) {
-    renderCalendar();
+
 })
 
-function renderCalendar() {
 
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin, bootstrapPlugin, momentPlugin, listPlugin],
-        themeSystem: 'bootstrap',
-        events: '/api/v1/getAllEntries',
-        lang: 'de',
-        timeFormat: 'H(:mm)',
-        displayEventEnd: true,
-
-    });
-    calendar.render();
-
-}
-
-function initDropDown() {
-    $('.dropdownTabToggle').click(function (e) {
-        e.preventDefault();
-        var $ele = $(this);
-        var $target = $ele.attr('href');
-        $($target).tab('show');
-        $ele.closest('.tabDropdown').find('button').text($ele.text());
-        $ele.closest('.dropdown-menu').find('.active').removeClass('active');
-        $ele.addClass('active');
-    })
-
-
-}
 
 function getMoreFeature(id) {
     if (typeof id !== 'undefined') {
@@ -405,6 +295,16 @@ function initCopytoClipboard() {
     var clipboard = new ClipboardJS('.copyLink');
 }
 
+$(document).on('click','.testVideo', function (e) {
+    e.preventDefault();
+    var $url = $(this).attr('href');
+    $url += '?url='+$('#server_url').val();
+    $url += '&cors='+$('#server_corsHeader').prop('checked');
+    console.log($url);
+    window.open($url, '_blank').focus();
+})
+
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -431,3 +331,9 @@ function initRepeater() {
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
 }
+
+$('.sidebarToggle').click(function () {
+    $('#sidebar').toggleClass('showSidebar');
+    $('#main').toggleClass('d-none');
+
+})

@@ -47,7 +47,7 @@ class Server
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="serverAdmins")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $administrator;
 
@@ -155,6 +155,11 @@ class Server
      * @ORM\Column(type="text")
      */
     private $serverName;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $corsHeader;
 
 
     public function __construct()
@@ -554,9 +559,21 @@ class Server
         return $this->serverName;
     }
 
-    public function setServerName(string $serverName): self
+    public function setServerName(?string $serverName): self
     {
         $this->serverName = $serverName;
+
+        return $this;
+    }
+
+    public function getCorsHeader(): ?bool
+    {
+        return $this->corsHeader;
+    }
+
+    public function setCorsHeader(?bool $corsHeader): self
+    {
+        $this->corsHeader = $corsHeader;
 
         return $this;
     }

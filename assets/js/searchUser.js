@@ -4,9 +4,7 @@ import autosize from "autosize";
 
 function initSearchUser() {
     if ($('#searchUser') !== null) {
-        console.log('1.6');
         $('#selectAtendeeArea').attr("tabindex",-1).focusin(function () {
-            console.log('1.2');
             $(this).find('.dropdown-menu').dropdown('show');
         })
         $('#selectAtendeeArea').focusout(function (e) {
@@ -25,7 +23,7 @@ function initSearchUser() {
                     $target.empty();
                     var $email = data.user;
                     if ($email.length > 0) {
-                        $target.append('<h5>Email</h5>');
+                        $target.append('<h5>E-Mail</h5>');
                     }
                     for (var i = 0; i < $email.length; i++) {
                         $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $email[i].id + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i><span>' + $email[i].name + '</span> </a>');
@@ -41,7 +39,6 @@ function initSearchUser() {
 
                     $('.chooseParticipant').mousedown(function (e) {
                         e.preventDefault();
-                        console.log('participant');
                         var $textarea = $('#new_member_member');
                         var data = $textarea.val();
                         $textarea.val('').val($(this).data('val') + "\n" + data);
@@ -54,7 +51,6 @@ function initSearchUser() {
                     $('.chooseModerator').mousedown(function (e) {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log('moderator');
                         $('#moderatorCollapse').collapse('show');
                         var $textarea = $('#new_member_moderator');
                         var data = $textarea.val();

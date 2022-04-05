@@ -26,8 +26,9 @@ class JoinService
     private $roomService;
     private $response;
     private $security;
+    private $startService;
 
-    public function __construct(Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(StartMeetingService $startMeetingService, Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
@@ -36,76 +37,64 @@ class JoinService
         $this->roomService = $roomService;
         $this->response = $response;
         $this->security = $security;
+        $this->startService = $startMeetingService;
     }
 
-    public function join(FormInterface $form, ?Rooms $room, ?User $aktUser, &$snack, &$color)
+    public function join($search, &$snack, &$color, $appAllowed, $appKlicked, $browerAllowed, $browserKlicked)
     {
-        $errors = array();
+        $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
+        if ($room && in_array($user,$room->getUser()->toArray())) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $search = $form->getData();
-            $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
+            if ($appAllowed && $appKlicked) {
+                $type = 'a';
+            } elseif ($browerAllowed && $browserKlicked) {
+                $type = 'b';
+            }
+            $start = null;
+            $now =  new \DateTime('now', new \DateTimeZone('utc'));
+            $endDate = null;
+            if(!$room->getPersistantRoom()){
 
-            if ($room) {
-                $timezone = null;
-                if ($this->security->getUser()) {
-                    $timezone = TimeZoneService::getTimeZone($this->security->getUser());
+                $start = (clone $room->getStartUtc())->modify('-30min');
+                $endDate = clone $room->getEndDateUtc();
+
+                $startPrint = $room->getTimeZone()?clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+                $startPrint->modify('-30min');
+                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+
+            }
+
+            if (
+                ($start && $start < $now && $endDate > $now)
+                || $user === $room->getModerator()
+                || $room->getPersistantRoom()
+                || $user->getKeycloakId()
+            ) {
+                if($user->getKeycloakId()){
+                    return new RedirectResponse($this->urlGenerator->generate('room_join',array('room'=>$room->getId(),'t'=>$type)));
+                }else{
+                    return $this->startService->startMeeting($room, $user, $type,$search['name']);
                 }
 
-                $now = new \DateTime('now', $timezone);
+            } else {
+                try {
+                    $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+                        array(
+                            '{from}' => $startPrint->format('d.m.Y H:i T'),
+                            '{to}' => $endPrint->format('d.m.Y H:i T')
+                        )
+                    );
+                    $color = 'danger';
+                } catch (\Exception $exception) {
 
-                $start = null;
-                if ($room->getStart()) {
-                    $start = (clone $room->getStartwithTimeZone($this->security->getUser()))->modify('-30min');
-                }
-                $endDate = null;
-                if ($room->getEnddate()) {
-                    $endDate = $room->getEndwithTimeZone($this->security->getUser());
-                }
-
-
-                if (
-                    ($start && $start < $now && $endDate > $now)
-                    || $user === $room->getModerator()
-                    || ($room->getPersistantRoom())
-                ) {
-
-
-                    if ($form->has('joinApp') && $form->get('joinApp')->isClicked()) {
-                        $type = 'a';
-                    } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {
-                        $type = 'b';
-                    }
-
-                    if (
-                        count($errors) == 0
-                        && $room
-                        && $user
-                        && (in_array($user, $room->getUser()->toarray()) || $room->getTotalOpenRooms())
-                    ) {
-                        return $this->generateResponseCommonRoom($type, $search['name'], $room, $user);
-                    }
-                    if ($room->getTotalOpenRooms()) {
-                        return $this->generateResponseOpenRoom($type, $search['name'], $room);
-                    }
-
-                    $snack = $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben');
-                } else {
-                    try {
-                        $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                            array(
-                                '{from}' => $start->format('d.m.Y H:i'),
-                                '{to}' => $endDate->format('d.m.Y H:i')
-                            )
-                        );
-                        $color = 'danger';
-                    } catch (\Exception $exception) {
-
-                    }
                 }
             }
+        }else{
+            $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            $color = 'danger';
         }
+
         return null;
     }
 
@@ -151,8 +140,13 @@ class JoinService
         if ($this->onlyWithUserAccount($room) || $this->userAccountLogin($room, $user)) {
             return new RedirectResponse($this->urlGenerator->generate('room_join', ['room' => $room->getId(), 't' => $type]));
         }
-        $url = $this->roomService->join($room, $user, $type, $name);
-        $res = new RedirectResponse($url);
+        if ($room->getLobby()) {
+            $res = new RedirectResponse($this->urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'type' => $type, 'userUid' => $user->getUid()]));
+        } else {
+            $url = $this->roomService->join($room, $user, $type, $name);
+            $res = new RedirectResponse($url);
+        }
+
         $res->headers->setCookie(new Cookie('name', $name, (new \DateTime())->modify('+365 days')));
         return $res;
     }

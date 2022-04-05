@@ -15,6 +15,7 @@ use App\Service\LicenseService;
 use App\Service\MailerService;
 use App\Service\ServerService;
 use App\Service\ServerUserManagment;
+use App\Service\UserCreatorService;
 use App\Service\UserService;
 use App\Service\InviteService;
 use App\Service\NotificationService;
@@ -123,7 +124,7 @@ class ServersController extends AbstractController
     /**
      * @Route("/server/add-user", name="server_add_user")
      */
-    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator)
+    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator,UserCreatorService $userCreatorService)
     {
         $newMember = array();
         $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -144,7 +145,7 @@ class ServersController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 foreach ($lines as $line) {
                     $newMember = trim($line);
-                    $user = $inviteService->newUser($newMember);
+                    $user = $userCreatorService->createUser($newMember, $newMember, '','');
                     $user->addServer($server);
                     $em->persist($user);
                     $serverService->addPermission($server, $user);

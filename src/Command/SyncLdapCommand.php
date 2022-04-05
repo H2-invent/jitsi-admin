@@ -40,7 +40,8 @@ class SyncLdapCommand extends Command
     private $BINDTYPE;
     private $LDAPSERVERID;
     private $LDAP_SPECIALFIELD;
-    public function __construct(LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, LdapService $ldapService, string $name = null)
+    private $LDAPFILTER;
+    public function __construct(LdapUserService $ldapUserService,  ParameterBagInterface $parameterBag, LdapService $ldapService, string $name = null)
     {
         parent::__construct($name);
         $this->paramterBag = $parameterBag;
@@ -57,6 +58,7 @@ class SyncLdapCommand extends Command
         $this->RDN = explode(',', $this->paramterBag->get('ldap_rdn_ldap_attribute'));
         $this->BINDTYPE = explode(',', $this->paramterBag->get('ldap_bind_type'));
         $this->LDAPSERVERID = explode(',', $parameterBag->get('ldap_server_individualName'));
+        $this->LDAPFILTER = explode(';', $parameterBag->get('ldap_filter'));
 
         $tmp = explode(';', $this->paramterBag->get('ldap_attribute_mapper'));
         foreach ($tmp as $data) {
@@ -96,6 +98,7 @@ class SyncLdapCommand extends Command
                 $ldap->setObjectClass($this->OBJECTCLASSES[$count]);
                 $ldap->setUserDn($this->USERDN[$count]);
                 $ldap->setSpecialFields($this->LDAP_SPECIALFIELD[$count]);
+                $ldap->setFilter($this->LDAPFILTER[$count]);
                 $io->info('Try to connect to: ' . $data);
                 try {
                     $ldap->createLDAP();
@@ -145,9 +148,6 @@ class SyncLdapCommand extends Command
                 $table->render();
             }
 
-        }
-        if ($this->paramterBag->get('ldap_connect_all_user_addressbook') == 1) {
-            $this->ldapUserService->connectUserwithAllUSersInAdressbock();
         }
 
         $io->info('We found # users: ' . $numberUsers);

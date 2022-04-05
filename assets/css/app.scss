@@ -9,12 +9,11 @@
 @import '~@fullcalendar/common/main.css';
 @import '~@fullcalendar/daygrid/main.css';
 @import "~toastr/toastr";
-
+@import "~node-waves/src/scss/waves";
 @import "./helper/variables";
 @import "./layout/fonts";
 
 @import "./layout/main";
 @import "./layout/header";
 @import "./layout/navbar";
-@import "./layout/join";
 @import "~@holema/h2datetimepicker/css/dateTimePicker.css";

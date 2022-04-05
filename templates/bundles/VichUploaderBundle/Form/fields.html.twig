@@ -1,0 +1,53 @@
+{% block vich_file_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock %}
+
+{% block vich_file_widget %}
+   {% apply spaceless %}
+        <div class="vich-file">
+            {{ form_widget(form.file) }}
+            {% if form.delete is defined %}
+                {{ form_row(form.delete) }}
+            {% endif %}
+
+            {% if download_uri %}
+                <a href="{{ download_uri }}">{{'Download'|trans}}</a>
+            {% endif %}
+        </div>
+   {% endapply %}
+
+{% endblock %}
+
+{% block vich_image_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock %}
+
+{% block vich_image_widget %}
+   {% apply spaceless %}
+        <div class="vich-image">
+
+                    {% if image_uri %}
+                        <div class="vichImageWrapper">
+                            <img class="z-depth-1" style="width: 100%;" src="{{ image_uri }}" alt=""/>
+                        </div>
+                    {% endif %}
+                    {% if download_uri %}
+                        <div class="text-center">
+                            <a class="btn btn-sm btn-success" download href="{{ download_uri }}">{{'Download'|trans}}</a>
+                            {% if form.delete is defined %}
+                                    {{ form_widget(form.delete) }}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+            {{ form_widget(form.file) }}
+        </div>
+   {% endapply %}
+
+{% endblock %}
+
+{% block vich_file_label %}
+    {% set label = label|trans|default(label) %}
+    {{- block('form_label') }}
+{% endblock %}

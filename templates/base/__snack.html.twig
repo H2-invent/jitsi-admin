@@ -1,8 +1,10 @@
-{% if app.request.query.get('snack') %}
-    {% set snack = app.request.query.get('snack') %}
+{% if app.request is defined and app.request is not null %}
+    {% if app.request.query.get('snack') %}
+        {% set snack = app.request.query.get('snack') %}
+    {% endif %}
 {% endif %}
 
-{% if snack is defined and snack is not null  %}
+{% if snack is defined and snack is not null %}
     {% if app.request.query.get('color') %}
         {% set color = app.request.query.get('color') %}
 

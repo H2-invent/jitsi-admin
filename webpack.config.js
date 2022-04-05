@@ -21,10 +21,19 @@ Encore
     .disableSingleRuntimeChunk()
     .addEntry('app', './assets/js/app.js')
     .addEntry('join', './assets/js/join.js')
+    .addEntry('joinBlack', './assets/js/joinBlack.js')
     .addEntry('black', './assets/js/black.js')
     .addEntry('frontend', './assets/js/frontend.js')
     .addEntry('startpage', './assets/js/startpage.js')
-
+    .addEntry('lobbyModerator', './assets/js/lobbyModerator.js')
+    .addEntry('lobbyParticipant', './assets/js/lobbyParticipant.js')
+    .addLoader({
+        test: /\.mp3$/,
+        loader: 'file-loader',
+        query: {
+            name: 'static/media/[name].[hash:8].[ext]'
+        }
+    })
     // empty the outputPath dir before each build
     .cleanupOutputBeforeBuild()
 

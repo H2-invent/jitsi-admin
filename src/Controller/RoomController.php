@@ -10,8 +10,11 @@ use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
 use App\Service\PermissionChangeService;
+use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
+use App\Service\RoomCheckService;
+use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
 use App\Service\ServerService;
 use App\Service\ServerUserManagment;
@@ -29,6 +32,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomController extends AbstractController
@@ -43,7 +47,7 @@ class RoomController extends AbstractController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(ParameterBagInterface $parameterBag, ThemeService $themeService, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment)
+    public function newRoom(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, RoomCheckService $roomCheckService)
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
@@ -66,44 +70,18 @@ class RoomController extends AbstractController
             }
 
         } else {
-            $room = new Rooms();
+            $serverChhose = null;
             if ($request->cookies->has('room_server')) {
-
                 $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
-
                 if ($server && in_array($server, $servers)) {
-                    $room->setServer($server);
+                    $serverChhose = $server;
                 }
             }
-            $room->addUser($this->getUser());
-            $room->setDuration(60);
-            $room->setUid(rand(01, 99) . time());
-            $room->setModerator($this->getUser());
-            $room->setSequence(0);
-            $room->setUidReal(md5(uniqid('h2-invent', true)));
-            $room->setUidModerator(md5(uniqid('h2-invent', true)));
-            $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            // here we set the default values
-            $room->setPersistantRoom($parameterBag->get('input_settings_persistant_rooms_default'));
-            $room->setOnlyRegisteredUsers($parameterBag->get('input_settings_only_registered_default'));
-            $room->setPublic($parameterBag->get('input_settings_share_link_default'));
-            if ($parameterBag->get('input_settings_max_participants_default') > 0) {
-                $room->setMaxParticipants($parameterBag->get('input_settings_max_participants_default'));
+            if (sizeof($servers) === 1) {
+
+                $serverChhose = $servers[0];
             }
-            $room->setWaitinglist($parameterBag->get('input_settings_waitinglist_default'));
-            $room->setShowRoomOnJoinpage($parameterBag->get('input_settings_conference_join_page_default'));
-            $room->setTotalOpenRooms($parameterBag->get('input_settings_deactivate_participantsList_default'));
-            $room->setDissallowScreenshareGlobal($parameterBag->get('input_settings_dissallow_screenshare_default'));
-
-
-            //end default values
-
-            if ($this->getUser()->getTimeZone() && $parameterBag->get('allowTimeZoneSwitch') == 1) {
-                $room->setTimeZone($this->getUser()->getTimeZone());
-                if ($parameterBag->get('input_settings_allow_timezone_default') != 0) {
-                    $room->setTimeZone($parameterBag->get('input_settings_allow_timezone_default'));
-                }
-            }
+            $room = $roomGeneratorService->createRoom($this->getUser(),$serverChhose);
             $snack = $translator->trans('Konferenz erfolgreich erstellt');
             $title = $translator->trans('Neue Konferenz erstellen');
         }
@@ -118,24 +96,11 @@ class RoomController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $room = $form->getData();
-
-                $now = new \DateTime();
                 $error = array();
-                if (!$room->getStart() && !$room->getPersistantRoom()) {
-                    $error[] = $translator->trans('Fehler, das Startdatum darf nicht leer sein');
-                }
-                if (!$room->getName()) {
-                    $error[] = $translator->trans('Fehler, der Name darf nicht leer sein');
-                }
-                if($room->getStart()){
-                    if (($room->getStart() < $now && $room->getEnddate() < $now) && !$room->getPersistantRoom()) {
-                        $error[] = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
-                    }
-                }
+                $room = $roomCheckService->checkRoom($room, $error);
                 if (sizeof($error) > 0) {
                     return new JsonResponse(array('error' => true, 'messages' => $error));
                 }
-                $room = $this->setRoomProps($room);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($room);
                 $em->flush();
@@ -155,16 +120,16 @@ class RoomController extends AbstractController
                 }
                 $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
 
-                return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
+                return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
 
-            return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
+            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'form' => $form->createView(), 'title' => $title));
     }
 
 
@@ -172,32 +137,23 @@ class RoomController extends AbstractController
      * @Route("/room/remove", name="room_remove")
      */
     public
-    function roomRemove(Request $request, UserService $userService, RepeaterService $repeaterService, TranslatorInterface $translator)
+    function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $snack = 'Keine Berechtigung';
         if ($this->getUser() === $room->getModerator()) {
-            $em = $this->getDoctrine()->getManager();
-            foreach ($room->getUser() as $user) {
-                if (!$room->getRepeater()) {
-                    $userService->removeRoom($user, $room);
-                }
-                $room->removeUser($user);
-                $em->persist($room);
-            }
             if ($room->getRepeater()) {
                 $repeater = $room->getRepeater();
-                $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+                $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                 $room->setRepeater(null);
             }
-            foreach ($room->getFavoriteUsers() as $data){
-                $room->removeFavoriteUser($data);
+            if ( $removeRoomService->deleteRoom($room)){
+                $snack = $this->translator->trans('Konferenz gelöscht');
+            }else{
+                $snack = $this->translator->trans('Fehler, Bitte Laden Sie die Seite neu');
             }
-            $room->setModerator(null);
-            $em->persist($room);
-            $em->flush();
-            $snack = $this->translator->trans('Konferenz gelöscht');
+
         }
         return $this->redirectToRoute('dashboard', ['snack' => $snack]);
     }
@@ -206,7 +162,7 @@ class RoomController extends AbstractController
      * @Route("/room/clone", name="room_clone")
      */
     public
-    function roomClone(Request $request, ServerService $serverService, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
+    function roomClone(RoomCheckService $roomCheckService, Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
     {
 
         $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
@@ -230,7 +186,6 @@ class RoomController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();
-
                 foreach ($roomOld->getUserAttributes() as $data) {
                     $tmp = clone $data;
                     $room->addUserAttribute($tmp);
@@ -240,50 +195,32 @@ class RoomController extends AbstractController
                 $room->setUidParticipant(md5(uniqid()));
                 $room->setSequence(0);
                 $room->setUid(rand(0, 99) . time());
-                $this->setRoomProps($room);
                 $em = $this->getDoctrine()->getManager();
+                $error = array();
+                $room = $roomCheckService->checkRoom($room, $error);
+                if (sizeof($error) > 0) {
+                    return new JsonResponse(array('error' => true, 'messages' => $error));
+                }
+
                 $em->persist($room);
                 $em->flush();
 
                 $schedulingService->createScheduling($room);
                 foreach ($roomOld->getUser() as $user) {
-
                     $userService->addUser($user, $room);
                 }
                 $snack = $translator->trans('Teilnehmer bearbeitet');
-                return $this->redirectToRoute('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+                $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())))]);
+                return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
+
             }
             return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
         }
 
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+        $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+        $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
+        return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
     }
 
-    function setRoomProps(Rooms $room)
-    {
-        if ($room->getPersistantRoom()) {
-            $counter = 0;
-            $slug = UtilsHelper::slugify($room->getName());
-            $tmp = $slug . '-' . rand(10, 1000);
-            if (!$room->getSlug()) {
-                while (true) {
-                    $roomTmp = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $tmp]);
-                    if (!$roomTmp) {
-                        $room->setUid($tmp);
-                        $room->setSlug($tmp);
-                        break;
-                    } else {
-                        $counter++;
-                        $tmp = $slug . '-' . rand(10, 1000);
-                    }
-                }
-            }
-            $room->setStart(null);
-            $room->setEnddate(null);
 
-        } else {
-            $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
-        }
-        return $room;
-    }
 }

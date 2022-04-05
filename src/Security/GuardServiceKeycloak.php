@@ -7,11 +7,14 @@ namespace App\Security;
 use App\Entity\FosUser;
 use App\Entity\MyUser;
 use App\Entity\User;
+use App\Service\IndexUserService;
+use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,14 +35,19 @@ class GuardServiceKeycloak extends SocialAuthenticator
     private $tokenStorage;
     private $userManager;
     private $paramterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    private $userCreatorService;
+    private $indexer;
+    private $logger;
+    public function __construct(LoggerInterface $logger, IndexUserService $indexUserService, UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->router = $router;
         $this->tokenStorage = $tokenStorage;
         $this->paramterBag = $parameterBag;
+        $this->userCreatorService = $userCreatorService;
+        $this->indexer = $indexUserService;
+        $this->logger = $logger;
     }
 
     public function supports(Request $request)
@@ -58,7 +66,6 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
         /** @var KeycloakUser $keycloakUser */
         $keycloakUser = $this->getauth0Client()->fetchUserFromToken($credentials);
-
         try {
             //When the keycloak USer delivers a
             $email = $keycloakUser->getEmail();
@@ -71,9 +78,13 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
         }
         $id = $keycloakUser->getId();
+        $this->logger->debug($id);
         $firstName = $keycloakUser->toArray()['given_name'];
+        $this->logger->debug($firstName);
         $lastName = $keycloakUser->toArray()['family_name'];
+        $this->logger->debug($lastName);
         $username = isset($keycloakUser->toArray()['preferred_username']) ? $keycloakUser->toArray()['preferred_username'] : null;
+        $this->logger->debug($username);
         $groups = null;
         if (isset($keycloakUser->toArray()['groups'])) {
             $groups = $keycloakUser->toArray()['groups'];
@@ -81,12 +92,16 @@ class GuardServiceKeycloak extends SocialAuthenticator
         // 1) have they logged in with keycloak before then login the user
         $existingUser = $this->em->getRepository(User::class)->findOneBy(array('keycloakId' => $id));
         if ($existingUser) {
+            if (!$username) {
+                $username = $email;
+            }
             $existingUser->setLastLogin(new \DateTime());
             $existingUser->setEmail($email);
             $existingUser->setFirstName($firstName);
             $existingUser->setLastName($lastName);
             $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
+            $existingUser->setIndexer($this->indexer->indexUser($existingUser));
             $this->em->persist($existingUser);
             $this->em->flush();
             return $existingUser;
@@ -99,7 +114,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $username));
         }
         if ($existingUser) {
-            if (!$username){
+            if (!$username) {
                 $username = $email;
             }
             $existingUser->setKeycloakId($id);
@@ -110,6 +125,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             $existingUser->setUsername($username);
             $existingUser->setGroups($groups);
             $this->em->persist($existingUser);
+            $existingUser->setIndexer($this->indexer->indexUser($existingUser));
             $this->em->flush();
             return $existingUser;
         }
@@ -117,21 +133,15 @@ class GuardServiceKeycloak extends SocialAuthenticator
         // the user never logged in with this email adress neither keycloak
         if ($this->paramterBag->get('strict_allow_user_creation') == 1) {
             // if the creation of a user is allowed from the security policies
-
-            $newUser = new User();
-            if (!$username){
+            if (!$username) {
                 $username = $email;
             }
-            $newUser->setPassword('123')
-                ->setFirstName($firstName)
-                ->setLastName($lastName)
-                ->setUuid($email)
-                ->setEmail($email)
-                ->setCreatedAt(new \DateTime())
+            $newUser = $this->userCreatorService->createUser($email, $username, $firstName, $lastName);
+            $newUser
                 ->setLastLogin(new \DateTime())
                 ->setKeycloakId($id)
-                ->setUsername($username)
                 ->setGroups($groups);
+            $newUser->setIndexer($this->indexer->indexUser($newUser));
             $this->em->persist($newUser);
             $this->em->flush();
             return $newUser;

@@ -2,239 +2,196 @@
 <html>
 
 {% set theme =  getThemeProperties() %}
-{% include'base/__head.html.twig' with {'css':'app'}  %}
+{% set css = 'join'  %}
+{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+    {% set css = 'joinBlack'  %}
+{% endif %}
+{% include'base/__head.html.twig' with {'css': css} %}
 
 {% set image = pexelsImage() %}
-<body style="background-color: #C9C9C9">
-<div class="imageBackground"></div>
-{% block back %}{% endblock %}
-<div>
-    <div class="container mb-5">
-        <div class="pt-5">
+
+<body style="background-color: #C9C9C9"
+      class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+    blackMode{% endif %} joinPage">
+<style>
+    {% if server
+    is defined and
+    server is not null and
+    server|validateLicense and
+    server.showStaticBackgroundColor and
+    server.staticBackgroundColor is not null %}
+    .imageBackground {
+        background-color: {{ server.staticBackgroundColor }};
+    }
+
+    {% elseif image is not null %}
+    .imageBackground {
+        background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
+    }
+
+    {% endif %}
 
 
-            <style>
-                {% if server
-                is defined and
-                server is not null and
-                server|validateLicense and
-                server.showStaticBackgroundColor and
-                server.staticBackgroundColor is not null %}
-                .imageBackground {
-                    background-color: {{ server.staticBackgroundColor }};
-                    position: fixed;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    height: 100%;
-                    width: 100%;
-                    background-position: center;
-                }
-
-                {% elseif image is not null %}
-                .imageBackground {
-                    background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
-                    position: fixed;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    height: 100%;
-                    width: 100%;
-                    background-position: center;
-                }
-
-                {% endif %}
-                @supports (-webkit-appearance:none) {
-                    .frozenGlas {
-                        background-color: rgba(255, 255, 255, 0.8);
-                        backdrop-filter: blur(5px);
-                    }
-                }
-
-                @supports (-moz-appearance:none) {
-                    .frozenGlas {
-                        background-color: white;
-
-                    }
-                }
+</style>
 
 
-            </style>
-            <div class="row justify-content-center">
-                <div class="col-lg-10 ">
-                    <div class="card frozenGlas">
-                        <div class="glossy"></div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3 text-center text-md-left mb-2 mb-md-0"
-                                     style="display: flex; justify-content: center; align-items: center">
-                                    {% if server is defined and  server is not null and server|validateLicense %}
-                                        {% if server.logoUrl is not null %}
-                                            <img src="{{ server.logoUrl }}" style="width: 100%">
-                                        {% endif %}
-                                    {% else %}
-                                        <img src="{{ asset('logo.png') }}" style="width: 100%">
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6">
-                                    {% block header %}{% endblock %}
-
-                                </div>
-                            </div>
-
-                            <hr>
-
-                            <div class="row mb-5">
-
-
-                                {% block content %}{% endblock %}
-
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    {% if not server %}
-                                        <p>
-                                            {% trans %}Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.{% endtrans %}
-                                        </p>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="{{ path('index') }}"
-                               class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
-                            <a href="{{ path('dashboard') }}"
-                               class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
-                            <a href="{{ path('register_keycloak') }}"
-                               class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
-                            <a href="{{ helpUrlParticipants }}" target="_blank"
-                               class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
-                            {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
-
-                            {% elseif image is not null %}
-                                <br>
-                                <a href="{{ image['photographer_url'] }}" target="_blank" referrerpolicy="no-referrer"
-                                   rel="noreferrer noopener">
-                                    Image by {{ image['photographer'] }} </a>
-                                <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
-                                   rel="noreferrer noopener"> provided by <img height="30px"
-                                                                               src="{{ asset('images/pexels.png') }}"/>
-                                </a>
-
+<div id="mainContent" class="wrapper">
+    <div class="window" id="window">
+        <div class="navigation z-depth-1">
+            <a href="{{ path('index') }}">
+                <img class="d-none d-sm-block" src="
+                    {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo.png') }}
+                            {% else %}
+                                {{ theme.logo }}
                             {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% if server and server|roomsinFuture|length > 0 %}
-                    <div class="col-lg-10 mt-3">
-                        <div class="card frozenGlas">
-                            <div class="glossy"></div>
-                            <div class="card-body">
-                                <h3 class="h3-responsive text-center">{{ 'Öffentliche Konferenzen'|trans }}</h3>
-                                <div class="max-vh60">
-                                    <ul class="list-group">
 
-                                        {% for r in server|roomsinFuture %}
-                                            <li class="list-group-item d-flex align-items-center justify-content-between">
-                                                <b>{{ r.start|date('d.m.Y | H:i') }}</b>
-                                                <h5>{{ r.name }} <a tabindex="0" data-toggle="popover"
-                                                                    data-trigger="focus"
-                                                                    title="{{ 'Agenda'|trans }}"
-                                                                    data-content="{% if r.agenda is not null %}{{ r.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
-                                                                class="fa fa-info-circle"></i></a></h5>
+                        {% endif %}"
+                     alt="Logo"
+                     style="height: 50px; width: auto">
+                <img class="d-block d-sm-none" src="
+                        {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo_small.png') }}
+                            {% else %}
+                                {{ theme.logo }}
+                            {% endif %}
 
-                                                {% if r.public %}
-                                                    <a href="{{ path('public_subscribe_participant',{'uid':r.uidParticipant}) }}"
-                                                       class="btn btn-sm btn-outline-primary">{{ 'Anmelden'|trans }}</a>
-                                                {% endif %}
-                                            </li>
+                        {% endif %}
+                    "
+                     alt="Logo"
+                     style="height: 50px; width: auto">
 
-                                        {% endfor %}
+            </a>
+            {% if theme != false %}
+                <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
+                    {{ theme.headerLine }}
+                </p>
 
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-
-
-            {{ include('base/__snack.html.twig') }}
-
+            {% endif %}
+            {{ include('join/__navbar.html.twig') }}
 
         </div>
-        <div class="row justify-content-center ">
-            <div class="col-12">
-                <div class="card card-body mt-4 text-center">
-                    <div class="row">
-                        <div class="col-md-3 text-md-left">
 
-                            {% if server is defined and  server is not null and server|validateLicense %}
+        <div class="main" id="main">
+            <div class="imageBackground"></div>
+            <div class="mainContent">
 
-                            {% else %}
-                                <a href="https://jitsi-admin.de" target="_blank" class="small"><img
-                                            src="{{ asset('logo.png') }}" style="height: 50px"></a>
+                {% block container %}
+                <div class="container mb-5">
+                    {% endblock %}
+                    {% block body %}{% endblock %}
+                    <div class="row justify-content-center">
+                        {% block mainRow %}
+                        <div class="col-lg-10 ">
+                            {% endblock %}
+                            <div class="card frozenGlas">
+                                <div class="glossy"></div>
+                                <div class="card-body">
+                                    <div class="row ">
+
+                                        <div class="col-md-12 align-items-center d-flex">
+                                            <h3 class="h3-responsive text-center w-100"> {% block header %}{% endblock %}</h3>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mb-5">
+
+
+                                        {% block content %}{% endblock %}
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            {% if not server %}
+                                                <p>
+                                                    {% trans %}Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.{% endtrans %}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                                {{ include('join/__frozenGlasContent.html.twig') }}
+                            </div>
+                            {% if server and server|roomsinFuture|length > 0 %}
+                                {{ include('join/__publicRooms.html.twig') }}
+                            {% endif %}
+                            {% if theme == false or theme.joinPageFooter == true %}
+                                {{ include('join/__footer.html.twig') }}
                             {% endif %}
                         </div>
-                        <div class="col-md-6">
-                            {% if theme %}
-                                {% if theme.footerGdprEnable == true %}
-                                    <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                                       href="{{ dataPrivacy }}" class="small">{{ theme.footerGdprText }}</a>
-                                {% endif %}
-                            {% else %}
-                                <a href="{{ dataPrivacy }}" target="_blank"
-                                   class="small">{{ 'Datenschutzhinweis'|trans }}</a><br>
-                            {% endif %}
 
-
-                            <a href="https://jitsi-admin.de" target="_blank" class="small">Powered by Jitsi
-                                Admin</a><br>
-                            {% if matomo_enable == 'true' %}
-                                <a class="small" href="#" data-toggle="modal" data-target="#exampleModal">
-                                    Matomo Opt-out
-                                </a><br>
-                            {% endif %}
-                            {% if theme %}
-                                {% if theme.footerReportIssueEnable == true %}
-                                    <a href="{{ theme.footerContributionUrl }}"
-                                       referrerpolicy="no-referrer" target="_blank" class="small">{{ theme.footerContributionText }} •
-                                        {{ 'now'|date('Y') }}
-                                        • v{{ laf_version }}</a>
-                                {% endif %}
-                            {% else %}
-                                <a href="https://h2-invent.com" target="_blank" class="small">Made with ❤ by H2 invent •
-                                    2019-{{ 'now'|date('Y') }}
-                                    • v{{ laf_version }}</a>
-                            {% endif %}
-
-                        </div>
-                        <div class="col-md-2 text-md-center d-none d-sm-block">
-                            <a href="https://github.com/H2-invent/jitsi-admin/blob/master/LICENSE" target="_blank"
-                               referrerpolicy="no-referrer" rel="noopener"> <img src="{{ asset('images/agpl.png') }}"
-                                                                                 style="width: 100%"></a>
-                        </div>
-                        <div class="col-md-1 text-md-right d-none d-sm-block">
-                            <a href="https://opensource.org/" referrerpolicy="no-referrer" rel="noopener"><img
-                                        src="{{ asset('images/open-source-logo.png') }}" style="width: 100%"></a>
-                        </div>
                     </div>
                 </div>
+
+
             </div>
+
+        </div>
+        <div class="footer z-depth-1">
+            {{ include('base/__footer.html.twig') }}
         </div>
 
+        {% block back %}{% endblock %}
+
+
+        {{ include('base/__snack.html.twig') }}
     </div>
-
     {{ include('base/__matomoOptOut.html.twig') }}
 </div>
+<div class="modal fade" id="loadContentModal" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="loadContentModal"
+     aria-hidden="true">
+</div>
+<script>
+    var confirmTitle = "{{ 'confirm.title'|trans }}";
+    var confirmCancel = "{{ 'confirm.cancel'|trans }}";
+    var confirmOk = "{{ 'confirm.ok'|trans }}";
+    {% if app.user and app.user.profilePicture %}
+    var avatarUrl = '{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}';
+    {% endif %}
+    {% if app.request is not null and app.request.cookies.get('DARK_MODE') ==""  %}
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+        setCookie('DARK_MODE', {{ laf_darkmodeAsDefault }},700);
+        location.reload();
+    {% endif %}
+
+</script>
 {% block script %}
 {% endblock %}
 {% block webpack %}
     {{ encore_entry_script_tags('frontend') }}
 {% endblock %}
-
+{% block pageEnd %}{% endblock %}
 </body>
 
 </html>

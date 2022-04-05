@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrateServernameCommand extends Command
 {
     protected static $defaultName = 'app:migrate:servername';
-    protected static $defaultDescription = 'Add a short description for your command';
+    protected static $defaultDescription = 'This command adds the server url as server name. This only happens when the entry is empty or null';
     private $em;
     private $serverRename;
     public function __construct( EntityManagerInterface $entityManager, RenameServerService $renameServerService,$name = null)

@@ -13,6 +13,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
 use App\Service\FavoriteService;
+use App\Service\RoomService;
 use App\Service\ServerUserManagment;
 use Firebase\JWT\JWT;
 
@@ -105,6 +106,7 @@ class DashboardController extends AbstractController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
         $tomorrow = (clone $today)->modify('+1day');
+        $favorites = $this->getDoctrine()->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
         $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
@@ -114,7 +116,8 @@ class DashboardController extends AbstractController
             'snack' => $request->get('snack'),
             'servers'=>$servers,
             'today'=>$today,
-            'tomorrow'=>$tomorrow
+            'tomorrow'=>$tomorrow,
+            'favorite'=>$favorites
         ]);
 
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){

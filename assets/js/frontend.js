@@ -11,14 +11,22 @@ import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
 import {initSchedulePublic} from './scheduling'
+import {initGenerell} from './init';
+import {setSnackbar} from "./myToastr";
 $(document).ready(function () {
+    initGenerell();
     setTimeout(function () {
         $('#snackbar').addClass('show').click(function (e) {
             $('#snackbar').removeClass('show');
         })
     }, 500);
     initSchedulePublic()
+
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
+    $('[data-toggle="toastr"]').click(function (e) {
+        console.log($(this))
+        setSnackbar($(this).data('text'),$(this).data('type'))
+    });
 });

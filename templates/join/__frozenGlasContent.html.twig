@@ -1,0 +1,36 @@
+
+    <div class="card-footer text-center">
+        {% if theme == false or (theme is not null and theme.allowHomePage == true) %}
+            <a href="{{ path('index') }}"
+               class="btn btn-outline-danger btn-sm">{{ 'Startseite'|trans }}</a>
+        {% endif %}
+        {% if theme == false or (theme is not null and theme.allowDashboard == true) %}
+            <a href="{{ path('dashboard') }}"
+               class="btn btn-outline-elegant btn-sm">{{ 'Dashboard'|trans }}</a>
+        {% endif %}
+        {% if theme == false or (theme is not null and theme.allowRegister == true) %}
+            <a href="{{ path('register_keycloak') }}"
+               class="btn btn-outline-cyan btn-sm">{{ 'Registrieren'|trans }}</a>
+        {% endif %}
+        {% if theme == false or (theme is not null and theme.allowHelp == true) %}
+            <a href="{{ helpUrlParticipants }}" target="_blank"
+               class="btn btn-outline-amber btn-sm">{{ 'Hilfe'|trans }}</a>
+        {% endif %}
+        {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+
+        {% elseif image is not null %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="{{ image['photographer_url'] }}" target="_blank"
+                       referrerpolicy="no-referrer"
+                       rel="noreferrer noopener">
+                        Image by {{ image['photographer'] }} </a>
+                    <a href="https://www.pexels.com" target="_blank" referrerpolicy="no-referrer"
+                       rel="noreferrer noopener"> provided by <img height="30px"
+                                                                   src="{{ asset('images/pexels.png') }}"/>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+

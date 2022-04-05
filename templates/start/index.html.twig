@@ -1,20 +1,49 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ room.name }}</title>
+</head>
+<body style="margin: 0" >
 
-{% block title %}Hello StartController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div id="jitsiWrapper">
+    <div class="w-100" id="jitsiWindow">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/emanuel.holzmann/Documents/projekte/jitsi-admin/src/Controller/StartController.php'|file_link(0) }}">src/Controller/StartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/emanuel.holzmann/Documents/projekte/jitsi-admin/templates/start/index.html.twig'|file_link(0) }}">templates/start/index.html.twig</a></code></li>
-    </ul>
+    </div>
 </div>
-{% endblock %}
+</body>
+{% if name is defined and name is not null %}
+    <script>
+        if({{ room.server.corsHeader }}){
+            window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
+        }
+    </script>
+
+    <script src='https://{{ room.server.url }}/external_api.js'></script>
+    <script>
+        const domain = '{{ room.server.url }}';
+        const options = {
+            roomName: '{{ room.uid }}',
+            width: '100%',
+            height: 700,
+            parentNode: document.querySelector('#jitsiWindow'),
+            {% if room.server.appId is not null %}
+            jwt: '{{ jwtFromRoom(user,room,name) }}',
+        {% endif %}
+            userInfo: {
+                displayName: '{{ name }}'
+            }
+        };
+        var conferenzeName = '{{ room.name }}';
+        var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+
+        api = new JitsiMeetExternalAPI(domain, options);
+
+        var iframe = document.querySelector('#jitsiConferenceFrame0');
+        iframe.style.height = '100vh';
+    </script>
+
+{% endif %}
+
+</html>

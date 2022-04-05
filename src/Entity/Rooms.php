@@ -121,7 +121,7 @@ class Rooms
     private $uidModerator;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="room")
+     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="room", cascade={"persist", "remove"})
      */
     private $subscribers;
 
@@ -146,7 +146,7 @@ class Rooms
     private $waitinglist;
 
     /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room")
+     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room", cascade={"persist", "remove"})
      */
     private $waitinglists;
 
@@ -211,6 +211,16 @@ class Rooms
      */
     private $favoriteUsers;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $lobby;
+
+    /**
+     * @ORM\OneToMany(targetEntity=LobbyWaitungUser::class, mappedBy="room", orphanRemoval=true)
+     */
+    private $lobbyWaitungUsers;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -220,6 +230,7 @@ class Rooms
         $this->waitinglists = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
+        $this->lobbyWaitungUsers = new ArrayCollection();
     }
 
     /**
@@ -792,7 +803,7 @@ class Rooms
 
     public function getStartUtc(): ?\DateTimeInterface
     {
-        return $this->startUtc;
+        return new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 
     public function setStartUtc(?\DateTimeInterface $startUtc): self
@@ -804,7 +815,7 @@ class Rooms
 
     public function getEndDateUtc(): ?\DateTimeInterface
     {
-        return $this->endDateUtc;
+        return new \DateTime($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 
     public function setEndDateUtc(?\DateTimeInterface $endDateUtc): self
@@ -840,4 +851,47 @@ class Rooms
 
         return $this;
     }
+
+    public function getLobby(): ?bool
+    {
+        return $this->lobby;
+    }
+
+    public function setLobby(?bool $lobby): self
+    {
+        $this->lobby = $lobby;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LobbyWaitungUser[]
+     */
+    public function getLobbyWaitungUsers(): Collection
+    {
+        return $this->lobbyWaitungUsers;
+    }
+
+    public function addLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if (!$this->lobbyWaitungUsers->contains($lobbyWaitungUser)) {
+            $this->lobbyWaitungUsers[] = $lobbyWaitungUser;
+            $lobbyWaitungUser->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
+    {
+        if ($this->lobbyWaitungUsers->removeElement($lobbyWaitungUser)) {
+            // set the owning side to null (unless already changed)
+            if ($lobbyWaitungUser->getRoom() === $this) {
+                $lobbyWaitungUser->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

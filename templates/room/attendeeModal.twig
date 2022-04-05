@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-centered modal-xl">
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" id="atendeeModalScroll">
     <div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
@@ -11,20 +11,27 @@
             <p>{{ 'Teilnehmerliste'|trans }}</p>
             <p class="small">
                 <i class="fa fa-crown"></i> {{ 'Zum Moderator ernennen'|trans }}
-                <i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
+                {% if laf_show_resendInvitation == 1 %}
+                <br><i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
+                {% endif %}
                 {% if room.dissallowScreenshareGlobal %}
                     <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
                 {% endif %}
+                {% if room.lobby %}
+                    <br><i class="fas fa-couch"></i> {{ 'addParticipants.lobbyModerator.help'|trans }}
+                {% endif %}
             </p>
-            <div>
+            <div class="attendeeScroll">
                 <ul id="atendeeList">
-                    <li>{{ room.moderator|nameOfUser }} <span class="small">({{ 'Organisator'|trans }})</span></li>
+                    <li class="d-flex flex-column flex-lg-row align-items-lg-center">{{ room.moderator|nameOfUser }} <span class="small">&nbsp;({{ 'Organisator'|trans }})</span></li>
                     {% for user in room.user %}
                         {% if user != room.moderator %}
-                            <li>{{ user|nameOfUser }}
+                            <li class="d-flex flex-column flex-lg-row align-items-lg-center">
 
+                                <span>{{ user|nameOfUser }}</span>
 
-                                <a class="small directSend {% if roomPermissions(user,room).moderator == true %}text-success{% endif %}"
+                                <span>
+                                <a class="btn-sm btn-floating directSend {% if roomPermissions(user,room).moderator == true %}btn-success{% endif %}"
                                    href="{{ path('room_add_moderator',{'room':room.id,'user':user.id}) }}"
                                    data-text="
                                     {% if roomPermissions(user,room).moderator == false %}
@@ -35,11 +42,12 @@
 "
                                    data-target="#atendeeList"
                                    data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                   data-toggle="tooltip" data-boundary="viewport" title="{{ 'Zum Moderator ernennen'|trans }}"
                                 ><i class="fa fa-crown"></i></a>
 
 
                                 {% if room.dissallowScreenshareGlobal %}
-                                    <a class="small directSend {% if roomPermissions(user,room).shareDisplay == true %}text-success{% endif %}"
+                                    <a class="btn-sm btn-floating directSend {% if roomPermissions(user,room).shareDisplay == true %}btn-success{% endif %}"
                                        href="{{ path('change_permissions_screenShare',{'room':room.id,'user':user.id}) }}"
                                        data-text="
 {% if roomPermissions(user,room).shareDisplay == false %}{{ 'Diesem Nutzer erlauben seinen Bildschirm zu teilen'|trans }}
@@ -48,36 +56,60 @@
 {% endif %}
 "
                                        data-target="#atendeeList"
-                                       data-url="{{ path('room_add_user',{'room':room.id}) }}"><i
+
+                                       data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                       data-toggle="tooltip" data-boundary="viewport" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
+                                    ><i
                                                 class="fas fa-desktop"></i></a>
                                 {% endif %}
 
 
 
-                                {% if room.dissallowPrivateMessage %}
-                                    <a class="small directSend {% if roomPermissions(user,room).privateMessage == true %}text-success{% endif %}"
-                                       href="{{ path('change_permissions_privateMessage',{'room':room.id,'user':user.id}) }}"
-                                       data-text="
+                                    {% if room.dissallowPrivateMessage %}
+                                        <a class="btn-sm btn-floating directSend {% if roomPermissions(user,room).privateMessage == true %}btn-success{% endif %}"
+                                           href="{{ path('change_permissions_privateMessage',{'room':room.id,'user':user.id}) }}"
+                                           data-text="
 {% if roomPermissions(user,room).privateMessage == false %}{{ 'Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
 {% else %}
 {{ 'Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
 {% endif %}
 "
-                                       data-target="#atendeeList"
-                                       data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                    ><i class="far fa-comments"></i></a>
-                                {% endif %}
-                                <a class="small"
-                                   href="{{ path('room_user_resend',{'room':room.uidReal,'user':user.id}) }}">
+                                           data-boundary="viewport"
+                                           data-target="#atendeeList"
+                                           data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                        ><i class="far fa-comments"></i></a>
+                                    {% endif %}
+                                    {% if room.lobby %}
+                                        <a class="btn-sm btn-floating directSendWithConfirm {% if roomPermissions(user,room).lobbyModerator == true %}btn-success{% endif %}"
+                                           href="{{ path('room_add_lobby_moderator',{'room':room.id,'user':user.id}) }}"
+                                           data-text="
+{% if roomPermissions(user,room).lobbyModerator == false %}
+{{ 'addParticipants.lobbyModerator.add'|trans }}
+{% else %}
+{{ 'addParticipants.lobbyModerator.remove'|trans }}
+{% endif %}
+"
+
+                                           data-target="#atendeeList"
+                                           data-url="{{ path('room_add_user',{'room':room.id}) }}"
+                                           data-toggle="tooltip" data-boundary="viewport" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
+                                        > <i class="fas fa-couch"></i></a>
+                                    {% endif %}
+                                        {% if laf_show_resendInvitation == 1 %}
+                                      <a class="small"
+                                         href="{{ path('room_user_resend',{'room':room.uidReal,'user':user.id}) }}">
                                     <i class="fas fa-share-square"></i>
+                                          {% endif %}
                                 </a>
-                                <a class="small directSendWithConfirm"
+                                <a class="directSendWithConfirm"
                                    href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
                                    data-target="#atendeeList"
                                    data-text="{{ 'Wollen Sie den Teilnehmer wirklich löschen?'|trans }}"
                                    data-url="{{ path('room_add_user',{'room':room.id}) }}">
                                     <i class="fa fa-trash "></i>
                                 </a>
+
+                                </span>
                             </li>
                         {% endif %}
                     {% endfor %}

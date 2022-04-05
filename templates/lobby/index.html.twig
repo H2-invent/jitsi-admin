@@ -1,0 +1,174 @@
+{% extends 'join/base_fluid.html.twig' %}
+{% block header %}
+    {% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}
+{% endblock %}
+{% block content %}
+    <div class="col-12 lobbyCard">
+        <div id="jitsiWrapper">
+            <div class="w-100" id="jitsiWindow">
+
+            </div>
+            <div class="row lobbyWindow">
+                <div class="col-lg-3 col-md-6" id="colWebcam">
+                    <div class="card webcamArea">
+                        <video autoplay="true" id="lobbyWebcam"></video>
+                        <div class="webcamToolbar">
+                            <i class="fa fa-video" id="webcamSwitch"></i>
+                            {{ user.formatedName(laf_showNameInConference) }}
+                            {% if user == room.moderator %}
+                                <i class="fa fa-star"></i>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <a class="caretdown btn btn-primary dropdown-toggle" type="button"
+                       id="selectWebcamDropdown"
+                       data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
+                    </a>
+                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+                    </ul>
+
+
+                    <div class="btn-group">
+                        <a href="#" type="button" class="btn btn-primary" id="startEcho"
+                           data-texton="{{ 'lobby.start.echo'|trans }}"
+                           data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
+                        <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
+                           data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-microphone"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div id="audioInputSelect">
+                                <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-6" id="col-waitinglist">
+                    <div id="waitingUserWrapper">
+                        <div id="waitingUser" class="row w-100 mb-3">
+                            {% for wU in room.lobbyWaitungUsers %}
+                                <div class="col-lg-3 col-md-6 waitingUserCard mb-3">
+                                    <div class="card ">
+                                        <div class="card-body text-center d-flex flex-column align-items-center">
+                                            <div class="initialCircle ">
+                                                {% if wU.user is not null %}
+                                                    {% if wU.user.firstName != '' %}
+                                                        {{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}
+                                                    {% else %}
+                                                        {{ wU.user.username[:1] }}
+                                                    {% endif %}
+                                                {% else %}
+                                                    {{ wU.showName[:2] }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="participantsName">{{ wU.showName }}</div>
+
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a class="btn-floating senddirect btn-success"
+                                               href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
+                                                <i class="fas fa-user-check "></i>
+                                            </a>
+                                            <a class="btn-floating directSendWithConfirm btn-danger"
+                                               data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
+                                               href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
+                                                <i class="fas fa-user-times "></i>
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            {% endfor %}
+
+
+                        </div>
+
+                    </div>
+                    <div class="lobbyButtons">
+                        {% if type == 'a' %}
+                            <a class="btn btn-primary d-none d-lg-block "
+                            href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                            target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                        {% elseif type == 'b' %}
+                            {% if room.server.corsHeader %}
+                                <a class="btn btn-primary d-block d-lg-block"
+                                   href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                   target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                                {% else %}
+                                    <a class="btn btn-primary btn-rounded startIframe d-none d-lg-block "
+                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                       target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                                {% endif %}
+                        {% endif %}
+
+
+                        <a class="btn btn-primary d-block d-lg-none"
+                           href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                           target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+
+
+                        <a class="btn btn-success btn-rounded directSend"
+                           href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                        <a class="btn btn-danger btn-rounded d-none" id="closeSecure"
+                           href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+{% block script %}
+    {% if name is defined and name is not null %}
+        <script src='https://{{ room.server.url }}/external_api.js'></script>
+        <script>
+            const domain = '{{ room.server.url }}';
+            const options = {
+                roomName: '{{ room.uid }}',
+                width: '100%',
+                height: 700,
+                parentNode: document.querySelector('#jitsiWindow'),
+                {% if room.server.appId is not null %}
+                jwt: '{{ jwtFromRoom(user,room,name) }}',
+                {% endif %}
+                userInfo: {
+                    displayName: '{{ name }}',
+
+                }
+            };
+
+            var conferenzeName = '{{ room.name }}';
+
+            var topic =
+                    {% if app.user is defined and app.user is not null %}
+                    {{ mercure([
+                        'lobby_moderator/'~room.uidReal,
+                        'lobby_broadcast_websocket/'~ room.uidReal,
+                        'lobby_personal'~room.uidReal~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+                    {% else %}
+                    {{ mercure([
+                        'lobby_moderator/'~room.uidReal,
+                        'lobby_broadcast_websocket/'~ room.uidReal])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+
+                    {% endif %}
+            ;
+        </script>
+    {% endif %}
+{% endblock %}
+{% block webpack %}
+
+    {{ encore_entry_script_tags('lobbyModerator') }}
+{% endblock %}
