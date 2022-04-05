@@ -37,6 +37,9 @@ function initJitsi(options, domain) {
             endMeeting();
             $.getJSON(($(this).attr('href')));
         })
+        if(setTileview === 1){
+            api.executeCommand('setTileView', {enabled:true});
+        }
         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
 
     })

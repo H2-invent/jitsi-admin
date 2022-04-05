@@ -14,6 +14,7 @@
 </body>
 {% if name is defined and name is not null %}
     <script>
+
         if({{ room.server.corsHeader }}){
             window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
         }
@@ -21,6 +22,7 @@
 
     <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
+        var setTileview = {{ laf_set_tileview }};
         const domain = '{{ room.server.url }}';
         const options = {
             roomName: '{{ room.uid }}',
@@ -40,6 +42,12 @@
 
         api = new JitsiMeetExternalAPI(domain, options);
 
+        api.addListener('videoConferenceJoined', function (e) {
+            if(setTileview === 1){
+                console.log('1,45')
+                api.executeCommand('setTileView', {enabled:true});
+            }
+        })
         var iframe = document.querySelector('#jitsiConferenceFrame0');
         iframe.style.height = '100vh';
     </script>

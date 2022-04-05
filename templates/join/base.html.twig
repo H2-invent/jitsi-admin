@@ -155,6 +155,7 @@
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
+    var setTileview = {{ laf_set_tileview }};
     {% if app.user and app.user.profilePicture %}
     var avatarUrl = '{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}';
     {% endif %}

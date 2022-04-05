@@ -71,13 +71,18 @@ function initJitsiMeet(data) {
     stopWebcam();
     var options = data.options.options;
     options.device = choosenId;
-    options.parentNode = document.querySelector( data.options.parentNode);
+    options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
     api.addListener('readyToClose', function (e) {
         if (window.opener == null) {
-                window.location.href = '/';
+            window.location.href = '/';
         } else {
-                window.close();
+            window.close();
+        }
+    })
+    api.addListener('videoConferenceJoined', function (e) {
+        if(setTileview === 1){
+            api.executeCommand('setTileView', {enabled:true});
         }
     })
     $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
