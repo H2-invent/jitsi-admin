@@ -19,8 +19,7 @@ import {initGenerell} from './init';
 
 
 initNotofication();
-initAUdio();
-initWebcam();
+
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 const es = new EventSource(topic);
@@ -78,6 +77,8 @@ function initJitsiMeet(data) {
 }
 $(document).ready(function () {
     initGenerell()
+    initAUdio();
+    initWebcam();
 })
 
 

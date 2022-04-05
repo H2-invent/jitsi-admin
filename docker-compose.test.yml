@@ -4,58 +4,36 @@ services:
   traefik-ja:
     image: "traefik:v2.5"
     container_name: "traefik-ja"
+    hostname: keycloak.${PUBLIC_URL}
+
     command:
       #- "--log.level=DEBUG"
-      - "--api.insecure=false"
+      - "--api.insecure=true"
       - "--providers.docker=true"
-      #- "--api.dashboard=true"
-
       - "--providers.docker.exposedbydefault=false"
-
-      - "--entrypoints.unsecure.address=:80"
-      - "--entrypoints.web.address=:443"
-      # Global HTTP -> HTTPS
-      - "--entrypoints.unsecure.http.redirections.entryPoint.to=web"
-      - "--entrypoints.unsecure.http.redirections.entryPoint.scheme=https"
-      # SSL configuration
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=unsecure"
-      - "--certificatesresolvers.letsencrypt.acme.email=${registerEmailAdress}"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-
+      - "--entrypoints.web.address=:80"
+      - "--api.dashboard=true"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.http-catchall.entrypoints=unsecure"
-      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-
-      - "traefik.http.routers.traefik-ja.rule=Host(`traefik.${PUBLIC_URL}`)"
-      - "traefik.http.routers.traefik-ja.entrypoints=web"
-      - "traefik.http.routers.traefik-ja.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.traefik-ja.service=api@internal"
-      - "traefik.http.routers.traefik-ja.middlewares=traefik-auth"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
-
-
+      - "traefik.http.routers.api.entryPoints=traefik"
+      - "traefik.http.routers.api.rule=PathPrefix(`/api`) || PathPrefix(`/dashboard`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.middlewares=api-auth"
+      - "traefik.http.middlewares.api-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
 
     ports:
       - "80:80"
       - "443:443"
+      - "8181:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      -  ./data/letsencrypt:/letsencrypt
+      - ./tools/certs:/tools/certs
       - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
-  #Here is the mercure hub
   mercure-ja:
     image: dunglas/mercure
     restart: unless-stopped
-    depends_on:
-      - traefik-ja
-
     environment:
-
       MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
       MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
       SERVER_NAME: ':3000'
@@ -65,15 +43,11 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
       - "traefik.http.routers.mercure-ja.entrypoints=web"
-      - "traefik.http.routers.mercure-ja.tls=true"
       - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
-      - "traefik.http.routers.mercure-ja.tls.certresolver=letsencrypt"
 
     volumes:
       - caddy_data:/data
       - caddy_config:/config
-
-  #Here is the Jitsi-Admin app
   app-ja:
     build: .
     depends_on:
@@ -81,12 +55,15 @@ services:
       - keycloak-ja
       - mercure-ja
       - traefik-ja
+
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
       PHP_INI_MEMORY_LIMIT: "1G"
       PHP_EXTENSION_LDAP: 1
       PHP_EXTENSION_INTL: 1
+      APP_ENV: dev
+      APP_DEBUG: 1
       DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
@@ -106,11 +83,9 @@ services:
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app-ja.tls=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
       - "traefik.http.routers.app-ja.entrypoints=web"
       - "traefik.http.services.app-ja.loadbalancer.server.port=80"
-      - "traefik.http.routers.app-ja.tls.certresolver=letsencrypt"
 
 
   db-ja:
@@ -127,8 +102,6 @@ services:
 
     depends_on:
       - db-ja
-      - traefik-ja
-
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
@@ -142,12 +115,9 @@ services:
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak-ja.tls=true"
       - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
-      - "traefik.http.routers.keycloak-ja.tls.certresolver=letsencrypt"
-
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json
 
