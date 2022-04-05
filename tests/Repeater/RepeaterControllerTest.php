@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RepeaterControllerTest extends WebTestCase
 {
-    public function testSomething(): void
+    public function testRepeaterControllerCreateEditDelete(): void
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
@@ -77,6 +77,7 @@ class RepeaterControllerTest extends WebTestCase
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
         $form['repeater[repetation]'] = 3;
+        $form['repeater[repeaterDays]'] = 3;
         $client->submit($form);
         self::assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.&color=success'));
         $rooms = $roomRepo->findBy(array('name' => 'TestMeeting: 0'));
@@ -85,7 +86,7 @@ class RepeaterControllerTest extends WebTestCase
         foreach ($rooms as $data){
             if ($data->getRepeater()){
                 self::assertEquals($start, $data->getStart());
-                $start->modify('+1day');
+                $start->modify('+3days');
             }
             else{
                 self::assertEquals($data->getStart(),$data->getRepeaterProtoype()->getStartDate());

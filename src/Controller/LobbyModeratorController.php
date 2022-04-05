@@ -142,12 +142,17 @@ class LobbyModeratorController extends AbstractController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $em = $this->getDoctrine()->getManager();
-        if ($lobbyUser->getCallerSession()){
-            $session = $lobbyUser->getCallerSession();
-            $session->setLobbyWaitingUser(null);
-            $em->persist($session);
-            $em->flush();
+        try {
+            if ($lobbyUser->getCallerSession()){
+                $session = $lobbyUser->getCallerSession();
+                $session->setLobbyWaitingUser(null);
+                $em->persist($session);
+                $em->flush();
+            }
+        }catch (\Exception $exception){
+            $this->logger->error($exception->getMessage());
         }
+
         $em->remove($lobbyUser);
         $em->flush();
         $this->toParticipant->sendDecline($lobbyUser);

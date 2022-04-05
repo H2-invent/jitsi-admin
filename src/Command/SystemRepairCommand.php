@@ -58,16 +58,24 @@ class SystemRepairCommand extends Command
         }
         $this->em->flush();
         $user = $this->em->getRepository(User::class)->findAll();
-        foreach ($user as $data){
-
-
-        }
-//        $this->em->flush();
+        $count += $this->repairWaitungUser();
         $io->success(sprintf('We found %d coruppt datasets',$count));
 
         return Command::SUCCESS;
     }
 
-
-
+    private function repairWaitungUser(){
+        $waitingUser =$this->em->getRepository(LobbyWaitungUser::class)->findAll();
+        $count = 0;
+        foreach ($waitingUser as $data){
+            try {
+               $session = $data->getCallerSession();
+            }catch (\Exception $exception){
+                $this->em->remove($data);
+                $count++;
+            }
+        }
+        $this->em->flush();
+        return $count;
+    }
 }
