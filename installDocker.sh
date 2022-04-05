@@ -95,3 +95,9 @@ else
   docker-compose -f docker-compose.yml up -d
   docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 fi
+echo "Browse to $HTTP_METHOD:\/\/$PUBLIC_URL and visit your own jitsi-admin"
+echo "To change any keycloak setting browse to $HTTP_METHOD:\/\/keycloak.$PUBLIC_URL and there the username is:admin and the password $KEYCLOAK_ADMIN_PW"
+echo "Any settings and password can be found in the docker.conf file"
+echo "To find your loadbalancer go to $HTTP_METHOD:\/\/traefik.$PUBLIC_URL and enter the user:test and the password:test"
+echo "Have fun with your jitsi-admin and give us a star on github. https://github.com/H2-invent/jitsi-admin"
+echo "To get the latests new register on https://verteiler.h2-invent.com/?p=subscribe&id=1 and recieve any updates."
