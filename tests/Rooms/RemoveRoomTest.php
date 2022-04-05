@@ -2,6 +2,9 @@
 
 namespace App\Tests\Rooms;
 
+use App\Entity\CallerId;
+use App\Entity\CallerRoom;
+use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Repeat;
 use App\Entity\Subscriber;
@@ -34,9 +37,30 @@ class RemoveRoomTest extends KernelTestCase
         $lobbyWatingUSer->setCreatedAt(new \DateTime());
         $lobbyWatingUSer->setShowName('test');
         $lobbyWatingUSer->setUid('test');
+        $modSId = null;
+        foreach ($room->getUser() as $data) {
+            $callerID = new CallerId();
+            $callerID->setRoom($room);
+            $callerID->setCreatedAt(new \DateTime());
+            $callerID->setUser($data);
+            $callerID->setCallerId('test123');
+            if ($data == $room->getModerator()){
+                $modSId = $callerID;
+            }
+            $room->addCallerId($callerID);
+        }
+        $callerSession = new CallerSession();
+        $callerSession->setAuthOk(false);
+        $callerSession->setCallerId('1234');
+        $callerSession->setCaller($modSId);
+        $callerSession->setCreatedAt(new \DateTime());
+        $callerSession->setSessionId('test');
+        $callerSession->setShowName('test');
+        $callerSession->setLobbyWaitingUser($lobbyWatingUSer);
+        $lobbyWatingUSer->setCallerSession($callerSession);
         $em->persist($lobbyWatingUSer);
         $em->flush();
-
+        $room->addLobbyWaitungUser($lobbyWatingUSer);
         $sub = new Subscriber();
         $sub->setUser($user);
         $sub->setUid('kjdshfkhdsj');
@@ -73,7 +97,7 @@ class RemoveRoomTest extends KernelTestCase
         self::assertEquals(0, sizeof($room->getWaitinglists()));
         self::assertEquals(0, sizeof($room->getCallerIds()));
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
-        self::assertNull( $room->getCallerRoom()->getId());
+        self::assertNull($room->getCallerRoom()->getId());
     }
 
     public function testRemovefromRepeat(): void
