@@ -30,7 +30,7 @@ function initJitsi(options, domain) {
                  window.close();
              }, data.timeout)
          }
-     })
+     });
     api.addListener('videoConferenceJoined', function (e) {
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
@@ -40,9 +40,12 @@ function initJitsi(options, domain) {
         if(setTileview === 1){
             api.executeCommand('setTileView', {enabled:true});
         }
+        if(avatarUrl !== ''){
+            api.executeCommand('avatarUrl',avatarUrl);
+        }
         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
 
-    })
+    });
 
 }
 

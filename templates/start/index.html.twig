@@ -22,6 +22,7 @@
 
     <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
+        var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
         var setTileview = {{ laf_set_tileview }};
         const domain = '{{ room.server.url }}';
         const options = {
@@ -33,7 +34,10 @@
             jwt: '{{ jwtFromRoom(user,room,name) }}',
         {% endif %}
             userInfo: {
-                displayName: '{{ name }}'
+                displayName: '{{ name }}',
+                {% if user is not null and  user.profilePicture is not null %}
+                avatarUrl:'{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
+                {% endif %}
             }
         };
         var conferenzeName = '{{ room.name }}';
@@ -44,8 +48,10 @@
 
         api.addListener('videoConferenceJoined', function (e) {
             if(setTileview === 1){
-                console.log('1,45')
                 api.executeCommand('setTileView', {enabled:true});
+            }
+            if(avatarUrl !== ''){
+                api.executeCommand('avatarUrl',avatarUrl);
             }
         })
         var iframe = document.querySelector('#jitsiConferenceFrame0');

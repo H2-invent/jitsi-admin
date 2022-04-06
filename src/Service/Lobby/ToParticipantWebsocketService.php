@@ -68,18 +68,19 @@ class ToParticipantWebsocketService
                     'roomName' => $lobbyWaitungUser->getRoom()->getUid(),
                     'width' => '100%',
                     'height' => 400,
+                    'userInfo'=>array(
+                        'displayName'=>$lobbyWaitungUser->getShowName()),
                 ),
                 'roomName' => $lobbyWaitungUser->getRoom()->getName(),
                 'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
                 'parentNode' => '#jitsiWindow',
-                'userInfo'=>array(
-                    'displayName'=>$lobbyWaitungUser->getShowName()),
+
             );
             if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()){
-                $options['options']['jwt']= $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
+                $options['options']['options']['jwt']= $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
             }
             if($lobbyWaitungUser->getUser() && $lobbyWaitungUser->getUser()->getProfilePicture()){
-                $options['userInfo']['avatarUrl']=  $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(),'documentFile');
+                $options['options']['userInfo']['avatarUrl']=  $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(),'documentFile');
             }
             if($lobbyWaitungUser->getRoom()->getServer()->getCorsHeader()){
                 $browserUrl = $this->roomService->join(

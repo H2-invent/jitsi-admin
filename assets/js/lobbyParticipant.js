@@ -24,6 +24,7 @@ initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 const es = new EventSource(topic);
 var api;
+
 es.onmessage = e => {
     var data = JSON.parse(e.data)
     masterNotify(data)
@@ -39,6 +40,7 @@ initCircle();
 var counter = 0;
 var interval;
 var text;
+
 $('.renew').click(function (e) {
     e.preventDefault();
     if (counter <= 0) {
@@ -69,27 +71,36 @@ $('.leave').click(function (e) {
 
 function initJitsiMeet(data) {
     stopWebcam();
+    $(data.options.parentNode).prependTo('body');
+    $('#window').remove();
+    $('.imageBackground').remove();
+    document.title = data.options.roomName
+    $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
+
     var options = data.options.options;
     options.device = choosenId;
     options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
+
+    api.addListener('videoConferenceJoined', function (e) {
+        if (setTileview === 1) {
+            api.executeCommand('setTileView', {enabled: true});
+        }
+        if(avatarUrl !== ''){
+            api.executeCommand('avatarUrl',avatarUrl);
+        }
+    });
+
     api.addListener('readyToClose', function (e) {
         if (window.opener == null) {
             window.location.href = '/';
         } else {
             window.close();
         }
-    })
-    api.addListener('videoConferenceJoined', function (e) {
-        if(setTileview === 1){
-            api.executeCommand('setTileView', {enabled:true});
-        }
-    })
-    $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
-    $('#window').remove();
-    $('.imageBackground').remove();
-    document.title = data.options.roomName
-    $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
+    });
+    $(data.options.parentNode).css('height', '100vh').find('iframe').css('height', '100vh');
+
+
 
 
 }

@@ -92,18 +92,18 @@
                     <div class="lobbyButtons">
                         {% if type == 'a' %}
                             <a class="btn btn-primary d-none d-lg-block "
-                            href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                            target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                               target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                         {% elseif type == 'b' %}
                             {% if room.server.corsHeader %}
                                 <a class="btn btn-primary d-block d-lg-block"
                                    href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                    target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
-                                {% else %}
-                                    <a class="btn btn-primary btn-rounded startIframe d-none d-lg-block "
-                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                                       target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
-                                {% endif %}
+                            {% else %}
+                                <a class="btn btn-primary btn-rounded startIframe d-none d-lg-block "
+                                   href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                   target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                            {% endif %}
                         {% endif %}
 
 
@@ -146,7 +146,6 @@
                 {% endif %}
                 userInfo: {
                     displayName: '{{ name }}',
-
                 }
             };
 
