@@ -111,6 +111,11 @@ services:
       - "traefik.http.routers.app-ja.entrypoints=web"
       - "traefik.http.services.app-ja.loadbalancer.server.port=80"
       - "traefik.http.routers.app-ja.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app-ja.loadbalancer.sticky=true"
+      - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.name=jad"
+      - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.secure=true"
+    volumes:
+      - image_upload:/var/www/html/public/uploads/images
 
 
   db-ja:
@@ -155,3 +160,4 @@ volumes:
   mariadb:
   caddy_data:
   caddy_config:
+  image_upload:
