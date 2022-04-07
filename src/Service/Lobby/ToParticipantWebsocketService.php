@@ -64,7 +64,6 @@ class ToParticipantWebsocketService
         if ($lobbyWaitungUser->getType() === 'b') {
             $options = array(
                 'options' => array(
-
                     'roomName' => $lobbyWaitungUser->getRoom()->getUid(),
                     'width' => '100%',
                     'height' => 400,
@@ -77,7 +76,7 @@ class ToParticipantWebsocketService
 
             );
             if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()){
-                $options['options']['options']['jwt']= $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
+                $options['options']['jwt']= $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
             }
             if($lobbyWaitungUser->getUser() && $lobbyWaitungUser->getUser()->getProfilePicture()){
                 $options['options']['userInfo']['avatarUrl']=  $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(),'documentFile');

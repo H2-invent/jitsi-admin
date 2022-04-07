@@ -22,10 +22,10 @@ class LobbyToParticipantsTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            if(strpos($update->getData(),'snackbar')>0){
+            if (strpos($update->getData(), 'snackbar') > 0) {
                 self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
             }
-            if(strpos($update->getData(),'jitsi-meet')>0){
+            if (strpos($update->getData(), 'jitsi-meet') > 0) {
                 self::assertEquals('{"type":"redirect","url":"jitsi-meet:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4#config.subject=%22This_is_a_room_with_Lobby%22","timeout":5000}', $update->getData());
             }
             return 'id';
@@ -43,7 +43,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
         $lobbyUser->setCreatedAt(new \DateTime());
-        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
+        $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
         $manager->flush();
@@ -57,10 +57,10 @@ class LobbyToParticipantsTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            if(strpos($update->getData(),'snackbar')>0){
+            if (strpos($update->getData(), 'snackbar') > 0) {
                 self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
             }
-            if(strpos($update->getData(),'jitsi-meet')>0){
+            if (strpos($update->getData(), 'jitsi-meet') > 0) {
                 self::assertEquals('{"type":"redirect","url":"https:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4#config.subject=%22This_is_a_room_with_Lobby%22","timeout":5000}', $update->getData());
             }
             return 'id';
@@ -78,7 +78,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
         $lobbyUser->setCreatedAt(new \DateTime());
-        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
+        $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $server = $lobbyUser->getRoom()->getServer();
         $server->setCorsHeader(true);
@@ -87,6 +87,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $manager->flush();
         $lobbyToParticipant->acceptLobbyUser($lobbyUser);
     }
+
     public function testinBrowser(): void
     {
         $kernel = self::bootKernel();
@@ -103,7 +104,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyUser->setRoom($room);
         $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
         $lobbyUser->setCreatedAt(new \DateTime());
-        $lobbyUser->setShowName($user2->getFirstName().' '.$user2->getLastName());
+        $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($lobbyUser);
         $manager->flush();
@@ -111,10 +112,27 @@ class LobbyToParticipantsTest extends KernelTestCase
         $directSend = $this->getContainer()->get(DirectSendService::class);
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            if(strpos($update->getData(),'newJitsi')>0){
-                self::assertEquals('{"type":"newJitsi","options":{"options":{"roomName":"12313231ghjgfdsdf","width":"100%","height":400,"jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4"},"roomName":"This is a room with Lobby","domain":"meet.jit.si2","parentNode":"#jitsiWindow","userInfo":{"displayName":"Test User"}}}', $update->getData());
+            if (strpos($update->getData(), 'newJitsi') > 0) {
+                self::assertEquals(array(
+                        'type' => "newJitsi",
+                        'options'=>array(
+                            'options' => array(
+                                'roomName' => '12313231ghjgfdsdf',
+                                'width' => '100%',
+                                'height' => 400,
+                                'userInfo' => array(
+                                    'displayName' => "Test User"
+                                ),
+                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4',
+                            ),
+                            "roomName" => "This is a room with Lobby",
+                            "domain" => "meet.jit.si2",
+                            "parentNode" => "#jitsiWindow"
+                        )
+                    )
+                , json_decode($update->getData(),true));
             }
-            if(strpos($update->getData(),'snackbar')>0){
+            if (strpos($update->getData(), 'snackbar') > 0) {
                 self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
             }
             self::assertEquals(['lobby_WaitingUser_websocket/lkjhdslkfjhdskjhfkds'], $update->getTopics());

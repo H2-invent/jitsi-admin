@@ -19,6 +19,11 @@ class LobbyUtils
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findBy(array('room' => $rooms));
         foreach ($lobbyUser as $data) {
+            if ($data->getCallerSession()){
+                $data->getCallerSession()->setAuthOk(false);
+                $data->getCallerSession()->setLobbyWaitingUser(null);
+                $this->em->persist($data);
+            }
             $this->em->remove($data);
         }
         $this->em->flush();

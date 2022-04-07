@@ -3,8 +3,8 @@
         <div class="card-body text-center d-flex flex-column align-items-center">
             {% if wU.user.profilePicture is not null %}
             <style>
-                .initialCircle{
-                    background-image: url("{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}");
+                #circle_{{ wU.id }}{
+                    background-image: url("{{ vich_uploader_asset(wU.user.profilePicture,'documentFile') }}");
                     background-position: center;
                     background-size: cover;
                     background-color: white !important;
@@ -12,7 +12,7 @@
             </style>
 
             {% endif %}
-            <div class="initialCircle ">
+            <div class="initialCircle " id="circle_{{ wU.id }}">
                 {% if wU.user.profilePicture is  null %}
                     {% if wU.user is not null %}
                         {% if wU.user.firstName != '' %}
