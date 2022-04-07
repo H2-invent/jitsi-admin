@@ -86,8 +86,8 @@ function initJitsiMeet(data) {
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});
         }
-        if(avatarUrl !== ''){
-            api.executeCommand('avatarUrl',avatarUrl);
+        if (avatarUrl !== '') {
+            api.executeCommand('avatarUrl', avatarUrl);
         }
     });
 
@@ -98,9 +98,12 @@ function initJitsiMeet(data) {
             window.close();
         }
     });
+
+    api.addListener('participantKickedOut', function (e) {
+        masterNotify({'type': 'endMeeting', 'url': '/'});
+        $('#jitsiWindow').remove();
+    });
     $(data.options.parentNode).css('height', '100vh').find('iframe').css('height', '100vh');
-
-
 
 
 }
