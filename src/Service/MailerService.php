@@ -49,20 +49,15 @@ class MailerService
 
         if ($server->getSmtpHost()) {
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
-            $tmpTransport = (new \Swift_SmtpTransport(
-                $server->getSmtpHost(),
-                $server->getSmtpPort(),
-                $server->getSmtpEncryption()))
-                ->setUsername($server->getSmtpUsername())
-                ->setPassword($server->getSmtpPassword());
-            $tmpMailer = new \Swift_Mailer($tmpTransport);
             if ($this->userName != $server->getSmtpUsername()) {
                 $this->userName = $server->getSmtpUsername();
                 $this->logger->info('The Transport is new and we take him');
                 $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
-                $this->customMailer = Transport::fromDsn($dsn);
+            }else{
+                $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             }
-            return $tmpMailer;
+            $this->customMailer = Transport::fromDsn($dsn);
+            return true;
         }
         return false;
     }
