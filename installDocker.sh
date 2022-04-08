@@ -3,45 +3,75 @@ FILE=docker.conf
 if [ -f "$FILE" ]; then
   source $FILE
 else
-  NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-  read -p "Enter the environment dev/prod[dev]: " ENVIRONMENT
-  ENVIRONMENT=${ENVIRONMENT:dev}
-  read -p "Enter http/https for testing on local environment ALWAYS use http [http]: " HTTP_METHOD
-  HTTP_METHOD=${HTTP_METHOD:http}
-  read -p "Enter the url you want to enter the jitsi-admin [jadevelop2]: " PUBLIC_URL
-  PUBLIC_URL=${PUBLIC_URL:jadevelop2}
+  touch $FILE
+    KEYCLOAK_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    JITSI_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    MERCURE_JWT_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    KEYCLOAK_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
+    echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
+    echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
+    NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    echo "NEW_UUID=$NEW_UUID" >> $FILE
+    echo "JITSI_ADMIN_PW=$JITSI_ADMIN_PW" >> $FILE
 
-  KEYCLOAK_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-  JITSI_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-  MERCURE_JWT_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-  KEYCLOAK_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-  echo "NEW_UUID=$NEW_UUID" >> $FILE
-  echo "HTTP_METHOD=$HTTP_METHOD" >> $FILE
-  echo "PUBLIC_URL=$PUBLIC_URL" >> $FILE
-  echo "JITSI_ADMIN_PW=$JITSI_ADMIN_PW" >> $FILE
-  echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
-  echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
-  echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
+    HTTP_METHOD='http'
+    PUBLIC_URL='jadevelop2'
+  source $FILE
+fi
+  ENVIRONMENT=${ENVIRONMENT:=dev}
+  read -p "Enter the environment dev/prod[$ENVIRONMENT]: " input
+  ENVIRONMENT=${input:=$ENVIRONMENT}
   echo "ENVIRONMENT=$ENVIRONMENT" >> $FILE
+
+  HTTP_METHOD=${HTTP_METHOD:=http}
+  read -p "Enter http/https for testing on local environment ALWAYS use http [$HTTP_METHOD]: " input
+  HTTP_METHOD=${input:=$HTTP_METHOD}
+  echo "HTTP_METHOD=$HTTP_METHOD" >> $FILE
+
+  PUBLIC_URL=${PUBLIC_URL:=dev}
+  read -p "Enter the url you want to enter the jitsi-admin [$PUBLIC_URL]: " input
+  PUBLIC_URL=${input:=$PUBLIC_URL}
+  echo "PUBLIC_URL=$PUBLIC_URL" >> $FILE
+
   echo --------------------------------------------------------------------------
   echo -----------------We looking for all the other parameters-------------------
   echo --------------------------------------------------------------------------
   echo -------------------------------------------------------------
   echo -----------------Mailer--------------------------------------
   echo -------------------------------------------------------------
-  read -p "Enter smtp host: " smtpHost
-  read -p "Enter smtp port: " smtpPort
-  read -p "Enter smtp username: " smtpUsername
-  read -p "Enter smtp password: " smtpPassword
-  read -p "Enter SMTP encrytion tls/ssl/none: " smtpEncryption
-  read -p "Enter smtp FROM mail: " smtpFrom
+  smtpHost=${smtpHost:=localhost}
+  read -p "Enter smtp host: [$smtpHost]" input
+  smtpHost=${input:=$smtpHost}
   echo "smtpHost=$smtpHost" >> $FILE
+
+  smtpPort=${smtpPort:=587}
+  read -p "Enter smtp port [$smtpPort]: " input
+  smtpPort=${input:=$smtpPort}
   echo "smtpPort=$smtpPort" >> $FILE
+
+  smtpUsername=${smtpUsername:=username}
+  read -p "Enter smtp username [$smtpUsername]: " input
+  smtpUsername=${input:=$smtpUsername}
   echo "smtpUsername=$smtpUsername" >> $FILE
+
+
+  smtpPassword=${smtpPassword:=password}
+  read -p "Enter smtp password [$smtpPassword]: " input
+  smtpPassword=${input:=$smtpPassword}
   echo "smtpPassword=$smtpPassword" >> $FILE
+
+
+  smtpEncryption=${smtpEncryption:=none}
+  read -p "Enter SMTP encrytion tls/ssl/none: [$smtpEncryption]" input
+  smtpEncryption=${input:=$smtpEncryption}
   echo "smtpEncryption=$smtpEncryption" >> $FILE
+
+  smtpFrom=${smtpFrom:=test@local.de}
+  read -p "Enter smtp FROM mail:[$smtpFrom] " input
+  smtpFrom=${input:=$smtpFrom}
   echo "smtpFrom=$smtpFrom" >> $FILE
-fi
+
 
   echo -------------------------------------------------------------
   echo -----------------we build the KEycloak-----------------------
@@ -69,11 +99,7 @@ fi
 sed -i "s|<jitsi-admin-pw>|$JITSI_ADMIN_PW|g" docker-entrypoint-initdb.d/init-userdb.sql
 sed -i "s|<keycloak-pw>|$KEYCLOAK_PW|g" docker-entrypoint-initdb.d/init-userdb.sql
 
-export MAILER_HOST=$smtpHost
-export MAILER_PORT=$smtpPort
-export MAILER_PASSWORD=$smtpPassword
-export MAILER_USERNAME=$smtpUsername
-export MAILER_ENCRYPTION=$smtpEncryption
+
 export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
 export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
 
