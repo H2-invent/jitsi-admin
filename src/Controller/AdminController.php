@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Helper\JitsiAdminController;
 use App\Service\AdminService;
 use Doctrine\DBAL\Types\DateType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -15,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class AdminController extends AbstractController
+class AdminController extends JitsiAdminController
 {
 
     /**

@@ -6,25 +6,31 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Helper\JitsiAdminController;
+
 use App\Service\JoinService;
-use App\Service\PexelService;
 use App\Service\RoomService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class JoinController extends AbstractController
+class JoinController extends JitsiAdminController
 {
-    private $parameterBag;
     private $joinService;
-    public function __construct(ParameterBagInterface $parameterBag, JoinService $joinService)
+
+    public function __construct(ManagerRegistry       $managerRegistry,
+                                TranslatorInterface   $translator,
+                                LoggerInterface       $logger,
+                                ParameterBagInterface $parameterBag,
+                                JoinService           $joinService
+    )
     {
-        $this->parameterBag = $parameterBag;
+        parent::__construct($managerRegistry,$translator,$logger,$parameterBag);
         $this->joinService = $joinService;
     }
 
@@ -36,7 +42,7 @@ class JoinController extends AbstractController
     public function index(Request $request, TranslatorInterface $translator, RoomService $roomService, $slug = null, $uid = null)
     {
         $data = array();
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['slug' => $slug]);
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['slug' => $slug]);
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
         $dataStr = $request->get('data');
         $snack = $request->get('snack');
@@ -51,8 +57,8 @@ class JoinController extends AbstractController
         }
 
         if (isset($data['email']) && isset($data['uid'])) {
-            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+            $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $data['uid']]);
+            $user = $this->doctrine->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
             //If the room ID is correct set and the room exists
             if ($this->onlyWithUserAccount($room, $user)) {
@@ -70,8 +76,8 @@ class JoinController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //here is where the magic happens
-            $res = $this->joinService->join( $form->getData(),$snack,$color,$form->has('joinApp'), $form->get('joinApp')->isClicked(), $form->has('joinBrowser'), $form->get('joinBrowser')->isClicked());
-            if($res){
+            $res = $this->joinService->join($form->getData(), $snack, $color, $form->has('joinApp'), $form->get('joinApp')->isClicked(), $form->has('joinBrowser'), $form->get('joinBrowser')->isClicked());
+            if ($res) {
                 return $res;
             }
         }

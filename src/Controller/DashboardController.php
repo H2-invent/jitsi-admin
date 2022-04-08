@@ -12,6 +12,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
@@ -29,7 +30,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Class DashboardController
  * @package App\Controller
  */
-class DashboardController extends AbstractController
+class DashboardController extends JitsiAdminController
 {
 
     /**
@@ -52,9 +53,9 @@ class DashboardController extends AbstractController
         $form = $this->createForm(JoinViewType::class, $data,['action'=>$this->generateUrl('join_index')]);
         $form->handleRequest($request);
 
-        $user = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $server = $this->getDoctrine()->getRepository(Server::class)->findAll();
-        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findAll();
+        $user = $this->doctrine->getRepository(User::class)->findAll();
+        $server = $this->doctrine->getRepository(Server::class)->findAll();
+        $rooms = $this->doctrine->getRepository(Rooms::class)->findAll();
 
         return $this->render('dashboard/start.html.twig', ['form' => $form->createView(),'user'=>$user, 'server'=>$server, 'rooms'=>$rooms]);
     }
@@ -71,13 +72,13 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
         }
 
-        $roomsFuture = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
+        $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
         $r = array();
         $future = array();
         foreach ($roomsFuture as $data) {
             $future[$data->getStartwithTimeZone($this->getUser())->format('Ymd')][] = $data;
         }
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         if(!$this->getUser()->getUid()){
             $user = $this->getUser();
             $user->setUid(md5(uniqid()));
@@ -88,7 +89,7 @@ class DashboardController extends AbstractController
         if(!$this->getUser()->getOwnRoomUid()){
             $user = $this->getUser();
             $user->setOwnRoomUid(md5(uniqid()));
-            $em = $this->getDoctrine()->getManager();
+
             $em->persist($user);
             $em->flush();
         }
@@ -99,14 +100,14 @@ class DashboardController extends AbstractController
             $em->flush();
         }
         $favoriteService->cleanFavorites($this->getUser());
-        $roomsPast = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
-        $roomsNow = $this->getDoctrine()->getRepository(Rooms::class)->findRuningRooms($this->getUser());
-        $roomsToday = $this->getDoctrine()->getRepository(Rooms::class)->findTodayRooms($this->getUser());
-        $persistantRooms = $this->getDoctrine()->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
+        $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
+        $roomsNow = $this->doctrine->getRepository(Rooms::class)->findRuningRooms($this->getUser());
+        $roomsToday = $this->doctrine->getRepository(Rooms::class)->findTodayRooms($this->getUser());
+        $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
         $tomorrow = (clone $today)->modify('+1day');
-        $favorites = $this->getDoctrine()->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
+        $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
         $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,

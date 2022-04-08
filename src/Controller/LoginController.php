@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helper\JitsiAdminController;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\Auth0Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class LoginController extends AbstractController
+class LoginController extends JitsiAdminController
 {
     /**
      * @Route("/login/auth0_login", name="login_auth0")

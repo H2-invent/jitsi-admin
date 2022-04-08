@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Type\SecondEmailType;
 use App\Form\Type\TimeZoneType;
+use App\Helper\JitsiAdminController;
 use http\Exception\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,13 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 
-class SecondEmailChangeController extends AbstractController
+class SecondEmailChangeController extends JitsiAdminController
 {
-    private $logger;
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
+
 
     /**
      * @Route("/room/secondEmail/change", name="second_email_change")
@@ -59,7 +56,7 @@ class SecondEmailChangeController extends AbstractController
 
                 $user->getProfilePicture()->setUpdatedAt(new \DateTime());
                 $user->setUpdatedAt(new \DateTime());
-                $em = $this->getDOctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($user);
                 $em->flush();
                 $user = $this->getUser();

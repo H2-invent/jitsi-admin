@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\Type\RoomType;
 use App\Form\Type\TimeZoneType;
+use App\Helper\JitsiAdminController;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class TimeZoneController extends AbstractController
+class TimeZoneController extends JitsiAdminController
 {
     /**
      * @Route("/room/timezone/change", name="time_zone_change")
@@ -38,7 +39,7 @@ class TimeZoneController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $user = $form->getData();
-                $em = $this->getDOctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($user);
                 $em->flush();
             }

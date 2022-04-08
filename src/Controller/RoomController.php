@@ -9,6 +9,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
+use App\Helper\JitsiAdminController;
 use App\Service\PermissionChangeService;
 use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
@@ -35,14 +36,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class RoomController extends AbstractController
+class RoomController extends JitsiAdminController
 {
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
 
     /**
      * @Route("/room/new", name="room_new")
@@ -51,7 +46,7 @@ class RoomController extends AbstractController
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
-            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
+            $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if (!$room) {
                 return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Fehler'), 'color' => 'danger'));
             }
@@ -72,7 +67,7 @@ class RoomController extends AbstractController
         } else {
             $serverChhose = null;
             if ($request->cookies->has('room_server')) {
-                $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
+                $server = $this->doctrine->getRepository(Server::class)->find($request->cookies->get('room_server'));
                 if ($server && in_array($server, $servers)) {
                     $serverChhose = $server;
                 }
@@ -101,7 +96,7 @@ class RoomController extends AbstractController
                 if (sizeof($error) > 0) {
                     return new JsonResponse(array('error' => true, 'messages' => $error));
                 }
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($room);
                 $em->flush();
                 $schedulingService->createScheduling($room);
@@ -140,7 +135,7 @@ class RoomController extends AbstractController
     function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService)
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $snack = 'Keine Berechtigung';
         if ($this->getUser() === $room->getModerator()) {
             if ($room->getRepeater()) {
@@ -165,7 +160,7 @@ class RoomController extends AbstractController
     function roomClone(RoomCheckService $roomCheckService, Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
     {
 
-        $roomOld = $this->getDoctrine()->getRepository(Rooms::class)->find($request->get('room'));
+        $roomOld = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         $room = clone $roomOld;
         // here we clean all the scheduls from the old room
         foreach ($room->getSchedulings() as $data) {
@@ -195,7 +190,7 @@ class RoomController extends AbstractController
                 $room->setUidParticipant(md5(uniqid()));
                 $room->setSequence(0);
                 $room->setUid(rand(0, 99) . time());
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $error = array();
                 $room = $roomCheckService->checkRoom($room, $error);
                 if (sizeof($error) > 0) {

@@ -6,12 +6,14 @@ use App\Entity\ApiKeys;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Helper\JitsiAdminController;
 use App\Service\api\KeycloakService;
 
 use App\Service\api\RoomService;
 use App\Service\LicenseService;
 use App\Service\ServerUserManagment;
 use App\Service\UserCreatorService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,8 +22,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use function GuzzleHttp\default_user_agent;
 
-class APIRoomController extends AbstractController
+class APIRoomController extends JitsiAdminController
 {
+
+
     /**
      * @Route("/api/v1/room", name="api_room_create",methods={"POST"})
      */
@@ -40,7 +44,7 @@ class APIRoomController extends AbstractController
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-        $server = $this->getDoctrine()->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $email, $apiKey);
+        $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $email, $apiKey);
         if (!$server || !$licenseService->verify($server) ) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
@@ -68,7 +72,7 @@ class APIRoomController extends AbstractController
     public function removeRoom(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
 
         if (!$room || $room->getModerator() === null) {
             return new JsonResponse(array('error' => true, 'text' => 'Room not found '));
@@ -89,7 +93,7 @@ class APIRoomController extends AbstractController
     public function editRoom(LicenseService  $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
 
         if (!$room || $room->getModerator() === null) {
             return new JsonResponse(array('error' => true, 'text' => 'Room no found'));
@@ -104,7 +108,7 @@ class APIRoomController extends AbstractController
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-        $server = $this->getDoctrine()->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(),$apiKey);
+        $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(),$apiKey);
         //If there is no server, then we take the default server which is accessabl for all jitsi admin users
         if (!$server || !$licenseService->verify($server) ) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));

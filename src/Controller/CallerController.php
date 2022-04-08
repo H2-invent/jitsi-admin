@@ -2,27 +2,40 @@
 
 namespace App\Controller;
 
+use App\Helper\JitsiAdminController;
 use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerSessionService;
-use PHPUnit\Util\Json;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\api\CheckAuthorizationService;
-class CallerController extends AbstractController
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+class CallerController extends JitsiAdminController
 {
     private $token;
     private $callerRoomService;
     private $callerPinService;
     private $callerSessionService;
     private $callerLeftService;
-    public function __construct(CallerLeftService $callerLeftService, CallerSessionService $callerSessionService, CallerPinService $callerPinService, CallerFindRoomService $callerFindRoomService, ParameterBagInterface $parameterBag)
+
+    public function __construct(ManagerRegistry       $managerRegistry,
+                                TranslatorInterface   $translator,
+                                LoggerInterface       $logger,
+                                ParameterBagInterface $parameterBag,
+                                CallerLeftService     $callerLeftService,
+                                CallerSessionService  $callerSessionService,
+                                CallerPinService      $callerPinService,
+                                CallerFindRoomService $callerFindRoomService
+    )
     {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->callerRoomService = $callerFindRoomService;
         $this->callerPinService = $callerPinService;
         $this->callerSessionService = $callerSessionService;
@@ -35,7 +48,7 @@ class CallerController extends AbstractController
      */
     public function findRoom(Request $request, $roomId): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request,$this->token);
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -47,7 +60,7 @@ class CallerController extends AbstractController
      */
     public function findPin(Request $request, $roomId): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request,$this->token);
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -61,20 +74,20 @@ class CallerController extends AbstractController
             $error['argument'][] = 'caller_id';
         }
         if (sizeof($error) > 0) {
-            return new JsonResponse($error,404);
+            return new JsonResponse($error, 404);
         }
         $session = $this->callerPinService->getPin($roomId, $request->get('pin'), $request->get('caller_id'));
-        if(!$session){
-            $res =  array(
+        if (!$session) {
+            $res = array(
                 'auth_ok' => false,
                 'links' => array()
             );
-        }else{
-            $res =  array(
+        } else {
+            $res = array(
                 'auth_ok' => true,
                 'links' => array(
-                    'session' => $this->generateUrl('caller_session',array('session_id'=>$session->getSessionId())),
-                    'left' => $this->generateUrl('caller_left',array('session_id'=>$session->getSessionId()))
+                    'session' => $this->generateUrl('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $this->generateUrl('caller_left', array('session_id' => $session->getSessionId()))
                 )
             );
         }
@@ -86,7 +99,7 @@ class CallerController extends AbstractController
      */
     public function findSession(Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request,$this->token);
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -97,18 +110,19 @@ class CallerController extends AbstractController
             $error['argument'][] = 'session_id';
         }
         if (sizeof($error) > 0) {
-            return new JsonResponse($error,404);
+            return new JsonResponse($error, 404);
         }
 
         $res = $this->callerSessionService->getSession($request->get('session_id'));
         return new JsonResponse($res);
     }
+
     /**
      * @Route("/api/v1/lobby/sip/session/left", name="caller_left",methods={"GET"})
      */
     public function leftSession(Request $request): Response
     {
-        $check = CheckAuthorizationService::checkHEader($request,$this->token);
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
@@ -120,11 +134,10 @@ class CallerController extends AbstractController
             $error['argument'][] = 'session_id';
         }
         if (sizeof($error) > 0) {
-            return new JsonResponse($error,404);
+            return new JsonResponse($error, 404);
         }
-        return new JsonResponse(array('error'=>$this->callerLeftService->callerLeft($request->get('session_id'))));
+        return new JsonResponse(array('error' => $this->callerLeftService->callerLeft($request->get('session_id'))));
     }
-
 
 
 }

@@ -4,16 +4,17 @@ namespace App\Controller;
 
 use App\Entity\AddressGroup;
 use App\Form\Type\AddressGroupType;
+use App\Helper\JitsiAdminController;
 use App\Service\IndexGroupsService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class AddressGroupController extends AbstractController
+class AddressGroupController extends JitsiAdminController
 {
+
     /**
      * @Route("room/address/group/new", name="address_group_new")
      */
@@ -24,7 +25,7 @@ class AddressGroupController extends AbstractController
         $addressgroup->setLeader($this->getUser());
         $title = $translator->trans('Neue Kontaktgruppe erstellen');
         if ($request->get('id')) {
-            $addressgroup = $this->getDoctrine()->getRepository(AddressGroup::class)->findOneBy(array('id' => $request->get('id')));
+            $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(array('id' => $request->get('id')));
             if ($addressgroup->getLeader() != $this->getUser()) {
                 throw new NotFoundHttpException('Not Found');
             }
@@ -37,7 +38,7 @@ class AddressGroupController extends AbstractController
                 $addressgroup->setUpdatedAt(new \DateTimeImmutable());
                 $addressgroup = $form->getData();
                 $addressgroup->setIndexer($indexGroupsService->indexGroup($addressgroup));
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($addressgroup);
                 $em->flush();
 
@@ -59,11 +60,11 @@ class AddressGroupController extends AbstractController
      */
     public function remove(Request $request, TranslatorInterface $translator): Response
     {
-        $addressgroup = $this->getDoctrine()->getRepository(AddressGroup::class)->findOneBy(array('id' => $request->get('id')));
+        $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(array('id' => $request->get('id')));
         if (!$addressgroup || $addressgroup->getLeader() != $this->getUser()) {
             throw new NotFoundHttpException('Not Found');
         }
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->remove($addressgroup);
         $em->flush();
         return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Kontaktgruppe gelöscht')));

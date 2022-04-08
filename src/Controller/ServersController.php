@@ -11,6 +11,7 @@ use App\Form\Type\NewMemberType;
 use App\Form\Type\NewPermissionType;
 use App\Form\Type\RoomType;
 use App\Form\Type\ServerType;
+use App\Helper\JitsiAdminController;
 use App\Service\LicenseService;
 use App\Service\MailerService;
 use App\Service\ServerService;
@@ -28,7 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ServersController extends AbstractController
+class ServersController extends JitsiAdminController
 {
     /**
      * @Route("/server/add", name="servers_add")
@@ -38,7 +39,7 @@ class ServersController extends AbstractController
         $originalKeycloakGroups = new ArrayCollection();
 
         if ($request->get('id')) {
-            $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+            $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
 
             foreach ($server->getkeycloakGroups() as $keycloakGroup) {
                 $originalKeycloakGroups->add($keycloakGroup);
@@ -67,7 +68,7 @@ class ServersController extends AbstractController
             $server->setUrl($url);
             $errors = $validator->validate($server);
             if (count($errors) == 0) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 if (!$server->getSlug()) {
                     $slug = $serverService->makeSlug($server->getUrl());
                     $server->setSlug($slug);
@@ -95,7 +96,7 @@ class ServersController extends AbstractController
     public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
     {
 
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
         if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
             return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
         }
@@ -110,7 +111,7 @@ class ServersController extends AbstractController
             $server = $form->getData();
             $errors = $validator->validate($server);
             if (count($errors) == 0) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($server);
                 $em->flush();
                 return $this->redirectToRoute('dashboard');
@@ -127,7 +128,7 @@ class ServersController extends AbstractController
     public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator,UserCreatorService $userCreatorService)
     {
         $newMember = array();
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         if ($server->getAdministrator() !== $this->getUser()) {
             return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
         }
@@ -142,7 +143,7 @@ class ServersController extends AbstractController
             $lines = explode("\n", $newMembers['member']);
 
             if (!empty($lines)) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 foreach ($lines as $line) {
                     $newMember = trim($line);
                     $user = $userCreatorService->createUser($newMember, $newMember, '','');
@@ -167,12 +168,12 @@ class ServersController extends AbstractController
     function serverUserRemove(Request $request, TranslatorInterface $translator)
     {
 
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser() || $user === $this->getUser()) {
             $server->removeUser($user);
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
             $em->persist($server);
             $em->flush();
             $snack = $translator->trans('Berechtigung gelöscht');
@@ -188,11 +189,11 @@ class ServersController extends AbstractController
     function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService)
     {
 
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser()) {
-            $em = $this->getDoctrine()->getManager();
-            $groupServer = $this->getDoctrine()->getRepository(KeycloakGroupsToServers::class)->findBy(array('server' => $server));
+            $em = $this->doctrine->getManager();
+            $groupServer = $this->doctrine->getRepository(KeycloakGroupsToServers::class)->findBy(array('server' => $server));
             foreach ($groupServer as $data) {
                 $em->remove($data);
             }
@@ -215,7 +216,7 @@ class ServersController extends AbstractController
     function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
     {
         $res = ['snack' => $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten'), 'color' => 'success'];
-        $server = $this->getDoctrine()->getRepository(Server::class)->find($request->get('id'));
+        $server = $this->doctrine->getRepository(Server::class)->find($request->get('id'));
         if (!$server || $server->getAdministrator() != $this->getUser()) {
 
             $res = ['snack' => $translator->trans('Fehler, der Server ist nicht registriert'), 'color' => 'danger'];

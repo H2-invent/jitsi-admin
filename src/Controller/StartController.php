@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\Helper\JitsiAdminController;
 use App\Service\RoomService;
 use App\Service\StartMeetingService;
 use App\Service\ThemeService;
@@ -15,25 +16,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class StartController extends AbstractController
+class StartController extends JitsiAdminController
 {
-
-    private $startService;
-    private $paramterBag;
-    public function __construct( StartMeetingService $startMeetingService, ParameterBagInterface $paramterBag)
-    {
-        $this->startService = $startMeetingService;
-        $this->paramterBag = $paramterBag;
-    }
 
     /**
      * @Route("/room/join/{t}/{room}", name="room_join")
      */
     public
-    function joinRoom(RoomService $roomService, $room, $t)
+    function joinRoom(RoomService $roomService, $room, $t, StartMeetingService $startMeetingService)
     {
-        $roomL = $this->getDoctrine()->getRepository(Rooms::class)->find($room);
-        return $this->startService->startMeeting($roomL,$this->getUser(),$t,$this->getUser()->getFormatedName($this->paramterBag->get('laf_showNameInConference')));
+        $roomL = $this->doctrine->getRepository(Rooms::class)->find($room);
+        return $startMeetingService->startMeeting($roomL,$this->getUser(),$t,$this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
     }
     /**
      * @Route("/room/checkCors", name="room_check_cors")

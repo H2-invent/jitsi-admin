@@ -5,22 +5,22 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Helper\JitsiAdminController;
 use App\Service\RoomGeneratorService;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
 use App\Service\ThemeService;
 use App\Service\TimeZoneService;
 use App\Service\UserService;
-use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class AdHocMeetingController extends AbstractController
+class AdHocMeetingController extends JitsiAdminController
 {
+
     /**
      * @Route("/room/adhoc/meeting/{userId}/{serverId}", name="add_hoc_meeting")
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
@@ -47,7 +47,7 @@ class AdHocMeetingController extends AbstractController
         $room->setEnddate((clone $now)->modify('+ 1 hour'));
         $room->setDuration(60);
         $room->setName($translator->trans('Konferenz mit {n}',array('{n}'=>$user->getFormatedName($parameterBag->get('laf_showName')))));
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($room);
         $em->flush();
         $user->addRoom($room);

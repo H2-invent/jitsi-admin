@@ -9,6 +9,7 @@ use App\Entity\SchedulingTimeUser;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\RoomType;
+use App\Helper\JitsiAdminController;
 use App\Service\PexelService;
 use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
@@ -25,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ScheduleController extends AbstractController
+class ScheduleController extends JitsiAdminController
 {
     /**
      * @Route("room/schedule/new", name="schedule_admin_new")
@@ -34,7 +35,7 @@ class ScheduleController extends AbstractController
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
-            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
+            $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if ($room->getModerator() !== $this->getUser()) {
                 return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Keine Berechtigung')]);
             }
@@ -52,7 +53,7 @@ class ScheduleController extends AbstractController
         } else {
             $serverChhose = null;
             if ($request->cookies->has('room_server')) {
-                $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
+                $server = $this->doctrine->getRepository(Server::class)->find($request->cookies->get('room_server'));
                 if ($server && in_array($server, $servers)) {
                     $serverChhose = $server;
                 }
@@ -92,7 +93,7 @@ class ScheduleController extends AbstractController
                 }
 
                 $room->setScheduleMeeting(true);
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($room);
                 $em->flush();
                 $schedulingService->createScheduling($room);
@@ -154,7 +155,7 @@ class ScheduleController extends AbstractController
             } else {
                 $schedule = $schedule[0];
             }
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
             $scheduleTime = new SchedulingTime();
             $scheduleTime->setTime(new \DateTime($request->get('date')));
             $scheduleTime->setScheduling($schedule);
@@ -179,7 +180,7 @@ class ScheduleController extends AbstractController
         }
         try {
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
             foreach ($schedulingTime->getSchedulingTimeUsers() as $data) {
                 $em->remove($data);
             }
@@ -235,20 +236,20 @@ class ScheduleController extends AbstractController
      */
     public function vote(Request $request, TranslatorInterface $translator): Response
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('user'));
-        $scheduleTime = $this->getDoctrine()->getRepository(SchedulingTime::class)->find($request->get('time'));
+        $user = $this->doctrine->getRepository(User::class)->find($request->get('user'));
+        $scheduleTime = $this->doctrine->getRepository(SchedulingTime::class)->find($request->get('time'));
         $type = $request->get('type');
         if (!in_array($user, $scheduleTime->getScheduling()->getRoom()->getUser()->toArray())) {
             return new JsonResponse(array('error' => true, 'text' => $translator->trans('Fehler'), 'color' => 'danger'));
         }
-        $scheduleTimeUser = $this->getDoctrine()->getRepository(SchedulingTimeUser::class)->findOneBy(array('user' => $user, 'scheduleTime' => $scheduleTime));
+        $scheduleTimeUser = $this->doctrine->getRepository(SchedulingTimeUser::class)->findOneBy(array('user' => $user, 'scheduleTime' => $scheduleTime));
         if (!$scheduleTimeUser) {
             $scheduleTimeUser = new SchedulingTimeUser();
             $scheduleTimeUser->setUser($user);
             $scheduleTimeUser->setScheduleTime($scheduleTime);
         }
         $scheduleTimeUser->setAccept($type);
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($scheduleTimeUser);
         $em->flush();
         return new JsonResponse(array('error' => false, 'text' => $translator->trans('common.success.save'), 'color' => 'success'));
