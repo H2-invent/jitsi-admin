@@ -8,15 +8,12 @@ else
     JITSI_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     MERCURE_JWT_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     KEYCLOAK_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
     echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
     echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
-    NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
     echo "NEW_UUID=$NEW_UUID" >> $FILE
     echo "JITSI_ADMIN_PW=$JITSI_ADMIN_PW" >> $FILE
-
-    HTTP_METHOD='http'
-    PUBLIC_URL='jadevelop2'
   source $FILE
 fi
   ENVIRONMENT=${ENVIRONMENT:=dev}
@@ -120,8 +117,14 @@ if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml up -d
   docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 else
-  #todo hier das letsencrypt file rein
    docker-compose -f docker-compose.yml build
   docker-compose -f docker-compose.yml up -d
   docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 fi
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+printf "Browse to ${RED}%s://%s${NC} and visit your own jitsi-admin\n" $HTTP_METHOD $PUBLIC_URL
+printf "To change any keycloak setting browse to${RED} %s://keycloak.%s${NC} and there the username is:admin and the password %s\n" $HTTP_METHOD $PUBLIC_URL $KEYCLOAK_ADMIN_PW
+printf "Any settings and password can be found in the ${RED}docker.conf${NC} file\n"
+printf "To find your loadbalancer go to ${RED}%s://traefik.%s${NC} and enter the user:test and the password:test\n" $HTTP_METHOD $PUBLIC_URL
+printf "Have fun with your jitsi-admin and give us a star on github. https://github.com/H2-invent/jitsi-admin\n"

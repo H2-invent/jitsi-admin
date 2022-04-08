@@ -85,8 +85,7 @@ class IcalService
         if (!$timeZone) {
             $timeZone = new \DateTimeZone(date_default_timezone_get());
         }
-        //start muss das erste element in den rooms sein :)
-        //todo das muss gemacht werden
+
         $start = new \DateTime();
         $end = new \DateTime();
 
