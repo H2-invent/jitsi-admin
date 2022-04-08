@@ -8,6 +8,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use function PHPUnit\Framework\assertEquals;
 
 class MailerServiceTest extends KernelTestCase
 {
@@ -82,7 +83,10 @@ class MailerServiceTest extends KernelTestCase
         $mailerService = self::$container->get(MailerService::class);
         $this->prepare();
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail(), $this->room);
-        $this->assertNotFalse($res);
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage();
+        $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
+        self::assertEmailAddressContains($email,'from','register@local.local');
 
     }
     public function testSendEmailSenderHasEmailNoRoom(): void
@@ -92,7 +96,11 @@ class MailerServiceTest extends KernelTestCase
         $mailerService = self::$container->get(MailerService::class);
         $this->prepare();
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail());
-        $this->assertNotFalse($res);
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage();
+        $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
+        self::assertEmailAddressContains($email,'from','register@local.local');
+        self::assertEmailAddressContains($email,'reply-to','test@test.de');
 
     }
     public function testSendEmailSenderHasEmailNoRoomNoReply(): void
@@ -102,7 +110,10 @@ class MailerServiceTest extends KernelTestCase
         $mailerService = self::$container->get(MailerService::class);
         $this->prepare();
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server);
-        $this->assertNotFalse($res);
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage();
+        $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
+        self::assertEmailAddressContains($email,'from','register@local.local');
 
     }
     public function testSendEmailSenderNoEmail(): void
@@ -113,7 +124,10 @@ class MailerServiceTest extends KernelTestCase
         $this->prepare();
         $this->userSender->setEmail('testUser');
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail(), $this->room);
-        $this->assertNotFalse($res);
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage();
+        $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
+        self::assertEmailAddressContains($email,'from','register@local.local');
 
     }
 
@@ -125,8 +139,7 @@ class MailerServiceTest extends KernelTestCase
         $this->prepare();
         $this->userReciever->setEmail('testUser');
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail(), $this->room);
-        $this->assertFalse($res);
-
+        $this->assertEmailCount(0);
     }
     public function testSendEmailRecieverNoEmailhasLDAP(): void
     {
@@ -158,7 +171,23 @@ class MailerServiceTest extends KernelTestCase
             ->setUser($this->userReciever);
         $this->userReciever->setLdapUserProperties($ldap);
         $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail(), $this->room);
-        $this->assertTrue($res);
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage();
+        $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
+        self::assertEmailAddressContains($email,'from','register@local.local');
     }
-
+    public function testSendEmailSenderhasCC(): void
+    {
+        $kernel = self::bootKernel();
+        //$routerService = self::$container->get('router');
+        $mailerService = self::$container->get(MailerService::class);
+        $this->prepare();
+        $this->userReciever->setSecondEmail('testUser@local.de,test2@local.de');
+        $res = $mailerService->sendEmail($this->userReciever, 'testEmail', 'TestEmailContent', $this->server, $this->userSender->getEmail(), $this->room);
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage();
+        $this->assertEmailHtmlBodyContains($email, 'TestEmailContent');
+        self::assertEmailAddressContains($email,'cc','test2@local.de');
+        self::assertEmailAddressContains($email,'cc','testUser@local.de');
+    }
 }

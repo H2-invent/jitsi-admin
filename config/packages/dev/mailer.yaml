@@ -1,0 +1,4 @@
+framework:
+    mailer:
+        envelope:
+            recipients: ['%env(DEV_EMAIL)%']

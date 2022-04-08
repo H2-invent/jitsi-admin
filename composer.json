@@ -48,7 +48,6 @@
     "symfony/proxy-manager-bridge": "5.4.*",
     "symfony/security-bundle": "5.4.*",
     "symfony/serializer": "5.4.*",
-    "symfony/swiftmailer-bundle": "^3.4",
     "symfony/templating": "5.4.*",
     "symfony/translation": "5.4.*",
     "symfony/twig-bundle": "5.4.*",
@@ -82,7 +81,10 @@
     "preferred-install": {
       "*": "dist"
     },
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "symfony/flex": true
+    }
   },
   "autoload": {
     "psr-4": {
