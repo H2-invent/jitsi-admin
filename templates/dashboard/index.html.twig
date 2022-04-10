@@ -51,11 +51,9 @@
     </div>
 
     <div class="container">
-
-
         <!-- Tabs navs -->
-        <div class="d-md-block d-none">
-            <ul class="nav nav-tabs mb-3 " id="ex1" role="tablist">
+        <div class="d-block">
+            <ul class="nav nav-tabs mb-3 " id="ex1" role="tablist" data-swipe="#ex1-content">
                 <li class="nav-item active">
                     <a
                        class="nav-link"
@@ -65,7 +63,7 @@
                        role="tab"
                        aria-controls="ex1-tabs-1"
                        aria-selected="true"
-                    >{{ 'Zukünftige Konferenzen'|trans }}</a>
+                    ><i class="fas fa-calendar"></i> <span class="d-none d-md-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
                 </li>
                 <li class="nav-item">
                     <a
@@ -76,7 +74,7 @@
                        role="tab"
                        aria-controls="ex1-tabs-3"
                        aria-selected="true"
-                    >{{ 'Feste Konferenzen'|trans }}</a>
+                    ><i class="fas fa-thumbtack"></i><span class="d-none d-md-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
                 </li>
                 <li class="nav-item">
                     <a
@@ -87,39 +85,18 @@
                        role="tab"
                        aria-controls="ex1-tabs-2"
                        aria-selected="false"
-                    >{{ 'Vergangene Konferenzen'|trans }}</a>
+                    ><i class="fas fa-history"></i><span class="d-none d-md-block"> {{ 'Vergangene Konferenzen'|trans }}</span></a>
                 </li>
-
-
             </ul>
         </div>
 
-        <div class="d-md-none tabDropdown">
-            <button class="caretdown btn btn-primary dropdown-toggle mr-4" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">{{ 'Zukünftige Konferenzen'|trans }}
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item dropdownTabToggle"
-                   href="#ex1-tab-1-tab">
-                    {{ 'Zukünftige Konferenzen'|trans }}
-                </a>
-                <a class="dropdown-item dropdownTabToggle"
-                   href="#ex1-tab-3-tab">
-                    {{ 'Feste Konferenzen'|trans }}
-                </a>
-                <a href="#ex1-tab-2-tab"
-                   class="dropdown-item dropdownTabToggle">
-                    {{ 'Vergangene Konferenzen'|trans }}
-                </a>
 
-            </div>
-        </div>
         <!-- Tabs navs -->
 
         <!-- Tabs content -->
 
 
-        <div class="tab-content" id="ex1-content">
+        <div class="tab-content" id="ex1-content" data-swipe="#ex1">
             <div class="tab-content-watch active">
                 <div
                         class="tab-pane fade show active"

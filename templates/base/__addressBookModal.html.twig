@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body" style="flex-grow: 1;overflow-y: auto">
                 <div>
-                    <ul class="nav nav-tabs" id="myTab">
+                    <ul class="nav nav-tabs" id="addressbookTab" data-swipe="#addressbookContent">
                         <li class="nav-item active">
                             <a class="nav-link" id="home-tab"  href="#home" role="tab" aria-controls="home"
                                aria-selected="true">{{ 'Adressbuch'|trans }}</a>
@@ -21,7 +21,7 @@
                                aria-selected="false"> {{ 'Gruppen'|trans }}</a>
                         </li>
                     </ul>
-                    <div class="tab-content" id="myTabContent">
+                    <div class="tab-content" id="addressbookContent" data-swipe="#addressbookTab">
                         <div class="tab-content-watch active">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             {{ include('addressbook/__addressBook.html.twig') }}
