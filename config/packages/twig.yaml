@@ -58,3 +58,4 @@ twig:
         allowTimeZoneSwitch: '%env(allowTimeZoneSwitch)%'
         SIP_CALLER_SHOW_IN_FRONTEND: '%env(SIP_CALLER_SHOW_IN_FRONTEND)%'
         laf_set_tileview: '%env(laf_set_tileview)%'
+        laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'

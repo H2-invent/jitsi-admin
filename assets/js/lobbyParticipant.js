@@ -91,18 +91,23 @@ function initJitsiMeet(data) {
         }
     });
 
-    api.addListener('readyToClose', function (e) {
-        if (window.opener == null) {
-            window.location.href = '/';
-        } else {
-            window.close();
-        }
-    });
+    // api.addListener('readyToClose', function (e) {
+    //     if (window.opener == null) {
+    //         window.location.href = '/';
+    //     } else {
+    //         window.close();
+    //     }
+    // });
 
     api.addListener('participantKickedOut', function (e) {
-        masterNotify({'type': 'endMeeting', 'url': '/'});
         $('#jitsiWindow').remove();
+        masterNotify({'type':'modal', 'content':endModal});
+        setTimeout(function () {
+            masterNotify({'type': 'endMeeting', 'url': '/'});
+        },popUpDuration)
+
     });
+
     $(data.options.parentNode).css('height', '100vh').find('iframe').css('height', '100vh');
 
 

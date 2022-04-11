@@ -86,6 +86,7 @@ function endMeeting(data) {
 }
 
 function loadModal(data) {
+
     $('#loadContentModal').html(data.content).modal('show');
 }
 
