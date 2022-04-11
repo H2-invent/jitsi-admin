@@ -12,7 +12,7 @@
             <p class="small">
                 <i class="fa fa-crown"></i> {{ 'Zum Moderator ernennen'|trans }}
                 {% if laf_show_resendInvitation == 1 %}
-                <br><i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
+                    <br><i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
                 {% endif %}
                 {% if room.dissallowScreenshareGlobal %}
                     <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
@@ -23,8 +23,32 @@
             </p>
             <div class="attendeeScroll">
                 <ul id="atendeeList">
-                    <li class="d-flex flex-column flex-lg-row align-items-lg-center">{{ room.moderator|nameOfUser }} <span class="small">&nbsp;({{ 'Organisator'|trans }})</span></li>
-                    {% for user in room.user %}
+                    <li class="d-flex flex-column flex-lg-row align-items-lg-center">
+                        {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 and room.scheduleMeeting != true%}
+                            <a class="btn btn-primary btn-floating dropdown-toggle mr-4" type="button"
+                               data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+
+                            <div class="dropdown-menu">
+                                {% if  sipPinFromRoomAndUser(room,room.moderator) is not null %}
+                                    <a class=" dropdown-item stopCloseDropdown"
+                                       href="#sipCaller{{ room.moderator.id }}" type="button" data-toggle="collapse"
+                                       aria-expanded="false" aria-controls="sipCaller{{ room.moderator.id }}">
+                                        <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
+
+                                    <div class="collapse dropdown-item stopCloseDropdown"
+                                         id="sipCaller{{ room.moderator.id }}">
+                                        <div class="">
+                                            Raumnummer: {{ room.callerRoom.callerId }}<br>
+                                            PIN: {{ sipPinFromRoomAndUser(room,room.moderator).callerId }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {{ room.moderator|nameOfUser }}
+                        <span class="small">&nbsp;({{ 'Organisator'|trans }})</span></li>
+                    {% for user in room.user|sort((a, b) => a|nameOfUser <=> b|nameOfUser) %}
                         {% if user != room.moderator %}
                             <li class="d-flex flex-column flex-lg-row align-items-lg-center">
                                 {% include'room/__attendeeDropDown.html.twig' with {'room': room, 'user': user} %}
