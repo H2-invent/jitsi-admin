@@ -19,31 +19,36 @@ function initJitsi(options, domain) {
     api.addListener('participantJoined', function (id, name) {
         renewPartList()
     });
-     api.addListener('readyToClose', function (e) {
-         endMeeting();
-         if (window.opener == null) {
-             setTimeout(function () {
-                 window.location.href = data.url;
-             }, data.timeout)
-         } else {
-             setTimeout(function () {
-                 window.close();
-             }, data.timeout)
-         }
-     });
+    api.addListener('readyToClose', function (e) {
+        endMeeting();
+        if (window.opener == null) {
+            setTimeout(function () {
+                window.location.href = data.url;
+            }, data.timeout)
+        } else {
+            setTimeout(function () {
+                window.close();
+            }, data.timeout)
+        }
+    });
     api.addListener('videoConferenceJoined', function (e) {
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             endMeeting();
             $.getJSON(($(this).attr('href')));
         })
-        if(setTileview === 1){
-            api.executeCommand('setTileView', {enabled:true});
+        if (setTileview === 1) {
+            api.executeCommand('setTileView', {enabled: true});
         }
-        if(avatarUrl !== ''){
-            api.executeCommand('avatarUrl',avatarUrl);
+        if (avatarUrl !== '') {
+            api.executeCommand('avatarUrl', avatarUrl);
         }
+        if (setParticipantsPane === 1) {
+            api.executeCommand('toggleParticipantsPane', {enabled: true});
+        }
+
         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+
 
     });
 

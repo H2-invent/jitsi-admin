@@ -86,6 +86,9 @@ function initJitsiMeet(data) {
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});
         }
+        if (setParticipantsPane === 1) {
+            api.executeCommand('toggleParticipantsPane', {enabled: true});
+        }
         if (avatarUrl !== '') {
             api.executeCommand('avatarUrl', avatarUrl);
         }

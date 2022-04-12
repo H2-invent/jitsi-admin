@@ -155,8 +155,8 @@
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
-    var setTileview = {{ laf_set_tileview }};
-
+    var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
+    var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
     var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
 
     {% if app.request is not null and app.request.cookies.get('DARK_MODE') ==""  %}
