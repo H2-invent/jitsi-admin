@@ -28,7 +28,7 @@ import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
 import {createPopper} from '@popperjs/core';
-import {initTabs} from 'h2-invent-material-tabs'
+import {initTabs,initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 
 addEventListener('load', function () {
@@ -142,6 +142,9 @@ function initServerFeatures() {
         getMoreFeature($(this).val());
     })
 }
+$('#modalAdressbook').on('shown.bs.modal', function (e) {
+    initalSetUnderline('#modalAdressbook .underline');
+});
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
