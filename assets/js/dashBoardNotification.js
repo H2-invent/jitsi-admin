@@ -8,7 +8,7 @@ function initDashboardnotification(lTopic){
         var data = JSON.parse(e.data)
         masterNotify(data);
     }
-    $(document).click('.toast',function () {
+    $(document).on('click','.toast',function () {
         stopCallerPlay();
     })
 }

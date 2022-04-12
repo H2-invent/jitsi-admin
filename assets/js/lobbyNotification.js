@@ -137,7 +137,7 @@ function callAddhock(data) {
 
 
             Push.create(data.title, {
-                body: data.message,
+                body: data.pushMessage,
                 icon: '/favicon.ico',
                 onClick: function (ele) {
                     window.focus();

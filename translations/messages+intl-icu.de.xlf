@@ -1573,12 +1573,16 @@
         <target>Einwahl-Informationen</target>
       </trans-unit>
       <trans-unit id="EJ6OCCs" resname="addhock.notification.title">
-        <source>Ad Hoc Meeting</source>
+        <source>addhock.notification.title</source>
         <target>Ad Hoc Meeting</target>
       </trans-unit>
       <trans-unit id="aHfJyUI" resname="addhock.notification.message">
-        <source><![CDATA[Der Teilnehmende {name} ist der Lobby der Konferenz {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Zur Lobby</a>]]></source>
+        <source><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></source>
         <target><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+      </trans-unit>
+      <trans-unit id="0Xa3S_6" resname="addhock.notification.pushMessage">
+        <source><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen]]></source>
+        <target><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen]]></target>
       </trans-unit>
     </body>
   </file>

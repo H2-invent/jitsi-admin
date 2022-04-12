@@ -71,7 +71,7 @@ class AdHocMeetingController extends JitsiAdminController
             $translator->trans('addhock.notification.title'),
             $topic,
             $translator->trans('addhock.notification.message', array('{url}' => $urlGenerator->generate('room_join',array('room'=>$room->getId(),'t'=>'b')), '{name}' => $this->getUser()->getFormatedName($parameterBag->get('laf_showName')))),
-            '/',
+            $translator->trans('addhock.notification.pushMessage', array('{name}' => $this->getUser()->getFormatedName($parameterBag->get('laf_showName')))),
             60000);
         return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Konferenz erfolgreich erstellt')));
     }
