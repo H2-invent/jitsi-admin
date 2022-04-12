@@ -1,5 +1,5 @@
 import $ from "jquery";
-import {masterNotify, initNotofication} from './lobbyNotification';
+import {masterNotify, initNotofication,stopCallerPlay} from './lobbyNotification';
 
 function initDashboardnotification(lTopic){
     initNotofication();
@@ -8,6 +8,9 @@ function initDashboardnotification(lTopic){
         var data = JSON.parse(e.data)
         masterNotify(data);
     }
+    $(document).click('.toast',function () {
+        stopCallerPlay();
+    })
 }
 
 export {initDashboardnotification};

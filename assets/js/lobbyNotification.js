@@ -4,8 +4,12 @@ global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initCircle} from './initCircle'
 import notificationSound from '../sound/notification.mp3'
+import callerSound from '../sound/ringtone.mp3'
 import {setSnackbar} from './myToastr';
 import {TabUtils} from './tabBroadcast'
+
+var callersoundplay = new Audio(callerSound);
+callersoundplay.loop = true;
 
 function initNotofication() {
     Push.Permission.request();
@@ -32,6 +36,9 @@ function masterNotify(data) {
         setTimeout(function () {
             location.reload();
         }, data.timeout)
+    }
+    if (data.type === 'call') {
+        callAddhock(data);
     } else {
         alert('Error, Please reload the page')
     }
@@ -40,7 +47,9 @@ function masterNotify(data) {
 
 function notifymoderator(data) {
     var audio = new Audio(notificationSound);
-    TabUtils.lockFunction('audio'+data.messageId,function (){audio.play()},1500);
+    TabUtils.lockFunction('audio' + data.messageId, function () {
+        audio.play()
+    }, 1500);
 
     showPush(data);
 
@@ -102,7 +111,7 @@ function countParts() {
     $('#lobbyCounter').text($('.waitingUserCard').length);
 }
 
-function showPush(data){
+function showPush(data) {
     TabUtils.lockFunction(data.messageId, function () {
         if (document.visibilityState === 'hidden') {
             Push.create(data.title, {
@@ -114,7 +123,35 @@ function showPush(data){
                 }
             });
         }
-    },1500)
+    }, 1500)
 }
 
-export {masterNotify, initNotofication}
+function callAddhock(data) {
+
+    TabUtils.lockFunction('caller' + data.id, function () {
+       callersoundplay.play()
+        setTimeout(function () {
+            callersoundplay.pause();
+            callersoundplay.currentTime = 0;
+        },data.time)
+
+
+            Push.create(data.title, {
+                body: data.message,
+                icon: '/favicon.ico',
+                onClick: function (ele) {
+                    window.focus();
+                    this.close();
+                }
+            });
+
+
+        setSnackbar(data.message, data.color,true);
+    }, 1500);
+}
+function stopCallerPlay() {
+    callersoundplay.pause();
+    callersoundplay.currentTime = 0;
+}
+
+export {masterNotify, initNotofication, stopCallerPlay}

@@ -19,10 +19,15 @@ Toastr.options = {
 }
 
 
-function setSnackbar(text, color) {
-    if(color == 'danger'){
+function setSnackbar(text, color, closeWithHover=false) {
+    if(color === 'danger'){
         color = 'error';
     }
+    if (closeWithHover === true){
+        Toastr.options.timeOut = 0;
+        Toastr.options.extendedTimeOut = 0;
+    }
+
     Toastr[color](text)
     // $('#snackbar').text(text).removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').removeClass('d-none').addClass('show bg-' + color).click(function (e) {
     //     $(this).removeClass('show');
