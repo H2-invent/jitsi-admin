@@ -36,8 +36,7 @@ function masterNotify(data) {
         setTimeout(function () {
             location.reload();
         }, data.timeout)
-    }
-    if (data.type === 'call') {
+    }else if (data.type === 'call') {
         callAddhock(data);
     } else {
         alert('Error, Please reload the page')
