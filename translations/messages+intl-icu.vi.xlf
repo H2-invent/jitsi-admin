@@ -1541,24 +1541,48 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target state="needs-translation">Speichern</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
-        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <source>common.success.save</source>
         <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="EWa057N" resname="status.inconference">
-        <source>In der Konferenz</source>
+        <source>status.inconference</source>
         <target state="needs-translation">In der Konferenz</target>
       </trans-unit>
       <trans-unit id="FjHZo91" resname="status.finished">
-        <source>Beendet</source>
+        <source>status.finished</source>
         <target state="needs-translation">Beendet</target>
       </trans-unit>
       <trans-unit id="jg.IqQl" resname="server.checkHeader">
-        <source>Meinen Server überprüfen</source>
+        <source>server.checkHeader</source>
         <target state="needs-translation">Meinen Server überprüfen</target>
+      </trans-unit>
+      <trans-unit id="72KJHkb" resname="Private Nachrichten">
+        <source>Private Nachrichten</source>
+        <target state="needs-translation">Private Nachrichten</target>
+      </trans-unit>
+      <trans-unit id="jXWbBTG" resname="Lobbymoderator">
+        <source>Lobbymoderator</source>
+        <target state="needs-translation">Lobbymoderator</target>
+      </trans-unit>
+      <trans-unit id="TrVDjRp" resname="sip.caller.data">
+        <source>sip.caller.data</source>
+        <target state="needs-translation">Einwahl-Informationen</target>
+      </trans-unit>
+      <trans-unit id="EJ6OCCs" resname="addhock.notification.title">
+        <source>addhock.notification.title</source>
+        <target state="needs-translation">Ad Hoc Meeting</target>
+      </trans-unit>
+      <trans-unit id="aHfJyUI" resname="addhock.notification.message">
+        <source><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></source>
+        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+      </trans-unit>
+      <trans-unit id="0Xa3S_6" resname="addhock.notification.pushMessage">
+        <source><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen]]></source>
+        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen]]></target>
       </trans-unit>
     </body>
   </file>
