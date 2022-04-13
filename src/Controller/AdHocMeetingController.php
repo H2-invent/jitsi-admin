@@ -50,6 +50,5 @@ class AdHocMeetingController extends JitsiAdminController
         } catch (\Exception $exception) {
             return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Fehler')));
         }
-
     }
 }
