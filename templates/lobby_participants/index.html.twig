@@ -57,8 +57,12 @@
             </div>
 
             <div class="col-12 d-flex justify-content-center">
-                <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}"
+                <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}" id="renewParticipant"
                    class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
+                <a id="stopEntry"
+                   class=" d-none btn btn-outline-primary"
+                   data-alternativ="{{ 'Der Konferenz jetzt beitreten'|trans }}">{{ 'Noch nicht beitreten'|trans }}</a>
+
                 <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}"
                    class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
             </div>

@@ -24,12 +24,14 @@ initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 const es = new EventSource(topic);
 var api;
-
+var dataSucess;
+var successTimer;
 es.onmessage = e => {
     var data = JSON.parse(e.data)
-    masterNotify(data)
+    masterNotify(data);
+
     if (data.type === 'newJitsi') {
-        initJitsiMeet(data);
+        userAccepted(data);
     } else if (data.type === 'endMeeting') {
         hangup()
         $('#jitsiWindow').remove();
@@ -94,20 +96,14 @@ function initJitsiMeet(data) {
         }
     });
 
-    // api.addListener('readyToClose', function (e) {
-    //     if (window.opener == null) {
-    //         window.location.href = '/';
-    //     } else {
-    //         window.close();
-    //     }
-    // });
 
     api.addListener('participantKickedOut', function (e) {
+
         $('#jitsiWindow').remove();
-        masterNotify({'type':'modal', 'content':endModal});
+        masterNotify({'type': 'modal', 'content': endModal});
         setTimeout(function () {
             masterNotify({'type': 'endMeeting', 'url': '/'});
-        },popUpDuration)
+        }, popUpDuration)
 
     });
 
@@ -118,6 +114,41 @@ function initJitsiMeet(data) {
 
 function hangup() {
     api.command('hangup')
+}
+
+function userAccepted(data) {
+    dataSucess = data;
+    console.log('1.234')
+    $('#renewParticipant').remove();
+    $('#stopEntry').removeClass('d-none');
+    text =  $('#stopEntry').text();
+    counter = 10;
+    interval = setInterval(function () {
+        counter = counter - 1;
+        $('#stopEntry').text(text + ' (' + counter + ')');
+        if (counter <= 0) {
+            $('#stopEntry').text(text);
+            clearInterval(interval);
+        }
+    }, 1000);
+    successTimer = setTimeout(function () {
+        initJitsiMeet(dataSucess);
+
+
+    }, 10000)
+
+    $('#stopEntry').click(function (e) {
+        if (successTimer) {
+            clearTimeout(successTimer);
+            clearInterval(interval);
+
+            successTimer = null;
+            text = $(this).data('alternativ')
+            $(this).text(text);
+        } else {
+            initJitsiMeet(dataSucess);
+        }
+    })
 }
 
 $(document).ready(function () {
