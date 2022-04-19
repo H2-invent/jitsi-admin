@@ -63,7 +63,7 @@
                    class=" d-none btn btn-outline-primary"
                    data-alternativ="{{ 'Der Konferenz jetzt beitreten'|trans }}">{{ 'Noch nicht beitreten'|trans }}</a>
 
-                <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}"
+                <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}" id="leavParticipant"
                    class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
             </div>
         </div>

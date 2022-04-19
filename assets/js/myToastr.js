@@ -1,5 +1,5 @@
-
 import * as Toastr from "toastr";
+
 Toastr.options = {
     "closeButton": true,
     "debug": false,
@@ -19,23 +19,24 @@ Toastr.options = {
 }
 
 
-function setSnackbar(text, color, closeWithHover=false) {
-    if(color === 'danger'){
+function setSnackbar(text, color, closeWithHover = false, id = '0x00') {
+    if (color === 'danger') {
         color = 'error';
     }
-    if (closeWithHover === true){
+    if (closeWithHover === true) {
         Toastr.options.timeOut = 0;
         Toastr.options.extendedTimeOut = 0;
     }
-
+    text = '<span id="jitsi_toastr_' + id + '"></span>' + text;
     Toastr[color](text)
-    // $('#snackbar').text(text).removeClass('bg-danger').removeClass('bg-warning').removeClass('bg-success').removeClass('d-none').addClass('show bg-' + color).click(function (e) {
-    //     $(this).removeClass('show');
-    // });
-    // $('#snackbar').mouseleave(function (e) {
-    //     $(this).removeClass('show');
-    // })
+
+}
+
+function deleteToast(id) {
+    var tid = '#jitsi_toastr_' + id;
+    var ele = document.querySelector(tid).closest('.toast');
+    ele.remove();
 }
 
 
-export {setSnackbar}
+export {setSnackbar, deleteToast}

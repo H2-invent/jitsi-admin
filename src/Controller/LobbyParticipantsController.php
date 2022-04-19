@@ -82,6 +82,7 @@ class LobbyParticipantsController extends JitsiAdminController
             $em->remove($lobbyUser);
             $em->flush();
             $this->toModerator->refreshLobby($lobbyUser);
+            $this->toModerator->participantLeftLobby($lobbyUser);
             return new JsonResponse(array('error' => false));
         }
         return new JsonResponse(array('error' => true));

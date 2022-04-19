@@ -96,4 +96,21 @@ class LobbyDirectSendTest extends KernelTestCase
         $directSend->setMercurePublisher($hub);
         $directSend->sendModal('test/test/numberofUser', $content);
     }
+
+    public function testCloseNotification(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $twig = self::getContainer()->get(Environment::class);
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            self::assertEquals('{"type":"cleanNotification","messageId":"testClose123"}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+            return 'id';
+        });
+
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendCleanBrowserNotification('test/test/numberofUser', 'testClose123');
+    }
+
 }

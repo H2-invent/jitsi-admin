@@ -5,7 +5,7 @@ import Push from "push.js";
 import {initCircle} from './initCircle'
 import notificationSound from '../sound/notification.mp3'
 import callerSound from '../sound/ringtone.mp3'
-import {setSnackbar} from './myToastr';
+import {setSnackbar, deleteToast} from './myToastr';
 import {TabUtils} from './tabBroadcast'
 
 var callersoundplay = new Audio(callerSound);
@@ -20,6 +20,8 @@ function masterNotify(data) {
     Push.Permission.request();
     if (data.type === 'notification') {
         notifymoderator(data)
+    } else if (data.type === 'cleanNotification') {
+        deleteToast(data.messageId);
     } else if (data.type === 'refresh') {
         refresh(data)
     } else if (data.type === 'modal') {
@@ -29,14 +31,13 @@ function masterNotify(data) {
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message, data.color)
     } else if (data.type === 'newJitsi') {
-
     } else if (data.type === 'endMeeting') {
         endMeeting(data)
     } else if (data.type === 'reload') {
         setTimeout(function () {
             location.reload();
         }, data.timeout)
-    }else if (data.type === 'call') {
+    } else if (data.type === 'call') {
         callAddhock(data);
     } else {
         alert('Error, Please reload the page')
@@ -52,7 +53,7 @@ function notifymoderator(data) {
 
     showPush(data);
 
-    setSnackbar(data.message, data.color);
+    setSnackbar(data.message, data.color, false, data.messageId);
 
     $('.dragger').addClass('active');
 
@@ -128,26 +129,27 @@ function showPush(data) {
 function callAddhock(data) {
 
     TabUtils.lockFunction('caller' + data.id, function () {
-       callersoundplay.play()
+        callersoundplay.play()
         setTimeout(function () {
             callersoundplay.pause();
             callersoundplay.currentTime = 0;
-        },data.time)
+        }, data.time)
 
 
-            Push.create(data.title, {
-                body: data.pushMessage,
-                icon: '/favicon.ico',
-                onClick: function (ele) {
-                    window.focus();
-                    this.close();
-                }
-            });
+        Push.create(data.title, {
+            body: data.pushMessage,
+            icon: '/favicon.ico',
+            onClick: function (ele) {
+                window.focus();
+                this.close();
+            }
+        });
 
 
-        setSnackbar(data.message, data.color,true);
+        setSnackbar(data.message, data.color, true);
     }, 1500);
 }
+
 function stopCallerPlay() {
     callersoundplay.pause();
     callersoundplay.currentTime = 0;

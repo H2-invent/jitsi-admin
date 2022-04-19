@@ -81,6 +81,16 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
+    public function sendCleanBrowserNotification($topic, $id)
+    {
+        $data = array(
+            'type' => 'cleanNotification',
+            'messageId' => $id,
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+    }
+
     public function sendModal($topic, $content)
     {
 

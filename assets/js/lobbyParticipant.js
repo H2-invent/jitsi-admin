@@ -37,6 +37,23 @@ es.onmessage = e => {
         $('#jitsiWindow').remove();
     }
 }
+window.onbeforeunload = function(){
+    $.ajax({
+        url: $('#leavParticipant').prop('href'),
+        context: document.body
+    }).done(function() {
+        $( this ).addClass( "done" );
+    });
+}
+
+window.addEventListener("beforeunload", function(e){
+    $.ajax({
+        url: $('#leavParticipant').prop('href'),
+        context: document.body
+    }).done(function() {
+        $( this ).addClass( "done" );
+    });
+}, false);
 
 initCircle();
 var counter = 0;
