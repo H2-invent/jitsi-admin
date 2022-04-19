@@ -42,7 +42,7 @@ p {
 }
 
 .nav-tabs .nav-item {
-  color: white ;
+  color: white;
 }
 
 .dropdown-menu {
@@ -275,30 +275,41 @@ a {
   border-color: white !important;
   color: white !important;
 }
+
 .dropdown-item {
   color: white;
-  &:hover{
+
+  &:hover {
     color: $black_background;
   }
 }
-.dragger{
+
+.dragger {
   color: black;
 }
-#col-waitinglist{
-  .card{
-    background-color: $black_modal!important;
+
+#col-waitinglist {
+  .card {
+    background-color: $black_modal !important;
   }
 }
-.scrollEle{
+
+.scrollEle {
   color: white;
 }
-.participantsName{
+
+.participantsName {
   color: $black_font-color;
 }
-.dropdown-item{
+
+.dropdown-item {
   &[data-toggle="collapse"]:focus {
     color: white;
     text-decoration: none;
     background-color: inherit;
   }
+}
+
+hr {
+  border-top: 1px solid rgb(211, 211, 211);
 }

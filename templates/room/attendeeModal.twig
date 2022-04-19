@@ -22,10 +22,10 @@
                 {% endif %}
             </p>
             <div class="attendeeScroll">
-                <ul id="atendeeList">
+                <ul id="atendeeList" class="material-list">
                     <li class="d-flex flex-column flex-lg-row align-items-lg-center">
-                        {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 and room.scheduleMeeting != true%}
-                            <a class="btn btn-primary btn-floating dropdown-toggle mr-4" type="button"
+                        {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 and room.scheduleMeeting != true %}
+                            <a class=" dropdown-toggle mr-4" type="button"
                                data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
 
@@ -48,6 +48,7 @@
                         {% endif %}
                         {{ room.moderator|nameOfUser }}
                         <span class="small">&nbsp;({{ 'Organisator'|trans }})</span></li>
+                    <hr>
                     {% for user in room.user|sort((a, b) => a|nameOfUser <=> b|nameOfUser) %}
                         {% if user != room.moderator %}
                             <li class="d-flex flex-column flex-lg-row align-items-lg-center">
@@ -55,7 +56,9 @@
                                 <!-- Basic dropdown -->
 
                                 <!-- Basic dropdown -->
-                                <span>{{ user|nameOfUser }}</span>
+                                <span class="profilePic"  style="background-image: url('{% if user.profilePicture is not null %}{{ vich_uploader_asset(user.profilePicture,'documentFile') }}{% else %}{{ asset('build/images/defaultUser.8f87824e.webp') }}{% endif %}')">
+
+                                </span><span>{{ user|nameOfUser }}</span>
                                 {% include'room/__attendeeIcons.html.twig' with {'room': room, 'user': user} %}
                             </li>
                         {% endif %}
