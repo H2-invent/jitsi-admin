@@ -25,7 +25,7 @@ async function initWebcam() {
                     webcams[device.label] = device.deviceId
                     var name = device.label.substring(0, device.label.lastIndexOf('('));
                     $('#webcamSelect').append(
-                        '<li><a class="dropdown-item webcamSelect" data-value="' + device.deviceId + '">' + name + '</a></li>'
+                        '<li><a class="dropdown-item webcamSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a></li>'
                     )
                     console.log(name)
                     webcams.push(device);

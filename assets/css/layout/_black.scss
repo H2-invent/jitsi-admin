@@ -48,11 +48,21 @@ p {
 .dropdown-menu {
   background-color: $black_navbar;
   border: 1px solid $black_font-color;
+
+
+  .dropdown-item {
+    color: $black_font-color;
+    &[data-toggle="collapse"]:focus {
+      color: white;
+      text-decoration: none;
+      background-color: inherit;
+    }
+    &:hover {
+      color: $black_background;
+    }
+  }
 }
 
-.dropdown-item {
-  color: $black_font-color;
-}
 
 .popover {
   background-color: $black_navbar;
@@ -276,13 +286,6 @@ a {
   color: white !important;
 }
 
-.dropdown-item {
-  color: white;
-
-  &:hover {
-    color: $black_background;
-  }
-}
 
 .dragger {
   color: black;
@@ -302,13 +305,6 @@ a {
   color: $black_font-color;
 }
 
-.dropdown-item {
-  &[data-toggle="collapse"]:focus {
-    color: white;
-    text-decoration: none;
-    background-color: inherit;
-  }
-}
 
 hr {
   border-top: 1px solid rgb(211, 211, 211);
