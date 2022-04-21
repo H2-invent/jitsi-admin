@@ -10,7 +10,6 @@ ExecStart=/usr/bin/php -d memory_limit=-1 bin/console messenger:consume async --
 Restart=always
 RestartSec=1
 TimeoutSec=300
-User=app
 
 [Install]
 WantedBy=multi-user.target
