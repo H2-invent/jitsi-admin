@@ -5,6 +5,7 @@
 !config
 !public
 !public.key
+!key.pub
 !src
 !templates
 !theme

@@ -56,6 +56,11 @@ class LobbyWaitungUser
      */
     private $callerSession;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $closeBrowser;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -146,6 +151,18 @@ class LobbyWaitungUser
         }
 
         $this->callerSession = $callerSession;
+
+        return $this;
+    }
+
+    public function getCloseBrowser(): ?bool
+    {
+        return $this->closeBrowser;
+    }
+
+    public function setCloseBrowser(?bool $closeBrowser): self
+    {
+        $this->closeBrowser = $closeBrowser;
 
         return $this;
     }

@@ -192,6 +192,7 @@ class StartMeetingService
         }
         $lobbyUser->setShowName($this->name);
         $lobbyUser->setType($this->type);
+        $lobbyUser->setCloseBrowser(false);
         $this->em->persist($lobbyUser);
         $this->em->flush();
         $this->toModerator->refreshLobby($lobbyUser);

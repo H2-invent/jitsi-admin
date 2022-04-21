@@ -1,7 +1,7 @@
 <div class="col-lg-3 col-md-6 waitingUserCard mb-3">
     <div class="card ">
         <div class="card-body text-center d-flex flex-column align-items-center">
-            {% if wU.user.profilePicture is not null %}
+            {% if wU.user is not null and  wU.user.profilePicture is not null %}
             <style>
                 #circle_{{ wU.id }}{
                     background-image: url("{{ vich_uploader_asset(wU.user.profilePicture,'documentFile') }}");
@@ -13,7 +13,7 @@
 
             {% endif %}
             <div class="initialCircle " id="circle_{{ wU.id }}">
-                {% if wU.user.profilePicture is  null %}
+                {% if wU.user is null or wU.user.profilePicture is  null %}
                     {% if wU.user is not null %}
                         {% if wU.user.firstName != '' %}
                             {{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}
@@ -46,5 +46,6 @@
     </div>
 
 </div>
+
 
 

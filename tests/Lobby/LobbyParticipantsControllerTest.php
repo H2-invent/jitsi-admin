@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;
+use Symfony\Component\Messenger\Transport\InMemoryTransport;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LobbyParticipantsControllerTest extends WebTestCase
@@ -105,6 +106,43 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        /** @var InMemoryTransport $transport */
+        $transport = self::$container->get('messenger.transport.async');
+        $this->assertCount(0, $transport->get());
     }
 
+    public function testRefresh(): void
+    {
+        $client = static::createClient();
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $moderator = $room->getModerator();
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $client->loginUser($moderator);
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array('userUid' => 'test'));
+        $crawler = $client->request('GET', $urlLeave);
+        self::assertEquals('{"error":true}', $client->getResponse()->getContent());
+        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+        $crawler = $client->request('GET', $url);
+        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        self::assertNotNull($lobbyUser);
+        $urlLeave = $urlGenerator->generate('lobby_participants_browser_leave', array( 'userUid' => $lobbyUser->getUid()));
+        $crawler = $client->request('GET', $urlLeave);
+        self::assertEquals('{"error":false}', $client->getResponse()->getContent());
+        self::assertNotNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        /** @var InMemoryTransport $transport */
+        $transport = self::$container->get('messenger.transport.async');
+        $this->assertCount(1, $transport->get());
+
+    }
 }

@@ -97,10 +97,13 @@
                 {% endif %}
         ;
         var removeUrl = '{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}';
-        {% set content %}{% include 'lobby_participants/endMeeting.html.twig' with {'url':'/'}%}{% endset %}
+        {% set content %}{% include 'lobby_participants/endMeeting.html.twig' with {'url':'/'} %}{% endset %}
         var endModal = '{{ content|replace({"\n":'',})|escape('js') }}';
 
         var popUpDuration = {{ laf_lobby_popUpDuration }};
+
+        var browserLeave = '{{ path('lobby_participants_browser_leave',{'userUid':user.uid}) }}'
+
     </script>
 {% endblock %}
 {% block webpack %}

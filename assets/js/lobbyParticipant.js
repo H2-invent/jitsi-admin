@@ -26,6 +26,7 @@ const es = new EventSource(topic);
 var api;
 var dataSucess;
 var successTimer;
+var clickLeave = false;
 es.onmessage = e => {
     var data = JSON.parse(e.data)
     masterNotify(data);
@@ -37,15 +38,21 @@ es.onmessage = e => {
         $('#jitsiWindow').remove();
     }
 }
+window.addEventListener('beforeunload', function (e) {
+    if (!clickLeave){
+        closeBrowser();
+    }
+    return;
+});
 
-window.addEventListener("beforeunload", function(e){
+function closeBrowser() {
     $.ajax({
-        url: $('#leavParticipant').prop('href'),
+        url: browserLeave,
         context: document.body
-    }).done(function() {
-        $( this ).addClass( "done" );
-    });
-}, false);
+    })
+    for (var i = 0; i < 500000000; i++) {
+    }
+}
 
 initCircle();
 var counter = 0;
@@ -72,8 +79,7 @@ $('.renew').click(function (e) {
 })
 $('.leave').click(function (e) {
     e.preventDefault();
-
-    text = $(this).text();
+    clickLeave = true;
     $.get($(this).attr('href'), function (data) {
         window.location.href = "/";
     })
@@ -130,7 +136,7 @@ function userAccepted(data) {
     console.log('1.234')
     $('#renewParticipant').remove();
     $('#stopEntry').removeClass('d-none');
-    text =  $('#stopEntry').text();
+    text = $('#stopEntry').text();
     counter = 10;
     interval = setInterval(function () {
         counter = counter - 1;

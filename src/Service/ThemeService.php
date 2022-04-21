@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
@@ -18,12 +19,14 @@ class ThemeService
     private $licenseService;
     private $parameterBag;
     private $client;
+    private $logger;
 
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService)
+    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
     {
         $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;
         $this->client = $httpClient;
+        $this->logger = $logger;
     }
 
     public function getTheme()
@@ -40,6 +43,9 @@ class ThemeService
                     if ($res !== false) {
                         return $res;
                     }
+                    $this->logger->error('Theme valid until is bevore now');
+                }else{
+                    $this->logger->error('Signature invalid');
                 }
             }
         } catch (\Exception $exception) {

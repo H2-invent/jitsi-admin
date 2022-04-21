@@ -38,11 +38,12 @@ class CreateLobbyUserService
             $this->em->flush();
 
             $this->toModerator->newParticipantInLobby($lobbyUser);
-            $this->toModerator->refreshLobby($lobbyUser);
         }
+        $lobbyUser->setCloseBrowser(false);
         $lobbyUser->setType($type);
         $this->em->persist($lobbyUser);
         $this->em->flush();
+        $this->toModerator->refreshLobby($lobbyUser);
         return $lobbyUser;
     }
 }
