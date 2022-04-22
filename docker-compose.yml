@@ -52,8 +52,7 @@ services:
   mercure-ja:
     image: dunglas/mercure
     restart: unless-stopped
-    depends_on:
-      - traefik-ja
+
 
     environment:
 
@@ -81,7 +80,7 @@ services:
       - db-ja
       - keycloak-ja
       - mercure-ja
-      - traefik-ja
+
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -134,7 +133,7 @@ services:
 
     depends_on:
       - db-ja
-      - traefik-ja
+
 
     environment:
       KEYCLOAK_USER: admin
