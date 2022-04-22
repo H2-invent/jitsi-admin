@@ -92,7 +92,9 @@ chmod +x dockerupdate.sh
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
   docker-compose -f docker-compose.test.yml up -d
-
+elif [ "$ENVIRONMENT" == 'cluster' ]; then
+  docker-compose -f docker-compose.cluster.yml build
+  docker-compose -f docker-compose.cluster.yml up -d
 else
   docker-compose -f docker-compose.yml build
   docker-compose -f docker-compose.yml up -d
