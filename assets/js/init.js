@@ -5,6 +5,7 @@ import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
 import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
+var audio = new Audio(notificationSound);
 import {TabUtils} from './tabBroadcast'
 function initGenerell() {
     Push.Permission.request();
@@ -24,6 +25,10 @@ function initGenerell() {
                             }
                         });
                     }
+
+                    TabUtils.lockFunction('audio' + data.messageId, function () {
+                        audio.play()
+                    }, 1500);
                     setSnackbar(data[i].text,'info');
                 }
             })
