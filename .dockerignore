@@ -1,6 +1,7 @@
 *
 !translations
 !assets
+!jitsi-admin_messenger_docker.service
 !bin
 !config
 !public
