@@ -116,6 +116,7 @@ services:
       - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.secure=true"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
+      - dockerupdate.sh:/etc/container/startup.sh
 
 
   db-ja:
