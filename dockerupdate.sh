@@ -17,8 +17,6 @@ php $APP/bin/console cache:warmup
 echo --------------------------------------------------------------------------
 echo ----------------Setting Permissin-----------------------------------------
 echo --------------------------------------------------------------------------
-chown -R www-data:www-data $APP/var/cache
-chmod -R 775 $APP/var/cache
 chown -R www-data:www-data $APP/public/uploads
 chmod -R 775 $APP/public/uploads
 echo --------------------------------------------------------------------------
