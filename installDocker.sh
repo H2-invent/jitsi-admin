@@ -121,14 +121,13 @@ export registerEmailAdress=$smtpFrom
 
 
 chmod +x dockerupdate.sh
+
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
   docker-compose -f docker-compose.test.yml up -d
-  #docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 else
    docker-compose -f docker-compose.yml build
   docker-compose -f docker-compose.yml up -d
-  #docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color
