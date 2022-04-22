@@ -21,7 +21,7 @@ RUN chown -R www-data:www-data public/uploads/
 RUN chmod -R 775 public/uploads/
 RUN apt update
 RUN apt install supervisor -y
-COPY jitsi-admin_messenger_docker.service /etc/supervisor/conf.d/
+COPY jitsi-admin_messenger_docker.conf /etc/supervisor/conf.d/
 RUN supervisorctl reread
 RUN supervisorctl update
 RUN supervisorctl start messenger-consume:*
