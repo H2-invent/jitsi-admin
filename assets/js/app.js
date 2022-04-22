@@ -96,11 +96,7 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    // $('.flatpickr').flatpickr({
-    //     minDate: "today",
-    //     enableTime: true,
-    //     dateFormat: "Y-m-d H:i",
-    // });
+
     initCopytoClipboard();
     let url = new URLSearchParams(window.location.search);
     url.delete('snack');
