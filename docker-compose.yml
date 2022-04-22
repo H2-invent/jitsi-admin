@@ -51,7 +51,7 @@ services:
   mercure-ja:
     image: dunglas/mercure
     restart: unless-stopped
-    depends_on:
+
 
     environment:
 
