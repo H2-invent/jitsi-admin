@@ -4,7 +4,6 @@ services:
   traefik-ja:
     image: "traefik:v2.5"
     network_mode: "host"
-    container_name: "traefik-ja"
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
