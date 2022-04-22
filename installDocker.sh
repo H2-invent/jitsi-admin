@@ -86,6 +86,8 @@ export KEYCLOAK_PW=$KEYCLOAK_PW
 export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
+export COMPOSE_PROJECT_NAME=jitsi-admin
+
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
   docker-compose -f docker-compose.test.yml up -d
