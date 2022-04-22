@@ -86,17 +86,17 @@ export KEYCLOAK_PW=$KEYCLOAK_PW
 export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
-export COMPOSE_PROJECT_NAME=jitsi-admin
+
 chmod +x dockerupdate.sh
 
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
   docker-compose -f docker-compose.test.yml up -d
-  #docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+
 else
   docker-compose -f docker-compose.yml build
   docker-compose -f docker-compose.yml up -d
-  #docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+
 fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color
