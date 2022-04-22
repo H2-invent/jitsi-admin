@@ -111,7 +111,7 @@ services:
       - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.secure=true"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
-
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
   db-ja:
     image: mariadb:latest
@@ -150,6 +150,7 @@ services:
 
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
 volumes:
   mariadb:

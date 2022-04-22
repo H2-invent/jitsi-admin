@@ -36,6 +36,7 @@ class PushService
 
         foreach ($notification as $data) {
             $tmp = array(
+                'id'=>$data->getId(),
                 'title' => $data->getTitle(),
                 'text' => $data->getText(),
                 'url' => $data->getUrl()?$data->getUrl():$this->urlGenerator->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL));

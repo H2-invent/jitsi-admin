@@ -19,16 +19,19 @@ fi
   ENVIRONMENT=${ENVIRONMENT:=dev}
   read -p "Enter the environment dev/prod[$ENVIRONMENT]: " input
   ENVIRONMENT=${input:=$ENVIRONMENT}
+  sed -i '/ENVIRONMENT/d' $FILE
   echo "ENVIRONMENT=$ENVIRONMENT" >> $FILE
 
   HTTP_METHOD=${HTTP_METHOD:=http}
   read -p "Enter http/https for testing on local environment ALWAYS use http [$HTTP_METHOD]: " input
   HTTP_METHOD=${input:=$HTTP_METHOD}
+  sed -i '/HTTP_METHOD/d' $FILE
   echo "HTTP_METHOD=$HTTP_METHOD" >> $FILE
 
-  PUBLIC_URL=${PUBLIC_URL:=dev}
+  PUBLIC_URL=${PUBLIC_URL:=dev.domain.de}
   read -p "Enter the url you want to enter the jitsi-admin [$PUBLIC_URL]: " input
   PUBLIC_URL=${input:=$PUBLIC_URL}
+  sed -i '/PUBLIC_URL/d' $FILE
   echo "PUBLIC_URL=$PUBLIC_URL" >> $FILE
 
   echo --------------------------------------------------------------------------
@@ -40,33 +43,39 @@ fi
   smtpHost=${smtpHost:=localhost}
   read -p "Enter smtp host: [$smtpHost]" input
   smtpHost=${input:=$smtpHost}
+  sed -i '/smtpHost/d' $FILE
   echo "smtpHost=$smtpHost" >> $FILE
 
   smtpPort=${smtpPort:=587}
   read -p "Enter smtp port [$smtpPort]: " input
   smtpPort=${input:=$smtpPort}
+  sed -i '/smtpPort/d' $FILE
   echo "smtpPort=$smtpPort" >> $FILE
 
   smtpUsername=${smtpUsername:=username}
   read -p "Enter smtp username [$smtpUsername]: " input
   smtpUsername=${input:=$smtpUsername}
+  sed -i '/smtpUsername/d' $FILE
   echo "smtpUsername=$smtpUsername" >> $FILE
 
 
   smtpPassword=${smtpPassword:=password}
   read -p "Enter smtp password [$smtpPassword]: " input
   smtpPassword=${input:=$smtpPassword}
+  sed -i '/smtpPassword/d' $FILE
   echo "smtpPassword=$smtpPassword" >> $FILE
 
 
   smtpEncryption=${smtpEncryption:=none}
   read -p "Enter SMTP encrytion tls/ssl/none: [$smtpEncryption]" input
   smtpEncryption=${input:=$smtpEncryption}
+  sed -i '/smtpEncryption/d' $FILE
   echo "smtpEncryption=$smtpEncryption" >> $FILE
 
   smtpFrom=${smtpFrom:=test@local.de}
   read -p "Enter smtp FROM mail:[$smtpFrom] " input
   smtpFrom=${input:=$smtpFrom}
+  sed -i '/smtpFrom/d' $FILE
   echo "smtpFrom=$smtpFrom" >> $FILE
 
 
@@ -111,15 +120,15 @@ export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
 
 
-
+chmod +x dockerupdate.sh
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
   docker-compose -f docker-compose.test.yml up -d
-  docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+  #docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 else
    docker-compose -f docker-compose.yml build
   docker-compose -f docker-compose.yml up -d
-  docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+  #docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
 fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color

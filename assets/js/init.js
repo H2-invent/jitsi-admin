@@ -4,6 +4,8 @@ global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
 import {setSnackbar} from './myToastr'
+import notificationSound from '../sound/notification.mp3'
+import {TabUtils} from './tabBroadcast'
 function initGenerell() {
     Push.Permission.request();
     if (typeof urlNotification !== 'undefined') {
