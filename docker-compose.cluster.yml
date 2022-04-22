@@ -22,7 +22,6 @@ services:
       - "traefik.http.routers.mercure-ja.tls.certresolver=letsencrypt"
 
     volumes:
-      - caddy_data:/data
       - caddy_config:/config
     networks:
       - default
