@@ -30,6 +30,7 @@ services:
   #Here is the Jitsi-Admin app
   app-ja:
     build: .
+    hostname: ${RANDOMTAG}app-ja
     depends_on:
       - db-ja
       - keycloak-ja
@@ -71,7 +72,7 @@ services:
 
   db-ja:
     image: mariadb:latest
-    ${RANDOMTAG}db-ja
+    hostname: ${RANDOMTAG}db-ja
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
@@ -83,7 +84,7 @@ services:
 
   keycloak-ja:
     image: jboss/keycloak:latest
-
+    hostname: ${RANDOMTAG}keycloak-ja
     depends_on:
       - db-ja
 
