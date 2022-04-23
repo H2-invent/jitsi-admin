@@ -19,7 +19,7 @@ services:
       - "traefik.http.routers.mercure-ja-${RANDOMTAG}.entrypoints=web"
       - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls=true"
       - "traefik.http.services.mercure-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
-      - "traefik.http.routers.mercure-ja-${RANDOMTAG}tls.certresolver=letsencrypt"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
     volumes:
       - caddy_data:/data
@@ -51,7 +51,7 @@ services:
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
-      registerEmailAdress: ${registerEmailAdress}RANDOMTAG
+      registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
