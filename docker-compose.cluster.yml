@@ -3,7 +3,6 @@ version: '3.7'
 services:
   mercure-ja:
     image: dunglas/mercure
-    restart: unless-stopped
     hostname: ${RANDOMTAG}mercure-ja
     environment:
 
@@ -21,7 +20,6 @@ services:
       - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
     volumes:
-      - caddy_data:/data
       - caddy_config:/config
     networks:
       - default
@@ -117,7 +115,6 @@ services:
 
 volumes:
   mariadb:
-  caddy_data:
   caddy_config:
   image_upload:
 

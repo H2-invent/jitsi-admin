@@ -37,7 +37,7 @@ class OwnRoomController extends JitsiAdminController
         if (!StartMeetingService::checkTime($rooms)) {
             $startPrint = $rooms->getTimeZone()?clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getStart();
             $startPrint->modify('-30min');
-            $endPrint = $rooms->getTimeZone()?$rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getStart();
+            $endPrint = $rooms->getTimeZone()?$rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getEnddate();
             $snack = $translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
                 array(
                     '{from}' => $startPrint->format('d.m.Y H:i T'),

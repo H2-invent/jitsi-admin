@@ -119,15 +119,13 @@ $(document).on('click', '.stopCloseDropdown', function (e) {
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
-    if ($('#loadContentModal ').hasClass('show')) {
-        $('#loadContentModal').modal('hide');
-    }
     $('#loadContentModal').load(url, function (data, status) {
         if (status === "error") {
             window.location.reload();
         } else {
-
-            $('#loadContentModal').modal('show');
+            if (!$('#loadContentModal ').hasClass('show')) {
+                $('#loadContentModal').modal('show');
+            }
         }
     });
 });

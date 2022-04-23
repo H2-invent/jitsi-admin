@@ -2,23 +2,19 @@
 echo --------------Schutdown Apache------------------------------------------
 #service apache2 stop
 
-PATHName=/var/www/html
+APP=/var/www/html
 echo --------------------------------------------------------------------------
 echo ----------------Create Database-------------------------------------------
 echo ----------------Please Backup your database-------------------------------
 echo --------------------------------------------------------------------------
-php $PATHName/bin/console cache:clear
-php $PATHName/bin/console doctrine:mig:mig --no-interaction
+php $APP/bin/console cache:clear
+php $APP/bin/console doctrine:mig:mig --no-interaction
 #php bin/console doctrine:migrations:migrate --no-interaction
 echo --------------------------------------------------------------------------
 echo -----------------Clear Cache----------------------------------------------
 echo --------------------------------------------------------------------------
-php $PATHName/bin/console cache:clear
-php $PATHName/bin/console cache:warmup
-echo --------------------------------------------------------------------------
-echo ----------------Setting Permissin-----------------------------------------
-echo --------------------------------------------------------------------------
-
+php $APP/bin/console cache:clear
+php $APP/bin/console cache:warmup
 echo --------------------------------------------------------------------------
 echo -----------------------Updated the Jitsi-Admin correct------------------
 echo --------------------------------------------------------------------------

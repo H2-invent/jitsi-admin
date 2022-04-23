@@ -61,7 +61,7 @@ class JoinService
 
                 $startPrint = $room->getTimeZone()?clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
                 $startPrint->modify('-30min');
-                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getEnddate();
 
             }
 
