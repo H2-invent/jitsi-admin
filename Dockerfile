@@ -22,4 +22,5 @@ RUN chmod -R 775 public/uploads/
 RUN apt update
 RUN apt install  -y supervisor
 COPY jitsi-admin_messenger_docker.conf /etc/supervisor/conf.d/supervisord.conf
+HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 CMD curl --fail http://127.0.0.1:80/health/check || exit 1
 USER docker
