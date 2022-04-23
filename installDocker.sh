@@ -89,6 +89,9 @@ export registerEmailAdress=$smtpFrom
 
 chmod +x dockerupdate.sh
 
+RANDOMTAG=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1);
+export RANDOMTAG
+
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
   docker-compose -f docker-compose.test.yml up -d
