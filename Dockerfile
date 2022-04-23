@@ -19,4 +19,5 @@ RUN chown -R www-data:www-data var
 RUN chmod -R 777 var
 RUN chown -R www-data:www-data public/uploads/
 RUN chmod -R 775 public/uploads/
+HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 CMD curl --fail http://127.0.0.1:80/health/check || exit 1
 USER docker
