@@ -15,11 +15,11 @@ services:
     command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mercure-ja-${COMPOSE_PROJECT_NAME}.rule=Host(`mercure.${PUBLIC_URL}`)"
-      - "traefik.http.routers.mercure-ja-${COMPOSE_PROJECT_NAME}.entrypoints=web"
-      - "traefik.http.routers.mercure-ja-${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.services.mercure-ja-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=3000"
-      - "traefik.http.routers.mercure-ja-${COMPOSE_PROJECT_NAME}tls.certresolver=letsencrypt"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.rule=Host(`mercure.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.services.mercure-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}tls.certresolver=letsencrypt"
 
     volumes:
       - caddy_data:/data
@@ -51,18 +51,18 @@ services:
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
-      registerEmailAdress: ${registerEmailAdress}
+      registerEmailAdress: ${registerEmailAdress}RANDOMTAG
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app-ja-${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.routers.app-ja-${COMPOSE_PROJECT_NAME}.rule=Host(`${PUBLIC_URL}`)"
-      - "traefik.http.routers.app-ja-${COMPOSE_PROJECT_NAME}.entrypoints=web"
-      - "traefik.http.services.app-ja-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=80"
-      - "traefik.http.routers.app-ja-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
-      - "traefik.http.services.app-ja-${COMPOSE_PROJECT_NAME}.loadbalancer.sticky=true"
-      - "traefik.http.services.app-ja-${COMPOSE_PROJECT_NAME}.loadbalancer.sticky.cookie.name=jad"
-      - "traefik.http.services.app-ja-${COMPOSE_PROJECT_NAMECOMPOSE_PROJECT_NAME}.loadbalancer.sticky.cookie.secure=true"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.rule=Host(`${PUBLIC_URL}`)"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.server.port=80"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky=true"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.name=jad"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.secure=true"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
@@ -101,11 +101,11 @@ services:
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak-ja-${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.routers.keycloak-ja-${COMPOSE_PROJECT_NAME}.rule=Host(`keycloak.${PUBLIC_URL}`)"
-      - "traefik.http.routers.keycloak-ja-${COMPOSE_PROJECT_NAME}.entrypoints=web"
-      - "traefik.http.services.keycloak-ja-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8080"
-      - "traefik.http.routers.keycloak-ja-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.services.keycloak-ja-${RANDOMTAG}.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json

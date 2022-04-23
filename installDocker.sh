@@ -118,7 +118,8 @@ export KEYCLOAK_PW=$KEYCLOAK_PW
 export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
-
+RANDOMTAG=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1);
+export RANDOMTAG
 
 chmod +x dockerupdate.sh
 
