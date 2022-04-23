@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   mercure-ja:
+    hostname: ${RANDOMTAG}mercure-ja
     image: dunglas/mercure
     restart: unless-stopped
 
@@ -29,6 +30,7 @@ services:
 
   #Here is the Jitsi-Admin app
   app-ja:
+    hostname: ${RANDOMTAG}app-ja
     build: .
     depends_on:
       - db-ja
@@ -40,13 +42,13 @@ services:
       PHP_INI_MEMORY_LIMIT: "1G"
       PHP_EXTENSION_LDAP: 1
       PHP_EXTENSION_INTL: 1
-      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
+      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
       OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
       OAUTH_KEYCLOAK_REALM: jitsiadmin
-      MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
+      MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
@@ -71,6 +73,7 @@ services:
 
   db-ja:
     image: mariadb:latest
+    hostname: ${RANDOMTAG}db-ja
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
@@ -82,7 +85,7 @@ services:
 
   keycloak-ja:
     image: jboss/keycloak:latest
-
+    hostname: ${RANDOMTAG}keycloak-ja
     depends_on:
       - db-ja
 
