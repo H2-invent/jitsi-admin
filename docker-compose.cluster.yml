@@ -15,11 +15,11 @@ services:
     command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mercure-ja-${PUBLIC_URL}.rule=Host(`mercure.${PUBLIC_URL}`)"
-      - "traefik.http.routers.mercure-ja-${PUBLIC_URL}.entrypoints=web"
-      - "traefik.http.routers.mercure-ja-${PUBLIC_URL}.tls=true"
-      - "traefik.http.services.mercure-ja-${PUBLIC_URL}.loadbalancer.server.port=3000"
-      - "traefik.http.routers.mercure-ja-${PUBLIC_URL}.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.mercure-ja-${PROJECT_NAME}.rule=Host(`mercure.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure-ja-${PROJECT_NAME}.entrypoints=web"
+      - "traefik.http.routers.mercure-ja-${PROJECT_NAME}.tls=true"
+      - "traefik.http.services.mercure-ja-${PROJECT_NAME}.loadbalancer.server.port=3000"
+      - "traefik.http.routers.mercure-ja-${PROJECT_NAME}tls.certresolver=letsencrypt"
 
     volumes:
       - caddy_data:/data
@@ -55,14 +55,14 @@ services:
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app-ja-${PUBLIC_URL}.tls=true"
-      - "traefik.http.routers.app-ja-${PUBLIC_URL}.rule=Host(`${PUBLIC_URL}`)"
-      - "traefik.http.routers.app-ja-${PUBLIC_URL}.entrypoints=web"
-      - "traefik.http.services.app-ja-${PUBLIC_URL}.loadbalancer.server.port=80"
-      - "traefik.http.routers.app-ja-${PUBLIC_URL}.tls.certresolver=letsencrypt"
-      - "traefik.http.services.app-ja-${PUBLIC_URL}.loadbalancer.sticky=true"
-      - "traefik.http.services.app-ja-${PUBLIC_URL}.loadbalancer.sticky.cookie.name=jad"
-      - "traefik.http.services.app-ja-${PUBLIC_URL}.loadbalancer.sticky.cookie.secure=true"
+      - "traefik.http.routers.app-ja-${PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.app-ja-${PROJECT_NAME}.rule=Host(`${PUBLIC_URL}`)"
+      - "traefik.http.routers.app-ja-${PROJECT_NAME}.entrypoints=web"
+      - "traefik.http.services.app-ja-${PROJECT_NAME}.loadbalancer.server.port=80"
+      - "traefik.http.routers.app-ja-${PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app-ja-${PROJECT_NAME}.loadbalancer.sticky=true"
+      - "traefik.http.services.app-ja-${PROJECT_NAME}.loadbalancer.sticky.cookie.name=jad"
+      - "traefik.http.services.app-ja-${PROJECT_NAME}.loadbalancer.sticky.cookie.secure=true"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
@@ -101,11 +101,11 @@ services:
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak-ja-${PUBLIC_URL}.tls=true"
-      - "traefik.http.routers.keycloak-ja-${PUBLIC_URL}.rule=Host(`keycloak.${PUBLIC_URL}`)"
-      - "traefik.http.routers.keycloak-ja-${PUBLIC_URL}.entrypoints=web"
-      - "traefik.http.services.keycloak-ja-${PUBLIC_URL}.loadbalancer.server.port=8080"
-      - "traefik.http.routers.keycloak-ja-${PUBLIC_URL}.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.keycloak-ja-${PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.keycloak-ja-${PROJECT_NAME}.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.keycloak-ja-${PROJECT_NAME}.entrypoints=web"
+      - "traefik.http.services.keycloak-ja-${PROJECT_NAME}.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak-ja-${PROJECT_NAME}.tls.certresolver=letsencrypt"
 
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json

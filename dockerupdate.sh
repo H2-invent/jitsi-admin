@@ -18,10 +18,7 @@ php $PATHName/bin/console cache:warmup
 echo --------------------------------------------------------------------------
 echo ----------------Setting Permissin-----------------------------------------
 echo --------------------------------------------------------------------------
-chown -R www-data:www-data $PATHName/var/cache
-chmod -R 775 $PATHName/var/cache
-chown -R www-data:www-data $PATHName/public/uploads
-chmod -R 775 $PATHName/public/uploads
+
 echo --------------------------------------------------------------------------
 echo -----------------------Updated the Jitsi-Admin correct------------------
 echo --------------------------------------------------------------------------
