@@ -18,7 +18,6 @@ class HealthCheckController extends AbstractController
     {
         try {
             $res = $this->getDoctrine()->getRepository(User::class)->findOneBy(array());
-            $user = $res->getFirstname();
         } catch (\Exception $exception) {
             throw $this->createNotFoundException('Database not working');
         }
