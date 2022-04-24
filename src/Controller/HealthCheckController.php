@@ -19,7 +19,6 @@ class HealthCheckController extends JitsiAdminController
     {
         try {
             $res = $this->doctrine->getRepository(User::class)->findOneBy(array());
-            $user = $res->getFirstname();
         } catch (\Exception $exception) {
             throw $this->createNotFoundException('Database not working');
         }
