@@ -86,6 +86,20 @@ class ParticipantController extends AbstractController
         return $this->render('room/attendeeModal.twig', array('form' => $form->createView(), 'title' => $title, 'room' => $room));
     }
 
+    /**
+     * @Route("/room/participant/past", name="room_past_user")
+     */
+    public function roompastUser(Request $request, RoomAddService $roomAddService)
+    {
+
+        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        if ($room->getModerator() !== $this->getUser()) {
+            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+        }
+        $title = $this->translator->trans('Teilnehmer');
+        return $this->render('room/attendeeModalPast.twig', array('title' => $title, 'room' => $room));
+    }
+
 
     /**
      * @Route("/room/participant/remove", name="room_user_remove")

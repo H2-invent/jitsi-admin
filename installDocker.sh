@@ -86,14 +86,22 @@ export KEYCLOAK_PW=$KEYCLOAK_PW
 export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
+
+chmod +x dockerupdate.sh
+
+RANDOMTAG=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1);
+export RANDOMTAG
+
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
   docker-compose -f docker-compose.test.yml up -d
-  docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+elif [ "$ENVIRONMENT" == 'cluster' ]; then
+  docker-compose -f docker-compose.cluster.yml build
+  docker-compose -f docker-compose.cluster.yml up -d
 else
   docker-compose -f docker-compose.yml build
   docker-compose -f docker-compose.yml up -d
-  docker exec -d jitsi-admin_app-ja_1 /bin/bash /var/www/html/dockerupdate.sh
+
 fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color

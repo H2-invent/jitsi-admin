@@ -3,7 +3,6 @@ version: '3.7'
 services:
   traefik-ja:
     image: "traefik:v2.5"
-    container_name: "traefik-ja"
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
@@ -81,6 +80,7 @@ services:
       - keycloak-ja
       - mercure-ja
       - traefik-ja
+
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -116,6 +116,7 @@ services:
       - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.secure=true"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
 
   db-ja:
@@ -133,6 +134,7 @@ services:
     depends_on:
       - db-ja
       - traefik-ja
+
 
     environment:
       KEYCLOAK_USER: admin

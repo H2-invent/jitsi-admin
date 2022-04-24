@@ -1,0 +1,130 @@
+version: '3.7'
+
+services:
+  mercure-ja:
+    hostname: ${RANDOMTAG}mercure-ja
+    image: dunglas/mercure
+    restart: unless-stopped
+
+
+    environment:
+
+      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      SERVER_NAME: ':3000'
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.rule=Host(`mercure.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.services.mercure-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
+      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+
+    volumes:
+      - caddy_config:/config
+    networks:
+      - default
+      - jitsi-admin
+
+  #Here is the Jitsi-Admin app
+  app-ja:
+    hostname: ${RANDOMTAG}app-ja
+    build: .
+    depends_on:
+      - db-ja
+      - keycloak-ja
+      - mercure-ja
+    environment:
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_INI_MEMORY_LIMIT: "1G"
+      PHP_EXTENSION_LDAP: 1
+      PHP_EXTENSION_INTL: 1
+      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
+      MAILER_TRANSPORT: smtp
+      OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
+      OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+      OAUTH_KEYCLOAK_REALM: jitsiadmin
+      MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      MAILER_DSN: ${MAILER_DSN}
+      registerEmailAdress: ${registerEmailAdress}
+      laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.rule=Host(`${PUBLIC_URL}`)"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.server.port=80"
+      - "traefik.http.routers.app-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky=true"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.name=jad"
+      - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.secure=true"
+    volumes:
+      - image_upload:/var/www/html/public/uploads/images
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
+    networks:
+      - default
+      - jitsi-admin
+
+  db-ja:
+    image: mariadb:latest
+    hostname: ${RANDOMTAG}db-ja
+    environment:
+      MARIADB_ROOT_PASSWORD: test
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - jitsi-admin
+
+
+  keycloak-ja:
+    image: jboss/keycloak:latest
+    hostname: ${RANDOMTAG}keycloak-ja
+    depends_on:
+      - db-ja
+
+
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
+      DB_VENDOR: mariadb
+      DB_ADDR: db-ja
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: ${KEYCLOAK_PW}
+      DB_PORT: 3306
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.services.keycloak-ja-${RANDOMTAG}.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+
+    volumes:
+      - ./keycloak/realm-export.json:/tmp/realm-export.json
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
+    networks:
+      - default
+      - jitsi-admin
+
+volumes:
+  mariadb:
+  caddy_config:
+  image_upload:
+
+networks:
+  default:
+    external:
+      name: gateway
+
+  jitsi-admin:
+    internal: true
