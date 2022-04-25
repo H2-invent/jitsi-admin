@@ -101,6 +101,7 @@ class LobbyModeratorController extends JitsiAdminController
 
         $this->toParticipant->acceptLobbyUser($lobbyUser);
         $this->toModerator->refreshLobby($lobbyUser);
+        $this->toModerator->participantLeftLobby($lobbyUser);
         return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.success'), 'color' => 'success'));
     }
 
@@ -121,6 +122,7 @@ class LobbyModeratorController extends JitsiAdminController
             $em->remove($data);
             $em->flush();
             $this->toParticipant->acceptLobbyUser($data);
+            $this->toModerator->participantLeftLobby($lobbyUser);
         }
         $this->toModerator->refreshLobby($data);
         return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.all.success'), 'color' => 'success'));
@@ -156,6 +158,7 @@ class LobbyModeratorController extends JitsiAdminController
         $em->flush();
         $this->toParticipant->sendDecline($lobbyUser);
         $this->toModerator->refreshLobby($lobbyUser);
+        $this->toModerator->participantLeftLobby($lobbyUser);
         return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.decline.success'), 'color' => 'success'));
     }
 
