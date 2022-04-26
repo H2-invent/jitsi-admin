@@ -1557,19 +1557,19 @@
       </trans-unit>
       <trans-unit id="72KJHkb" resname="Private Nachrichten">
         <source>Private Nachrichten</source>
-        <target state="needs-translation">Private Nachrichten</target>
+        <target state="translated">Mensajes privados</target>
       </trans-unit>
       <trans-unit id="jXWbBTG" resname="Lobbymoderator">
         <source>Lobbymoderator</source>
-        <target state="needs-translation">Lobbymoderator</target>
+        <target state="translated">Moderador de la sala de espera</target>
       </trans-unit>
       <trans-unit id="TrVDjRp" resname="sip.caller.data">
         <source>sip.caller.data</source>
-        <target state="needs-translation">Einwahl-Informationen</target>
+        <target state="translated">Información de acceso telefónico</target>
       </trans-unit>
       <trans-unit id="EJ6OCCs" resname="addhock.notification.title">
         <source>addhock.notification.title</source>
-        <target state="needs-translation">Ad Hoc Meeting</target>
+        <target state="translated">Reunión rápida</target>
       </trans-unit>
       <trans-unit id="aHfJyUI" resname="addhock.notification.message">
         <source><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></source>
