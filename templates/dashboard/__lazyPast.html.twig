@@ -1,0 +1,7 @@
+{% set theme =  getThemeProperties() %}
+{% for room in roomsPast %}
+    {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
+{% endfor %}
+{% if roomsPast|length > 0 %}
+<div class="lazyLoad" data-target="{{ path('dashboard_lazy',{'type':'past','offset':offset+1}) }}"></div>
+{% endif %}

@@ -18,7 +18,7 @@ use function Doctrine\ORM\QueryBuilder;
 class RoomsRepository extends ServiceEntityRepository
 {
     private $timeZoneService;
-
+    private $amountperLayz = 8;
     public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
@@ -70,7 +70,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomsInPast(User $user)
+    public function findRoomsInPast(User $user,$offset)
     {
         $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
@@ -83,6 +83,8 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'DESC')
+            ->setMaxResults($this->amountperLayz)
+            ->setFirstResult($this->amountperLayz*$offset)
             ->getQuery()
             ->getResult();
     }
@@ -157,13 +159,15 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getMyPersistantRooms(User $user)
+    public function getMyPersistantRooms(User $user,$offset)
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
             ->andWhere('user = :user')
             ->setParameter('user', $user)
-            ->andWhere('rooms.persistantRoom = true');
+            ->andWhere('rooms.persistantRoom = true')
+            ->setMaxResults($this->amountperLayz)
+            ->setFirstResult($this->amountperLayz*$offset);
         return $qb->getQuery()->getResult();
     }
 

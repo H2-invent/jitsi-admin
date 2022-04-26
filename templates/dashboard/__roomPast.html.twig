@@ -2,7 +2,7 @@
     <div class="row">
 
         {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
-        <div class="col-md-4 d-flex align-items-start">
+        <div class="col-md-4 d-flex align-items-start justify-content-center">
 
             {% if room.moderator == app.user %}
                 {{ include('dashboard/__roomOption.html.twig') }}

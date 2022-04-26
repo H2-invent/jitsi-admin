@@ -7,6 +7,7 @@ import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
 var audio = new Audio(notificationSound);
 import {TabUtils} from './tabBroadcast'
+import {initLayzLoading} from './lazyLoading'
 function initGenerell() {
     Push.Permission.request();
     if (typeof urlNotification !== 'undefined') {
@@ -35,6 +36,7 @@ function initGenerell() {
         }, 20000);
     }
     initDarkmodeSwitch();
+    initLayzLoading();
 }
 
 

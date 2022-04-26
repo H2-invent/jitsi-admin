@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -40,7 +41,7 @@ class DashboardController extends JitsiAdminController
      */
     public function index(Request $request)
     {
-        if ($this->getUser() || $this->getParameter('laF_startpage') === 'false'){
+        if ($this->getUser() || $this->getParameter('laF_startpage') === 'false') {
             return $this->redirectToRoute('dashboard');
         };
 
@@ -50,14 +51,14 @@ class DashboardController extends JitsiAdminController
         $dataAll = base64_decode($dataStr);
         parse_str($dataAll, $data);
 
-        $form = $this->createForm(JoinViewType::class, $data,['action'=>$this->generateUrl('join_index')]);
+        $form = $this->createForm(JoinViewType::class, $data, ['action' => $this->generateUrl('join_index')]);
         $form->handleRequest($request);
 
         $user = $this->doctrine->getRepository(User::class)->findAll();
         $server = $this->doctrine->getRepository(Server::class)->findAll();
         $rooms = $this->doctrine->getRepository(Rooms::class)->findAll();
 
-        return $this->render('dashboard/start.html.twig', ['form' => $form->createView(),'user'=>$user, 'server'=>$server, 'rooms'=>$rooms]);
+        return $this->render('dashboard/start.html.twig', ['form' => $form->createView(), 'user' => $user, 'server' => $server, 'rooms' => $rooms]);
     }
 
 
@@ -66,7 +67,7 @@ class DashboardController extends JitsiAdminController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment,ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
     {
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
@@ -79,31 +80,31 @@ class DashboardController extends JitsiAdminController
             $future[$data->getStartwithTimeZone($this->getUser())->format('Ymd')][] = $data;
         }
         $em = $this->doctrine->getManager();
-        if(!$this->getUser()->getUid()){
+        if (!$this->getUser()->getUid()) {
             $user = $this->getUser();
             $user->setUid(md5(uniqid()));
 
             $em->persist($user);
             $em->flush();
         }
-        if(!$this->getUser()->getOwnRoomUid()){
+        if (!$this->getUser()->getOwnRoomUid()) {
             $user = $this->getUser();
             $user->setOwnRoomUid(md5(uniqid()));
 
             $em->persist($user);
             $em->flush();
         }
-        if (!$this->getUser()->getTimezone()){
+        if (!$this->getUser()->getTimezone()) {
             $user = $this->getUser();
             $user->setTimezone(date_default_timezone_get());
             $em->persist($user);
             $em->flush();
         }
         $favoriteService->cleanFavorites($this->getUser());
-        $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser());
+        $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), 0);
         $roomsNow = $this->doctrine->getRepository(Rooms::class)->findRuningRooms($this->getUser());
         $roomsToday = $this->doctrine->getRepository(Rooms::class)->findTodayRooms($this->getUser());
-        $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser());
+        $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), 0);
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
         $tomorrow = (clone $today)->modify('+1day');
@@ -111,29 +112,54 @@ class DashboardController extends JitsiAdminController
         $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
-            'runningRooms'=>$roomsNow,
-            'persistantRooms'=>$persistantRooms,
+            'runningRooms' => $roomsNow,
+            'persistantRooms' => $persistantRooms,
             'todayRooms' => $roomsToday,
             'snack' => $request->get('snack'),
-            'servers'=>$servers,
-            'today'=>$today,
-            'tomorrow'=>$tomorrow,
-            'favorite'=>$favorites
+            'servers' => $servers,
+            'today' => $today,
+            'tomorrow' => $tomorrow,
+            'favorite' => $favorites
         ]);
 
-        if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')){
+        if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
             $res->headers->setCookie(Cookie::create(
                 'DARK_MODE',
                 1,
-                time() + ( 2 * 365 * 24 * 60 * 60),
+                time() + (2 * 365 * 24 * 60 * 60),
                 '/',      // Path.
                 null,     // Domain.
                 false,    // Xmit secure https.
                 false     // HttpOnly Flag
             ));
         }
-        return $res ;
+        return $res;
     }
 
+    /**
+     * @Route("/room/dashboard/lazy/{type}/{offset}", name="dashboard_lazy")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
+    {
+        if ($type === 'fixed') {
+            $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), $offset);
+            return $this->render('dashboard/__lazyFixed.html.twig', [
+                'persistantRooms' => $persistantRooms,
+                'offset'=>$offset
+            ]);
+        } elseif ($type === 'past') {
+            $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
+            return $this->render('dashboard/__lazyPast.html.twig', [
+                'roomsPast' => $roomsPast,
+                'offset'=>$offset
+            ]);
+        }
+
+
+
+
+    }
 }
