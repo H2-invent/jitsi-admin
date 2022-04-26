@@ -31,6 +31,7 @@ function masterNotify(data) {
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message, data.color)
     } else if (data.type === 'newJitsi') {
+        //do nothing. Is handeled somewhere localy
     } else if (data.type === 'endMeeting') {
         endMeeting(data)
     } else if (data.type === 'reload') {
@@ -46,15 +47,11 @@ function masterNotify(data) {
 
 
 function notifymoderator(data) {
-    var audio = new Audio(notificationSound);
-    TabUtils.lockFunction('audio' + data.messageId, function () {
-        audio.play()
-    }, 1500);
+
 
     showPush(data);
 
     setSnackbar(data.message, data.color, false, data.messageId);
-
     $('.dragger').addClass('active');
 
     $('#sliderTop')
@@ -112,42 +109,45 @@ function countParts() {
 }
 
 function showPush(data) {
-    TabUtils.lockFunction(data.messageId, function () {
-        if (document.visibilityState === 'hidden') {
+    setTimeout(function () {
+        TabUtils.lockFunction('notification' + data.messageId, function () {
+            var audio = new Audio(notificationSound);
+            audio.play();
+            if (document.visibilityState === 'hidden') {
+                Push.create(data.title, {
+                    body: data.pushNotification,
+                    icon: '/favicon.ico',
+                    onClick: function (ele) {
+                        window.focus();
+                        this.close();
+                    }
+                });
+            }
+        }, 1500)
+    }, Math.floor(Math.random() * 100) + 100);
+}
+
+function callAddhock(data) {
+    setTimeout(function () {
+        TabUtils.lockFunction('notification' + data.messageId, function () {
+            callersoundplay.play()
+            setTimeout(function () {
+                callersoundplay.pause();
+                callersoundplay.currentTime = 0;
+            }, data.time)
+
             Push.create(data.title, {
-                body: data.pushNotification,
+                body: data.pushMessage,
                 icon: '/favicon.ico',
                 onClick: function (ele) {
                     window.focus();
                     this.close();
                 }
             });
-        }
-    }, 1500)
-}
 
-function callAddhock(data) {
-
-    TabUtils.lockFunction('caller' + data.id, function () {
-        callersoundplay.play()
-        setTimeout(function () {
-            callersoundplay.pause();
-            callersoundplay.currentTime = 0;
-        }, data.time)
-
-
-        Push.create(data.title, {
-            body: data.pushMessage,
-            icon: '/favicon.ico',
-            onClick: function (ele) {
-                window.focus();
-                this.close();
-            }
-        });
-
-
-        setSnackbar(data.message, data.color, true);
-    }, 1500);
+        }, 5000)
+    }, Math.floor(Math.random() * 50) + 50);
+    setSnackbar(data.message, data.color, true);
 }
 
 function stopCallerPlay() {

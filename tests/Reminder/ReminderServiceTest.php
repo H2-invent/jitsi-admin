@@ -17,7 +17,5 @@ class ReminderServiceTest extends WebTestCase
         $this->assertEquals(30, $res['Emails']);
         $this->assertEquals('Cron ok', $res['hinweis']);
         $this->assertEquals(false, $res['error']);
-        $reminderRepo = self::$container->get(NotificationRepository::class);
-        $this->assertEquals(30, sizeof($reminderRepo->findAll()));
     }
 }

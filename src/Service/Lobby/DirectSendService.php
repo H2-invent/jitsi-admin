@@ -146,7 +146,7 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time)
+    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time,$id)
     {
         $data = array(
             'type' => 'call',
@@ -155,7 +155,7 @@ class DirectSendService
             'pushMessage'=>$pushMesage,
             'time'=>$time,
             'color'=>'success',
-            'id'=>md5(uniqid())
+            'messageId'=>$id
         );
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);

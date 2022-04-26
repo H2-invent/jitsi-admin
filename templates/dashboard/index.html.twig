@@ -181,7 +181,10 @@
                         {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
                     {% endfor %}
                     </div>
-                    <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'past','offset':1}) }}"></div>
+                    <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'past','offset':1}) }}">
+
+                      <div class="fa-3x text-center text-black-50"> <i class="fas fa-spinner fa-spin"></i></div>
+                    </div>
                 </div>
             </div>
             <div class="tab-content-watch">

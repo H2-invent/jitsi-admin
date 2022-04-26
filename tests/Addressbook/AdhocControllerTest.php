@@ -22,17 +22,25 @@ class AdhocControllerTest extends WebTestCase
 
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
-            self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+            $data = $update->getData();
+            $tmp = json_decode($data, true);
+            if ($tmp['type'] === "call") {
+                self::assertStringContainsString('{"type":"call","title":"Ad Hoc Meeting"', $update->getData());
+                self::assertEquals('Ad Hoc Meeting', $tmp['title']);
+                self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+            } elseif (str_contains($data, '"type":"notification"')) {
+                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test2, 1234, User2, Test2.', $tmp['title']);
+                self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
+            }
             return 'id';
         });
         $directSend->setMercurePublisher($hub);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $client->loginUser($user);
-        $crawler = $client->request('GET', '/room/adhoc/meeting/'.$user2->getId().'/'.$user->getServers()[0]->getId());
+        $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
 
         $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Die%20Konferenz%20wurde%20erfolgreich%20erstellt.'));
     }

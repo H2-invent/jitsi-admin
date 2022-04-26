@@ -37,13 +37,13 @@ class LobbyDirectSendTest extends KernelTestCase
 
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            self::assertEquals('{"type":"notification","title":"Title of Browser Notification","message":"I`m the message which is in the body part","pushNotification":"I`m the message in the pushnotification from the OS","messageId":"'.md5('Title of Browser Notification'.'I`m the message which is in the body part').'","color":"success"}', $update->getData());
+            self::assertEquals('{"type":"notification","title":"Title of Browser Notification","message":"I`m the message which is in the body part","pushNotification":"I`m the message in the pushnotification from the OS","messageId":"' . md5('Title of Browser Notification' . 'I`m the message which is in the body part') . '","color":"success"}', $update->getData());
             self::assertEquals(['test/test/numberofUser'], $update->getTopics());
             return 'id';
         });
         $directSend->setMercurePublisher($hub);
-        $id = md5('Title of Browser Notification'.'I`m the message which is in the body part');
-        $directSend->sendBrowserNotification('test/test/numberofUser', 'Title of Browser Notification', 'I`m the message which is in the body part','I`m the message in the pushnotification from the OS',$id,'success');
+        $id = md5('Title of Browser Notification' . 'I`m the message which is in the body part');
+        $directSend->sendBrowserNotification('test/test/numberofUser', 'Title of Browser Notification', 'I`m the message which is in the body part', 'I`m the message in the pushnotification from the OS', $id, 'success');
     }
 
     public function testRedirectResponse(): void
@@ -78,6 +78,29 @@ class LobbyDirectSendTest extends KernelTestCase
         });
         $directSend->setMercurePublisher($hub);
         $directSend->sendRefresh('test/test/numberofUser', '/rooms/testMe #testId');
+    }
+
+
+    public function testsetSendnewCal(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            $tmp = json_decode($update->getData(), true);
+            self::assertEquals($tmp['title'], 'Neuer Anruf');
+            self::assertEquals($tmp['message'], 'Sie haben einen nuene Anruf');
+            self::assertEquals($tmp['pushMessage'], 'Das kommt in die Push');
+            self::assertEquals($tmp['time'], 30000);
+            self::assertEquals($tmp['messageId'], '0x01');
+            self::assertEquals(['test/test/newCall'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendCallAdhockmeeding('Neuer Anruf', 'test/test/newCall', 'Sie haben einen nuene Anruf', 'Das kommt in die Push', 30000, '0x01');
     }
 
     public function testModal(): void

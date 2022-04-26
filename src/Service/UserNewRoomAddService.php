@@ -63,7 +63,8 @@ class UserNewRoomAddService
                     array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
                         '{name}' => $room->getName())),
                 $user,
-                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL),
+                $room->getUid()
             );
         }
         return true;

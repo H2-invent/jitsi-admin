@@ -61,14 +61,17 @@ class AdhocMeetingService
         $creator->addRoom($room);
         $this->em->persist($creator);
         $this->em->flush();
-        $this->userService->addUser($reciever, $room);
-        $this->userService->addUser($creator, $room);
         $topic = 'personal/' . $reciever->getUid();
         $this->directSendService->sendCallAdhockmeeding(
             $this->translator->trans('addhock.notification.title'),
             $topic,
             $this->translator->trans('addhock.notification.message', array('{url}' => $this->urlGen->generate('room_join', array('room' => $room->getId(), 't' => 'b')), '{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
             $this->translator->trans('addhock.notification.pushMessage', array('{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
-            60000);
+            60000,
+            $room->getUid()
+        );
+        $this->userService->addUser($reciever, $room);
+        $this->userService->addUser($creator, $room);
+
     }
 }
