@@ -84,6 +84,7 @@ parameters:
     JITSI_EVENTS_TOKEN: '%env(JITSI_EVENTS_TOKEN)%'
     JITSI_EVENTS_HISTORY: '%env(JITSI_EVENTS_HISTORY)%'
     SIP_CALLER_SECRET: '%env(SIP_CALLER_SECRET)%'
+    SIP_CALLER_VERIVY_SPEZIAL_FIELD: '%env(SIP_CALLER_VERIVY_SPEZIAL_FIELD)%'
 
 services:
     # default configuration for services in *this* file

@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\api;
 
 use App\Helper\JitsiAdminController;
+use App\Service\api\CheckAuthorizationService;
 use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerSessionService;
-use Psr\Log\LoggerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\api\CheckAuthorizationService;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CallerController extends JitsiAdminController

@@ -2,14 +2,14 @@
     <div class="card ">
         <div class="card-body text-center d-flex flex-column align-items-center">
             {% if wU.user is not null and  wU.user.profilePicture is not null %}
-            <style>
-                #circle_{{ wU.id }}{
-                    background-image: url("{{ vich_uploader_asset(wU.user.profilePicture,'documentFile') }}");
-                    background-position: center;
-                    background-size: cover;
-                    background-color: white !important;
-                }
-            </style>
+                <style>
+                    #circle_{{ wU.id }} {
+                        background-image: url("{{ vich_uploader_asset(wU.user.profilePicture,'documentFile') }}");
+                        background-position: center;
+                        background-size: cover;
+                        background-color: white !important;
+                    }
+                </style>
 
             {% endif %}
             <div class="initialCircle " id="circle_{{ wU.id }}">
@@ -27,7 +27,11 @@
             </div>
             <div class="participantsName">{{ wU.showName }}</div>
             {% if wU.callerSession is not null %}
-            <div class="participantsName"><i class="fa fa-phone text-success"></i> {{ wU.callerSession.callerId }}</div>
+                <div class="participantsName callerId"><i
+                            class="fa fa-phone text-success"></i> {{ wU.callerSession.callerId }}</div>
+                {% if wU.callerSession.callerIdVerified %}
+                    <span class="callerVerified badge badge-success">{{ 'lobby.verified'|trans }}</span>
+                {% endif %}
             {% endif %}
         </div>
         <div class="card-footer text-center">

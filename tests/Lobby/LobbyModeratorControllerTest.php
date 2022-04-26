@@ -11,6 +11,7 @@ use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;
@@ -55,8 +56,11 @@ class LobbyModeratorControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         $this->assertEquals(
             1,
-            $crawler->filter('.participantsName:contains("Test User")')->count()
+            $crawler->filter('.participantsName:contains("Test2 User2")')->count()
         );
+        $this->assertSelectorNotExists('.callerId');
+        $this->assertSelectorNotExists('.callerVerified');
+
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
@@ -210,7 +214,14 @@ class LobbyModeratorControllerTest extends WebTestCase
 
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
         $crawler = $client->request('GET',$url->generate('lobby_moderator',array('uid'=>$room->getUidReal())));
+
         self::assertEquals(2,$crawler->filter('.waitingUserCard')->count());
+
+        $this->assertSelectorTextContains('h3', 'Lobby für die Konferenz: '.$room->getName());
+        self::assertEquals(1, $crawler->filter(('.participantsName:contains("'.$lobbyUser->getShowName().'")'))->count());
+        self::assertEquals(1, $crawler->filter(('.participantsName:contains("'.$lobbyUser2->getShowName().'")'))->count());
+        $this->assertSelectorNotExists('.callerId');
+        $this->assertSelectorNotExists('.callerVerified');
         $client->loginUser($user2);
         $crawler = $client->request('GET',$url->generate('lobby_moderator_accept_all',array('roomId'=>$room->getUidReal())));
         self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}',$client->getResponse()->getContent());

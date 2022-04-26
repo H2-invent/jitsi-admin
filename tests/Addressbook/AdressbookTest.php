@@ -13,10 +13,10 @@ class AdressbookTest extends KernelTestCase
         'test@local2.de',
         'local2.de',
         'test',
-        'Test',
-        'User',
+        'Test2',
+        'User2',
         '1234',
-        'Test1'
+        'Test2'
     ];
 
     public function testfindUserandGroups(): void
@@ -34,7 +34,7 @@ class AdressbookTest extends KernelTestCase
             self::assertEquals($userfind, $userRepo->findMyUserByIndex($data, $user)[0]);
         }
         self::assertEquals(0, sizeof($userRepo->findMyUserByIndex('User12', $user)));
-        self::assertEquals($userfind, $userRepo->findMyUserByIndex('Test1', $user)[0]);
+        self::assertEquals($userfind, $userRepo->findMyUserByIndex('Test2', $user)[0]);
         self::assertEquals($groupFind, $groupRepo->findMyAddressBookGroupsByName('Testgr', $user)[0]);
         self::assertEquals($groupFind, $groupRepo->findMyAddressBookGroupsByName('Test', $user)[0]);
         self::assertEquals(0, sizeof($groupRepo->findMyAddressBookGroupsByName('Testwe', $user)));
@@ -54,14 +54,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"Test1, 1234, User, Test",'id'=>"test2@local.de"),
+            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
             array('name'=>', , , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"Test1, 1234, User, Test",'id'=>"test2@local.de"),
+            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
         ),$res);
         $string = 'asdf';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
@@ -69,11 +69,11 @@ class AdressbookTest extends KernelTestCase
         $this->assertEquals(array(
             array('name'=>"asdf",'id'=>"asdf"),
         ),$res);
-        $string = 'TEst1';
+        $string = 'TEst2';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"Test1, 1234, User, Test",'id'=>"test2@local.de"),
+            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
         ),$res);
 
     }
@@ -108,14 +108,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test1, 1234, User, Test",'id'=>"test2@local.de"),
+            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
             array('name'=>', , , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test1, 1234, User, Test",'id'=>"test2@local.de"),
+            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
         ),$res);
     }
     public function testnoUSerfoundNoGenerate(): void
@@ -147,14 +147,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test1, 1234, User, Test",'id'=>"test2@local.de"),
+            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
             array('name'=>', , , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test1, 1234, User, Test",'id'=>"test2@local.de"),
+            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
         ),$res);
 
     }

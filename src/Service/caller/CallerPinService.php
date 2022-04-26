@@ -11,17 +11,20 @@ use App\Service\Lobby\CreateLobbyUserService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class CallerPinService
 {
     private $em;
     private $createLobbyUserService;
     private $loggger;
-    public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager, CreateLobbyUserService $createLobbyUserService)
+    private ParameterBagInterface $parameterBag;
+    public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager, CreateLobbyUserService $createLobbyUserService, ParameterBagInterface $parameterBag)
     {
         $this->em = $entityManager;
         $this->createLobbyUserService = $createLobbyUserService;
         $this->loggger = $logger;
+        $this->parameterBag = $parameterBag;
     }
 
     public function getPin($roomId, $pin, $callerId): ?CallerSession
@@ -53,7 +56,7 @@ class CallerPinService
             ->setCallerId($callerId)
             ->setShowName($lobbyUser->getShowName())
             ->setCaller($callInUser);
-
+        $session->setCallerIdVerified($this->verifyCallerID($session));
         $this->em->persist($session);
         $this->em->flush();
         $lobbyUser->setCallerSession($session);
@@ -61,5 +64,19 @@ class CallerPinService
         $this->em->flush();
         $this->loggger->debug('Session was successfully build',array('roomId'=>$roomId,'callerId'=>$callerId,'pin'=>$pin));
         return $session;
+    }
+    public function verifyCallerID(CallerSession $callerSession):bool{
+        $callerID = $callerSession->getCallerId();
+        try {
+             $phoneNumber = $callerSession->getCaller()->getUser()->getSpezialProperties()[$this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD')];
+        }catch (\Exception $exception){
+            return false;
+        }
+        if ($callerID === $phoneNumber){
+            return true;
+        }
+        return false;
+
+
     }
 }

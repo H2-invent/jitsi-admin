@@ -27,29 +27,29 @@ class RoomFixture extends Fixture
         $user->setFirstName('Test');
         $user->setLastName('User');
         $user->setRegisterId(123456);
-        $user->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234',));
+        $user->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234','telephoneNumber'=>'0123456789'));
         $user->setTimeZone('Europe/Berlin');
         $user->setUuid('lksdhflkjdsljflkjds');
         $user->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
         $user->setUsername('test@local.de');
         $user->setCreatedAt(new \DateTime());
-        $user->setIndexer('test@local.de test@local.de test user test1 1234');
+        $user->setIndexer('test@local.de test@local.de test user test1 1234 0123456789');
         $manager->persist($user);
 
         $user2 = new \App\Entity\User();
         $user2->setEmail('test@local2.de');
         $user2->setCreatedAt(new \DateTime());
         $user2->setKeycloakId(123456);
-        $user2->setFirstName('Test');
-        $user2->setLastName('User');
+        $user2->setFirstName('Test2');
+        $user2->setLastName('User2');
         $user2->setRegisterId(123456);
-        $user2->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234',));
+        $user2->setSpezialProperties(array('ou' => 'Test2', 'departmentNumber' => '1234','telephoneNumber'=>'9876543210',));
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflhjkkjds');
         $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
         $user2->setUsername('test2@local.de');
         $user2->setCreatedAt(new \DateTime());
-        $user2->setIndexer('test@local2.de test@local2.de test user test1 1234');
+        $user2->setIndexer('test@local2.de test@local2.de test2 user2 test2 1234 9876543210');
         $manager->persist($user2);
 
         $user3 = new \App\Entity\User();

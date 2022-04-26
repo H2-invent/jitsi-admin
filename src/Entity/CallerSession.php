@@ -53,6 +53,11 @@ class CallerSession
      */
     private $showName;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $callerIdVerified = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -148,6 +153,18 @@ class CallerSession
     public function setShowName(?string $showName): self
     {
         $this->showName = $showName;
+
+        return $this;
+    }
+
+    public function getCallerIdVerified(): ?bool
+    {
+        return $this->callerIdVerified;
+    }
+
+    public function setCallerIdVerified(bool $callerIdVerified): self
+    {
+        $this->callerIdVerified = $callerIdVerified;
 
         return $this;
     }

@@ -26,7 +26,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                 self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
             }
             if (strpos($update->getData(), 'jitsi-meet') > 0) {
-                self::assertEquals('{"type":"redirect","url":"jitsi-meet:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4#config.subject=%22This_is_a_room_with_Lobby%22","timeout":5000}', $update->getData());
+                self::assertEquals('{"type":"redirect","url":"jitsi-meet:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE#config.subject=%22This_is_a_room_with_Lobby%22","timeout":5000}', $update->getData());
             }
             return 'id';
         });
@@ -121,9 +121,9 @@ class LobbyToParticipantsTest extends KernelTestCase
                                 'width' => '100%',
                                 'height' => 400,
                                 'userInfo' => array(
-                                    'displayName' => "Test User"
+                                    'displayName' => "Test2 User2"
                                 ),
-                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4',
+                                'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
                             ),
                             "roomName" => "This is a room with Lobby",
                             "domain" => "meet.jit.si2",

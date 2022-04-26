@@ -23,7 +23,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(1, $crawler->filter('#profile:contains("Testgruppe (2)")')->count());
         $this->assertEquals(
             1,
-            $crawler->filter('.breakWord:contains("Test1, 1234, User, Test")')->count()
+            $crawler->filter('.breakWord:contains("Test2, 1234, User2, Test2")')->count()
         );
         $this->assertEquals(
             1,
@@ -45,7 +45,7 @@ class AdressBookUITest extends WebTestCase
         $crawler = $client->request('GET', $url);
         self::assertEquals(json_encode(array('user' => array(
             array(
-                'name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de'
+                'name' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de'
             )
         ), 'group' => array()
         )
@@ -54,7 +54,7 @@ class AdressBookUITest extends WebTestCase
         $crawler = $client->request('GET', $url);
         self::assertEquals(json_encode(array('user' => array(
             array(
-                'name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de'
+                'name' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de'
             )
         ), 'group' => array()
         )
@@ -64,7 +64,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(json_encode(
             array(
                 'user' => array(
-                    array('name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de'),
+                    array('name' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
                     array('name' => ', , , ', 'id' => 'test@local3.de')
                 ),
                 'group' => array(
@@ -94,7 +94,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(json_encode(
             array(
                 'user' => array(
-                    array('name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de'),
+                    array('name' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
                      array('name' => ', , , ', 'id' => 'test@local3.de')
                 ),
                 'group' => array(
@@ -109,7 +109,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(json_encode(
             array(
                 'user' => array(
-                    array('name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de'),
+                    array('name' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
                      array('name' => ', , , ', 'id' => 'test@local3.de')
                 ),
                 'group' => array(
@@ -124,7 +124,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(json_encode(
             array(
                 'user' => array(
-                    array('name' => 'Test1, 1234, User, Test', 'id' => 'test2@local.de')
+                    array('name' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de')
                 ),
                 'group' => array(
 
