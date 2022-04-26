@@ -25,7 +25,7 @@ class CreateUserTest extends KernelTestCase
         self::assertEquals('test@local.de', $user->getUsername());
         self::assertEquals('Test', $user->getFirstName());
         self::assertEquals('User', $user->getLastName());
-        self::assertEquals('test@local.de test@local.de test user test1 1234', $user->getIndexer());
+        self::assertEquals('test@local.de test@local.de test user test1 1234 0123456789', $user->getIndexer());
 
     }
 }

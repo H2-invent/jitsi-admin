@@ -108,4 +108,50 @@ class DashboardControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         self::assertEquals(0, $crawler->filter('p:contains("Server: meet.jit.si2")')->count());
     }
+    public function testlazyLoadFixed()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/room/dashboard/lazy/fixed/0');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertSelectorExists('.lazyLoad');
+        $this->assertResponseIsSuccessful();
+
+        self::assertEquals(3, $crawler->filter('.card')->count());
+
+
+        $crawler = $client->request('GET', '/room/dashboard/lazy/fixed/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertSelectorNotExists('.lazyLoad');
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(0, $crawler->filter('.card')->count());
+        ;
+    }
+    public function testlazyLoadPast()
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/room/dashboard/lazy/past/0');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertSelectorExists('.lazyLoad');
+        $this->assertResponseIsSuccessful();
+
+        self::assertEquals(1, $crawler->filter('.card')->count());
+
+
+        $crawler = $client->request('GET', '/room/dashboard/lazy/past/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertSelectorNotExists('.lazyLoad');
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(0, $crawler->filter('.card')->count());
+        ;
+    }
 }
