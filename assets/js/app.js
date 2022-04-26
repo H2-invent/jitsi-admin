@@ -127,6 +127,8 @@ $(document).on('click', '.loadContent', function (e) {
         } else {
             if (!$('#loadContentModal ').hasClass('show')) {
                 $('#loadContentModal').modal('show');
+            }else {
+                initNewModal();
             }
         }
     });
@@ -140,6 +142,10 @@ function initServerFeatures() {
 }
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
+  initNewModal(e)
+});
+
+function initNewModal(e){
     initScheduling();
     $('[data-toggle="popover"]').popover({html: true});
 
@@ -256,7 +262,8 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             options: options
         });
     }
-});
+}
+
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });

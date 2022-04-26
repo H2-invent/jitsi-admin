@@ -2,19 +2,18 @@
 <html>
 <head>
     <title>{{ room.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
 </head>
-<body style="margin: 0" >
+<body style="margin: 0">
 
+<div class="w-100" id="jitsiWindow" style="height: 500px; overflow: hidden">
 
-<div id="jitsiWrapper">
-    <div class="w-100" id="jitsiWindow">
-
-    </div>
 </div>
 </body>
 {% if name is defined and name is not null %}
     <script>
-        if({{ room.server.corsHeader }}){
+        if ({{ room.server.corsHeader }}) {
             window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
         }
     </script>
@@ -26,10 +25,18 @@
             roomName: '{{ room.uid }}',
             width: '100%',
             height: 700,
+            configOverwrite: {
+                disableDeepLinking: true,
+
+            },
+            interfaceConfigOverwrite: {
+                MOBILE_APP_PROMO: false,
+            },
+
             parentNode: document.querySelector('#jitsiWindow'),
             {% if room.server.appId is not null %}
             jwt: '{{ jwtFromRoom(user,room,name) }}',
-        {% endif %}
+            {% endif %}
             userInfo: {
                 displayName: '{{ name }}'
             }
@@ -39,9 +46,15 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
         api = new JitsiMeetExternalAPI(domain, options);
-
         var iframe = document.querySelector('#jitsiConferenceFrame0');
-        iframe.style.height = '100vh';
+        iframe.style.height = 'inherit';
+
+        document.getElementById('jitsiWindow').style.height = window.innerHeight + "px";
+        window.onresize = function () {
+            document.getElementById('jitsiWindow').style.height = window.innerHeight + "px";
+        }
+
+
     </script>
 
 {% endif %}
