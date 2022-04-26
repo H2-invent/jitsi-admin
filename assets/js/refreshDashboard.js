@@ -1,4 +1,5 @@
 import $ from "jquery";
+import {initLazyElemt} from './lazyLoading'
 
 var refreshUrl
 
@@ -17,7 +18,7 @@ function refreshDashboard() {
     $div1.load(refreshUrl, function (data, statusTxt) {
         if (statusTxt === "error") {
             $failures++;
-            if ($failures > 5){
+            if ($failures > 5) {
                 window.location.reload();
             }
             return
@@ -29,11 +30,12 @@ function refreshDashboard() {
                 console.log('1.7');
                 $($id1).html($(data).find($id1).contents());
             }
-            if ($($id2).contents().text() !== $(data).find($id2).contents().text()) {
+            if ($($id2 + '-init').contents().text() !== $(data).find($id2 + '-init').contents().text()) {
                 console.log('1.8');
                 $($id2).html($(data).find($id2).contents());
+                initLazyElemt(document.querySelector($id2).querySelector('.lazyLoad'));
             }
-            if ($($id3).contents().text() !== $(data).find($id3).contents().text()) {
+            if ($($id3 ).contents().text() !== $(data).find($id3 ).contents().text()) {
                 console.log('1.9');
                 $($id3).html($(data).find($id3).contents());
             }

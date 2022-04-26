@@ -171,6 +171,7 @@
             </div>
             <div class="tab-content-watch">
                 <div class="tab-pane fade" id="ex1-tabs-2" aria-labelledby="ex1-tab-2">
+                    <div id="ex1-tabs-2-init">
                     {% if roomsPast |length == 0 %}
                         <div class="card card-body">
                             <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
@@ -179,17 +180,18 @@
                     {% for room in roomsPast %}
                         {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
                     {% endfor %}
+                    </div>
                     <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'past','offset':1}) }}"></div>
                 </div>
             </div>
             <div class="tab-content-watch">
                 <div class="tab-pane fade" id="ex1-tabs-3"  aria-labelledby="ex1-tab-3">
+
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
                     {% if persistantRooms|length > 0 %}
                         {% for r in persistantRooms %}
                             {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                         {% endfor %}
-                        <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'fixed','offset':1}) }}"></div>
                     {% endif %}
                 </div>
             </div>

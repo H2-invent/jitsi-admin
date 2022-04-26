@@ -18,7 +18,7 @@ use function Doctrine\ORM\QueryBuilder;
 class RoomsRepository extends ServiceEntityRepository
 {
     private $timeZoneService;
-    private $amountperLayz = 8;
+    private $amountperLayz = 5;
     public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
@@ -165,9 +165,7 @@ class RoomsRepository extends ServiceEntityRepository
         $qb->innerJoin('rooms.user', 'user')
             ->andWhere('user = :user')
             ->setParameter('user', $user)
-            ->andWhere('rooms.persistantRoom = true')
-            ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz*$offset);
+            ->andWhere('rooms.persistantRoom = true');
         return $qb->getQuery()->getResult();
     }
 
