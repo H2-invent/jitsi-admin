@@ -26,21 +26,23 @@ class LobbyLeaverMessageDispatcher implements MessageHandlerInterface
 
     public function __invoke(LobbyLeaverMessage $lobbyLeaverMessage)
     {
-            $lobbyWaitingUSer = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid'=>$lobbyLeaverMessage->getId()));
+        $lobbyWaitingUSer = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $lobbyLeaverMessage->getId()));
+
+
+        if ($lobbyWaitingUSer) {
             $this->em->refresh($lobbyWaitingUSer);
-            if ($lobbyWaitingUSer){
-                $this->logger->info("Start clean the Lobby User");
-                if ($lobbyWaitingUSer->getCloseBrowser() === true) {
-                    $this->logger->info("The Browser was not refreshed so we clean the  lobbyuser");
-                    $this->em->remove($lobbyWaitingUSer);
-                    $this->em->flush();
-                    $this->toModerator->refreshLobby($lobbyWaitingUSer);
-                    $this->toModerator->participantLeftLobby($lobbyWaitingUSer);
-                }
+            $this->logger->info("Start clean the Lobby User");
+            if ($lobbyWaitingUSer->getCloseBrowser() === true) {
+                $this->logger->info("The Browser was not refreshed so we clean the  lobbyuser");
+                $this->em->remove($lobbyWaitingUSer);
+                $this->em->flush();
+                $this->toModerator->refreshLobby($lobbyWaitingUSer);
+                $this->toModerator->participantLeftLobby($lobbyWaitingUSer);
                 return;
             }
-
             $this->logger->info("The Browser was refreshed");
-
+        } else {
+            $this->logger->info('The USer already left the Lobby or is not existing anymore');
+        }
     }
 }
