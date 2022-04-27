@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -67,8 +68,10 @@ class DashboardController extends JitsiAdminController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
+    public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
     {
+        $stopwatch = new Stopwatch();
+        $start = $stopwatch->start('dashboard');
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
         }
@@ -109,6 +112,7 @@ class DashboardController extends JitsiAdminController
         $today = (new \DateTime('now'))->setTimezone(new \DateTimeZone($this->getUser()->getTimeZone()));
         $tomorrow = (clone $today)->modify('+1day');
         $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
+        $timer = $stopwatch->stop('dashboard');
         $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
@@ -119,9 +123,9 @@ class DashboardController extends JitsiAdminController
             'servers' => $servers,
             'today' => $today,
             'tomorrow' => $tomorrow,
-            'favorite' => $favorites
+            'favorite' => $favorites,
+            'time'=>$timer->getDuration(),
         ]);
-
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
             $res->headers->setCookie(Cookie::create(

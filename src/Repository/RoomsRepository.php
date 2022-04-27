@@ -18,7 +18,7 @@ use function Doctrine\ORM\QueryBuilder;
 class RoomsRepository extends ServiceEntityRepository
 {
     private $timeZoneService;
-    private $amountperLayz = 5;
+    private $amountperLayz = 8;
     public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
