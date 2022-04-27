@@ -25,6 +25,7 @@ class PushService
     function generatePushNotification($title, $text,User $user,$url = null,$id='0x00'){
         $topic = 'personal/'.$user->getUid();
         $this->directSend->sendBrowserNotification($topic,$title,$text,$text,$id,'info');
+        $this->directSend->sendRefreshDashboard($topic);
         return true;
     }
     function getNotification(User $user){

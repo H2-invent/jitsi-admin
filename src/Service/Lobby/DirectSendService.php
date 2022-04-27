@@ -161,6 +161,16 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
+    public function sendRefreshDashboard($topic)
+    {
+        $data = array(
+            'type' => 'refreshDashboard',
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
+
     private function sendUpdate(Update $update)
     {
         try {

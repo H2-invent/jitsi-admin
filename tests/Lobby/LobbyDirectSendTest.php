@@ -102,7 +102,23 @@ class LobbyDirectSendTest extends KernelTestCase
         $directSend->setMercurePublisher($hub);
         $directSend->sendCallAdhockmeeding('Neuer Anruf', 'test/test/newCall', 'Sie haben einen nuene Anruf', 'Das kommt in die Push', 30000, '0x01');
     }
+    public function testsendRefreshDashboard(): void
+    {
+        $kernel = self::bootKernel();
 
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            $tmp = json_decode($update->getData(), true);
+            self::assertEquals($tmp['type'], 'refreshDashboard');
+            self::assertEquals(['test/test/newCall'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendRefreshDashboard('test/test/newCall');
+    }
     public function testModal(): void
     {
         $kernel = self::bootKernel();

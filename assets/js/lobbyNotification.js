@@ -7,6 +7,7 @@ import notificationSound from '../sound/notification.mp3'
 import callerSound from '../sound/ringtone.mp3'
 import {setSnackbar, deleteToast} from './myToastr';
 import {TabUtils} from './tabBroadcast'
+import {refreshDashboard} from './refreshDashboard';
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -32,11 +33,14 @@ function masterNotify(data) {
         setSnackbar(data.message, data.color)
     } else if (data.type === 'newJitsi') {
         //do nothing. Is handeled somewhere localy
+    } else if (data.type === 'refreshDashboard') {
+        refreshDashboard();
     } else if (data.type === 'endMeeting') {
         endMeeting(data)
     } else if (data.type === 'reload') {
         setTimeout(function () {
             location.reload();
+
         }, data.timeout)
     } else if (data.type === 'call') {
         callAddhock(data);

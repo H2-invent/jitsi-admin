@@ -49,4 +49,4 @@ function refreshDashboard() {
     });
 }
 
-export {initRefreshDashboard};
+export {initRefreshDashboard,refreshDashboard};
