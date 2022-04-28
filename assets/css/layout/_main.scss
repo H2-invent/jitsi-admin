@@ -278,7 +278,7 @@ strong {
   position: absolute;
   top: 0;
   left: 0;
-  grid-template-columns: auto 4fr;
+  grid-template-columns: min-content auto;
   grid-template-rows: min-content auto min-content;
 
 
@@ -294,6 +294,8 @@ strong {
     cursor: pointer;
     z-index: 50;
     top: 0;
+    -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     @media only screen and (min-width: 1502px) {
       display: none;
     }
@@ -346,7 +348,7 @@ strong {
     flex-direction: column;
     overflow-y: hidden;
     position: relative;
-
+    transition: width 0.5s;
     .sidebarContent {
       padding-top: 18px;
       width: 0;
@@ -373,22 +375,27 @@ strong {
     .card {
       margin-bottom: 8px;
     }
+    &.showSidebar {
+      width: 100vw;
+      transition: width 0.5s;
+      @media only screen and (min-width: 1356px) {
+        width: 20vw;
+        transition: width 0.5s;
+      }
+
+      .sidebarContent {
+        width: 100% !important;
+        display: block !important;
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+      }
+
+      .sidebarToggle {
+        display: flex;
+      }
+    }
   }
 
-  .showSidebar {
-    grid-column: span 2;
-
-    .sidebarContent {
-      width: 100% !important;
-      display: block !important;
-      padding-right: 8px !important;
-      padding-left: 8px !important;
-    }
-
-    .sidebarToggle {
-      display: flex;
-    }
-  }
 }
 
 ::-webkit-scrollbar {
@@ -605,6 +612,7 @@ strong {
   -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
   box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
   border: none;
+
   .dropdown-item {
     i {
       margin-right: 20px;

@@ -338,6 +338,6 @@ function initRepeater() {
 
 $('.sidebarToggle').click(function () {
     $('#sidebar').toggleClass('showSidebar');
-    $('#main').toggleClass('d-none');
+    $('.sidebarToggle').toggleClass('d-none');
 
 })
