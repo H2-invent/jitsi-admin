@@ -62,7 +62,6 @@ class ShareLinkController extends JitsiAdminController
      */
     public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
-        $rooms = new Rooms();
         $moderator = false;
         $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidParticipant' => $uid, 'public' => true));
         if (!$rooms) {
@@ -72,13 +71,13 @@ class ShareLinkController extends JitsiAdminController
             }
         }
         if (!$rooms || $rooms->getModerator() === null) {
-            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color' => 'danger']);
+            $this->addFlash('danger',$translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('join_index_no_slug');
         }
 
         $data = array('email' => '');
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
-        $errors = array();
         $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
         $color = 'success';
         $server = null;
@@ -96,17 +95,16 @@ class ShareLinkController extends JitsiAdminController
             $snack = $res['text'];
             $color = $res['color'];
             if (!$res['error']) {
-                return $this->redirectToRoute('public_subscribe_participant', array('color' => $color, 'snack' => $snack, 'uid' => $uid));
+                $this->addFlash($color,$snack);
+                return $this->redirectToRoute('public_subscribe_participant', array( 'uid' => $uid));
             }
-
         }
         $server = $rooms->getServer();
+        $this->addFlash($color,$snack);
         return $this->render('share_link/subscribe.html.twig', [
             'form' => $form->createView(),
-            'snack' => $snack,
             'server' => $server,
             'room' => $rooms,
-            'color' => $color,
         ]);
     }
 

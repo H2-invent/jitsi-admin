@@ -69,7 +69,7 @@ class FavoriteTest extends WebTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 1'));
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard', array('snack' => 'Fehler', 'color' => 'danger'))));
+        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard')));
         $crawler = $client->request('GET', $urlGenerator->generate('dashboard'));
         $this->assertEquals(
             0,
@@ -88,7 +88,7 @@ class FavoriteTest extends WebTestCase
             $crawler->filter('.favorites .badge:contains("Läuft gerade")')->count()
         );
         $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
-        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard', array('snack' => 'Fehler', 'color' => 'danger'))));
+        $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard')));
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("TestMeeting: 1")')->count()

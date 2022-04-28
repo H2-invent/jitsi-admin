@@ -28,7 +28,7 @@ import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
 import {createPopper} from '@popperjs/core';
-import {initTabs,initalSetUnderline} from 'h2-invent-material-tabs'
+import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 
 addEventListener('load', function () {
@@ -36,6 +36,11 @@ addEventListener('load', function () {
     let url = '';
     if (param !== null) {
         url = atob(param);
+    }
+    if (typeof(modalUrl) !== 'undefined'){
+        url = atob(modalUrl);
+    }
+    if (url !== null) {
         if (url.startsWith('/')) {
             $('#loadContentModal').load(url, function (data, status) {
                 if (status === "error") {
@@ -65,8 +70,8 @@ $(document).ready(function () {
     init();
     initDashboardnotification(topic);
     setTimeout(function () {
-        $('#snackbar').addClass('show').click(function (e) {
-            $('#snackbar').removeClass('show');
+        $('.innerOnce').click(function (e) {
+            $(this).addClass('d-none');
         })
     }, 500);
 
@@ -136,6 +141,7 @@ function initServerFeatures() {
         getMoreFeature($(this).val());
     })
 }
+
 $('#modalAdressbook').on('shown.bs.modal', function (e) {
     initalSetUnderline('#modalAdressbook .underline');
 });
@@ -293,11 +299,11 @@ function initCopytoClipboard() {
     var clipboard = new ClipboardJS('.copyLink');
 }
 
-$(document).on('click','.testVideo', function (e) {
+$(document).on('click', '.testVideo', function (e) {
     e.preventDefault();
     var $url = $(this).attr('href');
-    $url += '?url='+$('#server_url').val();
-    $url += '&cors='+$('#server_corsHeader').prop('checked');
+    $url += '?url=' + $('#server_url').val();
+    $url += '&cors=' + $('#server_corsHeader').prop('checked');
     console.log($url);
     window.open($url, '_blank').focus();
 })

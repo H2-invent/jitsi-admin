@@ -51,7 +51,8 @@ class ParticipantController extends JitsiAdminController
         $newMember = array();
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         if ($room->getModerator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('room_add_user', ['room' => $room->getId()])]);
         $form->handleRequest($request);
@@ -72,8 +73,8 @@ class ParticipantController extends JitsiAdminController
             } else {
                 $snack = $this->translator->trans('Teilnehmer wurden eingeladen');
             }
-
-            return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+            $this->addFlash('success', $snack);
+            return $this->redirectToRoute('dashboard');
         }
 
         $title = $this->translator->trans('Teilnehmer verwalten');
@@ -89,7 +90,8 @@ class ParticipantController extends JitsiAdminController
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         if ($room->getModerator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $title = $this->translator->trans('Teilnehmer');
         return $this->render('room/attendeeModalPast.twig', array('title' => $title, 'room' => $room));
@@ -124,8 +126,8 @@ class ParticipantController extends JitsiAdminController
 
             $snack = $this->translator->trans('Teilnehmer gelöscht');
         }
-
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+        $this->addFlash('success', $snack);
+        return $this->redirectToRoute('dashboard');
     }
     /**
      * @Route("/room/participant/resend", name="room_user_resend")
@@ -135,13 +137,16 @@ class ParticipantController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$request->get('room')));
         if ($room->getModerator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $user = $this->doctrine->getRepository(User::class)->findOneBy(array('id'=>$request->get('user')));
         if(!in_array($room,$user->getRooms()->toArray())){
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $userService->addUser($user,$room);
-        return $this->redirectToRoute('dashboard', ['snack' => $this->translator->trans('participant.resend.invitation.sucess')]);
+        $this->addFlash('success', $this->translator->trans('participant.resend.invitation.sucess'));
+        return $this->redirectToRoute('dashboard');
     }
 }

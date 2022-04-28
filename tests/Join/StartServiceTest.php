@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StartServiceTest extends KernelTestCase
 {
+
     public function testUserIsOrganizer(): void
     {
         $kernel = self::bootKernel();
@@ -160,8 +161,13 @@ class StartServiceTest extends KernelTestCase
         $manager->flush();
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
-        $res = $urlGen->generate('dashboard',array('color'=>'danger','snack'=>'Der Beitritt ist nur von ' . (clone $room->getStart())->modify('-30min')->format('d.m.Y H:i')  . ' bis ' . $room->getEnddate()->format('d.m.Y') . ' ' . $room->getEnddate()->format('H:i') . ' möglich.'));
-        self::assertEquals(new RedirectResponse($res), $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+        $test = $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')));
+
+        $res = $urlGen->generate('dashboard');
+        $session = $kernel->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['danger'][0],'Der Beitritt ist nur von ' . (clone $room->getStart())->modify('-30min')->format('d.m.Y H:i')  . ' bis ' . $room->getEnddate()->format('d.m.Y') . ' ' . $room->getEnddate()->format('H:i') . ' möglich.');
+        self::assertEquals(new RedirectResponse($res),$test);
 
     }
 
@@ -177,10 +183,17 @@ class StartServiceTest extends KernelTestCase
         $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        $res = $urlGen->generate('dashboard',array('color'=>'danger','snack'=>'Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.'));
+        $res = $urlGen->generate('dashboard');
+        $test = $startService->startMeeting(null, $user, 'b', $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+        $session = $kernel->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['danger'][0],'Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.');
+
+
         self::assertEquals(
-            new RedirectResponse($res),
-            $startService->startMeeting(null, $user, 'b', $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')))));
+            new RedirectResponse($res), $test
+        );
+
 
     }
 }

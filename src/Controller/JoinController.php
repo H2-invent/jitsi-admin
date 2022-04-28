@@ -81,11 +81,9 @@ class JoinController extends JitsiAdminController
                 return $res;
             }
         }
-
+        $this->addFlash($color,$snack);
         return $this->render('join/index.html.twig', [
-            'color' => $color,
             'form' => $form->createView(),
-            'snack' => $snack,
             'server' => $server,
         ]);
     }

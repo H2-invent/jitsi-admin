@@ -36,7 +36,6 @@ class RoomAddService
     public function createParticipants($input, Rooms $room)
     {
         $lines = explode("\n", $input);
-        $snack = null;
         $falseEmail = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {
@@ -64,7 +63,6 @@ class RoomAddService
     public function createModerators($input, Rooms $room)
     {
         $lines = explode("\n", $input);
-        $snack = null;
         $falseEmail = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {

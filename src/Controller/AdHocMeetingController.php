@@ -37,18 +37,22 @@ class AdHocMeetingController extends JitsiAdminController
     {
 
         if (!in_array($user, $this->getUser()->getAddressbook()->toArray())) {
-            return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Fehler, Der User wurde nicht gefunden')));
+            $this->addFlash('danger', $translator->trans('Fehler, Der User wurde nicht gefunden'));
+            return $this->redirectToRoute('dashboard');
         }
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
         if (!in_array($server, $servers)) {
-            return $this->redirectToRoute('dashboard', array('color' => 'danger', 'snack' => $translator->trans('Fehler, Der Server wurde nicht gefunden')));
+            $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
+            return $this->redirectToRoute('dashboard');
         }
         try {
             $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server);
-            return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Konferenz erfolgreich erstellt')));
+            $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
+            return $this->redirectToRoute('dashboard');
         } catch (\Exception $exception) {
-            return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Fehler')));
+            $this->addFlash('danger', $translator->trans('Fehler'));
+            return $this->redirectToRoute('dashboard');
         }
     }
 }

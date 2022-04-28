@@ -27,8 +27,12 @@ class SecondEmailTest extends WebTestCase
         $form['second_email[secondEmail]'] = 'testcc@test.de, test@cc.de';
 
         $client->submit($form);
-        $this->assertResponseRedirects($urlGen->generate('dashboard',array('snack'=>$translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'))));
+        $this->assertResponseRedirects($urlGen->generate('dashboard'));
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],$translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'));
+
         self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
 
     }
@@ -50,7 +54,11 @@ class SecondEmailTest extends WebTestCase
         $form['second_email[secondEmail]'] = 'testcc@test, test@cc.de';
 
         $client->submit($form);
-        $this->assertResponseRedirects($urlGen->generate('dashboard',array('snack'=>'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.','color'=>'danger')));
+        $this->assertResponseRedirects($urlGen->generate('dashboard'));
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['danger'][0],'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
+
         self::assertEquals(null,$user->getSecondEmail());
     }
     public function testCombined(): void
@@ -70,8 +78,11 @@ class SecondEmailTest extends WebTestCase
         $form['second_email[secondEmail]'] = 'testcc@test.de, test@cc.de';
 
         $client->submit($form);
-        $this->assertResponseRedirects($urlGen->generate('dashboard',array('snack'=>$translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'))));
+        $this->assertResponseRedirects($urlGen->generate('dashboard'));
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],$translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'));
         self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
 
         $crawler = $client->request('GET', '/room/secondEmail/change');
@@ -82,7 +93,10 @@ class SecondEmailTest extends WebTestCase
         $form['second_email[secondEmail]'] = 'testcc@test, test@cc.de';
 
         $client->submit($form);
-        $this->assertResponseRedirects($urlGen->generate('dashboard',array('snack'=>'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.','color'=>'danger')));
+        $this->assertResponseRedirects($urlGen->generate('dashboard'));
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['danger'][0],'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
         self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
     }

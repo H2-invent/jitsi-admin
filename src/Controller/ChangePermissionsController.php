@@ -24,17 +24,21 @@ class ChangePermissionsController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('dashboard');
         }
         $userNew = $this->doctrine->getRepository(User::class)->find($request->get('user'));
         if (!$userNew) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('dashboard');
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleShareScreen($userOld, $userNew, $room)) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Dieser Teilnehmer darf seinen Bildschirm teilen')]);
+            $this->addFlash('success', $translator->trans('Dieser Teilnehmer darf seinen Bildschirm teilen'));
+            return $this->redirectToRoute('dashboard');
         }
-        return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+        $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -44,17 +48,21 @@ class ChangePermissionsController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('dashboard');
         }
         $userNew = $this->doctrine->getRepository(User::class)->find($request->get('user'));
         if (!$userNew) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('dashboard');
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->togglePrivateMessage($userOld, $userNew, $room)) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Dieser Teilnehmer darf private Nachrichten versenden')]);
+            $this->addFlash('success', $translator->trans('Dieser Teilnehmer darf private Nachrichten versenden'));
+            return $this->redirectToRoute('dashboard');
         }
-        return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+        $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -64,17 +72,21 @@ class ChangePermissionsController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('dashboard');
         }
         $userNew = $this->doctrine->getRepository(User::class)->find($request->get('user'));
         if (!$userNew) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('dashboard');
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleModerator($userOld, $userNew, $room)) {
-            return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Der Moderator wurde erfolgreich hinzugefügt')]);
+            $this->addFlash('success', $translator->trans('Der Moderator wurde erfolgreich hinzugefügt'));
+            return $this->redirectToRoute('dashboard' );
         }
-        return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
+        $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+        return $this->redirectToRoute('dashboard');
     }
 
     /**

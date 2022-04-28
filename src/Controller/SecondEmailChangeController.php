@@ -28,14 +28,14 @@ class SecondEmailChangeController extends JitsiAdminController
         $form = $this->createForm(SecondEmailType::class, $user, ['action' => $this->generateUrl('second_email_save')]);
         return $this->render('time_zone/index.html.twig', array(
             'form' => $form->createView(),
-            'title'=> $translator->trans('second.email.title')
+            'title' => $translator->trans('second.email.title')
         ));
     }
 
     /**
      * @Route("/room/secondEmail/save", name="second_email_save")
      */
-    public function new(Request $request, TranslatorInterface $translator,LoggerInterface $logger): Response
+    public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger): Response
     {
         $user = $this->getUser();
 
@@ -46,10 +46,10 @@ class SecondEmailChangeController extends JitsiAdminController
             if ($form->isSubmitted() && $form->isValid()) {
                 $user = $form->getData();
 
-                if($user->getSecondEmail()){
-                    foreach (explode(',',$user->getSecondEmail()) as $data){
-                        if(!filter_var(trim($data), FILTER_VALIDATE_EMAIL)){
-                            throw new \InvalidArgumentException('Invalid Email: '.$data);
+                if ($user->getSecondEmail()) {
+                    foreach (explode(',', $user->getSecondEmail()) as $data) {
+                        if (!filter_var(trim($data), FILTER_VALIDATE_EMAIL)) {
+                            throw new \InvalidArgumentException('Invalid Email: ' . $data);
                         }
                     }
                 }
@@ -60,22 +60,22 @@ class SecondEmailChangeController extends JitsiAdminController
                 $em->persist($user);
                 $em->flush();
                 $user = $this->getUser();
-                if($user->getProfilePicture() && !$user->getProfilePicture()->getDocumentFileName()){
+                if ($user->getProfilePicture() && !$user->getProfilePicture()->getDocumentFileName()) {
                     $user->setProfilePicture(null);
                     $em->persist($user);
                     $em->flush();
                 }
             }
-        }
-        catch (\InvalidArgumentException $exception){
+        } catch (\InvalidArgumentException $exception) {
             $logger->error($exception->getMessage());
-            return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.'),'color'=>'danger'));
-        }
-        catch (\Exception $exception){
+            $this->addFlash('danger', $translator->trans('Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.'));
+            return $this->redirectToRoute('dashboard');
+        } catch (\Exception $exception) {
             $logger->error($exception->getMessage());
-            return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler'),'color'=>'danger'));
+            $this->addFlash('danger', $translator->trans('Fehler'));
+            return $this->redirectToRoute('dashboard');
         }
-
-        return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}',array('{secondEmails}'=>$user->getSecondEmail()))));
+        $this->addFlash('success', $translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}', array('{secondEmails}' => $user->getSecondEmail())));
+        return $this->redirectToRoute('dashboard');
     }
 }

@@ -36,11 +36,12 @@ class SheduleNewTest extends WebTestCase
         $room = (static::getContainer()->get(RoomsRepository::class))->findOneBy(array('name' => 198273987321));
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('schedule_admin', array('id' => $room->getId())));
+
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Terminplanung erfolgreich erstellt','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -48,6 +49,10 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich erstellt');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
     }
     public function testRemove(): void{
         $client = static::createClient();
@@ -73,7 +78,7 @@ class SheduleNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Terminplanung erfolgreich erstellt','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -81,8 +86,18 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich erstellt');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+        $client->request('GET','/room/dashboard');
+        self::assertResponseIsSuccessful();
+
         $client->request('GET',$urlGenerator->generate('room_remove',array('room'=>$room->getId())));
-        $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Konferenz%20gel%C3%B6scht'));
+        $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Konferenz gelöscht');
         $room = $roomRepo->findOneBy(array('name' => '198273987321'));
         $this->assertEquals(0,sizeof($room->getUser()));
         $this->assertNull($room->getModerator());
@@ -112,7 +127,7 @@ class SheduleNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Terminplanung erfolgreich erstellt','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -120,6 +135,11 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich erstellt');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+        $client->request('GET','/room/dashboard');
         $crawler = $client->request('GET', $urlGenerator->generate('schedule_admin_new',array('id'=>$room->getId())));
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
@@ -142,7 +162,7 @@ class SheduleNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Terminplanung erfolgreich bearbeitet','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -150,6 +170,10 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich bearbeitet');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
     }
 
 }

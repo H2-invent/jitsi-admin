@@ -25,8 +25,11 @@ class RepeaterControllerTest extends WebTestCase
         $form['repeater[repeaterDays]'] = 1;
         $form['repeater[repetation]'] = 10;
         $client->submit($form);
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Sie haben erfolgreich einen Serientermin erstellt.');
 
-        self::assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20erstellt.&color=success'));
+        self::assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
 
 
 
@@ -79,7 +82,12 @@ class RepeaterControllerTest extends WebTestCase
         $form['repeater[repetation]'] = 3;
         $form['repeater[repeaterDays]'] = 3;
         $client->submit($form);
-        self::assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Sie%20haben%20erfolgreich%20einen%20Serientermin%20bearbeitet.&color=success'));
+
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Sie haben erfolgreich einen Serientermin bearbeitet.');
+
+        self::assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
         $rooms = $roomRepo->findBy(array('name' => 'TestMeeting: 0'));
         self::assertEquals(4, sizeof($rooms));
         $start = new \DateTime('2022-04-10T12:00:00');

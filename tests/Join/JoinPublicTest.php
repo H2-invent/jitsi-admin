@@ -7,6 +7,8 @@ use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
 use App\Service\RoomService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 class JoinPublicTest extends WebTestCase
 {
@@ -102,6 +104,8 @@ class JoinPublicTest extends WebTestCase
     public function testJoin_ConferenceClosed_Correctuser_Userisnologinuser_Correctroomnumber(): void
     {
         $client = static::createClient();
+        $session = new Session(new MockArraySessionStorage());
+        $app['session.storage'] = new MockArraySessionStorage();
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h3','Konferenz beitreten');
@@ -116,7 +120,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
         $res = 'Der Beitritt ist nur von '.($room->getStart())->modify('-30min')->format('d.m.Y H:i T').' bis '.($room->getEnddate())->format('d.m.Y H:i T').' möglich';
-        $this->assertSelectorTextContains('#snackbar',$res);
+        $this->assertSelectorTextContains('.innerOnce',$res);
     }
     public function testJoin_ConferenceClosed_Correctuser_Userisloginuser_Correctroomnumber(): void
     {
@@ -204,7 +208,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.innerOnce','Fehler, bitte kontrollieren Sie Ihre Daten.');
     }
     public function testJoin_Conference_NotcorrectRoom(): void
     {
@@ -222,7 +226,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
     }
     public function testJoin_Conference_UserDoesNotexist(): void
     {
@@ -240,7 +244,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] ='usernotexits@local6.de';
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
     }
     public function testJoin_Conference_fixedroom_Correctuser_Userloginuser_Userismoderator_Correctroomnumber(): void
     {
@@ -340,6 +344,6 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('#snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
     }
 }

@@ -61,7 +61,8 @@ class LobbyModeratorController extends JitsiAdminController
         }
 
         $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
-        return $this->redirectToRoute('dashboard', array('snack' => $this->translator->trans('error.noPermission'), 'color' => 'danger'));
+        $this->addFlash('danger', $this->translator->trans('error.noPermission'));
+        return $this->redirectToRoute('dashboard');
 
     }
 
@@ -73,7 +74,8 @@ class LobbyModeratorController extends JitsiAdminController
         $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $room));
         if (!$this->checkPermissions($roomL, $this->getUser())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $roomL->getId(), 'user' => $this->getUser()->getUserIdentifier()));
-            return $this->redirectToRoute('dashboard', array('snack' => $this->translator->trans('Fehler'), 'color' => 'danger'));
+            $this->addFlash('danger', $this->translator->trans('Fehler'));
+            return $this->redirectToRoute('dashboard');
         }
         $url = $roomService->join($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
         return $this->redirect($url);

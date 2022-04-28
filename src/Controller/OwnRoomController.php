@@ -32,7 +32,8 @@ class OwnRoomController extends JitsiAdminController
     {
         $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uid' => $uid, 'totalOpenRooms' => true));
         if (!$rooms) {
-            return $this->redirectToRoute('join_index_no_slug', array('snack' => $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'), 'color' => 'danger'));
+            $this->addFlash('danger', $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
+            return $this->redirectToRoute('join_index_no_slug');
         }
         if (!StartMeetingService::checkTime($rooms)) {
             $startPrint = $rooms->getTimeZone()?clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getStart();
@@ -45,7 +46,8 @@ class OwnRoomController extends JitsiAdminController
                 )
             );
             $color = 'danger';
-            return $this->redirectToRoute('join_index_no_slug', array('snack' => $snack, 'color' => $color));
+            $this->addFlash($color, $snack);
+            return $this->redirectToRoute('join_index_no_slug');
         }
 
         $data = array();

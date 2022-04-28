@@ -16,8 +16,8 @@ import {setSnackbar} from "./myToastr";
 $(document).ready(function () {
     initGenerell();
     setTimeout(function () {
-        $('#snackbar').addClass('show').click(function (e) {
-            $('#snackbar').removeClass('show');
+        $('.innerOnce').click(function (e) {
+            $(this).addClass('d-none');
         })
     }, 500);
     initSchedulePublic()

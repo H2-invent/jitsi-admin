@@ -46,11 +46,13 @@ class RepeaterController extends JitsiAdminController
                 $repeater = $form->getData();
                 if (!$repeaterService->checkData($repeater)) {
                     $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
-                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                    $this->addFlash('danger',$snack );
+                    return $this->redirectToRoute('dashboard');
                 }
                 if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
                     $snack = $this->translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben', array('{amount}' => $parameterBag->get('laf_max_repeat')));
-                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                    $this->addFlash('danger',$snack );
+                    return $this->redirectToRoute('dashboard');
                 }
                 $em = $this->doctrine->getManager();
                 foreach ($room->getUser() as $data) {
@@ -70,12 +72,14 @@ class RepeaterController extends JitsiAdminController
                 $repeaterService->addUserRepeat($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterNew.html.twig', $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), array('room' => $repeater->getPrototyp()));
                 $snack = $this->translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
-                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+                $this->addFlash('success',$snack );
+                return $this->redirectToRoute('dashboard');
             }
 
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+            $this->addFlash('danger',$snack );
+            return $this->redirectToRoute('dashboard');
         }
         return $this->render('repeater/index.html.twig', [
             'form' => $form->createView(),
@@ -101,11 +105,13 @@ class RepeaterController extends JitsiAdminController
                 $repeater = $form->getData();
                 if (!$repeaterService->checkData($repeater)) {
                     $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
-                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                    $this->addFlash('danger',$snack );
+                    return $this->redirectToRoute('dashboard');
                 }
                 if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
                     $snack = $this->translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben', array('{amount}' => $parameterBag->get('laf_max_repeat')));
-                    return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+                    $this->addFlash('danger',$snack );
+                    return $this->redirectToRoute('dashboard');
                 }
                 $em = $this->doctrine->getManager();
                 $em->persist($repeater);
@@ -115,12 +121,14 @@ class RepeaterController extends JitsiAdminController
                 $repeaterService->addUserRepeat($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                 $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
-                return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+                $this->addFlash('success',$snack );
+                return $this->redirectToRoute('dashboard');
             }
 
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+            $this->addFlash('danger',$snack );
+            return $this->redirectToRoute('dashboard');
         }
         return $this->render('repeater/index.html.twig', [
             'form' => $form->createView(),
@@ -155,7 +163,8 @@ class RepeaterController extends JitsiAdminController
         $em->persist($repeater);
         $em->flush();
         $snack = $this->translator->trans('Sie haben Erfolgreich einen Serientermin gelöscht');
-        return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'success'));
+        $this->addFlash('success',$snack );
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -216,8 +225,8 @@ class RepeaterController extends JitsiAdminController
 
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
-
+            $this->addFlash('danger',$snack );
+            $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
         return $this->render('base/__newRoomModal.html.twig', [

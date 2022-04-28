@@ -46,7 +46,8 @@ class ServersController extends JitsiAdminController
             }
 
             if ($server->getAdministrator() !== $this->getUser()) {
-                return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+                $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
+                return $this->redirectToRoute('dashboard');
             }
             $title = $translator->trans('Jitsi-Meet-Server bearbeiten');
         } else {
@@ -82,6 +83,7 @@ class ServersController extends JitsiAdminController
 
                 $em->persist($server);
                 $em->flush();
+                $this->addFlash('success', $translator->trans('Ihre Eingabe wurde Erfolgreich gespeichert.'));
                 return $this->redirectToRoute('dashboard');
             }
         }
@@ -98,7 +100,8 @@ class ServersController extends JitsiAdminController
 
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
         if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $title = $translator->trans('Jitsi-Admin Enterprise Einstellungen');
 
@@ -114,6 +117,7 @@ class ServersController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 $em->persist($server);
                 $em->flush();
+                $this->addFlash('success', $translator->trans('Ihre Eingabe wurde Erfolgreich gespeichert.'));
                 return $this->redirectToRoute('dashboard');
             }
         }
@@ -125,12 +129,13 @@ class ServersController extends JitsiAdminController
     /**
      * @Route("/server/add-user", name="server_add_user")
      */
-    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator,UserCreatorService $userCreatorService)
+    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService)
     {
         $newMember = array();
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         if ($server->getAdministrator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger',$translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $form = $this->createForm(NewPermissionType::class, $newMember, ['action' => $this->generateUrl('server_add_user', ['id' => $server->getId()])]);
         $form->handleRequest($request);
@@ -146,14 +151,15 @@ class ServersController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 foreach ($lines as $line) {
                     $newMember = trim($line);
-                    $user = $userCreatorService->createUser($newMember, $newMember, '','');
+                    $user = $userCreatorService->createUser($newMember, $newMember, '', '');
                     $user->addServer($server);
                     $em->persist($user);
                     $serverService->addPermission($server, $user);
                 }
                 $em->flush();
                 $snack = 'Berechtigung hinzugefügt';
-                return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+                $this->addFlash('success',$snack);
+                return $this->redirectToRoute('dashboard');
             }
         }
         $title = $translator->trans('Organisator zu Server hinzufügen');
@@ -178,8 +184,8 @@ class ServersController extends JitsiAdminController
             $em->flush();
             $snack = $translator->trans('Berechtigung gelöscht');
         }
-
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+        $this->addFlash('success', $snack);
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -205,8 +211,8 @@ class ServersController extends JitsiAdminController
 
             $snack = $translator->trans('Server gelöscht');
         }
-
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+        $this->addFlash('success',$snack);
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -215,11 +221,13 @@ class ServersController extends JitsiAdminController
     public
     function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
     {
-        $res = ['snack' => $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten'), 'color' => 'success'];
+
+        $color = 'success';
+        $snack = $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten');
         $server = $this->doctrine->getRepository(Server::class)->find($request->get('id'));
         if (!$server || $server->getAdministrator() != $this->getUser()) {
-
-            $res = ['snack' => $translator->trans('Fehler, der Server ist nicht registriert'), 'color' => 'danger'];
+            $color = 'danger';
+            $snack = $translator->trans('Fehler, der Server ist nicht registriert');
         } else {
             try {
                 $r = $mailerService->sendEmail(
@@ -232,14 +240,17 @@ class ServersController extends JitsiAdminController
                     $server
                 );
                 if (!$r) {
-                    $res = ['snack' => $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'), 'color' => 'danger'];
+                    $color = 'danger';
+                    $snack = $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft');
                 }
             } catch (\Exception $e) {
-                $res = ['snack' => $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'), 'color' => 'danger'];
+                $color = 'danger';
+                $snack = $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft');
+
             }
         }
-
-        return $this->redirectToRoute('dashboard', $res);
+        $this->addFlash($color, $snack);
+        return $this->redirectToRoute('dashboard');
 
     }
 }

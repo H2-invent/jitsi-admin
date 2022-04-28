@@ -26,7 +26,7 @@ class AddressGroupController extends JitsiAdminController
         $title = $translator->trans('Neue Kontaktgruppe erstellen');
         if ($request->get('id')) {
             $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(array('id' => $request->get('id')));
-            if ($addressgroup->getLeader() != $this->getUser()) {
+            if ($addressgroup->getLeader() !== $this->getUser()) {
                 throw new NotFoundHttpException('Not Found');
             }
             $title = $translator->trans('Kontaktgruppe bearbeiten');
@@ -41,12 +41,13 @@ class AddressGroupController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 $em->persist($addressgroup);
                 $em->flush();
-
-                return $this->redirectToRoute('dashboard', array('snack' => $translator->trans('Kontaktgruppe erfolgreich angelegt')));
+                $this->addFlash('success',$translator->trans('Kontaktgruppe erfolgreich angelegt'));
+                return $this->redirectToRoute('dashboard');
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            return $this->redirectToRoute('dashboard', array('snack' => $snack, 'color' => 'danger'));
+            $this->addFlash('danger',$snack);
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('address_group/index.html.twig', [
@@ -67,6 +68,7 @@ class AddressGroupController extends JitsiAdminController
         $em = $this->doctrine->getManager();
         $em->remove($addressgroup);
         $em->flush();
-        return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Kontaktgruppe gelöscht')));
+        $this->addFlash('success', $translator->trans('Kontaktgruppe gelöscht'));
+        return $this->redirectToRoute('dashboard');
     }
 }

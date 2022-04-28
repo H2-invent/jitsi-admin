@@ -45,8 +45,10 @@ class TimeZoneController extends JitsiAdminController
             }
         }catch (\Exception $exception){
             $logger->error($exception->getMessage());
-            return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler'),'color'=>'danger'));
+            $this->addFlash('danger',$translator->trans('Fehler'));
+            return $this->redirectToRoute('dashboard');
         }
-        return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Zeitzone erfolgreich geändert auf: {timeZone}',array('{timeZone}'=>$user->getTimeZone()))));
+        $this->addFlash('success',$translator->trans('Zeitzone erfolgreich geändert auf: {timeZone}',array('{timeZone}'=>$user->getTimeZone())));
+        return $this->redirectToRoute('dashboard');
     }
 }

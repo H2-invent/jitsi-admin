@@ -31,7 +31,8 @@ class AdminController extends JitsiAdminController
         }
 
         if ($this->getUser() !== $server->getAdministrator()) {
-             return $this->redirectToRoute('dashboard',['snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden'),'color'=>'danger']);
+            $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
+             return $this->redirectToRoute('dashboard');
         }
         $tags = null;
         if($parameterBag->get('enterprise_noExternal') == 0){

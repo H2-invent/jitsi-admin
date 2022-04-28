@@ -1,20 +1,22 @@
-{% if app.request is defined and app.request is not null %}
-    {% if app.request.query.get('snack') %}
-        {% set snack = app.request.query.get('snack') %}
-    {% endif %}
-{% endif %}
 
-{% if snack is defined and snack is not null %}
-    {% if app.request.query.get('color') %}
-        {% set color = app.request.query.get('color') %}
-
-    {% endif %}
-
+<div class="snackbar">
     <div id="snackbar"
-         class="bg-{% if color is defined and color is not null %}{{ color }}{% else %}success{% endif %}">{{ snack }}</div>
-{% else %}
-    <div id="snackbar"
-         class="bg-success d-none"></div>
+         class="bg-success d-none snackbar"></div>
+    {% for message in app.flashes('success') %}
+        <div class="bg-success innerOnce">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="bg-danger innerOnce">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="bg-warning innerOnce">{{ message }}</div>
+    {% endfor %}
+</div>
 
+{% set modalUrl = app.flashes('modalUrl') %}
+{%  if modalUrl |length > 0 %}
+<script>
+    var modalUrl = '{{ modalUrl[0] }}';
+</script>
 {% endif %}
 

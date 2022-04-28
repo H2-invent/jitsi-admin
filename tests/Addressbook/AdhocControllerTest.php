@@ -42,6 +42,6 @@ class AdhocControllerTest extends WebTestCase
         $client->loginUser($user);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
 
-        $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Die%20Konferenz%20wurde%20erfolgreich%20erstellt.'));
+        $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
     }
 }

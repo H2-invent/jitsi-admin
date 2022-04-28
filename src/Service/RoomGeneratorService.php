@@ -13,12 +13,15 @@ class RoomGeneratorService
 {
     private $parameterBag;
     private $callerPrepareService;
+
     public function __construct(ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService)
     {
         $this->parameterBag = $parameterBag;
         $this->callerPrepareService = $callerPrepareService;
     }
-    public function createRoom(User $user, ?Server $server = null):Rooms{
+
+    public function createRoom(User $user, ?Server $server = null): Rooms
+    {
         $room = new Rooms();
         $room->setServer($server);
         $room->addUser($user);
@@ -50,6 +53,12 @@ class RoomGeneratorService
                 $room->setTimeZone($this->parameterBag->get('input_settings_allow_timezone_default'));
             }
         }
+        $room = $this->createCallerId($room);
+        return $room;
+    }
+
+    public function createCallerId(Rooms $room)
+    {
         $roomCaller = new CallerRoom();
         $roomCaller->setCallerId($this->callerPrepareService->generateRoomId(999999));
         $roomCaller->setCreatedAt(new \DateTime());

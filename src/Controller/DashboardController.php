@@ -113,13 +113,17 @@ class DashboardController extends JitsiAdminController
         $tomorrow = (clone $today)->modify('+1day');
         $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
         $timer = $stopwatch->stop('dashboard');
+        if ($request->get('snack')){
+            if ($request->get('color')){
+                $this->addFlash($request->get('color'),$request->get('snack'));
+            }
+        }
         $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
             'runningRooms' => $roomsNow,
             'persistantRooms' => $persistantRooms,
             'todayRooms' => $roomsToday,
-            'snack' => $request->get('snack'),
             'servers' => $servers,
             'today' => $today,
             'tomorrow' => $tomorrow,

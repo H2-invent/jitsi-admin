@@ -54,7 +54,7 @@ class RoomNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich erstellt.','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -62,6 +62,10 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
     }
     public function testNoServer(): void
     {
@@ -103,7 +107,7 @@ class RoomNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich erstellt.','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -111,16 +115,23 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
         $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
         self::assertEquals(1, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
         $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
         self::assertEquals(0, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
         $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
         $client->request('GET',$urlGenerator->generate('room_remove',array('room'=>$room->getId())));
-        $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard?snack=Konferenz%20gel%C3%B6scht'));
+        $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
         $room = $roomRepo->findOneBy(array('name' => '198273987321'));
         $this->assertEquals(0,sizeof($room->getUser()));
         $this->assertNull($room->getModerator());
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Konferenz gelöscht');
         self::assertEquals(0, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
 
     }
@@ -150,7 +161,7 @@ class RoomNewTest extends WebTestCase
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich erstellt.','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
@@ -158,6 +169,13 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+        $client->request('GET','/room/dashboard');
+        self::assertResponseIsSuccessful();
+
         $crawler = $client->request('GET', $urlGenerator->generate('room_new',array('id'=>$room->getId())));
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
@@ -190,24 +208,30 @@ class RoomNewTest extends WebTestCase
         $form['room[name]'] = '765456654456';
         $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
+
         $client->submit($form);
         $room = $roomRepo->findOneBy(array('name' => '198273987321'));
         $this->assertNull($room);
         $room = $roomRepo->findOneBy(array('name' => '765456654456'));
         $this->assertNotNull($room);
         $modalUrl = base64_encode($urlGenerator->generate('room_add_user', array('room' => $room->getId())));
+        $test = $client->getResponse()->getContent();
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 array(
                     'error' => false,
-                    'redirectUrl' => $urlGenerator->generate('dashboard',array('snack'=>'Die Konferenz wurde erfolgreich bearbeitet.','modalUrl'=>$modalUrl)),
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
                     'cookie' => array(
                         'room_server' => $server->getId()
                     )
                 )
             ),
-            $client->getResponse()->getContent()
+            $test
         );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich bearbeitet.');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
     }
 
 }

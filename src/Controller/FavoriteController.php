@@ -28,7 +28,8 @@ class FavoriteController extends JitsiAdminController
                 $user->addFavorite($room);
             }
         }else{
-            return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler'),'color'=>'danger'));
+            $this->addFlash('danger', $translator->trans('Fehler'));
+            return $this->redirectToRoute('dashboard');
         }
         $em = $this->doctrine->getManager();
         $em->persist($user);

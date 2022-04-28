@@ -37,7 +37,8 @@ class ScheduleController extends JitsiAdminController
         if ($request->get('id')) {
             $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if ($room->getModerator() !== $this->getUser()) {
-                return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Keine Berechtigung')]);
+                $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
+                return $this->redirectToRoute('dashboard');
             }
             $snack = $translator->trans('Terminplanung erfolgreich bearbeitet');
             $title = $translator->trans('Terminplanung bearbeiten');
@@ -107,14 +108,16 @@ class ScheduleController extends JitsiAdminController
                 }
 
                 $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
-                $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                $res = $this->generateUrl('dashboard');
+                $this->addFlash('success', $snack);
+                $this->addFlash('modalUrl', $modalUrl);
                 return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
 
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
-
+            $this->addFlash('danger',$snack );
+            $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
         return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'form' => $form->createView(), 'title' => $title));
@@ -204,10 +207,13 @@ class ScheduleController extends JitsiAdminController
             throw new NotFoundHttpException('Room not found');
         }
         $text = $translator->trans('Sie haben den Terminplan erfolgreich umgewandelt');
+        $color = 'success';
         if (!$schedulingService->chooseTimeSlot($schedulingTime)) {
             $text = $translator->trans('Fehler, Bitte Laden Sie die Seite neu');
+            $color='danger';
         };
-        return $this->redirectToRoute('dashboard', array('snack' => $text));
+        $this->addFlash($color,$text);
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -218,16 +224,16 @@ class ScheduleController extends JitsiAdminController
     public function public(Scheduling $scheduling, User $user, Request $request, PexelService $pexelService, TranslatorInterface $translator): Response
     {
         if (!in_array($user, $scheduling->getRoom()->getUser()->toArray())) {
-            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color' => 'danger']);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('join_index_no_slug');
 
         }
         if (!$scheduling->getRoom()->getScheduleMeeting()) {
-            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color' => 'danger']);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('join_index_no_slug');
         }
 
         $server = $scheduling->getRoom()->getServer();
-
-
         return $this->render('schedule/schedulePublic.html.twig', array('user' => $user, 'scheduling' => $scheduling, 'room' => $scheduling->getRoom(), 'server' => $server));
     }
 
