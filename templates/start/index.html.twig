@@ -46,6 +46,16 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
         api = new JitsiMeetExternalAPI(domain, options);
+        document.getElementById('jitsiWindow').style.height=window.innerHeight+"px";
+
+        api.addListener('filmstripDisplayChanged', function (data) {
+            if(data.visible){
+                api.executeCommand('toggleFilmStrip');
+            }
+        });
+        api.addListener('participantJoined', function (data) {
+            api.removeListener('filmstripDisplayChanged')
+        });
         var iframe = document.querySelector('#jitsiConferenceFrame0');
         iframe.style.height = 'inherit';
 
@@ -54,7 +64,9 @@
             document.getElementById('jitsiWindow').style.height = window.innerHeight + "px";
         }
 
-
+        document.getElementById("iframe").addEventListener("click", function () {
+            api.executeCommand('toggleFilmStrip');
+        });
     </script>
 
 {% endif %}
