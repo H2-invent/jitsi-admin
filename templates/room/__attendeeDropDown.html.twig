@@ -1,6 +1,6 @@
 
                                 <!-- Basic dropdown -->
-                                <a class="dropdown-toggle" type="button" data-toggle="dropdown"
+                                <a class="dropdown-toggle" type="button" data-mdb-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
 
                                 <div class="dropdown-menu">
@@ -15,7 +15,7 @@
 "
                                            data-target="#atendeeList"
                                            data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                           data-toggle="tooltip" data-boundary="viewport" title="{{ 'Zum Moderator ernennen'|trans }}"
+                                           data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'Zum Moderator ernennen'|trans }}"
                                         ><i class="fa fa-crown"></i> {{ 'Moderator'|trans }}</a>
 
 
@@ -32,7 +32,7 @@
                                                data-target="#atendeeList"
 
                                                data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                               data-toggle="tooltip" data-boundary="viewport" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
+                                               data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
                                             ><i
                                                         class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}</a>
                                         {% endif %}
@@ -64,7 +64,7 @@
 
                                            data-target="#atendeeList"
                                            data-url="{{ path('room_add_user',{'room':room.id}) }}"
-                                           data-toggle="tooltip" data-boundary="viewport" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
+                                           data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
                                         > <i class="fas fa-couch"></i> {{ 'Lobbymoderator'|trans }}</a>
                                     {% endif %}
                                     {% if laf_show_resendInvitation == 1 %}
@@ -75,7 +75,7 @@
                                     {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 %}
                                         {% if  sipPinFromRoomAndUser(room,user) is not null %}
                                         <a class=" dropdown-item stopCloseDropdown"
-                                           href="#sipCaller{{ user.id }}" type="button" data-toggle="collapse"
+                                           href="#sipCaller{{ user.id }}" type="button" data-mdb-toggle="collapse"
                                            aria-expanded="false" aria-controls="sipCaller{{ user.id }}">
                                             <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
 

@@ -312,7 +312,11 @@ strong {
     padding-bottom: 8px;
     background-color: white;
     height: fit-content;
-
+    .nav{
+      a{
+        cursor: pointer;
+      }
+    }
   }
 
   .footer {

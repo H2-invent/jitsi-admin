@@ -32,16 +32,18 @@
             <div class="col-lg-12 text-right">
                 <div class="custom-control custom-switch mb-2">
                     <div class="d-flex justify-content-end">
-                        {% if allowTimeZoneSwitch == 1 %}<span class="mr-3" id="actualTime">
+
+
+                        {% if allowTimeZoneSwitch == 1 %}<span class="me-3" id="actualTime">
                             <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
-                        <span class="mr-5"><i class="fas fa-sun brightmode"></i></span>
-                        <input type="checkbox" class="custom-control-input switchDarkmode"
-                                {{ app.request.cookies.get('DARK_MODE') }}
-                                {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                                    checked
-                                {% endif %}
-                               id="switchDarkmode2">
-                        <label class="custom-control-label" for="switchDarkmode2">
+                      <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
+                                    {{ app.request.cookies.get('DARK_MODE') }}
+                                    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                                        checked
+                                    {% endif %}/>
+                        <label class="form-check-label" for="switchDarkmode2">
                             <i class="fas fa-moon"></i>
                         </label>
                     </div>

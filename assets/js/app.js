@@ -3,14 +3,19 @@
  *
  */
 import '../css/app.scss';
+
 //import(/* webpackChunkName: "H2" */ '../css/app.scss');
 import $ from 'jquery';
+
+import * as mdb from 'mdb-ui-kit'; // lib
 
 global.$ = global.jQuery = $;
 import ('popper.js');
 
-import('bootstrap');
-import('mdbootstrap');
+//import('bootstrap');
+//import('mdbootstrap');
+
+
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';

@@ -51,7 +51,7 @@
 
 </div>
 <div class="col-md-4">
-    <h5 class="h5-responsive">{{ room.name }} <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a> <a tabindex="0" data-toggle="popover" data-trigger="focus"
+    <h5 class="h5-responsive">{{ room.name }} <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a> <a tabindex="0" data-mdb-toggle="popover" data-trigger="focus"
                                                  title="{{ 'Agenda'|trans }}"
                                                  data-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
                     class="fa fa-info-circle"></i></a></h5>

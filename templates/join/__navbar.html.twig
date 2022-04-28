@@ -1,12 +1,12 @@
 <ul class="nav navbar-nav">
 
-    <div class="row mr-1">
-        <li class="nav-item d-flex align-items-center mr-4">
+    <div class="row me-1">
+        <li class="nav-item d-flex align-items-center me-4">
 
             <div class="d-flex justify-content-end">
 
                 <div class="custom-control custom-switch">
-                    <span class="mr-5"><i class="fas fa-sun brightmode"></i></span>
+                    <span class="me-5"><i class="fas fa-sun brightmode"></i></span>
                     <input type="checkbox" class="custom-control-input switchDarkmode"
                             {% if app.request is not null %}
                                 {{ app.request.cookies.get('DARK_MODE') }}
@@ -23,7 +23,7 @@
         </li>
         <li class="nav-item dropdown language-dropdown">
             {% if app.request %}
-                <a class=" dropdown-toggle ml-auto mr-2 mr-sm-4" data-toggle="dropdown"
+                <a class=" dropdown-toggle ms-auto me-2 me-sm-4" data-mdb-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
                 </a>

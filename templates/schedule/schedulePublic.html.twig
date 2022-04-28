@@ -15,7 +15,7 @@
             <div class=" d-flex">
                 {% set locale =  app.request.locale %}
                 {% for s in scheduling.schedulingTimes |sort((a, b) => a.time <=> b.time) %}
-                    <div class="scrollEle mr-3 text-center">
+                    <div class="scrollEle me-3 text-center">
                         <small>{{ s.time|format_date(pattern="EE",locale=locale,timezone=false) }}</small>
                         <p>{{ s.timeWithTimeZone(user)|date('d.m.Y',false) }}
                         {% if allowTimeZoneSwitch == 1  %}
@@ -68,7 +68,7 @@
             </div>
 
         </div>
-        <button  class="btn btn-outline-primary"  data-toggle="toastr" data-target="#saveModal" data-text=" {{ 'common.success.save'|trans }}" data-type="success">{{ 'common.save'|trans }}</button>
+        <button  class="btn btn-outline-primary"  data-mdb-toggle="toastr" data-target="#saveModal" data-text=" {{ 'common.success.save'|trans }}" data-type="success">{{ 'common.save'|trans }}</button>
 
         <div class="row form-group">
             <div class="col-12">
