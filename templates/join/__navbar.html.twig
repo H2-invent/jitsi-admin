@@ -1,21 +1,18 @@
 <ul class="nav navbar-nav">
 
-    <div class="row me-1">
+    <div class="d-flex me-1">
         <li class="nav-item d-flex align-items-center me-4">
 
             <div class="d-flex justify-content-end">
 
-                <div class="custom-control custom-switch">
-                    <span class="me-5"><i class="fas fa-sun brightmode"></i></span>
-                    <input type="checkbox" class="custom-control-input switchDarkmode"
-                            {% if app.request is not null %}
-                                {{ app.request.cookies.get('DARK_MODE') }}
-                                {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                                    checked
-                                {% endif %}
-                            {% endif %}
-                           id="switchDarkmode2">
-                    <label class="custom-control-label" for="switchDarkmode2">
+                <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
+                            {{ app.request.cookies.get('DARK_MODE') }}
+                            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                    checked
+                            {% endif %}/>
+                    <label class="form-check-label" for="switchDarkmode2">
                         <i class="fas fa-moon"></i>
                     </label>
                 </div>

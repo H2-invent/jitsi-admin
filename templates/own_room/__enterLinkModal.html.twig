@@ -3,9 +3,7 @@
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ 'Einladungslinks'|trans }}</h5>
-            <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <h5>{{'Beitretenlink für Teilnehmer'|trans}}</h5>
@@ -15,9 +13,9 @@
 
             <div class="input-group mb-3">
                 <input id="linkPart" readonly type="text" class="form-control" value="{{laF_baseUrl ~path('own_room_startPage',{'uid':room.uid}) }}">
-                <div class="input-group-append">
-                    <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink" type="button"  data-clipboard-target="#linkPart" >   <i class="far fa-clipboard"></i></button>
-                </div>
+
+                    <button class="btn btn-md btn-outline-primary waves-effect copyLink" type="button"  data-clipboard-target="#linkPart" >   <i class="far fa-clipboard"></i></button>
+
             </div>
             {%  if room.lobby %}
         <div class="row">

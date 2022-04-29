@@ -7,14 +7,14 @@ import '../css/app.scss';
 //import(/* webpackChunkName: "H2" */ '../css/app.scss');
 import $ from 'jquery';
 
-import * as mdb from 'mdb-ui-kit'; // lib
 
 global.$ = global.jQuery = $;
-import ('popper.js');
+// import ('popper.js');
 
 //import('bootstrap');
 //import('mdbootstrap');
 
+import * as mdb from 'mdb-ui-kit'; // lib
 
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
@@ -32,7 +32,7 @@ import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
-import {createPopper} from '@popperjs/core';
+// import {createPopper} from '@popperjs/core';
 import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 
@@ -69,7 +69,7 @@ addEventListener('load', function () {
 
 $(document).ready(function () {
 
-    initTabs('.nav-tabs');
+    initTabs('.nav-mat-tabs');
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();

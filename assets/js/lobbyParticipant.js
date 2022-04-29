@@ -5,10 +5,8 @@
 import 'regenerator-runtime/runtime'
 import $ from 'jquery';
 
-import('bootstrap');
-import('popper.js');
 global.$ = global.jQuery = $;
-import('mdbootstrap');
+import * as mdb from 'mdb-ui-kit'; // lib
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam} from './cameraUtils'

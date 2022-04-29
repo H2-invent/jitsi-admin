@@ -41,7 +41,7 @@ p {
   }
 }
 
-.nav-tabs .nav-item {
+.nav-mat-tabs .nav-mat-item {
   color: white;
 }
 
@@ -278,6 +278,9 @@ a {
 
 .footer {
   background-color: $black_navbar;
+  .nav-link{
+    color: $black_font-color!important;
+  }
 }
 
 
@@ -308,4 +311,7 @@ a {
 
 hr {
   border-top: 1px solid rgb(211, 211, 211);
+}
+.list-group-item{
+  color: $black_font-color;
 }
