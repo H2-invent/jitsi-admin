@@ -94,7 +94,7 @@ class StartServiceTest extends KernelTestCase
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));
         self::assertNull($lobbyUser);
-        self::assertStringContainsString('https://'.$room->getServer()->getUrl().'/external_api.js',
+        self::assertStringContainsString('https://' . $room->getServer()->getUrl() . '/external_api.js',
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));
         self::assertNotNull($lobbyUser);
@@ -102,16 +102,16 @@ class StartServiceTest extends KernelTestCase
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         self::assertStringContainsString("var type = 'a'",
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString('topic=lobby_WaitingUser_websocket%2F'.$lobbyUser->getUid(),
+        self::assertStringContainsString('topic=lobby_WaitingUser_websocket%2F' . $lobbyUser->getUid(),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertStringContainsString('topic=lobby_broadcast_websocket%2F'.$room->getUidReal(),
+        self::assertStringContainsString('topic=lobby_broadcast_websocket%2F' . $room->getUidReal(),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
-        self::assertEquals('a',$lobbyUser->getType());
-        self::assertStringContainsString('topic=lobby_broadcast_websocket%2F'.$room->getUidReal(),
+        self::assertEquals('a', $lobbyUser->getType());
+        self::assertStringContainsString('topic=lobby_broadcast_websocket%2F' . $room->getUidReal(),
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $lobbyUser = $lobbyRepo->findOneBy(array('user' => $user, 'room' => $room));
         self::assertNotNull($lobbyUser);
-        self::assertEquals('b',$lobbyUser->getType());
+        self::assertEquals('b', $lobbyUser->getType());
 
     }
 
@@ -134,10 +134,10 @@ class StartServiceTest extends KernelTestCase
         $roomService = self::getContainer()->get(RoomService::class);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
         self::assertStringContainsString(
-            "displayName: '".$user->getFormatedName($paramterBag->get('laf_showNameInConference')."'"),
+            "displayName: '" . $user->getFormatedName($paramterBag->get('laf_showNameInConference') . "'"),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         self::assertStringContainsString(
-            $roomService->generateJwt($room,$user, $user->getFormatedName($paramterBag->get('laf_showNameInConference'))),
+            $roomService->generateJwt($room, $user, $user->getFormatedName($paramterBag->get('laf_showNameInConference'))),
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
 
 
@@ -166,8 +166,8 @@ class StartServiceTest extends KernelTestCase
         $res = $urlGen->generate('dashboard');
         $session = $kernel->getContainer()->get('session');
         $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['danger'][0],'Der Beitritt ist nur von ' . (clone $room->getStart())->modify('-30min')->format('d.m.Y H:i')  . ' bis ' . $room->getEnddate()->format('d.m.Y') . ' ' . $room->getEnddate()->format('H:i') . ' möglich.');
-        self::assertEquals(new RedirectResponse($res),$test);
+        self::assertEquals($flash['danger'][0], 'Der Beitritt ist nur von ' . (clone $room->getStart())->modify('-30min')->format('d.m.Y H:i') . ' bis ' . $room->getEnddate()->format('d.m.Y') . ' ' . $room->getEnddate()->format('H:i') . ' möglich.');
+        self::assertEquals(new RedirectResponse($res), $test);
 
     }
 
@@ -187,7 +187,7 @@ class StartServiceTest extends KernelTestCase
         $test = $startService->startMeeting(null, $user, 'b', $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $session = $kernel->getContainer()->get('session');
         $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['danger'][0],'Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.');
+        self::assertEquals($flash['danger'][0], 'Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.');
 
 
         self::assertEquals(

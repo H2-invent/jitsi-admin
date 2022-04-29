@@ -8,9 +8,11 @@
                 <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
                 <div class="form-check form-switch">
                     <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
+                            {% if app.request is not null %}
                             {{ app.request.cookies.get('DARK_MODE') }}
-                            {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                    checked
+                        {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                            checked
+                        {% endif %}
                             {% endif %}/>
                     <label class="form-check-label" for="switchDarkmode2">
                         <i class="fas fa-moon"></i>
