@@ -33,7 +33,7 @@
             <div class="col-12 d-flex justify-content-center">
                 <a class="caretdown btn btn-primary dropdown-toggle d-flex align-items-center" type="button"
                    id="selectWebcamDropdown"
-                   data-toggle="dropdown" aria-haspopup="true"
+                   data-mdb-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
                 </a>
                 <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
@@ -44,7 +44,8 @@
                        data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
                     <a href="#" type="button"
                        class="btn btn-primary dropdown-toggle caretdown px-3 d-flex align-items-center"
-                       data-toggle="dropdown"
+                       data-mdb-toggle="dropdown"
+                       data-mdb-reference="parent"
                        aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-microphone"></i>
                     </a>

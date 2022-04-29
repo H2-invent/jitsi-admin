@@ -35,11 +35,11 @@
             {% endif %}
         </div>
         <div class="card-footer text-center">
-            <a class="btn-floating senddirect btn-success"
+            <a class="btn btn-lg btn-floating senddirect btn-success"
                href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                 <i class="fas fa-user-check "></i>
             </a>
-            <a class="btn-floating directSendWithConfirm btn-danger"
+            <a class="btn btn-lg btn-floating directSendWithConfirm btn-danger"
                data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
                href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                 <i class="fas fa-user-times "></i>

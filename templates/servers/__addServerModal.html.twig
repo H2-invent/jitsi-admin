@@ -3,9 +3,7 @@
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
-            <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             {{ form_start(form) }}
@@ -31,7 +29,7 @@
                 <p><small><span class="badge badge-success">{{ 'Enterprise bis'|trans }}</span> {{ server|validateUntilLicense|date('d.m.Y') }}</small></p>
             {% endif %}
             <div class="mb-2">
-                <a data-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     {{ 'Erweiterte Optionen'|trans }}
                 </a>
                 <div class="collapse" id="collapseExample">
@@ -48,8 +46,8 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label for="add_item_link"> {{ 'KeyCloak Gruppen oder E-Maildomains'|trans }}</label>
-                                <a tabindex="0" data-toggle="popover" data-trigger="focus"
-                                   data-content="{{ 'Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\\" vorangestellt haben (z.B. \\all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.'|trans }}"><i
+                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                   data-mdb-content="{{ 'Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\\" vorangestellt haben (z.B. \\all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.'|trans }}"><i
                                             class="fa fa-question-circle"></i></a><br>
                                 <ul class="keycloakGroups list-group" data-prototype="{{ form_widget(form.keycloakGroups.vars.prototype.keycloakGroup)|e('html_attr') }}">
                                     {% for keycloakGroupItem in form.keycloakGroups %}

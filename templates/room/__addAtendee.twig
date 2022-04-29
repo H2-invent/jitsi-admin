@@ -2,8 +2,16 @@
     <div class="col-md-6">
         <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
             <label for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
-            <input placeholder="{{ 'input.placeholder.search'|trans }}" autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
-                   href="{{ path('search_participant') }}">
+            <input
+                    placeholder="{{ 'input.placeholder.search'|trans }}"
+                   autocomplete=off
+                   type="text"
+                   id="searchUser"
+                   class="form-control dropdown-toggle"
+                   data-mdb-toggle="dropdown"
+                   data-mdb-auto-close="outside"
+                   href="{{ path('search_participant') }}"
+            >
             <div class="dropdown-menu" id="participantUser">
                 <a class="dropdown-item" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
             </div>

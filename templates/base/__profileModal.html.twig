@@ -6,9 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ 'Profil'|trans }}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p> {% if theme != false %}{{ theme.nameIdentifier }}{% else %}{{ 'Name'|trans }}{% endif %}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
@@ -17,14 +15,15 @@
                     {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% else %}{{ 'Zeitzone'|trans }}{% endif %}: {{ app.user.timeZone }}
                     {% endif %}
                 </p>
-                <div class="custom-control custom-switch mb-2">
-                    <input type="checkbox" class="custom-control-input switchDarkmode"
+                <div class="form-check form-switch">
+                    <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
                             {{ app.request.cookies.get('DARK_MODE') }}
                             {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                                checked
-                            {% endif %}
-                           id="switchDarkmode">
-                    <label class="custom-control-label" for="switchDarkmode">{{ 'Darkmode'|trans }}</label>
+                    checked
+                            {% endif %}/>
+                    <label class="form-check-label" for="switchDarkmode2">
+                        {{ 'Darkmode'|trans }}</i>
+                    </label>
                 </div>
                 {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
                 <div class="row">
@@ -33,11 +32,9 @@
                         <div class="input-group mb-3">
                             <input id="linkical" readonly type="text" class="form-control"
                                    value="{{ laF_baseUrl~path('ical',{ 'id':app.user.uid }) }}">
-                            <div class="input-group-append">
-                                <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect copyLink"
+                                <button class="btn btn-md btn-outline-primary  waves-effect copyLink"
                                         type="button" data-clipboard-target="#linkical"><i class="far fa-clipboard"></i>
                                 </button>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -3,9 +3,7 @@
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
-            <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <p>{{ 'Teilnehmerliste'|trans }}</p>
@@ -25,14 +23,15 @@
                 <ul id="atendeeList" class="material-list">
                     <li class="d-flex flex-column flex-lg-row align-items-lg-center">
                         {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 and room.scheduleMeeting != true %}
-                            <a class=" dropdown-toggle mr-4" type="button"
-                               data-toggle="dropdown"
+                            <a class=" dropdown-toggle me-4" type="button"
+                               data-mdb-toggle="dropdown"
+                               data-mdb-auto-close="outside"
                                aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
 
                             <div class="dropdown-menu">
                                 {% if  sipPinFromRoomAndUser(room,room.moderator) is not null %}
-                                    <a class=" dropdown-item stopCloseDropdown"
-                                       href="#sipCaller{{ room.moderator.id }}" type="button" data-toggle="collapse"
+                                    <a class=" dropdown-item"
+                                       href="#sipCaller{{ room.moderator.id }}" type="button" data-mdb-toggle="collapse"
                                        aria-expanded="false" aria-controls="sipCaller{{ room.moderator.id }}">
                                         <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
 

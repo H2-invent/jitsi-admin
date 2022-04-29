@@ -29,19 +29,21 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12 text-right">
+            <div class="col-lg-12 text-end">
                 <div class="custom-control custom-switch mb-2">
                     <div class="d-flex justify-content-end">
-                        {% if allowTimeZoneSwitch == 1 %}<span class="mr-3" id="actualTime">
+
+
+                        {% if allowTimeZoneSwitch == 1 %}<span class="me-3" id="actualTime">
                             <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
-                        <span class="mr-5"><i class="fas fa-sun brightmode"></i></span>
-                        <input type="checkbox" class="custom-control-input switchDarkmode"
-                                {{ app.request.cookies.get('DARK_MODE') }}
-                                {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                                    checked
-                                {% endif %}
-                               id="switchDarkmode2">
-                        <label class="custom-control-label" for="switchDarkmode2">
+                      <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
+                                    {{ app.request.cookies.get('DARK_MODE') }}
+                                    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+                                        checked
+                                    {% endif %}/>
+                        <label class="form-check-label" for="switchDarkmode2">
                             <i class="fas fa-moon"></i>
                         </label>
                     </div>
@@ -54,10 +56,10 @@
     <div class="container">
         <!-- Tabs navs -->
         <div class="d-block">
-            <ul class="nav nav-tabs mb-3 " id="ex1" role="tablist" data-swipe="#ex1-content">
-                <li class="nav-item active">
+            <ul class="nav-mat nav-mat-tabs mb-3 " id="ex1" role="tablist" data-swipe="#ex1-content">
+                <li class="nav-mat-item active">
                     <a
-                       class="nav-link"
+                       class="nav-mat-link"
                        id="ex1-tab-1-tab"
                        data-mdb-toggle="tab"
                        href="#ex1-tabs-1"
@@ -66,9 +68,9 @@
                        aria-selected="true"
                     ><i class="fas fa-calendar"></i> <span class="d-none d-md-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-mat-item">
                     <a
-                       class="nav-link "
+                       class="nav-mat-link"
                        id="ex1-tab-3-tab"
                        data-mdb-toggle="tab"
                        href="#ex1-tabs-3"
@@ -77,9 +79,9 @@
                        aria-selected="true"
                     ><i class="fas fa-thumbtack"></i><span class="d-none d-md-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-mat-item">
                     <a
-                       class="nav-link"
+                       class="nav-mat-link"
                        id="ex1-tab-2-tab"
                        data-mdb-toggle="tab"
                        href="#ex1-tabs-2"

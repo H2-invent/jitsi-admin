@@ -2,17 +2,16 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-
-
 import $ from 'jquery';
 
-import('bootstrap');
-import('popper.js');
 global.$ = global.jQuery = $;
-import('mdbootstrap');
+
+import * as mdb from 'mdb-ui-kit'; // lib
+
 import {initSchedulePublic} from './scheduling'
 import {initGenerell} from './init';
 import {setSnackbar} from "./myToastr";
+
 $(document).ready(function () {
     initGenerell();
     setTimeout(function () {

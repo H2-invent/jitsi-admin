@@ -14,9 +14,9 @@
 
             </span>
             <span class="noBreak">
-<a tabindex="0" data-toggle="popover" data-trigger="focus"
+<a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-html="true"
    title="{{ 'Mitglieder'|trans }}"
-   data-content="<ul>{% for m in g.member|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}<li>{{ m|nameOfUser }}</li>  {% endfor %}</ul>"><i
+   data-mdb-content="<ul>{% for m in g.member|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}<li>{{ m|nameOfUser }}</li>  {% endfor %}</ul>"><i
             class="fa fa-info-circle"></i></a>
                 <a href="{{ path('address_group_new',{'id':g.id}) }}" class="loadContent">
                     <i class="fa fa-edit"></i>

@@ -1,4 +1,4 @@
-<div class="card card-body mb-1 text-lg-left text-center triggerHide {% if runningRooms is defined and room in runningRooms %} successBorder {% endif %}">
+<div class="card card-body mb-1 text-lg-start text-center triggerHide {% if runningRooms is defined and room in runningRooms %} successBorder {% endif %}">
     <div class="row">
 
         {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
