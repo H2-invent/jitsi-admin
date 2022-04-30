@@ -9,10 +9,6 @@ import $ from 'jquery';
 
 
 global.$ = global.jQuery = $;
-// import ('popper.js');
-
-//import('bootstrap');
-//import('mdbootstrap');
 
 import * as mdb from 'mdb-ui-kit'; // lib
 
@@ -32,7 +28,7 @@ import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
-// import {createPopper} from '@popperjs/core';
+
 import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 
@@ -153,9 +149,9 @@ $('#modalAdressbook').on('shown.bs.modal', function (e) {
 
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initScheduling();
-    $('[data-toggle="popover"]').popover({html: true});
+    $('[data-mdb-toggle="popover"]').popover({html: true});
 
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-mdb-toggle="tooltip"]').tooltip()
 
     initdateTimePicker('.flatpickr');
 

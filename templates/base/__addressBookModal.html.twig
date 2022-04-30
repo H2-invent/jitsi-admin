@@ -10,7 +10,7 @@
             <div class="modal-body" style="flex-grow: 1;overflow-y: auto">
                 <div>
                     <ul class="nav-mat nav-mat-tabs" id="addressbookTab" data-swipe="#addressbookContent">
-                        <li class="nav-mat-item active">
+                        <li class="nav-mat-item mat-active">
                             <a class="nav-mat-link" id="home-tab"  href="#home" role="tab" aria-controls="home"
                                aria-selected="true">{{ 'Adressbuch'|trans }}</a>
                         </li>
@@ -20,8 +20,8 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="addressbookContent" data-swipe="#addressbookTab">
-                        <div class="tab-content-watch active">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="tab-content-watch mat-active">
+                        <div class="tab-pane fade show mat-active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             {{ include('addressbook/__addressBook.html.twig') }}
                         </div>
                         </div>
