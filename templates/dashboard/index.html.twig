@@ -21,7 +21,7 @@
          {% else %}
              <p>{% trans %}favorite.sidebar.help{% endtrans %}</p>
          {% endif %}
-        <p class="text-center"><small>{{ 'common.loadingTime'|trans }}: {{ time }}mS</small></p>
+         <p class="text-center"><small>{{ 'common.loadingTime'|trans }}: {{ time }}mS</small></p>
      </div>
 
  {% endblock %}
@@ -36,18 +36,20 @@
 
                         {% if allowTimeZoneSwitch == 1 %}<span class="me-3" id="actualTime">
                             <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
-                      <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
+                        <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
                         <div class="form-check form-switch">
-                            <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
+                            <input class="form-check-input switchDarkmode" type="checkbox" role="switch"
+                                   id="switchDarkmode2"
                                     {{ app.request.cookies.get('DARK_MODE') }}
                                     {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                                        checked
+                            checked
                                     {% endif %}/>
-                        <label class="form-check-label" for="switchDarkmode2">
-                            <i class="fas fa-moon"></i>
-                        </label>
-                    </div>
+                            <label class="form-check-label" for="switchDarkmode2">
+                                <i class="fas fa-moon"></i>
+                            </label>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,39 +58,42 @@
     <div class="container">
         <!-- Tabs navs -->
         <div class="d-block">
-            <ul class="nav-mat nav-mat-tabs mb-3 " id="ex1"  data-swipe="#ex1-content">
+            <ul class="nav-mat nav-mat-tabs mb-3 " id="ex1" data-swipe="#ex1-content">
                 <li class="nav-mat-item active">
                     <a
-                       class="nav-mat-link ripple"
-                       id="ex1-tab-1-tab"
+                            class="nav-mat-link ripple"
+                            id="ex1-tab-1-tab"
 
-                       href="#ex1-tabs-1"
-                       role="tab"
-                       aria-controls="ex1-tabs-1"
-                       aria-selected="true"
-                    ><i class="fas fa-calendar"></i> <span class="d-none d-md-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
+                            href="#ex1-tabs-1"
+                            role="tab"
+                            aria-controls="ex1-tabs-1"
+                            aria-selected="true"
+                    ><i class="fas fa-calendar"></i> <span
+                                class="d-none d-md-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
                 </li>
                 <li class="nav-mat-item ripple">
                     <a
-                       class="nav-mat-link"
-                       id="ex1-tab-3-tab"
+                            class="nav-mat-link"
+                            id="ex1-tab-3-tab"
 
-                       href="#ex1-tabs-3"
-                       role="tab"
-                       aria-controls="ex1-tabs-3"
-                       aria-selected="true"
-                    ><i class="fas fa-thumbtack"></i><span class="d-none d-md-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
+                            href="#ex1-tabs-3"
+                            role="tab"
+                            aria-controls="ex1-tabs-3"
+                            aria-selected="true"
+                    ><i class="fas fa-thumbtack"></i><span
+                                class="d-none d-md-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
                 </li>
                 <li class="nav-mat-item ripple">
                     <a
-                       class="nav-mat-link"
-                       id="ex1-tab-2-tab"
+                            class="nav-mat-link"
+                            id="ex1-tab-2-tab"
 
-                       href="#ex1-tabs-2"
-                       role="tab"
-                       aria-controls="ex1-tabs-2"
-                       aria-selected="false"
-                    ><i class="fas fa-history"></i><span class="d-none d-md-block"> {{ 'Vergangene Konferenzen'|trans }}</span></a>
+                            href="#ex1-tabs-2"
+                            role="tab"
+                            aria-controls="ex1-tabs-2"
+                            aria-selected="false"
+                    ><i class="fas fa-history"></i><span
+                                class="d-none d-md-block"> {{ 'Vergangene Konferenzen'|trans }}</span></a>
                 </li>
             </ul>
         </div>
@@ -175,23 +180,23 @@
             <div class="tab-content-watch">
                 <div class="tab-pane fade" id="ex1-tabs-2" aria-labelledby="ex1-tab-2">
                     <div id="ex1-tabs-2-init">
-                    {% if roomsPast |length == 0 %}
-                        <div class="card card-body">
-                            <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
-                        </div>
-                    {% endif %}
-                    {% for room in roomsPast %}
-                        {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
-                    {% endfor %}
+                        {% if roomsPast |length == 0 %}
+                            <div class="card card-body">
+                                <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
+                            </div>
+                        {% endif %}
+                        {% for room in roomsPast %}
+                            {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
+                        {% endfor %}
                     </div>
                     <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'past','offset':1}) }}">
 
-                      <div class="fa-3x text-center text-black-50"> <i class="fas fa-spinner fa-spin"></i></div>
+                        <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
                     </div>
                 </div>
             </div>
             <div class="tab-content-watch">
-                <div class="tab-pane fade" id="ex1-tabs-3"  aria-labelledby="ex1-tab-3">
+                <div class="tab-pane fade" id="ex1-tabs-3" aria-labelledby="ex1-tab-3">
 
                     <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
                     {% if persistantRooms|length > 0 %}
