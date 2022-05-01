@@ -113,6 +113,7 @@ services:
       - image_upload:/var/www/html/public/uploads/images
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
+
   db-ja:
     image: mariadb:latest
     environment:
