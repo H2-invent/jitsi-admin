@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" id="atendeeModalScroll">
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg-xl modal-fullscreen " id="atendeeModalScroll">
     <div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
@@ -9,7 +9,7 @@
             <p>{{ 'Teilnehmerliste'|trans }}</p>
             <div class="attendeeScroll">
                 <ul id="atendeeList" class="material-list">
-                    <li class="d-flex flex-column flex-lg-row align-items-lg-center">
+                    <li class="d-flex  flex-row align-items-center">
                         {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 and room.scheduleMeeting != true %}
                             <a class=" dropdown-toggle me-4" type="button"
                                data-mdb-toggle="dropdown"
@@ -38,7 +38,7 @@
                     <hr>
                     {% for user in room.user|sort((a, b) => a|nameOfUser <=> b|nameOfUser) %}
                         {% if user != room.moderator %}
-                            <li class="d-flex flex-column flex-lg-row align-items-lg-center">
+                            <li class="d-flex flex-row align-items-center">
                                 {% include'room/__attendeeDropDown.html.twig' with {'room': room, 'user': user} %}
                                 <!-- Basic dropdown -->
 
