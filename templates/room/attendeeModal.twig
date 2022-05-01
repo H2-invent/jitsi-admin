@@ -7,18 +7,6 @@
         </div>
         <div class="modal-body">
             <p>{{ 'Teilnehmerliste'|trans }}</p>
-            <p class="small">
-                <i class="fa fa-crown"></i> {{ 'Zum Moderator ernennen'|trans }}
-                {% if laf_show_resendInvitation == 1 %}
-                    <br><i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}
-                {% endif %}
-                {% if room.dissallowScreenshareGlobal %}
-                    <br><i class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}
-                {% endif %}
-                {% if room.lobby %}
-                    <br><i class="fas fa-couch"></i> {{ 'addParticipants.lobbyModerator.help'|trans }}
-                {% endif %}
-            </p>
             <div class="attendeeScroll">
                 <ul id="atendeeList" class="material-list">
                     <li class="d-flex flex-column flex-lg-row align-items-lg-center">
