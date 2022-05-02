@@ -54,6 +54,7 @@ services:
       MAILER_PASSWORD: ${MAILER_PASSWORD}
       MAILER_USERNAME: ${MAILER_USERNAME}
       MAILER_ENCRYPTION: ${MAILER_ENCRYPTION}
+      laF_version: ${GIT_VERSION}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:

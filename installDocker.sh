@@ -110,7 +110,7 @@ export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
 export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
 
 export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
-
+export GIT_VERSION=$(git rev-parse --short=5 HEAD)
 export PUBLIC_URL=$PUBLIC_URL
 export OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
 export HTTP_METHOD=$HTTP_METHOD
