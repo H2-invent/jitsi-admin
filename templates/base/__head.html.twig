@@ -157,6 +157,15 @@
             .successBorder{
                 border: {{ theme.colorBadgeRunningNow }} 4px solid;
             }
+            .form-check-input[type=checkbox]:checked, .form-check-input[type=checkbox]:checked:focus {
+                background-image: none;
+                background-color: {{ theme.colorButton }};
+            }
+            .form-switch .form-check-input:checked[type=checkbox]:after {
+
+                background-color: {{ theme.colorButton }};
+
+            }
         </style>
 
     {% endif %}
