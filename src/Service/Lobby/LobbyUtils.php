@@ -2,6 +2,7 @@
 
 namespace App\Service\Lobby;
 
+use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,16 +18,21 @@ class LobbyUtils
 
     public function cleanLobby(Rooms $rooms)
     {
+        $callerSessions = $this->em->getRepository(CallerSession::class)->findCallerSessionsByRoom($rooms);
+        foreach ($callerSessions as $data2) {
+            $data2->setForceFinish(true);
+            $data2->setLobbyWaitingUser(null);
+            $this->em->persist($data2);
+        }
+        $this->em->flush();
+
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findBy(array('room' => $rooms));
+
         foreach ($lobbyUser as $data) {
-            if ($data->getCallerSession()){
-                $data->getCallerSession()->setAuthOk(false);
-                $data->getCallerSession()->setLobbyWaitingUser(null);
-                $this->em->persist($data);
-            }
             $this->em->remove($data);
         }
         $this->em->flush();
+
         return true;
     }
 }

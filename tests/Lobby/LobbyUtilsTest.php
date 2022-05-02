@@ -2,8 +2,10 @@
 
 namespace App\Tests\Lobby;
 
+use App\Entity\CallerId;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
+use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
@@ -14,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class LobbyUtilsTest extends KernelTestCase
 {
-    public function testSomething(): void
+    public function testLobyUtilsWOrkflow(): void
     {
         $kernel = self::bootKernel();
         $this->assertSame('test', $kernel->getEnvironment());
@@ -32,22 +34,51 @@ class LobbyUtilsTest extends KernelTestCase
         $lobbyWaitingUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyWaitinguser = new LobbyWaitungUser();
         $lobbyWaitinguser->setUser($user2)->setRoom($room)->setShowName('test 123')->setCreatedAt(new \DateTime())->setUid('lkjsdjfjdskjf')->setType('a');
-
-        $em->persist($room);
-        $em->persist($lobbyWaitinguser);
-        $lobbyWaitinguser = new LobbyWaitungUser();
-        $lobbyWaitinguser->setUser($user3)->setRoom($room)->setShowName('test 1231')->setCreatedAt(new \DateTime())->setUid('lkjsdjfjdskjf')->setType('a');
-        $callerSession = new CallerSession();
-        $callerSession->setLobbyWaitingUser($lobbyWaitinguser)->setAuthOk(false)->setCallerId('test123')->setCreatedAt(new \DateTime())->setShowName('test')->setSessionId('test');
-        $lobbyWaitinguser->setCallerSession($callerSession);
+        $room->addLobbyWaitungUser($lobbyWaitinguser);
         $em->persist($room);
         $em->persist($lobbyWaitinguser);
         $em->flush();
+
+        $lobbyWaitinguser = new LobbyWaitungUser();
+        $lobbyWaitinguser->setUser($user3)->setRoom($room)->setShowName('test 1231')->setCreatedAt(new \DateTime())->setUid('lkjsdjfjdskjf')->setType('a');
+
+
+        $callerId= new CallerId();
+        $callerId->setCreatedAt(new \DateTime())->setRoom($room)->setUser($user3)->setCallerId('testPIN');
+        $em->persist($callerId);
+        $em->flush();
+
+        $callerSession = new CallerSession();
+        $callerSession
+            ->setCaller($callerId)
+            ->setLobbyWaitingUser($lobbyWaitinguser)
+            ->setAuthOk(true)
+            ->setCallerId('test123')
+            ->setCreatedAt(new \DateTime())
+            ->setShowName('test')
+            ->setSessionId('test')
+        ;
+        $lobbyWaitinguser->setCallerSession($callerSession);
+        $room->addLobbyWaitungUser($lobbyWaitinguser);
+
+        $em->persist($room);
+        $em->persist($lobbyWaitinguser);
+        $em->persist($callerSession);
+        $em->flush();
+
         self::assertEquals(2,sizeof($lobbyWaitingUSerRepo->findBy(array('room'=>$room))));
+        $callerSessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $callerSess = $callerSessionRepo->findCallerSessionsByRoom($room);
+        self::assertEquals(1,sizeof($callerSess));
+
         $lobbUtils->cleanLobby($room);
+
         self::assertEquals(0,sizeof($lobbyWaitingUSerRepo->findBy(array('room'=>$room))));
+        self::assertEquals(1,sizeof($callerSess));
+        self::assertTrue($callerSess[0]->getForceFinish());
+
         $this->assertSame('test', $kernel->getEnvironment());
-        //$routerService = static::getContainer()->get('router');
-        //$myCustomService = static::getContainer()->get(CustomService::class);
+
+
     }
 }

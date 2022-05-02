@@ -85,7 +85,7 @@ class CallerServiceTest extends KernelTestCase
         $id = 'unknownId';
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'Room Yesterday'));
-        self::assertEquals(null, $callerPinService->getPin($id,'0000','012345'));
+        self::assertEquals(null, $callerPinService->createNewCallerSession($id,'0000','012345'));
     }
     public function testGetPinRoomCorrectPinWrong(): void
     {
@@ -95,7 +95,7 @@ class CallerServiceTest extends KernelTestCase
         $id = '123419';
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
-        self::assertEquals(null, $callerPinService->getPin($id,'0000','012345'));
+        self::assertEquals(null, $callerPinService->createNewCallerSession($id,'0000','012345'));
     }
     public function testGetPinRoomCorrectPinCorrect(): void
     {
@@ -115,7 +115,7 @@ class CallerServiceTest extends KernelTestCase
         $session = $sessionRepo->findOneBy(array('lobbyWaitingUser'=>$lobbyWaitingUser));
         self::assertNull($session);
         self::assertNull($lobbyWaitingUser);
-        self::assertNotNull($callerPinService->getPin($id,$caller->getCallerId(),'012345'));
+        self::assertNotNull($callerPinService->createNewCallerSession($id,$caller->getCallerId(),'012345'));
         $lobbyWaitingUser = $lobbyUSerRepo->findOneBy(array('room'=>$room,'user'=>$caller->getUser()));
         $session = $sessionRepo->findOneBy(array('lobbyWaitingUser'=>$lobbyWaitingUser));
 
@@ -128,6 +128,6 @@ class CallerServiceTest extends KernelTestCase
         self::assertEquals('c',$lobbyWaitingUser->getType());
         self::assertEquals('User, Test, test@local.de',$lobbyWaitingUser->getShowName());
         self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
-        self::assertEquals(null, $callerPinService->getPin($id,$caller->getCallerId(),'012345'));
+        self::assertEquals(null, $callerPinService->createNewCallerSession($id,$caller->getCallerId(),'012345'));
     }
 }

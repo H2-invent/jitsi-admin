@@ -27,12 +27,11 @@ class CallerLeftServiceTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId(), '012345');
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
 
         self::assertTrue($callerLEftService->callerLeft('12345'));
 
-        //$routerService = static::getContainer()->get('router');
-        //$myCustomService = static::getContainer()->get(CustomService::class);
+
     }
     public function testCorrectSession(): void
     {
@@ -50,11 +49,11 @@ class CallerLeftServiceTest extends KernelTestCase
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
 
-        $session = $callerPinService->getPin($id, $caller->getCallerId(), '012345');
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
         self::assertNotNull($session);
-        self::assertNull($callerPinService->getPin($id, $caller->getCallerId(), '012345'));
+        self::assertNull($callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345'));
         self::assertFalse($callerLEftService->callerLeft($session->getSessionId()));
-        self::assertNotNull($callerPinService->getPin($id, $caller->getCallerId(), '012345'));
+        self::assertNotNull($callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345'));
         //$routerService = static::getContainer()->get('router');
         //$myCustomService = static::getContainer()->get(CustomService::class);
     }

@@ -2,9 +2,11 @@
 
 namespace App\Service\webhook;
 
+use App\Entity\CallerSession;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
+use App\Service\Lobby\LobbyUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -14,11 +16,13 @@ class RoomWebhookService
     private $em;
     private $logger;
     private $paramterBag;
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger, ParameterBagInterface $parameterBag)
+    private LobbyUtils $lobbyUtils;
+    public function __construct(LobbyUtils $lobbyUtils, EntityManagerInterface $entityManager, LoggerInterface $logger, ParameterBagInterface $parameterBag)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
         $this->paramterBag = $parameterBag;
+        $this->lobbyUtils = $lobbyUtils;
     }
 
     public function startWebhook($data): ?string
@@ -117,7 +121,7 @@ class RoomWebhookService
                 ->setDestroyed(true);
             $this->em->persist($roomStatus);
             $this->em->flush();
-
+            $this->lobbyUtils->cleanLobby($roomStatus->getRoom());
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             return $exception->getMessage();

@@ -27,7 +27,7 @@ class CallerPinService
         $this->parameterBag = $parameterBag;
     }
 
-    public function getPin($roomId, $pin, $callerId): ?CallerSession
+    public function createNewCallerSession($roomId, $pin, $callerId): ?CallerSession
     {
         $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId' => $roomId));
         if (!$callerRoom) {

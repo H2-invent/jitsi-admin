@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CallerSession;
+use App\Entity\Rooms;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,6 +19,21 @@ class CallerSessionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CallerSession::class);
     }
+
+     /**
+      * @return CallerSession[] Returns an array of CallerSession objects
+      */
+     public function findCallerSessionsByRoom(Rooms $rooms)
+     {
+     return $this->createQueryBuilder('c')
+     ->innerJoin('c.caller','caller')
+     ->innerJoin('caller.room', 'room')
+     ->andWhere('room = :room')
+     ->setParameter('room', $rooms)
+     ->getQuery()
+     ->getResult()
+     ;
+     }
 
     // /**
     //  * @return CallerSession[] Returns an array of CallerSession objects
@@ -45,6 +61,7 @@ class CallerSessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-    */
+    }*/
+
+
 }

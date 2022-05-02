@@ -58,6 +58,11 @@ class CallerSession
      */
     private $callerIdVerified = false;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $forceFinish;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +170,18 @@ class CallerSession
     public function setCallerIdVerified(bool $callerIdVerified): self
     {
         $this->callerIdVerified = $callerIdVerified;
+
+        return $this;
+    }
+
+    public function getForceFinish(): ?bool
+    {
+        return $this->forceFinish;
+    }
+
+    public function setForceFinish(?bool $forceFinish): self
+    {
+        $this->forceFinish = $forceFinish;
 
         return $this;
     }

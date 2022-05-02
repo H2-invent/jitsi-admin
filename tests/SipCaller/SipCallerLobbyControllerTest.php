@@ -25,7 +25,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId(), '012345');
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
 
         $user = $room->getModerator();
         $client->loginUser($user);
@@ -51,7 +51,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
-        $session = $callerPinService->getPin($id, $caller->getCallerId(), '0123456789');
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '0123456789');
 
         $user = $room->getModerator();
         $client->loginUser($user);

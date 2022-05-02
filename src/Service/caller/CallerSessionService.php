@@ -17,6 +17,7 @@ class CallerSessionService
     private $loggger;
     private $toModerator;
     private $roomService;
+
     public function __construct(RoomService $roomService, ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
@@ -28,10 +29,10 @@ class CallerSessionService
 
     public function getSession($sessionId)
     {
-        $this->loggger->debug('Start with Session',array('sessionId'=>$sessionId));
+        $this->loggger->debug('Start with Session', array('sessionId' => $sessionId));
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId' => $sessionId));
         if (!$session) {
-            $this->loggger->debug('No Session found',array('sessionId'=>$sessionId));
+            $this->loggger->debug('No Session found', array('sessionId' => $sessionId));
             return array(
                 'status' => 'HANGUP',
                 'reason' => 'WRONG_SESSION'
@@ -42,19 +43,29 @@ class CallerSessionService
         $started = $this->roomStatus->isRoomCreated($session->getCaller()->getRoom());
         $authOk = $session->getAuthOk();
 
+        if ($session->getForceFinish()) {
+            $this->loggger->debug('The user is called to hangup. The Moderator has ended the meeting for all participants', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()));
+            $this->cleanUpSession($session);
+            return array(
+                'status' => 'HANGUP',
+                'reason' => 'MEETING_HAS_FINISHED'
+            );
+        }
+
         if ($authOk) {
-            $this->loggger->debug('The user is accepted and is allowed to enter the room',array('sessionId'=>$sessionId,'callerId'=>$session->getCallerId(),'user'=>$session->getCaller()->getUser()->getId()));
+            $this->loggger->debug('The user is accepted and is allowed to enter the room', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()->getId()));
             return array(
                 'status' => 'ACCEPTED',
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => $participants,
                 'status_of_meeting' => 'STARTED',
-                'jwt'=>$this->roomService->generateJwt($session->getCaller()->getRoom(),$session->getCaller()->getUser(),$session->getShowName())
+                'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())
             );
         }
 
-        if (!$session->getLobbyWaitingUser()) {
-            $this->loggger->debug('The Session was declined by the lobbymoderator',array('sessionId'=>$sessionId));
+
+        if (!$session->getLobbyWaitingUser() && $authOk === false) {
+            $this->loggger->debug('The Session was declined by the lobbymoderator', array('sessionId' => $sessionId));
             $this->cleanUpSession($session);
             return array(
                 'status' => 'HANGUP',
@@ -64,7 +75,7 @@ class CallerSessionService
 
 
         if ($closed == false && $started == false && $authOk == false) {
-            $this->loggger->debug('The Room is not startd and the User hast to wait. The user is not accepted',array('sessionId'=>$sessionId,'callerId'=>$session->getCallerId(),'name'=>$session->getLobbyWaitingUser()->getShowName()));
+            $this->loggger->debug('The Room is not startd and the User hast to wait. The user is not accepted', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()));
             return array(
                 'status' => 'WAITING',
                 'reason' => 'NOT_ACCEPTED',
@@ -72,8 +83,9 @@ class CallerSessionService
                 'status_of_meeting' => 'NOT_STARTED'
             );
         }
+
         if ($authOk == false && $started == true) {
-            $this->loggger->debug('The Room is  startd and the User hast to wait. The user is not accepted',array('sessionId'=>$sessionId,'callerId'=>$session->getCallerId(),'name'=>$session->getLobbyWaitingUser()->getShowName()));
+            $this->loggger->debug('The Room is  startd and the User hast to wait. The user is not accepted', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()));
 
             return array(
                 'status' => 'WAITING',
@@ -83,8 +95,8 @@ class CallerSessionService
             );
         }
 
-        if ($closed == true) {
-            $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting',array('sessionId'=>$sessionId,'callerId'=>$session->getCallerId(),'name'=>$session->getLobbyWaitingUser()->getShowName()));
+        if ($closed == true || ($authOk == true && $session->getLobbyWaitingUser())) {
+            $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()));
 
             $this->cleanUpSession($session);
             return array(
@@ -94,8 +106,7 @@ class CallerSessionService
         }
 
 
-
-        $this->loggger->error('Error. an UNKNOWN state occured.',array('sessionId'=>$sessionId,'callerId'=>$session->getCallerId(),'name'=>$session->getLobbyWaitingUser()->getShowName()));
+        $this->loggger->error('Error. an UNKNOWN state occured.', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()));
 
         $this->cleanUpSession($session);
         return array(
@@ -106,14 +117,17 @@ class CallerSessionService
 
     public function cleanUpSession(CallerSession $callerSession)
     {
-        $this->loggger->debug('We start to destroy the caller session',array('sessionID'=>$callerSession->getSessionId()));
+        $this->loggger->debug('We start to destroy the caller session', array('sessionID' => $callerSession->getSessionId()));
         try {
-            if ($callerSession->getLobbyWaitingUser()) {
-                $this->loggger->debug('There is a Lobbyuser. we send a refres to the lobbymoderator',array('room'=>$callerSession->getLobbyWaitingUser()->getRoom()->getId()));
-                $this->toModerator->refreshLobby($callerSession->getLobbyWaitingUser());
-                $this->em->remove($callerSession->getLobbyWaitingUser());
+            $lobbyWaitungUser = $callerSession->getLobbyWaitingUser();
+            if ($lobbyWaitungUser) {
+                $this->loggger->debug('There is a Lobbyuser. we send a refres to the lobbymoderator', array('room' => $lobbyWaitungUser->getRoom()->getId()));
+                $this->toModerator->refreshLobby($lobbyWaitungUser);
+                $this->toModerator->participantLeftLobby($lobbyWaitungUser);
+                $this->em->remove($lobbyWaitungUser);
             }
-            $this->loggger->debug('The Callersession is destroyed',array('room'=>$callerSession->getSessionId()));
+
+            $this->loggger->debug('The Callersession is destroyed', array('room' => $callerSession->getSessionId()));
             $callerId = $callerSession->getCaller();
             $callerId->setCallerSession(null);
             $this->em->remove($callerSession);
@@ -124,12 +138,13 @@ class CallerSessionService
             $this->loggger->error($exception->getMessage());
             return false;
         }
-        $this->loggger->debug('The Callersession is sucessfully destroyed',array('room'=>$callerSession->getSessionId()));
+        $this->loggger->debug('The Callersession is sucessfully destroyed', array('room' => $callerSession->getSessionId()));
         return true;
     }
 
-     public function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser){
-        if ($lobbyWaitungUser->getCallerSession()){
+    public function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser)
+    {
+        if ($lobbyWaitungUser->getCallerSession()) {
             $caller = $lobbyWaitungUser->getCallerSession();
             $caller->setLobbyWaitingUser(null);
             $caller->setAuthOk(true);
@@ -138,5 +153,5 @@ class CallerSessionService
             return true;
         }
         return false;
-     }
+    }
 }
