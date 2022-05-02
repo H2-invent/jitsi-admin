@@ -455,9 +455,10 @@ strong {
 
 .btn-primary, .btn-primary.dropdown-toggle {
   background-color: $main-color !important;
-
+  transition: background-color 0.3s ease-in;
   &:hover {
     background-color: $main-color-hover !important;
+    transition: background-color 0.3s ease-in;
   }
 }
 
@@ -672,4 +673,15 @@ strong {
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
+}
+@media only screen and (max-width: 576px){
+  .modal-dialog{
+    width: 100vw;
+    max-width: none;
+    margin: 0;
+    height: 100%;
+    .modal-content{
+      height: 100%;
+    }
+  }
 }
