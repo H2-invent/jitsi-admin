@@ -27,7 +27,7 @@ class CallerSessionService
         $this->roomService = $roomService;
     }
 
-    public function getSession($sessionId)
+    public function getSessionStatus($sessionId)
     {
         $this->loggger->debug('Start with Session', array('sessionId' => $sessionId));
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId' => $sessionId));
@@ -44,7 +44,7 @@ class CallerSessionService
         $authOk = $session->getAuthOk();
 
         if ($session->getForceFinish()) {
-            $this->loggger->debug('The user is called to hangup. The Moderator has ended the meeting for all participants', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()));
+            $this->loggger->debug('The user is called to hangup. The Moderator has ended the meeting for all participants', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId()));
             $this->cleanUpSession($session);
             return array(
                 'status' => 'HANGUP',
@@ -95,7 +95,7 @@ class CallerSessionService
             );
         }
 
-        if ($closed == true || ($authOk == true && $session->getLobbyWaitingUser())) {
+        if ($closed == true) {
             $this->loggger->debug('The user is called to hangup. The Meeting has finished while he was waiting', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'name' => $session->getLobbyWaitingUser()->getShowName()));
 
             $this->cleanUpSession($session);

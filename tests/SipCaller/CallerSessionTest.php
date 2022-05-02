@@ -31,7 +31,7 @@ class CallerSessionTest extends KernelTestCase
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
         // vorbereitung
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSession('12345'));
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSessionStatus('12345'));
     }
 
     public function testWaitingNotStarted(): void
@@ -51,7 +51,7 @@ class CallerSessionTest extends KernelTestCase
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
         // vorbereitung
 
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'NOT_STARTED'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'NOT_STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
 
@@ -80,7 +80,7 @@ class CallerSessionTest extends KernelTestCase
             ->setUpdatedAt(new \DateTime());
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingStarted2Part(): void
@@ -116,7 +116,7 @@ class CallerSessionTest extends KernelTestCase
             ->setParticipantName('test 1234');
         $manager->persist($roomPart);
         $manager->flush();
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 1, 'status_of_meeting' => 'STARTED'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 1, 'status_of_meeting' => 'STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingFinished(): void
@@ -146,8 +146,8 @@ class CallerSessionTest extends KernelTestCase
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSession($session->getSessionId()));
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingStartedAndThenFinished(): void
@@ -174,13 +174,13 @@ class CallerSessionTest extends KernelTestCase
             ->setUpdatedAt(new \DateTime());
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
         $status->setDestroyedAt(new \DateTime())
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSession($session->getSessionId()));
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingDeclined(): void
@@ -204,8 +204,8 @@ class CallerSessionTest extends KernelTestCase
         $manager->flush();
         // vorbereitung
 
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'DECLINED'), $sessionService->getSession($session->getSessionId()));
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'DECLINED'), $sessionService->getSessionStatus($session->getSessionId()));
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingAccepted(): void
@@ -229,7 +229,7 @@ class CallerSessionTest extends KernelTestCase
         $session->setAuthOk(true);
         $manager->persist($session);
         $manager->flush();
-        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED', 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED', 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testAccept(): void
@@ -252,7 +252,7 @@ class CallerSessionTest extends KernelTestCase
         $lobbywaitinguser = $lobbyWaitinguserRepo->findOneBy(array('room' => $room, 'user' => $session->getCaller()->getUser()));
         self::assertTrue($sessionService->acceptCallerUser($lobbywaitinguser));
         self::assertTrue($session->getAuthOk());
-        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED', 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())), $sessionService->getSession($session->getSessionId()));
+        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED', 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())), $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testVerifyFalse(): void
@@ -325,8 +325,17 @@ class CallerSessionTest extends KernelTestCase
         $session->setForceFinish(true);
         $manager->persist($session);
         $manager->flush();
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
 
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSession($session->getSessionId()));
+
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
+        $session->setLobbyWaitingUser(null);
+        $session->setAuthOk(true);
+        $session->setForceFinish(true);
+        $manager->persist($session);
+        $manager->flush();
+        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
+
     }
 
 

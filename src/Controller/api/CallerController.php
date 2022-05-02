@@ -113,7 +113,7 @@ class CallerController extends JitsiAdminController
             return new JsonResponse($error, 404);
         }
 
-        $res = $this->callerSessionService->getSession($request->get('session_id'));
+        $res = $this->callerSessionService->getSessionStatus($request->get('session_id'));
         return new JsonResponse($res);
     }
 
