@@ -12,6 +12,8 @@ namespace App\Form\Type;
 use App\Entity\AuditTomAbteilung;
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\Tag;
+use App\Repository\TagRepository;
 use App\Service\ThemeService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -129,6 +131,22 @@ class RoomType extends AbstractType
         if ($this->paramterBag->get('input_settings_allowLobby') == 1) {
             $this->logger->debug('Add the possibility to select the lobby');
             $builder->add('lobby', CheckboxType::class, array('required' => false, 'label' => 'label.lobby', 'translation_domain' => 'form'));
+        }
+        if ($this->paramterBag->get('input_settings_allow_tag') == 1) {
+            $this->logger->debug('Add the possibility to select a tag');
+            $builder->add('tag', EntityType::class, array(
+                'class'=> Tag::class,
+                'choice_label'=>'title',
+                'query_builder'=>function(TagRepository $er){
+                  return $er->createQueryBuilder('t')
+                  ->andWhere('t.disabled = :false')
+                  ->setParameter('false', false)
+                  ->orderBy('t.priority','ASC');
+                },
+                'required' => true,
+                'label' => 'label.tag',
+                'translation_domain' => 'form'
+            ));
         }
         $builder->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }

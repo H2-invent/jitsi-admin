@@ -10,6 +10,7 @@ use App\Entity\Rooms;
 use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\Server;
+use App\Entity\Tag;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -492,6 +493,27 @@ class RoomFixture extends Fixture
         $room->setLobby(true);
         $manager->persist($room);
         $manager->flush();
+
+        $tag = new Tag();
+        $tag->setTitle('Test Tag Enabled');
+        $tag->setPriority(-10);
+        $tag->setDisabled(false);
+        $manager->persist($tag);
+        $manager->flush();
+        $tag = new Tag();
+        $tag->setTitle('Test Tag Disabled');
+        $tag->setPriority(-10);
+        $tag->setDisabled(true);
+        $manager->persist($tag);
+        $manager->flush();
+        for ($i = 0; $i < 5; $i++) {
+            $tag2 = new Tag();
+            $tag2->setTitle('Test Tag '.$i);
+            $tag2->setPriority(10*$i);
+            $manager->persist($tag2);
+        }
+        $manager->flush();
+
 
     }
 }

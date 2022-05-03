@@ -9,13 +9,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class TagCreateCommand extends Command
+class TagPriorityCommand extends Command
 {
-    protected static $defaultName = 'app:tag:create';
+    protected static $defaultName = 'app:tag:Priority';
     protected static $defaultDescription = 'Add a short description for your command';
     private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
@@ -27,35 +25,28 @@ class TagCreateCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('title', InputArgument::OPTIONAL, 'Enter the Tag Title here')
+            ->addArgument('tagId', InputArgument::OPTIONAL, 'This is the Id of the tag')
+            ->addArgument('prio', InputArgument::OPTIONAL, 'This is the new Priority of the tag')
         ;
     }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $title = $input->getArgument('title');
-
-        if ($title) {
-            $io->note(sprintf('You passed an argument: %s', $title));
-        }else{
-            $titleQ = new Question('Enter the Tag Name: ', 'Demo Tag');
-            $title = $io->askQuestion( $titleQ);
+        $tagId = $input->getArgument('tagId');
+        $prio = $input->getArgument('prio');
+        if ($tagId) {
+            $io->note(sprintf('You passed the ID: %s', $tagId));
         }
-        $tag = new Tag();
-        $tag->setTitle($title);
 
-        $disableQ = new ConfirmationQuestion('Do you want to DISABLE the Tag', false);
-        $tag->setDisabled($io->askQuestion($disableQ));
-
-        $prioQ = new ConfirmationQuestion('Enter the Priority (The Lowest will be shown first and is the default)', 0);
-        $tag->setPriority($io->askQuestion($prioQ));
-
+        $tag = $this->em->getRepository(Tag::class)->find($tagId);
+        if (!$tag){
+            $io->error('Tag does not exist');
+            return  Command::FAILURE;
+        }
+        $tag->setPriority($prio);
         $this->em->persist($tag);
         $this->em->flush();
-
-
-        $io->success(sprintf('The Tag %s was added sucessfully',$title));
+        $io->success(sprintf('Priority of %s is now set to %d', $tag->getTitle(), $tag->getPriority()));
 
         return Command::SUCCESS;
     }

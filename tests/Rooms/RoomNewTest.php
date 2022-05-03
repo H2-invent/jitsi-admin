@@ -3,6 +3,7 @@
 namespace App\Tests\Rooms;
 
 use App\Repository\RoomsRepository;
+use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -66,6 +67,9 @@ class RoomNewTest extends WebTestCase
         $flash = $session->getBag('flashes')->all();
         self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
         self::assertEquals($flash['modalUrl'][0],$modalUrl);
+        $tagRepo = self::getContainer()->get(TagRepository::class);
+        $tag = $tagRepo->findBy(array('disabled'=>false),array('priority'=>'ASC'))[0];
+        self::assertEquals($tag,$room->getTag());
     }
     public function testNoServer(): void
     {

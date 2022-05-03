@@ -81,7 +81,16 @@
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
                                 {% endif %}
-
+                                {% if form.tag is defined %}
+                                    <div class="col-sm-11">
+                                        {{ form_row(form.tag) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                           data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
+                                                    class="fa fa-question-circle"></i></a>
+                                    </div>
+                                {% endif %}
                                 {% if form.onlyRegisteredUsers is defined %}
                                     <div class="col-sm-11">
                                         {{ form_row(form.onlyRegisteredUsers) }}
