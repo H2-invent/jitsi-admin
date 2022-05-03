@@ -246,6 +246,11 @@ class Rooms
      */
     private $callerIds;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="rooms")
+     */
+    private $tag;
+
 
 
     public function __construct()
@@ -1022,6 +1027,18 @@ class Rooms
                 $callerId->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?Tag $tag): self
+    {
+        $this->tag = $tag;
 
         return $this;
     }

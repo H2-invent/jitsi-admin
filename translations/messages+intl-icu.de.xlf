@@ -1589,8 +1589,8 @@
         <target>Ladezeit</target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
-        <source>Verifierter Teilnehmer</source>
-        <target>Verifierter Teilnehmer</target>
+        <source>Verifizierter Teilnehmer</source>
+        <target>Verifizierter Teilnehmer</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
         <source>Jetzt beitreten</source>

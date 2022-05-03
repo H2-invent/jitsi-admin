@@ -272,6 +272,7 @@ class CallerSessionTest extends KernelTestCase
         self::assertFalse($callerPinService->verifyCallerID($session));
 
     }
+
     public function testVerifyTrue(): void
     {
         $kernel = self::bootKernel();
@@ -288,6 +289,7 @@ class CallerSessionTest extends KernelTestCase
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '0123456789');
         self::assertTrue($callerPinService->verifyCallerID($session));
     }
+
     public function testVerifyFail(): void
     {
         $kernel = self::bootKernel();
@@ -304,6 +306,27 @@ class CallerSessionTest extends KernelTestCase
         $caller->getUser()->setSpezialProperties(array());
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '0123456789');
         self::assertFalse($callerPinService->verifyCallerID($session));
+    }
+
+    public function testVerifyTrueWithClean(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $roomService = self::getContainer()->get(RoomService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[0];
+        self::assertEquals('1234', $callerPinService->clean('12/34'));
+        self::assertEquals('1234', $callerPinService->clean('12 34'));
+        self::assertEquals('1234', $callerPinService->clean('12a34'));
+        self::assertEquals('1234', $callerPinService->clean('1#2 3/4'));
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '0123-456/7sdf89');
+        self::assertTrue($callerPinService->verifyCallerID($session));
     }
 
     public function testWaitingFinishedForAll(): void

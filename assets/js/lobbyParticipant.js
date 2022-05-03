@@ -81,7 +81,6 @@ $('.leave').click(function (e) {
     $.get($(this).attr('href'), function (data) {
         window.location.href = "/";
     })
-
 })
 
 function initJitsiMeet(data) {

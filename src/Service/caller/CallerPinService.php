@@ -72,11 +72,18 @@ class CallerPinService
         }catch (\Exception $exception){
             return false;
         }
-        if ($callerID === $phoneNumber){
+        if ($this->clean($callerID) === $this->clean($phoneNumber)){
             return true;
         }
         return false;
 
 
     }
+    public function clean($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        $res =  preg_replace('/[^0-9]/', '', $string); // Removes special chars.
+        return $res;
+    }
+
 }
