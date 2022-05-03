@@ -14,6 +14,7 @@ use App\Service\TimeZoneService;
 use App\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -38,21 +39,32 @@ class AdHocMeetingController extends JitsiAdminController
 
         if (!in_array($user, $this->getUser()->getAddressbook()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Der User wurde nicht gefunden'));
-            return $this->redirectToRoute('dashboard');
+            return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
+
         }
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
         if (!in_array($server, $servers)) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
-            return $this->redirectToRoute('dashboard');
+            return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
+
         }
         try {
-            $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server);
+            $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server);
+            // $this->addFlash('_blank',$this->generateUrl('room_join',array('t'=>'b','room'=>$room->getId())));
             $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
-            return $this->redirectToRoute('dashboard');
+            return new JsonResponse(array(
+                    'redirectUrl' => $this->generateUrl('dashboard'),
+                    'popups' => array(
+                        $this->generateUrl('room_join', array('t' => 'b', 'room' => $room->getId()))
+                    )
+                )
+            );
+
         } catch (\Exception $exception) {
             $this->addFlash('danger', $translator->trans('Fehler'));
-            return $this->redirectToRoute('dashboard');
+            return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
+
         }
     }
 }

@@ -16,22 +16,31 @@
         <li class="list-group-item" style="display: flex; justify-content: space-between">
             <span class="breakWord">{{ u|nameOfUser }} </span>
             <span class="noBreak d-flex">
-        <a class="caretdown dropdown-toggle me-1 text-success" data-mdb-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
+                {% if servers|length == 1 %}
+                    <a class="text-success confirmloadOpenPopUp me-2"
+                       data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
+                       href="{{ path('add_hoc_meeting',{'serverId':servers[0].id,'userId':u.id}) }}">
+                        <i class="fa fa-phone"></i>
+                             </a>
+                {% else %}
+                    <a class="caretdown dropdown-toggle me-1 text-success" data-mdb-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-phone"></i>
-                                    </a>
-        <div class="dropdown-menu">
+                             </a>
+                    <div class="dropdown-menu">
             {% for s in servers %}
-                <a class="dropdown-item confirmHref"
+                <a class="dropdown-item confirmloadOpenPopUp"
                    data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
                    href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.serverName }}</a>
             {% endfor %}
 
         </div>
-        {% if theme == false or theme.trashOnAdressBook == true %}
-            <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}" data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
-                        class="fa fa-trash text-danger"></i> </a>
-        {% endif %}
+                {% endif %}
+                {% if theme == false or theme.trashOnAdressBook == true %}
+                    <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
+                       data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
+                                class="fa fa-trash text-danger"></i> </a>
+                {% endif %}
         </span></li>
     {% endfor %}
 </ul>

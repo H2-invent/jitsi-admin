@@ -20,3 +20,11 @@
 </script>
 {% endif %}
 
+<script>
+    var blankTarget = [
+        {% for target in app.flashes('_blank') %}
+        '{{ target }}'
+        {% endfor %}
+    ]
+</script>
+

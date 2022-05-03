@@ -69,6 +69,50 @@ function initconfirmHref() {
     })
 }
 
+
+function initconfirmLoadOpenPopUp() {
+
+    $(document).on('click', '.confirmloadOpenPopUp', function (e) {
+
+        e.preventDefault();
+        var url = $(this).prop('href');
+        var text = $(this).data('text');
+        if (typeof text === 'undefined') {
+
+            text = 'Wollen Sie die Aktion durchführen?'
+        }
+
+        $.confirm({
+            title: title,
+            content: text,
+            theme: 'material',
+            buttons: {
+                confirm: {
+                    text: ok, // text for button
+                    btnClass: 'btn-outline-danger btn', // class for the button
+                    action: function () {
+                        const win = window.open('about:blank');
+                        $.get(url, function (data) {
+                            if(data.popups){
+                                data.popups.forEach(function (value,i) {
+                                    win.location.href = value;
+                                })
+                            }
+                            window.location.href = data.redirectUrl;
+                        })
+                    },
+
+
+                },
+                cancel: {
+                    text: cancel, // text for button
+                    btnClass: 'btn-outline-primary btn', // class for the button
+                },
+            }
+        });
+    })
+}
+
 function initConfirmDirectSendHref() {
     $(document).on('click', '.directSendWithConfirm', function (e) {
         e.preventDefault();
@@ -123,7 +167,8 @@ function initAjaxSend(titleL, cancelL, okL) {
     ok = okL;
     initConfirmDirectSendHref();
     initDirectSend();
-    initconfirmHref()
+    initconfirmHref();
+    initconfirmLoadOpenPopUp();
 }
 function hideTooltip() {
     $('.tooltip').remove();

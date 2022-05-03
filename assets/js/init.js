@@ -14,7 +14,12 @@ function initGenerell() {
     Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
+    openBlankTarget(blankTarget);
 }
-
+function openBlankTarget(targets) {
+    targets.forEach(function (value,i) {
+        window.open(value);
+    })
+}
 
 export {initGenerell}

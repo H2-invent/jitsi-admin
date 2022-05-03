@@ -42,7 +42,7 @@ class AdhocMeetingService
         $this->urlGen = $urlGenerator;
     }
 
-    public function createAdhocMeeting(User $creator, User $reciever, Server $server)
+    public function createAdhocMeeting(User $creator, User $reciever, Server $server): ?Rooms
     {
         $room = $this->roomGeneratorService->createRoom($creator, $server);
 
@@ -72,6 +72,6 @@ class AdhocMeetingService
         );
         $this->userService->addUser($reciever, $room);
         $this->userService->addUser($creator, $room);
-
+        return $room;
     }
 }
