@@ -21,9 +21,9 @@
          {% else %}
              <p>{% trans %}favorite.sidebar.help{% endtrans %}</p>
          {% endif %}
-         <p class="text-center"><small>{{ 'common.loadingTime'|trans }}: {{ time }}mS</small></p>
-     </div>
 
+     </div>
+     <p class="text-center"><small>{{ 'common.loadingTime'|trans }}: {{ time/1000 }}s</small></p>
  {% endblock %}
 
 {% block body %}
