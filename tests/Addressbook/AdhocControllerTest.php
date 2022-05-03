@@ -2,6 +2,7 @@
 
 namespace App\Tests\Addressbook;
 
+use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\adhocmeeting\AdhocMeetingService;
 use App\Service\Lobby\DirectSendService;
@@ -12,7 +13,7 @@ use Symfony\Component\Mercure\Update;
 
 class AdhocControllerTest extends WebTestCase
 {
-    public function testSomething(): void
+    public function testcreateAdhocMeeting(): void
     {
         $client = static::createClient();
 
@@ -41,7 +42,10 @@ class AdhocControllerTest extends WebTestCase
         $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $client->loginUser($user);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
-
-        $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findAll();
+        $room = $room[sizeof($room)-1];
+        self::assertEquals(json_encode(
+            array('redirectUrl' => '/room/dashboard','popups'=>array('/room/join/b/'.$room->getId()))), $client->getResponse()->getContent());
     }
 }
