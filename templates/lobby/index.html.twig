@@ -1,5 +1,9 @@
 {% extends 'join/base_fluid.html.twig' %}
 {% block header %}
+    {% if room.tag is not null %}
+        <p class="badge badge-danger d-block" id="tagContent"
+           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+    {% endif %}
     {% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}
 {% endblock %}
 {% block content %}

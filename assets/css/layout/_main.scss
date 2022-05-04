@@ -692,3 +692,10 @@ strong {
 .dropdown-toggle{
   cursor: pointer;
 }
+.floating-tag{
+  position: absolute;
+  z-index: 2;
+  top: 1em;
+  left: 1em;
+  padding: 1em;
+}

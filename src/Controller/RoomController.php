@@ -91,6 +91,10 @@ class RoomController extends JitsiAdminController
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
         $form->remove('scheduleMeeting');
 
+        if($form->has('tag') && $parameterBag->get('input_settings_allow_edit_tag') == 0){
+            $form->remove('tag');
+        }
+
         try {
             $form->handleRequest($request);
 

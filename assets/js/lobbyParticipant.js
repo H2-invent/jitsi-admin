@@ -86,6 +86,7 @@ $('.leave').click(function (e) {
 function initJitsiMeet(data) {
     stopWebcam();
     $(data.options.parentNode).prependTo('body');
+    $('#tagContent').prependTo('body').addClass('floating-tag');
     $('#window').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName

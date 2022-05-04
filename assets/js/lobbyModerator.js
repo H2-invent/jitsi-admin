@@ -60,7 +60,9 @@ $('.startIframe').click(function (e) {
 
 function moveWrapper() {
     stopWebcam();
+
     $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').css('height', 'inherit');
+    $('#tagContent').prependTo('body').addClass('floating-tag');
     $('#snackbar').appendTo('body');
     $('#jitsiWindow').css('height', '100vh');
     $('#mainContent').remove();

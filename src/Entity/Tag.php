@@ -39,6 +39,16 @@ class Tag
      */
     private $priority;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $color;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $backgroundColor;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -111,6 +121,30 @@ class Tag
     public function setPriority(?int $priority): self
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    public function getBackgroundColor(): ?string
+    {
+        return $this->backgroundColor;
+    }
+
+    public function setBackgroundColor(?string $backgroundColor): self
+    {
+        $this->backgroundColor = $backgroundColor;
 
         return $this;
     }

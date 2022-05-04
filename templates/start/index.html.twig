@@ -3,10 +3,13 @@
 <head>
     <title>{{ room.name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
+    {{ encore_entry_link_tags('app') }}
 </head>
 <body style="margin: 0">
-
+{% if room.tag is not null %}
+    <p class="badge badge-danger d-block floating-tag" id="tagContent"
+       style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+{% endif %}
 <div class="w-100" id="jitsiWindow" style="height: 500px; overflow: hidden">
 
 </div>

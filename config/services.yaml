@@ -75,6 +75,7 @@ parameters:
     input_settings_dissallow_screenshare_default: '%env(input_settings_dissallow_screenshare_default)%'
     input_settings_allow_timezone_default: '%env(input_settings_allow_timezone_default)%'
     input_settings_allow_tag: '%env(input_settings_allow_tag)%'
+    input_settings_allow_edit_tag: '%env(input_settings_allow_edit_tag)%'
     DISALLOW_ALL_EMAILS: '%env(DISALLOW_ALL_EMAILS)%'
     start_dropdown_allow_browser: '%env(start_dropdown_allow_browser)%'
     start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
