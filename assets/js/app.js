@@ -28,7 +28,7 @@ import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
-
+import {initNewRoomModal} from './newRoom'
 import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 
@@ -160,49 +160,13 @@ function initNewModal(e){
     $('[data-mdb-toggle="tooltip"]').tooltip()
 
     initdateTimePicker('.flatpickr');
-
+    initNewRoomModal();
     $('form').submit(function (event) {
         var btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
     });
-    $("#newRoom_form").submit(function (e) {
 
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-        var form = $(this);
-        var url = form.attr('action');
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: form.serialize(), // serializes the form's elements.
-            success: function (data) {
-                var $res = data;
-                if ($res['error'] === false) {
-                    if (typeof $res['cookie'] !== 'undefined') {
-                        for (const [key, value] of Object.entries($res['cookie'])) {
-
-                            setCookie(key, value, 1000);
-                        }
-                    }
-                    window.location.href = $res['redirectUrl'];
-                } else {
-                    $('.formError').remove();
-                    for (var i = 0; i < $res['messages'].length; i++) {
-                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">' + $res['messages'][i] + '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                            '    <span aria-hidden="true">&times;</span>\n' +
-                            '  </button>' +
-                            '</div>')
-                            .insertBefore(form.find('button[type=submit]'))
-                    }
-                    var btn = form.find('button[type=submit]');
-                    btn.find('.fas').remove();
-                    btn.prop("disabled", false)
-                }
-            }
-        });
-    });
 
     $('.generateApiKey').click(function (e) {
         e.preventDefault();
@@ -215,47 +179,7 @@ function initNewModal(e){
             $('#appId').collapse('hide')
         }
     });
-    if (typeof $('#room_persistantRoom') !== 'undefined') {
-        if ($('#room_persistantRoom').prop('checked')) {
-            $('#roomStartForm').collapse('hide')
-            if ($('#room_totalOpenRooms').prop('checked')) {
-                $('#totalOpenRoomsOpenTime').collapse('show');
-            } else {
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
-        } else {
-            $('#roomStartForm').collapse('show')
-            $('#totalOpenRoomsOpenTime').collapse('hide');
-        }
-        $('#room_persistantRoom').change(function () {
-            if ($('#room_persistantRoom').prop('checked')) {
-                $('#roomStartForm').collapse('hide')
-                if ($('#room_totalOpenRooms').prop('checked')) {
-                    $('#totalOpenRoomsOpenTime').collapse('show');
-                } else {
-                    $('#totalOpenRoomsOpenTime').collapse('hide');
-                }
-            } else {
-                $('#roomStartForm').collapse('show')
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
-        })
-    }
 
-    if (typeof $('#room_public') !== 'undefined') {
-        if ($('#room_public').prop('checked')) {
-            $('#maxParticipants').collapse('show')
-        } else {
-            $('#maxParticipants').collapse('hide')
-        }
-        $('#room_public').change(function () {
-            if ($('#room_public').prop('checked')) {
-                $('#maxParticipants').collapse('show')
-            } else {
-                $('#maxParticipants').collapse('hide')
-            }
-        })
-    }
     initCopytoClipboard();
     initSearchUser();
     initServerFeatures();

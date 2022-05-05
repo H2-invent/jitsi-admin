@@ -134,6 +134,7 @@ label:
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
   corsHeader:  CORS-Header oder frame-ancestor Header
+  tag: Kategorie
 
 
 choice:

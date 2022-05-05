@@ -88,12 +88,8 @@ class RoomController extends JitsiAdminController
         }
 
 
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()])]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],),'isEdit'=> (bool)$request->get('id')]);
         $form->remove('scheduleMeeting');
-
-        if($form->has('tag') && $parameterBag->get('input_settings_allow_edit_tag') == 0){
-            $form->remove('tag');
-        }
 
         try {
             $form->handleRequest($request);
@@ -166,7 +162,7 @@ class RoomController extends JitsiAdminController
                 $snack = $this->translator->trans('Fehler, Bitte Laden Sie die Seite neu');
             }
         }
-        $this->addFlash($color,$snack);
+        $this->addFlash($color, $snack);
         return $this->redirectToRoute('dashboard');
     }
 

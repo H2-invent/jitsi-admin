@@ -70,7 +70,7 @@ class ScheduleController extends JitsiAdminController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
 
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()])]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
 
         $form->remove('scheduleMeeting');
         $form->remove('start');

@@ -1585,20 +1585,36 @@
         <target>{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
       </trans-unit>
       <trans-unit id="DhfQxTv" resname="common.loadingTime">
-        <source>Ladezeit</source>
+        <source>common.loadingTime</source>
         <target>Ladezeit</target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
-        <source>Verifizierter Teilnehmer</source>
+        <source>lobby.verified</source>
         <target>Verifizierter Teilnehmer</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
-        <source>Jetzt beitreten</source>
+        <source>lobby.participant.enterNow</source>
         <target>Jetzt beitreten</target>
       </trans-unit>
       <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
-        <source>Noch nicht beitreten</source>
+        <source>lobby.participant.pauseEnter</source>
         <target>Noch nicht beitreten</target>
+      </trans-unit>
+      <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
+        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <target>Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="4wVQAJs" resname="room.new.help.tag">
+        <source>room.new.help.tag</source>
+        <target>Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
+      </trans-unit>
+      <trans-unit id="YU._Rbu" resname="Geplant von">
+        <source>Geplant von</source>
+        <target>Geplant von</target>
+      </trans-unit>
+      <trans-unit id="E1XUXFS" resname="new.room.blockSave.text">
+        <source>Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</source>
+        <target>Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
       </trans-unit>
     </body>
   </file>

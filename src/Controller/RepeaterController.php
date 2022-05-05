@@ -28,7 +28,7 @@ class RepeaterController extends JitsiAdminController
     /**
      * @Route("/room/repeater/new", name="repeater_new")
      */
-    public function index(ParameterBagInterface $parameterBag, Request $request,RepeaterService $repeaterService): Response
+    public function index(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService): Response
     {
 
 
@@ -46,12 +46,12 @@ class RepeaterController extends JitsiAdminController
                 $repeater = $form->getData();
                 if (!$repeaterService->checkData($repeater)) {
                     $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
-                    $this->addFlash('danger',$snack );
+                    $this->addFlash('danger', $snack);
                     return $this->redirectToRoute('dashboard');
                 }
                 if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
                     $snack = $this->translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben', array('{amount}' => $parameterBag->get('laf_max_repeat')));
-                    $this->addFlash('danger',$snack );
+                    $this->addFlash('danger', $snack);
                     return $this->redirectToRoute('dashboard');
                 }
                 $em = $this->doctrine->getManager();
@@ -72,13 +72,13 @@ class RepeaterController extends JitsiAdminController
                 $repeaterService->addUserRepeat($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterNew.html.twig', $this->translator->trans('Eine neue Serienvideokonferenz wurde erstellt'), array('room' => $repeater->getPrototyp()));
                 $snack = $this->translator->trans('Sie haben Erfolgreich einen Serientermin erstellt');
-                $this->addFlash('success',$snack );
+                $this->addFlash('success', $snack);
                 return $this->redirectToRoute('dashboard');
             }
 
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $this->addFlash('danger',$snack );
+            $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
         }
         return $this->render('repeater/index.html.twig', [
@@ -105,12 +105,12 @@ class RepeaterController extends JitsiAdminController
                 $repeater = $form->getData();
                 if (!$repeaterService->checkData($repeater)) {
                     $snack = $this->translator->trans('Fehler, Bitte füllen Sie alle Felder aus');
-                    $this->addFlash('danger',$snack );
+                    $this->addFlash('danger', $snack);
                     return $this->redirectToRoute('dashboard');
                 }
                 if ($repeater->getRepetation() > $parameterBag->get('laf_max_repeat')) {
                     $snack = $this->translator->trans('Sie dürfen nur maximal {amount} Wiederholungen angeben', array('{amount}' => $parameterBag->get('laf_max_repeat')));
-                    $this->addFlash('danger',$snack );
+                    $this->addFlash('danger', $snack);
                     return $this->redirectToRoute('dashboard');
                 }
                 $em = $this->doctrine->getManager();
@@ -121,13 +121,13 @@ class RepeaterController extends JitsiAdminController
                 $repeaterService->addUserRepeat($repeater);
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
                 $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
-                $this->addFlash('success',$snack );
+                $this->addFlash('success', $snack);
                 return $this->redirectToRoute('dashboard');
             }
 
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $this->addFlash('danger',$snack );
+            $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
         }
         return $this->render('repeater/index.html.twig', [
@@ -163,14 +163,14 @@ class RepeaterController extends JitsiAdminController
         $em->persist($repeater);
         $em->flush();
         $snack = $this->translator->trans('Sie haben Erfolgreich einen Serientermin gelöscht');
-        $this->addFlash('success',$snack );
+        $this->addFlash('success', $snack);
         return $this->redirectToRoute('dashboard');
     }
 
     /**
      * @Route("/room/repeater/edit/room", name="repeater_edit_room")
      */
-    public function editPrototype( Request $request, RepeaterService $repeaterService, ServerUserManagment $serverUserManagment): Response
+    public function editPrototype(Request $request, RepeaterService $repeaterService, ServerUserManagment $serverUserManagment): Response
     {
         $title = $this->translator->trans('Alle Serienelement der Serie bearbeiten');
         $extra = null;
@@ -188,14 +188,15 @@ class RepeaterController extends JitsiAdminController
         }
         $option = [
             'server' => $servers,
-            'action' => $this->generateUrl('repeater_edit_room', ['type' => $request->get('type'), 'id' => $room->getId()])
+            'action' => $this->generateUrl('repeater_edit_room', ['type' => $request->get('type'), 'id' => $room->getId()]),
+            'isEdit' => true
         ];
         if ($request->get('type') === 'all') {
-            if(new \DateTime() > $room->getStart()) {
+            if (new \DateTime() > $room->getStart()) {
                 $option['minDate'] = $room->getStart()->format('m/d/Y');
             }
         }
-        $form = $this->createForm(RoomType::class, $room,$option);
+        $form = $this->createForm(RoomType::class, $room, $option);
         $form->remove('scheduleMeeting');
         $form->remove('persistantRoom');
 
@@ -225,7 +226,7 @@ class RepeaterController extends JitsiAdminController
 
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $this->addFlash('danger',$snack );
+            $this->addFlash('danger', $snack);
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }

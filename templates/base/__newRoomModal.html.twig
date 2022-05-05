@@ -18,6 +18,16 @@
                             {{ form_row(form.server) }}
                         {% endif %}
                     </div>
+                    {% if form.tag is defined %}
+                        <div class="col-sm-11">
+                            {{ form_row(form.tag) }}
+                        </div>
+                        <div class="col-sm-1">
+                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                               data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
+                                        class="fa fa-question-circle"></i></a>
+                        </div>
+                    {% endif %}
                     <div class="col-lg-12">
                         {{ form_row(form.name) }}
                     </div>
@@ -56,7 +66,20 @@
                             {% endif %}
                         </div>
                     </div>
-
+                    {% if form.lobby is defined %}
+                        <div class="col-lg-12">
+                            <div id="lobby" class="row">
+                                <div class="col-sm-11">
+                                    {{ form_row(form.lobby) }}
+                                </div>
+                                <div class="col-sm-1">
+                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'room.new.help.lobby'|trans }}"><i
+                                                class="fa fa-question-circle"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="mb-2">
                     {% if laf_roomsMoreOptionsCollapsed == 1 %}
@@ -81,16 +104,7 @@
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
                                 {% endif %}
-                                {% if form.tag is defined %}
-                                    <div class="col-sm-11">
-                                        {{ form_row(form.tag) }}
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                           data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
-                                                    class="fa fa-question-circle"></i></a>
-                                    </div>
-                                {% endif %}
+
                                 {% if form.onlyRegisteredUsers is defined %}
                                     <div class="col-sm-11">
                                         {{ form_row(form.onlyRegisteredUsers) }}
@@ -149,20 +163,7 @@
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
                                 {% endif %}
-                                {% if form.lobby is defined %}
-                                    <div class="col-lg-12">
-                                        <div id="lobby" class="row">
-                                            <div class="col-sm-11">
-                                                {{ form_row(form.lobby) }}
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                                   data-mdb-content="{{ 'room.new.help.lobby'|trans }}"><i
-                                                            class="fa fa-question-circle"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
+
                                 {% if form.dissallowScreenshareGlobal is defined %}
                                     <div class="col-lg-12">
                                         <div id="enableFeateureJwt" class="d-none row">
