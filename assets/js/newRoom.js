@@ -1,6 +1,6 @@
 import $ from "jquery";
 import ('jquery-confirm');
-
+import {setCookie} from './cookie'
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
@@ -75,6 +75,7 @@ function sendToServer(form, url) {
         }
     });
 }
+
 function removeDisableBtn(form) {
     var btn = form.find('button[type=submit]');
     btn.find('.fas').remove();
