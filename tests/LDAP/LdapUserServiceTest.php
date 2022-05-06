@@ -200,13 +200,12 @@ class LdapUserServiceTest extends WebTestCase
         );
         $this->assertEquals(
             1,
-            $crawler->filter('p:contains("Organisator: AA, 45689, Maus, Maike")')->count()
+            $crawler->filter('p:contains("Geplant von: AA, 45689, Maus, Maike")')->count()
         );
         $this->assertEquals(
             1,
-            $crawler->filter('.badge:contains("Moderator")')->count()
+            $crawler->filter('.badge:contains("Organisator")')->count()
         );
-
     }
 
     public function testremoveUserFromLdap(): void

@@ -17,7 +17,7 @@
     "dependencies": {
         "@dmuy/datepicker": "^2.0.1",
         "@dmuy/timepicker": "^2.0.0",
-        "@fortawesome/fontawesome-free": "^5.15.2",
+        "@fortawesome/fontawesome-free": "^6.1",
         "@fullcalendar/bootstrap": "^5.5.0",
         "@fullcalendar/core": "^5.5.0",
         "@fullcalendar/daygrid": "^5.5.0",
@@ -26,6 +26,7 @@
         "@fullcalendar/resource-common": "^5.5.0",
         "@holema/h2datetimepicker": "^1.10.0",
         "@popperjs/core": "^2.11.2",
+        "@yaireo/title-tooltip": "^1.2.1",
         "autosize": "^4.0.2",
         "bootstrap": "^4.5.3",
         "chart.js": "^2.9.4",

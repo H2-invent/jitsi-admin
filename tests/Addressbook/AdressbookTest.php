@@ -54,14 +54,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
             array('name'=>', , , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
         ),$res);
         $string = 'asdf';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
@@ -73,7 +73,7 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
         ),$res);
 
     }
@@ -108,14 +108,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
             array('name'=>', , , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
         ),$res);
     }
     public function testnoUSerfoundNoGenerate(): void
@@ -147,14 +147,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
             array('name'=>', , , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>"Test2, 1234, User2, Test2",'id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
         ),$res);
 
     }
@@ -205,5 +205,14 @@ class AdressbookTest extends KernelTestCase
         $this->assertEquals(array(
         ),$res);
 
+    }
+    public function testgenerateName(): void
+    {
+        $kernel = self::bootKernel();
+        $searchService = $this->getContainer()->get(ParticipantSearchService::class);
+        $userRepo = self::$container->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $res = $searchService->buildShowInFrontendString($user);
+        self::assertEquals('<i class="fa fa-phone" title="0123456789"></i> Test1, 1234, User, Test', $res);
     }
 }

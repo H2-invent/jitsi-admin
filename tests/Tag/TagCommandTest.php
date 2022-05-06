@@ -98,4 +98,20 @@ class TagCommandTest extends KernelTestCase
         $this->assertStringContainsString('[X] Test Tag Enabled', $output);
         $this->assertStringContainsString('[ ] Test Tag Disabled', $output);
     }
+
+    public function testTagAll(): void
+    {
+        $kernel = self::bootKernel();
+
+        $application = new Application($kernel);
+        $command = $application->find('app:tag:addToAll');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array());
+        $output = $commandTester->getDisplay();
+
+        $tagRepo = self::getContainer()->get(TagRepository::class);
+        $this->assertStringContainsString('0/70', $output);
+        $this->assertStringContainsString('70/70', $output);
+    }
+
 }

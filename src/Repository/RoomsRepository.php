@@ -8,6 +8,7 @@ use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
+use function PHPUnit\Framework\returnArgument;
 
 /**
  * @method Rooms|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +20,7 @@ class RoomsRepository extends ServiceEntityRepository
 {
     private $timeZoneService;
     private $amountperLayz = 8;
+
     public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
@@ -70,7 +72,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomsInPast(User $user,$offset)
+    public function findRoomsInPast(User $user, $offset)
     {
         $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
@@ -84,7 +86,7 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->orderBy('r.start', 'DESC')
             ->setMaxResults($this->amountperLayz)
-            ->setFirstResult($this->amountperLayz*$offset)
+            ->setFirstResult($this->amountperLayz * $offset)
             ->getQuery()
             ->getResult();
     }
@@ -159,7 +161,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getMyPersistantRooms(User $user,$offset)
+    public function getMyPersistantRooms(User $user, $offset)
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
@@ -234,6 +236,19 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('true', true)
             ->setParameter('false', false)
             ->orderBy('r.startUtc', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Rooms[] Returns an array of Rooms objects
+     */
+
+    public function findRoomsWithNoTags()
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        return $qb->andWhere($qb->expr()->isNull('r.tag'))
             ->getQuery()
             ->getResult();
     }
