@@ -2,9 +2,6 @@ FROM thecodingmachine/php:7.4.27-v4-apache-node16
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV TZ=Europe/Berlin
-ENV CRON_USER_1=root
-ENV CRON_SCHEDULE_1="* * * * *"
-ENV CRON_COMMAND_1="php /var/www/html/bin/console cron:run"
 USER root
 RUN usermod -a -G www-data docker
 COPY . /var/www/html
@@ -20,6 +17,6 @@ RUN chmod -R 777 var
 RUN chown -R www-data:www-data public/uploads/
 RUN chmod -R 775 public/uploads/
 RUN apt update
-RUN apt install  -y supervisor
-COPY jitsi-admin_messenger_docker.conf /etc/supervisor/conf.d/supervisord.conf
+#RUN apt install  -y supervisor
+#COPY jitsi-admin_messenger_docker.conf /etc/supervisor/conf.d/supervisord.conf
 USER docker
