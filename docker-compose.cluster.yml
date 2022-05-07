@@ -57,6 +57,7 @@ services:
   app-ja:
     <<: *jitsi_admin_app
     hostname: ${RANDOMTAG}app-ja
+    restart: unless-stopped
     depends_on:
       - db-ja
       - keycloak-ja
