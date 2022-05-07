@@ -53,6 +53,7 @@ $('.startIframe').click(function (e) {
         audioOutput: audioId,
         videoInput: micId
     }
+
     initJitsi(options,domain);
 
     $('#jitsiWrapper').find('iframe').css('height', '100vh');
