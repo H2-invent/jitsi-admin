@@ -86,6 +86,7 @@ services:
       - db-ja
     command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
     networks:
+      - default
       - jitsi-admin
 
   db-ja:
