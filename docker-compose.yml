@@ -1,5 +1,26 @@
 version: '3.7'
 
+x-app-common: &jitsi_admin_app
+  build: .
+  environment:
+    APACHE_DOCUMENT_ROOT: "public/"
+    PHP_EXTENSION_XDEBUG: "1"
+    PHP_INI_MEMORY_LIMIT: "1G"
+    PHP_EXTENSION_LDAP: 1
+    PHP_EXTENSION_INTL: 1
+    DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
+    MAILER_TRANSPORT: smtp
+    OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
+    OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
+    OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+    OAUTH_KEYCLOAK_REALM: jitsiadmin
+    MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
+    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+    MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+    MAILER_DSN: ${MAILER_DSN}
+    registerEmailAdress: ${registerEmailAdress}
+    laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+
 services:
   traefik-ja:
     image: "traefik:v2.5"
@@ -75,30 +96,23 @@ services:
 
   #Here is the Jitsi-Admin app
   app-ja:
-    build: .
+    <<: *jitsi_admin_app
     depends_on:
       - db-ja
       - keycloak-ja
       - mercure-ja
       - traefik-ja
+    healthcheck:
+      test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
+      interval: 20s
+      timeout: 10s
+      start_period: 30s
+      retries: 10
     environment:
-      APACHE_DOCUMENT_ROOT: "public/"
-      PHP_EXTENSION_XDEBUG: "1"
-      PHP_INI_MEMORY_LIMIT: "1G"
-      PHP_EXTENSION_LDAP: 1
-      PHP_EXTENSION_INTL: 1
-      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
-      MAILER_TRANSPORT: smtp
-      OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
-      OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
-      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
-      OAUTH_KEYCLOAK_REALM: jitsiadmin
-      MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
-      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
-      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
-      MAILER_DSN: ${MAILER_DSN}
-      registerEmailAdress: ${registerEmailAdress}
-      laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+      CRON_USER_1: root
+      CRON_SCHEDULE_1: "* * * * *"
+      CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja.tls=true"
@@ -113,6 +127,16 @@ services:
       - image_upload:/var/www/html/public/uploads/images
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
+  app-queu:
+    <<: *jitsi_admin_app
+    restart: unless-stopped
+    deploy:
+      mode: replicated
+      replicas: 2
+    depends_on:
+      app-ja:
+        condition: service_healthy
+    command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
 
   db-ja:
     image: mariadb:latest

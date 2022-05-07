@@ -93,6 +93,9 @@ services:
   app-queu:
     <<: *jitsi_admin_app
     restart: unless-stopped
+    deploy:
+      mode: replicated
+      replicas: 2
     depends_on:
       app-ja:
         condition: service_healthy

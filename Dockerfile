@@ -17,6 +17,4 @@ RUN chmod -R 777 var
 RUN chown -R www-data:www-data public/uploads/
 RUN chmod -R 775 public/uploads/
 RUN apt update
-#RUN apt install  -y supervisor
-#COPY jitsi-admin_messenger_docker.conf /etc/supervisor/conf.d/supervisord.conf
 USER docker
