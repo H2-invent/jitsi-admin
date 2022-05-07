@@ -62,6 +62,13 @@ services:
       - db-ja
       - keycloak-ja
       - mercure-ja
+    healthcheck:
+      test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
+      interval: 20s
+      timeout: 10s
+      start_period: 30s
+      retries: 10
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja-${RANDOMTAG}.tls=true"
