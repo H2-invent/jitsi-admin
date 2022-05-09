@@ -5,19 +5,22 @@ namespace App\Service;
 use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\Tag;
 use App\Entity\User;
 use App\Service\caller\CallerPrepareService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RoomGeneratorService
 {
     private $parameterBag;
     private $callerPrepareService;
-
-    public function __construct(ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService)
+    private $em;
+    public function __construct(ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager)
     {
         $this->parameterBag = $parameterBag;
         $this->callerPrepareService = $callerPrepareService;
+        $this->em = $entityManager;
     }
 
     public function createRoom(User $user, ?Server $server = null): Rooms
@@ -54,6 +57,11 @@ class RoomGeneratorService
             }
         }
         $room = $this->createCallerId($room);
+        if ($this->parameterBag->get('input_settings_allow_tag') == 1 ) {
+            $tag = $this->em->getRepository(Tag::class)->findOneBy(array('disabled'=>false),array('priority'=>'ASC'));
+        }
+
+        $room->setTag($tag);
         return $room;
     }
 

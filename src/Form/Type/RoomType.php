@@ -155,8 +155,6 @@ class RoomType extends AbstractType
         }
         $builder->add('submit', SubmitType::class, ['label' => 'label.speichern', 'translation_domain' => 'form', 'attr' => array(
             'class' => 'btn btn-outline-primary')]);
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

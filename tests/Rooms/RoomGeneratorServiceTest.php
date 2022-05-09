@@ -3,6 +3,7 @@
 namespace App\Tests\Rooms;
 
 use App\Repository\ServerRepository;
+use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Service\RoomGeneratorService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -16,6 +17,8 @@ class RoomGeneratorServiceTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $roomGen = self::getContainer()->get(RoomGeneratorService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
+        $tagRepo = self::getContainer()->get(TagRepository::class);
+        $tag = $tagRepo->findOneBy(array('title'=>'Test Tag Enabled'));
         $user = $userRepo->findOneBy(array('username'=>'test@local.de'));
         $room = $roomGen->createRoom($user);
         self::assertTrue($room->getLobby());
@@ -24,6 +27,7 @@ class RoomGeneratorServiceTest extends KernelTestCase
         self::assertEquals(array($user),$room->getUser()->toArray());
         self::assertNull($room->getServer());
         self::assertEquals('Europe/Berlin',$room->getTimeZone());
+        self::assertEquals($tag, $room->getTag());
         //$routerService = static::getContainer()->get('router');
         //$myCustomService = static::getContainer()->get(CustomService::class);
     }

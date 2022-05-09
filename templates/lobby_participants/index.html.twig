@@ -1,9 +1,6 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    {% if room.tag is not null %}
-        <p class="badge badge-danger d-block" id="tagContent"
-           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
-    {% endif %}
+
     {{ room.name }}
 {% endblock %}
 {% block content %}
