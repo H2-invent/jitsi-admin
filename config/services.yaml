@@ -35,7 +35,7 @@ parameters:
     laf_showNameFrontend: '%env(laf_showNameFrontend)%'
     laf_roomsMoreOptionsCollapsed: '%env(laf_roomsMoreOptionsCollapsed)%'
     laf_lobby_ReKnockTime: '%env(laf_lobby_ReKnockTime)%'
-    laf_lobby_popUpDuration:
+    laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'
     laf_icon_mapping_search: '%env(laf_icon_mapping_search)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'

@@ -80,6 +80,39 @@ class LobbyDirectSendTest extends KernelTestCase
         $directSend->sendRefresh('test/test/numberofUser', '/rooms/testMe #testId');
     }
 
+    public function testsendEndMeeting(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            self::assertEquals('{"type":"endMeeting","url":"\/room\/dashboard","timeout":5000}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendEndMeeting('test/test/numberofUser', '/room/dashboard',5000);
+    }
+
+    public function testsendEndMeetingDefault(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            self::assertEquals('{"type":"endMeeting","url":"\/room\/dashboard","timeout":1000}', $update->getData());
+            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $directSend->sendEndMeeting('test/test/numberofUser', '/room/dashboard');
+    }
 
     public function testsetSendnewCal(): void
     {
