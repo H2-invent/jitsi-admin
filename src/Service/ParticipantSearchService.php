@@ -69,7 +69,7 @@ class ParticipantSearchService
 
         foreach ($mapper as $key => $data) {//Iterie über alle Icon Mapper Symbole
             if (isset($user->getSpezialProperties()[$key]) && $user->getSpezialProperties()[$key]!== ''){//Wenn das Spezialfeld im  User vorhanden ist, und wenn dieses im User nicht leer ist
-                $res = '<i class="'.$data.'" title="'.$user->getSpezialProperties()[$key].'"></i> '.$res;//dann nehme das Symbol aus dem Mapper und setzte es vor den Resultstring.
+                $res = '<i class="'.$data.'" title="'.$user->getSpezialProperties()[$key].'" data-toggle="tooltip"></i> '.$res;//dann nehme das Symbol aus dem Mapper und setzte es vor den Resultstring.
             }
         }
         return $res;
