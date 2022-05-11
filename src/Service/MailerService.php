@@ -127,6 +127,9 @@ class MailerService
                 $message->addCc($data);
             }
         }
+        if ($rooms->getModerator()->getEmail() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true){
+            $message->returnPath($rooms->getModerator()->getEmail());
+        }
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {
