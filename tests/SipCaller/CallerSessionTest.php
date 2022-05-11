@@ -12,6 +12,7 @@ use App\Service\caller\CallerSessionService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerSessionTest extends KernelTestCase
 {
@@ -49,9 +50,19 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         // vorbereitung
-
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'NOT_STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
+        self::assertEquals(array(
+                'status' => 'WAITING',
+                'reason' => 'NOT_ACCEPTED',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'NOT_STARTED',
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
     }
 
 
@@ -80,7 +91,18 @@ class CallerSessionTest extends KernelTestCase
             ->setUpdatedAt(new \DateTime());
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'WAITING',
+                'reason' => 'NOT_ACCEPTED',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'STARTED',
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingStarted2Part(): void
@@ -116,7 +138,18 @@ class CallerSessionTest extends KernelTestCase
             ->setParticipantName('test 1234');
         $manager->persist($roomPart);
         $manager->flush();
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 1, 'status_of_meeting' => 'STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'WAITING',
+                'reason' => 'NOT_ACCEPTED',
+                'number_of_participants' => 1,
+                'status_of_meeting' => 'STARTED',
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingFinished(): void
@@ -146,8 +179,23 @@ class CallerSessionTest extends KernelTestCase
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'MEETING_HAS_FINISHED',
+                'links' => array(
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'WRONG_SESSION',
+
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
+
     }
 
     public function testWaitingStartedAndThenFinished(): void
@@ -174,13 +222,37 @@ class CallerSessionTest extends KernelTestCase
             ->setUpdatedAt(new \DateTime());
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'WAITING', 'reason' => 'NOT_ACCEPTED', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'WAITING',
+                'reason' => 'NOT_ACCEPTED',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'STARTED',
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
         $status->setDestroyedAt(new \DateTime())
             ->setDestroyed(true);
         $manager->persist($status);
         $manager->flush();
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'MEETING_HAS_FINISHED',
+                'links' => array(
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'WRONG_SESSION',
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingDeclined(): void
@@ -203,9 +275,20 @@ class CallerSessionTest extends KernelTestCase
         $manager->persist($session);
         $manager->flush();
         // vorbereitung
-
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'DECLINED'), $sessionService->getSessionStatus($session->getSessionId()));
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'WRONG_SESSION'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'DECLINED',
+                'links' => array(
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'WRONG_SESSION'
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testWaitingAccepted(): void
@@ -229,7 +312,19 @@ class CallerSessionTest extends KernelTestCase
         $session->setAuthOk(true);
         $manager->persist($session);
         $manager->flush();
-        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED', 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'ACCEPTED',
+                'reason' => 'ACCEPTED_BY_MODERATOR',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'STARTED',
+                'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testAccept(): void
@@ -252,7 +347,19 @@ class CallerSessionTest extends KernelTestCase
         $lobbywaitinguser = $lobbyWaitinguserRepo->findOneBy(array('room' => $room, 'user' => $session->getCaller()->getUser()));
         self::assertTrue($sessionService->acceptCallerUser($lobbywaitinguser));
         self::assertTrue($session->getAuthOk());
-        self::assertEquals(array('status' => 'ACCEPTED', 'reason' => 'ACCEPTED_BY_MODERATOR', 'number_of_participants' => 0, 'status_of_meeting' => 'STARTED', 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'ACCEPTED',
+                'reason' => 'ACCEPTED_BY_MODERATOR',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'STARTED',
+                'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
     }
 
     public function testVerifyFalse(): void
@@ -348,7 +455,15 @@ class CallerSessionTest extends KernelTestCase
         $session->setForceFinish(true);
         $manager->persist($session);
         $manager->flush();
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'MEETING_HAS_FINISHED',
+                'links' => array(
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
 
 
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -357,7 +472,15 @@ class CallerSessionTest extends KernelTestCase
         $session->setForceFinish(true);
         $manager->persist($session);
         $manager->flush();
-        self::assertEquals(array('status' => 'HANGUP', 'reason' => 'MEETING_HAS_FINISHED'), $sessionService->getSessionStatus($session->getSessionId()));
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        self::assertEquals(array(
+                'status' => 'HANGUP',
+                'reason' => 'MEETING_HAS_FINISHED',
+                'links' => array(
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
 
     }
 

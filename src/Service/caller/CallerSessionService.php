@@ -8,7 +8,9 @@ use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerSessionService
 {
@@ -17,14 +19,16 @@ class CallerSessionService
     private $loggger;
     private $toModerator;
     private $roomService;
+    private UrlGeneratorInterface $urlGen;
 
-    public function __construct(RoomService $roomService, ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
+    public function __construct(UrlGeneratorInterface $urlGenerator, RoomService $roomService, ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
         $this->roomStatus = $roomStatusFrontendService;
         $this->loggger = $logger;
         $this->toModerator = $toModeratorWebsocketService;
         $this->roomService = $roomService;
+        $this->urlGen = $urlGenerator;
     }
 
     public function getSessionStatus($sessionId)
@@ -35,7 +39,7 @@ class CallerSessionService
             $this->loggger->debug('No Session found', array('sessionId' => $sessionId));
             return array(
                 'status' => 'HANGUP',
-                'reason' => 'WRONG_SESSION'
+                'reason' => 'WRONG_SESSION',
             );
         }
         $participants = sizeof($this->roomStatus->numberOfOccupants($session->getCaller()->getRoom()));
@@ -48,7 +52,10 @@ class CallerSessionService
             $this->cleanUpSession($session);
             return array(
                 'status' => 'HANGUP',
-                'reason' => 'MEETING_HAS_FINISHED'
+                'reason' => 'MEETING_HAS_FINISHED',
+                'links' => array(
+                    'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
+                )
             );
         }
 
@@ -59,7 +66,11 @@ class CallerSessionService
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => $participants,
                 'status_of_meeting' => 'STARTED',
-                'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName())
+                'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+                'links' => array(
+                    'session' => $this->urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
+                )
             );
         }
 
@@ -70,6 +81,9 @@ class CallerSessionService
             return array(
                 'status' => 'HANGUP',
                 'reason' => 'DECLINED',
+                'links' => array(
+                    'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
+                )
             );
         }
 
@@ -80,7 +94,11 @@ class CallerSessionService
                 'status' => 'WAITING',
                 'reason' => 'NOT_ACCEPTED',
                 'number_of_participants' => $participants,
-                'status_of_meeting' => 'NOT_STARTED'
+                'status_of_meeting' => 'NOT_STARTED',
+                'links' => array(
+                    'session' => $this->urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
+                )
             );
         }
 
@@ -91,7 +109,11 @@ class CallerSessionService
                 'status' => 'WAITING',
                 'reason' => 'NOT_ACCEPTED',
                 'number_of_participants' => $participants,
-                'status_of_meeting' => 'STARTED'
+                'status_of_meeting' => 'STARTED',
+                'links' => array(
+                    'session' => $this->urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
+                )
             );
         }
 
@@ -101,7 +123,10 @@ class CallerSessionService
             $this->cleanUpSession($session);
             return array(
                 'status' => 'HANGUP',
-                'reason' => 'MEETING_HAS_FINISHED'
+                'reason' => 'MEETING_HAS_FINISHED',
+                'links' => array(
+                    'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
+                )
             );
         }
 
@@ -112,6 +137,9 @@ class CallerSessionService
         return array(
             'status' => 'HANGUP',
             'reason' => 'ERROR',
+            'links' => array(
+                'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
+            )
         );
     }
 
