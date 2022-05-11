@@ -48,12 +48,6 @@ services:
       - db-ja
       - keycloak-ja
       - mercure-ja
-    healthcheck:
-      test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
-      interval: 20s
-      timeout: 10s
-      start_period: 30s
-      retries: 10
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
