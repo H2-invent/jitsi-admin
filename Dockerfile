@@ -17,4 +17,5 @@ RUN chmod -R 777 var
 RUN chown -R www-data:www-data public/uploads/
 RUN chmod -R 775 public/uploads/
 RUN apt update
+HEALTHCHECK CMD curl --fail http://localhost:80/health/check || exit 1
 USER docker
