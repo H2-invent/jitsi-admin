@@ -110,11 +110,13 @@ class MailerService
         $message = (new \Swift_Message($betreff))
             ->setFrom(array($sender => $senderName))
             ->setTo($to)
-
             ->setBody(
                 $content
                 , 'text/html'
             );
+        if ($rooms->getModerator() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true ){
+           $message->setReturnPath($rooms->getModerator()->getEmail());
+        }
 
         if ($replyTo) {
             if (filter_var($replyTo, FILTER_VALIDATE_EMAIL) == true) {
