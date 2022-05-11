@@ -114,7 +114,7 @@ class MailerService
                 $content
                 , 'text/html'
             );
-        if ($rooms->getModerator() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true ){
+        if ($rooms && $rooms->getModerator() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true ){
            $message->setReturnPath($rooms->getModerator()->getEmail());
         }
 
