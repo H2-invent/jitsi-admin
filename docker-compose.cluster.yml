@@ -159,8 +159,7 @@ volumes:
 
 networks:
   default:
-    external:
-      name: gateway
+    name: gateway
 
   jitsi-admin:
     internal: true
