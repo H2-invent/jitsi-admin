@@ -44,6 +44,12 @@ services:
     <<: *jitsi_admin_app
     hostname: ${RANDOMTAG}app-ja
     restart: unless-stopped
+    healthcheck:
+      test: curl -f http://localhost:80/health/check || exit 1
+      interval: 10s
+      retries: 5
+      timeout: 10s
+      start_period: 30s
     depends_on:
       - db-ja
       - keycloak-ja
