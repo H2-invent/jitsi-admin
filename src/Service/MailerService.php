@@ -114,9 +114,12 @@ class MailerService
                 $content
                 , 'text/html'
             );
-        if ($rooms->getModerator() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true ){
-           $message->setReturnPath($rooms->getModerator()->getEmail());
+        if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') == 1){
+            if ($rooms && $rooms->getModerator() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true ){
+                $message->setReturnPath($rooms->getModerator()->getEmail());
+            }
         }
+
 
         if ($replyTo) {
             if (filter_var($replyTo, FILTER_VALIDATE_EMAIL) == true) {
