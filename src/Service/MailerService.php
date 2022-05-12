@@ -127,8 +127,10 @@ class MailerService
                 $message->addCc($data);
             }
         }
-        if ($rooms && $rooms->getModerator()->getEmail() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true){
-            $message->returnPath($rooms->getModerator()->getEmail());
+        if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') == 1) {
+            if ($rooms && $rooms->getModerator()->getEmail() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true) {
+                $message->returnPath($rooms->getModerator()->getEmail());
+            }
         }
         try {
             if ($server->getSmtpHost()) {

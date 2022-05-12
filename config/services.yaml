@@ -54,6 +54,7 @@ parameters:
     ldap_special_Fields: '%env(ldap_special_Fields)%'
     ldap_filter: '%env(ldap_filter)%'
     strict_username_only: '%env(strict_username_only)%'
+    STRICT_EMAIL_SET_ENVELOP_FROM: '%env(STRICT_EMAIL_SET_ENVELOP_FROM)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'
     input_settings_persistant_rooms: '%env(input_settings_persistant_rooms)%'
     input_settings_only_registered: '%env(input_settings_only_registered)%'
