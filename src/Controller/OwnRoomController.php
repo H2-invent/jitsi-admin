@@ -75,8 +75,8 @@ class OwnRoomController extends AbstractController
             $startMeetingService->setAttribute($rooms, $this->getUser(), $type, $data['name']);
 
             $url = $roomService->joinUrl($type, $rooms, $data['name'], $isModerator);
-            //der Raum hat eine Zeit und damit einen Startpunkt
-            if ($rooms->getStart()) {
+            //der Raum ist als dauerhaft markiert
+            if (!$rooms->getPersistantRoom()) {
                 //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
                 // Der teilnehmer muss in der Lobby von einem Lobbymoderator in die Konferenz überführt werden
                 if ($rooms->getLobby()) {
