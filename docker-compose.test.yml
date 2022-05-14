@@ -76,6 +76,7 @@ services:
       MAILER_DSN: ${MAILER_DSN}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+      VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"

@@ -25,7 +25,7 @@ vich_uploader:
         profile:
             inject_on_load: true
             #uri_prefix: "%env(AWS_BASE_URL)%/%env(AWS_BUCKET_NAME)%/profile"
-            uri_prefix: "%env(laF_baseUrl)%/uploads/images"
+            uri_prefix: "%env(VICH_BASE)%/uploads/images"
             upload_destination: document_fs
             delete_on_update: true
             delete_on_remove: true

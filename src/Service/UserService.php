@@ -33,7 +33,8 @@ class UserService
     private $userEditService;
     private $userRemoveService;
     private $callerUserService;
-    public function __construct(CallerPrepareService $callerPrepareService, UserServiceRemoveRoom $userServiceRemoveRoom, UserServiceEditRoom $userEditService, UserNewRoomAddService $userNewRoomAddService, LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    private $createHttpsUrl;
+    public function __construct(CreateHttpsUrl $createHttpsUrl, CallerPrepareService $callerPrepareService, UserServiceRemoveRoom $userServiceRemoveRoom, UserServiceEditRoom $userEditService, UserNewRoomAddService $userNewRoomAddService, LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
@@ -48,13 +49,14 @@ class UserService
         $this->userEditService = $userEditService;
         $this->userRemoveService = $userServiceRemoveRoom;
         $this->callerUserService = $callerPrepareService;
+        $this->createHttpsUrl = $createHttpsUrl;
     }
 
     function generateUrl(Rooms $room, User $user)
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->parameterBag->get('laF_baseUrl') . $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]);
+        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]));
         return $url;
     }
 

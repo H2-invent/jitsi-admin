@@ -4,17 +4,19 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use Aws\Acm\AcmClient;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\HttpClient\HttpClient;
 
 class FavoriteService
 {
     private $em;
-    private $client;
-    public function __construct(HttpClientInterface $client, EntityManagerInterface $entityManager)
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
-        $this->client = $client;
+
     }
 
     public function changeFavorite(User $user, Rooms $room)
@@ -43,12 +45,13 @@ class FavoriteService
         $this->em->persist($user);
         $this->em->flush();
     }
+
     public function sendMe(){
         try {
-            $response = $this->client->request('GET', 'https://...', [
-                // 0 means to not follow any redirect
-                'max_redirects' => 0,
-            ]);
+            $browser = new HttpBrowser(HttpClient::create());
+            $browser->followMetaRefresh(true);
+            $link = $browser->request('GET', 'https://h2-invent.github.io/jitsi-admin/');
+            $res = $link->text();
         }catch (\Exception $exception){
         }
     }
