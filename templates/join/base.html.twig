@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-{% set theme =  getThemeProperties() %}
+{% set theme =  getThemeProperties()  %}
 {% set css = 'join' %}
 {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
     {% set css = 'joinBlack' %}

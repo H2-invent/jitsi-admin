@@ -10,6 +10,8 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -20,20 +22,22 @@ class ThemeService
     private $parameterBag;
     private $client;
     private $logger;
-
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
+    private RequestStack $request;
+    public function __construct(RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
     {
         $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;
         $this->client = $httpClient;
         $this->logger = $logger;
+        $this->request = $request;
     }
 
     public function getTheme()
     {
+        $url = $this->request->getCurrentRequest()->getHost();
         try {
             $finder = new Finder();
-            $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('theme.json.signed');
+            $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url.'.'.'theme.json.signed');
             if ($finder->count() > 0) {
                 $arr = iterator_to_array($finder);
                 $theme = reset($arr)->getContents();
@@ -50,28 +54,6 @@ class ThemeService
             }
         } catch (\Exception $exception) {
 
-        }
-
-
-        if ($this->parameterBag->get('enterprise_theme_url') != '') {
-            $cache = new FilesystemAdapter();
-            if ($_ENV["APP_ENV"] === 'dev') {
-                $cache->delete('theme');
-            }
-
-            $value = $cache->get('theme', function (ItemInterface $item) {
-                $item->expiresAfter(21600);
-
-
-                $response = $this->client->request('GET', $this->parameterBag->get('enterprise_theme_url'))->getContent();
-                $valid = $this->licenseService->verifySignature($response);
-                if ($valid) {
-                    return $this->licenseService->verifyValidUntil($response);
-                } else {
-                    return false;
-                }
-            });
-            return $value;
         }
         return false;
     }

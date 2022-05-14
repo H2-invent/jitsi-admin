@@ -1,4 +1,4 @@
-{% set theme =  getThemeProperties() %}
+{% set theme =  getThemeProperties()  %}
 {% for r in persistantRooms %}
     {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
 {% endfor %}

@@ -75,7 +75,6 @@ class DashboardController extends JitsiAdminController
         if ($request->get('join_room') && $request->get('type')) {
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
         }
-
         $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
         $r = array();
         $future = array();

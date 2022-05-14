@@ -16,5 +16,4 @@ RUN chown -R www-data:www-data var
 RUN chmod -R 777 var
 RUN chown -R www-data:www-data public/uploads/
 RUN chmod -R 775 public/uploads/
-
 USER docker

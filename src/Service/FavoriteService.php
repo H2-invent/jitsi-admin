@@ -5,13 +5,16 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class FavoriteService
 {
     private $em;
-    public function __construct(EntityManagerInterface $entityManager)
+    private $client;
+    public function __construct(HttpClientInterface $client, EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
+        $this->client = $client;
     }
 
     public function changeFavorite(User $user, Rooms $room)
@@ -39,5 +42,14 @@ class FavoriteService
         }
         $this->em->persist($user);
         $this->em->flush();
+    }
+    public function sendMe(){
+        try {
+            $response = $this->client->request('GET', 'https://...', [
+                // 0 means to not follow any redirect
+                'max_redirects' => 0,
+            ]);
+        }catch (\Exception $exception){
+        }
     }
 }

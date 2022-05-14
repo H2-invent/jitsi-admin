@@ -1613,7 +1613,7 @@
         <target>Geplant von</target>
       </trans-unit>
       <trans-unit id="E1XUXFS" resname="new.room.blockSave.text">
-        <source>Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</source>
+        <source>new.room.blockSave.text</source>
         <target>Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
       </trans-unit>
     </body>
