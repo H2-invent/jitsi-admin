@@ -20,5 +20,6 @@ class HTTPSMaker extends KernelTestCase
         self::assertEquals('https://localhost:8000/room/dashboard', $createHttpsUrl->generateAbsolutUrl('http://localhost:8000','/room/dashboard'));
         self::assertEquals('http://localhost:8000/room/dashboard', $createHttpsUrl->createHttpsUrl($urlGen->generate('dashboard')));
         self::assertEquals('https://localhost:8000/room/dashboard', $createHttpsUrl->generateAbsolutUrl('http://localhost:8000',$urlGen->generate('dashboard')));
+        self::assertEquals('https://localhost:8000/room/dashboard', $createHttpsUrl->generateAbsolutUrl('https://localhost:8000',$urlGen->generate('dashboard')));
     }
 }

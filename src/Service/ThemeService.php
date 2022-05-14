@@ -34,8 +34,12 @@ class ThemeService
 
     public function getTheme()
     {
+        if (!$this->request->getCurrentRequest()){
+            return false;
+        }
         $url = $this->request->getCurrentRequest()->getHost();
         try {
+
             $finder = new Finder();
             $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url.'.'.'theme.json.signed');
             if ($finder->count() > 0) {
