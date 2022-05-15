@@ -113,6 +113,7 @@ services:
         class: DPolac\TwigLambda\LambdaExtension
         tags: [ { name: twig.extension } ]
 
+
     ct_file_store.s3:
         class: Aws\S3\S3Client
         factory: [Aws\S3\S3Client, 'factory']

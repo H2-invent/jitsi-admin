@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use H2Entwicklung\Signature\CheckSignature;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -23,13 +24,15 @@ class ThemeService
     private $client;
     private $logger;
     private RequestStack $request;
-    public function __construct(RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
+    private CheckSignature $checkSignature;
+    public function __construct(CheckSignature $checkSignature, RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
     {
         $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;
         $this->client = $httpClient;
         $this->logger = $logger;
         $this->request = $request;
+        $this->checkSignature = $checkSignature;
     }
 
     public function getTheme()
@@ -45,9 +48,9 @@ class ThemeService
             if ($finder->count() > 0) {
                 $arr = iterator_to_array($finder);
                 $theme = reset($arr)->getContents();
-                $valid = $this->licenseService->verifySignature($theme);
+                $valid = $this->checkSignature->verifySignature($theme);
                 if ($valid){
-                    $res = $this->licenseService->verifyValidUntil($theme);
+                    $res = $this->checkSignature->verifyValidUntil($theme);
                     if ($res !== false) {
                         return $res;
                     }

@@ -16,6 +16,7 @@
     "eluceo/ical": "^2",
     "erusev/parsedown": "^1.7",
     "gjuric/i18n-routing-bundle": "^3.1",
+    "h2entwicklung/sign-checker": "^0.1.0",
     "knplabs/knp-gaufrette-bundle": "^0.7.1",
     "knpuniversity/oauth2-client-bundle": "^2.5",
     "laminas/laminas-code": "^3.4",

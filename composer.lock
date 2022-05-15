@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "458fdea9c73dc4d3731f3e0b8f74a99f",
+    "content-hash": "dce9e20d74d046b68f9a0d257de838cc",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2483,6 +2483,51 @@
                 }
             ],
             "time": "2022-03-20T21:55:58+00:00"
+        },
+        {
+            "name": "h2entwicklung/sign-checker",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/h2Entwicklung/sign-checker.git",
+                "reference": "c5fcf636d1af0033b036fafff4ba9ee5426cecfd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/h2Entwicklung/sign-checker/zipball/c5fcf636d1af0033b036fafff4ba9ee5426cecfd",
+                "reference": "c5fcf636d1af0033b036fafff4ba9ee5426cecfd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "php": "^7.4 || ^8.0|| ^8.1",
+                "symfony/config": "^4.4 || ^5.3 || ^6.0",
+                "symfony/dependency-injection": "^4.4 || ^5.3 || ^6.0",
+                "symfony/http-kernel": "^4.4 || ^5.3 || ^6.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "H2Entwicklung\\Signature\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "H2 Entwicklung",
+                    "email": "entwicklung@h2-invent.com"
+                }
+            ],
+            "description": "Verifies",
+            "support": {
+                "issues": "https://github.com/h2Entwicklung/sign-checker/issues",
+                "source": "https://github.com/h2Entwicklung/sign-checker/tree/0.1.0"
+            },
+            "time": "2022-05-15T10:51:03+00:00"
         },
         {
             "name": "imagine/imagine",
