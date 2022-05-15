@@ -73,6 +73,9 @@ class ServerUserManagment
         try {
             if ($this->themeService->getTheme()) {
                 $sTmp = $this->themeService->getTheme()['showServer'];
+                if (sizeof($sTmp) === 0){
+                    return $servers;
+                }
                 foreach ($user->getServers() as $data) {
                     if (!in_array($data->getId(), $sTmp))
                         $sTmp[] = $data->getId();
@@ -84,7 +87,7 @@ class ServerUserManagment
                     }
 
                 }
-                return $serTmp;
+                $servers = $serTmp;
             }
         }catch (\Exception $exception){}
 
