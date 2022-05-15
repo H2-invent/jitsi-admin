@@ -2486,16 +2486,16 @@
         },
         {
             "name": "h2entwicklung/sign-checker",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/h2Entwicklung/sign-checker.git",
-                "reference": "c5fcf636d1af0033b036fafff4ba9ee5426cecfd"
+                "reference": "89fe1b344bb9b62494aeebf0c8ea673fb2ff8ff0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/h2Entwicklung/sign-checker/zipball/c5fcf636d1af0033b036fafff4ba9ee5426cecfd",
-                "reference": "c5fcf636d1af0033b036fafff4ba9ee5426cecfd",
+                "url": "https://api.github.com/repos/h2Entwicklung/sign-checker/zipball/89fe1b344bb9b62494aeebf0c8ea673fb2ff8ff0",
+                "reference": "89fe1b344bb9b62494aeebf0c8ea673fb2ff8ff0",
                 "shasum": ""
             },
             "require": {
@@ -2525,9 +2525,9 @@
             "description": "Verifies",
             "support": {
                 "issues": "https://github.com/h2Entwicklung/sign-checker/issues",
-                "source": "https://github.com/h2Entwicklung/sign-checker/tree/0.1.0"
+                "source": "https://github.com/h2Entwicklung/sign-checker/tree/0.1.1"
             },
-            "time": "2022-05-15T10:51:03+00:00"
+            "time": "2022-05-15T16:37:18+00:00"
         },
         {
             "name": "imagine/imagine",
