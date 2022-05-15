@@ -16,11 +16,13 @@ class ServerUserManagment
 
     private $em;
     private $parameter;
+    private ThemeService $themeService;
 
-    public function __construct(ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
+    public function __construct(ThemeService $themeService, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
     {
         $this->parameter = $parameterBag;
         $this->em = $entityManager;
+        $this->themeService = $themeService;
     }
 
     /**
@@ -51,13 +53,13 @@ class ServerUserManagment
         }
         try {
             $domain = explode('@', $user->getEmail())[1];
-            $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' =>$domain ));
+            $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' => $domain));
             foreach ($tmpE as $data2) {
                 if (!in_array($data2->getServer(), $servers)) {
                     $servers[] = $data2->getServer();
                 }
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
         }
 
@@ -68,6 +70,26 @@ class ServerUserManagment
             $servers[] = $default;
         }
 
+        try {
+            if ($this->themeService->getTheme()) {
+                $sTmp = $this->themeService->getTheme()['showServer'];
+                foreach ($user->getServers() as $data) {
+                    if (!in_array($data->getId(), $sTmp))
+                        $sTmp[] = $data->getId();
+                }
+                $serTmp = array();
+                foreach ($servers as $data) {
+                    if (in_array($data->getId(), $sTmp)) {
+                        $serTmp[] = $data;
+                    }
+
+                }
+                return $serTmp;
+            }
+        }catch (\Exception $exception){}
+
         return $servers;
+
     }
+
 }
