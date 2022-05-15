@@ -48,16 +48,6 @@ class LicenseService
         $data = json_decode($license->getLicense(), true);
         $signature = $data['signature'];
         $licenseString = $data['entry'];
-        try {
-            $res = openssl_verify(json_encode($licenseString), hex2bin($signature), file_get_contents($this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'key.pub'), OPENSSL_ALGO_SHA256);
-            if ($res != 1) {
-
-                return false;
-            }
-        } catch (\Exception $e) {
-
-            return false;
-        }
         if (new \DateTime($licenseString['valid_until']) < new \DateTime()) {
 
             return false;
