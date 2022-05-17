@@ -69,7 +69,7 @@ function initJitsiMeet(data) {
     options.device = choosenId;
     options.parentNode = document.querySelector( data.options.parentNode);
     const api = new JitsiMeetExternalAPI(data.options.domain, options);
-    $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', '100vh');
+    $(data.options.parentNode).prependTo('body').css('height', '100vh').find('iframe').css('height', 'inherit');
     $('#window').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName

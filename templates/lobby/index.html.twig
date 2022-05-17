@@ -91,23 +91,23 @@
                     </div>
                     <div class="lobbyButtons">
                         {% if type == 'a' %}
-                            <a class="btn btn-primary d-none d-lg-block "
+                            <a class="btn btn-primary d-none d-lg-block start-btn"
                             href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
                             target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                         {% elseif type == 'b' %}
                             {% if room.server.corsHeader %}
-                                <a class="btn btn-primary d-block d-lg-block"
+                                <a class="btn btn-primary d-block d-lg-block start-btn"
                                    href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                    target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                                 {% else %}
-                                    <a class="btn btn-primary btn-rounded startIframe d-none d-lg-block "
+                                    <a class="btn btn-primary btn-rounded startIframe d-none d-lg-block start-btn"
                                        href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                        target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                                 {% endif %}
                         {% endif %}
 
 
-                        <a class="btn btn-primary d-block d-lg-none"
+                        <a class="btn btn-primary d-block d-lg-none start-btn"
                            href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                            target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
 
