@@ -336,7 +336,6 @@ class CallerControllerTest extends WebTestCase
                 'status' => "HANGUP",
                 "reason" => "DECLINED",
                 'links' => array(
-                    'left' => $leafLink,
                 )
             )
             , json_decode($client->getResponse()->getContent(), true));

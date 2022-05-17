@@ -280,7 +280,6 @@ class CallerSessionTest extends KernelTestCase
                 'status' => 'HANGUP',
                 'reason' => 'DECLINED',
                 'links' => array(
-                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
                 )
             )
             , $sessionService->getSessionStatus($session->getSessionId()));

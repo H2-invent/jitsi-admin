@@ -39,9 +39,9 @@ class CallerSessionService
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId' => $sessionId));
         if (!$session) {
             $this->loggger->debug('No Session found', array('sessionId' => $sessionId));
-            try {
+            if ($this->requestStack->getCurrentRequest()){
                 $this->loggger->emergency('Wrong Session-ID', array('sessionId' => $sessionId,'ip'=>$this->requestStack->getCurrentRequest()->getClientIp()));
-            }catch (\Exception $exception){
+            }else{
                 $this->loggger->debug('We are in a Test');
             }
             return array(
