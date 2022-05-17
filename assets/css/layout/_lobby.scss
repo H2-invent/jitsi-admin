@@ -71,6 +71,11 @@
 
 
 #jitsiWindow {
+  height: inherit;
+  overflow: hidden;
+}
+
+#jitsiWrapper.inMeeting {
   position: absolute;
   top: 0;
   left: 0;
@@ -204,9 +209,11 @@
 .blackMode.joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, black);
 }
+
 .joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, white);
 }
+
 .lobbyCard {
   .dropdown-toggle {
     display: flex;

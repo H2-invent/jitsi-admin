@@ -59,9 +59,9 @@ $('.startIframe').click(function (e) {
 
 function moveWrapper() {
     stopWebcam();
-    $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').css('height', 'inherit');
+    $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').addClass('inMeeting');
+
     $('#snackbar').appendTo('body');
-    $('#jitsiWindow').css('height', '100vh');
     $('#mainContent').remove();
     $('.imageBackground').remove();
     $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby ( <span id="lobbyCounter">'+$('.waitingUserCard').length+'</span> )</div>');
@@ -70,7 +70,7 @@ function moveWrapper() {
     window.addEventListener('resize', function () {
         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     });
-
+    $('.start-btn').remove();
 }
 
 initCircle();
