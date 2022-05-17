@@ -10,6 +10,7 @@ use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerSessionService
@@ -20,8 +21,8 @@ class CallerSessionService
     private $toModerator;
     private $roomService;
     private UrlGeneratorInterface $urlGen;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator, RoomService $roomService, ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
+    private RequestStack $requestStack;
+    public function __construct(RequestStack $requestStack, UrlGeneratorInterface $urlGenerator, RoomService $roomService, ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
         $this->roomStatus = $roomStatusFrontendService;
@@ -29,6 +30,7 @@ class CallerSessionService
         $this->toModerator = $toModeratorWebsocketService;
         $this->roomService = $roomService;
         $this->urlGen = $urlGenerator;
+        $this->requestStack = $requestStack;
     }
 
     public function getSessionStatus($sessionId)
@@ -37,6 +39,11 @@ class CallerSessionService
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId' => $sessionId));
         if (!$session) {
             $this->loggger->debug('No Session found', array('sessionId' => $sessionId));
+            try {
+                $this->loggger->emergency('Wrong Session-ID', array('sessionId' => $sessionId,'ip'=>$this->requestStack->getCurrentRequest()->getClientIp()));
+            }catch (\Exception $exception){
+                $this->loggger->debug('We are in a Test');
+            }
             return array(
                 'status' => 'HANGUP',
                 'reason' => 'WRONG_SESSION',
@@ -82,7 +89,6 @@ class CallerSessionService
                 'status' => 'HANGUP',
                 'reason' => 'DECLINED',
                 'links' => array(
-                    'left' => $this->urlGen->generate('caller_left', array('session_id' => $session->getSessionId()))
                 )
             );
         }
