@@ -2,6 +2,12 @@
 <html>
 <head>
     <title>{{ room.name }}</title>
+    {% set theme =  getThemeProperties() %}
+    {% if theme %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{ theme.icon }}">
+    {% else %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {{ encore_entry_link_tags('app') }}
 </head>
@@ -10,7 +16,7 @@
     <p class="badge badge-danger d-block floating-tag" id="tagContent"
        style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
 {% endif %}
-<div class="w-100" id="jitsiWindow" style="height: 500px; overflow: hidden">
+<div class="w-100" id="jitsiWindow" style="height: 100vh; overflow: hidden;position: absolute; width: 100%; top: 0; left: 0;">
 
 </div>
 </body>
@@ -33,6 +39,7 @@
             height: 700,
             configOverwrite: {
                 disableDeepLinking: true,
+                prejoinPageEnabled: false
 
             },
             interfaceConfigOverwrite: {
@@ -55,7 +62,6 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
         api = new JitsiMeetExternalAPI(domain, options);
-        document.getElementById('jitsiWindow').style.height=window.innerHeight+"px";
 
         api.addListener('videoConferenceJoined', function (e) {
             if(setTileview === 1){
@@ -70,15 +76,6 @@
         })
         var iframe = document.querySelector('#jitsiConferenceFrame0');
         iframe.style.height = 'inherit';
-
-        document.getElementById('jitsiWindow').style.height = window.innerHeight + "px";
-        window.onresize = function () {
-            document.getElementById('jitsiWindow').style.height = window.innerHeight + "px";
-        }
-
-        document.getElementById("iframe").addEventListener("click", function () {
-            api.executeCommand('toggleFilmStrip');
-        });
     </script>
 
 {% endif %}
