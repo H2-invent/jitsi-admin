@@ -28,13 +28,26 @@ initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+let es;
 
-const es = new EventSource([topic]);
-es.onmessage = e => {
-    var data = JSON.parse(e.data)
-    masterNotify(data);
-    if (data.type === 'endMeeting'){
-        hangup();
+function initMercure(){
+    connectES();
+    setInterval(function () {
+        console.log(es.readyState);
+        if (es.readyState === 2) {
+            connectES();
+        }
+    },5000);
+}
+
+function connectES() {
+    es = new EventSource([topic]);
+    es.onmessage = e => {
+        var data = JSON.parse(e.data)
+        masterNotify(data);
+        if (data.type === 'endMeeting'){
+            hangup();
+        }
     }
 }
 
@@ -76,8 +89,10 @@ function moveWrapper() {
 }
 
 initCircle();
+
 $(document).ready(function () {
-    initGenerell()
+    initGenerell();
+    initMercure();
 })
 
 

@@ -20,22 +20,40 @@ initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
-const es = new EventSource(topic);
 var api;
 var dataSucess;
 var successTimer;
 var clickLeave = false;
-es.onmessage = e => {
-    var data = JSON.parse(e.data)
-    masterNotify(data);
+let es;
 
-    if (data.type === 'newJitsi') {
-        userAccepted(data);
-    } else if (data.type === 'endMeeting') {
-        hangup()
-        $('#jitsiWindow').remove();
+function initMercure(){
+    connectES();
+    setInterval(function () {
+        console.log(es.readyState);
+        if (es.readyState === 2) {
+            connectES();
+        }
+    },5000);
+}
+
+function connectES() {
+    es = new EventSource([topic]);
+    es.onmessage = e => {
+        var data = JSON.parse(e.data)
+        masterNotify(data);
+
+        if (data.type === 'newJitsi') {
+            userAccepted(data);
+        } else if (data.type === 'endMeeting') {
+            hangup()
+            $('#jitsiWindow').remove();
+        }
     }
 }
+
+
+
+
 window.addEventListener('beforeunload', function (e) {
     if (!clickLeave){
         closeBrowser();
@@ -168,6 +186,7 @@ $(document).ready(function () {
     initGenerell()
     initAUdio();
     initWebcam();
+    initMercure();
 })
 
 
