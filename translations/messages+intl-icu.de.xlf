@@ -1617,8 +1617,8 @@
         <target>Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
       </trans-unit>
       <trans-unit id="K_dllFy" resname="status.inconference.number">
-        <source>%number%</source>
-        <target>%number%</target>
+        <source>{number}</source>
+        <target>{number}</target>
       </trans-unit>
     </body>
   </file>

@@ -7,7 +7,7 @@
     {% if RoomStatusOpen(room) == true %}
         <div class="occupant">
             <div class="number">
-                {% trans with {'%number%':RoomStatusOccupats(room)} %}status.inconference.number{% endtrans %}
+                {{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)}) }}
             </div>
             <div class="text">
                 {{ 'status.inconference'|trans }}
