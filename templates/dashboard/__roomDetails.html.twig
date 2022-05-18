@@ -1,12 +1,13 @@
 <div class="col-md-2">
     {% if room.tag is not null %}
-        <span class="badge badge-danger d-block mb-2" style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}" >{{ room.tag.title }}</span>
+        <span class="badge badge-danger d-block mb-2"
+              style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</span>
     {% endif %}
 
     {% if RoomStatusOpen(room) == true %}
         <div class="occupant">
             <div class="number">
-                {{ RoomStatusOccupats(room) }}
+                {% trans with {'%number%':RoomStatusOccupats(room)} %}status.inconference.number{% endtrans %}
             </div>
             <div class="text">
                 {{ 'status.inconference'|trans }}
@@ -21,14 +22,16 @@
             </div>
         </div>
     {% endif %}
-    {% if not (room.scheduleMeeting or room.persistantRoom)  %}
-    <h5 class="h5-responsive">{{ room.startwithTimeZone(app.user)|date('H:i',false) }} – {{ room.endwithTimeZone(app.user)|date('H:i',false) }}</h5>
+    {% if not (room.scheduleMeeting or room.persistantRoom) %}
+        <h5 class="h5-responsive">{{ room.startwithTimeZone(app.user)|date('H:i',false) }}
+            – {{ room.endwithTimeZone(app.user)|date('H:i',false) }}</h5>
         {% if allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
-       <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
+            <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
         {% endif %}
     {% endif %}
     {% if app.user == room.moderator %}
-        <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ 'Organisator'|trans }}</span><br>
+        <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ 'Organisator'|trans }}</span>
+        <br>
     {% endif %}
 
 
@@ -46,25 +49,33 @@
         <br>
     {% endif %}
     {% if app.user == room.onlyRegisteredUsers %}
-        <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeInternal }} !important;" {% endif %}>{{ 'Intern'|trans }}</span><br>
+        <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeInternal }} !important;" {% endif %}>{{ 'Intern'|trans }}</span>
+        <br>
     {% endif %}
 
     {% if room.repeater is not null %}
-        <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeSeries }} !important;" {% endif %}>{{ 'Serie'|trans }}</span><br>
+        <span class="badge badge-warning" {% if theme %} style="background-color: {{ theme.colorBadgeSeries }} !important;" {% endif %}>{{ 'Serie'|trans }}</span>
+        <br>
     {% endif %}
 
 </div>
 <div class="col-md-4">
     <h5 class="h5-responsive">
 
-        {{ room.name }} <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a> <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-html="true"
-                                                 title="{{ 'Agenda'|trans }}"
-                                                 data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|nl2br|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
+        {{ room.name }} <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i
+                    class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a> <a tabindex="0"
+                                                                                                          data-mdb-toggle="popover"
+                                                                                                          data-mdb-trigger="focus"
+                                                                                                          data-mdb-html="true"
+                                                                                                          title="{{ 'Agenda'|trans }}"
+                                                                                                          data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|nl2br|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
                     class="fa fa-info-circle"></i></a></h5>
     <p class="text-black-50 small">
         {{ 'Geplant von'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
         {{ 'Server'|trans }}: {{ room.server.serverName }}<br>
-        {{ 'Anzahl Teilnehmer'|trans }}: {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans%}{% else %}{{ room.user|length }}{% endif %}<br>
+        {{ 'Anzahl Teilnehmer'|trans }}
+        : {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans %}{% else %}{{ room.user|length }}{% endif %}
+        <br>
         {% if  allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
             {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}
         {% endif %}

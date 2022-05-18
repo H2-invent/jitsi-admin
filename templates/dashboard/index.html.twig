@@ -4,7 +4,7 @@
 
 {% endblock %}
  {% block sidebar %}
-     <div id="favorite-Container">
+     <div id="favorite-Container" class="mb-3">
          <h5 class="text-center">{{ 'favorite.sidebar.title'|trans }}</h5>
          <hr>
          {% if favorite|length > 0 %}
@@ -23,7 +23,7 @@
          {% endif %}
 
      </div>
-     <p class="text-center"><small>{{ 'common.loadingTime'|trans }}: {{ time/1000 }}s</small></p>
+
  {% endblock %}
 
 {% block body %}
