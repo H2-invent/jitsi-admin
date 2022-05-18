@@ -1590,7 +1590,7 @@
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
         <source>lobby.verified</source>
-        <target>Verifizierter Teilnehmer</target>
+        <target>Verifizierter Anrufer</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
         <source>lobby.participant.enterNow</source>
