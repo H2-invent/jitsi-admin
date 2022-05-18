@@ -29,7 +29,6 @@ let es;
 function initMercure(){
     connectES();
     setInterval(function () {
-        console.log(es.readyState);
         if (es.readyState === 2) {
             connectES();
         }

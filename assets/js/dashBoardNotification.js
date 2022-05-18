@@ -12,7 +12,6 @@ function initDashboardnotification(lTopic) {
         stopCallerPlay();
     })
     setInterval(function () {
-        console.log(es.readyState);
         if (es.readyState === 2) {
             connectES();
         }
