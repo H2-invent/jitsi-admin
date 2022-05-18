@@ -24,7 +24,7 @@
 
                 <div class="occupant">
                     <div class="number">
-                        <small>  {{ RoomStatusOccupats(room) }}</small>
+                        <small>{{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)}) }}</small>
                     </div>
                     <div class="text">
                     <small>{{ 'status.inconference'|trans }}</small>
