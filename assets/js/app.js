@@ -154,6 +154,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 });
 
 function initNewModal(e){
+
     initScheduling();
     $('[data-mdb-toggle="popover"]').popover({html: true});
 
@@ -186,6 +187,9 @@ function initNewModal(e){
     initRepeater();
     initKeycloakGroups();
     initAddressGroupSearch();
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });
     if (document.getElementById("lineChart") !== null) {
         var ctx = document.getElementById("lineChart").getContext('2d');
         var myChart = new Chart(ctx, {

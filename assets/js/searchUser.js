@@ -3,6 +3,7 @@ import autosize from "autosize";
 import {Dropdown} from 'mdb-ui-kit'; // lib
 
 function initSearchUser() {
+
     if ($('#searchUser') !== null) {
 
         let trigger = document.getElementById('searchUserDropdownTrigger')
