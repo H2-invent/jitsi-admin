@@ -69,7 +69,7 @@
                                    href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                    target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                                 {% else %}
-                                    <a class="btn btn-primary btn-rounded startIframe d-none d-lg-block start-btn"
+                                    <a class="btn btn-primary  startIframe d-none d-lg-block start-btn"
                                        href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                        target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
                                 {% endif %}
@@ -81,9 +81,9 @@
                            target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
 
 
-                        <a class="btn btn-success btn-rounded directSend"
+                        <a class="btn btn-success  directSend"
                            href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                        <a class="btn btn-danger btn-rounded d-none" id="closeSecure"
+                        <a class="btn btn-danger  d-none" id="closeSecure"
                            href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
                     </div>
 
