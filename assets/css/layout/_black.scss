@@ -8,8 +8,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .navigation {
   background-color: $black_font-color;
-  i{
-    color: $black_background!important;
+
+  i {
+    color: $black_background !important;
 
   }
 }
@@ -56,11 +57,13 @@ p {
 
   .dropdown-item {
     color: $black_font-color;
+
     &[data-toggle="collapse"]:focus {
       color: white;
       text-decoration: none;
       background-color: inherit;
     }
+
     &:hover {
       color: $black_background;
     }
@@ -282,8 +285,9 @@ a {
 
 .footer {
   background-color: $black_navbar;
-  .nav-link{
-    color: $black_font-color!important;
+
+  .nav-link {
+    color: $black_font-color !important;
   }
 }
 
@@ -316,6 +320,42 @@ a {
 hr {
   border-top: 1px solid rgb(211, 211, 211);
 }
-.list-group-item{
+
+.list-group-item {
   color: $black_font-color;
+}
+
+
+.form-outline {
+  .form-control {
+    &:focus {
+      & ~ .form-label {
+        color: $black_font-color !important;
+      }
+
+      & ~ .form-notch {
+        .form-notch-leading {
+          border-color: $black_font-color !important ;
+          box-shadow: -1px 0 0 0 $black_font-color, 0 1px 0 0 $black_font-color, 0 -1px 0 0 $black_font-color !important;
+        }
+
+
+        .form-notch-middle {
+          border-color: $black_font-color !important;
+          box-shadow: 0 1px 0 0 $black_font-color !important;
+          border-top: 1px solid transparent !important;
+        }
+
+        .form-notch-trailing {
+          border-color: $black_font-color !important;
+          box-shadow: 1px 0 0 0 $black_font-color, 0 -1px 0 0 $black_font-color, 0 1px 0 0 $black_font-color !important;
+        }
+      }
+    }
+
+    & ~ .form-label {
+      color: $black_font-color ;
+    }
+  }
+
 }
