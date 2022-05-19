@@ -704,11 +704,12 @@ strong {
 }
 
 .floating-tag {
-  position: absolute;
+  display: flex;
+  align-content: center;
+  justify-content: center;
   z-index: 2;
-  top: 1em;
-  left: 1em;
-  padding: 1em;
+  padding: 0.1em;
+  margin: 0;
 }
 
 .form-outline {
