@@ -1589,15 +1589,15 @@
         <target>Ladezeit</target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
-        <source>lobby.verified</source>
+        <source>Verifizierter Anrufer</source>
         <target>Verifizierter Anrufer</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
-        <source>lobby.participant.enterNow</source>
+        <source>Jetzt beitreten</source>
         <target>Jetzt beitreten</target>
       </trans-unit>
       <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
-        <source>lobby.participant.pauseEnter</source>
+        <source>Noch nicht beitreten</source>
         <target>Noch nicht beitreten</target>
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
@@ -1605,7 +1605,7 @@
         <target>Ihre Eingabe wurde Erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="4wVQAJs" resname="room.new.help.tag">
-        <source>room.new.help.tag</source>
+        <source>Wählen Sie hier eine Kategorie für diese Konferenz aus.</source>
         <target>Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
       </trans-unit>
       <trans-unit id="YU._Rbu" resname="Geplant von">
