@@ -280,7 +280,8 @@ strong {
     justify-content: center;
     z-index: 5;
     list-style: none;
-    .nav-link{
+
+    .nav-link {
       color: black;
     }
   }
@@ -309,6 +310,7 @@ strong {
     overflow-y: hidden;
     position: relative;
     transition: width 0.5s;
+
     .sidebarContent {
       padding-top: 18px;
       width: 0;
@@ -335,6 +337,7 @@ strong {
     .card {
       margin-bottom: 8px;
     }
+
     &.showSidebar {
       width: 100vw;
       transition: width 0.5s;
@@ -456,6 +459,7 @@ strong {
 .btn-primary, .btn-primary.dropdown-toggle {
   background-color: $main-color !important;
   transition: background-color 0.3s ease-in;
+
   &:hover {
     background-color: $main-color-hover !important;
     transition: background-color 0.3s ease-in;
@@ -639,7 +643,7 @@ strong {
 
 }
 
-.btn , .btn-group{
+.btn, .btn-group {
   margin-top: 4px;
   margin-bottom: 4px;
   margin-right: 16px;
@@ -667,35 +671,72 @@ strong {
 [data-mdb-toggle="popover"] {
   cursor: pointer;
 }
-#participantUser{
+
+#participantUser {
   padding: 8px;
 }
+
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
 }
-@media only screen and (max-width: 576px){
-  .modal-dialog{
+
+@media only screen and (max-width: 576px) {
+  .modal-dialog {
     width: 100vw;
     max-width: none;
     margin: 0;
     height: 100%;
-    .modal-content{
+
+    .modal-content {
       height: 100%;
       border-radius: 0;
-      .modal-header{
+
+      .modal-header {
         border-radius: 0;
       }
     }
   }
 }
-.dropdown-toggle{
+
+.dropdown-toggle {
   cursor: pointer;
 }
-.floating-tag{
+
+.floating-tag {
   position: absolute;
   z-index: 2;
   top: 1em;
   left: 1em;
   padding: 1em;
+}
+
+.form-outline {
+  .form-control {
+    &:focus {
+     & ~ .form-label {
+        color: $main-color;
+      }
+
+      & ~ .form-notch {
+        .form-notch-leading {
+          border-color: $main-color;
+          box-shadow: -1px 0 0 0 $main-color, 0 1px 0 0 $main-color, 0 -1px 0 0 $main-color;
+        }
+
+
+        .form-notch-middle {
+          border-color: $main-color;
+          box-shadow: 0 1px 0 0 $main-color;
+          border-top: 1px solid transparent;
+        }
+
+        .form-notch-trailing {
+          border-color: $main-color;
+          box-shadow: 1px 0 0 0 $main-color, 0 -1px 0 0 $main-color, 0 1px 0 0 $main-color;
+        }
+      }
+
+    }
+  }
 }

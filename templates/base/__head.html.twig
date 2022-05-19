@@ -175,6 +175,24 @@
                 background-color: {{ theme.colorButton }};
 
             }
+
+            .form-outline .form-control:focus ~ .form-label {
+                color: {{ theme.colorButton }};
+            }
+            .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+                border-color: {{ theme.colorButton }};
+                box-shadow: -1px 0 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }}, 0 -1px 0 0 {{ theme.colorButton }};
+            }
+            .form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+                border-color: {{ theme.colorButton }};
+                box-shadow: 0 1px 0 0 {{ theme.colorButton }};
+                border-top: 1px solid transparent;
+            }
+            .form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+                border-color: {{ theme.colorButton }};
+                box-shadow: 1px 0 0 0 {{ theme.colorButton }}, 0 -1px 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }};
+            }
+
         </style>
 
     {% endif %}
