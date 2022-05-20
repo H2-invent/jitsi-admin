@@ -1577,12 +1577,48 @@
         <target state="needs-translation">Ad Hoc Meeting</target>
       </trans-unit>
       <trans-unit id="aHfJyUI" resname="addhock.notification.message">
-        <source><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></source>
+        <source>addhock.notification.message</source>
         <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
       </trans-unit>
       <trans-unit id="0Xa3S_6" resname="addhock.notification.pushMessage">
-        <source><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen]]></source>
-        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen]]></target>
+        <source>addhock.notification.pushMessage</source>
+        <target state="needs-translation">{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+      </trans-unit>
+      <trans-unit id="DhfQxTv" resname="common.loadingTime">
+        <source>common.loadingTime</source>
+        <target state="needs-translation">Ladezeit</target>
+      </trans-unit>
+      <trans-unit id="2PqxV1r" resname="lobby.verified">
+        <source>Verifizierter Anrufer</source>
+        <target state="needs-translation">Verifizierter Anrufer</target>
+      </trans-unit>
+      <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
+        <source>Jetzt beitreten</source>
+        <target state="needs-translation">Jetzt beitreten</target>
+      </trans-unit>
+      <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
+        <source>Noch nicht beitreten</source>
+        <target state="needs-translation">Noch nicht beitreten</target>
+      </trans-unit>
+      <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
+        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="4wVQAJs" resname="room.new.help.tag">
+        <source>Wählen Sie hier eine Kategorie für diese Konferenz aus.</source>
+        <target state="needs-translation">Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
+      </trans-unit>
+      <trans-unit id="YU._Rbu" resname="Geplant von">
+        <source>Geplant von</source>
+        <target state="needs-translation">Geplant von</target>
+      </trans-unit>
+      <trans-unit id="E1XUXFS" resname="new.room.blockSave.text">
+        <source>new.room.blockSave.text</source>
+        <target state="needs-translation">Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
+      </trans-unit>
+      <trans-unit id="K_dllFy" resname="status.inconference.number">
+        <source>{number}</source>
+        <target state="needs-translation">{number}</target>
       </trans-unit>
     </body>
   </file>
