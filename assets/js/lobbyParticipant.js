@@ -40,7 +40,6 @@ function connectES() {
     es.onmessage = e => {
         var data = JSON.parse(e.data)
         masterNotify(data);
-
         if (data.type === 'newJitsi') {
             userAccepted(data);
         } else if (data.type === 'endMeeting') {
@@ -102,12 +101,15 @@ $('.leave').click(function (e) {
 
 function initJitsiMeet(data) {
     stopWebcam();
-    $(data.options.parentNode).prependTo('body');
-    $('#tagContent').prependTo('body').addClass('floating-tag');
+    $('body').prepend('<div id="frame"></div>');
+    var frameDIv = $('#frame');
+
+    frameDIv.prepend($(data.options.parentNode));
+    frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
     $('#window').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName
-    $('body').append('<div id="snackbar" class="bg-success d-none"></div>')
+    frameDIv.append('<div id="snackbar" class="bg-success d-none"></div>')
 
     var options = data.options.options;
     options.device = choosenId;
@@ -137,7 +139,7 @@ function initJitsiMeet(data) {
 
     });
 
-    $(data.options.parentNode).css('height', '100vh').find('iframe').css('height', '100vh');
+    $(data.options.parentNode).find('iframe').css('height', '100%');
 
 
 }
@@ -148,7 +150,6 @@ function hangup() {
 
 function userAccepted(data) {
     dataSucess = data;
-    console.log('1.234')
     $('#renewParticipant').remove();
     $('#stopEntry').removeClass('d-none');
     text = $('#stopEntry').text();
@@ -159,20 +160,15 @@ function userAccepted(data) {
         if (counter <= 0) {
             $('#stopEntry').text(text);
             clearInterval(interval);
+            initJitsiMeet(dataSucess);
         }
     }, 1000);
-    successTimer = setTimeout(function () {
-        initJitsiMeet(dataSucess);
 
-
-    }, 10000)
 
     $('#stopEntry').click(function (e) {
-        if (successTimer) {
-            clearTimeout(successTimer);
+        if (interval) {
             clearInterval(interval);
-
-            successTimer = null;
+            interval = null;
             text = $(this).data('alternativ')
             $(this).text(text);
         } else {
