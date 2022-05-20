@@ -12,12 +12,12 @@
     {{ encore_entry_link_tags('app') }}
 </head>
 <body style="margin: 0">
-<div style="height: 100vh; overflow: hidden;position: absolute; width: 100%; top: 0; left: 0; display: flex; flex-direction: column">
+<div id="frame">
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
-    <div class="w-100" id="jitsiWindow"  style="flex-grow: 1">
+    <div class="w-100" id="jitsiWindow">
 
     </div>
 </div>
@@ -41,9 +41,7 @@
             width: '100%',
             height: 700,
             configOverwrite: {
-                disableDeepLinking: true,
                 prejoinPageEnabled: false
-
             },
             interfaceConfigOverwrite: {
                 MOBILE_APP_PROMO: false,

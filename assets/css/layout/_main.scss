@@ -706,16 +706,16 @@ strong {
 .floating-tag {
   display: flex;
   align-content: center;
-  justify-content: center;
+  justify-content: left;
   z-index: 2;
-  padding: 0.1em;
   margin: 0;
+  padding: 0.1em 1em 0.1em 1em;
 }
 
 .form-outline {
   .form-control {
     &:focus {
-     & ~ .form-label {
+      & ~ .form-label {
         color: $main-color;
       }
 
@@ -739,5 +739,19 @@ strong {
       }
 
     }
+  }
+}
+
+#frame {
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  #jitsiWindow{
+    flex-grow: 1;
   }
 }

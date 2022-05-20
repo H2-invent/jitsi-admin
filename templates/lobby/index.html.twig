@@ -48,7 +48,7 @@
                 </div>
                 <div class="col-lg-9 col-md-6" id="col-waitinglist">
                     <div id="waitingUserWrapper">
-                        <div id="waitingUser" class="row w-100 mb-3">
+                        <div id="waitingUser" class="row mb-3">
                             {% for wU in room.lobbyWaitungUsers %}
                                 {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
                             {% endfor %}
@@ -59,26 +59,26 @@
                     </div>
                     <div class="lobbyButtons">
                         {% if type == 'a' %}
-                            <a class="btn btn-primary d-none d-lg-block start-btn"
+                            <a class="btn btn-primary d-block start-btn"
                             href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                            target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                            target="_blank">
+                                <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                            </a>
                         {% elseif type == 'b' %}
                             {% if room.server.corsHeader %}
-                                <a class="btn btn-primary d-block d-lg-block start-btn"
+                                <a class="btn btn-primary d-block start-btn"
                                    href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                                   target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                                   target="_blank">
+                                    <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                </a>
                                 {% else %}
-                                    <a class="btn btn-primary  startIframe d-none d-lg-block start-btn"
+                                    <a class="btn btn-primary  startIframe d-block start-btn"
                                        href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                                       target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
+                                       target="_blank">
+                                        <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                    </a>
                                 {% endif %}
                         {% endif %}
-
-
-                        <a class="btn btn-primary d-block d-lg-none start-btn"
-                           href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                           target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
-
 
                         <a class="btn btn-success  directSend"
                            href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
@@ -108,12 +108,22 @@
                 roomName: '{{ room.uid }}',
                 width: '100%',
                 height: 700,
+                configOverwrite: {
+                    prejoinPageEnabled: false
+
+                },
+                interfaceConfigOverwrite: {
+                    MOBILE_APP_PROMO: false,
+                },
                 parentNode: document.querySelector('#jitsiWindow'),
                 {% if room.server.appId is not null %}
                 jwt: '{{ jwtFromRoom(user,room,name) }}',
                 {% endif %}
                 userInfo: {
                     displayName: '{{ name }}',
+                    {% if user is not null and  user.profilePicture is not null %}
+                    avatarUrl:'{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
+                    {% endif %}
                 }
             };
 

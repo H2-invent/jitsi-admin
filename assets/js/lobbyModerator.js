@@ -12,7 +12,7 @@ import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
-import {initAUdio, micId, audioId,echoOff} from './audioUtils'
+import {initAUdio, micId, audioId, echoOff} from './audioUtils'
 import {initJitsi, hangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
@@ -20,7 +20,7 @@ import {initGenerell} from './init';
 var jitsiApi;
 try {
     navigator.mediaDevices.getUserMedia({audio: true, video: true})
-}catch ($e){
+} catch ($e) {
     console.log($e)
 }
 
@@ -30,14 +30,14 @@ initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 let es;
 
-function initMercure(){
+function initMercure() {
     connectES();
     setInterval(function () {
 
         if (es.readyState === 2) {
             connectES();
         }
-    },5000);
+    }, 5000);
 }
 
 function connectES() {
@@ -45,7 +45,7 @@ function connectES() {
     es.onmessage = e => {
         var data = JSON.parse(e.data)
         masterNotify(data);
-        if (data.type === 'endMeeting'){
+        if (data.type === 'endMeeting') {
             hangup();
         }
     }
@@ -61,25 +61,29 @@ $('.startIframe').click(function (e) {
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
 
     moveWrapper();
-    options.devices={
+    options.devices = {
         audioInput: choosenId,
         audioOutput: audioId,
         videoInput: micId
     }
 
-    initJitsi(options,domain);
+    initJitsi(options, domain);
 
-    $('#jitsiWrapper').find('iframe').css('height', '100vh');
+    $('#jitsiWindow').find('iframe').css('height', '100%');
 })
 
 function moveWrapper() {
     stopWebcam();
-    $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').addClass('inMeeting');
-    $('#tagContent').prependTo('body').addClass('floating-tag')
-    $('#snackbar').appendTo('body');
+
+    $('body').prepend('<div id="frame"></div>');
+    var frameDIv = $('#frame');
+    frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
+    frameDIv.prepend($('#jitsiWrapper'));
+    frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'));
+    frameDIv.append($('#snackbar'))
     $('#mainContent').remove();
     $('.imageBackground').remove();
-    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby ( <span id="lobbyCounter">'+$('.waitingUserCard').length+'</span> )</div>');
+    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby ( <span id="lobbyCounter">' + $('.waitingUserCard').length + '</span> )</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     window.addEventListener('resize', function () {
