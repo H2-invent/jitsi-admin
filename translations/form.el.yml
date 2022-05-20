@@ -2,7 +2,7 @@
 label.konferenzId: Konferenz-ID
 label.email: E-Mail-Adresse
 label.name: Ihr Name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerEmailhinzufuegen: EMail-Adressen von neuen Teilnehmenden eingeben
 label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
@@ -96,7 +96,7 @@ label:
   apiKey: Api-Key für diesen Server
   agenda: Kurze Agenda für dieses Meeting (Markdown)
   staticBackgroundColor:
-  schowStaticBackgroundColor: Zeige eine feste Farbe, anstatt Bildern auf der Join-Seite
+  schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
   featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
@@ -131,6 +131,7 @@ label:
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
   corsHeader: CORS-Header oder frame-ancestor Header
+  tag: Kategorie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
