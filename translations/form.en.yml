@@ -1,9 +1,9 @@
 ---
-label.konferenzId: Konferenz-ID
-label.email: E-Mail-Adresse
-label.name: Ihr Name
-label.teilnehmerEmailhinzufuegen: EMail-Adressen von neuen Teilnehmenden eingeben
-label.teilnehmerSpeichern: E-Mail zur Einladung versenden
+label.konferenzId: Conference ID
+label.email: Email address
+label.name: Your name
+label.teilnehmerEmailhinzufuegen: Enter email addresses of new PARTICIPANTS
+label.teilnehmerSpeichern: Send invitation email
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
 label.organisatorhinzufuegen: Organisator hinzufügen
@@ -13,8 +13,8 @@ label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
 label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
 label.speichern: Speichern
-option.15min: 15 Minuten
-option.30min: 30 Minuten
+option.15min: 15 minutes
+option.30min: 30 minutes
 option.45min: 45 Minuten
 option.60min: 1 Stunde
 option.75min: 1:15 Stunden
