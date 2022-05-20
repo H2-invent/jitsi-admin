@@ -135,6 +135,24 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals(false, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
     }
 
+    public function testroomParticipantNoNameCorrectWorkflow(): void
+    {
+        $kernel = self::bootKernel();
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $webhookService = self::getContainer()->get(RoomWebhookService::class);
+        self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
+        $testJoin=self::$participantJoinedData;
+        unset($testJoin['occupant']['name']);
+        self::assertNull($webhookService->startWebhook($testJoin));
+        self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
+        self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));
+        $room = $roomRepo->findOneBy(array('uid' => '123456780'));
+        $roomStatus = $room->getRoomstatuses()[0];
+        self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
+        self::assertEquals(false, $roomStatus->getRoomStatusParticipants()[0]->getInRoom());
+    }
+
     public function testroomParticipantCorrectWorkflowTwoRoomsCreated(): void
     {
         $kernel = self::bootKernel();
