@@ -123,6 +123,12 @@ class LobbyToParticipantsTest extends KernelTestCase
                                 'userInfo' => array(
                                     'displayName' => "Test2 User2"
                                 ),
+                                'configOverwrite' => array(
+                                    'prejoinPageEnabled' => false
+                                ),
+                                'interfaceConfigOverwrite' => array(
+                                    'MOBILE_APP_PROMO' => false
+                                ),
                                 'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
                             ),
                             "roomName" => "This is a room with Lobby",

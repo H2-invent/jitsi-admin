@@ -154,7 +154,7 @@ class RoomWebhookService
             $roomPart->setEnteredRoomAt(\DateTime::createFromFormat('U', $data['occupant']['joined_at']))
                 ->setInRoom(true)
                 ->setParticipantId($data['occupant']['occupant_jid'])
-                ->setParticipantName($data['occupant']['name'])
+                ->setParticipantName($data['occupant']['name'] ?? 'No Data')
                 ->setRoomStatus($roomStatus);
             $this->em->persist($roomPart);
             $this->em->flush();
