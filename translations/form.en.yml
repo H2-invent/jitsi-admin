@@ -128,7 +128,7 @@ label:
   timezone: Timezone
   serverName: Server Name
   lobby: Activate lobby
-  secondEmail: CC-E-Mail
+  secondEmail: CC Email
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
   corsHeader: CORS-Header oder frame-ancestor Header
   tag: Category
