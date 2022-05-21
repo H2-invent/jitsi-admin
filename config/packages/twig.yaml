@@ -50,6 +50,7 @@ twig:
         dropdown_settings_shedule_delete: '%env(dropdown_settings_shedule_delete)%'
         dropdown_settings_shedule_edit: '%env(dropdown_settings_shedule_edit)%'
         dropdown_settings_shedule_mail_to_all: '%env(dropdown_settings_shedule_mail_to_all)%'
+        dropdown_settings_generate_report: '%env(dropdown_settings_generate_report)%'
         start_dropdown_allow_browser: '%env(start_dropdown_allow_browser)%'
         start_dropdown_allow_app: '%env(start_dropdown_allow_app)%'
         helpText: '%env(helpText)%'

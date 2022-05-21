@@ -1,0 +1,33 @@
+.reportTimeLine_room {
+
+  .reportTimeLine_time {
+
+    &:last-child {
+      .reportTimeLine_verticalLine {
+        border-radius: 0 0 2px 2px;
+      }
+    }
+
+    .reportTimeLine_part {
+      .onlineDot {
+        width: 8px;
+        height: 8px;
+        background-color: #00c851;
+        border-radius: 50000px;
+        margin-right: 4px;
+      }
+    }
+
+    .reportTimeLine_part_Content {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    .reportTimeLine_verticalLine {
+      width: 0;
+      border-right: $black_font-color 4px solid;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+  }
+}

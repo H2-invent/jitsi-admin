@@ -32,3 +32,10 @@
            href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">
             {{ 'Mail an die Teilnehmer'|trans }}</a></li>
 {% endif %}
+
+{% if dropdown_settings_generate_report == 1 %}
+    <li><a class="dropdown-item loadContent"
+           href="{{ path('app_report_create',{'id':room.id}) }}">
+            {{ 'report.dropdown.item'|trans }}</a>
+    </li>
+{% endif %}

@@ -1,0 +1,43 @@
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ title }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {% for status in room.roomstatuses %}
+            <div class="reportTimeLine_room">
+                <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAt|date('d.m.Y H:i:s') }}
+                {% for part in status.roomStatusParticipants %}
+                    <div class="reportTimeLine_time ">
+                        <div class="reportTimeLine_part d-flex ">
+                            <div class="reportTimeLine_verticalLine"></div>
+                            <div class="reportTimeLine_part_Content">
+                                <h6 class="d-flex align-items-center">
+                                    {% if part.inRoom %}
+                                        <div class="onlineDot"></div>
+                                    {% endif %}
+                                    {{ part.participantName }}</h6>
+
+
+                                <i class="fa-solid fa-arrow-right-to-bracket text-success"></i> {{ part.enteredRoomAt|date('d.m.Y | H:i:s') }}
+                                {% if part.inRoom %}
+
+                                {% else %}
+                                    <i class="fa-solid fa-person-from-portal"></i> {{ part.leftRoomAt|date('d.m.Y | H:i:s') }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+                {% if status.destroyedAt %}
+                <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAt|date('d.m.Y H:i:s') }}
+                {% endif %}
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
