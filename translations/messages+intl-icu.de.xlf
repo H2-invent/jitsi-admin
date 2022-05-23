@@ -1472,10 +1472,6 @@
         <source>lobby.change.moderator.permissions</source>
         <target>Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source></source>
-        <target></target>
-      </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
         <target>Die Konferenz wurde beendet.</target>
@@ -1589,15 +1585,15 @@
         <target>Ladezeit</target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
-        <source>Verifizierter Anrufer</source>
+        <source>lobby.verified</source>
         <target>Verifizierter Anrufer</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
-        <source>Jetzt beitreten</source>
+        <source>lobby.participant.enterNow</source>
         <target>Jetzt beitreten</target>
       </trans-unit>
       <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
-        <source>Noch nicht beitreten</source>
+        <source>lobby.participant.pauseEnter</source>
         <target>Noch nicht beitreten</target>
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
@@ -1605,7 +1601,7 @@
         <target>Ihre Eingabe wurde Erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="4wVQAJs" resname="room.new.help.tag">
-        <source>Wählen Sie hier eine Kategorie für diese Konferenz aus.</source>
+        <source>room.new.help.tag</source>
         <target>Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
       </trans-unit>
       <trans-unit id="YU._Rbu" resname="Geplant von">
@@ -1617,8 +1613,20 @@
         <target>Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
       </trans-unit>
       <trans-unit id="K_dllFy" resname="status.inconference.number">
-        <source>{number}</source>
+        <source>status.inconference.number</source>
         <target>{number}</target>
+      </trans-unit>
+      <trans-unit id="5QumSMJ" resname="report.title">
+        <source>Teilnehmendenreport</source>
+        <target>Teilnehmendenreport</target>
+      </trans-unit>
+      <trans-unit id="LR82Vwn" resname="report.dropdown.item">
+        <source>Teilnehmendenreport</source>
+        <target>Teilnehmendenreport</target>
+      </trans-unit>
+      <trans-unit id="TW0JasJ" resname="report.error.noStatus">
+        <source>Diese Konferenz hat bisher keine Reports zum Anzeigen</source>
+        <target>Diese Konferenz hat bisher keine Reports zum Anzeigen</target>
       </trans-unit>
     </body>
   </file>

@@ -30,7 +30,6 @@ class ReportController extends AbstractController
         if ($room->getModerator() !== $this->getUser()){
             throw  new NotFoundHttpException('Room not Found');
         }
-
         return $this->render('report/index.html.twig', [
             'title' => $this->translator->trans('report.title'),
             'room'=>$room
