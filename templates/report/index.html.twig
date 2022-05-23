@@ -9,71 +9,75 @@
             {% if  room.roomstatuses|length == 0 %}
                 <h4 class="h4-responsive">{{ 'report.error.noStatus'|trans }}</h4>
             {% endif %}
-            {% for status in room.roomstatuses %}
-            <div class="reportTimeLine_room">
-                <div class="statusOpeningDate">
-                    <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAt|date('d.m.Y') }} <i
-                            class="fa-regular fa-clock"></i> {{ status.RoomCreatedAt|date('H:i:s') }}
-                </div>
-                <div class="partList">
-                    {% for part in status.roomStatusParticipants %}
-                        <div class="reportTimeLine_time ">
-                            <div class="reportTimeLine_part d-flex ">
-                                <div class="reportTimeLine_verticalLine"></div>
-                                <div class="reportTimeLine_part_Content d-flex flex-column">
-                                    <h6 class="d-flex align-items-center partname">
-                                        {% if part.inRoom %}
-                                            <div class="onlineDot"></div>
-                                        {% endif %}
-                                        {{ part.participantName }}</h6>
+            {% for status in room.roomstatuses|sort((a, b) => b.RoomCreatedAt <=> a.RoomCreatedAt) %}
+                <div class="reportTimeLine_room mb-3">
+                    <div class="statusOpeningDate">
+                        <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAt|date('d.m.Y') }} <i
+                                class="fa-regular fa-clock"></i> {{ status.RoomCreatedAt|date('H:i:s') }}
+                    </div>
+                    <div class="partList">
+                        {% for part in status.roomStatusParticipants %}
+                            <div class="reportTimeLine_time ">
+                                <div class="reportTimeLine_part d-flex ">
+                                    <div class="reportTimeLine_verticalLine"></div>
+                                    <div class="reportTimeLine_part_Content d-flex flex-column">
+                                        <h6 class="d-flex align-items-center partname">
+                                            {% if part.inRoom %}
+                                                <div class="onlineDot"></div>
+                                            {% endif %}
+                                            {{ part.participantName }}</h6>
 
-                                    {% set enter = part.enteredRoomAt|date('d.m.Y') %}
-                                    <div class="partEnterRoom d-flex">
+                                        {% set enter = part.enteredRoomAt|date('d.m.Y') %}
+                                        <div class="partEnterRoom d-flex">
 
 
-                                        <div class="enterRoom d-flex flex-column me-3">
-                                            {{ part.enteredRoomAt|date('d.m.Y') }}
-                                            <span>
+                                            <div class="enterRoom d-flex flex-column me-3">
+                                                {{ part.enteredRoomAt|date('d.m.Y') }}
+                                                <span>
                                             <i class="fa-solid fa-arrow-right-to-bracket text-success statusDate"></i>
                                             {{ part.enteredRoomAt|date('H:i:s') }}
 
-                                                {% if not part.inRoom %}
-                                                    {% if part.leftRoomAt|date('d.m.Y') == enter %}
-                                                        - <i
-                                                            class="fa-solid fa-arrow-right-from-bracket text-danger"></i>
-                                                        {{ part.leftRoomAt|date('H:i:s') }}
+                                                    {% if not part.inRoom %}
+                                                        {% if part.leftRoomAt|date('d.m.Y') == enter %}
+                                                            - <i
+                                                                class="fa-solid fa-arrow-right-from-bracket text-danger"></i>
+                                                            {{ part.leftRoomAt|date('H:i:s') }}
+                                                        {% endif %}
                                                     {% endif %}
-                                                {% endif %}
                                          </span>
-                                        </div>
-
-                                        {% if part.leftRoomAt|date('d.m.Y') != enter %}
-
-
-                                            <div class="leafeRoom">
-                                                <div class="partLeaveRoom">
-                                                    {{ part.leftRoomAt|date('d.m.Y') }}<br>
-                                                    <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAt|date('H:i:s') }}
-                                                </div>
                                             </div>
 
-                                        {% endif %}
+                                            {% if part.leftRoomAt|date('d.m.Y') != enter %}
+
+
+                                                <div class="leafeRoom">
+                                                    <div class="partLeaveRoom">
+                                                        {{ part.leftRoomAt|date('d.m.Y') }}<br>
+                                                        <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAt|date('H:i:s') }}
+                                                    </div>
+                                                </div>
+
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                {% if status.destroyedAt %}
-                    <div class="timelineENdRoom">
-                        <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAt|date('d.m.Y') }} <i
-                                class="fa-regular fa-clock"></i> {{ status.destroyedAt|date('H:i:s') }}
+                        {% endfor %}
                     </div>
+                    {% if status.destroyedAt %}
+                        <div class="timelineENdRoom">
+                            <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAt|date('d.m.Y') }} <i
+                                    class="fa-regular fa-clock"></i> {{ status.destroyedAt|date('H:i:s') }}
+                        </div>
 
+                    {% endif %}
+                </div>
+                {% if not loop.last %}
+                    <hr>
                 {% endif %}
-            </div>
+            {% endfor %}
         </div>
 
-        {% endfor %}
+
     </div>
 </div>
