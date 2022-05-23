@@ -23,7 +23,7 @@ class ReportingControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/report/'.$room->getId());
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'report.title');
+        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
     }
 
     public function testModalContent(): void
@@ -87,7 +87,7 @@ class ReportingControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'report.title');
+        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
     }
 
     public function testModalContentNoReport(): void
@@ -108,10 +108,10 @@ class ReportingControllerTest extends WebTestCase
         );
         $this->assertEquals(
             1,
-            $crawler->filter('h4:contains("report.error.noStatus")')->count()
+            $crawler->filter('h4:contains("Diese Konferenz hat bisher keine Reports zum Anzeigen.")')->count()
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'report.title');
+        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
     }
 }

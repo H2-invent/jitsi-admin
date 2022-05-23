@@ -1,10 +1,15 @@
 .reportTimeLine_room {
 
   .reportTimeLine_time {
-
     &:last-child {
       .reportTimeLine_verticalLine {
         border-radius: 0 0 2px 2px;
+      }
+    }
+
+    &:first-child {
+      .reportTimeLine_verticalLine {
+        border-radius: 2px 2px 0 0;
       }
     }
 
@@ -16,6 +21,8 @@
         border-radius: 50000px;
         margin-right: 4px;
       }
+
+
     }
 
     .reportTimeLine_part_Content {

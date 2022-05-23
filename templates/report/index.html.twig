@@ -10,10 +10,12 @@
                 <h4 class="h4-responsive">{{ 'report.error.noStatus'|trans }}</h4>
             {% endif %}
             {% for status in room.roomstatuses %}
-                <div class="reportTimeLine_room">
-                    <div class="statusOpeningDate">
-                        <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAt|date('d.m.Y') }} <i class="fa-regular fa-clock"></i> {{ status.RoomCreatedAt|date('H:i:s') }}
-                    </div>
+            <div class="reportTimeLine_room">
+                <div class="statusOpeningDate">
+                    <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAt|date('d.m.Y') }} <i
+                            class="fa-regular fa-clock"></i> {{ status.RoomCreatedAt|date('H:i:s') }}
+                </div>
+                <div class="partList">
                     {% for part in status.roomStatusParticipants %}
                         <div class="reportTimeLine_time ">
                             <div class="reportTimeLine_part d-flex ">
@@ -26,38 +28,52 @@
                                         {{ part.participantName }}</h6>
 
                                     {% set enter = part.enteredRoomAt|date('d.m.Y') %}
-                                    {{ part.enteredRoomAt|date('d.m.Y') }}
-                                   <div class="partEnterRoom"><i class="fa-solid fa-arrow-right-to-bracket text-success statusDate"></i> {{ part.enteredRoomAt|date('H:i:s') }}
+                                    <div class="partEnterRoom d-flex">
 
-                                    {% if part.inRoom %}
 
-                                    {% else %}
-                                        {% if part.leftRoomAt|date('d.m.Y') == enter %}
-                                            - <i
-                                                class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAt|date('H:i:s') }}</div>
-                                        {% else %}
-                                </div>
-                                <div class="partLeaveRoom">
-                                          {{ part.leftRoomAt|date('d.m.Y') }}<br>
-                                            <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAt|date('H:i:s') }}
-                                </div>
+                                        <div class="enterRoom d-flex flex-column me-3">
+                                            {{ part.enteredRoomAt|date('d.m.Y') }}
+                                            <span>
+                                            <i class="fa-solid fa-arrow-right-to-bracket text-success statusDate"></i>
+                                            {{ part.enteredRoomAt|date('H:i:s') }}
+
+                                                {% if not part.inRoom %}
+                                                    {% if part.leftRoomAt|date('d.m.Y') == enter %}
+                                                        - <i
+                                                            class="fa-solid fa-arrow-right-from-bracket text-danger"></i>
+                                                        {{ part.leftRoomAt|date('H:i:s') }}
+                                                    {% endif %}
+                                                {% endif %}
+                                         </span>
+                                        </div>
+
+                                        {% if part.leftRoomAt|date('d.m.Y') != enter %}
+
+
+                                            <div class="leafeRoom">
+                                                <div class="partLeaveRoom">
+                                                    {{ part.leftRoomAt|date('d.m.Y') }}<br>
+                                                    <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAt|date('H:i:s') }}
+                                                </div>
+                                            </div>
+
                                         {% endif %}
-
-                                    {% endif %}
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     {% endfor %}
-                    {% if status.destroyedAt %}
-                        <div class="timelineENdRoom">
-                            <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAt|date('d.m.Y') }} <i class="fa-regular fa-clock"></i>  {{ status.destroyedAt|date('H:i:s') }}
-                        </div>
-
-                    {% endif %}
                 </div>
+                {% if status.destroyedAt %}
+                    <div class="timelineENdRoom">
+                        <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAt|date('d.m.Y') }} <i
+                                class="fa-regular fa-clock"></i> {{ status.destroyedAt|date('H:i:s') }}
+                    </div>
 
-            {% endfor %}
+                {% endif %}
+            </div>
         </div>
+
+        {% endfor %}
     </div>
 </div>

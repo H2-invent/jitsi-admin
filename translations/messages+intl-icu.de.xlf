@@ -1625,8 +1625,8 @@
         <target>Teilnehmendenreport</target>
       </trans-unit>
       <trans-unit id="TW0JasJ" resname="report.error.noStatus">
-        <source>Diese Konferenz hat bisher keine Reports zum Anzeigen</source>
-        <target>Diese Konferenz hat bisher keine Reports zum Anzeigen</target>
+        <source>Diese Konferenz hat bisher keine Reports zum Anzeigen.</source>
+        <target>Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
       </trans-unit>
     </body>
   </file>
