@@ -31,7 +31,6 @@ class ReportController extends AbstractController
             throw  new NotFoundHttpException('Room not Found');
         }
 
-        dump($room);
         return $this->render('report/index.html.twig', [
             'title' => $this->translator->trans('report.title'),
             'room'=>$room

@@ -7,6 +7,8 @@ use App\Entity\CallerRoom;
 use App\Entity\License;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
+use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
 use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\Server;
@@ -28,7 +30,7 @@ class RoomFixture extends Fixture
         $user->setFirstName('Test');
         $user->setLastName('User');
         $user->setRegisterId(123456);
-        $user->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234','telephoneNumber'=>'0123456789'));
+        $user->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
         $user->setTimeZone('Europe/Berlin');
         $user->setUuid('lksdhflkjdsljflkjds');
         $user->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
@@ -44,7 +46,7 @@ class RoomFixture extends Fixture
         $user2->setFirstName('Test2');
         $user2->setLastName('User2');
         $user2->setRegisterId(123456);
-        $user2->setSpezialProperties(array('ou' => 'Test2', 'departmentNumber' => '1234','telephoneNumber'=>'9876543210',));
+        $user2->setSpezialProperties(array('ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',));
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflhjkkjds');
         $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
@@ -166,7 +168,7 @@ class RoomFixture extends Fixture
             $room->setSequence(0);
             $room->setServer($server);
             $callerRoom = new CallerRoom();
-            $callerRoom->setCallerId('1234'.$i);
+            $callerRoom->setCallerId('1234' . $i);
             $callerRoom->setCreatedAt(new \DateTime());
             $room->setCallerRoom($callerRoom);
             $manager->persist($room);
@@ -337,6 +339,75 @@ class RoomFixture extends Fixture
         $manager->persist($room);
         $manager->flush();
 
+
+        //here we create some rommstatuses
+
+        $roomStatus = new RoomStatus();
+        $roomStatus->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setRoom($room)
+            ->setJitsiRoomId('test@test.de')
+            ->setUpdatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTime());
+        $manager->persist($roomStatus);
+        $manager->flush();
+
+        $roomStatusPart = new RoomStatusParticipant();
+        $roomStatusPart->setEnteredRoomAt(new \DateTime())
+            ->setInRoom(true)
+            ->setParticipantId('inderKonferenz@test.de')
+            ->setParticipantName('in der Konferenz')
+            ->setRoomStatus($roomStatus)
+            ->setEnteredRoomAt(new \DateTime());
+        $manager->persist($roomStatusPart);
+        $manager->flush();
+        $roomStatusPart = new RoomStatusParticipant();
+        $roomStatusPart->setEnteredRoomAt(new \DateTime())
+            ->setInRoom(false)
+            ->setParticipantId('inderKonferenz3@test.de')
+            ->setParticipantName('aus der Konferenz 1 Stunde')
+            ->setRoomStatus($roomStatus)
+            ->setEnteredRoomAt(new \DateTime())
+            ->setLeftRoomAt((new \DateTime())->modify('+1hour'));
+        $manager->persist($roomStatusPart);
+        $manager->flush();
+
+        $roomStatusPart = new RoomStatusParticipant();
+        $roomStatusPart->setEnteredRoomAt(new \DateTime())
+            ->setInRoom(false)
+            ->setParticipantId('inderKonferenz3@test.de')
+            ->setParticipantName('aus der Konferenz 1 Tag')
+            ->setRoomStatus($roomStatus)
+            ->setEnteredRoomAt(new \DateTime())
+            ->setLeftRoomAt((new \DateTime())->modify('+1day'));
+        $manager->persist($roomStatusPart);
+        $manager->flush();
+
+
+        $roomStatus = new RoomStatus();
+        $roomStatus->setCreated(true)
+            ->setRoomCreatedAt((new \DateTime())->modify('-2hours'))
+            ->setRoom($room)
+            ->setJitsiRoomId('test@test.de')
+            ->setUpdatedAt(new \DateTime())
+            ->setCreatedAt(new \DateTime())
+            ->setDestroyed(true)
+            ->setDestroyedAt((new \DateTime())->modify('-1hour'));
+        $manager->persist($roomStatus);
+        $manager->flush();
+
+        $roomStatusPart = new RoomStatusParticipant();
+        $roomStatusPart->setEnteredRoomAt((new \DateTime())->modify('-2hours'))
+            ->setInRoom(false)
+            ->setLeftRoomAt((new \DateTime())->modify('-1hour'))
+            ->setParticipantId('inderKonferenz@test.de')
+            ->setParticipantName('beim letzen mal')
+            ->setRoomStatus($roomStatus)
+            ->setEnteredRoomAt(new \DateTime());
+        $manager->persist($roomStatusPart);
+        $manager->flush();
+
+
         $room = new Rooms();
         $room->setTimeZone('Europe/Berlin');
         $room->setAgenda('Testagenda:' . $i);
@@ -455,13 +526,13 @@ class RoomFixture extends Fixture
         $manager->persist($room1);
         $manager->flush();
         $lobbyTime = new \DateTime();
-        for ($i = 0; $i < 10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $lobbyUser = new LobbyWaitungUser();
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room1);
             $lobbyUser->setUid(md5($i));
-            $lobbyUser->setCreatedAt(clone ($lobbyTime->modify('-1 hour')));
-            $lobbyUser->setShowName('LobbyUser '.$i);
+            $lobbyUser->setCreatedAt(clone($lobbyTime->modify('-1 hour')));
+            $lobbyUser->setShowName('LobbyUser ' . $i);
             $lobbyUser->setType('a');
             $manager->persist($lobbyUser);
 
@@ -508,8 +579,8 @@ class RoomFixture extends Fixture
         $manager->flush();
         for ($i = 0; $i < 5; $i++) {
             $tag2 = new Tag();
-            $tag2->setTitle('Test Tag '.$i);
-            $tag2->setPriority(10*$i);
+            $tag2->setTitle('Test Tag ' . $i);
+            $tag2->setPriority(10 * $i);
             $manager->persist($tag2);
         }
         $manager->flush();
