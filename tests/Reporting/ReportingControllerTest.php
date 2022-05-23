@@ -71,7 +71,18 @@ class ReportingControllerTest extends WebTestCase
             1,
             $crawler->filter('.partname:contains("aus der Konferenz 1 Tag")')->count()
         );
-//        echo $client->getResponse()->getContent();
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("'.$status->getRoomCreatedAt()->format('H:i:s').'")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("'.$status->getRoomCreatedAt()->format('H:i:s').'")')->count()
+        );
+
+
+        $status = $room->getRoomstatuses()->toArray()[1];
+
         $this->assertEquals(
             1,
             $crawler->filter('.statusOpeningDate:contains("'.$status->getRoomCreatedAt()->format('H:i:s').'")')->count()
@@ -79,11 +90,7 @@ class ReportingControllerTest extends WebTestCase
 
         $this->assertEquals(
             1,
-            $crawler->filter('.timelineENdRoom:contains("'.$status->getRoomCreatedAt()->modify('-1hour')->format('H:i:s').'")')->count()
-        );
-        $this->assertEquals(
-            1,
-            $crawler->filter('.statusOpeningDate:contains("'.$status->getRoomCreatedAt()->modify('-1hours')->format('H:i:s').'")')->count()
+            $crawler->filter('.timelineENdRoom:contains("'.$status->getDestroyedAt()->format('H:i:s').'")')->count()
         );
 
         $this->assertResponseIsSuccessful();
