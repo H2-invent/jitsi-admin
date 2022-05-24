@@ -58,6 +58,29 @@ class RoomStatusParticipant
         return $this->enteredRoomAt;
     }
 
+    public function getEnteredRoomAtwithTimeZone(?User $user): ?\DateTimeInterface
+    {
+        $data = $this->getEnteredRoomAtUTC();
+        if (!$data) {
+            return null;
+        }
+        if ($user && $user->getTimeZone()) {
+            $localTimezone = new \DateTimeZone($user->getTimeZone());
+        } else {
+            $localTimezone = (new \DateTime())->getTimezone();
+        }
+        $data->setTimeZone($localTimezone);
+        return $data;
+    }
+
+    public function getEnteredRoomAtUTC(): ?\DateTimeInterface
+    {
+        if (!$this->enteredRoomAt) {
+            return null;
+        }
+        return new \DateTime($this->enteredRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+    }
+
     public function setEnteredRoomAt(\DateTimeInterface $enteredRoomAt): self
     {
         $this->enteredRoomAt = $enteredRoomAt;
@@ -68,6 +91,29 @@ class RoomStatusParticipant
     public function getLeftRoomAt(): ?\DateTimeInterface
     {
         return $this->leftRoomAt;
+    }
+
+    public function getLeftRoomAtwithTimeZone(?User $user): ?\DateTimeInterface
+    {
+        $data = $this->getLeftRoomAtUTC();
+        if (!$data) {
+            return null;
+        }
+        if ($user && $user->getTimeZone()) {
+            $localTimezone = new \DateTimeZone($user->getTimeZone());
+        } else {
+            $localTimezone = (new \DateTime())->getTimezone();
+        }
+        $data->setTimeZone($localTimezone);
+        return $data;
+    }
+
+    public function getLeftRoomAtUTC(): ?\DateTimeInterface
+    {
+        if (!$this->leftRoomAt) {
+            return null;
+        }
+        return new \DateTime($this->leftRoomAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 
     public function setLeftRoomAt(?\DateTimeInterface $leftRoomAt): self

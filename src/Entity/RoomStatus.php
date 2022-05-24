@@ -50,7 +50,6 @@ class RoomStatus
     private $updatedAt;
 
 
-
     /**
      * @ORM\OneToMany(targetEntity=RoomStatusParticipant::class, mappedBy="roomStatus", orphanRemoval=true)
      */
@@ -101,6 +100,26 @@ class RoomStatus
         return $this;
     }
 
+    public function getRoomCreatedAtUTC(): ?\DateTimeInterface
+    {
+        return new \DateTime($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+    }
+
+    public function getRoomCreatedAtwithTimeZone(?User $user): ?\DateTimeInterface
+    {
+        $data = $this->getCreatedUtc();
+        if (!$data) {
+            return null;
+        }
+        if ($user && $user->getTimeZone()) {
+            $localTimezone = new \DateTimeZone($user->getTimeZone());
+        } else {
+            $localTimezone = (new \DateTime())->getTimezone();
+        }
+        $data->setTimeZone($localTimezone);
+        return $data;
+    }
+
     public function getDestroyed(): ?bool
     {
         return $this->destroyed;
@@ -116,6 +135,30 @@ class RoomStatus
     public function getDestroyedAt(): ?\DateTimeInterface
     {
         return $this->destroyedAt;
+    }
+
+
+    public function getDestroyedAtwithTimeZone(?User $user): ?\DateTimeInterface
+    {
+        $data = $this->getDestroyedAtUTC();
+        if (!$data) {
+            return null;
+        }
+        if ($user && $user->getTimeZone()) {
+            $localTimezone = new \DateTimeZone($user->getTimeZone());
+        } else {
+            $localTimezone = (new \DateTime())->getTimezone();
+        }
+        $data->setTimeZone($localTimezone);
+        return $data;
+    }
+
+    public function getDestroyedAtUTC(): ?\DateTimeInterface
+    {
+        if (!$this->destroyedAt) {
+            return null;
+        }
+        return new \DateTime($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
 
     public function setDestroyedAt(?\DateTimeInterface $destroyedAt): self
@@ -148,7 +191,7 @@ class RoomStatus
 
         return $this;
     }
-    
+
     /**
      * @return Collection|RoomStatusParticipant[]
      */
@@ -202,10 +245,12 @@ class RoomStatus
 
         return $this;
     }
+
     public function getCreatedUtc(): ?\DateTimeInterface
     {
         return new \DateTime($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
+
     public function getDestroyedUtc(): ?\DateTimeInterface
     {
         return new \DateTime($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));

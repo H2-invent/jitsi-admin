@@ -3,6 +3,7 @@
 namespace App\Tests\Reporting;
 
 use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -82,15 +83,17 @@ class ReportingControllerTest extends WebTestCase
 
 
         $status = $room->getRoomstatuses()->toArray()[1];
-
+        $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
+        $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
+       echo $client->getResponse()->getContent();
         $this->assertEquals(
             1,
-            $crawler->filter('.statusOpeningDate:contains("'.$status->getRoomCreatedAt()->format('H:i:s').'")')->count()
+            $crawler->filter('.statusOpeningDate:contains("'.$roomstart->format('H:i:s').'")')->count()
         );
 
         $this->assertEquals(
             1,
-            $crawler->filter('.timelineENdRoom:contains("'.$status->getDestroyedAt()->format('H:i:s').'")')->count()
+            $crawler->filter('.timelineENdRoom:contains("'.$roomEnd->format('H:i:s').'")')->count()
         );
 
         $this->assertResponseIsSuccessful();

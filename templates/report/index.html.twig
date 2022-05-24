@@ -12,8 +12,9 @@
             {% for status in room.roomstatuses|sort((a, b) => b.RoomCreatedAt <=> a.RoomCreatedAt) %}
                 <div class="reportTimeLine_room mb-3">
                     <div class="statusOpeningDate">
-                        <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAt|date('d.m.Y') }} <i
-                                class="fa-regular fa-clock"></i> {{ status.RoomCreatedAt|date('H:i:s') }}
+                        <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('d.m.Y') }}
+                        <i
+                                class="fa-regular fa-clock"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('H:i:s') }}
                     </div>
                     <div class="partList">
                         {% for part in status.roomStatusParticipants %}
@@ -27,36 +28,37 @@
                                             {% endif %}
                                             {{ part.participantName }}</h6>
 
-                                        {% set enter = part.enteredRoomAt|date('d.m.Y') %}
+                                        {% set enter = part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y') %}
                                         <div class="partEnterRoom d-flex">
 
 
                                             <div class="enterRoom d-flex flex-column me-3">
-                                                {{ part.enteredRoomAt|date('d.m.Y') }}
+                                                {{ part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y') }}
                                                 <span>
                                             <i class="fa-solid fa-arrow-right-to-bracket text-success statusDate"></i>
-                                            {{ part.enteredRoomAt|date('H:i:s') }}
+                                            {{ part.enteredRoomAtwithTimeZone(app.user)|date('H:i:s') }}
 
                                                     {% if not part.inRoom %}
-                                                        {% if part.leftRoomAt|date('d.m.Y') == enter %}
+                                                        {% if part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y') == enter %}
                                                             - <i
                                                                 class="fa-solid fa-arrow-right-from-bracket text-danger"></i>
-                                                            {{ part.leftRoomAt|date('H:i:s') }}
+                                                            {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s') }}
                                                         {% endif %}
                                                     {% endif %}
                                          </span>
                                             </div>
+                                            {% if not part.inRoom %}
+                                                {% if part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y') != enter %}
 
-                                            {% if part.leftRoomAt|date('d.m.Y') != enter %}
-
-
-                                                <div class="leafeRoom">
-                                                    <div class="partLeaveRoom">
-                                                        {{ part.leftRoomAt|date('d.m.Y') }}<br>
-                                                        <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAt|date('H:i:s') }}
+                                                    <div class="leafeRoom">
+                                                        <div class="partLeaveRoom">
+                                                            {{ part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y') }}
+                                                            <br>
+                                                            <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s') }}
+                                                        </div>
                                                     </div>
-                                                </div>
 
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                     </div>
@@ -66,8 +68,9 @@
                     </div>
                     {% if status.destroyedAt %}
                         <div class="timelineENdRoom">
-                            <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAt|date('d.m.Y') }} <i
-                                    class="fa-regular fa-clock"></i> {{ status.destroyedAt|date('H:i:s') }}
+                            <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('d.m.Y') }}
+                            <i
+                                    class="fa-regular fa-clock"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('H:i:s') }}
                         </div>
 
                     {% endif %}
