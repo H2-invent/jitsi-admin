@@ -13,7 +13,19 @@
       }
     }
 
-    .reportTimeLine_part {
+    .reportTimeLine_verticalLine {
+      width: 0;
+      border-right: $black_font-color 4px solid;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    &.online {
+      .reportTimeLine_verticalLine {
+
+        border-right: #00c851 4px solid;
+        border-image: linear-gradient(180deg, $black_font-color 0%, rgba(0,200,81,1) 25%, rgba(0,200,81,1) 75%, $black_font-color 100%) 1;
+      }
       .onlineDot {
         width: 8px;
         height: 8px;
@@ -21,20 +33,11 @@
         border-radius: 50000px;
         margin-right: 4px;
       }
-
-
     }
 
     .reportTimeLine_part_Content {
       margin-top: 8px;
       margin-bottom: 8px;
-    }
-
-    .reportTimeLine_verticalLine {
-      width: 0;
-      border-right: $black_font-color 4px solid;
-      margin-left: 8px;
-      margin-right: 8px;
     }
   }
 }

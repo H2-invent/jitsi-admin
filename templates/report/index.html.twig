@@ -7,7 +7,7 @@
         </div>
         <div class="modal-body">
             <div class="mb-2">
-                <small >{{ 'report.info.timezone'|trans({'{timezone}':timezone }) }}</small>
+                <small>{{ 'report.info.timezone'|trans({'{timezone}':timezone }) }}</small>
             </div>
 
             {% if  room.roomstatuses|length == 0 %}
@@ -22,14 +22,12 @@
                     </div>
                     <div class="partList">
                         {% for part in status.roomStatusParticipants %}
-                            <div class="reportTimeLine_time ">
+                            <div class="reportTimeLine_time {% if part.inRoom %} online {% endif %}">
                                 <div class="reportTimeLine_part d-flex ">
                                     <div class="reportTimeLine_verticalLine"></div>
                                     <div class="reportTimeLine_part_Content d-flex flex-column">
                                         <h6 class="d-flex align-items-center partname">
-                                            {% if part.inRoom %}
-                                                <div class="onlineDot"></div>
-                                            {% endif %}
+                                            <div class="onlineDot"></div>
                                             {{ part.participantName }}</h6>
 
                                         {% set enter = part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y',false) %}

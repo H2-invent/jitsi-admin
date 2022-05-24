@@ -1618,11 +1618,11 @@
       </trans-unit>
       <trans-unit id="5QumSMJ" resname="report.title">
         <source>report.title</source>
-        <target>Teilnehmendenreport</target>
+        <target>Protokoll</target>
       </trans-unit>
       <trans-unit id="LR82Vwn" resname="report.dropdown.item">
         <source>report.dropdown.item</source>
-        <target>Teilnehmendenreport</target>
+        <target>Protokoll</target>
       </trans-unit>
       <trans-unit id="TW0JasJ" resname="report.error.noStatus">
         <source>Diese Konferenz hat bisher keine Reports zum Anzeigen.</source>
