@@ -24,7 +24,7 @@ class ReportingControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/report/' . $room->getId());
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
+        $this->assertSelectorTextContains('.modal-header', 'Protokoll');
     }
 
     public function testModalContent(): void
@@ -57,7 +57,7 @@ class ReportingControllerTest extends WebTestCase
 
         $this->assertEquals(
             1,
-            $crawler->filter('.onlineDot')->count()
+            $crawler->filter('.online')->count()
         );
 
         $this->assertEquals(
@@ -85,7 +85,6 @@ class ReportingControllerTest extends WebTestCase
         $status = $room->getRoomstatuses()->toArray()[1];
         $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
         $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
-        echo $client->getResponse()->getContent();
         $this->assertEquals(
             1,
             $crawler->filter('.statusOpeningDate:contains("' . $roomstart->format('H:i:s') . '")')->count()
@@ -97,7 +96,7 @@ class ReportingControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
+        $this->assertSelectorTextContains('.modal-header', 'Protokoll');
     }
 
     public function testModalContentNoReport(): void
@@ -122,7 +121,7 @@ class ReportingControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
+        $this->assertSelectorTextContains('.modal-header', 'Protokoll');
     }
 
     public function testModalContentAustralia(): void
@@ -161,7 +160,7 @@ class ReportingControllerTest extends WebTestCase
 
         $this->assertEquals(
             1,
-            $crawler->filter('.onlineDot')->count()
+            $crawler->filter('.online')->count()
         );
 
         $this->assertEquals(
@@ -176,7 +175,7 @@ class ReportingControllerTest extends WebTestCase
             1,
             $crawler->filter('.partname:contains("aus der Konferenz 1 Tag")')->count()
         );
-        echo $client->getResponse()->getContent();
+
         $status = $room->getRoomstatuses()->toArray()[0];
         $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
         $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
@@ -193,7 +192,6 @@ class ReportingControllerTest extends WebTestCase
         $status = $room->getRoomstatuses()->toArray()[1];
         $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
         $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
-        echo $client->getResponse()->getContent();
         $this->assertEquals(
             1,
             $crawler->filter('.statusOpeningDate:contains("' . $roomstart->format('H:i:s') . '")')->count()
@@ -205,7 +203,7 @@ class ReportingControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
+        $this->assertSelectorTextContains('.modal-header', 'Protokoll');
     }
 
     public function testModalContentNoTimeZone(): void
@@ -222,7 +220,6 @@ class ReportingControllerTest extends WebTestCase
         $room->addUser($testUser);
         $status = $room->getRoomstatuses()->toArray()[0];
         $crawler = $client->request('GET', '/room/report/' . $room->getId());
-        echo $client->getResponse()->getContent();
         $this->assertEquals(
             1,
             $crawler->filter('.modal-content:contains("Europe/Berlin")')->count()
@@ -245,7 +242,7 @@ class ReportingControllerTest extends WebTestCase
 
         $this->assertEquals(
             1,
-            $crawler->filter('.onlineDot')->count()
+            $crawler->filter('.online')->count()
         );
 
         $this->assertEquals(
@@ -260,7 +257,7 @@ class ReportingControllerTest extends WebTestCase
             1,
             $crawler->filter('.partname:contains("aus der Konferenz 1 Tag")')->count()
         );
-        echo $client->getResponse()->getContent();
+
         $status = $room->getRoomstatuses()->toArray()[0];
         $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
         $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
@@ -277,7 +274,7 @@ class ReportingControllerTest extends WebTestCase
         $status = $room->getRoomstatuses()->toArray()[1];
         $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
         $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
-        echo $client->getResponse()->getContent();
+
         $this->assertEquals(
             1,
             $crawler->filter('.statusOpeningDate:contains("' . $roomstart->format('H:i:s') . '")')->count()
@@ -289,6 +286,6 @@ class ReportingControllerTest extends WebTestCase
         );
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
+        $this->assertSelectorTextContains('.modal-header', 'Protokoll');
     }
 }
