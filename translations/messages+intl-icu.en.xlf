@@ -475,8 +475,7 @@
       <trans-unit id="TUr.7W8" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="translated">You can manage Jitsi Meet conferences with Jitsi-Admin. Log in here or
-        register a user.</target>
+        <target state="translated">You can manage Jitsi Meet conferences with Jitsi-Admin. Log in here or register a user.</target>
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
         <source>Login</source>
