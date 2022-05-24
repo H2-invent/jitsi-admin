@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="needs-translation">E-Mail-Adresse</target>
+        <target state="translated">Adres e-mail</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
