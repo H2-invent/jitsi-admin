@@ -19,9 +19,9 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Running Room'));
+        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
 
-        $crawler = $client->request('GET', '/room/report/'.$room->getId());
+        $crawler = $client->request('GET', '/room/report/' . $room->getId());
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
@@ -36,14 +36,14 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Running Room'));
+        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
         $status = $room->getRoomstatuses()->toArray()[0];
-        $crawler = $client->request('GET', '/room/report/'.$room->getId());
+        $crawler = $client->request('GET', '/room/report/' . $room->getId());
 
-          $this->assertEquals(
-              2,
-              $crawler->filter('.reportTimeLine_room')->count()
-          );
+        $this->assertEquals(
+            2,
+            $crawler->filter('.reportTimeLine_room')->count()
+        );
 
         $this->assertEquals(
             1,
@@ -74,26 +74,26 @@ class ReportingControllerTest extends WebTestCase
         );
         $this->assertEquals(
             1,
-            $crawler->filter('.statusOpeningDate:contains("'.$status->getRoomCreatedAt()->format('H:i:s').'")')->count()
+            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAt()->format('H:i:s') . '")')->count()
         );
         $this->assertEquals(
             1,
-            $crawler->filter('.statusOpeningDate:contains("'.$status->getRoomCreatedAt()->format('H:i:s').'")')->count()
+            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAt()->format('H:i:s') . '")')->count()
         );
 
 
         $status = $room->getRoomstatuses()->toArray()[1];
         $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
         $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
-       echo $client->getResponse()->getContent();
+        echo $client->getResponse()->getContent();
         $this->assertEquals(
             1,
-            $crawler->filter('.statusOpeningDate:contains("'.$roomstart->format('H:i:s').'")')->count()
+            $crawler->filter('.statusOpeningDate:contains("' . $roomstart->format('H:i:s') . '")')->count()
         );
 
         $this->assertEquals(
             1,
-            $crawler->filter('.timelineENdRoom:contains("'.$roomEnd->format('H:i:s').'")')->count()
+            $crawler->filter('.timelineENdRoom:contains("' . $roomEnd->format('H:i:s') . '")')->count()
         );
 
         $this->assertResponseIsSuccessful();
@@ -109,9 +109,9 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Room Yesterday'));
+        $room = $roomRepo->findOneBy(array('name' => 'Room Yesterday'));
         $status = $room->getRoomstatuses()->toArray();
-        $crawler = $client->request('GET', '/room/report/'.$room->getId());
+        $crawler = $client->request('GET', '/room/report/' . $room->getId());
         $this->assertEquals(
             0,
             $crawler->filter('.reportTimeLine_time')->count()
@@ -119,6 +119,173 @@ class ReportingControllerTest extends WebTestCase
         $this->assertEquals(
             1,
             $crawler->filter('h4:contains("Diese Konferenz hat bisher keine Reports zum Anzeigen.")')->count()
+        );
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
+    }
+
+    public function testModalContentAustralia(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@australia.de');
+        // simulate $testUser being logged in
+        $client->loginUser($testUser);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
+        $room->setModerator($testUser);
+        $room->addUser($testUser);
+        $status = $room->getRoomstatuses()->toArray()[0];
+        $crawler = $client->request('GET', '/room/report/' . $room->getId());
+        $this->assertEquals(
+            1,
+            $crawler->filter('.modal-content:contains("Australia/Lindeman")')->count()
+        );
+
+        $this->assertEquals(
+            2,
+            $crawler->filter('.reportTimeLine_room')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.timelineENdRoom')->count()
+        );
+
+        $this->assertEquals(
+            4,
+            $crawler->filter('.reportTimeLine_time')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.onlineDot')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.partname:contains("in der Konferenz")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.partname:contains("aus der Konferenz 1 Stunde")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.partname:contains("aus der Konferenz 1 Tag")')->count()
+        );
+        echo $client->getResponse()->getContent();
+        $status = $room->getRoomstatuses()->toArray()[0];
+        $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
+        $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAtwithTimeZone($testUser)->format('H:i:s') . '")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAtwithTimeZone($testUser)->format('H:i:s') . '")')->count()
+        );
+
+
+        $status = $room->getRoomstatuses()->toArray()[1];
+        $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
+        $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
+        echo $client->getResponse()->getContent();
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("' . $roomstart->format('H:i:s') . '")')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.timelineENdRoom:contains("' . $roomEnd->format('H:i:s') . '")')->count()
+        );
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.modal-header', 'Teilnehmendenreport');
+    }
+
+    public function testModalContentNoTimeZone(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@noTimeZone.de');
+        // simulate $testUser being logged in
+        $client->loginUser($testUser);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
+        $room->setModerator($testUser);
+        $room->addUser($testUser);
+        $status = $room->getRoomstatuses()->toArray()[0];
+        $crawler = $client->request('GET', '/room/report/' . $room->getId());
+        echo $client->getResponse()->getContent();
+        $this->assertEquals(
+            1,
+            $crawler->filter('.modal-content:contains("Europe/Berlin")')->count()
+        );
+
+        $this->assertEquals(
+            2,
+            $crawler->filter('.reportTimeLine_room')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.timelineENdRoom')->count()
+        );
+
+        $this->assertEquals(
+            4,
+            $crawler->filter('.reportTimeLine_time')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.onlineDot')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.partname:contains("in der Konferenz")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.partname:contains("aus der Konferenz 1 Stunde")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.partname:contains("aus der Konferenz 1 Tag")')->count()
+        );
+        echo $client->getResponse()->getContent();
+        $status = $room->getRoomstatuses()->toArray()[0];
+        $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
+        $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAtwithTimeZone($testUser)->format('H:i:s') . '")')->count()
+        );
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAtwithTimeZone($testUser)->format('H:i:s') . '")')->count()
+        );
+
+
+        $status = $room->getRoomstatuses()->toArray()[1];
+        $roomstart = $status->getRoomCreatedAtwithTimeZone($testUser);
+        $roomEnd = $status->getDestroyedAtwithTimeZone($testUser);
+        echo $client->getResponse()->getContent();
+        $this->assertEquals(
+            1,
+            $crawler->filter('.statusOpeningDate:contains("' . $roomstart->format('H:i:s') . '")')->count()
+        );
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('.timelineENdRoom:contains("' . $roomEnd->format('H:i:s') . '")')->count()
         );
 
         $this->assertResponseIsSuccessful();

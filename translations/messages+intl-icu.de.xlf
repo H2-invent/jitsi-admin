@@ -1617,16 +1617,20 @@
         <target>{number}</target>
       </trans-unit>
       <trans-unit id="5QumSMJ" resname="report.title">
-        <source>Teilnehmendenreport</source>
+        <source>report.title</source>
         <target>Teilnehmendenreport</target>
       </trans-unit>
       <trans-unit id="LR82Vwn" resname="report.dropdown.item">
-        <source>Teilnehmendenreport</source>
+        <source>report.dropdown.item</source>
         <target>Teilnehmendenreport</target>
       </trans-unit>
       <trans-unit id="TW0JasJ" resname="report.error.noStatus">
         <source>Diese Konferenz hat bisher keine Reports zum Anzeigen.</source>
         <target>Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="t4ekf55" resname="report.info.timezone">
+        <source>report.info.timezone</source>
+        <target>Alle Zeitangaben sind in der Zeitzone {timezone}</target>
       </trans-unit>
     </body>
   </file>

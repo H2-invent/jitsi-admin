@@ -39,6 +39,8 @@ class RoomFixture extends Fixture
         $user->setIndexer('test@local.de test@local.de test user test1 1234 0123456789');
         $manager->persist($user);
 
+
+
         $user2 = new \App\Entity\User();
         $user2->setEmail('test@local2.de');
         $user2->setCreatedAt(new \DateTime());
@@ -74,6 +76,38 @@ class RoomFixture extends Fixture
         $user4->setUid('bjhxbcvuzcbxv7');
         $user4->setIndexer('test@local4.de test@local4.de');
         $manager->persist($user4);
+
+        // create a user
+        $user5 = new \App\Entity\User();
+        $user5->setEmail('test@australia.de');
+        $user5->setCreatedAt(new \DateTime());
+        $user5->setKeycloakId('123456');
+        $user5->setFirstName('Test');
+        $user5->setLastName('User');
+        $user5->setRegisterId(123456);
+        $user5->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user5->setTimeZone('Australia/Lindeman');
+        $user5->setUuid('lksdhflkjdsljflkjds');
+        $user5->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
+        $user5->setUsername('test@australia.de');
+        $user5->setCreatedAt(new \DateTime());
+        $user5->setIndexer('test@australia.de test@australia.de test user test1 1234 0123456789');
+        $manager->persist($user5);
+
+        $user6 = new \App\Entity\User();
+        $user6->setEmail('test@noTimeZone.de');
+        $user6->setCreatedAt(new \DateTime());
+        $user6->setKeycloakId('123456');
+        $user6->setFirstName('Test');
+        $user6->setLastName('User');
+        $user6->setRegisterId(123456);
+        $user6->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user6->setUuid('lksdhflkjdsljflkjds');
+        $user6->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
+        $user6->setUsername('test@noTimeZone.de');
+        $user6->setCreatedAt(new \DateTime());
+        $user6->setIndexer('test@noTimeZone.de test@noTimeZone.de test user test1 1234 0123456789');
+        $manager->persist($user6);
 
         $user->addAddressbook($user2);
         $user->addAddressbook($user3);

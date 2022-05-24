@@ -6,15 +6,19 @@
             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <div class="mb-2">
+                <small >{{ 'report.info.timezone'|trans({'{timezone}':timezone }) }}</small>
+            </div>
+
             {% if  room.roomstatuses|length == 0 %}
                 <h4 class="h4-responsive">{{ 'report.error.noStatus'|trans }}</h4>
             {% endif %}
             {% for status in room.roomstatuses|sort((a, b) => b.RoomCreatedAt <=> a.RoomCreatedAt) %}
                 <div class="reportTimeLine_room mb-3">
                     <div class="statusOpeningDate">
-                        <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('d.m.Y') }}
+                        <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('d.m.Y',false) }}
                         <i
-                                class="fa-regular fa-clock"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('H:i:s') }}
+                                class="fa-regular fa-clock"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('H:i:s',false) }}
                     </div>
                     <div class="partList">
                         {% for part in status.roomStatusParticipants %}
@@ -28,21 +32,21 @@
                                             {% endif %}
                                             {{ part.participantName }}</h6>
 
-                                        {% set enter = part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y') %}
+                                        {% set enter = part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y',false) %}
                                         <div class="partEnterRoom d-flex">
 
 
                                             <div class="enterRoom d-flex flex-column me-3">
-                                                {{ part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y') }}
+                                                {{ part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y',false) }}
                                                 <span>
                                             <i class="fa-solid fa-arrow-right-to-bracket text-success statusDate"></i>
-                                            {{ part.enteredRoomAtwithTimeZone(app.user)|date('H:i:s') }}
+                                            {{ part.enteredRoomAtwithTimeZone(app.user)|date('H:i:s',false) }}
 
                                                     {% if not part.inRoom %}
-                                                        {% if part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y') == enter %}
+                                                        {% if part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y',false) == enter %}
                                                             - <i
                                                                 class="fa-solid fa-arrow-right-from-bracket text-danger"></i>
-                                                            {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s') }}
+                                                            {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s',false) }}
                                                         {% endif %}
                                                     {% endif %}
                                          </span>
@@ -52,9 +56,9 @@
 
                                                     <div class="leafeRoom">
                                                         <div class="partLeaveRoom">
-                                                            {{ part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y') }}
+                                                            {{ part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y',false) }}
                                                             <br>
-                                                            <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s') }}
+                                                            <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s',false) }}
                                                         </div>
                                                     </div>
 
@@ -68,9 +72,9 @@
                     </div>
                     {% if status.destroyedAt %}
                         <div class="timelineENdRoom">
-                            <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('d.m.Y') }}
+                            <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('d.m.Y',false) }}
                             <i
-                                    class="fa-regular fa-clock"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('H:i:s') }}
+                                    class="fa-regular fa-clock"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('H:i:s',false) }}
                         </div>
 
                     {% endif %}
