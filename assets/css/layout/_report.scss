@@ -11,6 +11,15 @@
       .reportTimeLine_verticalLine {
         border-radius: 2px 2px 0 0;
       }
+
+      .arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        margin-left: 5px;
+        border-bottom: 5px solid $black_font-color;
+      }
     }
 
     .reportTimeLine_verticalLine {
@@ -24,8 +33,9 @@
       .reportTimeLine_verticalLine {
 
         border-right: #00c851 4px solid;
-        border-image: linear-gradient(180deg, $black_font-color 0%, rgba(0,200,81,1) 25%, rgba(0,200,81,1) 75%, $black_font-color 100%) 1;
+        border-image: linear-gradient(180deg, $black_font-color 0%, rgba(0, 200, 81, 1) 25%, rgba(0, 200, 81, 1) 75%, $black_font-color 100%) 1;
       }
+
       .onlineDot {
         width: 8px;
         height: 8px;

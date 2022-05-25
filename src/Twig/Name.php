@@ -6,8 +6,10 @@ use App\Entity\Checklist;
 use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\MessageService;
+use App\Service\ParticipantSearchService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\Markup;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use function GuzzleHttp\Psr7\str;
@@ -15,10 +17,12 @@ use function GuzzleHttp\Psr7\str;
 class Name extends AbstractExtension
 {
     private $parameterBag;
+    private ParticipantSearchService $participantSearchService;
 
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(ParameterBagInterface $parameterBag, ParticipantSearchService $participantSearchService)
     {
         $this->parameterBag = $parameterBag;
+        $this->participantSearchService = $participantSearchService;
     }
 
     public function getFilters()
@@ -27,8 +31,10 @@ class Name extends AbstractExtension
             new TwigFilter('nameOfUser', [$this, 'nameOfUser']),
         ];
     }
+
     public function nameOfUser(User $user)
     {
-        return $user->getFormatedName($this->parameterBag->get('laf_showName'));
+
+        return new Markup(str_replace(array('<script>','</script>'),array('<&lt;script&gt;','&lt;/script&gt;'),$this->participantSearchService->buildShowInFrontendString($user)), 'utf-8');
     }
 }

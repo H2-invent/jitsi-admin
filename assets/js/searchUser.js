@@ -3,8 +3,8 @@ import autosize from "autosize";
 import {Dropdown} from 'mdb-ui-kit'; // lib
 
 function initSearchUser() {
-
-    if ($('#searchUser') !== null) {
+var $searchUserField = document.getElementById('searchUser');
+    if ($searchUserField !== null) {
 
         let trigger = document.getElementById('searchUserDropdownTrigger')
         document.getElementById('searchUser').addEventListener("focus", (e)=>{
@@ -15,10 +15,15 @@ function initSearchUser() {
         })
         autosize($('#new_member_member'));
         autosize($('#new_member_moderator'));
+        $('.defaultSearch').mousedown(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        })
         $('#searchUser').keyup(function (e) {
             var $ele = $(this);
             var $search = $ele.val();
             var $url = $ele.attr('href') + '?search=' + $search;
+
             if ($search.length > 0) {
                 $.getJSON($url, function (data) {
                     var $target = $('#participantUser');
@@ -41,6 +46,7 @@ function initSearchUser() {
 
                     $('.chooseParticipant').mousedown(function (e) {
                         e.preventDefault();
+
                         var $textarea = $('#new_member_member');
                         var data = $textarea.val();
                         $textarea.val('').val($(this).data('val') + "\n" + data);
