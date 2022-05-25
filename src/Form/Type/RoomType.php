@@ -153,8 +153,7 @@ class RoomType extends AbstractType
                 'translation_domain' => 'form'
             ));
         }
-        $builder->add('submit', SubmitType::class, ['label' => 'label.speichern', 'translation_domain' => 'form', 'attr' => array(
-            'class' => 'btn btn-outline-primary')]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

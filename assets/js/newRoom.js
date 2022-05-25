@@ -1,15 +1,19 @@
 import $ from "jquery";
 import ('jquery-confirm');
 import {setCookie} from './cookie'
+import autosize from "autosize";
+
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
 
 function initNewRoomModal() {
-    $("#newRoom_form").submit(function (e) {
-
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-        let form = $(this);
+    $('#saveRoom').click(function (e) {
+        e.preventDefault();
+        var btn = $(this);
+        btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
+        btn.prop("disabled", true)
+        let form = $('#newRoom_form');
         let url = form.attr('action');
         let blocktext = form.data('blocktext');
         let kategorieInput = form.find('')
@@ -42,8 +46,15 @@ function initNewRoomModal() {
             console.log('kdsjhkfhdskj')
             sendToServer(form, url)
         }
+    })
 
+    autosize($('#room_agenda'));
+    $("#newRoom_form").submit(function (e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
     });
+
+
     initMoreSettings();
 
 }
@@ -66,9 +77,9 @@ function sendToServer(form, url) {
             } else {
                 $('.formError').remove();
                 for (var i = 0; i < $res['messages'].length; i++) {
-                    $('<div class="alert alert-dismissible fade show alert-danger" role="alert">' + $res['messages'][i] + '  <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>' +
+                    $('<div class="alert alert-dismissible fade show alert-danger w-100" role="alert">' + $res['messages'][i] + '  <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>' +
                         '</div>')
-                        .insertBefore(form.find('button[type=submit]'))
+                        .insertBefore($('#saveRoom'))
                 }
                 removeDisableBtn(form);
             }
@@ -77,7 +88,7 @@ function sendToServer(form, url) {
 }
 
 function removeDisableBtn(form) {
-    var btn = form.find('button[type=submit]');
+    var btn = $('#saveRoom');
     btn.find('.fas').remove();
     btn.prop("disabled", false)
 }

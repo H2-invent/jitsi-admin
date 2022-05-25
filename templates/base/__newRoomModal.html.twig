@@ -1,10 +1,12 @@
-<div class="modal-dialog modal-dialog-centered">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md ">
     <div class="modal-content">
+
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
-             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
+
         <div class="modal-body">
             {% set server = getServer(app.user) %}
             {% if server|length > 0 %}
@@ -142,7 +144,8 @@
                                                         {{ form_row(form.waitinglist) }}
                                                     </div>
                                                     <div class="col-sm-1">
-                                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                                        <a tabindex="0" data-mdb-toggle="popover"
+                                                           data-mdb-trigger="focus"
                                                            data-mdb-content="{{ 'Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren'|trans }}"><i
                                                                     class="fa fa-question-circle"></i></a>
                                                     </div>
@@ -201,10 +204,14 @@
                         {{ 'newRoom.error.noServer.addServer'|trans }}
                     {% else %}
                         {{ ''|trans }}
-                        {%  trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
+                        {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
                     {% endif %}
                 </div>
+
             {% endif %}
+        </div>
+        <div class="modal-footer">
+            <button href="#" id="saveRoom" class="btn btn-outline-primary" >{{ 'Speichern'|trans }}</button>
         </div>
     </div>
 </div>
