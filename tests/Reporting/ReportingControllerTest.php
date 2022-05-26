@@ -73,8 +73,8 @@ class ReportingControllerTest extends WebTestCase
             $crawler->filter('.partname:contains("aus der Konferenz 1 Tag")')->count()
         );
         $this->assertEquals(
-            1,
-            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAt()->format('H:i:s') . '")')->count()
+            2,
+            $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAt()->format('d.m.Y') . '")')->count()
         );
         $this->assertEquals(
             1,
