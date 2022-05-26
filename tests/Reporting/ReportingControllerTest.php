@@ -76,6 +76,7 @@ class ReportingControllerTest extends WebTestCase
             2,
             $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAt()->format('d.m.Y') . '")')->count()
         );
+
         $this->assertEquals(
             1,
             $crawler->filter('.statusOpeningDate:contains("' . $status->getRoomCreatedAt()->format('H:i:s') . '")')->count()

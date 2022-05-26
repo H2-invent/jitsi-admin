@@ -252,4 +252,13 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findRoomByCaseInsensitiveUid($value): ?Rooms
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('upper(r.uid) = upper(:val)')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

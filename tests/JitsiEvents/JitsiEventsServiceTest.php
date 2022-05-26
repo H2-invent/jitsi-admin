@@ -72,6 +72,26 @@ class JitsiEventsServiceTest extends KernelTestCase
         self::assertEquals(JitsiEventsServiceTest::$roomCreatedData['created_at'], $room->getRoomstatuses()[0]->getRoomCreatedAt()->getTimestamp());
     }
 
+    public function testroomCreatedWebhookCaseInsensitive(): void
+    {
+        $kernel = self::bootKernel();
+
+        $webhookService = self::getContainer()->get(RoomWebhookService::class);
+
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $testData = self::$roomCreatedData;
+        $testData['room_name'] = 'roomtomorrow' ;
+        self::assertNull($webhookService->startWebhook($testData));
+        $room = $roomRepo->findOneBy(array('uid' => 'roomtomorrow'));
+        self::assertEquals(1, sizeof($room->getRoomstatuses()));
+        self::assertEquals(true, $room->getRoomstatuses()[0]->getCreated());
+        self::assertEquals(null, $room->getRoomstatuses()[0]->getDestroyed());
+        self::assertEquals(null, $room->getRoomstatuses()[0]->getDestroyedAt());
+        self::assertNotNull($room->getRoomstatuses()[0]->getUpdatedAt());
+        self::assertNotNull($room->getRoomstatuses()[0]->getCreated());
+        self::assertEquals(JitsiEventsServiceTest::$roomCreatedData['created_at'], $room->getRoomstatuses()[0]->getRoomCreatedAt()->getTimestamp());
+    }
+
     public function testroomDestroyWebhook(): void
     {
         $kernel = self::bootKernel();

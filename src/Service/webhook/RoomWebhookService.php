@@ -59,7 +59,12 @@ class RoomWebhookService
                 $this->logger->error($text, array('roomId' => $data['event_name']));
                 return $text;
             }
-            $room = $this->em->getRepository(Rooms::class)->findOneBy(array('uid' => $data['room_name']));
+            try {
+                $room = $this->em->getRepository(Rooms::class)->findRoomByCaseInsensitiveUid($data['room_name']);
+            }catch (\Exception $exception){
+               $this->logger->error($exception->getMessage());
+            }
+
             if (!$room) {
                 $text = 'Room name not found';
                 $this->logger->error($text, array('roomId' => $data['room_name']));

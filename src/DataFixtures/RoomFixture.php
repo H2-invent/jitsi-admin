@@ -221,7 +221,7 @@ class RoomFixture extends Fixture
             $room->addUser($user);
             $room->addUser($user2);
             $room->addUser($user3);
-            $room->setUid('12345678' . $i);
+            $room->setUid('123456789' . $i);
             $room->setUidReal('987654321' . $i);
             $room->setSlug('test');
             $room->setScheduleMeeting(true);
@@ -311,7 +311,7 @@ class RoomFixture extends Fixture
         $room->setModerator($user);
         $room->addUser($user);
         $room->addUser($user2);
-        $room->setUid(md5(uniqid()));
+        $room->setUid('roomTomorrow');
         $room->setUidReal(md5(uniqid()));
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
@@ -363,7 +363,7 @@ class RoomFixture extends Fixture
         $room->setModerator($user);
         $room->addUser($user);
         $room->addUser($user2);
-        $room->setUid(md5(uniqid()));
+        $room->setUid('runningRoomNow');
         $room->setUidReal(md5(uniqid()));
         $room->setSlug('test5');
         $room->setScheduleMeeting(false);
