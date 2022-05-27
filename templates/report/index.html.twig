@@ -36,7 +36,7 @@
                                 <div class="reportTimeLine_part_Content d-flex flex-column">
                                     <h6 class="d-flex align-items-center partname">
                                         <div class="onlineDot"></div>
-                                        {{ part.participantName }}</h6>
+                                        {{ part.participantName|raw }}</h6>
 
                                     {% set enter = part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y',false) %}
                                     <div class="partEnterRoom d-flex">
