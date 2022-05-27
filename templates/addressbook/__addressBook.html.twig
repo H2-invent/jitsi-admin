@@ -7,10 +7,10 @@
 </div>
 <ul class="list-group">
     {% set name = null %}
-    {% for u in app.user.addressbook|sort((a, b) => a|nameOfUser|lower <=> b|nameOfUser|lower) %}
-        {% if u|nameOfUser|first|upper != name %}
-            {{ u|nameOfUser|first|upper }}
-            {% set name = u|nameOfUser|first|upper %}
+    {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
+        {% if u|nameOfUserNoSymbol|first|upper != name %}
+            {{ u|nameOfUserNoSymbol|first|upper }}
+            {% set name = u|nameOfUserNoSymbol|first|upper %}
         {% endif %}
 
         <li class="list-group-item" style="display: flex; justify-content: space-between">

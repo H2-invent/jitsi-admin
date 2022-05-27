@@ -215,4 +215,14 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->buildShowInFrontendString($user);
         self::assertEquals('<i class="fa fa-phone" title="0123456789" data-toggle="tooltip"></i> Test1, 1234, User, Test', $res);
     }
+
+    public function testgenerateNameNoIcon(): void
+    {
+        $kernel = self::bootKernel();
+        $searchService = $this->getContainer()->get(ParticipantSearchService::class);
+        $userRepo = self::$container->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $res = $searchService->buildShowInFrontendStringNoString($user);
+        self::assertEquals('Test1, 1234, User, Test', $res);
+    }
 }

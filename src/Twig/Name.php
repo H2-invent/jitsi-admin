@@ -29,12 +29,24 @@ class Name extends AbstractExtension
     {
         return [
             new TwigFilter('nameOfUser', [$this, 'nameOfUser']),
+            new TwigFilter('nameOfUserNoSymbol', [$this, 'nameOfUserNoSymbol']),
         ];
     }
 
     public function nameOfUser(User $user)
     {
 
-        return new Markup(str_replace(array('<script>','</script>'),array('<&lt;script&gt;','&lt;/script&gt;'),$this->participantSearchService->buildShowInFrontendString($user)), 'utf-8');
+        return new Markup(
+            str_replace(
+                array('<script>', '</script>'),
+                array('<&lt;script&gt;', '&lt;/script&gt;'),
+                $this->participantSearchService->buildShowInFrontendString($user)
+            ),
+            'utf-8'
+        );
+    }
+    public function nameOfUserNoSymbol(User $user)
+    {
+        return $this->participantSearchService->buildShowInFrontendStringNoString($user);
     }
 }

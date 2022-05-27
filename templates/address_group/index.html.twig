@@ -29,7 +29,8 @@
                     <ul class="list-group" id="addressGroupList">
                         {%  for member in form.member %}
                             <li class="list-group-item">
-                                {{ form_row(member) }}
+                                {{ form_widget(member)|raw }}
+
                             </li>
                         {% endfor %}
                     </ul>

@@ -75,4 +75,11 @@ class ParticipantSearchService
         return $res;
 
     }
+    public function buildShowInFrontendStringNoString(User $user)
+    {
+        $res = '';
+        $res .= $user->getFormatedName($this->parameterBag->get('laf_showName'));
+        return $res;
+
+    }
 }
