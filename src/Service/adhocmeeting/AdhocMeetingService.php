@@ -4,6 +4,7 @@ namespace App\Service\adhocmeeting;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\Tag;
 use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
 use App\Service\RoomGeneratorService;
@@ -42,10 +43,14 @@ class AdhocMeetingService
         $this->urlGen = $urlGenerator;
     }
 
-    public function createAdhocMeeting(User $creator, User $reciever, Server $server): ?Rooms
+    public function createAdhocMeeting(User $creator, User $reciever, Server $server, Tag $tag = null): ?Rooms
     {
         $room = $this->roomGeneratorService->createRoom($creator, $server);
-
+        if ($tag){
+            $room->setTag($tag);
+        }else{
+            $room->setTag(null);
+        }
         $now = new \DateTime('now', TimeZoneService::getTimeZone($creator));
         $room->setStart($now);
         if ($this->parameterBag->get('allowTimeZoneSwitch') == 1) {

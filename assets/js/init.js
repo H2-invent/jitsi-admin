@@ -5,7 +5,7 @@ import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
 import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
-
+import {initAdhocMeeting} from './adhoc'
 var audio = new Audio(notificationSound);
 import {TabUtils} from './tabBroadcast'
 
@@ -15,6 +15,7 @@ function initGenerell() {
     initDarkmodeSwitch();
     initLayzLoading();
     openBlankTarget(blankTarget);
+    initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
 }
 function openBlankTarget(targets) {
     targets.forEach(function (value,i) {

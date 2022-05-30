@@ -16,6 +16,7 @@ class RoomGeneratorService
     private $parameterBag;
     private $callerPrepareService;
     private $em;
+
     public function __construct(ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager)
     {
         $this->parameterBag = $parameterBag;
@@ -57,11 +58,14 @@ class RoomGeneratorService
             }
         }
         $room = $this->createCallerId($room);
-        if ($this->parameterBag->get('input_settings_allow_tag') == 1 ) {
-            $tag = $this->em->getRepository(Tag::class)->findOneBy(array('disabled'=>false),array('priority'=>'ASC'));
+        if ($this->parameterBag->get('input_settings_allow_tag') == 1) {
+            $tag = $this->em->getRepository(Tag::class)->findOneBy(array('disabled' => false), array('priority' => 'ASC'));
+            if ($tag) {
+                $room->setTag($tag);
+            }
+
         }
 
-        $room->setTag($tag);
         return $room;
     }
 

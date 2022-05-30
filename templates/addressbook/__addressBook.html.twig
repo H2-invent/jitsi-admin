@@ -17,9 +17,9 @@
             <span class="breakWord">{{ u|nameOfUser }} </span>
             <span class="noBreak d-flex">
                 {% if servers|length == 1 %}
-                    <a class="text-success confirmloadOpenPopUp me-2"
+                    <a class="text-success adhocConfirm me-2"
                        data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                       href="{{ path('add_hoc_meeting',{'serverId':servers[0].id,'userId':u.id}) }}">
+                       href="{{ path('add_hoc_confirm',{'serverId':servers[0].id,'userId':u.id}) }}">
                         <i class="fa fa-phone"></i>
                              </a>
                 {% else %}
@@ -29,9 +29,9 @@
                              </a>
                     <div class="dropdown-menu">
             {% for s in servers %}
-                <a class="dropdown-item confirmloadOpenPopUp"
+                <a class="dropdown-item adhocConfirm"
                    data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                   href="{{ path('add_hoc_meeting',{'serverId':s.id,'userId':u.id}) }}">{{ s.serverName }}</a>
+                   href="{{ path('add_hoc_confirm',{'serverId':s.id,'userId':u.id}) }}">{{ s.serverName }}</a>
             {% endfor %}
 
         </div>
