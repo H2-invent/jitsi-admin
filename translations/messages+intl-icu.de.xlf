@@ -1625,12 +1625,20 @@
         <target>Protokoll</target>
       </trans-unit>
       <trans-unit id="TW0JasJ" resname="report.error.noStatus">
-        <source>Diese Konferenz hat bisher keine Reports zum Anzeigen.</source>
+        <source>report.error.noStatus</source>
         <target>Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
       </trans-unit>
       <trans-unit id="t4ekf55" resname="report.info.timezone">
         <source>report.info.timezone</source>
         <target>Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+      </trans-unit>
+      <trans-unit id="YqAtmOj" resname="tag.name">
+        <source>Kategorie</source>
+        <target>Kategorie</target>
+      </trans-unit>
+      <trans-unit id="9rL.OfV" resname="Speichern">
+        <source>Speichern</source>
+        <target>Speichern</target>
       </trans-unit>
     </body>
   </file>

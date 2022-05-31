@@ -41,7 +41,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('option', '');
+        self::assertSelectorTextContains('option', "");
 
         assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId(), $client->getResponse()->getContent());
         self::assertEquals(1,
@@ -77,8 +77,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('option', '');
-        echo $client->getResponse()->getContent();
+        self::assertSelectorTextContains('option', "");
         assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId().'/'.$tagEnable->getId(), $client->getResponse()->getContent());
         self::assertSelectorTextContains('option','Test Tag Enabled');
         self::assertEquals(1,
@@ -104,7 +103,6 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('option', '');
         echo $client->getResponse()->getContent();
         self::assertEquals(6,
             $crawler->filter('option')->count());
