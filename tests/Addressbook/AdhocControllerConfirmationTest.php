@@ -41,13 +41,13 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('option', "");
-
         assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId(), $client->getResponse()->getContent());
         self::assertEquals(1,
             $crawler->filter('option')->count());
         self::assertEquals(1,
             $crawler->filter('.d-none')->count());
+        self::assertEquals(1,
+            $crawler->filter('option:contains("")')->count());
     }
 
     public function testcreateAdhocMeetingConfirmationWindowwithOneTag(): void
@@ -77,13 +77,15 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('option', "");
+
         assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId().'/'.$tagEnable->getId(), $client->getResponse()->getContent());
         self::assertSelectorTextContains('option','Test Tag Enabled');
         self::assertEquals(1,
             $crawler->filter('option')->count());
         self::assertEquals(1,
             $crawler->filter('.d-none')->count());
+        self::assertEquals(1,
+            $crawler->filter('option:contains("")')->count());
 
     }
 
@@ -103,7 +105,6 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
-        echo $client->getResponse()->getContent();
         self::assertEquals(6,
             $crawler->filter('option')->count());
         $tagRepo = self::getContainer()->get(TagRepository::class);
@@ -111,6 +112,8 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $tag = $tagRepo->findBy(array('disabled'=>false));
         foreach ($tag as $data) {
             assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId().'/'.$data->getId(), $client->getResponse()->getContent());
+            self::assertEquals(1,
+                $crawler->filter('option:contains("'.$data->getTitle().'")')->count());
         }
     }
 }
