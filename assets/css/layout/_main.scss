@@ -220,11 +220,11 @@ strong {
 }
 
 .window {
-  display: grid;
-  background-color: #f3f3f3;
   @media only screen and (min-width: 1502px) {
     grid-column-gap: 18px;
   }
+  display: grid;
+  background-color: #f3f3f3;
   height: 100vh;
   width: 100%;
   position: absolute;
@@ -232,7 +232,6 @@ strong {
   left: 0;
   grid-template-columns: min-content auto;
   grid-template-rows: min-content auto min-content;
-
 
   .sidebarToggle {
     height: 50px;

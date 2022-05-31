@@ -359,3 +359,12 @@ hr {
   }
 
 }
+
+
+@supports (-webkit-appearance:none) {
+  .frozenGlas {
+    background-color: transparent!important;
+    backdrop-filter: blur(5px);
+  }
+}
+
