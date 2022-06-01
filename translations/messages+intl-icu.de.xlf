@@ -1633,12 +1633,16 @@
         <target>Alle Zeitangaben sind in der Zeitzone {timezone}</target>
       </trans-unit>
       <trans-unit id="YqAtmOj" resname="tag.name">
-        <source>Kategorie</source>
+        <source>tag.name</source>
         <target>Kategorie</target>
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
         <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="QTciEb5" resname="report.speakerTime">
+        <source>report.speakerTime</source>
+        <target>Aktive Sprechzeit</target>
       </trans-unit>
     </body>
   </file>

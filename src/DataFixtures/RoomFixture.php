@@ -40,7 +40,6 @@ class RoomFixture extends Fixture
         $manager->persist($user);
 
 
-
         $user2 = new \App\Entity\User();
         $user2->setEmail('test@local2.de');
         $user2->setCreatedAt(new \DateTime());
@@ -437,7 +436,8 @@ class RoomFixture extends Fixture
             ->setParticipantId('inderKonferenz@test.de')
             ->setParticipantName('beim letzen mal')
             ->setRoomStatus($roomStatus)
-            ->setEnteredRoomAt(new \DateTime());
+            ->setEnteredRoomAt(new \DateTime())
+            ->setDominantSpeakerTime(11100000);
         $manager->persist($roomStatusPart);
         $manager->flush();
 

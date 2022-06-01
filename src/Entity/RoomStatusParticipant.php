@@ -48,6 +48,11 @@ class RoomStatusParticipant
      */
     private $participantName;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $dominantSpeakerTime;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +172,18 @@ class RoomStatusParticipant
     public function setParticipantName(string $participantName): self
     {
         $this->participantName = $participantName;
+
+        return $this;
+    }
+
+    public function getDominantSpeakerTime(): ?int
+    {
+        return $this->dominantSpeakerTime;
+    }
+
+    public function setDominantSpeakerTime(?int $dominantSpeakerTime): self
+    {
+        $this->dominantSpeakerTime = $dominantSpeakerTime;
 
         return $this;
     }
