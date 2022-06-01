@@ -241,8 +241,8 @@
         <source>Anzahl Konferenzen</source>
         <target state="final">Nombre de conférences</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer" approved="yes">
-        <source>Anzahl Teilnehmer</source>
+      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene" approved="yes">
+        <source>Anzahl Eingeladene</source>
         <target state="final">Nombre de participants</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch" approved="yes">

@@ -241,9 +241,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">Anzahl der Konferenzen</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmer</source>
-        <target state="translated">Anzahl der Teilnehmenden</target>
+      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
+        <source>Anzahl Eingeladene</source>
+        <target state="translated">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>

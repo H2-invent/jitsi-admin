@@ -14,6 +14,7 @@ use App\Entity\Server;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 use App\Service\ThemeService;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -37,13 +38,15 @@ class RoomType extends AbstractType
     private $logger;
     private $theme;
     private $translator;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(ParameterBagInterface $parameterBag, LoggerInterface $logger, ThemeService $themeService, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, ParameterBagInterface $parameterBag, LoggerInterface $logger, ThemeService $themeService, TranslatorInterface $translator)
     {
         $this->parameterBag = $parameterBag;
         $this->logger = $logger;
         $this->theme = $themeService;
         $this->translator = $translator;
+        $this->entityManager = $entityManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -63,6 +66,7 @@ class RoomType extends AbstractType
                     'attr' => array('class' => 'moreFeatures')
                 ]);
         }
+        $tags = $this->entityManager->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
 
         $builder
             ->add('name', TextType::class, ['required' => false, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
@@ -139,19 +143,17 @@ class RoomType extends AbstractType
         }
         if ($options['showTag']) {
             $this->logger->debug('Add the possibility to select a tag');
-            $builder->add('tag', EntityType::class, array(
-                'class' => Tag::class,
-                'choice_label' => 'title',
-                'query_builder' => function (TagRepository $er) {
-                    return $er->createQueryBuilder('t')
-                        ->andWhere('t.disabled = :false')
-                        ->setParameter('false', false)
-                        ->orderBy('t.priority', 'ASC');
-                },
-                'required' => true,
-                'label' => 'label.tag',
-                'translation_domain' => 'form'
-            ));
+            if (sizeof($tags)>0){
+                $builder->add('tag', EntityType::class, array(
+                    'class' => Tag::class,
+                    'choice_label' => 'title',
+                    'choices' =>$tags,
+                    'required' => true,
+                    'label' => 'label.tag',
+                    'translation_domain' => 'form'
+                ));
+            }
+
         }
         $builder->add('submit', SubmitType::class, ['label' => 'label.speichern', 'translation_domain' => 'form', 'attr' => array(
             'class' => 'd-none')]);

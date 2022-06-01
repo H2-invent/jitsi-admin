@@ -20,11 +20,11 @@
                             {{ form_row(form.server) }}
                         {% endif %}
                     </div>
-                    {% if form.tag is defined and form.tag.vars.choices|length > 0 %}
+                    {% if form.tag is defined %}
                         <div class="col-sm-11">
                             {{ form_row(form.tag) }}
                         </div>
-                        <div class="col-sm-1">
+                        <div class="col-sm-1 d-flex align-items-center">
                             <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
                                         class="fa fa-question-circle"></i></a>
@@ -58,7 +58,7 @@
                                     <div class="col-sm-11">
                                         {{ form_row(form.timeZone) }}
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-1 d-flex align-items-center">
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
@@ -74,7 +74,7 @@
                                 <div class="col-sm-11">
                                     {{ form_row(form.lobby) }}
                                 </div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-1 d-flex align-items-center">
                                     <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                        data-mdb-content="{{ 'room.new.help.lobby'|trans }}"><i
                                                 class="fa fa-question-circle"></i></a>
@@ -100,7 +100,7 @@
                                     <div class="col-sm-11">
                                         {{ form_row(form.scheduleMeeting) }}
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-1 d-flex align-items-center">
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Es wird eine Terminumfrage erstellt, keine Konferenz.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
@@ -111,7 +111,7 @@
                                     <div class="col-sm-11">
                                         {{ form_row(form.onlyRegisteredUsers) }}
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-1 d-flex align-items-center">
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
@@ -121,7 +121,7 @@
                                     <div class="col-sm-11">
                                         {{ form_row(form.public) }}
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-1 d-flex align-items-center">
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
@@ -134,7 +134,7 @@
                                                 <div class="col-sm-11">
                                                     {{ form_row(form.maxParticipants) }}
                                                 </div>
-                                                <div class="col-sm-1">
+                                                <div class="col-sm-1 d-flex align-items-center">
                                                     <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                                        data-mdb-content="{{ 'Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können'|trans }}"><i
                                                                 class="fa fa-question-circle"></i></a>
@@ -143,7 +143,7 @@
                                                     <div class="col-sm-11">
                                                         {{ form_row(form.waitinglist) }}
                                                     </div>
-                                                    <div class="col-sm-1">
+                                                    <div class="col-sm-1 d-flex align-items-center">
                                                         <a tabindex="0" data-mdb-toggle="popover"
                                                            data-mdb-trigger="focus"
                                                            data-mdb-content="{{ 'Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren'|trans }}"><i
@@ -160,7 +160,7 @@
                                     <div class="col-sm-11">
                                         {{ form_row(form.showRoomOnJoinpage) }}
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-1 d-flex align-items-center">
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
@@ -173,7 +173,7 @@
                                             <div class="col-sm-11">
                                                 {{ form_row(form.dissallowScreenshareGlobal) }}
                                             </div>
-                                            <div class="col-sm-1">
+                                            <div class="col-sm-1 d-flex align-items-center">
                                                 <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                                    data-mdb-content="{{ 'Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden'|trans }}"><i
                                                             class="fa fa-question-circle"></i></a>
@@ -185,7 +185,7 @@
                                     <div class="col-sm-11">
                                         {{ form_row(form.totalOpenRooms) }}
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-1 d-flex align-items-center">
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
