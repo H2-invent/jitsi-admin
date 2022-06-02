@@ -76,6 +76,7 @@ function moveWrapper() {
     stopWebcam();
 
     $('body').prepend('<div id="frame"></div>');
+    $('#logo_image').prop('href','#').addClass('stick').prependTo('body');
     var frameDIv = $('#frame');
     frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
     frameDIv.prepend($('#jitsiWrapper'));

@@ -40,7 +40,7 @@
 <div id="mainContent" class="wrapper">
     <div class="window" id="window">
         <div class="navigation z-depth-1">
-            <a href="{{ path('index') }}">
+            <a href="{{ path('index') }}" id="logo_image">
                 <img class="d-none d-sm-block" src="
                     {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
                                 {{ server.logoUrl }}

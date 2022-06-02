@@ -9,9 +9,39 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('join') }}
 </head>
 <body style="margin: 0">
+<a href="#" id="logo_image" class="stick">
+    <img class="d-none d-sm-block" src="
+                    {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo.png') }}
+                            {% else %}
+                                {{ theme.logo }}
+                            {% endif %}
+
+                        {% endif %}"
+         alt="Logo"
+         style="height: 50px; width: auto">
+    <img class="d-block d-sm-none" src="
+                        {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                                {{ server.logoUrl }}
+                        {% else %}
+                            {% if theme == false %}
+                                {{ asset('logo_small.png') }}
+                            {% else %}
+                                {{ theme.logo }}
+                            {% endif %}
+
+                        {% endif %}
+                    "
+         alt="Logo"
+         style="height: 50px; width: auto">
+
+</a>
 <div id="frame">
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
@@ -45,6 +75,7 @@
             },
             interfaceConfigOverwrite: {
                 MOBILE_APP_PROMO: false,
+                SHOW_JITSI_WATERMARK: false
             },
 
             parentNode: document.querySelector('#jitsiWindow'),

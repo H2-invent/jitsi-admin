@@ -75,7 +75,8 @@ class ToParticipantWebsocketService
                         'prejoinPageEnabled' => false
                     ),
                     'interfaceConfigOverwrite' => array(
-                        'MOBILE_APP_PROMO' => false
+                        'MOBILE_APP_PROMO' => false,
+                        'SHOW_JITSI_WATERMARK' => false,
                     )
                 ),
                 'roomName' => $lobbyWaitungUser->getRoom()->getName(),
