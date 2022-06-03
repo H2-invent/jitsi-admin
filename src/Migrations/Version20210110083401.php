@@ -20,7 +20,7 @@ final class Version20210110083401 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        if (!$schema->getTable('fos_user')->hasColumn('email')) {
+        if (!$schema->hasTable('fos_user')) {
             $this->addSql('CREATE TABLE fos_user (id INT AUTO_INCREMENT NOT NULL, email LONGTEXT NOT NULL, keycloak_id LONGTEXT DEFAULT NULL, created_at DATETIME DEFAULT NULL, username LONGTEXT DEFAULT NULL, last_login DATETIME DEFAULT NULL, first_name LONGTEXT DEFAULT NULL, last_name LONGTEXT DEFAULT NULL, register_id LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
             $this->addSql('CREATE TABLE rooms (id INT AUTO_INCREMENT NOT NULL, server_id INT NOT NULL, moderator_id INT DEFAULT NULL, name LONGTEXT NOT NULL, start DATETIME NOT NULL, enddate DATETIME DEFAULT NULL, uid LONGTEXT NOT NULL, duration DOUBLE PRECISION NOT NULL, sequence INT NOT NULL, INDEX IDX_7CA11A961844E6B7 (server_id), INDEX IDX_7CA11A96D0AFA354 (moderator_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
             $this->addSql('CREATE TABLE rooms_user (rooms_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_EA64C2B48E2368AB (rooms_id), INDEX IDX_EA64C2B4A76ED395 (user_id), PRIMARY KEY(rooms_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
