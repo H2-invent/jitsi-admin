@@ -23,7 +23,7 @@
                         </div>
 
                     {% endif %}
-                    <div class="partList">
+                    <div class="partList position-relative">
                         {% for part in status.roomStatusParticipants %}
                             <div class="reportTimeLine_time d-flex {% if part.inRoom %} online {% endif %}">
 
@@ -70,13 +70,25 @@
                                         {% if part.dominantSpeakerTime %}
                                             <div class="speakerTime ms-3">
                                                 {{ 'report.speakerTime'|trans }}:<br>
-                                                {{ ((part.dominantSpeakerTime/1000/60)//60)| format_number({min_integer_digit:'2'}) }}:{{ ((part.dominantSpeakerTime/1000/60) % 60)| format_number({min_integer_digit:'2'}) }}h
+                                                {{ ((part.dominantSpeakerTime/1000/60)//60)| format_number({min_integer_digit:'2'}) }}
+                                                :{{ ((part.dominantSpeakerTime/1000/60) % 60)| format_number({min_integer_digit:'2'}) }}
+                                                h
+                                                ({{ (part.dominantSpeakerTime/getTotalSpeakingTime(status)*100)|number_format(1, ',', '.') }}
+                                                %)
                                             </div>
                                         {% endif %}
                                     </div>
                                 </div>
                             </div>
                         {% endfor %}
+                        {% if getTotalSpeakingTime(status) > 0 %}
+                            <canvas width="400" height="200"
+                                    class="d-none showOnHover position-absolute chartjs-render-field"
+                                    data-values='[{% for p in status.roomStatusParticipants %}{{ (p.dominantSpeakerTime/getTotalSpeakingTime(status)*100)|round(1) }}{% if not loop.last %},{% endif %} {% endfor %}]'
+                                    data-labels='[{% for p in status.roomStatusParticipants %}"{{ p.participantName|escape('js') }}"{% if not loop.last %},{% endif %} {% endfor %}]'
+                                    data-label="{{ 'report.speakerTime'|trans }} (%)">
+                            </canvas>
+                        {% endif %}
                     </div>
 
                     <div class="statusOpeningDate">

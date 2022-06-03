@@ -31,6 +31,7 @@ import {attach, init} from 'node-waves'
 import {initNewRoomModal} from './newRoom'
 import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
+import {initChart} from './chart'
 
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
@@ -187,6 +188,7 @@ function initNewModal(e){
     initRepeater();
     initKeycloakGroups();
     initAddressGroupSearch();
+    initChart();
     document.querySelectorAll('.form-outline').forEach((formOutline) => {
         new mdb.Input(formOutline).init();
     });

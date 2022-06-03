@@ -50,4 +50,25 @@
       margin-bottom: 8px;
     }
   }
+
+  .showOnHover {
+    background-color: white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 200px;
+    height: inherit;
+    -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+    box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+  }
+
+  .partList {
+    &:hover > .showOnHover {
+      display: block !important;
+      z-index: 5;
+    }
+  }
 }
+

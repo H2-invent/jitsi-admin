@@ -1,0 +1,43 @@
+import Chart from 'chart.js'
+import stc from "string-to-color";
+
+function initChart() {
+    var ctx = document.querySelectorAll('.chartjs-render-field');
+
+    ctx.forEach(function (e) {
+        var background = [];
+        JSON.parse(e.dataset.labels).forEach(function (c) {
+            background.push(stc(c));
+        })
+        const myChart = new Chart(e, {
+            type: 'bar',
+            data: {
+                labels: JSON.parse(e.dataset.labels),
+                datasets: [{
+                    label: e.dataset.label,
+                    data: JSON.parse(e.dataset.values),
+                    backgroundColor: background,
+                    borderColor: background,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        text:'%',
+                        ticks: {
+                            callback: function (value, index, ticks) {
+                                console.log(value);
+                                return  value+'%';
+                            }
+                        }
+
+                    }
+                }
+            }
+        });
+    })
+}
+
+export {initChart}
