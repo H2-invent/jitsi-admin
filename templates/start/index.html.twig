@@ -12,8 +12,15 @@
     {{ encore_entry_link_tags('join') }}
 </head>
 <body style="margin: 0">
-<a href="#" id="logo_image" class="stick">
-    <img class="d-none d-sm-block" src="
+
+<div id="frame">
+    {% if room.tag is not null %}
+        <p class="floating-tag" id="tagContent"
+           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+    {% endif %}
+    <div class="w-100" id="jitsiWindow">
+        <a href="#" id="logo_image" class="stick">
+            <img class="d-none d-sm-block" src="
                     {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
                         {% else %}
@@ -24,9 +31,9 @@
                             {% endif %}
 
                         {% endif %}"
-         alt="Logo"
-         style="height: 50px; width: auto">
-    <img class="d-block d-sm-none" src="
+                 alt="Logo"
+                 style="height: 50px; width: auto">
+            <img class="d-block d-sm-none" src="
                         {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
                         {% else %}
@@ -38,17 +45,10 @@
 
                         {% endif %}
                     "
-         alt="Logo"
-         style="height: 50px; width: auto">
+                 alt="Logo"
+                 style="height: 50px; width: auto">
 
-</a>
-<div id="frame">
-    {% if room.tag is not null %}
-        <p class="floating-tag" id="tagContent"
-           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
-    {% endif %}
-    <div class="w-100" id="jitsiWindow">
-
+        </a>
     </div>
 </div>
 

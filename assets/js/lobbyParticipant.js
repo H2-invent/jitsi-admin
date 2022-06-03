@@ -102,9 +102,9 @@ $('.leave').click(function (e) {
 function initJitsiMeet(data) {
     stopWebcam();
     $('body').prepend('<div id="frame"></div>');
-    $('#logo_image').prop('href','#').addClass('stick').prependTo('body');
-    var frameDIv = $('#frame');
 
+    var frameDIv = $('#frame');
+    $('#logo_image').prop('href','#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($(data.options.parentNode));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
     $('#window').remove();

@@ -69,10 +69,10 @@
   background: white;
 }
 
-
 #jitsiWindow {
   height: inherit;
   overflow: hidden;
+  position: relative;
 }
 
 #jitsiWrapper.inMeeting {
