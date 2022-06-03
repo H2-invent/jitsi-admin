@@ -241,9 +241,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">Number of conferences</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmer</source>
-        <target state="translated">Number of participants</target>
+      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
+        <source>Anzahl Eingeladene</source>
+        <target state="needs-translation">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -1463,10 +1463,6 @@
         <source>lobby.change.moderator.permissions</source>
         <target state="needs-translation">Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target/>
-      </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
         <target state="translated">The conference has finished.</target>
@@ -1580,15 +1576,15 @@
         <target state="translated">Loading time</target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
-        <source>Verifizierter Anrufer</source>
+        <source>lobby.verified</source>
         <target state="translated">Verified caller</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
-        <source>Jetzt beitreten</source>
+        <source>lobby.participant.enterNow</source>
         <target state="translated">Join now</target>
       </trans-unit>
       <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
-        <source>Noch nicht beitreten</source>
+        <source>lobby.participant.pauseEnter</source>
         <target state="translated">Do not enter yet</target>
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
@@ -1596,7 +1592,7 @@
         <target state="translated">Your input has been saved successfully.</target>
       </trans-unit>
       <trans-unit id="4wVQAJs" resname="room.new.help.tag">
-        <source>Wählen Sie hier eine Kategorie für diese Konferenz aus.</source>
+        <source>room.new.help.tag</source>
         <target state="translated">Select a category for this conference.</target>
       </trans-unit>
       <trans-unit id="YU._Rbu" resname="Geplant von">
@@ -1608,8 +1604,36 @@
         <target state="translated">If you save this conference, the category can not be changed anymore.</target>
       </trans-unit>
       <trans-unit id="K_dllFy" resname="status.inconference.number">
-        <source>{number}</source>
+        <source>status.inconference.number</source>
         <target state="translated">{number}</target>
+      </trans-unit>
+      <trans-unit id="5QumSMJ" resname="report.title">
+        <source>report.title</source>
+        <target state="needs-translation">Protokoll</target>
+      </trans-unit>
+      <trans-unit id="LR82Vwn" resname="report.dropdown.item">
+        <source>report.dropdown.item</source>
+        <target state="needs-translation">Protokoll</target>
+      </trans-unit>
+      <trans-unit id="TW0JasJ" resname="report.error.noStatus">
+        <source>report.error.noStatus</source>
+        <target state="needs-translation">Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="t4ekf55" resname="report.info.timezone">
+        <source>report.info.timezone</source>
+        <target state="needs-translation">Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+      </trans-unit>
+      <trans-unit id="YqAtmOj" resname="tag.name">
+        <source>tag.name</source>
+        <target state="needs-translation">Kategorie</target>
+      </trans-unit>
+      <trans-unit id="9rL.OfV" resname="Speichern">
+        <source>Speichern</source>
+        <target state="needs-translation">Speichern</target>
+      </trans-unit>
+      <trans-unit id="QTciEb5" resname="report.speakerTime">
+        <source>report.speakerTime</source>
+        <target state="needs-translation">Aktive Sprechzeit</target>
       </trans-unit>
     </body>
   </file>
