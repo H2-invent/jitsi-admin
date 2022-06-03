@@ -70,11 +70,8 @@
                                         {% if part.dominantSpeakerTime %}
                                             <div class="speakerTime ms-3">
                                                 {{ 'report.speakerTime'|trans }}:<br>
-                                                {{ ((part.dominantSpeakerTime/1000/60)//60)| format_number({min_integer_digit:'2'}) }}
-                                                :{{ ((part.dominantSpeakerTime/1000/60) % 60)| format_number({min_integer_digit:'2'}) }}
-                                                h
-                                                ({{ (part.dominantSpeakerTime/getTotalSpeakingTime(status)*100)|number_format(1, ',', '.') }}
-                                                %)
+                                                {{ ((part.dominantSpeakerTime/1000/60)//60)| format_number({min_integer_digit:'2'}) }}:{{ ((part.dominantSpeakerTime/1000/60) % 60)| format_number({min_integer_digit:'2'}) }}h
+                                                ({{ (part.dominantSpeakerTime/getTotalSpeakingTime(status)*100)|number_format(1, ',', '.') }}%)
                                             </div>
                                         {% endif %}
                                     </div>
