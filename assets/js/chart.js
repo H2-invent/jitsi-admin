@@ -1,4 +1,5 @@
-import Chart from 'chart.js'
+import Chart from 'chart.js/auto';
+
 import stc from "string-to-color";
 
 function initChart() {
@@ -28,7 +29,6 @@ function initChart() {
                         text:'%',
                         ticks: {
                             callback: function (value, index, ticks) {
-                                console.log(value);
                                 return  value+'%';
                             }
                         }
