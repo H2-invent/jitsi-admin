@@ -127,7 +127,8 @@ class LobbyToParticipantsTest extends KernelTestCase
                                     'prejoinPageEnabled' => false
                                 ),
                                 'interfaceConfigOverwrite' => array(
-                                    'MOBILE_APP_PROMO' => false
+                                    'MOBILE_APP_PROMO' => false,
+                                    'SHOW_JITSI_WATERMARK'=> false,
                                 ),
                                 'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
                             ),
