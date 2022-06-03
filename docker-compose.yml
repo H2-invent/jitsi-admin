@@ -152,6 +152,7 @@ services:
 
   db-ja:
     image: mariadb:latest
+    hostname: ${RANDOMTAG}db-ja
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
