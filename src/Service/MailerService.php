@@ -127,15 +127,19 @@ class MailerService
                 $message->addCc($data);
             }
         }
+
         if ($this->parameter->get('STRICT_EMAIL_SET_ENVELOP_FROM') == 1) {
             if ($rooms && $rooms->getModerator()->getEmail() && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL) == true) {
                 $message->returnPath($rooms->getModerator()->getEmail());
             }
         }
+
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {
-                    $message->to($this->parameter->get('delivery_addresses'));
+                    foreach ($this->parameter->get('delivery_addresses') as $data){
+                        $message->to($data);
+                    }
                 }
                 $this->logger->info('Send from Custom Mailer');
                 $this->customMailer->send($message);
@@ -143,6 +147,10 @@ class MailerService
                 $this->mailer->send($message);
             }
         } catch (\Exception $e) {
+            //we reset the sender name if the individual email is not working
+            $sender = $this->parameter->get('registerEmailAdress');
+            $senderName = $this->parameter->get('registerEmailName');
+            $message->from(new Address($sender, $senderName));
             $this->mailer->send($message);
             $this->logger->error($e->getMessage());
             throw $e;

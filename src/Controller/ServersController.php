@@ -23,6 +23,9 @@ use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -225,28 +228,42 @@ class ServersController extends JitsiAdminController
         $color = 'success';
         $snack = $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten');
         $server = $this->doctrine->getRepository(Server::class)->find($request->get('id'));
+
         if (!$server || $server->getAdministrator() != $this->getUser()) {
             $color = 'danger';
             $snack = $translator->trans('Fehler, der Server ist nicht registriert');
         } else {
             try {
-                $r = $mailerService->sendEmail(
-                    $this->getUser(),
-                    $translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl(),
-                    '<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
-                    . $server->getSmtpHost() . '<br>'
-                    . $server->getSmtpEmail() . '<br>'
-                    . $server->getSmtpSenderName() . '<br>',
-                    $server
-                );
-                if (!$r) {
+                $transport = null;
+                if ($server->getSmtpHost()) {
+                    $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
+                    if ($server->getSmtpUsername()) {
+                        $this->logger->info('The Transport is new and we take him');
+                        $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+                    }else{
+                        $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+                    }
+
+                }else{
+                    $snack= $translator->trans('Fehler').': SMTP-Host';
                     $color = 'danger';
-                    $snack = $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft');
+                    $this->addFlash($color, $snack);
+                    return $this->redirectToRoute('dashboard');
                 }
+                $transport= Transport::fromDsn($dsn);
+                $message = (new Email())
+                    ->subject($translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl())
+                    ->from(new Address($server->getSmtpEmail(), $server->getSmtpSenderName()))
+                    ->to($this->getUser()->getEmail())
+                    ->html('<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
+                        . $server->getSmtpHost() . '<br>'
+                        . $server->getSmtpEmail() . '<br>'
+                        . $server->getSmtpSenderName() . '<br>');
+                $transport->send($message);
+
             } catch (\Exception $e) {
                 $color = 'danger';
-                $snack = $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft');
-
+                $snack = $translator->trans('Fehler').': '.$e->getMessage();
             }
         }
         $this->addFlash($color, $snack);
