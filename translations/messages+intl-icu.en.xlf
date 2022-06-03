@@ -243,7 +243,7 @@
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="translated">Number of invited people</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -1609,31 +1609,31 @@
       </trans-unit>
       <trans-unit id="5QumSMJ" resname="report.title">
         <source>report.title</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">Protocol</target>
       </trans-unit>
       <trans-unit id="LR82Vwn" resname="report.dropdown.item">
         <source>report.dropdown.item</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">Protocol</target>
       </trans-unit>
       <trans-unit id="TW0JasJ" resname="report.error.noStatus">
         <source>report.error.noStatus</source>
-        <target state="needs-translation">Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+        <target state="translated">No reports available.</target>
       </trans-unit>
       <trans-unit id="t4ekf55" resname="report.info.timezone">
         <source>report.info.timezone</source>
-        <target state="needs-translation">Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+        <target state="translated">All times in timezone {timezone}</target>
       </trans-unit>
       <trans-unit id="YqAtmOj" resname="tag.name">
         <source>tag.name</source>
-        <target state="needs-translation">Kategorie</target>
+        <target state="translated">Category</target>
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">Save</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
-        <target state="needs-translation">Aktive Sprechzeit</target>
+        <target state="translated">Active speaking time</target>
       </trans-unit>
     </body>
   </file>
