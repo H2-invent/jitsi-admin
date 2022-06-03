@@ -37,8 +37,8 @@
     {% endif %}
 {% endif %}
 
-{% if dropdown_settings_generate_report == 1 %}
-    <li><a class="dropdown-item loadContent"
+{% if dropdown_settings_generate_report == 1  %}
+    <li><a class="dropdown-item loadContent {%if room.roomstatuses|length == 0%}disabled{%endif%}"
            href="{{ path('app_report_create',{'id':room.id}) }}">
             {{ 'report.dropdown.item'|trans }}</a>
     </li>
