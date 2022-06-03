@@ -123,11 +123,11 @@ class RoomNewTest extends WebTestCase
         $flash = $session->getBag('flashes')->all();
         self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
         self::assertEquals($flash['modalUrl'][0],$modalUrl);
-        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
+        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUidReal())));
         self::assertEquals(1, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
-        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
+        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUidReal())));
         self::assertEquals(0, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
-        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUid())));
+        $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUidReal())));
         $client->request('GET',$urlGenerator->generate('room_remove',array('room'=>$room->getId())));
         $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
         $room = $roomRepo->findOneBy(array('name' => '198273987321'));

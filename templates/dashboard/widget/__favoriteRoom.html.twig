@@ -4,7 +4,7 @@
         <h5 class="card-title favoriteTitle">
             {{ room.name }}
             <small>
-                <a href="{{ path('room_favorite_toogle',{'uid':room.uid}) }}"><i class="fa fa-star"></i> </a>
+                <a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i class="fa fa-star"></i> </a>
             </small>
         </h5>
         {% if RoomStatusOpen(room) == false %}

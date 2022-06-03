@@ -18,7 +18,7 @@ class FavoriteController extends JitsiAdminController
      */
     public function index(Request $request,TranslatorInterface $translator, FavoriteService $favoriteService): Response
     {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uid' => $request->get('uid')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $user = $this->getUser();
 
         if (in_array($user, $room->getUser()->toArray())) {

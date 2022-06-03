@@ -26,7 +26,7 @@ class FavoriteTest extends WebTestCase
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
 
         $this->assertEquals(
             1,
@@ -51,7 +51,7 @@ class FavoriteTest extends WebTestCase
         $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
         $client->loginUser($testUser);
 
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("TestMeeting: 1")')->count()
@@ -68,7 +68,7 @@ class FavoriteTest extends WebTestCase
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 1'));
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
         $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard')));
         $crawler = $client->request('GET', $urlGenerator->generate('dashboard'));
         $this->assertEquals(
@@ -87,7 +87,7 @@ class FavoriteTest extends WebTestCase
             0,
             $crawler->filter('.favorites .badge:contains("Läuft gerade")')->count()
         );
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
         $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard')));
         $this->assertEquals(
             0,
@@ -109,7 +109,7 @@ class FavoriteTest extends WebTestCase
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
 
         $this->assertEquals(
             1,
@@ -138,7 +138,7 @@ class FavoriteTest extends WebTestCase
         $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
         $client->loginUser($testUser);
 
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("Running Room")')->count()
@@ -158,7 +158,7 @@ class FavoriteTest extends WebTestCase
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
 
         $this->assertEquals(
             0,
@@ -180,7 +180,7 @@ class FavoriteTest extends WebTestCase
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUid())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
 
         $this->assertEquals(
             1,
