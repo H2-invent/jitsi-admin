@@ -147,21 +147,23 @@
   top: 0;
   left: 0;
   z-index: 10;
-  &:hover {
-    top: 0 !important;
-    transition: top 0.5s;
+  @media (min-width: 992px) {
+    &:hover {
+      top: 0 !important;
+      transition: top 0.5s;
 
-    .dragger {
-      &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f106\00a0" !important;
-      }
+      .dragger {
+        &:before {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\f106\00a0" !important;
+        }
 
-      &:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\00a0\f106" !important;
+        &:after {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\00a0\f106" !important;
+        }
       }
     }
   }
