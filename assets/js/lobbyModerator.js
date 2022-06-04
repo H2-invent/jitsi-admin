@@ -66,10 +66,11 @@ $('.startIframe').click(function (e) {
         audioOutput: audioId,
         videoInput: micId
     }
-    initDragDragger();
+
     initJitsi(options, domain);
 
     $('#jitsiWindow').find('iframe').css('height', '100%');
+    initDragDragger();
 })
 
 function moveWrapper() {
