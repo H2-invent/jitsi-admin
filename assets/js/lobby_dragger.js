@@ -1,7 +1,7 @@
 import ZingTouch from 'zingtouch';
 
 function initDragDragger() {
-    var activeRegion = new ZingTouch.Region(document.getElementById('sliderTop'),null,false);
+    var activeRegion = new ZingTouch.Region(document.getElementById('sliderTop'));
     let childElement = document.getElementById('sliderTop');
     activeRegion.bind(childElement, 'pan', function (event) {
         var rad = event.detail.data[0]['directionFromOrigin'] / 360 * 2 * Math.PI;
@@ -16,7 +16,8 @@ function initDragDragger() {
             document.getElementById('dragger').classList.remove('active');
 
         }
-    },true);
+    });
+
     // let startX = 0;
     // let startY = 0;
     // document.getElementById('frame').addEventListener('touchstart', function (event) {
