@@ -15,7 +15,6 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';
-import Chart from 'chart.js';
 import autosize from 'autosize';
 import ClipboardJS from 'clipboard';
 import {initScheduling} from './scheduling';

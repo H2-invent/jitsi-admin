@@ -746,6 +746,7 @@ strong {
 }
 
 #frame {
+  min-height: -webkit-fill-available;
   height: 100vh;
   overflow: hidden;
   position: absolute;
