@@ -150,7 +150,7 @@ body{
   top: 0;
   left: 0;
   z-index: 10;
-  @media (min-width: 992px) {
+  @media (min-width: 600px) {
     &:hover {
       top: 0 !important;
       transition: top 0.5s;
