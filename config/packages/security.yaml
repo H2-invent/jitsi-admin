@@ -43,6 +43,7 @@ security:
         - { path: /cron/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /health/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /room/lobby/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /room/, role: ROLE_USER }
         - { path: /join, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /server/, role: ROLE_USER }

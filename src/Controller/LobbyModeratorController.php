@@ -18,7 +18,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -28,6 +30,7 @@ class LobbyModeratorController extends JitsiAdminController
     private $toModerator;
     private $toParticipant;
     private $directSend;
+    private $sesion;
 
     public function __construct(ManagerRegistry               $managerRegistry,
                                 TranslatorInterface           $translator,
@@ -35,13 +38,15 @@ class LobbyModeratorController extends JitsiAdminController
                                 ParameterBagInterface         $parameterBag,
                                 DirectSendService             $directSendService,
                                 ToParticipantWebsocketService $toParticipantWebsocketService,
-                                ToModeratorWebsocketService   $toModeratorWebsocketService
+                                ToModeratorWebsocketService   $toModeratorWebsocketService,
+                                RequestStack                  $requestStack
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->toModerator = $toModeratorWebsocketService;
         $this->toParticipant = $toParticipantWebsocketService;
         $this->directSend = $directSendService;
+        $this->sesion = $requestStack->getCurrentRequest()->getSession();
     }
 
 
@@ -51,12 +56,13 @@ class LobbyModeratorController extends JitsiAdminController
     public function index(Request $request, $uid, $type): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uid));
-        if ($this->checkPermissions($room, $this->getUser())) {
+
+        if ($this->checkPermissions($room,  $request->getSession())) {
             return $this->render('lobby/index.html.twig', [
                 'room' => $room,
                 'server' => $room->getServer(),
                 'type' => $type,
-                'user' => $this->getUser()
+                'user' => $this->getSessionUser($request->getSession())
             ]);
         }
 
@@ -69,15 +75,15 @@ class LobbyModeratorController extends JitsiAdminController
     /**
      * @Route("/room/lobby/start/moderator/{t}/{room}", name="lobby_moderator_start")
      */
-    public function startMeeting($room, $t, RoomService $roomService): Response
+    public function startMeeting($room, $t, RoomService $roomService, Request $request): Response
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $room));
-        if (!$this->checkPermissions($roomL, $this->getUser())) {
+        if (!$this->checkPermissions($roomL,  $request->getSession())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $roomL->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             $this->addFlash('danger', $this->translator->trans('Fehler'));
             return $this->redirectToRoute('dashboard');
         }
-        $url = $roomService->join($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
+        $url = $roomService->join($roomL, $this->getUser(), $t, $this->getSessionUser($request->getSession())->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
         return $this->redirect($url);
     }
 
@@ -91,7 +97,7 @@ class LobbyModeratorController extends JitsiAdminController
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $room = $lobbyUser->getRoom();
-        if (!$this->checkPermissions($room, $this->getUser())) {
+        if (!$this->checkPermissions($room, $request->getSession())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -113,7 +119,7 @@ class LobbyModeratorController extends JitsiAdminController
     public function acceptAll(Request $request, $roomId, CallerSessionService $callerSessionService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomId));
-        if (!$this->checkPermissions($room, $this->getUser())) {
+        if (!$this->checkPermissions($room,  $request->getSession())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -133,14 +139,14 @@ class LobbyModeratorController extends JitsiAdminController
     /**
      * @Route("/room/lobby/decline/{wUid}", name="lobby_moderator_decline")
      */
-    public function decline($wUid): Response
+    public function decline($wUid, Request $request): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wUid));
         if (!$lobbyUser) {
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
         $room = $lobbyUser->getRoom();
-        if (!$this->checkPermissions($room, $this->getUser())) {
+        if (!$this->checkPermissions($room, $request->getSession())) {
             $this->logger->log('error', 'User trys to enter room which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
             return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
         }
@@ -167,11 +173,11 @@ class LobbyModeratorController extends JitsiAdminController
     /**
      * @Route("/lobby/moderator/endMeeting/{roomUid}", name="lobby_Moderator_endMeeting")
      */
-    public function broadcastWebsocketEndMeeting($roomUid, LobbyUtils $lobbyUtils): Response
+    public function broadcastWebsocketEndMeeting($roomUid, LobbyUtils $lobbyUtils, Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
         if ($room) {
-            if ($this->checkPermissions($room, $this->getUser())) {
+            if ($this->checkPermissions($room, $request->getSession())) {
                 $lobbyUtils->cleanLobby($room);
                 $this->directSend->sendModal(
                     'lobby_broadcast_websocket/' . $room->getUidReal(),
@@ -189,9 +195,19 @@ class LobbyModeratorController extends JitsiAdminController
         return new JsonResponse(array('error' => true));
     }
 
-
-    private function checkPermissions(Rooms $room, ?User $user)
+    private function getSessionUser(Session $session)
     {
+        $user = $this->getUser();
+        if (!$user) {
+            $user = $this->doctrine->getRepository(User::class)->find($session->get('userId'));
+        }
+        return $user;
+    }
+
+
+    private function checkPermissions(Rooms $room, Session $session)
+    {
+        $user = $this->getSessionUser($session);
         if ($room->getModerator() === $user) {
             return true;
         }
