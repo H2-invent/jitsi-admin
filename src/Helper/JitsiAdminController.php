@@ -3,10 +3,12 @@
 namespace App\Helper;
 
 
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiAdminController extends AbstractController
@@ -22,5 +24,14 @@ class JitsiAdminController extends AbstractController
         $this->translator = $translator;
         $this->logger = $logger;
         $this->parameterBag = $parameterBag;
+    }
+
+    protected function getSessionUser(Session $session)
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            $user = $this->doctrine->getRepository(User::class)->find($session->get('userId'));
+        }
+        return $user;
     }
 }

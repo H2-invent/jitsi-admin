@@ -39,7 +39,7 @@ class JoinService
         $this->response = $response;
         $this->security = $security;
         $this->startService = $startMeetingService;
-        $this->session = $requestStack->getCurrentRequest()->getSession();
+        $this->session = $requestStack;
     }
 
     public function join($search, &$snack, &$color, $appAllowed, $appKlicked, $browerAllowed, $browserKlicked)
@@ -76,7 +76,10 @@ class JoinService
                 if($user->getKeycloakId()){
                     return new RedirectResponse($this->urlGenerator->generate('room_join',array('room'=>$room->getId(),'t'=>$type)));
                 }else{
-                    $this->session->set('userId',$user->getId());
+                    if ($this->session->getCurrentRequest()){
+                        $this->session->getCurrentRequest()->getSession()->set('userId',$user->getId());
+                    }
+
                     return $this->startService->startMeeting($room, $user, $type,$search['name']);
                 }
 
