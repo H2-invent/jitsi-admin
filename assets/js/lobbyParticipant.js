@@ -141,7 +141,7 @@ function initJitsiMeet(data) {
     });
 
     $(data.options.parentNode).find('iframe').css('height', '100%');
-
+    window.scrollTo(0,1)
 
 }
 

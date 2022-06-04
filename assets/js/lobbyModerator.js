@@ -70,6 +70,7 @@ $('.startIframe').click(function (e) {
     initJitsi(options, domain);
 
     $('#jitsiWindow').find('iframe').css('height', '100%');
+    window.scrollTo(0,1)
     initDragDragger();
 })
 
