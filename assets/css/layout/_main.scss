@@ -283,6 +283,9 @@ strong {
     .nav-link {
       color: black;
       word-break: break-word;
+      @media only screen and (max-width: 576px)  {
+        font-size: smaller;
+      }
     }
   }
 
