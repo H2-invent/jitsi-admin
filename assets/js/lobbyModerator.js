@@ -4,7 +4,7 @@
  */
 import 'regenerator-runtime/runtime'
 import $ from 'jquery';
-
+import {initDragDragger} from './lobby_dragger'
 global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 
@@ -66,7 +66,7 @@ $('.startIframe').click(function (e) {
         audioOutput: audioId,
         videoInput: micId
     }
-
+    initDragDragger();
     initJitsi(options, domain);
 
     $('#jitsiWindow').find('iframe').css('height', '100%');
@@ -85,7 +85,7 @@ function moveWrapper() {
     frameDIv.append($('#snackbar'))
     $('#mainContent').remove();
     $('.imageBackground').remove();
-    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby ( <span id="lobbyCounter">' + $('.waitingUserCard').length + '</span> )</div>');
+    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger" id="dragger">Lobby ( <span id="lobbyCounter">' + $('.waitingUserCard').length + '</span> )</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     window.addEventListener('resize', function () {
