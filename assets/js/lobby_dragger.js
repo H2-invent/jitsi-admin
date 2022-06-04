@@ -1,7 +1,7 @@
 import ZingTouch from 'zingtouch';
 
 function initDragDragger() {
-    var activeRegion = new ZingTouch.Region(document.getElementById('frame'),'pane',false);
+    var activeRegion = new ZingTouch.Region(document.getElementById('frame'),null,false);
     let childElement = document.getElementById('sliderTop');
     activeRegion.bind(childElement, 'pan', function (event) {
         var rad = event.detail.data[0]['directionFromOrigin'] / 360 * 2 * Math.PI;
