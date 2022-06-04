@@ -16,7 +16,7 @@ function initDragDragger() {
             document.getElementById('dragger').classList.remove('active');
 
         }
-    });
+    },true);
 }
 
 export {initDragDragger}
