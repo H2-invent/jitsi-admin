@@ -233,6 +233,6 @@ body{
 .dragger{
   width: fit-content;
 }
-body {
-  position: fixed;
+.touchactionNone{
+  touch-action: none;
 }
