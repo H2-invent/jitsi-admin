@@ -16,6 +16,7 @@ import {initAUdio, micId, audioId, echoOff} from './audioUtils'
 import {initJitsi, hangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
+import {disableBodyScroll}  from 'body-scroll-lock'
 
 var jitsiApi;
 try {
@@ -72,6 +73,7 @@ $('.startIframe').click(function (e) {
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0,1)
     initDragDragger();
+    disableBodyScroll(document.getElementsByTagName('body'));
 })
 
 function moveWrapper() {

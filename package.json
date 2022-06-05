@@ -28,6 +28,7 @@
         "@popperjs/core": "^2.11.2",
         "@yaireo/title-tooltip": "^1.2.1",
         "autosize": "^4.0.2",
+        "body-scroll-lock": "^4.0.0-beta.0",
         "bootstrap": "^4.5.3",
         "chart.js": "^3.8.0",
         "clipboard": "^2.0.8",
