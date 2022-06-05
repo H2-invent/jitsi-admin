@@ -73,7 +73,7 @@ $('.startIframe').click(function (e) {
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0,1)
     initDragDragger();
-    disableBodyScroll(document.getElementsByTagName('body'));
+    disableBodyScroll(document.getElementById('sliderTop'));
 })
 
 function moveWrapper() {
