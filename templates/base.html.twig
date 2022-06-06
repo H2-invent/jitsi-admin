@@ -118,7 +118,7 @@
     var confirmOk = "{{ 'confirm.ok'|trans }}";
 </script>
 {% if theme and theme.extrahtml %}
-    {{ theme.extrahtml|raw }}
+    {{ template_from_string(theme.extrahtml|raw) }}
 {% endif %}
 {% block javascripts %}{% endblock %}
 {{ include('base/__script.html.twig') }}
