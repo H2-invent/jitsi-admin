@@ -10,13 +10,13 @@
     {% endif %}
 
 {% endif %}
-            {% if app.user != room.moderator %}
-                <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-                   class="element btn btn-outline-default confirmHref"
-                   data-text="{{ 'confirm.delete.room'|trans }}">
-                    {{ 'Entfernen'|trans }}
-                </a>
-            {% endif %}
-            {% if not room.scheduleMeeting %}
-                {% include 'dashboard/__roomOptionStartButton.html.twig' with {'room':room} %}
-            {% endif %}
+{% if app.user != room.moderator %}
+    <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
+       class="element btn btn-outline-default confirmHref"
+       data-text="{{ 'confirm.delete.room'|trans }}">
+        {{ 'Entfernen'|trans }}
+    </a>
+{% endif %}
+{% if not room.scheduleMeeting %}
+    {% include 'dashboard/__roomOptionStartButton.html.twig' with {'room':room} %}
+{% endif %}

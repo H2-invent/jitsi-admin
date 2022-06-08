@@ -5,6 +5,7 @@
 import 'regenerator-runtime/runtime'
 import $ from 'jquery';
 import {initDragDragger} from './lobby_dragger'
+import {initDragParticipants} from './lobby_moderator_acceptDragger'
 global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 import ('jquery-confirm');
@@ -110,6 +111,7 @@ initCircle();
 $(document).ready(function () {
     initGenerell();
     initMercure();
+    initDragParticipants();
 })
 
 

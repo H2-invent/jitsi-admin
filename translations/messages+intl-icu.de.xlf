@@ -241,7 +241,7 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">Anzahl der Konferenzen</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
+      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
         <target state="translated">Anzahl der Eingeladenen</target>
       </trans-unit>
@@ -1643,6 +1643,14 @@
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
         <target>Aktive Sprechzeit</target>
+      </trans-unit>
+      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
+        <source>Anzahl Teilnehmer</source>
+        <target>__Anzahl Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
+        <source>Wollen Sie dieses Meeting für alle Teilnehmer beenden.</source>
+        <target>Wollen Sie dieses Meeting für alle Teilnehmer beenden.</target>
       </trans-unit>
     </body>
   </file>

@@ -3,28 +3,15 @@
            href="{{ path('repeater_edit_repeater',{'repeat':room.repeater.id}) }}">
             {{ 'Serienart bearbeiten'|trans }}</a></li>
 {% endif %}
-{% if dropdown_settings_series_edit_all == 1 %}
-    <li><a href="{{ path('repeater_edit_room',{'id':room.id,'type':'all'}) }}"
-           class="loadContent dropdown-item">
-            {{ 'Alle Serienelemente bearbeiten'|trans }}</a></li>
-{% endif %}
 {% if dropdown_settings_series_edit_one == 1 %}
     <li><a href="{{ path('repeater_edit_room',{'id':room.id,'type':'single'}) }}"
            class="loadContent dropdown-item">
             {{ 'Einzelnes Serienelement bearbeiten'|trans }}</a></li>
 {% endif %}
-{% if dropdown_settings_series_delete == 1 %}
-    <li><a class="dropdown-item confirmHref"
-           href="{{ path('repeater_remove',{'repeat':room.repeater.id}) }}"
-           data-text="{{ 'confirm.delete.series'|trans }}">
-            {{ 'Serie löschen'|trans }}</a></li>
-{% endif %}
-{% if dropdown_settings_series_delete_one == 1 %}
-    <li><a class="dropdown-item confirmHref"
-           href="{{ path('room_remove',{'room':room.id}) }}"
-           data-text="{{ 'confirm.delete.room'|trans }}">
-            {{ 'Löschen'|trans }}</a></li>
-
+{% if dropdown_settings_series_edit_all == 1 %}
+    <li><a href="{{ path('repeater_edit_room',{'id':room.id,'type':'all'}) }}"
+           class="loadContent dropdown-item">
+            {{ 'Alle Serienelemente bearbeiten'|trans }}</a></li>
 {% endif %}
 
 {% if dropdown_settings_mail_to_all == 1 %}
@@ -38,4 +25,17 @@
            href="{{ path('app_report_create',{'id':room.id}) }}">
             {{ 'report.dropdown.item'|trans }}</a>
     </li>
+{% endif %}
+{% if dropdown_settings_series_delete_one == 1 %}
+    <li><a class="dropdown-item confirmHref"
+           href="{{ path('room_remove',{'room':room.id}) }}"
+           data-text="{{ 'confirm.delete.room'|trans }}">
+            {{ 'Löschen'|trans }}</a></li>
+
+{% endif %}
+{% if dropdown_settings_series_delete == 1 %}
+    <li><a class="dropdown-item confirmHref"
+           href="{{ path('repeater_remove',{'repeat':room.repeater.id}) }}"
+           data-text="{{ 'confirm.delete.series'|trans }}">
+            {{ 'Serie löschen'|trans }}</a></li>
 {% endif %}

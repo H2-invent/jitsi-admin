@@ -25,17 +25,15 @@
                         <a class="caretdown btn btn-block btn-primary dropdown-toggle" type="button"
                            id="selectWebcamDropdown"
                            data-mdb-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
+                           aria-expanded="false"><i class="fa fa-video"></i><span class=" d-flex w-100     justify-content-center text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                         </a>
                         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
                         </ul>
 
 
                         <div class="btn-group">
-                            <a href="#" type="button" class="btn btn-primary" id="startEcho"
-                               data-texton="{{ 'lobby.start.echo'|trans }}"
-                               data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
-                            <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
+
+                            <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown"
                                data-mdb-toggle="dropdown"
                                data-mdb-reference="parent"
                                aria-haspopup="true" aria-expanded="false">
@@ -46,6 +44,9 @@
                                     <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                                 </div>
                             </div>
+                            <a href="#" type="button" class="btn btn-primary" id="startEcho"
+                                            data-texton="{{ 'lobby.start.echo'|trans }}"
+                                            data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
                         </div>
                     </div>
                 </div>
