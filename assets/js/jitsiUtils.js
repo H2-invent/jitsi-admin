@@ -9,10 +9,18 @@ import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
 import('mdbootstrap');
+import ('jquery-confirm');
 var api;
 var participants;
 
-function initJitsi(options, domain) {
+var title = "Bestätigung";
+var cancel = "Abbrechen";
+var ok = "OK";
+
+function initJitsi(options, domain, titelL, okL, cancelL) {
+    title = titelL;
+    cancel = cancelL;
+    ok = okL;
     api = new JitsiMeetExternalAPI(domain, options);
     renewPartList()
 
@@ -34,8 +42,28 @@ function initJitsi(options, domain) {
     api.addListener('videoConferenceJoined', function (e) {
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
-            endMeeting();
-            $.getJSON(($(this).attr('href')));
+            var url = $(this).prop('href');
+            var text = $(this).data('text');
+            $.confirm({
+                title: title,
+                content: text,
+                theme: 'material',
+                buttons: {
+                    confirm: {
+                        text: ok, // text for button
+                        btnClass: 'btn-outline-danger btn', // class for the button
+                        action: function () {
+                            endMeeting();
+                            $.getJSON(url);
+                        },
+                    },
+                    cancel: {
+                        text: cancel, // text for button
+                        btnClass: 'btn-outline-primary btn', // class for the button
+                    },
+                }
+            });
+
         })
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});

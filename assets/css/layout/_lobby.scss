@@ -200,8 +200,11 @@ body{
 .lobbyButtons {
   display: flex;
   flex-direction: row;
-  width: max-content;
-  max-width: 100%;
+  @media (min-width: 600px) {
+    width: max-content;
+    max-width: 100%;
+  }
+  width: 100%;
 }
 
 .lobbyCard {
@@ -224,9 +227,6 @@ body{
   .dropdown-toggle {
     display: flex;
     align-items: center;
-    max-width: -moz-available;
-    max-width: -webkit-fill-available;
-    width: max-content;
   }
 }
 
@@ -235,4 +235,11 @@ body{
 }
 .touchactionNone{
   touch-action: none;
+}
+.btn-group{
+    margin-left: 0;
+    margin-right: 0;
+  .caretdown{
+    max-width: max-content;
+  }
 }

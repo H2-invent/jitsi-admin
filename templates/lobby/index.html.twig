@@ -20,28 +20,31 @@
                             {% endif %}
                         </div>
                     </div>
-                    <a class="caretdown btn btn-primary dropdown-toggle" type="button"
-                       id="selectWebcamDropdown"
-                       data-mdb-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
-                    </a>
-                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
-                    </ul>
 
-
-                    <div class="btn-group">
-                        <a href="#" type="button" class="btn btn-primary" id="startEcho"
-                           data-texton="{{ 'lobby.start.echo'|trans }}"
-                           data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
-                        <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
-                           data-mdb-toggle="dropdown"
-                           data-mdb-reference="parent"
-                           aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-microphone"></i>
+                    <div class="d-grid">
+                        <a class="caretdown btn btn-block btn-primary dropdown-toggle" type="button"
+                           id="selectWebcamDropdown"
+                           data-mdb-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
                         </a>
-                        <div class="dropdown-menu">
-                            <div id="audioInputSelect">
-                                <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+                        </ul>
+
+
+                        <div class="btn-group">
+                            <a href="#" type="button" class="btn btn-primary" id="startEcho"
+                               data-texton="{{ 'lobby.start.echo'|trans }}"
+                               data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
+                            <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
+                               data-mdb-toggle="dropdown"
+                               data-mdb-reference="parent"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-microphone"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div id="audioInputSelect">
+                                    <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,8 +63,8 @@
                     <div class="lobbyButtons">
                         {% if type == 'a' %}
                             <a class="btn btn-primary d-block start-btn"
-                            href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                            target="_blank">
+                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                               target="_blank">
                                 <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                             </a>
                         {% elseif type == 'b' %}
@@ -71,18 +74,18 @@
                                    target="_blank">
                                     <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                                 </a>
-                                {% else %}
-                                    <a class="btn btn-primary  startIframe d-block start-btn"
-                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                                       target="_blank">
-                                        <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
-                                    </a>
-                                {% endif %}
+                            {% else %}
+                                <a class="btn btn-primary btn-block  startIframe d-block start-btn"
+                                   href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                   target="_blank">
+                                    <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                </a>
+                            {% endif %}
                         {% endif %}
 
-                        <a class="btn btn-success  directSend"
+                        <a class="btn btn-success btn-block  directSend"
                            href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                        <a class="btn btn-danger  d-none" id="closeSecure"
+                        <a class="btn btn-danger  d-none" id="closeSecure" data-text="{{'lobby.endMeeting.ask'|trans}}"
                            href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
                     </div>
 
@@ -122,7 +125,7 @@
                 userInfo: {
                     displayName: '{{ name }}',
                     {% if user is not null and  user.profilePicture is not null %}
-                    avatarUrl:'{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
+                    avatarUrl: '{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
                     {% endif %}
                 }
             };

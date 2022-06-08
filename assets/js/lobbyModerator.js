@@ -7,7 +7,7 @@ import $ from 'jquery';
 import {initDragDragger} from './lobby_dragger'
 global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
-
+import ('jquery-confirm');
 import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
@@ -68,7 +68,7 @@ $('.startIframe').click(function (e) {
         videoInput: micId
     }
 
-    initJitsi(options, domain);
+    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel);
 
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0,1)
@@ -102,6 +102,7 @@ function moveWrapper() {
         $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     });
     $('.start-btn').remove();
+    $('.btn-block').removeClass('btn-block');
 }
 
 initCircle();

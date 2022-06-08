@@ -193,28 +193,23 @@ label.required:after {
   align-items: center;
 
 }
-.caretdown{
-  i{
+.caretdown {
+  i {
     white-space: nowrap;
   }
-  &[aria-expanded="false"]:before{
-    margin-right: 4px;
+  &:before {
     font-family: "Font Awesome 5 Free";
+    margin-right: 1em;
     font-weight: 900;
-    content: "\f0d7";
     float: left;
     transition: transform 0.3s ease-in;
-  }
-  &[aria-expanded="true"]:before{
-    margin-right: 4px;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
     content: "\f0d7";
-    float: left;
-    transform: rotateX(0.5turn);
-    transition: transform 0.3s ease-in;
+    &[aria-expanded="true"] {
+      transform: rotateX(0.5turn);
+    }
   }
 }
+
 
 .iconSytle{
   max-height: 25px;
