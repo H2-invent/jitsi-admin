@@ -1,6 +1,7 @@
-body{
+body {
   overscroll-behavior-y: contain;
 }
+
 #lobbyWebcam {
   width: 100%;
   height: auto;
@@ -173,7 +174,6 @@ body{
 }
 
 
-
 .selectedDevice {
   font-weight: bold;
 
@@ -230,16 +230,45 @@ body{
   }
 }
 
-.dragger{
+.dragger {
   width: fit-content;
 }
-.touchactionNone{
+
+.touchactionNone {
   touch-action: none;
 }
-.btn-group{
-    margin-left: 0;
-    margin-right: 0;
-  .caretdown{
+
+.btn-group {
+  margin-left: 0;
+  margin-right: 0;
+
+  .caretdown {
     max-width: max-content;
+  }
+}
+
+.icon-holder {
+  position: absolute;
+  .feedbackSwipe{
+    opacity: 0;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    position: absolute;
+    height: inherit;
+    transition: transform 0.5s;
+  }
+
+  .acceptSwipe {
+    background-color: $success;
+    padding-left: 18px;
+    border-radius: 5px 0 0 5px;
+
+  }
+  .denieSwipe {
+    padding-right: 18px;
+    background-color: $danger;
+    justify-content: end;
+    border-radius: 0 5px 5px 0;
   }
 }

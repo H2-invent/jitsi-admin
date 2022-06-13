@@ -1,4 +1,14 @@
-<div class="col-lg-4 col-12 col-xl-3 waitingUserCard mb-3">
+<div class="col-lg-4 col-12 col-xl-3 waitingUserCard mb-3 position-relative">
+    <div class="position-absolut d-flex icon-holder">
+        <div class="acceptSwipe feedbackSwipe"
+             data-target="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
+            <i class="fa fa-check"></i>
+        </div>
+        <div class="denieSwipe feedbackSwipe"
+             data-target="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
+            <i class="fa fa-trash"></i>
+        </div>
+    </div>
     <div class="card ">
         <div class="card-body text-center d-flex justify-content-between flex-row flex-lg-column align-items-center">
             {% if wU.user is not null and  wU.user.profilePicture is not null %}

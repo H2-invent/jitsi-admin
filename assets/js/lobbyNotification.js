@@ -9,6 +9,8 @@ import {setSnackbar, deleteToast} from './myToastr';
 import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
 
+import {initDragParticipants} from './lobby_moderator_acceptDragger'
+
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 
@@ -79,6 +81,7 @@ function refresh(data) {
         }
         initCircle();
         countParts();
+        initDragParticipants();
     });
 }
 
