@@ -31,11 +31,8 @@ function initDragParticipants() {
              if (Math.abs(x) > $(this).width()/2){
                 if (x > 0){
                     $.get(this.querySelector('.acceptSwipe').dataset.target)
-                    console.log('accept');
-
                 }else {
                     $.get(this.querySelector('.denieSwipe').dataset.target)
-                    console.log('denie');
                 }
              }else {
                  var ele = this.querySelector('.card').style.transform = "translate(0px,0)";
