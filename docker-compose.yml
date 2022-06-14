@@ -12,6 +12,7 @@ x-app-common: &jitsi_admin_app
     MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
     MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+    MAILER_DSN: ${MAILER_DSN}
 
 
 services:
@@ -116,7 +117,6 @@ services:
       MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
-      MAILER_DSN: ${MAILER_DSN}
       laF_version: ${GIT_VERSION}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
