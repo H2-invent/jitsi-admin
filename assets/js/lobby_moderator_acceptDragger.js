@@ -1,8 +1,9 @@
 import ZingTouch from 'zingtouch';
 
 function initDragParticipants() {
-
-
+    if(window.innerWidth > 768){
+        return false;
+    }
     var activeRegion = new ZingTouch.Region(document.getElementById('waitingUserWrapper'),null,false);
     let childElement = document.querySelectorAll('.waitingUserCard ');
     let x = 0;
@@ -35,10 +36,14 @@ function initDragParticipants() {
                     $.get(this.querySelector('.denieSwipe').dataset.target)
                 }
              }else {
-                 var ele = this.querySelector('.card').style.transform = "translate(0px,0)";
-                 event.target.querySelector('.feedbackSwipe').style.opacity = 0;
-             }
+                 var ele = this.querySelector('.card')
+                 ele.style.transition = "transform 0.2s";
+                 ele.style.transform = "translate(0px,0)";
+                 setTimeout(function () {
+                     ele.style.transition = "transform 0s";
+                 },200);
 
+             }
              x = 0;
         });
     })

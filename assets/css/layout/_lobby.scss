@@ -249,14 +249,14 @@ body {
 
 .icon-holder {
   position: absolute;
-  .feedbackSwipe{
+
+  .feedbackSwipe {
     opacity: 0;
     align-items: center;
     display: flex;
     width: 100%;
     position: absolute;
     height: inherit;
-    transition: transform 0.5s;
   }
 
   .acceptSwipe {
@@ -265,6 +265,7 @@ body {
     border-radius: 5px 0 0 5px;
 
   }
+
   .denieSwipe {
     padding-right: 18px;
     background-color: $danger;
