@@ -117,7 +117,7 @@
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
 </script>
-{% if theme and theme.extrahtml %}
+{% if theme and theme.extrahtml is defined %}
     {{ include(template_from_string(theme.extrahtml|raw)) }}
 {% endif %}
 {% block javascripts %}{% endblock %}
