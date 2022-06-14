@@ -1,4 +1,4 @@
-## Update Instruction for Version 0.72.x to 0.73.x
+## Update Instruction for Version 0.72.x ... 0.73.x
 1. Go into the directory where your jitsi-admin is installed e.g. `cd /var/www/html`
 2. Install new jitsi-admin files `php compser.phar install`
 3. Install new NPM packages `npm install`
