@@ -39,5 +39,5 @@
 5. All settings should be correct, just hit enter to confirm.
 6. You have now two more worker container, doing async stuff
 7. Database is automatically upgraded
-8. To customize the jitsi-admin to follow your CI-guidlines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
+8. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
    1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
