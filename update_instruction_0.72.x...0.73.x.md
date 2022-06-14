@@ -28,16 +28,16 @@
 9. Clean cache `php bin/console cache:clear`
 10. Set the permission `sudo chown -R www-data:www-data var/`
 11. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
-    1. Example:![](docs/images/screenshot_CI.png)
+    1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
 
 ### Update Docker installation from 0.72.x ... 0.73.x
 
 1. Checkout latest Tag 
-2. go into the jitsi-admin director f.eg. `cd /var/jitsi-admin/`
+2. go into the jitsi-admin director e.g. `cd /var/jitsi-admin/`
 3. Shutdown existing jitsi-admin installation `docker-compose down`
 4. Start the Docker install Script `bash installDocker.sh`
 5. All settings should be correct, just hit enter to confirm.
 6. You have now two more worker container, doing async stuff
 7. Database is automatically upgraded
 8. To customize the jitsi-admin to follow your CI-guidlines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
-   1. Example:![](docs/images/screenshot_CI.png)
+   1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
