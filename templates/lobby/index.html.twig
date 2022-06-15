@@ -51,8 +51,13 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-6" id="col-waitinglist">
+
                     <div id="waitingUserWrapper">
                         <div id="waitingUser" class="row mb-3">
+                            <div class="col-lg-12 d-md-none text-center">
+                               <p><small>{{'Swipen zum zulassen'|trans}}</small></p>
+                            </div>
+
                             {% for wU in room.lobbyWaitungUsers %}
                                 {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
                             {% endfor %}

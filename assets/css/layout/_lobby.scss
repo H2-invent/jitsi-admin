@@ -257,13 +257,15 @@ body {
     width: 100%;
     position: absolute;
     height: inherit;
+    color: white;
+    font-weight: bold;
+    font-size: 2.5em;
   }
 
   .acceptSwipe {
     background-color: $success;
     padding-left: 18px;
     border-radius: 5px 0 0 5px;
-
   }
 
   .denieSwipe {
@@ -273,3 +275,34 @@ body {
     border-radius: 0 5px 5px 0;
   }
 }
+
+@keyframes showSwipe {
+  0% {
+    transform: translate(0px, 0);
+  }
+  33% {
+    transform: translate(10px, 0);
+  }
+  66% {
+    transform: translate(-10px, 0);
+  }
+  100% {
+    transform: translate(0px, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  #waitingUser {
+    .waitingUserCard {
+      &:nth-child(1) {
+        .card {
+          animation-name: showSwipe;
+          animation-duration: 1s;
+          animation-iteration-count: 1;
+          animation-delay: 1s;
+        }
+      }
+    }
+  }
+}
+
