@@ -29,11 +29,15 @@ async function initAUdio() {
 
 
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
+
         devices.forEach(function (device) {
 
             if (device.kind === 'audioinput') {
+                console.log(device);
+                var name = device.label.replace(/\(.*:.*\)/g, "");
+                console.log(name);
                 $('#audioInputSelect').append(
-                    '<a class="dropdown-item audio_inputSelect" href="#" data-value="' + device.deviceId + '">' + device.label.substring(0,device.label.lastIndexOf('(')) + '</a>'
+                    '<a class="dropdown-item audio_inputSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a>'
                 )
                 mic.push(device);
             }
