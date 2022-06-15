@@ -33,6 +33,7 @@ async function initWebcam() {
                 }
             });
             $('.webcamSelect').click(function () {
+                stopWebcam();
                 setButtonName($('#selectWebcamDropdown'), $(this).text());
                 choosenId = $(this).data('value');
                 startWebcam(choosenId);
