@@ -33,9 +33,7 @@ async function initAUdio() {
         devices.forEach(function (device) {
 
             if (device.kind === 'audioinput') {
-                console.log(device);
                 var name = device.label.replace(/\(.*:.*\)/g, "");
-                console.log(name);
                 $('#audioInputSelect').append(
                     '<a class="dropdown-item audio_inputSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a>'
                 )

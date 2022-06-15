@@ -38,7 +38,7 @@ async function initWebcam() {
                 startWebcam(choosenId);
             })
             choosenId = webcams[0].deviceId;
-            var name = webcams[0].label.substring(0, webcams[0].label.lastIndexOf('('));
+            var name = webcams[0].label.replace(/\(.*:.*\)/g, "");
             setButtonName($('#selectWebcamDropdown'), name);
             startWebcam(choosenId);
         })
@@ -76,7 +76,6 @@ function startWebcam(id){
 }
 
 function stopWebcam() {
-    console.log('1.2');
         var stream = video.srcObject;
         if(typeof stream !== 'undefined' && stream !== null) {
         var tracks = stream.getTracks();
