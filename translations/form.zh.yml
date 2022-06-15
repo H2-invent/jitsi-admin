@@ -34,7 +34,7 @@ option.420min: 7小时
 option.450min: 7小时30分
 option.480min: 8 小时
 option:
-  monday: 星期一 
+  monday: 星期一
   tuesday: 星期二
   wednesday: 星期三
   thursday: 星期四
@@ -75,6 +75,7 @@ help:
   serverUrl: 输入除“https://”以外的链接（例如：meet.jit.si）
   featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
   teilnehmerEmailhinzufuegenModerator: 可以同时添加多个邮箱。每个邮箱必须写入新的一行。
+  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   serverName: 请在此处输入服务器名称，将向参会者展示。
 label:
   beitretenApp: 通过electron应用程序加入
@@ -125,6 +126,9 @@ label:
   jwtModeratorPosition: 支持人JWT令牌
   timezone: 时区
   serverName: 服务器名
+  lobby: Lobby aktivieren
+  secondEmail: CC-E-Mail
+  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

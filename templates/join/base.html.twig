@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 
-{% set theme =  getThemeProperties() %}
-{% set css = 'join'  %}
+{% set theme =  getThemeProperties()  %}
+{% set css = 'join' %}
 {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-    {% set css = 'joinBlack'  %}
+    {% set css = 'joinBlack' %}
 {% endif %}
 {% include'base/__head.html.twig' with {'css': css} %}
 
@@ -28,7 +28,9 @@
     .imageBackground {
         background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
     }
-
+.blackMode .window{
+    background-color: rgba(0,0,0,0.6);
+}
     {% endif %}
 
 
@@ -38,7 +40,7 @@
 <div id="mainContent" class="wrapper">
     <div class="window" id="window">
         <div class="navigation z-depth-1">
-            <a href="{{ path('index') }}">
+            <a href="{{ path('index') }}" id="logo_image">
                 <img class="d-none d-sm-block" src="
                     {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
@@ -96,7 +98,14 @@
                                     <div class="row ">
 
                                         <div class="col-md-12 align-items-center d-flex">
-                                            <h3 class="h3-responsive text-center w-100"> {% block header %}{% endblock %}</h3>
+                                            <h3 class="h3-responsive text-center w-100">
+                                                {% if room is defined and room is not null %}
+                                                    {% if room.tag is not null %}
+                                                        <p class="badge badge-danger d-block" id="tagContent"
+                                                           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% block header %}{% endblock %}</h3>
                                         </div>
                                     </div>
                                     <hr>
@@ -147,7 +156,7 @@
     </div>
     {{ include('base/__matomoOptOut.html.twig') }}
 </div>
-<div class="modal fade" id="loadContentModal" data-backdrop="static" tabindex="-1" role="dialog"
+<div class="modal fade" id="loadContentModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
      aria-labelledby="loadContentModal"
      aria-hidden="true">
 </div>
@@ -155,16 +164,17 @@
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
     var confirmOk = "{{ 'confirm.ok'|trans }}";
-    {% if app.user and app.user.profilePicture %}
-    var avatarUrl = '{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}';
-    {% endif %}
-    {% if app.request is not null and app.request.cookies.get('DARK_MODE') ==""  %}
+    var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
+    var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
+    var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
+
+    {% if app.request is not null and app.request.cookies.get('DARK_MODE') =="" %}
 
     function getCookie(cname) {
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
         let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
+        for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
@@ -175,14 +185,16 @@
         }
         return "";
     }
+
     function setCookie(cname, cvalue, exdays) {
         const d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        let expires = "expires="+ d.toUTCString();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
-        setCookie('DARK_MODE', {{ laf_darkmodeAsDefault }},700);
-        location.reload();
+
+    setCookie('DARK_MODE', {{ laf_darkmodeAsDefault }}, 700);
+    location.reload();
     {% endif %}
 
 </script>

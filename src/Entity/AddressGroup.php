@@ -45,6 +45,11 @@ class AddressGroup
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $indexer;
+
     public function __construct()
     {
         $this->member = new ArrayCollection();
@@ -123,6 +128,18 @@ class AddressGroup
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getIndexer(): ?string
+    {
+        return $this->indexer;
+    }
+
+    public function setIndexer(?string $indexer): self
+    {
+        $this->indexer = $indexer;
 
         return $this;
     }

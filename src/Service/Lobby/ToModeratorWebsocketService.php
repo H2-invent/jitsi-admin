@@ -44,39 +44,58 @@ class ToModeratorWebsocketService
 
         $room = $lobbyWaitungUser->getRoom();
         $title = $this->translator->trans('lobby.notification.newUser.title', array('{name}' => $lobbyWaitungUser->getShowName()));
-        $message =  $this->translator->trans('lobby.notification.newUser.message', array(
+        $message = $this->translator->trans('lobby.notification.newUser.message', array(
                 '{name}' => $lobbyWaitungUser->getShowName(),
                 '{room}' => $room->getName()
             )
         );
-        $id = md5($title.$message);
-        $topic ='lobby_moderator/'.$room->getUidReal();
+        $topic = 'lobby_moderator/' . $room->getUidReal();
         // this message goes to the moderators wich are in the lobby
-        $this->directSend->sendBrowserNotification($topic,$title ,$message, $message, $id,'info');
+        $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info');
         sleep(1);
 
-        $messageDashboard =  $this->translator->trans('lobby.dashboard.newUser.message', array(
+        $messageDashboard = $this->translator->trans('lobby.dashboard.newUser.message', array(
                 '{name}' => $lobbyWaitungUser->getShowName(),
                 '{room}' => $room->getName(),
-                '{url}'=>$this->urlgenerator->generate('room_join',array('room'=>$room->getId(),'t'=>'b'))
+                '{url}' => $this->urlgenerator->generate('room_join', array('room' => $room->getId(), 't' => 'b'))
             )
         );
 
         //this message goes to the moderators which are not already in the lobby
-        foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data){
-            if($data->getLobbyModerator()){
-                $topic ='personal/'.$data->getUser()->getUid();
-                $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard,$message, $id,'info');
+        foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data) {
+            if ($data->getLobbyModerator()) {
+                $topic = 'personal/' . $data->getUser()->getUid();
+                $this->directSend->sendBrowserNotification($topic, $title, $messageDashboard, $message, $lobbyWaitungUser->getUid(), 'info');
             }
         }
-        $topic ='personal/'.$room->getModerator()->getUid();
-        $this->directSend->sendBrowserNotification($topic,$title, $messageDashboard, $message, $id,'info');
+        $topic = 'personal/' . $room->getModerator()->getUid();
+        $this->directSend->sendBrowserNotification($topic, $title, $messageDashboard, $message, $lobbyWaitungUser->getUid(), 'info');
     }
 
     public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
         $room = $lobbyWaitungUser->getRoom();
-        $topic ='lobby_moderator/'.$room->getUidReal();
+        $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal())) . ' #waitingUser');
     }
+
+
+    public function participantLeftLobby(LobbyWaitungUser $lobbyWaitungUser)
+    {
+        $room = $lobbyWaitungUser->getRoom();
+
+        foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data) {
+            if ($data->getLobbyModerator()) {
+                $topic = 'personal/' . $data->getUser()->getUid();
+                $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
+            }
+        }
+        $topic = 'personal/' . $room->getModerator()->getUid();
+        $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
+
+        $room = $lobbyWaitungUser->getRoom();
+        $topic = 'lobby_moderator/' . $room->getUidReal();
+        $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
+    }
+
 }

@@ -22,7 +22,7 @@
 
     {% if room.maxParticipants - room.user|length >0 or room.waitinglist == true or room.maxParticipants is null %}
         <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8">
-            <p class="text-center text-md-left">
+            <p class="text-center text-md-start">
                 {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
             </p>
             {{ form_start(form) }}

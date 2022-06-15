@@ -20,24 +20,26 @@ async function initWebcam() {
 
         await navigator.mediaDevices.getUserMedia({audio: true, video: true});
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
+
             devices.forEach(function (device) {
                 if (device.kind === 'videoinput') {
                     webcams[device.label] = device.deviceId
-                    var name = device.label.substring(0, device.label.lastIndexOf('('));
+
+                    var name = device.label.replace(/\(.*:.*\)/g, "");
                     $('#webcamSelect').append(
-                        '<li><a class="dropdown-item webcamSelect" data-value="' + device.deviceId + '">' + name + '</a></li>'
+                        '<li><a class="dropdown-item webcamSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a></li>'
                     )
-                    console.log(name)
                     webcams.push(device);
                 }
             });
             $('.webcamSelect').click(function () {
+                stopWebcam();
                 setButtonName($('#selectWebcamDropdown'), $(this).text());
                 choosenId = $(this).data('value');
                 startWebcam(choosenId);
             })
             choosenId = webcams[0].deviceId;
-            var name = webcams[0].label.substring(0, webcams[0].label.lastIndexOf('('));
+            var name = webcams[0].label.replace(/\(.*:.*\)/g, "");
             setButtonName($('#selectWebcamDropdown'), name);
             startWebcam(choosenId);
         })
@@ -68,13 +70,13 @@ function startWebcam(id){
                 $('#webcamSwitch').removeClass('fa-video').addClass('fa-video-slash')
             })
             .catch(function (err0r) {
+                console.log(err0r);
                 console.log("Something went wrong!");
             });
     }
 }
 
 function stopWebcam() {
-    console.log('1.2');
         var stream = video.srcObject;
         if(typeof stream !== 'undefined' && stream !== null) {
         var tracks = stream.getTracks();

@@ -8,9 +8,7 @@
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
-            <button style="color: white" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
+             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             {{ form_start(form) }}
@@ -31,7 +29,8 @@
                     <ul class="list-group" id="addressGroupList">
                         {%  for member in form.member %}
                             <li class="list-group-item">
-                                {{ form_row(member) }}
+                                {{ form_widget(member)|raw }}
+
                             </li>
                         {% endfor %}
                     </ul>

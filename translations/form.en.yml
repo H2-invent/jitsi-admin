@@ -76,7 +76,6 @@ help:
   featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
   serverName: Please enter the server name. This will be shown to the participants.
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser

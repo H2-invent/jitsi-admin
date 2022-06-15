@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Helper\JitsiAdminController;
 use App\Service\ReminderService;
 use App\Service\UserService;
 
@@ -15,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CronController extends AbstractController
+class CronController extends JitsiAdminController
 {
     /**
      * @Route("/cron/remember", name="cron_remember")

@@ -1,0 +1,8 @@
+<span class="ms-2">
+    {% if roomPermissions(user,room).moderator == true %}<i class="fa fa-crown"></i>{% endif %}
+    {% if roomPermissions(user,room).shareDisplay == true %}<i class="fas fa-desktop"></i> {% endif %}
+    {% if roomPermissions(user,room).privateMessage == true %}<i class="far fa-comments"></i>{% endif %}
+    {% if roomPermissions(user,room).lobbyModerator == true %}<i class="fas fa-couch"></i>{% endif %}
+</span>
+
+

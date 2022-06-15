@@ -73,14 +73,10 @@ services:
       MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
-      MAILER_HOST: ${MAILER_HOST}
-      MAILER_PORT: ${MAILER_PORT}
-      MAILER_PASSWORD: ${MAILER_PASSWORD}
-      MAILER_USERNAME: ${MAILER_USERNAME}
-      MAILER_ENCRYPTION: ${MAILER_ENCRYPTION}
       MAILER_DSN: ${MAILER_DSN}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+      VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"

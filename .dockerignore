@@ -1,6 +1,7 @@
 *
 !translations
 !assets
+!jitsi-admin_messenger_docker.conf
 !bin
 !config
 !public
@@ -11,7 +12,6 @@
 !theme
 !migrations
 !tests
-!dockerupdate.sh
 !composer.json
 !composer.lock
 !package-lock.json

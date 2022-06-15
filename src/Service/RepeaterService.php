@@ -8,6 +8,7 @@ use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
+use App\Service\caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Guides\RestructuredText\Directives\Replace;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,6 +23,7 @@ class RepeaterService
     private $userService;
     private $translator;
     private $twig;
+    private $callerUserService;
     private $days = array(
         1 => 'Monday',
         2 => 'Tuesday',
@@ -54,7 +56,7 @@ class RepeaterService
         'December',
     );
 
-    public function __construct(IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager)
+    public function __construct(CallerPrepareService $callerPrepareService, IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager)
     {
         $this->icsService = $icsService;
         $this->em = $entityManager;
@@ -64,6 +66,7 @@ class RepeaterService
         $this->translator = $translator;
         $this->twig = $environment;
         $this->icalService = $icalService;
+        $this->callerUserService = $callerPrepareService;
     }
 
     /**
@@ -73,6 +76,7 @@ class RepeaterService
      */
     function createNewRepeater(Repeat $repeat): Repeat
     {
+
         $userAttribute = $repeat->getPrototyp()->getUserAttributes()->toArray();
         switch ($repeat->getRepeatType()) {
             case 0:
@@ -99,8 +103,10 @@ class RepeaterService
         foreach ($userAttribute as $data) {
             $repeat->getPrototyp()->addUserAttribute($data);
         }
+
         return $repeat;
     }
+
 
     /**
      * @param Repeat $repeat
@@ -111,7 +117,7 @@ class RepeaterService
     {
         //hier bauen wir alle X tage einen neuenRoom
         $start = $repeat->getStartDate();
-        $prototype = $repeat->getPrototyp();
+        $prototype = $this->em->getRepository(Rooms::class)->find($repeat->getPrototyp()->getId());
         $start->setTime($prototype->getStart()->format('H'), $prototype->getStart()->format('i'));
 
         for ($i = 0; $i < $repeat->getRepetation(); $i++) {
@@ -299,10 +305,12 @@ class RepeaterService
      */
     function createClonedRoom(Rooms $prototype, Repeat $repeat, \DateTime $start): Rooms
     {
+
         $room = clone $prototype;
         foreach ($room->getUserAttributes() as $data) {
             $room->removeUserAttribute($data);
         }
+
 
         $room->setUid(rand(0, 999) . time());
         $room->setUidReal(md5(uniqid()));
@@ -326,16 +334,11 @@ class RepeaterService
      */
     public function replaceRooms(Rooms $rooms): string
     {
-        //first show me the old repeater
         if (!$rooms->getRepeaterProtoype()) {
             return $this->translator->trans('Diese Aktion ist nicht erlaubt.');
         }
-        $rooms->setEnddate((clone $rooms->getStart())->modify('+' . $rooms->getDuration() . 'min'));
-        $this->em->persist($rooms);
-        $this->em->flush();
-
-        $repeater = $rooms->getRepeaterProtoype();
-        $repeater->setStartDate($rooms->getStart());
+        $repeater = $this->prepareRepeater($rooms);
+        //first show me the old repeater
         $repeater = $this->cleanRepeater($repeater);
         $repeater = $this->createNewRepeater($repeater);
         $this->addUserRepeat($repeater);
@@ -346,6 +349,23 @@ class RepeaterService
         return $snack;
     }
 
+    /**
+     * @param Rooms $rooms
+     * @return Repeat|null
+     * This function Prepares the repeater to have the new startdate
+     */
+    public function prepareRepeater(Rooms $rooms){
+
+        $rooms->setEnddate((clone $rooms->getStart())->modify('+' . $rooms->getDuration() . 'min'));
+        $this->em->persist($rooms);
+        $this->em->flush();
+
+        $repeater = $rooms->getRepeaterProtoype();
+        $repeater->setStartDate($rooms->getStart());
+        $this->em->persist($repeater);
+        $this->em->flush();
+        return $repeater;
+    }
     /**
      * this function replaces the prototype in a repeater and hangs all attributes from the old prototype to the new prototype
      * @param Rooms $rooms
@@ -493,6 +513,7 @@ class RepeaterService
             }
         }
         $this->em->flush();
+        $this->createNewCaller($repeat);
     }
 
     /**
@@ -549,29 +570,62 @@ class RepeaterService
         return true;
     }
 
+    /**
+     * @param Repeat $repeater
+     * @return Repeat
+     */
     public function cleanRepeater(Repeat $repeater)
     {
+
+        if ($repeater->getPrototyp()->getCallerRoom()) {
+            $callerRoom = $repeater->getPrototyp()->getCallerRoom();
+            $this->em->remove($callerRoom);
+            $this->em->flush();
+        }
+        $this->em->refresh($repeater);
+        $this->em->refresh($repeater->getPrototyp());
+
         foreach ($repeater->getRooms() as $data) {
 
             foreach ($data->getUserAttributes() as $data2) {
                 $data->removeUserAttribute($data2);
-                $this->em->remove($data2);
             }
             foreach ($data->getUser() as $data2) {
                 $data2->removeRoom($data);
                 $this->em->persist($data2);
             }
-
-            $repeater->removeRoom($data);
-
+            $this->em->persist($data);
         }
+
         $this->em->flush();
+
         foreach ($repeater->getRooms() as $data) {
             $this->em->remove($data);
         }
         $repeater->getPrototyp()->setSequence(($repeater->getPrototyp()->getSequence()) + 1);
         $this->em->persist($repeater);
         $this->em->flush();
+        foreach ($repeater->getPrototyp()->getCallerIds() as $data) {
+            $repeater->getPrototyp()->removeCallerId($data);
+        }
+        $this->em->persist($repeater);
+        $this->em->flush();
+
+
         return $repeater;
+    }
+
+    /**
+     * @param Repeat $repeat
+     * @return void
+     * This Function creates the caller Id for each Room which is generated in the Repeater Session
+     */
+    public function createNewCaller(Repeat $repeat)
+    {
+        foreach ($repeat->getRooms() as $data) {
+            $this->callerUserService->addCallerIdToRoom($data);
+            $this->callerUserService->createUserCallerIDforRoom($data);
+
+        }
     }
 }

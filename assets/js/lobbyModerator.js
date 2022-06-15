@@ -4,37 +4,52 @@
  */
 import 'regenerator-runtime/runtime'
 import $ from 'jquery';
-
-import('bootstrap');
-import('popper.js');
+import {initDragDragger} from './lobby_dragger'
 global.$ = global.jQuery = $;
-import('mdbootstrap');
+import * as mdb from 'mdb-ui-kit'; // lib
+
 import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
-import {initAUdio, micId, audioId,echoOff} from './audioUtils'
-import {initJitsi} from './jitsiUtils'
+import {initAUdio, micId, audioId, echoOff} from './audioUtils'
+import {initJitsi, hangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
+import {disableBodyScroll}  from 'body-scroll-lock'
 
 var jitsiApi;
 try {
     navigator.mediaDevices.getUserMedia({audio: true, video: true})
-}catch (e) {
-    console.log(e);
+} catch ($e) {
+    console.log($e)
 }
 
 initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+let es;
 
-const es = new EventSource([topic]);
-es.onmessage = e => {
-    var data = JSON.parse(e.data)
-    masterNotify(data);
-    countParts();
+function initMercure() {
+    connectES();
+    setInterval(function () {
+
+        if (es.readyState === 2) {
+            connectES();
+        }
+    }, 5000);
+}
+
+function connectES() {
+    es = new EventSource([topic]);
+    es.onmessage = e => {
+        var data = JSON.parse(e.data)
+        masterNotify(data);
+        if (data.type === 'endMeeting') {
+            hangup();
+        }
+    }
 }
 
 
@@ -47,24 +62,40 @@ $('.startIframe').click(function (e) {
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
 
     moveWrapper();
-    options.devices={
+    options.devices = {
         audioInput: choosenId,
         audioOutput: audioId,
         videoInput: micId
     }
-    initJitsi(options,domain);
 
-    $('#jitsiWrapper').find('iframe').css('height', '100vh');
+    initJitsi(options, domain);
+
+    $('#jitsiWindow').find('iframe').css('height', '100%');
+    window.scrollTo(0,1)
+    initDragDragger();
+     document.querySelector('body').classList.add('touchactionNone');
+    // document.getElementsByTagName('body').style.width='100%';
+
+    window.addEventListener("scroll", (e) => {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+    });
 })
 
 function moveWrapper() {
     stopWebcam();
-    $('#jitsiWrapper').prependTo('body').css('height', '100vh').find('#jitsiWindow').addClass('inMeeting');
 
-    $('#snackbar').appendTo('body');
+    $('body').prepend('<div id="frame"></div>');
+
+    var frameDIv = $('#frame');
+    frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
+    $('#logo_image').prop('href','#').addClass('stick').prependTo('#jitsiWindow');
+    frameDIv.prepend($('#jitsiWrapper'));
+    frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'));
+    frameDIv.append($('#snackbar'))
     $('#mainContent').remove();
     $('.imageBackground').remove();
-    $('.lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger">Lobby ( <span id="lobbyCounter">'+$('.waitingUserCard').length+'</span> )</div>');
+    $('#lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger" id="dragger">Lobby ( <span id="lobbyCounter">' + $('.waitingUserCard').length + '</span> )</div>');
     $('#col-waitinglist').addClass('large');
     $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
     window.addEventListener('resize', function () {
@@ -74,8 +105,10 @@ function moveWrapper() {
 }
 
 initCircle();
+
 $(document).ready(function () {
-    initGenerell()
+    initGenerell();
+    initMercure();
 })
 
 

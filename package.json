@@ -17,7 +17,7 @@
     "dependencies": {
         "@dmuy/datepicker": "^2.0.1",
         "@dmuy/timepicker": "^2.0.0",
-        "@fortawesome/fontawesome-free": "^5.15.2",
+        "@fortawesome/fontawesome-free": "^6.1",
         "@fullcalendar/bootstrap": "^5.5.0",
         "@fullcalendar/core": "^5.5.0",
         "@fullcalendar/daygrid": "^5.5.0",
@@ -26,15 +26,19 @@
         "@fullcalendar/resource-common": "^5.5.0",
         "@holema/h2datetimepicker": "^1.10.0",
         "@popperjs/core": "^2.11.2",
+        "@yaireo/title-tooltip": "^1.2.1",
         "autosize": "^4.0.2",
+        "body-scroll-lock": "^4.0.0-beta.0",
         "bootstrap": "^4.5.3",
-        "chart.js": "^2.9.4",
+        "chart.js": "^3.8.0",
         "clipboard": "^2.0.8",
         "copy-webpack-plugin": "^6.4.1",
         "flatpickr": "^4.6.9",
         "h2-invent-apps": "^2.4.0",
+        "h2-invent-material-tabs": "^1.10.0",
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
+        "mdb-ui-kit": "^4.0.0",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
         "node-waves": "^0.7.6",
@@ -43,6 +47,7 @@
         "sass": "^1.32.8",
         "string-to-color": "^2.2.2",
         "swiper": "^6.6.2",
-        "toastr": "^2.1.4"
+        "toastr": "^2.1.4",
+        "zingtouch": "^1.0.6"
     }
 }

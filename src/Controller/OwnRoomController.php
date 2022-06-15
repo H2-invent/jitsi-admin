@@ -7,6 +7,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinMyRoomType;
 use App\Form\Type\JoinViewType;
+use App\Helper\JitsiAdminController;
 use App\Service\RoomService;
 use App\Service\StartMeetingService;
 use Firebase\JWT\JWT;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class OwnRoomController extends AbstractController
+class OwnRoomController extends JitsiAdminController
 {
 
     /**
@@ -29,9 +30,10 @@ class OwnRoomController extends AbstractController
      */
     public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
     {
-        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $uid, 'totalOpenRooms' => true));
+        $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uid' => $uid, 'totalOpenRooms' => true));
         if (!$rooms) {
-            return $this->redirectToRoute('join_index_no_slug', array('snack' => $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'), 'color' => 'danger'));
+            $this->addFlash('danger', $translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
+            return $this->redirectToRoute('join_index_no_slug');
         }
         if (!StartMeetingService::checkTime($rooms)) {
             $startPrint = $rooms->getTimeZone()?clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getStart();
@@ -44,7 +46,8 @@ class OwnRoomController extends AbstractController
                 )
             );
             $color = 'danger';
-            return $this->redirectToRoute('join_index_no_slug', array('snack' => $snack, 'color' => $color));
+            $this->addFlash($color, $snack);
+            return $this->redirectToRoute('join_index_no_slug');
         }
 
         $data = array();
@@ -135,7 +138,7 @@ class OwnRoomController extends AbstractController
      */
     public function waiting(Request $request,StartMeetingService $startMeetingService): Response
     {
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uid' => $request->get('uid')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uid' => $request->get('uid')));
         $name = $request->get('name');
         $type = $request->get('type');
         $now = new \DateTime('now', new \DateTimeZone('utc'));

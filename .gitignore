@@ -37,13 +37,13 @@ yarn-error.log
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
-/theme/theme.json.signed
+/theme/*
+!/theme/README.md
 /translations/custom/messages+intl-icu.de.xlf
 
 *.signed*
 /screenshot/*
 /test/result/res.xml
-/theme/atheme.json
 
 ###> liip/imagine-bundle ###
 /public/media/cache/

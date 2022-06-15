@@ -6,10 +6,11 @@ use App\Entity\AddressGroup;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\NewMemberType;
+use App\Helper\JitsiAdminController;
 use App\Service\ParticipantSearchService;
 use App\Service\RoomAddService;
 use App\Service\UserService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,25 +19,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function GuzzleHttp\Psr7\str;
 
-class ParticipantController extends AbstractController
+class ParticipantController extends JitsiAdminController
 {
-    private $translator;
-    private $parameterBag;
 
-    public function __construct(TranslatorInterface $translator, ParameterBagInterface $parameterBag)
-    {
-        $this->translator = $translator;
-        $this->parameterBag = $parameterBag;
-    }
 
     /**
      * @Route("/room/participant/search", name="search_participant")
      */
-    public function index(Request $request, TranslatorInterface $translator, ParticipantSearchService $participantSearchService): Response
+    public function index(Request $request, ParticipantSearchService $participantSearchService): Response
     {
         $string = $request->get('search');
-        $user = $this->getDoctrine()->getRepository(User::class)->findMyUserByIndex(strtolower($string), $this->getUser());
-        $group = $this->getDoctrine()->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
+        $string = strtolower($string);
+        $user = $this->doctrine->getRepository(User::class)->findMyUserByIndex($string, $this->getUser());
+        $group = $this->doctrine->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = array();
         if($this->parameterBag->get('strict_allow_user_creation') == 1){
@@ -54,9 +49,10 @@ class ParticipantController extends AbstractController
     public function roomAddUser(Request $request, RoomAddService $roomAddService)
     {
         $newMember = array();
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         if ($room->getModerator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $form = $this->createForm(NewMemberType::class, $newMember, ['action' => $this->generateUrl('room_add_user', ['room' => $room->getId()])]);
         $form->handleRequest($request);
@@ -77,8 +73,8 @@ class ParticipantController extends AbstractController
             } else {
                 $snack = $this->translator->trans('Teilnehmer wurden eingeladen');
             }
-
-            return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+            $this->addFlash('success', $snack);
+            return $this->redirectToRoute('dashboard');
         }
 
         $title = $this->translator->trans('Teilnehmer verwalten');
@@ -94,7 +90,8 @@ class ParticipantController extends AbstractController
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         if ($room->getModerator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $title = $this->translator->trans('Teilnehmer');
         return $this->render('room/attendeeModalPast.twig', array('title' => $title, 'room' => $room));
@@ -108,18 +105,18 @@ class ParticipantController extends AbstractController
     function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $repeater = false;
 
         if ($room->getRepeater()) {
             $repeater = true;
         }
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = 'Keine Berechtigung';
         if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
             if (!$repeater) {
                 $room->removeUser($user);
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($room);
                 $em->flush();
                 $userService->removeRoom($user, $room);
@@ -129,8 +126,8 @@ class ParticipantController extends AbstractController
 
             $snack = $this->translator->trans('Teilnehmer gelöscht');
         }
-
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+        $this->addFlash('success', $snack);
+        return $this->redirectToRoute('dashboard');
     }
     /**
      * @Route("/room/participant/resend", name="room_user_resend")
@@ -138,15 +135,18 @@ class ParticipantController extends AbstractController
     public
     function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$request->get('room')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$request->get('room')));
         if ($room->getModerator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('id'=>$request->get('user')));
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(array('id'=>$request->get('user')));
         if(!in_array($room,$user->getRooms()->toArray())){
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $userService->addUser($user,$room);
-        return $this->redirectToRoute('dashboard', ['snack' => $this->translator->trans('participant.resend.invitation.sucess')]);
+        $this->addFlash('success', $this->translator->trans('participant.resend.invitation.sucess'));
+        return $this->redirectToRoute('dashboard');
     }
 }

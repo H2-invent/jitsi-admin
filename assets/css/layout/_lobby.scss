@@ -1,3 +1,6 @@
+body{
+  overscroll-behavior-y: contain;
+}
 #lobbyWebcam {
   width: 100%;
   height: auto;
@@ -69,10 +72,10 @@
   background: white;
 }
 
-
 #jitsiWindow {
   height: inherit;
   overflow: hidden;
+  position: relative;
 }
 
 #jitsiWrapper.inMeeting {
@@ -146,35 +149,36 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 10;
+  @media (min-width: 600px) {
+    &:hover {
+      top: 0 !important;
+      transition: top 0.5s;
 
-  &:hover {
-    top: 0 !important;
-    transition: top 0.5s;
+      .dragger {
+        &:before {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\f106\00a0" !important;
+        }
 
-    .dragger {
-      &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f106\00a0" !important;
-      }
-
-      &:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\00a0\f106" !important;
+        &:after {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\00a0\f106" !important;
+        }
       }
     }
   }
 }
 
-#waitingUserWrapper {
-  padding: 8px;
-}
+
 
 .selectedDevice {
   font-weight: bold;
 
   &:before {
+    padding-right: 8px;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f0da" !important;
@@ -191,6 +195,7 @@
 #waitingUserWrapper {
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .lobbyButtons {
@@ -208,10 +213,12 @@
 
 .blackMode.joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, black);
+  opacity: 1;
 }
 
 .joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, white);
+  opacity: 1;
 }
 
 .lobbyCard {
@@ -224,5 +231,9 @@
   }
 }
 
-
-
+.dragger{
+  width: fit-content;
+}
+.touchactionNone{
+  touch-action: none;
+}

@@ -36,22 +36,26 @@ class DirectSendService
         $this->roomService = $roomService;
         $this->twig = $environment;
     }
-    public function setMercurePublisher(HubInterface $hub){
+
+    public function setMercurePublisher(HubInterface $hub)
+    {
         $this->publisher = $hub;
     }
-    public function sendSnackbar($topic, $text,$color)
+
+    public function sendSnackbar($topic, $text, $color)
     {
         $data = array(
             'type' => 'snackbar',
             'message' => $text,
-            'color'=>$color
+            'color' => $color
         );
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
 
 
     }
-    public function sendReloadPage($topic,$timeout)
+
+    public function sendReloadPage($topic, $timeout)
     {
         $data = array(
             'type' => 'reload',
@@ -62,19 +66,31 @@ class DirectSendService
 
 
     }
-    public function sendBrowserNotification($topic, $title, $message,$pushMessage, $id,$color)
+
+    public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color)
     {
         $data = array(
             'type' => 'notification',
             'title' => $title,
-            'message' =>$message,
-            'pushNotification'=>$pushMessage,
-            'messageId'=>$id,
-            'color'=>$color
+            'message' => $message,
+            'pushNotification' => $pushMessage,
+            'messageId' => $id,
+            'color' => $color
         );
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
+
+    public function sendCleanBrowserNotification($topic, $id)
+    {
+        $data = array(
+            'type' => 'cleanNotification',
+            'messageId' => $id,
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
+    }
+
     public function sendModal($topic, $content)
     {
 
@@ -88,7 +104,7 @@ class DirectSendService
 
     }
 
-    public function sendRedirect($topic, $url,$timeout=1000)
+    public function sendRedirect($topic, $url, $timeout = 1000)
     {
         $data = array(
             'type' => 'redirect',
@@ -99,7 +115,7 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendEndMeeting($topic, $url, $timeout=1000)
+    public function sendEndMeeting($topic, $url, $timeout = 1000)
     {
         $data = array(
             'type' => 'endMeeting',
@@ -119,7 +135,9 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
-    public function sendRefresh($topic,$url){
+
+    public function sendRefresh($topic, $url)
+    {
         $data = array(
             'type' => 'refresh',
             'reloadUrl' => $url,
@@ -127,6 +145,32 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
+
+    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time,$id)
+    {
+        $data = array(
+            'type' => 'call',
+            'title'=>$title,
+            'message'=>$message,
+            'pushMessage'=>$pushMesage,
+            'time'=>$time,
+            'color'=>'success',
+            'messageId'=>$id
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
+    public function sendRefreshDashboard($topic)
+    {
+        $data = array(
+            'type' => 'refreshDashboard',
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->sendUpdate($update);
+    }
+
+
     private function sendUpdate(Update $update)
     {
         try {
@@ -137,4 +181,5 @@ class DirectSendService
             return false;
         }
     }
+
 }

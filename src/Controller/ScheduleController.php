@@ -9,6 +9,7 @@ use App\Entity\SchedulingTimeUser;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\RoomType;
+use App\Helper\JitsiAdminController;
 use App\Service\PexelService;
 use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
@@ -25,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ScheduleController extends AbstractController
+class ScheduleController extends JitsiAdminController
 {
     /**
      * @Route("room/schedule/new", name="schedule_admin_new")
@@ -34,9 +35,10 @@ class ScheduleController extends AbstractController
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
-            $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
+            $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if ($room->getModerator() !== $this->getUser()) {
-                return $this->redirectToRoute('dashboard', ['snack' => $translator->trans('Keine Berechtigung')]);
+                $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
+                return $this->redirectToRoute('dashboard');
             }
             $snack = $translator->trans('Terminplanung erfolgreich bearbeitet');
             $title = $translator->trans('Terminplanung bearbeiten');
@@ -52,7 +54,7 @@ class ScheduleController extends AbstractController
         } else {
             $serverChhose = null;
             if ($request->cookies->has('room_server')) {
-                $server = $this->getDoctrine()->getRepository(Server::class)->find($request->cookies->get('room_server'));
+                $server = $this->doctrine->getRepository(Server::class)->find($request->cookies->get('room_server'));
                 if ($server && in_array($server, $servers)) {
                     $serverChhose = $server;
                 }
@@ -68,7 +70,7 @@ class ScheduleController extends AbstractController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
 
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()])]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
 
         $form->remove('scheduleMeeting');
         $form->remove('start');
@@ -92,7 +94,7 @@ class ScheduleController extends AbstractController
                 }
 
                 $room->setScheduleMeeting(true);
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($room);
                 $em->flush();
                 $schedulingService->createScheduling($room);
@@ -106,14 +108,16 @@ class ScheduleController extends AbstractController
                 }
 
                 $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
-                $res = $this->generateUrl('dashboard', ['snack' => $snack, 'modalUrl' => $modalUrl]);
+                $res = $this->generateUrl('dashboard');
+                $this->addFlash('success', $snack);
+                $this->addFlash('modalUrl', $modalUrl);
                 return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
 
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $res = $this->generateUrl('dashboard', array('snack' => $snack, 'color' => 'danger'));
-
+            $this->addFlash('danger',$snack );
+            $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
         return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'form' => $form->createView(), 'title' => $title));
@@ -154,7 +158,7 @@ class ScheduleController extends AbstractController
             } else {
                 $schedule = $schedule[0];
             }
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
             $scheduleTime = new SchedulingTime();
             $scheduleTime->setTime(new \DateTime($request->get('date')));
             $scheduleTime->setScheduling($schedule);
@@ -179,7 +183,7 @@ class ScheduleController extends AbstractController
         }
         try {
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
             foreach ($schedulingTime->getSchedulingTimeUsers() as $data) {
                 $em->remove($data);
             }
@@ -203,10 +207,13 @@ class ScheduleController extends AbstractController
             throw new NotFoundHttpException('Room not found');
         }
         $text = $translator->trans('Sie haben den Terminplan erfolgreich umgewandelt');
+        $color = 'success';
         if (!$schedulingService->chooseTimeSlot($schedulingTime)) {
             $text = $translator->trans('Fehler, Bitte Laden Sie die Seite neu');
+            $color='danger';
         };
-        return $this->redirectToRoute('dashboard', array('snack' => $text));
+        $this->addFlash($color,$text);
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -217,16 +224,16 @@ class ScheduleController extends AbstractController
     public function public(Scheduling $scheduling, User $user, Request $request, PexelService $pexelService, TranslatorInterface $translator): Response
     {
         if (!in_array($user, $scheduling->getRoom()->getUser()->toArray())) {
-            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color' => 'danger']);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('join_index_no_slug');
 
         }
         if (!$scheduling->getRoom()->getScheduleMeeting()) {
-            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color' => 'danger']);
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('join_index_no_slug');
         }
 
         $server = $scheduling->getRoom()->getServer();
-
-
         return $this->render('schedule/schedulePublic.html.twig', array('user' => $user, 'scheduling' => $scheduling, 'room' => $scheduling->getRoom(), 'server' => $server));
     }
 
@@ -235,20 +242,20 @@ class ScheduleController extends AbstractController
      */
     public function vote(Request $request, TranslatorInterface $translator): Response
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('user'));
-        $scheduleTime = $this->getDoctrine()->getRepository(SchedulingTime::class)->find($request->get('time'));
+        $user = $this->doctrine->getRepository(User::class)->find($request->get('user'));
+        $scheduleTime = $this->doctrine->getRepository(SchedulingTime::class)->find($request->get('time'));
         $type = $request->get('type');
         if (!in_array($user, $scheduleTime->getScheduling()->getRoom()->getUser()->toArray())) {
             return new JsonResponse(array('error' => true, 'text' => $translator->trans('Fehler'), 'color' => 'danger'));
         }
-        $scheduleTimeUser = $this->getDoctrine()->getRepository(SchedulingTimeUser::class)->findOneBy(array('user' => $user, 'scheduleTime' => $scheduleTime));
+        $scheduleTimeUser = $this->doctrine->getRepository(SchedulingTimeUser::class)->findOneBy(array('user' => $user, 'scheduleTime' => $scheduleTime));
         if (!$scheduleTimeUser) {
             $scheduleTimeUser = new SchedulingTimeUser();
             $scheduleTimeUser->setUser($user);
             $scheduleTimeUser->setScheduleTime($scheduleTime);
         }
         $scheduleTimeUser->setAccept($type);
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($scheduleTimeUser);
         $em->flush();
         return new JsonResponse(array('error' => false, 'text' => $translator->trans('common.success.save'), 'color' => 'success'));

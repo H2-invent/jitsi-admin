@@ -12,6 +12,8 @@ namespace App\Service;
 use App\Entity\License;
 use App\Entity\Server;
 use Doctrine\ORM\EntityManagerInterface;
+
+use H2Entwicklung\Signature\CheckSignature;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,12 +26,13 @@ class LicenseService
     private $em;
     private $translator;
     private $parameterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    private CheckSignature $checkSignature;
+    public function __construct( CheckSignature $checkSignature, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->translator = $translator;
         $this->em = $entityManager;
         $this->parameterBag = $parameterBag;
+        $this->checkSignature = $checkSignature;
     }
 
     function verify(?Server $server): bool
@@ -39,22 +42,12 @@ class LicenseService
         if (!$license) {
             return false;
         }
-        if(!$this->verifySignature($license->getLicense())){
+        if(!$this->checkSignature->verifySignature($license->getLicense())){
             return false;
         }
         $data = json_decode($license->getLicense(), true);
         $signature = $data['signature'];
         $licenseString = $data['entry'];
-        try {
-            $res = openssl_verify(json_encode($licenseString), hex2bin($signature), file_get_contents($this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'key.pub'), OPENSSL_ALGO_SHA256);
-            if ($res != 1) {
-
-                return false;
-            }
-        } catch (\Exception $e) {
-
-            return false;
-        }
         if (new \DateTime($licenseString['valid_until']) < new \DateTime()) {
 
             return false;
@@ -70,33 +63,9 @@ class LicenseService
         return true;
     }
 
-    public function verifySignature($inputString)
-    {
-        $data = json_decode($inputString, true);
-        $signature = $data['signature'];
-        $licenseString = $data['entry'];
-        try {
-            $res = openssl_verify(json_encode($licenseString), hex2bin($signature), file_get_contents($this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'key.pub'), OPENSSL_ALGO_SHA256);
-            if ($res != 1) {
 
-                return false;
-            }
-        } catch (\Exception $e) {
-
-            return false;
-        }
-        return true;
-    }
-    public function verifyValidUntil($string){
-        $entry = json_decode($string, true);
-        if (new \DateTime($entry['entry']['validUntil']) > new \DateTime()) {
-            return $entry['entry'];
-        } else {
-            return false;
-        }
-    }
     public function generateNewLicense($licenseString){
-        if (!$this->verifySignature($licenseString)) {
+        if (!$this->checkSignature->verifySignature($licenseString)) {
             return array('error' => true, 'text' => 'Invalid Signature');
         }
 

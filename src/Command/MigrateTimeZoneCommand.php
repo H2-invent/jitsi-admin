@@ -39,10 +39,12 @@ class MigrateTimeZoneCommand extends Command
             if ($data->getStart()) {
                 $dateStart = new \DateTime($data->getStart()->format('Y-m-d H:i:s'), $timezone);
                 $data->setStartUtc($dateStart->setTimezone(new \DateTimeZone('utc')));
+                $data->setStartTimestamp((new \DateTime($data->getStart()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
             }
             if ($data->getEnddate()) {
                 $dateEnd = new \DateTime($data->getEnddate()->format('Y-m-d H:i:s'), $timezone);
                 $data->setEndDateUtc($dateEnd->setTimezone(new \DateTimeZone('utc')));
+                $data->setEndTimestamp((new \DateTime($data->getEnddate()->format('Y-m-d H:i:s'), $timezone))->getTimestamp());
             }
             $this->em->persist($data);
         }

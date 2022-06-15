@@ -1,12 +1,24 @@
-version: '3.7'
+version: '3.8'
+
+x-app-common: &jitsi_admin_app
+  build: .
+  environment:
+    APACHE_DOCUMENT_ROOT: "public/"
+    PHP_EXTENSION_XDEBUG: "1"
+    PHP_INI_MEMORY_LIMIT: "1G"
+    PHP_EXTENSION_LDAP: 1
+    PHP_EXTENSION_INTL: 1
+    DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
+    MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
+    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+    MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+    MAILER_DSN: ${MAILER_DSN}
+
 
 services:
   mercure-ja:
-    hostname: ${RANDOMTAG}mercure-ja
     image: dunglas/mercure
-    restart: unless-stopped
-
-
+    hostname: ${RANDOMTAG}mercure-ja
     environment:
 
       MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
@@ -30,8 +42,15 @@ services:
 
   #Here is the Jitsi-Admin app
   app-ja:
+    <<: *jitsi_admin_app
     hostname: ${RANDOMTAG}app-ja
-    build: .
+    restart: unless-stopped
+    healthcheck:
+      test: curl -f http://localhost:80/health/check || exit 1
+      interval: 10s
+      retries: 5
+      timeout: 10s
+      start_period: 30s
     depends_on:
       - db-ja
       - keycloak-ja
@@ -52,8 +71,14 @@ services:
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
+      laF_version: ${GIT_VERSION}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+      VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+      CRON_USER_1: root
+      CRON_SCHEDULE_1: "* * * * *"
+      CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja-${RANDOMTAG}.tls=true"
@@ -67,6 +92,20 @@ services:
     volumes:
       - image_upload:/var/www/html/public/uploads/images
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
+    networks:
+      - default
+      - jitsi-admin
+
+  app-queu:
+    <<: *jitsi_admin_app
+    restart: unless-stopped
+    deploy:
+      mode: replicated
+      replicas: 2
+    depends_on:
+      app-ja:
+        condition: service_healthy
+    command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
     networks:
       - default
       - jitsi-admin
@@ -123,8 +162,7 @@ volumes:
 
 networks:
   default:
-    external:
-      name: gateway
+    name: gateway
 
   jitsi-admin:
     internal: true

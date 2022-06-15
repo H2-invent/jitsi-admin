@@ -5,6 +5,7 @@ namespace App\Service\Lobby;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Service\RoomService;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mercure\Exception\RuntimeException;
@@ -28,7 +29,9 @@ class ToParticipantWebsocketService
     private $twig;
     private $directSend;
     private $uploadHelper;
-    public function __construct(UploaderHelper $uploaderHelper, DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
+    private $em;
+
+    public function __construct(EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper, DirectSendService $directSendService, Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
     {
         $this->publisher = $publisher;
         $this->urlgenerator = $urlGenerator;
@@ -39,6 +42,7 @@ class ToParticipantWebsocketService
         $this->twig = $environment;
         $this->directSend = $directSendService;
         $this->uploadHelper = $uploaderHelper;
+        $this->em = $entityManager;
     }
 
     public function setDirectSend(DirectSendService $directSendService)
@@ -49,7 +53,7 @@ class ToParticipantWebsocketService
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
 
-        $topic = 'lobby_WaitingUser_websocket/'.$lobbyWaitungUser->getUid();
+        $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
         $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success');
         $appUrl = $this->roomService->join(
             $lobbyWaitungUser->getRoom(),
@@ -61,24 +65,34 @@ class ToParticipantWebsocketService
         if ($lobbyWaitungUser->getType() === 'b') {
             $options = array(
                 'options' => array(
-
                     'roomName' => $lobbyWaitungUser->getRoom()->getUid(),
                     'width' => '100%',
                     'height' => 400,
+                    'userInfo' => array(
+                        'displayName' => $lobbyWaitungUser->getShowName()
+                    ),
+                    'configOverwrite' => array(
+                        'prejoinPageEnabled' => false
+                    ),
+                    'interfaceConfigOverwrite' => array(
+                        'MOBILE_APP_PROMO' => false,
+                        'SHOW_JITSI_WATERMARK' => false,
+                    )
                 ),
                 'roomName' => $lobbyWaitungUser->getRoom()->getName(),
                 'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
                 'parentNode' => '#jitsiWindow',
-                'userInfo'=>array(
-                    'displayName'=>$lobbyWaitungUser->getShowName()),
+
             );
-            if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()){
-                $options['options']['jwt']= $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
+
+            if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()) {
+                $options['options']['jwt'] = $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
             }
-            if($lobbyWaitungUser->getUser() && $lobbyWaitungUser->getUser()->getProfilePicture()){
-                $options['userInfo']['avatarUrl']=  $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(),'documentFile');
+            if ($lobbyWaitungUser->getUser() && $lobbyWaitungUser->getUser()->getProfilePicture()) {
+                $options['options']['userInfo']['avatarUrl'] = $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(), 'documentFile');
             }
-            if($lobbyWaitungUser->getRoom()->getServer()->getCorsHeader()){
+
+            if ($lobbyWaitungUser->getRoom()->getServer()->getCorsHeader()) {
                 $browserUrl = $this->roomService->join(
                     $lobbyWaitungUser->getRoom(),
                     $lobbyWaitungUser->getUser(),
@@ -87,7 +101,7 @@ class ToParticipantWebsocketService
                 );
                 $this->directSend->sendRedirect($topic, $browserUrl, 5000);
                 $this->directSend->sendRedirect($topic, '/', 6000);
-            }else{
+            } else {
                 $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
             }
 
@@ -99,8 +113,8 @@ class ToParticipantWebsocketService
 
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)
     {
-        $topic = 'lobby_WaitingUser_websocket/'.$lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic,$this->translator->trans('lobby.participant.decline'),'danger');
+        $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger');
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
 }

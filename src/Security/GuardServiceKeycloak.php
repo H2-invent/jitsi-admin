@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -50,7 +51,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $this->logger = $logger;
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request):bool
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_keycloak_check';
@@ -158,7 +159,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             ->getClient('keycloak_main');
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
 
         // change "app_homepage" to some route in your app
@@ -171,7 +172,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         return new RedirectResponse($this->router->generate('index'));
     }

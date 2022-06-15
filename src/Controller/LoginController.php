@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Helper\JitsiAdminController;
+use App\Service\CreateHttpsUrl;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\Auth0Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class LoginController extends AbstractController
+class LoginController extends JitsiAdminController
 {
     /**
      * @Route("/login/auth0_login", name="login_auth0")
@@ -48,11 +50,11 @@ class LoginController extends AbstractController
     /**
      * @Route("/logout_keycloak", name="logout_keycloak")
      */
-    public function logout(ClientRegistry $clientRegistry, Request $request)
+    public function logout(ClientRegistry $clientRegistry, Request $request, CreateHttpsUrl $createHttpsUrl)
     {
         $url = $this->getParameter('KEYCLOAK_URL')
             .'/realms/'.$this->getParameter('KEYCLOAK_REALM')
-            .'/protocol/openid-connect/logout?redirect_uri='.$this->getParameter('laF_baseUrl');
+            .'/protocol/openid-connect/logout?redirect_uri='.$createHttpsUrl->createHttpsUrl('/');
         return $this->redirect($url);
 
     }

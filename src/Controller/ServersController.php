@@ -11,6 +11,7 @@ use App\Form\Type\NewMemberType;
 use App\Form\Type\NewPermissionType;
 use App\Form\Type\RoomType;
 use App\Form\Type\ServerType;
+use App\Helper\JitsiAdminController;
 use App\Service\LicenseService;
 use App\Service\MailerService;
 use App\Service\ServerService;
@@ -22,13 +23,16 @@ use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ServersController extends AbstractController
+class ServersController extends JitsiAdminController
 {
     /**
      * @Route("/server/add", name="servers_add")
@@ -38,14 +42,15 @@ class ServersController extends AbstractController
         $originalKeycloakGroups = new ArrayCollection();
 
         if ($request->get('id')) {
-            $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+            $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
 
             foreach ($server->getkeycloakGroups() as $keycloakGroup) {
                 $originalKeycloakGroups->add($keycloakGroup);
             }
 
             if ($server->getAdministrator() !== $this->getUser()) {
-                return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+                $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
+                return $this->redirectToRoute('dashboard');
             }
             $title = $translator->trans('Jitsi-Meet-Server bearbeiten');
         } else {
@@ -67,7 +72,7 @@ class ServersController extends AbstractController
             $server->setUrl($url);
             $errors = $validator->validate($server);
             if (count($errors) == 0) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 if (!$server->getSlug()) {
                     $slug = $serverService->makeSlug($server->getUrl());
                     $server->setSlug($slug);
@@ -81,6 +86,7 @@ class ServersController extends AbstractController
 
                 $em->persist($server);
                 $em->flush();
+                $this->addFlash('success', $translator->trans('Ihre Eingabe wurde Erfolgreich gespeichert.'));
                 return $this->redirectToRoute('dashboard');
             }
         }
@@ -95,9 +101,10 @@ class ServersController extends AbstractController
     public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
     {
 
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
         if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $title = $translator->trans('Jitsi-Admin Enterprise Einstellungen');
 
@@ -110,9 +117,10 @@ class ServersController extends AbstractController
             $server = $form->getData();
             $errors = $validator->validate($server);
             if (count($errors) == 0) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 $em->persist($server);
                 $em->flush();
+                $this->addFlash('success', $translator->trans('Ihre Eingabe wurde Erfolgreich gespeichert.'));
                 return $this->redirectToRoute('dashboard');
             }
         }
@@ -124,12 +132,13 @@ class ServersController extends AbstractController
     /**
      * @Route("/server/add-user", name="server_add_user")
      */
-    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator,UserCreatorService $userCreatorService)
+    public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService)
     {
         $newMember = array();
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         if ($server->getAdministrator() !== $this->getUser()) {
-            return $this->redirectToRoute('dashboard', ['snack' => 'Keine Berechtigung']);
+            $this->addFlash('danger',$translator->trans('Keine Berechtigung'));
+            return $this->redirectToRoute('dashboard');
         }
         $form = $this->createForm(NewPermissionType::class, $newMember, ['action' => $this->generateUrl('server_add_user', ['id' => $server->getId()])]);
         $form->handleRequest($request);
@@ -142,17 +151,18 @@ class ServersController extends AbstractController
             $lines = explode("\n", $newMembers['member']);
 
             if (!empty($lines)) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
                 foreach ($lines as $line) {
                     $newMember = trim($line);
-                    $user = $userCreatorService->createUser($newMember, $newMember, '','');
+                    $user = $userCreatorService->createUser($newMember, $newMember, '', '');
                     $user->addServer($server);
                     $em->persist($user);
                     $serverService->addPermission($server, $user);
                 }
                 $em->flush();
                 $snack = 'Berechtigung hinzugefügt';
-                return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+                $this->addFlash('success',$snack);
+                return $this->redirectToRoute('dashboard');
             }
         }
         $title = $translator->trans('Organisator zu Server hinzufügen');
@@ -167,18 +177,18 @@ class ServersController extends AbstractController
     function serverUserRemove(Request $request, TranslatorInterface $translator)
     {
 
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser() || $user === $this->getUser()) {
             $server->removeUser($user);
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->doctrine->getManager();
             $em->persist($server);
             $em->flush();
             $snack = $translator->trans('Berechtigung gelöscht');
         }
-
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+        $this->addFlash('success', $snack);
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -188,11 +198,11 @@ class ServersController extends AbstractController
     function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService)
     {
 
-        $server = $this->getDoctrine()->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser()) {
-            $em = $this->getDoctrine()->getManager();
-            $groupServer = $this->getDoctrine()->getRepository(KeycloakGroupsToServers::class)->findBy(array('server' => $server));
+            $em = $this->doctrine->getManager();
+            $groupServer = $this->doctrine->getRepository(KeycloakGroupsToServers::class)->findBy(array('server' => $server));
             foreach ($groupServer as $data) {
                 $em->remove($data);
             }
@@ -204,8 +214,8 @@ class ServersController extends AbstractController
 
             $snack = $translator->trans('Server gelöscht');
         }
-
-        return $this->redirectToRoute('dashboard', ['snack' => $snack]);
+        $this->addFlash('success',$snack);
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -214,31 +224,50 @@ class ServersController extends AbstractController
     public
     function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
     {
-        $res = ['snack' => $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten'), 'color' => 'success'];
-        $server = $this->getDoctrine()->getRepository(Server::class)->find($request->get('id'));
-        if (!$server || $server->getAdministrator() != $this->getUser()) {
 
-            $res = ['snack' => $translator->trans('Fehler, der Server ist nicht registriert'), 'color' => 'danger'];
+        $color = 'success';
+        $snack = $translator->trans('SMTP Einstellungen korrekt. Sie sollten in Kürze eine Email erhalten');
+        $server = $this->doctrine->getRepository(Server::class)->find($request->get('id'));
+
+        if (!$server || $server->getAdministrator() != $this->getUser()) {
+            $color = 'danger';
+            $snack = $translator->trans('Fehler, der Server ist nicht registriert');
         } else {
             try {
-                $r = $mailerService->sendEmail(
-                    $this->getUser(),
-                    $translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl(),
-                    '<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
-                    . $server->getSmtpHost() . '<br>'
-                    . $server->getSmtpEmail() . '<br>'
-                    . $server->getSmtpSenderName() . '<br>',
-                    $server
-                );
-                if (!$r) {
-                    $res = ['snack' => $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'), 'color' => 'danger'];
+                $transport = null;
+                if ($server->getSmtpHost()) {
+                    $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
+                    if ($server->getSmtpUsername()) {
+                        $this->logger->info('The Transport is new and we take him');
+                        $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+                    }else{
+                        $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+                    }
+
+                }else{
+                    $snack= $translator->trans('Fehler').': SMTP-Host';
+                    $color = 'danger';
+                    $this->addFlash($color, $snack);
+                    return $this->redirectToRoute('dashboard');
                 }
+                $transport= Transport::fromDsn($dsn);
+                $message = (new Email())
+                    ->subject($translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl())
+                    ->from(new Address($server->getSmtpEmail(), $server->getSmtpSenderName()))
+                    ->to($this->getUser()->getEmail())
+                    ->html('<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
+                        . $server->getSmtpHost() . '<br>'
+                        . $server->getSmtpEmail() . '<br>'
+                        . $server->getSmtpSenderName() . '<br>');
+                $transport->send($message);
+
             } catch (\Exception $e) {
-                $res = ['snack' => $translator->trans('Fehler, Ihre SMTP-Parameter sind fehlerhaft'), 'color' => 'danger'];
+                $color = 'danger';
+                $snack = $translator->trans('Fehler').': '.$e->getMessage();
             }
         }
-
-        return $this->redirectToRoute('dashboard', $res);
+        $this->addFlash($color, $snack);
+        return $this->redirectToRoute('dashboard');
 
     }
 }

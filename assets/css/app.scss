@@ -1,19 +1,16 @@
-@import "~bootstrap/dist/css/bootstrap.min.css";
-@import "~bootstrap/dist/css/bootstrap.min.css";
 @import '~@fortawesome/fontawesome-free/css/all.css';
-@import '~mdbootstrap/css/bootstrap.css';
-@import '~mdbootstrap/css/mdb.css';
+@import "./helper/mbd";
 @import "~flatpickr/dist/flatpickr.min.css";
 @import "~jquery-confirm/css/jquery-confirm.css";
 @import '~h2-invent-apps/css/h2-invent-apps.css';
-@import '~@fullcalendar/common/main.css';
-@import '~@fullcalendar/daygrid/main.css';
 @import "~toastr/toastr";
 @import "~node-waves/src/scss/waves";
 @import "./helper/variables";
 @import "./layout/fonts";
 
 @import "./layout/main";
+@import "layout/report";
+@import "~h2-invent-material-tabs/scss/material-tab";
 @import "./layout/header";
 @import "./layout/navbar";
 @import "~@holema/h2datetimepicker/css/dateTimePicker.css";

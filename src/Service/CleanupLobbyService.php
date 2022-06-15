@@ -18,6 +18,13 @@ class CleanupLobbyService
         $date = (new \DateTime())->modify('-'.$maxOld.'hours');
         $oldestData = $this->em->getRepository(LobbyWaitungUser::class)->findOldLobbyWaitinguser($date);
         foreach ($oldestData as $data){
+            if ($data->getCallerSession()){
+                if($data->getCallerSession()->getCaller()){
+                    $data->getCallerSession()->setCaller(null);
+                    $this->em->persist($data);
+                }
+                $this->em->remove($data->getCallerSession());
+            }
             $this->em->remove($data);
         }
         $this->em->flush();

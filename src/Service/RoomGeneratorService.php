@@ -2,19 +2,30 @@
 
 namespace App\Service;
 
+use App\Entity\CallerRoom;
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\Tag;
 use App\Entity\User;
+use App\Service\caller\CallerPrepareService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class RoomGeneratorService
 {
     private $parameterBag;
-    public function __construct(ParameterBagInterface $parameterBag)
+    private $callerPrepareService;
+    private $em;
+
+    public function __construct(ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager)
     {
         $this->parameterBag = $parameterBag;
+        $this->callerPrepareService = $callerPrepareService;
+        $this->em = $entityManager;
     }
-    public function createRoom(User $user, ?Server $server = null):Rooms{
+
+    public function createRoom(User $user, ?Server $server = null): Rooms
+    {
         $room = new Rooms();
         $room->setServer($server);
         $room->addUser($user);
@@ -46,7 +57,24 @@ class RoomGeneratorService
                 $room->setTimeZone($this->parameterBag->get('input_settings_allow_timezone_default'));
             }
         }
+        $room = $this->createCallerId($room);
+        if ($this->parameterBag->get('input_settings_allow_tag') == 1) {
+            $tag = $this->em->getRepository(Tag::class)->findOneBy(array('disabled' => false), array('priority' => 'ASC'));
+            if ($tag) {
+                $room->setTag($tag);
+            }
 
+        }
+
+        return $room;
+    }
+
+    public function createCallerId(Rooms $room)
+    {
+        $roomCaller = new CallerRoom();
+        $roomCaller->setCallerId($this->callerPrepareService->generateRoomId(999999));
+        $roomCaller->setCreatedAt(new \DateTime());
+        $room->setCallerRoom($roomCaller);
         return $room;
     }
 }

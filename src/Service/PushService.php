@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Notification;
 use App\Entity\User;
+use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -13,22 +14,19 @@ class PushService
 {
     private $em;
     private $urlGenerator;
-    public function __construct(EntityManagerInterface $entityManager,UrlGeneratorInterface $urlGenerator)
+    private $directSend;
+    public function __construct(EntityManagerInterface $entityManager,UrlGeneratorInterface $urlGenerator, DirectSendService $directSend)
     {
         $this->em = $entityManager;
         $this->urlGenerator = $urlGenerator;
+        $this->directSend = $directSend;
     }
 
-    function generatePushNotification($title, $text,User $user,$url = null){
-        $notification = new Notification();
-        $notification->setTitle($title);
-        $notification->setText($text);
-        $notification->setCreatedAt(new \DateTime());
-        $notification->setUser($user);
-        $notification->setUrl($url);
-        $this->em->persist($notification);
-        $this->em->flush();
-        return $notification;
+    function generatePushNotification($title, $text,User $user,$url = null,$id='0x00'){
+        $topic = 'personal/'.$user->getUid();
+        $this->directSend->sendBrowserNotification($topic,$title,$text,$text,$id,'info');
+        $this->directSend->sendRefreshDashboard($topic);
+        return true;
     }
     function getNotification(User $user){
         $res = array();
@@ -36,6 +34,7 @@ class PushService
 
         foreach ($notification as $data) {
             $tmp = array(
+                'id'=>$data->getId(),
                 'title' => $data->getTitle(),
                 'text' => $data->getText(),
                 'url' => $data->getUrl()?$data->getUrl():$this->urlGenerator->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL));

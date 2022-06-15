@@ -43,9 +43,8 @@ strong {
     border-radius: 5000px!important;
   }
 }
+
 .window{
-  grid-template-columns: auto ;
-  background-color: unset;
   .main{
     position: relative;
     .imageBackground{
@@ -59,8 +58,6 @@ strong {
       left: 0;
       z-index: -1;
     }
-
-
   }
   .navigation{
     grid-column: unset;
@@ -68,11 +65,13 @@ strong {
   .footer{
     grid-column: unset;
   }
+  grid-template-columns: auto ;
+  background-color: unset;
 }
 
 @supports (-webkit-appearance:none) {
   .frozenGlas {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(5px);
   }
 }
@@ -80,6 +79,13 @@ strong {
 @supports (-moz-appearance:none) {
   .frozenGlas {
     background-color: white;
-
+  }
+}
+#logo_image{
+  &.stick{
+    position: absolute;
+    top: 1.5em;
+    left: 1.5em;
+    z-index: 2;
   }
 }

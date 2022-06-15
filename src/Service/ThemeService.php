@@ -5,10 +5,15 @@ namespace App\Service;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use H2Entwicklung\Signature\CheckSignature;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -18,54 +23,55 @@ class ThemeService
     private $licenseService;
     private $parameterBag;
     private $client;
+    private $logger;
+    private RequestStack $request;
+    private CheckSignature $checkSignature;
+    private AdapterInterface $cache;
 
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService)
+    public function __construct(AdapterInterface $filesystemAdapter, CheckSignature $checkSignature, RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
     {
         $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;
         $this->client = $httpClient;
+        $this->logger = $logger;
+        $this->request = $request;
+        $this->checkSignature = $checkSignature;
+        $this->cache = $filesystemAdapter;
     }
 
     public function getTheme()
     {
+        if (!$this->request->getCurrentRequest()) {
+            return false;
+        }
+        $url = $this->request->getCurrentRequest()->getHost();
         try {
-            $finder = new Finder();
-            $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('theme.json.signed');
-            if ($finder->count() > 0) {
-                $arr = iterator_to_array($finder);
-                $theme = reset($arr)->getContents();
-                $valid = $this->licenseService->verifySignature($theme);
-                if ($valid){
-                    $res = $this->licenseService->verifyValidUntil($theme);
-                    if ($res !== false) {
-                        return $res;
+            $value = $this->cache->get('theme_' . $url, function (ItemInterface $item) use ($url) {
+                $item->expiresAfter(3600);
+
+                $finder = new Finder();
+                $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url . '.' . 'theme.json.signed');
+                if ($finder->count() > 0) {
+                    $arr = iterator_to_array($finder);
+                    $theme = reset($arr)->getContents();
+
+                    $valid = $this->checkSignature->verifySignature($theme);
+                    if ($valid) {
+                        $res = $this->checkSignature->verifyValidUntil($theme);
+                        if ($res !== false) {
+                            return $res;
+                        }
+                        $this->logger->error('Theme valid until is before now');
+                    } else {
+                        $this->logger->error('Signature invalid');
                     }
                 }
-            }
-        } catch (\Exception $exception) {
-
-        }
-
-
-        if ($this->parameterBag->get('enterprise_theme_url') != '') {
-            $cache = new FilesystemAdapter();
-            if ($_ENV["APP_ENV"] === 'dev') {
-                $cache->delete('theme');
-            }
-
-            $value = $cache->get('theme', function (ItemInterface $item) {
-                $item->expiresAfter(21600);
-
-
-                $response = $this->client->request('GET', $this->parameterBag->get('enterprise_theme_url'))->getContent();
-                $valid = $this->licenseService->verifySignature($response);
-                if ($valid) {
-                    return $this->licenseService->verifyValidUntil($response);
-                } else {
-                    return false;
-                }
+                return false;
             });
             return $value;
+
+        } catch (\Exception $exception) {
+
         }
         return false;
     }

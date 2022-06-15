@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo --------------Schutdown Apache------------------------------------------
 #service apache2 stop
 

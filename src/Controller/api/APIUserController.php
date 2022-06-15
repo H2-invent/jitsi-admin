@@ -5,11 +5,13 @@ namespace App\Controller\api;
 use App\Entity\ApiKeys;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Helper\JitsiAdminController;
 use App\Service\api\KeycloakService;
 use App\Service\api\RoomService;
 use App\Service\InviteService;
 use App\Service\LicenseService;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Util\Json;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,14 +21,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
-class APIUserController extends AbstractController
+class APIUserController extends JitsiAdminController
 {
+
     /**
      * @Route("/api/v1/getAllEntries", name="apiV1_getAllEntries")
      */
     public function index(): Response
     {
-        $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findRoomsForUser($this->getUser());
+        $rooms = $this->doctrine->getRepository(Rooms::class)->findRoomsForUser($this->getUser());
         $res = array();
         foreach ($rooms as $data) {
             $tmp = array(
@@ -47,7 +50,7 @@ class APIUserController extends AbstractController
      */
     public function getRoomInformations(Request $request, $uidReal, RoomService $roomService): Response
     {
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uidReal));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $uidReal));
         $response = new JsonResponse($roomService->generateRoomInfo($room));
         $response->headers->set('Access-Control-Allow-Origin', '*');
         return $response;
@@ -59,7 +62,7 @@ class APIUserController extends AbstractController
     public function addUserToRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
@@ -76,7 +79,7 @@ class APIUserController extends AbstractController
     public function removeUserFromRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, RoomService $roomService): Response
     {
 
-        $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);

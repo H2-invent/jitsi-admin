@@ -1,0 +1,26 @@
+{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}
+
+{% if tag|length > 1 %}
+    <div class="form-group"><label class="required" for="room_tag">{{ 'tag.name'|trans }}</label>
+        <select id="adhocTag" name="room[tag]" class="form-control">
+            {% for t in tag %}
+                <option style="background-color: {{ t.backgroundColor }}; color: {{ t.color }}"
+                        data-value="{{ path('add_hoc_meeting',{'serverId':server.id, 'userId':user.id,'tagId':t.id}) }}"
+                        value="{{ t.id }}" {% if loop.first %}selected="selected"{% endif %}>{{ t.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% elseif tag|length == 1 %}
+    <select id="adhocTag" name="room[tag]" class="form-control d-none">
+        <option data-value="{{ path('add_hoc_meeting',{'serverId':server.id, 'userId':user.id,'tagId':tag[0].id}) }}"
+                value="{{ tag[0].id }}" selected="selected">{{ tag[0].title }}</option>
+    </select>
+{% else %}
+    <select id="adhocTag" name="room[tag]" class="form-control d-none">
+        <option data-value="{{ path('add_hoc_meeting_no_tag',{'serverId':server.id, 'userId':user.id}) }}"
+                 selected="selected"></option>
+    </select>
+{% endif %}
+
+
+

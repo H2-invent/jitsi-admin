@@ -42,25 +42,38 @@ label.required:after {
 
 
 
-#snackbar {
-  visibility: hidden;
+.snackbar {
   width: 100%;
   background-color: #4b515d;
   color: #fff;
   text-align: center;
   border-radius: 2px;
-  padding: 16px;
   position: fixed;
   right: 0;
   bottom: 0;
   font-size: 17px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  .innerOnce{
+    width: 100%;
+    padding: 16px;
+    cursor: pointer;
+    -webkit-animation: fadein 0.5s ;
+    animation: fadein 0.5s;
+  }
 }
 
-#snackbar.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s ;
-  animation: fadein 0.5s;
+#snackbar{
+  visibility: hidden;
+  &.show{
+    visibility: visible;
+    -webkit-animation: fadein 0.5s ;
+    animation: fadein 0.5s;
+  }
 }
+
+
 
 @-webkit-keyframes fadein {
   from {
@@ -190,15 +203,16 @@ label.required:after {
     font-weight: 900;
     content: "\f0d7";
     float: left;
-
+    transition: transform 0.3s ease-in;
   }
   &[aria-expanded="true"]:before{
     margin-right: 4px;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: "\f0d8";
+    content: "\f0d7";
     float: left;
-
+    transform: rotateX(0.5turn);
+    transition: transform 0.3s ease-in;
   }
 }
 

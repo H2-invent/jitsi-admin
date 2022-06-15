@@ -1,10 +1,10 @@
-<ul class="nav navbar-nav">
+<ul class="nav navbar-nav me-1 flex-row d-flex">
 
-    <div class="row mr-1">
+
 
         <!-- Button trigger modal -->
-        <a class="ml-auto mr-2 mr-sm-4"
-           data-toggle="modal" data-target="#helpModal">
+        <a class="ms-auto me-2 me-sm-4"
+           data-mdb-toggle="modal" data-mdb-target="#helpModal">
             {% if theme != false %}
                 <img src="{{ asset(theme.iconHelp) }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
             {% else %}
@@ -15,9 +15,9 @@
 
 
 
-        <a class="ml-auto mr-2 mr-sm-4"
-           data-toggle="modal"
-           data-target="#modalAdressbook">
+        <a class="ms-auto me-2 me-sm-4"
+           data-mdb-toggle="modal"
+           data-mdb-target="#modalAdressbook">
             {% if theme != false %}
                 <img src="{{ asset(theme.iconAdressbook) }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
             {% else %}
@@ -25,9 +25,9 @@
             {% endif %}
         </a>
         {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
-            <a class="ml-auto mr-2 mr-sm-4"
-               data-toggle="modal"
-               data-target="#settings">
+            <a class="ms-auto me-2 me-sm-4"
+               data-mdb-toggle="modal"
+               data-mdb-target="#settings">
                 {% if theme != false %}
                     <img src="{{ asset(theme.iconSettings) }}" class="iconSytle"
                          title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
@@ -38,9 +38,9 @@
             </a>
         {% endif %}
         <!-- Button trigger modal -->
-        <a class="ml-auto mr-2 mr-sm-4"
-           data-toggle="modal"
-           data-target="#sideModalTR">
+        <a class="ms-auto me-2 me-sm-4"
+           data-mdb-toggle="modal"
+           data-mdb-target="#sideModalTR">
             {% if app.user.profilePicture %}
              <div class="iconSytle imageIcon"
              style="background-image: url('{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}')">
@@ -57,8 +57,8 @@
         </a>
 
 
-        <li class="dropdown language-dropdown">
-            <a class=" dropdown-toggle ml-auto mr-2 mr-sm-4" data-toggle="dropdown"
+        <div class="dropdown language-dropdown">
+            <a class=" dropdown-toggle ms-auto me-2 me-sm-4" data-mdb-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
             </a>
@@ -89,7 +89,7 @@
                 {% endif %}
 
             </div>
-        </li>
+        </div>
         <!-- Basic dropdown -->
 
         <!-- Basic dropdown -->
@@ -103,7 +103,7 @@
             </a>
         {% endif %}
 
-    </div>
+
 
     <!-- To change the direction of the modal animation change .right class -->
     <!-- Side Modal Top Right -->

@@ -86,7 +86,7 @@ class Rooms
     private $agenda;
 
     /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room",cascade={"persist"}, orphanRemoval=true)
      */
     private $userAttributes;
 
@@ -221,6 +221,38 @@ class Rooms
      */
     private $lobbyWaitungUsers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RoomStatus::class, mappedBy="room", orphanRemoval=true)
+     */
+    private $roomstatuses;
+
+    /**
+     * @ORM\OneToOne(targetEntity=CallerRoom::class, mappedBy="room", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $callerRoom;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $startTimestamp;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $endTimestamp;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="room", orphanRemoval=true,cascade={"persist"})
+     */
+    private $callerIds;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="rooms")
+     */
+    private $tag;
+
+
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -231,6 +263,8 @@ class Rooms
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
         $this->lobbyWaitungUsers = new ArrayCollection();
+        $this->roomstatuses = new ArrayCollection();
+        $this->callerIds = new ArrayCollection();
     }
 
     /**
@@ -244,10 +278,12 @@ class Rooms
         if ($this->start) {
             $dateStart = new \DateTime($this->start->format('Y-m-d H:i:s'), $timezone);
             $this->startUtc = $dateStart->setTimezone(new \DateTimeZone('utc'));
+            $this->startTimestamp = $dateStart->getTimestamp();
         }
         if ($this->enddate) {
             $dateEnd = new \DateTime($this->enddate->format('Y-m-d H:i:s'), $timezone);
             $this->endDateUtc = $dateEnd->setTimezone(new \DateTimeZone('utc'));
+            $this->endTimestamp = $dateEnd->getTimestamp();
         }
     }
 
@@ -332,7 +368,7 @@ class Rooms
 
     public function getUid(): ?string
     {
-        return $this->uid;
+        return strtolower($this->uid);
     }
 
     public function setUid(string $uid): self
@@ -893,5 +929,119 @@ class Rooms
 
         return $this;
     }
+
+    /**
+     * @return Collection|Roomstatus[]
+     */
+    public function getRoomstatuses(): Collection
+    {
+        return $this->roomstatuses;
+    }
+
+    public function addRoomstatus(RoomStatus $roomstatus): self
+    {
+        if (!$this->roomstatuses->contains($roomstatus)) {
+            $this->roomstatuses[] = $roomstatus;
+            $roomstatus->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoomstatus(RoomStatus $roomstatus): self
+    {
+        if ($this->roomstatuses->removeElement($roomstatus)) {
+            // set the owning side to null (unless already changed)
+            if ($roomstatus->getRoom() === $this) {
+                $roomstatus->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCallerRoom(): ?CallerRoom
+    {
+        return $this->callerRoom;
+    }
+
+    public function setCallerRoom(CallerRoom $callerRoom): self
+    {
+        // set the owning side of the relation if necessary
+        if ($callerRoom->getRoom() !== $this) {
+            $callerRoom->setRoom($this);
+        }
+
+        $this->callerRoom = $callerRoom;
+
+        return $this;
+    }
+
+    public function getStartTimestamp(): ?int
+    {
+        return $this->startTimestamp;
+    }
+
+    public function setStartTimestamp(?int $startTimestamp): self
+    {
+        $this->startTimestamp = $startTimestamp;
+
+        return $this;
+    }
+
+    public function getEndTimestamp(): ?int
+    {
+        return $this->endTimestamp;
+    }
+
+    public function setEndTimestamp(?int $endTimestamp): self
+    {
+        $this->endTimestamp = $endTimestamp;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CallerId[]
+     */
+    public function getCallerIds(): Collection
+    {
+        return $this->callerIds;
+    }
+
+    public function addCallerId(CallerId $callerId): self
+    {
+        if (!$this->callerIds->contains($callerId)) {
+            $this->callerIds[] = $callerId;
+            $callerId->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCallerId(CallerId $callerId): self
+    {
+        if ($this->callerIds->removeElement($callerId)) {
+            // set the owning side to null (unless already changed)
+            if ($callerId->getRoom() === $this) {
+                $callerId->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?Tag $tag): self
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
 
 }

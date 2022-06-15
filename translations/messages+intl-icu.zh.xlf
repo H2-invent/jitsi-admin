@@ -242,8 +242,8 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">会议次数</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmer</source>
+      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
+        <source>Anzahl Eingeladene</source>
         <target state="translated">参会者数量</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">

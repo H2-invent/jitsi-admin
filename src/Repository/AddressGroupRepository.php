@@ -55,7 +55,7 @@ class AddressGroupRepository extends ServiceEntityRepository
             ->andWhere('leader = :user')
             ->setParameter('user', $user);
 
-        return $qb->andWhere($qb->expr()->like('g.name', ':search'))
+        return $qb->andWhere($qb->expr()->like('g.indexer', ':search'))
             ->setParameter('search', '%' . $value . '%')
             ->getQuery()
             ->getResult();
