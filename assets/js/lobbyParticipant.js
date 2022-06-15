@@ -101,6 +101,7 @@ $('.leave').click(function (e) {
 
 function initJitsiMeet(data) {
     stopWebcam();
+    echoOff();
     $('body').prepend('<div id="frame"></div>');
 
     var frameDIv = $('#frame');
