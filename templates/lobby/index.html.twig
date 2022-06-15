@@ -57,14 +57,10 @@
                             <div class="col-lg-12 d-md-none text-center">
                                <p><small>{{'Swipen zum zulassen'|trans}}</small></p>
                             </div>
-
                             {% for wU in room.lobbyWaitungUsers %}
                                 {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
                             {% endfor %}
-
-
                         </div>
-
                     </div>
                     <div class="lobbyButtons">
                         {% if type == 'a' %}

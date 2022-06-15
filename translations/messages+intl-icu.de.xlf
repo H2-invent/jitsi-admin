@@ -1649,8 +1649,13 @@
         <target>__Anzahl Teilnehmer</target>
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
-        <source>Wollen Sie dieses Meeting für alle Teilnehmer beenden.</source>
+        <source>lobby.endMeeting.ask</source>
         <target>Wollen Sie dieses Meeting für alle Teilnehmer beenden.</target>
+      </trans-unit>
+
+      <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
+        <source>Swipen zum zulassen</source>
+        <target>Swipen zum zulassen</target>
       </trans-unit>
     </body>
   </file>
