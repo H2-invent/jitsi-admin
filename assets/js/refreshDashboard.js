@@ -43,7 +43,7 @@ function refreshDashboard() {
                 console.log('1.10');
                 $($id4).html($(data).find($id4).contents());
             }
-            $('[data-toggle="popover"]').popover({html: true});
+            $('[data-mdb-toggle="popover"]').popover({html: true});
         }
         $('#actualTime').html($(data).find('#actualTime').contents());
     });
