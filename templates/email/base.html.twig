@@ -168,7 +168,7 @@
                 <spacer size="32"></spacer>
                 {% if user is defined and user is not null and user.uid is not null %}
                     <p style="text-align: center">{{ 'email.ical.link'|trans }}</p>
-                    <p style="text-align: center">{{ httpsAbolutUrl(path('ical',{ 'id':user.uid }),room) }}</p>
+                    <p style="text-align: center">{{ httpsAbolutUrl(path('ical',{ 'id':user.uid }),room is defined?room:null) }}</p>
                     <p style="text-align: center"><a
                                 href="https://github.com/H2-invent/jitsi-admin/wiki/Add-iCal-Link-to-your-personal-calendar-like-Outlook,-Gmail-etc.-(German)">{{ 'Hilfe'|trans }}</a>
                     </p>
