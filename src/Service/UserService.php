@@ -56,7 +56,7 @@ class UserService
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]));
+        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]), $room);
         return $url;
     }
 
@@ -126,10 +126,14 @@ class UserService
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('[Erinnerung] Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
         $this->notificationService->sendCron($content, $subject, $user, $room->getServer(), $room);
-        $url = $this->url->generate('join_index_no_slug', array(), UrlGeneratorInterface::ABSOLUTE_URL);
+
+
+        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index_no_slug', array(), $room));
+
         if ($this->licenseService->verify($room->getServer())) {
-            $url = $this->url->generate('join_index', array('slug' => $room->getServer()->getSlug()), UrlGeneratorInterface::ABSOLUTE_URL);
+            $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', array('slug' => $room->getServer()->getSlug())), $room);
         }
+
         $this->pushService->generatePushNotification(
             $subject,
             $this->translator->trans('Die Videokonferenz {name} von startet gleich.',
