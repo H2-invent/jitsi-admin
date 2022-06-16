@@ -45,7 +45,8 @@ class ThemeService
 
         if (!$this->request->getCurrentRequest()) {
             if ($room && $room->getHostUrl()) {
-                $url = $room->getHostUrl();
+                $url = str_replace('https://', '', $room->getHostUrl());
+                $url = str_replace('http://', '', $url);
             } else {
                 return false;
             }
