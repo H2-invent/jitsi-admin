@@ -27,7 +27,6 @@ class HTTPSMaker extends KernelTestCase
     public function testCreatHttpswithRoomHost(): void
     {
         $kernel = self::bootKernel();
-        //todo write test with Room and Host
         $room = new Rooms();
         $room->setHostUrl('https://testdomain.com');
         $createHttpsUrl = self::getContainer()->get(CreateHttpsUrl::class);
