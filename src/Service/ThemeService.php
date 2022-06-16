@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use H2Entwicklung\Signature\CheckSignature;
 use Psr\Log\LoggerInterface;
@@ -39,12 +40,18 @@ class ThemeService
         $this->cache = $filesystemAdapter;
     }
 
-    public function getTheme()
+    public function getTheme(?Rooms $room = null)
     {
+
         if (!$this->request->getCurrentRequest()) {
-            return false;
+            if ($room && $room->getHostUrl()) {
+                $url = $room->getHostUrl();
+            } else {
+                return false;
+            }
+        } else {
+            $url = $this->request->getCurrentRequest()->getHost();
         }
-        $url = $this->request->getCurrentRequest()->getHost();
         try {
             $value = $this->cache->get('theme_' . $url, function (ItemInterface $item) use ($url) {
                 $item->expiresAfter(3600);

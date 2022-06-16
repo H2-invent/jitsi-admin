@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use App\Entity\Checklist;
 use App\Entity\MyUser;
+use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Service\LicenseService;
 use App\Service\MessageService;
@@ -38,8 +39,8 @@ class Theme extends AbstractExtension
         ];
     }
 
-    public function getThemeProperties()
+    public function getThemeProperties(?Rooms $rooms = null)
     {
-        return $this->themeService->getTheme();
+        return $this->themeService->getTheme($rooms);
     }
 }
