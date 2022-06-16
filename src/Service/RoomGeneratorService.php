@@ -10,23 +10,29 @@ use App\Entity\User;
 use App\Service\caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class RoomGeneratorService
 {
     private $parameterBag;
     private $callerPrepareService;
     private $em;
+    private RequestStack $requestStack;
 
-    public function __construct(ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $requestStack, ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager)
     {
         $this->parameterBag = $parameterBag;
         $this->callerPrepareService = $callerPrepareService;
         $this->em = $entityManager;
+        $this->requestStack = $requestStack;
     }
 
     public function createRoom(User $user, ?Server $server = null): Rooms
     {
         $room = new Rooms();
+        if ($this->requestStack && $this->requestStack->getCurrentRequest()) {
+            $room->setHostUrl($this->requestStack->getCurrentRequest()->getSchemeAndHttpHost());
+        }
         $room->setServer($server);
         $room->addUser($user);
         $room->setDuration(60);

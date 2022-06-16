@@ -251,6 +251,10 @@ class Rooms
      */
     private $tag;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $hostUrl;
 
 
     public function __construct()
@@ -1039,6 +1043,18 @@ class Rooms
     public function setTag(?Tag $tag): self
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getHostUrl(): ?string
+    {
+        return $this->hostUrl;
+    }
+
+    public function setHostUrl(?string $hostUrl): self
+    {
+        $this->hostUrl = $hostUrl;
 
         return $this;
     }

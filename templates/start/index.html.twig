@@ -54,6 +54,12 @@
 
 </body>
 {% if name is defined and name is not null %}
+    <script type="text/javascript">
+        window.onbeforeunload = function () {
+            return '{{ 'ask.tab.close'|trans }}';
+        }
+    </script>
+
     <script>
         if ({{ room.server.corsHeader }}) {
             window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
@@ -104,7 +110,7 @@
                 api.executeCommand('setTileView', {enabled:true});
             }
             if(avatarUrl !== ''){
-                api.executeCommand('avatarUrl',avatarUrl);
+                api.executeCommand('avatarUrl', avatarUrl);
             }
             if (setParticipantsPane === 1) {
                 api.executeCommand('toggleParticipantsPane', {enabled: true});
@@ -113,6 +119,8 @@
         var iframe = document.querySelector('#jitsiConferenceFrame0');
         iframe.style.height = '100%';
     </script>
+
+
 
 {% endif %}
 

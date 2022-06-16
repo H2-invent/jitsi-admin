@@ -83,7 +83,7 @@ function refresh(data) {
 }
 
 function endMeeting(data) {
-
+    window.onbeforeunload = null;
     if (window.opener == null) {
         setTimeout(function () {
             window.location.href = data.url;
