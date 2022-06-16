@@ -132,12 +132,12 @@
                     {% if laF_emailTextLogin == 1 %}
                         <p style="text-align: center">
                             {% if server is defined and  server is not null and server|validateLicense %}
-                                {% trans with {'{url}': httpsAbolutUrl(path('dashboard'))} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
+                                {% trans with {'{url}': httpsAbolutUrl(path('dashboard'),room)} %}Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
                                     <br>
                                     Dann melden Sie sich <a href="{url}">hier</a>&nbsp;an.
                                 {% endtrans %}
                             {% else %}
-                                {% trans with {'{url}':httpsAbolutUrl(path('dashboard'))} %}Sie wollen selber eine Videokonferenz
+                                {% trans with {'{url}':httpsAbolutUrl(path('dashboard'),room)} %}Sie wollen selber eine Videokonferenz
                                     <b>kostenlos</b> planen oder diese Konferenz komfortabel
                                                      in einer Übersicht verwalten?<br>
                                     Dann melden Sie sich <a href="{url}">hier</a>&nbsp;<b>kostenlos</b>
@@ -168,8 +168,10 @@
                 <spacer size="32"></spacer>
                 {% if user is defined and user is not null and user.uid is not null %}
                     <p style="text-align: center">{{ 'email.ical.link'|trans }}</p>
-                    <p style="text-align: center">{{ httpsAbolutUrl(path('ical',{ 'id':user.uid })) }}</p>
-                    <p style="text-align: center"> <a href="https://github.com/H2-invent/jitsi-admin/wiki/Add-iCal-Link-to-your-personal-calendar-like-Outlook,-Gmail-etc.-(German)">{{ 'Hilfe'|trans }}</a></p>
+                    <p style="text-align: center">{{ httpsAbolutUrl(path('ical',{ 'id':user.uid }),room) }}</p>
+                    <p style="text-align: center"><a
+                                href="https://github.com/H2-invent/jitsi-admin/wiki/Add-iCal-Link-to-your-personal-calendar-like-Outlook,-Gmail-etc.-(German)">{{ 'Hilfe'|trans }}</a>
+                    </p>
                 {% endif %}
 
 
