@@ -115,7 +115,7 @@ class LobbyToParticipantsTest extends KernelTestCase
             if (strpos($update->getData(), 'newJitsi') > 0) {
                 self::assertEquals(array(
                         'type' => "newJitsi",
-                        'options'=>array(
+                        'options' => array(
                             'options' => array(
                                 'roomName' => '12313231ghjgfdsdf',
                                 'width' => '100%',
@@ -128,7 +128,10 @@ class LobbyToParticipantsTest extends KernelTestCase
                                 ),
                                 'interfaceConfigOverwrite' => array(
                                     'MOBILE_APP_PROMO' => false,
-                                    'SHOW_JITSI_WATERMARK'=> false,
+                                    'SHOW_JITSI_WATERMARK' => false,
+                                    'HIDE_DEEP_LINKING_LOGO' => true,
+                                    'SHOW_BRAND_WATERMARK' => false,
+                                    'SHOW_WATERMARK_FOR_GUESTS' => false
                                 ),
                                 'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
                             ),
@@ -137,7 +140,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                             "parentNode" => "#jitsiWindow"
                         )
                     )
-                , json_decode($update->getData(),true));
+                    , json_decode($update->getData(), true));
             }
             if (strpos($update->getData(), 'snackbar') > 0) {
                 self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
