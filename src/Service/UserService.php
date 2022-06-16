@@ -128,7 +128,7 @@ class UserService
         $this->notificationService->sendCron($content, $subject, $user, $room->getServer(), $room);
 
 
-        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index_no_slug', array(), $room));
+        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index_no_slug', array()), $room);
 
         if ($this->licenseService->verify($room->getServer())) {
             $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', array('slug' => $room->getServer()->getSlug())), $room);
