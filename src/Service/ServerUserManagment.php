@@ -88,6 +88,17 @@ class ServerUserManagment
 
                 }
                 $servers = $serTmp;
+                $serTmp = array();
+
+                if ($this->themeService->getTheme()['showOnlyShowServer']) {
+                    $sTmp = $this->themeService->getTheme()['showServer'];
+                    foreach ($servers as $data) {
+                        if (in_array($data->getId(), $sTmp)) {
+                            $serTmp[] = $data;
+                        }
+                    }
+                    $servers = $serTmp;
+                }
             }
         }catch (\Exception $exception){}
 

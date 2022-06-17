@@ -95,7 +95,7 @@ class ReportingControllerTest extends WebTestCase
             1,
             $crawler->filter('.timelineENdRoom:contains("' . $roomEnd->format('H:i:s') . '")')->count()
         );
-
+echo $client->getResponse()->getContent();
         $this->assertEquals(
             1,
             $crawler->filter('.speakerTime:contains("03:05")')->count()

@@ -29,6 +29,12 @@
       margin-right: 8px;
     }
 
+    .reportTimeLine_part_Content {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      width: 100%;
+    }
+
     &.online {
       .reportTimeLine_verticalLine {
 
@@ -45,10 +51,7 @@
       }
     }
 
-    .reportTimeLine_part_Content {
-      margin-top: 8px;
-      margin-bottom: 8px;
-    }
+
   }
 
   .showOnHover {
@@ -62,13 +65,6 @@
     box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
     border-radius: 0.5rem;
     padding: 0.25rem;
-  }
-
-  .partList {
-    &:hover > .showOnHover {
-      display: block !important;
-      z-index: 5;
-    }
   }
 }
 

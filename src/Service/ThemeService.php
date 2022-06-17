@@ -42,17 +42,18 @@ class ThemeService
 
     public function getTheme(?Rooms $room = null)
     {
-
-        if (!$this->request->getCurrentRequest()) {
-            if ($room && $room->getHostUrl()) {
-                $url = str_replace('https://', '', $room->getHostUrl());
-                $url = str_replace('http://', '', $url);
+        if ($room && $room->getHostUrl()) {
+            $url = str_replace('https://', '', $room->getHostUrl());
+            $url = str_replace('http://', '', $url);
+        } else {
+            if ($this->request && $this->request->getCurrentRequest()) {
+                $url = $this->request->getCurrentRequest()->getHost();
             } else {
                 return false;
             }
-        } else {
-            $url = $this->request->getCurrentRequest()->getHost();
         }
+
+
         try {
             $value = $this->cache->get('theme_' . $url, function (ItemInterface $item) use ($url) {
                 $item->expiresAfter(3600);
@@ -84,7 +85,8 @@ class ThemeService
         return false;
     }
 
-    public function getThemeProperty($property)
+    public
+    function getThemeProperty($property)
     {
         $theme = $this->getTheme();
         if ($theme) {

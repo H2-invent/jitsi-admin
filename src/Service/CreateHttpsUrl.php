@@ -26,10 +26,12 @@ class CreateHttpsUrl
             return $this->paramterBag->get('LAF_DEV_URL') . $url;
         } else {
             try {
-                if ($this->request && $this->request->getCurrentRequest()) {
-                    return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
-                } elseif ($rooms && $rooms->getHostUrl()) {
+                if ($rooms && $rooms->getHostUrl()) {
                     return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
+                } elseif ($rooms && !$rooms->getHostUrl()) {
+                    return $this->paramterBag->get('laF_baseUrl') . $url;
+                } elseif ($this->request && $this->request->getCurrentRequest()) {
+                    return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
                 } else {
                     return $this->paramterBag->get('laF_baseUrl') . $url;
                 }

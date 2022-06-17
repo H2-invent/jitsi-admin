@@ -1,6 +1,7 @@
 import Chart from 'chart.js/auto';
-
 import stc from "string-to-color";
+
+import {initOpenChart} from './openChart'
 
 function initChart() {
     var ctx = document.querySelectorAll('.chartjs-render-field');
@@ -26,18 +27,31 @@ function initChart() {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        text:'%',
+                        text: '%',
                         ticks: {
                             callback: function (value, index, ticks) {
-                                return  value+'%';
+                                return value + '%';
                             }
                         }
 
                     }
+                },
+
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            boxWidth: 0,
+                        }
+
+                    }
                 }
+
             }
         });
     })
+
+    initOpenChart();
 }
 
 export {initChart}

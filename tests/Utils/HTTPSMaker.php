@@ -28,10 +28,14 @@ class HTTPSMaker extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $room = new Rooms();
-        $room->setHostUrl('https://testdomain.com');
         $createHttpsUrl = self::getContainer()->get(CreateHttpsUrl::class);
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+
+        self::assertEquals('http://localhost:8000/testme', $createHttpsUrl->createHttpsUrl('/testme', $room));
+
+        $room->setHostUrl('https://testdomain.com');
         self::assertEquals('https://testdomain.com/testme', $createHttpsUrl->createHttpsUrl('/testme', $room));
+
         $room->setHostUrl('http://testdomain.com');
         self::assertEquals('https://testdomain.com/testme', $createHttpsUrl->createHttpsUrl('/testme', $room));
     }
