@@ -34,7 +34,25 @@ class UserService
     private $userRemoveService;
     private $callerUserService;
     private $createHttpsUrl;
-    public function __construct(CreateHttpsUrl $createHttpsUrl, CallerPrepareService $callerPrepareService, UserServiceRemoveRoom $userServiceRemoveRoom, UserServiceEditRoom $userEditService, UserNewRoomAddService $userNewRoomAddService, LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    private $joinUrlGenerator;
+
+    public function __construct(
+        CreateHttpsUrl          $createHttpsUrl,
+        CallerPrepareService    $callerPrepareService,
+        UserServiceRemoveRoom   $userServiceRemoveRoom,
+        UserServiceEditRoom     $userEditService,
+        UserNewRoomAddService   $userNewRoomAddService,
+        LicenseService          $licenseService,
+        PushService             $pushService,
+        EntityManagerInterface  $entityManager,
+        TranslatorInterface     $translator,
+        MailerService           $mailerService,
+        ParameterBagInterface   $parameterBag,
+        Environment             $environment,
+        NotificationService     $notificationService,
+        UrlGeneratorInterface   $urlGenerator,
+        JoinUrlGeneratorService $joinUrlGeneratorService
+    )
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
@@ -50,14 +68,13 @@ class UserService
         $this->userRemoveService = $userServiceRemoveRoom;
         $this->callerUserService = $callerPrepareService;
         $this->createHttpsUrl = $createHttpsUrl;
+        $this->joinUrlGenerator = $joinUrlGeneratorService;
+
     }
 
     function generateUrl(Rooms $room, User $user)
     {
-
-        $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]), $room);
-        return $url;
+        return $this->joinUrlGenerator->generateUrl($room, $user);
     }
 
     function addUser(User $user, Rooms $room)

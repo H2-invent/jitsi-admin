@@ -42,9 +42,13 @@ class ThemeService
 
     public function getTheme(?Rooms $room = null)
     {
-        if ($room && $room->getHostUrl()) {
-            $url = str_replace('https://', '', $room->getHostUrl());
-            $url = str_replace('http://', '', $url);
+        if ($room) {
+            if ($room->getHostUrl()) {
+                $url = str_replace('https://', '', $room->getHostUrl());
+                $url = str_replace('http://', '', $url);
+            } else {
+                return false;
+            }
         } else {
             if ($this->request && $this->request->getCurrentRequest()) {
                 $url = $this->request->getCurrentRequest()->getHost();
