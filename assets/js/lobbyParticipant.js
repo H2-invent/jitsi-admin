@@ -26,13 +26,13 @@ var successTimer;
 var clickLeave = false;
 let es;
 
-function initMercure(){
+function initMercure() {
     connectES();
     setInterval(function () {
         if (es.readyState === 2) {
             connectES();
         }
-    },5000);
+    }, 5000);
 }
 
 function connectES() {
@@ -49,15 +49,12 @@ function connectES() {
     }
 }
 
-
-
-
-window.addEventListener('beforeunload', function (e) {
-    if (!clickLeave){
+window.onbeforeunload = function (e) {
+    if (!clickLeave) {
         closeBrowser();
     }
     return;
-});
+};
 
 function closeBrowser() {
     $.ajax({
@@ -102,10 +99,14 @@ $('.leave').click(function (e) {
 function initJitsiMeet(data) {
     stopWebcam();
     echoOff();
+    window.onbeforeunload = null;
+    window.onbeforeunload = function (e) {
+        return '';
+    }
     $('body').prepend('<div id="frame"></div>');
 
     var frameDIv = $('#frame');
-    $('#logo_image').prop('href','#').addClass('stick').prependTo('#jitsiWindow');
+    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($(data.options.parentNode));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
     $('#window').remove();
@@ -142,7 +143,7 @@ function initJitsiMeet(data) {
     });
 
     $(data.options.parentNode).find('iframe').css('height', '100%');
-    window.scrollTo(0,1)
+    window.scrollTo(0, 1)
 
 }
 

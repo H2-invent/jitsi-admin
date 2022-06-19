@@ -27,7 +27,8 @@
 8. Rebuild js and css `npm run build`
 9. Clean cache `php bin/console cache:clear`
 10. Set the permission `sudo chown -R www-data:www-data var/`
-11. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
+11. Check your email settings with the command `php bin/console app:email:test <serverId> <email@domain.de>`. You should receive a test email
+12. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
     1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
 
 ### Update Docker installation from 0.72.x ... 0.73.x

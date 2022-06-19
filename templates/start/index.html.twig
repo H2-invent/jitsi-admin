@@ -54,6 +54,12 @@
 
 </body>
 {% if name is defined and name is not null %}
+    <script type="text/javascript">
+        window.onbeforeunload = function () {
+            return '{{ 'ask.tab.close'|trans }}';
+        }
+    </script>
+
     <script>
         if ({{ room.server.corsHeader }}) {
             window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
@@ -75,7 +81,11 @@
             },
             interfaceConfigOverwrite: {
                 MOBILE_APP_PROMO: false,
-                SHOW_JITSI_WATERMARK: false
+                SHOW_JITSI_WATERMARK: false,
+                HIDE_DEEP_LINKING_LOGO: true,
+                SHOW_BRAND_WATERMARK: false,
+                SHOW_WATERMARK_FOR_GUESTS: false
+
             },
 
             parentNode: document.querySelector('#jitsiWindow'),
@@ -100,7 +110,7 @@
                 api.executeCommand('setTileView', {enabled:true});
             }
             if(avatarUrl !== ''){
-                api.executeCommand('avatarUrl',avatarUrl);
+                api.executeCommand('avatarUrl', avatarUrl);
             }
             if (setParticipantsPane === 1) {
                 api.executeCommand('toggleParticipantsPane', {enabled: true});
@@ -109,6 +119,8 @@
         var iframe = document.querySelector('#jitsiConferenceFrame0');
         iframe.style.height = '100%';
     </script>
+
+
 
 {% endif %}
 

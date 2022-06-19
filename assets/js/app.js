@@ -32,6 +32,7 @@ import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
 
+
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
     let url = '';
@@ -156,6 +157,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
 function initNewModal(e){
 
     initScheduling();
+
     $('[data-mdb-toggle="popover"]').popover({html: true});
 
     $('[data-mdb-toggle="tooltip"]').tooltip()

@@ -111,5 +111,4 @@ class JitsiEventsWebhookController extends JitsiAdminController
         }
         return new JsonResponse($arr);
     }
-
 }

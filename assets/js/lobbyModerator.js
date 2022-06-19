@@ -68,13 +68,17 @@ $('.startIframe').click(function (e) {
         audioOutput: audioId,
         videoInput: micId
     }
+    window.onbeforeunload = function () {
+        return '';
+    }
+
 
     initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel);
 
     $('#jitsiWindow').find('iframe').css('height', '100%');
-    window.scrollTo(0,1)
+    window.scrollTo(0, 1)
     initDragDragger();
-     document.querySelector('body').classList.add('touchactionNone');
+    document.querySelector('body').classList.add('touchactionNone');
     // document.getElementsByTagName('body').style.width='100%';
 
     window.addEventListener("scroll", (e) => {
@@ -90,7 +94,7 @@ function moveWrapper() {
 
     var frameDIv = $('#frame');
     frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
-    $('#logo_image').prop('href','#').addClass('stick').prependTo('#jitsiWindow');
+    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($('#jitsiWrapper'));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'));
     frameDIv.append($('#snackbar'))

@@ -77,6 +77,9 @@ class ToParticipantWebsocketService
                     'interfaceConfigOverwrite' => array(
                         'MOBILE_APP_PROMO' => false,
                         'SHOW_JITSI_WATERMARK' => false,
+                        'HIDE_DEEP_LINKING_LOGO' => true,
+                        'SHOW_BRAND_WATERMARK' => false,
+                        'SHOW_WATERMARK_FOR_GUESTS' => false
                     )
                 ),
                 'roomName' => $lobbyWaitungUser->getRoom()->getName(),

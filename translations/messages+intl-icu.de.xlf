@@ -1633,8 +1633,8 @@
         <target>Alle Zeitangaben sind in der Zeitzone {timezone}</target>
       </trans-unit>
       <trans-unit id="YqAtmOj" resname="tag.name">
-        <source>tag.name</source>
-        <target>Kategorie</target>
+          <source>tag.name</source>
+          <target>Kategorie</target>
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
@@ -1657,6 +1657,10 @@
         <source>Swipen zum zulassen</source>
         <target>Swipen zum zulassen</target>
       </trans-unit>
+        <trans-unit id="IN6pKbw" resname="ask.tab.close">
+            <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+            <target>Wollen Sie die Konferenz wirklich verlassen?</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>
