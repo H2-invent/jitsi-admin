@@ -87,11 +87,11 @@
       </trans-unit>
       <trans-unit id="h0jrwnB" resname="Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.">
         <source>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</source>
-        <target state="needs-translation">Sie haben sich bereits angemeldet. Bitte bestätigen Sie noch Ihre Anmeldung, indem auf den Link in der E-Mail klicken.</target>
+        <target state="translated">You already signed up. Please confirm your participation by clicking the link in the email you received.</target>
       </trans-unit>
       <trans-unit id="CITuA1U" resname="Sie haben sich bereits angemeldet.">
         <source>Sie haben sich bereits angemeldet.</source>
-        <target state="needs-translation">Sie haben sich bereits angemeldet.</target>
+        <target state="translated">You have already registered.</target>
       </trans-unit>
       <trans-unit id="5w8fLA7" resname="Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.">
         <source>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</source>
