@@ -243,7 +243,7 @@
       </trans-unit>
       <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="translated">Number of invited people</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -1216,7 +1216,7 @@
       </trans-unit>
       <trans-unit id="TuTcCiZ" resname="[Videokonferenz] Videokonferenz abgesagt">
         <source>[Videokonferenz] Videokonferenz abgesagt</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz wurde abgesagt.</target>
+        <target state="translated">[Videoconference] The videoconference was cancelled.</target>
       </trans-unit>
       <trans-unit id="0gbS.CE" resname="[Terminplanung] Terminplanung abgesagt">
         <source>[Terminplanung] Terminplanung abgesagt</source>
@@ -1268,7 +1268,7 @@
       </trans-unit>
       <trans-unit id=".K6witM" resname="Meine Videokonferenzen">
         <source>Meine Videokonferenzen</source>
-        <target state="needs-translation">Meine Videokonferenzen</target>
+        <target state="translated">My videoconferences</target>
       </trans-unit>
       <trans-unit id="0NUhwSD" resname="lobby.participant.ask.sucess">
         <source>lobby.participant.ask.sucess</source>
@@ -1649,7 +1649,7 @@
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
         <source>Wollen Sie die Konferenz wirklich verlassen?</source>
-        <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
+        <target state="translated">Sure, you want to leave this conference?</target>
       </trans-unit>
     </body>
   </file>
