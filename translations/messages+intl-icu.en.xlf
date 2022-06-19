@@ -1647,6 +1647,10 @@
         <source>Swipen zum zulassen</source>
         <target state="needs-translation">Swipen zum zulassen</target>
       </trans-unit>
+      <trans-unit id="IN6pKbw" resname="ask.tab.close">
+        <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+        <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
