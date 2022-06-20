@@ -55,7 +55,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
             array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
-            array('name'=>', , , ','id'=>"test@local3.de")
+            array('name'=>', , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
@@ -109,7 +109,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
             array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
-            array('name'=>', , , ','id'=>"test@local3.de")
+            array('name'=>', , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
@@ -148,7 +148,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
             array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
-            array('name'=>', , , ','id'=>"test@local3.de")
+            array('name'=>', , ','id'=>"test@local3.de")
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);

@@ -412,6 +412,11 @@ class LdapUserServiceTest extends WebTestCase
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user2->addAddressbook($user);
+        $user->addAddressbook($user2);
+        $em->persist($user2);
+        $em->persist($user);
+        $em->flush();
         $lobbyUSer = new LobbyWaitungUser();
         $lobbyUSer->setUser($user);
         $lobbyUSer->setRoom($room);
@@ -462,9 +467,11 @@ class LdapUserServiceTest extends WebTestCase
         $user->addAddressbookInverse($user2);
         $user->addAddressbook($user2);
         $user->getServers()[0]->addUser($user2);
+        self::assertEquals(1,sizeof($user2->getAddressbook()));
         $ldapUserService->deleteUser($user);
-
+        self::assertEquals(0,sizeof($user2->getAddressbook()));
         self::assertNull($userRepo->findOneBy(array('email' => 'test@local.de')));
+
     }
 
     private function getParam()

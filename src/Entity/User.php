@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -218,7 +219,6 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="user", cascade={"remove"})
      */
     private $callerIds;
-    
 
 
     public function __construct()
@@ -279,9 +279,10 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getUsername(): ?string
     {
-      return $this->username;
+        return $this->username;
     }
 
     public function setUsername(?string $username): self
@@ -856,34 +857,40 @@ class User extends BaseUser
 
     public function getFormatedName($string)
     {
-        $pattern = '/user.[a-zA-Z0-9._-]*\$/';
+        $pattern = '/[^\$]*user\.[a-zA-Z0-9.]*\$/';
+        $patternItem = '/user\.[a-zA-Z0-9.]*\$/';
         $arr = null;
         preg_match_all($pattern, $string, $arr);
-        $tmp1 = $arr[0];
+        $splitedName = $arr[0];
 
-        foreach ($tmp1 as $data) {
+        foreach ($splitedName as $key => $data) {
             $tmp = str_replace('$', '', $data);
-            $tmp = substr($tmp, strpos($tmp, '.') + 1);
-            $value = '';
+//            $tmp = substr($tmp, strpos($tmp, '.') + 1);
+//            $value = '';
             try {
                 if (strpos($tmp, 'specialField') !== false) {
+                    $spezialfield = array_reverse(explode('.',$tmp))[0];
                     // we have a spezialField to read
-                    $tmp = substr($tmp, strpos($tmp, '.') + 1);
-                    $value = $this->spezialProperties[$tmp];
+                    if (isset($this->spezialProperties[$spezialfield])){
+                        $splitedName[$key] = preg_replace($patternItem,$this->spezialProperties[$spezialfield],$data);
+                    }else{
+                        $splitedName[$key] = '';
+                    }
                 } else {
                     // we have a standard field to read
+                    $tmp = array_reverse(explode('.',$tmp))[0];
                     switch ($tmp) {
                         case 'firstName':
-                            $value = $this->firstName;
+                            $splitedName[$key] = preg_replace($patternItem,$this->firstName,$data);
                             break;
                         case 'lastName':
-                            $value = $this->lastName;
+                            $splitedName[$key] = preg_replace($patternItem,$this->lastName,$data);
                             break;
                         case 'email':
-                            $value = $this->email;
+                            $splitedName[$key] = preg_replace($patternItem,$this->email,$data);
                             break;
                         case 'username':
-                            $value = $this->username;
+                            $splitedName[$key] = preg_replace($patternItem,$this->username,$data);
                             break;
                         default:
                             break;
@@ -893,10 +900,15 @@ class User extends BaseUser
             } catch (\Exception $exception) {
                 $value = '';
             }
-            $string = str_replace($data, $value, $string);
+
+        }
+        $string = '';
+        foreach ($splitedName as $data){
+            $string.=$data;
         }
         return $string;
     }
+
     public function getUserIdentifier()
     {
         return $this->username;
@@ -955,9 +967,11 @@ class User extends BaseUser
 
         return $this;
     }
-    public function getPermissionForRoom(Rooms $rooms):RoomsUser{
-        foreach ($this->roomsAttributes as $data){
-            if($data->getRoom() == $rooms){
+
+    public function getPermissionForRoom(Rooms $rooms): RoomsUser
+    {
+        foreach ($this->roomsAttributes as $data) {
+            if ($data->getRoom() == $rooms) {
                 return $data;
             }
         }
@@ -1041,8 +1055,6 @@ class User extends BaseUser
 
         return $this;
     }
-
-
 
 
 }
