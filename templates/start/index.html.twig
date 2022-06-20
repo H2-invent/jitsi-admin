@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>{{ room.name }}</title>
-    {% set theme =  getThemeProperties() %}
+    {% set theme =  getThemeProperties(room) %}
     {% if theme %}
         <link rel="shortcut icon" type="image/x-icon" href="{{ theme.icon }}">
     {% else %}
@@ -13,52 +13,51 @@
 </head>
 <body style="margin: 0">
 
+{%set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+
+{% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+    {%set logo_small =  server.logoUrl %}
+{% else %}
+    {% if theme == false %}
+        {%set logo_small = httpsAbolutUrl(asset('logo_small.png'))%}
+    {% else %}
+        {%set logo_small = theme.logo %}
+    {% endif %}
+{% endif %}
+
+{%set logo_large = httpsAbolutUrl(asset('logo.png')) %}
+
+{% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+    {%set logo_large =  server.logoUrl %}
+{% else %}
+    {% if theme == false %}
+        {%set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
+    {% else %}
+        {%set logo_large = theme.logo %}
+    {% endif %}
+{% endif %}
+
 <div id="frame">
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
-        <a href="#" id="logo_image" class="stick">
-            <img class="d-none d-sm-block" src="
-                    {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
-                                {{ server.logoUrl }}
-                        {% else %}
-                            {% if theme == false %}
-                                {{ asset('logo.png') }}
-                            {% else %}
-                                {{ theme.logo }}
-                            {% endif %}
+{#        <a href="#" id="logo_image" class="stick">#}
+{#            <img class="d-none d-sm-block" src="{{logo_small}}"#}
+{#                 alt="Logo"#}
+{#                 style="height: 50px; width: auto">#}
+{#            <img class="d-block d-sm-none" src="{{logo_large}}"#}
+{#                 alt="Logo"#}
+{#                 style="height: 50px; width: auto">#}
 
-                        {% endif %}"
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-            <img class="d-block d-sm-none" src="
-                        {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
-                                {{ server.logoUrl }}
-                        {% else %}
-                            {% if theme == false %}
-                                {{ asset('logo_small.png') }}
-                            {% else %}
-                                {{ theme.logo }}
-                            {% endif %}
-
-                        {% endif %}
-                    "
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-
-        </a>
+{#        </a>#}
     </div>
 </div>
 
 </body>
 {% if name is defined and name is not null %}
-    <script type="text/javascript">
-        window.onbeforeunload = function () {
-            return '{{ 'ask.tab.close'|trans }}';
-        }
-    </script>
+
 
     <script>
         if ({{ room.server.corsHeader }}) {
@@ -77,25 +76,27 @@
             width: '100%',
             height: 700,
             configOverwrite: {
-                prejoinPageEnabled: false
+                prejoinPageEnabled: false,
+                logoImageUrl:'{{logo_large}}',
+                disableBeforeUnloadHandlers: true,
             },
             interfaceConfigOverwrite: {
                 MOBILE_APP_PROMO: false,
                 SHOW_JITSI_WATERMARK: false,
                 HIDE_DEEP_LINKING_LOGO: true,
-                SHOW_BRAND_WATERMARK: false,
-                SHOW_WATERMARK_FOR_GUESTS: false
-
+                DEFAULT_LOGO_URL: '{{logo_large}}',
+                SHOW_BRAND_WATERMARK: true,
+                DEFAULT_WELCOME_PAGE_LOGO_URL: '{{logo_large}}'
             },
 
             parentNode: document.querySelector('#jitsiWindow'),
             {% if room.server.appId is not null %}
             jwt: '{{ jwtFromRoom(user,room,name) }}',
-        {% endif %}
+            {% endif %}
             userInfo: {
                 displayName: '{{ name }}',
                 {% if user is not null and  user.profilePicture is not null %}
-                avatarUrl:'{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
+                avatarUrl: '{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
                 {% endif %}
             }
         };
@@ -106,10 +107,10 @@
         api = new JitsiMeetExternalAPI(domain, options);
 
         api.addListener('videoConferenceJoined', function (e) {
-            if(setTileview === 1){
-                api.executeCommand('setTileView', {enabled:true});
+            if (setTileview === 1) {
+                api.executeCommand('setTileView', {enabled: true});
             }
-            if(avatarUrl !== ''){
+            if (avatarUrl !== '') {
                 api.executeCommand('avatarUrl', avatarUrl);
             }
             if (setParticipantsPane === 1) {
@@ -120,6 +121,13 @@
         iframe.style.height = '100%';
     </script>
 
+    <script type="text/javascript">
+        window.onbeforeunload = function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return '{{ 'ask.tab.close'|trans }}';
+        }
+    </script>
 
 
 {% endif %}

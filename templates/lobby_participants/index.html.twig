@@ -81,6 +81,19 @@
 {% block script %}
     <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
+        $logo = null;
+        {% set logo_large = httpsAbolutUrl(asset('logo.png')) %}
+
+        {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+            {% set logo_large =  server.logoUrl %}
+        {% else %}
+            {% if theme == false %}
+                {% set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
+            {% else %}
+                {% set logo_large = theme.logo %}
+            {% endif %}
+        {% endif %}
+        var logo = '{{ logo_large }}';
         var reknockingTime = {{ laf_lobby_ReKnockTime }};
         var type = '{{ type }}';
         var topic =

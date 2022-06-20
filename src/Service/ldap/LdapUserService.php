@@ -34,7 +34,7 @@ class LdapUserService
      * @param $mapper
      * @return User|object
      */
-    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType)
+    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType, $dryRun = false)
     {
         //Here we get the attributes from the LDAP (username, email, firstname, lastname)
         $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
@@ -46,7 +46,7 @@ class LdapUserService
             $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
         }
         if (!$user) {
-            $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName);
+            $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName,$dryRun);
             $user->setUid(md5(uniqid()));
         }
         if (!$user->getLdapUserProperties()) {
@@ -77,8 +77,10 @@ class LdapUserService
         $user->setUsername($uid);
 
         $user->setIndexer($this->indexer->indexUser($user));
-        $this->em->persist($user);
-        $this->em->flush();
+        if (!$dryRun){
+            $this->em->persist($user);
+            $this->em->flush();
+        }
         return $user;
     }
 

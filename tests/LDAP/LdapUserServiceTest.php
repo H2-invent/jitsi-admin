@@ -63,13 +63,13 @@ class LdapUserServiceTest extends WebTestCase
 
 
         $entry = $ldapConnection->retrieveUser($ldapType);
-        $this->assertEquals(LdapConnectionTest::$UserInLDAP+1, sizeof($entry));
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP + 1, sizeof($entry));
         $ldapType->setScope('sub');
         $ldapType->setFilter('');
         $ldapType->createLDAP();
 
         $entry = $ldapConnection->retrieveUser($ldapType);
-        $this->assertEquals(LdapConnectionTest::$UserInLDAP+1, sizeof($entry));
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP + 1, sizeof($entry));
         $ldapType->setScope('sub');
         $ldapType->setFilter('(&(mail=*))');
         $ldapType->createLDAP();
@@ -113,8 +113,8 @@ class LdapUserServiceTest extends WebTestCase
         foreach ($allUSerNew as $data) {
             $this->assertEquals(sizeof($allUSerNew), sizeof($data->getAddressbook()));
         }
-        foreach ($allUSerNew as $data){
-            self::assertEquals($indexer->indexUser($data),$data->getIndexer());
+        foreach ($allUSerNew as $data) {
+            self::assertEquals($indexer->indexUser($data), $data->getIndexer());
         }
 
         foreach ($allUSerNew as $data) {
@@ -128,6 +128,63 @@ class LdapUserServiceTest extends WebTestCase
 
         }
     }
+
+    public function testRetrieveUserfromDatabasefromUserNameAttributeDryRun(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+        $this->getParam();
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $ldapConnection = $container->get(LdapService::class);
+        $ldapUserService = $container->get(LdapUserService::class);
+        $indexer = $container->get(IndexUserService::class);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
+        $ldapType = new LdapType($ldapConnection);
+        $ldapType->setUrl($this->LDAPURL);
+        $ldapType->setSerVerId('Server1');
+        $ldapType->setPassword('password');
+        $ldapType->setScope('sub');
+        $ldapType->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
+        $ldapType->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
+        $ldapType->setUserDn('o=unitTest,dc=example,dc=com');
+        $ldapType->setBindType('none');
+        $ldapType->setRdn('uid');
+        $ldapType->setFilter('(&(mail=*))');
+        $ldapType->setLdap($ldap);
+        $ldapType->setObjectClass('person,organizationalPerson,user');
+        $ldapType->setUserNameAttribute('uid');
+
+        $ldapType->setScope('sub');
+        $ldapType->setFilter(null);
+        $ldapType->createLDAP();
+
+
+        $entry = $ldapConnection->retrieveUser($ldapType);
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP + 1, sizeof($entry));
+        $ldapType->setScope('sub');
+        $ldapType->setFilter('');
+        $ldapType->createLDAP();
+
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $usersinDb = $userRepo->findUsersByLdapServerId('Server1');
+        self::assertEquals(0, sizeof($usersinDb));
+
+
+        $entry = $ldapConnection->retrieveUser($ldapType);
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP + 1, sizeof($entry));
+
+        foreach ($entry as $data) {
+            $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType, true);
+        }
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $usersinDb = $userRepo->findUsersByLdapServerId('Server1');
+        self::assertEquals(0, sizeof($usersinDb));
+    }
+
 
     public function testRoomShowAttribute(): void
     {
@@ -252,6 +309,51 @@ class LdapUserServiceTest extends WebTestCase
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$UserInLDAP - 1, sizeof($users));
     }
+
+    public function testremoveUserFromLdapDryRun(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+        $this->getParam();
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $ldapConnection = $container->get(LdapService::class);
+        $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
+        $ldapType = new LdapType($ldapConnection);
+        $ldapType->setUrl($this->LDAPURL);
+        $ldapType->setSerVerId('Server1');
+        $ldapType->setPassword('password');
+        $ldapType->setScope('sub');
+        $ldapType->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
+        $ldapType->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
+        $ldapType->setUserDn('o=unitTest,dc=example,dc=com');
+        $ldapType->setBindType('none');
+        $ldapType->setRdn('uid');
+        $ldapType->setLdap($ldap);
+        $ldapType->setFilter('(&(mail=*))');
+        $ldapType->setObjectClass('person,organizationalPerson,user');
+        $ldapType->setUserNameAttribute('uid');
+        $ldapType->createLDAP();
+        $ldapConnection->fetchLdap($ldapType, false);
+        $userRepository = self::getContainer()->get(UserRepository::class);
+        $users = $userRepository->findUsersfromLdapService();
+
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP, sizeof($users));
+        $user = $userRepository->findOneBy(array('username' => 'unitTest1'));
+        $user->getLdapUserProperties()->setLdapDn('uid=unitTest100,o=unitTest,dc=example,dc=com');
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($user);
+        $em->flush();
+
+        $ldapConnection->fetchLdap($ldapType, true);
+
+        $users = $userRepository->findUsersfromLdapService();
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP, sizeof($users));
+
+    }
+
     public function testrUsernoinFilterAnymore(): void
     {
         // (1) boot the Symfony kernel
@@ -283,7 +385,7 @@ class LdapUserServiceTest extends WebTestCase
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $users = $userRepository->findUsersfromLdapService();
-        $this->assertEquals(LdapConnectionTest::$UserInLDAP+1, sizeof($users));
+        $this->assertEquals(LdapConnectionTest::$UserInLDAP + 1, sizeof($users));
         $ldapType->setFilter('(&(mail=*))');
         $entry = $ldapConnection->fetchLdap($ldapType);
 
@@ -292,6 +394,7 @@ class LdapUserServiceTest extends WebTestCase
         $this->assertEquals(LdapConnectionTest::$UserInLDAP, sizeof($users));
 
     }
+
     public function testremoveUserFunction(): void
     {
         // (1) boot the Symfony kernel
@@ -303,11 +406,11 @@ class LdapUserServiceTest extends WebTestCase
         // (3) run some service & test the result
         $userRepo = self::getContainer()->get(UserRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
         $ldapUserService = $container->get(LdapUserService::class);
         $em = self::getContainer()->get(EntityManagerInterface::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $lobbyUSer = new LobbyWaitungUser();
         $lobbyUSer->setUser($user);
         $lobbyUSer->setRoom($room);
@@ -350,8 +453,9 @@ class LdapUserServiceTest extends WebTestCase
         $user->getServers()[0]->addUser($user2);
         $ldapUserService->deleteUser($user);
 
-        self::assertNull($userRepo->findOneBy(array('email'=>'test@local.de')));
+        self::assertNull($userRepo->findOneBy(array('email' => 'test@local.de')));
     }
+
     private function getParam()
     {
         $para = self::getContainer()->get(ParameterBagInterface::class);

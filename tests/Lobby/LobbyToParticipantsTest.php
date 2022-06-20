@@ -124,14 +124,13 @@ class LobbyToParticipantsTest extends KernelTestCase
                                     'displayName' => "Test2 User2"
                                 ),
                                 'configOverwrite' => array(
-                                    'prejoinPageEnabled' => false
+                                    'prejoinPageEnabled' => false,
+                                      'disableBeforeUnloadHandlers' => true
                                 ),
                                 'interfaceConfigOverwrite' => array(
                                     'MOBILE_APP_PROMO' => false,
-                                    'SHOW_JITSI_WATERMARK' => false,
                                     'HIDE_DEEP_LINKING_LOGO' => true,
-                                    'SHOW_BRAND_WATERMARK' => false,
-                                    'SHOW_WATERMARK_FOR_GUESTS' => false
+                                    'SHOW_BRAND_WATERMARK' => true
                                 ),
                                 'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
                             ),
