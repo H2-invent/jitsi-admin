@@ -3,6 +3,7 @@
 namespace App\Tests\LDAP;
 
 use App\dataType\LdapType;
+use App\Entity\CallerId;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Notification;
 use App\Entity\Rooms;
@@ -438,6 +439,16 @@ class LdapUserServiceTest extends WebTestCase
         $notification->setTitle('test');
         $em->persist($notification);
         $em->flush();
+
+        $callerID = new CallerId();
+        $callerID->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setUser($user)
+            ->setCallerId('tesstId');
+        $em->persist($callerID);
+        $em->flush();
+
+        $user->addCallerId($callerID);
 
         $user->addProtoypeRoom($room);
 

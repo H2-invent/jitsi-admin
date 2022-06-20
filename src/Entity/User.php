@@ -215,7 +215,7 @@ class User extends BaseUser
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="user", cascade={"remove"})
      */
     private $callerIds;
     
