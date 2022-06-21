@@ -94,7 +94,7 @@ function moveWrapper() {
 
     var frameDIv = $('#frame');
     frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
-    // $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
+    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($('#jitsiWrapper'));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'));
     frameDIv.append($('#snackbar'))

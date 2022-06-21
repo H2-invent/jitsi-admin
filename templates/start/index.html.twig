@@ -43,15 +43,15 @@
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
-{#        <a href="#" id="logo_image" class="stick">#}
-{#            <img class="d-none d-sm-block" src="{{logo_small}}"#}
-{#                 alt="Logo"#}
-{#                 style="height: 50px; width: auto">#}
-{#            <img class="d-block d-sm-none" src="{{logo_large}}"#}
-{#                 alt="Logo"#}
-{#                 style="height: 50px; width: auto">#}
+        <a href="#" id="logo_image" class="stick">
+            <img class="d-none d-sm-block" src="{{logo_small}}"
+                 alt="Logo"
+                 style="height: 50px; width: auto">
+            <img class="d-block d-sm-none" src="{{logo_large}}"
+                 alt="Logo"
+                 style="height: 50px; width: auto">
 
-{#        </a>#}
+        </a>
     </div>
 </div>
 
@@ -77,16 +77,13 @@
             height: 700,
             configOverwrite: {
                 prejoinPageEnabled: false,
-                logoImageUrl:'{{logo_large}}',
                 disableBeforeUnloadHandlers: true,
             },
             interfaceConfigOverwrite: {
                 MOBILE_APP_PROMO: false,
                 SHOW_JITSI_WATERMARK: false,
                 HIDE_DEEP_LINKING_LOGO: true,
-                DEFAULT_LOGO_URL: '{{logo_large}}',
-                SHOW_BRAND_WATERMARK: true,
-                DEFAULT_WELCOME_PAGE_LOGO_URL: '{{logo_large}}'
+                SHOW_BRAND_WATERMARK: false,
             },
 
             parentNode: document.querySelector('#jitsiWindow'),
@@ -105,6 +102,15 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
 
         api = new JitsiMeetExternalAPI(domain, options);
+
+        api.addListener('chatUpdated', function (e) {
+            if(e.isOpen == true){
+                document.querySelector('#logo_image').classList.add('transparent');
+            }else {
+                document.querySelector('#logo_image').classList.remove('transparent');
+            }
+
+        });
 
         api.addListener('videoConferenceJoined', function (e) {
             if (setTileview === 1) {

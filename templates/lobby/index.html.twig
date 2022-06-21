@@ -126,16 +126,13 @@
                 height: 700,
                 configOverwrite: {
                     prejoinPageEnabled: false,
-                    logoImageUrl: '{{ logo_large }}',
                     disableBeforeUnloadHandlers: true,
                 },
                 interfaceConfigOverwrite: {
                     MOBILE_APP_PROMO: false,
                     SHOW_JITSI_WATERMARK: false,
                     HIDE_DEEP_LINKING_LOGO: true,
-                    DEFAULT_LOGO_URL: '{{ logo_large }}',
                     SHOW_BRAND_WATERMARK: true,
-                    DEFAULT_WELCOME_PAGE_LOGO_URL: '{{ logo_large }}'
                 },
                 parentNode: document.querySelector('#jitsiWindow'),
                 {% if room.server.appId is not null %}

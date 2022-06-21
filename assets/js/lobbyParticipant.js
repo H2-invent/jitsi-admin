@@ -117,13 +117,17 @@ function initJitsiMeet(data) {
     var options = data.options.options;
     options.device = choosenId;
     //here we set the logo into the jitsi iframe options
-    options.configOverwrite.logoImageUrl = logo;
-    options.interfaceConfigOverwrite.DEFAULT_LOGO_URL = logo;
-    options.interfaceConfigOverwrite.DEFAULT_WELCOME_PAGE_LOGO_URL = logo;
 
     options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
+    api.addListener('chatUpdated', function (e) {
+        if(e.isOpen == true){
+            document.querySelector('#logo_image').classList.add('transparent');
+        }else {
+            document.querySelector('#logo_image').classList.remove('transparent');
+        }
 
+    });
     api.addListener('videoConferenceJoined', function (e) {
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});

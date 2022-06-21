@@ -89,3 +89,10 @@ strong {
     z-index: 2;
   }
 }
+.transparent{
+  opacity: 0!important;
+}
+
+#logo_image{
+  transition: opacity 0.2s;
+}
