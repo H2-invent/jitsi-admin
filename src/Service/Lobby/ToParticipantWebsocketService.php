@@ -72,20 +72,18 @@ class ToParticipantWebsocketService
                         'displayName' => $lobbyWaitungUser->getShowName()
                     ),
                     'configOverwrite' => array(
-                        'prejoinPageEnabled' => false
+                        'prejoinPageEnabled' => false,
+                        'disableBeforeUnloadHandlers' => true,
                     ),
                     'interfaceConfigOverwrite' => array(
                         'MOBILE_APP_PROMO' => false,
-                        'SHOW_JITSI_WATERMARK' => false,
                         'HIDE_DEEP_LINKING_LOGO' => true,
-                        'SHOW_BRAND_WATERMARK' => false,
-                        'SHOW_WATERMARK_FOR_GUESTS' => false
+                        'SHOW_BRAND_WATERMARK' => true,
                     )
                 ),
                 'roomName' => $lobbyWaitungUser->getRoom()->getName(),
                 'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
                 'parentNode' => '#jitsiWindow',
-
             );
 
             if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()) {

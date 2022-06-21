@@ -27,6 +27,14 @@ function initJitsi(options, domain, titelL, okL, cancelL) {
     api.addListener('participantJoined', function (id, name) {
         renewPartList()
     });
+    api.addListener('chatUpdated', function (e) {
+        if(e.isOpen == true){
+            document.querySelector('#logo_image').classList.add('transparent');
+        }else {
+            document.querySelector('#logo_image').classList.remove('transparent');
+        }
+
+    });
     api.addListener('readyToClose', function (e) {
         endMeeting();
         if (window.opener == null) {

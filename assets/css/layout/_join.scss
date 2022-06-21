@@ -89,3 +89,14 @@ strong {
     z-index: 2;
   }
 }
+.transparent{
+  transform:translateX(325px) ;
+  @media (max-width: 850px) {
+    opacity: 0;
+  }
+}
+
+#logo_image{
+  transition: transform 0.2s, opacity 0.2s;
+
+}

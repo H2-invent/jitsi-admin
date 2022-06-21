@@ -55,7 +55,7 @@ class UserShowTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
             1,
-        $crawler->filter('.breakWord:contains(", , Reh, Rainer")')->count()
+        $crawler->filter('.breakWord:contains("Reh, Rainer")')->count()
         );
         $this->assertEquals(
             1,
@@ -120,7 +120,7 @@ class UserShowTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
             1,
-            $crawler->filter('.breakWord:contains(", , Reh, Rainer")')->count()
+            $crawler->filter('.breakWord:contains("Reh, Rainer")')->count()
         );
         $this->assertEquals(
             1,
