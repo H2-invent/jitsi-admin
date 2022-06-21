@@ -864,12 +864,15 @@ class User extends BaseUser
         $splitedName = $arr[0];
 
         foreach ($splitedName as $key => $data) {
-            $tmp = str_replace('$', '', $data);
-//            $tmp = substr($tmp, strpos($tmp, '.') + 1);
-//            $value = '';
+            $fieldName = str_replace('$', '', $data);
+            $fieldName = array_reverse(explode('.',$fieldName))[0];
+            if ($key === array_key_first($splitedName)){
+               $data =  preg_replace('/.+?(?=user\.)/','',$data);
+            }
+
             try {
-                if (strpos($tmp, 'specialField') !== false) {
-                    $spezialfield = array_reverse(explode('.',$tmp))[0];
+                if (strpos($data, 'specialField') !== false) {
+                    $spezialfield = $fieldName;
                     // we have a spezialField to read
                     if (isset($this->spezialProperties[$spezialfield])){
                         $splitedName[$key] = preg_replace($patternItem,$this->spezialProperties[$spezialfield],$data);
@@ -878,25 +881,27 @@ class User extends BaseUser
                     }
                 } else {
                     // we have a standard field to read
-                    $tmp = array_reverse(explode('.',$tmp))[0];
-                    switch ($tmp) {
+
+                    switch ($fieldName) {
                         case 'firstName':
-                            $splitedName[$key] = preg_replace($patternItem,$this->firstName,$data);
+                            $splitedName[$key] = $this->firstName!=''?preg_replace($patternItem,$this->firstName,$data):'';
                             break;
                         case 'lastName':
-                            $splitedName[$key] = preg_replace($patternItem,$this->lastName,$data);
+                            $splitedName[$key] = $this->lastName!=''?preg_replace($patternItem,$this->lastName,$data):'';
                             break;
                         case 'email':
-                            $splitedName[$key] = preg_replace($patternItem,$this->email,$data);
+                            $splitedName[$key] = $this->email!=''?preg_replace($patternItem,$this->email,$data):'';
                             break;
                         case 'username':
-                            $splitedName[$key] = preg_replace($patternItem,$this->username,$data);
+                            $splitedName[$key] = $this->username!=''?preg_replace($patternItem,$this->username,$data):'';
                             break;
                         default:
                             break;
                     }
                 }
-
+                if ($splitedName[$key] ===''){
+                    unset($splitedName[$key]);
+                }
             } catch (\Exception $exception) {
                 $value = '';
             }

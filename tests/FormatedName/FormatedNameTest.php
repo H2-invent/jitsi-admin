@@ -46,4 +46,55 @@ class FormatedNameTest extends KernelTestCase
             $user->getFormatedName('user.email$ user.username$, user.specialField.notThere$ +-user.specialField.telephoneNumber$')
         );
     }
+
+    public function testCreateFormatedNameEmptyFields(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        self::assertEquals(
+            'User,+- Test',
+            $user->getFormatedName('user.lastName$,+- user.firstName$')
+        );
+        $user->setFirstName('');
+        self::assertEquals(
+            'User',
+            $user->getFormatedName('user.lastName$,+- user.firstName$')
+        );
+
+    }
+    public function testCreateFormatedNameEmptyFieldsSecond(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        self::assertEquals(
+            'User,+- Test',
+            $user->getFormatedName('user.lastName$,+- user.firstName$')
+        );
+        $user->setLastName('');
+        self::assertEquals(
+            'Test',
+            $user->getFormatedName('user.lastName$,+- user.firstName$')
+        );
+
+        self::assertEquals(
+            'Test1',
+            $user->getFormatedName('user.lastName$, user.specialField.outch$+-user.specialField.ou$')
+        );
+        self::assertEquals(
+            'Test+-Test1',
+            $user->getFormatedName('user.firstName$, user.lastName$, user.specialField.outch$+-user.specialField.ou$')
+        );
+        $user->setFirstName('');
+        self::assertEquals(
+            'Test1',
+            $user->getFormatedName('user.firstName$, user.lastName$, user.specialField.outch$+-user.specialField.ou$')
+        );
+
+    }
 }
