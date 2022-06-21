@@ -90,9 +90,14 @@ strong {
   }
 }
 .transparent{
-  opacity: 0!important;
+  transform:translateX(325px) ;
+  @media (max-width: 850px) {
+    opacity: 0;
+  }
+  //opacity: 0!important;
 }
 
 #logo_image{
-  transition: opacity 0.2s;
+  transition: transform 0.2s, opacity 0.2s;
+
 }
