@@ -1648,10 +1648,6 @@
         <source>Anzahl Teilnehmende</source>
         <target>Anzahl Teilnehmende</target>
       </trans-unit>
-      <trans-unit id="IN6pKbw" resname="ask.tab.close">
-        <source>ask.tab.close</source>
-        <target>Wollen Sie die Konferenz wirklich verlassen?</target>
-      </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
         <source>Aktuell laufende Konferenzen</source>
         <target>Aktuell laufende Konferenzen</target>
