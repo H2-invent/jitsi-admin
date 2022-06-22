@@ -1645,8 +1645,8 @@
         <target>Aktive Sprechzeit</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmer</source>
-        <target>__Anzahl Teilnehmer</target>
+        <source>Anzahl Teilnehmende</source>
+        <target>Anzahl Teilnehmende</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
         <source>ask.tab.close</source>

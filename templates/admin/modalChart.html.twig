@@ -8,21 +8,27 @@
         <div class="modal-body ">
             <div class="row">
                 <div class="col-lg-6 mb-2 mt-2">
-                    <div class="card border-info text-center {% if getActualParticipants(server) | length %} bg-danger {% else %}bg-success{% endif %}">
+                    <div class="card text-white border-info text-center {% if getActualParticipants(server) | length %} bg-danger  {% else %}bg-success{% endif %}">
                         <div class="card-body">
+
                             {{ 'statistic.actualRooms'|trans }}:
                             {{ getActualConference(server)| length }}
-                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdp-html="true"
-                               data-mdb-content="<ul>{%for r in getActualConference(server)%}<li>{{r.name}}</li> {%endfor%}</ul>"><i
-                                        class="fa fa-question-circle"></i></a>
+                            {% if   getActualConference(server)| length %}
+                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdp-html="true"
+                                   data-mdb-content="<ul>{% for r in getActualConference(server) %}<li>{{ r.name }}</li> {% endfor %}</ul>">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-2 mt-2">
-                    <div class="card border-info text-center {% if getActualParticipants(server) | length %} bg-danger {% else %}bg-success{% endif %}">
+                    <div class="card text-white  border-info text-center {% if getActualParticipants(server) | length %} bg-danger {% else %}bg-success{% endif %}">
                         <div class="card-body">
+
                             {{ 'statistic.actualParticipant'|trans }}:
                             {{ getActualParticipants(server) | length }}
+
                         </div>
                     </div>
                 </div>
@@ -58,7 +64,7 @@
                     {% if tags is defined and tags is not null %}
                         <a href="https://github.com/H2-invent/jitsi-admin/releases/tag/{{ tags[0].name }}"
                            referrerpolicy="no-referrer " target="_blank" rel="noreferrer noopener">
-                            <div class="card {% if laf_version != tags[0].name %}border-danger{% else %}border-info{% endif %} text-center">
+                            <div class="card border border-2 {% if laf_version != tags[0].name %}border-danger{% else %}border-info{% endif %} text-center">
                                 <div class="card-body">
                                     {% if laf_version != tags[0].name %}{{ 'Neue Version von Jitsi Admin verfügbar'|trans }}{% else %}{{ 'Aktuellste Jitsi Admin Version installiert'|trans }}{% endif %}
                                 </div>
