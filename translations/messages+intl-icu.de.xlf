@@ -242,8 +242,8 @@
         <target state="translated">Anzahl der Konferenzen</target>
       </trans-unit>
       <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
-          <source>Anzahl Eingeladene</source>
-          <target state="translated">Anzahl der Eingeladenen</target>
+        <source>Anzahl Eingeladene</source>
+        <target state="translated">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -1633,29 +1633,33 @@
         <target>Alle Zeitangaben sind in der Zeitzone {timezone}</target>
       </trans-unit>
       <trans-unit id="YqAtmOj" resname="tag.name">
-          <source>tag.name</source>
-          <target>Kategorie</target>
+        <source>tag.name</source>
+        <target>Kategorie</target>
       </trans-unit>
-        <trans-unit id="9rL.OfV" resname="Speichern">
-            <source>Speichern</source>
-            <target>Speichern</target>
-        </trans-unit>
-        <trans-unit id="QTciEb5" resname="report.speakerTime">
-            <source>report.speakerTime</source>
-            <target>Aktive Sprechzeit</target>
-        </trans-unit>
-        <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-            <source>Anzahl Teilnehmer</source>
-            <target>__Anzahl Teilnehmer</target>
-        </trans-unit>
-        <trans-unit id="47DEQpj" resname="">
-            <source></source>
-            <target>__</target>
-        </trans-unit>
-        <trans-unit id="IN6pKbw" resname="ask.tab.close">
-            <source>Wollen Sie die Konferenz wirklich verlassen?</source>
-            <target>Wollen Sie die Konferenz wirklich verlassen?</target>
-        </trans-unit>
+      <trans-unit id="9rL.OfV" resname="Speichern">
+        <source>Speichern</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="QTciEb5" resname="report.speakerTime">
+        <source>report.speakerTime</source>
+        <target>Aktive Sprechzeit</target>
+      </trans-unit>
+      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
+        <source>Anzahl Teilnehmer</source>
+        <target>__Anzahl Teilnehmer</target>
+      </trans-unit>
+      <trans-unit id="IN6pKbw" resname="ask.tab.close">
+        <source>ask.tab.close</source>
+        <target>Wollen Sie die Konferenz wirklich verlassen?</target>
+      </trans-unit>
+      <trans-unit id="YkaONWP" resname="statistic.actualRooms">
+        <source>Aktuell laufende Konferenzen</source>
+        <target>Aktuell laufende Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
+        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
+        <target>Teilnehmende in aktuell laufenden Konferenzen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

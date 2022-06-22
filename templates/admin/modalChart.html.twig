@@ -10,7 +10,7 @@
                 <div class="col-lg-6 mb-2 mt-2">
                     <div class="card border-info text-center {%if getActualParticipants(server) | length%} bg-danger {%else%}bg-success{%endif%}">
                         <div class="card-body">
-                            {{ 'Aktuell laufende Konferenzen'|trans }}:
+                            {{ 'statistic.actualRooms'|trans }}:
                             {{ getActualConference(server)| length }}
                         </div>
                     </div>
@@ -18,7 +18,7 @@
                 <div class="col-lg-6 mb-2 mt-2">
                     <div class="card border-info text-center {%if getActualParticipants(server) | length%} bg-danger {%else%}bg-success{%endif%}">
                         <div class="card-body">
-                            {{ 'Teilnehmer in laufenden Konferenzen'|trans }}:
+                            {{ 'statistic.actualParticipant'|trans }}:
                             {{ getActualParticipants(server) | length }}
                         </div>
                     </div>
