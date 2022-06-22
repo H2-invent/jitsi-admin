@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Rooms;
 use App\Entity\RoomStatusParticipant;
+use App\Entity\Server;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
@@ -51,16 +52,42 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
     */
     public function findOccupantsOfRoom(Rooms $rooms)
     {
-        $qb =  $this->createQueryBuilder('r');
+        $qb = $this->createQueryBuilder('r');
 
-           return $qb->innerJoin('r.roomStatus','roomStatus')
-            ->innerJoin('roomStatus.room','room')
+        return $qb->innerJoin('r.roomStatus', 'roomStatus')
+            ->innerJoin('roomStatus.room', 'room')
             ->andWhere('room = :room')
             ->andWhere('r.inRoom = true')
             ->andWhere($qb->expr()->isNull('roomStatus.destroyed'))
             ->setParameter('room', $rooms)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
+
+    /**
+     * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
+     */
+
+    public function findActualParticipantsByServer(Server $server)
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.roomStatus', 'roomStatus')
+            ->innerJoin('roomStatus.room', 'room')
+            ->innerJoin('room.server', 'server')
+            ->andWhere('server = :server')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'roomStatus.destroyed = :false',
+                    $qb->expr()->isNull('roomStatus.destroyed')
+                )
+            )
+            ->andWhere('r.inRoom = :true')
+            ->setParameter('server', $server)
+            ->setParameter('false', false)
+            ->setParameter('true', true)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

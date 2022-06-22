@@ -7,6 +7,22 @@
         </div>
         <div class="modal-body ">
             <div class="row">
+                <div class="col-lg-6 mb-2 mt-2">
+                    <div class="card border-info text-center {%if getActualParticipants(server) | length%} bg-danger {%else%}bg-success{%endif%}">
+                        <div class="card-body">
+                            {{ 'Aktuell laufende Konferenzen'|trans }}:
+                            {{ getActualConference(server)| length }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-2 mt-2">
+                    <div class="card border-info text-center {%if getActualParticipants(server) | length%} bg-danger {%else%}bg-success{%endif%}">
+                        <div class="card-body">
+                            {{ 'Teilnehmer in laufenden Konferenzen'|trans }}:
+                            {{ getActualParticipants(server) | length }}
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
                     <div class="card border-info text-center">
                         <div class="card-body">
@@ -34,6 +50,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
                     {% if tags is defined and tags is not null %}
                     <a href="https://github.com/H2-invent/jitsi-admin/releases/tag/{{ tags[0].name }}"
