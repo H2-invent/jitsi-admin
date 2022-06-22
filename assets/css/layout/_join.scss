@@ -93,10 +93,6 @@ strong {
   transform:translateX(325px) ;
   @media (max-width: 850px) {
     opacity: 0;
+    display: none;
   }
-}
-
-#logo_image{
-  transition: transform 0.2s, opacity 0.2s;
-
 }

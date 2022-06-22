@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
+use App\Entity\Server;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
@@ -73,4 +74,6 @@ class RoomStatusRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+
 }

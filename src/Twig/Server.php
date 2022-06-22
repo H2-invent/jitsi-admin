@@ -27,6 +27,8 @@ class Server extends AbstractExtension
 
         return [
             new TwigFunction('getServer', [$this, 'getServer']),
+            new TwigFunction('getActualConference', [$this, 'getActualConference']),
+            new TwigFunction('getActualParticipants', [$this, 'getActualParticipants']),
         ];
     }
 
@@ -34,5 +36,14 @@ class Server extends AbstractExtension
     {
 
         return $this->serverUserManagment->getServersFromUser($user);
+    }
+    public function getActualConference(\App\Entity\Server $server)
+    {
+
+        return $this->serverUserManagment->getActualConference($server);
+    }
+    public function getActualParticipants(\App\Entity\Server $server)
+    {
+        return $this->serverUserManagment->getActualParticipantsFromServer($server);
     }
 }

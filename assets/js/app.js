@@ -31,6 +31,7 @@ import {initNewRoomModal} from './newRoom'
 import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
+import {Chart} from 'chart.js'
 
 
 addEventListener('load', function () {
