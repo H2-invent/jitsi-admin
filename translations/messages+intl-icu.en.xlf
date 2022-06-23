@@ -1645,7 +1645,7 @@
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
         <source>Wollen Sie die Konferenz wirklich verlassen?</source>
-        <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
+        <target state="translated">Sure, you want to leave this conference?</target>
       </trans-unit>
     </body>
   </file>
