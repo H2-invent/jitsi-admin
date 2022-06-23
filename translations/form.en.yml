@@ -2,7 +2,7 @@
 label.konferenzId: Conference ID
 label.email: Email address
 label.name: Your name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
+label.teilnehmerEmailhinzufuegen: Enter email addresses of new PARTICIPANTS
 label.teilnehmerSpeichern: Send invitation email
 label.emailModerator: Enter email address of organizer
 help.emailTextfeld: Multiple email addresses can be added at once. Each email address has to be written into a new line.
