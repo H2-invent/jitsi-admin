@@ -22,17 +22,17 @@ option.90min: 1 час 30 минут
 option.105min: 1 час 45 минут
 option.120min: 2 часа
 option.150min: 2 часа 30 минут
-option.180min: 3 часов
+option.180min: 3 часов
 option.210min: 3 часа 30 минут
 option.240min: 4 часа
 option.270min: 4 часа 30 минут
-option.300min: 5 часов
+option.300min: 5 часов
 option.330min: 5 часов 30 минут
-option.360min: 6 часов
+option.360min: 6 часов
 option.390min: 6 часов 30 минут
-option.420min: 7 часов
+option.420min: 7 часов
 option.450min: 7 часов 30 минут
-option.480min: 8 часов
+option.480min: 8 часов
 option:
   monday: Понедельник
   tuesday: Вторник
@@ -77,6 +77,7 @@ help:
   teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки.
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
   beitretenBrowser: Открыть в браузере
@@ -129,8 +130,10 @@ label:
   lobby: Lobby aktivieren
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  corsHeader: CORS-Header oder frame-ancestor Header
+  tag: Kategorie
 choice:
-  tls: STARTTLS / TLS
+  tls: STARTTLS/TLS
   ssl: SSL
   none: Отсутствует
 placeholder:
