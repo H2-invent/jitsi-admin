@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="translated">Email</target>
+        <target state="translated">Địa chỉ Email</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
@@ -241,9 +241,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">Số lượng hội nghị</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
+      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="translated">Số lượng người tham dự</target>
+        <target state="needs-translation">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -435,7 +435,7 @@
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
-        <target state="translated">Hội nghị đã chỉnh sửa</target>
+        <target state="translated">Hội nghị trực tuyến đã được xử lý</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
@@ -1305,15 +1305,15 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       </trans-unit>
       <trans-unit id="DamWI5n" resname="jitsi.start">
         <source>jitsi.start</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">Bắt đầu</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
         <source>jitsi.start.browser</source>
-        <target state="needs-translation">Im Browser</target>
+        <target state="translated">với Trình duyệt</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">với Ứng dụng</target>
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
@@ -1442,7 +1442,7 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
         <source>confirm.cancel</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">Huỷ</target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
         <source>confirm.ok</source>
@@ -1537,8 +1537,8 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <source>common.save</source>
+        <target state="translated">Lưu</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
         <source>common.success.save</source>
@@ -1638,7 +1638,7 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">Lưu</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
@@ -1646,7 +1646,7 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
         <source>Anzahl Teilnehmende</source>
-        <target state="needs-translation">Anzahl Teilnehmende</target>
+        <target state="translated">Số lượng người tham dự</target>
       </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
         <source>Aktuell laufende Konferenzen</source>
