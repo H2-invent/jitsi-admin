@@ -241,9 +241,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">Anzahl der Konferenzen</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmer</source>
-        <target state="translated">Anzahl der Teilnehmenden</target>
+      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
+        <source>Anzahl Eingeladene</source>
+        <target state="translated">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -1434,7 +1434,7 @@
       </trans-unit>
       <trans-unit id="5oh_yoS" resname="confirm.delete.adressbookGroupUser">
         <source>confirm.delete.adressbookGroupUser</source>
-        <target>Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen entfernen?</target>
+        <target>Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen?</target>
       </trans-unit>
       <trans-unit id="YU4vd4T" resname="confirm.title">
         <source>confirm.title</source>
@@ -1471,10 +1471,6 @@
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
         <target>Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
-      </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source></source>
-        <target>__</target>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
@@ -1534,12 +1530,145 @@
       </trans-unit>
       <trans-unit id="ioC7pky" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
-        <target>__Diese Aktion ist nicht erlaubt.</target>
+        <target>Diese Aktion ist nicht erlaubt.</target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
-        <source>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</source>
+        <source>repeater.edit.warning</source>
         <target>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
+      <trans-unit id="t1d0iZI" resname="common.save">
+        <source>common.save</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="YZqDLMj" resname="common.success.save">
+        <source>common.success.save</source>
+        <target>Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="EWa057N" resname="status.inconference">
+        <source>status.inconference</source>
+        <target>In der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="FjHZo91" resname="status.finished">
+        <source>status.finished</source>
+        <target>Beendet</target>
+      </trans-unit>
+      <trans-unit id="jg.IqQl" resname="server.checkHeader">
+        <source>server.checkHeader</source>
+        <target>Meinen Server überprüfen</target>
+      </trans-unit>
+      <trans-unit id="72KJHkb" resname="Private Nachrichten">
+        <source>Private Nachrichten</source>
+        <target>Private Nachrichten</target>
+      </trans-unit>
+      <trans-unit id="jXWbBTG" resname="Lobbymoderator">
+        <source>Lobbymoderator</source>
+        <target>Lobbymoderator</target>
+      </trans-unit>
+      <trans-unit id="TrVDjRp" resname="sip.caller.data">
+        <source>sip.caller.data</source>
+        <target>Einwahl-Informationen</target>
+      </trans-unit>
+      <trans-unit id="EJ6OCCs" resname="addhock.notification.title">
+        <source>addhock.notification.title</source>
+        <target>Ad Hoc Meeting</target>
+      </trans-unit>
+      <trans-unit id="aHfJyUI" resname="addhock.notification.message">
+        <source>addhock.notification.message</source>
+        <target><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+      </trans-unit>
+      <trans-unit id="0Xa3S_6" resname="addhock.notification.pushMessage">
+        <source>addhock.notification.pushMessage</source>
+        <target>{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+      </trans-unit>
+      <trans-unit id="DhfQxTv" resname="common.loadingTime">
+        <source>common.loadingTime</source>
+        <target>Ladezeit</target>
+      </trans-unit>
+      <trans-unit id="2PqxV1r" resname="lobby.verified">
+        <source>lobby.verified</source>
+        <target>Verifizierter Anrufer</target>
+      </trans-unit>
+      <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
+        <source>lobby.participant.enterNow</source>
+        <target>Jetzt beitreten</target>
+      </trans-unit>
+      <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
+        <source>lobby.participant.pauseEnter</source>
+        <target>Noch nicht beitreten</target>
+      </trans-unit>
+      <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
+        <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
+        <target>Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="4wVQAJs" resname="room.new.help.tag">
+        <source>room.new.help.tag</source>
+        <target>Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
+      </trans-unit>
+      <trans-unit id="YU._Rbu" resname="Geplant von">
+        <source>Geplant von</source>
+        <target>Geplant von</target>
+      </trans-unit>
+      <trans-unit id="E1XUXFS" resname="new.room.blockSave.text">
+        <source>new.room.blockSave.text</source>
+        <target>Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
+      </trans-unit>
+      <trans-unit id="K_dllFy" resname="status.inconference.number">
+        <source>status.inconference.number</source>
+        <target>{number}</target>
+      </trans-unit>
+      <trans-unit id="5QumSMJ" resname="report.title">
+        <source>report.title</source>
+        <target>Protokoll</target>
+      </trans-unit>
+      <trans-unit id="LR82Vwn" resname="report.dropdown.item">
+        <source>report.dropdown.item</source>
+        <target>Protokoll</target>
+      </trans-unit>
+      <trans-unit id="TW0JasJ" resname="report.error.noStatus">
+        <source>report.error.noStatus</source>
+        <target>Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="t4ekf55" resname="report.info.timezone">
+        <source>report.info.timezone</source>
+        <target>Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+      </trans-unit>
+      <trans-unit id="YqAtmOj" resname="tag.name">
+        <source>tag.name</source>
+        <target>Kategorie</target>
+      </trans-unit>
+      <trans-unit id="9rL.OfV" resname="Speichern">
+        <source>Speichern</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="QTciEb5" resname="report.speakerTime">
+        <source>report.speakerTime</source>
+        <target>Aktive Sprechzeit</target>
+      </trans-unit>
+      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
+        <source>Anzahl Teilnehmende</source>
+        <target>Anzahl Teilnehmende</target>
+      </trans-unit>
+      <trans-unit id="YkaONWP" resname="statistic.actualRooms">
+        <source>Aktuell laufende Konferenzen</source>
+        <target>Aktuell laufende Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
+        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
+        <target>Teilnehmende in aktuell laufenden Konferenzen</target>
+      </trans-unit>
+        <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
+            <source>lobby.endMeeting.ask</source>
+            <target>Wollen Sie dieses Meeting für alle Teilnehmer beenden.</target>
+        </trans-unit>
+
+        <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
+            <source>Swipen zum zulassen</source>
+            <target>Swipen zum zulassen</target>
+        </trans-unit>
+        <trans-unit id="IN6pKbw" resname="ask.tab.close">
+            <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+            <target>Wollen Sie die Konferenz wirklich verlassen?</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

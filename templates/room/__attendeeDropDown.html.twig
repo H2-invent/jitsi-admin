@@ -1,0 +1,100 @@
+<!-- Basic dropdown -->
+<a class="dropdown-toggle" type="button" data-mdb-toggle="dropdown"
+   aria-haspopup="true" aria-expanded="false"
+   data-mdb-auto-close="outside"
+><i class="fas fa-ellipsis-v"></i></a>
+
+<div class="dropdown-menu">
+    <a class=" directSend dropdown-item {% if roomPermissions(user,room).moderator == true %}bg-success{% endif %}"
+       href="{{ path('room_add_moderator',{'room':room.id,'user':user.id}) }}"
+       data-text="
+                                    {% if roomPermissions(user,room).moderator == false %}
+                                    {{ 'Wollen Sie den Teilnehmer wirklich zum Moderator ernennen?'|trans }}
+                                    {% else %}
+                                    {{ 'Wollen Sie den Teilnehmer wirklich als  Moderator entfernen?'|trans }}
+                                    {% endif %}
+"
+       data-target="#atendeeList"
+       data-url="{{ path('room_add_user',{'room':room.id}) }}"
+       data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'Zum Moderator ernennen'|trans }}"
+    ><i class="fa fa-crown"></i> {{ 'Moderator'|trans }}</a>
+
+
+    {% if room.dissallowScreenshareGlobal %}
+
+        <a class="directSend dropdown-item {% if roomPermissions(user,room).shareDisplay == true %}bg-success{% endif %}"
+           href="{{ path('change_permissions_screenShare',{'room':room.id,'user':user.id}) }}"
+           data-text="
+{% if roomPermissions(user,room).shareDisplay == false %}{{ 'Diesem Nutzer erlauben seinen Bildschirm zu teilen'|trans }}
+{% else %}
+{{ 'Diesem Nutzer nicht mehr erlauben seinen Bildschirm zu teilen'|trans }}
+{% endif %}
+"
+           data-target="#atendeeList"
+
+           data-url="{{ path('room_add_user',{'room':room.id}) }}"
+           data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'Erlauben seinen Desktop zu teilen'|trans }}"
+        ><i
+                    class="fas fa-desktop"></i> {{ 'Erlauben seinen Desktop zu teilen'|trans }}</a>
+    {% endif %}
+    {% if room.dissallowPrivateMessage %}
+        <a class="directSend dropdown-item {% if roomPermissions(user,room).privateMessage == true %}bg-success{% endif %}"
+           href="{{ path('change_permissions_privateMessage',{'room':room.id,'user':user.id}) }}"
+           data-text="
+{% if roomPermissions(user,room).privateMessage == false %}{{ 'Diesem Nutzer erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
+{% else %}
+{{ 'Diesem Nutzer nicht mehr erlauben private Nachrichten an andere Teilnehmer zu senden'|trans }}
+{% endif %}
+"
+           data-boundary="viewport"
+           data-target="#atendeeList"
+           data-url="{{ path('room_add_user',{'room':room.id}) }}"
+        ><i class="far fa-comments"></i> {{ 'Private Nachrichten'|trans }}</a>
+    {% endif %}
+
+    {% if room.lobby %}
+        <a class="directSendWithConfirm dropdown-item {% if roomPermissions(user,room).lobbyModerator == true %}bg-success{% endif %}"
+           href="{{ path('room_add_lobby_moderator',{'room':room.id,'user':user.id}) }}"
+           data-text="
+{% if roomPermissions(user,room).lobbyModerator == false %}
+{{ 'addParticipants.lobbyModerator.add'|trans }}
+{% else %}
+{{ 'addParticipants.lobbyModerator.remove'|trans }}
+{% endif %}
+"
+
+           data-target="#atendeeList"
+           data-url="{{ path('room_add_user',{'room':room.id}) }}"
+           data-mdb-toggle="tooltip" data-boundary="viewport" title="{{ 'addParticipants.lobbyModerator.help'|trans }}"
+        > <i class="fas fa-couch"></i> {{ 'Lobbymoderator'|trans }}</a>
+    {% endif %}
+    {% if laf_show_resendInvitation == 1 %}
+        <a class=" dropdown-item"
+           href="{{ path('room_user_resend',{'room':room.uidReal,'user':user.id}) }}">
+            <i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}</a>
+    {% endif %}
+    {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 %}
+        {% if  sipPinFromRoomAndUser(room,user) is not null %}
+            <a class=" dropdown-item stopCloseDropdown"
+               href="#sipCaller{{ user.id }}" type="button" data-mdb-toggle="collapse"
+               aria-expanded="false" aria-controls="sipCaller{{ user.id }}">
+                <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
+
+            <div class="collapse dropdown-item stopCloseDropdown" id="sipCaller{{ user.id }}">
+                <div class="">
+                    Raumnummer: {{ room.callerRoom.callerId }}<br>
+                    PIN: {{ sipPinFromRoomAndUser(room,user).callerId }}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    <div class="dropdown-divider"></div>
+    <a class="directSendWithConfirm dropdown-item"
+       href="{{ path('room_user_remove',{'room':room.id,'user':user.id}) }}"
+       data-target="#atendeeList"
+       data-text="{{ 'Wollen Sie den Teilnehmer wirklich löschen?'|trans }}"
+       data-url="{{ path('room_add_user',{'room':room.id}) }}">
+        <i class="fa fa-trash "></i> {{ 'Löschen'|trans }}
+    </a>
+
+</div>

@@ -8,6 +8,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .navigation {
   background-color: $black_font-color;
+
+  i {
+    color: $black_background !important;
+
+  }
 }
 
 .card {
@@ -41,18 +46,30 @@ p {
   }
 }
 
-.nav-tabs .nav-link {
-  color: white ;
+.nav-mat-tabs .nav-mat-item {
+  color: white;
 }
 
 .dropdown-menu {
   background-color: $black_navbar;
   border: 1px solid $black_font-color;
+
+
+  .dropdown-item {
+    color: $black_font-color;
+
+    &[data-toggle="collapse"]:focus {
+      color: white;
+      text-decoration: none;
+      background-color: inherit;
+    }
+
+    &:hover {
+      color: $black_background;
+    }
+  }
 }
 
-.dropdown-item {
-  color: $black_font-color;
-}
 
 .popover {
   background-color: $black_navbar;
@@ -268,6 +285,10 @@ a {
 
 .footer {
   background-color: $black_navbar;
+
+  .nav-link {
+    color: $black_font-color !important;
+  }
 }
 
 
@@ -275,18 +296,80 @@ a {
   border-color: white !important;
   color: white !important;
 }
-.dropdown-item {
-  color: white!important;
-  &:hover{
-    color: $black_background!important;
-  }
-}
-.dragger{
+
+
+.dragger {
   color: black;
 }
-#col-waitinglist{
-  .card{
-    background-color: $black_modal!important;
+
+#col-waitinglist {
+  .card {
+    background-color: $black_modal !important;
   }
 }
 
+.scrollEle {
+  color: white;
+}
+
+.participantsName {
+  color: $black_font-color;
+}
+
+
+hr {
+  border-top: 1px solid rgb(211, 211, 211);
+}
+
+.list-group-item {
+  color: $black_font-color;
+}
+
+
+.form-outline {
+  .form-control {
+    &:focus {
+      & ~ .form-label {
+        color: $black_font-color !important;
+      }
+
+      & ~ .form-notch {
+        .form-notch-leading {
+          border-color: $black_font-color !important ;
+          box-shadow: -1px 0 0 0 $black_font-color, 0 1px 0 0 $black_font-color, 0 -1px 0 0 $black_font-color !important;
+        }
+
+
+        .form-notch-middle {
+          border-color: $black_font-color !important;
+          box-shadow: 0 1px 0 0 $black_font-color !important;
+          border-top: 1px solid transparent !important;
+        }
+
+        .form-notch-trailing {
+          border-color: $black_font-color !important;
+          box-shadow: 1px 0 0 0 $black_font-color, 0 -1px 0 0 $black_font-color, 0 1px 0 0 $black_font-color !important;
+        }
+      }
+    }
+
+    & ~ .form-label {
+      color: $black_font-color ;
+    }
+  }
+
+}
+
+
+@supports (-webkit-appearance:none) {
+  .frozenGlas {
+    background-color: transparent!important;
+    backdrop-filter: blur(5px);
+  }
+}
+
+.reportTimeLine_room{
+  .showOnHover {
+    background-color: $black_background;
+  }
+}

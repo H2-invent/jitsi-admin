@@ -1,0 +1,7 @@
+{% set theme =  getThemeProperties()  %}
+{% for r in persistantRooms %}
+    {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+{% endfor %}
+{% if persistantRooms|length > 0 %}
+    <div class="lazyLoad" data-target="{{ path('dashboard_lazy',{'type':'fixed','offset':offset+1}) }}"></div>
+{% endif %}

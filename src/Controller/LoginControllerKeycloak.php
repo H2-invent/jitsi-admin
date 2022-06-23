@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Helper\JitsiAdminController;
+use App\Service\CreateHttpsUrl;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class LoginControllerKeycloak extends AbstractController
+class LoginControllerKeycloak extends JitsiAdminController
 {
     /**
      * @Route("/login", name="login_keycloak")
@@ -22,11 +24,11 @@ class LoginControllerKeycloak extends AbstractController
     /**
      * @Route("/register", name="register_keycloak")
      */
-    public function register(ClientRegistry $clientRegistry): Response
+    public function register(ClientRegistry $clientRegistry, CreateHttpsUrl $createHttpsUrl): Response
     {
         $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/protocol/openid-connect/registrations?client_id='.
             $this->getParameter('KEYCLOAK_ID').
-            '&response_type=code&scope=openid email&redirect_uri='.$this->generateUrl('connect_keycloak_check',array(),UrlGeneratorInterface::ABSOLUTE_URL).'&kc_locale=de';
+            '&response_type=code&scope=openid email&redirect_uri='.$createHttpsUrl->createHttpsUrl($this->generateUrl('connect_keycloak_check',array())).'&kc_locale=de';
         return $this->redirect($url);
     }
 

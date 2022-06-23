@@ -5,25 +5,20 @@ namespace App\Controller;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Helper\JitsiAdminController;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Lobby\ToParticipantWebsocketService;
 use PHPUnit\Util\Json;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class LobbyBroadcastController extends AbstractController
+class LobbyBroadcastController extends JitsiAdminController
 {
-    private $directSendService;
-
-    public function __construct(DirectSendService $directSendService)
-    {
-        $this->directSendService = $directSendService;
-    }
-
 
     /**
      * @Route("/lobby/broadcast/{roomUid}", name="lobby_broadcast_websocket")

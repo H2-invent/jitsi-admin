@@ -7,6 +7,7 @@ use App\Entity\Subscriber;
 use App\Entity\User;
 use App\Entity\Waitinglist;
 use App\Form\Type\PublicRegisterType;
+use App\Helper\JitsiAdminController;
 use App\Service\PexelService;
 use App\Service\RoomService;
 use App\Service\SubcriptionService;
@@ -23,14 +24,9 @@ use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function Symfony\Component\String\s;
 
-class ShareLinkController extends AbstractController
+class ShareLinkController extends JitsiAdminController
 {
-    private $em;
 
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->em = $entityManager;
-    }
 
     /**
      * @Route("/room/share/link/{id}", name="share_link")
@@ -53,8 +49,9 @@ class ShareLinkController extends AbstractController
     {
         if ($waitinglist->getRoom()->getModerator() == $this->getUser()) {
             $subcriptionService->createUserRoom($waitinglist->getUser(), $waitinglist->getRoom());
-            $this->em->remove($waitinglist);
-            $this->em->flush();
+            $em = $this->doctrine->getManager();
+            $em->remove($waitinglist);
+            $em->flush();
             return new JsonResponse(array('error' => false));
         }
         return new JsonResponse(array('error' => true));
@@ -65,23 +62,22 @@ class ShareLinkController extends AbstractController
      */
     public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
-        $rooms = new Rooms();
         $moderator = false;
-        $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidParticipant' => $uid, 'public' => true));
+        $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidParticipant' => $uid, 'public' => true));
         if (!$rooms) {
-            $rooms = $this->em->getRepository(Rooms::class)->findOneBy(array('uidModerator' => $uid, 'public' => true));
+            $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidModerator' => $uid, 'public' => true));
             if ($rooms) {
                 $moderator = true;
             }
         }
         if (!$rooms || $rooms->getModerator() === null) {
-            return $this->redirectToRoute('join_index_no_slug', ['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'), 'color' => 'danger']);
+            $this->addFlash('danger',$translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            return $this->redirectToRoute('join_index_no_slug');
         }
 
         $data = array('email' => '');
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
-        $errors = array();
         $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
         $color = 'success';
         $server = null;
@@ -99,17 +95,16 @@ class ShareLinkController extends AbstractController
             $snack = $res['text'];
             $color = $res['color'];
             if (!$res['error']) {
-                return $this->redirectToRoute('public_subscribe_participant', array('color' => $color, 'snack' => $snack, 'uid' => $uid));
+                $this->addFlash($color,$snack);
+                return $this->redirectToRoute('public_subscribe_participant', array( 'uid' => $uid));
             }
-
         }
         $server = $rooms->getServer();
+        $this->addFlash($color,$snack);
         return $this->render('share_link/subscribe.html.twig', [
             'form' => $form->createView(),
-            'snack' => $snack,
             'server' => $server,
             'room' => $rooms,
-            'color' => $color,
         ]);
     }
 
@@ -119,7 +114,7 @@ class ShareLinkController extends AbstractController
      */
     public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
     {
-        $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('uid' => $uid));
+        $subscriber = $this->doctrine->getRepository(Subscriber::class)->findOneBy(array('uid' => $uid));
         $res = $subcriptionService->acceptSub($subscriber);
         $server = null;
         if ($subscriber) {

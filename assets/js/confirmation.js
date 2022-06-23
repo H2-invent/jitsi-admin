@@ -2,8 +2,7 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-import '../css/app.scss';
-//import(/* webpackChunkName: "H2" */ '../css/app.scss');
+
 import $ from 'jquery';
 
 global.$ = global.jQuery = $;
@@ -56,6 +55,50 @@ function initconfirmHref() {
                     btnClass: 'btn-outline-danger btn', // class for the button
                     action: function () {
                         window.location.href = url;
+                    },
+
+
+                },
+                cancel: {
+                    text: cancel, // text for button
+                    btnClass: 'btn-outline-primary btn', // class for the button
+                },
+            }
+        });
+    })
+}
+
+
+function initconfirmLoadOpenPopUp() {
+
+    $(document).on('click', '.confirmloadOpenPopUp', function (e) {
+
+        e.preventDefault();
+        var url = $(this).prop('href');
+        var text = $(this).data('text');
+        if (typeof text === 'undefined') {
+
+            text = 'Wollen Sie die Aktion durchführen?'
+        }
+
+        $.confirm({
+            title: title,
+            content: text,
+            theme: 'material',
+            buttons: {
+                confirm: {
+                    text: ok, // text for button
+                    btnClass: 'btn-outline-danger btn', // class for the button
+                    action: function () {
+                        const win = window.open('about:blank');
+                        $.get(url, function (data) {
+                            if(data.popups){
+                                data.popups.forEach(function (value,i) {
+                                    win.location.href = value;
+                                })
+                            }
+                            window.location.href = data.redirectUrl;
+                        })
                     },
 
 
@@ -123,7 +166,8 @@ function initAjaxSend(titleL, cancelL, okL) {
     ok = okL;
     initConfirmDirectSendHref();
     initDirectSend();
-    initconfirmHref()
+    initconfirmHref();
+    initconfirmLoadOpenPopUp();
 }
 function hideTooltip() {
     $('.tooltip').remove();

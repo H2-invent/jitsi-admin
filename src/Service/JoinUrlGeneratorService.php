@@ -23,24 +23,25 @@ class JoinUrlGeneratorService
     private $parameterBag;
 
     private $url;
+    private $createHttps;
 
-
-    public function __construct(ParameterBagInterface $parameterBag, UrlGeneratorInterface $urlGenerator)
+    public function __construct(CreateHttpsUrl $createHttpsUrl, ParameterBagInterface $parameterBag, UrlGeneratorInterface $urlGenerator)
     {
         $this->parameterBag = $parameterBag;
         $this->url = $urlGenerator;
+        $this->createHttps = $createHttpsUrl;
     }
 
     function generateUrl(Rooms $room, User $user)
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->parameterBag->get('laF_baseUrl') .
-            (
+        $url = $this->createHttps->createHttpsUrl
+        (
             $room->getPersistantRoom() ?
                 $this->url->generate('join_index_uid', ['data' => $data, 'uid' => $room->getUid(), 'slug' => $room->getServer()->getSlug()]) :
                 $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()])
-            );
+            , $room);
         return $url;
     }
 

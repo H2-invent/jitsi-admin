@@ -6,6 +6,9 @@ namespace App\Service;
 
 use App\Entity\EmailDomainsToServers;
 use App\Entity\KeycloakGroupsToServers;
+use App\Entity\Rooms;
+use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,11 +19,13 @@ class ServerUserManagment
 
     private $em;
     private $parameter;
+    private ThemeService $themeService;
 
-    public function __construct(ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
+    public function __construct(ThemeService $themeService, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager)
     {
         $this->parameter = $parameterBag;
         $this->em = $entityManager;
+        $this->themeService = $themeService;
     }
 
     /**
@@ -51,13 +56,13 @@ class ServerUserManagment
         }
         try {
             $domain = explode('@', $user->getEmail())[1];
-            $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' =>$domain ));
+            $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' => $domain));
             foreach ($tmpE as $data2) {
                 if (!in_array($data2->getServer(), $servers)) {
                     $servers[] = $data2->getServer();
                 }
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
         }
 
@@ -68,6 +73,47 @@ class ServerUserManagment
             $servers[] = $default;
         }
 
+        try {
+            if ($this->themeService->getTheme()) {
+                $sTmp = $this->themeService->getTheme()['showServer'];
+                if (sizeof($sTmp) === 0){
+                    return $servers;
+                }
+                foreach ($user->getServers() as $data) {
+                    if (!in_array($data->getId(), $sTmp))
+                        $sTmp[] = $data->getId();
+                }
+                $serTmp = array();
+                foreach ($servers as $data) {
+                    if (in_array($data->getId(), $sTmp)) {
+                        $serTmp[] = $data;
+                    }
+
+                }
+                $servers = $serTmp;
+                $serTmp = array();
+
+                if ($this->themeService->getTheme()['showOnlyShowServer']) {
+                    $sTmp = $this->themeService->getTheme()['showServer'];
+                    foreach ($servers as $data) {
+                        if (in_array($data->getId(), $sTmp)) {
+                            $serTmp[] = $data;
+                        }
+                    }
+                    $servers = $serTmp;
+                }
+            }
+        }catch (\Exception $exception){}
+
         return $servers;
+
+    }
+    function getActualConference(Server $server){
+        $actualConf = $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
+        return $actualConf;
+    }
+    function getActualParticipantsFromServer(Server $server){
+        $actualPart = $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
+        return $actualPart;
     }
 }

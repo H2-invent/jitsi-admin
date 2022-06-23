@@ -10,6 +10,7 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\caller\CallerPrepareService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -31,8 +32,27 @@ class UserService
     private $userAddService;
     private $userEditService;
     private $userRemoveService;
+    private $callerUserService;
+    private $createHttpsUrl;
+    private $joinUrlGenerator;
 
-    public function __construct(UserServiceRemoveRoom $userServiceRemoveRoom, UserServiceEditRoom $userEditService, UserNewRoomAddService $userNewRoomAddService, LicenseService $licenseService, PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator, MailerService $mailerService, ParameterBagInterface $parameterBag, Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+    public function __construct(
+        CreateHttpsUrl          $createHttpsUrl,
+        CallerPrepareService    $callerPrepareService,
+        UserServiceRemoveRoom   $userServiceRemoveRoom,
+        UserServiceEditRoom     $userEditService,
+        UserNewRoomAddService   $userNewRoomAddService,
+        LicenseService          $licenseService,
+        PushService             $pushService,
+        EntityManagerInterface  $entityManager,
+        TranslatorInterface     $translator,
+        MailerService           $mailerService,
+        ParameterBagInterface   $parameterBag,
+        Environment             $environment,
+        NotificationService     $notificationService,
+        UrlGeneratorInterface   $urlGenerator,
+        JoinUrlGeneratorService $joinUrlGeneratorService
+    )
     {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
@@ -46,14 +66,15 @@ class UserService
         $this->userAddService = $userNewRoomAddService;
         $this->userEditService = $userEditService;
         $this->userRemoveService = $userServiceRemoveRoom;
+        $this->callerUserService = $callerPrepareService;
+        $this->createHttpsUrl = $createHttpsUrl;
+        $this->joinUrlGenerator = $joinUrlGeneratorService;
+
     }
 
     function generateUrl(Rooms $room, User $user)
     {
-
-        $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->parameterBag->get('laF_baseUrl') . $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]);
-        return $url;
+        return $this->joinUrlGenerator->generateUrl($room, $user);
     }
 
     function addUser(User $user, Rooms $room)
@@ -63,11 +84,14 @@ class UserService
             $this->em->persist($user);
             $this->em->flush();
         }
+
         if ($room->getScheduleMeeting()) {
             return $this->userAddService->addUserSchedule($user, $room);
         } elseif ($room->getPersistantRoom()) {
+            $this->callerUserService->createUserCallerIDforRoom($room);
             return $this->userAddService->addUserToPersistantRoom($user, $room);
         } else {
+            $this->callerUserService->createUserCallerIDforRoom($room);
             return $this->userAddService->addUserToRoom($user, $room);
         }
 
@@ -119,10 +143,14 @@ class UserService
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('[Erinnerung] Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
         $this->notificationService->sendCron($content, $subject, $user, $room->getServer(), $room);
-        $url = $this->url->generate('join_index_no_slug', array(), UrlGeneratorInterface::ABSOLUTE_URL);
+
+
+        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index_no_slug', array()), $room);
+
         if ($this->licenseService->verify($room->getServer())) {
-            $url = $this->url->generate('join_index', array('slug' => $room->getServer()->getSlug()), UrlGeneratorInterface::ABSOLUTE_URL);
+            $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', array('slug' => $room->getServer()->getSlug())), $room);
         }
+
         $this->pushService->generatePushNotification(
             $subject,
             $this->translator->trans('Die Videokonferenz {name} von startet gleich.',

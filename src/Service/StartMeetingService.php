@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -58,8 +59,8 @@ class StartMeetingService
      * @var LoggerInterface
      */
     private $logger;
-
-    public function __construct(LoggerInterface $logger, ToModeratorWebsocketService $toModeratorWebsocketService, Environment $environment, RoomService $roomService, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, TranslatorInterface $translator)
+    private FlashBagInterface $flashBag;
+    public function __construct(FlashBagInterface $flashBag, LoggerInterface $logger, ToModeratorWebsocketService $toModeratorWebsocketService, Environment $environment, RoomService $roomService, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, TranslatorInterface $translator)
     {
         $this->roomService = $roomService;
         $this->em = $entityManager;
@@ -70,6 +71,7 @@ class StartMeetingService
         $this->toModerator = $toModeratorWebsocketService;
         $this->logger = $logger;
         $this->lobbyUser = null;
+        $this->flashBag = $flashBag;
     }
 
     /**
@@ -144,7 +146,8 @@ class StartMeetingService
         }
 
         $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', array('room' => $this->room->getId(), 'user' => $this->user->getUserIdentifier()));
-        return $this->urlGen->generate('dashboard', array('snack' => $this->translator->trans('error.noPermission'), 'color' => 'danger'));
+        $this->flashBag->add('danger', $this->translator->trans('error.noPermission'));
+        return $this->urlGen->generate('dashboard');
     }
 
     public function createLobbyModeratorResponse()
@@ -192,6 +195,7 @@ class StartMeetingService
         }
         $lobbyUser->setShowName($this->name);
         $lobbyUser->setType($this->type);
+        $lobbyUser->setCloseBrowser(false);
         $this->em->persist($lobbyUser);
         $this->em->flush();
         $this->toModerator->refreshLobby($lobbyUser);
@@ -206,13 +210,13 @@ class StartMeetingService
      */
     private function RoomClosed()
     {
-        return new RedirectResponse($this->urlGen->generate('dashboard', ['color' => 'danger', 'snack' => $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                array(
-                    '{from}' => $this->room->getStartwithTimeZone($this->user)->modify('-30min')->format('d.m.Y H:i'),
-                    '{to}' => $this->room->getEndwithTimeZone($this->user)->format('d.m.Y H:i')
-                ))
-            ]
-        ));
+        $this->flashBag->add('danger', $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+            array(
+                '{from}' => $this->room->getStartwithTimeZone($this->user)->modify('-30min')->format('d.m.Y H:i'),
+                '{to}' => $this->room->getEndwithTimeZone($this->user)->format('d.m.Y H:i')
+            )));
+
+        return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
 
     /**
@@ -221,11 +225,8 @@ class StartMeetingService
      */
     private function roomNotFound()
     {
-        return new RedirectResponse($this->urlGen->generate('dashboard', [
-                'color' => 'danger',
-                'snack' => $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben')
-            ]
-        ));
+        $this->flashBag->add('danger',  $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
+        return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
 
     /**
@@ -241,7 +242,7 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            return new Response($this->twig->render('start/index.html.twig', array('room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
+            return new Response($this->twig->render('start/index.html.twig', array('server'=>$this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
         }
         return new NotFoundHttpException('Room not found');
     }

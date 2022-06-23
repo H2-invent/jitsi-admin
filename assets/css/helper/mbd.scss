@@ -1,0 +1,100 @@
+// CORE FUNCTIONS
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/functions';
+@import '~mdb-ui-kit/src/scss/bootstrap/functions';
+
+// CORE VARIABLES
+@import '~mdb-ui-kit/src/scss/custom/variables';
+@import '~mdb-ui-kit/src/scss/free/variables';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/variables';
+
+// BOOTSTRAP CORE
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/mixins';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/utilities';
+
+// BOOTSTRAP CORE COMPONENTS
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/root';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/reboot';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/type';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/images';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/containers';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/grid';
+
+// BOOTSTRAP COMPONENTS
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/tables';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/forms';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/buttons';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/transitions';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/dropdown';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/button-group';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/card';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/breadcrumb';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/pagination';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/badge';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/alert';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/accordion';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/progress';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/placeholders';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/list-group';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/close';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/toasts';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/modal';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/popover';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/carousel';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/spinners';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/offcanvas';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/tooltip';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/navbar';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/nav';
+// Helpers
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/helpers';
+
+// Utilities
+@import '~mdb-ui-kit/src/scss/free/utilities';
+@import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/utilities/api';
+
+// MDB CORE
+@import '~mdb-ui-kit/src/scss/free/mixins';
+@import '~mdb-ui-kit/src/scss/free/utilities';
+
+// MDB CORE COMPONENTS
+@import '~mdb-ui-kit/src/scss/free/root';
+@import '~mdb-ui-kit/src/scss/free/reboot';
+@import '~mdb-ui-kit/src/scss/free/type';
+@import '~mdb-ui-kit/src/scss/free/colors';
+@import '~mdb-ui-kit/src/scss/free/shadows';
+@import '~mdb-ui-kit/src/scss/free/flag';
+@import '~mdb-ui-kit/src/scss/free/images';
+
+// MDB FORMS
+@import '~mdb-ui-kit/src/scss/free/forms/form-control';
+@import '~mdb-ui-kit/src/scss/free/forms/form-select';
+@import '~mdb-ui-kit/src/scss/free/forms/form-check';
+@import '~mdb-ui-kit/src/scss/free/forms/form-file';
+@import '~mdb-ui-kit/src/scss/free/forms/input-group';
+@import '~mdb-ui-kit/src/scss/free/forms/validation';
+@import '~mdb-ui-kit/src/scss/free/forms/form-range';
+
+// MDB COMPONENTS
+@import '~mdb-ui-kit/src/scss/free/tables';
+@import '~mdb-ui-kit/src/scss/free/buttons';
+@import '~mdb-ui-kit/src/scss/free/deprecated';
+@import '~mdb-ui-kit/src/scss/free/dropdown';
+@import '~mdb-ui-kit/src/scss/free/button-group';
+@import '~mdb-ui-kit/src/scss/free/navbar';
+@import '~mdb-ui-kit/src/scss/free/card';
+@import '~mdb-ui-kit/src/scss/free/breadcrumb';
+@import '~mdb-ui-kit/src/scss/free/pagination';
+@import '~mdb-ui-kit/src/scss/free/badge';
+@import '~mdb-ui-kit/src/scss/free/alert';
+@import '~mdb-ui-kit/src/scss/free/progress';
+@import '~mdb-ui-kit/src/scss/free/list-group';
+@import '~mdb-ui-kit/src/scss/free/close';
+@import '~mdb-ui-kit/src/scss/free/modal';
+@import '~mdb-ui-kit/src/scss/free/toasts';
+@import '~mdb-ui-kit/src/scss/free/tooltip';
+@import '~mdb-ui-kit/src/scss/free/popover';
+@import '~mdb-ui-kit/src/scss/free/scrollspy';
+@import '~mdb-ui-kit/src/scss/free/ripple';
+@import '~mdb-ui-kit/src/scss/free/range';
+@import '~mdb-ui-kit/src/scss/free/accordion';
+@import '~mdb-ui-kit/src/scss/free/carousel';

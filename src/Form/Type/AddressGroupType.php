@@ -10,6 +10,7 @@ namespace App\Form\Type;
 
 use App\Entity\Addressgroup;
 use App\Entity\User;
+use App\Service\ParticipantSearchService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -23,9 +24,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AddressGroupType extends AbstractType
 {
     private $parameterBag;
-    public function __construct(ParameterBagInterface $parameterBag)
+    private ParticipantSearchService $participantSearchService;
+    public function __construct(ParameterBagInterface $parameterBag, ParticipantSearchService $participantSearchService)
     {
         $this->parameterBag = $parameterBag;
+        $this->participantSearchService = $participantSearchService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -39,8 +42,9 @@ class AddressGroupType extends AbstractType
                 'class' => User::class,
                 'multiple' => true,
                 'expanded' => true,
+                'label_html'=>true,
                 'choice_label' => function(User $user){
-                    return $user->getFormatedName($this->parameterBag->get('laf_showName'));
+                    return $this->participantSearchService->buildShowInFrontendString($user);
 
                 },
                 'choices' => $user->getAddressbook(),

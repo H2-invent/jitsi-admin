@@ -1,0 +1,113 @@
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ title }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-2">
+                <small>{{ 'report.info.timezone'|trans({'{timezone}':timezone }) }}</small>
+            </div>
+
+            {% if  room.roomstatuses|length == 0 %}
+                <h4 class="h4-responsive">{{ 'report.error.noStatus'|trans }}</h4>
+            {% endif %}
+            {% for status in room.roomstatuses|sort((a, b) => b.RoomCreatedAt <=> a.RoomCreatedAt) %}
+                <div class="reportTimeLine_room mb-3">
+                    {% if status.destroyedAt %}
+                        <div class="timelineENdRoom">
+                            <i class="fa-solid fa-door-closed"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('d.m.Y',false) }}
+                            <i
+                                    class="fa-regular fa-clock"></i> {{ status.destroyedAtwithTimeZone(app.user)|date('H:i:s',false) }}
+                            {% if getTotalSpeakingTime(status) > 0 %}
+                                <a href="#" data-toggle="openChart" data-target="#chart{{ status.id }}" class="ms-3"><i
+                                            class="fa-solid fa-chart-column"></i></a>
+                            {% endif %}
+                        </div>
+
+                    {% endif %}
+                    <div class="partList position-relative">
+                        {% for part in status.roomStatusParticipants %}
+                            <div class="reportTimeLine_time d-flex {% if part.inRoom %} online {% endif %}">
+
+                                <div class="d-flex flex-column">
+                                    {% if not status.destroyedAt %}
+                                        <div class="arrow-up"></div>
+                                    {% endif %}
+                                    <div class="reportTimeLine_verticalLine h-100"></div>
+                                </div>
+                                <div class="reportTimeLine_part_Content d-flex flex-column">
+                                    <h6 class="d-flex align-items-center partname">
+                                        <div class="onlineDot"></div>
+                                        {{ part.participantName|raw }}</h6>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            {% set enter = part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y',false) %}
+                                            <div class="partEnterRoom d-flex">
+                                                <div class="enterRoom d-flex flex-column me-3">
+                                                    {{ part.enteredRoomAtwithTimeZone(app.user)|date('d.m.Y',false) }}
+                                                    <span>
+                                            <i class="fa-solid fa-arrow-right-to-bracket text-success statusDate"></i>
+                                            {{ part.enteredRoomAtwithTimeZone(app.user)|date('H:i:s',false) }}
+
+                                                        {% if not part.inRoom %}
+                                                            {% if part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y',false) == enter %}
+                                                                - <i
+                                                                    class="fa-solid fa-arrow-right-from-bracket text-danger"></i>
+                                                                {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s',false) }}
+                                                            {% endif %}
+                                                        {% endif %}
+                                         </span>
+                                                </div>
+                                                {% if not part.inRoom %}
+                                                    {% if part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y',false) != enter %}
+                                                        <div class="leafeRoom">
+                                                            <div class="partLeaveRoom">
+                                                                {{ part.leftRoomAtwithTimeZone(app.user)|date('d.m.Y',false) }}
+                                                                <br>
+                                                                <i class="fa-solid fa-arrow-right-from-bracket text-danger"></i> {{ part.leftRoomAtwithTimeZone(app.user)|date('H:i:s',false) }}
+                                                            </div>
+                                                        </div>
+
+                                                    {% endif %}
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            {% if part.dominantSpeakerTime %}
+                                                <div class="speakerTime">
+                                                    {{ 'report.speakerTime'|trans }}:<br>
+                                                    {{ ((part.dominantSpeakerTime/1000/60)//60)| format_number({min_integer_digit:'2'}) }}:{{ ((part.dominantSpeakerTime/1000/60) % 60)| format_number({min_integer_digit:'2'}) }}h
+                                                    ({{ (part.dominantSpeakerTime/getTotalSpeakingTime(status)*100)|number_format(1, ',', '.') }}%)
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% if getTotalSpeakingTime(status) > 0 %}
+                            <canvas width="400" height="200" id="chart{{ status.id }}"
+                                    class="showOnHover d-none position-absolute chartjs-render-field"
+                                    data-values='[{% for p in status.roomStatusParticipants %}{{ (p.dominantSpeakerTime/getTotalSpeakingTime(status)*100)|round(1) }}{% if not loop.last %},{% endif %} {% endfor %}]'
+                                    data-labels='[{% for p in status.roomStatusParticipants %}"{{ p.participantName|striptags|escape('js') }}"{% if not loop.last %},{% endif %} {% endfor %}]'
+                                    data-label="{{ 'report.speakerTime'|trans }} (%)">
+                            </canvas>
+                        {% endif %}
+                    </div>
+
+                    <div class="statusOpeningDate">
+                        <i class="fa-solid fa-door-open"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('d.m.Y',false) }}
+                        <i class="fa-regular fa-clock"></i> {{ status.RoomCreatedAtwithTimeZone(app.user)|date('H:i:s',false) }}
+                    </div>
+                </div>
+                {% if not loop.last %}
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

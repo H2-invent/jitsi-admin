@@ -1,0 +1,123 @@
+version: '3.7'
+
+services:
+  traefik-ja:
+    image: "traefik:v2.5"
+    container_name: "traefik-ja"
+    hostname: keycloak.${PUBLIC_URL}
+
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--api.dashboard=true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.entryPoints=traefik"
+      - "traefik.http.routers.api.rule=PathPrefix(`/api`) || PathPrefix(`/dashboard`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.middlewares=api-auth"
+      - "traefik.http.middlewares.api-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8181:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./tools/certs:/tools/certs
+      - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
+
+  mercure-ja:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      SERVER_NAME: ':3000'
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure-ja.entrypoints=web"
+      - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
+
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+  app-ja:
+    build: .
+    depends_on:
+      - db-ja
+      - keycloak-ja
+      - mercure-ja
+      - traefik-ja
+
+    environment:
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_INI_MEMORY_LIMIT: "1G"
+      PHP_EXTENSION_LDAP: 1
+      PHP_EXTENSION_INTL: 1
+      APP_ENV: dev
+      APP_DEBUG: 1
+      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
+      MAILER_TRANSPORT: smtp
+      OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
+      OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+      OAUTH_KEYCLOAK_REALM: jitsiadmin
+      MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      MAILER_DSN: ${MAILER_DSN}
+      registerEmailAdress: ${registerEmailAdress}
+      laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+      VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
+      - "traefik.http.routers.app-ja.entrypoints=web"
+      - "traefik.http.services.app-ja.loadbalancer.server.port=80"
+
+
+  db-ja:
+    image: mariadb:latest
+    environment:
+      MARIADB_ROOT_PASSWORD: test
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+
+  keycloak-ja:
+    image: jboss/keycloak:latest
+
+    depends_on:
+      - db-ja
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
+      DB_VENDOR: mariadb
+      DB_ADDR: db-ja
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: ${KEYCLOAK_PW}
+      DB_PORT: 3306
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.keycloak-ja.entrypoints=web"
+      - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
+    volumes:
+      - ./keycloak/realm-export.json:/tmp/realm-export.json
+
+volumes:
+  mariadb:
+  caddy_data:
+  caddy_config:

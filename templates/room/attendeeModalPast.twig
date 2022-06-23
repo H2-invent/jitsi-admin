@@ -1,0 +1,47 @@
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" id="atendeeModalScroll">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ title }}</h5>
+             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>{{ 'Teilnehmerliste'|trans }}</p>
+            <div class="attendeeScroll">
+                <ul id="atendeeList" class="material-list">
+                    <li class="d-flex flex-column flex-lg-row align-items-lg-center">
+                        {{ room.moderator|nameOfUser }}
+                        <span class="small">&nbsp;({{ 'Organisator'|trans }})</span></li>
+                    <hr>
+                    {% for user in room.user|sort((a, b) => a|nameOfUser <=> b|nameOfUser) %}
+                        {% if user != room.moderator %}
+                            <li class="d-flex flex-column flex-lg-row align-items-lg-center">
+                                <!-- Basic dropdown -->
+
+                                <!-- Basic dropdown -->
+                                <span class="profilePic"  style="background-image: url('{% if user.profilePicture is not null %}{{ vich_uploader_asset(user.profilePicture,'documentFile') }}{% else %}{{ asset('build/images/defaultUser.8f87824e.webp') }}{% endif %}')">
+
+                                </span><span>{{ user|nameOfUser }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                {% if room.waitinglists|length > 0 %}
+
+                    <b>{{ 'Warteliste'|trans }}</b>
+                    <hr>
+                    <ul>
+                        {% for w in room.waitinglists |sort((a, b) => a.createdAt <=> b.createdAt) %}
+                            <li>{{ w.user.email }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+
+                {% endif %}
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>

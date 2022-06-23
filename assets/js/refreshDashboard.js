@@ -1,4 +1,5 @@
 import $ from "jquery";
+import {initLazyElemt} from './lazyLoading'
 
 var refreshUrl
 
@@ -13,9 +14,14 @@ function refreshDashboard() {
     var $id2 = '#ex1-tabs-2';
     var $id3 = '#ex1-tabs-3';
     var $id4 = '#favorite-Container';
+    var $failures = 0;
     $div1.load(refreshUrl, function (data, statusTxt) {
         if (statusTxt === "error") {
-            window.location.reload();
+            $failures++;
+            if ($failures > 5) {
+                window.location.reload();
+            }
+            return
         }
         var $openDropdown = $('.dropdown-menu.show');
 
@@ -24,11 +30,12 @@ function refreshDashboard() {
                 console.log('1.7');
                 $($id1).html($(data).find($id1).contents());
             }
-            if ($($id2).contents().text() !== $(data).find($id2).contents().text()) {
+            if ($($id2 + '-init').contents().text() !== $(data).find($id2 + '-init').contents().text()) {
                 console.log('1.8');
                 $($id2).html($(data).find($id2).contents());
+                initLazyElemt(document.querySelector($id2).querySelector('.lazyLoad'));
             }
-            if ($($id3).contents().text() !== $(data).find($id3).contents().text()) {
+            if ($($id3 ).contents().text() !== $(data).find($id3 ).contents().text()) {
                 console.log('1.9');
                 $($id3).html($(data).find($id3).contents());
             }
@@ -36,10 +43,10 @@ function refreshDashboard() {
                 console.log('1.10');
                 $($id4).html($(data).find($id4).contents());
             }
-            $('[data-toggle="popover"]').popover({html: true});
+            $('[data-mdb-toggle="popover"]').popover({html: true});
         }
         $('#actualTime').html($(data).find('#actualTime').contents());
     });
 }
 
-export {initRefreshDashboard};
+export {initRefreshDashboard,refreshDashboard};

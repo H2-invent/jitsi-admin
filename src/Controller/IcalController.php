@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Helper\JitsiAdminController;
 use App\Service\IcalService;
 use App\Service\LicenseService;
 use App\Service\UserService;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class IcalController extends AbstractController
+class IcalController extends JitsiAdminController
 {
     /**
      * @Route("/ical/{id}", name="ical")

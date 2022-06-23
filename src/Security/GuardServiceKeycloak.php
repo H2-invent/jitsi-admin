@@ -14,9 +14,11 @@ use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -36,7 +38,8 @@ class GuardServiceKeycloak extends SocialAuthenticator
     private $paramterBag;
     private $userCreatorService;
     private $indexer;
-    public function __construct(IndexUserService $indexUserService, UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    private $logger;
+    public function __construct(LoggerInterface $logger, IndexUserService $indexUserService, UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
@@ -45,9 +48,10 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $this->paramterBag = $parameterBag;
         $this->userCreatorService = $userCreatorService;
         $this->indexer = $indexUserService;
+        $this->logger = $logger;
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request):bool
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_keycloak_check';
@@ -63,7 +67,6 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
         /** @var KeycloakUser $keycloakUser */
         $keycloakUser = $this->getauth0Client()->fetchUserFromToken($credentials);
-
         try {
             //When the keycloak USer delivers a
             $email = $keycloakUser->getEmail();
@@ -76,9 +79,13 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
         }
         $id = $keycloakUser->getId();
+        $this->logger->debug($id);
         $firstName = $keycloakUser->toArray()['given_name'];
+        $this->logger->debug($firstName);
         $lastName = $keycloakUser->toArray()['family_name'];
+        $this->logger->debug($lastName);
         $username = isset($keycloakUser->toArray()['preferred_username']) ? $keycloakUser->toArray()['preferred_username'] : null;
+        $this->logger->debug($username);
         $groups = null;
         if (isset($keycloakUser->toArray()['groups'])) {
             $groups = $keycloakUser->toArray()['groups'];
@@ -152,7 +159,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             ->getClient('keycloak_main');
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
 
         // change "app_homepage" to some route in your app
@@ -165,7 +172,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         return new RedirectResponse($this->router->generate('index'));
     }

@@ -13,10 +13,13 @@ class IndexUserService
             $index .= strtolower($user->getEmail()) .' ';
             $index .= strtolower($user->getFirstName()).' ';
             $index .= strtolower($user->getLastName());
-            foreach ($user->getSpezialProperties() as $key=>$value){
-                $index .=' ';
-                $index .= strtolower($value);
+            if(is_iterable($user->getSpezialProperties())){
+                foreach ($user->getSpezialProperties() as $key=>$value){
+                    $index .=' ';
+                    $index .= strtolower($value);
+                }
             }
+
             return $index;
         }
         return null;

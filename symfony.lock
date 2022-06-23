@@ -5,6 +5,9 @@
     "aws/aws-sdk-php": {
         "version": "3.209.27"
     },
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.5"
+    },
     "cron/cron": {
         "version": "1.5.1"
     },
@@ -138,6 +141,12 @@
     "firebase/php-jwt": {
         "version": "v4.0.0"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.7"
+    },
+    "gjuric/i18n-routing-bundle": {
+        "version": "3.1.1"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.5.5"
     },
@@ -147,11 +156,11 @@
     "guzzlehttp/psr7": {
         "version": "1.7.0"
     },
+    "h2entwicklung/sign-checker": {
+        "version": "0.1.0"
+    },
     "imagine/imagine": {
         "version": "1.2.4"
-    },
-    "jms/i18n-routing-bundle": {
-        "version": "dev-master"
     },
     "jms/metadata": {
         "version": "2.6.1"
@@ -232,12 +241,6 @@
     "nikic/php-parser": {
         "version": "v4.4.0"
     },
-    "ocramius/package-versions": {
-        "version": "1.5.1"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.2.3"
-    },
     "oneup/flysystem-bundle": {
         "version": "4.3",
         "recipe": {
@@ -255,9 +258,6 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
-    },
-    "php": {
-        "version": "7.4"
     },
     "php-webdriver/webdriver": {
         "version": "1.11.1"
@@ -392,9 +392,6 @@
     },
     "stevenmaguire/oauth2-keycloak": {
         "version": "2.2.1"
-    },
-    "swiftmailer/swiftmailer": {
-        "version": "v6.2.3"
     },
     "symfony/amqp-messenger": {
         "version": "v5.4.0"
@@ -734,20 +731,6 @@
     "symfony/string": {
         "version": "v5.1.10"
     },
-    "symfony/swiftmailer-bundle": {
-        "version": "2.5",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.5",
-            "ref": "ae4d22af30bbd484506bc1817c5a3ef72c855b93"
-        },
-        "files": [
-            "./config/packages/dev/swiftmailer.yaml",
-            "./config/packages/swiftmailer.yaml",
-            "./config/packages/test/swiftmailer.yaml"
-        ]
-    },
     "symfony/templating": {
         "version": "v4.4.8"
     },
@@ -889,14 +872,5 @@
     },
     "webmozart/assert": {
         "version": "1.8.0"
-    },
-    "zendframework/zend-code": {
-        "version": "3.4.1"
-    },
-    "zendframework/zend-escaper": {
-        "version": "2.6.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
     }
 }

@@ -15,7 +15,8 @@
     "dpolac/twig-lambda": "^1.0",
     "eluceo/ical": "^2",
     "erusev/parsedown": "^1.7",
-    "jms/i18n-routing-bundle": "dev-master",
+    "gjuric/i18n-routing-bundle": "^3.1",
+    "h2entwicklung/sign-checker": "^0.1.0",
     "knplabs/knp-gaufrette-bundle": "^0.7.1",
     "knpuniversity/oauth2-client-bundle": "^2.5",
     "laminas/laminas-code": "^3.4",
@@ -48,7 +49,6 @@
     "symfony/proxy-manager-bridge": "5.4.*",
     "symfony/security-bundle": "5.4.*",
     "symfony/serializer": "5.4.*",
-    "symfony/swiftmailer-bundle": "^3.4",
     "symfony/templating": "5.4.*",
     "symfony/translation": "5.4.*",
     "symfony/twig-bundle": "5.4.*",
@@ -82,7 +82,10 @@
     "preferred-install": {
       "*": "dist"
     },
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "symfony/flex": true
+    }
   },
   "autoload": {
     "psr-4": {

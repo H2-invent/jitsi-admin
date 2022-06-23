@@ -3,11 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
+use function PHPUnit\Framework\returnArgument;
 
 /**
  * @method Rooms|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,7 +20,9 @@ use function Doctrine\ORM\QueryBuilder;
 class RoomsRepository extends ServiceEntityRepository
 {
     private $timeZoneService;
-    public function __construct(ManagerRegistry $registry,TimeZoneService $timeZoneService)
+    private $amountperLayz = 8;
+
+    public function __construct(ManagerRegistry $registry, TimeZoneService $timeZoneService)
     {
         parent::__construct($registry, Rooms::class);
         $this->timeZoneService = $timeZoneService;
@@ -54,7 +58,7 @@ class RoomsRepository extends ServiceEntityRepository
     */
     public function findRoomsInFuture(User $user)
     {
-        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -69,9 +73,9 @@ class RoomsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findRoomsInPast(User $user)
+    public function findRoomsInPast(User $user, $offset)
     {
-        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -82,6 +86,8 @@ class RoomsRepository extends ServiceEntityRepository
             ->setParameter('now', $now)
             ->setParameter('user', $user)
             ->orderBy('r.start', 'DESC')
+            ->setMaxResults($this->amountperLayz)
+            ->setFirstResult($this->amountperLayz * $offset)
             ->getQuery()
             ->getResult();
     }
@@ -103,7 +109,7 @@ class RoomsRepository extends ServiceEntityRepository
     public function findRuningRooms(User $user)
     {
 
-        $now = new \DateTime('now',$this->timeZoneService->getTimeZone($user));
+        $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
@@ -156,7 +162,7 @@ class RoomsRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getMyPersistantRooms(User $user)
+    public function getMyPersistantRooms(User $user, $offset)
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
@@ -181,14 +187,102 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findFavoriteRooms(User $user){
+
+    public function findFavoriteRooms(User $user)
+    {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.favoriteUsers', 'user')
             ->andWhere('user = :user')
             ->setParameter('user', $user)
             ->addSelect('CASE WHEN r.start IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
-            ->addOrderBy('list_order_is_null','DESC') // always ASC
-            ->addOrderBy('r.start','ASC') //DESC or ASC
+            ->addOrderBy('list_order_is_null', 'DESC') // always ASC
+            ->addOrderBy('r.start', 'ASC') //DESC or ASC
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFutureRoomsWithNoCallerId($now)
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb->leftJoin('r.callerRoom', 'callerRoom')
+            ->andWhere($qb->expr()->isNull('callerRoom'))
+            ->andWhere($qb->expr()->isNotNull('r.moderator'))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->gte('r.endTimestamp', ':now'),
+                    $qb->expr()->eq('r.persistantRoom', ':true')
+                )
+            )
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
+            ->setParameter('now', $now)
+            ->setParameter('true', true)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRoomsnotInPast()
+    {
+        $now = (new \DateTime('now'))->getTimestamp();
+        $qb = $this->createQueryBuilder('r');
+        return $qb
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->gte('r.endTimestamp', ':now'),
+                    $qb->expr()->eq('r.persistantRoom', ':true')
+                )
+            )
+            ->andWhere($qb->expr()->isNotNull('r.moderator'))
+            ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = :false'))
+            ->setParameter('now', $now)
+            ->setParameter('true', true)
+            ->setParameter('false', false)
+            ->orderBy('r.startUtc', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Rooms[] Returns an array of Rooms objects
+     */
+
+    public function findRoomsWithNoTags()
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        return $qb->andWhere($qb->expr()->isNull('r.tag'))
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRoomByCaseInsensitiveUid($value): ?Rooms
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('upper(r.uid) = upper(:val)')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @return Rooms[] Returns an array of Rooms objects
+     */
+
+    public function findActualConferenceForServerByStatus(Server $server)
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.server', 'server')
+            ->innerJoin('r.roomstatuses', 'roomstatuses')
+            ->andWhere('roomstatuses.created = :true')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'roomstatuses.destroyed = :false',
+                    $qb->expr()->isNull('roomstatuses.destroyed')
+                )
+            )
+            ->andWhere('server = :server')
+            ->setParameter('server', $server)
+            ->setParameter('false', false)
+            ->setParameter('true', true)
             ->getQuery()
             ->getResult();
     }

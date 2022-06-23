@@ -607,7 +607,7 @@
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
-        <target state="translated">Add a URL to your logo here. It will be shown to participants on the join page.</target>
+        <target state="translated">Add an URL to your logo here. It will be shown to participants on the join page.</target>
       </trans-unit>
       <trans-unit id="FG8Lso9" resname="Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.">
         <source>Geben Sie hier einen Link zu den Datenschutzhinweise für den Jitsi-Meet-Server an damit die Teilnehmer darauf hingewiesen werden können.</source>
@@ -1260,7 +1260,7 @@
       </trans-unit>
       <trans-unit id="1N8V8Mk" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-crown&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-crown"&gt;&lt;/i&gt; hinzufügen</source>
-        <target state="needs-translation"><![CDATA[Finden Sie über die Eingabe in das Suchfeld die Namen der Teilnehmenden. Sollen die Teilnehmenden als Moderatoren fungieren, klicken Sie bitte <i class="fas fa-crown"></i>.]]></target>
+        <target state="translated"><![CDATA[Find participants by typing into the search field. If you want to add participants as moderator, click <i class="fas fa-crown"></i>.]]></target>
       </trans-unit>
       <trans-unit id="xHhboX4" resname="Morgen">
         <source>Morgen</source>
@@ -1382,9 +1382,9 @@
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz ID: {uid}]]></target>
+        <target state="translated"><![CDATA[Please privide following details to join the conference:<br>
+        Your email address: {email}<br>
+        Conference ID: {uid}]]></target>
       </trans-unit>
       <trans-unit id="wmT9oq4" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
@@ -1528,7 +1528,7 @@
         <target state="translated">This date shows the first date of the series. If you edited single dates of the series, they will be reset.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>common.save</source>
+        <source>Speichern</source>
         <target state="translated">Save</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">

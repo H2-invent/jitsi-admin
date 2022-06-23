@@ -3,18 +3,18 @@
  *
  */
 import '../css/app.scss';
+
 //import(/* webpackChunkName: "H2" */ '../css/app.scss');
 import $ from 'jquery';
 
-global.$ = global.jQuery = $;
-import ('popper.js');
 
-import('bootstrap');
-import('mdbootstrap');
+global.$ = global.jQuery = $;
+
+import * as mdb from 'mdb-ui-kit'; // lib
+
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
 import flatpickr from 'flatpickr';
-import Chart from 'chart.js';
 import autosize from 'autosize';
 import ClipboardJS from 'clipboard';
 import {initScheduling} from './scheduling';
@@ -27,15 +27,23 @@ import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
 import {initAjaxSend} from './confirmation'
 import {attach, init} from 'node-waves'
-import {createPopper} from '@popperjs/core';
-import {initTabs} from './tabHelper'
+import {initNewRoomModal} from './newRoom'
+import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
+import {initChart} from './chart'
+import {Chart} from 'chart.js'
+
 
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
     let url = '';
     if (param !== null) {
         url = atob(param);
+    }
+    if (typeof(modalUrl) !== 'undefined'){
+        url = atob(modalUrl);
+    }
+    if (url !== null) {
         if (url.startsWith('/')) {
             $('#loadContentModal').load(url, function (data, status) {
                 if (status === "error") {
@@ -49,8 +57,8 @@ addEventListener('load', function () {
         let search = new URLSearchParams(window.location.search);
         search.delete('modalUrl');
         let location = window.location.pathname;
-        if(search.toString().length>0){
-            location +='?'+search.toString();
+        if (search.toString().length > 0) {
+            location += '?' + search.toString();
         }
 
         window.history.pushState({}, document.title, location);
@@ -58,17 +66,15 @@ addEventListener('load', function () {
 });
 
 $(document).ready(function () {
-    $('.nav-tabs').each(function (e) {
-        $(this).append('<span class="underline"></span>')
-    })
-   initTabs();
+
+    initTabs('.nav-mat-tabs');
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
     initDashboardnotification(topic);
     setTimeout(function () {
-        $('#snackbar').addClass('show').click(function (e) {
-            $('#snackbar').removeClass('show');
+        $('.innerOnce').click(function (e) {
+            $(this).addClass('d-none');
         })
     }, 500);
 
@@ -98,17 +104,13 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    // $('.flatpickr').flatpickr({
-    //     minDate: "today",
-    //     enableTime: true,
-    //     dateFormat: "Y-m-d H:i",
-    // });
+
     initCopytoClipboard();
     let url = new URLSearchParams(window.location.search);
     url.delete('snack');
     let location = window.location.pathname;
-    if(url.toString().length>0){
-        location +='?'+url.toString();
+    if (url.toString().length > 0) {
+        location += '?' + url.toString();
     }
     window.history.pushState({}, document.title, location);
 });
@@ -117,19 +119,23 @@ $(window).on('load', function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+$(document).on('click', '.stopCloseDropdown', function (e) {
+    console.log('1.2sdf');
+    e.stopPropagation();
+});
 
 $(document).on('click', '.loadContent', function (e) {
     e.preventDefault();
     var url = $(this).attr('href');
-    if ($('#loadContentModal ').hasClass('show')) {
-        $('#loadContentModal').modal('hide');
-    }
     $('#loadContentModal').load(url, function (data, status) {
         if (status === "error") {
             window.location.reload();
         } else {
-
-            $('#loadContentModal').modal('show');
+            if (!$('#loadContentModal ').hasClass('show')) {
+                $('#loadContentModal').modal('show');
+            }else {
+                initNewModal();
+            }
         }
     });
 });
@@ -141,56 +147,30 @@ function initServerFeatures() {
     })
 }
 
-$('#loadContentModal').on('shown.bs.modal', function (e) {
-    initScheduling();
-    $('[data-toggle="popover"]').popover({html: true});
+$('#modalAdressbook').on('shown.bs.modal', function (e) {
+    initalSetUnderline('#modalAdressbook .underline');
+});
 
-    $('[data-toggle="tooltip"]').tooltip()
+$('#loadContentModal').on('shown.bs.modal', function (e) {
+  initNewModal(e)
+});
+
+function initNewModal(e){
+
+    initScheduling();
+
+    $('[data-mdb-toggle="popover"]').popover({html: true});
+
+    $('[data-mdb-toggle="tooltip"]').tooltip()
 
     initdateTimePicker('.flatpickr');
-
+    initNewRoomModal();
     $('form').submit(function (event) {
         var btn = $(this).find('button[type=submit]');
         btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
         btn.prop("disabled", true)
     });
-    $("#newRoom_form").submit(function (e) {
 
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-        var form = $(this);
-        var url = form.attr('action');
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: form.serialize(), // serializes the form's elements.
-            success: function (data) {
-                var $res = data;
-                if ($res['error'] === false) {
-                    if (typeof $res['cookie'] !== 'undefined') {
-                        for (const [key, value] of Object.entries($res['cookie'])) {
-
-                            setCookie(key, value, 1000);
-                        }
-                    }
-                    window.location.href = $res['redirectUrl'];
-                } else {
-                    $('.formError').remove();
-                    for (var i = 0; i < $res['messages'].length; i++) {
-                        $('<div class="alert alert-danger formError alert-dismissible fade show" role="alert">' + $res['messages'][i] + '  <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
-                            '    <span aria-hidden="true">&times;</span>\n' +
-                            '  </button>' +
-                            '</div>')
-                            .insertBefore(form.find('button[type=submit]'))
-                    }
-                    var btn = form.find('button[type=submit]');
-                    btn.find('.fas').remove();
-                    btn.prop("disabled", false)
-                }
-            }
-        });
-    });
 
     $('.generateApiKey').click(function (e) {
         e.preventDefault();
@@ -203,53 +183,17 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             $('#appId').collapse('hide')
         }
     });
-    if (typeof $('#room_persistantRoom') !== 'undefined') {
-        if ($('#room_persistantRoom').prop('checked')) {
-            $('#roomStartForm').collapse('hide')
-            if ($('#room_totalOpenRooms').prop('checked')) {
-                $('#totalOpenRoomsOpenTime').collapse('show');
-            } else {
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
-        } else {
-            $('#roomStartForm').collapse('show')
-            $('#totalOpenRoomsOpenTime').collapse('hide');
-        }
-        $('#room_persistantRoom').change(function () {
-            if ($('#room_persistantRoom').prop('checked')) {
-                $('#roomStartForm').collapse('hide')
-                if ($('#room_totalOpenRooms').prop('checked')) {
-                    $('#totalOpenRoomsOpenTime').collapse('show');
-                } else {
-                    $('#totalOpenRoomsOpenTime').collapse('hide');
-                }
-            } else {
-                $('#roomStartForm').collapse('show')
-                $('#totalOpenRoomsOpenTime').collapse('hide');
-            }
-        })
-    }
 
-    if (typeof $('#room_public') !== 'undefined') {
-        if ($('#room_public').prop('checked')) {
-            $('#maxParticipants').collapse('show')
-        } else {
-            $('#maxParticipants').collapse('hide')
-        }
-        $('#room_public').change(function () {
-            if ($('#room_public').prop('checked')) {
-                $('#maxParticipants').collapse('show')
-            } else {
-                $('#maxParticipants').collapse('hide')
-            }
-        })
-    }
     initCopytoClipboard();
     initSearchUser();
     initServerFeatures();
     initRepeater();
     initKeycloakGroups();
     initAddressGroupSearch();
+    initChart();
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });
     if (document.getElementById("lineChart") !== null) {
         var ctx = document.getElementById("lineChart").getContext('2d');
         var myChart = new Chart(ctx, {
@@ -258,14 +202,14 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
             options: options
         });
     }
-});
+}
+
 $(".clickable-row").click(function () {
     window.location = $(this).data("href");
 });
 $('#ex1-tab-3-tab').on('shown.bs.tab', function (e) {
 
 })
-
 
 
 function getMoreFeature(id) {
@@ -283,17 +227,22 @@ function getMoreFeature(id) {
     }
 }
 
-function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+
 
 function initCopytoClipboard() {
 
     var clipboard = new ClipboardJS('.copyLink');
 }
+
+$(document).on('click', '.testVideo', function (e) {
+    e.preventDefault();
+    var $url = $(this).attr('href');
+    $url += '?url=' + $('#server_url').val();
+    $url += '&cors=' + $('#server_corsHeader').prop('checked');
+    console.log($url);
+    window.open($url, '_blank').focus();
+})
+
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -324,6 +273,6 @@ function initRepeater() {
 
 $('.sidebarToggle').click(function () {
     $('#sidebar').toggleClass('showSidebar');
-    $('#main').toggleClass('d-none');
+    $('.sidebarToggle').toggleClass('d-none');
 
 })

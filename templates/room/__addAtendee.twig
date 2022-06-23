@@ -1,11 +1,25 @@
 <div class="row mb-2">
-    <div class="col-md-6">
+    <div class="col-lg-6">
         <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
-            <label for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
-            <input placeholder="{{ 'input.placeholder.search'|trans }}" autocomplete=off type="text" id="searchUser" class="form-control dropdown-toggle"
-                   href="{{ path('search_participant') }}">
+            <div class="form-outline">
+
+            <input
+                    placeholder="{{ 'input.placeholder.search'|trans }}"
+                   autocomplete=off
+                   type="text"
+                   id="searchUser"
+                   class="form-control"
+                   href="{{ path('search_participant') }}"
+            >
+                <label class="form-label" for="searchUser">{{ 'Teilnehmer suchen'|trans }}</label>
+            </div>
+            <div data-mdb-toggle="dropdown"
+                  data-mdb-auto-close="false"
+                 id="searchUserDropdownTrigger">
+
+            </div>
             <div class="dropdown-menu" id="participantUser">
-                <a class="dropdown-item" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+                <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
             </div>
         </div>
     </div>
@@ -40,13 +54,12 @@
 </div>
 
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-lg-12 d-flex align-items-start">
         {{ form_row(form.submit) }}
-    </div>
-    <div class="col-md-5">
         <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
             {{ 'Abbrechen' | trans }}
         </a>
     </div>
+
 </div>
 {{ form_end(form) }}

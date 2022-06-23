@@ -1,3 +1,7 @@
+body {
+  overscroll-behavior-y: contain;
+}
+
 #lobbyWebcam {
   width: 100%;
   height: auto;
@@ -69,8 +73,13 @@
   background: white;
 }
 
-
 #jitsiWindow {
+  height: inherit;
+  overflow: hidden;
+  position: relative;
+}
+
+#jitsiWrapper.inMeeting {
   position: absolute;
   top: 0;
   left: 0;
@@ -141,35 +150,35 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 10;
+  @media (min-width: 600px) {
+    &:hover {
+      top: 0 !important;
+      transition: top 0.5s;
 
-  &:hover {
-    top: 0 !important;
-    transition: top 0.5s;
+      .dragger {
+        &:before {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\f106\00a0" !important;
+        }
 
-    .dragger {
-      &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f106\00a0" !important;
-      }
-
-      &:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\00a0\f106" !important;
+        &:after {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\00a0\f106" !important;
+        }
       }
     }
   }
 }
 
-#waitingUserWrapper {
-  padding: 8px;
-}
 
 .selectedDevice {
   font-weight: bold;
 
   &:before {
+    padding-right: 8px;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f0da" !important;
@@ -186,13 +195,17 @@
 #waitingUserWrapper {
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .lobbyButtons {
   display: flex;
   flex-direction: row;
-  width: max-content;
-  max-width: 100%;
+  @media (min-width: 600px) {
+    width: max-content;
+    max-width: 100%;
+  }
+  width: 100%;
 }
 
 .lobbyCard {
@@ -201,11 +214,96 @@
   }
 }
 
-.blackMode.joinPage .modal {
+.blackMode.joinPage .modal-backdrop {
   background-image: radial-gradient($main-color, black);
-}
-.joinPage .modal {
-  background-image: radial-gradient($main-color, white);
+  opacity: 1;
 }
 
+.joinPage .modal-backdrop {
+  background-image: radial-gradient($main-color, white);
+  opacity: 1;
+}
+
+.lobbyCard {
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dragger {
+  width: fit-content;
+}
+
+.touchactionNone {
+  touch-action: none;
+}
+
+.btn-group {
+  margin-left: 0;
+  margin-right: 0;
+
+  .caretdown {
+    max-width: max-content;
+  }
+}
+
+.icon-holder {
+  position: absolute;
+
+  .feedbackSwipe {
+    opacity: 0;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    position: absolute;
+    height: inherit;
+    color: white;
+    font-weight: bold;
+    font-size: 2.5em;
+  }
+
+  .acceptSwipe {
+    background-color: $success;
+    padding-left: 18px;
+    border-radius: 5px 0 0 5px;
+  }
+
+  .denieSwipe {
+    padding-right: 18px;
+    background-color: $danger;
+    justify-content: end;
+    border-radius: 0 5px 5px 0;
+  }
+}
+
+@keyframes showSwipe {
+  0% {
+    transform: translate(0px, 0);
+  }
+  33% {
+    transform: translate(20px, 0);
+  }
+  66% {
+    transform: translate(-20px, 0);
+  }
+  100% {
+    transform: translate(0px, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  #waitingUser {
+    .waitingUserCard {
+      &:nth-child(1) {
+        .card {
+          animation-name: showSwipe;
+          animation-duration: 1s;
+          animation-iteration-count: 1;
+          animation-delay: 1s;
+        }
+      }
+    }
+  }
+}
 

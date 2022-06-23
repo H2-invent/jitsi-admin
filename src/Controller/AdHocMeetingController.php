@@ -4,59 +4,95 @@ namespace App\Controller;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\Tag;
 use App\Entity\User;
+use App\Helper\JitsiAdminController;
+use App\Service\adhocmeeting\AdhocMeetingService;
+use App\Service\Lobby\DirectSendService;
 use App\Service\RoomGeneratorService;
-use App\Service\RoomService;
 use App\Service\ServerUserManagment;
-use App\Service\ThemeService;
 use App\Service\TimeZoneService;
 use App\Service\UserService;
-use phpDocumentor\Reflection\Types\This;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class AdHocMeetingController extends AbstractController
+/**
+ * @Route("/room/adhoc/", name="add_hoc")
+ */
+class AdHocMeetingController extends JitsiAdminController
 {
+
+
     /**
-     * @Route("/room/adhoc/meeting/{userId}/{serverId}", name="add_hoc_meeting")
+     * @Route("confirmation/{userId}/{serverId}", name="_confirm")
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
      * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
      */
-    public function index(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, ThemeService $themeService, User $user, Server $server, UserService $userService,TranslatorInterface $translator, ServerUserManagment $serverUserManagment): Response
+    public function confirmation(
+        User                $user,
+        Server              $server,
+        TranslatorInterface $translator,
+        ServerUserManagment $serverUserManagment,
+        AdhocMeetingService $adhocMeetingService
+    ): Response
+    {
+        $tag = $this->doctrine->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
+        return $this->render('add_hoc_meeting/__confirmation.html.twig', array('server' => $server, 'user' => $user, 'tag' =>$tag));
+    }
+
+    /**
+     * @Route("meeting/{userId}/{serverId}/{tagId}", name="_meeting")
+     * @Route("meeting/{userId}/{serverId}", name="_meeting_no_tag")
+     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
+     * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
+     * @ParamConverter("tag", class="App\Entity\Tag",options={"mapping": {"tagId": "id"}})
+     */
+    public function index(
+        User                $user,
+        Server              $server,
+        TranslatorInterface $translator,
+        ServerUserManagment $serverUserManagment,
+        AdhocMeetingService $adhocMeetingService,
+        ?Tag                 $tag = null
+    ): Response
     {
 
-        if(!in_array($user,$this->getUser()->getAddressbook()->toArray())){
-            return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Fehler, Der User wurde nicht gefunden')));
+        if (!in_array($user, $this->getUser()->getAddressbook()->toArray())) {
+            $this->addFlash('danger', $translator->trans('Fehler, Der User wurde nicht gefunden'));
+            return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
+
         }
+
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
-        if(!in_array($server,$servers)){
-            return $this->redirectToRoute('dashboard',array('color'=>'danger','snack'=>$translator->trans('Fehler, Der Server wurde nicht gefunden')));
-        }
-        $room = $roomGeneratorService->createRoom($this->getUser(),$server);
+        if (!in_array($server, $servers)) {
+            $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
+            return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
 
-        $now = new \DateTime('now',TimeZoneService::getTimeZone($this->getUser()));
-        $room->setStart($now);
-        if ($parameterBag->get('allowTimeZoneSwitch') == 1){
-            $room->setTimeZone($this->getUser()->getTimeZone());
         }
-        $room->setEnddate((clone $now)->modify('+ 1 hour'));
-        $room->setDuration(60);
-        $room->setName($translator->trans('Konferenz mit {n}',array('{n}'=>$user->getFormatedName($parameterBag->get('laf_showName')))));
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($room);
-        $em->flush();
-        $user->addRoom($room);
-        $em->persist($user);
-        $this->getUser()->addRoom($room);
-        $em->persist($this->getUser());
-        $em->flush();
-        $userService->addUser($user,$room);
-        $userService->addUser($this->getUser(),$room);
-        return $this->redirectToRoute('dashboard',array('snack'=>$translator->trans('Konferenz erfolgreich erstellt')));
+        try {
+            $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server,$tag);
+            // $this->addFlash('_blank',$this->generateUrl('room_join',array('t'=>'b','room'=>$room->getId())));
+            $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
+            return new JsonResponse(array(
+                    'redirectUrl' => $this->generateUrl('dashboard'),
+                    'popups' => array(
+                        $this->generateUrl('room_join', array('t' => 'b', 'room' => $room->getId()))
+                    )
+                )
+            );
+
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $translator->trans('Fehler'));
+            return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
+
+        }
     }
 }

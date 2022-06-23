@@ -24,13 +24,18 @@ var gain;
 var destination;
 var gStream = null;
 async function initAUdio() {
-    await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+    try {
+        await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+
+
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
+
         devices.forEach(function (device) {
 
             if (device.kind === 'audioinput') {
+                var name = device.label.replace(/\(.*:.*\)/g, "");
                 $('#audioInputSelect').append(
-                    '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + device.label.substring(0,device.label.lastIndexOf('(')) + '</a>'
+                    '<a class="dropdown-item audio_inputSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a>'
                 )
                 mic.push(device);
             }
@@ -44,6 +49,9 @@ async function initAUdio() {
         micId = mic[0].deviceId;
         $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
     })
+    }catch (e) {
+        console.log(e);
+    }
 
     $('#startEcho').click(function (e) {
         var text;

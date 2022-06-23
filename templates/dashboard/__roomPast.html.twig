@@ -1,14 +1,19 @@
-<div class="card card-body mb-1 text-lg-left text-center">
+<div class="card card-body mb-1 text-lg-start text-center">
     <div class="row">
 
         {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
-        <div class="col-md-4">
+        <div class="col-md-4 d-flex align-items-start justify-content-lg-start justify-content-center">
 
             {% if room.moderator == app.user %}
                 {{ include('dashboard/__roomOption.html.twig') }}
+                {% if room.moderator == app.user and room.totalOpenRooms != true %}
+
+                    <a href="{{ path('room_past_user',{'room':room.id}) }}"
+                       class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
+                {% endif %}
                 {% else %}
                     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-                       class="btn btn-outline-default confirmHref" data-text="{{ 'confirm.delete.room'|trans }}">{{ 'Entfernen'|trans }}</a>
+                       class="btn btn-outline-primary confirmHref" data-text="{{ 'confirm.delete.room'|trans }}">{{ 'Entfernen'|trans }}</a>
             {% endif %}
 
         </div>

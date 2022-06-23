@@ -8,7 +8,7 @@
             <div class="w-100" id="jitsiWindow">
 
             </div>
-            <div class="row lobbyWindow">
+            <div class="row lobbyWindow" id="lobbyWindow">
                 <div class="col-lg-3 col-md-6" id="colWebcam">
                     <div class="card webcamArea">
                         <video autoplay="true" id="lobbyWebcam"></video>
@@ -19,100 +19,76 @@
                                 <i class="fa fa-star"></i>
                             {% endif %}
                         </div>
-
                     </div>
-                    <a class="caretdown btn btn-primary dropdown-toggle" type="button"
-                       id="selectWebcamDropdown"
-                       data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
-                    </a>
-                    <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
-                    </ul>
 
-
-                    <div class="btn-group">
-                        <a href="#" type="button" class="btn btn-primary" id="startEcho"
-                           data-texton="{{ 'lobby.start.echo'|trans }}"
-                           data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
-                        <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
-                           data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-microphone"></i>
+                    <div class="d-grid">
+                        <a class="caretdown btn btn-block btn-primary dropdown-toggle" type="button"
+                           id="selectWebcamDropdown"
+                           data-mdb-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"><i class="fa fa-video"></i><span class=" d-flex w-100     justify-content-center text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                         </a>
-                        <div class="dropdown-menu">
-                            <div id="audioInputSelect">
-                                <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+                        </ul>
+
+
+                        <div class="btn-group">
+
+                            <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown"
+                               data-mdb-toggle="dropdown"
+                               data-mdb-reference="parent"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-microphone"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div id="audioInputSelect">
+                                    <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                                </div>
                             </div>
+                            <a href="#" type="button" class="btn btn-primary" id="startEcho"
+                                            data-texton="{{ 'lobby.start.echo'|trans }}"
+                                            data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-6" id="col-waitinglist">
-                    <div id="waitingUserWrapper">
-                        <div id="waitingUser" class="row w-100 mb-3">
-                            {% for wU in room.lobbyWaitungUsers %}
-                                <div class="col-lg-3 col-md-6 waitingUserCard mb-3">
-                                    <div class="card ">
-                                        <div class="card-body text-center d-flex flex-column align-items-center">
-                                            <div class="initialCircle ">
-                                                {% if wU.user is not null %}
-                                                    {% if wU.user.firstName != '' %}
-                                                        {{ wU.user.firstName[:1] }}{{ wU.user.lastName[:1] }}
-                                                    {% else %}
-                                                        {{ wU.user.username[:1] }}
-                                                    {% endif %}
-                                                {% else %}
-                                                    {{ wU.showName[:2] }}
-                                                {% endif %}
-                                            </div>
-                                            <div class="participantsName">{{ wU.showName }}</div>
-
-                                        </div>
-                                        <div class="card-footer text-center">
-                                            <a class="btn-floating senddirect btn-success"
-                                               href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
-                                                <i class="fas fa-user-check "></i>
-                                            </a>
-                                            <a class="btn-floating directSendWithConfirm btn-danger"
-                                               data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
-                                               href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
-                                                <i class="fas fa-user-times "></i>
-                                            </a>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            {% endfor %}
-
-
+                    <div class="row d-md-none ">
+                        <div class="col-lg-12 text-center">
+                            <p><small>{{'Swipen zum zulassen'|trans}}</small></p>
                         </div>
-
+                    </div>
+                    <div id="waitingUserWrapper">
+                        <div id="waitingUser" class="row mb-3">
+                            {% for wU in room.lobbyWaitungUsers %}
+                                {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="lobbyButtons">
                         {% if type == 'a' %}
-
-                            <a class="btn btn-primary d-none d-lg-block "
-                            href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                            target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
-
+                            <a class="btn btn-primary d-block start-btn"
+                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                               target="_blank">
+                                <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                            </a>
                         {% elseif type == 'b' %}
-
-                            <a class="btn btn-primary btn-rounded startIframe d-none d-lg-block "
-                               href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                               target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
-
+                            {% if room.server.corsHeader %}
+                                <a class="btn btn-primary d-block start-btn"
+                                   href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                   target="_blank">
+                                    <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                </a>
+                            {% else %}
+                                <a class="btn btn-primary btn-block  startIframe d-block start-btn"
+                                   href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                   target="_blank">
+                                    <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                </a>
+                            {% endif %}
                         {% endif %}
 
-
-                        <a class="btn btn-primary d-block d-lg-none"
-                           href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                           target="_blank"><i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}</a>
-
-
-                        <a class="btn btn-success btn-rounded directSend"
+                        <a class="btn btn-success btn-block  directSend"
                            href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                        <a class="btn btn-danger btn-rounded d-none" id="closeSecure"
+                        <a class="btn btn-danger  d-none" id="closeSecure" data-text="{{'lobby.endMeeting.ask'|trans}}"
                            href="{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}">{{ 'lobby.endMeeting'|trans }}</a>
                     </div>
 
@@ -138,13 +114,26 @@
                 roomName: '{{ room.uid }}',
                 width: '100%',
                 height: 700,
+                configOverwrite: {
+                    prejoinPageEnabled: false,
+                    disableBeforeUnloadHandlers: true,
+                },
+                interfaceConfigOverwrite: {
+                    MOBILE_APP_PROMO: false,
+                    SHOW_JITSI_WATERMARK: false,
+                    HIDE_DEEP_LINKING_LOGO: true,
+                    SHOW_BRAND_WATERMARK: false,
+                    SHOW_WATERMARK_FOR_GUESTS: false
+                },
                 parentNode: document.querySelector('#jitsiWindow'),
                 {% if room.server.appId is not null %}
                 jwt: '{{ jwtFromRoom(user,room,name) }}',
                 {% endif %}
                 userInfo: {
                     displayName: '{{ name }}',
-
+                    {% if user is not null and  user.profilePicture is not null %}
+                    avatarUrl: '{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
+                    {% endif %}
                 }
             };
 

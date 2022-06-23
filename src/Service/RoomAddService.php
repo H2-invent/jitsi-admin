@@ -36,7 +36,6 @@ class RoomAddService
     public function createParticipants($input, Rooms $room)
     {
         $lines = explode("\n", $input);
-        $snack = null;
         $falseEmail = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {
@@ -64,7 +63,6 @@ class RoomAddService
     public function createModerators($input, Rooms $room)
     {
         $lines = explode("\n", $input);
-        $snack = null;
         $falseEmail = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {
@@ -111,10 +109,10 @@ class RoomAddService
         }
 
         if ($room->getRepeater()) {
-            if (!in_array($user, $room->getPrototypeUsers()->toArray())) {
-                $room = $room->getRepeater()->getPrototyp();
-                $user->addProtoypeRoom($room);
-                $this->removeRoomUser($user, $room);
+            $prototype = $room->getRepeater()->getPrototyp();
+            if (!in_array($user, $prototype->getPrototypeUsers()->toArray())) {
+                $user->addProtoypeRoom($prototype);
+                $this->removeRoomUser($user, $prototype);
             }
 
         } else {

@@ -241,9 +241,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="needs-translation">Anzahl der Konferenzen</target>
       </trans-unit>
-      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
+      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="needs-translation">Anzahl der Teilnehmenden</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -1537,7 +1537,7 @@
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>common.save</source>
+        <source>Speichern</source>
         <target state="needs-translation">Speichern</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">

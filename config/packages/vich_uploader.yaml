@@ -9,9 +9,14 @@ knp_gaufrette:
                 options:
                     create: true
                     directory: profile
+        local_adapter:
+            local:
+                directory: '%kernel.project_dir%/public/uploads/images'
+
     filesystems:
         document_fs:
-            adapter:    document_adapter
+            #adapter: document_adapter
+            adapter: local_adapter
 
 vich_uploader:
     db_driver: orm
@@ -19,28 +24,12 @@ vich_uploader:
     mappings:
         profile:
             inject_on_load: true
-            uri_prefix: "%env(AWS_BASE_URL)%/%env(AWS_BUCKET_NAME)%/profile"
+            #uri_prefix: "%env(AWS_BASE_URL)%/%env(AWS_BUCKET_NAME)%/profile"
+            uri_prefix: "%env(VICH_BASE)%/uploads/images"
             upload_destination: document_fs
             delete_on_update: true
             delete_on_remove: true
             namer: vich_uploader.namer_uniqid
 
-#vich_uploader:
-#    db_driver: orm
-#    storage:   flysystem
-#    mappings:
-#        profile:
-#            uri_prefix: '%app.path.product_images%'
-#            upload_destination: oneup_flysystem.asset_filesystem12_filesystem
-#            namer: vich_uploader.namer_uniqid
-
-#vich_uploader:
-#    db_driver: orm
-#    storage:   flysystem
-#    mappings:
-#        profile:
-#            uri_prefix: "%env(AWS_BASE_URL)%/%env(AWS_BUCKET_NAME)%/profile"
-#            upload_destination: oneup_flysystem.assets_fs_filesystem
-#            namer: vich_uploader.namer_uniqid
 
 

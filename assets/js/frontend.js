@@ -2,21 +2,21 @@
  * Welcome to your app's main JavaScript file!
  *
  */
-
-
 import $ from 'jquery';
 
-import('bootstrap');
-import('popper.js');
 global.$ = global.jQuery = $;
-import('mdbootstrap');
+
+import * as mdb from 'mdb-ui-kit'; // lib
+
 import {initSchedulePublic} from './scheduling'
 import {initGenerell} from './init';
+import {setSnackbar} from "./myToastr";
+
 $(document).ready(function () {
     initGenerell();
     setTimeout(function () {
-        $('#snackbar').addClass('show').click(function (e) {
-            $('#snackbar').removeClass('show');
+        $('.innerOnce').click(function (e) {
+            $(this).addClass('d-none');
         })
     }, 500);
     initSchedulePublic()
@@ -24,4 +24,8 @@ $(document).ready(function () {
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});
+    $('[data-toggle="toastr"]').click(function (e) {
+        console.log($(this))
+        setSnackbar($(this).data('text'),$(this).data('type'))
+    });
 });

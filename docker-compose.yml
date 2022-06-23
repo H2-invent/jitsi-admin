@@ -1,47 +1,197 @@
-version: '3.7'
+version: '3.8'
+
+x-app-common: &jitsi_admin_app
+  build: .
+  environment:
+    APACHE_DOCUMENT_ROOT: "public/"
+    PHP_EXTENSION_XDEBUG: "1"
+    PHP_INI_MEMORY_LIMIT: "1G"
+    PHP_EXTENSION_LDAP: 1
+    PHP_EXTENSION_INTL: 1
+    DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
+    MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
+    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+    MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+    MAILER_DSN: ${MAILER_DSN}
+
 
 services:
+  traefik-ja:
+    image: "traefik:v2.5"
 
-  traefik:
-    image: traefik:1.7
-    command: --docker --docker.exposedbydefault=false
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      #- "--api.dashboard=true"
+
+      - "--providers.docker.exposedbydefault=false"
+
+      - "--entrypoints.unsecure.address=:80"
+      - "--entrypoints.web.address=:443"
+      # Global HTTP -> HTTPS
+      - "--entrypoints.unsecure.http.redirections.entryPoint.to=web"
+      - "--entrypoints.unsecure.http.redirections.entryPoint.scheme=https"
+      # SSL configuration
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=unsecure"
+      - "--certificatesresolvers.letsencrypt.acme.email=${registerEmailAdress}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=unsecure"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+      - "traefik.http.routers.traefik-ja.rule=Host(`traefik.${PUBLIC_URL}`)"
+      - "traefik.http.routers.traefik-ja.entrypoints=web"
+      - "traefik.http.routers.traefik-ja.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.traefik-ja.service=api@internal"
+      - "traefik.http.routers.traefik-ja.middlewares=traefik-auth"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
+
+
+
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      -  ./data/letsencrypt:/letsencrypt
+      - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
-  app:
-    image: thecodingmachine/php:7.3-v2-apache-node10
+  #Here is the mercure hub
+  mercure-ja:
+    image: dunglas/mercure
+    restart: unless-stopped
+    depends_on:
+      - traefik-ja
+
+    environment:
+
+      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
+      SERVER_NAME: ':3000'
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
     labels:
-      - traefik.enable=true
-      - traefik.backend=odc
-      - traefik.frontend.rule=Host:odc.localhost
+      - "traefik.enable=true"
+      - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
+      - "traefik.http.routers.mercure-ja.entrypoints=web"
+      - "traefik.http.routers.mercure-ja.tls=true"
+      - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
+      - "traefik.http.routers.mercure-ja.tls.certresolver=letsencrypt"
+
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+  #Here is the Jitsi-Admin app
+  app-ja:
+    <<: *jitsi_admin_app
+    depends_on:
+      - db-ja
+      - keycloak-ja
+      - mercure-ja
+      - traefik-ja
+    healthcheck:
+      test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
+      interval: 20s
+      timeout: 10s
+      start_period: 30s
+      retries: 10
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
       PHP_INI_MEMORY_LIMIT: "1G"
+      PHP_EXTENSION_LDAP: 1
+      PHP_EXTENSION_INTL: 1
+      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
+      MAILER_TRANSPORT: smtp
+      OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
+      OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+      OAUTH_KEYCLOAK_REALM: jitsiadmin
+      MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      MAILER_DSN: ${MAILER_DSN}
+      laF_version: ${GIT_VERSION}
+      registerEmailAdress: ${registerEmailAdress}
+      laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
+      VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+      CRON_USER_1: root
+      CRON_SCHEDULE_1: "* * * * *"
+      CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app-ja.tls=true"
+      - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
+      - "traefik.http.routers.app-ja.entrypoints=web"
+      - "traefik.http.services.app-ja.loadbalancer.server.port=80"
+      - "traefik.http.routers.app-ja.tls.certresolver=letsencrypt"
+      - "traefik.http.services.app-ja.loadbalancer.sticky=true"
+      - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.name=jad"
+      - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.secure=true"
     volumes:
-      - .:/var/www/html:rw
-###> symfony/mercure-bundle ###
-  mercure:
-    image: dunglas/mercure
+      - image_upload:/var/www/html/public/uploads/images
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
+
+  app-queu:
+    <<: *jitsi_admin_app
     restart: unless-stopped
+    deploy:
+      mode: replicated
+      replicas: 2
+    depends_on:
+      app-ja:
+        condition: service_healthy
+    command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
+
+  db-ja:
+    image: mariadb:latest
+    hostname: ${RANDOMTAG}db-ja
     environment:
-      SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
-      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
-      # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
-      MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins http://127.0.0.1:8000
-    # Comment the following line to disable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+      MARIADB_ROOT_PASSWORD: test
     volumes:
-      - mercure_data:/data
-      - mercure_config:/config
-###< symfony/mercure-bundle ###
+      - mariadb:/var/lib/mysql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+
+  keycloak-ja:
+    image: jboss/keycloak:latest
+
+    depends_on:
+      - db-ja
+      - traefik-ja
+
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
+      DB_VENDOR: mariadb
+      DB_ADDR: db-ja
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: ${KEYCLOAK_PW}
+      DB_PORT: 3306
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-ja.tls=true"
+      - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.keycloak-ja.entrypoints=web"
+      - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak-ja.tls.certresolver=letsencrypt"
+
+    volumes:
+      - ./keycloak/realm-export.json:/tmp/realm-export.json
 
 volumes:
-###> symfony/mercure-bundle ###
-  mercure_data:
-  mercure_config:
-###< symfony/mercure-bundle ###
+  mariadb:
+  caddy_data:
+  caddy_config:
+  image_upload:

@@ -86,10 +86,6 @@ a {
   border: 0.2rem solid $btn-primary;
 }
 
-#snackbar {
-  cursor: pointer;
-  z-index: 50;
-}
 
 strong {
   font-weight: bold !important;
@@ -200,54 +196,6 @@ strong {
   }
 }
 
-.btn-floating {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  padding: 0;
-  margin: 10px;
-  overflow: hidden;
-  vertical-align: middle;
-  cursor: pointer;
-  border-radius: 50%;
-  -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
-  box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
-  -webkit-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
-  width: 47px;
-  height: 47px;
-}
-
-.btn-floating.btn-lg {
-  width: 61.1px;
-  height: 61.1px;
-}
-
-.btn-floating.btn-sm {
-  width: 36.15385px;
-  height: 36.15385px;
-}
-
-.btn-floating.btn-lg i {
-  font-size: 1.625rem;
-  line-height: 61.1px;
-}
-
-.btn-floating i {
-  display: inline-block;
-  width: inherit;
-  text-align: center;
-}
-
-.btn-floating i {
-  font-size: 1.25rem;
-  line-height: 47px;
-}
-
-.btn-floating.btn-sm i {
-  font-size: .96154rem;
-  line-height: 36.15385px;
-}
 
 .dropdown-menu {
   max-height: 200px;
@@ -272,19 +220,18 @@ strong {
 }
 
 .window {
-  display: grid;
-  background-color: #f3f3f3;
   @media only screen and (min-width: 1502px) {
     grid-column-gap: 18px;
   }
+  display: grid;
+  background-color: #f3f3f3;
   height: 100vh;
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  grid-template-columns: auto 4fr;
+  grid-template-columns: min-content auto;
   grid-template-rows: min-content auto min-content;
-
 
   .sidebarToggle {
     height: 50px;
@@ -298,6 +245,8 @@ strong {
     cursor: pointer;
     z-index: 50;
     top: 0;
+    -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     @media only screen and (min-width: 1502px) {
       display: none;
     }
@@ -317,6 +266,11 @@ strong {
     background-color: white;
     height: fit-content;
 
+    .nav {
+      a {
+        cursor: pointer;
+      }
+    }
   }
 
   .footer {
@@ -325,6 +279,14 @@ strong {
     justify-content: center;
     z-index: 5;
     list-style: none;
+
+    .nav-link {
+      color: black;
+      word-break: break-word;
+      @media only screen and (max-width: 576px)  {
+        font-size: smaller;
+      }
+    }
   }
 
   .main {
@@ -350,6 +312,7 @@ strong {
     flex-direction: column;
     overflow-y: hidden;
     position: relative;
+    transition: width 0.5s;
 
     .sidebarContent {
       padding-top: 18px;
@@ -367,7 +330,7 @@ strong {
 
     .sidebarToggle {
       display: none;
-      right: 0;
+      left: 0;
     }
 
     hr {
@@ -377,22 +340,28 @@ strong {
     .card {
       margin-bottom: 8px;
     }
+
+    &.showSidebar {
+      width: 100vw;
+      transition: width 0.5s;
+      @media only screen and (min-width: 1356px) {
+        width: 20vw;
+        transition: width 0.5s;
+      }
+
+      .sidebarContent {
+        width: 100% !important;
+        display: block !important;
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+      }
+
+      .sidebarToggle {
+        display: flex;
+      }
+    }
   }
 
-  .showSidebar {
-    grid-column: span 2;
-
-    .sidebarContent {
-      width: 100% !important;
-      display: block !important;
-      padding-right: 8px !important;
-      padding-left: 8px !important;
-    }
-
-    .sidebarToggle {
-      display: flex;
-    }
-  }
 }
 
 ::-webkit-scrollbar {
@@ -431,58 +400,6 @@ strong {
   background: transparent;
 }
 
-.nav-tabs {
-  position: relative;
-
-  .underline {
-    display: none;
-    width: 100%;
-    position: absolute;
-    transform-origin: left center;
-    height: fit-content;
-    border-bottom: solid 3px $main-color;
-    bottom: 0;
-    transition: transform .18s ease;
-    -webkit-transition: transform .18s ease;
-  }
-
-  .nav-item {
-    flex: 1;
-    text-align: center;
-
-    &:focus {
-      border: none;
-      color: inherit;
-    }
-
-    &:hover {
-      background: rgba(46, 164, 79, 0.05);
-      color: inherit;
-      border-radius: 1px;
-    }
-  }
-
-  .nav-link {
-    border: none;
-    transition: color .5s;
-
-    &.active {
-      border: none;
-      background-color: unset;
-      color: $main-color;
-      border-radius: 1px;
-    }
-
-    &:focus-visible {
-      border: none;
-    }
-
-    &:hover {
-      border: none;
-      color: $main-color;
-    }
-  }
-}
 
 .language-dropdown {
   .dropdown-item {
@@ -519,6 +436,12 @@ strong {
 
 }
 
+.light-blue.darken-3 {
+  .modal-title {
+    color: white;
+  }
+}
+
 #atendeeModalScroll {
   .modal-body {
     display: flex;
@@ -529,14 +452,20 @@ strong {
       flex-grow: 1;
       overflow: auto;
     }
+
+    ul {
+      padding-left: 0;
+    }
   }
 }
 
 .btn-primary, .btn-primary.dropdown-toggle {
   background-color: $main-color !important;
+  transition: background-color 0.3s ease-in;
 
   &:hover {
     background-color: $main-color-hover !important;
+    transition: background-color 0.3s ease-in;
   }
 }
 
@@ -563,54 +492,6 @@ strong {
   background-color: $main-color !important;
 }
 
-.tab-content {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  flex-basis: 100%;
-  overflow: hidden;
-  transition: height 500ms cubic-bezier(0.35, 0, 0.25, 1);
-
-  .tab-pane {
-    opacity: 1 !important;
-    display: block;
-    transition: transform .35s ease;
-    margin-bottom: 100px;
-
-    &.noAnimation {
-      transition: transform 0s ease!important;
-    }
-  }
-
-  .tab-content-watch {
-    padding: 5px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: left center;
-    display: block !important;
-    opacity: 1;
-    width: 100%;
-    flex-basis: 100%;
-    flex-grow: 1;
-
-    &.active {
-      position: relative;
-      z-index: 2;
-    }
-    .tab-pane {
-      transform: translateX(110%);
-
-      &.active {
-        position: relative;
-        z-index: 2;
-        transform: translateX(0%);
-      }
-    }
-
-
-  }
-}
 
 .imageIcon {
   width: 25px;
@@ -642,18 +523,240 @@ strong {
       width: auto !important;
       position: absolute;
       height: 100%;
-      margin-left: -25%;
+    }
+  }
+}
+
+
+#searchUser {
+  width: 100%;
+}
+
+#toast-container > div {
+  opacity: 0.95;
+}
+
+.successBorder {
+  border: #00c851 solid 4px !important;;
+}
+
+.occupant {
+  display: flex;
+  flex-direction: column;
+  color: #00c851;
+
+  .text {
+
+  }
+
+  .number {
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+.material-list {
+  li {
+    min-height: 56px;
+
+    &:first-child {
+      margin-top: 8px;
+    }
+
+    &:last-child {
+      margin-bottom: 8px;
+    }
+
+    .dropdown-toggle {
+      width: 1.5rem;
+    }
+
+    .profilePic {
+      width: 40px;
+      background-size: cover;
+      height: 40px;
+      border-radius: 500000px;
+      margin-right: 16px;
+      background-position: center;
+    }
+  }
+}
+
+.dropdown-menu {
+  -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+  box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+  border: none;
+
+  .dropdown-item {
+    i {
+      margin-right: 20px;
+    }
+  }
+}
+
+
+.modal-dialog {
+
+  @media (min-width: 992px) {
+    &.modal-full-height {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      width: 400px;
+      height: auto;
+      min-height: 100%;
+      margin: 0;
+
+      &.modal-right {
+        right: 0;
+        @media (min-width: 992px) and (min-width: 992px) {
+          .modal-header {
+            border-radius: 0;
+          }
+
+          .modal-content {
+            border-radius: 0;
+          }
+        }
+
+        .modal-body {
+          overflow-y: auto;
+        }
+      }
+    }
+  }
+
+
+  @media (min-width: 992px) and (min-width: 992px) {
+    &.modal-lg {
+      width: 800px;
+      max-width: 800px;
+    }
+  }
+
+  @media (min-width: 992px) and (min-width: 1200px) {
+    &.modal-lg {
+      width: 1000px;
+      max-width: 1000px;
+    }
+  }
+
+}
+
+.btn, .btn-group {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-right: 16px;
+}
+
+.input-group, .btn-group {
+  .btn {
+    margin: 0;
+  }
+}
+
+.btn-block {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.form-check-label {
+  width: 99%;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+[data-mdb-toggle="popover"] {
+  cursor: pointer;
+}
+
+#participantUser {
+  padding: 8px;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+@media only screen and (max-width: 576px) {
+  .modal-dialog {
+    width: 100vw;
+    max-width: none;
+    margin: 0;
+    height: 100%;
+
+    .modal-content {
+      height: 100%;
+      border-radius: 0;
+
+      .modal-header {
+        border-radius: 0;
+      }
     }
   }
 }
 
 .dropdown-toggle {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  max-width: -moz-available;
-  max-width: -webkit-fill-available;;
+  cursor: pointer;
 }
-#toast-container > div {
-  opacity:0.95;
+
+.floating-tag {
+  display: flex;
+  align-content: center;
+  justify-content: left;
+  z-index: 2;
+  margin: 0;
+  padding: 0.1em 1em 0.1em 1em;
+}
+
+.form-outline {
+  .form-control {
+    &:focus {
+      & ~ .form-label {
+        color: $main-color;
+      }
+
+      & ~ .form-notch {
+        .form-notch-leading {
+          border-color: $main-color;
+          box-shadow: -1px 0 0 0 $main-color, 0 1px 0 0 $main-color, 0 -1px 0 0 $main-color;
+        }
+
+
+        .form-notch-middle {
+          border-color: $main-color;
+          box-shadow: 0 1px 0 0 $main-color;
+          border-top: 1px solid transparent;
+        }
+
+        .form-notch-trailing {
+          border-color: $main-color;
+          box-shadow: 1px 0 0 0 $main-color, 0 -1px 0 0 $main-color, 0 1px 0 0 $main-color;
+        }
+      }
+
+    }
+  }
+}
+
+#frame {
+  min-height: -webkit-fill-available;
+  height: calc(100vh - calc(100vh - 100%));
+  //height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  #jitsiWindow{
+    flex-grow: 1;
+  }
 }

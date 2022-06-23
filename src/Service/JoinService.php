@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
@@ -27,8 +28,8 @@ class JoinService
     private $response;
     private $security;
     private $startService;
-
-    public function __construct(StartMeetingService $startMeetingService, Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    private $session;
+    public function __construct(RequestStack  $requestStack, StartMeetingService $startMeetingService, Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
@@ -38,6 +39,7 @@ class JoinService
         $this->response = $response;
         $this->security = $security;
         $this->startService = $startMeetingService;
+        $this->session = $requestStack;
     }
 
     public function join($search, &$snack, &$color, $appAllowed, $appKlicked, $browerAllowed, $browserKlicked)
@@ -61,7 +63,7 @@ class JoinService
 
                 $startPrint = $room->getTimeZone()?clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
                 $startPrint->modify('-30min');
-                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getEnddate();
 
             }
 
@@ -74,6 +76,10 @@ class JoinService
                 if($user->getKeycloakId()){
                     return new RedirectResponse($this->urlGenerator->generate('room_join',array('room'=>$room->getId(),'t'=>$type)));
                 }else{
+                    if ($this->session->getCurrentRequest()){
+                        $this->session->getCurrentRequest()->getSession()->set('userId',$user->getId());
+                    }
+
                     return $this->startService->startMeeting($room, $user, $type,$search['name']);
                 }
 

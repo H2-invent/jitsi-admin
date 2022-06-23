@@ -1,5 +1,6 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
+
     {{ room.name }}
 {% endblock %}
 {% block content %}
@@ -31,9 +32,9 @@
         </div>
         <div class="row ">
             <div class="col-12 d-flex justify-content-center">
-                <a class="caretdown btn btn-primary dropdown-toggle " type="button"
+                <a class="caretdown btn btn-primary dropdown-toggle d-flex align-items-center" type="button"
                    id="selectWebcamDropdown"
-                   data-toggle="dropdown" aria-haspopup="true"
+                   data-mdb-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">{{ 'lobby.noWebCamFound'|trans }}
                 </a>
                 <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
@@ -42,8 +43,10 @@
                     <a href="#" type="button" class="btn btn-primary " id="startEcho"
                        data-texton="{{ 'lobby.start.echo'|trans }}"
                        data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
-                    <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown px-3"
-                       data-toggle="dropdown"
+                    <a href="#" type="button"
+                       class="btn btn-primary dropdown-toggle caretdown px-3 d-flex align-items-center"
+                       data-mdb-toggle="dropdown"
+                       data-mdb-reference="parent"
                        aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-microphone"></i>
                     </a>
@@ -56,9 +59,13 @@
             </div>
 
             <div class="col-12 d-flex justify-content-center">
-                <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}"
+                <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}" id="renewParticipant"
                    class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
-                <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}"
+                <a id="stopEntry"
+                   class=" d-none btn btn-outline-primary"
+                   data-alternativ="{{ 'lobby.participant.enterNow'|trans }}">{{ 'lobby.participant.pauseEnter'|trans }}</a>
+
+                <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}" id="leavParticipant"
                    class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
             </div>
         </div>
@@ -78,20 +85,27 @@
         var type = '{{ type }}';
         var topic =
 
-        {% if user.user is defined and user.user is not null %}
-        {{ mercure([
-            'lobby_WaitingUser_websocket/'~ user.uid,
-            'lobby_broadcast_websocket/'~room.uidReal,
-            'lobby_personal'~room.uidReal~user.user.uid
-        ])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
-        {% else %}
-        {{ mercure([
-            'lobby_WaitingUser_websocket/'~ user.uid,
-            'lobby_broadcast_websocket/'~room.uidReal,
-        ])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
-        {% endif %}
+                {% if user.user is defined and user.user is not null %}
+                {{ mercure([
+                    'lobby_WaitingUser_websocket/'~ user.uid,
+                    'lobby_broadcast_websocket/'~room.uidReal,
+                    'lobby_personal'~room.uidReal~user.user.uid
+                ])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+                {% else %}
+                {{ mercure([
+                    'lobby_WaitingUser_websocket/'~ user.uid,
+                    'lobby_broadcast_websocket/'~room.uidReal,
+                ])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+                {% endif %}
         ;
         var removeUrl = '{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}';
+        {% set content %}{% include 'lobby_participants/endMeeting.html.twig' with {'url':'/'} %}{% endset %}
+        var endModal = '{{ content|replace({"\n":'',})|escape('js') }}';
+
+        var popUpDuration = {{ laf_lobby_popUpDuration }};
+
+        var browserLeave = '{{ path('lobby_participants_browser_leave',{'userUid':user.uid}) }}'
+
     </script>
 {% endblock %}
 {% block webpack %}

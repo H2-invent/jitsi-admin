@@ -1,0 +1,70 @@
+.reportTimeLine_room {
+
+  .reportTimeLine_time {
+    &:last-child {
+      .reportTimeLine_verticalLine {
+        border-radius: 0 0 2px 2px;
+      }
+    }
+
+    &:first-child {
+      .reportTimeLine_verticalLine {
+        border-radius: 2px 2px 0 0;
+      }
+
+      .arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        margin-left: 5px;
+        border-bottom: 5px solid $black_font-color;
+      }
+    }
+
+    .reportTimeLine_verticalLine {
+      width: 0;
+      border-right: $black_font-color 4px solid;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .reportTimeLine_part_Content {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      width: 100%;
+    }
+
+    &.online {
+      .reportTimeLine_verticalLine {
+
+        border-right: #00c851 4px solid;
+        border-image: linear-gradient(180deg, $black_font-color 0%, rgba(0, 200, 81, 1) 25%, rgba(0, 200, 81, 1) 75%, $black_font-color 100%) 1;
+      }
+
+      .onlineDot {
+        width: 8px;
+        height: 8px;
+        background-color: #00c851;
+        border-radius: 50000px;
+        margin-right: 4px;
+      }
+    }
+
+
+  }
+
+  .showOnHover {
+    background-color: white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 200px;
+    height: inherit;
+    -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+    box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+  }
+}
+
