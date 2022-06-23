@@ -1644,9 +1644,9 @@
         <source>report.speakerTime</source>
         <target state="needs-translation">Aktive Sprechzeit</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
+      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer" approved="yes">
         <source>Anzahl Teilnehmer</source>
-        <target state="needs-translation">__Anzahl Teilnehmer</target>
+        <target state="final">Nombre de participants</target>
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
