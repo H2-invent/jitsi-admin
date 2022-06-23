@@ -1,17 +1,17 @@
 ---
-label.konferenzId: Identificador de conferencia
-label.email: Dirección email
-label.name: Nombre
-label.teilnehmerEmailhinzufuegen: Inserte las direcciones de correo electrónico de los nuevos PARTICIPANTES
+label.konferenzId: ID de conferencia
+label.email: Dirección de correo electrónico
+label.name: Su nombre
+label.teilnehmerEmailhinzufuegen: Inserte las direcciones de correo electrónico de los nuevos participantes
 label.teilnehmerSpeichern: Enviar correo electrónico de invitación
-label.emailModerator: Ingrese la dirección de correo electrónico del organizador
+label.emailModerator: Inserte la dirección de correo electrónico del organizador
 help.emailTextfeld: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
 label.organisatorhinzufuegen: Agregar organizador
 label.serverKonferenz: Servidor Jitsi Meet
 label.konferenzName: Nombre de la conferencia
-label.start: Comienza
+label.start: Iniciar
 label.dauerKonferenz: Duración de la conferencia
-label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia
+label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia.
 label.speichern: Guardar
 option.15min: 15 minutos
 option.30min: 30 minutos
@@ -106,7 +106,7 @@ label:
   nachname: Apellido
   maxParticipants: Permitir número máximo de participantes
   waitinglist: Activar la lista de espera
-  teilnehmerEmailhinzufuegenModerator: Ingrese la dirección de correo electrónico de los nuevos MODERADORES
+  teilnehmerEmailhinzufuegenModerator: Ingrese la dirección de correo electrónico de los nuevos Moderadores
   weekday: Día de la semana
   repetation: Termina después de x fechas
   repeatType: Patrón de periodicidad
@@ -129,6 +129,8 @@ label:
   lobby: Activar sala de espera
   secondEmail: CC Correo Electrónico
   profilImage: Imagen de perfil (se mostrará en la conferencia de Jitsi-Meet)
+  corsHeader: CORS-Header oder frame-ancestor Header
+  tag: Kategorie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

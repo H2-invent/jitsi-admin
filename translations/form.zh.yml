@@ -76,6 +76,7 @@ help:
   featureEnalbeByJwt: JWT 插件的启用功能必须在 Jitsi Meet 服务器上启用。否则，服务器无法正确识别和处理JWT
   teilnehmerEmailhinzufuegenModerator: 可以同时添加多个邮箱。每个邮箱必须写入新的一行。
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   serverName: 请在此处输入服务器名称，将向参会者展示。
 label:
   beitretenApp: 通过electron应用程序加入
@@ -129,6 +130,8 @@ label:
   lobby: Lobby aktivieren
   secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  corsHeader: CORS-Header oder frame-ancestor Header
+  tag: Kategorie
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
