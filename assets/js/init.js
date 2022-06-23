@@ -29,11 +29,21 @@ function initGenerell() {
         }else if(pressed ===110){
             $('#createNewConference').trigger('click');
         }else if(pressed ===97){
-            const myModalEl = document.getElementById('modalAdressbook')
-            const modal = new mdb.Modal(myModalEl)
-            modal.show();
-        }
+            const myModalEl = document.getElementById('modalAdressbook');
+            if (!myModalEl.classList.contains('show')){
+                const modal = new mdb.Modal(myModalEl)
+                modal.show();
+            }
+            $('#home-tab').trigger('click');
 
+        }else if(pressed ===103){
+            const myModalEl = document.getElementById('modalAdressbook');
+            if (!myModalEl.classList.contains('show')){
+                const modal = new mdb.Modal(myModalEl)
+                modal.show();
+            }
+            $('#profile-tab').trigger('click');
+        }
     });
 }
 
