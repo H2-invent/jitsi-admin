@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="translated">邮箱</target>
+        <target state="translated">邮箱地址</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
@@ -242,9 +242,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">会议次数</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
+      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="translated">参会者数量</target>
+        <target state="needs-translation">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -1190,7 +1190,7 @@
       </trans-unit>
       <trans-unit id="AFB7I6E" resname="Zeitzone">
         <source>Zeitzone</source>
-        <target state="needs-translation">Zeitzone</target>
+        <target state="translated">时区</target>
       </trans-unit>
       <trans-unit id="7757HgF" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                                eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
@@ -1298,15 +1298,15 @@
       </trans-unit>
       <trans-unit id="DamWI5n" resname="jitsi.start">
         <source>jitsi.start</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">开始</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
         <source>jitsi.start.browser</source>
-        <target state="needs-translation">Im Browser</target>
+        <target state="translated">在浏览器中</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">在App中</target>
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
@@ -1435,7 +1435,7 @@
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
         <source>confirm.cancel</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">取消</target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
         <source>confirm.ok</source>
@@ -1530,8 +1530,8 @@
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <source>common.save</source>
+        <target state="translated">保存</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
         <source>common.success.save</source>
@@ -1631,7 +1631,7 @@
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">保存</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
@@ -1639,7 +1639,7 @@
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
         <source>Anzahl Teilnehmende</source>
-        <target state="needs-translation">Anzahl Teilnehmende</target>
+        <target state="translated">参会者数量</target>
       </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
         <source>Aktuell laufende Konferenzen</source>

@@ -116,7 +116,7 @@ label:
   repeatMontly: Nach x Monaten wiederholen
   repeatYearly: Nach x Jahren wiederholen
   montlyRelativeNumber: Wie vielter Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
+  montlyRelativeWeekday: Dzień tygodnia
   montlyRelativeMonth: Miesiąc
   repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
   persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.

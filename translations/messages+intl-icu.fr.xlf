@@ -5,9 +5,9 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="lpzL089" resname="Email" approved="yes">
+      <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="final">E-Mail</target>
+        <target state="translated">Adresse E-Mail</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung" approved="yes">
         <source>Keine Berechtigung</source>
@@ -241,9 +241,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="final">Nombre de conférences</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene" approved="yes">
+      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="final">Nombre de participants</target>
+        <target state="needs-translation">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch" approved="yes">
         <source>Adressbuch</source>
@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="translated">Agenda</target>
+        <target state="needs-translation">Agenda</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe" approved="yes">
         <source>Keine Angabe</source>
@@ -433,7 +433,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet" approved="yes">
         <source>Videokonferenz bearbeitet</source>
-        <target state="final">Modifier la visioconférence</target>
+        <target state="final">La visioconférence a été modifiée</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten." approved="yes">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
@@ -533,9 +533,9 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
         <source>Öffentliche Konferenzen</source>
         <target state="final">Conférences publiques</target>
       </trans-unit>
-      <trans-unit id="oymjImO" resname="Anmelden" approved="yes">
+      <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="final">Se connecter</target>
+        <target state="translated">Se connecter</target>
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste" approved="yes">
         <source>Teilnehmerliste</source>
@@ -603,7 +603,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       </trans-unit>
       <trans-unit id="1wfcLxk" resname="Logo">
         <source>Logo</source>
-        <target state="translated">Logo</target>
+        <target state="needs-translation">Logo</target>
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird." approved="yes">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
@@ -991,11 +991,11 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="_w.eQXo" resname="Sie haben erfolgreich einen Serientermin bearbeitet" approved="yes">
         <source>Sie haben erfolgreich einen Serientermin bearbeitet</source>
-        <target state="final">Le rendez-vous récurrent a bien été modifié</target>
+        <target state="final">Votre rendez-vous récurrent a bien été modifié</target>
       </trans-unit>
       <trans-unit id="EQb8YHp" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet" approved="yes">
         <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
-        <target state="final">L'occurence du rendez-vous récurrent a bien été modifiée</target>
+        <target state="final">Cette instance d'un rendez-vous récurrent a bien été modifiée</target>
       </trans-unit>
       <trans-unit id="Fh87GFQ" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl." approved="yes">
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
@@ -1157,9 +1157,9 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
         <target state="translated">Voulez-vous vraiment supprimer le nom du participant?</target>
       </trans-unit>
-      <trans-unit id="MaXA.F3" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
+      <trans-unit id="MaXA.F3" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist" approved="yes">
         <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
-        <target state="translated">La date n'est pas prise en compte car elle est déjà déterminée par la série.</target>
+        <target state="final">La date n'est pas prise en compte, celle-ci étant déduite d'un rendez-vous récurrent</target>
       </trans-unit>
       <trans-unit id="tFfAytG" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
@@ -1295,17 +1295,17 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
         <source>lobby.noWebCamFound</source>
         <target state="translated">Aucune Webcam trouvée</target>
       </trans-unit>
-      <trans-unit id="DamWI5n" resname="jitsi.start">
+      <trans-unit id="DamWI5n" resname="jitsi.start" approved="yes">
         <source>jitsi.start</source>
-        <target state="translated">Démarrer</target>
+        <target state="final">Commencer</target>
       </trans-unit>
-      <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
+      <trans-unit id="TKw5vlV" resname="jitsi.start.browser" approved="yes">
         <source>jitsi.start.browser</source>
-        <target state="translated">Dans le navigateur</target>
+        <target state="final">Dans le navigateur</target>
       </trans-unit>
-      <trans-unit id="39zBg5g" resname="jitsi.start.app">
+      <trans-unit id="39zBg5g" resname="jitsi.start.app" approved="yes">
         <source>jitsi.start.app</source>
-        <target state="translated">Dans l'application</target>
+        <target state="final">Dans l'application</target>
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
@@ -1432,9 +1432,9 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>confirm.title</source>
         <target state="translated">Confirmation</target>
       </trans-unit>
-      <trans-unit id="jdg45Ei" resname="confirm.cancel">
+      <trans-unit id="jdg45Ei" resname="confirm.cancel" approved="yes">
         <source>confirm.cancel</source>
-        <target state="translated">Annuler</target>
+        <target state="final">Annuler</target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
         <source>confirm.ok</source>
@@ -1463,10 +1463,6 @@ Le modérateur a été informé et vous laissera entrer.</target>
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
         <target state="translated">Votre autorisation dans le Lobby a été modifiée. Cette page se rechargera dans quelques secondes.</target>
-      </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target/>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
@@ -1529,11 +1525,11 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <target state="translated">Cette action n’est pas autorisée.</target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
-        <source>Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</source>
+        <source>repeater.edit.warning</source>
         <target state="translated">Cette date indique la première date de la série. Si vous avez modifié des rendez-vous individuels de la série, ils seront réinitialisés.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target state="translated">Sauvegarder</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
@@ -1594,7 +1590,7 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
-        <target state="needs-translation">Vos informations ont été enregistrées avec succès.</target>
+        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="4wVQAJs" resname="room.new.help.tag">
         <source>room.new.help.tag</source>
@@ -1634,15 +1630,15 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">Sauvegarder</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
         <target state="needs-translation">Aktive Sprechzeit</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
+      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer" approved="yes">
         <source>Anzahl Teilnehmende</source>
-        <target state="needs-translation">Anzahl Teilnehmende</target>
+        <target state="final">Nombre de participants</target>
       </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
         <source>Aktuell laufende Konferenzen</source>

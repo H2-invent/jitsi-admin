@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="translated">Email</target>
+        <target state="translated">Dirección de correo electrónico</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
@@ -241,10 +241,10 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">Número de conferencias</target>
       </trans-unit>
-        <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
-            <source>Anzahl Eingeladene</source>
-            <target state="needs-translation">Numero de participantes</target>
-        </trans-unit>
+      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
+        <source>Anzahl Eingeladene</source>
+        <target state="needs-translation">Anzahl der Eingeladenen</target>
+      </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
         <target state="translated">Agenda</target>
@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="translated">Agenda</target>
+        <target state="needs-translation">Agenda</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe">
         <source>Keine Angabe</source>
@@ -434,7 +434,7 @@
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
-        <target state="translated">Editar videoConferencia</target>
+        <target state="translated">Se procesó la videoconferencia</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
@@ -944,7 +944,7 @@
       </trans-unit>
       <trans-unit id="q3dDpK2" resname="Serie">
         <source>Serie</source>
-        <target state="translated">Serie</target>
+        <target state="needs-translation">Serie</target>
       </trans-unit>
       <trans-unit id="K1wfW2y" resname="Serienart bearbeiten">
         <source>Serienart bearbeiten</source>
@@ -996,7 +996,7 @@
       </trans-unit>
       <trans-unit id="EQb8YHp" resname="Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet">
         <source>Sie haben erfolgreich einen Termin aus einer Terminserie bearbeitet</source>
-        <target state="translated">Ha editado correctamente una cita recurrente</target>
+        <target state="translated">Ha editado correctamente una cita de una serie de citas</target>
       </trans-unit>
       <trans-unit id="Fh87GFQ" resname="Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
         <source>Sie wurden zu dem Serientermin {name} hinzugefügt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
@@ -1012,7 +1012,7 @@
       </trans-unit>
       <trans-unit id="THWcDaJ" resname="Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.">
         <source>Die Veranstaltung {name} wurde in einen Serientermin überführt. Sie erhalten vor jedem Termin eine E-Mail mit dem Link zur Einwahl.</source>
-        <target state="translated">El evento {name} se ha convertido en un evento recurrente. Antes de cada cita, recibirá un correo electrónico con un enlace para llamar.</target>
+        <target state="translated">El evento {name} se ha convertido en un evento recurrente. Antes de cada cita, recibirá un correo electrónico con el enlace para llamar.</target>
       </trans-unit>
       <trans-unit id="rcE9dqU" resname="Die Serienvideokonferenz {name} wurde abgesagt.">
         <source>Die Serienvideokonferenz {name} wurde abgesagt.</source>
@@ -1160,7 +1160,7 @@
       </trans-unit>
       <trans-unit id="MaXA.F3" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
-        <target state="translated">La fecha no se tiene en cuenta porque ya está determinada por la recurrencia.</target>
+        <target state="translated">La fecha no se tiene en cuenta porque ya está determinada por la recurrencia</target>
       </trans-unit>
       <trans-unit id="tFfAytG" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
@@ -1308,7 +1308,7 @@
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
-        <target state="translated">En la aplicación</target>
+        <target state="translated">En la aplicacion</target>
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
@@ -1437,11 +1437,11 @@
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
         <source>confirm.cancel</source>
-        <target state="translated">Cancelar</target>
+        <target state="translated">Abortar</target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
         <source>confirm.ok</source>
-        <target state="translated">OK</target>
+        <target state="needs-translation">OK</target>
       </trans-unit>
       <trans-unit id="jFaq_p7" resname="confirm.delete.room">
         <source>confirm.delete.room</source>
@@ -1466,10 +1466,6 @@
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
         <target state="translated">Tus permisos en la sala de espera han cambiado. Esta página se recargará en unos segundos.</target>
-      </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target/>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
@@ -1536,7 +1532,7 @@
         <target state="translated">Esta fecha indica la primera fecha de la serie. Si ha editado conferencias individuales de la serie, se restablecerán.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target state="translated">Guardar</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
@@ -1597,7 +1593,7 @@
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
-        <target state="needs-translation">Sus datos se han guardado con éxito.</target>
+        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="4wVQAJs" resname="room.new.help.tag">
         <source>room.new.help.tag</source>
@@ -1637,7 +1633,7 @@
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">Guardar</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
