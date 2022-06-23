@@ -1537,7 +1537,7 @@
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
+        <source>common.save</source>
         <target state="needs-translation">Speichern</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
