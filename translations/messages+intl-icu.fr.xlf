@@ -1641,8 +1641,16 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <target state="needs-translation">Aktive Sprechzeit</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmer</source>
-        <target state="needs-translation">__Anzahl Teilnehmer</target>
+        <source>Anzahl Teilnehmende</source>
+        <target state="needs-translation">Anzahl Teilnehmende</target>
+      </trans-unit>
+      <trans-unit id="YkaONWP" resname="statistic.actualRooms">
+        <source>Aktuell laufende Konferenzen</source>
+        <target state="needs-translation">Aktuell laufende Konferenzen</target>
+      </trans-unit>
+      <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
+        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
+        <target state="needs-translation">Teilnehmende in aktuell laufenden Konferenzen</target>
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
         <source>lobby.endMeeting.ask</source>
