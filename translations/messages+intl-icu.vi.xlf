@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="translated">Email</target>
+        <target state="translated">Địa chỉ Email</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
@@ -241,9 +241,9 @@
         <source>Anzahl Konferenzen</source>
         <target state="translated">Số lượng hội nghị</target>
       </trans-unit>
-      <trans-unit id="y4maxG8" resname="Anzahl Eingeladene">
+      <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="translated">Số lượng người tham dự</target>
+        <target state="needs-translation">Anzahl der Eingeladenen</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch">
         <source>Adressbuch</source>
@@ -435,7 +435,7 @@
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
-        <target state="translated">Hội nghị đã chỉnh sửa</target>
+        <target state="translated">Hội nghị trực tuyến đã được xử lý</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
@@ -1305,15 +1305,15 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       </trans-unit>
       <trans-unit id="DamWI5n" resname="jitsi.start">
         <source>jitsi.start</source>
-        <target state="needs-translation">Starten</target>
+        <target state="translated">Bắt đầu</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
         <source>jitsi.start.browser</source>
-        <target state="needs-translation">Im Browser</target>
+        <target state="translated">với Trình duyệt</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
-        <target state="needs-translation">In der App</target>
+        <target state="translated">với Ứng dụng</target>
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
@@ -1442,7 +1442,7 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
         <source>confirm.cancel</source>
-        <target state="needs-translation">Abbrechen</target>
+        <target state="translated">Huỷ</target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
         <source>confirm.ok</source>
@@ -1471,10 +1471,6 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
         <target state="needs-translation">Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
-      </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target/>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
@@ -1541,12 +1537,124 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
-        <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <source>common.save</source>
+        <target state="translated">Lưu</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
+        <source>common.success.save</source>
+        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="EWa057N" resname="status.inconference">
+        <source>status.inconference</source>
+        <target state="needs-translation">In der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="FjHZo91" resname="status.finished">
+        <source>status.finished</source>
+        <target state="needs-translation">Beendet</target>
+      </trans-unit>
+      <trans-unit id="jg.IqQl" resname="server.checkHeader">
+        <source>server.checkHeader</source>
+        <target state="needs-translation">Meinen Server überprüfen</target>
+      </trans-unit>
+      <trans-unit id="72KJHkb" resname="Private Nachrichten">
+        <source>Private Nachrichten</source>
+        <target state="needs-translation">Private Nachrichten</target>
+      </trans-unit>
+      <trans-unit id="jXWbBTG" resname="Lobbymoderator">
+        <source>Lobbymoderator</source>
+        <target state="needs-translation">Lobbymoderator</target>
+      </trans-unit>
+      <trans-unit id="TrVDjRp" resname="sip.caller.data">
+        <source>sip.caller.data</source>
+        <target state="needs-translation">Einwahl-Informationen</target>
+      </trans-unit>
+      <trans-unit id="EJ6OCCs" resname="addhock.notification.title">
+        <source>addhock.notification.title</source>
+        <target state="needs-translation">Ad Hoc Meeting</target>
+      </trans-unit>
+      <trans-unit id="aHfJyUI" resname="addhock.notification.message">
+        <source>addhock.notification.message</source>
+        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+      </trans-unit>
+      <trans-unit id="0Xa3S_6" resname="addhock.notification.pushMessage">
+        <source>addhock.notification.pushMessage</source>
+        <target state="needs-translation">{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+      </trans-unit>
+      <trans-unit id="DhfQxTv" resname="common.loadingTime">
+        <source>common.loadingTime</source>
+        <target state="needs-translation">Ladezeit</target>
+      </trans-unit>
+      <trans-unit id="2PqxV1r" resname="lobby.verified">
+        <source>lobby.verified</source>
+        <target state="needs-translation">Verifizierter Anrufer</target>
+      </trans-unit>
+      <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
+        <source>lobby.participant.enterNow</source>
+        <target state="needs-translation">Jetzt beitreten</target>
+      </trans-unit>
+      <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
+        <source>lobby.participant.pauseEnter</source>
+        <target state="needs-translation">Noch nicht beitreten</target>
+      </trans-unit>
+      <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
         <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="4wVQAJs" resname="room.new.help.tag">
+        <source>room.new.help.tag</source>
+        <target state="needs-translation">Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
+      </trans-unit>
+      <trans-unit id="YU._Rbu" resname="Geplant von">
+        <source>Geplant von</source>
+        <target state="needs-translation">Geplant von</target>
+      </trans-unit>
+      <trans-unit id="E1XUXFS" resname="new.room.blockSave.text">
+        <source>new.room.blockSave.text</source>
+        <target state="needs-translation">Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
+      </trans-unit>
+      <trans-unit id="K_dllFy" resname="status.inconference.number">
+        <source>status.inconference.number</source>
+        <target state="needs-translation">{number}</target>
+      </trans-unit>
+      <trans-unit id="5QumSMJ" resname="report.title">
+        <source>report.title</source>
+        <target state="needs-translation">Protokoll</target>
+      </trans-unit>
+      <trans-unit id="LR82Vwn" resname="report.dropdown.item">
+        <source>report.dropdown.item</source>
+        <target state="needs-translation">Protokoll</target>
+      </trans-unit>
+      <trans-unit id="TW0JasJ" resname="report.error.noStatus">
+        <source>report.error.noStatus</source>
+        <target state="needs-translation">Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="t4ekf55" resname="report.info.timezone">
+        <source>report.info.timezone</source>
+        <target state="needs-translation">Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+      </trans-unit>
+      <trans-unit id="YqAtmOj" resname="tag.name">
+        <source>tag.name</source>
+        <target state="needs-translation">Kategorie</target>
+      </trans-unit>
+      <trans-unit id="9rL.OfV" resname="Speichern">
+        <source>Speichern</source>
+        <target state="translated">Lưu</target>
+      </trans-unit>
+      <trans-unit id="QTciEb5" resname="report.speakerTime">
+        <source>report.speakerTime</source>
+        <target state="needs-translation">Aktive Sprechzeit</target>
+      </trans-unit>
+      <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
+        <source>Anzahl Teilnehmer</source>
+        <target state="translated">Số lượng người tham dự</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="IN6pKbw" resname="ask.tab.close">
+        <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+        <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
       </trans-unit>
     </body>
   </file>

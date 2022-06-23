@@ -1,7 +1,7 @@
 ---
 label.konferenzId: Conference ID
 label.email: Email address
-label.name: Name
+label.name: Your name
 label.teilnehmerEmailhinzufuegen: Enter email addresses of new PARTICIPANTS
 label.teilnehmerSpeichern: Send invitation email
 label.emailModerator: Enter email address of organizer
@@ -11,7 +11,7 @@ label.serverKonferenz: Jitsi meet server
 label.konferenzName: Conference name
 label.start: Start
 label.dauerKonferenz: Conference duration
-label.nurRegistriertenutzer: Only signed up users can join this conference
+label.nurRegistriertenutzer: Only signed up users can join this conference.
 label.speichern: Save
 option.15min: 15 minutes
 option.30min: 30 minutes
@@ -76,6 +76,8 @@ help:
   featureEnalbeByJwt: The plugin "Enable Feature By JWT" has to be enabled on the jitsi meet server. If not, JWT will not be recognized correctly from the server
   teilnehmerEmailhinzufuegenModerator: Multiple email addresses can be added at once. Each email address has to be written into a new line.
   serverName: Please enter the server name. This will be shown to the participants.
+  secondEmail: All emails to my default email address should be sent to this additional email addresses (comma-separated).
+  corsHeader: If a CORS or frame-ancestor header is set, that does not point to this URL, it is not possible to use JITSI iFrame API. This causes loss of some functionality.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -93,15 +95,15 @@ label:
   serverLicenseKey: Enter Jitsi-Admin license key
   apiKey: API-Key for this server
   agenda: Short agenda for this meeting (markdown)
-  staticBackgroundColor: Set background color for joinpage
-  schowStaticBackgroundColor: Show static color instead of pictures on joinpage
-  featureEnalbeByJwt: '"Enable Feature by JWT" plugin is active on the server'
-  dissallowScreenshareGlobal: Only moderators are allowed to share screen
-  dissallowPrivateMessage: Only moderators are allowed to send private messages to participants
+  staticBackgroundColor:
+  schowStaticBackgroundColor: Show static color instead of pictures on joinpage.
+  featureEnalbeByJwt: '"Enable Feature by JWT" plugin is active on the server.'
+  dissallowScreenshareGlobal: Only moderators are allowed to share screen.
+  dissallowPrivateMessage: Only moderators are allowed to send private messages to participants.
   puplicRoom: Enable invitation links
   showRoomOnJoinpage: Show conference on joinpage
   subscribe: Subscribe
-  vorname: First name
+  vorname: Firstname
   nachname: Lastname
   maxParticipants: Allow maximum number of participants
   waitinglist: Activate waiting list
@@ -117,17 +119,19 @@ label:
   montlyRelativeWeekday: Weekday
   montlyRelativeMonth: Month
   repeaterRemoved: Edit only this element, not the series
-  persistantRoom: This conference has no date and is permanently available
-  totalOpenRooms: Participants deactivated. Enter with participants-link.
+  persistantRoom: This conference has no date and is permanently available.
+  totalOpenRooms: Deactivate participants, enter with participants-link
   totalOpenRoomsOpenTime: Room-opening-time
-  addressgroupName: Group Name
-  addressgroupMember: Group Members
+  addressgroupName: Group name
+  addressgroupMember: Select group members
   jwtModeratorPosition: Moderator position in JWT token
   timezone: Timezone
-  serverName: Server Name
-  lobby: Lobby aktivieren
-  secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  serverName: Server name
+  lobby: Activate lobby
+  secondEmail: CC Email
+  profilImage: Profile picture (Shown in Jitsi-Meet meeting)
+  corsHeader: CORS- or frame-ancestor header
+  tag: Category
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
