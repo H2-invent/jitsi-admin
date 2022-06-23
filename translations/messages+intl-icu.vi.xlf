@@ -1646,7 +1646,7 @@
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
         <source>Anzahl Teilnehmer</source>
-        <target state="needs-translation">__Anzahl Teilnehmer</target>
+        <target state="translated">Số lượng người tham dự</target>
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
