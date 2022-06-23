@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Service\IndexUserService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
@@ -20,12 +21,14 @@ class LdapUserService
     private $em;
     private $userCreationService;
     private $indexer;
+    private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
+    public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
     {
         $this->em = $entityManager;
         $this->userCreationService = $userCreationService;
         $this->indexer = $indexUserService;
+        $this->logger = $logger;
     }
 
     /**
@@ -40,9 +43,9 @@ class LdapUserService
         //Here we get the attributes from the LDAP (username, email, firstname, lastname)
         try {
             $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
-            $email = $entry->getAttribute($ldapType->getMapper()['email'])[0];
-            $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
-            $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0];
+            $email = $entry->getAttribute($ldapType->getMapper()['email'])[0]??'';
+            $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0]??null;
+            $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0]??null;
             $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
             if (!$user) {
                 $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
@@ -85,8 +88,7 @@ class LdapUserService
             }
             return $user;
         } catch (\Exception $exception) {
-            dump($exception->getMessage());
-            dump($entry);
+            $this->logger->error($exception->getMessage(),$exception->getFile() .'Line: '. $exception->getLine());
         }
         return null;
     }
