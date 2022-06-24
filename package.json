@@ -36,6 +36,7 @@
         "flatpickr": "^4.6.9",
         "h2-invent-apps": "^2.4.0",
         "h2-invent-material-tabs": "^1.10.0",
+        "hotkeys-js": "^3.9.4",
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
         "mdb-ui-kit": "^4.0.0",
