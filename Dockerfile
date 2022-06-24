@@ -6,19 +6,18 @@ USER root
 RUN usermod -a -G www-data docker
 COPY package.json /var/www/html
 COPY package-lock.json /var/www/html
-COPY composer.json /var/www/html
-COPY composer.lock /var/www/html
 COPY webpack.config.js /var/www/html
-COPY assets /var/www/html
+COPY assets /var/www/html/assets
+COPY public /var/www/html/public
 
 RUN npm install
-RUN composer install
 RUN mkdir -m 777 -p public/build
 RUN npm run build
 RUN rm -rf node_modules/
 
 COPY . /var/www/html
 
+RUN composer install
 RUN chmod -R 775 public/build
 RUN mkdir -p var/cache
 RUN chown -R www-data:www-data var
