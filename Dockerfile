@@ -7,10 +7,11 @@ RUN usermod -a -G www-data docker
 COPY package.json /var/www/html
 COPY package-lock.json /var/www/html
 COPY webpack.config.js /var/www/html
-COPY assets /var/www/html/assets
-COPY public /var/www/html/public
+
 
 RUN npm install
+COPY assets /var/www/html/assets
+COPY public /var/www/html/public
 RUN mkdir -m 777 -p public/build
 RUN npm run build
 RUN rm -rf node_modules/
