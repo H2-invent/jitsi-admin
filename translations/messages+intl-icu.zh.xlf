@@ -1650,8 +1650,8 @@
         <target state="needs-translation">Teilnehmende in aktuell laufenden Konferenzen</target>
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
-        <source>lobby.endMeeting.ask</source>
-        <target state="needs-translation">Wollen Sie dieses Meeting für alle Teilnehmer beenden.</target>
+        <source>Wollen Sie dieses Meeting für alle Teilnehmer beenden?</source>
+        <target state="needs-translation">Wollen Sie dieses Meeting für alle Teilnehmer beenden?</target>
       </trans-unit>
       <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
