@@ -243,7 +243,7 @@
       </trans-unit>
       <trans-unit id="jLp7j_v" resname="Anzahl Eingeladene">
         <source>Anzahl Eingeladene</source>
-        <target state="needs-translation">Anzahl der Eingeladenen</target>
+        <target state="translated">Nobre des invité.e.s</target>
       </trans-unit>
       <trans-unit id="mhyWHWe" resname="Adressbuch" approved="yes">
         <source>Adressbuch</source>
@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="D99IX1v" resname="Agenda">
         <source>Agenda</source>
-        <target state="needs-translation">Agenda</target>
+        <target state="translated">Agenda</target>
       </trans-unit>
       <trans-unit id="Zl7ocK9" resname="Keine Angabe" approved="yes">
         <source>Keine Angabe</source>
@@ -603,7 +603,7 @@ gratuitement&lt;/b&gt; href="{url}"&gt;ici&lt;/a&gt;&amp;nbsp;&lt;b&gt;.]]></tar
       </trans-unit>
       <trans-unit id="1wfcLxk" resname="Logo">
         <source>Logo</source>
-        <target state="needs-translation">Logo</target>
+        <target state="translated">Logo</target>
       </trans-unit>
       <trans-unit id="ph1COS8" resname="Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird." approved="yes">
         <source>Hier können Sie eine URL zu Ihrem Logo einfügen, damit den Teilnehmern auf der Join Seite Ihr Logo angezeigt wird.</source>
@@ -1534,99 +1534,99 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
         <source>common.success.save</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">Vos données ont bien été enregistrées.</target>
       </trans-unit>
       <trans-unit id="EWa057N" resname="status.inconference">
         <source>status.inconference</source>
-        <target state="needs-translation">In der Konferenz</target>
+        <target state="translated">Dans la conférence</target>
       </trans-unit>
       <trans-unit id="FjHZo91" resname="status.finished">
         <source>status.finished</source>
-        <target state="needs-translation">Beendet</target>
+        <target state="translated">Terminée</target>
       </trans-unit>
       <trans-unit id="jg.IqQl" resname="server.checkHeader">
         <source>server.checkHeader</source>
-        <target state="needs-translation">Meinen Server überprüfen</target>
+        <target state="translated">Vérifier mon serveur</target>
       </trans-unit>
       <trans-unit id="72KJHkb" resname="Private Nachrichten">
         <source>Private Nachrichten</source>
-        <target state="needs-translation">Private Nachrichten</target>
+        <target state="translated">Messages privés</target>
       </trans-unit>
       <trans-unit id="jXWbBTG" resname="Lobbymoderator">
         <source>Lobbymoderator</source>
-        <target state="needs-translation">Lobbymoderator</target>
+        <target state="translated">Modérateur du Lobby</target>
       </trans-unit>
       <trans-unit id="TrVDjRp" resname="sip.caller.data">
         <source>sip.caller.data</source>
-        <target state="needs-translation">Einwahl-Informationen</target>
+        <target state="translated">Informations de connexion</target>
       </trans-unit>
       <trans-unit id="EJ6OCCs" resname="addhock.notification.title">
         <source>addhock.notification.title</source>
-        <target state="needs-translation">Ad Hoc Meeting</target>
+        <target state="translated">Réunion instantanée</target>
       </trans-unit>
       <trans-unit id="aHfJyUI" resname="addhock.notification.message">
         <source>addhock.notification.message</source>
-        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+        <target state="translated"><![CDATA[{name} veut créer une visioconférence instanée avec vous.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Joindre ici</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
       </trans-unit>
       <trans-unit id="0Xa3S_6" resname="addhock.notification.pushMessage">
         <source>addhock.notification.pushMessage</source>
-        <target state="needs-translation">{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+        <target state="translated">{name} veut crér une visioconférence instanée avec vous</target>
       </trans-unit>
       <trans-unit id="DhfQxTv" resname="common.loadingTime">
         <source>common.loadingTime</source>
-        <target state="needs-translation">Ladezeit</target>
+        <target state="translated">Temps de chargement</target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
         <source>lobby.verified</source>
-        <target state="needs-translation">Verifizierter Anrufer</target>
+        <target state="translated">Appelant vérifié</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
         <source>lobby.participant.enterNow</source>
-        <target state="needs-translation">Jetzt beitreten</target>
+        <target state="translated">Rejoindre maintenant</target>
       </trans-unit>
       <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
         <source>lobby.participant.pauseEnter</source>
-        <target state="needs-translation">Noch nicht beitreten</target>
+        <target state="translated">Ne rejoignez pas encore</target>
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">Vos données ont bien été enregistrées.</target>
       </trans-unit>
       <trans-unit id="4wVQAJs" resname="room.new.help.tag">
         <source>room.new.help.tag</source>
-        <target state="needs-translation">Wählen Sie hier eine Kategorie für diese Konferenz aus.</target>
+        <target state="translated">Sélectionnez ici une catégorie pour cette conférence.</target>
       </trans-unit>
       <trans-unit id="YU._Rbu" resname="Geplant von">
         <source>Geplant von</source>
-        <target state="needs-translation">Geplant von</target>
+        <target state="translated">Prévu par</target>
       </trans-unit>
       <trans-unit id="E1XUXFS" resname="new.room.blockSave.text">
         <source>new.room.blockSave.text</source>
-        <target state="needs-translation">Wenn Sie diese Konferenz speichern, kann die Kategorie dieser Konferenz nicht mehr bearbeitet werden.</target>
+        <target state="translated">Dès que vous avez enregistré cette conférence, la catégorie de cette conférence ne peut plus être modifié.</target>
       </trans-unit>
       <trans-unit id="K_dllFy" resname="status.inconference.number">
         <source>status.inconference.number</source>
-        <target state="needs-translation">{number}</target>
+        <target state="translated">{number}</target>
       </trans-unit>
       <trans-unit id="5QumSMJ" resname="report.title">
         <source>report.title</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">Protocole</target>
       </trans-unit>
       <trans-unit id="LR82Vwn" resname="report.dropdown.item">
         <source>report.dropdown.item</source>
-        <target state="needs-translation">Protokoll</target>
+        <target state="translated">Protocole</target>
       </trans-unit>
       <trans-unit id="TW0JasJ" resname="report.error.noStatus">
         <source>report.error.noStatus</source>
-        <target state="needs-translation">Diese Konferenz hat bisher keine Reports zum Anzeigen.</target>
+        <target state="translated">Cette conférence n'a actuellement aucun rapport à afficher.</target>
       </trans-unit>
       <trans-unit id="t4ekf55" resname="report.info.timezone">
         <source>report.info.timezone</source>
-        <target state="needs-translation">Alle Zeitangaben sind in der Zeitzone {timezone}</target>
+        <target state="translated">Toutes les heures sont dans le fuseau horaire {timezone}</target>
       </trans-unit>
       <trans-unit id="YqAtmOj" resname="tag.name">
         <source>tag.name</source>
-        <target state="needs-translation">Kategorie</target>
+        <target state="translated">Catégorie</target>
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
@@ -1634,7 +1634,7 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
-        <target state="needs-translation">Aktive Sprechzeit</target>
+        <target state="translated">Temps de parole activ</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer" approved="yes">
         <source>Anzahl Teilnehmer</source>
@@ -1646,7 +1646,7 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
         <source>Wollen Sie die Konferenz wirklich verlassen?</source>
-        <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
+        <target state="translated">Voulez-vous vraiment quitter cette conférence ?</target>
       </trans-unit>
     </body>
   </file>
