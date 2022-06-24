@@ -9,7 +9,6 @@ COPY package-lock.json /var/www/html
 COPY composer.json /var/www/html
 COPY composer.lock /var/www/html
 COPY webpack.config.js /var/www/html
-COPY composer.phar /var/www/html
 COPY assets /var/www/html
 
 RUN npm install
