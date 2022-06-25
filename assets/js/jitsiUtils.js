@@ -83,7 +83,7 @@ function initJitsi(options, domain, titelL, okL, cancelL) {
             api.executeCommand('toggleParticipantsPane', {enabled: true});
         }
 
-        $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+        $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
 
 
     });

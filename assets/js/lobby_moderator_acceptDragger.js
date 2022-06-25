@@ -1,5 +1,6 @@
 import ZingTouch from 'zingtouch';
-
+import $ from "jquery";
+var blockTouch = false;
 function initDragParticipants() {
     if(window.innerWidth > 768){
         return false;
@@ -7,15 +8,27 @@ function initDragParticipants() {
     var activeRegion = new ZingTouch.Region(document.getElementById('waitingUserWrapper'),null,false);
     let childElement = document.querySelectorAll('.waitingUserCard ');
     let x = 0;
+
     childElement.forEach(function (e) {
         var iconHolder = e.querySelector('.icon-holder');
         var height = $(e.querySelector('.card')).innerHeight();
         let width = $(e.querySelector('.card')).innerWidth();
         $(iconHolder).height(height+'px');
         $(iconHolder).width(width+'px');
+        window.addEventListener('resize', function () {
+            let childElement = document.querySelectorAll('.waitingUserCard ');
+            childElement.forEach(function (e) {
+                var iconHolder = e.querySelector('.icon-holder');
+                var height = $(e.querySelector('.card')).innerHeight();
+                let width = $(e.querySelector('.card')).innerWidth();
+                $(iconHolder).height(height + 'px');
+                $(iconHolder).width(width + 'px');
+            });
+        });
         activeRegion.bind(e, new ZingTouch.Pan({
             threshold: 0
         }), function (event) {
+            blockTouch= true;
             var rad = event.detail.data[0]['directionFromOrigin'] / 360 * 2 * Math.PI;
             x = event.detail.data[0]['distanceFromOrigin'] * Math.cos(rad)
             event.target.querySelector('.card').style.transform = "translate("+x+"px,0)";
@@ -29,6 +42,7 @@ function initDragParticipants() {
         });
 
         e.addEventListener('touchend', function (e) {
+            blockTouch = false;
              if (Math.abs(x) > $(this).width()/2){
                 if (x > 0){
                     $.get(this.querySelector('.acceptSwipe').dataset.target)
@@ -51,4 +65,4 @@ function initDragParticipants() {
 
 }
 
-export {initDragParticipants}
+export {initDragParticipants, blockTouch}

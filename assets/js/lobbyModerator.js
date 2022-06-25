@@ -102,9 +102,19 @@ function moveWrapper() {
     $('.imageBackground').remove();
     $('#lobbyWindow').wrap('<div class="container-fluid waitinglist" id="sliderTop">').append('<div class="dragger" id="dragger">Lobby ( <span id="lobbyCounter">' + $('.waitingUserCard').length + '</span> )</div>');
     $('#col-waitinglist').addClass('large');
-    $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+
+    $('#sliderTop').css('top', '0px');
+    $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
     window.addEventListener('resize', function () {
-        $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+        $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
+    });
+    let childElement = document.querySelectorAll('.waitingUserCard ');
+    childElement.forEach(function (e) {
+        var iconHolder = e.querySelector('.icon-holder');
+        var height = $(e.querySelector('.card')).innerHeight();
+        let width = $(e.querySelector('.card')).innerWidth();
+        $(iconHolder).height(height + 'px');
+        $(iconHolder).width(width + 'px');
     });
     $('.start-btn').remove();
     $('.btn-block').removeClass('btn-block');

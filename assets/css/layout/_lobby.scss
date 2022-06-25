@@ -146,15 +146,16 @@ body {
 }
 
 #sliderTop {
-  transition: top 0.5s;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 10;
+
   @media (min-width: 600px) {
+    transition: transform 0.5s;
     &:hover {
-      top: 0 !important;
-      transition: top 0.5s;
+      transform: translateY(0) !important;
+      transition: transform 0.5s;
 
       .dragger {
         &:before {
@@ -266,14 +267,14 @@ body {
   .acceptSwipe {
     background-color: $success;
     padding-left: 18px;
-    border-radius: 5px 0 0 5px;
+    border-radius: 8px ;
   }
 
   .denieSwipe {
     padding-right: 18px;
     background-color: $danger;
     justify-content: end;
-    border-radius: 0 5px 5px 0;
+    border-radius:  8px;
   }
 }
 

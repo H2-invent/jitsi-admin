@@ -53,21 +53,18 @@ function masterNotify(data) {
 
 
 function notifymoderator(data) {
-
-
     showPush(data);
-
     setSnackbar(data.message, data.color, false, data.messageId);
     $('.dragger').addClass('active');
 
     $('#sliderTop')
         .addClass('notification')
-        .css('top', '0px')
+        .css('transform', 'translateY(0px)')
         .mouseover(function (e) {
             $('.dragger').removeClass('active');
             $('#sliderTop')
                 .removeClass('notification')
-                .css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+            $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
         })
 }
 
@@ -77,7 +74,7 @@ function refresh(data) {
 
     $('#waitingUserWrapper').load(reloadUrl, function () {
         if (!$('#sliderTop').hasClass('notification')) {
-            $('#sliderTop').css('top', '-' + $('#col-waitinglist').outerHeight() + 'px');
+            $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
         }
         initCircle();
         countParts();
