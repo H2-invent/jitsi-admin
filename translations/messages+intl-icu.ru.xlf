@@ -1401,7 +1401,7 @@
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="needs-translation">Die Konferenz für alle Teilnehmenden beenden</target>
+        <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>

@@ -28,9 +28,9 @@ function initJitsi(options, domain, titelL, okL, cancelL) {
         renewPartList()
     });
     api.addListener('chatUpdated', function (e) {
-        if(e.isOpen == true){
+        if (e.isOpen == true) {
             document.querySelector('#logo_image').classList.add('transparent');
-        }else {
+        } else {
             document.querySelector('#logo_image').classList.remove('transparent');
         }
 
@@ -46,6 +46,39 @@ function initJitsi(options, domain, titelL, okL, cancelL) {
                 window.close();
             }, data.timeout)
         }
+    });
+    api.addListener('toolbarButtonClicked', function (e) {
+
+        if(e.key === 'hangup'){
+            console.log(e);
+            $.confirm({
+                title:null,
+                content: hangupQuestion,
+                theme: 'material',
+                buttons: {
+                    confirm: {
+                        text: hangupText, // text for button
+                        btnClass: 'btn-outline-danger btn', // class for the button
+                        action: function () {
+                            api.executeCommand('hangup');
+                        },
+                    },
+                    killAll: {
+                        text: endMeetingText, // text for button
+                        btnClass: 'btn-outline-danger btn', // class for the button
+                        action: function () {
+                            endMeeting();
+                            $.getJSON(endMeetingUrl);
+                        },
+                    },
+                    cancel: {
+                        text: cancel, // text for button
+                        btnClass: 'btn-outline-primary btn', // class for the button
+                    },
+                }
+            });
+        }
+
     });
     api.addListener('videoConferenceJoined', function (e) {
         $('#closeSecure').removeClass('d-none').click(function (e) {
