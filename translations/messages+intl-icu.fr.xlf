@@ -1393,8 +1393,8 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <target state="translated">Terminer l'essai du micro</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
-        <source>lobby.endMeeting</source>
-        <target state="translated">Terminer la conférence pour tous les participants</target>
+        <source>Konferenz beenden</source>
+        <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1637,28 +1637,32 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <target state="translated">Temps de parole activ</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer" approved="yes">
-        <source>Anzahl Teilnehmende</source>
+        <source>Anzahl Teilnehmer</source>
         <target state="final">Nombre de participants</target>
       </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
-        <source>Aktuell laufende Konferenzen</source>
+        <source>statistic.actualRooms</source>
         <target state="translated">Conférences en cours</target>
       </trans-unit>
       <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
-        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
+        <source>statistic.actualParticipant</source>
         <target state="translated">Participants des conférences en cours</target>
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
-        <source>Wollen Sie dieses Meeting für alle Teilnehmer beenden?</source>
-        <target state="needs-translation">Wollen Sie dieses Meeting für alle Teilnehmer beenden?</target>
+        <source>lobby.endMeeting.ask</source>
+        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
       </trans-unit>
       <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
         <target state="translated">Glissez pour autoriser</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
-        <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+        <source>ask.tab.close</source>
         <target state="translated">Voulez-vous vraiment quitter cette conférence ?</target>
+      </trans-unit>
+      <trans-unit id="Xf1t6eb" resname="lobby.hangup">
+        <source>Konferenz verlassen</source>
+        <target state="needs-translation">Nur ich verlasse</target>
       </trans-unit>
     </body>
   </file>
