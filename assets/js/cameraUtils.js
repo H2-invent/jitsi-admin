@@ -34,13 +34,13 @@ async function initWebcam() {
             });
             $('.webcamSelect').click(function () {
                 stopWebcam();
-                setButtonName($('#selectWebcamDropdown'), $(this).text());
+                setButtonName($('#selectWebcamDropdown').find('span'), $(this).text());
                 choosenId = $(this).data('value');
                 startWebcam(choosenId);
             })
             choosenId = webcams[0].deviceId;
             var name = webcams[0].label.replace(/\(.*:.*\)/g, "");
-            setButtonName($('#selectWebcamDropdown'), name);
+            setButtonName($('#selectWebcamDropdown').find('span'), name);
             startWebcam(choosenId);
         })
     }catch (e) {
@@ -92,6 +92,7 @@ function stopWebcam() {
     }
 }
 function setButtonName(button, text) {
-    button.text(text);
+
+    button.html(text);
 }
 export {initWebcam,choosenId,stopWebcam}
