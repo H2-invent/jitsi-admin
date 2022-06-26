@@ -56,19 +56,19 @@ function initJitsi(options, domain, titelL, okL, cancelL) {
                 content: hangupQuestion,
                 theme: 'material',
                 buttons: {
-                    confirm: {
-                        text: hangupText, // text for button
-                        btnClass: 'btn-outline-danger btn', // class for the button
-                        action: function () {
-                            api.executeCommand('hangup');
-                        },
-                    },
                     killAll: {
                         text: endMeetingText, // text for button
                         btnClass: 'btn-outline-danger btn', // class for the button
                         action: function () {
                             endMeeting();
                             $.getJSON(endMeetingUrl);
+                        },
+                    },
+                    confirm: {
+                        text: hangupText, // text for button
+                        btnClass: 'btn-outline-danger btn', // class for the button
+                        action: function () {
+                            api.executeCommand('hangup');
                         },
                     },
                     cancel: {
