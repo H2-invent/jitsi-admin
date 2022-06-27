@@ -28,6 +28,10 @@ fi
 
 php bin/console doctrine:mig:mig --no-interaction
 php bin/console cache:clear
+sudo crontab -l > cron_bkp
+echo "* * * * * php /var/www/jitsi-admin/bin/console cron:run 1>> /dev/null 2>&1" > cron_bkp
+sudo crontab cron_bkp
+sudo rm cron_bkp
 echo --------------------------------------------------------------------------
 echo -----------------We looking for all the other parameters-------------------
 echo --------------------------------------------------------------------------
@@ -84,6 +88,14 @@ echo -----------------------Install NPM and Assets----------------------------
 echo --------------------------------------------------------------------------
 npm install
 npm run build
+echo --------------------------------------------------------------------------
+echo -----------------------Install Worker for Async Work----------------------
+echo --------------------------------------------------------------------------
+cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
+systemctl daemon-reload
+service start jitsi-admin_messenger
+restart start jitsi-admin_messenger
+service enable jitsi-admin_messenger
 echo --------------------------------------------------------------------------
 echo -----------------------Installed the Jitsi-Admin correct------------------
 echo --------------------------------------------------------------------------
