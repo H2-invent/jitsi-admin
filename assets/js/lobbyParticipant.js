@@ -165,7 +165,7 @@ function userAccepted(data) {
     $('#renewParticipant').remove();
     $('#stopEntry').removeClass('d-none');
     text = $('#stopEntry').text();
-    counter = 10;
+    counter = 5;
     interval = setInterval(function () {
         counter = counter - 1;
         $('#stopEntry').text(text + ' (' + counter + ')');
