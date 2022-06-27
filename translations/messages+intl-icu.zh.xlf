@@ -1393,8 +1393,8 @@
         <target state="needs-translation">Echotest beenden</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
-        <source>lobby.endMeeting</source>
-        <target state="needs-translation">Die Konferenz für alle Teilnehmenden beenden</target>
+        <source>Konferenz beenden</source>
+        <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1638,28 +1638,32 @@
         <target state="needs-translation">Aktive Sprechzeit</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmende</source>
+        <source>Anzahl Teilnehmer</source>
         <target state="translated">参会者数量</target>
       </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
-        <source>Aktuell laufende Konferenzen</source>
+        <source>statistic.actualRooms</source>
         <target state="needs-translation">Aktuell laufende Konferenzen</target>
       </trans-unit>
       <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
-        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
+        <source>statistic.actualParticipant</source>
         <target state="needs-translation">Teilnehmende in aktuell laufenden Konferenzen</target>
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
-        <source>Wollen Sie dieses Meeting für alle Teilnehmer beenden?</source>
-        <target state="needs-translation">Wollen Sie dieses Meeting für alle Teilnehmer beenden?</target>
+        <source>lobby.endMeeting.ask</source>
+        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
       </trans-unit>
       <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
         <target state="needs-translation">Swipen zum zulassen</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
-        <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+        <source>ask.tab.close</source>
         <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
+      </trans-unit>
+      <trans-unit id="Xf1t6eb" resname="lobby.hangup">
+        <source>Konferenz verlassen</source>
+        <target state="needs-translation">Nur ich verlasse</target>
       </trans-unit>
     </body>
   </file>

@@ -35,7 +35,7 @@
       </trans-unit>
       <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
         <source>Teilnehmer wurden eingeladen</source>
-        <target state="translated">The participants habe been invited.</target>
+        <target state="translated">The participants were invited.</target>
       </trans-unit>
       <trans-unit id="K6XEZfk" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
         <source>Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</source>
@@ -47,7 +47,7 @@
       </trans-unit>
       <trans-unit id="BidGKR8" resname="Teilnehmer gelöscht">
         <source>Teilnehmer gelöscht</source>
-        <target state="translated">Participants removed</target>
+        <target state="translated">Participant removed</target>
       </trans-unit>
       <trans-unit id="x.c6LLU" resname="Konferenz gelöscht">
         <source>Konferenz gelöscht</source>
@@ -535,7 +535,7 @@
       </trans-unit>
       <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="translated">Subscribe</target>
+        <target state="translated">Log in</target>
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
@@ -1236,7 +1236,7 @@
       </trans-unit>
       <trans-unit id="VQ5q3RR" resname="[Terminplanung] Neue Einladung zur Terminplanung {name}">
         <source>[Terminplanung] Neue Einladung zur Terminplanung {name}</source>
-        <target state="translated">[Appointmentplanning] There is an invitation to the appointmentplanning {name}.</target>
+        <target state="translated">[Appointmentplanning] There is a new invitation to the appointmentplanning {name}.</target>
       </trans-unit>
       <trans-unit id="UE6M382" resname="[Videokonferenz] Hinzugefügt zur Warteliste">
         <source>[Videokonferenz] Hinzugefügt zur Warteliste</source>
@@ -1391,8 +1391,8 @@
         <target state="needs-translation">Echotest beenden</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
-        <source>lobby.endMeeting</source>
-        <target state="needs-translation">Die Konferenz für alle Teilnehmenden beenden</target>
+        <source>Konferenz beenden</source>
+        <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1636,28 +1636,32 @@
         <target state="translated">Active speaking time</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmende</source>
+        <source>Anzahl Teilnehmer</source>
         <target state="translated">Number of participants</target>
       </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
-        <source>Aktuell laufende Konferenzen</source>
+        <source>statistic.actualRooms</source>
         <target state="translated">Current Conferences</target>
       </trans-unit>
       <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
-        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
+        <source>statistic.actualParticipant</source>
         <target state="translated">Participants in currently running conferences</target>
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
-        <source>Wollen Sie dieses Meeting für alle Teilnehmer beenden?</source>
-        <target state="needs-translation">Wollen Sie dieses Meeting für alle Teilnehmer beenden?</target>
+        <source>lobby.endMeeting.ask</source>
+        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
       </trans-unit>
       <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
         <target state="needs-translation">Swipen zum zulassen</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
-        <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+        <source>ask.tab.close</source>
         <target state="translated">Sure, you want to leave this conference?</target>
+      </trans-unit>
+      <trans-unit id="Xf1t6eb" resname="lobby.hangup">
+        <source>Konferenz verlassen</source>
+        <target state="needs-translation">Nur ich verlasse</target>
       </trans-unit>
     </body>
   </file>
