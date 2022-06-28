@@ -1,6 +1,6 @@
 [deutsch](README_de.md)
 
-![Server](docs/images/header.png)
+![Header](docs/images/header.png)
 # Jitsi Manager
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
@@ -93,8 +93,9 @@ After that execute the following command
 bash install.sh
 ```
 Follow the instruction in the command window.
+
 # Update
-Follow your coresponding update instruction.
+Follow the corresponding update instruction.
 
 For versions <= 0.72x checkout the update instruction in the github version description.
 
