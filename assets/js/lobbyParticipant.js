@@ -56,7 +56,6 @@ function connectES() {
                 location.reload()
             }
         });
-        console.log(healthcheckUrl);
     }, 10000)
 }
 
