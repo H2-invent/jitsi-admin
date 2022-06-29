@@ -105,7 +105,7 @@
         var popUpDuration = {{ laf_lobby_popUpDuration }};
 
         var browserLeave = '{{ path('lobby_participants_browser_leave',{'userUid':user.uid}) }}'
-
+        var healthcheckUrl = '{{ path('lobby_participants_healthCheck',{'userUid':user.uid}) }}'
     </script>
 {% endblock %}
 {% block webpack %}

@@ -25,6 +25,7 @@ var dataSucess;
 var successTimer;
 var clickLeave = false;
 let es;
+let healtcheckInterval;
 
 function initMercure() {
     connectES();
@@ -41,12 +42,22 @@ function connectES() {
         var data = JSON.parse(e.data)
         masterNotify(data);
         if (data.type === 'newJitsi') {
+            clearInterval(healtcheckInterval);
             userAccepted(data);
         } else if (data.type === 'endMeeting') {
+            clearInterval(healtcheckInterval);
             hangup()
             $('#jitsiWindow').remove();
         }
     }
+    healtcheckInterval = setInterval(function () {
+        $.get(healthcheckUrl, function (data) {
+            if (data.error === true) {
+                location.reload()
+            }
+        });
+        console.log(healthcheckUrl);
+    }, 10000)
 }
 
 window.onbeforeunload = function (e) {
@@ -97,6 +108,7 @@ $('.leave').click(function (e) {
 })
 
 function initJitsiMeet(data) {
+
     stopWebcam();
     echoOff();
     window.onbeforeunload = null;
@@ -121,9 +133,9 @@ function initJitsiMeet(data) {
     options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
     api.addListener('chatUpdated', function (e) {
-        if(e.isOpen == true){
+        if (e.isOpen == true) {
             document.querySelector('#logo_image').classList.add('transparent');
-        }else {
+        } else {
             document.querySelector('#logo_image').classList.remove('transparent');
         }
 

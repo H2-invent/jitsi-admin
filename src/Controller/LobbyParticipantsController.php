@@ -64,6 +64,20 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     /**
+     * @Route("/lobby/healthcheck/participants/{userUid}", name="lobby_participants_healthCheck")
+     */
+    public function healthcheck($userUid): Response
+    {
+        $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $userUid));
+        if ($lobbyUser) {
+            return new JsonResponse(array('error' => false));
+        }
+
+        return new JsonResponse(array('error' => true));
+
+    }
+
+    /**
      * @Route("/lobby/renew/participants/{userUid}", name="lobby_participants_renew")
      */
     public function renew($userUid): Response
@@ -93,6 +107,7 @@ class LobbyParticipantsController extends JitsiAdminController
         };
         return new JsonResponse(array('error' => true));
     }
+
     /**
      * @Route("/lobby/browser/leave/participants/{userUid}", name="lobby_participants_browser_leave")
      */
