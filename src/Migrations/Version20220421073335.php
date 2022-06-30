@@ -19,12 +19,14 @@ final class Version20220421073335 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE lobby_waitung_user ADD close_browser TINYINT(1) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE lobby_waitung_user DROP close_browser');
     }

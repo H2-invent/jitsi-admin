@@ -19,6 +19,7 @@ final class Version20210528124328 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE `repeat` (id INT AUTO_INCREMENT NOT NULL, repetation INT DEFAULT NULL, repeat_until DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE repeat_user (repeat_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_3949A129CD096AF4 (repeat_id), INDEX IDX_3949A129A76ED395 (user_id), PRIMARY KEY(repeat_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -31,6 +32,7 @@ final class Version20210528124328 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE repeat_user DROP FOREIGN KEY FK_3949A129CD096AF4');
         $this->addSql('ALTER TABLE rooms DROP FOREIGN KEY FK_7CA11A9626397C6E');

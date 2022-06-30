@@ -19,12 +19,14 @@ final class Version20220329060813 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE caller_session ADD caller_id LONGTEXT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE caller_session DROP caller_id');
     }

@@ -19,12 +19,14 @@ final class Version20210903121516 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE ldap_user_properties CHANGE ldap_number ldap_number LONGTEXT NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE ldap_user_properties CHANGE ldap_number ldap_number INT NOT NULL');
     }

@@ -19,6 +19,7 @@ final class Version20220329161257 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE caller_session ADD show_name LONGTEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE lobby_waitung_user ADD caller_session_id INT DEFAULT NULL');
@@ -28,6 +29,7 @@ final class Version20220329161257 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE caller_session DROP show_name');
         $this->addSql('ALTER TABLE lobby_waitung_user DROP FOREIGN KEY FK_6ABDB21A6D04C84F');

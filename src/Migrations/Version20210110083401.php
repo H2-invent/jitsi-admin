@@ -19,6 +19,7 @@ final class Version20210110083401 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         if (!$schema->hasTable('fos_user')) {
             $this->addSql('CREATE TABLE fos_user (id INT AUTO_INCREMENT NOT NULL, email LONGTEXT NOT NULL, keycloak_id LONGTEXT DEFAULT NULL, created_at DATETIME DEFAULT NULL, username LONGTEXT DEFAULT NULL, last_login DATETIME DEFAULT NULL, first_name LONGTEXT DEFAULT NULL, last_name LONGTEXT DEFAULT NULL, register_id LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -38,6 +39,7 @@ final class Version20210110083401 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE rooms DROP FOREIGN KEY FK_7CA11A96D0AFA354');
         $this->addSql('ALTER TABLE rooms_user DROP FOREIGN KEY FK_EA64C2B4A76ED395');

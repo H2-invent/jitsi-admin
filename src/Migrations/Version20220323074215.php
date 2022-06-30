@@ -19,6 +19,7 @@ final class Version20220323074215 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE server ADD cors_header TINYINT(1) DEFAULT NULL');
         if ($this->connection->executeQuery("SELECT * from cron_job where command  like '%app:cron:sendReminder%'")->fetchOne() == 0) {
@@ -38,6 +39,7 @@ final class Version20220323074215 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE server DROP cors_header');
     }

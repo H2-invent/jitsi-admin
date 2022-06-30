@@ -19,6 +19,7 @@ final class Version20220316083227 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE rooms ADD room_status_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE rooms ADD CONSTRAINT FK_7CA11A96F75EE0D4 FOREIGN KEY (room_status_id) REFERENCES room_status (id)');
@@ -27,6 +28,7 @@ final class Version20220316083227 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE rooms DROP FOREIGN KEY FK_7CA11A96F75EE0D4');
         $this->addSql('DROP INDEX UNIQ_7CA11A96F75EE0D4 ON rooms');

@@ -19,6 +19,7 @@ final class Version20220503125755 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE tag (id INT AUTO_INCREMENT NOT NULL, title LONGTEXT NOT NULL, disabled TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE rooms ADD tag_id INT DEFAULT NULL');
@@ -28,6 +29,7 @@ final class Version20220503125755 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE rooms DROP FOREIGN KEY FK_7CA11A96BAD26311');
         $this->addSql('DROP TABLE tag');

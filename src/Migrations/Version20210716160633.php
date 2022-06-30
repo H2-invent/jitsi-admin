@@ -19,6 +19,7 @@ final class Version20210716160633 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE address_group (id INT AUTO_INCREMENT NOT NULL, leader_id INT NOT NULL, name LONGTEXT NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_5A6533E573154ED4 (leader_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE address_group_user (address_group_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_DC5405A7DB27C6 (address_group_id), INDEX IDX_DC5405A7A76ED395 (user_id), PRIMARY KEY(address_group_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -29,6 +30,7 @@ final class Version20210716160633 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE address_group_user DROP FOREIGN KEY FK_DC5405A7DB27C6');
         $this->addSql('DROP TABLE address_group');
