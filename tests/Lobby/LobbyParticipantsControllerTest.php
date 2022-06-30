@@ -145,4 +145,37 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $this->assertCount(1, $transport->get());
 
     }
+
+    public function testHEalthcheck(): void
+    {
+        $client = static::createClient();
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $moderator = $room->getModerator();
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $client->loginUser($moderator);
+        $em = $this->getContainer()->get(EntityManagerInterface::class);
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
+        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+        $crawler = $client->request('GET', $url);
+        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        self::assertNotNull($lobbyUser);
+        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        self::assertNotNull($lobbyUser);
+        $urlHealthCheck = $urlGenerator->generate('lobby_participants_healthCheck', array( 'userUid' => $lobbyUser->getUid()));
+        $crawler = $client->request('GET', $urlHealthCheck);
+        self::assertEquals('{"error":false}', $client->getResponse()->getContent());
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array( 'userUid' => $lobbyUser->getUid()));
+        $crawler = $client->request('GET', $urlLeave);
+        $urlHealthCheck = $urlGenerator->generate('lobby_participants_healthCheck', array( 'userUid' => $lobbyUser->getUid()));
+        $crawler = $client->request('GET', $urlHealthCheck);
+        self::assertEquals('{"error":true}', $client->getResponse()->getContent());
+    }
 }

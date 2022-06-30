@@ -18,14 +18,14 @@ var choosenId= null;
 async function initWebcam() {
     try {
 
-        await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+        await navigator.mediaDevices.getUserMedia({audio: false, video: true});
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
 
             devices.forEach(function (device) {
                 if (device.kind === 'videoinput') {
                     webcams[device.label] = device.deviceId
 
-                    var name = device.label.replace(/\(.*:.*\)/g, "");
+                    var name = device.label.replace(/\(\w*:.*\)/g, "");
                     $('#webcamSelect').append(
                         '<li><a class="dropdown-item webcamSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a></li>'
                     )

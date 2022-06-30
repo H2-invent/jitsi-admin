@@ -35,7 +35,7 @@ From here you can decide if you want to use the jitsi-admin only for local testi
 * sed installed
 * Debian 10 or comparable
 
-start the installer with 
+start the installer with
 `bash installDocker.sh`
 Now you are going to be asked for a lot informations.
 
@@ -64,7 +64,7 @@ Now you are going to be asked for a lot informations.
 * Then enter the  url you want to use to enter the application.
 * Enter you SMTP credentials
 
-Hin enter and wait. 
+Hin enter and wait.
 After some minutes just go to the browser and enter **https://<yourDomain>** and your jitsi-admin is up.
 
 ### I want to visit and harden my keycloak
