@@ -19,15 +19,17 @@ final class Version20210529191752 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` ADD repeat_monthly_relative_how_often INT DEFAULT NULL, ADD repeat_yearly_relative_how_often INT DEFAULT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` ADD repeat_monthly_relative_how_often INT DEFAULT NULL, ADD repeat_yearly_relative_how_often INT DEFAULT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` DROP repeat_monthly_relative_how_often, DROP repeat_yearly_relative_how_often');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` DROP repeat_monthly_relative_how_often, DROP repeat_yearly_relative_how_often');
+        }
     }
 }

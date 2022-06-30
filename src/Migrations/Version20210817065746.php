@@ -19,15 +19,17 @@ final class Version20210817065746 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE rooms ADD start_utc DATETIME DEFAULT NULL, ADD end_date_utc DATETIME DEFAULT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE rooms ADD start_utc DATETIME DEFAULT NULL, ADD end_date_utc DATETIME DEFAULT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE rooms DROP start_utc, DROP end_date_utc');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE rooms DROP start_utc, DROP end_date_utc');
+        }
     }
 }

@@ -19,19 +19,21 @@ final class Version20210711131525 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE fos_user ADD my_own_room_server_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE fos_user ADD CONSTRAINT FK_957A64796341294B FOREIGN KEY (my_own_room_server_id) REFERENCES server (id)');
-        $this->addSql('CREATE INDEX IDX_957A64796341294B ON fos_user (my_own_room_server_id)');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE fos_user ADD my_own_room_server_id INT DEFAULT NULL');
+            $this->addSql('ALTER TABLE fos_user ADD CONSTRAINT FK_957A64796341294B FOREIGN KEY (my_own_room_server_id) REFERENCES server (id)');
+            $this->addSql('CREATE INDEX IDX_957A64796341294B ON fos_user (my_own_room_server_id)');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE fos_user DROP FOREIGN KEY FK_957A64796341294B');
-        $this->addSql('DROP INDEX IDX_957A64796341294B ON fos_user');
-        $this->addSql('ALTER TABLE fos_user DROP my_own_room_server_id');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE fos_user DROP FOREIGN KEY FK_957A64796341294B');
+            $this->addSql('DROP INDEX IDX_957A64796341294B ON fos_user');
+            $this->addSql('ALTER TABLE fos_user DROP my_own_room_server_id');
+        }
     }
 }

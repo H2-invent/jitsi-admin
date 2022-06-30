@@ -19,15 +19,17 @@ final class Version20220310142524 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE address_group ADD indexer LONGTEXT DEFAULT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE address_group ADD indexer LONGTEXT DEFAULT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE address_group DROP indexer');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE address_group DROP indexer');
+        }
     }
 }

@@ -19,15 +19,17 @@ final class Version20210809104407 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE server ADD jwt_moderator_position INT NOT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE server ADD jwt_moderator_position INT NOT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE server DROP jwt_moderator_position');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE server DROP jwt_moderator_position');
+        }
     }
 }

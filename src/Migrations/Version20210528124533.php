@@ -19,15 +19,17 @@ final class Version20210528124533 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` ADD weekday LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', ADD weeks INT DEFAULT NULL, ADD months INT DEFAULT NULL, ADD days INT DEFAULT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` ADD weekday LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', ADD weeks INT DEFAULT NULL, ADD months INT DEFAULT NULL, ADD days INT DEFAULT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        $this->skipIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` DROP weekday, DROP weeks, DROP months, DROP days');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` DROP weekday, DROP weeks, DROP months, DROP days');
+        }
     }
 }
