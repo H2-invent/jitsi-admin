@@ -12,20 +12,25 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210319115956 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE rooms ADD show_room_on_joinpage TINYINT(1) DEFAULT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE rooms ADD show_room_on_joinpage TINYINT(1) DEFAULT NULL');
+        }
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE rooms DROP show_room_on_joinpage');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE rooms DROP show_room_on_joinpage');
+        }
     }
 }

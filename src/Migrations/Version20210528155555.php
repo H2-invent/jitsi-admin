@@ -19,13 +19,17 @@ final class Version20210528155555 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` ADD repeater_days INT DEFAULT NULL, ADD repeater_weeks INT DEFAULT NULL, ADD repeat_montly INT DEFAULT NULL, ADD repeat_yearly INT DEFAULT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` ADD repeater_days INT DEFAULT NULL, ADD repeater_weeks INT DEFAULT NULL, ADD repeat_montly INT DEFAULT NULL, ADD repeat_yearly INT DEFAULT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` DROP repeater_days, DROP repeater_weeks, DROP repeat_montly, DROP repeat_yearly');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` DROP repeater_days, DROP repeater_weeks, DROP repeat_montly, DROP repeat_yearly');
+        }
     }
 }
