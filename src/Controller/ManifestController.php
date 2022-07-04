@@ -9,8 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Imagine\Gd\Image;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
-use Intervention\Image\ImageManager;
-use Liip\ImagineBundle\Service\FilterService;
+
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -36,7 +35,7 @@ class ManifestController extends JitsiAdminController
     /**
      * @Route("/site.webmanifest", name="app_manifest")
      */
-    public function index(FilterService $imagine): Response
+    public function index(): Response
     {
         $url = '/room/dashboard';
         $favicon = $this->themeService->getThemeProperty('icon');
