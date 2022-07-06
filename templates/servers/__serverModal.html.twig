@@ -29,7 +29,7 @@
                         <div class="row">
 
                             <div class="col-md-4">
-                                {{ server.serverName }}
+                                {{ server.serverName }} {% if server.administrator == app.user %}(Id #{{server.id}}){%endif%}
                             </div>
 
                             <div class="col-md-4">

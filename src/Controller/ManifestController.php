@@ -51,14 +51,17 @@ class ManifestController extends JitsiAdminController
             "name" => $title ?: "Jitsi-Admin",
             "dir" => "ltr",
             "icons" => array(
-                array("src" => $favicon,
+                array(
+                    "src" => $favicon,
                     "type" =>'image/' . $ending,
-                    "sizes" => "100x100"),
-                array("src" => $favicon,
+                    "sizes" => "100x100"
+                ),
+                array(
+                    "src" => $favicon,
                     "type" => 'image/' . $ending,
-                    "sizes" => "512x512")
+                    "sizes" => "512x512"
+                )
             ),
-
             "start_url" => $url,
             "display" => "standalone",
             "background_color" => $backgroundColor ?: '#2561ef',
