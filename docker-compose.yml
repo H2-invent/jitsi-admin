@@ -64,6 +64,7 @@ services:
 
   #Here is the mercure hub
   mercure-ja:
+    hostname: ${RANDOMTAG}mercure-ja
     image: dunglas/mercure
     restart: unless-stopped
     depends_on:
