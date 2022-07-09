@@ -96,7 +96,7 @@ if [ "$smtpEncryption" == 'tls' ]; then
 elif [ "$smtpEncryption" == 'ssl' ]; then
    sed -i "s|<smtpEncyption>| \"ssl\": \"true\",|g" keycloak/realm-export.json
    else
-     sed -i "s|<smtpEncyption>| '',|g" keycloak/realm-export.json
+     sed -i "s|<smtpEncyption>| \"ssl\": \"false\",\nstarttls\": \"false\",|g" keycloak/realm-export.json
 fi
 
   echo -------------------------------------------------------------
