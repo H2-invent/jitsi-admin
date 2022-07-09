@@ -8,10 +8,13 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     {% endif %}
 
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
-
+    <link rel="manifest" href="{{ path('app_manifest') }}">
     {% block title %}
+        {% if theme and theme.title is defined %}
+    <title>{{ theme.title }}</title>
+        {%else%}
         <title>Jitsi Konferenz Manager</title>
+        {%endif%}
     {% endblock %}
 
 
@@ -40,15 +43,19 @@
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
-            .nav-mat-tabs .nav-mat-item.mat-active, .nav-mat-tabs .nav-mat-item:hover{
+
+            .nav-mat-tabs .nav-mat-item.mat-active, .nav-mat-tabs .nav-mat-item:hover {
                 color: {{ theme.colorButton }} !important;
             }
+
             .nav-mat-tabs .underline {
-                border-bottom: solid 3px {{ theme.colorButton }}!important;
+                border-bottom: solid 3px {{ theme.colorButton }} !important;
             }
+
             .nav-mat-tabs .nav-mat-item:hover {
-                   background: rgba(0, 0, 0, 0.05);
+                background: rgba(0, 0, 0, 0.05);
             }
+
             .btn-outline-dashboard {
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
             }
@@ -142,32 +149,38 @@
             .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit.active span,
             .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit:not(.digit--disabled) span:hover,
             .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit.active:before,
-            .mdtp__clock_dot{
+            .mdtp__clock_dot {
                 background-color: {{ theme.colorButton }} !important;
             }
+
             .mdtp__button {
-                color: {{ theme.colorButton }}!important;
+                color: {{ theme.colorButton }} !important;
             }
+
             .blackMode.joinPage .modal-backdrop {
                 background-image: radial-gradient({{ theme.colorButton }}, black);
             }
+
             .joinPage .modal-backdrop {
                 background-image: radial-gradient({{ theme.colorButton }}, white);
             }
-            .successBorder{
+
+            .successBorder {
                 border: {{ theme.colorBadgeRunningNow }} 4px solid;
             }
+
             .form-check-input[type=checkbox]:checked, .form-check-input[type=checkbox]:checked:focus {
                 background-image: none;
                 background-color: {{ theme.colorButton }};
             }
+
             .form-check-input:checked, .form-check-input:checked:focus {
                 border-color: {{ theme.colorButton }};
             }
 
             .form-control:focus {
                 border-color: {{ theme.colorButton }};
-                box-shadow: inset 0 0 0 1px {{ theme.colorButton }};
+                box-shadow: inset 0 0 0 1px{{ theme.colorButton }};
             }
 
             .form-switch .form-check-input:checked[type=checkbox]:after {
@@ -179,18 +192,21 @@
             .form-outline .form-control:focus ~ .form-label {
                 color: {{ theme.colorButton }};
             }
+
             .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
                 border-color: {{ theme.colorButton }};
-                box-shadow: -1px 0 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }}, 0 -1px 0 0 {{ theme.colorButton }};
+                box-shadow: -1px 0 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }}, 0 -1px 0 0{{ theme.colorButton }};
             }
+
             .form-outline .form-control:focus ~ .form-notch .form-notch-middle {
                 border-color: {{ theme.colorButton }};
-                box-shadow: 0 1px 0 0 {{ theme.colorButton }};
+                box-shadow: 0 1px 0 0{{ theme.colorButton }};
                 border-top: 1px solid transparent;
             }
+
             .form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
                 border-color: {{ theme.colorButton }};
-                box-shadow: 1px 0 0 0 {{ theme.colorButton }}, 0 -1px 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }};
+                box-shadow: 1px 0 0 0 {{ theme.colorButton }}, 0 -1px 0 0 {{ theme.colorButton }}, 0 1px 0 0{{ theme.colorButton }};
             }
 
         </style>
