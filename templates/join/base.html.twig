@@ -18,11 +18,23 @@
     is defined and
     server is not null and
     server|validateLicense and
-    server.showStaticBackgroundColor and
-    server.staticBackgroundColor is not null %}
+    (
+    ( server.showStaticBackgroundColor and
+    server.staticBackgroundColor is not null ) or
+    ( server.serverBackgroundImage and
+    server.serverBackgroundImage is not null )
+    )
+    %}
+    {% if server.serverBackgroundImage %}
+    .imageBackground {
+        background-image: url("{{ vich_uploader_asset(server.serverBackgroundImage,'documentFile') }}");
+    }
+    {%else%}
     .imageBackground {
         background-color: {{ server.staticBackgroundColor }};
     }
+    {%endif%}
+
 
     {% elseif image is not null %}
     .imageBackground {

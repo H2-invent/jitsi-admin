@@ -161,6 +161,16 @@ class Server
      */
     private $corsHeader;
 
+    /**
+     * @var Documents
+     * @ORM\OneToOne(targetEntity=Documents::class, cascade={"persist", "remove"})
+     */
+    private $serverBackgroundImage;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -577,5 +587,27 @@ class Server
 
         return $this;
     }
+    public function getServerBackgroundImage(): ?Documents
+    {
+        return $this->serverBackgroundImage;
+    }
 
+    public function setServerBackgroundImage(?Documents $serverBackgroundImage): self
+    {
+        $this->serverBackgroundImage = $serverBackgroundImage;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
 }

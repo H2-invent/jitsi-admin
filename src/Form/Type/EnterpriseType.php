@@ -46,6 +46,8 @@ class EnterpriseType extends AbstractType
             ->add('apiKey', TextType::class, ['required' => false, 'attr' => array('readonly' => 'readonly',), 'label' => 'label.apiKey', 'translation_domain' => 'form'])
             ->add('showStaticBackgroundColor',CheckboxType::class,['required'=>false,'label'=>'label.schowStaticBackgroundColor', 'translation_domain' => 'form'])
             ->add('staticBackgroundColor',ColorType::class,['html5'=>true, 'required'=>false,'label'=>'label.staticBackgroundColor', 'translation_domain' => 'form'])
+            ->add('serverBackgroundImage', ImageType::class,['label' => 'label.serverBackgroundImage', 'translation_domain' => 'form'])
+
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
 
     }
