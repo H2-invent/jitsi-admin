@@ -162,6 +162,12 @@ class Server
     private $corsHeader;
 
     /**
+     * @ORM\OneToMany(targetEntity=Star::class, mappedBy="server", orphanRemoval=true)
+     */
+    private $stars;
+
+
+    /**
      * @var Documents
      * @ORM\OneToOne(targetEntity=Documents::class, cascade={"persist", "remove"})
      */
@@ -178,6 +184,7 @@ class Server
         $this->rooms = new ArrayCollection();
         $this->keycloakGroups = new ArrayCollection();
         $this->OwnRoomUSer = new ArrayCollection();
+        $this->stars = new ArrayCollection();
 
     }
 
@@ -584,6 +591,36 @@ class Server
     public function setCorsHeader(?bool $corsHeader): self
     {
         $this->corsHeader = $corsHeader;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Star>
+     */
+    public function getStars(): Collection
+    {
+        return $this->stars;
+    }
+
+    public function addStar(Star $star): self
+    {
+        if (!$this->stars->contains($star)) {
+            $this->stars[] = $star;
+            $star->setServer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStar(Star $star): self
+    {
+        if ($this->stars->removeElement($star)) {
+            // set the owning side to null (unless already changed)
+            if ($star->getServer() === $this) {
+                $star->setServer(null);
+            }
+        }
 
         return $this;
     }
