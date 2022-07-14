@@ -127,8 +127,8 @@ function showPush(data) {
                     }
                 });
             }
-        }, 1500)
-    }, Math.floor(Math.random() * 100) + 100);
+        }, 2500)
+    }, Math.floor(Math.random() * 50) + 50);
 }
 
 function callAddhock(data) {
