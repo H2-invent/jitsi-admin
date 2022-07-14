@@ -565,12 +565,13 @@ strong {
 
 .warningBorder {
   //border: #c8be00 solid 4px !important;
-  border-width: 3px!important;
-  border-style: solid!important;
-  animation-name: warning-roller;                /** Name der Animation **/
-  animation-duration: 5s;               /** Dauer der Animation **/
-  animation-iteration-count: infinite;  /** Anzahl der Wiederholungen **/
-  border-image-slice: 1!important;
+  //border-width: 3px!important;
+  //border-style: solid!important;
+  //animation-name: warning-roller;                /** Name der Animation **/
+  //animation-duration: 5s;               /** Dauer der Animation **/
+  //animation-iteration-count: infinite;  /** Anzahl der Wiederholungen **/
+  //border-image-slice: 1!important;
+  border: #eaca00 solid 4px !important;;
 }
 
 .occupant {
