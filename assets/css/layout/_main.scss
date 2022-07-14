@@ -539,9 +539,40 @@ strong {
 .successBorder {
   border: #00c851 solid 4px !important;;
 }
-.warningBorder {
-  border: #c8be00 solid 4px !important;;
+
+@keyframes warning-roller {
+  0% {
+    border-image:
+            linear-gradient(
+                            to right,
+                            #dad78a 0%,
+                            #ded201 1%,
+                            #dad78a 100%
+            );
+
+  }
+  100% {
+    border-image:
+            linear-gradient(
+                            to right,
+                            #dad78a 0%,
+                            #ded201 99%,
+                            #dad78a 100%
+            );
+  }
 }
+
+
+.warningBorder {
+  //border: #c8be00 solid 4px !important;
+  border-width: 3px!important;
+  border-style: solid!important;
+  animation-name: warning-roller;                /** Name der Animation **/
+  animation-duration: 5s;               /** Dauer der Animation **/
+  animation-iteration-count: infinite;  /** Anzahl der Wiederholungen **/
+  border-image-slice: 1!important;
+}
+
 .occupant {
   display: flex;
   flex-direction: column;
