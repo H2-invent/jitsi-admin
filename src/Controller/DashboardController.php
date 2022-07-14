@@ -117,6 +117,8 @@ class DashboardController extends JitsiAdminController
                 $this->addFlash($request->get('color'),$request->get('snack'));
             }
         }
+        $date = new \DateTime();
+        $timestamp = $date->getTimestamp();
         $res = $this->render('dashboard/index.html.twig', [
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
@@ -127,6 +129,7 @@ class DashboardController extends JitsiAdminController
             'today' => $today,
             'tomorrow' => $tomorrow,
             'favorite' => $favorites,
+            'timestamp'=>$timestamp,
             'time'=>$timer->getDuration(),
         ]);
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
