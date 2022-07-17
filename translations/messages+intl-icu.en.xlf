@@ -1276,7 +1276,7 @@
       </trans-unit>
       <trans-unit id="N9O9mYb" resname="lobby.notification.newUser.title">
         <source>lobby.notification.newUser.title</source>
-        <target state="needs-translation">{name} ist in der Lobby</target>
+        <target state="translated">{name} i in the lobby</target>
       </trans-unit>
       <trans-unit id="IbBrCkB" resname="lobby.notification.newUser.message">
         <source>lobby.notification.newUser.message</source>
@@ -1312,7 +1312,7 @@
       </trans-unit>
       <trans-unit id="rsZTp96" resname="lobby.renew">
         <source>lobby.renew</source>
-        <target state="needs-translation">Erneut anklopfen</target>
+        <target state="translated">Knock again</target>
       </trans-unit>
       <trans-unit id="5fCeszY" resname="lobby.exit">
         <source>lobby.exit</source>
@@ -1364,11 +1364,11 @@
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
-        <target state="needs-translation">Echotest starten</target>
+        <target state="translated">Start echo test</target>
       </trans-unit>
       <trans-unit id="8SH9Z2g" resname="lobby.echo.input">
         <source>lobby.echo.input</source>
-        <target state="needs-translation">Eingangsgerät</target>
+        <target state="translated">Input device</target>
       </trans-unit>
       <trans-unit id="1sryeOJ" resname="lobby.echo.output">
         <source>lobby.echo.output</source>
