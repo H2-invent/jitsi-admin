@@ -34,6 +34,16 @@ Encore
             name: 'static/media/[name].[hash:8].[ext]'
         }
     })
+    .addPlugin(
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: './node_modules/css-star-rating/images/star-rating.icons.svg',
+                    to: '.'
+                },
+            ]
+        })
+    )
     // empty the outputPath dir before each build
     .cleanupOutputBeforeBuild()
 
