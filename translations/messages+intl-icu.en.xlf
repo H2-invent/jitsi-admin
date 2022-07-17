@@ -1272,7 +1272,7 @@
       </trans-unit>
       <trans-unit id="0NUhwSD" resname="lobby.participant.ask.sucess">
         <source>lobby.participant.ask.sucess</source>
-        <target state="needs-translation">Sie haben Ihren Beitritt erfolgreich angefordert.</target>
+        <target state="translated">You have successfully requested to join.</target>
       </trans-unit>
       <trans-unit id="N9O9mYb" resname="lobby.notification.newUser.title">
         <source>lobby.notification.newUser.title</source>
@@ -1280,7 +1280,7 @@
       </trans-unit>
       <trans-unit id="IbBrCkB" resname="lobby.notification.newUser.message">
         <source>lobby.notification.newUser.message</source>
-        <target state="needs-translation">Der Teilnehmer {name} ist der Lobby der Konferenz {room} beigetreten</target>
+        <target state="translated">{name} has joined the lobby for conference {room}</target>
       </trans-unit>
       <trans-unit id="BvZfePO" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
@@ -1288,7 +1288,7 @@
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">Lobby für die Konferenz: {name}</target>
+        <target state="translated">Lobby for conference: {name}</target>
       </trans-unit>
       <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
@@ -1308,7 +1308,7 @@
       </trans-unit>
       <trans-unit id="PhLWiZZ" resname="lobby.participant.title">
         <source>lobby.participant.title</source>
-        <target state="needs-translation">Lobby für die Konferenz: {name}</target>
+        <target state="translated">Lobby for conference: {name}</target>
       </trans-unit>
       <trans-unit id="rsZTp96" resname="lobby.renew">
         <source>lobby.renew</source>
@@ -1328,7 +1328,7 @@
       </trans-unit>
       <trans-unit id="0rcT2h8" resname="lobby.moderator.accept.success">
         <source>lobby.moderator.accept.success</source>
-        <target state="needs-translation">Sie haben den Teilnehmer erfolgreich der Konferenz hinzugefügt</target>
+        <target state="translated">You have successfully added the participant to the conference</target>
       </trans-unit>
       <trans-unit id="8UJiDMP" resname="lobby.moderator.decline.success">
         <source>lobby.moderator.decline.success</source>
@@ -1356,7 +1356,7 @@
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Teilnehmende zulassen</target>
+        <target state="translated">Allow all participants</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
@@ -1421,11 +1421,11 @@
       </trans-unit>
       <trans-unit id="Igadcd_" resname="confirm.delete.adressbookUser">
         <source>confirm.delete.adressbookUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich entfernen?</target>
+        <target state="translated">Do you really want to remove this entry?</target>
       </trans-unit>
       <trans-unit id="5oh_yoS" resname="confirm.delete.adressbookGroupUser">
         <source>confirm.delete.adressbookGroupUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen?</target>
+        <target state="translated">Are you sure you want to remove this entry from this group?</target>
       </trans-unit>
       <trans-unit id="YU4vd4T" resname="confirm.title">
         <source>confirm.title</source>
@@ -1441,27 +1441,27 @@
       </trans-unit>
       <trans-unit id="jFaq_p7" resname="confirm.delete.room">
         <source>confirm.delete.room</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich löschen?</target>
+        <target state="translated">Do you really want to delete this conference?</target>
       </trans-unit>
       <trans-unit id="QI4Vqe9" resname="confirm.delete.series">
         <source>confirm.delete.series</source>
-        <target state="needs-translation">Wollen Sie diese Serie wirklich löschen?</target>
+        <target state="translated">Are you sure you want to delete this series?</target>
       </trans-unit>
       <trans-unit id="NfYmDes" resname="confirm.delete.lobbyUser">
         <source>confirm.delete.lobbyUser</source>
-        <target state="needs-translation">Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</target>
+        <target state="translated">Do you really want to remove this participant from the lobby?</target>
       </trans-unit>
       <trans-unit id="NnxTjTc" resname="confirm.delete.server">
         <source>confirm.delete.server</source>
-        <target state="needs-translation">Wollen Sie diesen Server wirklich löschen?</target>
+        <target state="translated">Are you sure you want to delete this server?</target>
       </trans-unit>
       <trans-unit id="Ta8QMX4" resname="email.ical.link">
         <source>email.ical.link</source>
-        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+        <target state="translated">You can add this iCal link to your calendar if you want to manage your conferences more comfortable.</target>
       </trans-unit>
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
-        <target state="needs-translation">Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
+        <target state="translated">Your lobby permission have been changed. This Page will reload in a few seconds.</target>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
@@ -1469,7 +1469,7 @@
       </trans-unit>
       <trans-unit id="D3hjQyh" resname="lobby.participant.modal.end.text">
         <source>lobby.participant.modal.end.text</source>
-        <target state="needs-translation">Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
+        <target state="translated">A moderator quit the conference for all participants. Thank you for your participation.</target>
       </trans-unit>
       <trans-unit id="SNlgrt7" resname="text.continue">
         <source>text.continue</source>
@@ -1485,7 +1485,7 @@
       </trans-unit>
       <trans-unit id="S9ZHICp" resname="favorite.sidebar.help">
         <source>favorite.sidebar.help</source>
-        <target state="needs-translation"><![CDATA[Drücken Sie <i class="far fa-star"></i> um Konferenzen als Favoriten zu markieren.]]></target>
+        <target state="translated"><![CDATA[Press <i class="far fa-star"></i> to add this conference to favorites.]]></target>
       </trans-unit>
       <trans-unit id="GKvYLg2" resname="participant.resend.invitation">
         <source>participant.resend.invitation</source>
@@ -1649,7 +1649,7 @@
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
         <source>lobby.endMeeting.ask</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
+        <target state="translated">Do you want to quit this conference for all participants?</target>
       </trans-unit>
       <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
@@ -1661,7 +1661,7 @@
       </trans-unit>
       <trans-unit id="Xf1t6eb" resname="lobby.hangup">
         <source>Konferenz verlassen</source>
-        <target state="needs-translation">Nur ich verlasse</target>
+        <target state="translated">Only I leave</target>
       </trans-unit>
     </body>
   </file>
