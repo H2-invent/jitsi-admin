@@ -26,22 +26,26 @@ class StarController extends JitsiAdminController
     {
         try {
             $star = new Star();
-            if ($request->get('comment')){
+            if ($request->get('comment')) {
                 $star->setComment($request->get('comment'));
             }
-            $this->logger->debug($request->get('star'),array('this ist the star!!!'));
+            $this->logger->debug($request->get('star'), array('this ist the star!!!'));
             $star->setStar($request->get('star'));
             $server = $this->doctrine->getRepository(Server::class)->find($request->get('server'));
-            if ($server){
+            if ($server) {
                 $star->setServer($server);
                 $em = $this->doctrine->getManager();
                 $em->persist($star);
                 $em->flush();
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            return new JsonResponse(array('error'=>true));
+            $res = new JsonResponse(array('error' => true));
+
+
         }
-      return new JsonResponse(array('error'=>false));
+        $res = new JsonResponse(array('error' => false));
+        $res->headers->set('Access-Control-Allow-Origin:', '*');
+        return $res;
     }
 }
