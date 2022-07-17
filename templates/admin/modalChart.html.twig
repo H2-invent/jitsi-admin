@@ -59,7 +59,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+                    <div class="card border-info text-center">
+                        <div class="card-body">
+                            {{ 'Bewertung'|trans }} {% if server.stars| length %}
+                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdp-html="true"
+                                   data-mdb-content="<ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ r.name }}</li>{% endif %} {% endfor %}</ul>">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </a>
+                            {% endif %}
+                            <hr>
+                            {{ showAverageStar(server) }}
 
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
                     {% if tags is defined and tags is not null %}
                         <a href="https://github.com/H2-invent/jitsi-admin/releases/tag/{{ tags[0].name }}"
