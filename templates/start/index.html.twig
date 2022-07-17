@@ -133,6 +133,11 @@
             e.stopImmediatePropagation();
             return '{{ 'ask.tab.close'|trans }}';
         }
+        window.onmessage = function (event) {
+            if (event.data === "jitsi-closed") {
+                window.close();
+            }
+        };
     </script>
 
 
