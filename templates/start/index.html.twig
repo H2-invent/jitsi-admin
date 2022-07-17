@@ -135,6 +135,7 @@
         }
         window.onmessage = function (event) {
             if (event.data === "jitsi-closed") {
+                window.onbeforeunload = null;
                 window.close();
             }
         };
