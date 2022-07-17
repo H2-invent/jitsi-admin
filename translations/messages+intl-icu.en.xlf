@@ -1372,7 +1372,7 @@
       </trans-unit>
       <trans-unit id="1sryeOJ" resname="lobby.echo.output">
         <source>lobby.echo.output</source>
-        <target state="needs-translation">Ausgabegerät</target>
+        <target state="translated">Output device</target>
       </trans-unit>
       <trans-unit id="abSRL0." resname="error.noPermission">
         <source>error.noPermission</source>
@@ -1388,7 +1388,7 @@
       </trans-unit>
       <trans-unit id="wmT9oq4" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
-        <target state="needs-translation">Echotest beenden</target>
+        <target state="translated">Stop echo test</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
