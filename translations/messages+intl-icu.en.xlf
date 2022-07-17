@@ -1372,7 +1372,7 @@
       </trans-unit>
       <trans-unit id="1sryeOJ" resname="lobby.echo.output">
         <source>lobby.echo.output</source>
-        <target state="needs-translation">Ausgabegerät</target>
+        <target state="translated">Output device</target>
       </trans-unit>
       <trans-unit id="abSRL0." resname="error.noPermission">
         <source>error.noPermission</source>
@@ -1388,11 +1388,11 @@
       </trans-unit>
       <trans-unit id="wmT9oq4" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
-        <target state="needs-translation">Echotest beenden</target>
+        <target state="translated">Stop echo test</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>Konferenz beenden</source>
-        <target state="needs-translation">Konferenz beenden</target>
+        <target state="translated">Stop conference</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1653,7 +1653,7 @@
       </trans-unit>
       <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
-        <target state="needs-translation">Swipen zum zulassen</target>
+        <target state="translated">Swipe to allow</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
         <source>ask.tab.close</source>
