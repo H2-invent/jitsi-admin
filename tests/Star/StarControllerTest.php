@@ -21,7 +21,7 @@ class StarControllerTest extends WebTestCase
         $starRepo = self::getContainer()->get(StarRepository::class);
         $stars = $starRepo->findAll();
         self::assertEquals(1,sizeof($stars));
-
+        self::assertEquals((new \DateTime())->format('d.m.YTH:i'),$stars[0]->getCreatedAt()->format('d.m.YTH:i'));
     }
     public function testSendSomeStarsStar(): void
     {

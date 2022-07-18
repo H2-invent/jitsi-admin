@@ -26,6 +26,7 @@ class StarController extends JitsiAdminController
     {
         try {
             $star = new Star();
+            $star->setCreatedAt(new \DateTime());
             if ($request->get('comment')) {
                 $star->setComment($request->get('comment'));
             }
