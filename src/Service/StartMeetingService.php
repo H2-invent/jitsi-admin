@@ -146,7 +146,7 @@ class StartMeetingService
         }
 
         $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', array('room' => $this->room->getId(), 'user' => $this->user->getUserIdentifier()));
-        $this->flashBag->add('danger', $this->translator->trans('error.noPermission'));
+//        $this->flashBag->add('danger', $this->translator->trans('error.noPermission'));
         return $this->urlGen->generate('dashboard');
     }
 

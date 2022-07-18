@@ -36,7 +36,7 @@
 
         {% if room.scheduleMeeting != true %}
             <div class="startConferenceFromFavorite">
-                {% if start_dropdown_allow_app == 1 and start_dropdown_allow_browser == 1 %}
+                {% if getApplicationProperties('start_dropdown_allow_app') == 1 and getApplicationProperties('start_dropdown_allow_browser') == 1 %}
 
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm d-none d-lg-inline " type="button"
                        data-mdb-toggle="dropdown"
@@ -54,11 +54,11 @@
                        href="{{ path('room_join',{'t':'b','room':room.id}) }}"
                        target="_blank"><i class="fa fa-play"></i></a>
 
-                {% elseif start_dropdown_allow_app == 1 %}
+                {% elseif getApplicationProperties('start_dropdown_allow_app') == 1 %}
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
                        href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank"><i
                                 class="fa fa-play"></i></a>
-                {% elseif start_dropdown_allow_browser == 1 %}
+                {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
                        href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank"><i
                                 class="fa fa-play"></i></a>
