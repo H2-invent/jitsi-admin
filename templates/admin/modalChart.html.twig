@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
+                <div class="col-md-6 col-sm-6 col-lg-3 mb-2" id="rating">
                     <div class="card border-info text-center">
                         <div class="card-body">
                             {{ 'Bewertung'|trans }} {% if server.stars| length %}
@@ -60,7 +60,7 @@
                                 </a>
                             {% endif %}
                             <hr>
-                            <div class="rating value-{{ showAverageStar(server)|round(0, 'floor') }} {% if showAverageStar(server) - showAverageStar(server)|round(0, 'floor') >= 0.25 %} half {% endif %} large  label-top star-svg">
+                            <div class="rating value-{{ showAverageStar(server)|round(0, 'floor') }} {% if showAverageStar(server) - showAverageStar(server)|round(0, 'floor') >= 0.25 %} half {% endif %} large  label-left star-svg">
                                 <div class="label-value">{{ showAverageStar(server)|number_format(1) }}</div>
                                 <div class="star-container">
                                     <div class="star">

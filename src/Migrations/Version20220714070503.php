@@ -32,7 +32,6 @@ final class Version20220714070503 extends AbstractMigration
     {
         if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
             // this down() migration is auto-generated, please modify it to your needs
-            $this->addSql('CREATE SCHEMA public');
             $this->addSql('DROP SEQUENCE star_id_seq CASCADE');
             $this->addSql('DROP TABLE star');
         }
