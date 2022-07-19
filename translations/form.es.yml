@@ -77,7 +77,7 @@ help:
   teilnehmerEmailhinzufuegenModerator: Se pueden agregar varias direcciones de correo electrónico a la vez. Cada dirección de correo electrónico debe escribirse en una nueva línea.
   serverName: Introduzca aquí el nombre del servidor. Esto se muestra a los participantes.
   secondEmail: Todos los correos electrónicos deben enviarse a estas direcciones, además de a su dirección de correo electrónico estándar (separadas por comas).
-  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
+  corsHeader: Si se configura un encabezado CORS o frame-ancestor que no hace referencia a esta URL, entonces no es posible usar la API de Jitsi-iFrame. Esto conlleva la pérdida de algunas funciones.
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -130,9 +130,9 @@ label:
   lobby: Activar sala de espera
   secondEmail: CC Correo Electrónico
   profilImage: Imagen de perfil (se mostrará en la conferencia de Jitsi-Meet)
-  corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  corsHeader: Encabezado CORS o encabezado frame-ancestor
+  tag: Categoría
+  serverBackgroundImage: Estadísticas previas de la página de unión
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
