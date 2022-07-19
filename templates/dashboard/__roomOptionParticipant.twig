@@ -1,14 +1,11 @@
 {% if room.scheduleMeeting %}
-
     {% if app.user != room.moderator %}
-
         <a class="element btn btn-outline-primary"
            href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}"
            target="_blank">
             {{ 'Terminplanung'|trans }}
         </a>
     {% endif %}
-
 {% endif %}
 {% if app.user != room.moderator %}
     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
@@ -18,5 +15,9 @@
     </a>
 {% endif %}
 {% if not room.scheduleMeeting %}
+    {% if getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and app.user != room.moderator %}
+        <a href="{{ path('room_past_user',{'room':room.id}) }}"
+           class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
+    {% endif %}
     {% include 'dashboard/__roomOptionStartButton.html.twig' with {'room':room} %}
 {% endif %}

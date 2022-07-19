@@ -9,6 +9,7 @@ use App\Form\Type\NewMemberType;
 use App\Helper\JitsiAdminController;
 use App\Service\ParticipantSearchService;
 use App\Service\RoomAddService;
+use App\Service\ThemeService;
 use App\Service\UserService;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -85,11 +86,11 @@ class ParticipantController extends JitsiAdminController
     /**
      * @Route("/room/participant/past", name="room_past_user")
      */
-    public function roompastUser(Request $request, RoomAddService $roomAddService)
+    public function roompastUser(Request $request,ThemeService $themeService)
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if ($room->getModerator() !== $this->getUser()) {
+        if ($room->getModerator() !== $this->getUser() && $themeService->getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') === 0) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }

@@ -38,6 +38,7 @@ parameters:
     laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'
     laf_icon_mapping_search: '%env(laf_icon_mapping_search)%'
     LAF_DEV_URL: '%env(LAF_DEV_URL)%'
+    LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS: '%env(LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS)%'
 
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
