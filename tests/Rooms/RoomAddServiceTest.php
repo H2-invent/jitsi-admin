@@ -45,6 +45,39 @@ class RoomAddServiceTest extends KernelTestCase
         }
         self::assertEquals(6,sizeof($room->getUser()->toArray()));
     }
+    public function testaddParticipantEmpty(): void
+    {
+        $kernel = self::bootKernel();
+        $roomAddService = self::getContainer()->get(RoomAddService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $user = "test@local5.de\n    \ntest@local6.de";
+        $res = $roomAddService->createParticipants($user,$room);
+        self::assertEquals(0, sizeof($res));
+        $count = 0;
+        foreach ($room->getUser() as $data){
+            switch ($count){
+                case 0:
+                    self::assertEquals('test@local.de',$data->getEmail());
+                    break;
+                case 1:
+                    self::assertEquals('test@local2.de',$data->getEmail());
+                    break;
+                case 2:
+                    self::assertEquals('test@local3.de',$data->getEmail());
+                    break;
+                case 3:
+                    self::assertEquals('test@local5.de',$data->getEmail());
+                    break;
+                case 4:
+                    self::assertEquals('test@local6.de',$data->getEmail());
+                    break;
+
+            }
+            $count++;
+        }
+        self::assertEquals(5,sizeof($room->getUser()->toArray()));
+    }
     public function testaddParticipantEmptyLine(): void
     {
         $kernel = self::bootKernel();
@@ -166,6 +199,52 @@ class RoomAddServiceTest extends KernelTestCase
         self::assertEquals(false, $room->getUserAttributes()[2]->getShareDisplay());
         self::assertEquals(false, $room->getUserAttributes()[2]->getPrivateMessage());
     }
+
+    public function testaddModeratorEmpty(): void
+    {
+        $kernel = self::bootKernel();
+        $roomAddService = self::getContainer()->get(RoomAddService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $user = "test@local5.de\n   \ntest@local6.de";
+        $res = $roomAddService->createModerators($user,$room);
+        self::assertEquals(0, sizeof($res));
+        $count = 0;
+        foreach ($room->getUser() as $data){
+            switch ($count){
+                case 0:
+                    self::assertEquals('test@local.de',$data->getEmail());
+                    break;
+                case 1:
+                    self::assertEquals('test@local2.de',$data->getEmail());
+                    break;
+                case 2:
+                    self::assertEquals('test@local3.de',$data->getEmail());
+                    break;
+                case 3:
+                    self::assertEquals('test@local5.de',$data->getEmail());
+                    break;
+                case 4:
+                    self::assertEquals('test@local6.de',$data->getEmail());
+                    break;
+            }
+            $count++;
+        }
+        self::assertEquals(5,sizeof($room->getUser()->toArray()));
+        self::assertEquals(2,sizeof($room->getUserAttributes()->toArray()));
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email'=>'test@local5.de'));
+        self::assertEquals($user,$room->getUserAttributes()->toArray()[0]->getUser());
+        self::assertEquals(true, $room->getUserAttributes()[0]->getModerator());
+        self::assertEquals(false, $room->getUserAttributes()[0]->getShareDisplay());
+        self::assertEquals(false, $room->getUserAttributes()[0]->getPrivateMessage());
+        $user = $userRepo->findOneBy(array('email'=>'test@local6.de'));
+        self::assertEquals($user,$room->getUserAttributes()->toArray()[1]->getUser());
+        self::assertEquals(true, $room->getUserAttributes()[1]->getModerator());
+        self::assertEquals(false, $room->getUserAttributes()[1]->getShareDisplay());
+        self::assertEquals(false, $room->getUserAttributes()[1]->getPrivateMessage());
+    }
+
     public function testaddModeratorWrongEmail(): void
     {
         $kernel = self::bootKernel();
