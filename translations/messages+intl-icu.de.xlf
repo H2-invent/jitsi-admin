@@ -915,7 +915,7 @@
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
         <target>Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
       </trans-unit>
-      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} startet gleich.">
+      <trans-unit id="_wtk.2R" resname="Die Videokonferenz {name} startet gleich.">
         <source>Die Videokonferenz {name} startet gleich.</source>
         <target state="translated">Die Videokonferenz {name} beginnt gleich.</target>
       </trans-unit>
@@ -1400,7 +1400,7 @@
         <target>Echotest beenden</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
-        <source>Konferenz beenden</source>
+        <source>lobby.endMeeting</source>
         <target>Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
@@ -1669,8 +1669,30 @@
         <target>Wollen Sie die Konferenz wirklich verlassen?</target>
       </trans-unit>
       <trans-unit id="Xf1t6eb" resname="lobby.hangup">
-        <source>Konferenz verlassen</source>
+        <source>lobby.hangup</source>
         <target>Nur ich verlasse</target>
+      </trans-unit>
+      <trans-unit id="XJjOklj" resname="Bewertung">
+        <source>Bewertung</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source></source>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="saiR089" resname="join.privacy.theme">
+        <source>join.privacy.theme</source>
+        <target><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
+        <source>join.privacy.ownServer</source>
+        <target> <![CDATA[Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
     </body>
   </file>
