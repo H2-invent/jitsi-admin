@@ -67,7 +67,7 @@ parameters:
     input_settings_deactivate_participantsList: '%env(input_settings_deactivate_participantsList)%'
     input_settings_dissallow_screenshare: '%env(input_settings_dissallow_screenshare)%'
     input_settings_allow_timezone: '%env(input_settings_allow_timezone_default)%'
-
+    helpText: '%env(helpText)%'
     input_settings_persistant_rooms_default: '%env(input_settings_persistant_rooms_default)%'
     input_settings_only_registered_default: '%env(input_settings_only_registered_default)%'
     input_settings_share_link_default: '%env(input_settings_share_link_default)%'
