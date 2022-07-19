@@ -1,7 +1,9 @@
 {% if dropdown_settings_common_edit == 1 %}
+    {%if not room.endTimestamp or room.endTimestamp > date().timestamp %}
     <li><a href="{{ path('room_new',{'id':room.id}) }}"
            class="loadContent dropdown-item">
             {{ 'Bearbeiten'|trans }}</a></li>
+        {%endif%}
 {% endif %}
 {% if dropdown_settings_common_duplicate == 1 %}
     <li><a href="{{ path('room_clone',{'room':room.id}) }}"

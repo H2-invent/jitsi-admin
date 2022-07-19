@@ -6,8 +6,7 @@
 
             {% if room.moderator == app.user %}
                 {{ include('dashboard/__roomOption.html.twig') }}
-                {% if room.moderator == app.user and room.totalOpenRooms != true %}
-
+                {% if (room.moderator == app.user or getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1) and room.totalOpenRooms != true %}
                     <a href="{{ path('room_past_user',{'room':room.id}) }}"
                        class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
                 {% endif %}
