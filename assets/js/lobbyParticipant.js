@@ -48,6 +48,8 @@ function connectES() {
             clearInterval(healtcheckInterval);
             hangup()
             $('#jitsiWindow').remove();
+        } else if (data.type === 'redirect') {
+            clearInterval(healtcheckInterval);
         }
     }
     healtcheckInterval = setInterval(function () {

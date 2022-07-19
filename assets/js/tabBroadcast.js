@@ -92,12 +92,11 @@ var TabUtils = new (function () {
 
         var localStorageKey = keyPrefix + lockname;
         if (localStorage.getItem(localStorageKey) === null) {
+            localStorage.setItem(localStorageKey, myTabId);
             fn();
         }
-        localStorage.setItem(localStorageKey, myTabId);
+
         //re-read after a delay (after all tabs have saved their tabIDs into ls)
-
-
         //cleanup - release the lock after 3 seconds and on window unload (just in case user closed the window while the lock is still held)
         setTimeout(function () {
             localStorage.removeItem(localStorageKey);

@@ -153,7 +153,7 @@ class UserService
 
         $this->pushService->generatePushNotification(
             $subject,
-            $this->translator->trans('Die Videokonferenz {name} von startet gleich.',
+            $this->translator->trans('Die Videokonferenz {name} startet gleich.',
                 array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')),
                     '{name}' => $room->getName())),
             $user,

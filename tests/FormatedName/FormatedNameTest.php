@@ -97,4 +97,25 @@ class FormatedNameTest extends KernelTestCase
         );
 
     }
+
+    public function testCreateFormatedNameEmptyStringFieldsSecond(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        self::assertEquals(
+            'test@local.de test@local.de +-0123456789',
+            $user->getFormatedName('user.email$ user.username$, user.specialField.notThere$ +-user.specialField.telephoneNumber$')
+        );
+        $specialField = $user->getSpezialProperties();
+        $specialField['telephoneNumber'] = '';
+        $user->setSpezialProperties($specialField);
+        self::assertEquals(
+            'test@local.de test@local.de',
+            $user->getFormatedName('user.email$ user.username$, user.specialField.notThere$ +-user.specialField.telephoneNumber$')
+        );
+    }
+
 }

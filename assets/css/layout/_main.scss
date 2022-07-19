@@ -283,7 +283,7 @@ strong {
     .nav-link {
       color: black;
       word-break: break-word;
-      @media only screen and (max-width: 576px)  {
+      @media only screen and (max-width: 576px) {
         font-size: smaller;
       }
     }
@@ -540,6 +540,40 @@ strong {
   border: #00c851 solid 4px !important;;
 }
 
+@keyframes warning-roller {
+  0% {
+    border-image:
+            linear-gradient(
+                            to right,
+                            #dad78a 0%,
+                            #ded201 1%,
+                            #dad78a 100%
+            );
+
+  }
+  100% {
+    border-image:
+            linear-gradient(
+                            to right,
+                            #dad78a 0%,
+                            #ded201 99%,
+                            #dad78a 100%
+            );
+  }
+}
+
+
+.warningBorder {
+  //border: #c8be00 solid 4px !important;
+  //border-width: 3px!important;
+  //border-style: solid!important;
+  //animation-name: warning-roller;                /** Name der Animation **/
+  //animation-duration: 5s;               /** Dauer der Animation **/
+  //animation-iteration-count: infinite;  /** Anzahl der Wiederholungen **/
+  //border-image-slice: 1!important;
+  border: #eaca00 solid 4px !important;;
+}
+
 .occupant {
   display: flex;
   flex-direction: column;
@@ -594,172 +628,191 @@ strong {
   }
 }
 
-
-.modal-dialog {
-
-  @media (min-width: 992px) {
-    &.modal-full-height {
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      width: 400px;
-      height: auto;
-      min-height: 100%;
-      margin: 0;
-
-      &.modal-right {
-        right: 0;
-        @media (min-width: 992px) and (min-width: 992px) {
-          .modal-header {
-            border-radius: 0;
-          }
-
-          .modal-content {
-            border-radius: 0;
-          }
-        }
-
-        .modal-body {
-          overflow-y: auto;
-        }
-      }
-    }
-  }
-
-
-  @media (min-width: 992px) and (min-width: 992px) {
-    &.modal-lg {
-      width: 800px;
-      max-width: 800px;
-    }
-  }
-
-  @media (min-width: 992px) and (min-width: 1200px) {
-    &.modal-lg {
-      width: 1000px;
-      max-width: 1000px;
-    }
-  }
-
-}
-
-.btn, .btn-group {
-  margin-top: 4px;
-  margin-bottom: 4px;
-  margin-right: 16px;
-}
-
-.input-group, .btn-group {
-  .btn {
-    margin: 0;
-  }
-}
-
-.btn-block {
-  margin-right: 0;
-  margin-left: 0;
-}
-
-.form-check-label {
-  width: 99%;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-[data-mdb-toggle="popover"] {
-  cursor: pointer;
-}
-
-#participantUser {
-  padding: 8px;
-}
-
-.nav-link {
-  display: block;
-  padding: 0.5rem 1rem;
-}
-
-@media only screen and (max-width: 576px) {
+.modal.fade {
   .modal-dialog {
-    width: 100vw;
-    max-width: none;
-    margin: 0;
-    height: 100%;
+    &.modal-right {
+      transform: translateX(50px);
+    }
+  }
+}
+.modal {
+  &.show {
+    .modal-dialog {
+      transform: none !important;
+    }
+  }
+}
+  .modal-dialog {
 
-    .modal-content {
+    @media (min-width: 992px) {
+      &.modal-full-height {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 400px;
+        height: auto;
+        min-height: 100%;
+        margin: 0;
+
+        &.modal-right {
+          right: 0;
+
+          @media (min-width: 992px) and (min-width: 992px) {
+            .modal-header {
+              border-radius: 0;
+            }
+
+            .modal-content {
+              border-radius: 0;
+            }
+          }
+
+          .modal-body {
+            overflow-y: auto;
+          }
+        }
+      }
+    }
+
+
+    @media (min-width: 992px) and (min-width: 992px) {
+      &.modal-lg {
+        width: 800px;
+        max-width: 800px;
+      }
+    }
+
+    @media (min-width: 992px) and (min-width: 1200px) {
+      &.modal-lg {
+        width: 1000px;
+        max-width: 1000px;
+      }
+    }
+
+  }
+
+  .btn, .btn-group {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 16px;
+  }
+
+  .input-group, .btn-group {
+    .btn {
+      margin: 0;
+    }
+  }
+
+  .btn-block {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .form-check-label {
+    width: 99%;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  [data-mdb-toggle="popover"] {
+    cursor: pointer;
+  }
+
+  #participantUser {
+    padding: 8px;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+  }
+
+  @media only screen and (max-width: 576px) {
+    .modal-dialog {
+      width: 100vw;
+      max-width: none;
+      margin: 0;
       height: 100%;
-      border-radius: 0;
 
-      .modal-header {
+      .modal-content {
+        height: 100%;
         border-radius: 0;
+
+        .modal-header {
+          border-radius: 0;
+        }
       }
     }
   }
-}
 
-.dropdown-toggle {
-  cursor: pointer;
-}
+  .dropdown-toggle {
+    cursor: pointer;
+  }
 
-.floating-tag {
-  display: flex;
-  align-content: center;
-  justify-content: left;
-  z-index: 2;
-  margin: 0;
-  padding: 0.1em 1em 0.1em 1em;
-}
+  .floating-tag {
+    display: flex;
+    align-content: center;
+    justify-content: left;
+    z-index: 2;
+    margin: 0;
+    padding: 0.1em 1em 0.1em 1em;
+  }
 
-.form-outline {
-  .form-control {
-    &:focus {
-      & ~ .form-label {
-        color: $main-color;
+  .form-outline {
+    .form-control {
+      &:focus {
+        & ~ .form-label {
+          color: $main-color;
+        }
+
+        & ~ .form-notch {
+          .form-notch-leading {
+            border-color: $main-color;
+            box-shadow: -1px 0 0 0 $main-color, 0 1px 0 0 $main-color, 0 -1px 0 0 $main-color;
+          }
+
+
+          .form-notch-middle {
+            border-color: $main-color;
+            box-shadow: 0 1px 0 0 $main-color;
+            border-top: 1px solid transparent;
+          }
+
+          .form-notch-trailing {
+            border-color: $main-color;
+            box-shadow: 1px 0 0 0 $main-color, 0 -1px 0 0 $main-color, 0 1px 0 0 $main-color;
+          }
+        }
+
       }
-
-      & ~ .form-notch {
-        .form-notch-leading {
-          border-color: $main-color;
-          box-shadow: -1px 0 0 0 $main-color, 0 1px 0 0 $main-color, 0 -1px 0 0 $main-color;
-        }
-
-
-        .form-notch-middle {
-          border-color: $main-color;
-          box-shadow: 0 1px 0 0 $main-color;
-          border-top: 1px solid transparent;
-        }
-
-        .form-notch-trailing {
-          border-color: $main-color;
-          box-shadow: 1px 0 0 0 $main-color, 0 -1px 0 0 $main-color, 0 1px 0 0 $main-color;
-        }
-      }
-
     }
   }
-}
 
-#frame {
-  min-height: -webkit-fill-available;
-  height: calc(100vh - calc(100vh - 100%));
-  //height: 100vh;
-  overflow: hidden;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  #jitsiWindow{
-    flex-grow: 1;
+  #frame {
+    min-height: -webkit-fill-available;
+    height: calc(100vh - calc(100vh - 100%));
+    //height: 100vh;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+
+    #jitsiWindow {
+      flex-grow: 1;
+    }
   }
-}
-.form-check{
-  display: flex;
-}
+
+  .form-check {
+    display: flex;
+  }
+
+
+

@@ -21,7 +21,8 @@ class RoomAddService
     private $repeaterService;
     private $parameterBag;
     private $userCreatorService;
-    public function __construct(UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, RepeaterService  $repeaterService,InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
+
+    public function __construct(UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, RepeaterService $repeaterService, InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
     {
         $this->inviteService = $inviteService;
         $this->em = $entityManager;
@@ -29,7 +30,7 @@ class RoomAddService
         $this->translator = $translator;
         $this->repeaterService = $repeaterService;
         $this->parameterBag = $parameterBag;
-        $this->userCreatorService= $userCreatorService;
+        $this->userCreatorService = $userCreatorService;
     }
 
 
@@ -39,17 +40,19 @@ class RoomAddService
         $falseEmail = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {
-                $newMember = trim($line);
-                $tmpUser = null;
-                $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
-                if (!$tmpUser) {
-                    $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $newMember));
-                }
-                if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
-                    $this->createUserParticipant($newMember, $room,$tmpUser);
-                } else {
-                    if (strlen($newMember) > 0) {
-                        $falseEmail[] = $newMember;
+                if (trim($line) !== '') {
+                    $newMember = trim($line);
+                    $tmpUser = null;
+                    $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
+                    if (!$tmpUser) {
+                        $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $newMember));
+                    }
+                    if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
+                        $this->createUserParticipant($newMember, $room, $tmpUser);
+                    } else {
+                        if (strlen($newMember) > 0) {
+                            $falseEmail[] = $newMember;
+                        }
                     }
                 }
             }
@@ -66,31 +69,34 @@ class RoomAddService
         $falseEmail = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {
-                $newMember = trim($line);
-                $tmpUser = null;
-                $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
-                if (!$tmpUser) {
-                    $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $newMember));
-                }
-                if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
-                    $user = $this->createUserParticipant($newMember, $room,$tmpUser);
-                    $roomsUser = new RoomsUser();
-                    $roomsUser->setUser($user);
-                    $roomsUser->setRoom($room->getRepeater() ? $room->getRepeater()->getPrototyp() : $room);
-                    if ($room->getRepeater()) {
-                        $roomsUser->setRoom($room->getRepeater()->getPrototyp());
-                        $room->getRepeater()->getPrototyp()->addUserAttribute($roomsUser);
+                if (trim($line) !== '') {
+                    $newMember = trim($line);
+                    $tmpUser = null;
+                    $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
+                    if (!$tmpUser) {
+                        $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $newMember));
+                    }
+                    if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
+                        $user = $this->createUserParticipant($newMember, $room, $tmpUser);
+                        $roomsUser = new RoomsUser();
+                        $roomsUser->setUser($user);
+                        $roomsUser->setRoom($room->getRepeater() ? $room->getRepeater()->getPrototyp() : $room);
+                        if ($room->getRepeater()) {
+                            $roomsUser->setRoom($room->getRepeater()->getPrototyp());
+                            $room->getRepeater()->getPrototyp()->addUserAttribute($roomsUser);
+                        } else {
+                            $roomsUser->setRoom($room);
+                        }
+                        $roomsUser->setModerator(true);
+                        $this->em->persist($roomsUser);
                     } else {
-                        $roomsUser->setRoom($room);
-                    }
-                    $roomsUser->setModerator(true);
-                    $this->em->persist($roomsUser);
-                } else {
-                    if (strlen($newMember) > 0) {
-                        $falseEmail[] = $newMember;
-                    }
+                        if (strlen($newMember) > 0) {
+                            $falseEmail[] = $newMember;
+                        }
 
+                    }
                 }
+
             }
             $this->em->flush();
         }
@@ -104,8 +110,8 @@ class RoomAddService
 
     private function createUserParticipant($email, Rooms $room, ?User $user = null)
     {
-        if (!$user){
-            $user = $this->userCreatorService->createUser($email,$email,'','');
+        if (!$user) {
+            $user = $this->userCreatorService->createUser($email, $email, '', '');
         }
 
         if ($room->getRepeater()) {

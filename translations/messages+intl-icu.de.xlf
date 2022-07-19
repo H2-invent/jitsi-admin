@@ -915,9 +915,9 @@
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
         <target>Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
       </trans-unit>
-      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
-        <source>Die Videokonferenz {name} von startet gleich.</source>
-        <target state="translated">Die Videokonferenz {name} von beginnt gleich.</target>
+      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} startet gleich.">
+        <source>Die Videokonferenz {name} startet gleich.</source>
+        <target state="translated">Die Videokonferenz {name} beginnt gleich.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
