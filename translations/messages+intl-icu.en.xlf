@@ -907,9 +907,9 @@
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
         <target state="translated">The videoconference {name} was cancelled by {organizer}.</target>
       </trans-unit>
-      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
-        <source>Die Videokonferenz {name} von startet gleich.</source>
-        <target state="translated">The videoconference {name} starts soon.</target>
+      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} startet gleich.">
+        <source>Die Videokonferenz {name} startet gleich.</source>
+        <target state="needs-translation">Die Videokonferenz {name} beginnt gleich.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
@@ -1636,16 +1636,20 @@
         <target state="translated">Active speaking time</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmer</source>
+        <source>Anzahl Teilnehmende</source>
         <target state="translated">Number of participants</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
-        <source>Wollen Sie die Konferenz wirklich verlassen?</source>
+        <source>ask.tab.close</source>
         <target state="translated">Sure, you want to leave this conference?</target>
+      </trans-unit>
+      <trans-unit id="YkaONWP" resname="statistic.actualRooms">
+        <source>Aktuell laufende Konferenzen</source>
+        <target state="translated">Current Conferences</target>
+      </trans-unit>
+      <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
+        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
+        <target state="translated">Participants in currently running conferences</target>
       </trans-unit>
     </body>
   </file>
