@@ -908,9 +908,9 @@
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
         <target state="needs-translation">Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
       </trans-unit>
-      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
-        <source>Die Videokonferenz {name} von startet gleich.</source>
-        <target state="needs-translation">Die Videokonferenz {name} von beginnt gleich.</target>
+      <trans-unit id="_wtk.2R" resname="Die Videokonferenz {name} startet gleich.">
+        <source>Die Videokonferenz {name} startet gleich.</source>
+        <target state="needs-translation">Die Videokonferenz {name} beginnt gleich.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
@@ -1393,7 +1393,7 @@
         <target state="needs-translation">Echotest beenden</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
-        <source>Konferenz beenden</source>
+        <source>lobby.endMeeting</source>
         <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
@@ -1662,8 +1662,26 @@
         <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
       </trans-unit>
       <trans-unit id="Xf1t6eb" resname="lobby.hangup">
-        <source>Konferenz verlassen</source>
+        <source>lobby.hangup</source>
         <target state="needs-translation">Nur ich verlasse</target>
+      </trans-unit>
+      <trans-unit id="XJjOklj" resname="Bewertung">
+        <source>Bewertung</source>
+        <target state="needs-translation">Bewertung</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="saiR089" resname="join.privacy.theme">
+        <source>join.privacy.theme</source>
+        <target state="needs-translation"><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
+        <source>join.privacy.ownServer</source>
+        <target state="translated"><![CDATA[我已经阅读，理解和同意有关隐私声明<a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>Jitsi Admin</u> <i class="fa fa-external-link-alt"></i> </a>and <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"> <u>{url}</u><i class="fa fa-external-link-alt"></i> </a>.]]></target>
       </trans-unit>
     </body>
   </file>
