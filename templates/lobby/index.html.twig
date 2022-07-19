@@ -3,6 +3,8 @@
     {% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}
 {% endblock %}
 {% block content %}
+
+
     <div class="col-12 lobbyCard">
         <div id="jitsiWrapper">
             <div class="w-100" id="jitsiWindow">
@@ -60,8 +62,8 @@
                     <div class="lobbyButtons">
                         {% if type == 'a' %}
                             <a class="btn btn-primary d-block start-btn"
-                            href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
-                            target="_blank">
+                               href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                               target="_blank">
                                 <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                             </a>
                         {% elseif type == 'b' %}
@@ -71,13 +73,13 @@
                                    target="_blank">
                                     <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                                 </a>
-                                {% else %}
-                                    <a class="btn btn-primary  startIframe d-block start-btn"
-                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
-                                       target="_blank">
-                                        <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
-                                    </a>
-                                {% endif %}
+                            {% else %}
+                                <a class="btn btn-primary  startIframe d-block start-btn"
+                                   href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                   target="_blank">
+                                    <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                </a>
+                            {% endif %}
                         {% endif %}
 
                         <a class="btn btn-success  directSend"
@@ -100,6 +102,20 @@
 
 {% endblock %}
 {% block script %}
+
+
+    {% set logo_large = httpsAbolutUrl(asset('logo.png')) %}
+
+    {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+        {% set logo_large =  server.logoUrl %}
+    {% else %}
+        {% if theme == false %}
+            {% set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
+        {% else %}
+            {% set logo_large = theme.logo %}
+        {% endif %}
+    {% endif %}
+
     {% if name is defined and name is not null %}
         <script src='https://{{ room.server.url }}/external_api.js'></script>
         <script>
@@ -109,14 +125,14 @@
                 width: '100%',
                 height: 700,
                 configOverwrite: {
-                    prejoinPageEnabled: false
+                    prejoinPageEnabled: false,
+                    disableBeforeUnloadHandlers: true,
                 },
                 interfaceConfigOverwrite: {
                     MOBILE_APP_PROMO: false,
                     SHOW_JITSI_WATERMARK: false,
                     HIDE_DEEP_LINKING_LOGO: true,
-                    SHOW_BRAND_WATERMARK: false,
-                    SHOW_WATERMARK_FOR_GUESTS: false
+                    SHOW_BRAND_WATERMARK: true,
                 },
                 parentNode: document.querySelector('#jitsiWindow'),
                 {% if room.server.appId is not null %}
@@ -125,7 +141,7 @@
                 userInfo: {
                     displayName: '{{ name }}',
                     {% if user is not null and  user.profilePicture is not null %}
-                    avatarUrl:'{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
+                    avatarUrl: '{{ vich_uploader_asset(user.profilePicture,'documentFile') }}',
                     {% endif %}
                 }
             };

@@ -4,7 +4,6 @@
 namespace App\Service\ldap;
 
 
-
 use App\dataType\LdapType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,9 +43,9 @@ class LdapService
     {
         try {
             $tmp = Ldap::create('ext_ldap', ['connection_string' => $url]);
-            if($anonym === false){
+            if ($anonym === false) {
                 $tmp->bind($login, $password);
-            }else{
+            } else {
                 $tmp->bind();
             }
             return $tmp;
@@ -78,13 +77,13 @@ class LdapService
     }
 
 
-
     /**
      * @param LdapType $ldap
      * @return array
      * @throws \Exception
      */
-    public function fetchLdap(LdapType $ldap){
+    public function fetchLdap(LdapType $ldap, $dryRun = false)
+    {
 
         $user = null;
 
@@ -92,12 +91,15 @@ class LdapService
             $userLdap =//Here we fetch all coresponding users from the LDAP
                 $this->retrieveUser($ldap);
             foreach ($userLdap as $u) {// Here we itterate over the user from user
-                $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap);
-                  }
+                $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap, $dryRun);
+            }
         } catch (\Exception $e) {
             throw $e;
         }
-        $this->ldapUserService->syncDeletedUser($ldap);
-        return array('ldap'=>$ldap,'user'=>$user);
+        if (!$dryRun) {
+            $this->ldapUserService->syncDeletedUser($ldap);
+        }
+
+        return array('ldap' => $ldap, 'user' => $user);
     }
 }

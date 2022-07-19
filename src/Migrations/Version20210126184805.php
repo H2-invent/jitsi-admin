@@ -12,20 +12,24 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210126184805 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE server ADD logo_url LONGTEXT DEFAULT NULL, ADD smtp_host LONGTEXT DEFAULT NULL, ADD smtp_port INT DEFAULT NULL, ADD smtp_password LONGTEXT DEFAULT NULL, ADD smtp_username LONGTEXT DEFAULT NULL, ADD smtp_encryption LONGTEXT DEFAULT NULL, ADD smtp_email LONGTEXT DEFAULT NULL, ADD smtp_sender_name LONGTEXT DEFAULT NULL, ADD slug LONGTEXT NOT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE server ADD logo_url LONGTEXT DEFAULT NULL, ADD smtp_host LONGTEXT DEFAULT NULL, ADD smtp_port INT DEFAULT NULL, ADD smtp_password LONGTEXT DEFAULT NULL, ADD smtp_username LONGTEXT DEFAULT NULL, ADD smtp_encryption LONGTEXT DEFAULT NULL, ADD smtp_email LONGTEXT DEFAULT NULL, ADD smtp_sender_name LONGTEXT DEFAULT NULL, ADD slug LONGTEXT NOT NULL');
+        }
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE server DROP logo_url, DROP smtp_host, DROP smtp_port, DROP smtp_password, DROP smtp_username, DROP smtp_encryption, DROP smtp_email, DROP smtp_sender_name, DROP slug');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE server DROP logo_url, DROP smtp_host, DROP smtp_port, DROP smtp_password, DROP smtp_username, DROP smtp_encryption, DROP smtp_email, DROP smtp_sender_name, DROP slug');
+        }
     }
 }

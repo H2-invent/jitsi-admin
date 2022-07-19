@@ -28,6 +28,10 @@ fi
 
 php bin/console doctrine:mig:mig --no-interaction
 php bin/console cache:clear
+crontab -l > cron_bkp
+echo "* * * * * php /var/www/jitsi-admin/bin/console cron:run 1>> /dev/null 2>&1" > cron_bkp
+crontab cron_bkp
+rm cron_bkp
 echo --------------------------------------------------------------------------
 echo -----------------We looking for all the other parameters-------------------
 echo --------------------------------------------------------------------------
@@ -38,13 +42,12 @@ read -p "Enter smtp host: " smtpHost
 read -p "Enter smtp port: " smtpPort
 read -p "Enter smtp username: " smtpUsername
 read -p "Enter smtp password: " smtpPassword
-read -p "Enter SMTP encrytion tls/ssl/none: " smtpEncryption
 
 sed -i "s/<smtpHost>/$smtpHost/" .env.local
 sed -i "s/<smtpPort>/$smtpPort/" .env.local
 sed -i "s/<smtpUsername>/$smtpUsername/" .env.local
 sed -i "s/<smtpPassword>/$smtpPassword/" .env.local
-sed -i "s/<smtpEncryption>/$smtpEncryption/" .env.local
+
 echo -------------------------------------------------------------
 echo -----------------Keycloak--------------------------------------
 echo -------------------------------------------------------------
@@ -55,8 +58,8 @@ read -p "Keycloak Client Id: " keycloakClientId
 read -p "Keycloak Client Secret: " keycloakClientSecret
 
 sed -i "s%<baseUrl>%$baseUrl%" .env.local
-sed -i "s%<keycloakServer>%$keycloakServer%" .env.local
 
+sed -i "s%<keycloakServer>%$keycloakServer%" .env.local
 sed -i "s/<keycloakRealm>/$keycloakRealm/" .env.local
 sed -i "s/<keycloakClientId>/$keycloakClientId/" .env.local
 sed -i "s/<keycloakClientSecret>/$keycloakClientSecret/" .env.local
@@ -84,6 +87,15 @@ echo -----------------------Install NPM and Assets----------------------------
 echo --------------------------------------------------------------------------
 npm install
 npm run build
+rm -rf node_modules/
+echo --------------------------------------------------------------------------
+echo -----------------------Install Worker for Async Work----------------------
+echo --------------------------------------------------------------------------
+cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
+systemctl daemon-reload
+service start jitsi-admin_messenger
+restart start jitsi-admin_messenger
+service enable jitsi-admin_messenger
 echo --------------------------------------------------------------------------
 echo -----------------------Installed the Jitsi-Admin correct------------------
 echo --------------------------------------------------------------------------

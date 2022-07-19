@@ -35,10 +35,15 @@ class AdminController extends JitsiAdminController
              return $this->redirectToRoute('dashboard');
         }
         $tags = null;
-        if($parameterBag->get('enterprise_noExternal') == 0){
-            $req = $httpClient->request('GET', 'https://api.github.com/repos/H2-invent/jitsi-admin/tags');
-            $tags = json_decode($req->getContent(), true);
+        try {
+            if($parameterBag->get('enterprise_noExternal') == 0){
+                $req = $httpClient->request('GET', 'https://api.github.com/repos/H2-invent/jitsi-admin/tags');
+                $tags = json_decode($req->getContent(), true);
+            }
+        }catch (\Exception $exception){
+            $tags = null;
         }
+
         $chart = $adminService->createChart($server);
 
         return $this->render('admin/modalChart.html.twig', [

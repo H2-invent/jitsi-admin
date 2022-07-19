@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Service\IndexUserService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
@@ -20,11 +21,14 @@ class LdapUserService
     private $em;
     private $userCreationService;
     private $indexer;
-    public function __construct(EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
+    private $logger;
+
+    public function __construct(LoggerInterface $logger, EntityManagerInterface $entityManager, UserCreatorService $userCreationService, IndexUserService $indexUserService)
     {
         $this->em = $entityManager;
         $this->userCreationService = $userCreationService;
         $this->indexer = $indexUserService;
+        $this->logger = $logger;
     }
 
     /**
@@ -34,52 +38,59 @@ class LdapUserService
      * @param $mapper
      * @return User|object
      */
-    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType)
+    public function retrieveUserfromDatabasefromUserNameAttribute(Entry $entry, LdapType $ldapType, $dryRun = false): ?User
     {
         //Here we get the attributes from the LDAP (username, email, firstname, lastname)
-        $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
-        $email = $entry->getAttribute($ldapType->getMapper()['email'])[0];
-        $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0];
-        $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0];
-        $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
-        if (!$user) {
-            $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
-        }
-        if (!$user) {
-            $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName);
-            $user->setUid(md5(uniqid()));
-        }
-        if (!$user->getLdapUserProperties()) {
-            $ldap = new LdapUserProperties();
-            $ldap->setLdapHost($ldapType->getUrl());
-            $ldap->setLdapDn($entry->getDn());
-            $user->setLdapUserProperties($ldap);
-            $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
-        }
-
-        if ($ldapType->getRdn()) {
-            $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
-        }
-        $specialField = array();
-        foreach ($ldapType->getSpecialFields() as $data) {
-            if ($entry->getAttribute($data)) {
-                $specialField[$data] = $entry->getAttribute($data)[0];
-            } else {
-                $specialField[$data] = '';
+        try {
+            $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
+            $email = $entry->getAttribute($ldapType->getMapper()['email'])[0]??'';
+            $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0]??null;
+            $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0]??null;
+            $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
+            if (!$user) {
+                $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
+            }
+            if (!$user) {
+                $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName, $dryRun);
+                $user->setUid(md5(uniqid()));
+            }
+            if (!$user->getLdapUserProperties()) {
+                $ldap = new LdapUserProperties();
+                $ldap->setLdapHost($ldapType->getUrl());
+                $ldap->setLdapDn($entry->getDn());
+                $user->setLdapUserProperties($ldap);
+                $user->getLdapUserProperties()->setLdapNumber($ldapType->getSerVerId());
             }
 
+            if ($ldapType->getRdn()) {
+                $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
+            }
+            $specialField = array();
+            foreach ($ldapType->getSpecialFields() as $data) {
+                if ($entry->getAttribute($data)) {
+                    $specialField[$data] = $entry->getAttribute($data)[0];
+                } else {
+                    $specialField[$data] = '';
+                }
+
+            }
+            $user->setSpezialProperties($specialField);
+
+            $user->setEmail($email);
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
+            $user->setUsername($uid);
+
+            $user->setIndexer($this->indexer->indexUser($user));
+            if (!$dryRun) {
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+            return $user;
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage(),$exception->getFile() .'Line: '. $exception->getLine());
         }
-        $user->setSpezialProperties($specialField);
-
-        $user->setEmail($email);
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-        $user->setUsername($uid);
-
-        $user->setIndexer($this->indexer->indexUser($user));
-        $this->em->persist($user);
-        $this->em->flush();
-        return $user;
+        return null;
     }
 
     /**
@@ -126,7 +137,7 @@ class LdapUserService
      * @param Ldap $ldap
      * @param $ldapServerId
      */
-    public function syncDeletedUser( LdapType $ldapType)
+    public function syncDeletedUser(LdapType $ldapType)
     {
         $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
         foreach ($user as $data) {
@@ -153,10 +164,10 @@ class LdapUserService
             } else {
                 return null;
             }
-        if (sizeof($object->toArray()) === 0){
-            $this->deleteUser($user);
-            return null;
-        }
+            if (sizeof($object->toArray()) === 0) {
+                $this->deleteUser($user);
+                return null;
+            }
         } catch (LdapException $e) {
             $this->deleteUser($user);
             return null;

@@ -26,8 +26,8 @@ class AdressBookUITest extends WebTestCase
             $crawler->filter('.breakWord:contains("Test2, 1234, User2, Test2")')->count()
         );
         $this->assertEquals(
-            1,
-            $crawler->filter('.breakWord:contains(", , , ")')->count()
+            3,
+            $crawler->filter('.breakWord:contains("")')->count()
         );
     }
 
@@ -65,7 +65,7 @@ class AdressBookUITest extends WebTestCase
             array(
                 'user' => array(
                     array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
-                    array('name' => ', , , ', 'id' => 'test@local3.de')
+                    array('name' => '', 'id' => 'test@local3.de')
                 ),
                 'group' => array(
                         array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
@@ -95,7 +95,7 @@ class AdressBookUITest extends WebTestCase
             array(
                 'user' => array(
                     array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
-                     array('name' => ', , , ', 'id' => 'test@local3.de')
+                     array('name' => '', 'id' => 'test@local3.de')
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
@@ -110,7 +110,7 @@ class AdressBookUITest extends WebTestCase
             array(
                 'user' => array(
                     array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
-                     array('name' => ', , , ', 'id' => 'test@local3.de')
+                     array('name' => '', 'id' => 'test@local3.de')
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")

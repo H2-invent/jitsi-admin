@@ -12,20 +12,24 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210131084935 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE server ADD privacy_policy LONGTEXT DEFAULT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE server ADD privacy_policy LONGTEXT DEFAULT NULL');
+        }
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE server DROP privacy_policy');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE server DROP privacy_policy');
+        }
     }
 }

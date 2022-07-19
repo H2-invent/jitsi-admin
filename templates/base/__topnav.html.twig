@@ -1,30 +1,30 @@
 <ul class="nav navbar-nav me-1 flex-row d-flex">
 
 
+    <!-- Button trigger modal -->
+    <a class="ms-auto me-2 me-sm-4"
+       data-mdb-toggle="modal" data-mdb-target="#helpModal">
+        {% if theme != false %}
+            <img src="{{ asset(theme.iconHelp) }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
+        {% else %}
+            <img src="{{ asset('images/question.png') }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
+        {% endif %}
 
-        <!-- Button trigger modal -->
-        <a class="ms-auto me-2 me-sm-4"
-           data-mdb-toggle="modal" data-mdb-target="#helpModal">
-            {% if theme != false %}
-                <img src="{{ asset(theme.iconHelp) }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
-            {% else %}
-                <img src="{{ asset('images/question.png') }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
-            {% endif %}
-
-        </a>
-
+    </a>
 
 
-        <a class="ms-auto me-2 me-sm-4"
-           data-mdb-toggle="modal"
-           data-mdb-target="#modalAdressbook">
-            {% if theme != false %}
-                <img src="{{ asset(theme.iconAdressbook) }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
-            {% else %}
-                <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
-            {% endif %}
-        </a>
-        {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
+    <a class="ms-auto me-2 me-sm-4"
+       data-mdb-toggle="modal"
+       data-mdb-target="#modalAdressbook"
+       id="toggleAdressbook">
+        {% if theme != false %}
+            <img src="{{ asset(theme.iconAdressbook) }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
+        {% else %}
+            <img src="{{ asset('images/agenda.png') }}" class="iconSytle" title="{{ 'Adressbuch'|trans }}">
+        {% endif %}
+    </a>
+    {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
+        {% if theme == false or theme.disableAddServer != true %}
             <a class="ms-auto me-2 me-sm-4"
                data-mdb-toggle="modal"
                data-mdb-target="#settings">
@@ -37,72 +37,72 @@
                 {% endif %}
             </a>
         {% endif %}
-        <!-- Button trigger modal -->
-        <a class="ms-auto me-2 me-sm-4"
-           data-mdb-toggle="modal"
-           data-mdb-target="#sideModalTR">
-            {% if app.user.profilePicture %}
-             <div class="iconSytle imageIcon"
-             style="background-image: url('{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}')">
-
-             </div>
-            {% else %}
-                {% if theme != false %}
-                    <img src="{{ asset(theme.iconProfile) }}" class="iconSytle" title="{{ 'Profil'|trans }}">
-                {% else %}
-                    <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
-                {% endif %}
-            {% endif %}
-
-        </a>
-
-
-        <div class="dropdown language-dropdown">
-            <a class=" dropdown-toggle ms-auto me-2 me-sm-4" data-mdb-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false">
-                <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
-            </a>
-            <div class="dropdown-menu language-dropdown-menue" >
-                {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
-                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
-                                src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
-                {% endif %}
-                {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
-                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
-                                src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
-                {% endif %}
-                {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
-                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
-                                src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
-                {% endif %}
-                {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
-                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
-                                src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
-                {% endif %}
-                {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
-                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
-                                src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
-                {% endif %}
-                {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
-                    <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
-                                src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
-                {% endif %}
+    {% endif %}
+    <!-- Button trigger modal -->
+    <a class="ms-auto me-2 me-sm-4"
+       data-mdb-toggle="modal"
+       data-mdb-target="#sideModalTR">
+        {% if app.user.profilePicture %}
+            <div class="iconSytle imageIcon"
+                 style="background-image: url('{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}')">
 
             </div>
-        </div>
-        <!-- Basic dropdown -->
-
-        <!-- Basic dropdown -->
-        {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
-            <a href="{{ path('app_logout') }}">
-                {% if theme != false %}
-                    <img src="{{ asset(theme.iconLogout) }}" class="iconSytle" title="{{ 'Logout'|trans }}">
-                {% else %}
-                    <img src="{{ asset('images/logout.svg') }}" class="iconSytle" title="{{ 'Logout'|trans }}">
-                {% endif %}
-            </a>
+        {% else %}
+            {% if theme != false %}
+                <img src="{{ asset(theme.iconProfile) }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+            {% else %}
+                <img src="{{ asset('images/profil.svg') }}" class="iconSytle" title="{{ 'Profil'|trans }}">
+            {% endif %}
         {% endif %}
 
+    </a>
+
+
+    <div class="dropdown language-dropdown">
+        <a class=" dropdown-toggle ms-auto me-2 me-sm-4" data-mdb-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
+        </a>
+        <div class="dropdown-menu language-dropdown-menue">
+            {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
+                            src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
+                            src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
+                            src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
+                            src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
+                            src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
+                            src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
+            {% endif %}
+
+        </div>
+    </div>
+    <!-- Basic dropdown -->
+
+    <!-- Basic dropdown -->
+    {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
+        <a href="{{ path('app_logout') }}">
+            {% if theme != false %}
+                <img src="{{ asset(theme.iconLogout) }}" class="iconSytle" title="{{ 'Logout'|trans }}">
+            {% else %}
+                <img src="{{ asset('images/logout.svg') }}" class="iconSytle" title="{{ 'Logout'|trans }}">
+            {% endif %}
+        </a>
+    {% endif %}
 
 
     <!-- To change the direction of the modal animation change .right class -->

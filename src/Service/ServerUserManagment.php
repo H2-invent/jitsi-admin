@@ -6,6 +6,9 @@ namespace App\Service;
 
 use App\Entity\EmailDomainsToServers;
 use App\Entity\KeycloakGroupsToServers;
+use App\Entity\Rooms;
+use App\Entity\RoomStatus;
+use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -88,11 +91,29 @@ class ServerUserManagment
 
                 }
                 $servers = $serTmp;
+                $serTmp = array();
+
+                if ($this->themeService->getTheme()['showOnlyShowServer']) {
+                    $sTmp = $this->themeService->getTheme()['showServer'];
+                    foreach ($servers as $data) {
+                        if (in_array($data->getId(), $sTmp)) {
+                            $serTmp[] = $data;
+                        }
+                    }
+                    $servers = $serTmp;
+                }
             }
         }catch (\Exception $exception){}
 
         return $servers;
 
     }
-
+    function getActualConference(Server $server){
+        $actualConf = $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
+        return $actualConf;
+    }
+    function getActualParticipantsFromServer(Server $server){
+        $actualPart = $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
+        return $actualPart;
+    }
 }

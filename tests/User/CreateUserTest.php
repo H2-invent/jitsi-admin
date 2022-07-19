@@ -2,6 +2,7 @@
 
 namespace App\Tests\User;
 
+use App\Repository\UserRepository;
 use App\Service\UserCreatorService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -27,5 +28,14 @@ class CreateUserTest extends KernelTestCase
         self::assertEquals('User', $user->getLastName());
         self::assertEquals('test@local.de test@local.de test user test1 1234 0123456789', $user->getIndexer());
 
+
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $userFind = $userRepo->findOneBy(array('email'=>'testme@mail.com'));
+        self::assertNotNull($userFind);
+
+        $user = $userCreator->createUser('testmedryRun@mail.com', 'testme','firstname', 'lastname',true);
+        self::assertNotNull($user);
+        $userFind = $userRepo->findOneBy(array('email'=>'testmedryRun@mail.com'));
+        self::assertNull($userFind);
     }
 }

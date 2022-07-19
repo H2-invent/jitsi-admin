@@ -25,7 +25,7 @@ var destination;
 var gStream = null;
 async function initAUdio() {
     try {
-        await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+        await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 
 
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
@@ -33,7 +33,7 @@ async function initAUdio() {
         devices.forEach(function (device) {
 
             if (device.kind === 'audioinput') {
-                var name = device.label.replace(/\(.*:.*\)/g, "");
+                var name = device.label.replace(/\(\w*:.*\)/g, "");
                 $('#audioInputSelect').append(
                     '<a class="dropdown-item audio_inputSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a>'
                 )

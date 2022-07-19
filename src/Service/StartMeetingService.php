@@ -242,7 +242,7 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            return new Response($this->twig->render('start/index.html.twig', array('room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
+            return new Response($this->twig->render('start/index.html.twig', array('server'=>$this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
         }
         return new NotFoundHttpException('Room not found');
     }

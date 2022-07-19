@@ -37,11 +37,11 @@ class JoinUrlGeneratorService
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
         $url = $this->createHttps->createHttpsUrl
-            (
+        (
             $room->getPersistantRoom() ?
                 $this->url->generate('join_index_uid', ['data' => $data, 'uid' => $room->getUid(), 'slug' => $room->getServer()->getSlug()]) :
                 $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()])
-            );
+            , $room);
         return $url;
     }
 

@@ -66,9 +66,11 @@ label.required:after {
 
 #snackbar{
   visibility: hidden;
-  &.show{
+  padding: 1em;
+
+  &.show {
     visibility: visible;
-    -webkit-animation: fadein 0.5s ;
+    -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
   }
 }

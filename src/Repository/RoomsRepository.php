@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -252,13 +253,37 @@ class RoomsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findRoomByCaseInsensitiveUid($value): ?Rooms
     {
         return $this->createQueryBuilder('r')
             ->andWhere('upper(r.uid) = upper(:val)')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @return Rooms[] Returns an array of Rooms objects
+     */
+
+    public function findActualConferenceForServerByStatus(Server $server)
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.server', 'server')
+            ->innerJoin('r.roomstatuses', 'roomstatuses')
+            ->andWhere('roomstatuses.created = :true')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'roomstatuses.destroyed = :false',
+                    $qb->expr()->isNull('roomstatuses.destroyed')
+                )
+            )
+            ->andWhere('server = :server')
+            ->setParameter('server', $server)
+            ->setParameter('false', false)
+            ->setParameter('true', true)
+            ->getQuery()
+            ->getResult();
     }
 }

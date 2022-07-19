@@ -19,13 +19,17 @@ final class Version20220316082704 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE room_status ADD created_at DATETIME NOT NULL, ADD updated_at DATETIME NOT NULL');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE room_status ADD created_at DATETIME NOT NULL, ADD updated_at DATETIME NOT NULL');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE room_status DROP created_at, DROP updated_at');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE room_status DROP created_at, DROP updated_at');
+        }
     }
 }

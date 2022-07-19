@@ -1,6 +1,6 @@
 [deutsch](README_de.md)
 
-![Server](docs/images/header.png)
+![Header](docs/images/header.png)
 # Jitsi Manager
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
@@ -93,9 +93,14 @@ After that execute the following command
 bash install.sh
 ```
 Follow the instruction in the command window.
+
 # Update
-Download the newest version or perform a checkout of the corespong tag.
-After that execute the following command
-```javascript
-bash update.sh
-```
+Follow the corresponding update instruction.
+
+For versions <= 0.72x checkout the update instruction in the github version description.
+
+For Version 0.73 or later the update instruction is described in the file 
+`update_instruction_<fromVersion>...<toVersion>.md`
+
+[Update instruction 0.72.x to 0.73.x](update_instruction_0.72.x...0.73.x.md)
+

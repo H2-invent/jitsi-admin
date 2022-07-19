@@ -73,12 +73,17 @@ class SyncLdapCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Activate Dry-Run. Not writing into the database');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $dryrun = $input->getOption('dry-run');
+        if ($dryrun){
+            $io->info('Dryrun is activated. No databases changes are made');
+        }
+
         $count = 0;
         $result = array();
         $io->info('We test the all LDAP connections: ');
@@ -119,7 +124,7 @@ class SyncLdapCommand extends Command
 
                 $resTmp = null;
                 try {
-                    $resTmp = $this->ldapService->fetchLdap($data);
+                    $resTmp = $this->ldapService->fetchLdap($data,$dryrun);
                 } catch (LdapException $e) {
                     $error = true;
                     $io->error('Fehler in LDAP: ' . $ldap->getUrl());

@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Service\FormatName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +19,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class User extends BaseUser
 {
+    private FormatName $formatName;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -215,10 +219,9 @@ class User extends BaseUser
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="user", cascade={"remove"})
      */
     private $callerIds;
-    
 
 
     public function __construct()
@@ -279,9 +282,10 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getUsername(): ?string
     {
-      return $this->username;
+        return $this->username;
     }
 
     public function setUsername(?string $username): self
@@ -856,47 +860,11 @@ class User extends BaseUser
 
     public function getFormatedName($string)
     {
-        $pattern = '/user.[a-zA-Z0-9._-]*\$/';
-        $arr = null;
-        preg_match_all($pattern, $string, $arr);
-        $tmp1 = $arr[0];
+        $this->formatName = new FormatName();
+        return $this->formatName->formatName($string, $this);
 
-        foreach ($tmp1 as $data) {
-            $tmp = str_replace('$', '', $data);
-            $tmp = substr($tmp, strpos($tmp, '.') + 1);
-            $value = '';
-            try {
-                if (strpos($tmp, 'specialField') !== false) {
-                    // we have a spezialField to read
-                    $tmp = substr($tmp, strpos($tmp, '.') + 1);
-                    $value = $this->spezialProperties[$tmp];
-                } else {
-                    // we have a standard field to read
-                    switch ($tmp) {
-                        case 'firstName':
-                            $value = $this->firstName;
-                            break;
-                        case 'lastName':
-                            $value = $this->lastName;
-                            break;
-                        case 'email':
-                            $value = $this->email;
-                            break;
-                        case 'username':
-                            $value = $this->username;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-            } catch (\Exception $exception) {
-                $value = '';
-            }
-            $string = str_replace($data, $value, $string);
-        }
-        return $string;
     }
+
     public function getUserIdentifier()
     {
         return $this->username;
@@ -955,9 +923,11 @@ class User extends BaseUser
 
         return $this;
     }
-    public function getPermissionForRoom(Rooms $rooms):RoomsUser{
-        foreach ($this->roomsAttributes as $data){
-            if($data->getRoom() == $rooms){
+
+    public function getPermissionForRoom(Rooms $rooms): RoomsUser
+    {
+        foreach ($this->roomsAttributes as $data) {
+            if ($data->getRoom() == $rooms) {
                 return $data;
             }
         }
@@ -1041,8 +1011,6 @@ class User extends BaseUser
 
         return $this;
     }
-
-
 
 
 }

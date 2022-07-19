@@ -19,17 +19,21 @@ final class Version20210529151854 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` ADD prototyp_id INT NOT NULL');
-        $this->addSql('ALTER TABLE `repeat` ADD CONSTRAINT FK_A857B3C027692A7E FOREIGN KEY (prototyp_id) REFERENCES rooms (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_A857B3C027692A7E ON `repeat` (prototyp_id)');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this up() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` ADD prototyp_id INT NOT NULL');
+            $this->addSql('ALTER TABLE `repeat` ADD CONSTRAINT FK_A857B3C027692A7E FOREIGN KEY (prototyp_id) REFERENCES rooms (id)');
+            $this->addSql('CREATE UNIQUE INDEX UNIQ_A857B3C027692A7E ON `repeat` (prototyp_id)');
+        }
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `repeat` DROP FOREIGN KEY FK_A857B3C027692A7E');
-        $this->addSql('DROP INDEX UNIQ_A857B3C027692A7E ON `repeat`');
-        $this->addSql('ALTER TABLE `repeat` DROP prototyp_id');
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+            // this down() migration is auto-generated, please modify it to your needs
+            $this->addSql('ALTER TABLE `repeat` DROP FOREIGN KEY FK_A857B3C027692A7E');
+            $this->addSql('DROP INDEX UNIQ_A857B3C027692A7E ON `repeat`');
+            $this->addSql('ALTER TABLE `repeat` DROP prototyp_id');
+        }
     }
 }
