@@ -1688,11 +1688,19 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
       </trans-unit>
       <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
         <source>join.privacy.ownServer</source>
-        <target state="translated"><![CDATA[Tôi có  <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-            <u> Chính sách quyền riêng tư của Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Chính sách quyền riêng tư của {url}</u><i class="fa fa-external-link-alt"></i></a>
-đọc và ghi lại chúng.]]></target>
+        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
+        <source>noch</source>
+        <target state="needs-translation">noch</target>
+      </trans-unit>
+      <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
+        <source>Sekunden</source>
+        <target state="needs-translation">Sekunden</target>
       </trans-unit>
     </body>
   </file>
