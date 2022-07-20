@@ -46,10 +46,12 @@ function connectES() {
             blockHealtch = true;
             userAccepted(data);
         } else if (data.type === 'endMeeting') {
+            blockHealtch = true;
             clearInterval(healtcheckInterval);
             hangup()
             $('#jitsiWindow').remove();
         } else if (data.type === 'redirect') {
+            blockHealtch = true;
             clearInterval(healtcheckInterval);
         }
     }
