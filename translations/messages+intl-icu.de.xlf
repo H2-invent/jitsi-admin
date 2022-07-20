@@ -1688,11 +1688,19 @@
       </trans-unit>
       <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
         <source>join.privacy.ownServer</source>
-        <target> <![CDATA[Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+        <target><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
             <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
             und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
             <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
             gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
+        <source>noch</source>
+        <target>noch</target>
+      </trans-unit>
+      <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
+        <source>Sekunden</source>
+        <target>Sekunden</target>
       </trans-unit>
     </body>
   </file>

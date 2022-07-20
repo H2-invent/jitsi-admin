@@ -26,7 +26,7 @@ var successTimer;
 var clickLeave = false;
 let es;
 let healtcheckInterval;
-
+let blockHealtch = false;
 function initMercure() {
     connectES();
     setInterval(function () {
@@ -43,6 +43,7 @@ function connectES() {
         masterNotify(data);
         if (data.type === 'newJitsi') {
             clearInterval(healtcheckInterval);
+            blockHealtch = true;
             userAccepted(data);
         } else if (data.type === 'endMeeting') {
             clearInterval(healtcheckInterval);
@@ -54,9 +55,12 @@ function connectES() {
     }
     healtcheckInterval = setInterval(function () {
         $.get(healthcheckUrl, function (data) {
-            if (data.error === true) {
-                location.reload()
+                if (data.error === true) {
+                    if (!blockHealtch){
+                    location.reload()
+                }
             }
+
         });
     }, 10000)
 }
@@ -176,17 +180,25 @@ function hangup() {
 function userAccepted(data) {
     dataSucess = data;
     $('#renewParticipant').remove();
+    $('.overlay').remove();
+    $('.accessAllowed').removeClass('d-none');
+    counter = 10;
+    $('#lobby_participant_counter').text(counter);
     $('#stopEntry').removeClass('d-none');
-    text = $('#stopEntry').text();
-    counter = 5;
+
     interval = setInterval(function () {
         counter = counter - 1;
-        $('#stopEntry').text(text + ' (' + counter + ')');
-        if (counter <= 0) {
-            $('#stopEntry').text(text);
+        $('#lobby_participant_counter').css('transition',' opacity 0s');
+        $('#lobby_participant_counter').css('opacity','0');
+        setTimeout(function () {
+            $('#lobby_participant_counter').css('transition',' opacity 0.5s');
+            $('#lobby_participant_counter').css('opacity','1');
+        },1)
+        if (counter < 0) {
             clearInterval(interval);
             initJitsiMeet(dataSucess);
         }
+        $('#lobby_participant_counter').text(counter);
     }, 1000);
 
 
@@ -195,6 +207,7 @@ function userAccepted(data) {
             clearInterval(interval);
             interval = null;
             text = $(this).data('alternativ')
+            $('.textAllow').remove();
             $(this).text(text);
         } else {
             initJitsiMeet(dataSucess);

@@ -77,9 +77,9 @@ class RoomType extends AbstractType
         $tags = $this->entityManager->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
 
         $builder
-            ->add('name', TextType::class, ['disabled'=>$during, 'required' => false, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['disabled'=>$during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
             ->add('agenda', TextareaType::class, ['disabled'=>$during,'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
-            ->add('start', DateTimeType::class, ['required' => false, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
+            ->add('start', DateTimeType::class, ['required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add('duration', ChoiceType::class, [
                 'label' => 'label.dauerKonferenz',
                 'translation_domain' => 'form',

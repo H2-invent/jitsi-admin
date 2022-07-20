@@ -6,6 +6,15 @@
 {% block content %}
     <div class=" col-12 col-lg-8 offset-lg-2">
         <div class="card webcamArea">
+            <div class="accessAllowed d-none">
+                <p class="small textAllow">{{'lobby.participants.noch'|trans}}</p>
+                <div id="lobby_participant_counter" class="textAllow"></div>
+                <p class="small textAllow">{{'lobby.participants.seconds'|trans}}</p>
+                <a id="stopEntry"
+                   class="btn btn-lg btn-outline-primary"
+                   data-alternativ="{{ 'lobby.participant.enterNow'|trans }}">{{ 'lobby.participant.pauseEnter'|trans }}</a>
+
+            </div>
             <div class="overlay">
                 <div class="lds-roller">
                     <div></div>
@@ -31,7 +40,7 @@
             </div>
         </div>
         <div class="row ">
-            <div class="col-12 d-flex justify-content-center">
+            <div class="col-12 d-flex flex-column flex-md-row justify-content-center">
                 <a class="caretdown btn btn-primary dropdown-toggle d-flex align-items-center" type="button"
                    id="selectWebcamDropdown"
                    data-mdb-toggle="dropdown" aria-haspopup="true"
@@ -61,9 +70,7 @@
             <div class="col-12 d-flex justify-content-center">
                 <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}" id="renewParticipant"
                    class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
-                <a id="stopEntry"
-                   class=" d-none btn btn-outline-primary"
-                   data-alternativ="{{ 'lobby.participant.enterNow'|trans }}">{{ 'lobby.participant.pauseEnter'|trans }}</a>
+
 
                 <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}" id="leavParticipant"
                    class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
