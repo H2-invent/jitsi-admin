@@ -1681,19 +1681,15 @@
       </trans-unit>
       <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
         <source>join.privacy.ownServer</source>
-        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-            gelesen und nehme diese zur Kenntnis.]]></target>
+        <target state="translated"><![CDATA[ He leído la <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>política de protección de datos de Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a> y la <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"><u> política de protección de datos de {url}</u><i class="fa fa-external-link-alt"></i></a> y acepto sus condiciones.]]></target>
       </trans-unit>
       <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
         <source>noch</source>
-        <target state="needs-translation">noch</target>
+        <target state="translated">todavía</target>
       </trans-unit>
       <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
         <source>Sekunden</source>
-        <target state="needs-translation">Sekunden</target>
+        <target state="translated">Segundos</target>
       </trans-unit>
     </body>
   </file>
