@@ -12,6 +12,7 @@ body {
   background-image: url("../../image/defaultUser.webp");
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 
 .webcamToolbar {
@@ -325,5 +326,12 @@ body {
     color: white;
     line-height: 1;
   }
+}
+.textAllow{
+  color: white;
+}
+#stopEntry{
+  color: white!important;
+  border-color: white!important;
 }
 
