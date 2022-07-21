@@ -93,10 +93,8 @@ services:
   app-ja:
     <<: *jitsi_admin_app
     depends_on:
-      - db-ja
-      - keycloak-ja
-      - mercure-ja
-      - traefik-ja
+      db-ja:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
       interval: 20s
@@ -155,6 +153,10 @@ services:
   db-ja:
     image: mariadb:latest
     hostname: ${RANDOMTAG}db-ja
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
@@ -166,8 +168,9 @@ services:
     image: jboss/keycloak:latest
 
     depends_on:
-      - db-ja
-      - traefik-ja
+      db-ja:
+        condition: service_healthy
+
 
     environment:
       KEYCLOAK_USER: admin
