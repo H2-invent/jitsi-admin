@@ -142,7 +142,7 @@ class RoomType extends AbstractType
             $this->logger->debug('Add the possibility to dissallow screenshare');
             $builder->add('dissallowScreenshareGlobal', CheckboxType::class, array('required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form'));
         }
-        if ($this->parameterBag->get('allowTimeZoneSwitch') == 1) {
+        if ($this->theme->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $this->logger->debug('Add the possibility to select a Timezone');
             $builder->add('timeZone', TimezoneType::class, array('required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form'));
         }

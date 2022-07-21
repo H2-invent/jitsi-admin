@@ -25,7 +25,7 @@
     {% if not (room.scheduleMeeting or room.persistantRoom) %}
         <h5 class="h5-responsive">{{ room.startwithTimeZone(app.user)|date('H:i',false) }}
             – {{ room.endwithTimeZone(app.user)|date('H:i',false) }}</h5>
-        {% if allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
+        {% if getApplicationProperties('allowTimeZoneSwitch') == 1 and room.persistantRoom == false %}
             <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
         {% endif %}
     {% endif %}
@@ -77,7 +77,7 @@
         {{ 'Anzahl Eingeladene'|trans }}
         : {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans %}{% else %}{{ room.user|length }}{% endif %}
         <br>
-        {% if  allowTimeZoneSwitch == 1 and room.persistantRoom == false %}
+        {% if  getApplicationProperties('allowTimeZoneSwitch') == 1 and room.persistantRoom == false %}
             {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}
         {% endif %}
     </p>

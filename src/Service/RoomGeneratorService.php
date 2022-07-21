@@ -58,10 +58,10 @@ class RoomGeneratorService
 
         //end default values
 
-        if ($user->getTimeZone() && $this->parameterBag->get('allowTimeZoneSwitch') == 1) {
+        if ($user->getTimeZone() && $this->themeService->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $room->setTimeZone($user->getTimeZone());
-            if ($this->parameterBag->get('input_settings_allow_timezone_default') != 0) {
-                $room->setTimeZone($this->parameterBag->get('input_settings_allow_timezone_default'));
+            if ($this->themeService->getApplicationProperties('input_settings_allow_timezone_default') != 0) {
+                $room->setTimeZone($this->themeService->getApplicationProperties('input_settings_allow_timezone_default'));
             }
         }
         $room = $this->createCallerId($room);
