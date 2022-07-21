@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-{% set theme =  getThemeProperties()  %}
+{% set theme =  getThemeProperties() %}
 {% set css = 'join' %}
 {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
     {% set css = 'joinBlack' %}
@@ -24,14 +24,21 @@
     ( server.serverBackgroundImage is not null )
     )
     %}
+
     {% if server.serverBackgroundImage %}
     .imageBackground {
         background-image: url("{{ vich_uploader_asset(server.serverBackgroundImage,'documentFile') }}");
     }
+
+    .blackMode .window {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
     {%else%}
     .imageBackground {
         background-color: {{ server.staticBackgroundColor }};
     }
+
     {%endif%}
 
 
@@ -39,9 +46,11 @@
     .imageBackground {
         background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
     }
-.blackMode .window{
-    background-color: rgba(0,0,0,0.6);
-}
+
+    .blackMode .window {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
     {% endif %}
 
 
