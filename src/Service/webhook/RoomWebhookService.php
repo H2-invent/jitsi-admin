@@ -128,6 +128,13 @@ class RoomWebhookService
             $this->em->persist($roomStatus);
             $this->em->flush();
             $this->lobbyUtils->cleanLobby($roomStatus->getRoom());
+            foreach ($roomStatus->getRoomStatusParticipants() as $data2) {
+                $data2->setLeftRoomAt(\DateTime::createFromFormat('U', $data['destroyed_at']))
+                    ->setInRoom(false);
+                $this->em->persist($data2);
+
+            }
+            $this->em->flush();
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             return $exception->getMessage();
