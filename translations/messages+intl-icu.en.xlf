@@ -909,7 +909,7 @@
       </trans-unit>
       <trans-unit id="_wtk.2R" resname="Die Videokonferenz {name} startet gleich.">
         <source>Die Videokonferenz {name} startet gleich.</source>
-        <target state="needs-translation">Die Videokonferenz {name} beginnt gleich.</target>
+        <target state="translated">Videoconference {name} starts soon.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
@@ -1412,12 +1412,11 @@
       </trans-unit>
       <trans-unit id="vs1KLhV" resname="newRoom.error.noServer.addServer">
         <source>newRoom.error.noServer.addServer</source>
-        <target state="needs-translation">Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</target>
+        <target state="translated">You have not added a server or no server was assigned to you. Please add a server by clicking the gear in the navigation.</target>
       </trans-unit>
       <trans-unit id="hj1.9Y_" resname="newRoom.error.noServer.askAdmin">
         <source>newRoom.error.noServer.askAdmin</source>
-        <target state="needs-translation"><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
-        <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
+        <target state="translated"><![CDATA[No conference server was assigned to you. Please contact your Administrator via email at <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
       </trans-unit>
       <trans-unit id="Igadcd_" resname="confirm.delete.adressbookUser">
         <source>confirm.delete.adressbookUser</source>
@@ -1665,7 +1664,7 @@
       </trans-unit>
       <trans-unit id="XJjOklj" resname="Bewertung">
         <source>Bewertung</source>
-        <target state="needs-translation">Bewertung</target>
+        <target state="translated">Rating</target>
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
@@ -1673,25 +1672,19 @@
       </trans-unit>
       <trans-unit id="saiR089" resname="join.privacy.theme">
         <source>join.privacy.theme</source>
-        <target state="needs-translation"><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-            gelesen und nehme diese zur Kenntnis.]]></target>
+        <target state="translated"><![CDATA[I have read, understand and agree to the <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"> <u>privacy statement of {url}</u> <i class="fa fa-external-link-alt"></i> </a>.]]></target>
       </trans-unit>
       <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
         <source>join.privacy.ownServer</source>
-        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
-            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
-            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
-            gelesen und nehme diese zur Kenntnis.]]></target>
+        <target state="translated"><![CDATA[ I have read, understand and agree to the privacy statement of <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>Jitsi Admin</u> <i class="fa fa-external-link-alt"></i> </a>and <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"> <u>{url}</u><i class="fa fa-external-link-alt"></i> </a>.]]></target>
       </trans-unit>
       <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
         <source>noch</source>
-        <target state="needs-translation">noch</target>
+        <target state="translated">still</target>
       </trans-unit>
       <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
         <source>Sekunden</source>
-        <target state="needs-translation">Sekunden</target>
+        <target state="translated">Seconds</target>
       </trans-unit>
     </body>
   </file>
