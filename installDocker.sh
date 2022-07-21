@@ -91,12 +91,13 @@ sed -i "s|<smtpHost>|$smtpHost|g" keycloak/realm-export.json
 sed -i "s|<smtpFrom>|$smtpFrom|g" keycloak/realm-export.json
 sed -i "s|<smtpUser>|$smtpUsername|g" keycloak/realm-export.json
 
+
 if [ "$smtpEncryption" == 'tls' ]; then
    sed -i "s|<smtpEncyption>|\"starttls\": \"true\",|g" keycloak/realm-export.json
 elif [ "$smtpEncryption" == 'ssl' ]; then
    sed -i "s|<smtpEncyption>| \"ssl\": \"true\",|g" keycloak/realm-export.json
    else
-     sed -i "s|<smtpEncyption>| '',|g" keycloak/realm-export.json
+     sed -i "s|<smtpEncyption>| \"ssl\": \"false\",\n\"starttls\": \"false\",|g" keycloak/realm-export.json
 fi
 
   echo -------------------------------------------------------------
