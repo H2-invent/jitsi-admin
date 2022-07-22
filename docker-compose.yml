@@ -93,10 +93,8 @@ services:
   app-ja:
     <<: *jitsi_admin_app
     depends_on:
-      - db-ja
-      - keycloak-ja
-      - mercure-ja
-      - traefik-ja
+      db-ja:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
       interval: 20s
@@ -155,6 +153,10 @@ services:
   db-ja:
     image: mariadb:latest
     hostname: ${RANDOMTAG}db-ja
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
@@ -166,20 +168,24 @@ services:
     image: jboss/keycloak:latest
 
     depends_on:
-      - db-ja
-      - traefik-ja
+      db-ja:
+        condition: service_healthy
+
 
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
       DB_VENDOR: mariadb
-      DB_ADDR: db-ja
+      DB_ADDR: ${RANDOMTAG}db-ja
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: ${KEYCLOAK_PW}
       DB_PORT: 3306
       KEYCLOAK_IMPORT: /tmp/realm-export.json
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
+      JAVA_OPTS_APPEND: "-Djboss.as.management.blocking.timeout=7200"
+      JDBC_PARAMS: "connectTimeout=30000"
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.tls=true"
