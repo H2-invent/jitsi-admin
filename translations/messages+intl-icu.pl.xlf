@@ -702,8 +702,8 @@
         <target state="needs-translation">Fehler, bitte laden Sie die Seite neu.</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="needs-translation">Terminplanung</target>
+        <source>Hier abstimmen</source>
+        <target state="needs-translation">Hier abstimmen</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
