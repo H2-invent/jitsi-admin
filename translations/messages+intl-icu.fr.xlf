@@ -700,8 +700,8 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
         <target state="final">Erreur, veuillez recharger la page à nouveau</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung" approved="yes">
-        <source>Terminplanung</source>
-        <target state="final">Planification</target>
+        <source>Hier abstimmen</source>
+        <target state="final">Cliquez ici pour voter</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner" approved="yes">
         <source>Terminplaner</source>
