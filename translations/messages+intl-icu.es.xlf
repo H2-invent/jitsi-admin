@@ -701,8 +701,8 @@
         <target state="translated">Error, vuelva a cargar la página</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="translated">Planificación</target>
+        <source>Hier abstimmen</source>
+        <target state="translated">Vota aquí</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
