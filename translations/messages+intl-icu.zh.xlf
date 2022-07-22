@@ -701,8 +701,8 @@
         <target state="translated">错误，请重新加载页面</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="translated">计划任务</target>
+        <source>Hier abstimmen</source>
+        <target state="translated">在这里投票</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
