@@ -154,16 +154,19 @@ class DashboardController extends JitsiAdminController
      */
     public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
     {
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($type === 'fixed') {
             $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), $offset);
             return $this->render('dashboard/__lazyFixed.html.twig', [
                 'persistantRooms' => $persistantRooms,
+                'servers' => $servers,
                 'offset'=>$offset
             ]);
         } elseif ($type === 'past') {
             $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
             return $this->render('dashboard/__lazyPast.html.twig', [
                 'roomsPast' => $roomsPast,
+                'servers' => $servers,
                 'offset'=>$offset
             ]);
         }
