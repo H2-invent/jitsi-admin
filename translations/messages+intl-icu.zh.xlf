@@ -66,8 +66,8 @@
         <target state="translated">Jitsi会议</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
-        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
-        <target state="translated">您已被添加到在服务器 {server} 的视频会议。</target>
+        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <target state="needs-translation">Sie wurden zu einer Videokonferenz hinzugefügt.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
@@ -395,8 +395,8 @@
         <target state="translated">您好 ！</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="translated">您被邀请参加 {url} 上的视频会议。您可用通过链接轻松加入视频会议。</target>
+        <source>Sie wurden gerade zu einer Videokonferenz eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target state="needs-translation">Sie wurden soeben zu einer Videokonferenz eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -701,8 +701,8 @@
         <target state="translated">错误，请重新加载页面</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="translated">计划任务</target>
+        <source>Hier abstimmen</source>
+        <target state="translated">在这里投票</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
@@ -713,8 +713,8 @@
         <target state="translated">计划邀请</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
-        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="translated">您刚刚被邀请在Jitsi服务器上 {url} 安排会议时间。通过所附的链接，您可以轻松选择所需的日期。</target>
+        <source>Sie wurden gerade zu einer Terminplanung eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
@@ -908,9 +908,9 @@
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
         <target state="needs-translation">Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
       </trans-unit>
-      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} von startet gleich.">
-        <source>Die Videokonferenz {name} von startet gleich.</source>
-        <target state="needs-translation">Die Videokonferenz {name} von beginnt gleich.</target>
+      <trans-unit id="_wtk.2R" resname="Die Videokonferenz {name} startet gleich.">
+        <source>Die Videokonferenz {name} startet gleich.</source>
+        <target state="needs-translation">Die Videokonferenz {name} beginnt gleich.</target>
       </trans-unit>
       <trans-unit id="CPpwokF" resname="Fehler, Bitte füllen Sie alle Felder aus">
         <source>Fehler, Bitte füllen Sie alle Felder aus</source>
@@ -1393,7 +1393,7 @@
         <target state="needs-translation">Echotest beenden</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
-        <source>Konferenz beenden</source>
+        <source>lobby.endMeeting</source>
         <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
@@ -1662,8 +1662,38 @@
         <target state="needs-translation">Wollen Sie die Konferenz wirklich verlassen?</target>
       </trans-unit>
       <trans-unit id="Xf1t6eb" resname="lobby.hangup">
-        <source>Konferenz verlassen</source>
+        <source>lobby.hangup</source>
         <target state="needs-translation">Nur ich verlasse</target>
+      </trans-unit>
+      <trans-unit id="XJjOklj" resname="Bewertung">
+        <source>Bewertung</source>
+        <target state="needs-translation">Bewertung</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="saiR089" resname="join.privacy.theme">
+        <source>join.privacy.theme</source>
+        <target state="needs-translation"><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
+        <source>join.privacy.ownServer</source>
+        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
+        <source>noch</source>
+        <target state="needs-translation">noch</target>
+      </trans-unit>
+      <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
+        <source>Sekunden</source>
+        <target state="needs-translation">Sekunden</target>
       </trans-unit>
     </body>
   </file>

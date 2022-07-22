@@ -1,74 +1,74 @@
 ---
-label.konferenzId: ID konferencji
-label.email: Adres e-mail
-label.name: Imię
-label.teilnehmerEmailhinzufuegen: EMail-Adressen von neuen Teilnehmenden eingeben
+label.konferenzId: Konferenz-ID
+label.email: E-Mail-Adresse
+label.name: Ihr Name
+label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
 label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
 label.organisatorhinzufuegen: Organisator hinzufügen
 label.serverKonferenz: Jitsi Meet Server
-label.konferenzName: Nazwa konferencji
-label.start: Rozpocznij
-label.dauerKonferenz: Czas trwania konferencji
-label.nurRegistriertenutzer: Tylko zarejestrowani użytkownicy mogą dołączyć do konferencji.
-label.speichern: Zapisz
-option.15min: 15 minut
-option.30min: 30 minut
-option.45min: 45 minut
-option.60min: 1 godzina
-option.75min: 1 godzina 15 minut
-option.90min: 1 godzina 30 minut
-option.105min: 1 godzina 45 minut
-option.120min: 2 godziny
-option.150min: 2 godziny 30 minut
-option.180min: 3 godziny
-option.210min: 3 godziny 30 minut
-option.240min: 4 godziny
-option.270min: 4 godziny 30 minut
-option.300min: 5 godzin
-option.330min: 5 godzin 30 minut
-option.360min: 6 godzin
-option.390min: 6 godzin 30 minut
-option.420min: 7 godzin
-option.450min: 7 godzin 30 minut
-option.480min: 8 godzin
+label.konferenzName: Name der Konferenz
+label.start: Start
+label.dauerKonferenz: Dauer der Konferenz
+label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
+label.speichern: Speichern
+option.15min: 15 Minuten
+option.30min: 30 Minuten
+option.45min: 45 Minuten
+option.60min: 1 Stunde
+option.75min: 1:15 Stunden
+option.90min: 1:30 Stunden
+option.105min: 1:45 Stunden
+option.120min: 2 Stunden
+option.150min: 2:30 Stunden
+option.180min: 3 Stunden
+option.210min: 3:30 Stunden
+option.240min: 4 Stunden
+option.270min: 4:30 Stunden
+option.300min: 5 Stunden
+option.330min: 5:30 Stunden
+option.360min: 6 Stunden
+option.390min: 6:30 Stunden
+option.420min: 7 Stunden
+option.450min: 7:30 Stunden
+option.480min: 8 Stunden
 option:
-  monday: Poniedziałek
-  tuesday: Wtorek
-  wednesday: Środa
-  thursday: Czwartek
-  friday: Piątek
-  saturday: Sobota
-  sunday: Niedziela
-  weekly: Co tydzień
-  daily: Codziennie
-  montly: Co miesiąc
-  yearly: Co rok
+  monday: Montag
+  tuesday: Dienstag
+  wednesday: Mittwoch
+  thursday: Donnerstag
+  friday: Freitag
+  saturday: Samstag
+  sunday: Sonntag
+  weekly: Wöchentlich
+  daily: Täglich
+  montly: Monatlich
+  yearly: Jährlich
   montlyRelative: Monatlich flexibel festlegen
   yearlyRelative: Jährlich flexibel festlegen
-  first: Pierwszy
-  second: Drugi
-  third: Trzeci
-  fourth: Czwarty
-  fifth: Piąty
-  last: Ostatni
-  january: Styczeń
-  february: Luty
-  march: Marzec
-  april: Kwiecień
-  may: Maj
-  june: Czerwiec
-  july: Lipiec
-  august: Sierpień
-  septembre: Wrzesień
-  octobre: Pazdziernik
-  novembre: Listopad
-  decembre: Grudzień
+  first: Erster
+  second: Zweiter
+  third: Dritter
+  fourth: Vierter
+  fifth: Fünfter
+  last: Letzter
+  january: Januar
+  february: Februar
+  march: März
+  april: April
+  may: Mai
+  june: Juni
+  july: Juli
+  august: August
+  septembre: September
+  octobre: Oktober
+  novembre: November
+  decembre: Dezember
   user: Im User Claim
   root: Im Root Claim
-lable.serverUrl: Adres URL serwera Jitsi-meet
-label.appId: ID aplikacji
+lable.serverUrl: Jitsi Meet Server URL
+label.appId: App-ID
 label.appSecret: App-Secret
 label.scheduleMeeting: Termin vorschlagen
 help:
@@ -82,19 +82,19 @@ label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten
   serverSmtpHostName: SMTP-Hostname
-  serverSmtpHostPort: Port SMTP
-  serverSmtpEncryption: Szyfrowanie
-  serverSmtpUsername: Użytkownik SMTP
-  serverSmtpPassword: Hasło SMTP
-  serverSmtpSenderEmail: E-mail nadawcy
-  serverSmtpSenderName: Nazwa nadawcy
+  serverSmtpHostPort: SMTP-Port
+  serverSmtpEncryption: Verschlüsselung
+  serverSmtpUsername: SMTP-Benutzername
+  serverSmtpPassword: SMTP-Passwort
+  serverSmtpSenderEmail: Absender-E-Mail
+  serverSmtpSenderName: Absendername
   serverLintLogo: Link zu Logo
   serverPrivacyPolicy: Datenschutzhinweise für diesen Server
   serverEmailHeader: Individuelle Überschrift für E-Mail
   serverEmailBody: Individueller Content für E-Mail
   serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
-  apiKey: Klucz Api serwera
-  agenda: Plan spotkania
+  apiKey: Api-Key für diesen Server
+  agenda: Kurze Agenda für dieses Meeting (Markdown)
   staticBackgroundColor:
   schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
   featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
@@ -103,12 +103,12 @@ label:
   puplicRoom: Link zur Einladung freischalten
   showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Anmelden
-  vorname: Imię
-  nachname: Nazwisko
+  vorname: Vorname
+  nachname: Nachname
   maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
-  weekday: Dzień tygodnia
+  weekday: Wochentag
   repetation: Endet nach x Terminen
   repeatType: Serienmuster
   repeaterDays: Nach x Tagen wiederholen
@@ -116,27 +116,27 @@ label:
   repeatMontly: Nach x Monaten wiederholen
   repeatYearly: Nach x Jahren wiederholen
   montlyRelativeNumber: Wie vielter Wochentag im Monat
-  montlyRelativeWeekday: Dzień tygodnia
-  montlyRelativeMonth: Miesiąc
+  montlyRelativeWeekday: Wochentag
+  montlyRelativeMonth: Monat
   repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
   persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
   totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
   totalOpenRoomsOpenTime: Raumöffnungszeit
-  addressgroupName: Nazwa grupy
+  addressgroupName: Gruppenname
   addressgroupMember: Gruppenmitglieder auswählen
   jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Strefa czasowa
-  serverName: Nazwa serwera
-  lobby: Poczekalnia
-  secondEmail: DW Email
+  timezone: Zeitzone
+  serverName: Servername
+  lobby: Lobby aktivieren
+  secondEmail: CC-E-Mail
   profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
   corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategoria
+  tag: Kategorie
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
-  none: Brak
+  none: Keine
 placeholder:
-  maxParticipants: Bez limitu
+  maxParticipants: Keine Begrenzung
   chooseTime: Zeit und Datum auswählen
