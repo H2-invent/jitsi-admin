@@ -700,8 +700,8 @@
         <target state="translated">Error, please reload the page.</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="translated">Appointment poll</target>
+        <source>Hier abstimmen</source>
+        <target state="translated">Click here to go to the poll</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
