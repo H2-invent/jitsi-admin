@@ -73,7 +73,9 @@
                     class="fa fa-info-circle"></i></a></h5>
     <p class="text-black-50 small">
         {{ 'Geplant von'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
-        {{ 'Server'|trans }}: {{ room.server.serverName }}<br>
+        {% if servers|length > 1 %}
+            {{ 'Server'|trans }}: {{ room.server.serverName }}<br>
+        {% endif %}
         {{ 'Anzahl Eingeladene'|trans }}
         : {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans %}{% else %}{{ room.user|length }}{% endif %}
         <br>
