@@ -702,8 +702,8 @@ Hãy gia hạn giấy phép của bạn ngay bây giờ để tiếp tục sử 
         <target state="translated">Lỗi, vui lòng tải lại trang</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="translated">Lập kế hoạch</target>
+        <source>Hier abstimmen</source>
+        <target state="translated">Đây để bình chọn</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
