@@ -135,7 +135,7 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
       DB_VENDOR: mariadb
-      DB_ADDR: db-ja
+      DB_ADDR: ${RANDOMTAG}db-ja
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: ${KEYCLOAK_PW}
