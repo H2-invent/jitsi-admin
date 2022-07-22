@@ -7,7 +7,7 @@
     var importBBB = true
 </script>
 
-{% if laf_bbb == 0 %}
+{% if getApplicationProperties('laf_bbb') == 0 %}
     <script>
         var importBBB = false
     </script>
@@ -110,7 +110,7 @@
     var urlNotification = '{{ path('notification') }}';
     var moreFeatureUrl = '{{ path('more_features') }}';
     var notificationUrl = "{{ laf_notificationUrl }}";
-    var bbbUrl = "{{ laf_bbb_Url }}";
+    var bbbUrl = "{{ getApplicationProperties('laf_bbb_Url') }}";
     var refreshDashboardTime = {{ laf_refreshTimeDashboard }};
     var refreshDashboardUrl = '{{ path('dashboard') }}';
     var confirmTitle = "{{ 'confirm.title'|trans }}";
