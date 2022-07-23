@@ -6,7 +6,7 @@ use Rector\Nette\Set\NetteSetList;
 use Rector\Config\RectorConfig;
 
 return function (RectorConfig $rectorConfig): void {
-
+    $rectorConfig->disableParallel();
     $rectorConfig->sets([
         DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,

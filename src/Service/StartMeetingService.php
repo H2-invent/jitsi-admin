@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\Jigasi\JigasiService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -49,7 +50,7 @@ class StartMeetingService
     private $type;
     private $name;
     private $lobbyUser;
-
+    private $jigasiService;
 
     /**
      * @var ToModeratorWebsocketService
@@ -60,7 +61,19 @@ class StartMeetingService
      */
     private $logger;
     private FlashBagInterface $flashBag;
-    public function __construct(FlashBagInterface $flashBag, LoggerInterface $logger, ToModeratorWebsocketService $toModeratorWebsocketService, Environment $environment, RoomService $roomService, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, TranslatorInterface $translator)
+
+    public function __construct(
+        FlashBagInterface           $flashBag,
+        LoggerInterface             $logger,
+        ToModeratorWebsocketService $toModeratorWebsocketService,
+        Environment                 $environment,
+        RoomService                 $roomService,
+        EntityManagerInterface      $entityManager,
+        UrlGeneratorInterface       $urlGenerator,
+        ParameterBagInterface       $parameterBag,
+        TranslatorInterface         $translator,
+        JigasiService               $jigasiService
+    )
     {
         $this->roomService = $roomService;
         $this->em = $entityManager;
@@ -72,6 +85,7 @@ class StartMeetingService
         $this->logger = $logger;
         $this->lobbyUser = null;
         $this->flashBag = $flashBag;
+        $this->jigasiService = $jigasiService;
     }
 
     /**
@@ -91,6 +105,7 @@ class StartMeetingService
         $this->user = $user;
         $this->type = $t;
         $this->name = $name;
+        $this->jigasiService->pingJigasi($room);
         if ($room && in_array($user, $room->getUser()->toarray())) {
             $this->url = $this->roomService->join($room, $user, $t, $name);
             if (!self::checkTime($room, $user)) {
@@ -172,9 +187,9 @@ class StartMeetingService
     public function createLobbyParticipantResponse($wuid = null)
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $this->user, 'room' => $this->room));
-        if($wuid){
+        if ($wuid) {
             $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wuid));
-            if ($lobbyUser){
+            if ($lobbyUser) {
                 $this->user = 1;
             }
 
@@ -225,7 +240,7 @@ class StartMeetingService
      */
     private function roomNotFound()
     {
-        $this->flashBag->add('danger',  $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
+        $this->flashBag->add('danger', $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
 
@@ -242,7 +257,7 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            return new Response($this->twig->render('start/index.html.twig', array('server'=>$this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
+            return new Response($this->twig->render('start/index.html.twig', array('server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
         }
         return new NotFoundHttpException('Room not found');
     }
@@ -268,7 +283,7 @@ class StartMeetingService
     /**
      * @return null
      */
-    public function getLobbyUser():?LobbyWaitungUser
+    public function getLobbyUser(): ?LobbyWaitungUser
     {
         return $this->lobbyUser;
     }

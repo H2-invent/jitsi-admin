@@ -9,44 +9,32 @@ use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @ORM\Entity(repositoryClass=DocumentsRepository::class)
- @Vich\Uploadable()
- */
+
+#[ORM\Entity(repositoryClass: DocumentsRepository::class)]
+#[Vich\Uploadable()]
 class Documents implements \Serializable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+
     private $documentFileName;
 
-    /**
-     * @var File
-     * @Vich\UploadableField(mapping="profile", fileNameProperty="documentFileName")
-     */
-    private $documentFile;
 
+    #[Vich\UploadableField(mapping: "profile", fileNameProperty: "documentFileName")]
+    private $documentFile;
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
      */
+    #[ORM\Column(type: 'datetime')]
     private $updatedAt;
-
     /**
      * @return string
      */
@@ -54,7 +42,6 @@ class Documents implements \Serializable
     {
         return $this->documentFileName;
     }
-
     /**
      * @param string $documentFileName
      */
@@ -63,7 +50,6 @@ class Documents implements \Serializable
         $this->documentFileName = $documentFileName;
         $this->updatedAt = new \DateTime();
     }
-
     /**
      * @return File
      */
@@ -71,7 +57,6 @@ class Documents implements \Serializable
     {
         return $this->documentFile;
     }
-
     /**
      * @param File $documentFile
      */
@@ -79,7 +64,6 @@ class Documents implements \Serializable
     {
         $this->documentFile = $documentFile;
     }
-
     /**
      * @return \DateTime
      */
@@ -87,7 +71,6 @@ class Documents implements \Serializable
     {
         return $this->updatedAt;
     }
-
     /**
      * @param \DateTime $updatedAt
      */
@@ -95,13 +78,10 @@ class Documents implements \Serializable
     {
         $this->updatedAt = $updatedAt;
     }
-
-
     public function serialize()
     {
         return null;
     }
-
     public function unserialize($data)
     {
         $this->id = $data;

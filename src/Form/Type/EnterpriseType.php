@@ -47,9 +47,11 @@ class EnterpriseType extends AbstractType
             ->add('showStaticBackgroundColor',CheckboxType::class,['required'=>false,'label'=>'label.schowStaticBackgroundColor', 'translation_domain' => 'form'])
             ->add('staticBackgroundColor',ColorType::class,['html5'=>true, 'required'=>false,'label'=>'label.staticBackgroundColor', 'translation_domain' => 'form'])
             ->add('serverBackgroundImage', ImageType::class,['label' => 'label.serverBackgroundImage', 'translation_domain' => 'form'])
+            ->add('jigasiApiUrl', TextType::class,['label' => 'label.jigasiApiUrl','help'=>'help.jigasiApiUrl', 'translation_domain' => 'form'])
+            ->add('jigasiNumberUrl', TextType::class,['label' => 'label.jigasiNumberUrl','help'=>'help.jigasiNumberUrl', 'translation_domain' => 'form'])
+            ->add('jigasiProsodyDomain', TextType::class,['label' => 'label.jigasiProsodyDomain','help'=>'help.jigasiProsodyDomain', 'translation_domain' => 'form'])
 
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

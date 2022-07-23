@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Service\Jigasi\JigasiService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -33,14 +34,15 @@ class IcalService
     private $user;
     private $translator;
     private $rooms;
+    private $jigasiService;
 
-
-    public function __construct(TranslatorInterface $translator, LicenseService $licenseService, EntityManagerInterface $entityManager, UserService $userService)
+    public function __construct(TranslatorInterface $translator, LicenseService $licenseService, EntityManagerInterface $entityManager, UserService $userService,  JigasiService $jigasiService)
     {
         $this->licenseService = $licenseService;
         $this->em = $entityManager;
         $this->userService = $userService;
         $this->translator = $translator;
+        $this->jigasiService = $jigasiService;
     }
 
     public function getIcal(User $user)
@@ -110,11 +112,25 @@ class IcalService
                     )
                 )
                 ->setSummary($event->getName())
-                ->setDescription($event->getName() .
+                ->setLocation(new Location('Jitsi Meet-Konferenz'));;
+            $description =
+                $event->getName() .
                     "\n" . $event->getAgenda() .
                     "\n" . $this->translator->trans('Hier beitreten') . ': ' . $url .
-                    "\n" . $this->translator->trans('Organisator') . ': ' . $event->getModerator()->getFirstName() . ' ' . $event->getModerator()->getLastName())
-                ->setLocation(new Location('Jitsi Meet-Konferenz'));
+                    "\n" . $this->translator->trans('Organisator') . ': ' . $event->getModerator()->getFirstName() . ' ' . $event->getModerator()->getLastName();
+
+                if($this->jigasiService->getRoomPin($event) && $this->jigasiService->getNumber($event)){
+                  $description =  $description . "\n\n\n".$this->translator->trans('email.sip.text')."\n";
+
+                  foreach ($this->jigasiService->getNumber($event) as $key=>$value){
+                      foreach ( $value as $data){
+                          $description = $description
+                              .sprintf("(%s) %s %s: %s# \n",$key,$data,$this->translator->trans('email.sip.pin'),$this->jigasiService->getRoomPin($event));
+                      }
+                  }
+                }
+
+           $vEvent->setDescription($description);
 
             $alarmInterval = new \DateInterval('PT10M');
             $alarmInterval->invert = 1;

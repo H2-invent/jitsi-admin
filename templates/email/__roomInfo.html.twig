@@ -15,7 +15,8 @@
     {{ 'Moderator'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
     {% if not room.persistantRoom %}
         {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
-            {{ 'Zeitangaben in Zeitzone'|trans }}: {% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZoneAuto }}{% endif %}<br>
+            {{ 'Zeitangaben in Zeitzone'|trans }}: {% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZoneAuto }}{% endif %}
+            <br>
         {% endif %}
         {{ 'Datum'|trans }}: {{ room.startwithTimeZone(user)|date('d.m.Y',false) }}<br>
         {{ 'Startzeit'|trans }}: {{ room.startwithTimeZone(user)|date('H:i',false) }}<br>
@@ -32,6 +33,17 @@
         Ihre E-Mail-Adresse: {email}<br>
         Konferenz ID: {uid}
     {% endtrans %}
+    <spacer size="16"></spacer>
+    {% if getJigasiNumber(room) and getJigasiPin(room) %}
+        <b>{{ 'email.sip.text'|trans }}</b><br>
+        <spacer size="18"></spacer>
+        <b>{{ 'email.sip.number'|trans }}:</b><br>
+        {% for key,n in getJigasiNumber(room) %}
+            {% for number in n %}
+                ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{getJigasiPin(room) }}# <br>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
 </p>
 <spacer size="16"></spacer>
 {% if url is defined and url is not null %}

@@ -21,6 +21,8 @@ knp_gaufrette:
 vich_uploader:
     db_driver: orm
     storage: gaufrette
+    metadata:
+        type: attribute
     mappings:
         profile:
             inject_on_load: true
