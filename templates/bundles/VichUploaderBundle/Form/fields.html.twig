@@ -29,9 +29,8 @@
         <div class="vich-image">
 
                     {% if image_uri %}
-                        <div class="vichImageWrapper">
-                            <img class="z-depth-1" style="width: 100%;" src="{{ image_uri }}" alt=""/>
-                        </div>
+                        {{ image_uri }}
+                        <div class="vichImageWrapper" style="background-image: url('{{ image_uri }}')"></div>
                     {% endif %}
                     {% if download_uri %}
                         <div class="text-center">

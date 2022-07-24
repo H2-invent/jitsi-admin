@@ -518,7 +518,8 @@ strong {
     overflow: hidden;
     position: relative;
     border-radius: 50%;
-
+    background-size: cover;
+    background-position: center;
     img {
       width: 100%;
       position: absolute;
