@@ -1284,7 +1284,7 @@
       </trans-unit>
       <trans-unit id="BvZfePO" resname="room.new.help.lobby">
         <source>room.new.help.lobby</source>
-        <target state="needs-translation">Bitte für diese Konferenz die Lobby aktivieren. Sie können jeden Teilnehmenden einzeln zu der Konferenz zulassen.</target>
+        <target state="translated">Please activate the lobby for this conference. You can admit each participant individually to the conference.</target>
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
