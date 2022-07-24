@@ -132,7 +132,7 @@ label:
   profilImage: Profile picture (Shown in Jitsi-Meet meeting)
   corsHeader: CORS- or frame-ancestor header
   tag: Category
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  serverBackgroundImage: Server Background Image
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
