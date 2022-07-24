@@ -22,7 +22,6 @@ class JigasiService
         private LoggerInterface       $logger,
         private LicenseService        $licenseService,
         private AdapterInterface      $cache,
-        private ParameterBagInterface $parameterBag,
         private KernelInterface       $kernel)
     {
 
@@ -58,6 +57,7 @@ class JigasiService
                     $this->logger->info($response->getContent());
                     $this->logger->error($exception->getMessage());
                     echo $exception->getMessage();
+                    $item->expiresAfter(1);
                     return null;
                 }
                 return $numbers;
@@ -84,6 +84,7 @@ class JigasiService
                     $pin = $this->pingJigasi($rooms);
                 } catch (\Exception $exception) {
                     $this->logger->error($exception->getMessage());
+                    $item->expiresAfter(1);
                     return null;
                 }
                 return $pin;
