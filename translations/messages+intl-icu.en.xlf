@@ -1332,27 +1332,27 @@
       </trans-unit>
       <trans-unit id="8UJiDMP" resname="lobby.moderator.decline.success">
         <source>lobby.moderator.decline.success</source>
-        <target state="needs-translation">Dieser Teilnehmer hat keinen Zutritt zu der Konferenz</target>
+        <target state="translated">This participant does not have access to the conference</target>
       </trans-unit>
       <trans-unit id="jRL3d6b" resname="lobby.participant.accept">
         <source>lobby.participant.accept</source>
-        <target state="needs-translation">Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.</target>
+        <target state="translated">You have been admitted to the conference and will be transferred in a few seconds.</target>
       </trans-unit>
       <trans-unit id="aP4D.Vc" resname="lobby.participant.decline">
         <source>lobby.participant.decline</source>
-        <target state="needs-translation">Sie wurden von dem Moderator nicht zur Konferenz zugelassen. Bitte entschuldigen Sie die Unannehmhlichkeit.</target>
+        <target state="translated">You were not admitted to the conference by the moderator. Please excuse the inconvenience.</target>
       </trans-unit>
       <trans-unit id="7sKnidl" resname="lobby.participant.modal.accept.title">
         <source>lobby.participant.modal.accept.title</source>
-        <target state="needs-translation">Der Moderator hat Sie zur Konferenz hinzugefügt</target>
+        <target state="translated">The moderator has added you to the conference</target>
       </trans-unit>
       <trans-unit id="Scz6Klf" resname="lobby.participant.modal.accept.message">
         <source>lobby.participant.modal.accept.message</source>
-        <target state="needs-translation">Sie haben die Wahl ob Sie mit dem Browser oder der Jitsi-Meet Electro App dem Meeting beitreten wollen. Sind Sie sich unsicher, wählen Sie "Im Browser".</target>
+        <target state="translated">You can join the meeting with the browser or with the Jitsi-Meet Electron app. If you are unsure, select "In the browser".</target>
       </trans-unit>
       <trans-unit id=".6u1w8z" resname="lobby.participant.pleaseWait">
         <source>lobby.participant.pleaseWait</source>
-        <target state="needs-translation">Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.</target>
+        <target state="translated">Please stand-by. The moderator has been informed and will let you in.</target>
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
@@ -1360,7 +1360,7 @@
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">All participants were successfully admitted to the conference.</target>
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1376,7 +1376,7 @@
       </trans-unit>
       <trans-unit id="abSRL0." resname="error.noPermission">
         <source>error.noPermission</source>
-        <target state="needs-translation">Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.</target>
+        <target state="translated">Error. You do not have permission to perform this action.</target>
       </trans-unit>
       <trans-unit id="wY9Fqkl" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
@@ -1396,19 +1396,19 @@
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
-        <target state="needs-translation">Den Teilnehmenden zum Lobbymoderator ernennen</target>
+        <target state="translated">Appoint the participant to be the lobby moderator</target>
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobymoderator hinzufügen?</target>
+        <target state="translated">Do you want to add the participant as a lobby moderator?</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobymoderator entfernen?</target>
+        <target state="translated">Do you want to remove the participant as a lobby moderator?</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
-        <target state="needs-translation">Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</target>
+        <target state="translated">Add attendees and give them permissions as a lobby moderator or conference moderator.</target>
       </trans-unit>
       <trans-unit id="vs1KLhV" resname="newRoom.error.noServer.addServer">
         <source>newRoom.error.noServer.addServer</source>
