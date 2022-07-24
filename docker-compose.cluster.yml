@@ -52,9 +52,8 @@ services:
       timeout: 10s
       start_period: 30s
     depends_on:
-      - db-ja
-      - keycloak-ja
-      - mercure-ja
+      db-ja:
+        condition: service_healthy
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -117,6 +116,10 @@ services:
     hostname: ${RANDOMTAG}db-ja
     environment:
       MARIADB_ROOT_PASSWORD: test
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -128,7 +131,8 @@ services:
     image: jboss/keycloak:latest
     hostname: ${RANDOMTAG}keycloak-ja
     depends_on:
-      - db-ja
+      db-ja:
+        condition: service_healthy
 
 
     environment:
