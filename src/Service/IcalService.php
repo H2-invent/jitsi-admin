@@ -125,7 +125,7 @@ class IcalService
                   foreach ($this->jigasiService->getNumber($event) as $key=>$value){
                       foreach ( $value as $data){
                           $description = $description
-                              .sprintf("(%s) %s %s: %s# \n",$key,$data,$this->translator->trans('email.sip.pin'),$this->jigasiService->getRoomPin($event));
+                              .sprintf("(%s) %s %s: %s# (%s,,%s#) \n",$key,$data,$this->translator->trans('email.sip.pin'),$this->jigasiService->getRoomPin($event),$data,$this->jigasiService->getRoomPin($event));
                       }
                   }
                 }

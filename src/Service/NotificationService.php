@@ -65,7 +65,7 @@ class NotificationService
             foreach ($this->jigasiService->getNumber($rooms) as $key=>$value){
                 foreach ( $value as $data){
                     $description = $description
-                        .sprintf('(%s) %s %s: %s# \n',$key,$data,$this->translator->trans('email.sip.pin'),$this->jigasiService->getRoomPin($rooms));
+                        .sprintf('(%s) %s %s: %s# (%s,,%s#) \n',$key,$data,$this->translator->trans('email.sip.pin'),$this->jigasiService->getRoomPin($rooms),$data,$this->jigasiService->getRoomPin($rooms));
                 }
             }
         }
