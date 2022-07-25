@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="de" target-language="pl" datatype="plaintext" original="file.ext">
+  <file source-language="de" target-language="ro" datatype="plaintext" original="file.ext">
     <header>
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="translated">Adres e-mail</target>
+        <target state="needs-translation">E-Mail-Adresse</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
@@ -1197,7 +1197,7 @@
       </trans-unit>
       <trans-unit id="AFB7I6E" resname="Zeitzone">
         <source>Zeitzone</source>
-        <target state="translated">Strefa czasowa</target>
+        <target state="needs-translation">Zeitzone</target>
       </trans-unit>
       <trans-unit id="7757HgF" resname="Aktuell sind keine Konferenzen vorhanden. Erstellen Sie&#10;                                &lt;u&gt;&lt;a href=&quot;{url}&quot; class=&quot;loadContent&quot;&gt;hier&lt;/a&gt;&lt;/u&gt;&#10;                                eine neue Konferenz.">
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
@@ -1538,7 +1538,7 @@
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
         <source>common.save</source>
-        <target state="translated">Zapisz</target>
+        <target state="needs-translation">Speichern</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
         <source>common.success.save</source>
@@ -1634,11 +1634,11 @@
       </trans-unit>
       <trans-unit id="YqAtmOj" resname="tag.name">
         <source>tag.name</source>
-        <target state="translated">Kategoria</target>
+        <target state="needs-translation">Kategorie</target>
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
-        <target state="translated">Zapisz</target>
+        <target state="needs-translation">Speichern</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
