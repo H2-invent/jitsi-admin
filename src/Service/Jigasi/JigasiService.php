@@ -54,7 +54,12 @@ class JigasiService
                     $responseArr = json_decode($this->sanitizeResponse($response->getContent()), true);
                     $numbers = $responseArr['numbers'];
                 } catch (\Exception $exception) {
-                    $this->logger->info($response->getContent());
+                    if ($response->getStatusCode() === 200){
+                        $this->logger->info($response->getContent());
+                    }else{
+                        $this->logger->error($response->getStatusCode());
+                    }
+
                     $this->logger->error($exception->getMessage());
                     echo $exception->getMessage();
                     $item->expiresAfter(1);

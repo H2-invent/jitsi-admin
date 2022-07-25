@@ -171,9 +171,7 @@ class RoomFixture extends Fixture
         $server->setJwtModeratorPosition(0);
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
         $server->setApiKey('TestApi');
-        $server->setJigasiNumberUrl('https://jigasi.org/numbers.json')
-            ->setJigasiApiUrl('https://jigasi.org/conferenceMapper')
-            ->setJigasiProsodyDomain('conference.jigasi.org');
+
 
         $server->setShowStaticBackgroundColor(false);
         $server->setServerName('Server with License');

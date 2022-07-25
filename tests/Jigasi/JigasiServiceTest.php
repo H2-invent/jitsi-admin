@@ -45,7 +45,9 @@ class JigasiServiceTest extends KernelTestCase
         $serverRepo = self::getContainer()->get(ServerRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
-
+        $room->getServer()->setJigasiNumberUrl('https://jigasi.org/numbers.json')
+        ->setJigasiApiUrl('https://jigasi.org/conferenceMapper')
+        ->setJigasiProsodyDomain('conference.jigasi.org');
         $res = $jigasiService->getNumber($room);
         self::assertNotNull($res);
         self::assertNotNull($res['FR']);
@@ -91,6 +93,9 @@ class JigasiServiceTest extends KernelTestCase
         $serverRepo = self::getContainer()->get(ServerRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room->getServer()->setJigasiNumberUrl('https://jigasi.org/numbers.json')
+            ->setJigasiApiUrl('https://jigasi.org/conferenceMapper')
+            ->setJigasiProsodyDomain('conference.jigasi.org');
 
         $res = $jigasiService->getRoomPin($room);
         self::assertEquals("154428", $res);
