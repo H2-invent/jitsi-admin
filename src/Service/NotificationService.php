@@ -51,7 +51,7 @@ class NotificationService
         $description =   $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $rooms->getServer()->getServerName())) .
             '\n\n' .
             $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
-            .($rooms->getAgenda()?'\n\n'.$this->translator->trans('Agenda').'\n'. implode('\n',explode("\r\n",$rooms->getAgenda())).'\n\n':'\n\n').
+            .($rooms->getAgenda()?'\n\n'.$this->translator->trans('Agenda').':\n'. implode('\n',explode("\r\n",$rooms->getAgenda())).'\n\n':'\n\n').
             $this->translator->trans('Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}', array('{id}' => $rooms->getUid(), '{email}' => $user->getEmail()))
             . '\n\n' .
             $url .
