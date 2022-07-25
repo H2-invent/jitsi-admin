@@ -55,9 +55,9 @@ class JigasiService
                     $numbers = $responseArr['numbers'];
                 } catch (\Exception $exception) {
                     if ($response->getStatusCode() === 200){
-                        $this->logger->info($response->getContent());
+                        $this->logger->info(printf("%s: %s",'Recieve HTML',$response->getContent()));
                     }else{
-                        $this->logger->error($response->getStatusCode());
+                        $this->logger->error(printf("%s: %s",'Recieve Status code',$response->getStatusCode()));
                     }
 
                     $this->logger->error($exception->getMessage());
