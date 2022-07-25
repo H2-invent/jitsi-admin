@@ -69,7 +69,7 @@ class ScheduleController extends JitsiAdminController
         }
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
-
+        $roomold = clone $room;
         $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
 
         $form->remove('scheduleMeeting');
@@ -100,8 +100,16 @@ class ScheduleController extends JitsiAdminController
                 $schedulingService->createScheduling($room);
 
                 if ($request->get('id')) {
-                    foreach ($room->getUser() as $user) {
-                        $userService->editRoom($user, $room);
+                    if (
+                        $roomold->getStart() !== $room->getStart()
+                        || $roomold->getDuration() !== $room->getDuration()
+                        || $roomold->getName() !== $room->getName()
+                        || $roomold->getAgenda() !== $room->getAgenda()
+                        || $roomold->getPersistantRoom() !== $room->getPersistantRoom()
+                    ) {
+                        foreach ($room->getUser() as $user) {
+                            $userService->editRoom($user, $room);
+                        }
                     }
                 } else {
                     $userService->addUser($room->getModerator(), $room);

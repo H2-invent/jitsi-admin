@@ -44,7 +44,7 @@
                     href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}" target="_blank"
                 {% endif %}
         >
-            <span class="badge badge-danger" {% if theme %} style="background-color: {{ theme.colorBadgeShedule }} !important;" {% endif %}>{{ 'Terminplanung'|trans }}</span>
+            <span class="badge badge-danger" {% if theme %} style="background-color: {{ theme.colorBadgeShedule }} !important;" {% endif %}>{{ 'Terminplaner'|trans }}</span>
         </a>
         <br>
     {% endif %}
