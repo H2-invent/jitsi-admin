@@ -18,13 +18,12 @@ use function _PHPStan_9a6ded56a\RingCentral\Psr7\str;
 class JigasiService
 {
     public function __construct(
-        private HttpClientInterface   $client,
-        private LoggerInterface       $logger,
-        private LicenseService        $licenseService,
-        private AdapterInterface      $cache,
-        private KernelInterface       $kernel)
+        private HttpClientInterface $client,
+        private LoggerInterface     $logger,
+        private LicenseService      $licenseService,
+        private AdapterInterface    $cache,
+        private KernelInterface     $kernel)
     {
-
     }
 
     public function setClient(HttpClientInterface $client)
@@ -54,11 +53,10 @@ class JigasiService
                     $responseArr = json_decode($this->sanitizeResponse($response->getContent()), true);
                     $numbers = $responseArr['numbers'];
                 } catch (\Exception $exception) {
-                    if ($response->getStatusCode() === 200){
-                        $this->logger->info(printf("%s: %s",'Receive HTML',$response->getContent()));
+                    if ($response->getStatusCode() === 200) {
+                        $this->logger->info(printf("%s: %s", 'Receive HTML', $response->getContent()));
                     }
                     $this->logger->error($exception->getMessage());
-                    echo $exception->getMessage();
                     $item->expiresAfter(1);
                     return null;
                 }
@@ -96,16 +94,7 @@ class JigasiService
         return null;
     }
 
-    public function sanitizeResponse(string $input): ?string
-    {
-        $stringSanitize = $input;
-        $stringSanitize = preg_replace('/^(.*?)\{/', '{', $stringSanitize);
-        $stringSanitize = preg_replace('/([^}]*)$/', '', $stringSanitize);
-        $stringSanitize = trim(preg_replace('/\s\s+/m', ' ', $stringSanitize));
-        return $stringSanitize;
-    }
-
-    public function pingJigasi(?Rooms $rooms):?string
+    public function pingJigasi(?Rooms $rooms): ?string
     {
         if (!$rooms) {
             return null;
@@ -121,8 +110,8 @@ class JigasiService
                 $pin = $responseArr['id'];
                 return $pin;
             } catch (\Exception $exception) {
-                if ($response->getStatusCode() === 200){
-                    $this->logger->info(printf("%s: %s",'Receive HTML',$response->getContent()));
+                if ($response->getStatusCode() === 200) {
+                    $this->logger->info(printf("%s: %s", 'Receive HTML', $response->getContent()));
                 }
                 $this->logger->error($exception->getMessage());
                 return null;
@@ -130,4 +119,15 @@ class JigasiService
         }
         return null;
     }
+
+
+    public function sanitizeResponse(string $input): ?string
+    {
+        $stringSanitize = $input;
+        $stringSanitize = preg_replace('/^(.*?)\{/', '{', $stringSanitize);
+        $stringSanitize = preg_replace('/([^}]*)$/', '', $stringSanitize);
+        $stringSanitize = trim(preg_replace('/\s\s+/m', ' ', $stringSanitize));
+        return $stringSanitize;
+    }
+
 }
