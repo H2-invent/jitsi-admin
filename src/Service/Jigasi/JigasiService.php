@@ -56,7 +56,6 @@ class JigasiService
                     if ($response->getStatusCode() === 200) {
                         $this->logger->info(printf("%s: %s", 'Receive HTML', $response->getContent()));
                     }
-                    $this->logger->error($exception->getMessage());
                     $item->expiresAfter(1);
                     return null;
                 }
@@ -83,7 +82,6 @@ class JigasiService
                 try {
                     $pin = $this->pingJigasi($rooms);
                 } catch (\Exception $exception) {
-                    $this->logger->error($exception->getMessage());
                     $item->expiresAfter(1);
                     return null;
                 }
