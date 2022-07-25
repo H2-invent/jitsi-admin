@@ -48,7 +48,6 @@ class NotificationService
         if ($user->getTimeZone()) {
             $this->ics->setTimezoneId($user->getTimeZone());
         }
-        dump(explode("\r\n",$rooms->getAgenda()));
         $description =   $this->translator->trans('Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.', array('{server}' => $rooms->getServer()->getServerName())) .
             '\n\n' .
             $this->translator->trans('Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ', array('{name}' => $rooms->getName(), '{moderator}' => $rooms->getModerator()->getFirstName() . ' ' . $rooms->getModerator()->getLastName()))
