@@ -55,11 +55,8 @@ class JigasiService
                     $numbers = $responseArr['numbers'];
                 } catch (\Exception $exception) {
                     if ($response->getStatusCode() === 200){
-                        $this->logger->info(printf("%s: %s",'Recieve HTML',$response->getContent()));
-                    }else{
-                        $this->logger->error(printf("%s: %s",'Recieve Status code',$response->getStatusCode()),array('statusCode'=>$response->getStatusCode()));
+                        $this->logger->info(printf("%s: %s",'Receive HTML',$response->getContent()));
                     }
-
                     $this->logger->error($exception->getMessage());
                     echo $exception->getMessage();
                     $item->expiresAfter(1);
@@ -125,9 +122,7 @@ class JigasiService
                 return $pin;
             } catch (\Exception $exception) {
                 if ($response->getStatusCode() === 200){
-                    $this->logger->info(printf("%s: %s",'Recieve HTML',$response->getContent()));
-                }else{
-                    $this->logger->error(printf("%s: %s",'Recieve Status code',$response->getStatusCode()),array('statusCode'=>$response->getStatusCode()));
+                    $this->logger->info(printf("%s: %s",'Receive HTML',$response->getContent()));
                 }
                 $this->logger->error($exception->getMessage());
                 return null;
