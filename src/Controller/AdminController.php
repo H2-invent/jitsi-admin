@@ -30,7 +30,7 @@ class AdminController extends JitsiAdminController
             $countPart = $countPart + count($room->getUser());
         }
 
-        if ($this->getUser() !== $server->getAdministrator()) {
+        if (!in_array($this->getUser(), $server->getUser()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
              return $this->redirectToRoute('dashboard');
         }

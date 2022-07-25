@@ -66,7 +66,7 @@
         <target state="translated">Jitsi-Konferenz</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
-        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
         <target state="translated">Sie wurden zu einer Videokonferenz hinzugefügt.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
@@ -394,7 +394,7 @@
         <target>Hallo!</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
         <target state="translated">Sie wurden soeben zu einer Videokonferenz eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
@@ -702,7 +702,7 @@
         <target state="translated">Fehler, bitte laden Sie die Seite neu.</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Hier abstimmen</source>
+        <source>Terminplanung</source>
         <target>Hier abstimmen</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
@@ -714,7 +714,7 @@
         <target>Einladung zu einer Terminplanung</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
-        <source>Sie wurden gerade zu einer Terminplanung eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
         <target state="translated">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
@@ -1695,12 +1695,28 @@
             gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
       <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
-        <source>noch</source>
+        <source>lobby.participants.noch</source>
         <target>noch</target>
       </trans-unit>
       <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
-        <source>Sekunden</source>
+        <source>lobby.participants.seconds</source>
         <target>Sekunden</target>
+      </trans-unit>
+      <trans-unit id="jjTtEi5" resname="email.sip.text">
+        <source>Sie können sich auch einfach per Telefon in die Konferenz einwählen.</source>
+        <target>Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+      </trans-unit>
+      <trans-unit id="yYT7KvW" resname="email.sip.number">
+        <source>Einwahlnummern</source>
+        <target>Einwahlnummern</target>
+      </trans-unit>
+      <trans-unit id="ATAJQ4B" resname="email.sip.pin">
+        <source>PIN</source>
+        <target>PIN</target>
+      </trans-unit>
+      <trans-unit id="egctRia" resname="enterprise.settings.header.sip">
+        <source>Jigasi SIP-Einwahldaten</source>
+        <target>Jigasi SIP-Einwahldaten</target>
       </trans-unit>
     </body>
   </file>

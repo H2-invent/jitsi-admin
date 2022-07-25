@@ -172,6 +172,7 @@ class RoomFixture extends Fixture
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
         $server->setApiKey('TestApi');
 
+
         $server->setShowStaticBackgroundColor(false);
         $server->setServerName('Server with License');
         $manager->persist($server);

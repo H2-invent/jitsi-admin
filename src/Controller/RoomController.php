@@ -131,6 +131,7 @@ class RoomController extends JitsiAdminController
 
             }
         } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
             $this->addFlash('danger', 'Fehler, Bitte kontrollieren Sie ihre Daten.');
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
