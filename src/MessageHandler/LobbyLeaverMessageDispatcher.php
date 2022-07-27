@@ -17,7 +17,10 @@ class LobbyLeaverMessageDispatcher implements MessageHandlerInterface
     private $toModerator;
     private EntityManagerInterface $em;
 
-    public function __construct(LoggerInterface $logger, ToModeratorWebsocketService $toModerator, EntityManagerInterface $entityManager)
+    public function __construct(
+        LoggerInterface $logger,
+        ToModeratorWebsocketService $toModerator,
+        EntityManagerInterface $entityManager)
     {
         $this->logger = $logger;
         $this->toModerator = $toModerator;
