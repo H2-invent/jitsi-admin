@@ -121,11 +121,13 @@ class ServersController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 $em->persist($server);
                 $em->flush();
-                $server->getServerBackgroundImage()->setUpdatedAt(new \DateTime());
-                $server->setUpdatedAt(new \DateTime());
-                $em = $this->doctrine->getManager();
-                $em->persist($server);
-                $em->flush();
+                if ($server->getServerBackgroundImage()){
+                    $server->getServerBackgroundImage()->setUpdatedAt(new \DateTime());
+                    $server->setUpdatedAt(new \DateTime());
+                    $em->persist($server);
+                    $em->flush();
+                }
+
                 if ($server->getServerBackgroundImage() && !$server->getServerBackgroundImage()->getDocumentFileName()) {
                    $server->setServerBackgroundImage(null);
                     $em->persist($server);
