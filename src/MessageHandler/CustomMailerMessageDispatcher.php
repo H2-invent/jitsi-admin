@@ -52,6 +52,5 @@ class CustomMailerMessageDispatcher implements MessageHandlerInterface
             $this->logger->debug('we send an email to',array('to'=>$customMailerMessage->getAbsender()));
             $this->mailer->send($message);
         }
-
     }
 }
