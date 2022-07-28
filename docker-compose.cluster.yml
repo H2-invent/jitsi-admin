@@ -140,6 +140,8 @@ services:
       DB_PORT: 3306
       KEYCLOAK_IMPORT: /tmp/realm-export.json
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
+      JAVA_OPTS_APPEND: "-Djboss.as.management.blocking.timeout=7200"
+      JDBC_PARAMS: "connectTimeout=30000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls=true"
@@ -150,7 +152,6 @@ services:
 
     volumes:
       - ./keycloak/realm-export.json:/tmp/realm-export.json
-      - $PWD/dockerupdate.sh:/etc/container/startup.sh
     networks:
       - default
       - jitsi-admin

@@ -71,7 +71,6 @@ services:
       - traefik-ja
 
     environment:
-
       MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
       MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
       SERVER_NAME: ':3000'
@@ -170,8 +169,6 @@ services:
     depends_on:
       db-ja:
         condition: service_healthy
-
-
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}

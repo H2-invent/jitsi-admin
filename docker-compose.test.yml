@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   traefik-ja:
@@ -48,14 +48,18 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
+
   app-ja:
     build: .
     depends_on:
-      - db-ja
-      - keycloak-ja
-      - mercure-ja
-      - traefik-ja
-
+      db-ja:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
+      interval: 20s
+      timeout: 10s
+      start_period: 30s
+      retries: 10
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -77,17 +81,26 @@ services:
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
       VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+      CRON_USER_1: root
+      CRON_SCHEDULE_1: "* * * * *"
+      CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app-ja.rule=Host(`${PUBLIC_URL}`)"
       - "traefik.http.routers.app-ja.entrypoints=web"
       - "traefik.http.services.app-ja.loadbalancer.server.port=80"
-
+    volumes:
+      - image_upload:/var/www/html/public/uploads/images
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
   db-ja:
     image: mariadb:latest
     environment:
       MARIADB_ROOT_PASSWORD: test
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -97,7 +110,8 @@ services:
     image: jboss/keycloak:latest
 
     depends_on:
-      - db-ja
+      db-ja:
+        condition: service_healthy
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
@@ -109,6 +123,8 @@ services:
       DB_PORT: 3306
       KEYCLOAK_IMPORT: /tmp/realm-export.json
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
+      JAVA_OPTS_APPEND: "-Djboss.as.management.blocking.timeout=7200"
+      JDBC_PARAMS: "connectTimeout=30000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
@@ -121,3 +137,4 @@ volumes:
   mariadb:
   caddy_data:
   caddy_config:
+  image_upload:
