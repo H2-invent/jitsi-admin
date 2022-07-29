@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RoomsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -112,6 +113,10 @@ class Rooms
     private $tag;
     #[ORM\Column(type: 'text', nullable: true)]
     private $hostUrl;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $secondaryName = null;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -797,6 +802,18 @@ class Rooms
     public function setHostUrl(?string $hostUrl): self
     {
         $this->hostUrl = $hostUrl;
+
+        return $this;
+    }
+
+    public function getSecondaryName(): ?string
+    {
+        return $this->secondaryName;
+    }
+
+    public function setSecondaryName(?string $secondaryName): self
+    {
+        $this->secondaryName = $secondaryName;
 
         return $this;
     }

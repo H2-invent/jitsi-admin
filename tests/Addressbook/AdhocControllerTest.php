@@ -33,7 +33,7 @@ class AdhocControllerTest extends WebTestCase
                 self::assertEquals('Ad Hoc Meeting', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             } elseif (str_contains($data, '"type":"notification"')) {
-                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test2, 1234, User2, Test2.', $tmp['title']);
+                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             }
             return 'id';
@@ -52,6 +52,16 @@ class AdhocControllerTest extends WebTestCase
             array('redirectUrl' => '/room/dashboard','popups'=>array('/room/join/b/'.$room->getId()))), $client->getResponse()->getContent());
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(),true)['popups'][0]);
         self::assertSelectorNotExists('#tagContent');
+
+        $client->loginUser($user);
+        $crawler = $client->request('GET', '/room/dashboard');
+
+        self::assertEquals(1, $crawler->filter('h5:contains("Konferenz mit Test2, 1234, User2, Test2")')->count());
+        self::assertEquals(0, $crawler->filter('h5:contains("Konferenz mit Test1, 1234, User, Test")')->count());
+        $client->loginUser($user2);
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertEquals(1, $crawler->filter('h5:contains("Konferenz mit Test1, 1234, User, Test")')->count());
+        self::assertEquals(0, $crawler->filter('h5:contains("Konferenz mit Test2, 1234, User2, Test2")')->count());
     }
 
     public function testcreateAdhocMeetingWithTag(): void
@@ -71,7 +81,7 @@ class AdhocControllerTest extends WebTestCase
                 self::assertEquals('Ad Hoc Meeting', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             } elseif (str_contains($data, '"type":"notification"')) {
-                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test2, 1234, User2, Test2.', $tmp['title']);
+                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             }
             return 'id';
@@ -94,6 +104,7 @@ class AdhocControllerTest extends WebTestCase
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(),true)['popups'][0]);
         self::assertSelectorTextContains('#tagContent','Test Tag Enabled');
         self::assertResponseIsSuccessful();
+
     }
 
 }

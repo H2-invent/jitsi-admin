@@ -121,7 +121,7 @@ h5 {
 
 .list-group-item {
   background-color: $black_navbar;
-  border: 1px solid $black_font-color;
+  border-color: $black_font-color;
 }
 
 a {
@@ -162,10 +162,6 @@ a {
   &:hover {
     color: white;
   }
-}
-
-.list-group-item {
-  border: 1px solid #c9d1d9 !important;
 }
 
 

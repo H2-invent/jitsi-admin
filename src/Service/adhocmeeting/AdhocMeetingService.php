@@ -62,7 +62,8 @@ class AdhocMeetingService
         }
         $room->setEnddate((clone $now)->modify('+ 1 hour'));
         $room->setDuration(60);
-        $room->setName($this->translator->trans('Konferenz mit {n}', array('{n}' => $reciever->getFormatedName($this->parameterBag->get('laf_showName')))));
+        $room->setName($this->translator->trans('Konferenz mit {n}', array('{n}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))));
+        $room->setSecondaryName($this->translator->trans('Konferenz mit {n}', array('{n}' => $reciever->getFormatedName($this->parameterBag->get('laf_showName')))));
         $this->em->persist($room);
         $this->em->flush();
         $reciever->addRoom($room);

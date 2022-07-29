@@ -61,8 +61,11 @@
 </div>
 <div class="col-md-4">
     <h5 class="h5-responsive">
-
-        {{ room.name }} <a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i
+    {% if app.user and app.user == room.moderator and room.secondaryName is not null %}
+        {{ room.secondaryName }}
+    {% else %}
+        {{ room.name }}
+        {% endif %}<a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i
                     class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a>
         <a tabindex="0"
            data-mdb-toggle="popover"

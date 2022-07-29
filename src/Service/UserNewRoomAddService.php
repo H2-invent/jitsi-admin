@@ -20,22 +20,18 @@ use Twig\Environment;
 
 class UserNewRoomAddService
 {
-    private $twig;
-    private $notificationService;
-    private $url;
-    private $translator;
-    private $em;
-    private $pushService;
-    private $urlGenerator;
-    public function __construct(JoinUrlGeneratorService $joinUrlGeneratorService,  PushService $pushService, EntityManagerInterface $entityManager, TranslatorInterface $translator,  Environment $environment, NotificationService $notificationService, UrlGeneratorInterface $urlGenerator)
+
+    public function __construct(
+        private JoinUrlGeneratorService $urlGenerator,
+        private PushService             $pushService,
+        private EntityManagerInterface  $entityManager,
+        private TranslatorInterface     $translator,
+        private Environment             $twig,
+        private NotificationService     $notificationService,
+        private UrlGeneratorInterface   $url,
+        private ParameterBagInterface   $parameterBag)
     {
-        $this->twig = $environment;
-        $this->notificationService = $notificationService;
-        $this->url = $urlGenerator;
-        $this->translator = $translator;
-        $this->em = $entityManager;
-        $this->pushService = $pushService;
-        $this->urlGenerator = $joinUrlGeneratorService;
+
     }
 
 
@@ -52,15 +48,15 @@ class UserNewRoomAddService
     {
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}',array('{name}'=>$room->getName()));
+        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', array('{name}' => $room->getName()));
         $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
-        $attachement[] = array('type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()),0,10) . '.ics', 'body' => $ics);
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room,$attachement);
+        $attachement[] = array('type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()), 0, 10) . '.ics', 'body' => $ics);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room, $attachement);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
                 $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
-                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                    array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
                         '{name}' => $room->getName())),
                 $user,
                 $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL),
@@ -84,13 +80,13 @@ class UserNewRoomAddService
 
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}',array('{name}'=>$room->getName()));
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
+        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', array('{name}' => $room->getName()));
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
                 $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
-                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                    array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
                         '{name}' => $room->getName())),
                 $user,
                 $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
@@ -113,13 +109,13 @@ class UserNewRoomAddService
     {
 
         $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
-        $subject = $this->translator->trans('[Terminplanung] Neue Einladung zur Terminplanung {name}',array('{name}'=>$room->getName()));
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
+        $subject = $this->translator->trans('[Terminplanung] Neue Einladung zur Terminplanung {name}', array('{name}' => $room->getName()));
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
                 $this->translator->trans('Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.',
-                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                    array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
                         '{name}' => $room->getName())),
                 $user,
                 $this->url->generate('schedule_public_main', array('scheduleId' => $room->getUid(), 'userId' => $user->getUid()), UrlGeneratorInterface::ABSOLUTE_URL)
@@ -141,7 +137,7 @@ class UserNewRoomAddService
     {
         $content = $this->twig->render('email/waitingList.html.twig', ['user' => $user, 'room' => $room]);
         $subject = $this->translator->trans('[Videokonferenz] Hinzugefügt zur Warteliste');
-        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(),$room);
+        $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,

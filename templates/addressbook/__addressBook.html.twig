@@ -9,21 +9,26 @@
     {% set name = null %}
     {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
         {% if u|nameOfUserNoSymbol|first|upper != name %}
-            {{ u|nameOfUserNoSymbol|first|upper }}
+       <li class="list-group-item capital-Letter">{{ u|nameOfUserNoSymbol|first|upper }}</li>
             {% set name = u|nameOfUserNoSymbol|first|upper %}
         {% endif %}
 
-        <li class="list-group-item" style="display: flex; justify-content: space-between">
-            <span class="breakWord">{{ u|nameOfUser }} </span>
-            <span class="noBreak d-flex">
+        <li class="list-group-item adressbookline" style="display: flex; justify-content: space-between">
+            <span class="breakWord d-flex align-items-center name">
+        {% if u.profilePicture %}
+            <div class="iconSytle imageIcon me-2"
+                 style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
+            </div>
+        {% endif %}{{ u|nameOfUser }} </span>
+            <span class="noBreak d-flex align-items-center icon">
                 {% if servers|length == 1 %}
-                    <a class="text-success adhocConfirm me-2"
+                    <a class="text-success adhocConfirm me-2 "
                        data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
                        href="{{ path('add_hoc_confirm',{'serverId':servers[0].id,'userId':u.id}) }}">
                         <i class="fa fa-phone"></i>
                              </a>
                 {% else %}
-                    <a class="caretdown dropdown-toggle me-1 text-success" data-mdb-toggle="dropdown"
+                    <a class="caretdown dropdown-toggle text-success" data-mdb-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-phone"></i>
                              </a>
@@ -37,7 +42,7 @@
         </div>
                 {% endif %}
                 {% if theme == false or theme.trashOnAdressBook == true %}
-                    <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
+                    <a class="confirmHref ms-2" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
                        data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
                                 class="fa fa-trash text-danger"></i> </a>
                 {% endif %}
