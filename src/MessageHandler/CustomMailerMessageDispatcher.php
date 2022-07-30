@@ -31,26 +31,31 @@ class CustomMailerMessageDispatcher implements MessageHandlerInterface
     public function __invoke(CustomMailerMessage $customMailerMessage)
     {
         $transport = $this->transport = Transport::fromDsn($customMailerMessage->getDsn());
-        $this->logger->debug('We build the new Mailer from the dsn', array('dsn'=>$customMailerMessage->getDsn()));
+        $this->logger->debug('We build the new Mailer from the dsn', array('dsn' => $customMailerMessage->getDsn()));
         try {
             $transport->send($customMailerMessage->getEmail());
         } catch (\Exception $exception) {
-            $this->logger->debug('there was an exeption during sending', array('error'=>$exception->getMessage()));
-
+            $this->logger->error($exception->getMessage());
+            $this->logger->debug('there was an exeption during sending', array('error' => $exception->getMessage()));
             $room = $this->entityManager->getRepository(Rooms::class)->find($customMailerMessage->getRoomId());
-            $this->logger->debug('We looking for a room with the id',array('id'=>$customMailerMessage->getRoomId()));
-            $sender = $this->parameterBag->get('registerEmailAdress');
-            $senderName = $this->parameterBag->get('registerEmailName');
-            $message = (new Email())
-                ->subject('Wrong email adress ')
-                ->from(new Address($sender, $senderName))
-                ->to($customMailerMessage->getAbsender())
-                ->html('<h2>You tried to invite a participant with a wrong email adress.:' . $customMailerMessage->getTo() . '</h2>'
-                    . '<p>Please doublecheck the email adress.</p>'
-                    . ($room ? sprintf('<br><p>%s: %s</p>', 'Room name', $room->getName()) : '')
-                );
-            $this->logger->debug('we send an email to',array('to'=>$customMailerMessage->getAbsender()));
-            $this->mailer->send($message);
+            $this->logger->debug('We looking for a room with the id', array('id' => $customMailerMessage->getRoomId()));
+            $this->sendNotdelivery($room, $customMailerMessage->getAbsender(), $customMailerMessage->getTo());
         }
+    }
+
+    private function sendNotdelivery(Rooms $room, $to, $wrongEmail)
+    {
+        $sender = $this->parameterBag->get('registerEmailAdress');
+        $senderName = $this->parameterBag->get('registerEmailName');
+        $message = (new Email())
+            ->subject('Wrong email adress ')
+            ->from(new Address($sender, $senderName))
+            ->to($to)
+            ->html('<h2>You tried to invite a participant with a wrong email adress.:' . $wrongEmail . '</h2>'
+                . '<p>Please doublecheck the email adress.</p>'
+                . ($room ? sprintf('<br><p>%s: %s</p>', 'Room name', $room->getName()) : '')
+            );
+        $this->logger->info('we send an email to', array('to' => $to));
+        $this->mailer->send($message);
     }
 }

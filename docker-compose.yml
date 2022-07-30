@@ -13,6 +13,7 @@ x-app-common: &jitsi_admin_app
     MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
+    registerEmailAdress: ${registerEmailAdress}
 
 
 services:
