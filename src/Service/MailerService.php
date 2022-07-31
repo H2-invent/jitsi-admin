@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
@@ -153,7 +154,10 @@ class MailerService
                 }
                 $this->customMailer->setTo($to);
                 $this->logger->info('Send from Custom Mailer');
-                $this->bus->dispatch($this->customMailer->send($message));
+                $this->bus->dispatch($this->customMailer->send($message),[
+                    // wait 5 seconds before processing
+                    new DelayStamp(rand(100,10000)),
+                ]);
             } else {
                 $this->mailer->send($message);
             }
