@@ -28,7 +28,7 @@ class MailerService
     private $kernel;
     private $logger;
     private $customMailer;
-    private $userName;
+
     private $licenseService;
     private $mailer;
 
@@ -39,7 +39,6 @@ class MailerService
         $this->kernel = $kernel;
         $this->logger = $logger;
         $this->customMailer = null;
-        $this->userName = null;
         $this->licenseService = $licenseService;
         $this->mailer = $mailer;
     }
@@ -49,8 +48,7 @@ class MailerService
 
         if ($server->getSmtpHost()) {
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
-            if ($this->userName != $server->getSmtpUsername()) {
-                $this->userName = $server->getSmtpUsername();
+            if ($server->getSmtpUsername()) {
                 $this->logger->info('The Transport is new and we take him');
                 $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             }else{
