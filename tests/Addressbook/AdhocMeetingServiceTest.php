@@ -48,8 +48,6 @@ class AdhocMeetingServiceTest extends KernelTestCase
         self::assertNull($room->getTag());
 
 
-        //$routerService = static::getContainer()->get('router');
-        //$myCustomService = static::getContainer()->get(CustomService::class);
     }
 
     public function testCreateAdhocmeetingWithTag(): void
