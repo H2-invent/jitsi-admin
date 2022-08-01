@@ -30,8 +30,7 @@ class CustomMailerMessageDispatcher implements MessageHandlerInterface
 
     public function __invoke(CustomMailerMessage $customMailerMessage)
     {
-        $transport = null;
-        $this->logger->info($customMailerMessage->getDsn());
+        $this->logger->debug($customMailerMessage->getDsn());
         $transport = $this->transport = Transport::fromDsn($customMailerMessage->getDsn());
         $this->logger->debug('We build the new Mailer from the dsn', array('dsn' => $customMailerMessage->getDsn()));
         try {
