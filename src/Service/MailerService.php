@@ -54,8 +54,7 @@ class MailerService
 
         if ($server->getSmtpHost()) {
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
-            if ($this->userName != $server->getSmtpUsername()) {
-                $this->userName = $server->getSmtpUsername();
+            if ($server->getSmtpUsername() && $server->getSmtpPassword()) {
                 $this->logger->info('The Transport is new and we take him');
                 $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             } else {
