@@ -89,5 +89,24 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
+     */
+
+    public function findParticipantsByServer(Server $server, $startDate,$endDate)
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb->innerJoin('r.roomStatus', 'roomStatus')
+            ->innerJoin('roomStatus.room', 'room')
+            ->innerJoin('room.server', 'server')
+            ->andWhere('server = :server')
+            ->andWhere($qb->expr()->gte('r.enteredRoomAt', ':startDate'))
+            ->andWhere($qb->expr()->lte('r.enteredRoomAt',':endDate'))
+            ->setParameter('server', $server)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getResult();
+    }
 
 }
