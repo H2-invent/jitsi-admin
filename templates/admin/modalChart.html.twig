@@ -212,6 +212,19 @@
                 ],
                 borderWidth: 2
             }
+            ,
+            {
+                label: "{{ 'Anzahl realen Teilnehmer'|trans }}",
+                yAxisID: 'B',
+                data: [{% for date in chart %}"{{ date['participants_real'] }}",{% endfor %}],
+                backgroundColor: [
+                    'rgba(0, 137, 132, .2)',
+                ],
+                borderColor: [
+                    'rgba(0, 10, 130, .7)',
+                ],
+                borderWidth: 2
+            }
         ]
     };
     options = {

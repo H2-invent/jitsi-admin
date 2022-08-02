@@ -16,8 +16,11 @@ use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
+use App\Service\ThemeService;
+use Doctrine\Persistence\ManagerRegistry;
 use Firebase\JWT\JWT;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -35,6 +38,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class DashboardController extends JitsiAdminController
 {
 
+    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private ThemeService $themeService)
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     /**
      * @Route("/", name="index")
      * @param Request $request
@@ -42,7 +50,7 @@ class DashboardController extends JitsiAdminController
      */
     public function index(Request $request)
     {
-        if ($this->getUser() || $this->getParameter('laF_startpage') === 'false') {
+        if ($this->getUser() || $this->themeService->getApplicationProperties('laF_startpage') === 'false') {
             return $this->redirectToRoute('dashboard');
         };
 
