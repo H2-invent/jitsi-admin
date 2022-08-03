@@ -1703,20 +1703,24 @@
         <target>Sekunden</target>
       </trans-unit>
       <trans-unit id="jjTtEi5" resname="email.sip.text">
-        <source>Sie können sich auch einfach per Telefon in die Konferenz einwählen.</source>
+        <source>email.sip.text</source>
         <target>Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
       </trans-unit>
       <trans-unit id="yYT7KvW" resname="email.sip.number">
-        <source>Einwahlnummern</source>
+        <source>email.sip.number</source>
         <target>Einwahlnummern</target>
       </trans-unit>
       <trans-unit id="ATAJQ4B" resname="email.sip.pin">
-        <source>PIN</source>
+        <source>email.sip.pin</source>
         <target>PIN</target>
       </trans-unit>
       <trans-unit id="egctRia" resname="enterprise.settings.header.sip">
-        <source>Jigasi SIP-Einwahldaten</source>
+        <source>enterprise.settings.header.sip</source>
         <target>Jigasi SIP-Einwahldaten</target>
+      </trans-unit>
+      <trans-unit id="ijp6Gol" resname="statistic.real.participants">
+        <source>Anzahl reale Teilnehmende</source>
+        <target>Anzahl reale Teilnehmende</target>
       </trans-unit>
     </body>
   </file>
