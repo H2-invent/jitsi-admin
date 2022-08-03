@@ -214,7 +214,7 @@
             }
             ,
             {
-                label: "{{ 'Anzahl realen Teilnehmer'|trans }}",
+                label: "{{ 'statistic.real.participants'|trans }}",
                 yAxisID: 'B',
                 data: [{% for date in chart %}"{{ date['participants_real'] }}",{% endfor %}],
                 backgroundColor: [

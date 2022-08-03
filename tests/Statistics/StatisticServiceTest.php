@@ -21,8 +21,22 @@ class StatisticServiceTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $adminService = self::getContainer()->get(AdminService::class);
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si2'));
         $chart = $adminService->createChart($server);
+        self::assertEquals(61, sizeof($chart));
+        $rooms = 0;
+        $part = 0;
+        $part_real = 0;
+
+        foreach ($chart as $c) {
+            $rooms = $rooms + $c['rooms'];
+            $part = $part + $c['participants'];
+            $part_real = $part_real + $c['participants_real'];
+        }
+        self::assertEquals(47, $rooms);
+        self::assertEquals(131, $part);
+        self::assertEquals(4, $part_real);
+
 
     }
 
@@ -48,6 +62,7 @@ class StatisticServiceTest extends KernelTestCase
         $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
         $chart = $adminService->createChart($server);
 
+
     }
 
     private function prepareRoom(RoomsRepository $roomsRepository)
@@ -56,8 +71,8 @@ class StatisticServiceTest extends KernelTestCase
 
         $rooms = $roomsRepository->findOneBy(array('name' => 'TestMeeting: 0'));
         $rooms = $this->changeStart($rooms, '2021-01-15T15:00');
-        foreach ($rooms->getUser() as $data){
-            if($data !== $rooms->getModerator()){
+        foreach ($rooms->getUser() as $data) {
+            if ($data !== $rooms->getModerator()) {
                 $userAttr = new RoomsUser();
                 $userAttr->setRoom($rooms);
                 $userAttr->setUser($data);
