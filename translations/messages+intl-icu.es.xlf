@@ -1671,10 +1671,6 @@
         <source>Bewertung</source>
         <target state="translated">Valoración</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="saiR089" resname="join.privacy.theme">
         <source>join.privacy.theme</source>
         <target state="translated"><![CDATA[He leído la  <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">                                                    <u>política de protección de datos de {url}</u><i class="fa fa-external-link-alt"></i></a> y acepto sus condiciones.]]></target>
@@ -1708,8 +1704,12 @@
         <target state="translated">Detalles de marcación SIP de Jigasi</target>
       </trans-unit>
       <trans-unit id="ijp6Gol" resname="statistic.real.participants">
-        <source>Anzahl reale Teilnehmende</source>
+        <source>statistic.real.participants</source>
         <target state="translated">Número de participantes reales</target>
+      </trans-unit>
+      <trans-unit id="I4QUydi" resname="lobby.participant.online">
+        <source>Bereits in der Konferenz.</source>
+        <target state="needs-translation">Bereits in der Konferenz.</target>
       </trans-unit>
     </body>
   </file>
