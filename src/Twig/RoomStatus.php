@@ -48,7 +48,7 @@ class RoomStatus extends AbstractExtension
     }
     public function RoomStatusOccupats(Rooms $rooms)
     {
-        return sizeof($this->webhookFrontend->numberOfOccupants($rooms));
+        return $this->webhookFrontend->numberOfOccupants($rooms);
     }
     public function RoomStatusClosed(Rooms $rooms){
         return $this->webhookFrontend->isRoomClosed($rooms);

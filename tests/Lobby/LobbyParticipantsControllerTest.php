@@ -38,9 +38,18 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
         $crawler = $client->request('GET', $url);
         self::assertNotNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+
         $this->assertEquals(
             1,
             $crawler->filter('.overlay:contains("Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.")')->count()
+        );
+        $this->assertEquals(
+            3,
+            $crawler->filter('.lobbyPart')->count()
+        );
+        $this->assertEquals(
+            0,
+            $crawler->filter('.lobbyOnlinePart')->count()
         );
     }
 

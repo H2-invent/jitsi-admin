@@ -27,6 +27,7 @@ var clickLeave = false;
 let es;
 let healtcheckInterval;
 let blockHealtch = false;
+
 function initMercure() {
     connectES();
     setInterval(function () {
@@ -57,8 +58,8 @@ function connectES() {
     }
     healtcheckInterval = setInterval(function () {
         $.get(healthcheckUrl, function (data) {
-                if (data.error === true) {
-                    if (!blockHealtch){
+            if (data.error === true) {
+                if (!blockHealtch) {
                     location.reload()
                 }
             }
@@ -190,12 +191,12 @@ function userAccepted(data) {
 
     interval = setInterval(function () {
         counter = counter - 1;
-        $('#lobby_participant_counter').css('transition',' opacity 0s');
-        $('#lobby_participant_counter').css('opacity','0');
+        $('#lobby_participant_counter').css('transition', ' opacity 0s');
+        $('#lobby_participant_counter').css('opacity', '0');
         setTimeout(function () {
-            $('#lobby_participant_counter').css('transition',' opacity 0.5s');
-            $('#lobby_participant_counter').css('opacity','1');
-        },1)
+            $('#lobby_participant_counter').css('transition', ' opacity 0.5s');
+            $('#lobby_participant_counter').css('opacity', '1');
+        }, 1)
         if (counter < 0) {
             clearInterval(interval);
             initJitsiMeet(dataSucess);
@@ -222,6 +223,17 @@ $(document).ready(function () {
     initAUdio();
     initWebcam();
     initMercure();
+    console.log('1.21312');
+    $('#webcamRow').css('height', $('.webcamArea').height());
+    var ro = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            $('#webcamRow').css('height', $('.webcamArea').height());
+        }
+    });
+
+// Observe one or multiple elements
+    ro.observe(document.querySelector('.webcamArea'));
+
 })
 
 
