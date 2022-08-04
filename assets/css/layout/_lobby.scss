@@ -268,14 +268,14 @@ body {
   .acceptSwipe {
     background-color: $success;
     padding-left: 18px;
-    border-radius: 8px ;
+    border-radius: 8px;
   }
 
   .denieSwipe {
     padding-right: 18px;
     background-color: $danger;
     justify-content: end;
-    border-radius:  8px;
+    border-radius: 8px;
   }
 }
 
@@ -308,7 +308,8 @@ body {
     }
   }
 }
-.accessAllowed{
+
+.accessAllowed {
   position: absolute;
   background-color: rgb(0, 0, 0, 0.4);
   width: 100%;
@@ -318,24 +319,45 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 3;
-  p{
+
+  p {
     margin: 0;
   }
-  #lobby_participant_counter{
+
+  #lobby_participant_counter {
     font-size: 50px;
     color: white;
     line-height: 1;
   }
 }
-.textAllow{
+
+.textAllow {
   color: white;
 }
-#stopEntry{
-  color: white!important;
-  border-color: white!important;
+
+#stopEntry {
+  color: white !important;
+  border-color: white !important;
 }
 
-.lobbyPartList{
+.lobbyPartList {
   overflow-y: auto;
   max-height: 100%;
 }
+
+.lobbyPart {
+  display: flex;
+  align-items: center;
+  position: relative;
+  .onlineDot {
+    position: absolute;
+    left: 10px;
+    width: 8px;
+    height: 8px;
+    background-color: #00c851;
+    border-radius: 50000px;
+    margin-right: 4px;
+  }
+
+}
+

@@ -7,7 +7,7 @@
     <div class=" col-12 ">
         <div class="row d-flex justify-content-center mb-3" id="webcamRow">
 
-            <div class="col-lg-8 col-xl-6" id="webcamCol">
+            <div class="col-lg-6 col-xl-8" id="webcamCol">
                 <div class="card webcamArea" id="webcamArea">
                     <div class="accessAllowed d-none">
                         <p class="small textAllow">{{ 'lobby.participants.noch'|trans }}</p>
@@ -45,14 +45,14 @@
             </div>
 
             {% if getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') %}
-                <div class="col-lg-4 d-none d-lg-block lobbyPartList">
+                <div class="col-lg-6 col-xl-4 d-none d-lg-block lobbyPartList">
                     <div class="">
                         <h4>{{ 'Teilnehmer'|trans }}</h4>
                         <ul class="list-group">
                             {% set inRoom= [] %}
                             {% for u in RoomStatusOccupats(room) |sort((a, b) => a.participantName <=> b.participantName) %}
                                 {% set inRoom = inRoom|merge([u.participantName]) %}
-                                <li class="list-group-item text-success lobbyOnlinePart">{{ u.participantName }}</li>
+                                <li class="list-group-item text-success lobbyPart lobbyOnlinePart"><div class="onlineDot" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div>{{ u.participantName }}</li>
                             {% endfor %}
                             {% for u in room.user|sort((a, b) => a.formatedName(laf_showNameInConference) <=> b.formatedName(laf_showNameInConference)) %}
                                 {% if  u.formatedName(laf_showNameInConference) not in inRoom %}
