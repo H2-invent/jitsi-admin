@@ -1668,10 +1668,6 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>Bewertung</source>
         <target state="needs-translation">Bewertung</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="saiR089" resname="join.privacy.theme">
         <source>join.privacy.theme</source>
         <target state="needs-translation"><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
@@ -1711,8 +1707,12 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
       </trans-unit>
       <trans-unit id="ijp6Gol" resname="statistic.real.participants">
-        <source>Anzahl reale Teilnehmende</source>
+        <source>statistic.real.participants</source>
         <target state="needs-translation">Anzahl reale Teilnehmende</target>
+      </trans-unit>
+      <trans-unit id="I4QUydi" resname="lobby.participant.online">
+        <source>Bereits in der Konferenz.</source>
+        <target state="needs-translation">Bereits in der Konferenz.</target>
       </trans-unit>
     </body>
   </file>
