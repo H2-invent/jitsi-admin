@@ -69,7 +69,7 @@ class OwnRoomController extends JitsiAdminController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
+            $type = 'b';
             if ($form->has('joinApp') && $form->get('joinApp')->isClicked()) {
                 $type = 'a';
             } elseif ($form->has('joinBrowser') && $form->get('joinBrowser')->isClicked()) {

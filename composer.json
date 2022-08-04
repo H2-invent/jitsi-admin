@@ -67,6 +67,7 @@
     "dama/doctrine-test-bundle": "^6.6",
     "dbrekelmans/bdi": "^1.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
+    "phpstan/phpstan": "^1.8",
     "phpunit/phpunit": "^9.5",
     "rector/rector": "^0.13.9",
     "symfony/browser-kit": "5.4.*",
@@ -115,7 +116,8 @@
     ],
     "post-update-cmd": [
       "@auto-scripts"
-    ]
+    ],
+      "phpstan": "vendor/bin/phpstan -c phpstan.neon"
   },
   "conflict": {
     "symfony/symfony": "*"

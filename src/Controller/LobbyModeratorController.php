@@ -40,7 +40,6 @@ class LobbyModeratorController extends JitsiAdminController
                                 DirectSendService             $directSendService,
                                 ToParticipantWebsocketService $toParticipantWebsocketService,
                                 ToModeratorWebsocketService   $toModeratorWebsocketService,
-                                RequestStack                  $requestStack,
                                 CheckLobbyPermissionService   $checkLobbyPermissionService
     )
     {

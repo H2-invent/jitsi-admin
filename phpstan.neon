@@ -1,0 +1,9 @@
+parameters:
+    paths:
+        - src
+        - tests
+        - templates
+    parallel:
+        jobSize: 20
+        maximumNumberOfProcesses: 32
+        minimumNumberOfJobsPerProcess: 2

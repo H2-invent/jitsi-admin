@@ -43,7 +43,6 @@ class LobbyParticipantsController extends JitsiAdminController
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->lobbyUpdateService = $lobbyUpdateService;
         $this->toModerator = $toModeratorWebsocketService;
         $this->toParticipant = $toParticipantWebsocketService;
         $this->eventDispatcher = $eventDispatcher;
