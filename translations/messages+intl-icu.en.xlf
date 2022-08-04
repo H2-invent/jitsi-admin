@@ -1392,7 +1392,7 @@
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="needs-translation">Konferenz beenden</target>
+        <target state="translated">Stop conference</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1660,11 +1660,11 @@
       </trans-unit>
       <trans-unit id="Xf1t6eb" resname="lobby.hangup">
         <source>lobby.hangup</source>
-        <target state="needs-translation">Nur ich verlasse</target>
+        <target state="translated">Only I leave</target>
       </trans-unit>
       <trans-unit id="XJjOklj" resname="Bewertung">
         <source>Bewertung</source>
-        <target state="needs-translation">Bewertung</target>
+        <target state="translated">Rating</target>
       </trans-unit>
       <trans-unit id="saiR089" resname="join.privacy.theme">
         <source>join.privacy.theme</source>
@@ -1682,11 +1682,11 @@
       </trans-unit>
       <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
         <source>lobby.participants.noch</source>
-        <target state="needs-translation">noch</target>
+        <target state="translated">still</target>
       </trans-unit>
       <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
         <source>lobby.participants.seconds</source>
-        <target state="needs-translation">Sekunden</target>
+        <target state="translated">Seconds</target>
       </trans-unit>
       <trans-unit id="jjTtEi5" resname="email.sip.text">
         <source>email.sip.text</source>
@@ -1698,7 +1698,7 @@
       </trans-unit>
       <trans-unit id="ATAJQ4B" resname="email.sip.pin">
         <source>email.sip.pin</source>
-        <target state="needs-translation">PIN</target>
+        <target state="translated">PIN</target>
       </trans-unit>
       <trans-unit id="egctRia" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
