@@ -66,8 +66,8 @@
         <target state="translated">Conferencia Jitsi</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
-        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
-        <target state="translated">Se le ha agregado a una videoconferencia.</target>
+        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
+        <target state="needs-translation">Sie wurden zu einer Videokonferenz hinzugefügt.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
@@ -394,8 +394,8 @@
         <target state="translated">¡Hola!</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="translated">Acaba de ser invitado a una videoconferencia en el servidor Jitsi. Puede unirse fácilmente a la videoconferencia mediante el enlace adjunto.</target>
+        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target state="needs-translation">Sie wurden soeben zu einer Videokonferenz eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -701,7 +701,7 @@
         <target state="translated">Error, vuelva a cargar la página</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Hier abstimmen</source>
+        <source>Terminplanung</source>
         <target state="translated">Vota aquí</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
@@ -713,8 +713,8 @@
         <target state="translated">Invitación para programar una reunión</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
-        <source>Sie wurden gerade zu einer Terminplanung eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="translated">Acaba de ser invitado a una videoconferencia en el servidor Jitsi. Puede votar la fecha que mejor le venga mediante el enlace adjunto.</target>
+        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
@@ -1396,7 +1396,7 @@
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="translated">Cerrar conferencia</target>
+        <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1653,11 +1653,11 @@
       </trans-unit>
       <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
         <source>lobby.endMeeting.ask</source>
-        <target state="translated">¿Quieres terminar esta conferencia para todos los participantes?</target>
+        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
       </trans-unit>
       <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
         <source>Swipen zum zulassen</source>
-        <target state="translated">Desliza para permitir</target>
+        <target state="needs-translation">Swipen zum zulassen</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
         <source>ask.tab.close</source>
@@ -1665,11 +1665,11 @@
       </trans-unit>
       <trans-unit id="Xf1t6eb" resname="lobby.hangup">
         <source>lobby.hangup</source>
-        <target state="translated">Sólo me voy yo</target>
+        <target state="needs-translation">Nur ich verlasse</target>
       </trans-unit>
       <trans-unit id="XJjOklj" resname="Bewertung">
         <source>Bewertung</source>
-        <target state="translated">Valoración</target>
+        <target state="needs-translation">Bewertung</target>
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
@@ -1677,19 +1677,45 @@
       </trans-unit>
       <trans-unit id="saiR089" resname="join.privacy.theme">
         <source>join.privacy.theme</source>
-        <target state="translated"><![CDATA[He leído la  <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">                                                    <u>política de protección de datos de {url}</u><i class="fa fa-external-link-alt"></i></a> y acepto sus condiciones.]]></target>
+        <target state="needs-translation"><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
       <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
         <source>join.privacy.ownServer</source>
-        <target state="translated"><![CDATA[ He leído la <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>política de protección de datos de Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a> y la <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"><u> política de protección de datos de {url}</u><i class="fa fa-external-link-alt"></i></a> y acepto sus condiciones.]]></target>
+        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
       <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
-        <source>noch</source>
-        <target state="translated">todavía</target>
+        <source>lobby.participants.noch</source>
+        <target state="needs-translation">noch</target>
       </trans-unit>
       <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
-        <source>Sekunden</source>
-        <target state="translated">Segundos</target>
+        <source>lobby.participants.seconds</source>
+        <target state="needs-translation">Sekunden</target>
+      </trans-unit>
+      <trans-unit id="jjTtEi5" resname="email.sip.text">
+        <source>email.sip.text</source>
+        <target state="needs-translation">Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+      </trans-unit>
+      <trans-unit id="yYT7KvW" resname="email.sip.number">
+        <source>email.sip.number</source>
+        <target state="needs-translation">Einwahlnummern</target>
+      </trans-unit>
+      <trans-unit id="ATAJQ4B" resname="email.sip.pin">
+        <source>email.sip.pin</source>
+        <target state="needs-translation">PIN</target>
+      </trans-unit>
+      <trans-unit id="egctRia" resname="enterprise.settings.header.sip">
+        <source>enterprise.settings.header.sip</source>
+        <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
+      </trans-unit>
+      <trans-unit id="ijp6Gol" resname="statistic.real.participants">
+        <source>Anzahl reale Teilnehmende</source>
+        <target state="needs-translation">Anzahl reale Teilnehmende</target>
       </trans-unit>
     </body>
   </file>
