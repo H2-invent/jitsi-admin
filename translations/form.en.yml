@@ -137,7 +137,7 @@ label:
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
   jigasiApiUrl: Jigasi ConferenceMapper-URL
   jigasiNumberUrl: Jigasi Einwahlnummern-URL
-  jigasiProsodyDomain: Jigasi Prosody Domain
+  jigasiProsodyDomain: Jigasi prosody domain
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
