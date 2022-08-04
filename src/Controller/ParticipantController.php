@@ -126,8 +126,9 @@ class ParticipantController extends JitsiAdminController
             }
 
             $snack = $this->translator->trans('Teilnehmer gelöscht');
+        }else{
+            $this->addFlash('success', $snack);
         }
-        $this->addFlash('success', $snack);
         return $this->redirectToRoute('dashboard');
     }
     /**
