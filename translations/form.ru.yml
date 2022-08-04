@@ -1,4 +1,3 @@
----
 label.konferenzId: ID конференции
 label.email: Адрес электронной почты
 label.name: Ваше имя
@@ -78,6 +77,9 @@ help:
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
+  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  jigasiNumberUrl: Tragen Sie hier die URL ein, über Jitsi die Einwahlnummer erreichen kann. diese endet meist auf "numbers.json".
+  jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
   beitretenBrowser: Открыть в браузере
@@ -133,6 +135,9 @@ label:
   corsHeader: CORS-Header oder frame-ancestor Header
   tag: Kategorie
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  jigasiApiUrl: Jigasi ConferenceMapper-URL
+  jigasiNumberUrl: Jigasi Einwahlnummern-URL
+  jigasiProsodyDomain: Jigasi Prosody Domain
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
