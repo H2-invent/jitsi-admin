@@ -31,7 +31,6 @@ class MailerService
     private $kernel;
     private $logger;
     private ?CustomMailerMessage $customMailer;
-    private $userName;
     private $licenseService;
     private $mailer;
     private $bus;
@@ -43,7 +42,6 @@ class MailerService
         $this->kernel = $kernel;
         $this->logger = $logger;
         $this->customMailer = null;
-        $this->userName = null;
         $this->licenseService = $licenseService;
         $this->mailer = $mailer;
         $this->bus = $bus;
@@ -155,7 +153,7 @@ class MailerService
                 $this->logger->info('Send from Custom Mailer');
                 $this->bus->dispatch($this->customMailer->send($message),[
                     // wait 5 seconds before processing
-                    new DelayStamp(rand(100,10000)),
+                    new DelayStamp(rand(1000,10000)),
                 ]);
             } else {
                 $this->mailer->send($message);
