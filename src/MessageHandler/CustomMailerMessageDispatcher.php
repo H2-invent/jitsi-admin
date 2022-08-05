@@ -49,11 +49,11 @@ class CustomMailerMessageDispatcher implements MessageHandlerInterface
         $sender = $this->parameterBag->get('registerEmailAdress');
         $senderName = $this->parameterBag->get('registerEmailName');
         $message = (new Email())
-            ->subject('Wrong email adress ')
+            ->subject('Invalid email address ')
             ->from(new Address($sender, $senderName))
             ->to($to)
-            ->html('<h2>You tried to invite a participant with a wrong email adress.:' . $wrongEmail . '</h2>'
-                . '<p>Please doublecheck the email adress.</p>'
+            ->html('<h2>You tried to send an email with an invalid email address.:' . $wrongEmail . '</h2>'
+                . '<p>Please doublecheck the email address and try to resend the message again.</p>'
                 . ($room ? sprintf('<br><p>%s: %s</p>', 'Room name', $room->getName()) : '')
             );
         $this->logger->info('we send an email to', array('to' => $to));
