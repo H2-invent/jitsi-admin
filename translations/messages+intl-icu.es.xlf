@@ -1709,7 +1709,7 @@
       </trans-unit>
       <trans-unit id="I4QUydi" resname="lobby.participant.online">
         <source>Bereits in der Konferenz.</source>
-        <target state="needs-translation">Bereits in der Konferenz.</target>
+        <target state="translated">En la conferencia.</target>
       </trans-unit>
     </body>
   </file>
