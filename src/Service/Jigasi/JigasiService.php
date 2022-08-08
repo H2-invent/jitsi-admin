@@ -38,30 +38,14 @@ class JigasiService
         }
         $server = $rooms->getServer();
         if ($server && $this->licenseService->verify($server) && $server->getJigasiNumberUrl()) {
-
-            if ($this->kernel->getEnvironment() === 'test') {
-                $this->cache->delete('jigasi_phonenumber_' . $server->getId());
+            try {
+                $responseArr = json_decode($server->getJigasiNumberUrl(), true);
+                $numbers = $responseArr['numbers'];
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+                return null;
             }
-
-            $res = $this->cache->get('jigasi_phonenumber_' . $server->getId(), function (ItemInterface $item) use ($server) {
-                $item->expiresAfter(3600);
-                try {
-                    $response = $this->client->request(
-                        'GET',
-                        $server->getJigasiNumberUrl()
-                    );
-                    $responseArr = json_decode($this->sanitizeResponse($response->getContent()), true);
-                    $numbers = $responseArr['numbers'];
-                } catch (\Exception $exception) {
-                    if ($response->getStatusCode() === 200) {
-                        $this->logger->info(printf("%s: %s", 'Receive HTML', $response->getContent()));
-                    }
-                    $item->expiresAfter(1);
-                    return null;
-                }
-                return $numbers;
-            });
-            return $res;
+            return $numbers;
         }
         return null;
     }
