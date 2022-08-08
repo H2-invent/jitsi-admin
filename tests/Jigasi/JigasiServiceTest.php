@@ -18,9 +18,13 @@ class JigasiServiceTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
 
 
-        $callback = function ($method, $url, $options) {
-            if ($url === 'https://jigasi.org/numbers.json') {
-                return new MockResponse('{
+
+
+        $jigasiService = self::getContainer()->get(JigasiService::class);
+        $serverRepo = self::getContainer()->get(ServerRepository::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room->getServer()->setJigasiNumberUrl('{
     "message": "Einwahlnummern",
     "numbers": {
         "DE": [
@@ -31,21 +35,8 @@ class JigasiServiceTest extends KernelTestCase
         ]
     },
     "numbersEnabled": true
-}');
+}')
 
-            } else {
-                return new MockResponse('', ['http_code' => 404]);
-            }
-
-        };
-
-
-        $jigasiService = self::getContainer()->get(JigasiService::class);
-        $jigasiService->setClient(new MockHttpClient($callback));
-        $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
-        $room->getServer()->setJigasiNumberUrl('https://jigasi.org/numbers.json')
         ->setJigasiApiUrl('https://jigasi.org/conferenceMapper')
         ->setJigasiProsodyDomain('conference.jigasi.org');
         $res = $jigasiService->getNumber($room);
@@ -93,7 +84,18 @@ class JigasiServiceTest extends KernelTestCase
         $serverRepo = self::getContainer()->get(ServerRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
-        $room->getServer()->setJigasiNumberUrl('https://jigasi.org/numbers.json')
+        $room->getServer()->setJigasiNumberUrl('{
+    "message": "Einwahlnummern",
+    "numbers": {
+        "DE": [
+            "0123456789"
+        ],
+         "FR": [
+            "1234560123456789"
+        ]
+    },
+    "numbersEnabled": true
+}')
             ->setJigasiApiUrl('https://jigasi.org/conferenceMapper')
             ->setJigasiProsodyDomain('conference.jigasi.org');
 
@@ -112,5 +114,4 @@ class JigasiServiceTest extends KernelTestCase
         $res = $jigasiService->getRoomPin(null);
         self::assertNull($res);
     }
-
 }
