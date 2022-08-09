@@ -313,9 +313,9 @@
         <source>Heute</source>
         <target state="final">Aujourd'hui</target>
       </trans-unit>
-      <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an." approved="yes">
-        <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="final">Il n'y a pas de conférence Jitsi Meet prévue pour aujourd'hui.</target>
+      <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
+        <source>Heute steht keine Konferenz an.</source>
+        <target state="needs-translation">Heute ist keine Konferenz geplant.</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden." approved="yes">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
