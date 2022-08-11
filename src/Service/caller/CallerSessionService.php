@@ -73,6 +73,7 @@ class CallerSessionService
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => $participants,
                 'status_of_meeting' => 'STARTED',
+                'room_name'=>$session->getCaller()->getRoom()->getUid(),
                 'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $this->urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
@@ -80,7 +81,6 @@ class CallerSessionService
                 )
             );
         }
-
 
         if (!$session->getLobbyWaitingUser() && $authOk === false) {
             $this->loggger->debug('The Session was declined by the lobbymoderator', array('sessionId' => $sessionId));

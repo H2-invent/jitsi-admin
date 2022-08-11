@@ -279,8 +279,7 @@ class CallerSessionTest extends KernelTestCase
         self::assertEquals(array(
                 'status' => 'HANGUP',
                 'reason' => 'DECLINED',
-                'links' => array(
-                )
+                'links' => array()
             )
             , $sessionService->getSessionStatus($session->getSessionId()));
         self::assertEquals(array(
@@ -317,6 +316,7 @@ class CallerSessionTest extends KernelTestCase
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
+                'room_name' => $room->getUid(),
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
@@ -352,6 +352,7 @@ class CallerSessionTest extends KernelTestCase
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
+                'room_name' => $room->getUid(),
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
