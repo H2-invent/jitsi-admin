@@ -88,6 +88,14 @@
                 <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
                             src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
             {% endif %}
+            {% if theme == false  or (theme is not null and 'ja' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ja"}) }}"><img
+                            src="{{ asset('/images/locale/ja.png') }}" class="iconSytle" alt="日本"></a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'ru' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ru"}) }}"><img
+                            src="{{ asset('/images/locale/ru.png') }}" class="iconSytle" alt="Русский"></a>
+            {% endif %}
 
         </div>
     </div>
