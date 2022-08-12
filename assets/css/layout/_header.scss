@@ -56,6 +56,7 @@ label.required:after {
     cursor: pointer;
     -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16) !important;
   }
 }
 
