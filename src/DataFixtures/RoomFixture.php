@@ -205,6 +205,7 @@ class RoomFixture extends Fixture
             $callerRoom->setCallerId('1234' . $i);
             $callerRoom->setCreatedAt(new \DateTime());
             $room->setCallerRoom($callerRoom);
+            $room->setHostUrl('http://localhost:8000');
             $manager->persist($room);
         }
         $start = new \DateTime('2021-01-01T15:00');

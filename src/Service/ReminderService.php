@@ -23,7 +23,7 @@ class ReminderService
         $this->userService = $userService;
     }
 
-    public function sendReminder()
+    public function sendReminder($filter)
     {
         set_time_limit(600);
         $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
@@ -41,6 +41,22 @@ class ReminderService
             ->setParameter('now10', $now10)
             ->setParameter('now', $now)
             ->setParameter(':false', false);
+
+        if ($filter){
+            $orX = $qb->expr()->orX();
+            $count = 0;
+            foreach ($filter as $data){
+                if ($data === null){
+                    $orX->add($qb->expr()->isNull('rooms.hostUrl'));
+                }else{
+                    $orX->add($qb->expr()->eq('rooms.hostUrl',':url'.$count));
+                    $qb->setParameter(':url'.$count++,$data);
+                }
+
+            }
+            $qb->andWhere($orX);
+        }
+
         $query = $qb->getQuery();
         $rooms = $query->getResult();
         $emails = 0;

@@ -28,7 +28,19 @@ class CronController extends JitsiAdminController
             $logger->error($message['hinweis'], $message);
             return new JsonResponse($message);
         }
-        return new JsonResponse($reminderService->sendReminder());
+        $filter = null;
+        if ($request->get('host_url')) {
+            $hostUrl = explode(',', $request->get('host_url'));
+            foreach ($hostUrl as $data) {
+                if ($data === 'null') {
+                    $filter[] = null;
+                } else {
+                    $filter[] = $data;
+                }
+            }
+
+        }
+        return new JsonResponse($reminderService->sendReminder($filter));
     }
 
     /**
@@ -48,7 +60,7 @@ class CronController extends JitsiAdminController
 
             $input = new ArrayInput([
                 'command' => 'cron:run',
-                '--script-name'=>'bin/console'
+                '--script-name' => 'bin/console'
             ]);
 
             // You can use NullOutput() if you don't need the output
