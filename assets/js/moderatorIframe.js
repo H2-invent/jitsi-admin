@@ -4,11 +4,16 @@ import {initJitsi, hangup, askHangup} from './jitsiUtils'
 
 let frameId = null;
 
-function initModeratorIframe() {
+function initModeratorIframe(closeFkt) {
     window.addEventListener('message', function (e) {
         const decoded = JSON.parse(e.data);
          if (decoded.type === 'init') {
             frameId = decoded.frameId;
+        }else if(decoded.type === 'close'){
+             if (typeof decoded.frameId !== 'undefined'){
+                 frameId = decoded.frameId;
+             }
+             closeFkt();
         }
     });
 }

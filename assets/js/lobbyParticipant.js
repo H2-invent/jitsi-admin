@@ -15,11 +15,17 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {initModeratorIframe,close} from './moderatorIframe'
+import {askHangup} from "./jitsiUtils";
 
 initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
-initModeratorIframe();
+function checkClose() {
+    echoOff();
+    stopWebcam();
+    close()
+}
+initModeratorIframe(checkClose);
 var api;
 var dataSucess;
 var successTimer;

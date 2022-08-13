@@ -31,18 +31,16 @@ initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
-initModeratorIframe();
-window.addEventListener('message', function (e) {
-    const decoded = JSON.parse(e.data);
-    if (decoded.type === 'close') {
-        echoOff();
-        stopWebcam();
-        var res = askHangup();
-        if (!res){
-            close(decoded.frameId)
-        }
+function checkClose() {
+    echoOff();
+    stopWebcam();
+    var res = askHangup();
+    if (!res){
+        close()
     }
-});
+}
+initModeratorIframe(checkClose);
+
 
 let es;
 
