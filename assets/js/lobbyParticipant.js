@@ -184,28 +184,9 @@ function initJitsiMeet(data) {
 
 }
 
-window.addEventListener('message', function (e) {
-    // add here more commands up to now only close is defined.
-    const data = e.data;
-    const decoded = JSON.parse(data);
-    if (decoded.type === 'close'){
-        console.log('we are asked to close');
-        if (api){
-            hangup();
-        }
-        frameId = decoded.frameId;
-        const message = JSON.stringify({
-            type: 'close',
-            frameId: frameId
-        });
-        window.parent.postMessage(message, '*');
-    }else if(decoded.type === 'init'){
-        frameId = decoded.frameId;
-    }
-});
 
 function hangup() {
-    api.command('hangup')
+    api.executeCommand('hangup')
 }
 
 function userAccepted(data) {

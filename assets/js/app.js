@@ -271,16 +271,27 @@ function initRepeater() {
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
 }
-window.addEventListener('message', function (e) {
-    const decoded = JSON.parse(e.data);
-    if (decoded.type === 'close') {
-        const message = JSON.stringify({
-            type: 'close',
-            frameId: decoded.frameId
-        });
-        window.parent.postMessage(message, '*');
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
     }
-});
+}
+
+if (inIframe()){
+    window.addEventListener('message', function (e) {
+        const decoded = JSON.parse(e.data);
+        if (decoded.type === 'close') {
+            const message = JSON.stringify({
+                type: 'close',
+                frameId: decoded.frameId
+            });
+            window.parent.postMessage(message, '*');
+        }
+    });
+}
+
 $('.sidebarToggle').click(function () {
     $('#sidebar').toggleClass('showSidebar');
     $('.sidebarToggle').toggleClass('d-none');

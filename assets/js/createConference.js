@@ -12,6 +12,7 @@ function initStartIframe() {
                 e.preventDefault();
                 width = window.innerWidth * 0.75;
                 height = window.innerHeight * 0.75;
+                counter = (document.querySelectorAll('.jitsiadminiframe').length+1)*50;
                 var random = Math.random() * 10000;
                 var html =
                     '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '">' +
@@ -65,11 +66,12 @@ function initStartIframe() {
                         e.currentTarget.closest('.jitsiadminiframe').dataset.y = e.currentTarget.dataset.y;
                         e.currentTarget.dataset.maximal = "0";
                     }
-
                 })
+
                 // document.getElementById('jitsiadminiframe' + random).querySelector('.button-minimize').addEventListener('click', function (e) {
                 //
                 // })
+
                 document.getElementById('jitsiadminiframe' + random).addEventListener('click', function (e) {
                     if (event.currentTarget.style.zIndex < zindex - 1) {
                         event.currentTarget.style.zIndex = zindex++;

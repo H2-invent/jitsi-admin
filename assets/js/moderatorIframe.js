@@ -1,6 +1,3 @@
-import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
-import {initAUdio, micId, audioId, echoOff} from './audioUtils'
-import {initJitsi, hangup, askHangup} from './jitsiUtils'
 
 
 let frameId = null;
@@ -17,6 +14,9 @@ function initModeratorIframe(closeFkt) {
              closeFkt();
         }
     });
+    if (inIframe()){
+        document.querySelector('.footer').remove();
+    }
 }
 
 function close(frameIdTmp) {
@@ -29,5 +29,12 @@ function close(frameIdTmp) {
         window.parent.postMessage(message, '*');
     }
 
+}
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
 }
 export {initModeratorIframe,close}
