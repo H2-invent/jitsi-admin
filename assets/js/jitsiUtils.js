@@ -4,6 +4,7 @@
  */
 
 import $ from 'jquery';
+import {initModeratorIframe,close} from './moderatorIframe'
 
 import('bootstrap');
 import('popper.js');
@@ -49,34 +50,8 @@ function initJitsi(options, domain, titelL, okL, cancelL) {
     });
     api.addListener('toolbarButtonClicked', function (e) {
 
-        if(e.key === 'hangup'){
-            console.log(e);
-            $.confirm({
-                title:null,
-                content: hangupQuestion,
-                theme: 'material',
-                buttons: {
-                    confirm: {
-                        text: hangupText, // text for button
-                        btnClass: 'btn-danger btn', // class for the button
-                        action: function () {
-                            api.executeCommand('hangup');
-                        },
-                    },killAll: {
-                        text: endMeetingText, // text for button
-                        btnClass: 'btn-danger btn', // class for the button
-                        action: function () {
-                            endMeeting();
-                            $.getJSON(endMeetingUrl);
-                        },
-                    },
-
-                    cancel: {
-                        text: cancel, // text for button
-                        btnClass: 'btn-outline-primary btn', // class for the button
-                    },
-                }
-            });
+        if (e.key === 'hangup') {
+            askHangup()
         }
 
     });
@@ -131,6 +106,41 @@ function endMeeting() {
     return 0;
 }
 
+function askHangup() {
+    if (!api){
+        return false;
+    }
+    $.confirm({
+        title:null,
+        content: hangupQuestion,
+        theme: 'material',
+        buttons: {
+            confirm: {
+                text: hangupText, // text for button
+                btnClass: 'btn-danger btn', // class for the button
+                action: function () {
+                    api.executeCommand('hangup');
+                    close()
+                },
+            },killAll: {
+                text: endMeetingText, // text for button
+                btnClass: 'btn-danger btn', // class for the button
+                action: function () {
+                    endMeeting();
+                    $.getJSON(endMeetingUrl);
+                    close()
+                },
+            },
+
+            cancel: {
+                text: cancel, // text for button
+                btnClass: 'btn-outline-primary btn', // class for the button
+            },
+        }
+    });
+    return true;
+}
+
 function hangup() {
     api.executeCommand('hangup');
 }
@@ -140,4 +150,4 @@ function renewPartList() {
 }
 
 
-export {initJitsi, hangup}
+export {initJitsi, hangup, askHangup}

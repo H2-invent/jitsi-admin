@@ -11,9 +11,9 @@ function initStartIframe() {
                     '<div class="headerBar">' +
                     '<div class="dragger actionIcon"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + this.dataset.roomname + '</div>' +
                     '<div class="actionIconLeft">' +
-                    '<div class="closer  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
+                    '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
                     '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
-                    '<div class="button-minimize  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
+                    '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
                     '</div>' +
                     '</div>' +
                     '<iframe  ></iframe>' +
@@ -22,10 +22,14 @@ function initStartIframe() {
                 var site = this.href;
                 document.getElementById('window').innerHTML += html;
                 document.getElementById('jitsiadminiframe' + random).querySelector('iframe').src = site;
-                document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
-                    e.target.closest('.jitsiadminiframe').remove();
-                })
                 document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').dataset.maximal = "0";
+                document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
+                document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
+                    var id = e.currentTarget.dataset.id;
+                    sendCommand(id, {type: 'close'})
+
+                })
+
                 document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
                     if (e.currentTarget.dataset.maximal === "0") {
                         e.currentTarget.dataset.height = e.currentTarget.closest('.jitsiadminiframe').style.height;
@@ -95,10 +99,31 @@ function initStartIframe() {
                             }
                         }
                     })
+                setTimeout(function () {
+                    sendCommand('jitsiadminiframe' + random, {type: 'init'});
+                }, 5000)
             }
-        )
-        ;
+        );
+
     }
+    window.addEventListener('message', function (e) {
+        // Get the sent data
+        const data = e.data;
+
+        // If you encode the message in JSON before sending them,
+        // then decode here
+        const decoded = JSON.parse(data);
+
+        if (decoded.type === 'close') {
+            document.getElementById(decoded.frameId).remove();
+        }
+    });
+}
+
+function sendCommand(id, message) {
+    var ele = document.getElementById(id).querySelector('iframe');
+    message.frameId = id;
+    ele.contentWindow.postMessage(JSON.stringify(message), '*');
 }
 
 export {initStartIframe}

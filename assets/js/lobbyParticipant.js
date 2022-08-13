@@ -14,12 +14,12 @@ import {initAUdio, micId, audioId, echoOff} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
-
+import {initModeratorIframe,close} from './moderatorIframe'
 
 initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
-
+initModeratorIframe();
 var api;
 var dataSucess;
 var successTimer;
@@ -27,7 +27,7 @@ var clickLeave = false;
 let es;
 let healtcheckInterval;
 let blockHealtch = false;
-
+let frameId = null;
 function initMercure() {
     connectES();
     setInterval(function () {
@@ -171,10 +171,32 @@ function initJitsiMeet(data) {
 
     });
 
+
+
     $(data.options.parentNode).find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
 
 }
+
+window.addEventListener('message', function (e) {
+    // add here more commands up to now only close is defined.
+    const data = e.data;
+    const decoded = JSON.parse(data);
+    if (decoded.type === 'close'){
+        console.log('we are asked to close');
+        if (api){
+            hangup();
+        }
+        frameId = decoded.frameId;
+        const message = JSON.stringify({
+            type: 'close',
+            frameId: frameId
+        });
+        window.parent.postMessage(message, '*');
+    }else if(decoded.type === 'init'){
+        frameId = decoded.frameId;
+    }
+});
 
 function hangup() {
     api.command('hangup')

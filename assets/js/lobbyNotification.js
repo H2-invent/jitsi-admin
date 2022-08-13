@@ -10,7 +10,7 @@ import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
 
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
-
+import {initModeratorIframe,close} from './moderatorIframe'
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 
@@ -86,10 +86,12 @@ function endMeeting(data) {
     window.onbeforeunload = null;
     if (window.opener == null) {
         setTimeout(function () {
+            close();
             window.location.href = data.url;
         }, data.timeout)
     } else {
         setTimeout(function () {
+            close();
             window.close();
         }, data.timeout)
     }
@@ -103,6 +105,7 @@ function loadModal(data) {
 
 function redirect(data) {
     setTimeout(function () {
+        close();
         window.location.href = data.url;
     }, data.timeout)
 

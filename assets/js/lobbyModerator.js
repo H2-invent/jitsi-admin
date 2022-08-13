@@ -14,10 +14,11 @@ import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId, echoOff} from './audioUtils'
-import {initJitsi, hangup} from './jitsiUtils'
+import {initJitsi, hangup, askHangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
 import {disableBodyScroll}  from 'body-scroll-lock'
+import {initModeratorIframe,close} from './moderatorIframe'
 
 var jitsiApi;
 try {
@@ -30,6 +31,19 @@ initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+initModeratorIframe();
+window.addEventListener('message', function (e) {
+    const decoded = JSON.parse(e.data);
+    if (decoded.type === 'close') {
+        echoOff();
+        stopWebcam();
+        var res = askHangup();
+        if (!res){
+            close(decoded.frameId)
+        }
+    }
+});
+
 let es;
 
 function initMercure() {

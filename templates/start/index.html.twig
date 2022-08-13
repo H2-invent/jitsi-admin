@@ -125,6 +125,26 @@
         })
         var iframe = document.querySelector('#jitsiConferenceFrame0');
         iframe.style.height = '100%';
+
+        window.addEventListener('message', function (e) {
+            // add here more commands up to now only close is defined.
+            const data = e.data;
+            const decoded = JSON.parse(data);
+            if (decoded.type === 'close'){
+                console.log('we are asked to close');
+                if (api){
+                    api.executeCommand('hangup')
+                }
+                frameId = decoded.frameId;
+                const message = JSON.stringify({
+                    type: 'close',
+                    frameId: frameId
+                });
+                window.parent.postMessage(message, '*');
+            }else if(decoded.type === 'init'){
+                frameId = decoded.frameId;
+            }
+        });
     </script>
 
     <script type="text/javascript">
