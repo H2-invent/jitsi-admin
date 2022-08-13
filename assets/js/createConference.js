@@ -1,5 +1,8 @@
 import interact from 'interactjs'
 
+let counter = 50;
+let zindex = 10
+
 function initStartIframe() {
     var initIframe = document.querySelectorAll('.startIframe');
     for (var i = 0; i < initIframe.length; i++) {
@@ -7,7 +10,7 @@ function initStartIframe() {
                 e.preventDefault();
                 var random = Math.random() * 10000;
                 var html =
-                    '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="50" data-y="50">' +
+                    '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '">' +
                     '<div class="headerBar">' +
                     '<div class="dragger actionIcon"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + this.dataset.roomname + '</div>' +
                     '<div class="actionIconLeft">' +
@@ -21,9 +24,12 @@ function initStartIframe() {
 
                 var site = this.href;
                 document.getElementById('window').insertAdjacentHTML('beforeend', html);
+                document.getElementById('jitsiadminiframe' + random).style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
+                document.getElementById('jitsiadminiframe' + random).style.zIndex = zindex++;
                 document.getElementById('jitsiadminiframe' + random).querySelector('iframe').src = site;
                 document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').dataset.maximal = "0";
                 document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
+
                 document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
                     var id = e.currentTarget.dataset.id;
                     sendCommand(id, {type: 'close'})
@@ -58,8 +64,12 @@ function initStartIframe() {
                 // document.getElementById('jitsiadminiframe' + random).querySelector('.button-minimize').addEventListener('click', function (e) {
                 //
                 // })
-
-                const position = {x: 50, y: 50}
+                document.getElementById('jitsiadminiframe' + random).addEventListener('click', function (e) {
+                    if (event.currentTarget.style.zIndex < zindex - 1) {
+                        event.currentTarget.style.zIndex = zindex++;
+                    }
+                })
+                const position = {x: counter, y: counter}
                 interact('.dragger').draggable({
                     listeners: {
                         start(event) {
@@ -68,6 +78,9 @@ function initStartIframe() {
                             event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
                         },
                         move(event) {
+                            if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
+                                event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
+                            }
                             position.x += event.dx
                             position.y += event.dy
                             event.target.closest('.jitsiadminiframe').style.transform =
@@ -84,6 +97,10 @@ function initStartIframe() {
                         edges: {top: true, left: true, bottom: true, right: true},
                         listeners: {
                             move: function (event) {
+                                if (event.target.style.zIndex < zindex - 1) {
+                                    event.target.style.zIndex = zindex++;
+
+                                }
                                 let {x, y} = event.target.dataset
 
                                 x = (parseFloat(x) || 0) + event.deltaRect.left
@@ -102,6 +119,7 @@ function initStartIframe() {
                 setTimeout(function () {
                     sendCommand('jitsiadminiframe' + random, {type: 'init'});
                 }, 5000)
+                counter += 40;
             }
         );
 
