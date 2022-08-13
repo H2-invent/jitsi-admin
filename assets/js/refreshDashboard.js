@@ -1,6 +1,6 @@
 import $ from "jquery";
 import {initLazyElemt} from './lazyLoading'
-
+import {initStartIframe} from './createConference'
 var refreshUrl
 
 function initRefreshDashboard(time, url) {
@@ -29,6 +29,7 @@ function refreshDashboard() {
             if ($($id1).contents().text() !== $(data).find($id1).contents().text()) {
                 console.log('1.7');
                 $($id1).html($(data).find($id1).contents());
+                initStartIframe();
             }
             if ($($id2 + '-init').contents().text() !== $(data).find($id2 + '-init').contents().text()) {
                 console.log('1.8');
@@ -38,6 +39,7 @@ function refreshDashboard() {
             if ($($id3 ).contents().text() !== $(data).find($id3 ).contents().text()) {
                 console.log('1.9');
                 $($id3).html($(data).find($id3).contents());
+                initStartIframe();
             }
             if ($($id4).contents().text() !== $(data).find($id4).contents().text()) {
                 console.log('1.10');

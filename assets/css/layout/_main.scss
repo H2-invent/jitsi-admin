@@ -819,7 +819,7 @@ strong {
 .capital-Letter {
   border-right: none;
   border-left: none;
-  background: none!important;
+  background: none !important;
 }
 
 .adressbookline {
@@ -836,3 +836,51 @@ strong {
   }
 }
 
+.jitsiadminiframe {
+  position: absolute;
+  transform: translate(50px, 50px);
+  width: 500px;
+  height: 500px;
+  z-index: 100;
+  background-color: white;
+  box-sizing: border-box;
+  touch-action: none;
+  border: 8px solid #f2f6fc;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
+
+  .headerBar {
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    padding-bottom: 8px;
+    justify-content: space-between;
+    background-color: #f2f6fc;
+
+    .dragger {
+      flex-grow: 1;
+    }
+
+    .actionIconLeft {
+      display: flex;
+
+      .actionIcon {
+        height: 20px;
+        width: 20px;
+        font-size: 20px;
+        line-height: 1;
+        justify-content: space-between;
+        margin-left: 1rem;
+        cursor: pointer;
+        text-align: end;
+      }
+    }
+  }
+
+
+  iframe {
+    height: 100%;
+    width: 100%;
+  }
+}

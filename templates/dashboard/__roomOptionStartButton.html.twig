@@ -7,7 +7,7 @@
                                 aria-expanded="false">{{ 'Starten'|trans }}
                         </button>
                         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-                            <li><a class="dropdown-item" href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
+                            <li><a class="dropdown-item startIframe" data-roomname="{{ room.name }}" href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
                                    target="_blank">{{ 'Im Browser'|trans }}</a></li>
                             <li><a class="dropdown-item" title="In der Electron Jitsi Meet App" rel=opener
                                    href="{{ path('room_join',{'t':'a','room':room.id}) }}"
@@ -22,7 +22,7 @@
                     </div>
                 {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
                     <div class="d-none d-lg-block ">
-                        <a class="btn btn-primary"
+                        <a class="btn btn-primary startIframe"
                            href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
                            target="_blank">{{ 'Starten'|trans }}</a>
                     </div>

@@ -32,7 +32,7 @@ import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
 import {Chart} from 'chart.js'
-
+import {initStartIframe} from './createConference'
 
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
@@ -88,6 +88,7 @@ $(document).ready(function () {
     initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
     initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+    initStartIframe();
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
         $('#sidebar').removeClass('active');
