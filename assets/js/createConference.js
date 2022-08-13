@@ -20,7 +20,7 @@ function initStartIframe() {
                     '</div> ';
 
                 var site = this.href;
-                document.getElementById('window').innerHTML += html;
+                document.getElementById('window').insertAdjacentHTML('beforeend', html);
                 document.getElementById('jitsiadminiframe' + random).querySelector('iframe').src = site;
                 document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').dataset.maximal = "0";
                 document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
