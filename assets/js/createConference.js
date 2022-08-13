@@ -2,12 +2,16 @@ import interact from 'interactjs'
 
 let counter = 50;
 let zindex = 10
+let width = window.innerWidth * 0.75;
+let height = window.innerHeight * 0.75;
 
 function initStartIframe() {
     var initIframe = document.querySelectorAll('.startIframe');
     for (var i = 0; i < initIframe.length; i++) {
         initIframe[i].addEventListener("click", function (e) {
                 e.preventDefault();
+                width = window.innerWidth * 0.75;
+                height = window.innerHeight * 0.75;
                 var random = Math.random() * 10000;
                 var html =
                     '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '">' +
@@ -25,6 +29,8 @@ function initStartIframe() {
                 var site = this.href;
                 document.getElementById('window').insertAdjacentHTML('beforeend', html);
                 document.getElementById('jitsiadminiframe' + random).style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
+                document.getElementById('jitsiadminiframe' + random).style.width = width + 'px';
+                document.getElementById('jitsiadminiframe' + random).style.height = height + 'px';
                 document.getElementById('jitsiadminiframe' + random).style.zIndex = zindex++;
                 document.getElementById('jitsiadminiframe' + random).querySelector('iframe').src = site;
                 document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').dataset.maximal = "0";
