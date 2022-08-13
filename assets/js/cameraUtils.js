@@ -8,7 +8,6 @@ import $ from 'jquery';
 import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
-import('mdbootstrap');
 
 var video = document.querySelector("#lobbyWebcam");
 var toggle = 0;
