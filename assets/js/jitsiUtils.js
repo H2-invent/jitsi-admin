@@ -4,12 +4,11 @@
  */
 
 import $ from 'jquery';
-import {initModeratorIframe,close} from './moderatorIframe'
+import {close} from './moderatorIframe'
 
 import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
-import('mdbootstrap');
 import ('jquery-confirm');
 var api;
 var participants;

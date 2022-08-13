@@ -10,7 +10,7 @@ import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
 
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
-import {initModeratorIframe,close} from './moderatorIframe'
+import {close} from './moderatorIframe'
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 

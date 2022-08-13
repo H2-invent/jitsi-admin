@@ -2,9 +2,10 @@ import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
 import {initAUdio, micId, audioId, echoOff} from './audioUtils'
 import {initJitsi, hangup, askHangup} from './jitsiUtils'
 
-let frameId = null;
+
 
 function initModeratorIframe(closeFkt) {
+    let frameId = null;
     window.addEventListener('message', function (e) {
         const decoded = JSON.parse(e.data);
          if (decoded.type === 'init') {
