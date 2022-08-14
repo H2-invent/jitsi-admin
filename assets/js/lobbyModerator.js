@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime'
 import $ from 'jquery';
 import {initDragDragger} from './lobby_dragger'
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
+
 global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 import ('jquery-confirm');
@@ -17,8 +18,8 @@ import {initAUdio, micId, audioId, echoOff} from './audioUtils'
 import {initJitsi, hangup, askHangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
-import {disableBodyScroll}  from 'body-scroll-lock'
-import {initModeratorIframe,close} from './moderatorIframe'
+import {disableBodyScroll} from 'body-scroll-lock'
+import {initModeratorIframe, close} from './moderatorIframe'
 
 var jitsiApi;
 try {
@@ -31,11 +32,12 @@ initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+
 function checkClose() {
     echoOff();
     stopWebcam();
     var res = askHangup();
-    if (!res){
+    if (!res) {
         close()
     }
 }

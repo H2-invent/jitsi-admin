@@ -37,4 +37,4 @@ function inIframe () {
         return true;
     }
 }
-export {initModeratorIframe,close}
+export {initModeratorIframe,close, inIframe}

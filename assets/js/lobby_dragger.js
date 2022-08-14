@@ -1,8 +1,12 @@
 import ZingTouch from 'zingtouch';
 import $ from "jquery";
 import {blockTouch} from './lobby_moderator_acceptDragger'
+import {inIframe} from "./moderatorIframe";
 
 function initDragDragger() {
+    if( inIframe()){
+        return false;
+    }
     let  blockTouchInternal = false;
     var activeRegion = new ZingTouch.Region(document.getElementById('frame'), null, false);
     let childElement = document.getElementById('frame');

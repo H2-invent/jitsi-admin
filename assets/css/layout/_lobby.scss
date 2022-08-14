@@ -146,6 +146,28 @@ body {
   justify-content: center;
 }
 
+@mixin hoverDragger {
+  transition: transform 0.5s;
+  &:hover {
+    transform: translateY(0) !important;
+    transition: transform 0.5s;
+
+    .dragger {
+      &:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f106\00a0" !important;
+      }
+
+      &:after {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\00a0\f106" !important;
+      }
+    }
+  }
+}
+
 #sliderTop {
   position: absolute;
   top: 0;
@@ -153,28 +175,15 @@ body {
   z-index: 10;
 
   @media (min-width: 992px) {
-    transition: transform 0.5s;
-    &:hover {
-      transform: translateY(0) !important;
-      transition: transform 0.5s;
-
-      .dragger {
-        &:before {
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-          content: "\f106\00a0" !important;
-        }
-
-        &:after {
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-          content: "\00a0\f106" !important;
-        }
-      }
-    }
+    @include hoverDragger()
   }
 }
 
+.in-iframe {
+  #sliderTop {
+    @include hoverDragger()
+  }
+}
 
 .selectedDevice {
   font-weight: bold;
@@ -294,20 +303,23 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  #waitingUser {
-    .waitingUserCard {
-      &:nth-child(1) {
-        .card {
-          animation-name: showSwipe;
-          animation-duration: 1s;
-          animation-iteration-count: 1;
-          animation-delay: 1s;
+body:not(.in-iframe) {
+  @media (max-width: 768px) {
+    #waitingUser {
+      .waitingUserCard {
+        &:nth-child(1) {
+          .card {
+            animation-name: showSwipe;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-delay: 1s;
+          }
         }
       }
     }
   }
 }
+
 
 .accessAllowed {
   position: absolute;
@@ -360,5 +372,20 @@ body {
     margin-right: 4px;
   }
 
+}
+
+.in-iframe {
+  .buttonHolder {
+    &.buttons {
+      display: block !important;
+    }
+
+    &.slider {
+      display: none!important;
+    }
+  }
+  .slide-text{
+    display: none!important;
+  }
 }
 

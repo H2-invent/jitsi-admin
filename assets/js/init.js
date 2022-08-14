@@ -12,11 +12,16 @@ import {TabUtils} from './tabBroadcast'
 
 import {initLayzLoading} from './lazyLoading'
 import hotkeys from 'hotkeys-js';
+import {inIframe} from "./moderatorIframe";
 
 function initGenerell() {
     Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
+    if (inIframe()) {
+        document.body.classList.add("in-iframe");
+    }
+
     openBlankTarget(blankTarget);
     initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
     hotkeys('1', function (event, handler) {
