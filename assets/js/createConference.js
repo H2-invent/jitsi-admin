@@ -126,7 +126,7 @@ function initStartIframe() {
                     })
                 setTimeout(function () {
                     sendCommand('jitsiadminiframe' + random, {type: 'init'});
-                }, 5000)
+                }, 2000)
                 counter += 40;
             }
         );
