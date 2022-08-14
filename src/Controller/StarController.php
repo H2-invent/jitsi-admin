@@ -32,6 +32,12 @@ class StarController extends JitsiAdminController
             }
             $this->logger->debug($request->get('star'), array('this ist the star!!!'));
             $star->setStar($request->get('star'));
+            if ($request->get('os')){
+                $star->setOs($request->get('os'));
+            }
+            if ($request->get('browser')){
+                $star->setBrowser($request->get('browser'));
+            }
             $server = $this->doctrine->getRepository(Server::class)->find($request->get('server'));
             if ($server) {
                 $star->setServer($server);

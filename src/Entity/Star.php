@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\StarRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StarRepository::class)]
@@ -21,6 +22,12 @@ class Star
     private $comment;
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $createdAt;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $browser = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $os = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -62,6 +69,30 @@ class Star
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getBrowser(): ?string
+    {
+        return $this->browser;
+    }
+
+    public function setBrowser(?string $browser): self
+    {
+        $this->browser = $browser;
+
+        return $this;
+    }
+
+    public function getOs(): ?string
+    {
+        return $this->os;
+    }
+
+    public function setOs(?string $os): self
+    {
+        $this->os = $os;
 
         return $this;
     }
