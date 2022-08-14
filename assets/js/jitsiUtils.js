@@ -8,7 +8,7 @@ import $ from 'jquery';
 import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
-import('mdbootstrap');
+
 import ('jquery-confirm');
 var api;
 var participants;
