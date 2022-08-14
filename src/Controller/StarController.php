@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Server;
 use App\Entity\Star;
 use App\Helper\JitsiAdminController;
+use App\Service\Star\StarService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,40 +20,23 @@ class StarController extends JitsiAdminController
 {
 
 
+    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private StarService $starService)
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
+
     /**
      * @Route("/star/submit", name="app_star", methods={"GET"})
      */
     public function index(Request $request): Response
     {
-        try {
-            $star = new Star();
-            $star->setCreatedAt(new \DateTime());
-            if ($request->get('comment')) {
-                $star->setComment($request->get('comment'));
-            }
-            $this->logger->debug($request->get('star'), array('this ist the star!!!'));
-            $star->setStar($request->get('star'));
-            if ($request->get('os')){
-                $star->setOs($request->get('os'));
-            }
-            if ($request->get('browser')){
-                $star->setBrowser($request->get('browser'));
-            }
-            $server = $this->doctrine->getRepository(Server::class)->find($request->get('server'));
-            if ($server) {
-                $star->setServer($server);
-                $em = $this->doctrine->getManager();
-                $em->persist($star);
-                $em->flush();
-            }
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage());
-            $res = new JsonResponse(array('error' => true));
-
-
-        }
-        $res = new JsonResponse(array('error' => false));
-        $res->headers->set('Access-Control-Allow-Origin:', '*');
-        return $res;
+        return $this->starService->createStar(
+            $request->get('server'),
+            $request->get('star'),
+            $request->get('comment'),
+            $request->get('browser'),
+            $request->get('os')
+        );
     }
 }
