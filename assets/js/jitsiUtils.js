@@ -9,6 +9,7 @@ import {close} from './moderatorIframe'
 import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
+
 import ('jquery-confirm');
 var api;
 var participants;

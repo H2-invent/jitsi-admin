@@ -26,6 +26,22 @@ class JitsiAdminController extends AbstractController
         $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @return ManagerRegistry
+     */
+    public function getDoctrine(): ManagerRegistry
+    {
+        return $this->doctrine;
+    }
+
     protected function getSessionUser(Session $session)
     {
         $user = $this->getUser();
