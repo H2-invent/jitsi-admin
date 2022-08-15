@@ -12,7 +12,7 @@ function initStartIframe() {
                 e.preventDefault();
                 width = window.innerWidth * 0.75;
                 height = window.innerHeight * 0.75;
-                counter = (document.querySelectorAll('.jitsiadminiframe').length+1)*50;
+                counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
                 var random = Math.random() * 10000;
                 var html =
                     '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '">' +
@@ -55,6 +55,8 @@ function initStartIframe() {
                         e.currentTarget.closest('.jitsiadminiframe').style.transform = 'translate(0px, 0px)'
                         e.currentTarget.closest('.jitsiadminiframe').style.border = 'none'
                         e.currentTarget.closest('.jitsiadminiframe').querySelector('.headerBar').style.padding = '8px'
+                        e.currentTarget.querySelector('i').classList.remove('fa-window-maximize');
+                        e.currentTarget.querySelector('i').classList.add('fa-window-restore');
                         e.currentTarget.dataset.maximal = "1";
                     } else {
                         e.currentTarget.closest('.jitsiadminiframe').style.width = e.currentTarget.dataset.width;
@@ -64,6 +66,8 @@ function initStartIframe() {
                         e.currentTarget.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
                         e.currentTarget.closest('.jitsiadminiframe').dataset.x = e.currentTarget.dataset.x;
                         e.currentTarget.closest('.jitsiadminiframe').dataset.y = e.currentTarget.dataset.y;
+                        e.currentTarget.querySelector('i').classList.remove('fa-window-restore');
+                        e.currentTarget.querySelector('i').classList.add('fa-window-maximize');
                         e.currentTarget.dataset.maximal = "0";
                     }
                 })
@@ -84,6 +88,11 @@ function initStartIframe() {
                             position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
                             position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
                             event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
+                            event.target.closest('.jitsiadminiframe').style.removeProperty('border');
+                            event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
+                            event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
+                            event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
+
                         },
                         move(event) {
                             if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
@@ -93,10 +102,13 @@ function initStartIframe() {
                             position.y += event.dy
                             event.target.closest('.jitsiadminiframe').style.transform =
                                 `translate(${position.x}px, ${position.y}px)`
+
+
                         },
                         end(event) {
                             event.target.closest('.jitsiadminiframe').dataset.x = position.x;
                             event.target.closest('.jitsiadminiframe').dataset.y = position.y;
+
                         }
                     }
                 })
@@ -119,7 +131,8 @@ function initStartIframe() {
                                     height: `${event.rect.height}px`,
                                     transform: `translate(${x}px, ${y}px)`
                                 })
-
+                                event.target.style.removeProperty('border');
+                                event.target.querySelector('.headerBar').style.removeProperty('padding');
                                 Object.assign(event.target.dataset, {x, y})
                             }
                         }
@@ -138,11 +151,8 @@ function initStartIframe() {
 
         // If you encode the message in JSON before sending them,
         // then decode here
-        const decoded = JSON.parse(data);
+        recievecommand(data)
 
-        if (decoded.type === 'close') {
-            document.getElementById(decoded.frameId).remove();
-        }
     });
 }
 
@@ -150,6 +160,19 @@ function sendCommand(id, message) {
     var ele = document.getElementById(id).querySelector('iframe');
     message.frameId = id;
     ele.contentWindow.postMessage(JSON.stringify(message), '*');
+}
+
+function recievecommand(data) {
+    const decoded = JSON.parse(data);
+    const type = decoded.type
+
+    if (type === 'close') {
+        closeIframe(decoded.frameId)
+    }
+}
+
+function closeIframe(id) {
+    document.getElementById(id).remove();
 }
 
 export {initStartIframe}
