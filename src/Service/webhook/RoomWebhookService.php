@@ -163,6 +163,9 @@ class RoomWebhookService
                 $this->logger->error($text, array('occupantID' => $data['occupant']['occupant_jid']));
                 return $text;
             }
+            if (!isset($data['occupant']['name'])){
+                return 'NO_DATA';
+            }
             $roomPart = new RoomStatusParticipant();
             $roomPart->setEnteredRoomAt(\DateTime::createFromFormat('U', $data['occupant']['joined_at']))
                 ->setInRoom(true)

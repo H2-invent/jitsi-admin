@@ -13,8 +13,8 @@ import ('jquery-confirm');
 import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
-import {initAUdio, micId, audioId, echoOff} from './audioUtils'
+import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
+import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initJitsi, hangup, askHangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
@@ -78,20 +78,18 @@ $('.startIframe').click(function (e) {
 
     moveWrapper();
     options.devices = {
-        audioInput: choosenId,
+        audioInput: micId,
         audioOutput: audioId,
-        videoInput: micId
+        videoInput: choosenId
     }
     window.onbeforeunload = function () {
         return '';
     }
-
-
-    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel);
+    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel,toggle,webcamArr[choosenId], micArr[micId]);
 
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
-    initDragDragger();
+    initDragDragger();ich
     document.querySelector('body').classList.add('touchactionNone');
     // document.getElementsByTagName('body').style.width='100%';
 
