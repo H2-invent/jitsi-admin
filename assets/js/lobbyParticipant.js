@@ -9,8 +9,8 @@ global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
-import {initAUdio, micId, audioId, echoOff} from './audioUtils'
+import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
+import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
@@ -27,6 +27,8 @@ var clickLeave = false;
 let es;
 let healtcheckInterval;
 let blockHealtch = false;
+var microphoneLabel = null;
+var cameraLable = null;
 
 function initMercure() {
     connectES();
@@ -116,7 +118,8 @@ $('.leave').click(function (e) {
 })
 
 function initJitsiMeet(data) {
-
+    cameraLable = webcamArr[choosenId];
+    microphoneLabel = micArr[micId];
     stopWebcam();
     echoOff();
     window.onbeforeunload = null;
@@ -158,6 +161,12 @@ function initJitsiMeet(data) {
         if (avatarUrl !== '') {
             api.executeCommand('avatarUrl', avatarUrl);
         }
+        api.getAvailableDevices().then(devices => {
+            api.setVideoInputDevice(cameraLable);
+            api.setAudioInputDevice(microphoneLabel);
+            swithCameraOn(toggle);
+        });
+        swithCameraOn(toggle);
     });
 
 
@@ -218,12 +227,31 @@ function userAccepted(data) {
     })
 }
 
+
+function swithCameraOn(videoOn) {
+    if (videoOn === 1){
+        var muted =
+            api.isVideoMuted().then(muted => {
+                console.log(muted)
+                if (muted){
+                    api.executeCommand('toggleVideo');
+                }
+            });
+    }else {
+        api.isVideoMuted().then(muted => {
+            if (!muted){
+                api.executeCommand('toggleVideo');
+            }
+
+        });
+    }
+}
+
 $(document).ready(function () {
     initGenerell()
     initAUdio();
     initWebcam();
     initMercure();
-    console.log('1.21312');
     $('#webcamRow').css('height', $('.webcamArea').height());
     var ro = new ResizeObserver(entries => {
         for (let entry of entries) {
