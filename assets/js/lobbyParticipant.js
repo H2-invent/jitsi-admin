@@ -136,7 +136,7 @@ function initJitsiMeet(data) {
     $('body').prepend('<div id="frame"></div>');
 
     var frameDIv = $('#frame');
-    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
+    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow').removeClass('d-none');
     frameDIv.prepend($(data.options.parentNode));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
     $('#window').remove();
