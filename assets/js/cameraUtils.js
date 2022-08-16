@@ -52,6 +52,7 @@ async function initWebcam() {
 }
 function toggleWebcam(e){
     if(toggle === 1){
+        toggle = 0;
         stopWebcam();
     }else {
        startWebcam(choosenId);
@@ -85,7 +86,6 @@ function stopWebcam() {
             var track = tracks[i];
             track.stop();
             $('#webcamSwitch').addClass('fa-video').removeClass('fa-video-slash')
-            toggle = 0;
         }
         video.srcObject = null;
     }
@@ -94,4 +94,4 @@ function setButtonName(button, text) {
 
     button.html(text);
 }
-export {initWebcam,choosenId,stopWebcam}
+export {initWebcam,choosenId,stopWebcam, toggle}

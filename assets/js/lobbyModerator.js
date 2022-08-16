@@ -12,7 +12,7 @@ import ('jquery-confirm');
 import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
+import {initWebcam, choosenId, stopWebcam, toggle} from './cameraUtils'
 import {initAUdio, micId, audioId, echoOff} from './audioUtils'
 import {initJitsi, hangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
@@ -64,16 +64,16 @@ $('.startIframe').click(function (e) {
 
     moveWrapper();
     options.devices = {
-        audioInput: choosenId,
+        audioInput: micId,
         audioOutput: audioId,
-        videoInput: micId
+        videoInput: choosenId
     }
     window.onbeforeunload = function () {
         return '';
     }
 
 
-    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel);
+    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel,toggle,choosenId, micId);
 
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
