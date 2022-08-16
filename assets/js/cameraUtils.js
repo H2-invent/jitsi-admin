@@ -12,18 +12,17 @@ global.$ = global.jQuery = $;
 var video = document.querySelector("#lobbyWebcam");
 var toggle = 0;
 var webcams = [];
-var choosenId= null;
-
+let choosenId= null;
+export let webcamArr = [];
 async function initWebcam() {
     try {
 
         await navigator.mediaDevices.getUserMedia({audio: false, video: true});
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
-
             devices.forEach(function (device) {
                 if (device.kind === 'videoinput') {
                     webcams[device.label] = device.deviceId
-
+                    webcamArr[device.deviceId] = device.label;
                     var name = device.label.replace(/\(\w*:.*\)/g, "");
                     $('#webcamSelect').append(
                         '<li><a class="dropdown-item webcamSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a></li>'
@@ -45,6 +44,7 @@ async function initWebcam() {
     }catch (e) {
         console.log(e)
     }
+    console.log(webcamArr);
     $('#webcamSwitch').click(function (e) {
         e.preventDefault();
         toggleWebcam(e);

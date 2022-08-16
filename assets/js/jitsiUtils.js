@@ -16,11 +16,14 @@ var participants;
 var title = "Bestätigung";
 var cancel = "Abbrechen";
 var ok = "OK";
-
+var microphoneLabel = null;
+var cameraLable = null;
 function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
     ok = okL;
+    microphoneLabel = micId;
+    cameraLable = videoId;
     api = new JitsiMeetExternalAPI(domain, options);
     renewPartList()
 
@@ -115,24 +118,17 @@ function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId
         if (setParticipantsPane === 1) {
             api.executeCommand('toggleParticipantsPane', {enabled: true});
         }
-        if (videoOn === 1){
-            var muted =
-            api.isVideoMuted().then(muted => {
-                console.log(muted)
-                if (muted){
-                    api.executeCommand('toggleVideo');
-                }
-            });
-        }else {
-            api.isVideoMuted().then(muted => {
-                if (!muted){
-                    api.executeCommand('toggleVideo');
-                }
 
-            });
-        }
-        api.setVideoInputDevice(videoId);
-        api.setAudioInputDevice(micId);
+
+        api.getAvailableDevices().then(devices => {
+            api.setVideoInputDevice(cameraLable);
+            api.setAudioInputDevice(microphoneLabel);
+            swithCameraOn(videoOn);
+        });
+        swithCameraOn(videoOn);
+
+
+
         $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
 
 
@@ -156,5 +152,22 @@ function renewPartList() {
     participants = api.getParticipantsInfo();
 }
 
+function swithCameraOn(videoOn) {
+    if (videoOn === 1){
+        var muted =
+            api.isVideoMuted().then(muted => {
+                console.log(muted)
+                if (muted){
+                    api.executeCommand('toggleVideo');
+                }
+            });
+    }else {
+        api.isVideoMuted().then(muted => {
+            if (!muted){
+                api.executeCommand('toggleVideo');
+            }
 
+        });
+    }
+}
 export {initJitsi, hangup}
