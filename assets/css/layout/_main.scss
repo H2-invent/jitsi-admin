@@ -836,3 +836,12 @@ strong {
   }
 }
 
+.adressBookPointOut{
+  &:before{
+    font-family: "Font Awesome 5 Free";
+    margin-right: 0.5em;
+    font-weight: 900;
+    float: left;
+    content: "\f178";
+  }
+}

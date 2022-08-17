@@ -3,13 +3,24 @@
         <div class="form-group">
             <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
         </div>
+        <div class="d-flex mb-3 capital-Letter flex-wrap sticky">
+            {% set name = null %}
+            {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
+                {% if u|nameOfUserNoSymbol|first|upper != name %}
+                    <a class="me-3 adressbookSearchletter" href="#" data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</a>
+
+                    {% set name = u|nameOfUserNoSymbol|first|upper %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
     </div>
 </div>
 <ul class="list-group">
     {% set name = null %}
     {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
         {% if u|nameOfUserNoSymbol|first|upper != name %}
-       <li class="list-group-item capital-Letter">{{ u|nameOfUserNoSymbol|first|upper }}</li>
+       <li class="list-group-item capital-Letter" id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</li>
             {% set name = u|nameOfUserNoSymbol|first|upper %}
         {% endif %}
 

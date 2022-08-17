@@ -21,7 +21,7 @@ import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
 import {initGenerell} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
-import {initAddressGroupSearch, initListSearch} from './addressGroup';
+import {initAddressGroupSearch, initListSearch, sticky} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
@@ -32,6 +32,7 @@ import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
 import {Chart} from 'chart.js'
+import {toDimension} from "chart.js/helpers";
 
 
 addEventListener('load', function () {
@@ -72,6 +73,7 @@ $(document).ready(function () {
     attach('.nav-item', ['waves-effect']);
     init();
     initDashboardnotification(topic);
+
     setTimeout(function () {
         $('.innerOnce').click(function (e) {
             $(this).addClass('d-none');
