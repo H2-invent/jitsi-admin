@@ -33,6 +33,7 @@ import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
 import {Chart} from 'chart.js'
 import {initStartIframe} from './createConference'
+import {toDimension} from "chart.js/helpers";
 
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
@@ -72,6 +73,7 @@ $(document).ready(function () {
     attach('.nav-item', ['waves-effect']);
     init();
     initDashboardnotification(topic);
+
     setTimeout(function () {
         $('.innerOnce').click(function (e) {
             $(this).addClass('d-none');

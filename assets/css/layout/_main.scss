@@ -884,3 +884,49 @@ strong {
     width: 100%;
   }
 }
+
+.adressBookPointOut {
+  &:before {
+    font-family: "Font Awesome 5 Free";
+    margin-right: 0.5em;
+    font-weight: 900;
+    float: left;
+    content: "\f178";
+  }
+}
+
+#modalAdressbookBody {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .adressbookline {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nav-mat {
+    flex: 1;
+  }
+
+  .tab-content {
+    height: 100%;
+
+    .tab-pane {
+      height: 100%;
+
+      .register {
+        overflow-y: auto;
+      }
+
+      .textarea {
+        overflow-y: auto;
+        width: 100%;
+
+        .addressbookSearchHidden, .addressbookCategorieHidden {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
