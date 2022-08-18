@@ -1,37 +1,45 @@
-<div class="row">
-    <div class="col mt-4">
-        <div class="form-group">
-            <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
-        </div>
-        <div class="d-flex mb-3 capital-Letter flex-wrap sticky">
+<div class="d-flex h-100" id="adressbookModalTabContent">
+    <div class="register">
+        <div class="flex-grow-1 d-flex flex-column mb-3 capital-Letter">
             {% set name = null %}
             {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
                 {% if u|nameOfUserNoSymbol|first|upper != name %}
-                    <a class="me-3 adressbookSearchletter" href="#" data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</a>
+                    <a class="me-3 adressbookSearchletter" href="#"
+                       data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</a>
 
                     {% set name = u|nameOfUserNoSymbol|first|upper %}
                 {% endif %}
             {% endfor %}
         </div>
-
     </div>
-</div>
-<ul class="list-group">
-    {% set name = null %}
-    {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
-        {% if u|nameOfUserNoSymbol|first|upper != name %}
-       <li class="list-group-item capital-Letter" id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</li>
-            {% set name = u|nameOfUserNoSymbol|first|upper %}
-        {% endif %}
+    <div class="textarea">
 
-        <li class="list-group-item adressbookline" style="display: flex; justify-content: space-between">
+        {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
+           <p>{{ key }}</p>
+        {% endfor %}
+
+        <div class="form-grou mt-2 mb-2">
+            <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
+        </div>
+
+
+        <ul class="list-group">
+            {% set name = null %}
+            {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
+                {% if u|nameOfUserNoSymbol|first|upper != name %}
+                    <li class="list-group-item capital-Letter"
+                        id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</li>
+                    {% set name = u|nameOfUserNoSymbol|first|upper %}
+                {% endif %}
+
+                <li class="list-group-item adressbookline" style="display: flex; justify-content: space-between">
             <span class="breakWord d-flex align-items-center name">
         {% if u.profilePicture %}
             <div class="iconSytle imageIcon me-2"
                  style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
             </div>
         {% endif %}{{ u|nameOfUser }} </span>
-            <span class="noBreak d-flex align-items-center icon">
+                    <span class="noBreak d-flex align-items-center icon">
                 {% if servers|length == 1 %}
                     <a class="text-success adhocConfirm me-2 "
                        data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
@@ -52,11 +60,15 @@
 
         </div>
                 {% endif %}
-                {% if theme == false or theme.trashOnAdressBook == true %}
-                    <a class="confirmHref ms-2" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
-                       data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
-                                class="fa fa-trash text-danger"></i> </a>
-                {% endif %}
+                        {% if theme == false or theme.trashOnAdressBook == true %}
+                            <a class="confirmHref ms-2" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
+                               data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
+                                        class="fa fa-trash text-danger"></i> </a>
+                        {% endif %}
         </span></li>
-    {% endfor %}
-</ul>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+</div>

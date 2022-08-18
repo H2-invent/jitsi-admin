@@ -1,5 +1,5 @@
 <ul class="list-group">
-    <a href="{{ path('address_group_new') }}" class="btn-outline-primary btn loadContent">{{ 'Neue Gruppe'|trans }}</a>
+    <a href="{{ path('address_group_new') }}" class="btn-outline-primary btn loadContent me-0">{{ 'Neue Gruppe'|trans }}</a>
     {% set name = null %}
     {% for g in app.user.addressGroupLeader|sort((a, b) => a.name|lower <=> b.name|lower) %}
         {% if g.name|first|upper != name %}

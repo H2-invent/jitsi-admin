@@ -39,6 +39,7 @@ parameters:
     laf_icon_mapping_search: '%env(laf_icon_mapping_search)%'
     LAF_DEV_URL: '%env(LAF_DEV_URL)%'
     LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS: '%env(LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS)%'
+    LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE: '%env(LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE)%'
 
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'

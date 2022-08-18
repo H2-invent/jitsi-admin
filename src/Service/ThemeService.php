@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function Symfony\Component\Translation\t;
 
 class ThemeService
 {
@@ -112,8 +113,21 @@ class ThemeService
         $tmp = $this->getThemeProperty($input);
 
         if ($tmp !== null) {
+
+            try {
+                return json_decode($tmp,true);
+
+            } catch (\Exception $exception) {
+            }
             return $tmp;
         }
+
+        try {
+            $res = json_decode($variable,true);
+            return $res;
+        } catch (\Exception $exception) {
+        }
+
         return $variable;
     }
 }

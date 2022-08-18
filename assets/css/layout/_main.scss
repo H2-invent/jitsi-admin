@@ -819,7 +819,7 @@ strong {
 .capital-Letter {
   border-right: none;
   border-left: none;
-  background: none!important;
+  background: none !important;
 }
 
 .adressbookline {
@@ -836,12 +836,41 @@ strong {
   }
 }
 
-.adressBookPointOut{
-  &:before{
+.adressBookPointOut {
+  &:before {
     font-family: "Font Awesome 5 Free";
     margin-right: 0.5em;
     font-weight: 900;
     float: left;
     content: "\f178";
+  }
+}
+
+#modalAdressbookBody {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .nav-mat {
+    flex: 1;
+  }
+
+  .tab-content {
+    height: 100%;
+
+    .tab-pane {
+      height: 100%;
+
+      .register {
+        overflow-y: auto;
+      }
+
+      .textarea {
+        overflow-y: auto;
+        width: 100%;
+      }
+
+
+    }
   }
 }
