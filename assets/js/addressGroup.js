@@ -25,6 +25,7 @@ function initListSearch() {
                 this.classList.remove('addressbookSearchHidden')
             }
         });
+        checkCapitalLetters();
     });
     initAddressbook();
     initCategoryFilter();
@@ -39,7 +40,11 @@ function initAddressbook() {
         var position = $($(this).data('target')).offset().top;
         var textarea = $('#adressbookModalTabContent').find('.textarea')[0];
         var actPosition = textarea.scrollTop;
-        var diff = position + actPosition;
+        var diff = position
+            + actPosition
+            - document.getElementById('modalAdressbook').querySelector('.modal-header').clientHeight
+            - document.getElementById('modalAdressbook').querySelector('.nav-mat-tabs').clientHeight-10;
+
         $('#adressbookModalTabContent').find('.textarea').animate({
             scrollTop: diff
         }, 500);
@@ -63,23 +68,48 @@ function initCategoryFilter() {
         var $list = $(this).closest('.textarea').find('.adressbookline');
 
         for (var k = 0; k < $list.length; k++) {
-            var filterTmp= JSON.parse($list[k].dataset.filterafter);
-            var visible = findCommonElements3(checked,filterTmp);
-            if (filterTmp.length === 0){
+            var filterTmp = JSON.parse($list[k].dataset.filterafter);
+            var visible = findCommonElements3(checked, filterTmp);
+            if (filterTmp.length === 0) {
                 visible = true
             }
             console.log(visible);
-            if (!visible){
+            if (!visible) {
                 $list[k].classList.add('addressbookCategorieHidden')
-            }else {
+            } else {
                 $list[k].classList.remove('addressbookCategorieHidden')
             }
         }
-
+        checkCapitalLetters();
     })
 }
+
 function findCommonElements3(arr1, arr2) {
     return arr1.some(item => arr2.includes(item))
 }
+
+function checkCapitalLetters() {
+    var cap = $('.textarea').find('.capital-Letter');
+    for (var i = 0; i < cap.length; i++) {
+        var next = cap[i].nextElementSibling;
+        do {
+            next = next.nextElementSibling;
+            if (!next) {
+                break;
+            }
+        } while (isHidden(next))
+
+        if (!next || next.classList.contains('capital-Letter')) {
+            cap[i].style.display = 'none';
+        } else {
+            cap[i].style.removeProperty('display');
+        }
+    }
+}
+
+function isHidden(el) {
+    return window.getComputedStyle(el).display === "none";
+}
+
 
 export {initAddressGroupSearch, initListSearch};
