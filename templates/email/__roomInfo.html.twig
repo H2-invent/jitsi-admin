@@ -40,7 +40,7 @@
         <b>{{ 'email.sip.number'|trans }}:</b><br>
         {% for key,n in getJigasiNumber(room) %}
             {% for number in n %}
-             <p>   ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{getJigasiPin(room)|addRepetiveCharacters(' ',3) }}# (<a href="tel:{{ number }},,{{getJigasiPin(room) }}#)">{{ number }},,{{getJigasiPin(room) }}#</a> )<p><br>
+             <p>   ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{getJigasiPin(room)|addRepetiveCharacters(' ',3) }}# (<a href="tel:{{ number }},,,,{{getJigasiPin(room) }}#)">{{ number }},,,,{{getJigasiPin(room) }}#</a> )<p><br>
             {% endfor %}
         {% endfor %}
     {% endif %}
