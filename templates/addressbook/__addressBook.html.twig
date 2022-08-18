@@ -13,10 +13,18 @@
         </div>
     </div>
     <div class="textarea">
+        {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
+        <div class="d-flex flex-wrap mt-2 mb-2 ps-2">
+            {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
+                <div class="form-check me-2">
+                    <input class="form-check-input adressBookFilter" type="checkbox"
+                           data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}" checked/>
+                    <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-        {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
-           <p>{{ key }}</p>
-        {% endfor %}
 
         <div class="form-grou mt-2 mb-2">
             <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
@@ -32,7 +40,9 @@
                     {% set name = u|nameOfUserNoSymbol|first|upper %}
                 {% endif %}
 
-                <li class="list-group-item adressbookline" style="display: flex; justify-content: space-between">
+                <li class="list-group-item adressbookline"
+                    data-indexer="{{ u.indexer }}"
+                    data-filterafter="{{ u.categories|json_encode }}">
             <span class="breakWord d-flex align-items-center name">
         {% if u.profilePicture %}
             <div class="iconSytle imageIcon me-2"

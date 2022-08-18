@@ -104,6 +104,7 @@ class User extends BaseUser
     private $updatedAt;
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'user', cascade: ['remove'])]
     private $callerIds;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -126,86 +127,103 @@ class User extends BaseUser
         $this->callerIds = new ArrayCollection();
 
     }
+
     public function getEmail(): ?string
     {
         return $this->email;
     }
+
     public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
+
     public function getKeycloakId(): ?string
     {
         return $this->keycloakId;
     }
+
     public function setKeycloakId(?string $keycloakId): self
     {
         $this->keycloakId = $keycloakId;
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
+
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
+
     public function getUsername(): ?string
     {
         return $this->username;
     }
+
     public function setUsername(?string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
+
     public function getLastLogin(): ?\DateTimeInterface
     {
         return $this->lastLogin;
     }
+
     public function setLastLogin(?\DateTimeInterface $lastLogin): self
     {
         $this->lastLogin = $lastLogin;
 
         return $this;
     }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
+
     public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
+
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
+
     public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
         return $this;
     }
+
     public function getRegisterId(): ?string
     {
         return $this->registerId;
     }
+
     public function setRegisterId(?string $registerId): self
     {
         $this->registerId = $registerId;
 
         return $this;
     }
+
     /**
      * @return Collection|Rooms[]
      */
@@ -213,6 +231,7 @@ class User extends BaseUser
     {
         return $this->rooms;
     }
+
     public function addRoom(Rooms $room): self
     {
         if (!$this->rooms->contains($room)) {
@@ -222,6 +241,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeRoom(Rooms $room): self
     {
         if ($this->rooms->removeElement($room)) {
@@ -230,6 +250,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|Server[]
      */
@@ -237,6 +258,7 @@ class User extends BaseUser
     {
         return $this->servers;
     }
+
     public function addServer(Server $server): self
     {
         if (!$this->servers->contains($server)) {
@@ -246,6 +268,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeServer(Server $server): self
     {
         if ($this->servers->removeElement($server)) {
@@ -254,6 +277,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|Rooms[]
      */
@@ -261,6 +285,7 @@ class User extends BaseUser
     {
         return $this->roomModerator;
     }
+
     public function addRoomModerator(Rooms $roomModerator): self
     {
         if (!$this->roomModerator->contains($roomModerator)) {
@@ -270,6 +295,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeRoomModerator(Rooms $roomModerator): self
     {
         if ($this->roomModerator->removeElement($roomModerator)) {
@@ -281,6 +307,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|Server[]
      */
@@ -288,6 +315,7 @@ class User extends BaseUser
     {
         return $this->serverAdmins;
     }
+
     public function addServerAdmin(Server $serverAdmin): self
     {
         if (!$this->serverAdmins->contains($serverAdmin)) {
@@ -297,6 +325,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeServerAdmin(Server $serverAdmin): self
     {
         if ($this->serverAdmins->removeElement($serverAdmin)) {
@@ -308,6 +337,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|self[]
      */
@@ -315,6 +345,7 @@ class User extends BaseUser
     {
         return $this->addressbook;
     }
+
     public function addAddressbook(self $addressbook): self
     {
         if (!$this->addressbook->contains($addressbook)) {
@@ -323,12 +354,14 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeAddressbook(self $addressbook): self
     {
         $this->addressbook->removeElement($addressbook);
 
         return $this;
     }
+
     /**
      * @return Collection|self[]
      */
@@ -336,6 +369,7 @@ class User extends BaseUser
     {
         return $this->addressbookInverse;
     }
+
     public function addAddressbookInverse(self $addressbookInverse): self
     {
         if (!$this->addressbookInverse->contains($addressbookInverse)) {
@@ -345,6 +379,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeAddressbookInverse(self $addressbookInverse): self
     {
         if ($this->addressbookInverse->removeElement($addressbookInverse)) {
@@ -353,6 +388,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|RoomsUser[]
      */
@@ -360,6 +396,7 @@ class User extends BaseUser
     {
         return $this->roomsAttributes;
     }
+
     public function addRoomsAttributes(RoomsUser $roomsNew): self
     {
         if (!$this->roomsAttributes->contains($roomsNew)) {
@@ -369,6 +406,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeRoomsAttributes(RoomsUser $roomsNew): self
     {
         if ($this->roomsAttributes->removeElement($roomsNew)) {
@@ -380,6 +418,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|Subscriber[]
      */
@@ -387,6 +426,7 @@ class User extends BaseUser
     {
         return $this->subscribers;
     }
+
     public function addSubscriber(Subscriber $subscriber): self
     {
         if (!$this->subscribers->contains($subscriber)) {
@@ -396,6 +436,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeSubscriber(Subscriber $subscriber): self
     {
         if ($this->subscribers->removeElement($subscriber)) {
@@ -407,16 +448,19 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getGroups(): ?array
     {
         return $this->groups;
     }
+
     public function setGroups(?array $groups): self
     {
         $this->groups = $groups;
 
         return $this;
     }
+
     /**
      * @return Collection|SchedulingTimeUser[]
      */
@@ -424,6 +468,7 @@ class User extends BaseUser
     {
         return $this->schedulingTimeUsers;
     }
+
     public function addSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
     {
         if (!$this->schedulingTimeUsers->contains($schedulingTimeUser)) {
@@ -433,6 +478,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
     {
         if ($this->schedulingTimeUsers->removeElement($schedulingTimeUser)) {
@@ -444,16 +490,19 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getUid(): ?string
     {
         return $this->uid;
     }
+
     public function setUid(?string $uid): self
     {
         $this->uid = $uid;
 
         return $this;
     }
+
     /**
      * @return Collection|Waitinglist[]
      */
@@ -461,6 +510,7 @@ class User extends BaseUser
     {
         return $this->waitinglists;
     }
+
     public function addWaitinglist(Waitinglist $waitinglist): self
     {
         if (!$this->waitinglists->contains($waitinglist)) {
@@ -470,6 +520,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeWaitinglist(Waitinglist $waitinglist): self
     {
         if ($this->waitinglists->removeElement($waitinglist)) {
@@ -481,6 +532,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|Notification[]
      */
@@ -488,6 +540,7 @@ class User extends BaseUser
     {
         return $this->notifications;
     }
+
     public function addNotification(Notification $notification): self
     {
         if (!$this->notifications->contains($notification)) {
@@ -497,6 +550,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeNotification(Notification $notification): self
     {
         if ($this->notifications->removeElement($notification)) {
@@ -508,6 +562,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|Repeat[]
      */
@@ -515,6 +570,7 @@ class User extends BaseUser
     {
         return $this->repeaterUsers;
     }
+
     public function addRepeaterUser(Repeat $repeaterUser): self
     {
         if (!$this->repeaterUsers->contains($repeaterUser)) {
@@ -524,6 +580,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeRepeaterUser(Repeat $repeaterUser): self
     {
         if ($this->repeaterUsers->removeElement($repeaterUser)) {
@@ -532,6 +589,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|Rooms[]
      */
@@ -539,6 +597,7 @@ class User extends BaseUser
     {
         return $this->protoypeRooms;
     }
+
     public function addProtoypeRoom(Rooms $protoypeRoom): self
     {
         if (!$this->protoypeRooms->contains($protoypeRoom)) {
@@ -548,6 +607,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeProtoypeRoom(Rooms $protoypeRoom): self
     {
         if ($this->protoypeRooms->removeElement($protoypeRoom)) {
@@ -556,26 +616,31 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getOwnRoomUid(): ?string
     {
         return $this->ownRoomUid;
     }
+
     public function setOwnRoomUid(?string $ownRoomUid): self
     {
         $this->ownRoomUid = $ownRoomUid;
 
         return $this;
     }
+
     public function getMyOwnRoomServer(): ?Server
     {
         return $this->myOwnRoomServer;
     }
+
     public function setMyOwnRoomServer(?Server $myOwnRoomServer): self
     {
         $this->myOwnRoomServer = $myOwnRoomServer;
 
         return $this;
     }
+
     /**
      * @return Collection|AddressGroup[]
      */
@@ -583,6 +648,7 @@ class User extends BaseUser
     {
         return $this->AddressGroupLeader;
     }
+
     public function addAddressGroupLeader(AddressGroup $addressGroupLeader): self
     {
         if (!$this->AddressGroupLeader->contains($addressGroupLeader)) {
@@ -592,6 +658,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeAddressGroupLeader(AddressGroup $addressGroupLeader): self
     {
         if ($this->AddressGroupLeader->removeElement($addressGroupLeader)) {
@@ -603,6 +670,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     /**
      * @return Collection|AddressGroup[]
      */
@@ -610,6 +678,7 @@ class User extends BaseUser
     {
         return $this->AddressGroupMember;
     }
+
     public function addAddressGroupMember(AddressGroup $addressGroupMember): self
     {
         if (!$this->AddressGroupMember->contains($addressGroupMember)) {
@@ -619,6 +688,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeAddressGroupMember(AddressGroup $addressGroupMember): self
     {
         if ($this->AddressGroupMember->removeElement($addressGroupMember)) {
@@ -627,10 +697,12 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getLdapUserProperties(): ?LdapUserProperties
     {
         return $this->ldapUserProperties;
     }
+
     public function setLdapUserProperties(LdapUserProperties $ldapUserProperties): self
     {
         // set the owning side of the relation if necessary
@@ -642,36 +714,43 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getTimeZone(): ?string
     {
         return $this->timeZone;
     }
+
     public function setTimeZone(?string $timeZone): self
     {
         $this->timeZone = $timeZone;
 
         return $this;
     }
+
     public function getSpezialProperties(): ?array
     {
         return $this->spezialProperties;
     }
+
     public function setSpezialProperties(?array $spezialProperties): self
     {
         $this->spezialProperties = $spezialProperties;
 
         return $this;
     }
+
     public function getFormatedName($string)
     {
         $this->formatName = new FormatName();
         return $this->formatName->formatName($string, $this);
 
     }
+
     public function getUserIdentifier()
     {
         return $this->username;
     }
+
     /**
      * @return Collection|Rooms[]
      */
@@ -679,6 +758,7 @@ class User extends BaseUser
     {
         return $this->favorites;
     }
+
     public function addFavorite(Rooms $favorite): self
     {
         if (!$this->favorites->contains($favorite)) {
@@ -687,12 +767,14 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeFavorite(Rooms $favorite): self
     {
         $this->favorites->removeElement($favorite);
 
         return $this;
     }
+
     /**
      * @return Collection|LobbyWaitungUser[]
      */
@@ -700,6 +782,7 @@ class User extends BaseUser
     {
         return $this->lobbyWaitungUsers;
     }
+
     public function addLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
     {
         if (!$this->lobbyWaitungUsers->contains($lobbyWaitungUser)) {
@@ -709,6 +792,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeLobbyWaitungUser(LobbyWaitungUser $lobbyWaitungUser): self
     {
         if ($this->lobbyWaitungUsers->removeElement($lobbyWaitungUser)) {
@@ -720,6 +804,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function getPermissionForRoom(Rooms $rooms): RoomsUser
     {
         foreach ($this->roomsAttributes as $data) {
@@ -729,46 +814,55 @@ class User extends BaseUser
         }
         return new RoomsUser();
     }
+
     public function getIndexer(): ?string
     {
         return $this->indexer;
     }
+
     public function setIndexer(?string $indexer): self
     {
         $this->indexer = $indexer;
 
         return $this;
     }
+
     public function getSecondEmail(): ?string
     {
         return $this->secondEmail;
     }
+
     public function setSecondEmail(?string $secondEmail): self
     {
         $this->secondEmail = $secondEmail;
 
         return $this;
     }
+
     public function getProfilePicture(): ?Documents
     {
         return $this->profilePicture;
     }
+
     public function setProfilePicture(?Documents $profilePicture): self
     {
         $this->profilePicture = $profilePicture;
 
         return $this;
     }
+
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
+
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
+
     /**
      * @return Collection|CallerId[]
      */
@@ -776,6 +870,7 @@ class User extends BaseUser
     {
         return $this->callerIds;
     }
+
     public function addCallerId(CallerId $callerId): self
     {
         if (!$this->callerIds->contains($callerId)) {
@@ -785,6 +880,7 @@ class User extends BaseUser
 
         return $this;
     }
+
     public function removeCallerId(CallerId $callerId): self
     {
         if ($this->callerIds->removeElement($callerId)) {
@@ -795,5 +891,15 @@ class User extends BaseUser
         }
 
         return $this;
+    }
+
+    public function getCategories()
+    {
+        $res = array();
+
+        if ($this->ldapUserProperties) {
+            $res[] =  $this->ldapUserProperties->getLdapNumber();
+        }
+        return $res;
     }
 }

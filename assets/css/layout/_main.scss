@@ -851,6 +851,11 @@ strong {
   display: flex;
   flex-direction: column;
 
+  .adressbookline {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .nav-mat {
     flex: 1;
   }
@@ -868,9 +873,11 @@ strong {
       .textarea {
         overflow-y: auto;
         width: 100%;
+
+        .addressbookSearchHidden, .addressbookCategorieHidden {
+          display: none !important;
+        }
       }
-
-
     }
   }
 }
