@@ -25,7 +25,7 @@ function initListSearch() {
                 this.classList.remove('addressbookSearchHidden')
             }
         });
-        checkCapitalLetters();
+        cleanCapitalLetters();
     });
     initAddressbook();
     initCategoryFilter();
@@ -80,7 +80,7 @@ function initCategoryFilter() {
                 $list[k].classList.remove('addressbookCategorieHidden')
             }
         }
-        checkCapitalLetters();
+        cleanCapitalLetters();
     })
 }
 
@@ -88,21 +88,23 @@ function findCommonElements3(arr1, arr2) {
     return arr1.some(item => arr2.includes(item))
 }
 
-function checkCapitalLetters() {
+function cleanCapitalLetters() {
     var cap = $('.textarea').find('.capital-Letter');
     for (var i = 0; i < cap.length; i++) {
         var next = cap[i].nextElementSibling;
-        do {
+        while (isHidden(next)) {
             next = next.nextElementSibling;
             if (!next) {
                 break;
             }
-        } while (isHidden(next))
-
+        }
         if (!next || next.classList.contains('capital-Letter')) {
             cap[i].style.display = 'none';
+            findRegister(cap[i].textContent).style.display = 'none';
+
         } else {
             cap[i].style.removeProperty('display');
+            findRegister(cap[i].textContent).style.removeProperty('display');
         }
     }
 }
@@ -111,5 +113,12 @@ function isHidden(el) {
     return window.getComputedStyle(el).display === "none";
 }
 
+function findRegister(register){
+    for (const a of document.querySelectorAll('.adressbookSearchletter')) {
+        if (a.textContent.includes(register)) {
+            return a;
+        }
+    }
+}
 
 export {initAddressGroupSearch, initListSearch};
