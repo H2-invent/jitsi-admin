@@ -34,7 +34,7 @@
         Konferenz ID: {uid}
     {% endtrans %}
     <spacer size="16"></spacer>
-    {% if getJigasiNumber(room) and getJigasiPin(room) %}
+    {% if getJigasiNumber(room) %}
     <b>{{ 'email.sip.text'|trans }}</b><br>
     <spacer size="18"></spacer>
     <b>{{ 'email.sip.number'|trans }}:</b><br>
@@ -42,11 +42,10 @@
     {% for number in n %}
     {% if room.server.jigasiApiUrl is not null %}
     <p> ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}# (<a href="tel:{{ number }},,,,{{ getJigasiPin(room) }}#)">{{ number }},,,,{{ getJigasiPin(room) }}#</a>)<p><br>
-    {% elseif  theme and theme.SIP_CALLER_SHOW_IN_FRONTEND == 1 %}
-{% if  sipPinFromRoomAndUser(room,room.moderator) is not null %}
-    <p> ({{ key }}) {{ number }} {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#  {{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room,user).callerId|addRepetiveCharacters(' ',3) }}#
-        (<a href="tel:{{ number }},,,,{{ room.callerRoom.callerId }}#,,,,{{ sipPinFromRoomAndUser(room,user).callerId }}#">{{ number }},,,,{{ room.callerRoom.callerId }}#,,,,{{ sipPinFromRoomAndUser(room,user).callerId }}#</a>)</p><br>
-{% endif %}
+    {% elseif  room.callerRoom  %}
+
+    <p> ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
+        (<a href="tel:{{ number }},,,,{{ room.callerRoom.callerId }}#">{{ number }},,,,{{ room.callerRoom.callerId }}#</a>)</p><br>
     {% endif %}
     {% endfor %}
     {% endfor %}
