@@ -69,11 +69,12 @@
                data-mdb-toggle="popover"
                data-mdb-trigger="focus"
                data-mdb-html="true"
-               title="{{ 'email.sip.text'|trans }}"
+               title="{{ 'email.sip.number'|trans }}"
                data-mdb-content="
+               <p>{{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
     {% for key,n in getJigasiNumber(room) %}
     {% for number in n %}
-    <p> ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#</p>
+    <p> ({{ key }}) {{ number }} </p>
             <br>
 
         {% endfor %}
