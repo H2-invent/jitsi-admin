@@ -37,13 +37,14 @@ class ConferenceMapperService
         }
         if (!$started) {
             return array(
-                'state' => 'PLEASE_WAIT',
+                'state' => 'WAITING',
                 'reason' => 'NOT_STARTED'
             );
         }
         return array(
             'state' => 'STARTED',
-            'jwt' => $this->roomService->generateJwt($room, null, $callerId)
+            'jwt' => $this->roomService->generateJwt($room, null, $callerId),
+            'room_name'=>$room->getUid()
         );
     }
 }

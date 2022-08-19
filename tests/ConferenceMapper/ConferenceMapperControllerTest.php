@@ -33,7 +33,7 @@ class ConferenceMapperControllerTest extends WebTestCase
         $res = $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
-        self::assertEquals(json_encode(array('state' => 'PLEASE_WAIT', 'reason' => 'NOT_STARTED')), $res);
+        self::assertEquals(json_encode(array('state' => 'WAITING', 'reason' => 'NOT_STARTED')), $res);
     }
 
     public function testnoRoom(): void
@@ -54,7 +54,7 @@ class ConferenceMapperControllerTest extends WebTestCase
         $res = $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
 
-        self::assertEquals(json_encode(array('state' => 'PLEASE_WAIT', 'reason' => 'NOT_STARTED')), $res);
+        self::assertEquals(json_encode(array('state' => 'WAITING', 'reason' => 'NOT_STARTED')), $res);
 
 
         $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
@@ -78,7 +78,8 @@ class ConferenceMapperControllerTest extends WebTestCase
 
         self::assertEquals(json_encode(array(
                     'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYifX0sIm1vZGVyYXRvciI6ZmFsc2V9.QfpvUo2wz-XAdcY--jD5_75ZMQxqz6c5_V9VmjjpCS8'
+                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYifX0sIm1vZGVyYXRvciI6ZmFsc2V9.QfpvUo2wz-XAdcY--jD5_75ZMQxqz6c5_V9VmjjpCS8',
+                    'room_name' => '123456780'
                 )
             )
             , $res);

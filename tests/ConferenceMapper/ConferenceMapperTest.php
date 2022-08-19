@@ -22,7 +22,7 @@ class ConferenceMapperTest extends KernelTestCase
         $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
         $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
-        self::assertEquals(array('state' => 'PLEASE_WAIT', 'reason' => 'NOT_STARTED'), $res);
+        self::assertEquals(array('state' => 'WAITING', 'reason' => 'NOT_STARTED'), $res);
     }
 
     public function testAuthFailed(): void
@@ -95,7 +95,7 @@ class ConferenceMapperTest extends KernelTestCase
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
         $jwtService = self::getContainer()->get(RoomService::class);
         $jwt = $jwtService->generateJwt($callerRoom->getRoom(),null,'012345123');
-        self::assertEquals(array('state' => 'STARTED','jwt'=>$jwt), $res);
+        self::assertEquals(array('state' => 'STARTED','jwt'=>$jwt,'room_name'=>$callerRoom->getRoom()->getUid()), $res);
     }
 
 }
