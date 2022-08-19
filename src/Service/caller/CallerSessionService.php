@@ -66,7 +66,7 @@ class CallerSessionService
             );
         }
 
-        if ($authOk) {
+        if ($authOk || (!$session->getCaller()->getRoom()->getLobby() && $started)) {
             $this->loggger->debug('The user is accepted and is allowed to enter the room', array('sessionId' => $sessionId, 'callerId' => $session->getCallerId(), 'user' => $session->getCaller()->getUser()->getId()));
             return array(
                 'status' => 'ACCEPTED',

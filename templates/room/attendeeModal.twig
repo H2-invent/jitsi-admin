@@ -10,7 +10,7 @@
             <div class="attendeeScroll">
                 <ul id="atendeeList" class="material-list">
                     <li class="d-flex  flex-row align-items-center">
-                        {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 and room.scheduleMeeting != true %}
+                        {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and room.scheduleMeeting != true %}
                             <a class=" dropdown-toggle me-4" type="button"
                                data-mdb-toggle="dropdown"
                                data-mdb-auto-close="outside"
@@ -26,8 +26,8 @@
                                     <div class="collapse dropdown-item stopCloseDropdown"
                                          id="sipCaller{{ room.moderator.id }}">
                                         <div class="">
-                                            Raumnummer: {{ room.callerRoom.callerId }}<br>
-                                            PIN: {{ sipPinFromRoomAndUser(room,room.moderator).callerId }}
+                                            {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId }}<br>
+                                            {{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room,room.moderator).callerId }}
                                         </div>
                                     </div>
                                 {% endif %}

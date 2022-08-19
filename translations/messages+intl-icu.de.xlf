@@ -314,7 +314,7 @@
         <target>Heute</target>
       </trans-unit>
       <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
-        <source>Heute steht keine Konferenz an.</source>
+        <source>Heute steht keine Jitsi Meet Konferenz an.</source>
         <target state="translated">Heute ist keine Konferenz geplant.</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
@@ -1719,8 +1719,12 @@
         <target>Jigasi SIP-Einwahldaten</target>
       </trans-unit>
       <trans-unit id="ijp6Gol" resname="statistic.real.participants">
-        <source>Anzahl reale Teilnehmende</source>
+        <source>statistic.real.participants</source>
         <target>Anzahl reale Teilnehmende</target>
+      </trans-unit>
+      <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
+        <source>Raumnummer</source>
+        <target>Raumnummer</target>
       </trans-unit>
     </body>
   </file>
