@@ -871,8 +871,16 @@ strong {
       }
 
       .textarea {
-        overflow-y: auto;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .topbar {
+        }
+
+        .content {
+          overflow-y: auto;
+        }
 
         .addressbookSearchHidden, .addressbookCategorieHidden {
           display: none !important;
