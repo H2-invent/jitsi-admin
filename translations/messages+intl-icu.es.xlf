@@ -1709,7 +1709,7 @@
       </trans-unit>
       <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
         <source>Raumnummer</source>
-        <target state="needs-translation">Raumnummer</target>
+        <target state="translated">Número de sala</target>
       </trans-unit>
     </body>
   </file>
