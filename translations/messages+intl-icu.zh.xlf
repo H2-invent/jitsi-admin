@@ -1708,12 +1708,12 @@
         <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
       </trans-unit>
       <trans-unit id="ijp6Gol" resname="statistic.real.participants">
-        <source>statistic.real.participants</source>
+        <source>Anzahl reale Teilnehmende</source>
         <target state="needs-translation">Anzahl reale Teilnehmende</target>
       </trans-unit>
-      <trans-unit id="I4QUydi" resname="lobby.participant.online">
-        <source>Bereits in der Konferenz.</source>
-        <target state="needs-translation">Bereits in der Konferenz.</target>
+      <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
+        <source>Raumnummer</source>
+        <target state="needs-translation">Raumnummer</target>
       </trans-unit>
     </body>
   </file>
