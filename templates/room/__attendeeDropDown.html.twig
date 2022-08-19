@@ -82,8 +82,8 @@
 
             <div class="collapse dropdown-item stopCloseDropdown" id="sipCaller{{ user.id }}">
                 <div class="">
-                    Raumnummer: {{ room.callerRoom.callerId }}<br>
-                    PIN: {{ sipPinFromRoomAndUser(room,user).callerId }}
+                    {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId }}<br>
+                    {{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room,user).callerId }}
                 </div>
             </div>
         {% endif %}

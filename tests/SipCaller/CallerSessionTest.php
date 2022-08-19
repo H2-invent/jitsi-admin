@@ -47,6 +47,7 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -78,6 +79,7 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -117,6 +119,7 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -164,6 +167,7 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -209,6 +213,7 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -267,6 +272,7 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -448,6 +454,7 @@ class CallerSessionTest extends KernelTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
@@ -485,4 +492,78 @@ class CallerSessionTest extends KernelTestCase
     }
 
 
+    public function testWaitingNotStartedLobbyDeactivated(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(false);
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[0];
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        // vorbereitung
+        self::assertEquals(array(
+                'status' => 'WAITING',
+                'reason' => 'NOT_ACCEPTED',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'NOT_STARTED',
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
+    }
+
+
+
+    public function testLobbydeactivated(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $roomService = self::getContainer()->get(RoomService::class);
+
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $id = '123419';
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room->setLobby(false);
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $caller = $room->getCallerIds()[0];
+        $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $status = new RoomStatus();
+        $status->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($status);
+        $manager->flush();
+        self::assertEquals(array(
+                'status' => 'ACCEPTED',
+                'reason' => 'ACCEPTED_BY_MODERATOR',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'STARTED',
+                'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+                'links' => array(
+                    'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
+                    'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
+                )
+            )
+            , $sessionService->getSessionStatus($session->getSessionId()));
+    }
 }

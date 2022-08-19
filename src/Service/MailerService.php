@@ -143,7 +143,7 @@ class MailerService
                         $message->to($data);
                     }
                 }
-                if (filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                if ($rooms && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL)) {
                     $this->customMailer->setAbsender($rooms->getModerator()->getEmail());
                 }
                 if ($rooms){

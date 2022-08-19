@@ -196,6 +196,7 @@ class CallerControllerTest extends WebTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
 
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
             ->setCreatedAt(new \DateTime())
@@ -302,6 +303,7 @@ class CallerControllerTest extends WebTestCase
 
 
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
             ->setCreatedAt(new \DateTime())
@@ -354,6 +356,7 @@ class CallerControllerTest extends WebTestCase
 
 
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
             ->setCreatedAt(new \DateTime())
@@ -414,6 +417,7 @@ class CallerControllerTest extends WebTestCase
 
 
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
             ->setCreatedAt(new \DateTime())
@@ -473,6 +477,7 @@ class CallerControllerTest extends WebTestCase
 
 
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room->setLobby(true);
         $status = new RoomStatus();
         $status->setRoom($room)
             ->setCreatedAt(new \DateTime())
@@ -527,7 +532,7 @@ class CallerControllerTest extends WebTestCase
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '12340';
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
-
+        $room->setLobby(true);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[1];
         //enter the room and check if the room is okay

@@ -1715,12 +1715,12 @@
         <target>Jigasi SIP-Einwahldaten</target>
       </trans-unit>
       <trans-unit id="ijp6Gol" resname="statistic.real.participants">
-        <source>statistic.real.participants</source>
+        <source>Anzahl reale Teilnehmende</source>
         <target>Anzahl reale Teilnehmende</target>
       </trans-unit>
-      <trans-unit id="I4QUydi" resname="lobby.participant.online">
-        <source>Bereits in der Konferenz.</source>
-        <target>Bereits in der Konferenz.</target>
+      <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
+        <source>Raumnummer</source>
+        <target>Raumnummer</target>
       </trans-unit>
     </body>
   </file>
