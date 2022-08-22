@@ -4,9 +4,10 @@
             {% set name = null %}
             {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
                 {% if u|nameOfUserNoSymbol|first|upper != name %}
-                    <a class="me-3 adressbookSearchletter" href="#"
-                       data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</a>
-
+                    <div class="registerElement">
+                        <a class="adressbookSearchletter" href="#"
+                           data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</a>
+                    </div>
                     {% set name = u|nameOfUserNoSymbol|first|upper %}
                 {% endif %}
             {% endfor %}
@@ -53,12 +54,12 @@
                     <a class="text-success adhocConfirm me-2 "
                        data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
                        href="{{ path('add_hoc_confirm',{'serverId':servers[0].id,'userId':u.id}) }}">
-                        <i class="fa fa-phone"></i>
+                       <i class="fa-solid fa-phone-volume"></i>
                              </a>
                 {% else %}
                     <a class="caretdown dropdown-toggle text-success" data-mdb-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-phone"></i>
+                                        <i class="fa-solid fa-phone-volume"></i>
                              </a>
                     <div class="dropdown-menu">
             {% for s in servers %}

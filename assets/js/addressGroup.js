@@ -37,6 +37,7 @@ function initAddressbook() {
         e.preventDefault();
         $('.adressBookPointOut').removeClass('adressBookPointOut');
         $($(this).data('target')).addClass('adressBookPointOut');
+        $(this).closest('.registerElement').addClass('adressBookPointOut');
         var position = $($(this).data('target')).offset().top;
         var textarea = $('#adressbookModalTabContent').find('.content')[0];
         var actPosition = textarea.scrollTop;
