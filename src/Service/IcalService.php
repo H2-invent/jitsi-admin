@@ -14,6 +14,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Eluceo\iCal\Domain\Entity\Calendar;
 use Eluceo\iCal\Domain\Entity\Event;
 use Eluceo\iCal\Domain\Entity\TimeZone;
+use Eluceo\iCal\Domain\ValueObject\Alarm;
+use Eluceo\iCal\Domain\ValueObject\Alarm\AudioAction;
+use Eluceo\iCal\Domain\ValueObject\Alarm\RelativeTrigger;
 use Eluceo\iCal\Domain\ValueObject\Date;
 use Eluceo\iCal\Domain\ValueObject\DateTime;
 use Eluceo\iCal\Domain\ValueObject\EmailAddress;
@@ -135,8 +138,8 @@ class IcalService
             $alarmInterval = new \DateInterval('PT10M');
             $alarmInterval->invert = 1;
             $vEvent->addAlarm(
-                new \Eluceo\iCal\Domain\ValueObject\Alarm(new \Eluceo\iCal\Domain\ValueObject\Alarm\AudioAction(),
-                    new \Eluceo\iCal\Domain\ValueObject\Alarm\RelativeTrigger($alarmInterval)
+                new Alarm(new AudioAction(),
+                    new RelativeTrigger($alarmInterval)
                 )
             );
             $cal->addEvent($vEvent);

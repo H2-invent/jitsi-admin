@@ -836,15 +836,6 @@ strong {
   }
 }
 
-.adressBookPointOut {
-  &:before {
-    font-family: "Font Awesome 5 Free";
-    margin-right: 0.5em;
-    font-weight: 900;
-    float: left;
-    content: "\f178";
-  }
-}
 
 #modalAdressbookBody {
   height: 100%;
@@ -854,6 +845,16 @@ strong {
   .adressbookline {
     display: flex;
     justify-content: space-between;
+  }
+
+  .register {
+    .registerElement {
+      padding: 0.5em 0.5rem 0.5em 0.5rem;
+      &.adressBookPointOut {
+       background-color: rgba(0,0,0,0.2);
+        border-radius: .2rem;
+      }
+    }
   }
 
   .nav-mat {
@@ -871,8 +872,27 @@ strong {
       }
 
       .textarea {
-        overflow-y: auto;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .topbar {
+        }
+
+        .content {
+          overflow-y: auto;
+
+          .adressBookPointOut {
+            &:before {
+              font-family: "Font Awesome 5 Free";
+              margin-right: 0.5em;
+              font-weight: 900;
+              float: left;
+              content: "\f178";
+            }
+          }
+
+        }
 
         .addressbookSearchHidden, .addressbookCategorieHidden {
           display: none !important;
@@ -880,4 +900,20 @@ strong {
       }
     }
   }
+}
+
+@keyframes backgroundFlash {
+  0% {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+
+.line-indicator {
+  animation-name: backgroundFlash;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
 }
