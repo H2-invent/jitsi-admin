@@ -6,7 +6,7 @@ import {initDarkmodeSwitch} from './switchDarkmode'
 import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
-
+import { io } from "socket.io/client-dist/socket.io";
 var audio = new Audio(notificationSound);
 import {TabUtils} from './tabBroadcast'
 
@@ -48,7 +48,8 @@ function initGenerell() {
     hotkeys('n', function (event, handler) {
         $('#createNewConference').trigger('click');
     });
-
+    var socket = io('ws://localhost:3000/my-namespace');
+    socket.emit('login','test');
 }
 
 function openBlankTarget(targets) {
