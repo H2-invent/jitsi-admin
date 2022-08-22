@@ -12,6 +12,7 @@
     "doctrine/doctrine-bundle": "^2.4",
     "doctrine/doctrine-migrations-bundle": "^3.1",
     "doctrine/orm": "^2.9",
+    "dompdf/dompdf": "^2.0",
     "eluceo/ical": "^2",
     "erusev/parsedown": "^1.7",
     "gjuric/i18n-routing-bundle": "^3.1",

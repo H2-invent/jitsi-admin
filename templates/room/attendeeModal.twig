@@ -6,7 +6,10 @@
              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p>{{ 'Teilnehmerliste'|trans }}</p>
+            <p>{{ 'Teilnehmerliste'|trans }}  {% if SIP_CALLER_SHOW_IN_FRONTEND == 1 %}
+                <a target="_blank" href="{{ path('app_download_participants_list',{'room':room.id}) }}"><i class="fa fa-print"></i> </a>
+            {% endif %}
+            </p>
             <div class="attendeeScroll">
                 <ul id="atendeeList" class="material-list">
                     <li class="d-flex  flex-row align-items-center">
