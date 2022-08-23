@@ -18,6 +18,7 @@ import {initJitsi, hangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
 import {disableBodyScroll}  from 'body-scroll-lock'
+import {socket} from "./websocket";
 
 var jitsiApi;
 try {
@@ -30,27 +31,18 @@ initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
-let es;
+
 
 function initMercure() {
-    connectES();
-    setInterval(function () {
-
-        if (es.readyState === 2) {
-            connectES();
-        }
-    }, 5000);
-}
-
-function connectES() {
-    es = new EventSource([topic]);
-    es.onmessage = e => {
+    socket.on('mercure', function (inData) {
+        var data = JSON.parse(inData)
         var data = JSON.parse(e.data)
         masterNotify(data);
         if (data.type === 'endMeeting') {
             hangup();
         }
-    }
+    })
+
 }
 
 

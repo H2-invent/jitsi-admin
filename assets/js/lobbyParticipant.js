@@ -14,7 +14,7 @@ import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
-
+import {socket} from './websocket';
 
 initNotofication();
 
@@ -24,50 +24,22 @@ var api;
 var dataSucess;
 var successTimer;
 var clickLeave = false;
-let es;
-let healtcheckInterval;
-let blockHealtch = false;
 var microphoneLabel = null;
 var cameraLable = null;
 
 function initMercure() {
-    connectES();
-    setInterval(function () {
-        if (es.readyState === 2) {
-            connectES();
-        }
-    }, 5000);
-}
 
-function connectES() {
-    es = new EventSource([topic]);
-    es.onmessage = e => {
-        var data = JSON.parse(e.data)
-        masterNotify(data);
+    socket.on('mercure', function (inData) {
+        var data = JSON.parse(inData)
         if (data.type === 'newJitsi') {
-            clearInterval(healtcheckInterval);
-            blockHealtch = true;
             userAccepted(data);
         } else if (data.type === 'endMeeting') {
-            blockHealtch = true;
-            clearInterval(healtcheckInterval);
             hangup()
             $('#jitsiWindow').remove();
         } else if (data.type === 'redirect') {
-            blockHealtch = true;
-            clearInterval(healtcheckInterval);
-        }
-    }
-    healtcheckInterval = setInterval(function () {
-        $.get(healthcheckUrl, function (data) {
-            if (data.error === true) {
-                if (!blockHealtch) {
-                    location.reload()
-                }
-            }
 
-        });
-    }, 10000)
+        }
+    })
 }
 
 window.onbeforeunload = function (e) {
