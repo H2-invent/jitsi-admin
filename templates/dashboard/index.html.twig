@@ -32,18 +32,23 @@
             <div class="col-lg-12  d-flex w-100 justify-content-end">
                 <div class="dropdown onlineSelector me-3">
                     <a
-                            class="online"
+                            class="{{ app.user.onlineStatus==1?'online':'offline'}}"
                             type="button"
                             id="onlineSelector"
                             data-mdb-toggle="dropdown"
                             aria-expanded="false"
                     >
-                    <div class="dot"></div>{{ 'status.online'|trans }}
+                        <div class="dot"></div><span class="statusText">{{ app.user.onlineStatus==1?'status.online':'status.offline'|trans }}</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item online" data-value="online" href="#">  <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
-                        <li><a class="dropdown-item away" data-value="away" href="#">  <div class="dot"></div>{{ 'status.away'|trans }}</a></li>
-                        <li><a class="dropdown-item offline" data-value="offline" href="#">  <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
+                        <li><a class="dropdown-item online changeStatus" data-value="online"
+                               href="{{ path('app_online_status',{'status':1}) }}">
+                                <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
+                        <li><a class="dropdown-item away changeStatus" data-value="away" href="#">
+                                <div class="dot"></div>{{ 'status.away'|trans }}</a></li>
+                        <li><a class="dropdown-item offline changeStatus" data-value="offline"
+                               href="{{ path('app_online_status',{'status':0}) }}">
+                                <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
                     </ul>
                 </div>
                 <div class="custom-control custom-switch mb-2">
@@ -130,7 +135,8 @@
                     <div class="row">
                         {% if input_settings_allow_sheduling == 1 %}
                             <div class="col-md-6 mb-3">
-                                <a href="{{ path('room_new') }}" class="loadContent dashboardBtn" id="createNewConference">
+                                <a href="{{ path('room_new') }}" class="loadContent dashboardBtn"
+                                   id="createNewConference">
                                     <div class=" btn-block btn btn-dashboard">
                                         <p class="mt-2 mb-2 text-center">
                                             {{ 'Eine Konferenz planen'|trans }}
@@ -229,10 +235,7 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        var topic =
-                {{ mercure([
-                    'personal/'~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
-        ;
-       var websocketTopics = "{{ getJwtforWebsocket(['personal/'~app.user.uid],app.user.uid) }}";
+        var topic ={{ mercure(['personal/'~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var websocketTopics = "{{ getJwtforWebsocket(['personal/'~app.user.uid],app.user.uid) }}";
     </script>
 {% endblock %}

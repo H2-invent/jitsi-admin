@@ -18,7 +18,6 @@ function initListSearch() {
         $list.filter(function () {
             var indexer = $(this).data('indexer').toLowerCase();
             var res = indexer.indexOf(value) > -1;
-            console.log(res);
             if (!res) {
                 this.classList.add('addressbookSearchHidden')
             } else {
@@ -95,7 +94,6 @@ function categorySort(ele){
         if (filterTmp.length === 0) {
             visible = true
         }
-        console.log(visible);
         if (!visible) {
             $list[k].classList.add('addressbookCategorieHidden')
         } else {

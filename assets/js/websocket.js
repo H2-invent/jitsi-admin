@@ -1,29 +1,26 @@
 import {io} from "socket.io/client-dist/socket.io";
+import {setStatus, showOnlineUsers} from "./onlineStatus";
 import {getCookie} from "./cookie";
 
+export var socket = null;
+export var token = null;
+
+
 export function initWebsocket(jwt) {
-    var token = jwt;
-    var socket = io('ws://localhost:3000', {
+    token = jwt;
+    socket = io('ws://localhost:3000', {
         query: {token}
     });
 
     socket.on('connect', function (data) {
-        socket.emit('login', token);
+        setStatus();
     });
-
-
-    socket.on('sendOnlineUSer', function (data) {
-        data = JSON.parse(data);
-        var $adressbookLine = document.querySelectorAll('.adressbookline');
-        for (var i = 0; i<$adressbookLine.length; i++) {
-            if (data.includes($adressbookLine[i].dataset.uid)) {
-                $adressbookLine[i].classList.add('isOnline');
-            } else {
-                $adressbookLine[i].classList.remove('isOnline');
-            }
-        }
+    socket.on('sendOnlineUser', function (data) {
+        showOnlineUsers(JSON.parse(data))
     })
-    // setInterval(function () {
-    //     socket.emit('getOnlineUSer');
-    // }, 10000);
 }
+
+export function sendViaWebsocket(event, message) {
+    socket.emit(event, message);
+}
+

@@ -29,8 +29,16 @@
     display: flex;
     justify-content: space-between;
 
-    &.isOnline {
+    &[data-status="online"] {
       border: $success 2px solid;
+    }
+
+    &[data-status="away"] {
+      border: grey 2px solid;
+    }
+
+    &[data-status="inMeeting"] {
+      border: $info 2px solid;
     }
   }
 
@@ -101,27 +109,34 @@
   .online {
     display: flex;
     align-items: center;
+
     .dot {
       background-color: #00c851;
     }
   }
+
   .away {
     display: flex;
     align-items: center;
+
     .dot {
       background-color: grey;
     }
   }
+
   .offline {
     display: flex;
     align-items: center;
+
     .dot {
       background-color: $danger;
     }
   }
+
   .inMeeting {
     display: flex;
     align-items: center;
+
     .dot {
       background-color: $info;
     }

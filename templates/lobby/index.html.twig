@@ -145,20 +145,31 @@
             };
 
             var conferenzeName = '{{ room.name }}';
+            {% if app.user is defined and app.user is not null %}
+            {{ mercure([
+                'lobby_moderator/'~room.uidReal,
+                'lobby_broadcast_websocket/'~ room.uidReal,
+                'lobby_personal'~room.uidReal~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+            {% else %}
+            {{ mercure([
+                'lobby_moderator/'~room.uidReal,
+                'lobby_broadcast_websocket/'~ room.uidReal])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
 
-            var topic =
-                    {% if app.user is defined and app.user is not null %}
-                    {{ mercure([
-                        'lobby_moderator/'~room.uidReal,
-                        'lobby_broadcast_websocket/'~ room.uidReal,
-                        'lobby_personal'~room.uidReal~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
-                    {% else %}
-                    {{ mercure([
-                        'lobby_moderator/'~room.uidReal,
-                        'lobby_broadcast_websocket/'~ room.uidReal])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
-
-                    {% endif %}
-            ;
+            {% endif %}
+            {% if app.user is defined and app.user is not null %}
+            {% set topics =[
+                'lobby_moderator/'~room.uidReal,
+                'lobby_broadcast_websocket/'~ room.uidReal,
+                'lobby_personal'~room.uidReal~app.user.uid
+            ]
+            {% else %}
+            {% set topics =[
+               'lobby_moderator/'~room.uidReal,
+               'lobby_broadcast_websocket/'~ room.uidReal
+            ]
+           {% endif %}
+            var topic ={{ mercure(topics)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+            var websocketTopics = "{{ getJwtforWebsocket(topics,app.user.uid) }}";
         </script>
     {% endif %}
 {% endblock %}

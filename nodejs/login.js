@@ -1,13 +1,11 @@
 import jwt from 'jsonwebtoken'
 
 let user = {};
-export function loginUser(socket, data) {
-    if (jwt.verify(data,process.env.WEBSOCKET_SECRET)){
-        var jwtObj = jwt.decode(data);
-        user[socket.id] = jwtObj.sub;
-        for (var i = 0; i<jwtObj.rooms.length; i++){
-            socket.join(jwtObj.rooms[i]);
-        }
+
+export function loginUser(socket) {
+    if (jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET)) {
+        var jwtObj = jwt.decode(socket.handshake.query.token);
+        user[socket.id] = {userId: jwtObj.sub, status: 'online'};
     }
 }
 
@@ -15,10 +13,20 @@ export function logoutUser(sockId) {
     delete user[sockId];
 }
 
-export function getOnlineUSer() {
-    var tmpUSer = [];
-    for (var prop in user) {
-    tmpUSer.push(user[prop]);
+export function setStatus(socket, status) {
+    if (user[socket.id]) {
+        user[socket.id].status = status;
     }
-    return tmpUSer;
+}
+
+export function getOnlineUSer() {
+    var tmpUser = {};
+    for (var prop in user) {
+        var tmpStatus = user[prop].status
+        if (typeof tmpUser[tmpStatus] ==='undefined'){
+            tmpUser[tmpStatus] = [];
+        }
+        tmpUser[tmpStatus].push(user[prop].userId);
+    }
+    return tmpUser;
 }
