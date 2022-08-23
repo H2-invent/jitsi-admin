@@ -26,8 +26,10 @@ class WebsocketJwt extends AbstractExtension
 {
 
 
-
-    public function __construct(private WebsocketJwtService $websocketJwtService)
+    public function __construct(
+        private WebsocketJwtService   $websocketJwtService,
+        private ParameterBagInterface $parameterBag
+    )
     {
 
     }
@@ -37,13 +39,25 @@ class WebsocketJwt extends AbstractExtension
 
         return [
             new TwigFunction('getJwtforWebsocket', [$this, 'getJwtforWebsocket']),
+            new TwigFunction('getUrlforWebsocket', [$this, 'getUrlforWebsocket']),
+
         ];
     }
 
     public function getJwtforWebsocket($rooms, $userId)
     {
-        return $this->websocketJwtService->createJwt($rooms,$userId);
+        return $this->websocketJwtService->createJwt($rooms, $userId);
     }
 
+    public function getUrlforWebsocket()
+    {
+        $path = $this->parameterBag->get('MERCURE_PUBLIC_URL');
+        if (strpos($path,'https')){
+            str_replace('https','wss',$path);
+        }else{
+            str_replace('http','ws',$path);
+        }
+        return $this->parameterBag->get('MERCURE_PUBLIC_URL');
+    }
 
 }

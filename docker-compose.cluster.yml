@@ -10,7 +10,7 @@ x-app-common: &jitsi_admin_app
     PHP_EXTENSION_INTL: 1
     DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
     MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
-    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
     registerEmailAdress: ${registerEmailAdress}
@@ -66,7 +66,7 @@ services:
       OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
-      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
       laF_version: ${GIT_VERSION}

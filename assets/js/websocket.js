@@ -9,7 +9,7 @@ export var token = null;
 
 export function initWebsocket(jwt) {
     token = jwt;
-    socket = io('ws://localhost:3000', {
+    socket = io(websocketUrl, {
         query: {token}
     });
 
