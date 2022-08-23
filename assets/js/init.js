@@ -48,8 +48,14 @@ function initGenerell() {
     hotkeys('n', function (event, handler) {
         $('#createNewConference').trigger('click');
     });
-    var socket = io('ws://localhost:3000/my-namespace');
+    var socket = io('ws://localhost:3000');
     socket.emit('login','test');
+    socket.on('sendOnlineUSer',function (data){
+        console.log(data);
+    })
+    setInterval(function () {
+        socket.emit('getOnlineUSer');
+    },10000);
 }
 
 function openBlankTarget(targets) {

@@ -1,28 +1,27 @@
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const {Server} = require("socket.io");
-const io = new Server(server, {
+import { createServer } from "http";
+import { Server } from "socket.io";
+import * as socketioJwt from 'socketio-jwt';
+
+import {loginUser, logoutUser, getOnlineUSer} from './login.js'
+const httpServer = createServer();
+const io = new Server(httpServer, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
     }
 });
 
-let users = {};
-io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-    socket.on("login", (data) => {
-        console.log(data);
-        users[socket.id] = data;
-    });
+io.on("connection", (socket) => {
+    console.log('new USer connected')
+    socket.on('disconnect', function () {
+        logoutUser(socket.id)
+    })
+    socket.on('login',function (data) {
+        loginUser(socket.id, data);
+    })
+    socket.on('getOnlineUSer',function (data) {
+        socket.emit('sendOnlineUSer',JSON.stringify(getOnlineUSer()));
+    })
 });
-server.listen(3000, () => {
-    console.log('listening on *:3000');
-});
-console.log('listen on ')
 
+httpServer.listen(3000);
