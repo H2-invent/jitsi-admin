@@ -9,7 +9,7 @@ COPY --chown=node:node package*.json ./
 RUN npm install
 
 COPY --chown=node:node . .
-RUN ["chmod", "755", "your-script.sh"]
+RUN ["chmod", "755", "websocket.js"]
 EXPOSE 3000
 
 CMD [ "node", "websocket.js" ]
