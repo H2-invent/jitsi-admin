@@ -21,9 +21,9 @@ export function initStatus() {
 
 export function setStatus() {
     if (status === 'offline') {
-        sendViaWebsocket('logout', []);
+        sendViaWebsocket('logout');
     } else if (status === 'online') {
-        sendViaWebsocket('login', token);
+        sendViaWebsocket('login');
     } else {
         sendViaWebsocket('setStatus', status);
     }

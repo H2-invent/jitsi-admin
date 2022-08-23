@@ -9,7 +9,7 @@ const server = http.createServer(app);
 import {Server} from "socket.io";
 import jwt from 'jsonwebtoken'
 
-import {loginUser, logoutUser, getOnlineUSer, setStatus} from './login.js'
+import {loginUser, logoutUser, getOnlineUSer, setStatus, disconnectUser} from './login.js'
 import {websocketState} from './websocketState.js';
 
 export const io = new Server(server, {
@@ -39,7 +39,7 @@ io.on("connection", async (socket) => {
     }
 
     socket.on('disconnect', function () {
-        logoutUser(socket.id)
+        disconnectUser(socket.id);
         setTimeout(function () {
             io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
         }, 5000);
@@ -70,7 +70,6 @@ router.post('/.well-known/mercure', (request, response) => {
             }
         });
     } else {
-        console.log(authHeader);
         response.sendStatus(403);
         response.end('OK');
     }

@@ -13,11 +13,13 @@ import {TabUtils} from './tabBroadcast';
 import {getCookie} from './cookie';
 import {initLayzLoading} from './lazyLoading'
 import hotkeys from 'hotkeys-js';
+import {initStatus} from "./onlineStatus";
 
 function initGenerell() {
     Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
+    initStatus();
     openBlankTarget(blankTarget);
     initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
     hotkeys('1', function (event, handler) {

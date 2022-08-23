@@ -33,7 +33,6 @@ import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
 import {Chart} from 'chart.js'
 import {toDimension} from "chart.js/helpers";
-import {initStatus} from './onlineStatus'
 
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
@@ -87,7 +86,7 @@ $(document).ready(function () {
         h2Button.initNotification(notificationUrl);
     }
     initGenerell();
-    initStatus();
+
     initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
     initAjaxSend(confirmTitle, confirmCancel, confirmOk);
