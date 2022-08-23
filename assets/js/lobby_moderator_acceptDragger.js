@@ -1,8 +1,9 @@
 import ZingTouch from 'zingtouch';
 import $ from "jquery";
 var blockTouch = false;
+import {inIframe} from './moderatorIframe'
 function initDragParticipants() {
-    if(window.innerWidth > 768){
+    if(window.innerWidth > 768 || inIframe()){
         return false;
     }
     var activeRegion = new ZingTouch.Region(document.getElementById('waitingUserWrapper'),null,false);

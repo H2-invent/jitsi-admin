@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime'
 import $ from 'jquery';
 import {initDragDragger} from './lobby_dragger'
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
+
 global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 import ('jquery-confirm');
@@ -14,12 +15,12 @@ import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
 import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
-import {initJitsi, hangup} from './jitsiUtils'
+import {initJitsi, hangup, askHangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
 import {disableBodyScroll}  from 'body-scroll-lock'
 import {socket} from "./websocket";
-
+import {initModeratorIframe, close} from './moderatorIframe'
 var jitsiApi;
 try {
     navigator.mediaDevices.getUserMedia({audio: true, video: true})
@@ -84,7 +85,7 @@ function moveWrapper() {
 
     var frameDIv = $('#frame');
     frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
-    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
+    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow').removeClass('d-none');
     frameDIv.prepend($('#jitsiWrapper'));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'));
     frameDIv.append($('#snackbar'))

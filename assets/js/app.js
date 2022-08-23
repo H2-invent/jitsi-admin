@@ -21,7 +21,7 @@ import {initScheduling} from './scheduling';
 import * as Toastr from 'toastr';
 import {initGenerell} from './init';
 import {initKeycloakGroups} from './keyCloakGroupsInit';
-import {initAddressGroupSearch, initListSearch, sticky} from './addressGroup';
+import {initAddressGroupSearch, initListSearch} from './addressGroup';
 import {initSearchUser} from './searchUser';
 import {initRefreshDashboard} from './refreshDashboard';
 import {initdateTimePicker} from '@holema/h2datetimepicker';
@@ -32,6 +32,7 @@ import {initTabs, initalSetUnderline} from 'h2-invent-material-tabs'
 import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
 import {Chart} from 'chart.js'
+import {initStartIframe} from './createConference'
 import {toDimension} from "chart.js/helpers";
 
 addEventListener('load', function () {
@@ -90,6 +91,7 @@ $(document).ready(function () {
     initRefreshDashboard(refreshDashboardTime, refreshDashboardUrl)
     initListSearch();
     initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+    initStartIframe();
     $('#dismiss, .overlay').on('click', function () {
         // hide sidebar
         $('#sidebar').removeClass('active');
@@ -271,6 +273,26 @@ function initRepeater() {
         $('.repeater').addClass('d-none');
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
+}
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
+if (inIframe()){
+    window.addEventListener('message', function (e) {
+        const decoded = JSON.parse(e.data);
+        if (decoded.type === 'close') {
+            const message = JSON.stringify({
+                type: 'close',
+                frameId: decoded.frameId
+            });
+            window.parent.postMessage(message, '*');
+        }
+    });
 }
 
 $('.sidebarToggle').click(function () {

@@ -15,11 +15,17 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {socket} from './websocket';
-
+import {initModeratorIframe,close} from './moderatorIframe'
+import {askHangup} from "./jitsiUtils";
 initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
-
+function checkClose() {
+    echoOff();
+    stopWebcam();
+    close()
+}
+initModeratorIframe(checkClose);
 var api;
 var dataSucess;
 var successTimer;
@@ -101,7 +107,7 @@ function initJitsiMeet(data) {
     $('body').prepend('<div id="frame"></div>');
 
     var frameDIv = $('#frame');
-    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
+    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow').removeClass('d-none');
     frameDIv.prepend($(data.options.parentNode));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
     $('#window').remove();
@@ -152,13 +158,16 @@ function initJitsiMeet(data) {
 
     });
 
+
+
     $(data.options.parentNode).find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
 
 }
 
+
 function hangup() {
-    api.command('hangup')
+    api.executeCommand('hangup')
 }
 
 function userAccepted(data) {
