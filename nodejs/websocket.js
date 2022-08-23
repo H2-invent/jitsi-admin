@@ -66,13 +66,13 @@ router.post('/.well-known/mercure', (request, response) => {
                 var data = request.body.data;
                 var room = request.body.topic;
                 io.to(room).emit('mercure', data);
-                response.end('yes');
+                response.end('OK');
             }
         });
     } else {
         console.log(authHeader);
         response.sendStatus(403);
-        response.end('yes');
+        response.end('OK');
     }
 });
 
