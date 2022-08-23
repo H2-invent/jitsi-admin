@@ -6,10 +6,11 @@ import {initDarkmodeSwitch} from './switchDarkmode'
 import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
-import { io } from "socket.io/client-dist/socket.io";
-var audio = new Audio(notificationSound);
-import {TabUtils} from './tabBroadcast'
+import {initWebsocket} from './websocket'
 
+var audio = new Audio(notificationSound);
+import {TabUtils} from './tabBroadcast';
+import {getCookie} from './cookie';
 import {initLayzLoading} from './lazyLoading'
 import hotkeys from 'hotkeys-js';
 
@@ -48,14 +49,7 @@ function initGenerell() {
     hotkeys('n', function (event, handler) {
         $('#createNewConference').trigger('click');
     });
-    var socket = io('ws://localhost:3000');
-    socket.emit('login','test');
-    socket.on('sendOnlineUSer',function (data){
-        console.log(data);
-    })
-    setInterval(function () {
-        socket.emit('getOnlineUSer');
-    },10000);
+    initWebsocket(websocketTopics);
 }
 
 function openBlankTarget(targets) {

@@ -29,7 +29,23 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12 text-end">
+            <div class="col-lg-12  d-flex w-100 justify-content-end">
+                <div class="dropdown onlineSelector me-3">
+                    <a
+                            class="online"
+                            type="button"
+                            id="onlineSelector"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                    <div class="dot"></div>{{ 'status.online'|trans }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item online" data-value="online" href="#">  <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
+                        <li><a class="dropdown-item away" data-value="away" href="#">  <div class="dot"></div>{{ 'status.away'|trans }}</a></li>
+                        <li><a class="dropdown-item offline" data-value="offline" href="#">  <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
+                    </ul>
+                </div>
                 <div class="custom-control custom-switch mb-2">
                     <div class="d-flex justify-content-end">
 
@@ -217,5 +233,6 @@
                 {{ mercure([
                     'personal/'~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
         ;
+       var websocketTopics = "{{ getJwtforWebsocket(['personal/'~app.user.uid],app.user.uid) }}";
     </script>
 {% endblock %}

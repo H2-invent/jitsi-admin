@@ -40,7 +40,7 @@
                         {% set name = u|nameOfUserNoSymbol|first|upper %}
                     {% endif %}
 
-                    <li class="list-group-item adressbookline"
+                    <li class="list-group-item adressbookline" data-uid="{{ u.uid }}"
                         data-indexer="{{ u.indexer }}"
                         data-filterafter="{{ u.categories|json_encode }}">
             <span class="breakWord d-flex align-items-center name">

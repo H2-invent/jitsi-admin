@@ -105,6 +105,9 @@ class User extends BaseUser
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'user', cascade: ['remove'])]
     private $callerIds;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $onlineStatus = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -901,5 +904,17 @@ class User extends BaseUser
             $res[] =  $this->ldapUserProperties->getLdapNumber();
         }
         return $res;
+    }
+
+    public function getOnlineStatus(): ?int
+    {
+        return $this->onlineStatus;
+    }
+
+    public function setOnlineStatus(?int $onlineStatus): self
+    {
+        $this->onlineStatus = $onlineStatus;
+
+        return $this;
     }
 }

@@ -153,6 +153,7 @@ class DashboardController extends JitsiAdminController
                 false     // HttpOnly Flag
             ));
         }
+
         return $res;
     }
 
