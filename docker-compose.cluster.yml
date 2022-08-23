@@ -18,15 +18,13 @@ x-app-common: &jitsi_admin_app
 
 services:
   mercure-ja:
-    image: dunglas/mercure
+    build: nodejs
     hostname: ${RANDOMTAG}mercure-ja
     environment:
 
-      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      SERVER_NAME: ':3000'
-    # Uncomment the following line to enable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+      WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
+
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mercure-ja-${RANDOMTAG}.rule=Host(`mercure.${PUBLIC_URL}`)"

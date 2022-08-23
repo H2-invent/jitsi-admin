@@ -42,11 +42,11 @@ export function setStatus(socket, status) {
 export function getOnlineUSer() {
     var tmpUser = {};
     for (var prop in user) {
-        var tmpStatus = user[prop].status
+        var tmpStatus = user[prop]
         if (typeof tmpUser[tmpStatus] === 'undefined') {
             tmpUser[tmpStatus] = [];
         }
-        tmpUser[tmpStatus].push(user[prop].userId);
+        tmpUser[tmpStatus].push(prop);
     }
     return tmpUser;
 }
