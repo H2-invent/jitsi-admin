@@ -1,4 +1,4 @@
-import {loginUser, logoutUser, getOnlineUSer, setStatus} from './login.js'
+import {loginUser, getOnlineUSer, setStatus, stillOnline} from './login.js'
 import {io} from './websocket.js'
 
 export function websocketState(event, socket, message) {
@@ -6,16 +6,11 @@ export function websocketState(event, socket, message) {
     switch (event) {
         case 'login':
             loginUser(socket);
-            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
-            break;
-        case 'logout':
-            logoutUser(socket.id)
-            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            socket.broadcast.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             break;
         case 'setStatus':
             loginUser(socket);
             setStatus(socket,message)
-            console.log(message);
             socket.broadcast.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             break;
         case 'getStatus':
@@ -23,6 +18,9 @@ export function websocketState(event, socket, message) {
             break;
         case 'inWindow':
             socket.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            break;
+        case 'stillOnline':
+            stillOnline(socket);
             break;
         default:
             console.log('not known')

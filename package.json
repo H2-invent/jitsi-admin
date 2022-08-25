@@ -15,6 +15,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@babel/plugin-proposal-class-properties": "^7.18.6",
         "@dmuy/datepicker": "^2.0.1",
         "@dmuy/timepicker": "^2.0.0",
         "@fortawesome/fontawesome-free": "^6.1",
@@ -35,6 +36,7 @@
         "copy-webpack-plugin": "^6.4.1",
         "css-star-rating": "^1.3.1",
         "flatpickr": "^4.6.9",
+        "fs": "^0.0.1-security",
         "h2-invent-apps": "^2.4.0",
         "h2-invent-material-tabs": "^1.10.0",
         "hotkeys-js": "^3.9.4",
@@ -44,6 +46,7 @@
         "mdb-ui-kit": "^4.0.0",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
+        "net": "^1.0.2",
         "node-waves": "^0.7.6",
         "popper.js": "^1.16.1",
         "push.js": "^1.0.12",
@@ -52,6 +55,7 @@
         "string-to-color": "^2.2.2",
         "swiper": "^6.6.2",
         "toastr": "^2.1.4",
+        "visibilityjs": "^2.0.2",
         "zingtouch": "^1.0.6"
     }
 }

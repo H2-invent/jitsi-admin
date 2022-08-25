@@ -2,63 +2,57 @@ import jwt from 'jsonwebtoken'
 import {User} from "./User.js";
 
 let user = {};
-let sockets = {};
 
 export function loginUser(socket) {
     if (jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET)) {
-        var jwtObj = jwt.decode(socket.handshake.query.token);
-        var userId = jwtObj.sub
+        var userId = getUserId(socket);
 
-        if (typeof user[userId] === 'undefined' || user[userId] === null){
+        if (typeof user[userId] === 'undefined') {
             console.log('add User');
-            user[jwtObj.sub] = new User(jwtObj.sub,socket,'online');
-        }else {
-            user[jwtObj.sub].addSocket(socket);
+            user[userId] = new User(userId, socket, 'online');
+        } else {
+            user[userId].addSocket(socket);
         }
-        console.log(user);
     }
 }
 
 
-export function logoutUser(sockId) {
-    var userId = sockets[sockId];
-    delete sockets[sockId]
-    for (var s in sockets) {
-        if (sockets[s] === userId) {
-            delete sockets[s]
-        }
+export function disconnectUser(socket) {
+    var userId = getUserId(socket);
+    user[userId].removeSocket(socket);
+    if (user[userId].getSockets().length === 0) {
+        delete user.userId
     }
-    delete user[userId];
-}
-
-export function disconnectUser(sockId) {
-    var userId = sockets[sockId];
-    delete sockets[sockId]
-    for (var s in sockets) {
-        if (sockets[s] === userId) {
-            return
-        }
-    }
-    delete user[userId];
 }
 
 
 export function setStatus(socket, status) {
-    if (sockets[socket.id]) {
-        user[sockets[socket.id]] = status;
-    }
+    var userId = getUserId(socket);
+    user[userId].setStatus(status);
 }
 
+export function stillOnline(socket){
+    user[getUserId(socket)].initUserAway();
+    return 0;
+}
 export function getOnlineUSer() {
     var tmpUser = {};
-    for (var i = 0; i< user.length; i++) {
 
-        var tmpStatus = user[i].getStatus();
+    for (var prop in user) {
+        var u = user[prop];
 
-        if (typeof tmpUser.getStatus() === 'undefined') {
+        var tmpStatus = u.getStatus();
+        if (typeof tmpUser[tmpStatus] === 'undefined') {
             tmpUser[tmpStatus] = [];
         }
-        tmpUser[tmpStatus].push(user[i].getUserId());
+        tmpUser[tmpStatus].push(u.getUserId());
     }
+    console.log(tmpUser);
     return tmpUser;
+}
+
+function getUserId(socket) {
+    var jwtObj = jwt.decode(socket.handshake.query.token);
+    var userId = jwtObj.sub
+    return userId;
 }

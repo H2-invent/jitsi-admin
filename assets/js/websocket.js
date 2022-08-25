@@ -1,8 +1,6 @@
 import {io} from "socket.io/client-dist/socket.io";
 import {getStatus, setStatus, showOnlineUsers} from "./onlineStatus";
-import {getCookie} from "./cookie";
 import {masterNotify} from "./lobbyNotification";
-import {loginUser} from "../../nodejs/login";
 
 export var socket = null;
 export var token = null;
@@ -23,6 +21,15 @@ export function initWebsocket(jwt) {
     socket.on('mercure', function (data) {
         masterNotify(JSON.parse(data));
     })
+    function handleVisibilityChange() {
+        if (!document.hidden) {
+            sendViaWebsocket('stillOnline');
+        }
+    }
+    setInterval(function () {
+        handleVisibilityChange();
+    },60000)
+    document.addEventListener("visibilitychange", handleVisibilityChange, false);
 }
 
 export function sendViaWebsocket(event, message) {
