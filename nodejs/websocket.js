@@ -9,7 +9,7 @@ const server = http.createServer(app);
 import {Server} from "socket.io";
 import jwt from 'jsonwebtoken'
 
-import { getOnlineUSer, disconnectUser} from './login.js'
+import {getOnlineUSer, disconnectUser, checkEmptySockets} from './login.js'
 import {websocketState} from './websocketState.js';
 
 export const io = new Server(server, {
@@ -41,8 +41,11 @@ io.on("connection", async (socket) => {
     socket.on('disconnect', function () {
         disconnectUser(socket);
         setTimeout(function () {
-            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
-        }, 5000);
+            if (checkEmptySockets()){
+                io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            }
+
+        }, 7000);
 
     })
 

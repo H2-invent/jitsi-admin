@@ -77,7 +77,7 @@ class User {
                 that.status = 'away';
             }
             that.sendStatus();
-        }, 120000)
+        }, 60000*process.env.AWAY_TIME)
     }
 }
 

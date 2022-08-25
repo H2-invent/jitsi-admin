@@ -18,11 +18,20 @@ export function loginUser(socket) {
 
 
 export function disconnectUser(socket) {
+    console.log('remove User');
     var userId = getUserId(socket);
     user[userId].removeSocket(socket);
-    if (user[userId].getSockets().length === 0) {
-        delete user.userId
+
+}
+export function checkEmptySockets(){
+    var deleted = false;
+    for(var prop in user){
+        if (user[prop].getSockets().length === 0){
+            delete user[prop];
+            deleted = true;
+        }
     }
+    return deleted;
 }
 
 
@@ -32,7 +41,9 @@ export function setStatus(socket, status) {
 }
 
 export function stillOnline(socket){
-    user[getUserId(socket)].initUserAway();
+    if (user[getUserId(socket)]){
+        user[getUserId(socket)].initUserAway();
+    }
     return 0;
 }
 export function getOnlineUSer() {
@@ -47,7 +58,6 @@ export function getOnlineUSer() {
         }
         tmpUser[tmpStatus].push(u.getUserId());
     }
-    console.log(tmpUser);
     return tmpUser;
 }
 
