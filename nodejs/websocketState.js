@@ -15,7 +15,14 @@ export function websocketState(event, socket, message) {
         case 'setStatus':
             loginUser(socket);
             setStatus(socket,message)
-            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            console.log(message);
+            socket.broadcast.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            break;
+        case 'getStatus':
+            socket.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            break;
+        case 'inWindow':
+            socket.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             break;
         default:
             console.log('not known')

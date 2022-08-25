@@ -1,7 +1,8 @@
 import {io} from "socket.io/client-dist/socket.io";
-import {setStatus, showOnlineUsers} from "./onlineStatus";
+import {getStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {getCookie} from "./cookie";
 import {masterNotify} from "./lobbyNotification";
+import {loginUser} from "../../nodejs/login";
 
 export var socket = null;
 export var token = null;
@@ -14,7 +15,7 @@ export function initWebsocket(jwt) {
     });
 
     socket.on('connect', function (data) {
-        setStatus();
+        getStatus();
     });
     socket.on('sendOnlineUser', function (data) {
         showOnlineUsers(JSON.parse(data))

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import {User} from "./User.js";
 
 let user = {};
 let sockets = {};
@@ -6,26 +7,35 @@ let sockets = {};
 export function loginUser(socket) {
     if (jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET)) {
         var jwtObj = jwt.decode(socket.handshake.query.token);
-        user[jwtObj.sub] = 'online';
-        sockets[socket.id] = jwtObj.sub;
+        var userId = jwtObj.sub
+
+        if (typeof user[userId] === 'undefined' || user[userId] === null){
+            console.log('add User');
+            user[jwtObj.sub] = new User(jwtObj.sub,socket,'online');
+        }else {
+            user[jwtObj.sub].addSocket(socket);
+        }
+        console.log(user);
     }
 }
 
+
 export function logoutUser(sockId) {
     var userId = sockets[sockId];
-    delete  sockets[sockId]
-    for (var s in sockets){
-        if (sockets[s] === userId){
+    delete sockets[sockId]
+    for (var s in sockets) {
+        if (sockets[s] === userId) {
             delete sockets[s]
         }
     }
     delete user[userId];
 }
+
 export function disconnectUser(sockId) {
     var userId = sockets[sockId];
-    delete  sockets[sockId]
-    for (var s in sockets){
-        if (sockets[s] === userId){
+    delete sockets[sockId]
+    for (var s in sockets) {
+        if (sockets[s] === userId) {
             return
         }
     }
@@ -41,12 +51,14 @@ export function setStatus(socket, status) {
 
 export function getOnlineUSer() {
     var tmpUser = {};
-    for (var prop in user) {
-        var tmpStatus = user[prop]
-        if (typeof tmpUser[tmpStatus] === 'undefined') {
+    for (var i = 0; i< user.length; i++) {
+
+        var tmpStatus = user[i].getStatus();
+
+        if (typeof tmpUser.getStatus() === 'undefined') {
             tmpUser[tmpStatus] = [];
         }
-        tmpUser[tmpStatus].push(prop);
+        tmpUser[tmpStatus].push(user[i].getUserId());
     }
     return tmpUser;
 }

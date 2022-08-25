@@ -33,6 +33,16 @@ initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
+function checkClose() {
+    echoOff();
+    stopWebcam();
+    var res = askHangup();
+    if (!res) {
+        close()
+    }
+}
+initModeratorIframe(checkClose);
+
 
 function initMercure() {
     socket.on('mercure', function (inData) {

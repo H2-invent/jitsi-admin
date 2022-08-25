@@ -32,23 +32,29 @@
             <div class="col-lg-12  d-flex w-100 justify-content-end">
                 <div class="dropdown onlineSelector me-3">
                     <a
-                            class="{{ app.user.onlineStatus==1?'online':'offline'}}"
+                            data-status="{{ app.user.onlineStatus==1?'online':'offline' }}"
+                            data-uid="{{ app.user.uid }}"
                             type="button"
                             id="onlineSelector"
                             data-mdb-toggle="dropdown"
                             aria-expanded="false"
                     >
-                        <div class="dot"></div><span class="statusText">{{ app.user.onlineStatus==1?'status.online':'status.offline'|trans }}</span>
+                        <div class="dot"></div>
+                        <span class="statusText">{{ app.user.onlineStatus==1?'status.online':'status.offline'|trans }}</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item online changeStatus" data-value="online"
+                        <li><a class="dropdown-item changeStatus" data-status="online"
                                href="{{ path('app_online_status',{'status':1}) }}">
                                 <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
-                        <li><a class="dropdown-item away changeStatus" data-value="away" href="#">
+                        <li><a class="dropdown-item changeStatus" data-status="away"
+                               href="{{ path('app_online_status',{'status':1}) }}">
                                 <div class="dot"></div>{{ 'status.away'|trans }}</a></li>
-                        <li><a class="dropdown-item offline changeStatus" data-value="offline"
+                        <li><a class="dropdown-item changeStatus" data-status="offline"
                                href="{{ path('app_online_status',{'status':0}) }}">
                                 <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
+                        <li><a class="dropdown-item changeStatus" data-status="inMeeting"
+                               href="{{ path('app_online_status',{'status':1}) }}">
+                                <div class="dot"></div>{{ 'status.inMeeting'|trans }}</a></li>
                     </ul>
                 </div>
                 <div class="custom-control custom-switch mb-2">
@@ -237,6 +243,6 @@
     <script>
         var topic ={{ mercure(['personal/'~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var websocketTopics = "{{ getJwtforWebsocket(['personal/'~app.user.uid],app.user.uid) }}";
-        var websocketUrl ="{{ getUrlforWebsocket() }}";
+        var websocketUrl = "{{ getUrlforWebsocket() }}";
     </script>
 {% endblock %}

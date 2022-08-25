@@ -34,7 +34,7 @@
     }
 
     &[data-status="away"] {
-      border: grey 2px solid;
+      border: $warning 2px solid;
     }
 
     &[data-status="inMeeting"] {
@@ -106,39 +106,32 @@
     margin-right: 4px;
   }
 
-  .online {
+  a {
     display: flex;
     align-items: center;
 
-    .dot {
-      background-color: #00c851;
+    &[data-status="online"] {
+      .dot {
+        background-color: #00c851;
+      }
     }
-  }
 
-  .away {
-    display: flex;
-    align-items: center;
-
-    .dot {
-      background-color: grey;
+    &[data-status="away"] {
+      .dot {
+        background-color: $warning;
+      }
     }
-  }
 
-  .offline {
-    display: flex;
-    align-items: center;
-
-    .dot {
-      background-color: $danger;
+    &[data-status="offline"] {
+      .dot {
+        background-color: $danger;
+      }
     }
-  }
 
-  .inMeeting {
-    display: flex;
-    align-items: center;
-
-    .dot {
-      background-color: $info;
+    &[data-status="inMeeting"] {
+      .dot {
+        background-color: $info;
+      }
     }
   }
 }

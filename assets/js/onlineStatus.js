@@ -1,6 +1,6 @@
 import {sendViaWebsocket, token} from "./websocket";
 
-let status = document.getElementById('onlineSelector').classList[0];
+let status = document.getElementById('onlineSelector').dataset.status;
 
 export function initStatus() {
     $('.changeStatus').click(function (e) {
@@ -10,41 +10,56 @@ export function initStatus() {
             $.get(href);
         }
         var target = this.closest('.onlineSelector').querySelector('#onlineSelector');
-        target.className = '';
-        target.classList.add(this.dataset.value);
-        target.classList.add('show');
+        target.dataset.status = this.dataset.status;
         target.innerHTML = this.innerHTML;
-        status = this.dataset.value;
+        status = this.dataset.status;
         setStatus();
     })
+
+    document.addEventListener('visibilitychange', function (event) {
+        if (document.hidden) {
+            sendViaWebsocket('inWindow');
+        }
+    });
+    setInterval(function () {
+        sendViaWebsocket('inWindow');
+    },60000);
+
 }
 
 export function setStatus() {
-    if (status === 'offline') {
-        sendViaWebsocket('logout');
-    } else if (status === 'online') {
-        sendViaWebsocket('login');
-    } else {
         sendViaWebsocket('setStatus', status);
-    }
 }
 
 export function showOnlineUsers(data) {
 
-    var $adressbookLine = Array.prototype.slice.call( document.querySelectorAll('.adressbookline'));
-
+    var $adressbookLine = Array.prototype.slice.call(document.querySelectorAll('.adressbookline'));
+    var setMe = false;
     for (var status in data) {
         for (var i = 0; i < $adressbookLine.length; i++) {
-            if (typeof $adressbookLine[i] !== 'undefined' && data[status].includes($adressbookLine[i].dataset.uid)) {
+            if (data[status].includes($adressbookLine[i].dataset.uid)) {
                 $adressbookLine[i].dataset.status = status
                 $adressbookLine.splice(i, 1);
             }
         }
-
+        if (data[status].includes(document.getElementById('onlineSelector').dataset.uid)) {
+            var switcher = document.getElementById('onlineSelector')
+            switcher.dataset.status = status;
+            var query = '.changeStatus[data-status="'+status+'"]';
+            var source = document.querySelector(query)
+            var innerHtml = source.innerHTML;
+           switcher.innerHTML = innerHtml;
+           setMe = true
+        }
     }
-    for (var k in $adressbookLine){
-
-            $adressbookLine[k].dataset.status = 'offline'
-
+    for (var k in $adressbookLine) {
+        $adressbookLine[k].dataset.status = 'offline'
     }
+    if (!setMe){
+        setStatus();
+    }
+}
+
+export function getStatus() {
+    sendViaWebsocket('getStatus')
 }
