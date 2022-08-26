@@ -23,6 +23,7 @@ services:
     environment:
 
       WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
+      AWAY_TIME: 5
 
 
     labels:
@@ -32,10 +33,11 @@ services:
       - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls=true"
       - "traefik.http.services.mercure-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
       - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=http"
+      - "traefik.http.routers.app-secure.middlewares=sslheader@docker"
 
     volumes:
       - caddy_config:/config
-    networks:
       - default
       - jitsi-admin
 
