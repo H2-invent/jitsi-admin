@@ -31,14 +31,14 @@ services:
       - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
   mercure-ja:
-    image: dunglas/mercure
+    build: nodejs
     restart: unless-stopped
     environment:
-      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      SERVER_NAME: ':3000'
+      WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
+      AWAY_TIME: 5
+
     # Uncomment the following line to enable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
@@ -77,6 +77,7 @@ services:
       MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}

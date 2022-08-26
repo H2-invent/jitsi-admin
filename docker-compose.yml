@@ -14,6 +14,7 @@ x-app-common: &jitsi_admin_app
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
     registerEmailAdress: ${registerEmailAdress}
+    WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
 
 
 services:
@@ -66,17 +67,15 @@ services:
   #Here is the mercure hub
   mercure-ja:
     hostname: ${RANDOMTAG}mercure-ja
-    image: dunglas/mercure
+    build: nodejs
     restart: unless-stopped
     depends_on:
       - traefik-ja
 
     environment:
-      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      SERVER_NAME: ':3000'
-    # Uncomment the following line to enable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+      WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
+      AWAY_TIME: 5
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
@@ -84,6 +83,8 @@ services:
       - "traefik.http.routers.mercure-ja.tls=true"
       - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
       - "traefik.http.routers.mercure-ja.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=http"
+      - "traefik.http.routers.app-secure.middlewares=sslheader@docker"
 
     volumes:
       - caddy_data:/data
@@ -116,6 +117,7 @@ services:
       MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
       laF_version: ${GIT_VERSION}
       registerEmailAdress: ${registerEmailAdress}

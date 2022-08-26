@@ -23,6 +23,7 @@ export function websocketState(event, socket, message) {
             stillOnline(socket);
             break;
         default:
+            console.log(event);
             console.log('not known')
             break;
     }

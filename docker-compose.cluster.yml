@@ -22,10 +22,8 @@ services:
     build: nodejs
     hostname: ${RANDOMTAG}mercure-ja
     environment:
-
       WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
       AWAY_TIME: 5
-
 
     labels:
       - "traefik.enable=true"
