@@ -40,7 +40,7 @@
                             aria-expanded="false"
                     >
                         <div class="dot"></div>
-                        <span class="statusText">{{ app.user.onlineStatus==1?'status.online':'status.offline'|trans }}</span>
+                        <span class="statusText">{{ app.user.onlineStatus==1?'status.online'|trans:'status.offline'|trans }}</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li><a class="dropdown-item changeStatus" data-status="online"
