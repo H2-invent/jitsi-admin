@@ -38,6 +38,7 @@ services:
 
     volumes:
       - caddy_config:/config
+    networks:
       - default
       - jitsi-admin
 
