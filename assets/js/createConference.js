@@ -170,7 +170,7 @@ function recievecommand(data) {
 
     if (type === 'close') {
         closeIframe(decoded.frameId)
-        if (document.querySelectorAll('.jitsiadminiframe').length === 0){
+        if (document.querySelectorAll('.jitsiadminiframe').length === 0) {
             leaveMeeting();
         }
     }
