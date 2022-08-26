@@ -1,4 +1,4 @@
-import {loginUser, getOnlineUSer, setStatus, stillOnline} from './login.js'
+import {loginUser, getOnlineUSer, setStatus, stillOnline, enterMeeting, leaveMeeting} from './login.js'
 import {io} from './websocket.js'
 
 export function websocketState(event, socket, message) {
@@ -21,6 +21,14 @@ export function websocketState(event, socket, message) {
             break;
         case 'stillOnline':
             stillOnline(socket);
+            break;
+        case 'enterMeeting':
+            enterMeeting(socket);
+            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+            break;
+        case 'leaveMeeting':
+            leaveMeeting(socket);
+            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             break;
         default:
             console.log(event);

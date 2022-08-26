@@ -7,6 +7,7 @@ class User {
     oldStatus = null;
     awayTimer = null;
     sockets = [];
+    inMeeting= [];
 
     constructor(userId, socket, status) {
         this.sockets.push(socket);
@@ -44,7 +45,10 @@ class User {
         return this.sockets
     }
     getStatus() {
-        return this.status
+        if (this.inMeeting.length > 0){
+            return 'inMeeting';
+        }
+        return this.status;
     }
 
     setAlive() {
@@ -78,6 +82,18 @@ class User {
             }
             that.sendStatus();
         }, 60000*process.env.AWAY_TIME)
+    }
+    enterMeeting(socket){
+        if (!this.inMeeting.includes(socket)){
+            this.inMeeting.push(socket);
+        }
+    }
+    leaveMeeting(socket){
+        for (var i = 0; i<this.inMeeting.length; i++){
+            if (this.inMeeting[i] === socket){
+                this.inMeeting.splice(i, 1);
+            }
+        }
     }
 }
 

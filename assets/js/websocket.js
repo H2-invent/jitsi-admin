@@ -56,3 +56,9 @@ export function sendViaWebsocket(event, message) {
     socket.emit(event, message);
 }
 
+export function enterMeeting() {
+    sendViaWebsocket('enterMeeting');
+}
+export function leaveMeeting(){
+    sendViaWebsocket('leaveMeeting',);
+}

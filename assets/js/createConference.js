@@ -1,4 +1,5 @@
 import interact from 'interactjs'
+import {enterMeeting, leaveMeeting} from "./websocket";
 
 let counter = 50;
 let zindex = 10
@@ -10,6 +11,7 @@ function initStartIframe() {
     for (var i = 0; i < initIframe.length; i++) {
         initIframe[i].addEventListener("click", function (e) {
                 e.preventDefault();
+                enterMeeting();
                 width = window.innerWidth * 0.75;
                 height = window.innerHeight * 0.75;
                 counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
@@ -168,6 +170,9 @@ function recievecommand(data) {
 
     if (type === 'close') {
         closeIframe(decoded.frameId)
+        if (document.querySelectorAll('.jitsiadminiframe').length === 0){
+            leaveMeeting();
+        }
     }
 }
 

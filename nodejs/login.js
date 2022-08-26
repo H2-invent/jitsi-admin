@@ -20,6 +20,7 @@ export function loginUser(socket) {
 export function disconnectUser(socket) {
     console.log('remove User');
     var userId = getUserId(socket);
+    leaveMeeting(socket);
     user[userId].removeSocket(socket);
 
 }
@@ -43,6 +44,18 @@ export function setStatus(socket, status) {
 export function stillOnline(socket){
     if (user[getUserId(socket)]){
         user[getUserId(socket)].initUserAway();
+    }
+    return 0;
+}
+export function enterMeeting(socket){
+    if (user[getUserId(socket)]){
+        user[getUserId(socket)].enterMeeting(socket);
+    }
+    return 0;
+}
+export function leaveMeeting(socket){
+    if (user[getUserId(socket)]){
+        user[getUserId(socket)].leaveMeeting(socket);
     }
     return 0;
 }
