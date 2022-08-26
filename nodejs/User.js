@@ -7,7 +7,7 @@ class User {
     oldStatus = null;
     awayTimer = null;
     sockets = [];
-    inMeeting= [];
+    inMeeting = [];
 
     constructor(userId, socket, status) {
         this.sockets.push(socket);
@@ -17,7 +17,7 @@ class User {
     }
 
     addSocket(socket) {
-        if (!socket in this.sockets){
+        if (!socket in this.sockets) {
             this.sockets.push(socket);
         }
 
@@ -35,17 +35,20 @@ class User {
         this.status = status;
         this.initUserAway();
     }
+
     hasSocket(socket) {
         if (socket in this.sockets) {
             return true
         }
         return false;
     }
-    getSockets(){
+
+    getSockets() {
         return this.sockets
     }
+
     getStatus() {
-        if (this.inMeeting.length > 0){
+        if (this.inMeeting.length > 0) {
             return 'inMeeting';
         }
         return this.status;
@@ -66,31 +69,34 @@ class User {
     setuserId(value) {
         this._userId = value;
     }
-    initUserAway(){
+
+    initUserAway() {
         clearTimeout(this.awayTimer);
         this.awayTimer = null;
         var that = this;
-        if (this.oldStatus !== null){
+        if (this.oldStatus !== null) {
             this.status = this.oldStatus;
             this.sendStatus();
         }
         this.oldStatus = null;
         this.awayTimer = setTimeout(function () {
-            if (that.status !== 'offline'){
+            if (that.status !== 'offline') {
                 that.oldStatus = that.status;
                 that.status = 'away';
             }
             that.sendStatus();
-        }, 60000*process.env.AWAY_TIME)
+        }, 60000 * process.env.AWAY_TIME)
     }
-    enterMeeting(socket){
-        if (!this.inMeeting.includes(socket)){
+
+    enterMeeting(socket) {
+        if (!this.inMeeting.includes(socket)) {
             this.inMeeting.push(socket);
         }
     }
-    leaveMeeting(socket){
-        for (var i = 0; i<this.inMeeting.length; i++){
-            if (this.inMeeting[i] === socket){
+
+    leaveMeeting(socket) {
+        for (var i = 0; i < this.inMeeting.length; i++) {
+            if (this.inMeeting[i] === socket) {
                 this.inMeeting.splice(i, 1);
             }
         }

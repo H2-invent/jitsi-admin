@@ -41,7 +41,7 @@ io.on("connection", async (socket) => {
     socket.on('disconnect', function () {
         disconnectUser(socket);
         setTimeout(function () {
-            if (checkEmptySockets()){
+            if (checkEmptySockets()) {
                 io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             }
 

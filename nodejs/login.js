@@ -24,10 +24,11 @@ export function disconnectUser(socket) {
     user[userId].removeSocket(socket);
 
 }
-export function checkEmptySockets(){
+
+export function checkEmptySockets() {
     var deleted = false;
-    for(var prop in user){
-        if (user[prop].getSockets().length === 0){
+    for (var prop in user) {
+        if (user[prop].getSockets().length === 0) {
             delete user[prop];
             deleted = true;
         }
@@ -41,24 +42,27 @@ export function setStatus(socket, status) {
     user[userId].setStatus(status);
 }
 
-export function stillOnline(socket){
-    if (user[getUserId(socket)]){
+export function stillOnline(socket) {
+    if (user[getUserId(socket)]) {
         user[getUserId(socket)].initUserAway();
     }
     return 0;
 }
-export function enterMeeting(socket){
-    if (user[getUserId(socket)]){
+
+export function enterMeeting(socket) {
+    if (user[getUserId(socket)]) {
         user[getUserId(socket)].enterMeeting(socket);
     }
     return 0;
 }
-export function leaveMeeting(socket){
-    if (user[getUserId(socket)]){
+
+export function leaveMeeting(socket) {
+    if (user[getUserId(socket)]) {
         user[getUserId(socket)].leaveMeeting(socket);
     }
     return 0;
 }
+
 export function getOnlineUSer() {
     var tmpUser = {};
 

@@ -10,7 +10,7 @@ export function websocketState(event, socket, message) {
             break;
         case 'setStatus':
             loginUser(socket);
-            setStatus(socket,message)
+            setStatus(socket, message)
             socket.broadcast.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             break;
         case 'getStatus':
