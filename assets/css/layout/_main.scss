@@ -832,6 +832,14 @@ strong {
   animation-duration: 2s;
   animation-iteration-count: 1;
 }
-.in-iframe .window{
-  overflow-y: auto;
+.in-iframe {
+  .window{
+    overflow-y: auto;
+  }
+  .footer{
+    display: none;
+  }
+  .navigation{
+    display: none;
+  }
 }

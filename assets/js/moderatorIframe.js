@@ -15,10 +15,10 @@ function initModeratorIframe(closeFkt) {
         }
     });
     if (inIframe()){
-        document.querySelector('.footer').remove();
-        document.querySelector('body').appendChild(document.getElementById('logo_image'));
-        document.getElementById('logo_image').classList.add('d-none');
-        document.querySelector('.navigation').remove();
+        // document.querySelector('.footer').remove();
+        // document.querySelector('body').appendChild(document.getElementById('logo_image'));
+        // document.getElementById('logo_image').classList.add('d-none');
+        // document.querySelector('.navigation').remove();
     }
 }
 
