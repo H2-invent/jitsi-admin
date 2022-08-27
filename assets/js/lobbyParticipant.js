@@ -23,7 +23,9 @@ initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 function checkClose() {
     echoOff();
     stopWebcam();
+    closeBrowser();
     close()
+
 }
 initModeratorIframe(checkClose);
 var api;
