@@ -832,3 +832,6 @@ strong {
   animation-duration: 2s;
   animation-iteration-count: 1;
 }
+.in-iframe .window{
+  overflow-y: auto;
+}
