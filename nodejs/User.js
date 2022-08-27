@@ -8,7 +8,7 @@ class User {
     awayTimer = null;
     sockets = [];
     inMeeting = [];
-
+    offline = false;
     constructor(userId, socket, status) {
         this.sockets.push(socket);
         this.status = status;
@@ -32,6 +32,11 @@ class User {
     }
 
     setStatus(status) {
+        if (status === 'offline'){
+            this.offline = true;
+        }else {
+            this.offline = false;
+        }
         this.status = status;
         this.initUserAway();
     }
@@ -48,6 +53,9 @@ class User {
     }
 
     getStatus() {
+        if (this.offline){
+            return 'offline';
+        }
         if (this.inMeeting.length > 0) {
             return 'inMeeting';
         }

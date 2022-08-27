@@ -58,14 +58,17 @@ app.use(bodyParser.json());
 router.post('/.well-known/mercure', (request, response) => {
 //code to perform particular action.
 //To access POST variable use req.body()methods.
+
     const authHeader = request.headers.authorization;
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
         jwt.verify(token, process.env.WEBSOCKET_SECRET, (err, user) => {
             if (err) {
+
                 return response.sendStatus(403);
             } else {
+
                 var data = request.body.data;
                 var room = request.body.topic;
                 io.to(room).emit('mercure', data);
@@ -73,6 +76,7 @@ router.post('/.well-known/mercure', (request, response) => {
             }
         });
     } else {
+
         response.sendStatus(403);
         response.end('OK');
     }

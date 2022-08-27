@@ -1,6 +1,7 @@
 import {io} from "socket.io/client-dist/socket.io";
 import {getStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
+import {inIframe} from "./moderatorIframe";
 
 export var socket = null;
 export var token = null;
@@ -13,10 +14,14 @@ export function initWebsocket(jwt) {
     });
 
     socket.on('connect', function (data) {
-        getStatus();
+        if (!inIframe()){
+            getStatus();
+        }
     });
     socket.on('sendOnlineUser', function (data) {
-        showOnlineUsers(JSON.parse(data))
+        if (!inIframe()){
+            showOnlineUsers(JSON.parse(data))
+        }
     })
     socket.on('mercure', function (data) {
         masterNotify(JSON.parse(data));
@@ -37,7 +42,9 @@ export function initWebsocket(jwt) {
     function handleVisibilityChange() {
         if (document[hidden]) {
         } else {
-            sendViaWebsocket('stillOnline');
+            if (!inIframe()){
+                sendViaWebsocket('stillOnline');
+            }
         }
     }
 

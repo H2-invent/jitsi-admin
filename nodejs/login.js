@@ -19,10 +19,12 @@ export function loginUser(socket) {
 
 export function disconnectUser(socket) {
     console.log('remove User');
+
     var userId = getUserId(socket);
     leaveMeeting(socket);
-    user[userId].removeSocket(socket);
-
+    if(user[userId]){
+        user[userId].removeSocket(socket);
+    }
 }
 
 export function checkEmptySockets() {
