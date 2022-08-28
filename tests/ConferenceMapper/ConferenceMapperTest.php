@@ -92,10 +92,15 @@ class ConferenceMapperTest extends KernelTestCase
         $manager->persist($status);
         $manager->flush();
         $callerRoom->getRoom()->addRoomstatus($status);
+        $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
         $jwtService = self::getContainer()->get(RoomService::class);
         $jwt = $jwtService->generateJwt($callerRoom->getRoom(),null,'012345123');
-        self::assertEquals(array('state' => 'STARTED','jwt'=>$jwt,'room_name'=>$callerRoom->getRoom()->getUid()), $res);
+
+        self::assertEquals(array(
+            'state' => 'STARTED',
+            'jwt'=>$jwt,'room_name'=>$callerRoom->getRoom()->getUid(),
+            'room_name' => '123456780@testdomain.com'), $res);
     }
 
 }

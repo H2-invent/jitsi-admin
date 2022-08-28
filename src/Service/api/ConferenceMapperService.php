@@ -44,7 +44,7 @@ class ConferenceMapperService
         return array(
             'state' => 'STARTED',
             'jwt' => $this->roomService->generateJwt($room, null, $callerId),
-            'room_name'=>$room->getUid()
+            'room_name'=>$room->getUid().'@'.$room->getServer()->getJigasiProsodyDomain()
         );
     }
 }
