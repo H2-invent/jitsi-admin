@@ -31,7 +31,7 @@ class ConferenceMapperController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route('/api/v1/conferenceMapper', name: 'app_conference_mapper')]
+    #[Route('/api/v1/conferenceMapper', name: 'app_conference_mapper', methods: 'GET')]
     public function index(Request $request): Response
     {
         return new JsonResponse($this->conferenceMapperService->checkConference(
