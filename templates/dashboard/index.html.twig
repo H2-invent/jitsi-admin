@@ -242,7 +242,7 @@
 {% block javascripts %}
     <script>
         var topic ={{ mercure(['personal/'~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-        var websocketTopics = "{{ getJwtforWebsocket(['personal/'~app.user.uid],app.user.uid) }}";
+        var websocketTopics = "{{ getJwtforWebsocket(['personal/'~app.user.uid],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
     </script>
 {% endblock %}

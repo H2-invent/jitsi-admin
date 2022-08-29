@@ -2,7 +2,7 @@
 
     <div class="d-flex me-1">
         <li class="nav-item d-flex align-items-center me-4">
-            {% if app is defined and app.user is defined %}
+            {% if app is defined and app.user is defined and app.user is not null %}
             <div class="dropdown onlineSelector me-3">
                 <a
                         class="{{ app.user.onlineStatus==1?'online':'offline'}}"

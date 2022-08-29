@@ -14,17 +14,18 @@ import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
-import {socket} from './websocket';
+import {enterMeeting, leaveMeeting, socket} from './websocket';
 import {initModeratorIframe,close} from './moderatorIframe'
 import {askHangup} from "./jitsiUtils";
 initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 function checkClose() {
-    echoOff();
-    stopWebcam();
-    closeBrowser();
-    close()
+    echoOff();//wenn der echotest an ist, schalte ihn aus
+    stopWebcam();// schalte die Webcam aus nur in der Lobby, nicht in der Konferenz
+    closeBrowser();//sende browser wird geschlossen. Entfert den User aus der Lobby
+    leaveMeeting();//sendet ein LEave Meeting an den Websocket, damit der Status aktualisiert werden kann
+    close()// sende ein SendME an das Parent-Elemen, damit das Iframe geschlossen wird
 
 }
 initModeratorIframe(checkClose);
@@ -54,7 +55,7 @@ window.onbeforeunload = function (e) {
     if (!clickLeave) {
         closeBrowser();
     }
-    return;
+    return null;
 };
 
 function closeBrowser() {
@@ -107,7 +108,7 @@ function initJitsiMeet(data) {
         return '';
     }
     $('body').prepend('<div id="frame"></div>');
-
+enterMeeting();
     var frameDIv = $('#frame');
     $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($(data.options.parentNode));
@@ -231,6 +232,7 @@ function swithCameraOn(videoOn) {
 }
 
 $(document).ready(function () {
+    initGenerell()
     initGenerell()
     initAUdio();
     initWebcam();

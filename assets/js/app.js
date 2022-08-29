@@ -285,9 +285,9 @@ function inIframe () {
 if (inIframe()){
     window.addEventListener('message', function (e) {
         const decoded = JSON.parse(e.data);
-        if (decoded.type === 'close') {
+        if (decoded.type === 'pleaseClose') {
             const message = JSON.stringify({
-                type: 'close',
+                type: 'closeMe',
                 frameId: decoded.frameId
             });
             window.parent.postMessage(message, '*');

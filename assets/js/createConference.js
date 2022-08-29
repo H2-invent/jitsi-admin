@@ -1,5 +1,5 @@
 import interact from 'interactjs'
-import {enterMeeting, leaveMeeting} from "./websocket";
+import {leaveMeeting} from "./websocket";
 
 let counter = 50;
 let zindex = 10
@@ -11,7 +11,6 @@ function initStartIframe() {
     for (var i = 0; i < initIframe.length; i++) {
         initIframe[i].addEventListener("click", function (e) {
                 e.preventDefault();
-                enterMeeting();
                 width = window.innerWidth * 0.75;
                 height = window.innerHeight * 0.75;
                 counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
@@ -41,7 +40,7 @@ function initStartIframe() {
 
                 document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
                     var id = e.currentTarget.dataset.id;
-                    sendCommand(id, {type: 'close'})
+                    sendCommand(id, {type: 'pleaseClose'})
 
                 })
 
@@ -141,7 +140,7 @@ function initStartIframe() {
                     })
                 setTimeout(function () {
                     sendCommand('jitsiadminiframe' + random, {type: 'init'});
-                }, 2000)
+                }, 5000)
                 counter += 40;
             }
         );
@@ -168,10 +167,9 @@ function recievecommand(data) {
     const decoded = JSON.parse(data);
     const type = decoded.type
 
-    if (type === 'close') {
+    if (type === 'closeMe') {
         closeIframe(decoded.frameId)
         if (document.querySelectorAll('.jitsiadminiframe').length === 0) {
-            leaveMeeting();
         }
     }
 }

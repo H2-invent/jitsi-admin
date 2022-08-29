@@ -10,7 +10,6 @@ import {initDragParticipants} from './lobby_moderator_acceptDragger'
 global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 import ('jquery-confirm');
-import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
@@ -18,9 +17,9 @@ import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initJitsi, hangup, askHangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
-import {disableBodyScroll}  from 'body-scroll-lock'
-import {socket} from "./websocket";
+import {enterMeeting, leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
+
 var jitsiApi;
 try {
     navigator.mediaDevices.getUserMedia({audio: true, video: true})
@@ -34,20 +33,24 @@ initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 function checkClose() {
-    echoOff();
-    stopWebcam();
-    var res = askHangup();
-    if (!res) {
-        close()
+    echoOff();//echo ausschlaten wenn ncoh an
+    stopWebcam();//Webcam auschalten
+    var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
+    if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
+     closeIframe(); // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
     }
 }
+
 initModeratorIframe(checkClose);
 
+export function closeIframe() {
+    leaveMeeting();
+    close()
+}
 
 function initMercure() {
     socket.on('mercure', function (inData) {
         var data = JSON.parse(inData)
-        var data = JSON.parse(e.data)
         masterNotify(data);
         if (data.type === 'endMeeting') {
             hangup();
@@ -74,8 +77,8 @@ $('.startIframe').click(function (e) {
     window.onbeforeunload = function () {
         return '';
     }
-    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel,toggle,webcamArr[choosenId], micArr[micId]);
-
+    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel, toggle, webcamArr[choosenId], micArr[micId]);
+    enterMeeting();
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
     initDragDragger();

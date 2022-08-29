@@ -15,6 +15,7 @@
                 document.getElementById("closeWindow").onclick = function () {
                     if (window.opener == null) {
                         window.location.href = "{{ url }}";
+
                     } else {
                         window.close();
                     }

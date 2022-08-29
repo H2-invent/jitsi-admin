@@ -3,29 +3,32 @@
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ 'Einladungslinks'|trans }}</h5>
-             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <h5>{{'Beitretenlink für Teilnehmer'|trans}}</h5>
-             <div class="md-form input-with-post-icon">
+            <h5>{{ 'Beitretenlink für Teilnehmer'|trans }}</h5>
+            <div class="md-form input-with-post-icon">
 
-             </div>
+            </div>
 
             <div class="input-group mb-3">
-                <input id="linkPart" readonly type="text" class="form-control" value="{{httpsAbolutUrl(path('own_room_startPage',{'uid':room.uid})) }}">
+                <input id="linkPart" readonly type="text" class="form-control"
+                       value="{{ httpsAbolutUrl(path('own_room_startPage',{'uid':room.uid})) }}">
 
-                    <button class="btn btn-md btn-outline-primary waves-effect copyLink" type="button"  data-clipboard-target="#linkPart" >   <i class="far fa-clipboard"></i></button>
+                <button class="btn btn-md btn-outline-primary waves-effect copyLink" type="button"
+                        data-clipboard-target="#linkPart"><i class="far fa-clipboard"></i></button>
 
             </div>
-            {%  if room.lobby %}
-        <div class="row">
+            {% if room.lobby %}
+                <div class="row">
 
-            <div class="col-lg-12">
-                <p>{{ 'openRoom.addParticipants.help'|trans }}</p>
-                <a href="{{ path('room_add_user',{'room':room.id}) }}"
-                   class=" element btn btn-outline-default loadContent"><i class="fas fa-plus"></i> {{ 'Teilnehmer'|trans }}</a>
-            </div>
-        </div>
+                    <div class="col-lg-12">
+                        <p>{{ 'openRoom.addParticipants.help'|trans }}</p>
+                        <a href="{{ path('room_add_user',{'room':room.id}) }}"
+                           class=" element btn btn-outline-default loadContent"><i
+                                    class="fas fa-plus"></i> {{ 'Teilnehmer'|trans }}</a>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </div>

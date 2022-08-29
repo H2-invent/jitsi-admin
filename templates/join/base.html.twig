@@ -187,7 +187,8 @@
     var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
     var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
     var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
-    var websocketUrl ="{{ getUrlforWebsocket() }}";
+    var websocketTopics = "{{ getJwtforWebsocket([],app.user) }}";
+    var websocketUrl = "{{ getUrlforWebsocket() }}";
 
     {% if app.request is not null and app.request.cookies.get('DARK_MODE') =="" %}
 

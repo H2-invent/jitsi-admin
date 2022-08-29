@@ -11,6 +11,7 @@ import {refreshDashboard} from './refreshDashboard';
 
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
 import {close} from './moderatorIframe'
+
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 
@@ -30,7 +31,7 @@ function masterNotify(data) {
     } else if (data.type === 'modal') {
         loadModal(data)
     } else if (data.type === 'redirect') {
-        redirect(data)
+        redirect(data);
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message, data.color)
     } else if (data.type === 'newJitsi') {
@@ -82,15 +83,21 @@ function refresh(data) {
     });
 }
 
+/*
+wenn ein Meeting komplett durch den Moderator beendet wird:
+Sende ein loadModal an alle teilnehmer mit der INformation warum es geshclossenwird
+sende ein End-Meeting an alle Teilneher.
+ in der Funktion der Teilnehmer wird nochmal ein hangup ausglöst und somit die Konferenz aufgelegt.
+*/
 function endMeeting(data) {
-    window.onbeforeunload = null;
-    if (window.opener == null) {
+    window.onbeforeunload = null;//setze die Anchfrage ob das Ffenster geshclossen werden soll
+    if (window.opener == null) {// wenn der aufrufende Tab nicht mehr geöffnet ist  dann
         setTimeout(function () {
-            close();
-            window.location.href = data.url;
+            close();//schließe das Fenster wenn es ein Iframe ist
+            window.location.href = data.url;// leite weiter an die Url in dem Comand
         }, data.timeout)
     } else {
-        setTimeout(function () {
+        setTimeout(function () {// schließe das Fenster nach ein bestimmten Zeit
             close();
             window.close();
         }, data.timeout)

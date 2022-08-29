@@ -6,6 +6,7 @@ use App\Entity\Checklist;
 use App\Entity\MyUser;
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\User;
 use App\Service\LicenseService;
 use App\Service\MessageService;
 use App\Service\ThemeService;
@@ -44,8 +45,9 @@ class WebsocketJwt extends AbstractExtension
         ];
     }
 
-    public function getJwtforWebsocket($rooms, $userId)
+    public function getJwtforWebsocket($rooms, ?User $user)
     {
+        $userId = $user?$user->getUid():null;
         return $this->websocketJwtService->createJwt($rooms, $userId);
     }
 

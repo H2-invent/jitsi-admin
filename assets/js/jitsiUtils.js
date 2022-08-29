@@ -4,7 +4,7 @@
  */
 
 import $ from 'jquery';
-import {close} from './moderatorIframe'
+import {closeIframe} from "./lobbyModerator";
 
 import('bootstrap');
 import('popper.js');
@@ -133,7 +133,7 @@ function askHangup() {
                 btnClass: 'btn-danger btn', // class for the button
                 action: function () {
                     api.executeCommand('hangup');
-                    close()
+                    closeIframe();
                 },
             },killAll: {
                 text: endMeetingText, // text for button
@@ -141,7 +141,7 @@ function askHangup() {
                 action: function () {
                     endMeeting();
                     $.getJSON(endMeetingUrl);
-                    close()
+                    closeIframe();
                 },
             },
 

@@ -70,6 +70,7 @@
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
         var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
         var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
+        var closeTabText =  '{{ 'ask.tab.close'|trans }}';
         const domain = '{{ room.server.url }}';
         const options = {
             roomName: '{{ room.uid }}',
@@ -99,67 +100,10 @@
         var conferenzeName = '{{ room.name }}';
         var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-
-        api = new JitsiMeetExternalAPI(domain, options);
-
-        api.addListener('chatUpdated', function (e) {
-            if(e.isOpen == true){
-                document.querySelector('#logo_image').classList.add('transparent');
-            }else {
-                document.querySelector('#logo_image').classList.remove('transparent');
-            }
-
-        });
-
-        api.addListener('videoConferenceJoined', function (e) {
-            if (setTileview === 1) {
-                api.executeCommand('setTileView', {enabled: true});
-            }
-            if (avatarUrl !== '') {
-                api.executeCommand('avatarUrl', avatarUrl);
-            }
-            if (setParticipantsPane === 1) {
-                api.executeCommand('toggleParticipantsPane', {enabled: true});
-            }
-        })
-        var iframe = document.querySelector('#jitsiConferenceFrame0');
-        iframe.style.height = '100%';
-
-        window.addEventListener('message', function (e) {
-            // add here more commands up to now only close is defined.
-            const data = e.data;
-            const decoded = JSON.parse(data);
-            if (decoded.type === 'close'){
-                console.log('we are asked to close');
-                if (api){
-                    api.executeCommand('hangup')
-                }
-                frameId = decoded.frameId;
-                const message = JSON.stringify({
-                    type: 'close',
-                    frameId: frameId
-                });
-                window.parent.postMessage(message, '*');
-            }else if(decoded.type === 'init'){
-                frameId = decoded.frameId;
-            }
-        });
+        var websocketTopics = "{{ getJwtforWebsocket([],app.user) }}";
+        var websocketUrl = "{{ getUrlforWebsocket() }}";
     </script>
-
-    <script type="text/javascript">
-        window.onbeforeunload = function (e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return '{{ 'ask.tab.close'|trans }}';
-        }
-        window.onmessage = function (event) {
-            if (event.data === "jitsi-closed") {
-                window.onbeforeunload = null;
-                window.close();
-            }
-        };
-    </script>
-
+    {{ encore_entry_script_tags('onlyConference') }}
 
 {% endif %}
 
