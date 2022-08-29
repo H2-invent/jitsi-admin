@@ -8,7 +8,7 @@ class User {
     awayTimer = null;
     sockets = [];
     inMeeting = [];
-    offline = false;
+    offline = true;
     constructor(userId, socket, status) {
         this.sockets.push(socket);
         this.status = status;

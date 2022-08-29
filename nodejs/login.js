@@ -4,6 +4,7 @@ import {User} from "./User.js";
 let user = {};
 
 export function loginUser(socket) {
+    console.log('loginUser');
     if (jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET)) {
         var userId = getUserId(socket);
 

@@ -16,9 +16,6 @@ export function websocketState(event, socket, message) {
         case 'getStatus':
             socket.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             break;
-        case 'inWindow':
-            socket.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
-            break;
         case 'stillOnline':
             stillOnline(socket);
             break;

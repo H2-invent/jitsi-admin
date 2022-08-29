@@ -1,8 +1,10 @@
 import {sendViaWebsocket} from "./websocket";
 
-let status = document.getElementById('onlineSelector') ? document.getElementById('onlineSelector').dataset.status : null;
-
+var status ;
+var login = true;
 export function initStatus() {
+    status = document.getElementById('onlineSelector') ? document.getElementById('onlineSelector').dataset.status : null;
+
     if (status) {
         $('.changeStatus').click(function (e) {
             e.preventDefault();
@@ -16,15 +18,8 @@ export function initStatus() {
             status = this.dataset.status;
             setStatus();
         })
+        getStatus();
     }
-    document.addEventListener('visibilitychange', function (event) {
-        if (document.hidden) {
-            sendViaWebsocket('inWindow');
-        }
-    });
-    setInterval(function () {
-        sendViaWebsocket('inWindow');
-    }, 60000);
 
 }
 
@@ -32,10 +27,11 @@ export function setStatus() {
     if (status) {
         sendViaWebsocket('setStatus', status);
     }
-
 }
 
 export function showOnlineUsers(data) {
+    status = document.getElementById('onlineSelector') ? document.getElementById('onlineSelector').dataset.status : null;
+
     if (status) {
         var $adressbookLine = Array.prototype.slice.call(document.querySelectorAll('.adressbookline'));
         var setMe = false;
@@ -59,11 +55,11 @@ export function showOnlineUsers(data) {
         for (var k in $adressbookLine) {
             $adressbookLine[k].dataset.status = 'offline'
         }
-        if (!setMe) {
+        if (login){
+            login = false;
             setStatus();
         }
     }
-
 }
 
 export function getStatus() {

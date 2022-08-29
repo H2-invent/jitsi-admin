@@ -1,11 +1,11 @@
 import {io} from "socket.io/client-dist/socket.io";
-import {getStatus, setStatus, showOnlineUsers} from "./onlineStatus";
+import {getStatus, initStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 
 export var socket = null;
 export var token = null;
-
+var hidden, visibilityChange;
 
 export function initWebsocket(jwt) {
     token = jwt;
@@ -16,18 +16,14 @@ export function initWebsocket(jwt) {
         masterNotify(JSON.parse(data));
     })
 
-    var hidden, visibilityChange;
+
 
     if (!inIframe()) {
         socket.on('connect', function (data) {
-            if (!inIframe()) {
-                getStatus();
-            }
+                initStatus();
         });
         socket.on('sendOnlineUser', function (data) {
-            if (!inIframe()) {
                 showOnlineUsers(JSON.parse(data))
-            }
         })
         if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
             hidden = "hidden";
@@ -40,14 +36,7 @@ export function initWebsocket(jwt) {
             visibilityChange = "webkitvisibilitychange";
         }
 
-        function handleVisibilityChange() {
-            if (document[hidden]) {
-            } else {
-                if (!inIframe()) {
-                    sendViaWebsocket('stillOnline');
-                }
-            }
-        }
+
 
         if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
             console.log(" requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
@@ -59,17 +48,21 @@ export function initWebsocket(jwt) {
             handleVisibilityChange();
         }, 60000)
     }
-
 }
 
-export function sendViaWebsocket(event, message) {
-    socket.emit(event, message);
+function handleVisibilityChange() {
+    if (document[hidden]) {
+    } else {
+            sendViaWebsocket('stillOnline');
+    }
 }
-
 export function enterMeeting() {
     sendViaWebsocket('enterMeeting');
 }
 
 export function leaveMeeting() {
     sendViaWebsocket('leaveMeeting',);
+}
+export function sendViaWebsocket(event, message) {
+    socket.emit(event, message);
 }

@@ -20,7 +20,6 @@ function initGenerell() {
     Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
-    initStatus();
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
