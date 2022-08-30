@@ -132,12 +132,14 @@ function initJitsiMeet(data) {
         }
 
     });
-    api.addListener('videoConferenceLeft', function (e) {
-        leaveMeeting();
-    });
 
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
+        api.addListener('videoConferenceLeft', function (e) {
+            leaveMeeting();
+            close();
+        });
+
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});
         }
