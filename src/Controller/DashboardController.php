@@ -51,7 +51,7 @@ class DashboardController extends JitsiAdminController
      */
     public function index(Request $request)
     {
-        if ($this->getUser() || $this->themeService->getApplicationProperties('laF_startpage') == false) {
+        if ($this->getUser() || $this->themeService->getApplicationProperties('laF_startpage') == 0) {
             return $this->redirectToRoute('dashboard');
         };
 

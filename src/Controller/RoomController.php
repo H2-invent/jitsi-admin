@@ -102,6 +102,14 @@ class RoomController extends JitsiAdminController
                 if (sizeof($error) > 0) {
                     return new JsonResponse(array('error' => true, 'messages' => $error));
                 }
+                if ($room->getPersistantRoom()){
+                    $room->setStart(null);
+                    $room->setStartUtc(null);
+                    $room->setStartTimestamp(null);
+                    $room->setEnddate(null);
+                    $room->setEndDateUtc(null);
+                    $room->setEndTimestamp(null);
+                }
                 $em = $this->doctrine->getManager();
                 $em->persist($room);
                 $em->flush();
@@ -184,6 +192,12 @@ class RoomController extends JitsiAdminController
 
         $roomOld = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         $room = clone $roomOld;
+        $room->setStart(null);
+        $room->setStartUtc(null);
+        $room->setStartTimestamp(null);
+        $room->setEnddate(null);
+        $room->setEndDateUtc(null);
+        $room->setEndTimestamp(null);
         $room = $roomGeneratorService->createCallerId($room);
         // here we clean all the scheduls from the old room
         foreach ($room->getSchedulings() as $data) {
