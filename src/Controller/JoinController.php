@@ -76,7 +76,7 @@ class JoinController extends JitsiAdminController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //here is where the magic happens
-            $res = $this->joinService->join($form->getData(), $snack, $color, $form->has('joinApp'), $form->get('joinApp')->isClicked(), $form->has('joinBrowser'), $form->get('joinBrowser')->isClicked());
+            $res = $this->joinService->join($form->getData(), $snack, $color, $form->has('joinApp'), $form->has('joinApp')?$form->get('joinApp')->isClicked():null, $form->has('joinBrowser'), $form->has('joinBrowser')?$form->get('joinBrowser')->isClicked():null);
             if ($res) {
                 return $res;
             }
