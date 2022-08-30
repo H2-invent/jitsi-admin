@@ -108,7 +108,7 @@ function initJitsiMeet(data) {
         return '';
     }
     $('body').prepend('<div id="frame"></div>');
-enterMeeting();
+
     var frameDIv = $('#frame');
     $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($(data.options.parentNode));
@@ -132,7 +132,12 @@ enterMeeting();
         }
 
     });
+    api.addListener('videoConferenceLeft', function (e) {
+        leaveMeeting();
+    });
+
     api.addListener('videoConferenceJoined', function (e) {
+        enterMeeting();
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});
         }

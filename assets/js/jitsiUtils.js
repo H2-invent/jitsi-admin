@@ -5,6 +5,7 @@
 
 import $ from 'jquery';
 import {closeIframe} from "./lobbyModerator";
+import {enterMeeting, leaveMeeting} from "./websocket";
 
 import('bootstrap');
 import('popper.js');
@@ -58,7 +59,12 @@ function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId
         }
 
     });
+    api.addListener('videoConferenceLeft', function (e) {
+        leaveMeeting();
+    });
+
     api.addListener('videoConferenceJoined', function (e) {
+        enterMeeting();
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             var url = $(this).prop('href');

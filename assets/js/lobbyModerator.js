@@ -78,7 +78,6 @@ $('.startIframe').click(function (e) {
         return '';
     }
     initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel, toggle, webcamArr[choosenId], micArr[micId]);
-    enterMeeting();
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
     initDragDragger();
