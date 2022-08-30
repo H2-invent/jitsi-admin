@@ -55,7 +55,7 @@
                 <li class="nav-item d-none d-xl-block ">
                     <a class="nav-link" href="#" {% if time is defined%} data-mdb-toggle="tooltip" title="{{ 'common.loadingTime'|trans }}: {{ time/1000 }}s" {%endif%}>{{ 'now'|date('Y') }} • v{{ laf_version }}</a>
                 </li>
-                {% if matomo_enable == 'true' %}
+                {% if matomo_enable == '1' %}
                     <li class="nav-item">
                         <!-- Button trigger modal -->
                         <a class="nav-link" href="#" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
