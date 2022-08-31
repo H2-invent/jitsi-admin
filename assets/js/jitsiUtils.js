@@ -6,6 +6,7 @@
 import $ from 'jquery';
 import {closeIframe} from "./lobbyModerator";
 import {enterMeeting, leaveMeeting} from "./websocket";
+import {initStarSend} from "./endModal";
 
 import('bootstrap');
 import('popper.js');
@@ -20,7 +21,8 @@ var cancel = "Abbrechen";
 var ok = "OK";
 var microphoneLabel = null;
 var cameraLable = null;
-function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId) {
+
+function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
     ok = okL;
@@ -59,12 +61,13 @@ function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId
         }
 
     });
-    api.addListener('videoConferenceLeft', function (e) {
-        leaveMeeting();
-    });
 
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
+        api.addListener('videoConferenceLeft', function (e) {
+            leaveMeeting();
+            initStarSend();
+        });
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             var url = $(this).prop('href');
@@ -109,7 +112,6 @@ function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId
         swithCameraOn(videoOn);
 
 
-
         $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
 
 
@@ -126,11 +128,11 @@ function endMeeting() {
 }
 
 function askHangup() {
-    if (!api){
+    if (!api) {
         return false;
     }
     $.confirm({
-        title:null,
+        title: null,
         content: hangupQuestion,
         theme: 'material',
         buttons: {
@@ -139,15 +141,14 @@ function askHangup() {
                 btnClass: 'btn-danger btn', // class for the button
                 action: function () {
                     api.executeCommand('hangup');
-                    closeIframe();
                 },
-            },killAll: {
+            }, killAll: {
                 text: endMeetingText, // text for button
                 btnClass: 'btn-danger btn', // class for the button
                 action: function () {
                     endMeeting();
                     $.getJSON(endMeetingUrl);
-                    closeIframe();
+                    api.executeCommand('hangup');
                 },
             },
 
@@ -169,21 +170,22 @@ function renewPartList() {
 }
 
 function swithCameraOn(videoOn) {
-    if (videoOn === 1){
+    if (videoOn === 1) {
         var muted =
             api.isVideoMuted().then(muted => {
                 console.log(muted)
-                if (muted){
+                if (muted) {
                     api.executeCommand('toggleVideo');
                 }
             });
-    }else {
+    } else {
         api.isVideoMuted().then(muted => {
-            if (!muted){
+            if (!muted) {
                 api.executeCommand('toggleVideo');
             }
 
         });
     }
 }
+
 export {initJitsi, hangup, askHangup}

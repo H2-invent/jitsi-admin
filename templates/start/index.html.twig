@@ -10,8 +10,21 @@
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {{ encore_entry_link_tags('join') }}
+    {% set theme =  getThemeProperties() %}
+    {% if theme is defined and theme != false %}
+    <style>
+        .blackMode.joinPage .modal-backdrop {
+            background-image: radial-gradient({{ theme.colorButton }}, black);
+        }
+
+        .joinPage .modal-backdrop {
+            background-image: radial-gradient({{ theme.colorButton }}, white);
+        }
+    </style>
+    {% endif %}
 </head>
-<body style="margin: 0">
+<body style="margin: 0" class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+    blackMode{% endif %} joinPage">
 
 {%set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
@@ -107,4 +120,14 @@
 
 {% endif %}
 
+<div class="modal fade" id="loadContentModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="loadContentModal"
+     aria-hidden="true">
+</div>
+
+<div class="modal fade" id="endMeetingModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="loadContentModal"
+     aria-hidden="true">
+    {% include 'conference_end/__rating.html.twig' with {'room':room} %}
+</div>
 </html>

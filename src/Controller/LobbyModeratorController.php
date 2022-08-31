@@ -184,11 +184,6 @@ class LobbyModeratorController extends JitsiAdminController
         if ($room) {
             if ($this->checkLobbyPermissionService->checkPermissions($room, $this->getSessionUser($request->getSession()))) {
                 $lobbyUtils->cleanLobby($room);
-                $this->directSend->sendModal(
-                    'lobby_broadcast_websocket/' . $room->getUidReal(),
-                    $this->renderView('lobby_participants/endMeeting.html.twig', array('url' => $this->generateUrl('index')))
-                );
-
                 $this->directSend->sendEndMeeting(
                     'lobby_broadcast_websocket/' . $room->getUidReal(),
                     $this->generateUrl('index'),

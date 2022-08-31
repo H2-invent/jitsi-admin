@@ -17,6 +17,7 @@ import {initGenerell} from './init';
 import {enterMeeting, leaveMeeting, socket} from './websocket';
 import {initModeratorIframe, close, inIframe} from './moderatorIframe'
 import {askHangup} from "./jitsiUtils";
+import {initStarSend} from "./endModal";
 initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
@@ -42,9 +43,6 @@ function initMercure() {
         var data = JSON.parse(inData)
         if (data.type === 'newJitsi') {
             userAccepted(data);
-        } else if (data.type === 'endMeeting') {
-            hangup()
-            $('#jitsiWindow').remove();
         } else if (data.type === 'redirect') {
 
         }
@@ -137,11 +135,8 @@ function initJitsiMeet(data) {
             return '';
         }
         api.addListener('videoConferenceLeft', function (e) {
-            window.onbeforeunload =null;
             leaveMeeting();
-            if(inIframe()){
-                close();
-            }
+            initStarSend();
         });
 
         if (setTileview === 1) {
@@ -159,19 +154,14 @@ function initJitsiMeet(data) {
             swithCameraOn(toggle);
         });
         swithCameraOn(toggle);
-    });
+
 
 
     api.addListener('participantKickedOut', function (e) {
-
-        $('#jitsiWindow').remove();
-        masterNotify({'type': 'modal', 'content': endModal});
-        setTimeout(function () {
-            masterNotify({'type': 'endMeeting', 'url': '/'});
-        }, popUpDuration)
-
+        console.log(e);
     });
 
+});
 
 
     $(data.options.parentNode).find('iframe').css('height', '100%');

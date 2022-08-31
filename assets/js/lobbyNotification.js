@@ -11,6 +11,7 @@ import {refreshDashboard} from './refreshDashboard';
 
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
 import {close} from './moderatorIframe'
+import {initStarSend} from "./endModal";
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
@@ -90,18 +91,7 @@ sende ein End-Meeting an alle Teilneher.
  in der Funktion der Teilnehmer wird nochmal ein hangup ausglöst und somit die Konferenz aufgelegt.
 */
 function endMeeting(data) {
-    window.onbeforeunload = null;//setze die Anchfrage ob das Ffenster geshclossen werden soll
-    if (window.opener == null) {// wenn der aufrufende Tab nicht mehr geöffnet ist  dann
-        setTimeout(function () {
-            close();//schließe das Fenster wenn es ein Iframe ist
-            window.location.href = data.url;// leite weiter an die Url in dem Comand
-        }, data.timeout)
-    } else {
-        setTimeout(function () {// schließe das Fenster nach ein bestimmten Zeit
-            close();
-            window.close();
-        }, data.timeout)
-    }
+    initStarSend();
 }
 
 function loadModal(data) {

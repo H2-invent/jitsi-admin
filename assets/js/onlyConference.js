@@ -1,7 +1,8 @@
 import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
 import {echoOff} from "./audioUtils";
 import {stopWebcam} from "./cameraUtils";
-import {close, initModeratorIframe} from "./moderatorIframe";
+import {close, inIframe, initModeratorIframe} from "./moderatorIframe";
+import {initStarSend} from "./endModal";
 
 var frameId;
 var api = new JitsiMeetExternalAPI(domain, options);
@@ -25,8 +26,7 @@ api.addListener('videoConferenceJoined', function (e) {
     }
     api.addListener('videoConferenceLeft', function (e) {
         leaveMeeting();
-        close();
-        window.onbeforeunload = null;
+        initStarSend();
     });
 
     if (setTileview === 1) {
@@ -62,7 +62,6 @@ window.addEventListener('message', function (e) {
         frameId = decoded.frameId;
     }
 });
-
 
 
 window.onmessage = function (event) {
