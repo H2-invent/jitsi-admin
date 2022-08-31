@@ -15,7 +15,7 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {enterMeeting, leaveMeeting, socket} from './websocket';
-import {initModeratorIframe,close} from './moderatorIframe'
+import {initModeratorIframe, close, inIframe} from './moderatorIframe'
 import {askHangup} from "./jitsiUtils";
 initNotofication();
 
@@ -104,9 +104,7 @@ function initJitsiMeet(data) {
     stopWebcam();
     echoOff();
     window.onbeforeunload = null;
-    window.onbeforeunload = function (e) {
-        return '';
-    }
+
     $('body').prepend('<div id="frame"></div>');
 
     var frameDIv = $('#frame');
@@ -135,9 +133,15 @@ function initJitsiMeet(data) {
 
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
+        window.onbeforeunload = function (e) {
+            return '';
+        }
         api.addListener('videoConferenceLeft', function (e) {
+            window.onbeforeunload =null;
             leaveMeeting();
-            close();
+            if(inIframe()){
+                close();
+            }
         });
 
         if (setTileview === 1) {

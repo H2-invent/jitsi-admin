@@ -29,7 +29,7 @@ final class Version20220823112737 extends AbstractMigration
     {
         if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
             // this down() migration is auto-generated, please modify it to your needs
-            $this->addSql('CREATE SCHEMA public');
+
             $this->addSql('ALTER TABLE fos_user DROP online_status');
         }
     }

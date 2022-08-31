@@ -18,9 +18,15 @@ api.addListener('chatUpdated', function (e) {
 
 api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return closeTabText;
+    }
     api.addListener('videoConferenceLeft', function (e) {
         leaveMeeting();
         close();
+        window.onbeforeunload = null;
     });
 
     if (setTileview === 1) {
@@ -58,11 +64,7 @@ window.addEventListener('message', function (e) {
 });
 
 
-window.onbeforeunload = function (e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    return closeTabText;
-}
+
 window.onmessage = function (event) {
     if (event.data === "jitsi-closed") {
         window.onbeforeunload = null;

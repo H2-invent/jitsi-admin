@@ -30,7 +30,6 @@ final class Version20220814142423 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
-            $this->addSql('CREATE SCHEMA public');
             $this->addSql('ALTER TABLE star DROP browser');
             $this->addSql('ALTER TABLE star DROP os');
         }
