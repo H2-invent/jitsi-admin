@@ -6,13 +6,22 @@ import {
     enterMeeting,
     leaveMeeting,
     getUserStatus,
-    getUserFromSocket
+    getUserFromSocket, disconnectUser, checkEmptySockets
 } from './login.js'
 import {io} from './websocket.js'
 
 export function websocketState(event, socket, message) {
 
     switch (event) {
+        case 'disconnect':
+            disconnectUser(socket);
+            setTimeout(function () {
+                if (checkEmptySockets()) {
+                    io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+                }
+            }, 7000);
+            sendStatus(socket);
+            break;
         case 'login':
             loginUser(socket);
             io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
@@ -45,12 +54,12 @@ export function websocketState(event, socket, message) {
             break;
     }
 }
+
 function sendStatus(socket) {
     var user = getUserFromSocket(socket)
-    for (var prop in user.getSockets()){
+    for (var prop in user.getSockets()) {
         var tmpSocket = user.getSockets()[prop];
         tmpSocket.emit('sendUserStatus', getUserStatus(tmpSocket));
     }
-    sendStatus(socket);
     io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
 }
