@@ -64,10 +64,12 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
+
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
         });
+
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             var url = $(this).prop('href');

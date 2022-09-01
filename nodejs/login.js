@@ -9,7 +9,7 @@ export function loginUser(socket) {
         var userId = getUserId(socket);
 
         if (typeof user[userId] === 'undefined') {
-            console.log('add User');
+            console.log('add new User');
             user[userId] = new User(userId, socket, 'online');
         } else {
             user[userId].addSocket(socket);
@@ -43,6 +43,7 @@ export function checkEmptySockets() {
 export function setStatus(socket, status) {
     var userId = getUserId(socket);
     user[userId].setStatus(status);
+    return user[userId];
 }
 
 export function stillOnline(socket) {
@@ -80,9 +81,18 @@ export function getOnlineUSer() {
     }
     return tmpUser;
 }
+export function getUserStatus(socket){
+    if (user[getUserId(socket)]) {
+        return user[getUserId(socket)].getStatus();
+    }
+}
 
 function getUserId(socket) {
     var jwtObj = jwt.decode(socket.handshake.query.token);
     var userId = jwtObj.sub
     return userId;
+}
+export function getUserFromSocket(socket){
+    var userId = getUserId(socket);
+    return user[userId]?user[userId]:null;
 }

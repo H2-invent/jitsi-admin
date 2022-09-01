@@ -1,5 +1,5 @@
 import {io} from "socket.io/client-dist/socket.io";
-import {getStatus, initStatus, setStatus, showOnlineUsers} from "./onlineStatus";
+import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 
@@ -24,6 +24,14 @@ export function initWebsocket(jwt) {
         });
         socket.on('sendOnlineUser', function (data) {
                 showOnlineUsers(JSON.parse(data))
+        })
+        socket.on('sendUserStatus', function (data) {
+            if (!data){
+                setStatus();
+            }else {
+                setMyStatus(data);
+                sendViaWebsocket('login');
+            }
         })
         if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
             hidden = "hidden";
