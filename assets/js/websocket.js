@@ -6,7 +6,7 @@ import {inIframe} from "./moderatorIframe";
 export var socket = null;
 export var token = null;
 var hidden, visibilityChange;
-
+var login = true;
 export function initWebsocket(jwt) {
     token = jwt;
     socket = io(websocketUrl, {
@@ -28,9 +28,13 @@ export function initWebsocket(jwt) {
         socket.on('sendUserStatus', function (data) {
             if (!data){
                 setStatus();
+                login = false;
             }else {
                 setMyStatus(data);
-                sendViaWebsocket('login');
+                if (login){
+                    sendViaWebsocket('login');
+                    login = false;
+                }
             }
         })
         if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support

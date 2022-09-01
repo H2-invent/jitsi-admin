@@ -39,14 +39,7 @@ io.on("connection", async (socket) => {
     }
 
     socket.on('disconnect', function () {
-        disconnectUser(socket);
-        setTimeout(function () {
-            if (checkEmptySockets()) {
-                io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
-            }
-
-        }, 7000);
-
+        websocketState('disconnect', socket, null);
     })
 
     socket.onAny(function (event, data) {

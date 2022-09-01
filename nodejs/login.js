@@ -20,7 +20,6 @@ export function loginUser(socket) {
 
 export function disconnectUser(socket) {
     console.log('remove User');
-
     var userId = getUserId(socket);
     leaveMeeting(socket);
     if(user[userId]){

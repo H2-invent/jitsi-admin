@@ -22,11 +22,10 @@ export function websocketState(event, socket, message) {
             }, 7000);
             sendStatus(socket);
             break;
-        case 'login':
+        case 'login'://fügt den SOcket zu dem USer hinzu. Schickt keine Benachrichtigungen an die anderen Clients
             loginUser(socket);
-            io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
             break;
-        case 'setStatus':
+        case 'setStatus'://setzt den Status und informiert alle Clients, das sich der Status geändert hat
             loginUser(socket);
             var tmp = setStatus(socket, message);
             sendStatus(socket);
