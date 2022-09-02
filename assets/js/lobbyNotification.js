@@ -1,5 +1,5 @@
 import $ from 'jquery';
-
+import * as mdb from 'mdb-ui-kit'; // lib
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initCircle} from './initCircle'
@@ -75,6 +75,10 @@ function refresh(data) {
     var reloadUrl = data.reloadUrl;
 
     $('#waitingUserWrapper').load(reloadUrl, function () {
+        const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
+        for (var prop in exampleEl){
+            const popover = new mdb.Popover(exampleEl[prop])
+        }
         if (!$('#sliderTop').hasClass('notification')) {
             $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
         }

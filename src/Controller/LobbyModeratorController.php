@@ -95,7 +95,7 @@ class LobbyModeratorController extends JitsiAdminController
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wUid));
         if (!$lobbyUser) {
-            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
+            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.participant.notInLobby'), 'color' => 'warning'));
         }
         $room = $lobbyUser->getRoom();
         if (!$this->checkLobbyPermissionService->checkPermissions($room, $this->getSessionUser($request->getSession()))) {
@@ -148,7 +148,7 @@ class LobbyModeratorController extends JitsiAdminController
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wUid));
         if (!$lobbyUser) {
-            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.error'), 'color' => 'danger'));
+            return new JsonResponse(array('error' => false, 'message' => $this->translator->trans('lobby.participant.notInLobby'), 'color' => 'danger'));
         }
         $room = $lobbyUser->getRoom();
         if (!$this->checkLobbyPermissionService->checkPermissions($room, $this->getSessionUser($request->getSession()))) {
