@@ -56,9 +56,11 @@ export function websocketState(event, socket, message) {
 
 function sendStatus(socket) {
     var user = getUserFromSocket(socket)
-    for (var prop in user.getSockets()) {
-        var tmpSocket = user.getSockets()[prop];
-        tmpSocket.emit('sendUserStatus', getUserStatus(tmpSocket));
+    if (user){
+        for (var prop in user.getSockets()) {
+            var tmpSocket = user.getSockets()[prop];
+            tmpSocket.emit('sendUserStatus', getUserStatus(tmpSocket));
+        }
     }
     io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
 }
