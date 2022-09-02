@@ -36,6 +36,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.participantsName', $session->getLobbyWaitingUser()->getShowName());
         $this->assertSelectorTextContains('.callerId', $session->getCallerId());
         $this->assertSelectorNotExists('.callerVerified');
+        $this->assertSelectorExists('.callerNotVerified');
     }
     public function testCallerLobbyVerified(): void
     {
@@ -64,4 +65,6 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.callerId', $session->getCallerId());
         $this->assertSelectorExists('.callerVerified');
     }
+
+
 }

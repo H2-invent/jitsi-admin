@@ -42,6 +42,8 @@
                                 class="fa fa-phone text-success"></i> {{ wU.callerSession.callerId }}</div>
                     {% if wU.callerSession.callerIdVerified %}
                         <span class="callerVerified badge badge-success">{{ 'lobby.verified'|trans }}</span>
+                    {% else %}
+                        <span class="callerNotVerified badge badge-danger"><i class="fa-solid fa-bolt text-warning"></i>{{ 'lobby.notVerified'|trans }}</span>
                     {% endif %}
                 {% endif %}
             </div>

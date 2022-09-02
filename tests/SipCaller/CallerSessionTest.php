@@ -562,7 +562,8 @@ class CallerSessionTest extends KernelTestCase
                 'links' => array(
                     'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
                     'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
-                )
+                ),
+                'room_name' => $room->getUid()
             )
             , $sessionService->getSessionStatus($session->getSessionId()));
     }
