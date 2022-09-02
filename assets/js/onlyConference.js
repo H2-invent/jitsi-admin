@@ -3,6 +3,7 @@ import {echoOff} from "./audioUtils";
 import {stopWebcam} from "./cameraUtils";
 import {close, inIframe, initModeratorIframe} from "./moderatorIframe";
 import {initStarSend} from "./endModal";
+import {initStartWhiteboard} from "./startWhiteboard";
 
 var frameId;
 var api = new JitsiMeetExternalAPI(domain, options);
@@ -19,6 +20,7 @@ api.addListener('chatUpdated', function (e) {
 
 api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
+    initStartWhiteboard();
     window.onbeforeunload = function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();

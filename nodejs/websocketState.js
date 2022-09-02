@@ -47,6 +47,9 @@ export function websocketState(event, socket, message) {
             leaveMeeting(socket);
             sendStatus(socket);
             break;
+        case 'openNewIframe':
+            sendNewIframe(socket, message)
+            break;
         default:
             console.log(event);
             console.log('not known')
@@ -56,11 +59,21 @@ export function websocketState(event, socket, message) {
 
 function sendStatus(socket) {
     var user = getUserFromSocket(socket)
-    if (user){
+    if (user) {
         for (var prop in user.getSockets()) {
             var tmpSocket = user.getSockets()[prop];
             tmpSocket.emit('sendUserStatus', getUserStatus(tmpSocket));
         }
     }
     io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+}
+
+function sendNewIframe(socket, data) {
+    var message = JSON.parse(data);
+    socket.to(message.room).emit('openNewIframe', JSON.stringify({
+                url: message.url,
+                title: message.title
+            }
+        )
+    )
 }

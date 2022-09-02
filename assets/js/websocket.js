@@ -16,7 +16,15 @@ export function initWebsocket(jwt) {
         masterNotify(JSON.parse(data));
     })
 
-
+    socket.on('openNewIframe',function (data) {
+        data = JSON.parse(data);
+        const parentMessage = JSON.stringify({
+            type: 'openNewIframe',
+            url: data.url,
+            'title': data.title
+        });
+        window.parent.postMessage(parentMessage, '*');
+    })
 
     if (!inIframe()) {
         socket.on('connect', function (data) {
@@ -37,6 +45,7 @@ export function initWebsocket(jwt) {
                 }
             }
         })
+
         if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
             hidden = "hidden";
             visibilityChange = "visibilitychange";

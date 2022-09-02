@@ -25,7 +25,7 @@ function initStartIframe() {
     });
 }
 
-function createIframe(url, title) {
+function createIframe(url, title, closeIntelligent = true) {
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
     counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
@@ -55,10 +55,14 @@ function createIframe(url, title) {
     document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
-        var id = e.currentTarget.dataset.id;
-        sendCommand(id, {type: 'pleaseClose'})
-
+        if (closeIntelligent) {
+            var id = e.currentTarget.dataset.id;
+            sendCommand(id, {type: 'pleaseClose'})
+        } else {
+            closeIframe('jitsiadminiframe' + random);
+        }
     })
+
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
         if (e.currentTarget.dataset.maximal === "0") {
@@ -177,6 +181,8 @@ function recievecommand(data) {
         closeIframe(decoded.frameId)
         if (document.querySelectorAll('.jitsiadminiframe').length === 0) {
         }
+    } else if (type === 'openNewIframe') {
+        createIframe(decoded.url, decoded.title, false);
     }
 }
 

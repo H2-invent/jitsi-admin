@@ -49,7 +49,14 @@
         {%set logo_large = theme.logo %}
     {% endif %}
 {% endif %}
-
+{% if room.moderator == app.user %}
+<div class="startWhiteboard"
+data-moderatorurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(true) }}"
+     data-url="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(false) }}"
+data-room="whiteboard/{{ room.uidReal }}">
+    <i class="fa fa-mortar-board"></i>
+</div>
+{% endif %}
 <div id="frame">
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
@@ -113,7 +120,7 @@
         var conferenzeName = '{{ room.name }}';
         var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-        var websocketTopics = "{{ getJwtforWebsocket([],app.user) }}";
+        var websocketTopics = "{{ getJwtforWebsocket(['whiteboard/'~room.uidReal],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
     </script>
     {{ encore_entry_script_tags('onlyConference') }}

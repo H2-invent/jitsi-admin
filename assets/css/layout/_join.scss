@@ -96,3 +96,12 @@ strong {
     display: none;
   }
 }
+.startWhiteboard{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 10;
+  padding: 1rem;
+  background-color: white;
+  cursor: pointer;
+}

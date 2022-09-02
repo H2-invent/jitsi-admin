@@ -95,7 +95,7 @@ parameters:
     SIP_SHOW_ROOMNUMBER_IN_DETAILS: '%env(SIP_SHOW_ROOMNUMBER_IN_DETAILS)%'
     WEBSOCKET_SECRET: '%env(WEBSOCKET_SECRET)%'
     MERCURE_PUBLIC_URL: '%env(MERCURE_PUBLIC_URL)%'
-
+    WHITEBOARD_SECRET: '%env(WHITEBOARD_SECRET)%'
 services:
     Twig\Extension\StringLoaderExtension:
     # default configuration for services in *this* file
