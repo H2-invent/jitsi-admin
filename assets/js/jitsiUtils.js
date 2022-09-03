@@ -7,6 +7,7 @@ import $ from 'jquery';
 import {closeIframe} from "./lobbyModerator";
 import {enterMeeting, leaveMeeting} from "./websocket";
 import {initStarSend} from "./endModal";
+import {initStartWhiteboard} from "./startWhiteboard";
 
 import('bootstrap');
 import('popper.js');
@@ -64,8 +65,8 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
-
-        api.addListener('videoConferenceLeft', function (e) {
+        initStartWhiteboard();
+         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
         });

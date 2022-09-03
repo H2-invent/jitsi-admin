@@ -76,9 +76,12 @@ function refresh(data) {
 
     $('#waitingUserWrapper').load(reloadUrl, function () {
         const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
-        for (var prop in exampleEl){
-            const popover = new mdb.Popover(exampleEl[prop])
+        if (exampleEl.length > 0){
+            for (var prop in exampleEl){
+                const popover = new mdb.Popover(exampleEl[prop])
+            }
         }
+
         if (!$('#sliderTop').hasClass('notification')) {
             $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
         }

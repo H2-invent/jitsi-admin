@@ -12,51 +12,46 @@
     {{ encore_entry_link_tags('join') }}
     {% set theme =  getThemeProperties() %}
     {% if theme is defined and theme != false %}
-    <style>
-        .blackMode.joinPage .modal-backdrop {
-            background-image: radial-gradient({{ theme.colorButton }}, black);
-        }
+        <style>
+            .blackMode.joinPage .modal-backdrop {
+                background-image: radial-gradient({{ theme.colorButton }}, black);
+            }
 
-        .joinPage .modal-backdrop {
-            background-image: radial-gradient({{ theme.colorButton }}, white);
-        }
-    </style>
+            .joinPage .modal-backdrop {
+                background-image: radial-gradient({{ theme.colorButton }}, white);
+            }
+        </style>
     {% endif %}
 </head>
-<body style="margin: 0" class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+<body style="margin: 0"
+      class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
     blackMode{% endif %} joinPage">
 
-{%set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+{% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
 {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
-    {%set logo_small =  server.logoUrl %}
+    {% set logo_small =  server.logoUrl %}
 {% else %}
     {% if theme == false %}
-        {%set logo_small = httpsAbolutUrl(asset('logo_small.png'))%}
+        {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
     {% else %}
-        {%set logo_small = theme.logo %}
+        {% set logo_small = theme.logo %}
     {% endif %}
 {% endif %}
 
-{%set logo_large = httpsAbolutUrl(asset('logo.png')) %}
+{% set logo_large = httpsAbolutUrl(asset('logo.png')) %}
 
 {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
-    {%set logo_large =  server.logoUrl %}
+    {% set logo_large =  server.logoUrl %}
 {% else %}
     {% if theme == false %}
-        {%set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
+        {% set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
     {% else %}
-        {%set logo_large = theme.logo %}
+        {% set logo_large = theme.logo %}
     {% endif %}
 {% endif %}
-{% if room.moderator == app.user %}
-<div class="startWhiteboard"
-data-moderatorurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(true) }}"
-     data-url="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(false) }}"
-data-room="whiteboard/{{ room.uidReal }}">
-    <i class="fa fa-mortar-board"></i>
-</div>
-{% endif %}
+{% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
+
 <div id="frame">
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
@@ -64,10 +59,10 @@ data-room="whiteboard/{{ room.uidReal }}">
     {% endif %}
     <div class="w-100" id="jitsiWindow">
         <a href="#" id="logo_image" class="stick">
-            <img class="d-none d-sm-block" src="{{logo_small}}"
+            <img class="d-none d-sm-block" src="{{ logo_small }}"
                  alt="Logo"
                  style="height: 50px; width: auto">
-            <img class="d-block d-sm-none" src="{{logo_large}}"
+            <img class="d-block d-sm-none" src="{{ logo_large }}"
                  alt="Logo"
                  style="height: 50px; width: auto">
 
@@ -90,7 +85,7 @@ data-room="whiteboard/{{ room.uidReal }}">
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
         var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
         var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
-        var closeTabText =  '{{ 'ask.tab.close'|trans }}';
+        var closeTabText = '{{ 'ask.tab.close'|trans }}';
         const domain = '{{ room.server.url }}';
         const options = {
             roomName: '{{ room.uid }}',

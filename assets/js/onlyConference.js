@@ -53,14 +53,9 @@ window.addEventListener('message', function (e) {
         console.log('we are asked to close');
         if (api) {
             api.executeCommand('hangup')
+        }else {
+            close(frameId);
         }
-        frameId = decoded.frameId;
-        close(frameId);
-        const message = JSON.stringify({
-            type: 'closeMe',
-            frameId: frameId
-        });
-        window.parent.postMessage(message, '*');
     } else if (decoded.type === 'init') {
         frameId = decoded.frameId;
     }
@@ -87,7 +82,6 @@ function docReady(fn) {
 function checkClose() {
     api.executeCommand('hangup');
     leaveMeeting();
-    close(frameId)// sende ein SendME an das Parent-Elemen, damit das Iframe geschlossen wird
 }
 
 docReady(function () {

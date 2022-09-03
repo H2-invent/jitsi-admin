@@ -45,8 +45,8 @@ class WhiteBoardJwt extends AbstractExtension
         ];
     }
 
-    public function getJwtforWhiteboard($isModerator)
+    public function getJwtforWhiteboard(Rooms $room,$isModerator = false)
     {
-        return $this->whiteboardJwtService->createJwt($isModerator);
+        return $this->whiteboardJwtService->createJwt($room, $isModerator);
     }
 }

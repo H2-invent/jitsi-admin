@@ -22,14 +22,14 @@
                     </div>
                 {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
                     <div class="d-none d-lg-block ">
-                        <a class="btn btn-primary startIframe"
+                        <a class="btn btn-primary startIframe" data-roomname="{{ room.name }}"
                            href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
                            target="_blank">{{ 'Starten'|trans }}</a>
                     </div>
                 {% endif %}
 
                 <div class="d-block d-lg-none">
-                    <a class="btn btn-primary startIframe"
+                    <a class="btn btn-primary startIframe" data-roomname="{{ room.name }}"
                        href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
                        target="_blank">{{ 'Starten'|trans }}</a>
                 </div>
