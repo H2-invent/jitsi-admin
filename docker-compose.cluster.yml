@@ -41,6 +41,26 @@ services:
       - default
       - jitsi-admin
 
+  whiteboard-ja:
+    build: https://github.com/H2-invent/whitebophir.git
+    environment:
+      AUTH_SECRET_KEY: '${MERCURE_JWT_SECRET}'
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.rule=Host(`whiteboard.${PUBLIC_URL}`)"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.services.whiteboard-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+
+    volumes:
+      - wbo-boards:/opt/app/server-data
+
+    networks:
+      - default
+
+
   #Here is the Jitsi-Admin app
   app-ja:
     <<: *jitsi_admin_app
@@ -76,6 +96,9 @@ services:
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
       VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+      LAF_WHITEBOARD_FUNCTION: 0
+      WHITEBOARD_URL:  ${HTTP_METHOD}://whiteboard.${PUBLIC_URL}
+      WHITEBOARD_SECRET: '${MERCURE_JWT_SECRET}'
       input_settings_allow_timezone: 1
       allowTimeZoneSwitch: 1
       CRON_USER_1: root
@@ -168,6 +191,7 @@ volumes:
   mariadb:
   caddy_config:
   image_upload:
+  wbo-boards:
 
 networks:
   default:
