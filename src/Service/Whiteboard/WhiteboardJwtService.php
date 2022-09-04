@@ -16,7 +16,7 @@ class WhiteboardJwtService
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),
             'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
-            'roles' => array($isModerator?'moderator':'editor'=> array($rooms->getUidReal()))
+            'roles' => array(($isModerator?'moderator':'editor').':'.$rooms->getUidReal())
         ];
         return JWT::encode($payload,$this->parameterBag->get('WHITEBOARD_SECRET'));
     }
