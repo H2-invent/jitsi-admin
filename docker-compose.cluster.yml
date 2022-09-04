@@ -45,13 +45,13 @@ services:
     build: https://github.com/H2-invent/whitebophir.git
     environment:
       AUTH_SECRET_KEY: '${MERCURE_JWT_SECRET}'
-
+      PORT: 80
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.rule=Host(`whiteboard.${PUBLIC_URL}`)"
       - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.entrypoints=web"
       - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls=true"
-      - "traefik.http.services.whiteboard-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
+      - "traefik.http.services.whiteboard-ja-${RANDOMTAG}.loadbalancer.server.port=80"
       - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
     volumes:
