@@ -26,11 +26,12 @@ function initStartIframe() {
 }
 
 function createIframe(url, title, closeIntelligent = true) {
+
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
     counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
-
-    var random = md5(url);
+    var urlPath = url.split('?')[0];
+    var random = md5(urlPath);
     if (document.getElementById('jitsiadminiframe' + random )){
         return null;
     }
@@ -48,7 +49,12 @@ function createIframe(url, title, closeIntelligent = true) {
         '</div> ';
 
     var site = url;
-    document.getElementById('window').insertAdjacentHTML('beforeend', html);
+    if (document.getElementById('window')){
+        document.getElementById('window').insertAdjacentHTML('beforeend', html);
+    }else {
+        document.querySelector('body').insertAdjacentHTML('beforeend', html);
+    }
+
     document.getElementById('jitsiadminiframe' + random).style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
     document.getElementById('jitsiadminiframe' + random).style.width = width + 'px';
     document.getElementById('jitsiadminiframe' + random).style.height = height + 'px';

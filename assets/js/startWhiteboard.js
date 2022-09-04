@@ -28,7 +28,7 @@ export function initStartWhiteboard() {
             });
             window.parent.postMessage(parentMessage, '*');
         }else {
-            createIframe(selfurl,document.title);
+            createIframe(selfurl,document.title,false);
         }
     })
 }
