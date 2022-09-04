@@ -96,7 +96,7 @@ services:
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
       VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
-      LAF_WHITEBOARD_FUNCTION: 0
+      LAF_WHITEBOARD_FUNCTION: 1
       WHITEBOARD_URL:  ${HTTP_METHOD}://whiteboard.${PUBLIC_URL}
       WHITEBOARD_SECRET: '${MERCURE_JWT_SECRET}'
       input_settings_allow_timezone: 1
