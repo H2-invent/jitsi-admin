@@ -3,6 +3,26 @@
 {% block body %}
     <p style="text-align: right">{{ 'now'|date('d.m.Y') }}</p>
     <h1>{{ room.name }}</h1>
+    {% if getJigasiNumber(room) %}
+        <table style="width: 100%">
+            <tbody>
+            <tr style=" vertical-align: top">
+                <td >
+                    <h3>{{ 'email.sip.number'|trans }}:</h3>
+                </td>
+                <td ><h4>
+                    {% for key,n in getJigasiNumber(room) %}
+                        {% for number in n %}
+                             ({{ key }}) {{ number }} <br>
+                        {% endfor %}
+                    {% endfor %}
+                    </h4>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    {% endif %}
     <b>{{ 'Teilnehmerliste'|trans }}</b>
     <table style="width: 100%">
         <thead>
@@ -11,7 +31,6 @@
             <th style="text-align: right">{{ 'email.sip.roomnumber'|trans }}</th>
             <th style="text-align: right">{{ 'email.sip.pin'|trans }}</th>
         </tr>
-
         </thead>
         <tbody>
         {% for u in room.user %}

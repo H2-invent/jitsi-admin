@@ -1,4 +1,4 @@
-## Update Instruction for Version 0.73.x ... 0.74.x
+## Update Instruction for Version 0.74.x ... 0.75.x
 __Drop PHP7.4 support. Use PHP8.0 or better php8.1__
 
 __Node ^16.15 and npm ^8.5 have to be installed__
@@ -26,3 +26,11 @@ __Node ^16.15 and npm ^8.5 have to be installed__
 7. Database is automatically upgraded
 8. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
    1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
+
+## Whats new
+* Window in Window of conferences
+* Status view
+* Whiteboard functionality
+* New real Websocket (replace Mercure Hub)
+* New Adressbook (Search, Index etc.)
+* 

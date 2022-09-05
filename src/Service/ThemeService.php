@@ -106,10 +106,12 @@ class ThemeService
 
     public function getApplicationProperties($input)
     {
+
         $variable = null;
         if ($this->parameterBag->has($input)) {
             $variable = $this->parameterBag->get($input);
         }
+
         $tmp = $this->getThemeProperty($input);
 
         if ($tmp !== null) {
