@@ -1,5 +1,5 @@
 import {io} from "./websocket.js";
-import {getOnlineUSer} from "./login.js";
+import {getOnlineUSer, getUserStatus} from "./login.js";
 
 class User {
     userId;
@@ -67,6 +67,9 @@ class User {
 
     sendStatus() {
         io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+        for (var s of this.sockets){
+            s.emit('sendUserStatus', this.status);
+        }
     }
 
     getUserId() {
