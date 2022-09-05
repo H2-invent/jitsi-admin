@@ -90,6 +90,12 @@ class Server
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $jigasiProsodyDomain = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $starUrl = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $starServerId = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -525,6 +531,30 @@ class Server
     public function setJigasiProsodyDomain(?string $jigasiProsodyDomain): self
     {
         $this->jigasiProsodyDomain = $jigasiProsodyDomain;
+
+        return $this;
+    }
+
+    public function getStarUrl(): ?string
+    {
+        return $this->starUrl;
+    }
+
+    public function setStartUrl(?string $starUrl): self
+    {
+        $this->starUrl = $starUrl;
+
+        return $this;
+    }
+
+    public function getStarServerId(): ?int
+    {
+        return $this->starServerId;
+    }
+
+    public function setStarServerId(?int $starServerId): self
+    {
+        $this->starServerId = $starServerId;
 
         return $this;
     }

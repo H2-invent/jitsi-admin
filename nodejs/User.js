@@ -17,10 +17,9 @@ class User {
     }
 
     addSocket(socket) {
-        if (!socket in this.sockets) {
+        if (!(socket in this.sockets)) {
             this.sockets.push(socket);
         }
-
     }
 
     removeSocket(socket) {

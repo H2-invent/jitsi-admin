@@ -1,12 +1,12 @@
 import {io} from "socket.io/client-dist/socket.io";
-import {getStatus, initStatus, setStatus, showOnlineUsers} from "./onlineStatus";
+import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 
 export var socket = null;
 export var token = null;
 var hidden, visibilityChange;
-
+var login = true;
 export function initWebsocket(jwt) {
     token = jwt;
     socket = io(websocketUrl, {
@@ -16,7 +16,15 @@ export function initWebsocket(jwt) {
         masterNotify(JSON.parse(data));
     })
 
-
+    socket.on('openNewIframe',function (data) {
+        data = JSON.parse(data);
+        const parentMessage = JSON.stringify({
+            type: 'openNewIframe',
+            url: data.url,
+            'title': data.title
+        });
+        window.parent.postMessage(parentMessage, '*');
+    })
 
     if (!inIframe()) {
         socket.on('connect', function (data) {
@@ -25,6 +33,19 @@ export function initWebsocket(jwt) {
         socket.on('sendOnlineUser', function (data) {
                 showOnlineUsers(JSON.parse(data))
         })
+        socket.on('sendUserStatus', function (data) {
+            if (!data){
+                setStatus();
+                login = false;
+            }else {
+                setMyStatus(data);
+                if (login){
+                    sendViaWebsocket('login');
+                    login = false;
+                }
+            }
+        })
+
         if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
             hidden = "hidden";
             visibilityChange = "visibilitychange";

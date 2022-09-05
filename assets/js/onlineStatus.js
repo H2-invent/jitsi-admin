@@ -5,7 +5,6 @@ var login = true;
 export function initStatus() {
     status = document.getElementById('onlineSelector') ? document.getElementById('onlineSelector').dataset.status : null;
 
-    if (status) {
         $('.changeStatus').click(function (e) {
             e.preventDefault();
             var href = this.getAttribute('href');
@@ -18,8 +17,7 @@ export function initStatus() {
             status = this.dataset.status;
             setStatus();
         })
-        getStatus();
-    }
+        getMyStatus();
 
 }
 
@@ -42,26 +40,22 @@ export function showOnlineUsers(data) {
                     $adressbookLine.splice(i, 1);
                 }
             }
-            if (data[status].includes(document.getElementById('onlineSelector').dataset.uid)) {
-                var switcher = document.getElementById('onlineSelector')
-                switcher.dataset.status = status;
-                var query = '.changeStatus[data-status="' + status + '"]';
-                var source = document.querySelector(query)
-                var innerHtml = source.innerHTML;
-                switcher.innerHTML = innerHtml;
-                setMe = true
-            }
         }
         for (var k in $adressbookLine) {
             $adressbookLine[k].dataset.status = 'offline'
         }
-        if (login){
-            login = false;
-            setStatus();
-        }
     }
 }
 
-export function getStatus() {
-    sendViaWebsocket('getStatus')
+export function setMyStatus(status){
+        var switcher = document.getElementById('onlineSelector')
+        switcher.dataset.status = status;
+        var query = '.changeStatus[data-status="' + status + '"]';
+        var source = document.querySelector(query)
+        var innerHtml = source.innerHTML;
+        switcher.innerHTML = innerHtml;
+}
+
+export function getMyStatus() {
+    sendViaWebsocket('getMyStatus')
 }

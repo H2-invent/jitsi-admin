@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220823112737 extends AbstractMigration
+final class Version20220830163418 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -19,18 +19,18 @@ final class Version20220823112737 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
             // this up() migration is auto-generated, please modify it to your needs
-            $this->addSql('ALTER TABLE fos_user ADD online_status INT DEFAULT NULL');
+            $this->addSql('ALTER TABLE server ADD star_url LONGTEXT DEFAULT NULL, ADD star_server_id INT DEFAULT NULL');
+
         }
     }
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
+        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
             // this down() migration is auto-generated, please modify it to your needs
-
-            $this->addSql('ALTER TABLE fos_user DROP online_status');
+            $this->addSql('ALTER TABLE server DROP star_url, DROP star_server_id');
         }
     }
 }

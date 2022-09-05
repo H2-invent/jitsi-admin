@@ -15,7 +15,15 @@
            class="loadContent dropdown-item">
             {{ 'Alle Serienelemente bearbeiten'|trans }}</a></li>
 {% endif %}
-
+{% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
+    <li><a
+                href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room,true) }}"
+                data-roomname="{{ room.name }}"
+                data-close="simple"
+                class="startIframe dropdown-item "
+        >
+            {{ 'options.whiteboard'|trans }}</a></li>
+{% endif %}
 {% if dropdown_settings_mail_to_all == 1 %}
     <li><a class="dropdown-item"
            href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">

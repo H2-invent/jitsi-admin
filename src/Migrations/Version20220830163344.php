@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220814142423 extends AbstractMigration
+final class Version20220830163344 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,8 +21,8 @@ final class Version20220814142423 extends AbstractMigration
     {
         if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
             // this up() migration is auto-generated, please modify it to your needs
-            $this->addSql('ALTER TABLE star ADD browser TEXT DEFAULT NULL');
-            $this->addSql('ALTER TABLE star ADD os TEXT DEFAULT NULL');
+            $this->addSql('ALTER TABLE server ADD star_url TEXT DEFAULT NULL');
+            $this->addSql('ALTER TABLE server ADD star_server_id INT DEFAULT NULL');
         }
     }
 
@@ -30,8 +30,8 @@ final class Version20220814142423 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
-            $this->addSql('ALTER TABLE star DROP browser');
-            $this->addSql('ALTER TABLE star DROP os');
+            $this->addSql('ALTER TABLE server DROP star_url');
+            $this->addSql('ALTER TABLE server DROP star_server_id');
         }
     }
 }

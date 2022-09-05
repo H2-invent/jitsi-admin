@@ -5,6 +5,15 @@
             {{ 'Bearbeiten'|trans }}</a></li>
         {%endif%}
 {% endif %}
+{% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
+    <li><a
+                href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room,true) }}"
+                data-roomname="{{ room.name }}"
+                data-close="simple"
+                class="startIframe dropdown-item "
+        >
+            {{ 'options.whiteboard'|trans }}</a></li>
+{% endif %}
 {% if dropdown_settings_common_duplicate == 1 %}
     <li><a href="{{ path('room_clone',{'room':room.id}) }}"
            class="loadContent dropdown-item">
@@ -26,8 +35,8 @@
 {% endif %}
 
 
-{% if dropdown_settings_generate_report == 1  %}
-    <li><a class="dropdown-item loadContent {%if room.roomstatuses|length == 0%}disabled{%endif%}"
+{% if dropdown_settings_generate_report == 1 %}
+    <li><a class="dropdown-item loadContent {% if room.roomstatuses|length == 0 %}disabled{% endif %}"
            href="{{ path('app_report_create',{'id':room.id}) }}">
             {{ 'report.dropdown.item'|trans }}</a>
     </li>

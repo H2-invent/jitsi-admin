@@ -96,3 +96,13 @@ strong {
     display: none;
   }
 }
+.conference-sidebar{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 10;
+  .conference-icon{
+    padding: 1rem;
+    cursor: pointer;
+  }
+}

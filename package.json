@@ -29,6 +29,7 @@
         "@popperjs/core": "^2.11.2",
         "@yaireo/title-tooltip": "^1.2.1",
         "autosize": "^4.0.2",
+        "blueimp-md5": "^2.19.0",
         "body-scroll-lock": "^4.0.0-beta.0",
         "bootstrap": "^4.5.3",
         "chart.js": "^3.8.0",

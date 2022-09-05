@@ -15,8 +15,9 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {enterMeeting, leaveMeeting, socket} from './websocket';
-import {initModeratorIframe,close} from './moderatorIframe'
-import {askHangup} from "./jitsiUtils";
+import {initModeratorIframe, close} from './moderatorIframe'
+import {initStarSend} from "./endModal";
+import {initStartWhiteboard} from "./startWhiteboard";
 initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
@@ -25,11 +26,14 @@ function checkClose() {
     stopWebcam();// schalte die Webcam aus nur in der Lobby, nicht in der Konferenz
     closeBrowser();//sende browser wird geschlossen. Entfert den User aus der Lobby
     leaveMeeting();//sendet ein LEave Meeting an den Websocket, damit der Status aktualisiert werden kann
-    close()// sende ein SendME an das Parent-Elemen, damit das Iframe geschlossen wird
-
+    if (api){
+        hangup();
+    }else {
+        close();
+    }
 }
 initModeratorIframe(checkClose);
-var api;
+var api = null;
 var dataSucess;
 var successTimer;
 var clickLeave = false;
@@ -42,9 +46,6 @@ function initMercure() {
         var data = JSON.parse(inData)
         if (data.type === 'newJitsi') {
             userAccepted(data);
-        } else if (data.type === 'endMeeting') {
-            hangup()
-            $('#jitsiWindow').remove();
         } else if (data.type === 'redirect') {
 
         }
@@ -104,9 +105,7 @@ function initJitsiMeet(data) {
     stopWebcam();
     echoOff();
     window.onbeforeunload = null;
-    window.onbeforeunload = function (e) {
-        return '';
-    }
+
     $('body').prepend('<div id="frame"></div>');
 
     var frameDIv = $('#frame');
@@ -132,12 +131,18 @@ function initJitsiMeet(data) {
         }
 
     });
-    api.addListener('videoConferenceLeft', function (e) {
-        leaveMeeting();
-    });
 
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
+        initStartWhiteboard();
+        window.onbeforeunload = function (e) {
+            return '';
+        }
+        api.addListener('videoConferenceLeft', function (e) {
+            leaveMeeting();
+            initStarSend();
+        });
+
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});
         }
@@ -153,19 +158,14 @@ function initJitsiMeet(data) {
             swithCameraOn(toggle);
         });
         swithCameraOn(toggle);
-    });
+
 
 
     api.addListener('participantKickedOut', function (e) {
-
-        $('#jitsiWindow').remove();
-        masterNotify({'type': 'modal', 'content': endModal});
-        setTimeout(function () {
-            masterNotify({'type': 'endMeeting', 'url': '/'});
-        }, popUpDuration)
-
+        console.log(e);
     });
 
+});
 
 
     $(data.options.parentNode).find('iframe').css('height', '100%');

@@ -1,0 +1,21 @@
+<div class="conference-sidebar">
+    {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
+        <div class="startWhiteboard conference-icon bg-white d-none"
+                {% if app.user is defined
+                    and app.user is not null
+                    and (
+                    room.moderator == app.user
+                    or roomPermissions(app.user,room).moderator == true
+                    or roomPermissions(app.user,room).lobbyModerator == true)
+                %}
+                    data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room, true) }}"
+                    data-room="whiteboard/{{ room.uidReal }}"
+                    data-url="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+                {% else %}
+                    data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+                {% endif %}
+        >
+            <i class="fa-solid fa-chalkboard"></i>
+        </div>
+    {% endif %}
+</div>

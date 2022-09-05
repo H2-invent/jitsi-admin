@@ -2,29 +2,6 @@
 
     <div class="d-flex me-1">
         <li class="nav-item d-flex align-items-center me-4">
-            {% if app is defined and app.user is defined and app.user is not null %}
-            <div class="dropdown onlineSelector me-3">
-                <a
-                        class="{{ app.user.onlineStatus==1?'online':'offline'}}"
-                        type="button"
-                        id="onlineSelector"
-                        data-mdb-toggle="dropdown"
-                        aria-expanded="false"
-                >
-                    <div class="dot"></div><span class="statusText">{{ app.user.onlineStatus==1?'status.online':'status.offline'|trans }}</span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item online changeStatus" data-value="online"
-                           href="{{ path('app_online_status',{'status':1}) }}">
-                            <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
-                    <li><a class="dropdown-item away changeStatus" data-value="away" href="#">
-                            <div class="dot"></div>{{ 'status.away'|trans }}</a></li>
-                    <li><a class="dropdown-item offline changeStatus" data-value="offline"
-                           href="{{ path('app_online_status',{'status':0}) }}">
-                            <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
-                </ul>
-            </div>
-            {% endif %}
             <div class="d-flex justify-content-end">
 
                 <span class="me-2"><i class="fas fa-sun brightmode"></i></span>

@@ -1,7 +1,9 @@
 import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
 import {echoOff} from "./audioUtils";
 import {stopWebcam} from "./cameraUtils";
-import {close, initModeratorIframe} from "./moderatorIframe";
+import {close, inIframe, initModeratorIframe} from "./moderatorIframe";
+import {initStarSend} from "./endModal";
+import {initStartWhiteboard} from "./startWhiteboard";
 
 var frameId;
 var api = new JitsiMeetExternalAPI(domain, options);
@@ -18,9 +20,15 @@ api.addListener('chatUpdated', function (e) {
 
 api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
+    initStartWhiteboard();
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return closeTabText;
+    }
     api.addListener('videoConferenceLeft', function (e) {
         leaveMeeting();
-        close();
+        initStarSend();
     });
 
     if (setTileview === 1) {
@@ -45,24 +53,15 @@ window.addEventListener('message', function (e) {
         console.log('we are asked to close');
         if (api) {
             api.executeCommand('hangup')
+        }else {
+            close(frameId);
         }
-        frameId = decoded.frameId;
-        const message = JSON.stringify({
-            type: 'closeMe',
-            frameId: frameId
-        });
-        window.parent.postMessage(message, '*');
     } else if (decoded.type === 'init') {
         frameId = decoded.frameId;
     }
 });
 
 
-window.onbeforeunload = function (e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    return closeTabText;
-}
 window.onmessage = function (event) {
     if (event.data === "jitsi-closed") {
         window.onbeforeunload = null;
@@ -83,7 +82,6 @@ function docReady(fn) {
 function checkClose() {
     api.executeCommand('hangup');
     leaveMeeting();
-    close()// sende ein SendME an das Parent-Elemen, damit das Iframe geschlossen wird
 }
 
 docReady(function () {
