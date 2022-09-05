@@ -1716,24 +1716,44 @@
         <target state="needs-translation">Raumnummer</target>
       </trans-unit>
       <trans-unit id="77UF_55" resname="status.offline">
-        <source>Offline</source>
+        <source>status.offline</source>
         <target state="needs-translation">Offline</target>
       </trans-unit>
       <trans-unit id="Ox5iAwP" resname="status.online">
-        <source>Online</source>
+        <source>status.online</source>
         <target state="needs-translation">Online</target>
       </trans-unit>
       <trans-unit id="qu.GEA6" resname="status.away">
-        <source>Abwesend</source>
+        <source>status.away</source>
         <target state="needs-translation">Abwesend</target>
       </trans-unit>
       <trans-unit id="f49snGy" resname="status.inMeeting">
-        <source>In einem Meeting</source>
+        <source>status.inMeeting</source>
         <target state="needs-translation">In einem Meeting</target>
       </trans-unit>
       <trans-unit id="I4QUydi" resname="lobby.participant.online">
-        <source>Diese*r Teilnehmende ist bereits in der Konferenz</source>
+        <source>lobby.participant.online</source>
         <target state="needs-translation">Diese*r Teilnehmende ist bereits in der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="v.H1nyD" resname="lobby.participant.notInLobby">
+        <source>lobby.participant.notInLobby</source>
+        <target state="needs-translation">Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
+      </trans-unit>
+      <trans-unit id="VuGcf_V" resname="Wie war die Gesprächsqualität?">
+        <source>Wie war die Gesprächsqualität?</source>
+        <target state="needs-translation">Wie war die Gesprächsqualität?</target>
+      </trans-unit>
+      <trans-unit id="39o7QWf" resname="Schreibe uns einen Kommentar">
+        <source>Schreibe uns einen Kommentar</source>
+        <target state="needs-translation">Schreibe uns einen Kommentar</target>
+      </trans-unit>
+      <trans-unit id="VjL2gVD" resname="lobby.notVerified">
+        <source>lobby.notVerified</source>
+        <target state="needs-translation">Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
+      </trans-unit>
+      <trans-unit id="5iIhPot" resname="options.whiteboard">
+        <source>Whiteboard öffnen</source>
+        <target state="needs-translation">Whiteboard öffnen</target>
       </trans-unit>
     </body>
   </file>
