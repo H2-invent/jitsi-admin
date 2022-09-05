@@ -106,12 +106,12 @@ class LobbyModeratorControllerTest extends WebTestCase
         self::assertEquals('{"error":false,"message":"Sie haben den Teilnehmer erfolgreich der Konferenz hinzugef\u00fcgt","color":"success"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist bereits in der Konferenz","color":"warning"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"warning"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist bereits in der Konferenz","color":"warning"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"warning"}', $client->getResponse()->getContent());
     }
 
     public function testDecline(): void
@@ -147,12 +147,12 @@ class LobbyModeratorControllerTest extends WebTestCase
         self::assertEquals('{"error":false,"message":"Dieser Teilnehmer hat keinen Zutritt zu der Konferenz","color":"success"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"danger"}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('uid' => 'lkdsjhflkjlkdsjflkjdslkjflkjdslkjf')));
         $this->assertResponseIsSuccessful();
         $client->loginUser($user2);
         $crawler = $client->request('GET', $acceptUrl);
-        self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}', $client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Diese*r Teilnehmende ist nicht mehr in der Lobby.","color":"danger"}', $client->getResponse()->getContent());
     }
 
     public function testStartConference(): void

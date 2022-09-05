@@ -12,7 +12,7 @@ class WhiteboardJwtService
     {
     }
 
-    public function createJwt(Rooms $rooms, $isModerator):string{
+    public function createJwt(Rooms $rooms, $isModerator=false):string{
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),
             'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
