@@ -1733,23 +1733,23 @@
       </trans-unit>
       <trans-unit id="v.H1nyD" resname="lobby.participant.notInLobby">
         <source>lobby.participant.notInLobby</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
+        <target state="translated">Este participante ya no está en el lobby.</target>
       </trans-unit>
       <trans-unit id="VuGcf_V" resname="Wie war die Gesprächsqualität?">
         <source>Wie war die Gesprächsqualität?</source>
-        <target state="needs-translation">Wie war die Gesprächsqualität?</target>
+        <target state="translated">¿Cómo fue la calidad de la llamada?</target>
       </trans-unit>
       <trans-unit id="39o7QWf" resname="Schreibe uns einen Kommentar">
         <source>Schreibe uns einen Kommentar</source>
-        <target state="needs-translation">Schreibe uns einen Kommentar</target>
+        <target state="translated">Escríbenos un comentario</target>
       </trans-unit>
       <trans-unit id="VjL2gVD" resname="lobby.notVerified">
         <source>lobby.notVerified</source>
-        <target state="needs-translation">Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
+        <target state="translated">El número de teléfono desde el que llama el participante no coincide con el que fue añadido a la lista de participantes.</target>
       </trans-unit>
       <trans-unit id="5iIhPot" resname="options.whiteboard">
         <source>Whiteboard öffnen</source>
-        <target state="needs-translation">Whiteboard öffnen</target>
+        <target state="translated">Abrir la pizarra</target>
       </trans-unit>
     </body>
   </file>
