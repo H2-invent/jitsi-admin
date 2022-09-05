@@ -1746,7 +1746,6 @@
         <source>lobby.participant.notInLobby</source>
         <target>Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
       </trans-unit>
-
       <trans-unit id="VuGcf_V" resname="Wie war die Gesprächsqualität?">
         <source>Wie war die Gesprächsqualität?</source>
         <target>Wie war die Gesprächsqualität?</target>
@@ -1756,8 +1755,12 @@
         <target>Schreibe uns einen Kommentar</target>
       </trans-unit>
       <trans-unit id="VjL2gVD" resname="lobby.notVerified">
-        <source>Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</source>
+        <source>lobby.notVerified</source>
         <target>Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
+      </trans-unit>
+      <trans-unit id="5iIhPot" resname="options.whiteboard">
+        <source>Whiteboard öffnen</source>
+        <target>Whiteboard öffnen</target>
       </trans-unit>
     </body>
   </file>

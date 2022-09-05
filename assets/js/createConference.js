@@ -11,7 +11,7 @@ function initStartIframe() {
     for (var i = 0; i < initIframe.length; i++) {
         initIframe[i].addEventListener("click", function (e) {
             e.preventDefault();
-            createIframe(this.href, this.dataset.roomname);
+            createIframe(this.href, this.dataset.roomname, this.dataset.close==='simple'?false:true);
         })
     }
     window.addEventListener('message', function (e) {

@@ -1,4 +1,3 @@
-
 {% if app.user != room.moderator %}
     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
        class="element btn btn-outline-default confirmHref"
@@ -9,6 +8,12 @@
 {% if (getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and app.user != room.moderator) and room.totalOpenRooms != true %}
     <a href="{{ path('room_past_user',{'room':room.id}) }}"
        class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
+    {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
+        <a href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+           class=" element btn btn-outline-primary startIframe" data-roomname="{{ room.name }}" data-close="simple">
+            <i class="fa-solid fa-chalkboard"></i>
+        </a>
+    {% endif %}
 {% endif %}
 {% if not room.scheduleMeeting %}
 
