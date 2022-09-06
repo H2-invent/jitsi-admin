@@ -903,7 +903,7 @@ strong {
     position: relative !important;
     height: unset !important;
     width: unset !important;
-
+    flex-direction: column-reverse;
     [class^="fa-"] {
       display: none;
     }
