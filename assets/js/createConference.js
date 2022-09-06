@@ -1,6 +1,7 @@
 import interact from 'interactjs'
 import {leaveMeeting} from "./websocket";
 import md5 from "blueimp-md5"
+
 let counter = 50;
 let zindex = 10
 let width = window.innerWidth * 0.75;
@@ -11,7 +12,7 @@ function initStartIframe() {
     for (var i = 0; i < initIframe.length; i++) {
         initIframe[i].addEventListener("click", function (e) {
             e.preventDefault();
-            createIframe(this.href, this.dataset.roomname, this.dataset.close==='simple'?false:true);
+            createIframe(this.href, this.dataset.roomname, this.dataset.close === 'simple' ? false : true);
         })
     }
     window.addEventListener('message', function (e) {
@@ -32,7 +33,7 @@ function createIframe(url, title, closeIntelligent = true) {
     counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
     var urlPath = url.split('?')[0];
     var random = md5(urlPath);
-    if (document.getElementById('jitsiadminiframe' + random )){
+    if (document.getElementById('jitsiadminiframe' + random)) {
         return null;
     }
     var html =
@@ -49,9 +50,9 @@ function createIframe(url, title, closeIntelligent = true) {
         '</div> ';
 
     var site = url;
-    if (document.getElementById('window')){
+    if (document.getElementById('window')) {
         document.getElementById('window').insertAdjacentHTML('beforeend', html);
-    }else {
+    } else {
         document.querySelector('body').insertAdjacentHTML('beforeend', html);
     }
 
@@ -71,7 +72,9 @@ function createIframe(url, title, closeIntelligent = true) {
             closeIframe('jitsiadminiframe' + random);
         }
     })
-
+    document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
+        minimizeFrame('jitsiadminiframe' + random)
+    })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
         if (e.currentTarget.dataset.maximal === "0") {
@@ -111,62 +114,8 @@ function createIframe(url, title, closeIntelligent = true) {
             event.currentTarget.style.zIndex = zindex++;
         }
     })
-    const position = {x: counter, y: counter}
-    interact('.dragger').draggable({
-        listeners: {
-            start(event) {
-                position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
-                position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
-                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
-                event.target.closest('.jitsiadminiframe').style.removeProperty('border');
-                event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
-                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
-                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
 
-            },
-            move(event) {
-                if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
-                    event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
-                }
-                position.x += event.dx
-                position.y += event.dy
-                event.target.closest('.jitsiadminiframe').style.transform =
-                    `translate(${position.x}px, ${position.y}px)`
-
-
-            },
-            end(event) {
-                event.target.closest('.jitsiadminiframe').dataset.x = position.x;
-                event.target.closest('.jitsiadminiframe').dataset.y = position.y;
-
-            }
-        }
-    })
-    interact('.jitsiadminiframe')
-        .resizable({
-            edges: {top: true, left: true, bottom: true, right: true},
-            listeners: {
-                move: function (event) {
-                    if (event.target.style.zIndex < zindex - 1) {
-                        event.target.style.zIndex = zindex++;
-
-                    }
-                    let {x, y} = event.target.dataset
-
-                    x = (parseFloat(x) || 0) + event.deltaRect.left
-                    y = (parseFloat(y) || 0) + event.deltaRect.top
-
-                    Object.assign(event.target.style, {
-                        width: `${event.rect.width}px`,
-                        height: `${event.rect.height}px`,
-                        transform: `translate(${x}px, ${y}px)`
-                    })
-                    event.target.style.removeProperty('border');
-                    event.target.querySelector('.headerBar').style.removeProperty('padding');
-                    Object.assign(event.target.dataset, {x, y})
-                }
-            }
-        })
+    addInteractions()
     setTimeout(function () {
         sendCommand('jitsiadminiframe' + random, {type: 'init'});
     }, 5000)
@@ -197,6 +146,132 @@ function recievecommand(data) {
 
 function closeIframe(id) {
     document.getElementById(id).remove();
+}
+
+function addInteractions() {
+    const position = {x: counter, y: counter}
+    interact('.dragger').draggable({
+        listeners: {
+            start(event) {
+                if(event.target.closest('.jitsiadminiframe').classList.contains('minified')){
+                    return null;
+                }
+                position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
+                position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
+                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
+                event.target.closest('.jitsiadminiframe').style.removeProperty('border');
+                event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
+                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
+                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
+
+            },
+            move(event) {
+                if(event.target.closest('.jitsiadminiframe').classList.contains('minified')){
+                    return null;
+                }
+                if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
+                    event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
+                }
+                position.x += event.dx
+                position.y += event.dy
+                event.target.closest('.jitsiadminiframe').style.transform =
+                    `translate(${position.x}px, ${position.y}px)`
+
+
+            },
+            end(event) {
+                if(event.target.closest('.jitsiadminiframe').classList.contains('minified')){
+                    return null;
+                }
+                event.target.closest('.jitsiadminiframe').dataset.x = position.x;
+                event.target.closest('.jitsiadminiframe').dataset.y = position.y;
+
+            }
+        }
+    })
+    interact('.jitsiadminiframe')
+        .resizable({
+            edges: {top: true, left: true, bottom: true, right: true},
+            listeners: {
+                move: function (event) {
+                    if(event.target.classList.contains('minified')){
+                        return null;
+                    }
+                    if (event.target.style.zIndex < zindex - 1) {
+                        event.target.style.zIndex = zindex++;
+
+                    }
+                    let {x, y} = event.target.dataset
+
+                    x = (parseFloat(x) || 0) + event.deltaRect.left
+                    y = (parseFloat(y) || 0) + event.deltaRect.top
+
+                    Object.assign(event.target.style, {
+                        width: `${event.rect.width}px`,
+                        height: `${event.rect.height}px`,
+                        transform: `translate(${x}px, ${y}px)`
+                    })
+                    event.target.style.removeProperty('border');
+                    event.target.querySelector('.headerBar').style.removeProperty('padding');
+                    Object.assign(event.target.dataset, {x, y})
+                }
+            }
+        })
+}
+function minimizeFrame(id) {
+    createMinimizeBar();
+    var container = document.getElementById(id);
+    moveToMinibar(container);
+}
+
+function moveToMinibar(container) {
+    container.dataset.parent = container.parentNode.id;
+    var minimizeBar = document.getElementById('minimizeBar');
+    minimizeBar.appendChild(container);
+    container.classList.add('minified');
+    setTimeout(function () {
+        container.querySelector('.headerBar').addEventListener('click',(e)=>{
+            var ele = e.currentTarget.closest('.minified');
+            removeFromMinibar(ele);
+        }, {once : true})
+    },1);
+
+
+}
+
+function removeFromMinibar(container) {
+    if (container.classList.contains('minified')) {
+        if (container.dataset.parent !== 'undefined') {
+            document.getElementById(container.dataset.parent).appendChild(container);
+        } else {
+            document.querySelector('body').appendChild(container);
+        }
+        container.classList.remove('minified');
+        checkMinimizeBar();
+    }
+}
+
+function createMinimizeBar() {
+    var minimizeBar = document.getElementById('minimizeBar');
+    if (!minimizeBar) {
+        var html =
+            '<div id="minimizeBar">' +
+
+            '</div> ';
+
+        if (document.getElementById('window')) {
+            document.getElementById('window').insertAdjacentHTML('beforeend', html);
+        } else {
+            document.querySelector('body').insertAdjacentHTML('beforeend', html);
+        }
+    }
+}
+
+function checkMinimizeBar() {
+    var minimizeBar = document.getElementById('minimizeBar');
+    if (minimizeBar.childElementCount === 0) {
+        minimizeBar.remove();
+    }
 }
 
 export {initStartIframe, createIframe}

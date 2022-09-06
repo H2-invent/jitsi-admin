@@ -233,6 +233,7 @@ strong {
   grid-template-columns: min-content auto;
   grid-template-rows: min-content auto min-content;
   overflow: hidden;
+
   .sidebarToggle {
     height: 50px;
     width: 50px;
@@ -832,14 +833,17 @@ strong {
   animation-duration: 2s;
   animation-iteration-count: 1;
 }
+
 .in-iframe {
-  .window{
+  .window {
     overflow-y: auto;
   }
-  .footer{
+
+  .footer {
     display: none;
   }
-  .navigation{
+
+  .navigation {
     display: none;
   }
 }
@@ -849,28 +853,91 @@ strong {
   direction: rtl;
   margin-top: 2px;
 }
+
 .star-wrapper a {
   font-size: 4em;
   text-decoration: none;
   transition: all 0.5s;
   margin: 4px;
 }
+
 .star-wrapper a:hover {
   color: gold;
   transform: scale(1.3);
 }
+
 .s1:hover ~ a {
   color: gold;
 }
+
 .s2:hover ~ a {
   color: gold;
 }
+
 .s3:hover ~ a {
   color: gold;
 }
+
 .s4:hover ~ a {
   color: gold;
 }
+
 .s5:hover ~ a {
   color: gold;
+}
+
+#minimizeBar {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 500;
+  align-items: flex-end;
+
+  .minified {
+    flex-grow: 1;
+    transform: none !important;
+    position: relative !important;
+    height: unset !important;
+    width: unset !important;
+
+    [class^="fa-"] {
+      display: none;
+    }
+
+    .actionIconLeft {
+      display: none;
+    }
+
+    .headerBar {
+      padding: 0;
+      cursor: pointer!important;
+      .dragger{
+        cursor: pointer!important;
+      }
+    }
+
+    &:hover > iframe {
+      height: 33vh;
+      -webkit-transition-delay: 1s;
+      -moz-transition-delay: 1s;
+      -ms-transition-delay: 1s;
+      -o-transition-delay: 1s;
+      transition-delay: 1s;
+
+    }
+
+    iframe {
+      height: 0;
+      //-webkit-transition-delay: 0s;
+      //-moz-transition-delay: 0s;
+      //-ms-transition-delay: 0s;
+      //-o-transition-delay: 0s;
+      //transition-delay: 0s;
+      transition: height 0.2s ease-in;
+    }
+  }
 }
