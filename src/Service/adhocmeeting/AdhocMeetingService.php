@@ -79,7 +79,6 @@ class AdhocMeetingService
             $room->getSecondaryName() ?: $room->getName(),
             $this->translator->trans('Hier beitreten'),
         );
-        dump($toastText);
         $this->directSendService->sendCallAdhockmeeding(
             $this->translator->trans('addhock.notification.title'),
             $topic,
