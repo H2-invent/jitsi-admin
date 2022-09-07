@@ -41,7 +41,7 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="headerBar">' +
         '<div class="dragger actionIcon"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
-        '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
+        // '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
         '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
         '</div>' +
@@ -72,9 +72,9 @@ function createIframe(url, title, closeIntelligent = true) {
             closeIframe('jitsiadminiframe' + random);
         }
     })
-    document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
-        minimizeFrame('jitsiadminiframe' + random)
-    })
+    // document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
+    //     minimizeFrame('jitsiadminiframe' + random)
+    // })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
         if (e.currentTarget.dataset.maximal === "0") {
@@ -218,6 +218,7 @@ function addInteractions() {
             }
         })
 }
+
 function minimizeFrame(id) {
     createMinimizeBar();
     var container = document.getElementById(id);
@@ -227,7 +228,7 @@ function minimizeFrame(id) {
 function moveToMinibar(container) {
     container.dataset.parent = container.parentNode.id;
     var minimizeBar = document.getElementById('minimizeBar');
-    minimizeBar.appendChild(container);
+    minimizeBar.append(container);
     container.classList.add('minified');
     setTimeout(function () {
         container.querySelector('.headerBar').addEventListener('click',(e)=>{

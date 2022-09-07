@@ -165,7 +165,7 @@
                     </div>
                     {% if myScheduledMeeting(app.user)|length > 0 %}
 
-                        <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Terminplanung'|trans }} </h4>
+                        <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3"> {{ 'Einen Termin finden'|trans }}</h4>
                         {% for r in myScheduledMeeting(app.user) %}
                             {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                         {% endfor %}
