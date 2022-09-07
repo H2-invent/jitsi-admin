@@ -314,7 +314,7 @@
         <target state="translated">Hôm nay</target>
       </trans-unit>
       <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
-        <source>Heute steht keine Konferenz an.</source>
+        <source>Heute steht keine Jitsi Meet Konferenz an.</source>
         <target state="needs-translation">Heute ist keine Konferenz geplant.</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
@@ -1718,9 +1718,49 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <source>statistic.real.participants</source>
         <target state="needs-translation">Anzahl reale Teilnehmende</target>
       </trans-unit>
+      <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
+        <source>email.sip.roomnumber</source>
+        <target state="needs-translation">Raumnummer</target>
+      </trans-unit>
+      <trans-unit id="77UF_55" resname="status.offline">
+        <source>status.offline</source>
+        <target state="needs-translation">Offline</target>
+      </trans-unit>
+      <trans-unit id="Ox5iAwP" resname="status.online">
+        <source>status.online</source>
+        <target state="needs-translation">Online</target>
+      </trans-unit>
+      <trans-unit id="qu.GEA6" resname="status.away">
+        <source>status.away</source>
+        <target state="needs-translation">Abwesend</target>
+      </trans-unit>
+      <trans-unit id="f49snGy" resname="status.inMeeting">
+        <source>status.inMeeting</source>
+        <target state="needs-translation">In einem Meeting</target>
+      </trans-unit>
       <trans-unit id="I4QUydi" resname="lobby.participant.online">
-        <source>Bereits in der Konferenz.</source>
-        <target state="needs-translation">Bereits in der Konferenz.</target>
+        <source>lobby.participant.online</source>
+        <target state="needs-translation">Diese*r Teilnehmende ist bereits in der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="v.H1nyD" resname="lobby.participant.notInLobby">
+        <source>lobby.participant.notInLobby</source>
+        <target state="needs-translation">Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
+      </trans-unit>
+      <trans-unit id="VuGcf_V" resname="Wie war die Gesprächsqualität?">
+        <source>Wie war die Gesprächsqualität?</source>
+        <target state="needs-translation">Wie war die Gesprächsqualität?</target>
+      </trans-unit>
+      <trans-unit id="39o7QWf" resname="Schreibe uns einen Kommentar">
+        <source>Schreibe uns einen Kommentar</source>
+        <target state="needs-translation">Schreibe uns einen Kommentar</target>
+      </trans-unit>
+      <trans-unit id="VjL2gVD" resname="lobby.notVerified">
+        <source>lobby.notVerified</source>
+        <target state="needs-translation">Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
+      </trans-unit>
+      <trans-unit id="5iIhPot" resname="options.whiteboard">
+        <source>Whiteboard öffnen</source>
+        <target state="needs-translation">Whiteboard öffnen</target>
       </trans-unit>
     </body>
   </file>
