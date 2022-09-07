@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use App\Entity\RoomStatus;
 use App\Entity\RoomsUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
@@ -196,4 +197,94 @@ class StartServiceTest extends KernelTestCase
 
 
     }
+    public function testRoomisToLate_User_isLogin(): void
+    {
+        $kernel = self::bootKernel();
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $startService = self::getContainer()->get(StartMeetingService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'Room yesterday'));
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $permission = new RoomsUser();
+        $permission->setRoom($room);
+        $permission->setUser($user);
+        $permission->setLobbyModerator(true);
+        $manager->persist($permission);
+        $manager->flush();
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
+        $test = $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference')));
+
+        $res = $urlGen->generate('dashboard');
+        $session = $kernel->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['danger'][0], 'Der Beitritt ist nur von ' . (clone $room->getStart())->modify('-30min')->format('d.m.Y H:i') . ' bis ' . $room->getEnddate()->format('d.m.Y') . ' ' . $room->getEnddate()->format('H:i') . ' möglich.');
+        self::assertEquals(new RedirectResponse($res), $test);
+
+    }
+    public function testRoomisToLate_But_Room_isOpen_User_isLogin(): void
+    {
+        $kernel = self::bootKernel();
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $startService = self::getContainer()->get(StartMeetingService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'Room yesterday'));
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $permission = new RoomsUser();
+        $permission->setRoom($room);
+        $permission->setUser($user);
+        $permission->setLobbyModerator(true);
+        $manager->persist($permission);
+        $manager->flush();
+        $roomStatus= new RoomStatus();
+        $roomStatus->setCreatedAt($room->getStart());
+        $roomStatus->setRoom($room);
+        $roomStatus->setCreated(true);
+        $roomStatus->setJitsiRoomId('dkjfljsd');
+        $roomStatus->setRoomCreatedAt($room->getStart());
+        $roomStatus->setUpdatedAt($room->getStart());
+        $manager->persist($roomStatus);
+        $manager->flush();
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        self::assertStringContainsString(
+            '<title>Room Yesterday</title>',
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+
+    }
+    public function testRoomisToEarly_But_Room_isOpen_User_isLogin(): void
+    {
+        $kernel = self::bootKernel();
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $startService = self::getContainer()->get(StartMeetingService::class);
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'Room Tomorrow'));
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $permission = new RoomsUser();
+        $permission->setRoom($room);
+        $permission->setUser($user);
+        $permission->setLobbyModerator(true);
+        $manager->persist($permission);
+        $manager->flush();
+        $roomStatus= new RoomStatus();
+        $roomStatus->setCreatedAt($room->getStart());
+        $roomStatus->setRoom($room);
+        $roomStatus->setCreated(true);
+        $roomStatus->setJitsiRoomId('dkjfljsd');
+        $roomStatus->setRoomCreatedAt($room->getStart());
+        $roomStatus->setUpdatedAt($room->getStart());
+        $manager->persist($roomStatus);
+        $manager->flush();
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        self::assertStringContainsString(
+            '<title>Room Yesterday</title>',
+            $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
+
+    }
+
 }

@@ -7,6 +7,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\Jigasi\JigasiService;
 use App\Service\Lobby\ToModeratorWebsocketService;
+use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -63,16 +64,17 @@ class StartMeetingService
     private FlashBagInterface $flashBag;
 
     public function __construct(
-        FlashBagInterface           $flashBag,
-        LoggerInterface             $logger,
-        ToModeratorWebsocketService $toModeratorWebsocketService,
-        Environment                 $environment,
-        RoomService                 $roomService,
-        EntityManagerInterface      $entityManager,
-        UrlGeneratorInterface       $urlGenerator,
-        ParameterBagInterface       $parameterBag,
-        TranslatorInterface         $translator,
-        JigasiService               $jigasiService
+        FlashBagInterface                 $flashBag,
+        LoggerInterface                   $logger,
+        ToModeratorWebsocketService       $toModeratorWebsocketService,
+        Environment                       $environment,
+        RoomService                       $roomService,
+        EntityManagerInterface            $entityManager,
+        UrlGeneratorInterface             $urlGenerator,
+        ParameterBagInterface             $parameterBag,
+        TranslatorInterface               $translator,
+        JigasiService                     $jigasiService,
+        private RoomStatusFrontendService $roomStatusFrontendService
     )
     {
         $this->roomService = $roomService;
@@ -108,8 +110,8 @@ class StartMeetingService
         $this->jigasiService->pingJigasi($room);
         if ($room && in_array($user, $room->getUser()->toarray())) {
             $this->url = $this->roomService->join($room, $user, $t, $name);
-            if (!self::checkTime($room, $user)) {
-                return $this->RoomClosed();
+            if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
+                    return $this->RoomClosed();
             }
 
             if ($room->getLobby()) {
@@ -277,6 +279,7 @@ class StartMeetingService
         if (($room->getPersistantRoom() || $start < $now && $endDate > $now) || $user === $room->getModerator()) {
             return true;
         }
+
         return false;
     }
 

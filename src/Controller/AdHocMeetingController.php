@@ -79,12 +79,10 @@ class AdHocMeetingController extends JitsiAdminController
         }
         try {
             $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server,$tag);
-            // $this->addFlash('_blank',$this->generateUrl('room_join',array('t'=>'b','room'=>$room->getId())));
-            $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
             return new JsonResponse(array(
                     'redirectUrl' => $this->generateUrl('dashboard'),
                     'popups' => array(
-                        $this->generateUrl('room_join', array('t' => 'b', 'room' => $room->getId()))
+                       array('url'=> $this->generateUrl('room_join', array('t' => 'b', 'room' => $room->getId())),'title'=>$room->getSecondaryName()?:$room->getName())
                     )
                 )
             );

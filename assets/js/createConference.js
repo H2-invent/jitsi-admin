@@ -8,13 +8,14 @@ let width = window.innerWidth * 0.75;
 let height = window.innerHeight * 0.75;
 
 function initStartIframe() {
-    var initIframe = document.querySelectorAll('.startIframe');
-    for (var i = 0; i < initIframe.length; i++) {
-        initIframe[i].addEventListener("click", function (e) {
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.startIframe')) {
             e.preventDefault();
-            createIframe(this.href, this.dataset.roomname, this.dataset.close === 'simple' ? false : true);
-        })
-    }
+            createIframe(e.target.href, e.target.dataset.roomname, e.target.dataset.close === 'simple' ? false : true);
+        }
+    });
+
     window.addEventListener('message', function (e) {
         // Get the sent data
         const data = e.data;

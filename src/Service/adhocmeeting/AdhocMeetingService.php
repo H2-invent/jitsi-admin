@@ -72,10 +72,18 @@ class AdhocMeetingService
         $this->em->persist($creator);
         $this->em->flush();
         $topic = 'personal/' . $reciever->getUid();
+        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess startIframe" data-roomname="%s"><i class="fas fa-phone"></i> %s</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>';
+        $toastText = sprintf($format,
+            $this->translator->trans('addhock.notification.pushMessage', array('{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
+            $this->urlGen->generate('room_join', array('room' => $room->getId(), 't' => 'b')) ,
+            $room->getSecondaryName() ?: $room->getName(),
+            $this->translator->trans('Hier beitreten'),
+        );
+        dump($toastText);
         $this->directSendService->sendCallAdhockmeeding(
             $this->translator->trans('addhock.notification.title'),
             $topic,
-            $this->translator->trans('addhock.notification.message', array('{url}' => $this->urlGen->generate('room_join', array('room' => $room->getId(), 't' => 'b')), '{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
+            $toastText,
             $this->translator->trans('addhock.notification.pushMessage', array('{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
             60000,
             $room->getUid()
