@@ -1,18 +1,23 @@
 {% if dropdown_settings_series_type == 1 %}
     <li><a class="dropdown-item loadContent"
            href="{{ path('repeater_edit_repeater',{'repeat':room.repeater.id}) }}">
+            <i class="fa fa-edit"></i>
+            <i class="fa fa-repeat"></i>
             {{ 'Serienart bearbeiten'|trans }}</a></li>
 {% endif %}
 {% if dropdown_settings_series_edit_one == 1 %}
     {% if room.endTimestamp > date().timestamp %}
         <li><a href="{{ path('repeater_edit_room',{'id':room.id,'type':'single'}) }}"
                class="loadContent dropdown-item">
+                <i class="fa fa-edit"></i>
                 {{ 'Einzelnes Serienelement bearbeiten'|trans }}</a></li>
     {% endif %}
 {% endif %}
 {% if dropdown_settings_series_edit_all == 1 %}
     <li><a href="{{ path('repeater_edit_room',{'id':room.id,'type':'all'}) }}"
            class="loadContent dropdown-item">
+            <i class="fa fa-edit"></i>
+            <i class="fa fa-repeat"></i>
             {{ 'Alle Serienelemente bearbeiten'|trans }}</a></li>
 {% endif %}
 {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
@@ -22,17 +27,20 @@
                 data-close="simple"
                 class="startIframe dropdown-item "
         >
+            <i class="fa-solid fa-chalkboard"></i>
             {{ 'options.whiteboard'|trans }}</a></li>
 {% endif %}
 {% if dropdown_settings_mail_to_all == 1 %}
     <li><a class="dropdown-item"
            href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">
+            <i class="fa fa-envelope"></i>
             {{ 'Mail an die Teilnehmer'|trans }}</a></li>
 {% endif %}
 
 {% if dropdown_settings_generate_report == 1 %}
     <li><a class="dropdown-item loadContent {% if room.roomstatuses|length == 0 %}disabled{% endif %}"
            href="{{ path('app_report_create',{'id':room.id}) }}">
+            <i class="fa-solid fa-timeline"></i>
             {{ 'report.dropdown.item'|trans }}</a>
     </li>
 {% endif %}
@@ -40,6 +48,7 @@
     <li><a class="dropdown-item confirmHref"
            href="{{ path('room_remove',{'room':room.id}) }}"
            data-text="{{ 'confirm.delete.room'|trans }}">
+            <i class="fa fa-trash"></i>
             {{ 'Löschen'|trans }}</a>
     </li>
 
@@ -48,5 +57,7 @@
     <li><a class="dropdown-item confirmHref"
            href="{{ path('repeater_remove',{'repeat':room.repeater.id}) }}"
            data-text="{{ 'confirm.delete.series'|trans }}">
+            <i class="fa fa-trash"></i>
+            <i class="fa fa-repeat"></i>
             {{ 'Serie löschen'|trans }}</a></li>
 {% endif %}

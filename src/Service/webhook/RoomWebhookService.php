@@ -71,7 +71,10 @@ class RoomWebhookService
                 $this->logger->error($text, array('roomId' => $data['room_name']));
                 return $text;
             }
-
+            if ($data['is_breakout'] === true) {
+                $this->logger->debug('This is a breakoutRoom', array('breakout_room_id' => $data['breakout_room_id']));
+                return 'Room is a breakout room we don`t create a status';
+            }
             $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRooms($room);
 
             if ($roomStatus) {
@@ -107,7 +110,10 @@ class RoomWebhookService
                 $this->logger->error($text, array('roomId' => $data['event_name']));
                 return $text;
             }
-
+            if ($data['is_breakout'] === true) {
+                $this->logger->debug('This is a breakoutRoom', array('breakout_room_id ' => $data['breakout_room_id'], 'room_jid' => $data['room_jid']));
+                return 'Room is a breakout room we don`t remove the main room';
+            }
             $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($data['room_jid']);
             if (!$roomStatus) {
                 $text = 'Room Jitsi ID not found';
@@ -150,6 +156,10 @@ class RoomWebhookService
                 $this->logger->error($text, array('roomId' => $data['event_name']));
                 return $text;
             }
+            if ($data['is_breakout'] === true) {
+                $this->logger->debug('This is a breakoutRoom', array('breakout_room_id ' => $data['breakout_room_id'], 'room_jid' => $data['room_jid']));
+                return 'Room is a breakout room we don`t join the participant';
+            }
             $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($data['room_jid']);
             if (!$roomStatus) {
                 $text = 'Room Jitsi ID not found';
@@ -163,7 +173,7 @@ class RoomWebhookService
                 $this->logger->error($text, array('occupantID' => $data['occupant']['occupant_jid']));
                 return $text;
             }
-            if (!isset($data['occupant']['name'])){
+            if (!isset($data['occupant']['name'])) {
                 return 'NO_DATA';
             }
             $roomPart = new RoomStatusParticipant();
@@ -192,7 +202,10 @@ class RoomWebhookService
                 $this->logger->error($text, array('roomId' => $data['event_name']));
                 return $text;
             }
-
+            if ($data['is_breakout'] === true) {
+                $this->logger->debug('This is a breakoutRoom', array('breakout_room_id ' => $data['breakout_room_id']));
+                return 'Room is a breakout room we don`t remove the participant';
+            }
             $roomPart = $this->em->getRepository(RoomStatusParticipant::class)->findOneBy(array('participantId' => $data['occupant']['occupant_jid']));
             if (!$roomPart) {
                 $text = 'Wrong occupant ID. The occupant is not in the database';

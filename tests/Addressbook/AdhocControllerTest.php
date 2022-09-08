@@ -49,8 +49,17 @@ class AdhocControllerTest extends WebTestCase
         $room = $roomRepo->findAll();
         $room = $room[sizeof($room)-1];
         self::assertEquals(json_encode(
-            array('redirectUrl' => '/room/dashboard','popups'=>array('/room/join/b/'.$room->getId()))), $client->getResponse()->getContent());
-        $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(),true)['popups'][0]);
+            array('redirectUrl' => '/room/dashboard',
+                'popups'=>array(
+                array(
+                    'url'=>'/room/join/b/'.$room->getId(),
+                    'title'=>'Konferenz mit Test2, 1234, User2, Test2')
+                )
+            )
+        )
+            , $client->getResponse()->getContent()
+        );
+        $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(),true)['popups'][0]['url']);
         self::assertSelectorNotExists('#tagContent');
 
         $client->loginUser($user);
@@ -100,8 +109,17 @@ class AdhocControllerTest extends WebTestCase
         $room = $room[sizeof($room)-1];
 
         self::assertEquals(json_encode(
-            array('redirectUrl' => '/room/dashboard','popups'=>array('/room/join/b/'.$room->getId()))), $client->getResponse()->getContent());
-        $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(),true)['popups'][0]);
+            array(
+                'redirectUrl' => '/room/dashboard',
+                'popups'=>array(
+                    array(
+                        'url'=>'/room/join/b/'.$room->getId(),
+                        'title'=>'Konferenz mit Test2, 1234, User2, Test2')
+                )
+            )
+        ), $client->getResponse()->getContent()
+        );
+        $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(),true)['popups'][0]['url']);
         self::assertSelectorTextContains('#tagContent','Test Tag Enabled');
         self::assertResponseIsSuccessful();
 

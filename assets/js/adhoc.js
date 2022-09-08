@@ -4,6 +4,7 @@
  */
 
 import $ from 'jquery';
+import {createIframe} from "./createConference";
 
 global.$ = global.jQuery = $;
 import ('jquery-confirm');
@@ -35,18 +36,15 @@ function initconfirmLoadOpenPopUp() {
                     action: function () {
                         var url = $('#adhocTag').find(":selected").data('value');
                         console.log(url);
-                        const win = window.open('about:blank');
+
                         $.get(url, function (data) {
                             if(data.popups){
-                                data.popups.forEach(function (value,i) {
-                                    win.location.href = value;
-                                })
+                                for (var value of data.popups){
+                                    createIframe(value.url,value.title);
+                                }
                             }
-                            window.location.href = data.redirectUrl;
                         })
                     },
-
-
                 },
                 cancel: {
                     text: cancel, // text for button
