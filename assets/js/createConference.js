@@ -13,7 +13,7 @@ function initStartIframe() {
         if (e.target.closest('.startIframe')) {
             e.preventDefault();
             var target = e.target.closest('.startIframe')
-            createIframe(target.href, target.dataset.roomname, e.target.dataset.close === 'simple' ? false : true);
+            createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true);
         }
     });
 
