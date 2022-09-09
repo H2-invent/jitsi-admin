@@ -10,10 +10,12 @@
        class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
 {% endif %}
 {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-    <a href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
-       class=" element btn btn-outline-primary startIframe" data-roomname="{{ room.name }}" data-close="simple">
-        <i class="fa-solid fa-chalkboard"></i>
-    </a>
+    {% if room.moderator != app.user %}
+        <a href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+           class=" element btn btn-outline-primary startIframe" data-roomname="{{ room.name }}" data-close="simple">
+            <i class="fa-solid fa-chalkboard"></i>
+        </a>
+    {% endif %}
 {% endif %}
 {% if not room.scheduleMeeting %}
 

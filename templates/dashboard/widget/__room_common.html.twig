@@ -58,11 +58,7 @@
 {% endif %}
 
 {% if dropdown_settings_common_delete == 1 %}
-    <li><a class="dropdown-item confirmHref"
-           href="{{ path('room_remove',{'room':room.id}) }}"
-           data-text="{{ 'confirm.delete.room'|trans }}">
-            <i class="fa fa-trash"></i>
-            {{ 'Löschen'|trans }}</a></li>
+    {% include('dashboard/widget/__room_delete_menu.html.twig') with {'room':room} %}
 {% endif %}
 
 

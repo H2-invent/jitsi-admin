@@ -884,17 +884,7 @@ strong {
   color: gold;
 }
 
-#minimizeBar {
-  height: auto;
-  width: 100%;
-  display: flex;
-  flex-wrap: nowrap;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 500;
-  align-items: flex-end;
-}
+
 
 .minified {
   transform: none !important;
@@ -913,7 +903,7 @@ strong {
   }
 
   .headerBar {
-    padding: 0;
+    padding: 0 !important;
     cursor: pointer !important;
 
     .dragger {
