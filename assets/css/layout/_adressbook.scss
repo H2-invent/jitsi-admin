@@ -90,12 +90,14 @@
 
         }
 
-        .addressbookSearchHidden, .addressbookCategorieHidden {
-          display: none !important;
-        }
+
       }
     }
   }
+}
+
+.addressbookSearchHidden, .addressbookCategorieHidden {
+  display: none !important;
 }
 
 .onlineSelector {

@@ -32,6 +32,7 @@ class AddressGroupController extends JitsiAdminController
             $title = $translator->trans('Kontaktgruppe bearbeiten');
         }
         $form = $this->createForm(AddressGroupType::class, $addressgroup, ['user' => $this->getUser(), 'action' => $this->generateUrl('address_group_new', array('id' => $addressgroup->getId()))]);
+
         try {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {

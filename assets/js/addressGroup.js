@@ -4,30 +4,31 @@ import {getCookie, setCookie} from './cookie'
 
 function initAddressGroupSearch() {
     $("#searchAddressGroup").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#addressGroupList li label").filter(function () {
-            $(this).closest('li').toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
+        searchUSers(this);
     });
 }
 
 function initListSearch() {
     $(".searchListInput").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        var $list = $(this).closest('.textarea').find('.adressbookline');
-        $list.filter(function () {
-            var indexer = $(this).data('indexer').toLowerCase();
-            var res = indexer.indexOf(value) > -1;
-            if (!res) {
-                this.classList.add('addressbookSearchHidden')
-            } else {
-                this.classList.remove('addressbookSearchHidden')
-            }
-        });
-        cleanCapitalLetters();
+        searchUSers(this)
     });
     initAddressbook();
     initCategoryFilter();
+}
+
+function searchUSers(inputField) {
+    var value = $(inputField).val().toLowerCase();
+    var $list = $(inputField).closest('.textarea').find('.adressbookline');
+    $list.filter(function () {
+        var indexer = $(this).data('indexer').toLowerCase();
+        var res = indexer.indexOf(value) > -1;
+        if (!res) {
+            this.classList.add('d-none')
+        } else {
+            this.classList.remove('d-none')
+        }
+    });
+    cleanCapitalLetters();
 }
 
 function initAddressbook() {
@@ -74,7 +75,7 @@ function initCategoryFilter() {
 }
 
 
-function categorySort(ele){
+function categorySort(ele) {
     var filter = $('.adressBookFilter');
     var checked = [];
     var unchecked = [];
@@ -117,13 +118,17 @@ function cleanCapitalLetters() {
                 break;
             }
         }
+        var register = findRegister(cap[i]);
         if (!next || next.classList.contains('capital-Letter')) {
             cap[i].style.display = 'none';
-            findRegister(cap[i].textContent).style.display = 'none';
-
+            if (register){
+                register.style.display = 'none';
+            }
         } else {
             cap[i].style.removeProperty('display');
-            findRegister(cap[i].textContent).style.removeProperty('display');
+            if (register){
+                register.style.removeProperty('display');
+            }
         }
     }
 }
@@ -133,11 +138,16 @@ function isHidden(el) {
 }
 
 function findRegister(register) {
-    for (const a of document.querySelectorAll('.adressbookSearchletter')) {
-        if (a.textContent.includes(register)) {
-            return a;
+    try {
+        for (const a of register.closest('.adressbookComponent').querySelectorAll('.registerElement ')) {
+            if (a.textContent.includes(register.textContent)) {
+                return a;
+            }
         }
+    } catch (e) {
+
     }
+
 }
 
 export {initAddressGroupSearch, initListSearch};

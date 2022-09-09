@@ -25,6 +25,7 @@ class AddressGroupType extends AbstractType
 {
     private $parameterBag;
     private ParticipantSearchService $participantSearchService;
+
     public function __construct(ParameterBagInterface $parameterBag, ParticipantSearchService $participantSearchService)
     {
         $this->parameterBag = $parameterBag;
@@ -37,18 +38,30 @@ class AddressGroupType extends AbstractType
         $user = $options['user'];
         $builder
             ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.addressgroupName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('member', EntityType::class, array(
-                'label'=>'label.addressgroupMember',
+            ->add('member', UserLineType::class, array(
+                'choice_indexerName' => function (User $user) {
+                    return $user->getIndexer();
+                },
+                'choice_nameNoIcon' => function (User $user) {
+                    return $this->participantSearchService->buildShowInFrontendStringNoString($user);
+                },
+                'label' => 'label.addressgroupMember',
                 'class' => User::class,
                 'multiple' => true,
                 'expanded' => true,
-                'label_html'=>true,
-                'choice_label' => function(User $user){
+                'label_html' => true,
+                'choice_label' => function (User $user) {
                     return $this->participantSearchService->buildShowInFrontendString($user);
-
                 },
                 'choices' => $user->getAddressbook(),
-                'translation_domain' => 'form'
+                'translation_domain' => 'form',
+                'choice_attr' => function(User $user) {
+                    // adds a class like attending_yes, attending_no, etc
+                    return [
+                        'data-indexer'=>$user->getIndexer(),
+                        'data-labelNoIcon'=>$this->participantSearchService->buildShowInFrontendStringNoString($user)
+                    ];
+                },
             ))
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary btn-sm'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
@@ -56,8 +69,8 @@ class AddressGroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'=>Addressgroup::class,
-            'user'=>new User(),
+            'data_class' => Addressgroup::class,
+            'user' => new User(),
         ]);
     }
 }
