@@ -117,19 +117,33 @@ class ThemeService
         if ($tmp !== null) {
 
             try {
-                return json_decode($tmp,true);
+                $res = json_decode($tmp, true);
+                if (!$res) {
+                    return $tmp;
+                }
+                return $res;
 
             } catch (\Exception $exception) {
+                return $tmp;
             }
-            return $tmp;
+
         }
 
         try {
-            $res = json_decode($variable,true);
+
+
+            $res = json_decode($variable, true);
+            if ($input === 'helpText') {
+                dump($res);
+            }
+            if (!$res) {
+                return $variable;
+            }
             return $res;
         } catch (\Exception $exception) {
+            return $variable;
         }
 
-        return $variable;
+
     }
 }

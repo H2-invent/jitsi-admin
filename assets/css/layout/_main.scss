@@ -647,7 +647,6 @@ strong {
 
 .modal-dialog {
 
-  @media (min-width: 992px) {
     &.modal-full-height {
       position: absolute;
       top: 0;
@@ -655,7 +654,7 @@ strong {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
-      width: 400px;
+      width: 100%;
       height: auto;
       min-height: 100%;
       margin: 0;
@@ -678,7 +677,7 @@ strong {
         }
       }
     }
-  }
+
 
 
   @media (min-width: 992px) and (min-width: 992px) {
