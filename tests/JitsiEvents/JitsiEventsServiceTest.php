@@ -225,8 +225,10 @@ class JitsiEventsServiceTest extends KernelTestCase
         $room = $roomRepo->findOneBy(array('uid' => '123456780'));
         self::assertEquals(1 ,sizeof($room->getRoomstatuses()));
         self::assertEquals(1, sizeof($roomStatus->getRoomStatusParticipants()));
-        self::$participantJoinedData['occupant']['occupant_jid'] = 'kjdshnfkjhds';
-        self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
+
+        $newPartJoind = self::$participantJoinedData;
+        $newPartJoind['occupant']['occupant_jid'] = 'kjdshnfkjhds';
+        self::assertNull($webhookService->startWebhook($newPartJoind));
 
         $room = $roomRepo->findOneBy(array('uid' => '123456780'));
         $roomStatus = $room->getRoomstatuses()[0];

@@ -276,14 +276,6 @@ function initRepeater() {
 }
 function inIframe () {
     try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
-}
-
-if (inIframe()){
-    window.addEventListener('message', function (e) {
         const decoded = JSON.parse(e.data);
         if (decoded.type === 'pleaseClose') {
             const message = JSON.stringify({
@@ -292,6 +284,14 @@ if (inIframe()){
             });
             window.parent.postMessage(message, '*');
         }
+    } catch (e) {
+        return true;
+    }
+}
+
+if (inIframe()){
+    window.addEventListener('message', function (e) {
+
     });
 }
 

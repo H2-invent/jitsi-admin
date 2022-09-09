@@ -24,7 +24,7 @@ class StarService
         try {
             $star = new Star();
             $star->setCreatedAt(new \DateTime());
-            if ($comment) {
+            if ($comment !== '') {
                 $star->setComment($comment);
             }
             $this->logger->debug($starInt, array('this ist the star!!!'));
@@ -35,6 +35,7 @@ class StarService
             if ($browser) {
                 $star->setBrowser($browser);
             }
+
             $server = $this->em->getRepository(Server::class)->find($serverId);
             if ($server) {
                 $star->setServer($server);
