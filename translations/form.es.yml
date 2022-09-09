@@ -97,7 +97,7 @@ label:
   serverLicenseKey: Ingrese la clave de licencia de Jitsi-Admin
   apiKey: Api_Key para este servidor
   agenda: Agenda abreviada para esta reunión (Markdown)
-  staticBackgroundColor:
+  staticBackgroundColor: Mostrar un color fijo en vez de imágenes en la pantalla de unión
   schowStaticBackgroundColor: Mostrar un color fijo en vez de imágenes en la pantalla de unión
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" está activado en este servidor
   dissallowScreenshareGlobal: Sólo el moderador puede compartir la pantalla
