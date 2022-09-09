@@ -75,9 +75,14 @@ router.post('/.well-known/mercure', (request, response) => {
         response.end('OK');
     }
 });
+router.get('/healthz', (request, response) => {
+//code to perform particular action.
+//To access POST variable use req.body()methods.
+    return response.sendStatus(200);
+});
 
 app.use("/", router);
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+server.listen(process.env.PORT, () => {
+    console.log('listening on *:'+process.env.PORT);
 });

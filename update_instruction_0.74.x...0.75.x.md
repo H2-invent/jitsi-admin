@@ -12,9 +12,22 @@ __Node ^16.15 and npm ^8.5 have to be installed__
 7. Clean cache `php bin/console cache:clear`
 8. Set the permission `sudo chown -R www-data:www-data var/`
 9. Check your email settings with the command `php bin/console app:email:test <serverId> <email@domain.de>`. You should receive a test email
-10. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
+10. Install the new websocket application:
+    1. install node 
+    2. ````bash
+       sudo apt update
+       sudo apt upgrade
+       sudo apt install -y curl
+       curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+       sudo apt install -y nodejs
+       node --version
+       v16.1.0
+       ````
+    3. change into th application directory `cd nodejs`
+    4. start the websocket application `WEBSOCKET_SECRET=<SECRET_FROM_ENV> AWAY_TIME=<TIME_UNTIL_AUTOMATIC_AWAY_STATUS> PORT=3000 node .`
+    5. Configure your reverse proxy to find the websocket.
+11. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
     1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
-
 ### Update Docker installation from 0.72.x ... 0.73.x
 
 1. Checkout latest Tag 
