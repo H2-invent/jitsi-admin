@@ -1,4 +1,4 @@
-{% if room.endDate is not null and 'now'|date('U') < room.endTimestamp %}
+{% if room.persistantRoom == true or (room.endDate is not null and 'now'|date('U') < room.endTimestamp) %}
     <li><a class="dropdown-item confirmHref"
            href="{{ path('room_remove',{'room':room.id}) }}"
            data-text="{{ 'confirm.delete.room'|trans }}">
