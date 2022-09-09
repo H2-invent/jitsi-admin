@@ -26,6 +26,9 @@ function initStartIframe() {
         recievecommand(data)
 
     });
+    addEventListener('resize', (event) => {
+        setWidthOfminified();
+    });
 }
 
 function createIframe(url, title, closeIntelligent = true) {
