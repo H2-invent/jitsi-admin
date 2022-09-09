@@ -12,7 +12,8 @@ function initStartIframe() {
     document.addEventListener('click', (e) => {
         if (e.target.closest('.startIframe')) {
             e.preventDefault();
-            createIframe(e.target.href, e.target.dataset.roomname, e.target.dataset.close === 'simple' ? false : true);
+            var target = e.target.closest('.startIframe')
+            createIframe(target.href, target.dataset.roomname, e.target.dataset.close === 'simple' ? false : true);
         }
     });
 
@@ -42,7 +43,7 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="headerBar">' +
         '<div class="dragger actionIcon"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
-        // '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
+        '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
         '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
         '</div>' +
@@ -73,9 +74,9 @@ function createIframe(url, title, closeIntelligent = true) {
             closeIframe('jitsiadminiframe' + random);
         }
     })
-    // document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
-    //     minimizeFrame('jitsiadminiframe' + random)
-    // })
+    document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
+        minimizeFrame('jitsiadminiframe' + random)
+    })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
         if (e.currentTarget.dataset.maximal === "0") {
@@ -106,9 +107,6 @@ function createIframe(url, title, closeIntelligent = true) {
         }
     })
 
-    // document.getElementById('jitsiadminiframe' + random).querySelector('.button-minimize').addEventListener('click', function (e) {
-    //
-    // })
 
     document.getElementById('jitsiadminiframe' + random).addEventListener('click', function (e) {
         if (event.currentTarget.style.zIndex < zindex - 1) {
@@ -116,7 +114,6 @@ function createIframe(url, title, closeIntelligent = true) {
         }
     })
 
-    addInteractions()
     setTimeout(function () {
         sendCommand('jitsiadminiframe' + random, {type: 'init'});
     }, 5000)
@@ -124,6 +121,7 @@ function createIframe(url, title, closeIntelligent = true) {
     if (window.innerWidth < 992) {
         document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
     }
+    addInteractions();
 }
 
 function sendCommand(id, message) {
@@ -221,15 +219,16 @@ function addInteractions() {
 }
 
 function minimizeFrame(id) {
-    createMinimizeBar();
     var container = document.getElementById(id);
     moveToMinibar(container);
 }
 
 function moveToMinibar(container) {
-    container.dataset.parent = container.parentNode.id;
-    var minimizeBar = document.getElementById('minimizeBar');
-    minimizeBar.append(container);
+    // container.dataset.parent = container.parentNode.id;
+    // var minimizeBar = document.getElementById('minimizeBar');
+    // minimizeBar.append(container);
+    container.querySelector('iframe').style.height='0px';
+    container.dataset.beforeminwidth = container.style.width;
     container.classList.add('minified');
     setTimeout(function () {
         container.querySelector('.headerBar').addEventListener('click',(e)=>{
@@ -238,42 +237,27 @@ function moveToMinibar(container) {
         }, {once : true})
     },1);
 
-
+    setWidthOfminified();
+    container.querySelector('iframe').style.removeProperty('height');
+}
+function setWidthOfminified() {
+    var ele = document.querySelectorAll('.minified');
+    var leftCounter = 0
+    for (var e of ele){
+        e.style.width = window.innerWidth/ele.length+'px';
+        e.style.left = leftCounter+'px';
+        leftCounter += window.innerWidth/ele.length;
+    }
 }
 
 function removeFromMinibar(container) {
     if (container.classList.contains('minified')) {
-        if (container.dataset.parent !== 'undefined') {
-            document.getElementById(container.dataset.parent).appendChild(container);
-        } else {
-            document.querySelector('body').appendChild(container);
-        }
         container.classList.remove('minified');
-        checkMinimizeBar();
+        container.style.width = container.dataset.beforeminwidth;
+        container.style.removeProperty('left');
+        setWidthOfminified();
     }
 }
 
-function createMinimizeBar() {
-    var minimizeBar = document.getElementById('minimizeBar');
-    if (!minimizeBar) {
-        var html =
-            '<div id="minimizeBar">' +
-
-            '</div> ';
-
-        if (document.getElementById('window')) {
-            document.getElementById('window').insertAdjacentHTML('beforeend', html);
-        } else {
-            document.querySelector('body').insertAdjacentHTML('beforeend', html);
-        }
-    }
-}
-
-function checkMinimizeBar() {
-    var minimizeBar = document.getElementById('minimizeBar');
-    if (minimizeBar.childElementCount === 0) {
-        minimizeBar.remove();
-    }
-}
 
 export {initStartIframe, createIframe}
