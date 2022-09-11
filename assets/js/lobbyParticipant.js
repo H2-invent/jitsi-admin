@@ -15,7 +15,7 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {enterMeeting, leaveMeeting, socket} from './websocket';
-import {initModeratorIframe, close} from './moderatorIframe'
+import {initModeratorIframe, close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 initNotofication();
@@ -60,12 +60,14 @@ window.onbeforeunload = function (e) {
 };
 
 function closeBrowser() {
-    $.ajax({
-        url: browserLeave,
-        context: document.body
-    })
+    fetch(browserLeave)
+        .then(response => {
+            close()
+        });
+
     for (var i = 0; i < 500000000; i++) {
     }
+
 }
 
 initCircle();
@@ -94,9 +96,14 @@ $('.renew').click(function (e) {
 $('.leave').click(function (e) {
     e.preventDefault();
     clickLeave = true;
-    $.get($(this).attr('href'), function (data) {
-        window.location.href = "/";
-    })
+    closeBrowser();
+    if(inIframe()){
+      close();
+    }else {
+        $.get($(this).attr('href'), function (data) {
+            window.location.href = "/";
+        })
+    }
 })
 
 function initJitsiMeet(data) {

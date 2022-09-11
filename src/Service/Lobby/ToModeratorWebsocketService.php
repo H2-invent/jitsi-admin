@@ -54,12 +54,16 @@ class ToModeratorWebsocketService
         $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info');
         sleep(1);
 
-        $messageDashboard = $this->translator->trans('lobby.dashboard.newUser.message', array(
-                '{name}' => $lobbyWaitungUser->getShowName(),
-                '{room}' => $room->getName(),
-                '{url}' => $this->urlgenerator->generate('room_join', array('room' => $room->getId(), 't' => 'b'))
-            )
-        );
+        $messageDashboard = sprintf('%s<br><a href="%s"  class="btn btn-sm btn-primary startIframe" data-roomname="%s">%s</a>',
+            $this->translator->trans('lobby.notification.newUser.message', array(
+                    '{name}' => $lobbyWaitungUser->getShowName(),
+                    '{room}' => $room->getName()
+                )
+            ),
+            $this->urlgenerator->generate('room_join', array('room' => $room->getId(), 't' => 'b')),
+            $room->getName(),
+            $this->translator->trans('lobby.notification.newUser.toLobby')
+            );
 
         //this message goes to the moderators which are not already in the lobby
         foreach ($lobbyWaitungUser->getRoom()->getUserAttributes() as $data) {

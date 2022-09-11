@@ -34,6 +34,7 @@ import {initChart} from './chart'
 import {Chart} from 'chart.js'
 import {initStartIframe} from './createConference'
 import {toDimension} from "chart.js/helpers";
+import {initModeratorIframe,close} from "./moderatorIframe";
 
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
@@ -274,26 +275,11 @@ function initRepeater() {
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
 }
-function inIframe () {
-    try {
-        const decoded = JSON.parse(e.data);
-        if (decoded.type === 'pleaseClose') {
-            const message = JSON.stringify({
-                type: 'closeMe',
-                frameId: decoded.frameId
-            });
-            window.parent.postMessage(message, '*');
-        }
-    } catch (e) {
-        return true;
-    }
+function closeFrame() {
+    close();
 }
+initModeratorIframe(closeFrame)
 
-if (inIframe()){
-    window.addEventListener('message', function (e) {
-
-    });
-}
 
 $('.sidebarToggle').click(function () {
     $('#sidebar').toggleClass('showSidebar');
