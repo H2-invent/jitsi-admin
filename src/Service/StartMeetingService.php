@@ -227,14 +227,13 @@ class StartMeetingService
      */
     private function RoomClosed()
     {
-        $this->flashBag->add('danger', $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-            array(
-                '{from}' => $this->room->getStartwithTimeZone($this->user)->modify('-30min')->format('d.m.Y H:i'),
-                '{to}' => $this->room->getEndwithTimeZone($this->user)->format('d.m.Y H:i')
-            )));
+        $text =
+        $this->flashBag->add('danger', $this->buildClosedString($this->room));
 
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
+
+
 
     /**
      * @return RedirectResponse
@@ -283,6 +282,13 @@ class StartMeetingService
         return false;
     }
 
+    public function buildClosedString(Rooms $rooms){
+        return $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+            array(
+                '{from}' => $rooms->getStartwithTimeZone($this->user)->modify('-30min')->format('d.m.Y H:i'),
+                '{to}' => $rooms->getEndwithTimeZone($this->user)->format('d.m.Y H:i')
+            ));
+    }
     /**
      * @return null
      */

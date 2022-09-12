@@ -7,6 +7,7 @@
         </button>
         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
             <li><a class="dropdown-item startIframe" data-roomname="{{ room.name }}"
+                   {% if isRoomOpen(room,app.user) is not same as true %}data-iframetoast="{{ isRoomOpen(room,app.user) }}"{% endif %}
                    href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">{{ 'Im Browser'|trans }}</a>
             </li>
             <li><a class="dropdown-item" title="In der Electron Jitsi Meet App" rel=opener
@@ -23,6 +24,7 @@
 {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
     <div class="d-none d-lg-block ">
         <a class="btn btn-primary startIframe" data-roomname="{{ room.name }}"
+           {% if isRoomOpen(room,app.user) is not same as true %}data-iframetoast="{{ isRoomOpen(room,app.user) }}"{% endif %}
            href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
            target="_blank">{{ 'Starten'|trans }}</a>
     </div>
@@ -30,6 +32,7 @@
 
 <div class="d-block d-lg-none">
     <a class="btn btn-primary startIframe" data-roomname="{{ room.name }}"
+       {% if isRoomOpen(room,app.user) is not same as true %}data-iframetoast="{{ isRoomOpen(room,app.user) }}"{% endif %}
        href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
        target="_blank">{{ 'Starten'|trans }}</a>
 </div>

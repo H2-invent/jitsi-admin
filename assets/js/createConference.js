@@ -1,6 +1,7 @@
 import interact from 'interactjs'
 import {leaveMeeting} from "./websocket";
 import md5 from "blueimp-md5"
+import {setSnackbar} from "./myToastr";
 
 let counter = 50;
 let zindex = 10
@@ -11,9 +12,15 @@ function initStartIframe() {
 
     document.addEventListener('click', (e) => {
         if (e.target.closest('.startIframe')) {
+
             e.preventDefault();
             var target = e.target.closest('.startIframe')
-            createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true);
+            if ("iframetoast" in target.dataset) {
+                setSnackbar(target.dataset.iframetoast, 'danger');
+            } else {
+                createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true);
+            }
+
         }
     });
 
@@ -155,7 +162,7 @@ function addInteractions() {
     interact('.dragger').draggable({
         listeners: {
             start(event) {
-                if(event.target.closest('.jitsiadminiframe').classList.contains('minified')){
+                if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
                     return null;
                 }
                 position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
@@ -168,7 +175,7 @@ function addInteractions() {
 
             },
             move(event) {
-                if(event.target.closest('.jitsiadminiframe').classList.contains('minified')){
+                if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
                     return null;
                 }
                 if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
@@ -182,7 +189,7 @@ function addInteractions() {
 
             },
             end(event) {
-                if(event.target.closest('.jitsiadminiframe').classList.contains('minified')){
+                if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
                     return null;
                 }
                 event.target.closest('.jitsiadminiframe').dataset.x = position.x;
@@ -196,7 +203,7 @@ function addInteractions() {
             edges: {top: true, left: true, bottom: true, right: true},
             listeners: {
                 move: function (event) {
-                    if(event.target.classList.contains('minified')){
+                    if (event.target.classList.contains('minified')) {
                         return null;
                     }
                     if (event.target.style.zIndex < zindex - 1) {
@@ -230,26 +237,27 @@ function moveToMinibar(container) {
     // container.dataset.parent = container.parentNode.id;
     // var minimizeBar = document.getElementById('minimizeBar');
     // minimizeBar.append(container);
-    container.querySelector('iframe').style.height='0px';
+    container.querySelector('iframe').style.height = '0px';
     container.dataset.beforeminwidth = container.style.width;
     container.classList.add('minified');
     setTimeout(function () {
-        container.querySelector('.headerBar').addEventListener('click',(e)=>{
+        container.querySelector('.headerBar').addEventListener('click', (e) => {
             var ele = e.currentTarget.closest('.minified');
             removeFromMinibar(ele);
-        }, {once : true})
-    },1);
+        }, {once: true})
+    }, 1);
 
     setWidthOfminified();
     container.querySelector('iframe').style.removeProperty('height');
 }
+
 function setWidthOfminified() {
     var ele = document.querySelectorAll('.minified');
     var leftCounter = 0
-    for (var e of ele){
-        e.style.width = window.innerWidth/ele.length+'px';
-        e.style.left = leftCounter+'px';
-        leftCounter += window.innerWidth/ele.length;
+    for (var e of ele) {
+        e.style.width = window.innerWidth / ele.length + 'px';
+        e.style.left = leftCounter + 'px';
+        leftCounter += window.innerWidth / ele.length;
     }
 }
 
