@@ -51,6 +51,4 @@ class CheckStartTime extends AbstractExtension
             return true;
         }
     }
-
-
 }
