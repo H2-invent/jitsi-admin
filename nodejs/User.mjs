@@ -1,5 +1,5 @@
 import {io} from "./websocket.js";
-import {getOnlineUSer, getUserStatus} from "./login.js";
+import {getOnlineUSer, getUserStatus} from "./login.mjs";
 
 class User {
     userId;

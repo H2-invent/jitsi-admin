@@ -9,8 +9,8 @@ const server = http.createServer(app);
 import {Server} from "socket.io";
 import jwt from 'jsonwebtoken'
 
-import {getOnlineUSer, disconnectUser, checkEmptySockets} from './login.js'
-import {websocketState} from './websocketState.js';
+import {getOnlineUSer, disconnectUser, checkEmptySockets} from './login.mjs'
+import {websocketState} from './websocketState.mjs';
 
 export const io = new Server(server, {
     cors: {

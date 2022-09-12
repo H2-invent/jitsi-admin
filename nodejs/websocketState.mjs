@@ -7,7 +7,7 @@ import {
     leaveMeeting,
     getUserStatus,
     getUserFromSocket, disconnectUser, checkEmptySockets
-} from './login.js'
+} from './login.mjs'
 import {io} from './websocket.js'
 
 export function websocketState(event, socket, message) {

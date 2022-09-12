@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import {User} from "./User.js";
+import {User} from "./User.mjs";
 
 let user = {};
 
@@ -14,6 +14,7 @@ export function loginUser(socket) {
         } else {
             user[userId].addSocket(socket);
         }
+      socket.emit
     }
 }
 

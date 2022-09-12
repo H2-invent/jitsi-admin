@@ -49,6 +49,7 @@ services:
 
   whiteboard-ja:
     build: https://github.com/H2-invent/materialWhitebophir.git
+    restart: unless-stopped
     environment:
       AUTH_SECRET_KEY: '${MERCURE_JWT_SECRET}'
       PORT: 80
