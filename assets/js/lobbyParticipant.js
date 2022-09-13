@@ -14,7 +14,7 @@ import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
-
+import {checkDeviceinList}  from './jitsiUtils'
 
 initNotofication();
 
@@ -162,8 +162,12 @@ function initJitsiMeet(data) {
             api.executeCommand('avatarUrl', avatarUrl);
         }
         api.getAvailableDevices().then(devices => {
-            api.setVideoInputDevice(cameraLable);
-            api.setAudioInputDevice(microphoneLabel);
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setVideoInputDevice(cameraLable);
+            }
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setAudioInputDevice(microphoneLabel);
+            }
             swithCameraOn(toggle);
         });
         swithCameraOn(toggle);
@@ -246,6 +250,7 @@ function swithCameraOn(videoOn) {
         });
     }
 }
+
 
 $(document).ready(function () {
     initGenerell()

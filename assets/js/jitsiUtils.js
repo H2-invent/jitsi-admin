@@ -4,6 +4,7 @@
  */
 
 import $ from 'jquery';
+import {toggle} from "./cameraUtils";
 
 import('bootstrap');
 import('popper.js');
@@ -119,15 +120,16 @@ function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId
             api.executeCommand('toggleParticipantsPane', {enabled: true});
         }
 
-
         api.getAvailableDevices().then(devices => {
-            api.setVideoInputDevice(cameraLable);
-            api.setAudioInputDevice(microphoneLabel);
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setVideoInputDevice(cameraLable);
+            }
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setAudioInputDevice(microphoneLabel);
+            }
             swithCameraOn(videoOn);
         });
         swithCameraOn(videoOn);
-
-
 
         $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
 
@@ -170,4 +172,20 @@ function swithCameraOn(videoOn) {
         });
     }
 }
-export {initJitsi, hangup}
+function checkDeviceinList(list,labelOrId) {
+    console.log(list);
+
+    for (var type in list){
+        for (var dev of list[type]){
+            if (dev.deviceId === labelOrId){
+                return true
+            }
+            if(dev.label ===  labelOrId){
+                return true;
+            }
+
+        }
+    }
+    return false;
+}
+export {initJitsi, hangup, checkDeviceinList}
