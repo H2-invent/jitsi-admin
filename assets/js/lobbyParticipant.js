@@ -18,6 +18,7 @@ import {enterMeeting, leaveMeeting, socket} from './websocket';
 import {initModeratorIframe, close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
+import {checkDeviceinList}  from './jitsiUtils'
 initNotofication();
 
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
@@ -160,8 +161,12 @@ function initJitsiMeet(data) {
             api.executeCommand('avatarUrl', avatarUrl);
         }
         api.getAvailableDevices().then(devices => {
-            api.setVideoInputDevice(cameraLable);
-            api.setAudioInputDevice(microphoneLabel);
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setVideoInputDevice(cameraLable);
+            }
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setAudioInputDevice(microphoneLabel);
+            }
             swithCameraOn(toggle);
         });
         swithCameraOn(toggle);
@@ -244,7 +249,6 @@ function swithCameraOn(videoOn) {
 }
 
 $(document).ready(function () {
-    initGenerell()
     initGenerell()
     initAUdio();
     initWebcam();

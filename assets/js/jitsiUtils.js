@@ -8,7 +8,7 @@ import {closeIframe} from "./lobbyModerator";
 import {enterMeeting, leaveMeeting} from "./websocket";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
-
+import {toggle} from "./cameraUtils";
 import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
@@ -106,10 +106,13 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
             api.executeCommand('toggleParticipantsPane', {enabled: true});
         }
 
-
         api.getAvailableDevices().then(devices => {
-            api.setVideoInputDevice(cameraLable);
-            api.setAudioInputDevice(microphoneLabel);
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setVideoInputDevice(cameraLable);
+            }
+            if (checkDeviceinList(devices,cameraLable)){
+                api.setAudioInputDevice(microphoneLabel);
+            }
             swithCameraOn(videoOn);
         });
         swithCameraOn(videoOn);
@@ -190,5 +193,20 @@ function swithCameraOn(videoOn) {
         });
     }
 }
+function checkDeviceinList(list,labelOrId) {
+    console.log(list);
 
-export {initJitsi, hangup, askHangup}
+    for (var type in list){
+        for (var dev of list[type]){
+            if (dev.deviceId === labelOrId){
+                return true
+            }
+            if(dev.label ===  labelOrId){
+                return true;
+            }
+
+        }
+    }
+    return false;
+}
+export {initJitsi, hangup, askHangup, checkDeviceinList}
