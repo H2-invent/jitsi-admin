@@ -14,27 +14,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomAddService
 {
-    private $inviteService;
-    private $em;
-    private $userService;
-    private $translator;
-    private $repeaterService;
-    private $parameterBag;
-    private $userCreatorService;
 
-    public function __construct(UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, RepeaterService $repeaterService, InviteService $inviteService, EntityManagerInterface $entityManager, UserService $userService, TranslatorInterface $translator)
+    public function __construct(
+        private UserCreatorService      $userCreatorService,
+        private ParameterBagInterface   $parameterBag,
+        private RepeaterService         $repeaterService,
+        private InviteService           $inviteService,
+        private EntityManagerInterface  $em,
+        private UserService             $userService,
+        private TranslatorInterface     $translator,
+        private PermissionChangeService $permissionChangeService
+    )
     {
-        $this->inviteService = $inviteService;
-        $this->em = $entityManager;
-        $this->userService = $userService;
-        $this->translator = $translator;
-        $this->repeaterService = $repeaterService;
-        $this->parameterBag = $parameterBag;
-        $this->userCreatorService = $userCreatorService;
     }
 
 
-    public function createParticipants($input, Rooms $room)
+    public
+    function createParticipants($input, Rooms $room)
     {
         $lines = explode("\n", $input);
         $falseEmail = array();
@@ -63,7 +59,8 @@ class RoomAddService
         return $falseEmail;
     }
 
-    public function createModerators($input, Rooms $room)
+    public
+    function createModerators($input, Rooms $room)
     {
         $lines = explode("\n", $input);
         $falseEmail = array();
@@ -78,19 +75,8 @@ class RoomAddService
                     }
                     if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
                         $user = $this->createUserParticipant($newMember, $room, $tmpUser);
-
-                        $roomsUser = new RoomsUser();
-                        $roomsUser->setUser($user);
-                        $roomsUser->setRoom($room->getRepeater() ? $room->getRepeater()->getPrototyp() : $room);
-                        if ($room->getRepeater()) {
-                            $roomsUser->setRoom($room->getRepeater()->getPrototyp());
-                            $room->getRepeater()->getPrototyp()->addUserAttribute($roomsUser);
-                        } else {
-                            $roomsUser->setRoom($room);
-                        }
-                        $roomsUser->setModerator(true);
-                        $this->em->persist($roomsUser);
-                    } else {
+                        $this->permissionChangeService->toggleModerator($room->getModerator(),$user,$room);
+                } else {
                         if (strlen($newMember) > 0) {
                             $falseEmail[] = $newMember;
                         }
@@ -108,7 +94,8 @@ class RoomAddService
         return $falseEmail;
     }
 
-    private function createUserParticipant($email, Rooms $room, ?User $user = null)
+    private
+    function createUserParticipant($email, Rooms $room, ?User $user = null)
     {
         if (!$user) {
             $user = $this->userCreatorService->createUser($email, $email, '', '');
@@ -134,7 +121,8 @@ class RoomAddService
         return $user;
     }
 
-    public function removeUserFromRoom(User $user, Rooms $rooms)
+    public
+    function removeUserFromRoom(User $user, Rooms $rooms)
     {
         if ($rooms->getRepeater()) {
             $prot = $rooms->getRepeater()->getPrototyp();
@@ -157,7 +145,8 @@ class RoomAddService
         }
     }
 
-    private function removeRoomUser(User $user, Rooms $rooms)
+    private
+    function removeRoomUser(User $user, Rooms $rooms)
     {
         $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
         if ($roomsUser) {
