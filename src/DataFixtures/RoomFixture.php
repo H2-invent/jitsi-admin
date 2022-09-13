@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\AddressGroup;
 use App\Entity\CallerRoom;
+use App\Entity\LdapUserProperties;
 use App\Entity\License;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
@@ -55,6 +56,32 @@ class RoomFixture extends Fixture
         $user2->setCreatedAt(new \DateTime());
         $user2->setIndexer('test@local2.de test@local2.de test2 user2 test2 1234 9876543210');
         $manager->persist($user2);
+
+
+        $userLDAP = new \App\Entity\User();
+        $userLDAP->setEmail('ldapUser@local.de');
+        $userLDAP->setCreatedAt(new \DateTime());
+        $userLDAP->setKeycloakId(123456);
+        $userLDAP->setFirstName('LdapUSer');
+        $userLDAP->setLastName('Ldap');
+        $userLDAP->setRegisterId(123456);
+        $userLDAP->setSpezialProperties(array('ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',));
+        $userLDAP->setTimeZone('Europe/Berlin');
+        $userLDAP->setUuid('dfsdffscxv');
+        $userLDAP->setUid('kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj');
+        $userLDAP->setUsername('ldapUser@local.de');
+        $userLDAP->setCreatedAt(new \DateTime());
+        $userLDAP->setIndexer('ldapuser@local.de ldapuser@local.de ldapuser ldap aa 45689 987654321012');
+        $manager->persist($userLDAP);
+        $ldapUserProperty = new LdapUserProperties();
+        $ldapUserProperty->setUser($userLDAP);
+        $ldapUserProperty->setLdapDn('');
+        $ldapUserProperty->setLdapHost('');
+        $ldapUserProperty->setLdapNumber('ldap_3');
+        $ldapUserProperty->setRdn('');
+        $manager->persist($ldapUserProperty);
+
+
 
         $user3 = new \App\Entity\User();
         $user3->setEmail('test@local3.de');

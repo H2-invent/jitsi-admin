@@ -133,9 +133,6 @@ class ThemeService
 
 
             $res = json_decode($variable, true);
-            if ($input === 'helpText') {
-
-            }
             if (!$res) {
                 return $variable;
             }

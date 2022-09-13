@@ -78,6 +78,7 @@ class RoomAddService
                     }
                     if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
                         $user = $this->createUserParticipant($newMember, $room, $tmpUser);
+
                         $roomsUser = new RoomsUser();
                         $roomsUser->setUser($user);
                         $roomsUser->setRoom($room->getRepeater() ? $room->getRepeater()->getPrototyp() : $room);
@@ -105,7 +106,6 @@ class RoomAddService
         }
 
         return $falseEmail;
-
     }
 
     private function createUserParticipant($email, Rooms $room, ?User $user = null)

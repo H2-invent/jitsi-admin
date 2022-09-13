@@ -24,7 +24,7 @@ class CheckRoomPermissions extends AbstractExtension
 
 
     private $em;
-    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
 

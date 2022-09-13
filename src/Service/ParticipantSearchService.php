@@ -3,18 +3,19 @@
 namespace App\Service;
 
 use App\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ParticipantSearchService
 {
     private $parameterBag;
 
-    public function __construct(ParameterBagInterface $parameterBag, private ThemeService $themeService)
+    public function __construct(ParameterBagInterface $parameterBag, private ThemeService $themeService, private LoggerInterface $logger)
     {
         $this->parameterBag = $parameterBag;
     }
 
-    public function generateUserwithoutEmptyUser(?User $user)
+    public function generateUserwithoutEmptyUser($user)
     {
         $res = array();
         foreach ($user as $data) {
@@ -91,13 +92,19 @@ class ParticipantSearchService
         return $res;
 
     }
-    public function filterForModerator(User $user, $inputArr){
-        if (in_array($user->getLdapUserProperties()->getLdapNumber(),$this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
-            $inputArr['roles'] = $this->filterRole($inputArr['roles'],'moderator');
+    public function filterForModerator(User $user, &$inputArr){
+        try {
+            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(),$this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
+                $inputArr['roles'] = $this->filterRole($inputArr['roles'],'moderator');
+            }
+        }catch (\Exception $exception){
+            $this->logger->error($exception->getMessage());
         }
+        return $inputArr;
     }
+
     public function filterRole($inputArr, $role){
-        return \array_filter($inputArr['roles'], static function ($element) use($role) {
+        return \array_filter($inputArr, static function ($element) use($role) {
             return $element !== $role;
         });
     }

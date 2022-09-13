@@ -5,6 +5,8 @@ namespace App\Tests\Addressbook;
 use App\Repository\AddressGroupRepository;
 use App\Repository\UserRepository;
 use App\Service\ParticipantSearchService;
+use Doctrine\ORM\EntityManagerInterface;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AdressbookTest extends KernelTestCase
@@ -54,26 +56,26 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
-            array('name'=>'','id'=>"test@local3.de")
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de",'roles'=>array('participant','moderator')),
+            array('name'=>'','id'=>"test@local3.de",'roles'=>array('participant','moderator'))
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de",'roles'=>array('participant','moderator')),
         ),$res);
         $string = 'asdf';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"asdf",'id'=>"asdf"),
+            array('name'=>"asdf",'id'=>"asdf",'roles'=>array('participant','moderator')),
         ),$res);
         $string = 'TEst2';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de",'roles'=>array('participant','moderator')),
         ),$res);
 
     }
@@ -92,7 +94,7 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>$string, 'id'=>$string)
+            array('name'=>$string, 'id'=>$string,'roles'=>array('participant','moderator'))
         ),$res);
 
     }
@@ -108,14 +110,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
-            array('name'=>'','id'=>"test@local3.de")
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de",'roles'=>array('participant','moderator')),
+            array('name'=>'','id'=>"test@local3.de",'roles'=>array('participant','moderator'))
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de",'roles'=>array('participant','moderator')),
         ),$res);
     }
     public function testnoUSerfoundNoGenerate(): void
@@ -130,6 +132,28 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr,$string);
         $this->assertEquals(array(
+        ),$res);
+    }
+    public function testUserFoundNoModerator(): void
+    {
+        $kernel = self::bootKernel();
+        $searchService = $this->getContainer()->get(ParticipantSearchService::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $userRepo = self::$container->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $userLdap = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $user->addAddressbook($userLdap);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $manager->persist($user);
+        $manager->flush();
+        $userRepo->findMyUserByIndex('ldapUser', $user);
+        $string = 'ldapUser';
+        $userArr = $userRepo->findMyUserByIndex($string, $user);
+        $res = $searchService->generateUserwithoutEmptyUser($userArr);
+        $this->assertEquals(array(
+          array('name'=>'<i class="fa fa-phone" title="987654321012" data-toggle="tooltip"></i> AA, 45689, Ldap, LdapUSer',
+              'id'=>'ldapUser@local.de',
+              'roles'=>array('participant'))
         ),$res);
     }
     public function testUserFoundNoGenerate(): void
@@ -147,14 +171,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
-            array('name'=>'','id'=>"test@local3.de")
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de",'roles'=>array('participant','moderator')),
+            array('name'=>'','id'=>"test@local3.de",'roles'=>array('participant','moderator'))
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de"),
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','id'=>"test2@local.de",'roles'=>array('participant','moderator')),
         ),$res);
 
     }
