@@ -120,16 +120,16 @@ function initJitsi(options, domain, titelL, okL, cancelL,videoOn, videoId, micId
             api.executeCommand('toggleParticipantsPane', {enabled: true});
         }
 
-        api.getAvailableDevices().then(devices => {
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setVideoInputDevice(cameraLable);
-            }
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setAudioInputDevice(microphoneLabel);
-            }
-            swithCameraOn(videoOn);
-        });
-        swithCameraOn(videoOn);
+        // api.getAvailableDevices().then(devices => {
+        //     if (checkDeviceinList(devices,cameraLable)){
+        //         api.setVideoInputDevice(cameraLable);
+        //     }
+        //     if (checkDeviceinList(devices,cameraLable)){
+        //         api.setAudioInputDevice(microphoneLabel);
+        //     }
+        //     swithCameraOn(videoOn);
+        // });
+        // swithCameraOn(videoOn);
 
         $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
 

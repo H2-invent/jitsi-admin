@@ -161,16 +161,16 @@ function initJitsiMeet(data) {
         if (avatarUrl !== '') {
             api.executeCommand('avatarUrl', avatarUrl);
         }
-        api.getAvailableDevices().then(devices => {
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setVideoInputDevice(cameraLable);
-            }
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setAudioInputDevice(microphoneLabel);
-            }
-            swithCameraOn(toggle);
-        });
-        swithCameraOn(toggle);
+        // api.getAvailableDevices().then(devices => {
+        //     if (checkDeviceinList(devices,cameraLable)){
+        //         api.setVideoInputDevice(cameraLable);
+        //     }
+        //     if (checkDeviceinList(devices,cameraLable)){
+        //         api.setAudioInputDevice(microphoneLabel);
+        //     }
+        //     swithCameraOn(toggle);
+        // });
+        // swithCameraOn(toggle);
     });
 
 
