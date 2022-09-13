@@ -21,17 +21,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PermissionChangeService
 {
     private $em;
-    private $roomAddUserService;
+
     private $repeaterService;
     private $websocketService;
     private $translator;
     private $urlGen;
     private $parameterBag;
 
-    public function __construct(ParameterBagInterface $parameterBag, UrlGeneratorInterface $urlGenerator, RepeaterService $repeaterService, EntityManagerInterface $em, RoomAddService $roomAddService, DirectSendService $directSendService, TranslatorInterface $translator)
+    public function __construct(ParameterBagInterface $parameterBag, UrlGeneratorInterface $urlGenerator, RepeaterService $repeaterService, EntityManagerInterface $em, DirectSendService $directSendService, TranslatorInterface $translator)
     {
         $this->em = $em;
-        $this->roomAddUserService = $roomAddService;
+
         $this->repeaterService = $repeaterService;
         $this->websocketService = $directSendService;
         $this->translator = $translator;
