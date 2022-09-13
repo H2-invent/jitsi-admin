@@ -37,6 +37,9 @@ class PublicConferenceController extends JitsiAdminController
     #[Route('/m', name: 'app_public_form')]
     public function index(Request $request): Response
     {
+        if($this->themeService->getApplicationProperties('PUBLIC_SERVER')===0){
+            return $this->redirectToRoute('dashboard');
+        }
         $server = $this->doctrine->getRepository(Server::class)->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
         $data = array('roomName' => UtilsHelper::readable_random_string(20));
         $form = $this->createForm(PublicConferenceType::class, $data);
