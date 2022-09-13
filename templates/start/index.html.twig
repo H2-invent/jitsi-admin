@@ -88,6 +88,9 @@
 
             parentNode: document.querySelector('#jitsiWindow'),
             {% if room.server.appId is not null %}
+        {% if moderator is not defined %}
+        {% set moderator = false %}
+        {% endif %}
             jwt: '{{ jwtFromRoom(user,room,name,moderator) }}',
             {% endif %}
             userInfo: {

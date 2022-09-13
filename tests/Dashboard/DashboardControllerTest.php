@@ -44,8 +44,8 @@ class DashboardControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('GET', '/');
+        self::assertResponseRedirects('/m');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
     public function testDayDescription()
     {
