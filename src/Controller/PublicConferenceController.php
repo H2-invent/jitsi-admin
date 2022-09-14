@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Form\Type\PublicConferenceType;
 use App\Helper\JitsiAdminController;
+use App\Service\PublicConference\PublicConferenceService;
 use App\Service\ThemeService;
 use App\Service\webhook\RoomStatusFrontendService;
 use App\UtilsHelper;
@@ -22,72 +23,74 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PublicConferenceController extends JitsiAdminController
 {
+    private ?Server $server;
+
     public function __construct(
-        ManagerRegistry                      $managerRegistry,
-        TranslatorInterface                  $translator,
-        LoggerInterface                      $logger,
-        ParameterBagInterface                $parameterBag,
-        private ThemeService                 $themeService,
-        private RequestStack                 $requestStack,
-        private RoomStatusFrontendService $roomStatusFrontendService)
+        ManagerRegistry                   $managerRegistry,
+        TranslatorInterface               $translator,
+        LoggerInterface                   $logger,
+        ParameterBagInterface             $parameterBag,
+        private ThemeService              $themeService,
+        private RequestStack              $requestStack,
+        private RoomStatusFrontendService $roomStatusFrontendService,
+        private PublicConferenceService   $publicConferenceService
+    )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+        $this->server = $this->doctrine->getRepository(Server::class)->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
     }
 
     #[Route('/m', name: 'app_public_form')]
     public function index(Request $request): Response
     {
-        if($this->themeService->getApplicationProperties('PUBLIC_SERVER')===0){
+        if (!$this->server) {
             return $this->redirectToRoute('dashboard');
         }
-        $server = $this->doctrine->getRepository(Server::class)->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
+
         $data = array('roomName' => UtilsHelper::readable_random_string(20));
         $form = $this->createForm(PublicConferenceType::class, $data);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
-            $roomname = UtilsHelper::slugify($data['roomName']);
-            $uid = md5($server->getUrl() . $roomname);
-            $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uid' => $uid, 'moderator' => null));
-            if (!$room) {
-                $room = new Rooms();
-                $room->setServer($server)
-                    ->setUid($uid)
-                    ->setName($roomname)
-                    ->setDuration(0)
-                    ->setSequence(0)
-                    ->setUidReal(md5(uniqid()));
-                if ($this->requestStack && $this->requestStack->getCurrentRequest()) {
-                    $room->setHostUrl($this->requestStack->getCurrentRequest()->getSchemeAndHttpHost());
-                }
-
-                $em = $this->doctrine->getManager();
-                $em->persist($room);
-                $em->flush();
-            }
-            return $this->redirectToRoute('app_public_conference', array('confId' => $roomname));
+            $room = $this->publicConferenceService->createNewRoomFromName($data['roomName'], $this->server);
+            return $this->redirectToRoute('app_public_conference', array('confId' => $room->getName()));
 
         }
         return $this->render('public_conference/index.html.twig', [
             'form' => $form->createView(),
-            'server' => $server
+            'server' => $this->server
         ]);
     }
 
     #[Route('/m/{confId}', name: 'app_public_conference')]
     public function startMeeting($confId): Response
     {
-        $server = $this->doctrine->getRepository(Server::class)->find($this->themeService->getApplicationProperties('PUBLIC_SERVER'));
-        $uid = md5($server->getUrl() . $confId);
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uid' => $uid));
+
+        $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
         return $this->render('start/index.html.twig', [
             'room' => $room,
             'user' => null,
             'name' => 'Jitsi-Fellower',
-            'moderator'=>!$firstUser
+            'moderator' => !$firstUser
         ]);
     }
+
+    /**
+     * @return Server|mixed|object|null
+     */
+    public function getServer(): mixed
+    {
+        return $this->server;
+    }
+
+    /**
+     * @param Server|mixed|object|null $server
+     */
+    public function setServer(mixed $server): void
+    {
+        $this->server = $server;
+    }
+
 
 }
