@@ -20,23 +20,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class PermissionChangeService
 {
-    private $em;
 
-    private $repeaterService;
-    private $websocketService;
-    private $translator;
-    private $urlGen;
-    private $parameterBag;
 
-    public function __construct(ParameterBagInterface $parameterBag, UrlGeneratorInterface $urlGenerator, RepeaterService $repeaterService, EntityManagerInterface $em, DirectSendService $directSendService, TranslatorInterface $translator)
+    public function __construct(
+        private ParameterBagInterface  $parameterBag,
+        private UrlGeneratorInterface  $urlGen,
+        private RepeaterService        $repeaterService,
+        private EntityManagerInterface $em,
+        private DirectSendService      $websocketService,
+        private TranslatorInterface    $translator,
+        private ThemeService           $themeService
+    )
     {
-        $this->em = $em;
-
-        $this->repeaterService = $repeaterService;
-        $this->websocketService = $directSendService;
-        $this->translator = $translator;
-        $this->urlGen = $urlGenerator;
-        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -86,7 +81,8 @@ class PermissionChangeService
      */
     function toggleModerator(User $oldUser, User $user, Rooms $rooms)
     {
-        $repeater = false;
+
+            $repeater = false;
         if ($rooms->getRepeater()) {
             $rooms = $rooms->getRepeater()->getPrototyp();
             $repeater = true;
@@ -103,6 +99,9 @@ class PermissionChangeService
             } else {
                 $roomsUser->setModerator(true);
             }
+            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
+                $roomsUser->setModerator(false);
+            }
             $this->em->persist($roomsUser);
             $this->em->flush();
             if ($repeater) {
@@ -113,6 +112,7 @@ class PermissionChangeService
 
         return false;
     }
+
 
     /**
      *   When this function is called then a user is set as an moderator
@@ -141,20 +141,23 @@ class PermissionChangeService
             } else {
                 $roomsUser->setLobbyModerator(true);
             }
+            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
+                $roomsUser->setLobbyModerator(false);
+            }
             $this->em->persist($roomsUser);
             $this->em->flush();
             if ($repeater) {
                 $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
             }
-            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
-            if($lobbyUser){
+            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+            if ($lobbyUser) {
                 $this->em->remove($lobbyUser);
                 $this->em->flush();
             }
-            $topic = 'lobby_personal' . $rooms->getUidReal()  . $user->getUid();
+            $topic = 'lobby_personal' . $rooms->getUidReal() . $user->getUid();
             $this->websocketService->sendSnackbar($topic, $this->translator->trans('lobby.change.moderator.permissions'), 'info');
             $this->websocketService->sendReloadPage($topic, $this->parameterBag->get('laf_lobby_popUpDuration'));
-            $this->websocketService->sendRefresh('lobby_moderator/'.$rooms->getUidReal(),
+            $this->websocketService->sendRefresh('lobby_moderator/' . $rooms->getUidReal(),
                 $this->urlGen->generate('lobby_moderator', array('uid' => $rooms->getUidReal())) . ' #waitingUser');
 
             return $roomsUser;

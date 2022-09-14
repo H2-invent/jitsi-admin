@@ -153,7 +153,7 @@ class RoomAddServiceTest extends KernelTestCase
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
-        $user = "test@local5.de\ntest@local4.de\ntest@local6.de";
+        $user = "test@local5.de\ntest@local4.de\ntest@local6.de\nldapUser@local.de";
         $res = $roomAddService->createModerators($user,$room);
         self::assertEquals(0, sizeof($res));
         $count = 0;
@@ -180,8 +180,8 @@ class RoomAddServiceTest extends KernelTestCase
             }
             $count++;
         }
-        self::assertEquals(6,sizeof($room->getUser()->toArray()));
-        self::assertEquals(3,sizeof($room->getUserAttributes()->toArray()));
+        self::assertEquals(7,sizeof($room->getUser()->toArray()));
+        self::assertEquals(4,sizeof($room->getUserAttributes()->toArray()));
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email'=>'test@local5.de'));
         self::assertEquals($user,$room->getUserAttributes()->toArray()[0]->getUser());
@@ -198,6 +198,11 @@ class RoomAddServiceTest extends KernelTestCase
         self::assertEquals(true, $room->getUserAttributes()[2]->getModerator());
         self::assertEquals(false, $room->getUserAttributes()[2]->getShareDisplay());
         self::assertEquals(false, $room->getUserAttributes()[2]->getPrivateMessage());
+        $user = $userRepo->findOneBy(array('email'=>'ldapUser@local.de'));
+        self::assertEquals($user,$room->getUserAttributes()->toArray()[3]->getUser());
+        self::assertEquals(false, $room->getUserAttributes()[3]->getModerator());
+        self::assertEquals(false, $room->getUserAttributes()[3]->getShareDisplay());
+        self::assertEquals(false, $room->getUserAttributes()[3]->getPrivateMessage());
     }
 
     public function testaddModeratorEmpty(): void
