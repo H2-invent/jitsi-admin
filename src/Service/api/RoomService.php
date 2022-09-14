@@ -94,6 +94,7 @@ class RoomService
         return $room;
     }
 
+
     public function removeUserFromRoom(?Rooms $room, $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

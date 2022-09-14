@@ -108,10 +108,10 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 
         api.getAvailableDevices().then(devices => {
             if (checkDeviceinList(devices,cameraLable)){
-                api.setVideoInputDevice(cameraLable);
+                api.setVideoInputDevice(checkDeviceinList(devices,cameraLable));
             }
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setAudioInputDevice(microphoneLabel);
+            if (checkDeviceinList(devices,microphoneLabel)){
+                api.setAudioInputDevice(checkDeviceinList(devices,microphoneLabel));
             }
             swithCameraOn(videoOn);
         });
@@ -199,10 +199,10 @@ function checkDeviceinList(list,labelOrId) {
     for (var type in list){
         for (var dev of list[type]){
             if (dev.deviceId === labelOrId){
-                return true
+                return dev.deviceId
             }
             if(dev.label ===  labelOrId){
-                return true;
+                return dev.deviceId;
             }
 
         }

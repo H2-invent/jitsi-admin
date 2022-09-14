@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\CallerId;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -75,8 +76,8 @@ class RoomAddService
                     }
                     if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
                         $user = $this->createUserParticipant($newMember, $room, $tmpUser);
-                        $this->permissionChangeService->toggleModerator($room->getModerator(),$user,$room);
-                } else {
+                        $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
+                    } else {
                         if (strlen($newMember) > 0) {
                             $falseEmail[] = $newMember;
                         }
@@ -122,7 +123,7 @@ class RoomAddService
     }
 
     public
-    function removeUserFromRoom(User $user, Rooms $rooms)
+    function removeUserFromRoom(User $user, Rooms $rooms): string
     {
         if ($rooms->getRepeater()) {
             $prot = $rooms->getRepeater()->getPrototyp();
@@ -142,8 +143,22 @@ class RoomAddService
             $rooms->removeUser($user);
             $this->em->persist($rooms);
             $this->em->flush();
+            $callerId = $this->em->getRepository(CallerId::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
+            if ($callerId){
+                $this->em->remove($callerId);
+                $this->em->flush();
+            }
+            $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('room'=>$rooms, 'user'=>$user));
+            if ($userRoom){
+                $this->em->remove($userRoom);
+                $this->em->flush();
+            }
+            $this->userService->removeRoom($user, $rooms);
         }
+
+        return $this->translator->trans('Teilnehmer gelöscht');
     }
+
 
     private
     function removeRoomUser(User $user, Rooms $rooms)

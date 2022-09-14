@@ -124,11 +124,6 @@ class UserService
 
     function removeRoom(User $user, Rooms $room)
     {
-        $callerId = $this->em->getRepository(CallerId::class)->findOneBy(array('user'=>$user,'room'=>$room));
-        if ($callerId){
-            $this->em->remove($callerId);
-            $this->em->flush();
-        }
         if ($room->getScheduleMeeting()) {
             $this->userRemoveService->removeRoomScheduling($user, $room);
         } elseif ($room->getPersistantRoom()) {

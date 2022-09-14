@@ -107,27 +107,13 @@ class ParticipantController extends JitsiAdminController
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        $repeater = false;
-
-        if ($room->getRepeater()) {
-            $repeater = true;
-        }
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = 'Keine Berechtigung';
         if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
-            if (!$repeater) {
-                $room->removeUser($user);
-                $em = $this->doctrine->getManager();
-                $em->persist($room);
-                $em->flush();
-                $userService->removeRoom($user, $room);
-            } else {
-                $roomAddService->removeUserFromRoom($user, $room);
-            }
+            $snack =  $roomAddService->removeUserFromRoom($user, $room);
 
-            $snack = $this->translator->trans('Teilnehmer gelöscht');
         }else{
-            $this->addFlash('success', $snack);
+            $this->addFlash('danger', $snack);
         }
         return $this->redirectToRoute('dashboard');
     }

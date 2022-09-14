@@ -162,10 +162,10 @@ function initJitsiMeet(data) {
         }
         api.getAvailableDevices().then(devices => {
             if (checkDeviceinList(devices,cameraLable)){
-                api.setVideoInputDevice(cameraLable);
+                api.setVideoInputDevice(checkDeviceinList(devices,cameraLable));
             }
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setAudioInputDevice(microphoneLabel);
+            if (checkDeviceinList(devices,microphoneLabel)){
+                api.setAudioInputDevice(checkDeviceinList(devices,microphoneLabel));
             }
             swithCameraOn(toggle);
         });
