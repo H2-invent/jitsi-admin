@@ -9,6 +9,7 @@ class User {
     sockets = [];
     inMeeting = [];
     offline = false;
+    away = false;
 
     constructor(userId, socket, status) {
         this.sockets.push(socket);
@@ -19,9 +20,7 @@ class User {
     }
 
     addSocket(socket) {
-        console.log('check if in  socket')
         if ((this.sockets.indexOf(socket) === -1)) {
-            console.log('adduser');
             this.sockets.push(socket);
         }
     }
@@ -56,12 +55,14 @@ class User {
     }
 
     getStatus() {
-        console.log(this.sockets.length);
         if (this.offline || this.sockets.length === 0) {
             return 'offline';
         }
         if (this.inMeeting.length > 0) {
             return 'inMeeting';
+        }
+        if (this.away){
+            return 'away';
         }
         return this.status;
     }
@@ -89,16 +90,13 @@ class User {
         clearTimeout(this.awayTimer);
         this.awayTimer = null;
         var that = this;
-        if (this.oldStatus !== null) {
-            this.status = this.oldStatus;
+        if (this.away === true) {
+            this.away = false;
             this.sendStatus();
         }
         this.oldStatus = null;
         this.awayTimer = setTimeout(function () {
-            if (that.status !== 'offline') {
-                that.oldStatus = that.status;
-                that.status = 'away';
-            }
+            that.away = true;
             that.sendStatus();
         }, 60000 * process.env.AWAY_TIME)
     }
@@ -118,13 +116,8 @@ class User {
     }
 
     checkUserLeftTheApp() {
-        console.log('check User')
-        console.log(this.sockets.length);
-        if (this.sockets.length === 0) {
-            console.log('user left the app');
-            return true;
-        }
-        return false;
+        return this.sockets.length === 0;
+
     }
 }
 

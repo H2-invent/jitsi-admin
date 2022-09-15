@@ -12,18 +12,19 @@ class WebsocketJwtService
     {
     }
 
-    public function createJwt($rooms, ?User $user){
+    public function createJwt($rooms, ?User $user)
+    {
         $payload = [
             'iss' => 'jitsi-admin',
             'aud' => 'jitsi-admin',
-            'sub'=> $user?$user->getUid():null,
-            'status'=>$user->getOnlineStatus(),
+            'sub' => $user ? $user->getUid() : null,
+            'status' => $user ? $user->getOnlineStatus() : 0,
             'iat' => (new \DateTime())->getTimestamp(),
             'nbf' => (new \DateTime())->getTimestamp(),
             'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
-            'rooms'=>$rooms
+            'rooms' => $rooms
         ];
 
-        return JWT::encode($payload,$this->parameterBag->get('WEBSOCKET_SECRET'));
+        return JWT::encode($payload, $this->parameterBag->get('WEBSOCKET_SECRET'));
     }
 }

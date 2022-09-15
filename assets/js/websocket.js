@@ -30,7 +30,6 @@ export function initWebsocket(jwt) {
     if (!inIframe()) {
         initStatus();
 
-
         socket.on('sendOnlineUser', function (data) {
             showOnlineUsers(JSON.parse(data))
         })
