@@ -4,39 +4,31 @@ import {User} from "./User.mjs";
 let user = {};
 
 export function loginUser(socket) {
-    console.log('loginUser');
+
     if (jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET)) {
         var userId = getUserId(socket);
-
+        console.log('create new user');
         if (typeof user[userId] === 'undefined') {
-            console.log('add new User');
-            user[userId] = new User(userId, socket, 'online');
+            user[userId] = new User(userId, socket, getUserInitialOnlineStatus(socket));
         } else {
+            console.log('add user');
             user[userId].addSocket(socket);
         }
-      socket.emit
     }
+    return user[userId]
 }
 
 
 export function disconnectUser(socket) {
-    console.log('remove User');
     var userId = getUserId(socket);
     leaveMeeting(socket);
-    if(user[userId]){
+    if (user[userId]) {
         user[userId].removeSocket(socket);
     }
 }
 
-export function checkEmptySockets() {
-    var deleted = false;
-    for (var prop in user) {
-        if (user[prop].getSockets().length === 0) {
-            delete user[prop];
-            deleted = true;
-        }
-    }
-    return deleted;
+export function checkEmptySockets(socket) {
+    return user[getUserId(socket)].checkUserLeftTheApp()
 }
 
 
@@ -81,7 +73,8 @@ export function getOnlineUSer() {
     }
     return tmpUser;
 }
-export function getUserStatus(socket){
+
+export function getUserStatus(socket) {
     if (user[getUserId(socket)]) {
         return user[getUserId(socket)].getStatus();
     }
@@ -92,7 +85,13 @@ function getUserId(socket) {
     var userId = jwtObj.sub
     return userId;
 }
-export function getUserFromSocket(socket){
+
+function getUserInitialOnlineStatus(socket) {
+    var jwtObj = jwt.decode(socket.handshake.query.token);
+    return jwtObj.status === 1 ? 'online' : 'offline';
+}
+
+export function getUserFromSocket(socket) {
     var userId = getUserId(socket);
-    return user[userId]?user[userId]:null;
+    return user[userId] ? user[userId] : null;
 }

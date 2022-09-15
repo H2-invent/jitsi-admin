@@ -17,8 +17,6 @@ export function initStatus() {
             status = this.dataset.status;
             setStatus();
         })
-        getMyStatus();
-
 }
 
 export function setStatus() {

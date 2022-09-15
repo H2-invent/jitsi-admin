@@ -16,18 +16,16 @@ export function websocketState(event, socket, message) {
         case 'disconnect':
             disconnectUser(socket);
             setTimeout(function () {
-                if (checkEmptySockets()) {
+                if (checkEmptySockets(socket)) {
                     io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
                 }
             }, 7000);
             sendStatus(socket);
             break;
         case 'login'://fügt den SOcket zu dem USer hinzu. Schickt keine Benachrichtigungen an die anderen Clients
-            loginUser(socket);
             break;
         case 'setStatus'://setzt den Status und informiert alle Clients, das sich der Status geändert hat
-            loginUser(socket);
-            var tmp = setStatus(socket, message);
+            setStatus(socket, message);
             sendStatus(socket);
             break;
         case 'getStatus':
@@ -62,7 +60,7 @@ function sendStatus(socket) {
     if (user) {
         for (var prop in user.getSockets()) {
             var tmpSocket = user.getSockets()[prop];
-            tmpSocket.emit('sendUserStatus', getUserStatus(tmpSocket));
+            tmpSocket.emit('sendUserStatus', user.getStatus());
         }
     }
     io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));

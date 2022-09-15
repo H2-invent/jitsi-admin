@@ -47,8 +47,7 @@ class WebsocketJwt extends AbstractExtension
 
     public function getJwtforWebsocket($rooms, ?User $user)
     {
-        $userId = $user?$user->getUid():null;
-        return $this->websocketJwtService->createJwt($rooms, $userId);
+        return $this->websocketJwtService->createJwt($rooms, $user);
     }
 
     public function getUrlforWebsocket()

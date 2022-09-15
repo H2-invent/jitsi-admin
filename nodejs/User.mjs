@@ -8,32 +8,36 @@ class User {
     awayTimer = null;
     sockets = [];
     inMeeting = [];
-    offline = true;
+    offline = false;
+
     constructor(userId, socket, status) {
         this.sockets.push(socket);
         this.status = status;
         this.initUserAway();
         this.userId = userId;
+        this.offline = status === 'offline';
     }
 
     addSocket(socket) {
-        if (!(socket in this.sockets)) {
+        console.log('check if in  socket')
+        if ((this.sockets.indexOf(socket) === -1)) {
+            console.log('adduser');
             this.sockets.push(socket);
         }
     }
 
     removeSocket(socket) {
-        for (var i = 0; i < this.sockets.length; i++) {
-            if (this.sockets[i] === socket) {
-                this.sockets.splice(i, 1);
-            }
+        const index = this.sockets.indexOf(socket);
+        if (index > -1) { // only splice array when item is found
+            this.sockets.splice(index, 1); // 2nd parameter means remove one item only
         }
+
     }
 
     setStatus(status) {
-        if (status === 'offline'){
+        if (status === 'offline') {
             this.offline = true;
-        }else {
+        } else {
             this.offline = false;
         }
         this.status = status;
@@ -52,7 +56,8 @@ class User {
     }
 
     getStatus() {
-        if (this.offline){
+        console.log(this.sockets.length);
+        if (this.offline || this.sockets.length === 0) {
             return 'offline';
         }
         if (this.inMeeting.length > 0) {
@@ -67,7 +72,7 @@ class User {
 
     sendStatus() {
         io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
-        for (var s of this.sockets){
+        for (var s of this.sockets) {
             s.emit('sendUserStatus', this.status);
         }
     }
@@ -110,6 +115,16 @@ class User {
                 this.inMeeting.splice(i, 1);
             }
         }
+    }
+
+    checkUserLeftTheApp() {
+        console.log('check User')
+        console.log(this.sockets.length);
+        if (this.sockets.length === 0) {
+            console.log('user left the app');
+            return true;
+        }
+        return false;
     }
 }
 
