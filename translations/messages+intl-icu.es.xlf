@@ -1744,12 +1744,16 @@
         <target state="translated">Escríbenos un comentario</target>
       </trans-unit>
       <trans-unit id="VjL2gVD" resname="lobby.notVerified">
-        <source>lobby.notVerified</source>
+        <source>Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</source>
         <target state="translated">El número de teléfono desde el que llama el participante no coincide con el que fue añadido a la lista de participantes.</target>
       </trans-unit>
       <trans-unit id="5iIhPot" resname="options.whiteboard">
         <source>Whiteboard öffnen</source>
         <target state="translated">Abrir la pizarra</target>
+      </trans-unit>
+      <trans-unit id=".3vR3SM" resname="lobby.notification.newUser.toLobby">
+        <source>Zur Lobby</source>
+        <target state="needs-translation">Zur Lobby</target>
       </trans-unit>
     </body>
   </file>
