@@ -30,7 +30,9 @@
         {% endif %}
     {% endif %}
     {% if app.user == room.moderator %}
-        <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>{{ 'Organisator'|trans }}</span>
+        <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>
+            {% if room.lobby == true %}<i class="fa-solid fa-shield-halved"></i>{% endif %}
+            {{ 'Organisator'|trans }}</span>
         <br>
     {% endif %}
 
@@ -58,13 +60,15 @@
         <br>
     {% endif %}
 
+
 </div>
 <div class="col-md-4">
     <h5 class="h5-responsive">
-    {% if app.user and app.user == room.moderator and room.secondaryName is not null %}
-        {{ room.secondaryName }}
-    {% else %}
-        {{ room.name }}
+
+        {% if app.user and app.user == room.moderator and room.secondaryName is not null %}
+            {{ room.secondaryName }}
+        {% else %}
+            {{ room.name }}
         {% endif %}<a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i
                     class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a>
         {% if getApplicationProperties('SIP_SHOW_ROOMNUMBER_IN_DETAILS') == 1 and  room.callerRoom and getJigasiNumber(room)|length > 0 %}
@@ -82,7 +86,7 @@
 
         {% endfor %}
         {% endfor %}"><i
-                class="fa fa-phone"></i></a>
+                        class="fa fa-phone"></i></a>
         {% endif %}
 
         <a tabindex="0"
