@@ -9,7 +9,7 @@ const server = http.createServer(app);
 import {Server} from "socket.io";
 import jwt from 'jsonwebtoken'
 
-import {getOnlineUSer, disconnectUser, checkEmptySockets, loginUser} from './login.mjs'
+import {getOnlineUSer, loginUser} from './login.mjs'
 import {websocketState} from './websocketState.mjs';
 
 export const io = new Server(server, {
@@ -38,6 +38,7 @@ io.on("connection", async (socket) => {
         socket.join(jwtObj.rooms[i]);
     }
     var user = loginUser(socket);
+    user.initUserAway();
     socket.emit('sendUserStatus', user.getStatus());
     socket.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
 
