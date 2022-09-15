@@ -1753,7 +1753,7 @@
       </trans-unit>
       <trans-unit id=".3vR3SM" resname="lobby.notification.newUser.toLobby">
         <source>Zur Lobby</source>
-        <target state="needs-translation">Zur Lobby</target>
+        <target state="translated">Ir a la sala de espera</target>
       </trans-unit>
     </body>
   </file>
