@@ -23,6 +23,9 @@ function initGenerell() {
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
+    if(window.innerWidth < 768 ){
+        document.body.classList.add("in-smartPhone");
+    }
     openBlankTarget(blankTarget);
     initAdhocMeeting(confirmTitle, confirmCancel, confirmOk);
     hotkeys('1', function (event, handler) {

@@ -3,7 +3,7 @@ import $ from "jquery";
 var blockTouch = false;
 import {inIframe} from './moderatorIframe'
 function initDragParticipants() {
-    if(window.innerWidth > 768 || inIframe()){
+    if(window.innerWidth > 768 ){
         return false;
     }
     var activeRegion = new ZingTouch.Region(document.getElementById('waitingUserWrapper'),null,false);

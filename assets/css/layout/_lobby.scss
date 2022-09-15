@@ -181,8 +181,10 @@ body {
 }
 
 .in-iframe {
-  #sliderTop {
-    @include hoverDragger()
+  &:not(.in-smartPhone) {
+    #sliderTop {
+      @include hoverDragger()
+    }
   }
 }
 
@@ -304,7 +306,7 @@ body {
   }
 }
 
-body:not(.in-iframe) {
+.in-smartPhone {
   @media (max-width: 768px) {
     #waitingUser {
       .waitingUserCard {
@@ -376,18 +378,20 @@ body:not(.in-iframe) {
 }
 
 .in-iframe {
-  .buttonHolder {
-    &.buttons {
-      display: block !important;
+  &:not(.in-smartPhone) {
+    .buttonHolder {
+      &.buttons {
+        display: block !important;
+      }
+
+      &.slider {
+        display: none !important;
+      }
     }
 
-    &.slider {
+    .slide-text {
       display: none !important;
     }
-  }
-
-  .slide-text {
-    display: none !important;
   }
 }
 

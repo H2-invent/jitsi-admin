@@ -4,7 +4,7 @@ import {blockTouch} from './lobby_moderator_acceptDragger'
 import {inIframe} from "./moderatorIframe";
 
 function initDragDragger() {
-    if( inIframe()){
+    if(window.innerWidth > 768 ){
         return false;
     }
     let  blockTouchInternal = false;

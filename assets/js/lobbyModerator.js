@@ -37,7 +37,7 @@ function checkClose() {
     stopWebcam();//Webcam auschalten
     var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
     if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
-     closeIframe(); // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
+        closeIframe(); // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
     }
 }
 
@@ -130,5 +130,3 @@ $(document).ready(function () {
     initMercure();
     initDragParticipants();
 })
-
-

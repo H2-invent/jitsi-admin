@@ -22,7 +22,7 @@ var cancel = "Abbrechen";
 var ok = "OK";
 var microphoneLabel = null;
 var cameraLable = null;
-
+var displayName = null;
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
@@ -116,7 +116,17 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
             swithCameraOn(videoOn);
         });
         swithCameraOn(videoOn);
-
+        displayName = api.getParticipantsInfo();
+        displayName = displayName[0].displayName;
+        console.log(displayName);
+        api.executeCommand('displayName', displayName+'(Abwesend)');
+        api.executeCommand('showNotification', {
+            title: 'Hallo ich bin abwesend', // Title of the notification.
+            description: 'Bin mal weg', // Content of the notification.
+            uid: 'away_message', // Optional. Unique identifier for the notification.
+            type: 'info', // Optional. Can be 'info', 'normal', 'success', 'warning' or 'error'. Defaults to 'normal'.
+            timeout: 'medium' // optional. Can be 'short', 'medium', 'long', or 'sticky'. Defaults to 'short'.
+        });
 
         $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
 
