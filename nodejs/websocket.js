@@ -40,7 +40,7 @@ io.on("connection", async (socket) => {
     var user = loginUser(socket);
     user.initUserAway();
     socket.emit('sendUserStatus', user.getStatus());
-    socket.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+    io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
 
     socket.on('disconnect', function () {
         websocketState('disconnect', socket, null);
