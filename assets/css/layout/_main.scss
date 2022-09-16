@@ -938,4 +938,9 @@ strong {
     transition: height 0.2s ease-in;
   }
 }
+.text-ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
