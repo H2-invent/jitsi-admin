@@ -11,6 +11,7 @@ import jwt from 'jsonwebtoken'
 
 import {getOnlineUSer, loginUser} from './login.mjs'
 import {websocketState} from './websocketState.mjs';
+import {MERCURE_INTERNAL_URL, PORT, WEBSOCKET_SECRET} from "./config.mjs";
 
 export const io = new Server(server, {
     path: '/ws',
@@ -22,7 +23,7 @@ export const io = new Server(server, {
 
 io.use(function (socket, next) {
         if (socket.handshake.query && socket.handshake.query.token) {
-            jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET, function (err, decoded) {
+            jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET, function (err, decoded) {
                 if (err) return next(new Error('Authentication error'));
                 socket.decoded = decoded;
                 next();
@@ -56,7 +57,7 @@ io.on("connection", async (socket) => {
 })
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-router.post('/.well-known/mercure', (request, response) => {
+router.post(MERCURE_INTERNAL_URL, (request, response) => {
 //code to perform particular action.
 //To access POST variable use req.body()methods.
 
@@ -64,7 +65,7 @@ router.post('/.well-known/mercure', (request, response) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
-        jwt.verify(token, process.env.WEBSOCKET_SECRET, (err, user) => {
+        jwt.verify(token, WEBSOCKET_SECRET, (err, user) => {
             if (err) {
 
                 return response.sendStatus(403);
@@ -90,6 +91,6 @@ router.get('/healthz', (request, response) => {
 
 app.use("/", router);
 
-server.listen(process.env.PORT, () => {
-    console.log('listening on *:'+process.env.PORT);
+server.listen(PORT, () => {
+    console.log('listening on *:'+PORT);
 });

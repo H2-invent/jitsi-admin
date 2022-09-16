@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken'
 import {User} from "./User.mjs";
+import {WEBSOCKET_SECRET} from "./config.mjs";
 
 let user = {};
 
 export function loginUser(socket) {
 
-    if (jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET)) {
+    if (jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET)) {
         var userId = getUserId(socket);
         console.log('create new user');
         if (userId){
