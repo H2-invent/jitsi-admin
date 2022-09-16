@@ -98,7 +98,7 @@ function createIframe(url, title, closeIntelligent = true) {
             e.currentTarget.closest('.jitsiadminiframe').style.width = "100%";
             e.currentTarget.closest('.jitsiadminiframe').style.height = "100vh";
             e.currentTarget.closest('.jitsiadminiframe').style.transform = 'translate(0px, 0px)'
-            e.currentTarget.closest('.jitsiadminiframe').style.border = 'none'
+            e.currentTarget.closest('.jitsiadminiframe').style.borderWidth = '0px'
             e.currentTarget.closest('.jitsiadminiframe').querySelector('.headerBar').style.padding = '8px'
             e.currentTarget.querySelector('i').classList.remove('fa-window-maximize');
             e.currentTarget.querySelector('i').classList.add('fa-window-restore');
@@ -107,7 +107,7 @@ function createIframe(url, title, closeIntelligent = true) {
             e.currentTarget.closest('.jitsiadminiframe').style.width = e.currentTarget.dataset.width;
             e.currentTarget.closest('.jitsiadminiframe').style.height = e.currentTarget.dataset.height;
             e.currentTarget.closest('.jitsiadminiframe').style.transform = e.currentTarget.dataset.translation;
-            e.currentTarget.closest('.jitsiadminiframe').style.removeProperty('border');
+            e.currentTarget.closest('.jitsiadminiframe').style.removeProperty('border-width');
             e.currentTarget.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
             e.currentTarget.closest('.jitsiadminiframe').dataset.x = e.currentTarget.dataset.x;
             e.currentTarget.closest('.jitsiadminiframe').dataset.y = e.currentTarget.dataset.y;

@@ -894,6 +894,9 @@ strong {
   bottom: 0;
   left: 0;
   z-index: 500;
+  border-width: 8px!important;
+  border-style: solid;
+  border-color: inherit;
   [class^="fa-"] {
     display: none;
   }
