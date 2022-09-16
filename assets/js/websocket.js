@@ -2,6 +2,7 @@ import {io} from "socket.io/client-dist/socket.io";
 import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
+import {createIframe} from "./createConference";
 
 export var socket = null;
 export var token = null;
@@ -24,7 +25,12 @@ export function initWebsocket(jwt) {
             url: data.url,
             'title': data.title
         });
-        window.parent.postMessage(parentMessage, '*');
+        if (inIframe()){
+            window.parent.postMessage(parentMessage, '*');
+        }else {
+            createIframe(data.url, data.title, false);
+        }
+
     })
 
     if (!inIframe()) {
