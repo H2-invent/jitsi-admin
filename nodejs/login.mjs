@@ -31,7 +31,12 @@ export function disconnectUser(socket) {
 }
 
 export function checkEmptySockets(socket) {
-    return user[getUserId(socket)].checkUserLeftTheApp()
+    try {
+        return user[getUserId(socket)].checkUserLeftTheApp()
+    }catch (e) {
+        return false;
+    }
+
 }
 
 

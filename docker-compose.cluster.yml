@@ -21,6 +21,7 @@ services:
   mercure-ja:
     build: nodejs
     hostname: ${RANDOMTAG}mercure-ja
+    restart: unless-stopped
     environment:
       WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
       AWAY_TIME: 5
