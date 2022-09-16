@@ -19,7 +19,7 @@ class ParticipantsControllerTest extends WebTestCase
         $client->loginUser($organizer);
 
         $crawler = $client->request('GET', '/room/participant/add?room='.$room->getId());
-        $buttonCrawlerNode = $crawler->selectButton('E-Mail zur Einladung versenden');
+        $buttonCrawlerNode = $crawler->filter('#new_member_submit');
 
 // retrieve the Form object for the form belonging to this button
         $form = $buttonCrawlerNode->form();
@@ -62,7 +62,7 @@ class ParticipantsControllerTest extends WebTestCase
         $client->loginUser($organizer);
 
         $crawler = $client->request('GET', '/room/participant/add?room='.$room->getId());
-        $buttonCrawlerNode = $crawler->selectButton('E-Mail zur Einladung versenden');
+        $buttonCrawlerNode = $crawler->filter('#new_member_submit');
 
 // retrieve the Form object for the form belonging to this button
         $form = $buttonCrawlerNode->form();
