@@ -8,14 +8,17 @@ export function loginUser(socket) {
     if (jwt.verify(socket.handshake.query.token, process.env.WEBSOCKET_SECRET)) {
         var userId = getUserId(socket);
         console.log('create new user');
-        if (typeof user[userId] === 'undefined') {
-            user[userId] = new User(userId, socket, getUserInitialOnlineStatus(socket));
-        } else {
-            console.log('add user');
-            user[userId].addSocket(socket);
+        if (userId){
+            if (typeof user[userId] === 'undefined') {
+                user[userId] = new User(userId, socket, getUserInitialOnlineStatus(socket));
+            } else {
+                console.log('add user');
+                user[userId].addSocket(socket);
+            }
+            return user[userId]
         }
     }
-    return user[userId]
+    return null;
 }
 
 

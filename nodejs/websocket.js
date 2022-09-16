@@ -38,9 +38,12 @@ io.on("connection", async (socket) => {
         socket.join(jwtObj.rooms[i]);
     }
     var user = loginUser(socket);
-    user.initUserAway();
-    socket.emit('sendUserStatus', user.getStatus());
-    io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+
+    if (user){
+        user.initUserAway();
+        socket.emit('sendUserStatus', user.getStatus());
+        io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+    }
 
     socket.on('disconnect', function () {
         websocketState('disconnect', socket, null);

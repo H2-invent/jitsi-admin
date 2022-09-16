@@ -47,11 +47,14 @@ export function showOnlineUsers(data) {
 
 export function setMyStatus(status){
         var switcher = document.getElementById('onlineSelector')
+    if (switcher){
         switcher.dataset.status = status;
         var query = '.changeStatus[data-status="' + status + '"]';
         var source = document.querySelector(query)
         var innerHtml = source.innerHTML;
         switcher.innerHTML = innerHtml;
+    }
+
 }
 
 export function getMyStatus() {

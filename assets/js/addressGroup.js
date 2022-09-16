@@ -59,8 +59,8 @@ function initCategoryFilter() {
     for (var i = 0; i < $checkbox.length; i++) {
 
         var tmp = $checkbox[i];
-        var $cookie = getCookie(tmp.id) === 'true';
-        if ($cookie === true) {
+        var $cookie = getCookie(tmp.id);
+        if ($cookie === 'true' ||  $cookie === '') {
             tmp.setAttribute('checked', 'checked');
         } else {
             tmp.removeAttribute('checked');

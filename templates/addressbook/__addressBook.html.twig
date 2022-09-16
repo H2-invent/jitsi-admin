@@ -19,7 +19,7 @@
                 <div class="d-flex flex-wrap mt-2 mb-2 ps-2">
                     {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
                         <div class="form-check me-2">
-                            <input class="form-check-input adressBookFilter" type="checkbox"
+                            <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
                                    data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}" checked/>
                             <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
                         </div>
