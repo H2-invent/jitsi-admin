@@ -12,6 +12,7 @@ var login = true;
 export function initWebsocket(jwt) {
     token = jwt;
     socket = io(websocketUrl, {
+        path: '/ws',
         query: {token}
     });
     socket.on('mercure', function (data) {

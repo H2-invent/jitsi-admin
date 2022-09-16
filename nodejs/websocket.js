@@ -13,6 +13,7 @@ import {getOnlineUSer, loginUser} from './login.mjs'
 import {websocketState} from './websocketState.mjs';
 
 export const io = new Server(server, {
+    path: '/ws',
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
