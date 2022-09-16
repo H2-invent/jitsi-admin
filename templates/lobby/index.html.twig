@@ -6,7 +6,7 @@
     <div class="col-12 lobbyCard">
         <div id="jitsiWrapper">
             <div class="w-100" id="jitsiWindow">
-          {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
+                {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
             </div>
             <div class="row lobbyWindow" id="lobbyWindow">
                 <div class="col-lg-3 col-md-6" id="colWebcam">
@@ -89,6 +89,8 @@
 
                         <a class="btn btn-success btn-block  directSend"
                            href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                        <a href="{{ path('sip_call_out_modal',{'roomUid':room.uidReal}) }}"
+                           class="btn btn-outline-primary loadContent">{{ 'Teilnehmer einladen'|trans }}</a>
                     </div>
 
 

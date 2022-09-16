@@ -40,7 +40,6 @@ export function checkEmptySockets(socket) {
 
 }
 
-
 export function setStatus(socket, status) {
     var userId = getUserId(socket);
     user[userId].setStatus(status);
