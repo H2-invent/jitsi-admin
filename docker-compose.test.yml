@@ -35,8 +35,6 @@ services:
     restart: unless-stopped
     environment:
       WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
-      AWAY_TIME: 5
-
     # Uncomment the following line to enable the development mode
 
     labels:

@@ -74,14 +74,12 @@ services:
 
     environment:
       WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
-      AWAY_TIME: 5
-      PORT: 3000
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/healthz"]
       interval: 10s
       retries: 5
       timeout: 10s
-      start_period: 30s
+      start_period: 10s
 
     labels:
       - "traefik.enable=true"
