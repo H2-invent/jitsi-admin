@@ -1,5 +1,6 @@
 import {io} from "./websocket.js";
 import {getOnlineUSer, getUserStatus} from "./login.mjs";
+import {AWAY_TIME} from "./config.mjs";
 
 class User {
     userId;
@@ -98,7 +99,7 @@ class User {
         this.awayTimer = setTimeout(function () {
             that.away = true;
             that.sendStatus();
-        }, 60000 * process.env.AWAY_TIME)
+        }, 60000 * AWAY_TIME)
     }
 
     enterMeeting(socket) {
