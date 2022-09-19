@@ -10,7 +10,7 @@ import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
 
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
-import {close} from './moderatorIframe'
+import {close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 
 var callersoundplay = new Audio(callerSound);
@@ -76,8 +76,8 @@ function refresh(data) {
 
     $('#waitingUserWrapper').load(reloadUrl, function () {
         const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
-        if (exampleEl.length > 0){
-            for (var prop in exampleEl){
+        if (exampleEl.length > 0) {
+            for (var prop in exampleEl) {
                 const popover = new mdb.Popover(exampleEl[prop])
             }
         }
@@ -109,10 +109,8 @@ function loadModal(data) {
 
 function redirect(data) {
     setTimeout(function () {
-        close();
-        window.location.href = data.url;
+        window.top.location.href = data.url;
     }, data.timeout)
-
 }
 
 function countParts() {

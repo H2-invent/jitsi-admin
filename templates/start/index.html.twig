@@ -76,7 +76,7 @@
 
     <script>
         if ({{ room.server.corsHeader }}) {
-            window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
+            window.top.location.href = "{{ urlFromRoom(user,room, name,'b') }}";
         }
     </script>
 

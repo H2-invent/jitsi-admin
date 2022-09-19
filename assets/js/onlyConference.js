@@ -1,6 +1,4 @@
 import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
-import {echoOff} from "./audioUtils";
-import {stopWebcam} from "./cameraUtils";
 import {close, inIframe, initModeratorIframe} from "./moderatorIframe";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
