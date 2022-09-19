@@ -174,15 +174,7 @@ function initJitsiMeet(data) {
     });
 
 
-    api.addListener('participantKickedOut', function (e) {
 
-        $('#jitsiWindow').remove();
-        masterNotify({'type': 'modal', 'content': endModal});
-        setTimeout(function () {
-            masterNotify({'type': 'endMeeting', 'url': '/'});
-        }, popUpDuration)
-
-    });
 
     $(data.options.parentNode).find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
