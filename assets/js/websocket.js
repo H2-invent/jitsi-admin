@@ -65,7 +65,7 @@ export function initWebsocket(jwt) {
 
         setInterval(function () {
             handleVisibilityChange();
-        }, 60000)
+        }, 10000)
     }
 }
 
