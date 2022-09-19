@@ -73,7 +73,7 @@ class ToParticipantWebsocketService
                     ),
                     'configOverwrite' => array(
                         'prejoinPageEnabled' => false,
-                        'disableBeforeUnloadHandlers' => true,
+                        'disableBeforeUnloadHandlers' => true
                     ),
                     'interfaceConfigOverwrite' => array(
                         'MOBILE_APP_PROMO' => false,

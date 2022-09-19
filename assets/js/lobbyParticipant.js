@@ -10,7 +10,7 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
-import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
+import {initAUdio, micId, echoOff, micArr} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
@@ -18,28 +18,30 @@ import {enterMeeting, leaveMeeting, socket} from './websocket';
 import {initModeratorIframe, close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
-import {checkDeviceinList}  from './jitsiUtils'
-initNotofication();
+import {checkDeviceinList} from './jitsiUtils'
+import ('jquery-confirm');
 
+initNotofication();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
-function checkClose() {
-    echoOff();//wenn der echotest an ist, schalte ihn aus
-    stopWebcam();// schalte die Webcam aus nur in der Lobby, nicht in der Konferenz
-    closeBrowser();//sende browser wird geschlossen. Entfert den User aus der Lobby
-    leaveMeeting();//sendet ein LEave Meeting an den Websocket, damit der Status aktualisiert werden kann
-    if (api){
-        hangup();
-    }else {
-        close();
+
+function checkCloseParticipant() {
+    echoOff();//echo ausschlaten wenn ncoh an
+    stopWebcam();//Webcam auschalten
+    var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
+    if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
+        // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
+        leaveMeeting();
+        close()
     }
 }
-initModeratorIframe(checkClose);
-var api = null;
+initModeratorIframe(checkCloseParticipant);
+let api;
 var dataSucess;
 var successTimer;
 var clickLeave = false;
 var microphoneLabel = null;
 var cameraLable = null;
+
 
 function initMercure() {
 
@@ -146,6 +148,7 @@ function initJitsiMeet(data) {
         window.onbeforeunload = function (e) {
             return '';
         }
+
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
@@ -186,6 +189,30 @@ function initJitsiMeet(data) {
 }
 
 
+function askHangup() {
+    if (!api) {
+        return false;
+    }
+    $.confirm({
+        title: null,
+        content: hangupQuestion,
+        theme: 'material',
+        buttons: {
+            confirm: {
+                text: hangupText, // text for button
+                btnClass: 'btn-danger btn', // class for the button
+                action: function () {
+                    hangup();
+                },
+            },
+            cancel: {
+                text: cancel, // text for button
+                btnClass: 'btn-outline-primary btn', // class for the button
+            },
+        }
+    });
+    return true;
+}
 function hangup() {
     api.executeCommand('hangup')
 }

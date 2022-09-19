@@ -1,7 +1,5 @@
-import {leaveMeeting, socket} from "./websocket";
 
-
-globalThis.frameId = null;
+global.frameId = null;
 function initModeratorIframe(closeFkt) {
 
     window.addEventListener('message', function (e) {

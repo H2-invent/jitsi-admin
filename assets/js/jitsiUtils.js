@@ -4,7 +4,6 @@
  */
 
 import $ from 'jquery';
-import {closeIframe} from "./lobbyModerator";
 import {enterMeeting, leaveMeeting} from "./websocket";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
@@ -56,16 +55,15 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         }
     });
     api.addListener('toolbarButtonClicked', function (e) {
-
         if (e.key === 'hangup') {
             askHangup()
         }
-
     });
 
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
+
          api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();

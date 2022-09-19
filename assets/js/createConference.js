@@ -272,3 +272,10 @@ function removeFromMinibar(container) {
 
 
 export {initStartIframe, createIframe}
+
+// TypeError: 'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them
+// at Function.invokeGetter (<anonymous>:3:28)
+//     at close (http://localhost:8000/build/app~frontend~join~lobbyModerator~lobbyParticipant~onlyConference.js:779:5)
+//     at closeIframe (http://localhost:8000/build/lobbyModerator~lobbyParticipant.js:350:66)
+//     at checkClose (http://localhost:8000/build/lobbyModerator~lobbyParticipant.js:343:5)
+//     at http://localhost:8000/build/app~frontend~join~lobbyModerator~lobbyParticipant~onlyConference.js:770:7

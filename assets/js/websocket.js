@@ -4,7 +4,7 @@ import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 import {createIframe} from "./createConference";
 
-export var socket = null;
+export let socket = null;
 export var token = null;
 var hidden, visibilityChange;
 var login = true;

@@ -17,10 +17,11 @@ import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initJitsi, hangup, askHangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
-import {enterMeeting, leaveMeeting, socket} from "./websocket";
+import {leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
 
 var jitsiApi;
+
 try {
     navigator.mediaDevices.getUserMedia({audio: true, video: true})
 } catch ($e) {
@@ -32,7 +33,7 @@ initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
-function checkClose() {
+function checkCloseModerator() {
     echoOff();//echo ausschlaten wenn ncoh an
     stopWebcam();//Webcam auschalten
     var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
@@ -41,7 +42,7 @@ function checkClose() {
     }
 }
 
-initModeratorIframe(checkClose);
+initModeratorIframe(checkCloseModerator);
 
 export function closeIframe() {
     leaveMeeting();
