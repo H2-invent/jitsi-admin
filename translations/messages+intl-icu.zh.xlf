@@ -1748,16 +1748,20 @@
         <target state="needs-translation">Schreibe uns einen Kommentar</target>
       </trans-unit>
       <trans-unit id="VjL2gVD" resname="lobby.notVerified">
-        <source>Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</source>
+        <source>lobby.notVerified</source>
         <target state="needs-translation">Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
       </trans-unit>
       <trans-unit id="5iIhPot" resname="options.whiteboard">
-        <source>Whiteboard öffnen</source>
+        <source>options.whiteboard</source>
         <target state="needs-translation">Whiteboard öffnen</target>
       </trans-unit>
       <trans-unit id=".3vR3SM" resname="lobby.notification.newUser.toLobby">
-        <source>Zur Lobby</source>
+        <source>lobby.notification.newUser.toLobby</source>
         <target state="needs-translation">Zur Lobby</target>
+      </trans-unit>
+      <trans-unit id="XkrLYIW" resname="lobby.endMeeting.ask.participant">
+        <source>Wollen Sie diese Konferenz wirklich beenden.</source>
+        <target state="needs-translation">Wollen Sie diese Konferenz wirklich beenden.</target>
       </trans-unit>
     </body>
   </file>
