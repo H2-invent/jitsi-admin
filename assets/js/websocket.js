@@ -68,7 +68,7 @@ export function initWebsocket(jwt) {
 
         setInterval(function () {
             handleVisibilityChange();
-        }, 10000)
+        }, 2000)
     }
     initAwayTime();
 }
