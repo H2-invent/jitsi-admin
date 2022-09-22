@@ -128,8 +128,6 @@ class User {
         }catch (e) {
             console.log(e)
         }
-
-
     }
 
     sendToAllSockets(ev,message){
