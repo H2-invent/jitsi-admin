@@ -1765,11 +1765,11 @@
       </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</source>
-        <target state="needs-translation">Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</target>
+        <target state="translated">Tiempo para que el estado "en línea" cambie automáticamente a "ausente".</target>
       </trans-unit>
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
         <source>Zeit in Minuten</source>
-        <target state="needs-translation">Zeit in Minuten</target>
+        <target state="translated">Tiempo en minutos</target>
       </trans-unit>
     </body>
   </file>
