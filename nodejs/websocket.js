@@ -44,6 +44,7 @@ io.on("connection", async (socket) => {
     if (user){
         user.initUserAway();
         socket.emit('sendUserStatus', user.getStatus());
+        socket.emit('sendUserTimeAway', user.awayTime);
         io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
     }
 

@@ -8,7 +8,7 @@ import {
     getUserStatus,
     getUserFromSocket,
     disconnectUser,
-    checkEmptySockets
+    checkEmptySockets, setAwayTime
 } from './login.mjs'
 import {io} from './websocket.js'
 
@@ -50,6 +50,9 @@ export function websocketState(event, socket, message) {
         case 'openNewIframe':
             sendNewIframe(socket, message)
             break;
+        case 'setAwayTime':
+            setAwayTime(socket, message);
+            break;
         default:
             console.log(event);
             console.log('not known')
@@ -58,14 +61,16 @@ export function websocketState(event, socket, message) {
 }
 
 function sendStatus(socket) {
+   sendStatusToOwnUSer(socket);
+    io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+}
+
+function sendStatusToOwnUSer(socket){
     var user = getUserFromSocket(socket)
     if (user) {
-        for (var prop in user.getSockets()) {
-            var tmpSocket = user.getSockets()[prop];
-            tmpSocket.emit('sendUserStatus', user.getStatus());
-        }
+        user.sendToAllSockets('sendUserStatus', user.getStatus());
+        user.sendToAllSockets('sendAwayTime', user.awayTime);
     }
-    io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
 }
 
 function sendNewIframe(socket, data) {

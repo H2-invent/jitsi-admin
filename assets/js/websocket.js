@@ -3,6 +3,7 @@ import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatu
 import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 import {createIframe} from "./createConference";
+import {initAwayTime, setAwayTimeField} from "./enterAwayTime";
 
 export let socket = null;
 export var token = null;
@@ -40,7 +41,9 @@ export function initWebsocket(jwt) {
         socket.on('sendOnlineUser', function (data) {
             showOnlineUsers(JSON.parse(data))
         })
-
+        socket.on('sendUserTimeAway', function (data) {
+           setAwayTimeField(data);
+        })
         socket.on('sendUserStatus', function (data) {
             setMyStatus(data);
         })
@@ -67,6 +70,7 @@ export function initWebsocket(jwt) {
             handleVisibilityChange();
         }, 10000)
     }
+    initAwayTime();
 }
 
 function handleVisibilityChange() {

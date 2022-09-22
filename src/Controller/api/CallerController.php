@@ -56,7 +56,7 @@ class CallerController extends JitsiAdminController
     }
 
     /**
-     * @Route("/api/v1/lobby/sip/pin/{roomId}", name="caller_pin",methods={"POST"})
+     * @Route("/api/v1/lobby/sip/pin/{roomId}", name="caller_pin",methods={"POST","GET"})
      */
     public function findPin(Request $request, $roomId): Response
     {

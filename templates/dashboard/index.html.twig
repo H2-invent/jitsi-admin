@@ -47,7 +47,8 @@
                                 <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
                         <li><a class="dropdown-item changeStatus" data-status="away"
                                href="{{ path('app_online_status',{'status':1}) }}">
-                                <div class="dot"></div>{{ 'status.away'|trans }}</a></li>
+                                <div class="dot"></div>{{ 'status.away'|trans }}</a>
+                        </li>
                         <li><a class="dropdown-item changeStatus" data-status="offline"
                                href="{{ path('app_online_status',{'status':0}) }}">
                                 <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>

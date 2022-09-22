@@ -11,13 +11,14 @@ class User {
     inMeeting = [];
     offline = false;
     away = false;
-
+    awayTime = 0;
     constructor(userId, socket, status) {
         this.sockets.push(socket);
         this.status = status;
         this.initUserAway();
         this.userId = userId;
         this.offline = status === 'offline';
+        this.awayTime=AWAY_TIME;
     }
 
     addSocket(socket) {
@@ -74,9 +75,7 @@ class User {
 
     sendStatus() {
         io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
-        for (var s of this.sockets) {
-            s.emit('sendUserStatus', this.status);
-        }
+        this.sendToAllSockets('sendUserStatus',this.status);
     }
 
     getUserId() {
@@ -99,7 +98,7 @@ class User {
         this.awayTimer = setTimeout(function () {
             that.away = true;
             that.sendStatus();
-        }, 60000 * AWAY_TIME)
+        }, 60000 * this.awayTime)
     }
 
     enterMeeting(socket) {
@@ -119,6 +118,17 @@ class User {
     checkUserLeftTheApp() {
         return this.sockets.length === 0;
 
+    }
+    setAwayTime(awayTime){
+        this.awayTime = awayTime;
+        this.sendToAllSockets('sendUserTimeAway',this.awayTime);
+    }
+
+    sendToAllSockets(ev,message){
+        for (var prop in this.sockets) {
+            var tmpSocket = this.sockets[prop];
+            tmpSocket.emit(ev, message);
+        }
     }
 }
 

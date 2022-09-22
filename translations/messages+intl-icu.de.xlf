@@ -1767,8 +1767,20 @@
         <target>Zur Lobby</target>
       </trans-unit>
       <trans-unit id="XkrLYIW" resname="lobby.endMeeting.ask.participant">
-        <source>Wollen Sie diese Konferenz wirklich beenden.</source>
+        <source>lobby.endMeeting.ask.participant</source>
         <target>Wollen Sie diese Konferenz wirklich beenden.</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source></source>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="7GpUwKV" resname="input.help.timeaway">
+        <source>Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</source>
+        <target>Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</target>
+      </trans-unit>
+      <trans-unit id="lhLkNG5" resname="input.label.timeaway">
+        <source>Zeit in Minuten</source>
+        <target>Zeit in Minuten</target>
       </trans-unit>
     </body>
   </file>

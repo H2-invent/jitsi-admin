@@ -47,6 +47,13 @@ export function setStatus(socket, status) {
     return user[userId];
 }
 
+export function setAwayTime(socket, awayTime) {
+    var user = getUserFromSocket(socket);
+    user.setAwayTime(awayTime);
+    return user;
+}
+
+
 export function stillOnline(socket) {
     if (user[getUserId(socket)]) {
         user[getUserId(socket)].initUserAway();
