@@ -117,11 +117,19 @@ class User {
 
     checkUserLeftTheApp() {
         return this.sockets.length === 0;
-
     }
     setAwayTime(awayTime){
-        this.awayTime = awayTime;
-        this.sendToAllSockets('sendUserTimeAway',this.awayTime);
+        try {
+            awayTime = parseInt(awayTime);
+            if (Number.isInteger(awayTime)){
+                this.awayTime = awayTime;
+                this.sendToAllSockets('sendUserTimeAway',this.awayTime);
+            }
+        }catch (e) {
+            console.log(e)
+        }
+
+
     }
 
     sendToAllSockets(ev,message){
