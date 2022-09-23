@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\Star;
 use App\Helper\JitsiAdminController;
 use App\Service\AdminService;
 use Doctrine\DBAL\Types\DateType;
@@ -45,12 +46,19 @@ class AdminController extends JitsiAdminController
         }
 
         $chart = $adminService->createChart($server);
-
+        $lastStars = $this->doctrine->getRepository(Star::class)->findBy(array('server'=>$server),array('createdAt'=>'DESC'),5);
+        dump($lastStars);
+        $average = 0;
+        foreach ($lastStars as $data){
+            $average += $data->getStar();
+        }
+        $average = $average/sizeof($lastStars);
         return $this->render('admin/modalChart.html.twig', [
             'server' => $server,
             'countPart' => $countPart,
             'chart' => $chart,
-            'tags' => $tags
+            'tags' => $tags,
+            'lastAverage'=>$average
         ]);
 
     }

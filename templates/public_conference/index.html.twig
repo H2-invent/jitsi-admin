@@ -1,0 +1,33 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    <div>
+        <h1>{{ getApplicationProperties('PUBLIC_TEXT_HEADER') }}</h1>
+        <h4>{{ getApplicationProperties('PUBLIC_TEXT_SUBTITLE') }}</h4>
+    </div>
+
+{% endblock %}
+{% block content %}
+
+
+    <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8 text-center mt-5">
+        {{ form_start(form) }}
+        <div class="input-group mb-3">
+            {{ form_widget(form.roomName) }}
+            {{ form_widget(form.submit) }}
+        </div>
+
+        {{ form_end(form) }}
+        <a href="{{ path('dashboard') }}" class="btn btn-outline-primary btn-block">{{ 'Login'|trans }}</a>
+        <div class="row">
+            <div class="col-lg-12">
+                {{ getApplicationProperties('PUBLIC_TEXT_BODY_TEXT')|raw }}
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {{ include('join/__datenschutz.html.twig',{'server':server,'dataPrivacy':dataPrivacy}) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

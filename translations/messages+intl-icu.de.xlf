@@ -1781,7 +1781,10 @@
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
         <source>Zeit in Minuten</source>
         <target>Zeit in Minuten</target>
-      </trans-unit>
+      </trans-unit><trans-unit id="l2aU5E." resname="stars.lastTen">
+            <source>Letzte Bewertungen</source>
+            <target>Letzte Bewertungen</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

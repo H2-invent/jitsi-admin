@@ -51,11 +51,11 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-lg-3 mb-2" id="rating">
-                    <div class="card border-info text-center">
-                        <div class="card-body">
+                    <div class="card border-info text-center {% if (showAverageStar(server)-lastAverage) > 0.5%}bg-danger text-white{% endif %}">
+                        <div class="card-body ">
                             {{ 'Bewertung'|trans }} {% if server.stars| length %}
                                 <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdp-html="true"
-                                   data-mdb-content="<ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ s.comment }}</li>{% endif %} {% endfor %}</ul>">
+                                   data-mdb-content="<p>&Oslash; {{ 'stars.lastTen'|trans }}: {{ lastAverage|round(0, 'floor') }}</p><ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ s.comment }}</li>{% endif %} {% endfor %}</ul>">
                                     <i class="fa-solid fa-circle-info"></i>
                                 </a>
                             {% endif %}
