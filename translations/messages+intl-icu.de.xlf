@@ -1723,8 +1723,12 @@
         <target>Anzahl reale Teilnehmende</target>
       </trans-unit>
       <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
-        <source>Raumnummer</source>
+        <source>email.sip.roomnumber</source>
         <target>Raumnummer</target>
+      </trans-unit>
+      <trans-unit id="l2aU5E." resname="stars.lastTen">
+        <source>Letzte Bewertungen</source>
+        <target>Letzte Bewertungen</target>
       </trans-unit>
     </body>
   </file>
