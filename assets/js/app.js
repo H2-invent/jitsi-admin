@@ -129,21 +129,7 @@ $(document).on('click', '.stopCloseDropdown', function (e) {
     e.stopPropagation();
 });
 
-$(document).on('click', '.loadContent', function (e) {
-    e.preventDefault();
-    var url = $(this).attr('href');
-    $('#loadContentModal').load(url, function (data, status) {
-        if (status === "error") {
-            window.location.reload();
-        } else {
-            if (!$('#loadContentModal ').hasClass('show')) {
-                $('#loadContentModal').modal('show');
-            }else {
-                initNewModal();
-            }
-        }
-    });
-});
+
 
 function initServerFeatures() {
     getMoreFeature($('.moreFeatures').val())
@@ -160,7 +146,7 @@ $('#loadContentModal').on('shown.bs.modal', function (e) {
   initNewModal(e)
 });
 
-function initNewModal(e){
+export function initNewModal(e){
 
     initScheduling();
 

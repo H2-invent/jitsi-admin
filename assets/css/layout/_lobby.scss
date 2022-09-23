@@ -1,5 +1,10 @@
 body {
   overscroll-behavior-y: contain;
+  background-color: white;
+  min-height: 100vh;
+  &.blackMode{
+    background-color: black;
+  }
 }
 
 #lobbyWebcam {
@@ -228,15 +233,6 @@ body {
   }
 }
 
-.blackMode.joinPage .modal-backdrop {
-  background-image: radial-gradient($main-color, black);
-  opacity: 1;
-}
-
-.joinPage .modal-backdrop {
-  background-image: radial-gradient($main-color, white);
-  opacity: 1;
-}
 
 .lobbyCard {
   .dropdown-toggle {

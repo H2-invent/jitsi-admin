@@ -130,4 +130,5 @@ $(document).ready(function () {
     initGenerell();
     initMercure();
     initDragParticipants();
+
 })

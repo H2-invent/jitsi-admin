@@ -15,6 +15,15 @@ import {initLayzLoading} from './lazyLoading'
 import hotkeys from 'hotkeys-js';
 import {initStatus} from "./onlineStatus";
 import {inIframe} from "./moderatorIframe";
+import {initScheduling} from "./scheduling";
+import {initdateTimePicker} from "@holema/h2datetimepicker";
+import {initNewRoomModal} from "./newRoom";
+import {initSearchUser} from "./searchUser";
+import {initKeycloakGroups} from "./keyCloakGroupsInit";
+import {initAddressGroupSearch} from "./addressGroup";
+import {initChart} from "./chart";
+import {Chart} from "chart.js";
+import {initNewModal} from "./app";
 
 function initGenerell() {
     Push.Permission.request();
@@ -58,6 +67,7 @@ function initGenerell() {
         $('#createNewConference').trigger('click');
     });
     initWebsocket(websocketTopics);
+    initLoadContent();
 }
 
 function openBlankTarget(targets) {
@@ -65,5 +75,25 @@ function openBlankTarget(targets) {
         window.open(value);
     })
 }
+
+function initLoadContent() {
+    $(document).on('click', '.loadContent', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $('#loadContentModal').load(url, function (data, status) {
+            if (status === "error") {
+                window.location.reload();
+            } else {
+                if (!$('#loadContentModal ').hasClass('show')) {
+                    $('#loadContentModal').modal('show');
+                }else {
+                    initNewModal(this);
+                }
+            }
+        });
+    });
+}
+
+
 
 export {initGenerell}
