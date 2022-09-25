@@ -108,6 +108,9 @@ class User extends BaseUser
     #[ORM\Column(nullable: true)]
     private ?int $onlineStatus = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CalloutSession::class, orphanRemoval: true)]
+    private Collection $calloutSessions;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -128,6 +131,7 @@ class User extends BaseUser
         $this->favorites = new ArrayCollection();
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
+        $this->calloutSessions = new ArrayCollection();
 
     }
 
@@ -914,6 +918,36 @@ class User extends BaseUser
     public function setOnlineStatus(?int $onlineStatus): self
     {
         $this->onlineStatus = $onlineStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CalloutSession>
+     */
+    public function getCalloutSessions(): Collection
+    {
+        return $this->calloutSessions;
+    }
+
+    public function addCalloutSession(CalloutSession $calloutSession): self
+    {
+        if (!$this->calloutSessions->contains($calloutSession)) {
+            $this->calloutSessions[] = $calloutSession;
+            $calloutSession->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalloutSession(CalloutSession $calloutSession): self
+    {
+        if ($this->calloutSessions->removeElement($calloutSession)) {
+            // set the owning side to null (unless already changed)
+            if ($calloutSession->getUser() === $this) {
+                $calloutSession->setUser(null);
+            }
+        }
 
         return $this;
     }

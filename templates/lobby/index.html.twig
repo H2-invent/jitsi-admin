@@ -89,11 +89,16 @@
 
                         <a class="btn btn-success btn-block  directSend"
                            href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                        <a href="{{ path('sip_call_out_modal',{'roomUid':room.uidReal}) }}"
-                           class="btn btn-outline-primary loadContent">{{ 'Teilnehmer einladen'|trans }}</a>
+                        <div class="input-group mb-3">
+                            <div class="form-outline">
+                                <input type="text" id="formControlDefault" class="form-control" />
+                                <label class="form-label" for="formControlDefault">Form control default</label>
+                            </div>
+                            <button class="btn btn-outline-primary" type="button" id="button-addon2" data-mdb-ripple-color="dark">
+                                {{ 'callout.btn.invite'|trans }}
+                            </button>
+                        </div>
                     </div>
-
-
                 </div>
 
             </div>

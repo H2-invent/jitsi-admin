@@ -37,27 +37,33 @@ class RoomAddService
         $falseEmail = array();
         if (!empty($lines)) {
             foreach ($lines as $line) {
-                if (trim($line) !== '') {
-                    $newMember = trim($line);
-                    $tmpUser = null;
-                    $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
-                    if (!$tmpUser) {
-                        $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $newMember));
-                    }
-                    if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
-                        $this->createUserParticipant($newMember, $room, $tmpUser);
-                    } else {
-                        if (strlen($newMember) > 0) {
-                            $falseEmail[] = $newMember;
-                        }
-                    }
-                }
+                $this->createUserFromUserUid($line,$room,$falseEmail);
             }
         }
         if ($room->getRepeater()) {
             $this->repeaterService->addUserRepeat($room->getRepeater());
         }
         return $falseEmail;
+    }
+
+    public function createUserFromUserUid($email, Rooms $room, &$falseEmails): ?User
+    {
+        if (trim($email) !== '') {
+            $user = null;
+            $newMember = trim($email);
+            $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
+            if (!$tmpUser) {
+                $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('username' => $newMember));
+            }
+            if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $tmpUser) {
+                $user = $this->createUserParticipant($newMember, $room, $tmpUser);
+            } else {
+                if (strlen($newMember) > 0) {
+                    $falseEmails[] = $newMember;
+                }
+            }
+        }
+        return $user;
     }
 
     public
@@ -143,13 +149,13 @@ class RoomAddService
             $rooms->removeUser($user);
             $this->em->persist($rooms);
             $this->em->flush();
-            $callerId = $this->em->getRepository(CallerId::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
-            if ($callerId){
+            $callerId = $this->em->getRepository(CallerId::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+            if ($callerId) {
                 $this->em->remove($callerId);
                 $this->em->flush();
             }
-            $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('room'=>$rooms, 'user'=>$user));
-            if ($userRoom){
+            $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('room' => $rooms, 'user' => $user));
+            if ($userRoom) {
                 $this->em->remove($userRoom);
                 $this->em->flush();
             }

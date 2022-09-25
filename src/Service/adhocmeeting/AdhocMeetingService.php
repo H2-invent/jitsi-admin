@@ -71,6 +71,13 @@ class AdhocMeetingService
         $creator->addRoom($room);
         $this->em->persist($creator);
         $this->em->flush();
+        $this->sendAddhocMeetingWebsocket($reciever,$creator,$room);
+        $this->userService->addUser($reciever, $room);
+        $this->userService->addUser($creator, $room);
+        return $room;
+    }
+
+    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room){
         $topic = 'personal/' . $reciever->getUid();
         $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess startIframe" data-roomname="%s"><i class="fas fa-phone"></i> %s</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>';
         $toastText = sprintf($format,
@@ -87,8 +94,5 @@ class AdhocMeetingService
             60000,
             $room->getUid()
         );
-        $this->userService->addUser($reciever, $room);
-        $this->userService->addUser($creator, $room);
-        return $room;
     }
 }

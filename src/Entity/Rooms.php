@@ -117,6 +117,9 @@ class Rooms
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $secondaryName = null;
 
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: CalloutSession::class, orphanRemoval: true)]
+    private Collection $calloutSessions;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -129,6 +132,7 @@ class Rooms
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->roomstatuses = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
+        $this->calloutSessions = new ArrayCollection();
     }
     #[ORM\PreFlush]
     public function preUpdate()
@@ -814,6 +818,36 @@ class Rooms
     public function setSecondaryName(?string $secondaryName): self
     {
         $this->secondaryName = $secondaryName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CalloutSession>
+     */
+    public function getCalloutSessions(): Collection
+    {
+        return $this->calloutSessions;
+    }
+
+    public function addCalloutSession(CalloutSession $calloutSession): self
+    {
+        if (!$this->calloutSessions->contains($calloutSession)) {
+            $this->calloutSessions[] = $calloutSession;
+            $calloutSession->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalloutSession(CalloutSession $calloutSession): self
+    {
+        if ($this->calloutSessions->removeElement($calloutSession)) {
+            // set the owning side to null (unless already changed)
+            if ($calloutSession->getRoom() === $this) {
+                $calloutSession->setRoom(null);
+            }
+        }
 
         return $this;
     }
