@@ -45,7 +45,7 @@ class AdressBookUITest extends WebTestCase
         $crawler = $client->request('GET', $url);
         self::assertEquals(array('user' => array(
             array(
-                'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')
+                'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')
             )
         ), 'group' => array()
         )
@@ -54,7 +54,7 @@ class AdressBookUITest extends WebTestCase
         $crawler = $client->request('GET', $url);
         self::assertEquals(array('user' => array(
             array(
-                'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')
+                'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2',   'nameNoIcon' => 'Test2, 1234, User2, Test2','id' => 'test2@local.de','roles'=>array('participant','moderator')
             )
         ), 'group' => array()
         )
@@ -64,8 +64,8 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')),
-                    array('name' => '', 'id' => 'test@local3.de','roles'=>array('participant','moderator'))
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')),
+                    array('name' => '',   'nameNoIcon' => '', 'id' => 'test@local3.de','roles'=>array('participant','moderator'))
                 ),
                 'group' => array(
                         array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
@@ -94,8 +94,8 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')),
-                     array('name' => '', 'id' => 'test@local3.de','roles'=>array('participant','moderator'))
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')),
+                     array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de','roles'=>array('participant','moderator'))
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
@@ -109,8 +109,8 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')),
-                     array('name' => '', 'id' => 'test@local3.de','roles'=>array('participant','moderator'))
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator')),
+                     array('name' => '','nameNoIcon' => '', 'id' => 'test@local3.de','roles'=>array('participant','moderator'))
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
@@ -124,7 +124,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator'))
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de','roles'=>array('participant','moderator'))
                 ),
                 'group' => array(
 

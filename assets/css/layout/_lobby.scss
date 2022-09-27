@@ -220,16 +220,14 @@ body {
 .lobbyButtons {
   display: flex;
   flex-direction: row;
-  @media (min-width: 600px) {
-    width: max-content;
-    max-width: 100%;
-  }
   width: 100%;
+  align-items: center;
 }
 
 .lobbyCard {
   .lobbyButtons {
     flex-direction: column;
+    align-items: inherit;
   }
 }
 

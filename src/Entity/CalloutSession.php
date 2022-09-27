@@ -9,6 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CalloutSessionRepository::class)]
 class CalloutSession
 {
+    public static $STATE = array(
+        0 => 'INITIATED',
+        1 => 'DIALED',
+        2 => 'ON_HOLD'
+    );
+    public static $ON_HOLD = 2;
+    public static $DIALED = 1;
+    public static $INITIATED = 0;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
@@ -28,6 +37,12 @@ class CalloutSession
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $invitedFrom = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $uid = null;
+
+    #[ORM\Column]
+    private ?int $state = null;
 
     public function getId(): ?int
     {
@@ -78,6 +93,30 @@ class CalloutSession
     public function setInvitedFrom(?User $invitedFrom): self
     {
         $this->invitedFrom = $invitedFrom;
+
+        return $this;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(string $uid): self
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

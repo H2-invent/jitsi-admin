@@ -57,6 +57,8 @@ parameters:
     ldap_server_individualName: '%env(ldap_server_individualName)%'
     ldap_special_Fields: '%env(ldap_special_Fields)%'
     ldap_filter: '%env(ldap_filter)%'
+    LDAP_CALLOUT_FIELDS: '%env(LDAP_CALLOUT_FIELDS)%'
+
     LDAP_DISALLOW_PROMOTE: '%env(LDAP_DISALLOW_PROMOTE)%'
     strict_username_only: '%env(strict_username_only)%'
     STRICT_EMAIL_SET_ENVELOP_FROM: '%env(STRICT_EMAIL_SET_ENVELOP_FROM)%'

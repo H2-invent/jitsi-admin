@@ -19,6 +19,7 @@ import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
 import {leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
+import {initSearchCallOut} from "./inviteCalloutUser";
 
 var jitsiApi;
 
@@ -32,6 +33,7 @@ initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
+initSearchCallOut();
 
 function checkCloseModerator() {
     echoOff();//echo ausschlaten wenn ncoh an
@@ -82,6 +84,7 @@ $('.startIframe').click(function (e) {
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
     initDragDragger();
+    initSearchCallOut();
     document.querySelector('body').classList.add('touchactionNone');
     // document.getElementsByTagName('body').style.width='100%';
 

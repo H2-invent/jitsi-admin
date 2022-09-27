@@ -21,7 +21,7 @@ class PublicConferenceControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Eine Konferenz starten');
+        $this->assertSelectorTextContains('h1', 'Ein Meetling starten');
         $buttonCrawlerNode = $crawler->selectButton('Los gehts!');
         $form = $buttonCrawlerNode->form();
         $publicConferenceController->setServer($server);

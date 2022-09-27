@@ -48,8 +48,9 @@ class RoomAddService
 
     public function createUserFromUserUid($email, Rooms $room, &$falseEmails): ?User
     {
+        $user = null;
         if (trim($email) !== '') {
-            $user = null;
+
             $newMember = trim($email);
             $tmpUser = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
             if (!$tmpUser) {

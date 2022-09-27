@@ -21,6 +21,7 @@ class ParticipantSearchService
         foreach ($user as $data) {
             $tmp = array(
                 'name' => $this->buildShowInFrontendString($data),
+                'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
                 'id' => $data->getUsername(),
                 'roles' => ['participant', 'moderator']
             );
@@ -44,6 +45,7 @@ class ParticipantSearchService
             foreach ($user as $data) {
                 $tmp = array(
                     'name' => $this->buildShowInFrontendString($data),
+                    'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
                     'id' => $data->getUsername(),
                     'roles' => ['participant', 'moderator']
                 );

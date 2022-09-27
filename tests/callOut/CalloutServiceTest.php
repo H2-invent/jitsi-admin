@@ -17,15 +17,62 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $inviter = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user = $userRepo->findOneBy(array('email'=>'test@local4.de'));
+        $inviter = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
         self::assertEquals(0, sizeof($callOurRepo->findAll()));
-        $callout = $calloutService->createCallout($room,$user,$inviter);
+        self::assertNull($calloutService->checkCallout($room,$user));
+        $callout = $calloutService->createCallout($room, $user, $inviter);
         self::assertNotNull($callout);
+        self::assertEquals($callout,$calloutService->checkCallout($room,$user));
         self::assertEquals(1, sizeof($callOurRepo->findAll()));
-        self::assertEquals($callout, $calloutService->createCallout($room,$user,$inviter));
+        self::assertEquals($callout, $calloutService->createCallout($room, $user, $inviter));
         self::assertEquals(1, sizeof($callOurRepo->findAll()));
+    }
+
+    public function testisAllowedtoBeCalled(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutService = self::getContainer()->get(CalloutService::class);
+        $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        self::assertTrue($calloutService->isAllowedToBeCalled($user));
+    }
+
+    public function testisAllowedtoBeCalledNoUser(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutService = self::getContainer()->get(CalloutService::class);
+        $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'ldapUser@localfalse.de'));
+        self::assertFalse($calloutService->isAllowedToBeCalled($user));
+    }
+
+    public function testisAllowedtoBeCalledNoLDAP(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutService = self::getContainer()->get(CalloutService::class);
+        $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        self::assertFalse($calloutService->isAllowedToBeCalled($user));
+    }
+
+    public function testisAllowedtoBeCalledNoPhoneNumber(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutService = self::getContainer()->get(CalloutService::class);
+        $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $user->setSpezialProperties(array('noPhoneNumber'=>'123456'));
+        self::assertFalse($calloutService->isAllowedToBeCalled($user));
     }
 }
