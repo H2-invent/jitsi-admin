@@ -5,6 +5,8 @@ namespace App\Service;
 
 
 use App\Entity\CallerId;
+use App\Entity\CallerSession;
+use App\Entity\CalloutSession;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -158,6 +160,11 @@ class RoomAddService
             $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('room' => $rooms, 'user' => $user));
             if ($userRoom) {
                 $this->em->remove($userRoom);
+                $this->em->flush();
+            }
+            $calloutSession = $this->em->getRepository(CalloutSession::class)->findOneBy(array('room' => $rooms, 'user' => $user));
+            if ($calloutSession) {
+                $this->em->remove($calloutSession);
                 $this->em->flush();
             }
             $this->userService->removeRoom($user, $rooms);

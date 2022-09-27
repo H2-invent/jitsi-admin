@@ -55,6 +55,7 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="actionIconLeft">' +
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
         '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
+        (document.fullscreenEnabled?'<div class="button-fullscreen actionIcon" data-maximal="0"><i class="fa-solid fa-expand"></i></div> ':'') +
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
         '</div>' +
         '</div>' +
@@ -86,6 +87,9 @@ function createIframe(url, title, closeIntelligent = true) {
     })
     document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
         minimizeFrame('jitsiadminiframe' + random)
+    })
+    document.getElementById('jitsiadminiframe' + random).querySelector('.button-fullscreen').addEventListener('click', function (e) {
+           e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe').requestFullscreen();
     })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {

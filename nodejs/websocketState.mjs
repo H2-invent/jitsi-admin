@@ -8,7 +8,7 @@ import {
     getUserStatus,
     getUserFromSocket,
     disconnectUser,
-    checkEmptySockets, setAwayTime
+    checkEmptySockets, setAwayTime, getStatusForListOfIds
 } from './login.mjs'
 import {io} from './websocket.js'
 
@@ -50,6 +50,9 @@ export function websocketState(event, socket, message) {
         case 'openNewIframe':
             sendNewIframe(socket, message)
             break;
+        case 'giveOnlineStatus':
+            getStatusForListOfIds(socket, message);
+            break;
         case 'setAwayTime':
             setAwayTime(socket, message);
             break;
@@ -61,11 +64,11 @@ export function websocketState(event, socket, message) {
 }
 
 function sendStatus(socket) {
-   sendStatusToOwnUSer(socket);
+    sendStatusToOwnUSer(socket);
     io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
 }
 
-function sendStatusToOwnUSer(socket){
+function sendStatusToOwnUSer(socket) {
     var user = getUserFromSocket(socket)
     if (user) {
         user.sendToAllSockets('sendUserStatus', user.getStatus());

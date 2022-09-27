@@ -33,8 +33,6 @@ import {initDashboardnotification} from './dashBoardNotification'
 import {initChart} from './chart'
 import {Chart} from 'chart.js'
 import {initStartIframe} from './createConference'
-import {toDimension} from "chart.js/helpers";
-import {initModeratorIframe,close} from "./moderatorIframe";
 
 addEventListener('load', function () {
     var param = (new URLSearchParams(window.location.search)).get('modalUrl');
@@ -261,10 +259,7 @@ function initRepeater() {
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
 }
-function closeFrame() {
-    close();
-}
-initModeratorIframe(closeFrame)
+
 
 
 $('.sidebarToggle').click(function () {

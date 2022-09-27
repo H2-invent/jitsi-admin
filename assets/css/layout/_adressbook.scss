@@ -20,6 +20,21 @@
 }
 
 
+@mixin statusColors {
+  &[data-status="online"] {
+    border: $success 2px solid;
+  }
+
+  &[data-status="away"] {
+    border: $warning 2px solid;
+  }
+
+  &[data-status="inMeeting"] {
+    border: $info 2px solid;
+  }
+
+}
+
 #modalAdressbookBody {
   height: 100%;
   display: flex;
@@ -28,18 +43,7 @@
   .adressbookline {
     display: flex;
     justify-content: space-between;
-
-    &[data-status="online"] {
-      border: $success 2px solid;
-    }
-
-    &[data-status="away"] {
-      border: $warning 2px solid;
-    }
-
-    &[data-status="inMeeting"] {
-      border: $info 2px solid;
-    }
+    @include statusColors();
   }
 
   .register {
@@ -100,23 +104,19 @@
   display: none !important;
 }
 
-.onlineSelector {
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50000px;
-    margin-right: 4px;
-  }
 
+@mixin statusDot {
   a {
     display: flex;
     align-items: center;
 
-    &[data-status="online"] {
-      .dot {
-        background-color: #00c851;
-      }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50000px;
+      margin-right: 4px;
     }
+
 
     &[data-status="away"] {
       .dot {
@@ -135,5 +135,16 @@
         background-color: $info;
       }
     }
+
+    &[data-status="online"] {
+      .dot {
+        background-color: #00c851;
+      }
+    }
   }
 }
+
+.onlineSelector {
+  @include statusDot();
+}
+

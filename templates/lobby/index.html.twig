@@ -66,22 +66,22 @@
                         </div>
                     </div>
                     <div class="lobbyButtons">
-                        <div class="flex-grow-1 p-2">
+                        <div class="flex-grow-1 p-2 d-flex flex-column flex-lg-row">
                             {% if type == 'a' %}
-                                <a class="btn btn-primary d-block start-btn  "
+                                <a class="btn btn-primary start-btn me-0  me-lg-2 flex-grow-1"
                                    href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
                                    target="_blank">
                                     <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                                 </a>
                             {% elseif type == 'b' %}
                                 {% if room.server.corsHeader %}
-                                    <a class="btn btn-primary d-block start-btn  "
+                                    <a class="btn btn-primary start-btn  me-0  me-lg-2 flex-grow-1"
                                        href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                        target="_blank">
                                         <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
                                     </a>
                                 {% else %}
-                                    <a class="btn btn-primary btn-block  startIframe d-block start-btn "
+                                    <a class="btn btn-primary startIframe  start-btn me-0  me-lg-2 flex-grow-1"
                                        href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
                                        target="_blank">
                                         <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
@@ -89,24 +89,33 @@
                                 {% endif %}
                             {% endif %}
 
-                            <a class="btn btn-success btn-block  directSend  w-100"
+                            <a class="btn btn-success directSend flex-grow-1 me-0"
                                href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
                         </div>
                         <div class="flex-grow-1 p-2">
                             <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
                                 <div class="input-group  w-100">
 
-                                    <div class="form-outline bg-white">
+                                    <div class="form-outline bg-white flex-grow-1">
 
-                                        <input href="{{ path('search_participant') }}" type="text"   autocomplete=off
-                                               id="searchCallOutParticipants" class="form-control"/>
+                                        <input href="{{ path('search_participant') }}"
+                                               type="text"
+                                               autocomplete=off
+                                               id="searchCallOutParticipants"
+                                               class="form-control"
+                                               placeholder="{{ 'Tippen zum Suchen'|trans }}"
+                                        />
                                         <label class="form-label"
-                                               for="searchCallOutParticipants">{{ 'Tippen zum Suchen'|trans }}</label>
+                                               for="searchCallOutParticipants">{{ 'Teilnehmer suchen'|trans }}</label>
 
                                     </div>
 
-                                    <button class="btn btn-primary" type="button" id="addCalloutUserBtn"
-                                            data-mdb-ripple-color="dark" href="{{ path('sip_call_out_invite',{'roomUid':room.uidReal}) }}">
+                                    <button class="btn btn-primary"
+                                            type="button"
+                                            id="addCalloutUserBtn"
+                                            data-mdb-ripple-color="dark"
+                                            disabled="disabled"
+                                            href="{{ path('sip_call_out_invite',{'roomUid':room.uidReal}) }}">
                                         <i class="fa fa-user-plus"></i>
                                     </button>
                                 </div>
@@ -115,7 +124,7 @@
                                      id="searchCallOutParticipantsDropdownTrigger">
 
                                 </div>
-                                <div class="dropdown-menu" id="searchCallOutParticipantsDropdown">
+                                <div class="dropdown-menu searchCallOutParticipantsDropdown" id="searchCallOutParticipantsDropdown">
                                     <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
                                 </div>
                             </div>

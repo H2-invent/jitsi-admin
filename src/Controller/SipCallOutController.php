@@ -34,16 +34,6 @@ class SipCallOutController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    #[Route('modal/{roomUid}', name: 'modal')]
-    public function index($roomUid): Response
-    {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
-
-        return $this->render('sip_call_out/inviteModal.html.twig', [
-            'title' => 'Teilnehmer einladen',
-        ]);
-    }
-
     #[Route('invite/{roomUid}', name: 'invite', methods: 'POST')]
     public function invite($roomUid, Request $request): Response
     {

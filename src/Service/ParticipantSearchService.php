@@ -46,6 +46,7 @@ class ParticipantSearchService
                 $tmp = array(
                     'name' => $this->buildShowInFrontendString($data),
                     'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
+                    'uid' => $data->getUid(),
                     'id' => $data->getUsername(),
                     'roles' => ['participant', 'moderator']
                 );

@@ -1,33 +1,44 @@
 import $ from "jquery";
-import {Dropdown} from "mdb-ui-kit";
-
+import {Dropdown, Input} from "mdb-ui-kit";
+import {socket} from './websocket'
 
 let timer;              // Timer identifier
 const waitTime = 500;   // Wait time in milliseconds
 let userUidSelected = null;
 let userNameShown = null;
 var closeTimer = null;
+const inviteButton = document.getElementById('addCalloutUserBtn');
+const searchUserInput = document.getElementById('searchCallOutParticipants');
+const dropdown = document.getElementById('searchCallOutParticipantsDropdown');
+
 export function initSearchCallOut() {
 
-    var $searchUserField = document.getElementById('searchCallOutParticipants');
-    if ($searchUserField !== null) {
+    if (searchUserInput !== null) {
 
         let trigger = document.getElementById('searchCallOutParticipantsDropdownTrigger')
-        document.getElementById('searchCallOutParticipants').addEventListener("focus", (e) => {
+        searchUserInput.addEventListener("focus", (e) => {
+            if (document.getElementById('sliderTop')) {
+                document.getElementById('sliderTop').classList.add('openSlider');
+            }
             Dropdown.getOrCreateInstance(trigger).show()
-            if (closeTimer){
-               clearTimeout(closeTimer);
-               closeTimer = null;
+            if (closeTimer) {
+                clearTimeout(closeTimer);
+                closeTimer = null;
             }
         })
-        document.getElementById('searchCallOutParticipants').addEventListener("blur", (e) => {
+        searchUserInput.addEventListener("blur", (e) => {
             closeTimer = setTimeout(function () {
+                if (document.getElementById('sliderTop')) {
+                    document.getElementById('sliderTop').classList.remove('openSlider');
+                }
+
                 Dropdown.getOrCreateInstance(trigger).hide();
                 closeTimer = null;
             }, 500);
         })
 
-        $searchUserField.addEventListener("keyup", function (e) {
+        searchUserInput.addEventListener("keyup", function (e) {
+            inviteButton.disabled = true;
             var $ele = this;
             const $search = $ele.value;
             const $url = $ele.getAttribute("href") + '?search=' + $search;
@@ -37,7 +48,8 @@ export function initSearchCallOut() {
             }, waitTime);
         })
     }
-    document.getElementById('addCalloutUserBtn').addEventListener('click', function (ev) {
+    inviteButton.addEventListener('click', function (ev) {
+        ev.currentTarget.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
         sendInvitation(ev.currentTarget.getAttribute("href"));
     })
 }
@@ -46,13 +58,31 @@ const searchUSer = ($url, $search) => {
     if ($search.length > 0) {
         $.getJSON($url, function (data) {
             var users = data.user
-            var dropdown = document.getElementById('searchCallOutParticipantsDropdown');
+            var usersArr = [];
+
             dropdown.innerHTML = '';
             for (let user of users) {
-                console.log(user);
-                var dropdownEle = '<a class="dropdown-item calloutSearchUser" data-name="' + user.nameNoIcon + '" data-val="' + user.id + '" href="#">' + user.name + '</a>';
+                var dropdownEle =
+                    '<a id="user_' + user.uid
+                    + '" class="d-flex align-items-center dropdown-item calloutSearchUser" data-name="'
+                    + user.nameNoIcon
+                    + '" data-val="'
+                    + user.id
+                    + '" href="#">' +
+                    '<div class="dot"></div>'
+                    + user.name
+                    + '</a>';
                 dropdown.insertAdjacentHTML('beforeend', dropdownEle);
+                usersArr.push(user.uid);
             }
+            socket.on('giveOnlineStatus', function (data) {
+                data = JSON.parse(data)
+                console.log(data);
+                for (var d in data) {
+                    document.getElementById('user_' + d).dataset.status = data[d];
+                }
+            })
+            socket.emit('giveOnlineStatus', JSON.stringify(usersArr));
             var ele = document.querySelectorAll('.calloutSearchUser');
             for (var e of ele) {
                 e.addEventListener('click', function (ev) {
@@ -65,11 +95,11 @@ const searchUSer = ($url, $search) => {
 }
 
 function selectUser(userEle) {
+    inviteButton.disabled = false;
     userUidSelected = userEle.dataset.val;
     userNameShown = userEle.dataset.name;
-
-    document.getElementById('searchCallOutParticipants').value = userNameShown;
-    console.log(userUidSelected);
+    searchUserInput.value = userNameShown;
+    initInput();
 }
 
 function sendInvitation(url) {
@@ -82,10 +112,18 @@ function sendInvitation(url) {
         },
 
     }).done(function (data) {
-        console.log(data);
+        inviteButton.disabled = true;
+        searchUserInput.value = '';
+        inviteButton.innerHTML = '<i class="fa fa-user-plus"></i>';
+        initInput();
     })
         .fail(function (data) {
-            console.log(data);
         });
 
+}
+
+function initInput() {
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new Input(formOutline).update();
+    });
 }

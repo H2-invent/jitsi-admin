@@ -3,6 +3,7 @@
 namespace App\Tests\Rooms;
 
 use App\Entity\CallerId;
+use App\Entity\CalloutSession;
 use App\Entity\RoomsUser;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -351,11 +352,25 @@ class RoomAddServiceTest extends KernelTestCase
         $manager->persist($room);
         $manager->persist($user);
         $manager->flush();
+        $calloutSession = new CalloutSession();
+        $calloutSession->setState(0)
+            ->setUid('ksjdhkjfhdsf')
+            ->setInvitedFrom($room->getModerator())
+            ->setUser($user)
+            ->setCreatedAt(new \DateTime())
+            ->setRoom($room);
+        $user->addCalloutSession($calloutSession);
+        $room->addCalloutSession($calloutSession);
+        $manager->persist($calloutSession);
+        $manager->flush();
+
         self::assertEquals(1,$room->getUserAttributes()->count());
         self::assertEquals(1,$room->getCallerIds()->count());
+        self::assertEquals(1,$room->getCalloutSessions()->count());
         $roomAddService->removeUserFromRoom($user, $room);
         self::assertEquals(0,$room->getUserAttributes()->count());
         self::assertEquals(0,$room->getCallerIds()->count());
+        self::assertEquals(0,$room->getCalloutSessions()->count());
         self::assertEquals(2, sizeof($room->getUser()->toArray()));
     }
 

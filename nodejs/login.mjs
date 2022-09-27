@@ -110,3 +110,21 @@ export function getUserFromSocket(socket) {
     var userId = getUserId(socket);
     return user[userId] ? user[userId] : null;
 }
+export function getStatusForListOfIds(socket,list) {
+    var list = JSON.parse(list);
+    var res = {};
+    for (var l of list){
+        try {
+            var tmpUser = user[l];
+            if (tmpUser){
+                res[l] = tmpUser.getStatus();
+            }else {
+                res[l] = 'offline';
+            }
+        }catch (e) {
+            res[l] = 'offline';
+        }
+    }
+
+    socket.emit('giveOnlineStatus',JSON.stringify(res));
+}
