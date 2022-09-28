@@ -1585,7 +1585,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
         <source>lobby.verified</source>
-        <target state="needs-translation">Verifizierter Anrufer</target>
+        <target state="translated">Подтверждённый аккаунт</target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
         <source>lobby.participant.enterNow</source>
