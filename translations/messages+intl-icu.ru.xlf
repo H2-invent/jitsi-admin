@@ -11,59 +11,59 @@
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
-        <target state="needs-translation">Keine Berechtigung</target>
+        <target state="translated">Нет разрешения</target>
       </trans-unit>
       <trans-unit id="XCUHFQy" resname="Konferenz erfolgreich bearbeitet">
         <source>Konferenz erfolgreich bearbeitet</source>
-        <target state="needs-translation">Die Konferenz wurde erfolgreich bearbeitet.</target>
+        <target state="translated">Конференция прошла успешно.</target>
       </trans-unit>
       <trans-unit id="I3TJoB4" resname="Konferenz bearbeiten">
         <source>Konferenz bearbeiten</source>
-        <target state="needs-translation">Bitte Konferenz bearbeiten</target>
+        <target state="translated">Пожалуйста, отредактируйте конференцию</target>
       </trans-unit>
       <trans-unit id="bJSm8Ow" resname="Konferenz erfolgreich erstellt">
         <source>Konferenz erfolgreich erstellt</source>
-        <target state="needs-translation">Die Konferenz wurde erfolgreich erstellt.</target>
+        <target state="translated">Конференция прошла успешно.</target>
       </trans-unit>
       <trans-unit id="bwGkw_c" resname="Neue Konferenz erstellen">
         <source>Neue Konferenz erstellen</source>
-        <target state="needs-translation">Bitte neue Konferenz erstellen</target>
+        <target state="translated">Создать новую конференцию</target>
       </trans-unit>
       <trans-unit id=".Is4T0E" resname="Fehler, Bitte kontrollieren Sie ihre Daten.">
         <source>Fehler, Bitte kontrollieren Sie ihre Daten.</source>
-        <target state="needs-translation">Fehler, bitte kontrollieren Sie Ihre Daten.</target>
+        <target state="translated">Ошибка, пожалуйста, проверьте свои данные.</target>
       </trans-unit>
       <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
         <source>Teilnehmer wurden eingeladen</source>
-        <target state="needs-translation">Die Teilnehmenden wurden eingeladen.</target>
+        <target state="translated">Были приглашены участники.</target>
       </trans-unit>
       <trans-unit id="K6XEZfk" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
         <source>Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</source>
-        <target state="needs-translation">Einige Teilnehmende wurden eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden.</target>
+        <target state="translated">Были приглашены некоторые участники. {emails} неверны и не могут быть приглашены.</target>
       </trans-unit>
       <trans-unit id="B5Z0l0H" resname="Teilnehmer verwalten">
         <source>Teilnehmer verwalten</source>
-        <target state="needs-translation">Teilnehmende verwalten</target>
+        <target state="translated">Управление участниками</target>
       </trans-unit>
       <trans-unit id="BidGKR8" resname="Teilnehmer gelöscht">
         <source>Teilnehmer gelöscht</source>
-        <target state="needs-translation">Teilnehmende gelöscht</target>
+        <target state="translated">Участники удалены</target>
       </trans-unit>
       <trans-unit id="x.c6LLU" resname="Konferenz gelöscht">
         <source>Konferenz gelöscht</source>
-        <target state="needs-translation">Konferenz gelöscht</target>
+        <target state="translated">Конференция удалена</target>
       </trans-unit>
       <trans-unit id="xBVJtSD" resname="Konferenz duplizieren">
         <source>Konferenz duplizieren</source>
-        <target state="needs-translation">Konferenz duplizieren</target>
+        <target state="translated">Дублирование конференции</target>
       </trans-unit>
       <trans-unit id="XC5HNTG" resname="Teilnehmer bearbeitet">
         <source>Teilnehmer bearbeitet</source>
-        <target state="needs-translation">Teilnehmende bearbeitet</target>
+        <target state="translated">Редактирование участников</target>
       </trans-unit>
       <trans-unit id="EfHbtoc" resname="Jitsi Konferenz">
         <source>Jitsi Konferenz</source>
-        <target state="needs-translation">Jitsi-Konferenz</target>
+        <target state="translated">Jitsi-Конференция</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
         <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
@@ -71,59 +71,59 @@
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
-        <target state="needs-translation">Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei. \nName: {name} \nModerator: {moderator} </target>
+        <target state="translated">Вы можете легко присоединиться к видеоконференции, перейдя по прилагаемой ссылке. \nИмя: {name} \nМодератор: {moderator} </target>
       </trans-unit>
       <trans-unit id="RFRvUYc" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:\nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</source>
-        <target state="needs-translation">Folgende Daten benötigen Sie, um der Konferenz beizutreten: \nKonferenz ID: {id} \nIhre E-Mail-Adresse: {email}</target>
+        <target state="translated">Для участия в конференции вам понадобятся следующие данные: \nID конференции: {id} \nВаш адрес электронной почты: {email}</target>
       </trans-unit>
       <trans-unit id="8OKAPr6" resname="Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.">
         <source>Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</source>
-        <target state="needs-translation">Sie erhalten diese E-Mail, weil Sie zu einer Videokonferenz eingeladen wurden.</target>
+        <target state="translated">Вы получите это электронное письмо, потому что вас пригласили на видеоконференцию.</target>
       </trans-unit>
       <trans-unit id="13JKXFh" resname="Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
         <source>Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
-        <target state="needs-translation">Sie wurden zu einem Jitsi Meet Server hinzugefügt.</target>
+        <target state="translated">Они были добавлены на сервер встреч Jitsi.</target>
       </trans-unit>
       <trans-unit id="h0jrwnB" resname="Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.">
         <source>Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.</source>
-        <target state="needs-translation">Sie haben sich bereits angemeldet. Bitte bestätigen Sie noch Ihre Anmeldung, indem auf den Link in der E-Mail klicken.</target>
+        <target state="translated">Вы уже зарегистрировались. Пожалуйста, подтвердите свою регистрацию, перейдя по ссылке в электронном письме.</target>
       </trans-unit>
       <trans-unit id="CITuA1U" resname="Sie haben sich bereits angemeldet.">
         <source>Sie haben sich bereits angemeldet.</source>
-        <target state="needs-translation">Sie haben sich bereits angemeldet.</target>
+        <target state="translated">Вы уже зарегистрировались.</target>
       </trans-unit>
       <trans-unit id="5w8fLA7" resname="Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.">
         <source>Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.</source>
-        <target state="needs-translation">Vielen Dank für Ihre Anmeldung. Bitte bestätigen Sie Ihre E-Mail-Adresse in der E-Mail, die Sie erhalten haben.</target>
+        <target state="translated">Благодарим вас за регистрацию. Пожалуйста, подтвердите свой адрес электронной почты в полученном вами электронном письме.</target>
       </trans-unit>
       <trans-unit id="T.mgfUM" resname="Bestätigung ihrer Anmeldung zur Konferenz: {name}">
         <source>Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung zur Konferenz: {name}</target>
+        <target state="translated">Подтверждение регистрации на конференцию: {name}</target>
       </trans-unit>
       <trans-unit id="vnxSnbr" resname="Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.">
         <source>Ungültige Email. Bitte überprüfen Sie ihre Emailadresse.</source>
-        <target state="needs-translation">Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.</target>
+        <target state="translated">Недействительный адрес электронной почты. Пожалуйста, проверьте свой адрес электронной почты.</target>
       </trans-unit>
       <trans-unit id="fSvJmaS" resname="Danke für die Anmeldung. ">
         <source>Danke für die Anmeldung. </source>
-        <target state="needs-translation">Vielen Dank für Ihre Anmeldung.</target>
+        <target state="translated">Благодарим вас за регистрацию.</target>
       </trans-unit>
       <trans-unit id="Vf9TBUu" resname="Erfolgreich bestätigt">
         <source>Erfolgreich bestätigt</source>
-        <target state="needs-translation">E-Mail-Adresse erfolgreich bestätigt</target>
+        <target state="translated">Успешно подтвержден адрес электронной почты</target>
       </trans-unit>
       <trans-unit id="vpf7rgl" resname="Die maximale Teilnehmeranzahl ist bereits erreicht.">
         <source>Die maximale Teilnehmeranzahl ist bereits erreicht.</source>
-        <target state="needs-translation">Die maximale Teilnehmendenanzahl ist bereits erreicht.</target>
+        <target state="translated">Максимальное количество участников уже достигнуто.</target>
       </trans-unit>
       <trans-unit id="9swBy37" resname="Fehler">
         <source>Fehler</source>
-        <target state="needs-translation">Fehler</target>
+        <target state="translated">Ошибка</target>
       </trans-unit>
       <trans-unit id="UbWO4Tu" resname="Fehler, Bitte klicken Sie den link erneut an.">
         <source>Fehler, Bitte klicken Sie den link erneut an.</source>
-        <target state="needs-translation">Fehler, bitte klicken Sie den Link erneut an.</target>
+        <target state="translated">Ошибка, пожалуйста, нажмите на ссылку еще раз.</target>
       </trans-unit>
       <trans-unit id="IrOsoSS" resname="Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.">
         <source>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</source>
@@ -299,11 +299,11 @@
       </trans-unit>
       <trans-unit id="JXfQNhT" resname="Zukünftige Konferenzen">
         <source>Zukünftige Konferenzen</source>
-        <target state="needs-translation">Zukünftige Konferenzen</target>
+        <target state="translated">Запланированные коференции</target>
       </trans-unit>
       <trans-unit id="a6JwAmN" resname="Vergangene Konferenzen">
         <source>Vergangene Konferenzen</source>
-        <target state="needs-translation">Vergangene Konferenzen</target>
+        <target state="translated">Прошлые конференции</target>
       </trans-unit>
       <trans-unit id="o66NgUz" resname="Eine Konferenz planen">
         <source>Eine Konferenz planen</source>
@@ -419,7 +419,7 @@
       </trans-unit>
       <trans-unit id="j20A4WO" resname="Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.">
         <source>Sie erhalten diese E-Mail, da Sie auf der Teilnehmerliste von dieser Konferenz stehen.</source>
-        <target state="needs-translation">Sie erhalten diese E-Mail, da Ihr Name auf der Teilnehmendenliste dieser Konferenz steht.</target>
+        <target state="translated">Вы получите это электронное письмо, потому что ваше имя есть в списке участников этой конференции.</target>
       </trans-unit>
       <trans-unit id="UVkFezv" resname="Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.">
         <source>Sie erhalten diese E-Mail, da Sie zu einem Jitsi Server hinzugefügt wurden.</source>
@@ -476,36 +476,35 @@
       <trans-unit id="TUr.7W8" resname="Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie&#10;        sich einen Benutzer.">
         <source>Sie können nun Jitsi Meet Konferenzen über den Jitsi Admin verwalten. Loggen Sie sich ein oder erstellen Sie
         sich einen Benutzer.</source>
-        <target state="needs-translation">Sie können nun Jitsi-Meet-Konferenzen über Jitsi Admin verwalten. Loggen Sie sich bitte ein oder erstellen Sie
-        sich einen Benutzer.</target>
+        <target state="translated">Теперь вы можете управлять конференциями Jitsi Meet через Jitsi Admin. Пожалуйста, войдите в систему или зарегистрируйтесь.</target>
       </trans-unit>
       <trans-unit id="nWMiwfT" resname="Login">
         <source>Login</source>
-        <target state="needs-translation">Log-in</target>
+        <target state="translated">Логин</target>
       </trans-unit>
       <trans-unit id="OmOD76j" resname="Server Administrator">
         <source>Server Administrator</source>
-        <target state="needs-translation">Server Administrator</target>
+        <target state="translated">Администратор сервера</target>
       </trans-unit>
       <trans-unit id="BqiajhC" resname="Bestätigung Ihrer Anmeldung">
         <source>Bestätigung Ihrer Anmeldung</source>
-        <target state="needs-translation">Bestätigung Ihrer Anmeldung</target>
+        <target state="translated">Подтверждение вашей регистрации</target>
       </trans-unit>
       <trans-unit id="qmIRYPu" resname="Sie haben sich zur Konferenz {name} angemeldet.">
         <source>Sie haben sich zur Konferenz {name} angemeldet.</source>
-        <target state="needs-translation">Sie haben sich zur Konferenz {name} angemeldet.</target>
+        <target state="translated">Вы зарегистрировались на конференцию {name}.</target>
       </trans-unit>
       <trans-unit id="tSAgi7x" resname="Klicken Sie hier um die Anmeldung abzuschließen">
         <source>Klicken Sie hier um die Anmeldung abzuschließen</source>
-        <target state="needs-translation">Bitte klicken Sie hier, um die Anmeldung abzuschließen.</target>
+        <target state="translated">Пожалуйста, нажмите здесь, чтобы завершить регистрацию.</target>
       </trans-unit>
       <trans-unit id="j5jF23t" resname="Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;&#10;        Ihre E-Mail-Adresse: {email}&lt;br&gt;&#10;        Konferenz-ID: {uid}">
         <source>Folgende Daten benötigen Sie um der Konferenz beizutreten:&lt;br&gt;
         Ihre E-Mail-Adresse: {email}&lt;br&gt;
         Konferenz-ID: {uid}</source>
-        <target state="needs-translation"><![CDATA[Folgende Daten benötigen Sie, um der Konferenz beizutreten:<br>
-        Ihre E-Mail-Adresse: {email}<br>
-        Konferenz-ID: {uid}]]></target>
+        <target state="translated"><![CDATA[Для участия в конференции вам понадобятся следующие данные:<br>
+Ваш адрес электронной почты: {email}<br>
+ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ucMDToG" resname="Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.">
         <source>Klicken Sie hier um direkt zu der Videokonferenz zu gelangen.</source>
@@ -1069,99 +1068,99 @@
       </trans-unit>
       <trans-unit id="vBZ55s_" resname="Mitglieder">
         <source>Mitglieder</source>
-        <target state="needs-translation">Mitglieder</target>
+        <target state="translated">Участники</target>
       </trans-unit>
       <trans-unit id="vc0NZNW" resname="Kontakte">
         <source>Kontakte</source>
-        <target state="needs-translation">Kontakte</target>
+        <target state="translated">Kонтакты</target>
       </trans-unit>
       <trans-unit id="j9J2yMz" resname="Gruppen">
         <source>Gruppen</source>
-        <target state="needs-translation">Gruppen</target>
+        <target state="translated">Группы</target>
       </trans-unit>
       <trans-unit id="SAJ77OP" resname="Es wird eine Terminumfrage erstellt, keine Konferenz.">
         <source>Es wird eine Terminumfrage erstellt, keine Konferenz.</source>
-        <target state="needs-translation">Es wird eine Terminumfrage erstellt, keine Konferenz.</target>
+        <target state="translated">Создает опрос о встречах, а не конференцию.</target>
       </trans-unit>
       <trans-unit id="1wyQOH0" resname="Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.">
         <source>Nur Nutzer, welche einen Account auf der Plattform haben können diesem Meeting beitreten. Es ist somit der Benutzername und das Passwort erforderlich. Damit wird ein zusätzlicher Schutz eingeführt.</source>
-        <target state="needs-translation">Nur Nutzer, die einen Account auf der Plattform haben, können diesem Meeting beitreten. Dafür ist die Eingabe von Benutzername und Passwort erforderlich. Das bedeutet einen zusätzlichen Schutz.</target>
+        <target state="translated">Только пользователи, у которых есть учетная запись на саите, могут присоединиться к этому собранию. Для этого необходимо ввести имя пользователя и пароль. Создает дополнительную защиту.</target>
       </trans-unit>
       <trans-unit id="9UX9V9a" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
         <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
-        <target state="needs-translation">Es wird ein Link erstellt, den Sie weitergeben können. Über diesen Link können sich Teilnehmende selbst in die Teilnehmendenliste eintragen. Sie können diese Liste bearbeiten und sich als Teilnehmer entfernen.</target>
+        <target state="translated">Создаст ссылку, которой вы сможете поделиться. По этой ссылке участники могут самостоятельно зарегистрироваться в списке участников. Вы можете отредактировать этот список и удалить себя как участника.</target>
       </trans-unit>
       <trans-unit id="C9MwZGx" resname="Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können">
         <source>Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</source>
-        <target state="needs-translation">Maximale Anzahl der Teilnehmenden, die sich per Selbsteinschreibung bei der Konferenz anmelden können</target>
+        <target state="translated">Максимальное количество участников, которые могут зарегистрироваться на конференции самостоятельно</target>
       </trans-unit>
       <trans-unit id="3rRkPRX" resname="Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren">
         <source>Wenn es eine begrenzte Anzahl von Teilnehmer gibt dann können sich Teilnehmer auf einer Warteliste einschreiben und der Moderator kann diese manuell akzeptieren</source>
-        <target state="needs-translation">Bei einer begrenzten Anzahl von Teilnehmenden können sich Interessenten in eine Warteliste eintragen. Der Moderator kann einen Eintrag manuell akzeptieren.</target>
+        <target state="translated">При ограниченном количестве участников пользователи могут зарегистрироваться в списке ожидания. Модератор может принять запись вручную.</target>
       </trans-unit>
       <trans-unit id="_899YzG" resname="Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.">
         <source>Auf der Beitretenseite eines Servers wird diese Konferenz angezeigt.</source>
-        <target state="needs-translation">Auf der Seite „Beitreten“ eines Servers wird diese Konferenz angezeigt.</target>
+        <target state="translated">На странице “Присоединиться" сервера отображается эта конференция.</target>
       </trans-unit>
       <trans-unit id="sdf9Y.b" resname="Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden">
         <source>Teilnehmer dürfen Ihren Bildschirm nicht teilen. Dies kann in der Teilnehmerübersicht für jeden Teilnehmer individuell angepasst werden</source>
-        <target state="needs-translation">Nur der Organisator darf die Ansicht auf seinem Bildschirm teilen, jedoch nicht die Teilnehmenden. Der Organisator kann in der Teilnehmendenübersicht einzelne Personen wieder zulassen.</target>
+        <target state="translated">Только организатору разрешено делиться просмотром на своем экране, но не участникам. Организатор может повторно разрешить отдельным лицам участвовать в опросе участников.</target>
       </trans-unit>
       <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
         <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
-        <target state="needs-translation">Es gibt keine Teilnehmendenliste. Die Teilnehmenden können der Konferenz über den generierten Link beitreten.</target>
+        <target state="translated">Нет списка участников. Участники могут присоединиться к конференции по созданной ссылке.</target>
       </trans-unit>
       <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
         <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
-        <target state="needs-translation">Der Organisator schließt für den angegebenen Zeitrahmen den Konferenzraum auf, wenn er diesen mit einem Klick auf „Start“ betritt.</target>
+        <target state="translated">Организатор закрывает конференц-зал на указанные временные рамки при входе в него одним нажатием кнопки „Пуск“.</target>
       </trans-unit>
       <trans-unit id="nii024c" resname="Feste Konferenzen">
         <source>Feste Konferenzen</source>
-        <target state="needs-translation">Dauerhafte Konferenzen</target>
+        <target state="translated">Постоянные конференции</target>
       </trans-unit>
       <trans-unit id="Zr7SwSE" resname="Beitretenlink">
         <source>Beitretenlink</source>
-        <target state="needs-translation">Link zum Beitreten</target>
+        <target state="translated">Нажмите, чтобы присоединится</target>
       </trans-unit>
       <trans-unit id="orGQbDb" resname="Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.">
         <source>Diese Konferenz ist nicht auf einen festen Zeitpunkt datiert. Der Moderator wird sie auf einem anderen Wege darüber informieren wann die Konferenz startet.</source>
-        <target state="needs-translation">Diese Konferenz ist nicht auf einen festgesetzten Zeitpunkt datiert. Der Moderator wird Sie auf einem anderen Weg darüber informieren, wann die Konferenz beginnt.</target>
+        <target state="translated">Эта конференция не приурочена к какой-либо установленной дате. Модератор сообщит вам, когда начнется конференция, другим способом.</target>
       </trans-unit>
       <trans-unit id="xuvd5Tx" resname="Bitte warten. Die Konferenz ist noch nicht geöffnet">
         <source>Bitte warten. Die Konferenz ist noch nicht geöffnet</source>
-        <target state="needs-translation">Bitte warten. Die Konferenz ist noch nicht eröffnet.</target>
+        <target state="translated">Пожалуйста, подождите. Конференция еще не открылась.</target>
       </trans-unit>
       <trans-unit id="D9T4ViQ" resname="Beitretenlink für Teilnehmer">
         <source>Beitretenlink für Teilnehmer</source>
-        <target state="needs-translation">Link für Teilnehmende zum Beitreten</target>
+        <target state="translated">Ссылка для участников, чтобы присоединиться</target>
       </trans-unit>
       <trans-unit id="9xu2DxS" resname="KeyCloak Gruppen oder E-Maildomains">
         <source>KeyCloak Gruppen oder E-Maildomains</source>
-        <target state="needs-translation">KeyCloak-Gruppen oder E-Mail-Domains</target>
+        <target state="translated">KeyCloak-Группа электронной почты-Домены</target>
       </trans-unit>
       <trans-unit id="4cAQl7b" resname="Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein &quot;\&quot; vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.">
         <source>Hier können sie KeyCloak Gruppen oder E-Maildomains angeben. KeyCloak Gruppen müssen ein "\" vorangestellt haben (z.B. \all). User mit der KeyCloak Gruppe oder der E-Maildomain können über diesen Server Meetings erstellen, ohne das diese explizit als Organisatoren benannt werden müssen.</source>
-        <target state="needs-translation">Hier können Sie als Administrator KeyCloak-Gruppen oder E-Mail-Domains angeben. KeyCloak-Gruppen muss ein Slash vorangestellt sein (z.B. \all). User in der KeyCloak-Gruppe oder mit der E-Mail-Domain können über diesen Server Meetings erstellen. User müssen explizit als Organisatoren benannt werden.</target>
+        <target state="translated">Здесь вы можете указать группы KeyCloak или домены электронной почты в качестве администратора. Группам KeyCloak должна предшествовать косая черта (например, \all). Пользователи, входящие в группу KeyCloak или имеющие домен электронной почты, могут создавать собрания с помощью этого сервера. Пользователи должны быть явно названы организаторами.</target>
       </trans-unit>
       <trans-unit id="_JYBwQi" resname="Nur dieses Serienelement bearbeiten">
         <source>Nur dieses Serienelement bearbeiten</source>
-        <target state="needs-translation">Nur dieses Serienelement bearbeiten</target>
+        <target state="translated">Редактировать только этот элемент серии</target>
       </trans-unit>
       <trans-unit id="ZUQB5jY" resname="Fehler, das Startdatum darf nicht leer sein">
         <source>Fehler, das Startdatum darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte das Startdatum eingeben.</target>
+        <target state="translated">Ошибка, пожалуйста, введите дату начала.</target>
       </trans-unit>
       <trans-unit id="jGFMqpn" resname="Fehler, der Name darf nicht leer sein">
         <source>Fehler, der Name darf nicht leer sein</source>
-        <target state="needs-translation">Fehler, bitte den Namen angeben.</target>
+        <target state="translated">Ошибка, пожалуйста, укажите имя.</target>
       </trans-unit>
       <trans-unit id="CkD2mrU" resname="Leiten Sie diesen Link an die Teilnehmer weiter">
         <source>Leiten Sie diesen Link an die Teilnehmer weiter</source>
-        <target state="needs-translation">Bitte leiten Sie diesen Link an die Teilnehmenden weiter.</target>
+        <target state="translated">Пожалуйста, отправте эту ссылку участникам.</target>
       </trans-unit>
       <trans-unit id="LqbhhU9" resname="Wollen Sie den Teilnehmer wirklich löschen?">
         <source>Wollen Sie den Teilnehmer wirklich löschen?</source>
-        <target state="needs-translation">Wollen Sie den Namen des Teilnehmenden wirklich löschen?</target>
+        <target state="translated">Вы действительно хотите удалить имя участника?</target>
       </trans-unit>
       <trans-unit id="MaXA.F3" resname="Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist">
         <source>Das Datum wird nicht berücksichtigt, da dieses bereits durch die Serie festgelegt ist</source>
@@ -1169,31 +1168,31 @@
       </trans-unit>
       <trans-unit id="tFfAytG" resname="Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit">
         <source>Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit</source>
-        <target state="needs-translation">Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit.</target>
+        <target state="translated">Ошибка, дата начала и дата окончания остались в прошлом.</target>
       </trans-unit>
       <trans-unit id="uAj26XB" resname="Schließen">
         <source>Schließen</source>
-        <target state="needs-translation">Schließen</target>
+        <target state="translated">Выйти</target>
       </trans-unit>
       <trans-unit id="hr7a.Nt" resname="Zeitzone einstellen">
         <source>Zeitzone einstellen</source>
-        <target state="needs-translation">Zeitzone einstellen</target>
+        <target state="translated">Настройка часового пояса</target>
       </trans-unit>
       <trans-unit id="WdcAY52" resname="Zeitzone erfolgreich geändert auf: {timeZone}">
         <source>Zeitzone erfolgreich geändert auf: {timeZone}</source>
-        <target state="needs-translation">Zeitzone erfolgreich geändert auf: {timeZone}</target>
+        <target state="translated">Часовой пояс успешно изменен на: {timeZone}</target>
       </trans-unit>
       <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Benutzer in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Пожалуйста, выберите часовой пояс для запланированной встречи здесь. Пользователи в других часовых поясах получат конференцию в своем местном часовом поясе.</target>
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
-        <target state="needs-translation">Zeitzone ändern</target>
+        <target state="translated">Изменить часовой пояс</target>
       </trans-unit>
       <trans-unit id="Dy7C0FG" resname="Erstellt in Zeitzone">
         <source>Erstellt in Zeitzone</source>
-        <target state="needs-translation">Erstellt in Zeitzone</target>
+        <target state="translated">Создано в часовом поясе</target>
       </trans-unit>
       <trans-unit id="AFB7I6E" resname="Zeitzone">
         <source>Zeitzone</source>
@@ -1209,59 +1208,59 @@
       </trans-unit>
       <trans-unit id="2nxOXuK" resname="Zeitangaben in Zeitzone">
         <source>Zeitangaben in Zeitzone</source>
-        <target state="needs-translation">Zeitangaben in Zeitzone</target>
+        <target state="translated">Информация о времени в часовом поясе</target>
       </trans-unit>
       <trans-unit id="MM_kpXC" resname="[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt">
         <source>[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt</source>
-        <target state="needs-translation">[Serverorganisation] Ihr Name wurde zu einem Jitsi Meet Server hinzugefügt.</target>
+        <target state="translated">[Serverorganisation] Ваше имя было добавлено на сервер встреч Jitsi.</target>
       </trans-unit>
       <trans-unit id="cp.tY0I" resname="[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}">
         <source>[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}</source>
-        <target state="needs-translation">[Videokonferenz] Bitte bestätigen Sie Ihre Anmeldung zur Konferenz: {name}</target>
+        <target state="translated">[Videokonferenz] Пожалуйста, подтвердите свою регистрацию на конференцию: {name}</target>
       </trans-unit>
       <trans-unit id="7WayfUa" resname="[Videokonferenz] Videokonferenz {name} abgesagt">
         <source>[Videokonferenz] Videokonferenz {name} abgesagt</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz {name} wurde abgesagt.</target>
+        <target state="translated">[Videokonferenz] Видеоконференция {name} была отменена.</target>
       </trans-unit>
       <trans-unit id="TuTcCiZ" resname="[Videokonferenz] Videokonferenz abgesagt">
         <source>[Videokonferenz] Videokonferenz abgesagt</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz wurde abgesagt.</target>
+        <target state="translated">[Videokonferenz] Видеоконференция была отменена.</target>
       </trans-unit>
       <trans-unit id="0gbS.CE" resname="[Terminplanung] Terminplanung abgesagt">
         <source>[Terminplanung] Terminplanung abgesagt</source>
-        <target state="needs-translation">[Terminplanung] Die Terminplanung wurde abgesagt.</target>
+        <target state="translated">[Terminplanung] Расписание было отменено.</target>
       </trans-unit>
       <trans-unit id="DF724eR" resname="[Videokonferenz] Videokonferenz {name} wurde bearbeitet">
         <source>[Videokonferenz] Videokonferenz {name} wurde bearbeitet</source>
-        <target state="needs-translation">[Videokonferenz] Die Videokonferenz {name} wurde bearbeitet.</target>
+        <target state="translated">[Videokonferenz] Видеоконференция {name} была отредактирована.</target>
       </trans-unit>
       <trans-unit id="EtO0xG8" resname="[Terminplanung] Neue Einladung zu der Terminplanung {name}">
         <source>[Terminplanung] Neue Einladung zu der Terminplanung {name}</source>
-        <target state="needs-translation">[Terminplanung] Es gibt eine neue Einladung zur Terminplanung {name}.</target>
+        <target state="translated">[Terminplanung] Есть новое приглашение на встречу {name}.</target>
       </trans-unit>
       <trans-unit id="fje2ysN" resname="[Videokonferenz] Neue Einladung zur Videokonferenz {name}">
         <source>[Videokonferenz] Neue Einladung zur Videokonferenz {name}</source>
-        <target state="needs-translation">[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz {name}.</target>
+        <target state="translated">[Videokonferenz] Появилось новое приглашение на видеоконференцию {name}.</target>
       </trans-unit>
       <trans-unit id="VQ5q3RR" resname="[Terminplanung] Neue Einladung zur Terminplanung {name}">
         <source>[Terminplanung] Neue Einladung zur Terminplanung {name}</source>
-        <target state="needs-translation">[Terminplanung] Es gibt eine neue Einladung zur Terminplanung {name}.</target>
+        <target state="translated">[Terminplanung] Есть новое приглашение на встречу {name}.</target>
       </trans-unit>
       <trans-unit id="UE6M382" resname="[Videokonferenz] Hinzugefügt zur Warteliste">
         <source>[Videokonferenz] Hinzugefügt zur Warteliste</source>
-        <target state="needs-translation">[Videokonferenz] Hinzugefügt zur Warteliste</target>
+        <target state="translated">[Videokonferenz] Добавлено в список ожидания</target>
       </trans-unit>
       <trans-unit id="vawr.RD" resname="[Erinnerung] Videokonferenz {room} startet gleich">
         <source>[Erinnerung] Videokonferenz {room} startet gleich</source>
-        <target state="needs-translation">[Erinnerung] Die Videokonferenz {room} beginnt gleich.</target>
+        <target state="translated">[Erinnerung] Видеоконференция {room} начинайте прямо сейчас.</target>
       </trans-unit>
       <trans-unit id="pPKSLi2" resname="Suche">
         <source>Suche</source>
-        <target state="needs-translation">Suche</target>
+        <target state="translated">Поиск</target>
       </trans-unit>
       <trans-unit id="47ienTP" resname="Username">
         <source>Username</source>
-        <target state="needs-translation">Username</target>
+        <target state="translated">Имя пользователя</target>
       </trans-unit>
       <trans-unit id="A4.tsln" resname="Suchen und durch klicken auf &lt;i class=&quot;fas fa-plus&quot;&gt;&lt;/i&gt; hinzufügen">
         <source>Suchen und durch klicken auf &lt;i class="fas fa-plus"&gt;&lt;/i&gt; hinzufügen</source>
@@ -1486,43 +1485,43 @@
       </trans-unit>
       <trans-unit id="_kvL9Eu" resname="fixed.Room.name">
         <source>fixed.Room.name</source>
-        <target state="needs-translation">Dauerhaft</target>
+        <target state="translated">Всегда</target>
       </trans-unit>
       <trans-unit id="fvdvbiY" resname="favorite.sidebar.title">
         <source>favorite.sidebar.title</source>
-        <target state="needs-translation">Favoriten</target>
+        <target state="translated">Избранное</target>
       </trans-unit>
       <trans-unit id="S9ZHICp" resname="favorite.sidebar.help">
         <source>favorite.sidebar.help</source>
-        <target state="needs-translation"><![CDATA[Drücken Sie <i class="far fa-star"></i> um Konferenzen als Favoriten zu markieren.]]></target>
+        <target state="translated"><![CDATA[Нажмите <i class="far fa-star"></i> чтобы отмечать конференции как избранные.]]></target>
       </trans-unit>
       <trans-unit id="GKvYLg2" resname="participant.resend.invitation">
         <source>participant.resend.invitation</source>
-        <target state="needs-translation">Einladung nochmals an den Teilnehmenden senden.</target>
+        <target state="translated">Отправьте приглашение еще раз участнику.</target>
       </trans-unit>
       <trans-unit id="gdZJZYw" resname="participant.resend.invitation.sucess">
         <source>participant.resend.invitation.sucess</source>
-        <target state="needs-translation">Die Einladung wurde erfolgreich versandt.</target>
+        <target state="translated">Приглашение было успешно отправлено.</target>
       </trans-unit>
       <trans-unit id="g4jtVF_" resname="secondEmail.help">
         <source>secondEmail.help</source>
-        <target state="needs-translation">Alle E-Mails werden auch noch an diese E-Mail-Adresse geschickt.</target>
+        <target state="translated">Все электронные письма по-прежнему будут отправляться на этот адрес электронной почты.</target>
       </trans-unit>
       <trans-unit id="TKFDNHO" resname="second.email.title">
         <source>second.email.title</source>
-        <target state="needs-translation">Persönliche Einstellungen</target>
+        <target state="translated">Личные настройки</target>
       </trans-unit>
       <trans-unit id="m642WuG" resname="CC-E-Mails erfolgreich geändert auf: {secondEmails}">
         <source>CC-E-Mails erfolgreich geändert auf: {secondEmails}</source>
-        <target state="needs-translation">Persönliche Einstellungen erfolgreich geändert.</target>
+        <target state="translated">Личные настройки успешно изменены.</target>
       </trans-unit>
       <trans-unit id="nse36ub" resname="Weitere E-Mailadressen">
         <source>Weitere E-Mailadressen</source>
-        <target state="needs-translation">Weitere E-Mailadressen</target>
+        <target state="translated">Дополнительный адрес электронной почты</target>
       </trans-unit>
       <trans-unit id="1ur_gjW" resname="Download">
         <source>Download</source>
-        <target state="needs-translation">Download</target>
+        <target state="translated">Загрузить</target>
       </trans-unit>
       <trans-unit id="ynT5s9D" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
@@ -1530,7 +1529,7 @@
       </trans-unit>
       <trans-unit id="ioC7pky" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
-        <target state="needs-translation">Diese Aktion ist nicht erlaubt.</target>
+        <target state="translated">Действие запрещено.</target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
         <source>repeater.edit.warning</source>
@@ -1542,43 +1541,43 @@
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
         <source>common.success.save</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">Ваша запись успешно сохранена.</target>
       </trans-unit>
       <trans-unit id="EWa057N" resname="status.inconference">
         <source>status.inconference</source>
-        <target state="needs-translation">In der Konferenz</target>
+        <target state="translated">Закончить конференцию</target>
       </trans-unit>
       <trans-unit id="FjHZo91" resname="status.finished">
         <source>status.finished</source>
-        <target state="needs-translation">Beendet</target>
+        <target state="translated">Завершено</target>
       </trans-unit>
       <trans-unit id="jg.IqQl" resname="server.checkHeader">
         <source>server.checkHeader</source>
-        <target state="needs-translation">Meinen Server überprüfen</target>
+        <target state="translated">Проверка моего сервера</target>
       </trans-unit>
       <trans-unit id="72KJHkb" resname="Private Nachrichten">
         <source>Private Nachrichten</source>
-        <target state="needs-translation">Private Nachrichten</target>
+        <target state="translated">Личные сообщения</target>
       </trans-unit>
       <trans-unit id="jXWbBTG" resname="Lobbymoderator">
         <source>Lobbymoderator</source>
-        <target state="needs-translation">Lobbymoderator</target>
+        <target state="translated">Администратор</target>
       </trans-unit>
       <trans-unit id="TrVDjRp" resname="sip.caller.data">
         <source>sip.caller.data</source>
-        <target state="needs-translation">Einwahl-Informationen</target>
+        <target state="translated">Детали вложения</target>
       </trans-unit>
       <trans-unit id="EJ6OCCs" resname="addhock.notification.title">
         <source>addhock.notification.title</source>
-        <target state="needs-translation">Ad Hoc Meeting</target>
+        <target state="translated">Начать встречу</target>
       </trans-unit>
       <trans-unit id="aHfJyUI" resname="addhock.notification.message">
         <source>addhock.notification.message</source>
-        <target state="needs-translation"><![CDATA[{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Hier Beitreten</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
+        <target state="translated"><![CDATA[{name} хотел бы организовать с вами видеоконференцию.<br><a href="{url}" target="_new" class="btn btn-sm btn-sucess"><i class="fas fa-phone"></i> Присоединяйтесь здесь</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>]]></target>
       </trans-unit>
       <trans-unit id="0Xa3S_6" resname="addhock.notification.pushMessage">
         <source>addhock.notification.pushMessage</source>
-        <target state="needs-translation">{name} möchte mit Ihnen eine Ad-Hoc Videokonferenz erstellen</target>
+        <target state="translated">{name} хотел бы организовать с вами видеоконференцию</target>
       </trans-unit>
       <trans-unit id="DhfQxTv" resname="common.loadingTime">
         <source>common.loadingTime</source>
@@ -1598,7 +1597,7 @@
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
-        <target state="needs-translation">Ihre Eingabe wurde Erfolgreich gespeichert.</target>
+        <target state="translated">Ваша запись успешно сохранена.</target>
       </trans-unit>
       <trans-unit id="4wVQAJs" resname="room.new.help.tag">
         <source>room.new.help.tag</source>
