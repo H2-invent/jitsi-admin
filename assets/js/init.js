@@ -23,7 +23,7 @@ import {initKeycloakGroups} from "./keyCloakGroupsInit";
 import {initAddressGroupSearch} from "./addressGroup";
 import {initChart} from "./chart";
 import {Chart} from "chart.js";
-import {initNewModal} from "./app";
+import ClipboardJS from "clipboard";
 
 function initGenerell() {
     Push.Permission.request();
@@ -95,5 +95,92 @@ function initLoadContent() {
 }
 
 
+function initNewModal(e){
 
-export {initGenerell}
+    initScheduling();
+
+    $('[data-mdb-toggle="popover"]').popover({html: true});
+
+    $('[data-mdb-toggle="tooltip"]').tooltip()
+
+    initdateTimePicker('.flatpickr');
+    initNewRoomModal();
+    $('form').submit(function (event) {
+        var btn = $(this).find('button[type=submit]');
+        btn.html('<i class="fas fa-spinner fa-spin"></i> ' + btn.text());
+        btn.prop("disabled", true)
+    });
+
+
+    $('.generateApiKey').click(function (e) {
+        e.preventDefault();
+        $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
+    })
+    $('#jwtServer').change(function () {
+        if ($('#jwtServer').prop('checked')) {
+            $('#appId').collapse('show')
+        } else {
+            $('#appId').collapse('hide')
+        }
+    });
+
+    initCopytoClipboard();
+    initSearchUser();
+    initServerFeatures();
+    initRepeater();
+    initKeycloakGroups();
+    initAddressGroupSearch();
+    initChart();
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });
+    if (document.getElementById("lineChart") !== null) {
+        var ctx = document.getElementById("lineChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
+}
+
+function initCopytoClipboard() {
+
+    var clipboard = new ClipboardJS('.copyLink');
+}
+
+function initServerFeatures() {
+    getMoreFeature($('.moreFeatures').val())
+    $('.moreFeatures').change(function () {
+        getMoreFeature($(this).val());
+    })
+}
+
+export function getMoreFeature(id) {
+    if (typeof id !== 'undefined') {
+        $.getJSON(moreFeatureUrl, 'id=' + id, function (data) {
+            var feature = data.feature;
+            for (var prop in feature) {
+                if (feature[prop] == true) {
+                    $('#' + prop).removeClass('d-none')
+                } else {
+                    $('#' + prop).addClass('d-none')
+                }
+            }
+        })
+    }
+}
+
+function initRepeater() {
+    $('.repeater').addClass('d-none');
+    $('#repeater_' + $('#repeater_repeatType').val()).removeClass('d-none');
+
+    $('#repeater_repeatType').change(function () {
+
+        $('.repeater').addClass('d-none');
+        $('#repeater_' + $(this).val()).removeClass('d-none');
+    })
+}
+
+
+export {initGenerell, initNewModal, initCopytoClipboard}
