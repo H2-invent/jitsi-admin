@@ -38,12 +38,12 @@ class CallOutSessionAPIDialService
                         'caller_id' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
                         'pin' => $pin->getCallerId())
                 ),
-                'refuse' => 'test',
-                'timeout' => 'test',
-                'error' => 'test',
-                'later' => 'test',
-                'dial' => 'test',
-                'occupied' => 'test',
+                'refuse' => $this->urlGenerator->generate('callout_api_refuse', array('calloutSessionId' => $calloutSession->getUid())),
+                'timeout' => $this->urlGenerator->generate('callout_api_timeout', array('calloutSessionId' => $calloutSession->getUid())),
+                'error' => $this->urlGenerator->generate('callout_api_error', array('calloutSessionId' => $calloutSession->getUid())),
+                'later' => $this->urlGenerator->generate('callout_api_later', array('calloutSessionId' => $calloutSession->getUid())),
+                'dial' => $this->urlGenerator->generate('callout_api_dial', array('calloutSessionId' => $calloutSession->getUid())),
+                'occupied' => $this->urlGenerator->generate('callout_api_occupied', array('calloutSessionId' => $calloutSession->getUid())),
             )
         );
         return $res;

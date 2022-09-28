@@ -47,13 +47,12 @@ class CalloutAPIDialServiceTest extends KernelTestCase
         $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
         self::assertEquals(array('status' => 'OK', 'links' => array(
             'accept' => '/api/v1/lobby/sip/pin/12340?caller_id=987654321012&pin=987654321',
-            //todo hier ncoh weitere links einbauen
-            'refuse' => 'test',
-            'timeout' => 'test',
-            'error' => 'test',
-            'later' => 'test',
-            'dial' => 'test',
-            'occupied' => 'test'
+            'refuse' => '/api/v1/call/out/refuse/ksdlfjlkfds',
+            'timeout' => '/api/v1/call/out/timeout/ksdlfjlkfds',
+            'error' => '/api/v1/call/out/error/ksdlfjlkfds',
+            'later' => '/api/v1/call/out/later/ksdlfjlkfds',
+            'dial' => '/api/v1/call/out/dial/ksdlfjlkfds',
+            'occupied' => '/api/v1/call/out/occupied/ksdlfjlkfds'
         )), $calloutDialService->dialSession('ksdlfjlkfds'));
     }
 

@@ -54,4 +54,59 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
+    #[Route('/refuse/{calloutSessionId}', name: 'refuse')]
+    public function refuse($calloutSessionId, Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = array('todo' => 'todo');
+        return new JsonResponse($res);
+    }
+
+    #[Route('/timeout/{calloutSessionId}', name: 'timeout')]
+    public function timeout($calloutSessionId, Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = array('todo' => 'todo');
+        return new JsonResponse($res);
+    }
+
+    #[Route('/error/{calloutSessionId}', name: 'error')]
+    public function error($calloutSessionId, Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = array('todo' => 'todo');
+        return new JsonResponse($res);
+    }
+
+    #[Route('/later/{calloutSessionId}', name: 'later')]
+    public function later($calloutSessionId, Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = array('todo' => 'todo');
+        return new JsonResponse($res);
+    }
+
+    #[Route('/occupied/{calloutSessionId}', name: 'occupied')]
+    public function occupied($calloutSessionId, Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = array('todo' => 'todo');
+        return new JsonResponse($res);
+    }
+
 }
