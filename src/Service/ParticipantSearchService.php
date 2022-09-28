@@ -23,6 +23,7 @@ class ParticipantSearchService
                 'name' => $this->buildShowInFrontendString($data),
                 'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
                 'id' => $data->getUsername(),
+                'uid' => $data->getUid(),
                 'roles' => ['participant', 'moderator']
             );
             $this->filterForModerator($data,$tmp);
@@ -39,6 +40,7 @@ class ParticipantSearchService
             $res[] = array(
                 'name' => $searchString,
                 'id' => $searchString,
+                'nameNoIcon' => $searchString,
                 'roles' => ['participant', 'moderator']
             );
         } else {

@@ -63,8 +63,8 @@ const searchUSer = ($url, $search) => {
             dropdown.innerHTML = '';
             for (let user of users) {
                 var dropdownEle =
-                    '<a id="user_' + user.uid
-                    + '" class="d-flex align-items-center dropdown-item calloutSearchUser" data-name="'
+                    '<a '+ (typeof user.uid !== 'undefined'?('id="user_' + user.uid+'"'):'')
+                    + ' class="d-flex align-items-center dropdown-item calloutSearchUser" data-name="'
                     + user.nameNoIcon
                     + '" data-val="'
                     + user.id
@@ -73,7 +73,10 @@ const searchUSer = ($url, $search) => {
                     + user.name
                     + '</a>';
                 dropdown.insertAdjacentHTML('beforeend', dropdownEle);
-                usersArr.push(user.uid);
+                if (typeof user.uid !=='undefined'){
+                    usersArr.push(user.uid);
+                }
+
             }
             socket.on('giveOnlineStatus', function (data) {
                 data = JSON.parse(data);

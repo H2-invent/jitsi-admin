@@ -69,7 +69,7 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>"asdf",'id'=>"asdf",'roles'=>array('participant','moderator')),
+            array('name'=>"asdf",'id'=>"asdf",'nameNoIcon' => 'asdf','roles'=>array('participant','moderator')),
         ),$res);
         $string = 'TEst2';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
@@ -94,7 +94,7 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithEmptyUser($userArr,$string);
         $this->assertEquals(array(
-            array('name'=>$string, 'id'=>$string,'roles'=>array('participant','moderator'))
+            array('name'=>$string, 'id'=>$string,'nameNoIcon' => $string,'roles'=>array('participant','moderator'))
         ),$res);
 
     }
@@ -110,14 +110,14 @@ class AdressbookTest extends KernelTestCase
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2','id'=>"test2@local.de",'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj','roles'=>array('participant','moderator')),
-            array('name'=>'','nameNoIcon' => '','id'=>"test@local3.de",'uid' => 'kjsdfhkjds','roles'=>array('participant','moderator'))
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2',  'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id'=>"test2@local.de",'roles'=>array('participant','moderator')),
+            array('name'=>'','nameNoIcon' => '','id'=>"test@local3.de",  'uid' => 'kjsdfhkjds','roles'=>array('participant','moderator'))
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
-            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2','id'=>"test2@local.de",'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj','roles'=>array('participant','moderator')),
+            array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2',   'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id'=>"test2@local.de",'roles'=>array('participant','moderator')),
         ),$res);
     }
     public function testnoUSerfoundNoGenerate(): void
@@ -154,6 +154,7 @@ class AdressbookTest extends KernelTestCase
           array('name'=>'<i class="fa fa-phone" title="987654321012" data-toggle="tooltip"></i> AA, 45689, Ldap, LdapUSer',
               'nameNoIcon' => 'AA, 45689, Ldap, LdapUSer',
               'id'=>'ldapUser@local.de',
+              'uid' => 'kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj',
               'roles'=>array('participant'))
         ),$res);
     }
@@ -173,7 +174,7 @@ class AdressbookTest extends KernelTestCase
         $res = $searchService->generateUserwithoutEmptyUser($userArr);
         $this->assertEquals(array(
             array('name'=>'<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2','nameNoIcon' => 'Test2, 1234, User2, Test2','id'=>"test2@local.de",'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj','roles'=>array('participant','moderator')),
-            array('name'=>'','id'=>"test@local3.de",'nameNoIcon' => '','roles'=>array('participant','moderator'))
+            array('name'=>'','id'=>"test@local3.de",'nameNoIcon' => '', 'uid' => 'kjsdfhkjds','roles'=>array('participant','moderator'))
         ),$res);
         $string = '1234';
         $userArr = $userRepo->findMyUserByIndex($string, $user);
