@@ -30,6 +30,26 @@ class CalloutServiceTest extends KernelTestCase
         self::assertEquals($callout, $calloutService->createCallout($room, $user, $inviter));
         self::assertEquals(1, sizeof($callOurRepo->findAll()));
     }
+    public function testreturnCallerId(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutService = self::getContainer()->get(CalloutService::class);
+        $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        self::assertEquals('987654321012',$calloutService->getCallerIdForUser($user));
+    }
+    public function testreturnnoCallerId(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutService = self::getContainer()->get(CalloutService::class);
+        $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'user@local.de'));
+        self::assertNull($calloutService->getCallerIdForUser($user));
+    }
 
     public function testisAllowedtoBeCalled(): void
     {

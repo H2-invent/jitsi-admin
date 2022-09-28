@@ -76,8 +76,7 @@ const searchUSer = ($url, $search) => {
                 usersArr.push(user.uid);
             }
             socket.on('giveOnlineStatus', function (data) {
-                data = JSON.parse(data)
-                console.log(data);
+                data = JSON.parse(data);
                 for (var d in data) {
                     document.getElementById('user_' + d).dataset.status = data[d];
                 }

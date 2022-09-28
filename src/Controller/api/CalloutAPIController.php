@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Controller\api;
+
+use App\Helper\JitsiAdminController;
+use App\Service\api\CheckAuthorizationService;
+use App\Service\Callout\CallOutSessionAPIDialService;
+use App\Service\Callout\CalloutSessionAPIService;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+#[Route('/api/v1/call/out', name: 'callout_api_')]
+class CalloutAPIController extends JitsiAdminController
+{
+    public function __construct(
+        ManagerRegistry                      $managerRegistry,
+        TranslatorInterface                  $translator,
+        LoggerInterface                      $logger,
+        ParameterBagInterface                $parameterBag,
+        private CalloutSessionAPIService     $calloutSessionAPIService,
+        private CallOutSessionAPIDialService $callOutSessionAPIDialService)
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+        $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
+    }
+
+
+    #[Route('/', name: 'pool')]
+    public function index(Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $calloutSessions = $this->calloutSessionAPIService->getCalloutPool();
+        return new JsonResponse($calloutSessions);
+    }
+
+    #[Route('/dial/{calloutSessionId}', name: 'dial')]
+    public function dial($calloutSessionId, Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+
+        $res = $this->callOutSessionAPIDialService->dialSession($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
+}

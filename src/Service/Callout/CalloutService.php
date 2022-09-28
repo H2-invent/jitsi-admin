@@ -89,11 +89,20 @@ class CalloutService
      */
     public function isAllowedToBeCalled(?User $user): bool
     {
+        return $this->getCallerIdForUser($user)!== null;
+    }
+
+    /**
+     * Returns the CallerID which is mostly the telefonnumber from a user if this is configured
+     * @param User|null $user
+     * @return mixed|null
+     */
+    public function getCallerIdForUser(?User $user){
         if (!$user) {
-            return false;
+            return null;
         }
         if (!$user->getLdapUserProperties()) {
-            return false;
+            return null;
         }
 
         $calloutFields = $this->themeService->getApplicationProperties('LDAP_CALLOUT_FIELDS');
@@ -101,12 +110,12 @@ class CalloutService
             foreach ($fields as $field) {
                 if ($user->getLdapUserProperties()->getLdapNumber() === $ldapId) {
                     if (isset($user->getSpezialProperties()[$field]) && $user->getSpezialProperties()[$field] !== '') {
-                        return true;
+                        return $user->getSpezialProperties()[$field];
                     }
                 }
             }
         }
-        return false;
+        return null;
     }
 
 }

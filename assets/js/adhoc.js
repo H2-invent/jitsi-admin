@@ -24,7 +24,6 @@ function initconfirmLoadOpenPopUp() {
 
             text = 'Wollen Sie die Aktion durchführen?'
         }
-        console.log('1.234');
         $.confirm({
             title: title,
             content: 'url:'+url,
