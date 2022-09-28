@@ -156,7 +156,7 @@ function initServerFeatures() {
     })
 }
 
-export function getMoreFeature(id) {
+function getMoreFeature(id) {
     if (typeof id !== 'undefined') {
         $.getJSON(moreFeatureUrl, 'id=' + id, function (data) {
             var feature = data.feature;
