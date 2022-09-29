@@ -1396,7 +1396,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="wmT9oq4" resname="lobby.stop.echo">
         <source>lobby.stop.echo</source>
-        <target state="needs-translation">Echotest beenden</target>
+        <target state="translated">Эхот-тест был проведен</target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
@@ -1408,36 +1408,36 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobymoderator hinzufügen?</target>
+        <target state="translated">Вы хотите добавить участника в качестве администратора?</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobymoderator entfernen?</target>
+        <target state="translated">Вы действительно хотите удалить администратора?</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
-        <target state="needs-translation">Fügen Sie Teilnehmende hinzu und und geben Sie diesen Teilnehmenden Berechtigungen als Lobbymoderator oder Konferenzmoderator.</target>
+        <target state="translated">Добавьть участника и и предоставьть разрешение в качестве администратора конференции.</target>
       </trans-unit>
       <trans-unit id="vs1KLhV" resname="newRoom.error.noServer.addServer">
         <source>newRoom.error.noServer.addServer</source>
-        <target state="needs-translation">Sie haben keinen Server angelegt oder es wurde Ihnen noch kein Server zugewiesen. Bitte legen Sie einen Server durch klicken auf das Zahnradsymbol in der Navigation an.</target>
+        <target state="translated">Вы не создали сервер или вам еще не назначен сервер. Пожалуйста, создайте сервер, нажав на значок шестеренки в навигации.</target>
       </trans-unit>
       <trans-unit id="hj1.9Y_" resname="newRoom.error.noServer.askAdmin">
         <source>newRoom.error.noServer.askAdmin</source>
-        <target state="needs-translation"><![CDATA[Ihnen wurde noch kein Konferenzserver zugewiesen. Bitte kontaktieren Sie Ihren Administrator unter der E-Mail
+        <target state="translated"><![CDATA[Вам еще не назначен сервер конференц-связи. Пожалуйста, свяжитесь с вашим администратором по электронной почте
         <a href="mailto:{adminEmail}">{adminEmail}</a>.]]></target>
       </trans-unit>
       <trans-unit id="Igadcd_" resname="confirm.delete.adressbookUser">
         <source>confirm.delete.adressbookUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich entfernen?</target>
+        <target state="translated">Вы действительно хотите удалить эту запись?</target>
       </trans-unit>
       <trans-unit id="5oh_yoS" resname="confirm.delete.adressbookGroupUser">
         <source>confirm.delete.adressbookGroupUser</source>
-        <target state="needs-translation">Wollen Sie diesen Eintrag wirklich aus der Gruppe entfernen?</target>
+        <target state="translated">Вы действительно хотите удалить эту запись из группы?</target>
       </trans-unit>
       <trans-unit id="YU4vd4T" resname="confirm.title">
         <source>confirm.title</source>
-        <target state="needs-translation">Bestätigung</target>
+        <target state="translated">Подтверждение</target>
       </trans-unit>
       <trans-unit id="jdg45Ei" resname="confirm.cancel">
         <source>confirm.cancel</source>
@@ -1445,43 +1445,43 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="jmbKTri" resname="confirm.ok">
         <source>confirm.ok</source>
-        <target state="needs-translation">OK</target>
+        <target state="translated">OK</target>
       </trans-unit>
       <trans-unit id="jFaq_p7" resname="confirm.delete.room">
         <source>confirm.delete.room</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich löschen?</target>
+        <target state="translated">Вы действительно хотите удалить эту конференцию?</target>
       </trans-unit>
       <trans-unit id="QI4Vqe9" resname="confirm.delete.series">
         <source>confirm.delete.series</source>
-        <target state="needs-translation">Wollen Sie diese Serie wirklich löschen?</target>
+        <target state="translated">Вы действительно хотите удалить эту конференцию?</target>
       </trans-unit>
       <trans-unit id="NfYmDes" resname="confirm.delete.lobbyUser">
         <source>confirm.delete.lobbyUser</source>
-        <target state="needs-translation">Wollen Sie diesen Teilnehmenden wirklich aus der Lobby entfernen?</target>
+        <target state="translated">Вы действительно хотите удалить администратора?</target>
       </trans-unit>
       <trans-unit id="NnxTjTc" resname="confirm.delete.server">
         <source>confirm.delete.server</source>
-        <target state="needs-translation">Wollen Sie diesen Server wirklich löschen?</target>
+        <target state="translated">Вы уверены, что хотите удалить этот сервер?</target>
       </trans-unit>
       <trans-unit id="Ta8QMX4" resname="email.ical.link">
         <source>email.ical.link</source>
-        <target state="needs-translation">Wenn Sie alle Konferenzen komfortabel in Ihrem Kalender verwalten möchten, können Sie diesen iCal Link in ihrem Kalender als Internetkalender abbonieren.</target>
+        <target state="translated">Если вы хотите удобно управлять всеми конференциями в своем календаре, вы можете подписаться на эту ссылку iCal в своем календаре как на интернет-календарь.</target>
       </trans-unit>
       <trans-unit id="l1H_I4v" resname="lobby.change.moderator.permissions">
         <source>lobby.change.moderator.permissions</source>
-        <target state="needs-translation">Ihre Berechtigung in der Lobby wurde geändert. Diese Seite wird in einigen Sekunde neu geladen.</target>
+        <target state="translated">Ваше разрешение в комнату было изменено. Эта страница перезагрузится через несколько секунд.</target>
       </trans-unit>
       <trans-unit id="A5sm6d4" resname="lobby.participant.modal.end.title">
         <source>lobby.participant.modal.end.title</source>
-        <target state="needs-translation">Die Konferenz wurde beendet.</target>
+        <target state="translated">Конференция закончилась.</target>
       </trans-unit>
       <trans-unit id="D3hjQyh" resname="lobby.participant.modal.end.text">
         <source>lobby.participant.modal.end.text</source>
-        <target state="needs-translation">Ein Moderator hat die Konferenz für alle Teilnehmenden beendet. Vielen Dank für Ihre Teilnahme.</target>
+        <target state="translated">Администратор завершил конференцию для всех участников. Спасибо за ваше участие.</target>
       </trans-unit>
       <trans-unit id="SNlgrt7" resname="text.continue">
         <source>text.continue</source>
-        <target state="needs-translation">Weiter</target>
+        <target state="translated">Продолжить</target>
       </trans-unit>
       <trans-unit id="_kvL9Eu" resname="fixed.Room.name">
         <source>fixed.Room.name</source>
@@ -1525,7 +1525,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="ynT5s9D" resname="lobby.dashboard.newUser.message">
         <source>lobby.dashboard.newUser.message</source>
-        <target state="needs-translation"><![CDATA[Der Teilnehmende {name} ist der Lobby der Konferenz {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">Zur Lobby</a>]]></target>
+        <target state="translated"><![CDATA[Участник {name} присоединился конференции {room} beigetreten<br><a href="{url}" target="_new" class="btn btn-sm btn-primary">комнату</a>]]></target>
       </trans-unit>
       <trans-unit id="ioC7pky" resname="Diese Aktion ist nicht erlaubt.">
         <source>Diese Aktion ist nicht erlaubt.</source>
@@ -1533,7 +1533,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="rwtCeaf" resname="repeater.edit.warning">
         <source>repeater.edit.warning</source>
-        <target state="needs-translation">Dieses Datum zeigt den ersten Termin der Serie an. Sollten Sie einzelne Termin aus der Serie bearbeitet haben werden diese zurückgesetzt.</target>
+        <target state="translated">Дата указывает на первую дату в серии. Если вы отредактировали отдельные даты из серии, они будут сброшены.</target>
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
         <source>common.save</source>
@@ -1581,7 +1581,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="DhfQxTv" resname="common.loadingTime">
         <source>common.loadingTime</source>
-        <target state="needs-translation">Ladezeit</target>
+        <target state="translated">Время зарядки</target>
       </trans-unit>
       <trans-unit id="2PqxV1r" resname="lobby.verified">
         <source>lobby.verified</source>
@@ -1589,11 +1589,11 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="lnkHfQT" resname="lobby.participant.enterNow">
         <source>lobby.participant.enterNow</source>
-        <target state="needs-translation">Jetzt beitreten</target>
+        <target state="translated">Присоединиться</target>
       </trans-unit>
       <trans-unit id="IkFnvmX" resname="lobby.participant.pauseEnter">
         <source>lobby.participant.pauseEnter</source>
-        <target state="needs-translation">Noch nicht beitreten</target>
+        <target state="translated">Еще не присоединился</target>
       </trans-unit>
       <trans-unit id="y3E3sgX" resname="Ihre Eingabe wurde Erfolgreich gespeichert.">
         <source>Ihre Eingabe wurde Erfolgreich gespeichert.</source>
