@@ -131,7 +131,7 @@ label:
   serverName: Название сервера
   lobby: Активировать комнату
   secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  profilImage: Изображение профиля (отображается на собрании Jitsi-Meet Meeting)
   corsHeader: CORS-Header oder frame-ancestor Header
   tag: Категория
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
@@ -139,7 +139,7 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
 choice:
-  tls: STARTTLS/TLS
+  tls: STARTTLS / TLS
   ssl: SSL
   none: Отсутствует
 placeholder:
