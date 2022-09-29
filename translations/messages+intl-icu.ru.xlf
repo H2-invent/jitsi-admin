@@ -127,19 +127,19 @@
       </trans-unit>
       <trans-unit id="IrOsoSS" resname="Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.">
         <source>Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</source>
-        <target state="needs-translation">Dieser Link ist ungültig. Wahrscheinlich wurde er bereits bestätigt.</target>
+        <target state="translated">Эта ссылка недействительна. Скорее всего, он уже подтвержден.</target>
       </trans-unit>
       <trans-unit id="H.AIftf" resname="Neue Einladung zu einer Videokonferenz">
         <source>Neue Einladung zu einer Videokonferenz</source>
-        <target state="needs-translation">Neue Einladung zu einer Videokonferenz</target>
+        <target state="translated">Новое приглашение на видеоконференцию</target>
       </trans-unit>
       <trans-unit id="V1ii19H" resname="Videokonferenz wurde bearbeitet">
         <source>Videokonferenz wurde bearbeitet</source>
-        <target state="needs-translation">Die Videokonferenz wurde bearbeitet.</target>
+        <target state="translated">Видеоконференция была отредактирована.</target>
       </trans-unit>
       <trans-unit id="oc5PDog" resname="Videokonferenz abgesagt">
         <source>Videokonferenz abgesagt</source>
-        <target state="needs-translation">Die Videokonferenz wurde abgesagt.</target>
+        <target state="translated">Видеоконференция была отменена.</target>
       </trans-unit>
       <trans-unit id="8HIY3sH" resname="Videokonferenz {room} startet gleich">
         <source>Videokonferenz {room} startet gleich</source>
@@ -435,7 +435,7 @@
       </trans-unit>
       <trans-unit id="_1IJpHm" resname="Videokonferenz bearbeitet">
         <source>Videokonferenz bearbeitet</source>
-        <target state="needs-translation">Die Videokonferenz wurde bearbeitet.</target>
+        <target state="translated">Видеоконференция была отредактирована.</target>
       </trans-unit>
       <trans-unit id="2GBgAQP" resname="Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Die Veranstaltung {name} wurde gerade geändert. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
