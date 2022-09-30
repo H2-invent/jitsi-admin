@@ -19,7 +19,6 @@ class CallOutSessionAPIHoldService
     public function __construct(
         private EntityManagerInterface      $entityManager,
         private ToModeratorWebsocketService $toModeratorWebsocketService,
-        private RoomAddService              $roomAddService,
         private DirectSendService           $directSendService,
         private TranslatorInterface         $translator,
         private ThemeService                $themeService,
@@ -27,46 +26,62 @@ class CallOutSessionAPIHoldService
     {
     }
 
-    public function refuse($sessionId): array
+    public function timeout($sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
-        $this->entityManager->remove($calloutSession);
-        $this->entityManager->flush();
-        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
-        $this->sendRefuseMessage($calloutSession->getRoom(), $this->translator->trans('callout.message.refuse', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
-        $this->roomAddService->removeUserFromRoom($calloutSession->getUser(), $calloutSession->getRoom());
-        $res = array(
-            'status' => 'DELETED',
-            'links' => array()
-        );
-        return $res;
+        return $this->setCalloutSessionOnHold($calloutSession,CalloutSession::$TIMEOUT, $this->translator->trans('callout.message.timeout', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
+
     }
 
-    public function error($sessionId): array
+    public function occupied($sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
-        $this->entityManager->remove($calloutSession);
-        $this->entityManager->flush();
-        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
-        $this->sendRefuseMessage($calloutSession->getRoom(), $this->translator->trans('callout.message.error', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
-        $this->roomAddService->removeUserFromRoom($calloutSession->getUser(), $calloutSession->getRoom());
-        $res = array(
-            'status' => 'DELETED',
-            'links' => array()
-        );
-        return $res;
+        return $this->setCalloutSessionOnHold($calloutSession,CalloutSession::$OCCUPIED, $this->translator->trans('callout.message.occupied', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
+
     }
 
-    public function sendRefuseMessage(Rooms $room, $message)
+    public function later($sessionId): array
+    {
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
+        if (!$calloutSession) {
+            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
+        }
+        return $this->setCalloutSessionOnHold($calloutSession,CalloutSession::$LATER, $this->translator->trans('callout.message.later', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
+
+    }
+
+    public function setCalloutSessionOnHold(CalloutSession $calloutSession, $state, $message)
+    {
+        if ($calloutSession->getState() !== CalloutSession::$DIALED){
+            return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
+        }
+        $calloutSession->setState($state);
+        $this->entityManager->persist($calloutSession);
+        $this->entityManager->flush();
+        $this->sendMessage($calloutSession->getRoom(), $message);
+        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
+        $sipRaumnummer = $calloutSession->getRoom()->getCallerRoom();
+        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(array('room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()));
+
+        return array(
+            'status' => 'ON_HOLD',
+            'pin' => $pin->getCallerId(),
+            'room_number' => $sipRaumnummer->getCallerId(),
+            'links' => array()
+        );
+    }
+
+    public function sendMessage(Rooms $room, $message)
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
-        $this->directSendService->sendSnackbar($topic, $message, 'danger');
+        $this->directSendService->sendSnackbar($topic, $message, 'info');
     }
+
 
 }

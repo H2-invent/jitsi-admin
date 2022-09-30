@@ -4,6 +4,7 @@ namespace App\Tests\callOut;
 
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
+use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\Callout\CallOutSessionAPIDialService;
@@ -28,7 +29,8 @@ class CalloutAPIDialServiceTest extends KernelTestCase
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
             ->setState(0)
-            ->setUid('ksdlfjlkfds');
+            ->setUid('ksdlfjlkfds')
+            ->setLeftRetries(2);
         $manager->persist($calloutSession1);
         $callerUserId = new CallerId();
         $callerUserId->setCreatedAt(new \DateTime())
@@ -76,5 +78,16 @@ class CalloutAPIDialServiceTest extends KernelTestCase
         self::assertEquals(0, sizeof($calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)));
         self::assertEquals(1, sizeof($calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$DIALED)));
 
+    }
+    public function testDialWrongState(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
+        $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $callout = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
+        $callout->setState(CalloutSession::$ON_HOLD);
+        self::assertEquals(array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'), $calloutDialService->dialSession('ksdlfjlkfds'));
     }
 }

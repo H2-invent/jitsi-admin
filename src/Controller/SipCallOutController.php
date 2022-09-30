@@ -48,10 +48,8 @@ class SipCallOutController extends JitsiAdminController
             $this->roomAddService->addUserOnlytoOneRoom($user,$room);
             $this->calloutService->initCalloutSession($room, $user, $this->getUser());
             $this->toModeratorWebsocketService->refreshLobbyByRoom($room);
-            return new JsonResponse(array('error' => false, 'falseEmails' => json_encode($falseEmails)));
         }
-
-        return new JsonResponse(array('error' => !(sizeof($falseEmails) === 0), 'falseEmails' => json_encode($falseEmails)));
+        return new JsonResponse(array('error' => !(sizeof($falseEmails) === 0), 'falseEmails' => $falseEmails));
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Controller\api;
 use App\Helper\JitsiAdminController;
 use App\Service\api\CheckAuthorizationService;
 use App\Service\Callout\CallOutSessionAPIDialService;
+use App\Service\Callout\CallOutSessionAPIHoldService;
 use App\Service\Callout\CallOutSessionAPIRemoveService;
 use App\Service\Callout\CalloutSessionAPIService;
 use App\Service\Lobby\ToModeratorWebsocketService;
@@ -27,6 +28,7 @@ class CalloutAPIController extends JitsiAdminController
         ParameterBagInterface                $parameterBag,
         private CalloutSessionAPIService     $calloutSessionAPIService,
         private CallOutSessionAPIDialService $callOutSessionAPIDialService,
+
 
     )
     {
@@ -70,47 +72,47 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/error/{calloutSessionId}', name: 'error')]
-    public function error($calloutSessionId, Request $request): Response
+    public function error($calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
-        $res = array('todo' => 'todo');
+        $res = $callOutSessionAPIRemoveService->error($calloutSessionId);
         return new JsonResponse($res);
     }
 
     #[Route('/timeout/{calloutSessionId}', name: 'timeout')]
-    public function timeout($calloutSessionId, Request $request): Response
+    public function timeout($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
-        $res = array('todo' => 'todo');
+        $res = $callOutSessionAPIHoldService->timeout($calloutSessionId);
         return new JsonResponse($res);
     }
 
 
     #[Route('/later/{calloutSessionId}', name: 'later')]
-    public function later($calloutSessionId, Request $request): Response
+    public function later($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
-        $res = array('todo' => 'todo');
+        $res = $callOutSessionAPIHoldService->later($calloutSessionId);
         return new JsonResponse($res);
     }
 
     #[Route('/occupied/{calloutSessionId}', name: 'occupied')]
-    public function occupied($calloutSessionId, Request $request): Response
+    public function occupied($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
             return $check;
         }
-        $res = array('todo' => 'todo');
+        $res = $callOutSessionAPIHoldService->occupied($calloutSessionId);
         return new JsonResponse($res);
     }
 

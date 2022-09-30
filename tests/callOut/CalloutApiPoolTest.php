@@ -27,7 +27,8 @@ class CalloutApiPoolTest extends KernelTestCase
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
             ->setState(0)
-            ->setUid('ksdlfjlkfds');
+            ->setUid('ksdlfjlkfds')
+            ->setLeftRetries(2);
         $manager->persist($calloutSession1);
         $calloutSession2 = new CalloutSession();
         $calloutSession2->setUser($user)
@@ -35,7 +36,8 @@ class CalloutApiPoolTest extends KernelTestCase
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
             ->setState(1)
-            ->setUid('ksdlfjlkfdfgsdds');
+            ->setUid('ksdlfjlkfdfgsdds')
+            ->setLeftRetries(2);
         $manager->persist($calloutSession2);
         $calloutSession3 = new CalloutSession();
         $calloutSession3->setUser($user)
@@ -43,7 +45,8 @@ class CalloutApiPoolTest extends KernelTestCase
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
             ->setState(2)
-            ->setUid('ksddfglfjlkfds');
+            ->setUid('ksddfglfjlkfds')
+            ->setLeftRetries(2);
         $manager->persist($calloutSession3);
         $callerUserId = new CallerId();
         $callerUserId->setCreatedAt(new \DateTime())

@@ -12,22 +12,9 @@
                 </style>
 
             {% endif %}
-            <div class="d-none d-lg-flex"">
-                <div class="ringingsymbol">
-                    <div class="circle"></div>
-                    <div class="ring"></div>
-                    {% if cU.state < 2 %}
-                        <i class="fa-2x fa-solid fa-phone text-success"></i>
-                    {% else %}
-                        <i class="fa-2x fa-solid fa-phone-slash text-warning"></i>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="nameHolder">
-                <div class="participantsName">{{ nameOfUserwithFormat(cU.user, laf_showNameFrontend) }}</div>
-
-            </div>
-            <div class="ringingsymbol  d-lg-none d-block">
+            <div class="d-none d-lg-flex"
+            ">
+            <div class="ringingsymbol">
                 <div class="circle"></div>
                 <div class="ring"></div>
                 {% if cU.state < 2 %}
@@ -37,7 +24,22 @@
                 {% endif %}
             </div>
         </div>
+        <div class="nameHolder">
+            <div class="participantsName">{{ nameOfUserwithFormat(cU.user, laf_showNameFrontend) }}</div>
+            {% if cU.leftRetries == 0 %}<p
+                    class="badge badge-warning">{{ 'callout.info.noMoreRetries'|trans }}</p>{% endif %}
+        </div>
+        <div class="ringingsymbol  d-lg-none d-block">
+            <div class="circle"></div>
+            <div class="ring"></div>
+            {% if cU.state < 2 %}
+                <i class="fa-2x fa-solid fa-phone text-success"></i>
+            {% else %}
+                <i class="fa-2x fa-solid fa-phone-slash text-warning"></i>
+            {% endif %}
+        </div>
     </div>
+</div>
 </div>
 
 

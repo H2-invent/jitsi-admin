@@ -27,6 +27,10 @@ class CallOutSessionAPIDialService
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
+        if ($calloutSession->getState() > CalloutSession::$DIALED){
+            return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
+        }
+
         $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(array('room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()));
         $calloutSession->setState(CalloutSession::$DIALED);
         $this->entityManager->persist($calloutSession);

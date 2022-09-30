@@ -13,8 +13,6 @@ class CalloutService
 {
 
 
-
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private AdhocMeetingService    $adhocMeetingService,
@@ -32,8 +30,7 @@ class CalloutService
      */
     public function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
     {
-        $callout = $this->createCallout($rooms, $user, $inviter);
-        return $callout;
+        return $this->createCallout($rooms, $user, $inviter);
     }
 
     /**
@@ -46,7 +43,20 @@ class CalloutService
     public function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
     {
         $callout = $this->checkCallout($rooms, $user);
+        if ($inviter === $user){
+            return  null;
+        }
+
         if ($callout) {
+            if ($callout->getState() > 1) {//calloutsession is on hold
+                if ($callout->getLeftRetries() > 0) {
+                    $callout->setLeftRetries($callout->getLeftRetries() - 1);
+                    $callout->setState(CalloutSession::$INITIATED);
+                    $this->adhocMeetingService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
+                    $this->entityManager->persist($callout);
+                    $this->entityManager->flush();
+                }
+            }
             return $callout;
         }
 
@@ -62,7 +72,8 @@ class CalloutService
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($inviter)
             ->setUid(md5(uniqid()))
-            ->setState(CalloutSession::$INITIATED);
+            ->setState(CalloutSession::$INITIATED)
+            ->setLeftRetries($this->themeService->getApplicationProperties('CALLOUT_MAX_RETRIES'));
         $this->entityManager->persist($callout);
         $this->entityManager->flush();
 
@@ -77,8 +88,7 @@ class CalloutService
      */
     public function checkCallout(Rooms $rooms, User $user): ?CalloutSession
     {
-        $callout = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('room' => $rooms, 'user' => $user));
-        return $callout;
+        return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('room' => $rooms, 'user' => $user));
     }
 
     /**
@@ -89,7 +99,7 @@ class CalloutService
      */
     public function isAllowedToBeCalled(?User $user): bool
     {
-        return $this->getCallerIdForUser($user)!== null;
+        return $this->getCallerIdForUser($user) !== null;
     }
 
     /**
@@ -97,7 +107,8 @@ class CalloutService
      * @param User|null $user
      * @return mixed|null
      */
-    public function getCallerIdForUser(?User $user){
+    public function getCallerIdForUser(?User $user)
+    {
         if (!$user) {
             return null;
         }

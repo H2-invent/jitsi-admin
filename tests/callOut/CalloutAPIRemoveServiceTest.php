@@ -31,7 +31,8 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
             ->setState(1)
-            ->setUid('ksdlfjlkfds');
+            ->setUid('ksdlfjlkfds')
+            ->setLeftRetries(2);
         $manager->persist($calloutSession1);
         $callerUserId = new CallerId();
         $callerUserId->setCreatedAt(new \DateTime())
@@ -48,11 +49,11 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
         $directSend = $this->getContainer()->get(DirectSendService::class);
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            if (json_decode($update->getData(),true)['type']==='snackbar'){
+            if (json_decode($update->getData(), true)['type'] === 'snackbar') {
                 self::assertEquals('{"type":"snackbar","message":"callout.message.refuse","color":"danger"}', $update->getData());
                 self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
             }
-            if (json_decode($update->getData(),true)['type']==='refresh'){
+            if (json_decode($update->getData(), true)['type'] === 'refresh') {
                 self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/9876543210 #waitingUser"}', $update->getData());
                 self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
             }
@@ -61,14 +62,47 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
         $directSend->setMercurePublisher($hub);
         $this->assertSame('test', $kernel->getEnvironment());
         $calloutRemoveService = self::getContainer()->get(CallOutSessionAPIRemoveService::class);
-        self::assertEquals(array('status'=>'DELETED','links'=>array()),$calloutRemoveService->refuse('ksdlfjlkfds'));
+        self::assertEquals(array('status' => 'DELETED', 'links' => array()), $calloutRemoveService->refuse('ksdlfjlkfds'));
     }
+
     public function testRefuseinvalid(): void
     {
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
         $calloutRemoveService = self::getContainer()->get(CallOutSessionAPIRemoveService::class);
-        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'),$calloutRemoveService->refuse('invalid'));
+        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'), $calloutRemoveService->refuse('invalid'));
     }
+
+    public function testErrorValid(): void
+    {
+        $kernel = self::bootKernel();
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            if (json_decode($update->getData(), true)['type'] === 'snackbar') {
+                self::assertEquals('{"type":"snackbar","message":"callout.message.error","color":"danger"}', $update->getData());
+                self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+            }
+            if (json_decode($update->getData(), true)['type'] === 'refresh') {
+                self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/9876543210 #waitingUser"}', $update->getData());
+                self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+            }
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $calloutRemoveService = self::getContainer()->get(CallOutSessionAPIRemoveService::class);
+        self::assertEquals(array('status' => 'DELETED', 'links' => array()), $calloutRemoveService->error('ksdlfjlkfds'));
+    }
+
+    public function testErrorinvalid(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $calloutRemoveService = self::getContainer()->get(CallOutSessionAPIRemoveService::class);
+        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'), $calloutRemoveService->error('invalid'));
+    }
+
 }

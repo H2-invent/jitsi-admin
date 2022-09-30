@@ -51,6 +51,9 @@ class CalloutSession
     #[ORM\Column]
     private ?int $state = null;
 
+    #[ORM\Column]
+    private ?int $leftRetries = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,6 +127,18 @@ class CalloutSession
     public function setState(int $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getLeftRetries(): ?int
+    {
+        return $this->leftRetries;
+    }
+
+    public function setLeftRetries(int $leftRetries): self
+    {
+        $this->leftRetries = $leftRetries;
 
         return $this;
     }

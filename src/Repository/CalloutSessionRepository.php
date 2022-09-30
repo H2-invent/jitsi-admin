@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\CalloutSession;
+use App\Entity\Rooms;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +65,21 @@ class CalloutSessionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findCalloutSessionPoolOrDialing(User $user, Rooms $rooms): ?CalloutSession
+    {
+        $qb = $this->createQueryBuilder('c');
+        return $qb
+            ->andWhere('c.room = :room')
+            ->andWhere('c.user = :user')
+            ->andWhere($qb->expr()->lt(':maxStatus','c.status'))
+            ->setParameter(':room',$rooms)
+            ->setParameter(':user', $user)
+            ->setParameter(':maxStatus',2)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+
 }

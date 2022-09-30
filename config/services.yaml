@@ -58,6 +58,7 @@ parameters:
     ldap_special_Fields: '%env(ldap_special_Fields)%'
     ldap_filter: '%env(ldap_filter)%'
     LDAP_CALLOUT_FIELDS: '%env(LDAP_CALLOUT_FIELDS)%'
+    CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
 
     LDAP_DISALLOW_PROMOTE: '%env(LDAP_DISALLOW_PROMOTE)%'
     strict_username_only: '%env(strict_username_only)%'
