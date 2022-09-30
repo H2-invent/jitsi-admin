@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CallOutSessionAPIRemoveService
+class CallOutSessionAPIHoldService
 {
     public function __construct(
         private EntityManagerInterface      $entityManager,
@@ -48,28 +48,6 @@ class CallOutSessionAPIRemoveService
     public function error($sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
-        $this->removeCalloutSession($calloutSession,
-            $this->translator->trans('callout.message.error',
-                array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))
-            )
-        );
-
-        if (!$calloutSession) {
-            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
-        }
-        $this->entityManager->remove($calloutSession);
-        $this->entityManager->flush();
-        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
-        $this->sendRefuseMessage($calloutSession->getRoom(), $this->translator->trans('callout.message.error', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
-        $this->roomAddService->removeUserFromRoom($calloutSession->getUser(), $calloutSession->getRoom());
-        $res = array(
-            'status' => 'DELETED',
-            'links' => array()
-        );
-        return $res;
-    }
-
-    public function removeCalloutSession(CalloutSession $calloutSession, $message){
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
