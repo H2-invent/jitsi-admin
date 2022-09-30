@@ -12,11 +12,18 @@ class CalloutSession
     public static $STATE = array(
         0 => 'INITIATED',
         1 => 'DIALED',
-        2 => 'ON_HOLD'
+        2 => 'ON_HOLD',
+        3 => 'OCCUPIED',
+        4 => 'LATER',
+        5 => 'TIMEOUT',
     );
+    public static $TIMEOUT = 5;
+    public static $LATER = 4;
+    public static $OCCUPIED = 3;
     public static $ON_HOLD = 2;
     public static $DIALED = 1;
     public static $INITIATED = 0;
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -4,6 +4,7 @@ namespace App\Service\Callout;
 
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
+use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -12,9 +13,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CallOutSessionAPIDialService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UrlGeneratorInterface  $urlGenerator,
-        private CalloutService         $calloutService
+        private EntityManagerInterface      $entityManager,
+        private UrlGeneratorInterface       $urlGenerator,
+        private CalloutService              $calloutService,
+        private ToModeratorWebsocketService $toModeratorWebsocketService,
     )
     {
     }
@@ -29,6 +31,7 @@ class CallOutSessionAPIDialService
         $calloutSession->setState(CalloutSession::$DIALED);
         $this->entityManager->persist($calloutSession);
         $this->entityManager->flush();
+        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
         $res = array(
             'status' => 'OK',
             'links' => array(

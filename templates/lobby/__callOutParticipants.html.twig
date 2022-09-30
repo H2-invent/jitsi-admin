@@ -1,0 +1,45 @@
+<div class="col-lg-4 col-12 col-xl-3 callingUserCard mb-3 position-relative">
+    <div class="card ">
+        <div class="card-body text-center d-flex justify-content-between flex-row flex-lg-column align-items-center">
+            {% if cU.user is not null and  cU.user.profilePicture is not null %}
+                <style>
+                    #circle_{{ cU.id }} {
+                        background-image: url("{{ vich_uploader_asset(cU.user.profilePicture,'documentFile') }}");
+                        background-position: center;
+                        background-size: cover;
+                        background-color: white !important;
+                    }
+                </style>
+
+            {% endif %}
+            <div class="d-none d-lg-flex"">
+                <div class="ringingsymbol">
+                    <div class="circle"></div>
+                    <div class="ring"></div>
+                    {% if cU.state < 2 %}
+                        <i class="fa-2x fa-solid fa-phone text-success"></i>
+                    {% else %}
+                        <i class="fa-2x fa-solid fa-phone-slash text-warning"></i>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="nameHolder">
+                <div class="participantsName">{{ nameOfUserwithFormat(cU.user, laf_showNameFrontend) }}</div>
+
+            </div>
+            <div class="ringingsymbol  d-lg-none d-block">
+                <div class="circle"></div>
+                <div class="ring"></div>
+                {% if cU.state < 2 %}
+                    <i class="fa-2x fa-solid fa-phone text-success"></i>
+                {% else %}
+                    <i class="fa-2x fa-solid fa-phone-slash text-warning"></i>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

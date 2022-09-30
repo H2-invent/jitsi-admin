@@ -28,5 +28,9 @@ export function initAwayTime() {
     }
 }
 export function setAwayTimeField(time) {
-    var ele = document.getElementById('awayTimeField').value = time;
+    var ele = document.getElementById('awayTimeField')
+    if(ele){
+    ele.value = time;
+    }
+
 }

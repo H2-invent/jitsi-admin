@@ -63,6 +63,11 @@
                             {% for wU in room.lobbyWaitungUsers %}
                                 {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
                             {% endfor %}
+                            {% for cU in room.calloutSessions %}
+
+                                {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
+
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="lobbyButtons">

@@ -6,6 +6,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\Callout\CalloutService;
+use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomAddService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -22,13 +23,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class SipCallOutController extends JitsiAdminController
 {
     public function __construct(
-        ManagerRegistry        $managerRegistry,
-        TranslatorInterface    $translator,
-        LoggerInterface        $logger,
-        ParameterBagInterface  $parameterBag,
-        private RoomAddService $roomAddService,
-        private CalloutService $calloutService,
-
+        ManagerRegistry                     $managerRegistry,
+        TranslatorInterface                 $translator,
+        LoggerInterface                     $logger,
+        ParameterBagInterface               $parameterBag,
+        private RoomAddService              $roomAddService,
+        private CalloutService              $calloutService,
+        private ToModeratorWebsocketService $toModeratorWebsocketService,
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -42,9 +43,11 @@ class SipCallOutController extends JitsiAdminController
             throw new NotFoundHttpException('Room not found');
         }
         $falseEmails = array();
-        $user = $this->roomAddService->createUserFromUserUid($request->get('uid'), $room, $falseEmails);
+        $user = $this->roomAddService->createUserFromUserUid($request->get('uid'),  $falseEmails);
         if ($user) {
+            $this->roomAddService->addUserOnlytoOneRoom($user,$room);
             $this->calloutService->initCalloutSession($room, $user, $this->getUser());
+            $this->toModeratorWebsocketService->refreshLobbyByRoom($room);
             return new JsonResponse(array('error' => false, 'falseEmails' => json_encode($falseEmails)));
         }
 

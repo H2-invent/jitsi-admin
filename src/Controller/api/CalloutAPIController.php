@@ -5,7 +5,9 @@ namespace App\Controller\api;
 use App\Helper\JitsiAdminController;
 use App\Service\api\CheckAuthorizationService;
 use App\Service\Callout\CallOutSessionAPIDialService;
+use App\Service\Callout\CallOutSessionAPIRemoveService;
 use App\Service\Callout\CalloutSessionAPIService;
+use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -24,7 +26,9 @@ class CalloutAPIController extends JitsiAdminController
         LoggerInterface                      $logger,
         ParameterBagInterface                $parameterBag,
         private CalloutSessionAPIService     $calloutSessionAPIService,
-        private CallOutSessionAPIDialService $callOutSessionAPIDialService)
+        private CallOutSessionAPIDialService $callOutSessionAPIDialService,
+
+    )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
@@ -55,7 +59,18 @@ class CalloutAPIController extends JitsiAdminController
     }
 
     #[Route('/refuse/{calloutSessionId}', name: 'refuse')]
-    public function refuse($calloutSessionId, Request $request): Response
+    public function refuse($calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = $callOutSessionAPIRemoveService->refuse($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
+    #[Route('/error/{calloutSessionId}', name: 'error')]
+    public function error($calloutSessionId, Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -76,16 +91,6 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/error/{calloutSessionId}', name: 'error')]
-    public function error($calloutSessionId, Request $request): Response
-    {
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
-        if ($check) {
-            return $check;
-        }
-        $res = array('todo' => 'todo');
-        return new JsonResponse($res);
-    }
 
     #[Route('/later/{calloutSessionId}', name: 'later')]
     public function later($calloutSessionId, Request $request): Response
