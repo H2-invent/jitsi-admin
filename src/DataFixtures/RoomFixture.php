@@ -628,6 +628,12 @@ class RoomFixture extends Fixture
         $manager->persist($room);
         $manager->flush();
 
+        $callerIdLoby = new CallerRoom();
+        $callerIdLoby->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setCallerId('12341232');
+        $manager->persist($callerIdLoby);
+        $manager->flush();
         $tag = new Tag();
         $tag->setTitle('Test Tag Enabled');
         $tag->setPriority(-10);

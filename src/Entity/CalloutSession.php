@@ -52,7 +52,7 @@ class CalloutSession
     private ?int $state = null;
 
     #[ORM\Column]
-    private ?int $leftRetries = null;
+    private ?int $leftRetries = 2;
 
     public function getId(): ?int
     {

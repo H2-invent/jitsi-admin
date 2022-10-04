@@ -358,7 +358,8 @@ class RoomAddServiceTest extends KernelTestCase
             ->setInvitedFrom($room->getModerator())
             ->setUser($user)
             ->setCreatedAt(new \DateTime())
-            ->setRoom($room);
+            ->setRoom($room)
+        ->setLeftRetries(2);
         $user->addCalloutSession($calloutSession);
         $room->addCalloutSession($calloutSession);
         $manager->persist($calloutSession);
