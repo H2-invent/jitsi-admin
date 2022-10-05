@@ -81,5 +81,18 @@ class CalloutSessionRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return CalloutSession[] Returns an array of CalloutSession objects
+     */
+    public function findonHoldCalloutSessions(): array
+    {
+        $qb = $this->createQueryBuilder('c');
+        return $qb
+            ->andWhere($qb->expr()->gte('c.state',':state'))
+            ->setParameter('state', 2)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 }

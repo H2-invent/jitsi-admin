@@ -48,6 +48,18 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($calloutSessions);
     }
 
+    #[Route('/dial/', name: 'dial_pool',methods: 'GET')]
+    public function dialPool( Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+
+        $res = $this->calloutSessionAPIService->getDialPool();
+        return new JsonResponse($res);
+    }
+
     #[Route('/dial/{calloutSessionId}', name: 'dial')]
     public function dial($calloutSessionId, Request $request): Response
     {
@@ -113,6 +125,18 @@ class CalloutAPIController extends JitsiAdminController
             return $check;
         }
         $res = $callOutSessionAPIHoldService->occupied($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
+    #[Route('/on_hold/', name: 'on_hold_pool',methods: 'GET')]
+    public function onHoldPool( Request $request): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+
+        $res = $this->calloutSessionAPIService->getOnHoldPool();
         return new JsonResponse($res);
     }
 

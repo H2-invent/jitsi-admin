@@ -19,6 +19,7 @@ import {initModeratorIframe, close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import {checkDeviceinList} from './jitsiUtils'
+
 import ('jquery-confirm');
 
 initNotofication();
@@ -30,10 +31,12 @@ function checkCloseParticipant() {
     var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
     if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
         // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
+        closeBrowser();
         leaveMeeting();
-        close()
+        close();
     }
 }
+
 initModeratorIframe(checkCloseParticipant);
 let api;
 var dataSucess;
@@ -65,7 +68,12 @@ window.onbeforeunload = function (e) {
 function closeBrowser() {
     fetch(browserLeave)
         .then(response => {
-            close()
+            if (inIframe()) {
+                close()
+            } else {
+                window.close();
+            }
+
         });
 
     for (var i = 0; i < 500000000; i++) {
@@ -100,13 +108,7 @@ $('.leave').click(function (e) {
     e.preventDefault();
     clickLeave = true;
     closeBrowser();
-    if(inIframe()){
-      close();
-    }else {
-        $.get($(this).attr('href'), function (data) {
-            window.location.href = "/";
-        })
-    }
+    browserLeave = $(this).attr('href');
 })
 
 function initJitsiMeet(data) {
@@ -164,23 +166,22 @@ function initJitsiMeet(data) {
             api.executeCommand('avatarUrl', avatarUrl);
         }
         api.getAvailableDevices().then(devices => {
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setVideoInputDevice(checkDeviceinList(devices,cameraLable));
+            if (checkDeviceinList(devices, cameraLable)) {
+                api.setVideoInputDevice(checkDeviceinList(devices, cameraLable));
             }
-            if (checkDeviceinList(devices,microphoneLabel)){
-                api.setAudioInputDevice(checkDeviceinList(devices,microphoneLabel));
+            if (checkDeviceinList(devices, microphoneLabel)) {
+                api.setAudioInputDevice(checkDeviceinList(devices, microphoneLabel));
             }
             swithCameraOn(toggle);
         });
         swithCameraOn(toggle);
 
 
+        api.addListener('participantKickedOut', function (e) {
+            console.log(e);
+        });
 
-    api.addListener('participantKickedOut', function (e) {
-        console.log(e);
     });
-
-});
 
 
     $(data.options.parentNode).find('iframe').css('height', '100%');
@@ -213,6 +214,7 @@ function askHangup() {
     });
     return true;
 }
+
 function hangup() {
     api.executeCommand('hangup')
 }
@@ -257,17 +259,17 @@ function userAccepted(data) {
 
 
 function swithCameraOn(videoOn) {
-    if (videoOn === 1){
+    if (videoOn === 1) {
         var muted =
             api.isVideoMuted().then(muted => {
                 console.log(muted)
-                if (muted){
+                if (muted) {
                     api.executeCommand('toggleVideo');
                 }
             });
-    }else {
+    } else {
         api.isVideoMuted().then(muted => {
-            if (!muted){
+            if (!muted) {
                 api.executeCommand('toggleVideo');
             }
 

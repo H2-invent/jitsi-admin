@@ -54,6 +54,7 @@ class CalloutApiControllerTest extends WebTestCase
             array(
                 'calls' => array(
                     array(
+                        'state' => 'INITIATED',
                         'call_number' => '987654321012',
                         'sip_room_number' => '12341232',
                         'sip_pin' => $callerId->getCallerId(),

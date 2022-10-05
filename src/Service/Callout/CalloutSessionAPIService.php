@@ -52,6 +52,7 @@ class CalloutSessionAPIService
         $roomId = $calloutSession->getRoom()->getCallerRoom();
         if ($pin && $roomId) {
             return array(
+                'state'=>CalloutSession::$STATE[$calloutSession->getState()],
                 'call_number' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
                 'sip_room_number' => $roomId->getCallerId(),
                 'sip_pin' => $pin->getCallerId(),
@@ -85,4 +86,39 @@ class CalloutSessionAPIService
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findBy(array('state' => $state));
         return $calloutSession;
     }
+
+    /**
+     * returns a pool of callout sessions which are in dialing state.
+     * @return array[]
+     */
+    public function getDialPool(){
+        $calloutSession = $this->findCalloutSessionByState(CalloutSession::$DIALED);
+        $res = array();
+        foreach ($calloutSession as $data) {
+
+            $tmp = $this->buildCallerSessionPoolArray($data);
+            if ($tmp) {
+                $res[] = $tmp;
+            }
+        }
+        return array('calls' => $res);
+    }
+
+    /**
+     * Returns the Pool of callout Sessions which are in an on hold state.
+     * @return array[]
+     */
+    public function getOnHoldPool(){
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findonHoldCalloutSessions();
+        $res = array();
+        foreach ($calloutSession as $data) {
+
+            $tmp = $this->buildCallerSessionPoolArray($data);
+            if ($tmp) {
+                $res[] = $tmp;
+            }
+        }
+        return array('calls' => $res);
+    }
+
 }

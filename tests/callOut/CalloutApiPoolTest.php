@@ -74,6 +74,7 @@ class CalloutApiPoolTest extends KernelTestCase
         $calloutSession = $calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)[0];
         $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
         self::assertEquals(array(
+            'state' => 'INITIATED',
             'call_number' => '987654321012',
             'sip_room_number' => '12340',
             'sip_pin' => '987654321',
@@ -110,6 +111,7 @@ class CalloutApiPoolTest extends KernelTestCase
         self::assertEquals(array(
             'calls' => array(
                 array(
+                    'state' => 'INITIATED',
                     'call_number' => '987654321012',
                     'sip_room_number' => '12340',
                     'sip_pin' => '987654321',
@@ -124,5 +126,50 @@ class CalloutApiPoolTest extends KernelTestCase
             $calloutArr
         );
     }
-
+    public function testBuildCalloutDialPoolResponse(): void
+    {
+        $kernel = self::bootKernel();
+        $calloutSessionAPIService = self::getContainer()->get(CalloutSessionAPIService::class);
+        $calloutArr = $calloutSessionAPIService->getDialPool();
+        self::assertEquals(array(
+            'calls' => array(
+                array(
+                    'state'=>'DIALED',
+                    'call_number' => '987654321012',
+                    'sip_room_number' => '12340',
+                    'sip_pin' => '987654321',
+                    'display_name' => 'Sie wurden von Test1, 1234, User, Test eingeladen',
+                    'tag' => 'none',
+                    'organisator' => 'Test1, 1234, User, Test',
+                    'title' => 'TestMeeting: 0',
+                    'links' => array('dial' => '/api/v1/call/out/dial/ksdlfjlkfdfgsdds')
+                )
+            )
+        ),
+            $calloutArr
+        );
+    }
+    public function testBuildCalloutOnHoldPoolResponse(): void
+    {
+        $kernel = self::bootKernel();
+        $calloutSessionAPIService = self::getContainer()->get(CalloutSessionAPIService::class);
+        $calloutArr = $calloutSessionAPIService->getOnHoldPool();
+        self::assertEquals(array(
+            'calls' => array(
+                array(
+                    'state'=>'ON_HOLD',
+                    'call_number' => '987654321012',
+                    'sip_room_number' => '12340',
+                    'sip_pin' => '987654321',
+                    'display_name' => 'Sie wurden von Test1, 1234, User, Test eingeladen',
+                    'tag' => 'none',
+                    'organisator' => 'Test1, 1234, User, Test',
+                    'title' => 'TestMeeting: 0',
+                    'links' => array('dial' => '/api/v1/call/out/dial/ksddfglfjlkfds')
+                )
+            )
+        ),
+            $calloutArr
+        );
+    }
 }
