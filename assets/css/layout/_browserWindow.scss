@@ -8,7 +8,7 @@
   background-color: white;
   box-sizing: border-box;
   touch-action: none;
-  border: 8px solid #f2f6fc;
+  border: 8px solid $background-color;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
@@ -19,7 +19,7 @@
     flex-grow: 1;
     padding-bottom: 8px;
     justify-content: space-between;
-    background-color: #f2f6fc;
+    background-color: $background-color;
 
     .dragger {
       flex-grow: 1;

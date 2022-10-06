@@ -1,5 +1,5 @@
 <div class="calloutsymbol d-flex position-relative shadow-2">
-    <div class="content bg-white p-2 shadow-2 position-absolute">
+    <div class="content  p-2 shadow-2 position-absolute">
         <div class="participantsName d-flex flex-column">
             {% if cU.state > 1 %}
                 <p class="badge badge-warning">
@@ -18,7 +18,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="ringingsymbol p-2 bg-white">
+    <div class="ringingsymbol p-2">
         {% if cU.state < 2 %}
             <i class="fa-2x fa-solid fa-phone text-success fa-fw"></i>
         {% else %}

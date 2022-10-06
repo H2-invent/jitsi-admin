@@ -369,3 +369,14 @@ hr {
     background-color: $black_background;
   }
 }
+
+.calloutsymbol{
+  .content{
+    background-color: $black_background;
+    border: 1px $black_font-color solid;
+  }
+  .ringingsymbol{
+    background-color: $black_background;
+    border: 1px $black_font-color solid;
+  }
+}

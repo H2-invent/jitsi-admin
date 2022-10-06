@@ -229,11 +229,13 @@ body {
   align-items: stretch;
 
 }
+
 @media (min-width: 768px) {
   .lobbyButtons {
     flex-direction: row;
   }
 }
+
 .lobbyCard {
   .lobbyButtons {
     flex-direction: column;
@@ -449,6 +451,7 @@ $rotateNeg: -20deg;
 
 .ringingsymbol {
   position: relative;
+
   .fa-phone {
     animation-name: shake;
     animation-duration: 4s;
@@ -461,21 +464,27 @@ $rotateNeg: -20deg;
     animation-iteration-count: infinite;
   }
 }
-.calloutsymbol{
+
+.calloutsymbol {
   margin-bottom: 4px;
-  .content{
+
+  .content {
     left: 0;
     transform: translateX(0) scale(0%);
     width: max-content;
     transition: transform 0.5s;
+    background-color: $background-color;
   }
-  &:hover>.content, &:active>.content{
+
+  &:hover > .content, &:active > .content {
     transform: translateX(-105%) scale(100%);
     border-radius: 4px;
     transition: transform 0.5s;
   }
-  .ringingsymbol{
+
+  .ringingsymbol {
     border-radius: 4px;
+    background-color: $background-color;
   }
 }
 
