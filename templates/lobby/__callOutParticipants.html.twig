@@ -1,46 +1,34 @@
-<div class="col-lg-4 col-12 col-xl-3 callingUserCard mb-3 position-relative">
-    <div class="card ">
-        <div class="card-body text-center d-flex justify-content-between flex-row flex-lg-column align-items-center">
-            {% if cU.user is not null and  cU.user.profilePicture is not null %}
-                <style>
-                    #circle_{{ cU.id }} {
-                        background-image: url("{{ vich_uploader_asset(cU.user.profilePicture,'documentFile') }}");
-                        background-position: center;
-                        background-size: cover;
-                        background-color: white !important;
-                    }
-                </style>
-
-            {% endif %}
-            <div class="d-none d-lg-flex"
-            ">
-            <div class="ringingsymbol">
-                <div class="circle"></div>
-                <div class="ring"></div>
-                {% if cU.state < 2 %}
-                    <i class="fa-2x fa-solid fa-phone text-success"></i>
-                {% else %}
-                    <i class="fa-2x fa-solid fa-phone-slash text-warning"></i>
-                {% endif %}
-            </div>
-        </div>
-        <div class="nameHolder">
-            <div class="participantsName">{{ nameOfUserwithFormat(cU.user, laf_showNameFrontend) }}</div>
-            {% if cU.leftRetries == 0 %}<p
-                    class="badge badge-warning">{{ 'callout.info.noMoreRetries'|trans }}</p>{% endif %}
-        </div>
-        <div class="ringingsymbol  d-lg-none d-block">
-            <div class="circle"></div>
-            <div class="ring"></div>
-            {% if cU.state < 2 %}
-                <i class="fa-2x fa-solid fa-phone text-success"></i>
-            {% else %}
-                <i class="fa-2x fa-solid fa-phone-slash text-warning"></i>
+<div class="calloutsymbol d-flex position-relative shadow-2">
+    <div class="content bg-white p-2 shadow-2 position-absolute">
+        <div class="participantsName d-flex flex-column">
+            {% if cU.state > 1 %}
+                <p class="badge badge-warning">
+                    {% if cU.state == 3 %}
+                        {{ 'callout.status.occupied'|trans }}
+                    {% elseif cU.state == 4 %}
+                        {{ 'callout.status.later'|trans }}
+                    {% elseif cU.state == 5 %}
+                        {{ 'callout.status.timeout'|trans }}
+                    {% endif %}
+                </p>
+           {% endif %}
+            {{ nameOfUserwithFormat(cU.user, laf_showNameFrontend) }}
+            {% if cU.leftRetries == 0 %}
+                <p class="badge badge-warning">{{ 'callout.info.noMoreRetries'|trans }}</p>
             {% endif %}
         </div>
     </div>
+    <div class="ringingsymbol p-2 bg-white">
+        {% if cU.state < 2 %}
+            <i class="fa-2x fa-solid fa-phone text-success fa-fw"></i>
+        {% else %}
+            <i class="fa-2x fa-solid fa-phone-slash text-warning fa-fw"></i>
+        {% endif %}
+    </div>
+
 </div>
-</div>
+
+
 
 
 

@@ -59,19 +59,23 @@
                         </div>
                     </div>
                     <div id="waitingUserWrapper">
-                        <div id="waitingUser" class="row mb-3">
-                            {% for wU in room.lobbyWaitungUsers %}
-                                {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
-                            {% endfor %}
-                            {% for cU in room.calloutSessions %}
+                        <div id="waitingUser" class="mb-3 d-flex">
+                            <div class="activeLobbyUsers flex-grow-1">
+                                {% for wU in room.lobbyWaitungUsers %}
+                                    {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
+                                {% endfor %}
 
-                                {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
+                            </div>
+                            <div class="onholdPartcipants ms-1 ms-lg-2">
+                                    {% for cU in room.calloutSessions %}
+                                            {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
+                                    {% endfor %}
 
-                            {% endfor %}
+                            </div>
                         </div>
                     </div>
                     <div class="lobbyButtons">
-                        <div class="flex-grow-1 p-2 d-flex flex-column flex-lg-row">
+                        <div class=" flex-grow-1 p-2 d-flex flex-column flex-lg-row">
                             {% if type == 'a' %}
                                 <a class="btn btn-primary start-btn me-0  me-lg-2 flex-grow-1"
                                    href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
@@ -129,7 +133,8 @@
                                      id="searchCallOutParticipantsDropdownTrigger">
 
                                 </div>
-                                <div class="dropdown-menu searchCallOutParticipantsDropdown" id="searchCallOutParticipantsDropdown">
+                                <div class="dropdown-menu searchCallOutParticipantsDropdown"
+                                     id="searchCallOutParticipantsDropdown">
                                     <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
                                 </div>
                             </div>

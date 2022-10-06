@@ -95,7 +95,7 @@ body {
 #col-waitinglist {
   &.large {
     padding-top: 18px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.7);
     -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   }
@@ -224,15 +224,20 @@ body {
 
 .lobbyButtons {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
-  align-items: center;
-}
+  align-items: stretch;
 
+}
+@media (min-width: 768px) {
+  .lobbyButtons {
+    flex-direction: row;
+  }
+}
 .lobbyCard {
   .lobbyButtons {
     flex-direction: column;
-    align-items: inherit;
+
   }
 }
 
@@ -454,6 +459,23 @@ $rotateNeg: -20deg;
     animation-name: resize;
     animation-duration: 4s;
     animation-iteration-count: infinite;
+  }
+}
+.calloutsymbol{
+  margin-bottom: 4px;
+  .content{
+    left: 0;
+    transform: translateX(0) scale(0%);
+    width: max-content;
+    transition: transform 0.5s;
+  }
+  &:hover>.content, &:active>.content{
+    transform: translateX(-105%) scale(100%);
+    border-radius: 4px;
+    transition: transform 0.5s;
+  }
+  .ringingsymbol{
+    border-radius: 4px;
   }
 }
 
