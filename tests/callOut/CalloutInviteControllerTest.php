@@ -16,7 +16,7 @@ class CalloutInviteControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(array('name'=>'This is a room with Lobby'));
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
         $client->loginUser($user);
         $invite = $userRepo->findOneBy(array('email'=>'ldapUser@local.de'));
