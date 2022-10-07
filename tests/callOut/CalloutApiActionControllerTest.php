@@ -170,4 +170,52 @@ class CalloutApiActionControllerTest extends WebTestCase
         assertEquals(1, $crawler->filter('.calloutsymbol')->count());
         $this->assertSelectorTextContains('.calloutsymbol .badge', 'Besetzt');
     }
+    public function testOccupiedthreeTimes(): void
+    {
+        $crawler = $this->client->request('GET', '/api/v1/call/out/dial/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/api/v1/call/out/occupied/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $user = $this->calloutSession->getRoom()->getModerator();
+        $this->client->loginUser($user);
+        $url = '/room/join/b/' . $this->room->getId();
+        $crawler = $this->client->request('GET', $url);
+        assertEquals(1, $crawler->filter('.calloutsymbol')->count());
+        $this->assertSelectorNotExists('.no-more-retries');
+
+        $crawler = $this->client->request('POST', '/room/callout/invite/' . $this->room->getUidReal(), array('uid' => $this->calloutSession->getUser()->getEmail()));
+        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/api/v1/call/out/dial/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/api/v1/call/out/occupied/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $url = '/room/join/b/' . $this->room->getId();
+        $crawler = $this->client->request('GET', $url);
+        $this->assertSelectorNotExists('.no-more-retries');
+
+        $crawler = $this->client->request('POST', '/room/callout/invite/' . $this->room->getUidReal(), array('uid' => $this->calloutSession->getUser()->getEmail()));
+        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/api/v1/call/out/dial/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/api/v1/call/out/occupied/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $url = '/room/join/b/' . $this->room->getId();
+        $crawler = $this->client->request('GET', $url);
+        $this->assertSelectorTextContains('.no-more-retries', 'Keine weiteren Anrufversuche möglich');
+
+        $crawler = $this->client->request('POST', '/room/callout/invite/' . $this->room->getUidReal(), array('uid' => $this->calloutSession->getUser()->getEmail()));
+        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/api/v1/call/out/dial/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $crawler = $this->client->request('GET', '/api/v1/call/out/occupied/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+
+
+        $url = '/room/join/b/' . $this->room->getId();
+        $crawler = $this->client->request('GET', $url);
+        assertEquals(1, $crawler->filter('.calloutsymbol')->count());
+        $this->assertSelectorTextContains('.no-more-retries', 'Keine weiteren Anrufversuche möglich');
+
+
+    }
 }

@@ -14,7 +14,7 @@
            {% endif %}
             {{ nameOfUserwithFormat(cU.user, laf_showNameFrontend) }}
             {% if cU.leftRetries == 0 %}
-                <p class="badge badge-warning">{{ 'callout.info.noMoreRetries'|trans }}</p>
+                <p class="badge badge-warning no-more-retries">{{ 'callout.info.noMoreRetries'|trans }}</p>
             {% endif %}
         </div>
     </div>
