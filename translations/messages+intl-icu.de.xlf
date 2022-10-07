@@ -1788,7 +1788,7 @@
       </trans-unit>
       <trans-unit id="HZQLWbn" resname="Sie wurden von {name} eingeladen">
         <source>Sie wurden von {name} eingeladen</source>
-        <target>__Sie wurden von {name} eingeladen</target>
+        <target>Sie wurden von {name} eingeladen</target>
       </trans-unit>
       <trans-unit id="l7wQdDI" resname="callout.message.timeout">
         <source>Der/Die Angerufene hat nicht abgenommen</source>

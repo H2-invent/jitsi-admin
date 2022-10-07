@@ -50,7 +50,7 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
             if (json_decode($update->getData(), true)['type'] === 'snackbar') {
-                self::assertEquals('{"type":"snackbar","message":"callout.message.refuse","color":"danger"}', $update->getData());
+                self::assertEquals('{"type":"snackbar","message":"Der\/Die Angerufene hat abgelehnt.","color":"danger"}', $update->getData());
                 self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
             }
             if (json_decode($update->getData(), true)['type'] === 'refresh') {
@@ -81,7 +81,7 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
             if (json_decode($update->getData(), true)['type'] === 'snackbar') {
-                self::assertEquals('{"type":"snackbar","message":"callout.message.error","color":"danger"}', $update->getData());
+                self::assertEquals('{"type":"snackbar","message":"Fehler. Melden Sie sich bei Ihrem Support.","color":"danger"}', $update->getData());
                 self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
             }
             if (json_decode($update->getData(), true)['type'] === 'refresh') {

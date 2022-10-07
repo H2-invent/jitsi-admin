@@ -82,6 +82,7 @@
         .content {
           overflow-y: auto;
           min-height: 50%;
+
           .adressBookPointOut {
             &:before {
               font-family: "Font Awesome 5 Free";
@@ -91,10 +92,7 @@
               content: "\f178";
             }
           }
-
         }
-
-
       }
     }
   }

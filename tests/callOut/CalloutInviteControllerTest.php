@@ -16,7 +16,7 @@ class CalloutInviteControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('uidReal'=>'561ghj984ssdfdf'));
+        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
         $client->loginUser($user);
         $invite = $userRepo->findOneBy(array('email'=>'ldapUser@local.de'));
@@ -27,9 +27,11 @@ class CalloutInviteControllerTest extends WebTestCase
         $calloutRepo= self::getContainer()->get(CalloutSessionRepository::class);
         self::assertEquals(1,sizeof($calloutRepo->findAll()));
         $crawler = $client->request('GET', '/room/join/b/'.$room->getId());
-        assertEquals(1,$crawler->filter('.callingUserCard ')->count());
+        assertEquals(1,$crawler->filter('.calloutsymbol ')->count());
 
     }
+
+
 
     public function testNewUser(): void
     {
@@ -62,7 +64,6 @@ class CalloutInviteControllerTest extends WebTestCase
         $crawler = $client->request('POST', '/room/callout/invite/'.$room->getUidReal(),array('uid'=>'newUser@local.de'));
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-
 
     }
 }
