@@ -23,6 +23,7 @@
 
     .dragger {
       flex-grow: 1;
+      cursor: move;
     }
 
     .actionIconLeft {
@@ -61,4 +62,10 @@
       }
     }
   }
+}
+
+.moveable-line, .moveable-control {
+  background: none !important;
+  border: none!important;
+
 }

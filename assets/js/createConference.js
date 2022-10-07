@@ -2,13 +2,23 @@ import interact from 'interactjs'
 import {leaveMeeting} from "./websocket";
 import md5 from "blueimp-md5"
 import {setSnackbar} from "./myToastr";
+import Moveable from "moveable";
 
 let counter = 50;
 let zindex = 10
 let width = window.innerWidth * 0.75;
 let height = window.innerHeight * 0.75;
+let moveable;
+let frames = [];
 
 function initStartIframe() {
+
+    document.addEventListener("mouseover", function (ele) {
+        var t = ele.target.closest('.jitsiadminiframe')
+        if (t && t.style.width !== '100%' && !t.classList.contains('minified')) {
+            addInteractions(ele.target.closest('.jitsiadminiframe'));
+        }
+    });
 
     document.addEventListener('click', (e) => {
         if (e.target.closest('.startIframe')) {
@@ -55,7 +65,7 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="actionIconLeft">' +
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
         '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
-        (document.fullscreenEnabled?'<div class="button-fullscreen actionIcon" data-maximal="0"><i class="fa-solid fa-expand"></i></div> ':'') +
+        (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-maximal="0"><i class="fa-solid fa-expand"></i></div> ' : '') +
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
         '</div>' +
         '</div>' +
@@ -87,9 +97,10 @@ function createIframe(url, title, closeIntelligent = true) {
     })
     document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
         minimizeFrame('jitsiadminiframe' + random)
+        removeInteraction();
     })
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-fullscreen').addEventListener('click', function (e) {
-           e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe').requestFullscreen();
+        e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe').requestFullscreen();
     })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
@@ -107,6 +118,8 @@ function createIframe(url, title, closeIntelligent = true) {
             e.currentTarget.querySelector('i').classList.remove('fa-window-maximize');
             e.currentTarget.querySelector('i').classList.add('fa-window-restore');
             e.currentTarget.dataset.maximal = "1";
+
+
         } else {
             e.currentTarget.closest('.jitsiadminiframe').style.width = e.currentTarget.dataset.width;
             e.currentTarget.closest('.jitsiadminiframe').style.height = e.currentTarget.dataset.height;
@@ -118,7 +131,9 @@ function createIframe(url, title, closeIntelligent = true) {
             e.currentTarget.querySelector('i').classList.remove('fa-window-restore');
             e.currentTarget.querySelector('i').classList.add('fa-window-maximize');
             e.currentTarget.dataset.maximal = "0";
+
         }
+        removeInteraction();
     })
 
 
@@ -135,7 +150,8 @@ function createIframe(url, title, closeIntelligent = true) {
     if (window.innerWidth < 992) {
         document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
     }
-    addInteractions();
+
+
 }
 
 function sendCommand(id, message) {
@@ -159,77 +175,92 @@ function recievecommand(data) {
 
 function closeIframe(id) {
     document.getElementById(id).remove();
+    removeInteraction();
+
 }
 
-function addInteractions() {
+function removeInteraction() {
+    if (moveable) {
+        moveable.destroy();
+        moveable = null;
+    }
+}
+
+function addInteractions(ele) {
+
     const position = {x: counter, y: counter}
-    interact('.dragger').draggable({
-        listeners: {
-            start(event) {
-                if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
-                    return null;
-                }
-                position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
-                position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
-                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
-                event.target.closest('.jitsiadminiframe').style.removeProperty('border');
-                event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
-                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
-                event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
+    if (moveable) {
+        moveable.target = ele;
+        return null;
+    }
 
-            },
-            move(event) {
-                if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
-                    return null;
-                }
-                if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
-                    event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
-                }
-                position.x += event.dx
-                position.y += event.dy
-                event.target.closest('.jitsiadminiframe').style.transform =
-                    `translate(${position.x}px, ${position.y}px)`
-
-
-            },
-            end(event) {
-                if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
-                    return null;
-                }
-                event.target.closest('.jitsiadminiframe').dataset.x = position.x;
-                event.target.closest('.jitsiadminiframe').dataset.y = position.y;
-
-            }
+    moveable = new Moveable(document.body, {
+        target: ele,
+        draggable: true,
+        resizable: true,
+        edge: true,
+        origin: false,
+    });
+    moveable.on("dragStart", event => {
+        if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
+            return null;
         }
-    })
-    interact('.jitsiadminiframe')
-        .resizable({
-            edges: {top: true, left: true, bottom: true, right: true},
-            listeners: {
-                move: function (event) {
-                    if (event.target.classList.contains('minified')) {
-                        return null;
-                    }
-                    if (event.target.style.zIndex < zindex - 1) {
-                        event.target.style.zIndex = zindex++;
+        position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
+        position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
+        // event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
+        event.target.closest('.jitsiadminiframe').style.removeProperty('border');
+        event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
+        event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
+        event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
 
-                    }
-                    let {x, y} = event.target.dataset
+    }).on("drag", event => {
+        if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
+            return null;
+        }
+        if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
+            event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
+        }
+        position.x += event.delta[0];
+        position.y += event.delta[1]
+        event.target.closest('.jitsiadminiframe').style.transform =
+            `translate(${position.x}px, ${position.y}px)`
 
-                    x = (parseFloat(x) || 0) + event.deltaRect.left
-                    y = (parseFloat(y) || 0) + event.deltaRect.top
+    }).on("dragEnd", event => {
+        if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
+            return null;
+        }
+        event.target.closest('.jitsiadminiframe').dataset.x = position.x;
+        event.target.closest('.jitsiadminiframe').dataset.y = position.y;
+        // console.log("onDragEnd", target, isDrag);
+    });
 
-                    Object.assign(event.target.style, {
-                        width: `${event.rect.width}px`,
-                        height: `${event.rect.height}px`,
-                        transform: `translate(${x}px, ${y}px)`
-                    })
-                    event.target.style.removeProperty('border');
-                    event.target.querySelector('.headerBar').style.removeProperty('padding');
-                    Object.assign(event.target.dataset, {x, y})
-                }
+    let frame = {
+        translate: [0, 0],
+    };
+
+    moveable.on("resizeStart", ({target, clientX, clientY}) => {
+        // console.log("onResizeStart", target);
+    }).on("resize", event => {
+
+            if (event.target.classList.contains('minified')) {
+                return null;
             }
-        })
+            const beforeTranslate = event.drag.beforeTranslate;
+
+            frame.translate = beforeTranslate;
+            event.target.style.width = `${event.width}px`;
+            event.target.style.height = `${event.height}px`;
+            event.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
+            event.target.style.removeProperty('border');
+            event.target.querySelector('.headerBar').style.removeProperty('padding');
+
+            event.target.dataset.x = beforeTranslate[0];
+            event.target.dataset.y = beforeTranslate[1];
+        }
+    ).on("resizeEnd", ({target, isDrag, clientX, clientY}) => {
+        // console.log("onResizeEnd", target, isDrag);
+    });
+
 }
 
 function minimizeFrame(id) {
@@ -271,15 +302,10 @@ function removeFromMinibar(container) {
         container.style.width = container.dataset.beforeminwidth;
         container.style.removeProperty('left');
         setWidthOfminified();
+        addInteractions(container)
     }
+    removeInteraction();
 }
 
 
 export {initStartIframe, createIframe}
-
-// TypeError: 'caller', 'callee', and 'arguments' properties may not be accessed on strict mode functions or the arguments objects for calls to them
-// at Function.invokeGetter (<anonymous>:3:28)
-//     at close (http://localhost:8000/build/app~frontend~join~lobbyModerator~lobbyParticipant~onlyConference.js:779:5)
-//     at closeIframe (http://localhost:8000/build/lobbyModerator~lobbyParticipant.js:350:66)
-//     at checkClose (http://localhost:8000/build/lobbyModerator~lobbyParticipant.js:343:5)
-//     at http://localhost:8000/build/app~frontend~join~lobbyModerator~lobbyParticipant~onlyConference.js:770:7
