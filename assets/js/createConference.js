@@ -10,12 +10,18 @@ let width = window.innerWidth * 0.75;
 let height = window.innerHeight * 0.75;
 let moveable;
 let frames = [];
-
+let dragactive = false;
 function initStartIframe() {
 
     document.addEventListener("mouseover", function (ele) {
         var t = ele.target.closest('.jitsiadminiframe')
-        if (t && t.style.width !== '100%' && !t.classList.contains('minified')) {
+        if (t && t.style.width !== '100%' && !t.classList.contains('minified') && dragactive === false) {
+            addInteractions(ele.target.closest('.jitsiadminiframe'));
+        }
+    });
+    document.addEventListener("touchstart", function (ele) {
+        var t = ele.target.closest('.jitsiadminiframe')
+        if (t && t.style.width !== '100%' && !t.classList.contains('minified') && dragactive === false) {
             addInteractions(ele.target.closest('.jitsiadminiframe'));
         }
     });
@@ -202,6 +208,7 @@ function addInteractions(ele) {
         origin: false,
     });
     moveable.on("dragStart", event => {
+        dragactive = true;
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
         }
@@ -212,7 +219,6 @@ function addInteractions(ele) {
         event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
-
     }).on("drag", event => {
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
@@ -225,12 +231,13 @@ function addInteractions(ele) {
         event.target.closest('.jitsiadminiframe').style.transform =
             `translate(${position.x}px, ${position.y}px)`
 
-    }).on("dragEnd", event => {
+    }).on("dragEnd", event =>{
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
         }
         event.target.closest('.jitsiadminiframe').dataset.x = position.x;
         event.target.closest('.jitsiadminiframe').dataset.y = position.y;
+        dragactive = false;
         // console.log("onDragEnd", target, isDrag);
     });
 
@@ -239,6 +246,7 @@ function addInteractions(ele) {
     };
 
     moveable.on("resizeStart", ({target, clientX, clientY}) => {
+        dragactive = true;
         // console.log("onResizeStart", target);
     }).on("resize", event => {
 
@@ -259,6 +267,7 @@ function addInteractions(ele) {
         }
     ).on("resizeEnd", ({target, isDrag, clientX, clientY}) => {
         // console.log("onResizeEnd", target, isDrag);
+        dragactive = false;
     });
 
 }
