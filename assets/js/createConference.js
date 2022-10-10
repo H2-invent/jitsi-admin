@@ -130,14 +130,14 @@ function createIframe(url, title, closeIntelligent = true) {
 
 }
 
-function closeFrame(e, closeIntelligent) {
+function closeFrame(e, closeIntelligent,random) {
 
     if (!e.currentTarget.hasAttribute('data-close-blocker') || e.currentTarget.closeBlocker === '0') {
         if (closeIntelligent) {
             var id = e.currentTarget.dataset.id;
             sendCommand(id, {type: 'pleaseClose'})
         } else {
-            closeIframe('jitsiadminiframe' + random);
+            closeIframe(e.currentTarget.closest('.jitsiadminiframe').id);
         }
     }
 
