@@ -1,0 +1,20 @@
+[Unit]
+     Description=Jitsi-Admin Websocket Service
+     After=network.target
+     StartLimitBurst=5
+     StartLimitIntervalSec=33
+
+
+     [Service]
+     Type=simple
+     WorkingDirectory=/usr/local/bin/websocket
+
+	Environment= WEBSOCKET_SECRET='<WEBSOCKET_SECRET>' PORT=3000
+     ExecStart=node .
+     StandardOutput=file:/var/log/websocket/websocket.log
+     StandardError=file:/var/log/websocket/error.log
+     Restart=always
+     RestartSec=5
+
+     [Install]
+     WantedBy=multi-user.target
