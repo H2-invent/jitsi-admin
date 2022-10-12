@@ -1,1 +1,4 @@
-service apache2 stop
+if systemctl --type=service | grep -Fq 'apache2'; then
+  systemctl  stop apache2
+fi
+
