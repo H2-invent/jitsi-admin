@@ -894,7 +894,7 @@ strong {
   flex-direction: column-reverse!important;
   bottom: 0;
   left: 0;
-  z-index: 500;
+  z-index: 500!important;
   border-width: 8px!important;
   border-style: solid;
   border-color: inherit;
@@ -921,11 +921,11 @@ strong {
 
   &:hover > iframe {
     height: 33vh!important;
-    -webkit-transition-delay: 0.75s;
-    -moz-transition-delay: 0.75s;
-    -ms-transition-delay: 0.75s;
-    -o-transition-delay: 0.75s;
-    transition-delay: 0.75s;
+    -webkit-transition-delay: 0.25s;
+    -moz-transition-delay: 0.25s;
+    -ms-transition-delay: 0.25s;
+    -o-transition-delay: 0.25s;
+    transition-delay: 0.25s;
 
   }
 

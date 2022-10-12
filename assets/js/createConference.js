@@ -63,7 +63,7 @@ function createIframe(url, title, closeIntelligent = true) {
     var html =
         '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '">' +
         '<div class="headerBar">' +
-        '<div class="dragger actionIcon"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
+        '<div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
         '<div class="button-restore actionIcon d-none" data-maximal="0"><i class="fa-solid fa-window-restore"></i></div> ' +
@@ -91,12 +91,12 @@ function createIframe(url, title, closeIntelligent = true) {
     document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
-        closeFrame(e,closeIntelligent);
+        closeFrame(e, closeIntelligent);
 
     })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
-        minimizeFrame('jitsiadminiframe' + random)
+        minimizeFrame(e)
         removeInteraction();
     })
 
@@ -130,7 +130,7 @@ function createIframe(url, title, closeIntelligent = true) {
 
 }
 
-function closeFrame(e, closeIntelligent,random) {
+function closeFrame(e, closeIntelligent, random) {
 
     if (!e.currentTarget.hasAttribute('data-close-blocker') || e.currentTarget.closeBlocker === '0') {
         if (closeIntelligent) {
@@ -318,24 +318,28 @@ function addInteractions(ele) {
 
 }
 
-function minimizeFrame(id) {
-    var container = document.getElementById(id);
-    moveToMinibar(container);
+function minimizeFrame(e) {
+    moveToMinibar(e.currentTarget.closest('.jitsiadminiframe'));
 }
 
 function moveToMinibar(container) {
     // container.dataset.parent = container.parentNode.id;
     // var minimizeBar = document.getElementById('minimizeBar');
     // minimizeBar.append(container);
+    if (container.classList.contains('minified')) {
+        return null;
+    }
     container.querySelector('iframe').style.height = '0px';
     container.dataset.beforeminwidth = container.style.width;
     container.classList.add('minified');
-    setTimeout(function () {
-        container.querySelector('.headerBar').addEventListener('click', (e) => {
-            var ele = e.currentTarget.closest('.minified');
-            removeFromMinibar(ele);
-        }, {once: true})
-    }, 1);
+    container.querySelector('.headerBar').addEventListener('click', removeFromMinibar);
+    //
+    // setTimeout(function () {
+    //     container.querySelector('.headerBar').addEventListener('click', (e) => {
+    //         var ele = e.currentTarget.closest('.minified');
+    //         removeFromMinibar(ele);
+    //     }, {once: true})
+    // }, 1);
 
     setWidthOfminified();
     container.querySelector('iframe').style.removeProperty('height');
@@ -351,7 +355,13 @@ function setWidthOfminified() {
     }
 }
 
-function removeFromMinibar(container) {
+function removeFromMinibar(e) {
+    if (e.target.closest('.actionIcon')){
+        return null;
+    }
+    e.currentTarget.removeEventListener('click', removeFromMinibar);
+
+    var container = e.currentTarget.closest('.jitsiadminiframe');
     if (container.classList.contains('minified')) {
         container.classList.remove('minified');
         container.style.width = container.dataset.beforeminwidth;
@@ -359,6 +369,7 @@ function removeFromMinibar(container) {
         setWidthOfminified();
         addInteractions(container)
     }
+
     removeInteraction();
 }
 
