@@ -19,7 +19,7 @@ final class Version20220316114015 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE room_status ADD room_id INT NOT NULL');
             $this->addSql('ALTER TABLE room_status ADD CONSTRAINT FK_3A4EA3DD54177093 FOREIGN KEY (room_id) REFERENCES rooms (id)');
@@ -32,7 +32,7 @@ final class Version20220316114015 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE room_status DROP FOREIGN KEY FK_3A4EA3DD54177093');
             $this->addSql('DROP INDEX IDX_3A4EA3DD54177093 ON room_status');

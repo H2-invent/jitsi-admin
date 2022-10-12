@@ -19,7 +19,7 @@ final class Version20220723124527 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE server ADD jigasi_api_url LONGTEXT DEFAULT NULL, ADD jigasi_number_url LONGTEXT DEFAULT NULL');
         }
@@ -27,7 +27,7 @@ final class Version20220723124527 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE server DROP jigasi_api_url, DROP jigasi_number_url');
         }
