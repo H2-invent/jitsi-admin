@@ -263,7 +263,7 @@ function addInteractions(ele) {
             event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
         }
 
-        if (event.clientX >= window.innerWidth && event.clientY >= 0 && event.clientY <= window.innerHeight) {//on the left side
+        if (event.clientX >= window.innerWidth-10 && event.clientY >= 0 && event.clientY <= window.innerHeight) {//on the left side
 
             console.log('half left side')
             position.x = window.innerWidth / 2;
@@ -271,14 +271,14 @@ function addInteractions(ele) {
             event.target.closest('.jitsiadminiframe').style.height = window.innerHeight + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
-        } else if (event.clientX >= window.innerWidth && event.clientY <= 0) {//on the left side up
+        } else if (event.clientX >= window.innerWidth-10 && event.clientY <= 0) {//on the left side up
             console.log('left side up');
             position.x = window.innerWidth / 2;
             position.y = 0
             event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
-        } else if (event.clientX >= window.innerWidth && event.clientY >= window.innerHeight) {//on the left side down
+        } else if (event.clientX >= window.innerWidth-10 && event.clientY >= window.innerHeight) {//on the left side down
             console.log('left side down');
             position.x = window.innerWidth / 2;
             position.y = window.innerHeight/2;
@@ -299,6 +299,31 @@ function addInteractions(ele) {
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
         } else if (event.clientX <= 0 && event.clientY >= 0 && event.clientY <= window.innerHeight) {//on the right side
+            console.log('half right side')
+            position.x = 0;
+            position.y = 0
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
+
+
+        }
+        else if (event.clientX >= 0 && event.clientY >= window.innerHeight && event.clientX <= window.innerWidth) {//bottom
+            console.log('bottom side')
+            position.x = 0;
+            position.y = window.innerHeight/2;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth + 'px'
+
+
+        }
+        else if (event.clientX >= 0 && event.clientY <=0 && event.clientX <= window.innerWidth) {//top
+            console.log('upper side')
+            position.x = 0;
+            position.y = 0;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth + 'px'
+        }
+        else if (event.clientX <= 0 && event.clientY >= 0 && event.clientY <= window.innerHeight) {//on the right side
             console.log('half right side')
             position.x = 0;
             position.y = 0
