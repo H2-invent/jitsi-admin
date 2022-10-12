@@ -1,4 +1,7 @@
-if systemctl --type=service | grep -Fq 'apache2'; then
-  systemctl  stop apache2
+if systemctl --type=service | grep -Fq 'nginx'; then
+  systemctl stop nginx
 fi
+curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/sury-php.list
+apt update
 

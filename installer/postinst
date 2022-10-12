@@ -18,4 +18,4 @@ php bin/console cache:clear
 
 chown -R www-data:www-data /var/www/jitsi-admin/var/
 
-service apache2 start
+systemctl start nginx
