@@ -13,7 +13,7 @@ systemctl start jitsi-admin_messenger.service
 systemctl restart jitsi-admin_messenger.service
 systemctl is-active --quiet jitsi-admin_messenger.service && echo jitsi-admin_messenger.service is running
 
-php bin/console doc:mig:mig --no-interaction
+php /var/www/jitsi-admin/bin/console doc:mig:mig --no-interaction
 php bin/console cache:clear
 
 chown -R www-data:www-data /var/www/jitsi-admin/var/
