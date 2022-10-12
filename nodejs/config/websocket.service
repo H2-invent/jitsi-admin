@@ -7,6 +7,8 @@
 
      [Service]
      Type=simple
+     User=www-data
+     Group=www-data
      WorkingDirectory=/usr/local/bin/websocket
 
 	Environment= WEBSOCKET_SECRET='<WEBSOCKET_SECRET>' PORT=3000
