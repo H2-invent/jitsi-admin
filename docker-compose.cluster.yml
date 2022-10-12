@@ -66,6 +66,34 @@ services:
     networks:
       - default
 
+  screego:
+    image: screego/server:1.0.1
+    restart: unless-stopped
+    networks:
+      - default
+    expose:
+      - 5050
+    ports:
+      - 0.0.0.0:3478:3478
+      - 0.0.0.0:3478:3478/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.screego.rule=Host(`screego.${PUBLIC_URL}`)"
+      - "traefik.http.routers.screego.entrypoints=web"
+      - "traefik.http.routers.screego.tls.certresolver=letsencrypt"
+      - "traefik.http.services.screego.loadbalancer.server.port=5050"
+#    volumes:
+#      - ./htpasswd:/etc/screego.passwd:ro
+    environment:
+      SCREEGO_EXTERNAL_IP: "17.5.7.8"
+      SCREEGO_SECRET: "xxxxxxxxxxxx"
+      SCREEGO_SERVER_ADDRESS: "0.0.0.0:5050"
+      SCREEGO_TURN_ADDRESS: "0.0.0.0:3478"
+      SCREEGO_TRUST_PROXY_HEADERS: "true"
+      SCREEGO_AUTH_MODE: "turn"
+#      SCREEGO_CORS_ALLOWED_ORIGINS: "https://screen.example.org"
+      SCREEGO_USERS_FILE: "/etc/screego.passwd"
+      SCREEGO_LOG_LEVEL: debug
 
   #Here is the Jitsi-Admin app
   app-ja:
