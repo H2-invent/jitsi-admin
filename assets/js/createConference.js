@@ -262,11 +262,58 @@ function addInteractions(ele) {
         if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
             event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
         }
-        position.x += event.delta[0];
-        position.y += event.delta[1]
+
+        if (event.clientX >= window.innerWidth && event.clientY >= 0 && event.clientY <= window.innerHeight) {//on the left side
+
+            console.log('half left side')
+            position.x = window.innerWidth / 2;
+            position.y = 0
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
+
+        } else if (event.clientX >= window.innerWidth && event.clientY <= 0) {//on the left side up
+            console.log('left side up');
+            position.x = window.innerWidth / 2;
+            position.y = 0
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
+
+        } else if (event.clientX >= window.innerWidth && event.clientY >= window.innerHeight) {//on the left side down
+            console.log('left side down');
+            position.x = window.innerWidth / 2;
+            position.y = window.innerHeight/2;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
+
+        } else if (event.clientX <= 0 && event.clientY <= 0) {//on the right side up
+            console.log('right side up');
+            position.x = 0;
+            position.y = 0;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
+        } else if (event.clientX <= 0 && event.clientY >= window.innerHeight) {//on the right side down
+            console.log('right side down');
+            position.x = 0;
+            position.y = window.innerHeight/2;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
+
+        } else if (event.clientX <= 0 && event.clientY >= 0 && event.clientY <= window.innerHeight) {//on the right side
+            console.log('half right side')
+            position.x = 0;
+            position.y = 0
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight + 'px'
+            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
+
+
+        } else {
+            position.x += event.delta[0];
+            position.y += event.delta[1]
+        }
+
+
         event.target.closest('.jitsiadminiframe').style.transform =
             `translate(${position.x}px, ${position.y}px)`
-
     }).on("dragEnd", event => {
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
@@ -356,7 +403,7 @@ function setWidthOfminified() {
 }
 
 function removeFromMinibar(e) {
-    if (e.target.closest('.actionIcon')){
+    if (e.target.closest('.actionIcon')) {
         return null;
     }
     e.currentTarget.removeEventListener('click', removeFromMinibar);
