@@ -1,9 +1,13 @@
 /* ---------------------------------------------------
     Body Config
 ----------------------------------------------------- */
+html{
+  height: 100%;
+}
 body {
   font-family: 'Poppins';
   overflow: hidden;
+  height: 100%;
 }
 
 /* ---------------------------------------------------
@@ -226,7 +230,7 @@ strong {
   }
   display: grid;
   background-color: $background-color;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: absolute;
   top: 0;
