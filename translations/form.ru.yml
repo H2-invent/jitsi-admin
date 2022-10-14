@@ -138,6 +138,7 @@ label:
   jigasiApiUrl: Jigasi ConferenceMapper-URL
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
+  go: Los gehts!
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
