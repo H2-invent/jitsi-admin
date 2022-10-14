@@ -115,26 +115,22 @@
                             <div class="card frozenGlas">
                                 <div class="glossy"></div>
                                 <div class="card-body">
-                                    <div class="row ">
-
-                                        <div class="col-md-12 align-items-center d-flex">
+                                    {% if room is defined and room is not null %}
+                                        {% if room.tag is not null %}
                                             <h3 class="h3-responsive text-center w-100">
-                                                {% if room is defined and room is not null %}
-                                                    {% if room.tag is not null %}
-                                                        <p class="badge badge-danger d-block" id="tagContent"
-                                                           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
-                                                    {% endif %}
-                                                {% endif %}
-                                                {% block header %}{% endblock %}</h3>
+                                                <p class="badge badge-danger d-block" id="tagContent"
+                                                   style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+                                            </h3>
+                                        {% endif %}
+                                    {% endif %}
+                                    <div class="row ">
+                                        <div class="col-12">
+                                            {% block header %}{% endblock %}
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="row mb-5  justify-content-center">
-
-
                                         {% block content %}{% endblock %}
-
-
                                     </div>
 
                                     <div class="row">

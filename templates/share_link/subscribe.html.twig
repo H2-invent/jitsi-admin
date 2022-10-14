@@ -1,19 +1,22 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    <h4 class="h4-responsive text-center w-100">{{ room.name }}</h4>
-    <p class=" text-center">  {% set locale =  app.request.locale %}
-        {{ room.start|format_date(pattern="EEEE",locale=locale) }},
-        {{ room.start|format_datetime('long', 'none', locale=locale) }},
-        {{ room.start|date('H:i') }} - {{ room.endDate|date('H:i') }}</p>
-    {% if room.maxParticipants is null %}
-        {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Unbegrenzte Teilnehmerzahl{% endtrans %}
-    {% elseif room.maxParticipants - room.user|length >1 %}
-        {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch {spaces} Plätze frei{% endtrans %}
-    {% elseif room.maxParticipants - room.user|length == 1 %}
-        {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch ein Platz frei{% endtrans %}
-    {% elseif room.maxParticipants - room.user|length <= 0 and room.waitinglist == true %}
-        {% trans %}Warteliste{% endtrans %}
-    {% endif %}
+    <div class="d-flex flex-column align-items-center">
+        <h4 class="h4-responsive text-center w-100">{{ room.name }}</h4>
+        <p class=" text-center">  {% set locale =  app.request.locale %}
+            {{ room.start|format_date(pattern="EEEE",locale=locale) }},
+            {{ room.start|format_datetime('long', 'none', locale=locale) }},
+            {{ room.start|date('H:i') }} - {{ room.endDate|date('H:i') }}</p>
+        {% if room.maxParticipants is null %}
+            {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Unbegrenzte Teilnehmerzahl{% endtrans %}
+        {% elseif room.maxParticipants - room.user|length >1 %}
+            {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch {spaces} Plätze frei{% endtrans %}
+        {% elseif room.maxParticipants - room.user|length == 1 %}
+            {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Noch ein Platz frei{% endtrans %}
+        {% elseif room.maxParticipants - room.user|length <= 0 and room.waitinglist == true %}
+            {% trans %}Warteliste{% endtrans %}
+        {% endif %}
+    </div>
+
 {% endblock %}
 
 

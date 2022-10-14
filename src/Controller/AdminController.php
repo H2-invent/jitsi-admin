@@ -47,7 +47,6 @@ class AdminController extends JitsiAdminController
 
         $chart = $adminService->createChart($server);
         $lastStars = $this->doctrine->getRepository(Star::class)->findBy(array('server'=>$server),array('createdAt'=>'DESC'),5);
-        dump($lastStars);
         $average = 0;
         foreach ($lastStars as $data){
             $average += $data->getStar();
