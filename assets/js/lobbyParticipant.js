@@ -125,6 +125,7 @@ function initJitsiMeet(data) {
     frameDIv.prepend($(data.options.parentNode));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
     $('#window').remove();
+    $('#mainContent').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName
     frameDIv.append('<div id="snackbar" class="bg-success d-none"></div>')

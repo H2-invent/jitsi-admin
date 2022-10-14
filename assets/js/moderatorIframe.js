@@ -3,7 +3,9 @@ global.frameId = null;
 function initModeratorIframe(closeFkt) {
 
     window.addEventListener('message', function (e) {
+
         const decoded = JSON.parse(e.data);
+        window.parent.postMessage(JSON.stringify({type:'ack',messageId:decoded.messageId}), '*');
          if (decoded.type === 'init') {
             frameId = decoded.frameId;
         }else if(decoded.type === 'pleaseClose'){
