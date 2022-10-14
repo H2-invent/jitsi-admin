@@ -1771,6 +1771,10 @@
         <source>Zeit in Minuten</source>
         <target state="translated">Tiempo en minutos</target>
       </trans-unit>
+      <trans-unit id="l2aU5E." resname="stars.lastTen">
+        <source>Letzte Bewertungen</source>
+        <target state="needs-translation">Letzte Bewertungen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
