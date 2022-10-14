@@ -964,4 +964,8 @@ strong {
 .dropdown-menu > li:hover > .dropdown-submenu {
   display: block;
 }
-
+.input-group{
+  &.w-100{
+    flex-wrap: nowrap;
+  }
+}

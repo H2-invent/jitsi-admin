@@ -24,11 +24,13 @@ import {initAddressGroupSearch} from "./addressGroup";
 import {initChart} from "./chart";
 import {Chart} from "chart.js";
 import ClipboardJS from "clipboard";
+import {initStartIframe} from "./createConference";
 
 function initGenerell() {
     Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
+    initStartIframe();
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
