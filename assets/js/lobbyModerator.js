@@ -63,7 +63,7 @@ function initMercure() {
 }
 
 
-$('.startIframe').click(function (e) {
+$('.startJitsiIframe').click(function (e) {
     e.preventDefault();
     echoOff();
     document.title = conferenzeName;
