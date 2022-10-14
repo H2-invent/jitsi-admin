@@ -1774,6 +1774,10 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>Zeit in Minuten</source>
         <target state="needs-translation">Zeit in Minuten</target>
       </trans-unit>
+      <trans-unit id="l2aU5E." resname="stars.lastTen">
+        <source>Letzte Bewertungen</source>
+        <target state="needs-translation">Letzte Bewertungen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
