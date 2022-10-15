@@ -66,19 +66,6 @@ services:
     networks:
       - default
 
-  excalidraw-ja:
-    image: excalidraw/excalidraw
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.rule=Host(`excalidraw.${PUBLIC_URL}`)"
-      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.entrypoints=web"
-      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls=true"
-      - "traefik.http.services.whiteboard-ja-${RANDOMTAG}.loadbalancer.server.port=80"
-      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
-    networks:
-      - default
-
   screego:
     image: screego/server:1.0.1
     restart: unless-stopped
