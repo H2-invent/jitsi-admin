@@ -73,7 +73,7 @@ class StartServiceTest extends KernelTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
-        $this->assertStringContainsString('startIframe',
+        $this->assertStringContainsString('startJitsiIframe',
             $startService->startMeeting($room, $user, 'b', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));
         $this->assertStringContainsString('/room/lobby/start/moderator/a/' . $room->getUidReal(),
             $startService->startMeeting($room, $user, 'a', $user->getFormatedName($paramterBag->get('laf_showNameInConference'))));

@@ -38,7 +38,7 @@ class OwnRoomJoinTest extends WebTestCase
         $urlGen = $this->getContainer()->get(UrlGeneratorInterface::class);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
         $this->assertStringNotContainsString('https://privacy.dev', $client->getResponse()->getContent());
         $this->assertStringContainsString('https://test.img', $client->getResponse()->getContent());
     }
@@ -57,7 +57,7 @@ class OwnRoomJoinTest extends WebTestCase
 
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
         $this->assertStringNotContainsString('https://privacy.dev', $client->getResponse()->getContent());
         $this->assertStringNotContainsString('https://test.img', $client->getResponse()->getContent());
 
@@ -75,7 +75,7 @@ class OwnRoomJoinTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
         $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
@@ -103,7 +103,7 @@ class OwnRoomJoinTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
@@ -160,7 +160,7 @@ class OwnRoomJoinTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();
@@ -204,7 +204,7 @@ class OwnRoomJoinTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();
@@ -245,7 +245,7 @@ class OwnRoomJoinTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();
@@ -273,7 +273,7 @@ class OwnRoomJoinTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();
@@ -302,7 +302,7 @@ class OwnRoomJoinTest extends WebTestCase
         $room = $this->getRoomByName('This Room has no participants and fixed room and Lobby activated');
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();
@@ -338,7 +338,7 @@ class OwnRoomJoinTest extends WebTestCase
         $room = $this->getRoomByName('This Room has no participants and fixed room and Lobby activated');
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', $room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
 
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();

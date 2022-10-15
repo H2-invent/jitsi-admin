@@ -225,7 +225,7 @@ class LobbyModeratorControllerTest extends WebTestCase
 
         self::assertEquals(2,$crawler->filter('.waitingUserCard')->count());
 
-        $this->assertSelectorTextContains('h3', 'Lobby für die Konferenz: '.$room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', 'Lobby für die Konferenz: '.$room->getName());
         self::assertEquals(1, $crawler->filter(('.participantsName:contains("'.$lobbyUser->getShowName().'")'))->count());
         self::assertEquals(1, $crawler->filter(('.participantsName:contains("'.$lobbyUser2->getShowName().'")'))->count());
         $this->assertSelectorNotExists('.callerId');

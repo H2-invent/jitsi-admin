@@ -32,7 +32,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h3', 'Lobby für die Konferenz: '.$room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', 'Lobby für die Konferenz: '.$room->getName());
         $this->assertSelectorTextContains('.participantsName', $session->getLobbyWaitingUser()->getShowName());
         $this->assertSelectorTextContains('.callerId', $session->getCallerId());
         $this->assertSelectorNotExists('.callerVerified');
@@ -60,7 +60,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('h3', 'Lobby für die Konferenz: '.$room->getName());
+        $this->assertSelectorTextContains('.joinPageHeader', 'Lobby für die Konferenz: '.$room->getName());
         $this->assertSelectorTextContains('.participantsName', $session->getLobbyWaitingUser()->getShowName());
         $this->assertSelectorTextContains('.callerId', $session->getCallerId());
         $this->assertSelectorExists('.callerVerified');
