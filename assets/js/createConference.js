@@ -1,4 +1,3 @@
-
 import md5 from "blueimp-md5"
 import {setSnackbar} from "./myToastr";
 import Moveable from "moveable";
@@ -71,7 +70,9 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
         '</div>' +
         '</div>' +
+        '<div class="iframeFrame">' +
         '<iframe  class="multiframeIframe"></iframe>' +
+        '</div>' +
         '</div> ';
 
     var site = url;
@@ -118,11 +119,11 @@ function createIframe(url, title, closeIntelligent = true) {
             event.currentTarget.style.zIndex = zindex++;
         }
     })
-if (closeIntelligent){
-    setTimeout(function () {
-        sendCommand('jitsiadminiframe' + random, {type: 'init'});
-    }, 5000)
-}
+    if (closeIntelligent) {
+        setTimeout(function () {
+            sendCommand('jitsiadminiframe' + random, {type: 'init'});
+        }, 5000)
+    }
     counter += 40;
     if (window.innerWidth < 992) {
         document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
@@ -188,20 +189,21 @@ function restoreWindow(e) {
         restoreButton.classList.add('d-none');
     }
 }
+
 let messages = {};
 
 function sendCommand(id, message) {
     var ele = document.getElementById(id).querySelector('iframe');
-    var messageId =  makeid(32);
+    var messageId = makeid(32);
     message.frameId = id;
     message.messageId = messageId;
     ele.contentWindow.postMessage(JSON.stringify(message), '*');
     messages[messageId] = id;
     setTimeout(function (e) {
-        if (messages[messageId]){
+        if (messages[messageId]) {
             closeIframe(messages[messageId]);
         }
-    },200)
+    }, 200)
 }
 
 function recievecommand(data) {
@@ -214,7 +216,7 @@ function recievecommand(data) {
         }
     } else if (type === 'openNewIframe') {
         createIframe(decoded.url, decoded.title, false);
-    }else if (type === 'ack') {
+    } else if (type === 'ack') {
         var messageId = decoded.messageId
         delete messages[messageId];
     }
@@ -279,41 +281,41 @@ function addInteractions(ele) {
             event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
         }
 
-        if (event.clientX >= window.innerWidth-20 && event.clientY >= 20 && event.clientY <= window.innerHeight-20) {//on the left side
+        if (event.clientX >= window.innerWidth - 20 && event.clientY >= 20 && event.clientY <= window.innerHeight - 20) {//on the left side
 
             position.x = window.innerWidth / 2;
             position.y = 0
             event.target.closest('.jitsiadminiframe').style.height = window.innerHeight + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
-        } else if (event.clientX >= window.innerWidth-20 && event.clientY <= 20) {//on the left side up
+        } else if (event.clientX >= window.innerWidth - 20 && event.clientY <= 20) {//on the left side up
 
             position.x = window.innerWidth / 2;
             position.y = 0
-            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight / 2 + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
-        } else if (event.clientX >= window.innerWidth-20 && event.clientY >= window.innerHeight-20) {//on the left side down
+        } else if (event.clientX >= window.innerWidth - 20 && event.clientY >= window.innerHeight - 20) {//on the left side down
 
             position.x = window.innerWidth / 2;
-            position.y = window.innerHeight/2;
-            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            position.y = window.innerHeight / 2;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight / 2 + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
         } else if (event.clientX <= 20 && event.clientY <= 20) {//on the right side up
 
             position.x = 0;
             position.y = 0;
-            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight / 2 + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
-        } else if (event.clientX <= 20 && event.clientY >= window.innerHeight-20) {//on the right side down
+        } else if (event.clientX <= 20 && event.clientY >= window.innerHeight - 20) {//on the right side down
 
             position.x = 0;
-            position.y = window.innerHeight/2;
-            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            position.y = window.innerHeight / 2;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight / 2 + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
-        } else if (event.clientX <= 20 && event.clientY >= 20 && event.clientY <= window.innerHeight-20) {//on the right side
+        } else if (event.clientX <= 20 && event.clientY >= 20 && event.clientY <= window.innerHeight - 20) {//on the right side
 
             position.x = 0;
             position.y = 0
@@ -321,24 +323,21 @@ function addInteractions(ele) {
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth / 2 + 'px'
 
 
-        }
-        else if (event.clientX >= 20 && event.clientY >= window.innerHeight-20 && event.clientX <= window.innerWidth-20) {//bottom
+        } else if (event.clientX >= 20 && event.clientY >= window.innerHeight - 20 && event.clientX <= window.innerWidth - 20) {//bottom
 
             position.x = 0;
-            position.y = window.innerHeight/2;
-            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            position.y = window.innerHeight / 2;
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight / 2 + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth + 'px'
 
 
-        }
-        else if (event.clientX >= 20 && event.clientY <=20 && event.clientX <= window.innerWidth-20) {//top
+        } else if (event.clientX >= 20 && event.clientY <= 20 && event.clientX <= window.innerWidth - 20) {//top
 
             position.x = 0;
             position.y = 0;
-            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight/2 + 'px'
+            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight / 2 + 'px'
             event.target.closest('.jitsiadminiframe').style.width = window.innerWidth + 'px'
-        }
-        else if (event.clientX <= 0 && event.clientY >= 0 && event.clientY <= window.innerHeight-20) {//on the right side
+        } else if (event.clientX <= 0 && event.clientY >= 0 && event.clientY <= window.innerHeight - 20) {//on the right side
 
             position.x = 0;
             position.y = 0
@@ -460,10 +459,10 @@ function removeFromMinibar(e) {
 }
 
 function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
+    for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() *
             charactersLength));
     }
@@ -471,11 +470,16 @@ function makeid(length) {
 }
 
 function makeBlury(frame) {
-    frame.insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.5; background-color: inherit"></div>');
+    frame.querySelector('.iframeFrame').insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.5; background-color: inherit"></div>');
 
 }
+
 function removeBlury(frame) {
-    frame.querySelector('.blurryOverlay').remove();
+    if (frame.querySelector('.blurryOverlay')) {
+        frame.querySelector('.blurryOverlay').remove();
+    }
+
 
 }
+
 export {initStartIframe, createIframe}

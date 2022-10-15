@@ -13,13 +13,19 @@
   flex-direction: column;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
 
+  .iframeFrame {
+    flex-grow: 1;
+    background-color: inherit;
+  }
+
   .headerBar {
     width: 100%;
     display: flex;
-    flex-grow: 1;
+
     padding-bottom: 8px;
     justify-content: space-between;
     background-color: $background-color;
+
 
     .dragger {
       flex-grow: 1;
