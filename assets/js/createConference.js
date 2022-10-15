@@ -71,7 +71,7 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
         '</div>' +
         '</div>' +
-        '<iframe  ></iframe>' +
+        '<iframe  class="multiframeIframe"></iframe>' +
         '</div> ';
 
     var site = url;
@@ -257,13 +257,17 @@ function addInteractions(ele) {
     });
     moveable.on("dragStart", event => {
         dragactive = true;
+
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
         }
+        var ifr = event.target.closest('.jitsiadminiframe').querySelector('.multiframeIframe');
+        ifr.style.display='none';
         position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
         position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
         // event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
         event.target.closest('.jitsiadminiframe').style.removeProperty('border');
+
         event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
@@ -351,7 +355,11 @@ function addInteractions(ele) {
 
         event.target.closest('.jitsiadminiframe').style.transform =
             `translate(${position.x}px, ${position.y}px)`
+
     }).on("dragEnd", event => {
+
+        var ifr = event.target.closest('.jitsiadminiframe').querySelector('.multiframeIframe');
+        ifr.style.removeProperty('display');
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
         }
@@ -365,7 +373,6 @@ function addInteractions(ele) {
 
         }
 
-        // console.log("onDragEnd", target, isDrag);
     });
 
     let frame = {
@@ -375,6 +382,7 @@ function addInteractions(ele) {
     moveable.on("resizeStart", ({target, clientX, clientY}) => {
         dragactive = true;
         // console.log("onResizeStart", target);
+        target.closest('.jitsiadminiframe').querySelector('iframe').style.display='none';
     }).on("resize", event => {
 
             if (event.target.classList.contains('minified')) {
@@ -398,6 +406,7 @@ function addInteractions(ele) {
     ).on("resizeEnd", ({target, isDrag, clientX, clientY}) => {
         // console.log("onResizeEnd", target, isDrag);
         dragactive = false;
+        target.closest('.jitsiadminiframe').querySelector('iframe').style.removeProperty('display');
     });
 
 }
