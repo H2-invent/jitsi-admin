@@ -891,58 +891,7 @@ strong {
 
 
 
-.minified {
-  transform: none !important;
-  position: absolute !important;
-  height: unset !important;
-  flex-direction: column-reverse!important;
-  bottom: 0;
-  left: 0;
-  z-index: 500!important;
-  border-width: 8px!important;
-  border-style: solid;
-  border-color: inherit;
-  [class^="fa-"] {
-    display: none;
-  }
 
-  .actionIconLeft {
-    display: none!important;
-  }
-
-  .headerBar {
-    padding: 0 !important;
-    cursor: pointer !important;
-
-    .dragger {
-      cursor: pointer !important;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%!important;
-      white-space: nowrap!important;
-    }
-  }
-
-  &:hover > iframe {
-    height: 33vh!important;
-    -webkit-transition-delay: 0.25s;
-    -moz-transition-delay: 0.25s;
-    -ms-transition-delay: 0.25s;
-    -o-transition-delay: 0.25s;
-    transition-delay: 0.25s;
-
-  }
-
-  iframe {
-    height: 0 !important;
-    //-webkit-transition-delay: 0s;
-    //-moz-transition-delay: 0s;
-    //-ms-transition-delay: 0s;
-    //-o-transition-delay: 0s;
-    //transition-delay: 0s;
-    transition: height 0.2s ease-in;
-  }
-}
 .text-ellipsis{
   overflow: hidden;
   text-overflow: ellipsis;

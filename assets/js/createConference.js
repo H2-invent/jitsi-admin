@@ -161,7 +161,7 @@ function maximizeWindow(e) {
         maxiIcon.dataset.x = e.currentTarget.closest('.jitsiadminiframe').dataset.x;
         maxiIcon.dataset.y = e.currentTarget.closest('.jitsiadminiframe').dataset.y;
         frame.style.width = "100%";
-        frame.style.height = "100vh";
+        frame.style.height = "100%";
         frame.style.transform = 'translate(0px, 0px)'
         frame.style.borderWidth = '0px'
         frame.querySelector('.headerBar').style.padding = '8px'
