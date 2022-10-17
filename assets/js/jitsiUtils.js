@@ -13,7 +13,7 @@ import('popper.js');
 global.$ = global.jQuery = $;
 
 import ('jquery-confirm');
-var api;
+export let api;
 var participants;
 
 var title = "Bestätigung";
@@ -67,6 +67,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
          api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
+            api = null;
         });
 
         $('#closeSecure').removeClass('d-none').click(function (e) {

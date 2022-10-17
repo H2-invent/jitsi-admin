@@ -22,7 +22,12 @@ import {checkDeviceinList} from './jitsiUtils'
 
 import ('jquery-confirm');
 
-initNotofication();
+
+function closeForAll() {
+    api = null;
+    initStarSend();
+}
+initNotofication(closeForAll);
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 function checkCloseParticipant() {
@@ -36,7 +41,6 @@ function checkCloseParticipant() {
         close();
     }
 }
-
 initModeratorIframe(checkCloseParticipant);
 let api;
 var dataSucess;
@@ -155,6 +159,7 @@ function initJitsiMeet(data) {
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
+            api = null;
         });
 
         if (setTileview === 1) {
@@ -179,6 +184,9 @@ function initJitsiMeet(data) {
 
 
         api.addListener('participantKickedOut', function (e) {
+            var id = api.getParticipantsInfo();
+
+            console.log(id);
             console.log(e);
         });
 

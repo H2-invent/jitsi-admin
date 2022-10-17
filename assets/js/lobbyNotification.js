@@ -12,12 +12,14 @@ import {refreshDashboard} from './refreshDashboard';
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
 import {close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
-
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 
-function initNotofication() {
+var closeCallbackFkt = null;
+
+function initNotofication(closeFkt = null) {
     Push.Permission.request();
+    closeCallbackFkt = closeFkt;
 }
 
 function masterNotify(data) {
@@ -40,7 +42,11 @@ function masterNotify(data) {
     } else if (data.type === 'refreshDashboard') {
         refreshDashboard();
     } else if (data.type === 'endMeeting') {
-        endMeeting(data)
+        if (!closeCallbackFkt){
+            endMeeting(data)
+        }else {
+            closeCallbackFkt();
+        }
     } else if (data.type === 'reload') {
         setTimeout(function () {
             location.reload();

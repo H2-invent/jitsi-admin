@@ -133,7 +133,10 @@ function createIframe(url, title, closeIntelligent = true) {
 
 function closeFrame(e, closeIntelligent, random) {
 
-    if (!e.currentTarget.hasAttribute('data-close-blocker') || e.currentTarget.closeBlocker === '0') {
+    var blocker = e.currentTarget.dataset.closeBlocker ;
+    let current = e.currentTarget;
+    current.dataset.closeBlocker = '1';
+    if (typeof blocker === 'undefined' || blocker === '0') {
         if (closeIntelligent) {
             var id = e.currentTarget.dataset.id;
             sendCommand(id, {type: 'pleaseClose'})
@@ -142,10 +145,8 @@ function closeFrame(e, closeIntelligent, random) {
         }
     }
 
-    let current = e.currentTarget;
-    current.dataset.closeBlocker = '1';
     setTimeout(function () {
-        current.dataset.closeBlocker = '0';
+        current.removeAttribute('data-close-blocker');
     }, 500)
 }
 
