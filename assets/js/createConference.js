@@ -133,21 +133,21 @@ function createIframe(url, title, closeIntelligent = true) {
 
 function closeFrame(e, closeIntelligent, random) {
 
-    var blocker = e.currentTarget.dataset.closeBlocker ;
-    let current = e.currentTarget;
-    current.dataset.closeBlocker = '1';
-    if (typeof blocker === 'undefined' || blocker === '0') {
+    // var blocker = e.currentTarget.dataset.closeBlocker ;
+    // let current = e.currentTarget;
+    // current.dataset.closeBlocker = '1';
+    // if (typeof blocker === 'undefined' || blocker === '0') {
         if (closeIntelligent) {
             var id = e.currentTarget.dataset.id;
             sendCommand(id, {type: 'pleaseClose'})
         } else {
             closeIframe(e.currentTarget.closest('.jitsiadminiframe').id);
         }
-    }
+    // }
 
-    setTimeout(function () {
-        current.removeAttribute('data-close-blocker');
-    }, 500)
+    // setTimeout(function () {
+    //     current.removeAttribute('data-close-blocker');
+    // }, 500)
 }
 
 function maximizeWindow(e) {
@@ -240,9 +240,26 @@ function initInteractionFrame(ele) {
     var t = ele.target.closest('.jitsiadminiframe')
     if (t && t.style.width !== '100%' && !t.classList.contains('minified') && dragactive === false) {
         addInteractions(ele.target.closest('.jitsiadminiframe'));
+        if (ele.target.classList.contains('dragger')){
+            switchDragOn();
+        }else {
+            switchDragOff();
+        }
     }
 }
 
+function switchDragOn() {
+    if (moveable) {
+        moveable.draggable = true;
+        return null;
+    }
+}
+function switchDragOff() {
+    if (moveable) {
+        moveable.draggable = false;
+        return null;
+    }
+}
 function addInteractions(ele) {
 
     const position = {x: counter, y: counter}
@@ -253,14 +270,15 @@ function addInteractions(ele) {
 
     moveable = new Moveable(document.body, {
         target: ele,
-        draggable: true,
+        draggable: false,
         resizable: true,
         edge: true,
         origin: false,
     });
+
     moveable.on("dragStart", event => {
         dragactive = true;
-
+        event.inputEvent.stopPropagation();
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
         }
@@ -365,12 +383,12 @@ function addInteractions(ele) {
         event.target.closest('.jitsiadminiframe').dataset.x = position.x;
         event.target.closest('.jitsiadminiframe').dataset.y = position.y;
         dragactive = false;
-
-        if (!event.isDrag && event.inputEvent.srcElement.click instanceof Function) {
-            event.inputEvent.srcElement.click();
-
-
+        if (!event.isDrag) {
+            if (!event.isDrag && event.inputEvent.target.click instanceof Function) {
+                event.inputEvent.target.click()
+            }
         }
+
 
     });
 

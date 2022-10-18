@@ -31,6 +31,9 @@
     .dragger {
       flex-grow: 1;
       cursor: move;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .actionIconLeft {

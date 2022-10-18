@@ -57,3 +57,4 @@ docker.conf
 /documentation_jitsi_admin/node_modules/
 
 /tests_output/*
+/CAPrivate.crt
