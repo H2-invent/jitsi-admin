@@ -1,11 +1,11 @@
-Sie wurden zur Teilnahme an einem Meeting eingeladen.
-Am Meeting teilnehmen:
+{{ 'Sie wurden zur Teilnahme an einem Meeting eingeladen.'|trans }}
+{{ 'Am Meeting teilnehmen'|trans }}:
 {{ httpsAbolutUrl(path('app_public_conference',{'confId':room.name}),room is defined?room:null) }}
 
-Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie:
+
 {% if getJigasiNumber(room) %}
    {{ 'email.sip.text'|trans }}
-
+{{'Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie'|trans}}:
 
 
   {{ 'email.sip.number'|trans }}:
@@ -24,4 +24,4 @@ Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie:
 {% endif %}
 
 
-Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden: {{ httpsAbolutUrl(path('app_public_conference',{'confId':room.uid}),room is defined?room:null) }}#config.startSilent=true
+{{'Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden'|trans}}: {{ httpsAbolutUrl(path('app_public_conference',{'confId':room.uid}),room is defined?room:null) }}#config.startSilent=true

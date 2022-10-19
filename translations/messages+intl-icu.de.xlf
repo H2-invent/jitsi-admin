@@ -1731,16 +1731,32 @@
         <target>Letzte Bewertungen</target>
       </trans-unit>
       <trans-unit id="AHd_0xd" resname="public.invite.more">
-        <source>Mehr Leute einladen</source>
+        <source>public.invite.more</source>
         <target>Mehr Leute einladen</target>
       </trans-unit>
       <trans-unit id="9SW2XfU" resname="public.invite.text">
-        <source>Teilen Sie den Konferenzlink, um andere einzuladen</source>
+        <source>public.invite.text</source>
         <target>Teilen Sie den Konferenzlink, um andere einzuladen</target>
       </trans-unit>
       <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
-        <source>Einladung zur Versammlung teilen</source>
+        <source>public.invite.moreApps</source>
         <target>Einladung zur Versammlung teilen</target>
+      </trans-unit>
+      <trans-unit id="8khGYau" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
+        <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
+        <target>Sie wurden zur Teilnahme an einem Meeting eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="fwbS4t6" resname="Am Meeting teilnehmen">
+        <source>Am Meeting teilnehmen</source>
+        <target>Am Meeting teilnehmen</target>
+      </trans-unit>
+      <trans-unit id="QywJJfy" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
+        <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
+        <target>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</target>
+      </trans-unit>
+      <trans-unit id="KPYmZun" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
+        <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
+        <target>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</target>
       </trans-unit>
     </body>
   </file>
