@@ -1764,16 +1764,56 @@
         <target>__</target>
       </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
-        <source>Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</source>
+        <source>input.help.timeaway</source>
         <target state="translated">Tiempo para que el estado "en línea" cambie automáticamente a "ausente".</target>
       </trans-unit>
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
-        <source>Zeit in Minuten</source>
+        <source>input.label.timeaway</source>
         <target state="translated">Tiempo en minutos</target>
       </trans-unit>
       <trans-unit id="l2aU5E." resname="stars.lastTen">
-        <source>Letzte Bewertungen</source>
+        <source>stars.lastTen</source>
         <target state="needs-translation">Letzte Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="HZQLWbn" resname="Sie wurden von {name} eingeladen">
+        <source>Sie wurden von {name} eingeladen</source>
+        <target state="needs-translation">Sie wurden von {name} eingeladen</target>
+      </trans-unit>
+      <trans-unit id="l7wQdDI" resname="callout.message.timeout">
+        <source>Der/Die Angerufene hat nicht abgenommen</source>
+        <target state="needs-translation">Der/Die Angerufene hat nicht abgenommen</target>
+      </trans-unit>
+      <trans-unit id="5NiLGgo" resname="callout.message.occupied">
+        <source>Der Anschluss ist besetzt.</source>
+        <target state="needs-translation">Der Anschluss ist besetzt.</target>
+      </trans-unit>
+      <trans-unit id="rJeuurV" resname="callout.message.later">
+        <source>Der/Die Angerufene wird später der Konferenz beitreten.</source>
+        <target state="needs-translation">Der/Die Angerufene wird später der Konferenz beitreten.</target>
+      </trans-unit>
+      <trans-unit id="ACda2_m" resname="callout.message.refuse">
+        <source>Der/Die Angerufene hat abgelehnt.</source>
+        <target state="needs-translation">Der/Die Angerufene hat abgelehnt.</target>
+      </trans-unit>
+      <trans-unit id="YSIci3n" resname="callout.message.error">
+        <source>Fehler. Melden Sie sich bei Ihrem Support.</source>
+        <target state="needs-translation">Fehler. Melden Sie sich bei Ihrem Support.</target>
+      </trans-unit>
+      <trans-unit id="8lD0JjZ" resname="callout.status.occupied">
+        <source>Besetzt</source>
+        <target state="needs-translation">Besetzt</target>
+      </trans-unit>
+      <trans-unit id="22udBvG" resname="callout.status.later">
+        <source>Später</source>
+        <target state="needs-translation">Später</target>
+      </trans-unit>
+      <trans-unit id="IRAN.Xg" resname="callout.status.timeout">
+        <source>Nicht abgenommen</source>
+        <target state="needs-translation">Nicht abgenommen</target>
+      </trans-unit>
+      <trans-unit id="Vu7cvDR" resname="callout.info.noMoreRetries">
+        <source>Keine weiteren Anrufversuche möglich</source>
+        <target state="needs-translation">Keine weiteren Anrufversuche möglich</target>
       </trans-unit>
     </body>
   </file>
