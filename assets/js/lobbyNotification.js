@@ -12,6 +12,7 @@ import {refreshDashboard} from './refreshDashboard';
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
 import {close, inIframe} from './moderatorIframe'
 import {initStarSend} from "./endModal";
+
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 
@@ -42,9 +43,9 @@ function masterNotify(data) {
     } else if (data.type === 'refreshDashboard') {
         refreshDashboard();
     } else if (data.type === 'endMeeting') {
-        if (!closeCallbackFkt){
+        if (!closeCallbackFkt) {
             endMeeting(data)
-        }else {
+        } else {
             closeCallbackFkt();
         }
     } else if (data.type === 'reload') {
@@ -54,11 +55,25 @@ function masterNotify(data) {
         }, data.timeout)
     } else if (data.type === 'call') {
         callAddhock(data);
+    } else if (data.type === 'message') {
+        addmessage(data);
     } else {
-        alert('Error, Please reload the page')
+        console.log()('Error, Please reload the page')
     }
 }
 
+function addmessage(data) {
+    var target = document.querySelector('.messageContainer');
+    if (target) {
+        var html = '<div class="messageWrapper">' + data.message + '</div>'
+        target.insertAdjacentHTML('afterbegin', html);
+        for (var d of document.querySelectorAll('.messageWrapper')){
+            d.addEventListener('click',function (e) {
+                e.currentTarget.closest('.messageWrapper').remove();
+            })
+        }
+    }
+}
 
 function notifymoderator(data) {
     showPush(data);

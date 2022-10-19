@@ -54,7 +54,17 @@ class DirectSendService
 
 
     }
+    public function sendMessage($topic, $message)
+    {
+        $data = array(
+            'type' => 'message',
+            'message' => $message
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
 
+
+    }
     public function sendReloadPage($topic, $timeout)
     {
         $data = array(

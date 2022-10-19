@@ -36,7 +36,9 @@
                 {% endif %}
             </div>
             <div class="nameHolder">
-                <div class="participantsName">{{ wU.showName }}</div>
+                <div class="participantsName">{{ wU.showName }}
+
+                </div>
                 {% if wU.callerSession is not null %}
                     <div class="participantsName callerId"><i
                                 class="fa fa-phone text-success"></i> {{ wU.callerSession.callerId }}</div>
@@ -53,7 +55,7 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class="buttonHolder buttons mt-lg-2 d-flex d-none d-md-block">
+            <div class="buttonHolder buttons mt-lg-2 d-none d-md-flex align-items-center">
                 <a class="btn btn-lg btn-floating senddirect btn-success"
                    href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-check"></i>
@@ -63,6 +65,52 @@
                    href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-times"></i>
                 </a>
+                <div class="dropdown">
+                    <a class="btn btn-outline-success btn-floating" data-mdb-ripple-color="dark" id="dropdownMenu2"
+                       data-mdb-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-solid fa-paper-plane"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="min-width: 250px;" aria-labelledby="dropdownMenu2">
+                        {% for m in getPredefinedMessages() %}
+                            <li>
+                                <button
+                                        data-url="{{ path('lobby_send_message_to_waitinguser') }}"
+                                        data-id="{{ m.id }}"
+                                        class="dropdown-item sendMessageToWaitingUserPredefined"
+                                        type="button"
+                                        data-uid="{{ wU.uid }}"
+                                >{{ m.text }}</button>
+                            </li>
+                        {% endfor %}
+
+                        <li>
+                            <div class="input-group  w-100">
+                                <div class="form-outline bg-white flex-grow-1">
+                                    <input href="#"
+                                           type="text"
+                                           autocomplete=off
+                                           id="sendMessageToWaitingUser{{ wU.id }}"
+                                           class="form-control sendMessageToWaitingUserInput"
+                                           placeholder="{{ 'lobby.message.placeholder'|trans }}"
+                                    />
+                                    <label class="form-label"
+                                           for="sendMessageToWaitingUser{{ wU.id }}">{{ 'lobby.message.label'|trans }}</label>
+
+                                </div>
+                                <button class="btn btn-primary sendMessageToWaitingUserBtn"
+                                        type="button"
+                                        data-mdb-ripple-color="dark"
+                                        disabled="disabled"
+                                        href="#"
+                                        data-url="{{ path('lobby_send_message_to_waitinguser') }}"
+                                        data-uid="{{ wU.uid }}"
+                                >
+                                    <i class="fas fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="buttonHolder slider d-md-none">
                 <i class="fa-solid fa-left-right"></i>

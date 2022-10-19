@@ -118,4 +118,10 @@ class ToParticipantWebsocketService
         $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger');
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
+    public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, $message)
+    {
+        $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
+        $this->directSend->sendMessage($topic, $message);
+    }
+
 }

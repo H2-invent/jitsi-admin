@@ -387,7 +387,8 @@ body {
   &:not(.in-smartPhone) {
     .buttonHolder {
       &.buttons {
-        display: block !important;
+        display: flex !important;
+        align-items: center;
       }
 
       &.slider {
@@ -485,6 +486,28 @@ $rotateNeg: -20deg;
   .ringingsymbol {
     border-radius: 4px;
     background-color: $background-color;
+  }
+}
+.messageContainer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  padding: inherit;
+  .messageWrapper{
+    &:before{
+      font-family: "Font Awesome 5 Free";
+      margin-right: 0.5em;
+      font-weight: 900;
+      float: left;
+      content: "\f1d8";
+    }
+    background-color: $info;
+    padding: 1em;
+    border-bottom: 1px black solid;
+    color: white;
+    cursor: pointer;
   }
 }
 

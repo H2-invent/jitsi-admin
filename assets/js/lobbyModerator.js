@@ -20,6 +20,7 @@ import {initGenerell} from './init';
 import {leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
 import {initSearchCallOut} from "./inviteCalloutUser";
+import {initSendMessage} from "./sendMessageToWaitingUser";
 
 var jitsiApi;
 
@@ -34,6 +35,7 @@ initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 initSearchCallOut();
+initSendMessage();
 
 function checkCloseModerator() {
     echoOff();//echo ausschlaten wenn ncoh an
