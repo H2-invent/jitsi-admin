@@ -1727,8 +1727,20 @@
         <target>Raumnummer</target>
       </trans-unit>
       <trans-unit id="l2aU5E." resname="stars.lastTen">
-        <source>Letzte Bewertungen</source>
+        <source>stars.lastTen</source>
         <target>Letzte Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="AHd_0xd" resname="public.invite.more">
+        <source>Mehr Leute einladen</source>
+        <target>Mehr Leute einladen</target>
+      </trans-unit>
+      <trans-unit id="9SW2XfU" resname="public.invite.text">
+        <source>Teilen Sie den Konferenzlink, um andere einzuladen</source>
+        <target>Teilen Sie den Konferenzlink, um andere einzuladen</target>
+      </trans-unit>
+      <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
+        <source>Einladung zur Versammlung teilen</source>
+        <target>Einladung zur Versammlung teilen</target>
       </trans-unit>
     </body>
   </file>
