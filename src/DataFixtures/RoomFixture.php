@@ -7,6 +7,7 @@ use App\Entity\CallerRoom;
 use App\Entity\LdapUserProperties;
 use App\Entity\License;
 use App\Entity\LobbyWaitungUser;
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
@@ -80,7 +81,6 @@ class RoomFixture extends Fixture
         $ldapUserProperty->setLdapNumber('ldap_3');
         $ldapUserProperty->setRdn('');
         $manager->persist($ldapUserProperty);
-
 
 
         $user3 = new \App\Entity\User();
@@ -654,6 +654,25 @@ class RoomFixture extends Fixture
         }
         $manager->flush();
 
+        $predefined1 = new PredefinedLobbyMessages();
+        $predefined1->setActive(true)
+            ->setText('Bitte warten!')
+            ->setCreatedAt(new \DateTime())
+            ->setPriority(0);
+        $manager->persist($predefined1);
+        $predefined2 = new PredefinedLobbyMessages();
+        $predefined2->setActive(false)
+            ->setText('Bitte warten/Disabled!')
+            ->setCreatedAt(new \DateTime())
+            ->setPriority(1);
+        $manager->persist($predefined2);
+        $predefined3 = new PredefinedLobbyMessages();
+        $predefined3->setActive(true)
+            ->setText('Wir haben andere Themen!')
+            ->setCreatedAt(new \DateTime())
+            ->setPriority(2);
 
+        $manager->persist($predefined3);
+        $manager->flush();
     }
 }

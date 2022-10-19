@@ -40,7 +40,7 @@ parameters:
     LAF_DEV_URL: '%env(LAF_DEV_URL)%'
     LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS: '%env(LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS)%'
     LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE: '%env(LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE)%'
-
+    LAF_LOBBY_ALLOW_CUSTOM_MESSAGES: '%env(LAF_LOBBY_ALLOW_CUSTOM_MESSAGES)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
