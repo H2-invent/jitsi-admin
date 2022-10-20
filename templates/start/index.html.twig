@@ -50,11 +50,10 @@
         {% set logo_large = theme.logo %}
     {% endif %}
 {% endif %}
-<div class="conference-sidebar">
-    {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
-    {% block extensions %}
-    {% endblock %}
-</div>
+{% block sidebar %}
+{#    {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}#}
+{% endblock %}
+
 <div id="frame">
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
