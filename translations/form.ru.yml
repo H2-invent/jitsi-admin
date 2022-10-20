@@ -45,8 +45,8 @@ option:
   daily: Ежедневно
   montly: Раз в месяц
   yearly: Ежегодно
-  montlyRelative: Monatlich flexibel festlegen
-  yearlyRelative: Jährlich flexibel festlegen
+  montlyRelative: Установить ежемесячную настройку
+  yearlyRelative: Установить ежемесячную настройку
   first: Первый
   second: 2-ой
   third: Третий
@@ -76,8 +76,8 @@ help:
   featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" должен быть включен на сервере jitsi meet. В противном случае JWT не будет правильно распознан с сервера
   teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки.
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
-  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
+  secondEmail: Все электронные письма должны быть отправлены на эти адреса электронной почты в дополнение к моему стандартному адресу электронной почты (через запятую).
+  corsHeader: Если установлен заголовок CORS или frame-ancestor, который не указывает на этот URL-адрес, то невозможно использовать Jitsi-iFrame API. Это приводит к потере некоторых функций.
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
   beitretenBrowser: Открыть в браузере
@@ -127,13 +127,13 @@ label:
   jwtModeratorPosition: Положение модератора в токене JWT
   timezone: Часовой пояс
   serverName: Название сервера
-  lobby: Lobby aktivieren
+  lobby: Активировать комнату
   secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  profilImage: Изображение профиля (отображается на собрании Jitsi-Meet Meeting)
   corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
+  tag: Категория
 choice:
-  tls: STARTTLS/TLS
+  tls: STARTTLS / TLS
   ssl: SSL
   none: Отсутствует
 placeholder:
