@@ -1,14 +1,14 @@
 ---
-label.konferenzId: Konferenz-ID
+label.konferenzId: ID Conferinţă
 label.email: E-Mail-Adresse
-label.name: Ihr Name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
-label.teilnehmerSpeichern: E-Mail zur Einladung versenden
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
+label.name: Numele tău
+label.teilnehmerEmailhinzufuegen: Adresele de email ale Participanților
+label.teilnehmerSpeichern: Trimite invitația via email
+label.emailModerator: Adresa de email a Organizatorului
 help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
-label.organisatorhinzufuegen: Organisator hinzufügen
-label.serverKonferenz: Jitsi Meet Server
-label.konferenzName: Name der Konferenz
+label.organisatorhinzufuegen: Adaugă organizator
+label.serverKonferenz: Serverul Jitsi Meet
+label.konferenzName: Denumirea conferinței
 label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
 label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
