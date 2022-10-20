@@ -51,7 +51,9 @@ class AdminController extends JitsiAdminController
         foreach ($lastStars as $data){
             $average += $data->getStar();
         }
-        $average = $average/sizeof($lastStars);
+        if (sizeof($lastStars) > 0){
+            $average = $average/sizeof($lastStars);
+        }
         return $this->render('admin/modalChart.html.twig', [
             'server' => $server,
             'countPart' => $countPart,
