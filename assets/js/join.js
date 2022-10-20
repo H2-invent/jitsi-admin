@@ -23,7 +23,7 @@ $(document).ready(function () {
             }, 3000);
         }, 500);
     checkRoom();
-    initSchedulePublic()
+    initSchedulePublic();
 });
 $(window).on('load', function () {
     $('[data-toggle="popover"]').popover({html: true});

@@ -2,7 +2,8 @@ import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
 import {close, inIframe, initModeratorIframe} from "./moderatorIframe";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
-
+import * as mdb from 'mdb-ui-kit'; // lib
+import ClipboardJS from 'clipboard'
 var frameId;
 var api = new JitsiMeetExternalAPI(domain, options);
 
@@ -83,6 +84,7 @@ function checkClose() {
 }
 
 docReady(function () {
+    var clipboard = new ClipboardJS('.copyLink');
     initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
 });

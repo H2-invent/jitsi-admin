@@ -32,22 +32,24 @@ strong {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
   img {
     height: 80px;
     width: auto;
   }
 }
 
-.jconfirm-buttons{
-  .btn{
-    border-radius: 5000px!important;
+.jconfirm-buttons {
+  .btn {
+    border-radius: 5000px !important;
   }
 }
 
-.window{
-  .main{
+.window {
+  .main {
     position: relative;
-    .imageBackground{
+
+    .imageBackground {
       position: absolute;
       background-repeat: no-repeat;
       background-size: cover;
@@ -59,13 +61,16 @@ strong {
       z-index: -1;
     }
   }
-  .navigation{
+
+  .navigation {
     grid-column: unset;
   }
-  .footer{
+
+  .footer {
     grid-column: unset;
   }
-  grid-template-columns: auto ;
+
+  grid-template-columns: auto;
   background-color: unset;
 }
 
@@ -81,28 +86,83 @@ strong {
     background-color: white;
   }
 }
-#logo_image{
-  &.stick{
+
+#logo_image {
+  &.stick {
     position: absolute;
     top: 1.5em;
     left: 1.5em;
     z-index: 2;
   }
 }
-.transparent{
-  transform:translateX(325px) ;
+
+.transparent {
+  transform: translateX(325px);
   @media (max-width: 850px) {
     opacity: 0;
     display: none;
   }
 }
-.conference-sidebar{
+
+//.invitePeopleFrame {
+//  z-index: 50;
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  max-width: 100%;
+//  display: flex;
+//  height: 100vh;
+//  flex-direction: column;
+//  justify-content: center;
+//  //transform: translateX(-100%);
+
+.inviteNewParticipants {
+  display: flex;
+  position: relative;
+
+  &:hover, :active {
+    > .content {
+      position: absolute;
+      transform: translateX(0%);
+    }
+  }
+
+  .content {
+    position: absolute;
+    top: -200%;
+    background-color: $black_background;
+    color: $black_font-color;
+    padding: 1.5em;
+    transform: translateX(-100%);
+    transition: ease-in transform 0.5s;
+
+    p {
+      color: $black_font-color;
+    }
+
+    a {
+      cursor: pointer;
+    }
+  }
+
+  .toggle {
+    background-color: white;
+    color: black;
+    padding: 1rem;
+  }
+}
+
+//}
+
+.conference-sidebar {
   position: absolute;
   top: 50%;
   left: 0;
   z-index: 10;
-  .conference-icon{
+
+  .conference-icon {
     padding: 1rem;
     cursor: pointer;
+    margin-bottom: 8px;
   }
 }
