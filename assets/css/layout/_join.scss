@@ -104,60 +104,65 @@ strong {
   }
 }
 
-.invitePeopleFrame {
-  z-index: 50;
-  position: absolute;
-  top: 0;
-  left: 0;
-  max-width: 100%;
+//.invitePeopleFrame {
+//  z-index: 50;
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  max-width: 100%;
+//  display: flex;
+//  height: 100vh;
+//  flex-direction: column;
+//  justify-content: center;
+//  //transform: translateX(-100%);
+
+.inviteNewParticipants {
   display: flex;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  //transform: translateX(-100%);
+  position: relative;
 
-  .inviteNewParticipants {
-    display: flex;
-    position: relative;
-
-    &:hover, :active {
-      > .content {
-        position: absolute;
-        transform: translateX(0%);
-      }
-    }
-
-    .content {
+  &:hover, :active {
+    > .content {
       position: absolute;
-      top: -200%;
-      background-color: $black_background;
-      color: $black_font-color;
-      padding: 1.5em;
-      transform: translateX(-100%);
-      transition: ease-in transform 0.5s;
-      p{
-        color: $black_font-color;
-      }
-      a{
-        cursor: pointer;
-      }
-    }
-
-    .toggle {
-      background-color: white;
-      color: black;
-      padding: 1rem;
+      transform: translateX(0%);
     }
   }
 
+  .content {
+    position: absolute;
+    top: -200%;
+    background-color: $black_background;
+    color: $black_font-color;
+    padding: 1.5em;
+    transform: translateX(-100%);
+    transition: ease-in transform 0.5s;
+
+    p {
+      color: $black_font-color;
+    }
+
+    a {
+      cursor: pointer;
+    }
+  }
+
+  .toggle {
+    background-color: white;
+    color: black;
+    padding: 1rem;
+  }
 }
-.conference-sidebar{
+
+//}
+
+.conference-sidebar {
   position: absolute;
   top: 50%;
   left: 0;
   z-index: 10;
-  .conference-icon{
+
+  .conference-icon {
     padding: 1rem;
     cursor: pointer;
+    margin-bottom: 8px;
   }
 }

@@ -50,8 +50,11 @@
         {% set logo_large = theme.logo %}
     {% endif %}
 {% endif %}
-{% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
-
+<div class="conference-sidebar">
+    {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
+    {% block extensions %}
+    {% endblock %}
+</div>
 <div id="frame">
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
@@ -65,9 +68,7 @@
             <img class="d-block d-sm-none" src="{{ logo_large }}"
                  alt="Logo"
                  style="height: 50px; width: auto">
-            {% block extensions %}
 
-            {% endblock %}
         </a>
     </div>
 </div>

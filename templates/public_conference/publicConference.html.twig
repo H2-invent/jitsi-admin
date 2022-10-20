@@ -1,9 +1,7 @@
 {% extends 'start/index.html.twig' %}
 {% block extensions %}
-    <div class="invitePeopleFrame">
-
         <div class="inviteNewParticipants">
-            <div class="toggle">
+            <div class="toggle conference-icon">
                 <i class="fa fa-user-plus"></i>
             </div>
             <div class="content text-center">
@@ -67,25 +65,9 @@
             </div>
 
         </div>
-    </div>
 
-    {% if room.tag is not null %}
-        <p class="floating-tag" id="tagContent"
-           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
-    {% endif %}
-    <div class="w-100" id="jitsiWindow">
-        <a href="#" id="logo_image" class="stick">
-            <img class="d-none d-sm-block" src="{{ logo_small }}"
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-            <img class="d-block d-sm-none" src="{{ logo_large }}"
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-
-        </a>
-    </div>
 {% endblock %}
 
 {% block webpack %}
-    {{ encore_entry_script_tags('public') }}
+    {{ encore_entry_script_tags('onlyConference') }}
 {% endblock %}
