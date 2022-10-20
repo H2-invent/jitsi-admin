@@ -97,7 +97,7 @@ label:
   serverLicenseKey: Enter Jitsi-Admin license key
   apiKey: API-Key for this server
   agenda: Short agenda for this meeting (markdown)
-  staticBackgroundColor:
+  staticBackgroundColor: Show static color instead of pictures on joinpage.
   schowStaticBackgroundColor: Show static color instead of pictures on joinpage.
   featureEnalbeByJwt: '"Enable Feature by JWT" plugin is active on the server.'
   dissallowScreenshareGlobal: Only moderators are allowed to share screen.
@@ -138,6 +138,7 @@ label:
   jigasiApiUrl: Jigasi ConferenceMapper-URL
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi prosody domain
+  go: Los gehts!
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

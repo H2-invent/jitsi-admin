@@ -44,8 +44,8 @@ option:
   daily: Ежедневно
   montly: Раз в месяц
   yearly: Ежегодно
-  montlyRelative: Monatlich flexibel festlegen
-  yearlyRelative: Jährlich flexibel festlegen
+  montlyRelative: Установить ежемесячную настройку
+  yearlyRelative: Установить ежемесячную настройку
   first: Первый
   second: 2-ой
   third: Третий
@@ -75,7 +75,7 @@ help:
   featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" должен быть включен на сервере jitsi meet. В противном случае JWT не будет правильно распознан с сервера
   teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки.
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  secondEmail: Все электронные письма должны быть отправлены на эти адреса электронной почты в дополнение к моему стандартному адресу электронной почты (через запятую).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
   jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
@@ -97,7 +97,7 @@ label:
   serverLicenseKey: Введите лицензионный ключ Jitsi-Администратора
   apiKey: API - Команды для этого сервера
   agenda: Краткая программа мероприятия
-  staticBackgroundColor:
+  staticBackgroundColor: Показывать статический цвет вместо изображений на странице соединения
   schowStaticBackgroundColor: Показывать статический цвет вместо изображений на странице соединения
   featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" активен на сервере
   dissallowScreenshareGlobal: Только модераторам разрешается делиться экраном
@@ -129,17 +129,18 @@ label:
   jwtModeratorPosition: Положение модератора в токене JWT
   timezone: Часовой пояс
   serverName: Название сервера
-  lobby: Lobby aktivieren
+  lobby: Активировать комнату
   secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
+  profilImage: Изображение профиля (отображается на собрании Jitsi-Meet Meeting)
   corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
+  tag: Категория
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
   jigasiApiUrl: Jigasi ConferenceMapper-URL
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
+  go: Los gehts!
 choice:
-  tls: STARTTLS/TLS
+  tls: STARTTLS / TLS
   ssl: SSL
   none: Отсутствует
 placeholder:
