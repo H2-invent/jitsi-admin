@@ -65,13 +65,12 @@ class PublicConferenceController extends JitsiAdminController
     #[Route('/m/{confId}', name: 'app_public_conference')]
     public function startMeeting($confId): Response
     {
-
         $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
-        return $this->render('start/index.html.twig', [
+        return $this->render('public_conference/publicConference.html.twig', [
             'room' => $room,
             'user' => null,
-            'name' => 'Jitsi-Fellower',
+            'name' => 'Meetling',
             'moderator' => !$firstUser
         ]);
     }

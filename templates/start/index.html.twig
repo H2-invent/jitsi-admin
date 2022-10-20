@@ -65,7 +65,9 @@
             <img class="d-block d-sm-none" src="{{ logo_large }}"
                  alt="Logo"
                  style="height: 50px; width: auto">
+            {% block extensions %}
 
+            {% endblock %}
         </a>
     </div>
 </div>
@@ -103,9 +105,9 @@
 
             parentNode: document.querySelector('#jitsiWindow'),
             {% if room.server.appId is not null %}
-        {% if moderator is not defined %}
-        {% set moderator = false %}
-        {% endif %}
+            {% if moderator is not defined %}
+            {% set moderator = false %}
+            {% endif %}
             jwt: '{{ jwtFromRoom(user,room,name,moderator) }}',
             {% endif %}
             userInfo: {
@@ -121,9 +123,12 @@
         var websocketTopics = "{{ getJwtforWebsocket(['whiteboard/'~room.uidReal],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
     </script>
-    {{ encore_entry_script_tags('onlyConference') }}
+
 
 {% endif %}
+{% block webpack %}
+    {{ encore_entry_script_tags('onlyConference') }}
+{% endblock %}
 
 <div class="modal fade" id="loadContentModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
      aria-labelledby="loadContentModal"

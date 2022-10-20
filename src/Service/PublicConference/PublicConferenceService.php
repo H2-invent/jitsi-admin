@@ -4,13 +4,15 @@ namespace App\Service\PublicConference;
 
 use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Service\caller\CallerPinService;
+use App\Service\caller\CallerPrepareService;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PublicConferenceService
 {
-    public function __construct(private EntityManagerInterface $entityManager, private RequestStack $requestStack)
+    public function __construct(private EntityManagerInterface $entityManager, private RequestStack $requestStack, private CallerPrepareService $callerPrepareService)
     {
     }
 
@@ -26,14 +28,14 @@ class PublicConferenceService
                 ->setName($roomname)
                 ->setDuration(0)
                 ->setSequence(0)
+                ->setPersistantRoom(true)
                 ->setUidReal(md5(uniqid()));
             if ($this->requestStack && $this->requestStack->getCurrentRequest()) {
                 $room->setHostUrl($this->requestStack->getCurrentRequest()->getSchemeAndHttpHost());
             }
-
-
             $this->entityManager->persist($room);
             $this->entityManager->flush();
+            $this->callerPrepareService->addCallerIdToRoom($room);
         }
         return $room;
     }
