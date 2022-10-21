@@ -69,7 +69,6 @@ services:
   etherpad:
     #build: .
     image: etherpad/etherpad:latest
-    container_name: etherpad
     restart: unless-stopped
     environment:
       AUTH_SECRET_KEY: MY_SECRET
