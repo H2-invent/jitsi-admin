@@ -42,6 +42,21 @@
 
     {% endblock %}
 
+    {% if room.tag is not null %}
+        <p class="floating-tag" id="tagContent"
+           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+    {% endif %}
+    <div class="w-100" id="jitsiWindow">
+        <a href="#" id="logo_image" class="stick">
+            <img class="d-none d-sm-block" src="{{ logo_small }}"
+                 alt="Logo"
+                 style="height: 50px; width: auto">
+            <img class="d-block d-sm-none" src="{{ logo_large }}"
+                 alt="Logo"
+                 style="height: 50px; width: auto">
+
+        </a>
+    </div>
 </div>
 
 </body>
