@@ -20,16 +20,7 @@
             <i class="fa fa-repeat"></i>
             {{ 'Alle Serienelemente bearbeiten'|trans }}</a></li>
 {% endif %}
-{% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-    <li><a
-                href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room,true) }}"
-                data-roomname="{{ room.name }}"
-                data-close="simple"
-                class="startIframe dropdown-item "
-        >
-            <i class="fa-solid fa-chalkboard"></i>
-            {{ 'options.whiteboard'|trans }}</a></li>
-{% endif %}
+{% include('optionsWidget/optionsExtraApps.html.twig') with {'room':room} %}
 {% if dropdown_settings_mail_to_all == 1 %}
     <li><a class="dropdown-item"
            href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">

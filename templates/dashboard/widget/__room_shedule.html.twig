@@ -19,6 +19,7 @@
     {% endif %}
 {% endif %}
 
+{% include('optionsWidget/optionsExtraApps.html.twig') with {'room':room} %}
 
 {% if dropdown_settings_shedule_mail_to_all == 1 %}
     <li><a class="dropdown-item"

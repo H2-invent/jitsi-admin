@@ -1,0 +1,20 @@
+{% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
+    <li><a
+                href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room,true) }}"
+                data-roomname="{{ room.name }}"
+                data-close="simple"
+                class="startIframe dropdown-item "
+        >
+            <i class="fa-solid fa-chalkboard"></i>
+            {{ 'options.whiteboard'|trans }}</a></li>
+{% endif %}
+{% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
+    <li><a
+                href="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ app.user|nameOfUserNoSymbol }}"
+                data-roomname="{{ room.name }}"
+                data-close="simple"
+                class="startIframe dropdown-item "
+        >
+            <i class="fa-solid fa-clipboard"></i>
+            {{ 'options.meetingNotes'|trans }}</a></li>
+{% endif %}

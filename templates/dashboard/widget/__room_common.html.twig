@@ -6,16 +6,8 @@
                 {{ 'Bearbeiten'|trans }}</a></li>
     {% endif %}
 {% endif %}
-{% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-    <li><a
-                href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room,true) }}"
-                data-roomname="{{ room.name }}"
-                data-close="simple"
-                class="startIframe dropdown-item "
-        >
-            <i class="fa-solid fa-chalkboard"></i>
-            {{ 'options.whiteboard'|trans }}</a></li>
-{% endif %}
+{% include('optionsWidget/optionsExtraApps.html.twig') with {'room':room} %}
+
 {% if dropdown_settings_common_duplicate == 1 %}
     <li><a href="{{ path('room_clone',{'room':room.id}) }}"
            class="loadContent dropdown-item">
