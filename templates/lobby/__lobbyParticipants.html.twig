@@ -66,7 +66,8 @@
                     <i class="fas fa-user-times"></i>
                 </a>
                 <div class="dropdown">
-                    <a class="btn btn-outline-success btn-floating" data-mdb-ripple-color="dark" id="dropdownMenu2"
+                    <a class="btn btn-lg btn-outline-success btn-floating" data-mdb-ripple-color="dark"
+                       id="dropdownMenu2"
                        data-mdb-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-solid fa-paper-plane"></i>
                     </a>
@@ -82,33 +83,34 @@
                                 >{{ m.text }}</button>
                             </li>
                         {% endfor %}
+                        {% if getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES') == 1 %}
+                            <li>
+                                <div class="input-group  w-100">
+                                    <div class="form-outline bg-white flex-grow-1">
+                                        <input href="#"
+                                               type="text"
+                                               autocomplete=off
+                                               id="sendMessageToWaitingUser{{ wU.id }}"
+                                               class="form-control sendMessageToWaitingUserInput"
+                                               placeholder="{{ 'lobby.message.placeholder'|trans }}"
+                                        />
+                                        <label class="form-label"
+                                               for="sendMessageToWaitingUser{{ wU.id }}">{{ 'lobby.message.label'|trans }}</label>
 
-                        <li>
-                            <div class="input-group  w-100">
-                                <div class="form-outline bg-white flex-grow-1">
-                                    <input href="#"
-                                           type="text"
-                                           autocomplete=off
-                                           id="sendMessageToWaitingUser{{ wU.id }}"
-                                           class="form-control sendMessageToWaitingUserInput"
-                                           placeholder="{{ 'lobby.message.placeholder'|trans }}"
-                                    />
-                                    <label class="form-label"
-                                           for="sendMessageToWaitingUser{{ wU.id }}">{{ 'lobby.message.label'|trans }}</label>
-
+                                    </div>
+                                    <button class="btn btn-primary sendMessageToWaitingUserBtn"
+                                            type="button"
+                                            data-mdb-ripple-color="dark"
+                                            disabled="disabled"
+                                            href="#"
+                                            data-url="{{ path('lobby_send_message_to_waitinguser') }}"
+                                            data-uid="{{ wU.uid }}"
+                                    >
+                                        <i class="fas fa-solid fa-paper-plane"></i>
+                                    </button>
                                 </div>
-                                <button class="btn btn-primary sendMessageToWaitingUserBtn"
-                                        type="button"
-                                        data-mdb-ripple-color="dark"
-                                        disabled="disabled"
-                                        href="#"
-                                        data-url="{{ path('lobby_send_message_to_waitinguser') }}"
-                                        data-uid="{{ wU.uid }}"
-                                >
-                                    <i class="fas fa-solid fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </li>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -117,7 +119,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 
