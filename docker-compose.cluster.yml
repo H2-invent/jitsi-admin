@@ -66,6 +66,37 @@ services:
     networks:
       - default
 
+  etherpad:
+      #build: .
+      image: etherpad/etherpad:latest
+      container_name: etherpad
+      restart: unless-stopped
+      #    healthcheck:
+      #      test: curl --fail http://127.0.0.1:9000 || exit 1
+      #      interval: 10s
+      #      timeout: 5s
+      #      retries: 3
+      #      start_period: 15s
+      environment:
+        AUTH_SECRET_KEY: MY_SECRET
+        PAD_OPTIONS_SHOW_CHAT: false
+        PAD_SHORTCUTS_ENABLED_ALT_C: false
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - etherpad_data:/opt/etherpad-lite/var
+
+    networks:
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.etherpad.tls=true"
+      - "traefik.http.routers.etherpad.rule=Host(`meeting-notes.${PUBLIC_URL}`)"
+      - "traefik.http.routers.etherpad.entrypoints=web"
+      - "traefik.http.services.etherpad.loadbalancer.server.port=9001"
+      - "traefik.http.routers.etherpad.tls.certresolver=letsencrypt"
+
+
   screego:
     image: screego/server:1.0.1
     restart: unless-stopped
@@ -133,6 +164,9 @@ services:
       LAF_WHITEBOARD_FUNCTION: 1
       WHITEBOARD_URL:  ${HTTP_METHOD}://whiteboard.${PUBLIC_URL}
       WHITEBOARD_SECRET: '${MERCURE_JWT_SECRET}'
+      ETHERPAD_URL: ${HTTP_METHOD}://meeting-notes.${PUBLIC_URL}
+      ETHERPAD_SECRET: MY_SECRET
+      LAF_ETHERPAD_FUNCTION: 1
       input_settings_allow_timezone: 1
       allowTimeZoneSwitch: 1
       CRON_USER_1: root
@@ -226,6 +260,7 @@ volumes:
   caddy_config:
   image_upload:
   wbo-boards:
+  etherpad_data:
 
 networks:
   default:

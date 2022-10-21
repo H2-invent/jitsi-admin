@@ -1,6 +1,6 @@
 <div class="conference-sidebar">
     {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-        <div class="startWhiteboard conference-icon bg-white d-none"
+        <div class="startExternalApp conference-icon bg-white d-none"
                 {% if app.user is defined
                     and app.user is not null
                     and (
@@ -18,5 +18,26 @@
             <i class="fa-solid fa-chalkboard"></i>
         </div>
     {% endif %}
+
+    {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
+        <div class="startExternalApp conference-icon bg-white d-none"
+                {% if app.user is defined
+                    and app.user is not null
+                    and (
+                    room.moderator == app.user
+                    or roomPermissions(app.user,room).moderator == true
+                    or roomPermissions(app.user,room).lobbyModerator == true)
+                %}
+                    data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false"
+                    data-room="whiteboard/{{ room.uidReal }}"
+                    data-url="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false"
+                {% else %}
+                    data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false"
+                {% endif %}
+        >
+            <i class="fa-solid fa-clipboard"></i>
+        </div>
+    {% endif %}
+
     {% block extension %}{% endblock %}
 </div>
