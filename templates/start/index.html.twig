@@ -52,7 +52,7 @@
 {% endif %}
 <div class="conference-sidebar">
     {% block extensions %}
-        {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
+        {% include('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
     {% endblock %}
 </div>
 <div id="frame">
@@ -61,14 +61,7 @@
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
-        <div id="logo_image" class="stick">
-            <img class="d-none d-sm-block" src="{{ logo_small }}"
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-            <img class="d-block d-sm-none" src="{{ logo_large }}"
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-        </div>
+        {% include('conference_modules/conference_logo.html.twig') with {'logo_small':logo_small,'logo_large':logo_large} %}
     </div>
 </div>
 
