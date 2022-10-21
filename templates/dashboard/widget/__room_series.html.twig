@@ -20,7 +20,16 @@
             <i class="fa fa-repeat"></i>
             {{ 'Alle Serienelemente bearbeiten'|trans }}</a></li>
 {% endif %}
+
 {% include('optionsWidget/optionsExtraApps.html.twig') with {'room':room} %}
+
+{% if getApplicationProperties('DROPDOWN_SETTINGS_DOWNLOAD_PDF') == 1 %}
+    <li><a href="{{ path('app_download_sumary',{'room':room.id}) }}" target="_blank"
+           class="dropdown-item">
+            <i class="fa-solid fa-file-pdf"></i>
+            {{ 'PDF Download'|trans }}</a></li>
+{% endif %}
+
 {% if dropdown_settings_mail_to_all == 1 %}
     <li><a class="dropdown-item"
            href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">

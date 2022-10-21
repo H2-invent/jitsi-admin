@@ -8,6 +8,15 @@
 {% endif %}
 {% include('optionsWidget/optionsExtraApps.html.twig') with {'room':room} %}
 
+{% if getApplicationProperties('DROPDOWN_SETTINGS_DOWNLOAD_PDF') == 1 %}
+    <li><a href="{{ path('app_download_sumary',{'room':room.id}) }}"
+           target="_blank"
+           class="dropdown-item">
+            <i class="fa-solid fa-file-pdf"></i>
+            {{ 'PDF Download'|trans }}</a></li>
+{% endif %}
+
+
 {% if dropdown_settings_common_duplicate == 1 %}
     <li><a href="{{ path('room_clone',{'room':room.id}) }}"
            class="loadContent dropdown-item">

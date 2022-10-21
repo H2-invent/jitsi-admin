@@ -1,6 +1,6 @@
 {% extends 'start/index.html.twig' %}
 {% block sidebar %}
-    {% embed('widgets/conferenceSidebar.html.twig') with {'room': room} %}
+    {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
         {% block extension %}
             <div class="inviteNewParticipants">
                 <div class="toggle conference-icon">

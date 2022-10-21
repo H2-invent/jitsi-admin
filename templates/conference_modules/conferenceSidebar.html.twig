@@ -1,44 +1,60 @@
-<div class="conference-sidebar">
-    {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-        <div class="startExternalApp conference-icon bg-white d-none"
-                {% if app.user is defined
-                    and app.user is not null
-                    and (
-                    room.moderator == app.user
-                    or roomPermissions(app.user,room).moderator == true
-                    or roomPermissions(app.user,room).lobbyModerator == true) %}
-                    data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room, true) }}"
-                    data-room="whiteboard/{{ room.uidReal }}"
-                    data-url="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
-                {% else %}
-                    data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
-                {% endif %}
-        >
-            <i class="fa-solid fa-chalkboard"></i>
-        </div>
-    {% endif %}
+<div class="conference-sidebar" style="position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+">
+    <div class="wrapperIcons" style="width: fit-content; width: -moz-fit-content">
+        {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
+            <div class="wrapper" style="display: flex; width: 100%">
+                <div class="startExternalApp conference-icon bg-white d-none"
+                        {% if app.user is defined
+                            and app.user is not null
+                            and (
+                            room.moderator == app.user
+                            or roomPermissions(app.user,room).moderator == true
+                            or roomPermissions(app.user,room).lobbyModerator == true) %}
+                            data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room, true) }}"
+                            data-room="whiteboard/{{ room.uidReal }}"
+                            data-url="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+                        {% else %}
+                            data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+                        {% endif %}
+                >
+                    <i class="fa-solid fa-chalkboard"></i>
+                </div>
+            </div>
 
-    {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
-        {% if name is not defined or name is null %}
-            {% set name = 'Meetling' %}
         {% endif %}
-        <div class="startExternalApp conference-icon bg-white d-none"
-                {% if app.user is defined
-                    and app.user is not null
-                    and (
-                    room.moderator == app.user
-                    or roomPermissions(app.user,room).moderator == true
-                    or roomPermissions(app.user,room).lobbyModerator == true) %}
-                    data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ name }}"
-                    data-room="whiteboard/{{ room.uidReal }}"
-                    data-url="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false"
-                {% else %}
-                    data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ name }}"
-                {% endif %}
-        >
-            <i class="fa-solid fa-clipboard"></i>
-        </div>
-    {% endif %}
 
-    {% block extension %}{% endblock %}
+        {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
+            {% if name is not defined or name is null %}
+                {% set name = 'Meetling' %}
+            {% endif %}
+            <div class="wrapper" style="display: flex">
+                <div class="startExternalApp conference-icon bg-white d-none"
+                        {% if app.user is defined
+                            and app.user is not null
+                            and (
+                            room.moderator == app.user
+                            or roomPermissions(app.user,room).moderator == true
+                            or roomPermissions(app.user,room).lobbyModerator == true) %}
+                            data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ name }}"
+                            data-room="whiteboard/{{ room.uidReal }}"
+                            data-url="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false"
+                        {% else %}
+                            data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ name }}"
+                        {% endif %}
+                >
+                    <i class="fa-solid fa-clipboard"></i>
+                </div>
+            </div>
+        {% endif %}
+
+        {% block extension %}{% endblock %}
+    </div>
 </div>

@@ -74,6 +74,7 @@ services:
       AUTH_SECRET_KEY: MY_SECRET
       PAD_OPTIONS_SHOW_CHAT: false
       PAD_SHORTCUTS_ENABLED_ALT_C: false
+      DEFAULT_PAD_TEXT: "Agenda\n\nTOP1\n\nTOP2\n\nTOP3\n\nTOP4\n\n\n\nNext Steps:\n Write here what to do next\n\n\n\n\nQuestions:\nWrite here any questions the team have\n\n"
     security_opt:
       - no-new-privileges:true
     volumes:
