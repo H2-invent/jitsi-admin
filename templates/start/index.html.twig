@@ -51,8 +51,8 @@
     {% endif %}
 {% endif %}
 <div class="conference-sidebar">
-    {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
     {% block extensions %}
+        {% include('widgets/conferenceSidebar.html.twig') with {'room': room} %}
     {% endblock %}
 </div>
 <div id="frame">
