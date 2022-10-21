@@ -83,11 +83,11 @@ services:
       - default
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.etherpad.tls=true"
-      - "traefik.http.routers.etherpad.rule=Host(`meeting-notes.${PUBLIC_URL}`)"
-      - "traefik.http.routers.etherpad.entrypoints=web"
-      - "traefik.http.services.etherpad.loadbalancer.server.port=9001"
-      - "traefik.http.routers.etherpad.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.rule=Host(`meeting-notes.${PUBLIC_URL}`)"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.services.etherpad-ja-${RANDOMTAG}.loadbalancer.server.port=9001"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
 
   screego:
