@@ -102,10 +102,10 @@ services:
       - 0.0.0.0:3478:3478/udp
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.screego.rule=Host(`screego.${PUBLIC_URL}`)"
-      - "traefik.http.routers.screego.entrypoints=web"
-      - "traefik.http.routers.screego.tls.certresolver=letsencrypt"
-      - "traefik.http.services.screego.loadbalancer.server.port=5050"
+      - "traefik.http.routers.screego-ja-${RANDOMTAG}.rule=Host(`screego.${PUBLIC_URL}`)"
+      - "traefik.http.routers.screego-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.routers.screego-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+      - "traefik.http.services.screego-ja-${RANDOMTAG}.loadbalancer.server.port=5050"
 #    volumes:
 #      - ./htpasswd:/etc/screego.passwd:ro
     environment:
