@@ -67,20 +67,14 @@ services:
       - default
 
   etherpad:
-      #build: .
-      image: etherpad/etherpad:latest
-      container_name: etherpad
-      restart: unless-stopped
-      #    healthcheck:
-      #      test: curl --fail http://127.0.0.1:9000 || exit 1
-      #      interval: 10s
-      #      timeout: 5s
-      #      retries: 3
-      #      start_period: 15s
-      environment:
-        AUTH_SECRET_KEY: MY_SECRET
-        PAD_OPTIONS_SHOW_CHAT: false
-        PAD_SHORTCUTS_ENABLED_ALT_C: false
+    #build: .
+    image: etherpad/etherpad:latest
+    container_name: etherpad
+    restart: unless-stopped
+    environment:
+      AUTH_SECRET_KEY: MY_SECRET
+      PAD_OPTIONS_SHOW_CHAT: false
+      PAD_SHORTCUTS_ENABLED_ALT_C: false
     security_opt:
       - no-new-privileges:true
     volumes:
