@@ -34,7 +34,8 @@ class CreateSummaryService
     {
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
-
+        $pdfOptions->set('fontDir', '../var/cache');
+        $pdfOptions->set('fontCache', '../var/cache');
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
 
@@ -43,7 +44,6 @@ class CreateSummaryService
 
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
-
         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'portrait');
 
