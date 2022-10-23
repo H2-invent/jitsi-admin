@@ -23,6 +23,8 @@ class DownloadParticipantsListController extends JitsiAdminController
         }
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->set('fontDir', '../var/cache');
+        $pdfOptions->set('fontCache', '../var/cache');
 
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
