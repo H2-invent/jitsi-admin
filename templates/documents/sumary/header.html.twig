@@ -26,7 +26,7 @@
                                 <tr>
                                     <td style="padding: 8px">
                                         {{ s.createdAt|date('d.m.Y') }}:
-                                        <p>{{ s.createdAt|date('H:i') }} - {{ s.destroyedAt|date('H:i') }} </p>
+                                        <p>{{ s.createdAt|date('H:i') }} - {% if s.destroyedAt is not null %}  {{ s.destroyedAt|date('H:i') }}{% else%} {{ 'Jetzt'|trans}} {% endif %}</p>
                                     </td>
                                 </tr>
 

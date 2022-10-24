@@ -7,6 +7,8 @@ use App\Service\ThemeService;
 use App\Service\Whiteboard\WhiteboardJwtService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -17,12 +19,20 @@ class CreateSummaryService
         private Environment          $environment,
         private HttpClientInterface  $httpClient,
         private ThemeService         $themeService,
-        private WhiteboardJwtService $whiteboardJwtService)
+        private WhiteboardJwtService $whiteboardJwtService,
+        private KernelInterface      $appKernel,
+        private LoggerInterface      $logger)
     {
     }
 
+    public
+    function setHttpClient(HttpClientInterface $httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
 
-    public function createSummary(Rooms $room):string
+    public
+    function createSummary(Rooms $room): string
     {
         $res = $this->createHeader($room);
         $res .= $this->createWhiteBoardSummary($room);
@@ -30,12 +40,18 @@ class CreateSummaryService
         return $this->environment->render('documents/sumary/template.html.twig', array('text' => $res, 'title' => $room->getName()));
     }
 
-    public function createSummaryPdf(Rooms $room):?Dompdf
+    public
+    function createSummaryPdf(Rooms $room): ?Dompdf
     {
+        $root = $this->appKernel->getProjectDir();
         $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'Arial');
-        $pdfOptions->set('fontDir', '../var/cache');
-        $pdfOptions->set('fontCache', '../var/cache');
+
+        $directory = $root . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache';
+        $this->logger->debug($directory);
+        $pdfOptions->set('defaultFont', 'Roboto');
+        $pdfOptions->set('fontDir', $directory);
+        $pdfOptions->set('fontCache', $directory);
+        $pdfOptions->set('chroot', $directory);
         // Instantiate Dompdf with our options
         $dompdf = new Dompdf($pdfOptions);
 
@@ -50,26 +66,26 @@ class CreateSummaryService
         // Render the HTML as PDF
         $dompdf->render();
 
-        ob_end_clean();
+//        ob_end_clean();
 
         // Output the generated PDF to Browser (force download)
-       return $dompdf;
+        return $dompdf;
     }
 
-    public function createHeader(Rooms $rooms): string
+    public
+    function createHeader(Rooms $rooms): string
     {
         return $this->environment->render('documents/sumary/header.html.twig', array('room' => $rooms));
-
-
     }
 
-    public function createWhiteBoardSummary(Rooms $room): ?string
+    public
+    function createWhiteBoardSummary(Rooms $room): ?string
     {
         try {
             $url = $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/preview/' . $room->getUidReal() . '?token=' . $this->whiteboardJwtService->createJwt($room);
             $res = $this->httpClient->request('GET', $url);
             if ($res->getStatusCode() === 200) {
-                return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '"  width="600" />';
+                    return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '"  width="600" />';
             }
         } catch (\Exception $exception) {
         }
@@ -77,7 +93,8 @@ class CreateSummaryService
 
     }
 
-    public function createEtherpadExport(Rooms $room): string
+    public
+    function createEtherpadExport(Rooms $room): string
     {
         try {
             $res = $this->httpClient->request('GET', $this->themeService->getApplicationProperties('ETHERPAD_URL') . '/p/' . $room->getUidReal() . '/export/html');

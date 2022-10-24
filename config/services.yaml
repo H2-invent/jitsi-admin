@@ -111,6 +111,7 @@ parameters:
     LAF_ETHERPAD_FUNCTION: '%env(LAF_ETHERPAD_FUNCTION)%'
     ETHERPAD_URL: '%env(ETHERPAD_URL)%'
     ETHERPAD_SECRET: '%env(ETHERPAD_SECRET)%'
+    SEND_REPORT_AFTER_MEETING: '%env(SEND_REPORT_AFTER_MEETING)%'
 
 services:
     Twig\Extension\StringLoaderExtension:

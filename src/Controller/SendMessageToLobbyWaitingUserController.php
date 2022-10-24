@@ -22,7 +22,6 @@ class SendMessageToLobbyWaitingUserController extends JitsiAdminController
     public function index(SendMessageToWaitingUser $sendMessageToWaitingUser, Request $request): Response
     {
         $data = json_decode($request->getContent(),true);
-        dump($data);
         $res = $sendMessageToWaitingUser->sendMessage($data['uid'], $data['message'], $this->getUser());
         return new JsonResponse(array('error' => !$res));
     }

@@ -7,6 +7,8 @@ use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Service\Lobby\LobbyUtils;
+use App\Service\Summary\SendSummaryViaEmailService;
+use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -18,7 +20,13 @@ class RoomWebhookService
     private $paramterBag;
     private LobbyUtils $lobbyUtils;
 
-    public function __construct(LobbyUtils $lobbyUtils, EntityManagerInterface $entityManager, LoggerInterface $logger, ParameterBagInterface $parameterBag)
+    public function __construct(
+        LobbyUtils $lobbyUtils,
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+    private SendSummaryViaEmailService $sendSummaryViaEmailService,
+    private ThemeService $themeService)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
@@ -145,6 +153,10 @@ class RoomWebhookService
             $this->logger->error($exception->getMessage());
             return $exception->getMessage();
         }
+        if ($this->themeService->getApplicationProperties('SEND_REPORT_AFTER_MEETING')==='1'){
+            $this->sendSummaryViaEmailService->sendSummaryForRoom($roomStatus->getRoom());
+        }
+
         return null;
     }
 

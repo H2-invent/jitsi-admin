@@ -20,14 +20,14 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
             'iat' => (new \DateTime())->getTimestamp(),
             'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
             'roles' => array('editor:'.$room->getUidReal())
-        ],'test'),
+        ],'MY_SECRET'),
             $whiteboardService->createJwt($room)
         );
         self::assertEquals(JWT::encode([
             'iat' => (new \DateTime())->getTimestamp(),
             'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
             'roles' => array('moderator:'.$room->getUidReal())
-        ],'test'),
+        ],'MY_SECRET'),
             $whiteboardService->createJwt($room,true)
         );
 
