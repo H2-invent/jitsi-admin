@@ -511,6 +511,7 @@ $rotateNeg: -20deg;
     border-bottom: 1px black solid;
     color: white;
     cursor: pointer;
+    display: flex;
 
     &:last-child {
       border-radius: 0 0 0.5rem 0.5rem;
@@ -518,6 +519,13 @@ $rotateNeg: -20deg;
 
     &:first-child {
       border-radius: 0.5rem 0.5rem 0 0;
+    }
+    .content{
+      display: flex;
+      flex-direction: column;
+      .from{
+        font-size: x-small;
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
+use App\Entity\User;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -118,10 +119,10 @@ class ToParticipantWebsocketService
         $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger');
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
-    public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, $message)
+    public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, $message, string $from)
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendMessage($topic, $message);
+        $this->directSend->sendMessage($topic, $message, $from);
     }
 
 }

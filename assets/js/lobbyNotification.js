@@ -65,7 +65,15 @@ function masterNotify(data) {
 function addmessage(data) {
     var target = document.querySelector('.messageContainer');
     if (target) {
-        var html = '<div class="messageWrapper">' + data.message + '</div>'
+        var html = '<div class="messageWrapper">'
+            +'<div class="content">'
+            +'<div class="from">'
+            +data.from
+            +'</div>'
+            +'<div class="message">'
+            + data.message +
+            '</div>' +
+            '</div>'
         target.insertAdjacentHTML('afterbegin', html);
         for (var d of document.querySelectorAll('.messageWrapper')){
             d.addEventListener('click',function (e) {

@@ -43,11 +43,11 @@ class SendMessageToWaitingUser
             }
             if ($res) {
                 $this->logger->debug('Send Message via websocket', array('uid' => $waitingUser->getUid(), 'message' => $res));
-                $this->toParticipantWebsocketService->sendMessage($waitingUser, $res);
+                $this->toParticipantWebsocketService->sendMessage($waitingUser, $res, $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')));
             }
 
             return (bool)$res;
-        }else{
+        } else {
             $this->logger->error('USer tried to send message where he has no acess to', array('USer-uid' => $user->getUsername()));
             return false;
         }
