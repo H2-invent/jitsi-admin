@@ -161,6 +161,7 @@ services:
       ETHERPAD_URL: ${HTTP_METHOD}://meeting-notes.${PUBLIC_URL}
       ETHERPAD_SECRET: MY_SECRET
       LAF_ETHERPAD_FUNCTION: 1
+      SEND_REPORT_AFTER_MEETING: 1
       input_settings_allow_timezone: 1
       allowTimeZoneSwitch: 1
       CRON_USER_1: root
