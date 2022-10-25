@@ -53,11 +53,15 @@ class MailerService
         if ($server->getSmtpHost()) {
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
             if ($server->getSmtpUsername()) {
-                $this->logger->info('The Transport is new and we take him');
-                $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+                $this->logger->debug('we have a new Mailer with a pasword');
+                $this->logger->debug('Credentials: ',array('password'=>$server->getSmtpUsername(),'password'=>$server->getSmtpPassword()));
+                $dsn = 'smtp://' . urlencode($server->getSmtpUsername()) . ':' . urlencode($server->getSmtpPassword()) . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             } else {
+                $this->logger->debug('We have no password');
                 $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             }
+            $this->logger->debug($dsn);
+            $this->logger->info('The Transport is new and we take him');
             $this->customMailer = new CustomMailerMessage($dsn);
             return true;
         }
@@ -146,14 +150,14 @@ class MailerService
                 if ($rooms && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL)) {
                     $this->customMailer->setAbsender($rooms->getModerator()->getEmail());
                 }
-                if ($rooms){
+                if ($rooms) {
                     $this->customMailer->setRoomId($rooms->getId());
                 }
                 $this->customMailer->setTo($to);
                 $this->logger->info('Send from Custom Mailer');
-                $this->bus->dispatch($this->customMailer->send($message),[
+                $this->bus->dispatch($this->customMailer->send($message), [
                     // wait 5 seconds before processing
-                    new DelayStamp(rand(1000,10000)),
+                    new DelayStamp(rand(1000, 10000)),
                 ]);
             } else {
                 $this->mailer->send($message);
