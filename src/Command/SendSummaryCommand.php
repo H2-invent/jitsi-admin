@@ -38,7 +38,6 @@ class SendSummaryCommand extends Command
         $arg1 = $input->getArgument('roomid');
         $room = $this->entityManager->getRepository(Rooms::class)->find($arg1);
 
-
         $this->sendSummaryViaEmailService->sendSummaryForRoom($room);
         $io->success(sprintf('We send the summary for %s to %d participants',$room->getName(),sizeof($room->getUser())));
 
