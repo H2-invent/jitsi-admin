@@ -69,10 +69,7 @@ class CreateHeaderServiceTest extends KernelTestCase
         </td>
     </tr>
     </tbody>
-</table>
-
-
-";
+</table>";
 
     public function testHeaderSuccess(): void
     {
@@ -85,9 +82,8 @@ class CreateHeaderServiceTest extends KernelTestCase
         $headerResponse = $service->createHeader($room);
 
 
-        self::assertSame($headerResponse, sprintf(self::$headerHtml, $room->getStart()->format('d.m.Y'),$room->getStart()->format('H:i'),$room->getEnddate()->format('H:i')));
+        self::assertEquals(trim(preg_replace('~[\r\n]+~', '', $headerResponse)), trim(preg_replace('~[\r\n]+~', '',sprintf(self::$headerHtml, $room->getStart()->format('d.m.Y'),$room->getStart()->format('H:i'),$room->getEnddate()->format('H:i')))));
 
-        $this->assertSame('test', $kernel->getEnvironment());
 
     }
 

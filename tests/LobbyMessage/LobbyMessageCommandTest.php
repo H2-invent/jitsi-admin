@@ -27,7 +27,7 @@ class LobbyMessageCommandTest extends KernelTestCase
         $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
         $output = $commandTester->getDisplay();
         $tagRepo = self::getContainer()->get(TagRepository::class);
-        $this->assertStringContainsString(' [OK] We create a new Predefined message. This message can now be send from the moderator to a waiting lobby user.', $output);
+        $this->assertStringContainsString(' [OK] We create a new Predefined message.', $output);
         self::assertEquals(4, sizeof($messageRepo->findAll()) );
         self::assertEquals(true, $messageRepo->findAll()[3]->isActive() );
         self::assertEquals(10, $messageRepo->findAll()[3]->getPriority() );
@@ -47,7 +47,7 @@ class LobbyMessageCommandTest extends KernelTestCase
         $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
         $output = $commandTester->getDisplay();
         $tagRepo = self::getContainer()->get(TagRepository::class);
-        $this->assertStringContainsString(' [OK] We create a new Predefined message. This message can now be send from the moderator to a waiting lobby user.', $output);
+        $this->assertStringContainsString(' [OK] We create a new Predefined message.', $output);
         self::assertEquals(4, sizeof($messageRepo->findAll()) );
         self::assertEquals(false, $messageRepo->findAll()[3]->isActive() );
         self::assertEquals(10, $messageRepo->findAll()[3]->getPriority() );

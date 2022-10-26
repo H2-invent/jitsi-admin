@@ -219,14 +219,13 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
         $whiteboardResponse = $service->createSummary($room);
 
 
-        self::assertSame($whiteboardResponse,
-            self::$pdfHeader .
+        self::assertSame(trim(preg_replace('~[\r\n]+~', '',$whiteboardResponse)),
+            trim(preg_replace('~[\r\n]+~', '',self::$pdfHeader .
             sprintf(CreateHeaderServiceTest::$headerHtml, $room->getStart()->format('d.m.Y'),$room->getStart()->format('H:i'),$room->getEnddate()->format('H:i')).
             $this->sampleSvgResult .
             CreateEtherpadServiceTest::$samplePadREsult .
             '
-</body>
-</html>'
+</body></html>'))
         );
 
         $this->assertSame('test', $kernel->getEnvironment());
