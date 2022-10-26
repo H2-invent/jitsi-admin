@@ -1,16 +1,7 @@
-<div class="conference-sidebar" style="position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    justify-content: center;
-">
-    <div class="wrapperIcons" style="width: fit-content; width: -moz-fit-content">
+<div class="conference-sidebar" >
+    <div class="wrapperIcons" >
         {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-            <div class="wrapper" style="display: flex; width: 100%">
+            <div class="wrapper" >
                 <div class="startExternalApp conference-icon bg-white d-none"
                         {% if app.user is defined
                             and app.user is not null
@@ -35,7 +26,7 @@
             {% if name is not defined or name is null %}
                 {% set name = 'Meetling' %}
             {% endif %}
-            <div class="wrapper" style="display: flex">
+            <div class="wrapper">
                 <div class="startExternalApp conference-icon bg-white d-none"
                         {% if app.user is defined
                             and app.user is not null

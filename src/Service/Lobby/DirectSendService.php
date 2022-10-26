@@ -194,6 +194,7 @@ class DirectSendService
     private function sendUpdate(Update $update)
     {
         try {
+            $this->logger->debug('send Message via Websocket:',array('topic'=>$update->getTopics(),'data'=>$update->getData()));
             $res = $this->publisher->publish($update);
             return true;
         } catch (RuntimeException $e) {

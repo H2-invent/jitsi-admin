@@ -4,6 +4,7 @@ import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import * as mdb from 'mdb-ui-kit'; // lib
 import ClipboardJS from 'clipboard'
+import {initStartIframe} from "./createConference";
 var frameId;
 var api = new JitsiMeetExternalAPI(domain, options);
 
@@ -87,4 +88,5 @@ docReady(function () {
     var clipboard = new ClipboardJS('.copyLink');
     initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
+    initStartIframe();
 });
