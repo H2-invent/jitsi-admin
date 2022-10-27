@@ -129,6 +129,7 @@ chown -R www-data:www-data /var/www/jitsi-admin/var/
 chown -R www-data:www-data /var/log/websocket/
 
 ln -s /etc/nginx/sites-available/jitsiadmin.conf /etc/nginx/sites-enabled/
-
+rm /etc/nginx/sites-enabled/default
 systemctl restart nginx
+systemctl restart php8.1-fpm
 
