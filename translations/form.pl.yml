@@ -44,8 +44,8 @@ option:
   daily: Codziennie
   montly: Co miesiąc
   yearly: Co rok
-  montlyRelative: Monatlich flexibel festlegen
-  yearlyRelative: Jährlich flexibel festlegen
+  montlyRelative: Ustawiaj elastycznie co miesiąc
+  yearlyRelative: Ustawiaj elastycznie co rok
   first: Pierwszy
   second: Drugi
   third: Trzeci
@@ -61,7 +61,7 @@ option:
   july: Lipiec
   august: Sierpień
   septembre: Wrzesień
-  octobre: Pazdziernik
+  octobre: Październik
   novembre: Listopad
   decembre: Grudzień
   user: Im User Claim
@@ -69,20 +69,20 @@ option:
 lable.serverUrl: Adres URL serwera Jitsi-meet
 label.appId: ID aplikacji
 label.appSecret: App-Secret
-label.scheduleMeeting: Termin vorschlagen
+label.scheduleMeeting: Zaproponuj termin
 help:
-  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
-  featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
+  serverUrl: Wpisz bez „https://“ (n.p. meet.jit.si)
+  featureEnalbeByJwt: Wtyczka „Enable Feature By JWT” musi być aktywowana na serwerze Jitsi Meet. W przeciwnym razie token JWT nie zostanie poprawnie rozpoznany i przetworzony przez serwer.
   teilnehmerEmailhinzufuegenModerator: Można dodać wiele adresów e-mail jednocześnie. Proszę wpisać każdy adres e-mail w osobnym wierszu.
-  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
+  serverName: Wpisz nazwę serwera. Jest ona wyświetlana uczestnikom.
+  secondEmail: Wszystkie e-maile wysyłane na mój standardowy adres powinny być także wysyłane na te adresy e-mail (oddziel je przecinkami).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
   jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
 label:
-  beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenApp: Dołącz za pomocą aplikacji Elektron
+  beitretenBrowser: Dołącz w przeglądarce
   serverSmtpHostName: Nazwa hosta SMTP
   serverSmtpHostPort: Port SMTP
   serverSmtpEncryption: Szyfrowanie
@@ -101,38 +101,38 @@ label:
   schowStaticBackgroundColor: Wybierz inny kolor tła strony dołączenia.
   featureEnalbeByJwt: Wtyczka "Enable Feature By JWT" jest włączona na serwerze.
   dissallowScreenshareGlobal: Tylko moderator może udostępnić widok na swoim ekranie.
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
-  puplicRoom: Link zur Einladung freischalten
-  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
+  dissallowPrivateMessage: Tylko moderator może wysyłać prywatne wiadomości do uczestników.
+  puplicRoom: Aktywuj link z zaproszeniem
+  showRoomOnJoinpage: Pokaż konferencję na stronie dołączania
   subscribe: Anmelden
   vorname: Imię
   nachname: Nazwisko
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
-  waitinglist: Warteliste aktivieren
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
+  maxParticipants: Zezwól na maksymalną liczbę uczestników
+  waitinglist: Lista oczekujących aktywna
+  teilnehmerEmailhinzufuegenModerator: Wpisz adresy e-mail nowych moderatorów
   weekday: Dzień tygodnia
-  repetation: Endet nach x Terminen
-  repeatType: Serienmuster
-  repeaterDays: Nach x Tagen wiederholen
-  repeaterWeeks: Nach x Wochen wiederholen
-  repeatMontly: Nach x Monaten wiederholen
-  repeatYearly: Nach x Jahren wiederholen
-  montlyRelativeNumber: Wie vielter Wochentag im Monat
+  repetation: Kończy się po x wystąpieniach
+  repeatType: Wzór serii
+  repeaterDays: Powtórz po x dniach
+  repeaterWeeks: Powtórz po x tygodniach
+  repeatMontly: Powtórz po x miesiącach
+  repeatYearly: Powtórz po x latach
+  montlyRelativeNumber: Jaki jest czwarty dzień tygodnia w miesiącu
   montlyRelativeWeekday: Dzień tygodnia
   montlyRelativeMonth: Miesiąc
-  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
-  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
-  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
-  totalOpenRoomsOpenTime: Raumöffnungszeit
+  repeaterRemoved: Edytuj tylko ten element (nie całą serię)
+  persistantRoom: Ta konferencja nie ma terminu i jest zawsze dostępna.
+  totalOpenRooms: Dezaktywuj listę uczestników, dołącz przez link uczestnika
+  totalOpenRoomsOpenTime: Czas otwarcia pokoju
   addressgroupName: Nazwa grupy
-  addressgroupMember: Gruppenmitglieder auswählen
-  jwtModeratorPosition: Moderatorposition im JWT Token
+  addressgroupMember: Wybierz członków grupy
+  jwtModeratorPosition: Pozycja moderatora w tokenie JWT
   timezone: Strefa czasowa
   serverName: Nazwa serwera
   lobby: Poczekalnia
-  secondEmail: DW Email
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
-  corsHeader: CORS-Header oder frame-ancestor Header
+  secondEmail: Dodatkowy adres e-mail
+  profilImage: Zdjęcie profilowe (będzie wyświetlane na spotkaniu Jitsi-Meet)
+  corsHeader: Nagłówek CORS lub nagłówek ancestor-frame
   tag: Kategoria
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
   jigasiApiUrl: Jigasi ConferenceMapper-URL
@@ -145,4 +145,4 @@ choice:
   none: Brak
 placeholder:
   maxParticipants: Bez limitu
-  chooseTime: Zeit und Datum auswählen
+  chooseTime: Wybierz czas i datę
