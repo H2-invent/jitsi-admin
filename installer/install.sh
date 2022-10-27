@@ -96,6 +96,13 @@ systemctl daemon-reload
 service start jitsi-admin_messenger
 restart start jitsi-admin_messenger
 service enable jitsi-admin_messenger
+
+cp nodejs/config/websocket.service /etc/systemd/system/websocket.service
+systemctl daemon-reload
+service start websocket
+restart start websocket
+service enable websocket
+
 echo --------------------------------------------------------------------------
 echo -----------------------Installed the Jitsi-Admin correct------------------
 echo --------------------------------------------------------------------------
