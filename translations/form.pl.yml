@@ -2,10 +2,10 @@ label.konferenzId: ID konferencji
 label.email: Adres e-mail
 label.name: Imię
 label.teilnehmerEmailhinzufuegen: EMail-Adressen von neuen Teilnehmenden eingeben
-label.teilnehmerSpeichern: E-Mail zur Einladung versenden
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
-help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
-label.organisatorhinzufuegen: Organisator hinzufügen
+label.teilnehmerSpeichern: Wyślij e-mail z zaproszeniem
+label.emailModerator: Wpisz adres e-mail organizatora
+help.emailTextfeld: Można dodać wiele adresów e-mail jednocześnie. Proszę wpisać każdy adres e-mail w osobnym wierszu.
+label.organisatorhinzufuegen: Dodaj organizatora
 label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Nazwa konferencji
 label.start: Rozpocznij
@@ -73,7 +73,7 @@ label.scheduleMeeting: Termin vorschlagen
 help:
   serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
   featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
-  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
+  teilnehmerEmailhinzufuegenModerator: Można dodać wiele adresów e-mail jednocześnie. Proszę wpisać każdy adres e-mail w osobnym wierszu.
   serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
@@ -83,24 +83,24 @@ help:
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten
-  serverSmtpHostName: SMTP-Hostname
+  serverSmtpHostName: Nazwa hosta SMTP
   serverSmtpHostPort: Port SMTP
   serverSmtpEncryption: Szyfrowanie
   serverSmtpUsername: Użytkownik SMTP
   serverSmtpPassword: Hasło SMTP
   serverSmtpSenderEmail: E-mail nadawcy
   serverSmtpSenderName: Nazwa nadawcy
-  serverLintLogo: Link zu Logo
-  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für E-Mail
-  serverEmailBody: Individueller Content für E-Mail
-  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
+  serverLintLogo: Link do logo
+  serverPrivacyPolicy: Informacje o prywatności dla tego serwera
+  serverEmailHeader: Niestandardowy nagłówek wiadomości e-mail
+  serverEmailBody: Niestandardowa treść wiadomości e-mail
+  serverLicenseKey: Wprowadź klucz licencyjny jitsi-admin
   apiKey: Klucz Api serwera
   agenda: Plan spotkania
-  staticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
-  schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
-  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
-  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
+  staticBackgroundColor: Wybierz inny kolor tła strony dołączenia.
+  schowStaticBackgroundColor: Wybierz inny kolor tła strony dołączenia.
+  featureEnalbeByJwt: Wtyczka "Enable Feature By JWT" jest włączona na serwerze.
+  dissallowScreenshareGlobal: Tylko moderator może udostępnić widok na swoim ekranie.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
   puplicRoom: Link zur Einladung freischalten
   showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
