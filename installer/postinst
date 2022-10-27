@@ -5,9 +5,8 @@ systemctl start websocket.service
 systemctl restart websocket.service
 systemctl is-active --quiet websocket.service && echo websocket.service is running
 
-php bin/console doc:mig:mig --no-interaction
-php bin/console cache:clear
-chown -R www-data:www-data /var/www/jitsi-admin/var/
+
+
 
 systemctl stop jitsi-admin_messenger.service
 systemctl daemon-reload
@@ -15,6 +14,7 @@ systemctl enable jitsi-admin_messenger.service
 systemctl start jitsi-admin_messenger.service
 systemctl restart jitsi-admin_messenger.service
 systemctl is-active --quiet jitsi-admin_messenger.service && echo jitsi-admin_messenger.service is running
+
 
 #
 #echo Welcome to the installer:
@@ -125,11 +125,10 @@ php /var/www/jitsi-admin/bin/console doc:mig:mig --no-interaction
 php bin/console cache:clear
 
 
-
-
-
 chown -R www-data:www-data /var/www/jitsi-admin/var/
 chown -R www-data:www-data /var/log/websocket/
 
-systemctl start nginx
+ln -s /etc/nginx/sites-available/jitsiadmin.conf /etc/nginx/sites-enabled/
+
+systemctl restart nginx
 
