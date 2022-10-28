@@ -490,13 +490,22 @@ $rotateNeg: -20deg;
 }
 
 @keyframes growheight {
-  from {
-    transform: translateX(-100%);
-
+  0% {
+    transform: translateX(-150%);
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
   }
-  to {
+  50% {
+    height: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  60%{
+    transform: translateX(-150%);
+  }
+  100%{
     transform: translateX(0);
-
   }
 }
 

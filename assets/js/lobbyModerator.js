@@ -21,6 +21,7 @@ import {leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
 import {initSearchCallOut} from "./inviteCalloutUser";
 import {initSendMessage} from "./sendMessageToWaitingUser";
+import {detectOverflow} from "@popperjs/core";
 
 var jitsiApi;
 
@@ -135,5 +136,6 @@ $(document).ready(function () {
     initGenerell();
     initMercure();
     initDragParticipants();
+    const customBoundary = document.querySelector('body');
 
 })
