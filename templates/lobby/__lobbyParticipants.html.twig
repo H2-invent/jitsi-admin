@@ -65,26 +65,15 @@
                    href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-times"></i>
                 </a>
-                <div class="dropdown">
+                <div class="dropdown dropend">
                     <a class="btn btn-lg btn-outline-success btn-floating" data-mdb-ripple-color="dark"
                        id="dropdownMenu2"
                        data-mdb-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-solid fa-paper-plane"></i>
                     </a>
                     <ul class="dropdown-menu" style="min-width: 250px;" aria-labelledby="dropdownMenu2">
-                        {% for m in getPredefinedMessages() %}
-                            <li>
-                                <button
-                                        data-url="{{ path('lobby_send_message_to_waitinguser') }}"
-                                        data-id="{{ m.id }}"
-                                        class="dropdown-item sendMessageToWaitingUserPredefined"
-                                        type="button"
-                                        data-uid="{{ wU.uid }}"
-                                >{{ m.text }}</button>
-                            </li>
-                        {% endfor %}
                         {% if getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES') == 1 %}
-                            <li>
+                            <li class="p-1 pt-2">
                                 <div class="input-group  w-100">
                                     <div class="form-outline bg-white flex-grow-1">
                                         <input href="#"
@@ -111,6 +100,18 @@
                                 </div>
                             </li>
                         {% endif %}
+                        {% for m in getPredefinedMessages() %}
+                            <li>
+                                <button
+                                        data-url="{{ path('lobby_send_message_to_waitinguser') }}"
+                                        data-id="{{ m.id }}"
+                                        class="dropdown-item sendMessageToWaitingUserPredefined"
+                                        type="button"
+                                        data-uid="{{ wU.uid }}"
+                                >{{ m.text }}</button>
+                            </li>
+                        {% endfor %}
+
                     </ul>
                 </div>
             </div>
