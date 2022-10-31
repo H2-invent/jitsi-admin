@@ -1781,40 +1781,120 @@
         <target state="needs-translation">Sie wurden von {name} eingeladen</target>
       </trans-unit>
       <trans-unit id="l7wQdDI" resname="callout.message.timeout">
-        <source>Der/Die Angerufene hat nicht abgenommen</source>
+        <source>callout.message.timeout</source>
         <target state="needs-translation">Der/Die Angerufene hat nicht abgenommen</target>
       </trans-unit>
       <trans-unit id="5NiLGgo" resname="callout.message.occupied">
-        <source>Der Anschluss ist besetzt.</source>
+        <source>callout.message.occupied</source>
         <target state="needs-translation">Der Anschluss ist besetzt.</target>
       </trans-unit>
       <trans-unit id="rJeuurV" resname="callout.message.later">
-        <source>Der/Die Angerufene wird später der Konferenz beitreten.</source>
+        <source>callout.message.later</source>
         <target state="needs-translation">Der/Die Angerufene wird später der Konferenz beitreten.</target>
       </trans-unit>
       <trans-unit id="ACda2_m" resname="callout.message.refuse">
-        <source>Der/Die Angerufene hat abgelehnt.</source>
+        <source>callout.message.refuse</source>
         <target state="needs-translation">Der/Die Angerufene hat abgelehnt.</target>
       </trans-unit>
       <trans-unit id="YSIci3n" resname="callout.message.error">
-        <source>Fehler. Melden Sie sich bei Ihrem Support.</source>
+        <source>callout.message.error</source>
         <target state="needs-translation">Fehler. Melden Sie sich bei Ihrem Support.</target>
       </trans-unit>
       <trans-unit id="8lD0JjZ" resname="callout.status.occupied">
-        <source>Besetzt</source>
+        <source>callout.status.occupied</source>
         <target state="needs-translation">Besetzt</target>
       </trans-unit>
       <trans-unit id="22udBvG" resname="callout.status.later">
-        <source>Später</source>
+        <source>callout.status.later</source>
         <target state="needs-translation">Später</target>
       </trans-unit>
       <trans-unit id="IRAN.Xg" resname="callout.status.timeout">
-        <source>Nicht abgenommen</source>
+        <source>callout.status.timeout</source>
         <target state="needs-translation">Nicht abgenommen</target>
       </trans-unit>
       <trans-unit id="Vu7cvDR" resname="callout.info.noMoreRetries">
-        <source>Keine weiteren Anrufversuche möglich</source>
+        <source>callout.info.noMoreRetries</source>
         <target state="needs-translation">Keine weiteren Anrufversuche möglich</target>
+      </trans-unit>
+      <trans-unit id="AHd_0xd" resname="public.invite.more">
+        <source>public.invite.more</source>
+        <target state="needs-translation">Mehr Leute einladen</target>
+      </trans-unit>
+      <trans-unit id="9SW2XfU" resname="public.invite.text">
+        <source>public.invite.text</source>
+        <target state="needs-translation">Teilen Sie den Konferenzlink, um andere einzuladen</target>
+      </trans-unit>
+      <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
+        <source>public.invite.moreApps</source>
+        <target state="needs-translation">Einladung zur Versammlung teilen</target>
+      </trans-unit>
+      <trans-unit id="8khGYau" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
+        <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
+        <target state="needs-translation">Sie wurden zur Teilnahme an einem Meeting eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="fwbS4t6" resname="Am Meeting teilnehmen">
+        <source>Am Meeting teilnehmen</source>
+        <target state="needs-translation">Am Meeting teilnehmen</target>
+      </trans-unit>
+      <trans-unit id="QywJJfy" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
+        <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
+        <target state="needs-translation">Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</target>
+      </trans-unit>
+      <trans-unit id="KPYmZun" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
+        <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
+        <target state="needs-translation">Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</target>
+      </trans-unit>
+      <trans-unit id="IZse4aO" resname="lobby.message.placeholder">
+        <source>lobby.message.placeholder</source>
+        <target state="needs-translation">Hier tippen...</target>
+      </trans-unit>
+      <trans-unit id="2yXw6Zm" resname="lobby.message.label">
+        <source>lobby.message.label</source>
+        <target state="needs-translation">Nachricht senden</target>
+      </trans-unit>
+      <trans-unit id="odr_pxD" resname="Meeting fertig">
+        <source>Meeting fertig</source>
+        <target state="needs-translation">Konferenz beendet</target>
+      </trans-unit>
+      <trans-unit id="R_Regnv" resname="PDF Download">
+        <source>PDF Download</source>
+        <target state="needs-translation">PDF Download</target>
+      </trans-unit>
+      <trans-unit id="RosfFYd" resname="Keine Agenda">
+        <source>Keine Agenda</source>
+        <target state="needs-translation">Keine Agenda</target>
+      </trans-unit>
+      <trans-unit id="27rjC1Z" resname="Geplant">
+        <source>Geplant</source>
+        <target state="needs-translation">Geplant</target>
+      </trans-unit>
+      <trans-unit id="vqqtmAk" resname="Durchgeführt">
+        <source>Durchgeführt</source>
+        <target state="needs-translation">Durchgeführt</target>
+      </trans-unit>
+      <trans-unit id="Q8c.RHz" resname="Jetzt">
+        <source>Jetzt</source>
+        <target state="needs-translation">Jetzt</target>
+      </trans-unit>
+      <trans-unit id="qCKbx7n" resname="Meeting Abgeschlossen">
+        <source>Meeting Abgeschlossen</source>
+        <target state="needs-translation">Konferenz Abgeschlossen</target>
+      </trans-unit>
+      <trans-unit id="IqR9Qwr" resname="Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.">
+        <source>Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</source>
+        <target state="needs-translation">Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</target>
+      </trans-unit>
+      <trans-unit id="FYNmS49" resname="Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a&#10;            href=&quot;http://www.adobe.com/products/acrobat/readstep2.html&quot;&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;&#10;        herunterladen und installieren können.">
+        <source>Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a
+            href="http://www.adobe.com/products/acrobat/readstep2.html"&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;
+        herunterladen und installieren können.</source>
+        <target state="needs-translation"><![CDATA[Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:<a
+            href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>
+        herunterladen und installieren können.]]></target>
+      </trans-unit>
+      <trans-unit id="FskrrR6" resname="options.meetingNotes">
+        <source>Konferennotizen</source>
+        <target state="needs-translation">Konferennotizen</target>
       </trans-unit>
     </body>
   </file>
