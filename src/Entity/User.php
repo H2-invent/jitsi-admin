@@ -111,6 +111,14 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: CalloutSession::class, orphanRemoval: true)]
     private Collection $calloutSessions;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'managers')]
+    #[ORM\JoinTable(name: "deputy_manager")]
+    private Collection $deputy;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'deputy')]
+    #[ORM\JoinTable(name: "deputy_manager")]
+    private Collection $managers;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -132,6 +140,8 @@ class User extends BaseUser
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
         $this->calloutSessions = new ArrayCollection();
+        $this->deputy = new ArrayCollection();
+        $this->managers = new ArrayCollection();
 
     }
 
@@ -905,7 +915,7 @@ class User extends BaseUser
         $res = array();
 
         if ($this->ldapUserProperties) {
-            $res[] =  $this->ldapUserProperties->getLdapNumber();
+            $res[] = $this->ldapUserProperties->getLdapNumber();
         }
         return $res;
     }
@@ -947,6 +957,57 @@ class User extends BaseUser
             if ($calloutSession->getUser() === $this) {
                 $calloutSession->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getDeputy(): Collection
+    {
+        return $this->deputy;
+    }
+
+    public function addDeputy(self $deputy): self
+    {
+        if (!$this->deputy->contains($deputy)) {
+            $this->deputy[] = $deputy;
+        }
+
+        return $this;
+    }
+
+    public function removeDeputy(self $deputy): self
+    {
+        $this->deputy->removeElement($deputy);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getManagers(): Collection
+    {
+        return $this->managers;
+    }
+
+    public function addManager(self $manager): self
+    {
+        if (!$this->managers->contains($manager)) {
+            $this->managers[] = $manager;
+            $manager->addDeputy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManager(self $manager): self
+    {
+        if ($this->managers->removeElement($manager)) {
+            $manager->removeDeputy($this);
         }
 
         return $this;

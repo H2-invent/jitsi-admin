@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="de" target-language="de" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="xUM1j9_" resname="label.konferenzId">
+        <source>label.konferenzId</source>
+        <target>Konferenz-ID</target>
+      </trans-unit>
+      <trans-unit id="D2N6_cP" resname="label.email">
+        <source>label.email</source>
+        <target>E-Mail-Adresse</target>
+      </trans-unit>
+      <trans-unit id="ysOvPSq" resname="label.name">
+        <source>label.name</source>
+        <target>Ihr Name</target>
+      </trans-unit>
+      <trans-unit id="UxO7xcH" resname="label.teilnehmerEmailhinzufuegen">
+        <source>label.teilnehmerEmailhinzufuegen</source>
+        <target>E-Mail-Adressen von neuen Teilnehmenden eingeben</target>
+      </trans-unit>
+      <trans-unit id="QKvSxRV" resname="label.teilnehmerSpeichern">
+        <source>label.teilnehmerSpeichern</source>
+        <target>E-Mail zur Einladung versenden</target>
+      </trans-unit>
+      <trans-unit id="nTZkWDo" resname="label.emailModerator">
+        <source>label.emailModerator</source>
+        <target>E-Mail-Adresse des Organisators eingeben</target>
+      </trans-unit>
+      <trans-unit id="8yOUPT9" resname="help.emailTextfeld">
+        <source>help.emailTextfeld</source>
+        <target>Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.</target>
+      </trans-unit>
+      <trans-unit id="qsotaUS" resname="label.organisatorhinzufuegen">
+        <source>label.organisatorhinzufuegen</source>
+        <target>Organisator hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="k4exz0T" resname="label.serverKonferenz">
+        <source>label.serverKonferenz</source>
+        <target>Jitsi Meet Server</target>
+      </trans-unit>
+      <trans-unit id="AnB3kG4" resname="label.konferenzName">
+        <source>label.konferenzName</source>
+        <target>Name der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="WfuvRQg" resname="label.start">
+        <source>label.start</source>
+        <target>Start</target>
+      </trans-unit>
+      <trans-unit id="JMdq45." resname="label.dauerKonferenz">
+        <source>label.dauerKonferenz</source>
+        <target>Dauer der Konferenz</target>
+      </trans-unit>
+      <trans-unit id="wVFaQsR" resname="label.nurRegistriertenutzer">
+        <source>label.nurRegistriertenutzer</source>
+        <target>Nur registrierte Benutzer dürfen der Konferenz beitreten.</target>
+      </trans-unit>
+      <trans-unit id="R12b_I7" resname="label.speichern">
+        <source>label.speichern</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="vO.TNuq" resname="option.15min">
+        <source>option.15min</source>
+        <target>15 Minuten</target>
+      </trans-unit>
+      <trans-unit id="NJ24uoy" resname="option.30min">
+        <source>option.30min</source>
+        <target>30 Minuten</target>
+      </trans-unit>
+      <trans-unit id="9ZXoQRX" resname="option.45min">
+        <source>option.45min</source>
+        <target>45 Minuten</target>
+      </trans-unit>
+      <trans-unit id="qatl42b" resname="option.60min">
+        <source>option.60min</source>
+        <target>1 Stunde</target>
+      </trans-unit>
+      <trans-unit id="veuVEUm" resname="option.75min">
+        <source>option.75min</source>
+        <target>1:15 Stunden</target>
+      </trans-unit>
+      <trans-unit id="MtbQL2H" resname="option.90min">
+        <source>option.90min</source>
+        <target>1:30 Stunden</target>
+      </trans-unit>
+      <trans-unit id=".2DDrQN" resname="option.105min">
+        <source>option.105min</source>
+        <target>1:45 Stunden</target>
+      </trans-unit>
+      <trans-unit id="aL4n5_Q" resname="option.120min">
+        <source>option.120min</source>
+        <target>2 Stunden</target>
+      </trans-unit>
+      <trans-unit id="e2Ejp_j" resname="option.150min">
+        <source>option.150min</source>
+        <target>2:30 Stunden</target>
+      </trans-unit>
+      <trans-unit id="lhqErf_" resname="option.180min">
+        <source>option.180min</source>
+        <target>3 Stunden</target>
+      </trans-unit>
+      <trans-unit id="aM6TKMp" resname="option.210min">
+        <source>option.210min</source>
+        <target>3:30 Stunden</target>
+      </trans-unit>
+      <trans-unit id="5ZbbM5y" resname="option.240min">
+        <source>option.240min</source>
+        <target>4 Stunden</target>
+      </trans-unit>
+      <trans-unit id="WjUBQC6" resname="option.270min">
+        <source>option.270min</source>
+        <target>4:30 Stunden</target>
+      </trans-unit>
+      <trans-unit id="2CgRCRC" resname="option.300min">
+        <source>option.300min</source>
+        <target>5 Stunden</target>
+      </trans-unit>
+      <trans-unit id="0lDtvqP" resname="option.330min">
+        <source>option.330min</source>
+        <target>5:30 Stunden</target>
+      </trans-unit>
+      <trans-unit id="t0BnM3l" resname="option.360min">
+        <source>option.360min</source>
+        <target>6 Stunden</target>
+      </trans-unit>
+      <trans-unit id="q8vsLkE" resname="option.390min">
+        <source>option.390min</source>
+        <target>6:30 Stunden</target>
+      </trans-unit>
+      <trans-unit id="7m7Hz3n" resname="option.420min">
+        <source>option.420min</source>
+        <target>7 Stunden</target>
+      </trans-unit>
+      <trans-unit id="zlI9Vkl" resname="option.450min">
+        <source>option.450min</source>
+        <target>7:30 Stunden</target>
+      </trans-unit>
+      <trans-unit id="02hR5iq" resname="option.480min">
+        <source>option.480min</source>
+        <target>8 Stunden</target>
+      </trans-unit>
+      <trans-unit id="AVm1xUr" resname="option.monday">
+        <source>option.monday</source>
+        <target>Montag</target>
+      </trans-unit>
+      <trans-unit id="hvwLZSD" resname="option.tuesday">
+        <source>option.tuesday</source>
+        <target>Dienstag</target>
+      </trans-unit>
+      <trans-unit id="jVOdMnF" resname="option.wednesday">
+        <source>option.wednesday</source>
+        <target>Mittwoch</target>
+      </trans-unit>
+      <trans-unit id="OnLMGH9" resname="option.thursday">
+        <source>option.thursday</source>
+        <target>Donnerstag</target>
+      </trans-unit>
+      <trans-unit id="egf6BgA" resname="option.friday">
+        <source>option.friday</source>
+        <target>Freitag</target>
+      </trans-unit>
+      <trans-unit id="6.S8PDV" resname="option.saturday">
+        <source>option.saturday</source>
+        <target>Samstag</target>
+      </trans-unit>
+      <trans-unit id="1uGOLo6" resname="option.sunday">
+        <source>option.sunday</source>
+        <target>Sonntag</target>
+      </trans-unit>
+      <trans-unit id="yUrQ.82" resname="option.weekly">
+        <source>option.weekly</source>
+        <target>Wöchentlich</target>
+      </trans-unit>
+      <trans-unit id="va0Lesy" resname="option.daily">
+        <source>option.daily</source>
+        <target>Täglich</target>
+      </trans-unit>
+      <trans-unit id="4vfTnAK" resname="option.montly">
+        <source>option.montly</source>
+        <target>Monatlich</target>
+      </trans-unit>
+      <trans-unit id="_VcvT09" resname="option.yearly">
+        <source>option.yearly</source>
+        <target>Jährlich</target>
+      </trans-unit>
+      <trans-unit id="a9FeyP2" resname="option.montlyRelative">
+        <source>option.montlyRelative</source>
+        <target>Monatlich flexibel festlegen</target>
+      </trans-unit>
+      <trans-unit id="BCXQ0BA" resname="option.yearlyRelative">
+        <source>option.yearlyRelative</source>
+        <target>Jährlich flexibel festlegen</target>
+      </trans-unit>
+      <trans-unit id="sg4ysyB" resname="option.first">
+        <source>option.first</source>
+        <target>Erster</target>
+      </trans-unit>
+      <trans-unit id="v4cFTHe" resname="option.second">
+        <source>option.second</source>
+        <target>Zweiter</target>
+      </trans-unit>
+      <trans-unit id="UMAIDYo" resname="option.third">
+        <source>option.third</source>
+        <target>Dritter</target>
+      </trans-unit>
+      <trans-unit id="Mi5InuZ" resname="option.fourth">
+        <source>option.fourth</source>
+        <target>Vierter</target>
+      </trans-unit>
+      <trans-unit id="_4UF4pl" resname="option.fifth">
+        <source>option.fifth</source>
+        <target>Fünfter</target>
+      </trans-unit>
+      <trans-unit id="MfHwhtc" resname="option.last">
+        <source>option.last</source>
+        <target>Letzter</target>
+      </trans-unit>
+      <trans-unit id="69X5fyU" resname="option.january">
+        <source>option.january</source>
+        <target>Januar</target>
+      </trans-unit>
+      <trans-unit id="Hzoe88F" resname="option.february">
+        <source>option.february</source>
+        <target>Februar</target>
+      </trans-unit>
+      <trans-unit id="s.blbCu" resname="option.march">
+        <source>option.march</source>
+        <target>März</target>
+      </trans-unit>
+      <trans-unit id="lTuI2PU" resname="option.april">
+        <source>option.april</source>
+        <target>April</target>
+      </trans-unit>
+      <trans-unit id="wCv5oSX" resname="option.may">
+        <source>option.may</source>
+        <target>Mai</target>
+      </trans-unit>
+      <trans-unit id="G8qkGRO" resname="option.june">
+        <source>option.june</source>
+        <target>Juni</target>
+      </trans-unit>
+      <trans-unit id="ql98gfl" resname="option.july">
+        <source>option.july</source>
+        <target>Juli</target>
+      </trans-unit>
+      <trans-unit id="e_I7ExJ" resname="option.august">
+        <source>option.august</source>
+        <target>August</target>
+      </trans-unit>
+      <trans-unit id="1s5aywB" resname="option.septembre">
+        <source>option.septembre</source>
+        <target>September</target>
+      </trans-unit>
+      <trans-unit id="wJ4OLwa" resname="option.octobre">
+        <source>option.octobre</source>
+        <target>Oktober</target>
+      </trans-unit>
+      <trans-unit id="kMg0nLA" resname="option.novembre">
+        <source>option.novembre</source>
+        <target>November</target>
+      </trans-unit>
+      <trans-unit id="WnPpU5c" resname="option.decembre">
+        <source>option.decembre</source>
+        <target>Dezember</target>
+      </trans-unit>
+      <trans-unit id="pjE2Jx1" resname="option.user">
+        <source>option.user</source>
+        <target>Im User Claim</target>
+      </trans-unit>
+      <trans-unit id="Xw804cf" resname="option.root">
+        <source>option.root</source>
+        <target>Im Root Claim</target>
+      </trans-unit>
+      <trans-unit id="3TONnOW" resname="lable.serverUrl">
+        <source>lable.serverUrl</source>
+        <target>Jitsi Meet Server URL</target>
+      </trans-unit>
+      <trans-unit id="k3blsfO" resname="label.appId">
+        <source>label.appId</source>
+        <target>App-ID</target>
+      </trans-unit>
+      <trans-unit id="PL8AxHL" resname="label.appSecret">
+        <source>label.appSecret</source>
+        <target>App-Secret</target>
+      </trans-unit>
+      <trans-unit id="VMrKYva" resname="label.scheduleMeeting">
+        <source>label.scheduleMeeting</source>
+        <target>Termin vorschlagen</target>
+      </trans-unit>
+      <trans-unit id="BqEYeOz" resname="help.serverUrl">
+        <source>help.serverUrl</source>
+        <target>Ohne „https://“ angeben (z.B. meet.jit.si)</target>
+      </trans-unit>
+      <trans-unit id="1jBuV0S" resname="help.featureEnalbeByJwt">
+        <source>help.featureEnalbeByJwt</source>
+        <target>Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.</target>
+      </trans-unit>
+      <trans-unit id="CNbB2Vt" resname="help.teilnehmerEmailhinzufuegenModerator">
+        <source>help.teilnehmerEmailhinzufuegenModerator</source>
+        <target>Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.</target>
+      </trans-unit>
+      <trans-unit id="5E4tAMq" resname="help.serverName">
+        <source>help.serverName</source>
+        <target>Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.</target>
+      </trans-unit>
+      <trans-unit id="bAJiOpy" resname="help.secondEmail">
+        <source>help.secondEmail</source>
+        <target>Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).</target>
+      </trans-unit>
+      <trans-unit id="iIkS2DQ" resname="help.corsHeader">
+        <source>help.corsHeader</source>
+        <target>Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.</target>
+      </trans-unit>
+      <trans-unit id="_1Vg6n5" resname="help.jigasiApiUrl">
+        <source>help.jigasiApiUrl</source>
+        <target>Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".</target>
+      </trans-unit>
+      <trans-unit id="7mLkEpa" resname="help.jigasiNumberUrl">
+        <source>help.jigasiNumberUrl</source>
+        <target>Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.</target>
+      </trans-unit>
+      <trans-unit id="WswIPvU" resname="help.jigasiProsodyDomain">
+        <source>help.jigasiProsodyDomain</source>
+        <target>Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".</target>
+      </trans-unit>
+      <trans-unit id="mc_AfHe" resname="label.beitretenApp">
+        <source>label.beitretenApp</source>
+        <target>Mit der Elektron-App beitreten</target>
+      </trans-unit>
+      <trans-unit id="aSjC4RU" resname="label.beitretenBrowser">
+        <source>label.beitretenBrowser</source>
+        <target>Im Browser beitreten</target>
+      </trans-unit>
+      <trans-unit id="QYMsOIG" resname="label.serverSmtpHostName">
+        <source>label.serverSmtpHostName</source>
+        <target>SMTP-Hostname</target>
+      </trans-unit>
+      <trans-unit id="Fz9Ufe2" resname="label.serverSmtpHostPort">
+        <source>label.serverSmtpHostPort</source>
+        <target>SMTP-Port</target>
+      </trans-unit>
+      <trans-unit id="Ju2_lYQ" resname="label.serverSmtpEncryption">
+        <source>label.serverSmtpEncryption</source>
+        <target>Verschlüsselung</target>
+      </trans-unit>
+      <trans-unit id="9ZybQlu" resname="label.serverSmtpUsername">
+        <source>label.serverSmtpUsername</source>
+        <target>SMTP-Benutzername</target>
+      </trans-unit>
+      <trans-unit id="BG_eJtM" resname="label.serverSmtpPassword">
+        <source>label.serverSmtpPassword</source>
+        <target>SMTP-Passwort</target>
+      </trans-unit>
+      <trans-unit id="RbzApbo" resname="label.serverSmtpSenderEmail">
+        <source>label.serverSmtpSenderEmail</source>
+        <target>Absender-E-Mail</target>
+      </trans-unit>
+      <trans-unit id="jGCPWWD" resname="label.serverSmtpSenderName">
+        <source>label.serverSmtpSenderName</source>
+        <target>Absendername</target>
+      </trans-unit>
+      <trans-unit id="rpJ452x" resname="label.serverLintLogo">
+        <source>label.serverLintLogo</source>
+        <target>Link zu Logo</target>
+      </trans-unit>
+      <trans-unit id="8f7oIZa" resname="label.serverPrivacyPolicy">
+        <source>label.serverPrivacyPolicy</source>
+        <target>Datenschutzhinweise für diesen Server</target>
+      </trans-unit>
+      <trans-unit id="JJvSgn8" resname="label.serverEmailHeader">
+        <source>label.serverEmailHeader</source>
+        <target>Individuelle Überschrift für E-Mail</target>
+      </trans-unit>
+      <trans-unit id="fN6zop9" resname="label.serverEmailBody">
+        <source>label.serverEmailBody</source>
+        <target>Individueller Content für E-Mail</target>
+      </trans-unit>
+      <trans-unit id="i4xPBYq" resname="label.serverLicenseKey">
+        <source>label.serverLicenseKey</source>
+        <target>Jitsi-Admin-Lizenz-Key eingeben</target>
+      </trans-unit>
+      <trans-unit id="jsWzaHN" resname="label.apiKey">
+        <source>label.apiKey</source>
+        <target>Api-Key für diesen Server</target>
+      </trans-unit>
+      <trans-unit id="iLj5jl_" resname="label.agenda">
+        <source>label.agenda</source>
+        <target>Kurze Agenda für dieses Meeting (Markdown)</target>
+      </trans-unit>
+      <trans-unit id="DcZ7hQq" resname="label.staticBackgroundColor">
+        <source>label.staticBackgroundColor</source>
+        <target>Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.</target>
+      </trans-unit>
+      <trans-unit id="fmCzrhJ" resname="label.schowStaticBackgroundColor">
+        <source>label.schowStaticBackgroundColor</source>
+        <target>Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.</target>
+      </trans-unit>
+      <trans-unit id="IdErVKV" resname="label.featureEnalbeByJwt">
+        <source>label.featureEnalbeByJwt</source>
+        <target>„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.</target>
+      </trans-unit>
+      <trans-unit id="s4GQoxs" resname="label.dissallowScreenshareGlobal">
+        <source>label.dissallowScreenshareGlobal</source>
+        <target>Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.</target>
+      </trans-unit>
+      <trans-unit id="hXgzp2y" resname="label.dissallowPrivateMessage">
+        <source>label.dissallowPrivateMessage</source>
+        <target>Nur der Moderator darf private Nachrichten an Teilnehmende senden.</target>
+      </trans-unit>
+      <trans-unit id="RRK3UbK" resname="label.puplicRoom">
+        <source>label.puplicRoom</source>
+        <target>Link zur Einladung freischalten</target>
+      </trans-unit>
+      <trans-unit id="xhadUT6" resname="label.showRoomOnJoinpage">
+        <source>label.showRoomOnJoinpage</source>
+        <target>Konferenz auf Join-Seite anzeigen</target>
+      </trans-unit>
+      <trans-unit id="a6vDFwH" resname="label.subscribe">
+        <source>label.subscribe</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit id="pS5gEgV" resname="label.vorname">
+        <source>label.vorname</source>
+        <target>Vorname</target>
+      </trans-unit>
+      <trans-unit id="bpdmIF8" resname="label.nachname">
+        <source>label.nachname</source>
+        <target>Nachname</target>
+      </trans-unit>
+      <trans-unit id="CAhDAjK" resname="label.maxParticipants">
+        <source>label.maxParticipants</source>
+        <target>Maximale Anzahl der Teilnehmenden zulassen</target>
+      </trans-unit>
+      <trans-unit id="4VygG92" resname="label.waitinglist">
+        <source>label.waitinglist</source>
+        <target>Warteliste aktivieren</target>
+      </trans-unit>
+      <trans-unit id="Ops7XbW" resname="label.teilnehmerEmailhinzufuegenModerator">
+        <source>label.teilnehmerEmailhinzufuegenModerator</source>
+        <target>E-Mail-Adressen der neuen Moderatoren eingeben</target>
+      </trans-unit>
+      <trans-unit id="QoBw20P" resname="label.weekday">
+        <source>label.weekday</source>
+        <target>Wochentag</target>
+      </trans-unit>
+      <trans-unit id=".Y9x4xe" resname="label.repetation">
+        <source>label.repetation</source>
+        <target>Endet nach x Terminen</target>
+      </trans-unit>
+      <trans-unit id="Wd1YB0H" resname="label.repeatType">
+        <source>label.repeatType</source>
+        <target>Serienmuster</target>
+      </trans-unit>
+      <trans-unit id="Dkz1.2M" resname="label.repeaterDays">
+        <source>label.repeaterDays</source>
+        <target>Nach x Tagen wiederholen</target>
+      </trans-unit>
+      <trans-unit id="sojAeIy" resname="label.repeaterWeeks">
+        <source>label.repeaterWeeks</source>
+        <target>Nach x Wochen wiederholen</target>
+      </trans-unit>
+      <trans-unit id="GanMtu7" resname="label.repeatMontly">
+        <source>label.repeatMontly</source>
+        <target>Nach x Monaten wiederholen</target>
+      </trans-unit>
+      <trans-unit id="g6gND3Z" resname="label.repeatYearly">
+        <source>label.repeatYearly</source>
+        <target>Nach x Jahren wiederholen</target>
+      </trans-unit>
+      <trans-unit id="59sMjG1" resname="label.montlyRelativeNumber">
+        <source>label.montlyRelativeNumber</source>
+        <target>Wie vielter Wochentag im Monat</target>
+      </trans-unit>
+      <trans-unit id="dNCN88V" resname="label.montlyRelativeWeekday">
+        <source>label.montlyRelativeWeekday</source>
+        <target>Wochentag</target>
+      </trans-unit>
+      <trans-unit id="8XxioUz" resname="label.montlyRelativeMonth">
+        <source>label.montlyRelativeMonth</source>
+        <target>Monat</target>
+      </trans-unit>
+      <trans-unit id="Kq.8m3T" resname="label.repeaterRemoved">
+        <source>label.repeaterRemoved</source>
+        <target>Nur dieses Element bearbeiten (nicht die gesamte Serie)</target>
+      </trans-unit>
+      <trans-unit id="W4XnBZB" resname="label.persistantRoom">
+        <source>label.persistantRoom</source>
+        <target>Diese Konferenz hat kein Datum, sondern ist immer verfügbar.</target>
+      </trans-unit>
+      <trans-unit id="OHRCmXe" resname="label.totalOpenRooms">
+        <source>label.totalOpenRooms</source>
+        <target>Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link</target>
+      </trans-unit>
+      <trans-unit id="WGDor88" resname="label.totalOpenRoomsOpenTime">
+        <source>label.totalOpenRoomsOpenTime</source>
+        <target>Raumöffnungszeit</target>
+      </trans-unit>
+      <trans-unit id="4nF3GOG" resname="label.addressgroupName">
+        <source>label.addressgroupName</source>
+        <target>Gruppenname</target>
+      </trans-unit>
+      <trans-unit id="1UCJEcc" resname="label.addressgroupMember">
+        <source>label.addressgroupMember</source>
+        <target>Gruppenmitglieder auswählen</target>
+      </trans-unit>
+      <trans-unit id="k7eo354" resname="label.jwtModeratorPosition">
+        <source>label.jwtModeratorPosition</source>
+        <target>Moderatorposition im JWT Token</target>
+      </trans-unit>
+      <trans-unit id="dmtPdwq" resname="label.timezone">
+        <source>label.timezone</source>
+        <target>Zeitzone</target>
+      </trans-unit>
+      <trans-unit id="xY8q87i" resname="label.serverName">
+        <source>label.serverName</source>
+        <target>Servername</target>
+      </trans-unit>
+      <trans-unit id="miW8pqE" resname="label.lobby">
+        <source>label.lobby</source>
+        <target>Lobby aktivieren</target>
+      </trans-unit>
+      <trans-unit id="2YMZr76" resname="label.secondEmail">
+        <source>label.secondEmail</source>
+        <target>CC-E-Mail</target>
+      </trans-unit>
+      <trans-unit id="nLdYcRp" resname="label.profilImage">
+        <source>label.profilImage</source>
+        <target>Profilbild (Wird im Jitsi-Meet Meeting angezeigt)</target>
+      </trans-unit>
+      <trans-unit id="yxR8_lE" resname="label.corsHeader">
+        <source>label.corsHeader</source>
+        <target>CORS-Header oder frame-ancestor Header</target>
+      </trans-unit>
+      <trans-unit id="VNCQ7YU" resname="label.tag">
+        <source>label.tag</source>
+        <target>Kategorie</target>
+      </trans-unit>
+      <trans-unit id="87wtavq" resname="label.serverBackgroundImage">
+        <source>label.serverBackgroundImage</source>
+        <target>Statitisches Hintergrund für die Joinseite</target>
+      </trans-unit>
+      <trans-unit id="KLbdCFE" resname="label.jigasiApiUrl">
+        <source>label.jigasiApiUrl</source>
+        <target>Jigasi ConferenceMapper-URL</target>
+      </trans-unit>
+      <trans-unit id="9tuZhCG" resname="label.jigasiNumberUrl">
+        <source>label.jigasiNumberUrl</source>
+        <target>Jigasi Einwahlnummern im JSON-Format</target>
+      </trans-unit>
+      <trans-unit id="mf5TXSN" resname="label.jigasiProsodyDomain">
+        <source>label.jigasiProsodyDomain</source>
+        <target>Jigasi Prosody Domain</target>
+      </trans-unit>
+      <trans-unit id="GMRSXeR" resname="label.go">
+        <source>label.go</source>
+        <target>Los gehts!</target>
+      </trans-unit>
+      <trans-unit id="q3u5Jtd" resname="choice.tls">
+        <source>choice.tls</source>
+        <target>STARTTLS/TLS</target>
+      </trans-unit>
+      <trans-unit id="v29CatR" resname="choice.ssl">
+        <source>choice.ssl</source>
+        <target>SSL</target>
+      </trans-unit>
+      <trans-unit id="QeK0s6N" resname="choice.none">
+        <source>choice.none</source>
+        <target>Keine</target>
+      </trans-unit>
+      <trans-unit id="SHPlkhr" resname="placeholder.maxParticipants">
+        <source>placeholder.maxParticipants</source>
+        <target>Keine Begrenzung</target>
+      </trans-unit>
+      <trans-unit id="I2S7HKE" resname="placeholder.chooseTime">
+        <source>placeholder.chooseTime</source>
+        <target>Zeit und Datum auswählen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

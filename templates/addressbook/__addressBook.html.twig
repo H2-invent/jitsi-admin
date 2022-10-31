@@ -20,7 +20,8 @@
                     {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
                         <div class="form-check me-2">
                             <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
-                                   data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}" checked/>
+                                   data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}"
+                                   checked/>
                             <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
                         </div>
                     {% endfor %}
@@ -34,56 +35,17 @@
             <ul class="list-group">
                 {% set name = null %}
                 {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
-                    {% if u|nameOfUserNoSymbol|first|upper != name %}
-                        <li class="list-group-item capital-Letter"
-                            id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</li>
-                        {% set name = u|nameOfUserNoSymbol|first|upper %}
-                    {% endif %}
-
-                    <li class="list-group-item adressbookline" data-uid="{{ u.uid }}"
-                        data-indexer="{{ u.indexer }}"
-                        data-filterafter="{{ u.categories|json_encode }}">
-            <span class="breakWord d-flex align-items-center name">
-        {% if u.profilePicture %}
-            <div class="iconSytle imageIcon me-2"
-                 style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
-            </div>
-        {% endif %}{{ u|nameOfUser }} </span>
-                        <span class="noBreak d-flex align-items-center icon">
-                {% if servers|length == 1 %}
-                    <a class="text-success adhocConfirm me-2 "
-                       data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                       href="{{ path('add_hoc_confirm',{'serverId':servers[0].id,'userId':u.id}) }}">
-                       <i class="fa-solid fa-phone-volume"></i>
-                             </a>
-                {% else %}
-                    <a class="caretdown dropdown-toggle text-success" data-mdb-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa-solid fa-phone-volume"></i>
-                             </a>
-                    <div class="dropdown-menu">
-            {% for s in servers %}
-                <a class="dropdown-item adhocConfirm"
-                   data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                   href="{{ path('add_hoc_confirm',{'serverId':s.id,'userId':u.id}) }}">{{ s.serverName }}</a>
-            {% endfor %}
-
-        </div>
+                {% if u|nameOfUserNoSymbol|first|upper != name %}
+                    <li class="list-group-item capital-Letter"
+                        id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}
+                    </li>
+                    {% set name = u|nameOfUserNoSymbol|first|upper %}
                 {% endif %}
-                            {% if theme == false or theme.trashOnAdressBook == true %}
-                                <a class="confirmHref ms-2" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
-                                   data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
-                                            class="fa fa-trash text-danger"></i> </a>
-                            {% endif %}
-        </span></li>
+                {% include('addressbook/__addressBookEntry.html.twig') with {'u':u} %}
                 {% endfor %}
             </ul>
         </div>
 
 
-
-
     </div>
-
-
 </div>

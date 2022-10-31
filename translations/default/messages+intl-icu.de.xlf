@@ -1903,7 +1903,7 @@
         herunterladen und installieren können.]]></target>
       </trans-unit>
       <trans-unit id="FskrrR6" resname="options.meetingNotes">
-        <source>Konferennotizen</source>
+        <source>options.meetingNotes</source>
         <target>Konferennotizen</target>
       </trans-unit>
     </body>

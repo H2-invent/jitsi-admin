@@ -12,6 +12,7 @@ namespace App\Form\Type;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
+use App\Entity\User;
 use App\Repository\TagRepository;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -75,6 +76,8 @@ class RoomType extends AbstractType
                 ]);
         }
         $tags = $this->entityManager->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
+        $organisators[] = $options['user'];
+       $organisators = array_merge($organisators,$options['user']->getManagers()->toArray());
 
         $builder
             ->add('name', TextType::class, ['disabled'=>$during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
@@ -164,6 +167,22 @@ class RoomType extends AbstractType
             }
 
         }
+        if (sizeof($organisators) > 1) {
+            $this->logger->debug('Add the possibility to select a supervisor');
+            if (sizeof($tags)>0){
+                $builder->add('moderator', EntityType::class, array(
+                    'class' => User::class,
+                    'choice_label' => function(User $user){
+                        return $user->getFormatedName($this->theme->getApplicationProperties('laf_showNameFrontend'));
+                    },
+                    'choices' =>$organisators,
+                    'required' => true,
+                    'label' => 'label.moderator',
+                    'translation_domain' => 'form'
+                ));
+            }
+
+        }
         $builder->add('submit', SubmitType::class, ['label' => 'label.speichern', 'translation_domain' => 'form', 'attr' => array(
             'class' => 'd-none')]);
     }
@@ -175,7 +194,8 @@ class RoomType extends AbstractType
             'server' => array(),
             'data_class' => Rooms::class,
             'minDate' => 'today',
-            'isEdit' => false
+            'isEdit' => false,
+            'user'=>User::class
         ]);
 
         $resolver->setDefault('attr', function (Options $options) {

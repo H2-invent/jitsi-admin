@@ -42,7 +42,7 @@ class RoomController extends JitsiAdminController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, RoomCheckService $roomCheckService)
+    public function newRoom(RoomGeneratorService $roomGeneratorService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, RoomCheckService $roomCheckService)
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $edit = false;
@@ -88,7 +88,7 @@ class RoomController extends JitsiAdminController
         }
 
         $roomold = clone $room;
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],), 'isEdit' => (bool)$request->get('id')]);
+        $form = $this->createForm(RoomType::class, $room, ['user'=>$this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],), 'isEdit' => (bool)$request->get('id')]);
         $form->remove('scheduleMeeting');
 
         try {
