@@ -46,7 +46,7 @@
         "interactjs": "^1.10.17",
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
-        "mdb-ui-kit": "^4.0.0",
+        "mdb-ui-kit": "^5.0.0",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
         "moveable": "^0.36.3",

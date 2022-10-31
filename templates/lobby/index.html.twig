@@ -62,7 +62,7 @@
                     </div>
                     <div id="waitingUserWrapper">
                         <div id="waitingUser" class="mb-3 d-flex">
-                            <div class="activeLobbyUsers flex-grow-1">
+                            <div class="activeLobbyUsers flex-grow-1 row">
                                 {% for wU in room.lobbyWaitungUsers %}
                                     {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
                                 {% endfor %}

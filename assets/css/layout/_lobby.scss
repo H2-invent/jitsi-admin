@@ -218,8 +218,12 @@ body {
 
 #waitingUserWrapper {
   flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  &:has(.waitingUserCard:nth-child(n+5)){
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 60vh;
+  }
+
 }
 
 .lobbyButtons {
@@ -386,12 +390,12 @@ body {
 .in-iframe {
   &:not(.in-smartPhone) {
     .buttonHolder {
-      &.buttons {
-        display: flex !important;
-        align-items: center;
-      }
 
-      &.slider {
+        .btn{
+          display: flex !important;
+        }
+
+      .slider {
         display: none !important;
       }
     }
@@ -401,7 +405,12 @@ body {
     }
   }
 }
-
+.buttonHolder{
+  .btn{
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+}
 .searchCallOutParticipantsDropdown {
   @include statusDot();
 }
@@ -471,7 +480,7 @@ $rotateNeg: -20deg;
 
   .content {
     left: 0;
-    transform: translateX(0) scale(0%);
+    transform: translateX(-50%) scale(0%);
     width: max-content;
     transition: transform 0.5s;
     background-color: $background-color;

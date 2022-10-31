@@ -4,7 +4,7 @@ function initSendMessage() {
         var ele = e.target.closest('.sendMessageToWaitingUserBtn');
         if(ele){
             var input = ele.closest('.input-group').querySelector('input');
-            sendToServer(ele.dataset.url,input.value,ele.dataset.uid);
+            sendToServer(input.dataset.url,input.value,input.dataset.uid);
             input.value = '';
         }
     })
@@ -21,11 +21,20 @@ function initSendMessage() {
             var btn = ele.closest('.input-group').querySelector('button');
             if (text.length > 0){
                 btn.disabled = false;
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    var input = ele.closest('.input-group').querySelector('input');
+                    sendToServer(input.dataset.url,input.value,input.dataset.uid);
+                    input.value = '';
+                }
             }else {
                 btn.disabled = true;
             }
         }
     })
+
+
+
+
 }
 
 function sendToServer(url,message,uid) {

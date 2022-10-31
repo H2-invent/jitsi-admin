@@ -55,17 +55,19 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class="buttonHolder buttons mt-lg-2 d-none d-md-flex align-items-center">
-                <a class="btn btn-lg btn-floating senddirect btn-success"
+            <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
+                <a class="btn btn-lg btn-floating senddirect btn-success d-none d-md-block"
                    href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-check"></i>
                 </a>
-                <a class="btn btn-lg btn-floating directSendWithConfirm btn-danger"
+                <a class="btn btn-lg btn-floating directSendWithConfirm btn-danger d-none d-md-block"
                    data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
                    href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-times"></i>
                 </a>
-                <div class="dropdown dropend">
+
+
+                <div class="dropdown dropstart">
                     <a class="btn btn-lg btn-outline-success btn-floating" data-mdb-ripple-color="dark"
                        id="dropdownMenu2"
                        data-mdb-toggle="dropdown" aria-expanded="false">
@@ -82,6 +84,8 @@
                                                id="sendMessageToWaitingUser{{ wU.id }}"
                                                class="form-control sendMessageToWaitingUserInput"
                                                placeholder="{{ 'lobby.message.placeholder'|trans }}"
+                                               data-url="{{ path('lobby_send_message_to_waitinguser') }}"
+                                               data-uid="{{ wU.uid }}"
                                         />
                                         <label class="form-label"
                                                for="sendMessageToWaitingUser{{ wU.id }}">{{ 'lobby.message.label'|trans }}</label>
@@ -92,8 +96,7 @@
                                             data-mdb-ripple-color="dark"
                                             disabled="disabled"
                                             href="#"
-                                            data-url="{{ path('lobby_send_message_to_waitinguser') }}"
-                                            data-uid="{{ wU.uid }}"
+
                                     >
                                         <i class="fas fa-solid fa-paper-plane"></i>
                                     </button>
@@ -114,9 +117,10 @@
 
                     </ul>
                 </div>
-            </div>
-            <div class="buttonHolder slider d-md-none">
-                <i class="fa-solid fa-left-right"></i>
+
+                <div class=" slider d-md-none">
+                    <i class="fa-solid fa-left-right"></i>
+                </div>
             </div>
         </div>
     </div>
