@@ -73,49 +73,7 @@
                        data-mdb-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-solid fa-paper-plane"></i>
                     </a>
-                    <ul class="dropdown-menu" style="min-width: 250px;" aria-labelledby="dropdownMenu2">
-                        {% if getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES') == 1 %}
-                            <li class="p-1 pt-2">
-                                <div class="input-group  w-100">
-                                    <div class="form-outline bg-white flex-grow-1">
-                                        <input href="#"
-                                               type="text"
-                                               autocomplete=off
-                                               id="sendMessageToWaitingUser{{ wU.id }}"
-                                               class="form-control sendMessageToWaitingUserInput"
-                                               placeholder="{{ 'lobby.message.placeholder'|trans }}"
-                                               data-url="{{ path('lobby_send_message_to_waitinguser') }}"
-                                               data-uid="{{ wU.uid }}"
-                                        />
-                                        <label class="form-label"
-                                               for="sendMessageToWaitingUser{{ wU.id }}">{{ 'lobby.message.label'|trans }}</label>
-
-                                    </div>
-                                    <button class="btn btn-primary sendMessageToWaitingUserBtn"
-                                            type="button"
-                                            data-mdb-ripple-color="dark"
-                                            disabled="disabled"
-                                            href="#"
-
-                                    >
-                                        <i class="fas fa-solid fa-paper-plane"></i>
-                                    </button>
-                                </div>
-                            </li>
-                        {% endif %}
-                        {% for m in getPredefinedMessages() %}
-                            <li>
-                                <button
-                                        data-url="{{ path('lobby_send_message_to_waitinguser') }}"
-                                        data-id="{{ m.id }}"
-                                        class="dropdown-item sendMessageToWaitingUserPredefined"
-                                        type="button"
-                                        data-uid="{{ wU.uid }}"
-                                >{{ m.text }}</button>
-                            </li>
-                        {% endfor %}
-
-                    </ul>
+                    {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser'),'uid':wU.id } %}
                 </div>
 
                 <div class=" slider d-md-none">

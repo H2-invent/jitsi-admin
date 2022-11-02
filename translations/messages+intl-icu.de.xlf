@@ -1903,8 +1903,12 @@
         herunterladen und installieren können.]]></target>
       </trans-unit>
       <trans-unit id="FskrrR6" resname="options.meetingNotes">
-        <source>Konferennotizen</source>
+        <source>options.meetingNotes</source>
         <target>Konferennotizen</target>
+      </trans-unit>
+      <trans-unit id="1tk6uB2" resname="lobby.btn.message.to.all">
+        <source>An alle Wartenden</source>
+        <target>An alle Wartenden</target>
       </trans-unit>
     </body>
   </file>
