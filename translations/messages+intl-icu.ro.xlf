@@ -1828,39 +1828,39 @@
       </trans-unit>
       <trans-unit id="AHd_0xd" resname="public.invite.more">
         <source>public.invite.more</source>
-        <target state="needs-translation">Mehr Leute einladen</target>
+        <target state="translated">Invitați mai multe persoane</target>
       </trans-unit>
       <trans-unit id="9SW2XfU" resname="public.invite.text">
         <source>public.invite.text</source>
-        <target state="needs-translation">Teilen Sie den Konferenzlink, um andere einzuladen</target>
+        <target state="translated">Partajați linkul conferinței pentru a invita alți participanți</target>
       </trans-unit>
       <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Versammlung teilen</target>
+        <target state="translated">Distribuiți invitația la conferință</target>
       </trans-unit>
       <trans-unit id="8khGYau" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
-        <target state="needs-translation">Sie wurden zur Teilnahme an einem Meeting eingeladen.</target>
+        <target state="translated">Ați fost invitat să participați la o conferință.</target>
       </trans-unit>
       <trans-unit id="fwbS4t6" resname="Am Meeting teilnehmen">
         <source>Am Meeting teilnehmen</source>
-        <target state="needs-translation">Am Meeting teilnehmen</target>
+        <target state="translated">Conectați-vă la conferință</target>
       </trans-unit>
       <trans-unit id="QywJJfy" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
         <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
-        <target state="needs-translation">Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</target>
+        <target state="translated">Selectați dacă doriți să vă conectați prin telefon</target>
       </trans-unit>
       <trans-unit id="KPYmZun" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
         <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
-        <target state="needs-translation">Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</target>
+        <target state="translated">Conectați-vă fără sunet, dacă apelați de la un telefon din cameră</target>
       </trans-unit>
       <trans-unit id="IZse4aO" resname="lobby.message.placeholder">
         <source>lobby.message.placeholder</source>
-        <target state="needs-translation">Hier tippen...</target>
+        <target state="translated">Apăsați aici...</target>
       </trans-unit>
       <trans-unit id="2yXw6Zm" resname="lobby.message.label">
         <source>lobby.message.label</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Trimite mesaj</target>
       </trans-unit>
       <trans-unit id="odr_pxD" resname="Meeting fertig">
         <source>Meeting fertig</source>
