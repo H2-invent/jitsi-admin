@@ -1818,83 +1818,83 @@
       </trans-unit>
       <trans-unit id="AHd_0xd" resname="public.invite.more">
         <source>public.invite.more</source>
-        <target state="needs-translation">Mehr Leute einladen</target>
+        <target state="translated">Invite People</target>
       </trans-unit>
       <trans-unit id="9SW2XfU" resname="public.invite.text">
         <source>public.invite.text</source>
-        <target state="needs-translation">Teilen Sie den Konferenzlink, um andere einzuladen</target>
+        <target state="translated">Share the conference link to invite others</target>
       </trans-unit>
       <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Versammlung teilen</target>
+        <target state="translated">Share the invitation to the meeting</target>
       </trans-unit>
       <trans-unit id="8khGYau" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
-        <target state="needs-translation">Sie wurden zur Teilnahme an einem Meeting eingeladen.</target>
+        <target state="translated">You have been invited to attend a meeting.</target>
       </trans-unit>
       <trans-unit id="fwbS4t6" resname="Am Meeting teilnehmen">
         <source>Am Meeting teilnehmen</source>
-        <target state="needs-translation">Am Meeting teilnehmen</target>
+        <target state="translated">Join the meeting</target>
       </trans-unit>
       <trans-unit id="QywJJfy" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
         <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
-        <target state="needs-translation">Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</target>
+        <target state="translated">Select if you would like to join by phone instead</target>
       </trans-unit>
       <trans-unit id="KPYmZun" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
         <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
-        <target state="needs-translation">Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</target>
+        <target state="translated">If you're also dialing in from a room phone, join without connecting to audio</target>
       </trans-unit>
       <trans-unit id="IZse4aO" resname="lobby.message.placeholder">
         <source>lobby.message.placeholder</source>
-        <target state="needs-translation">Hier tippen...</target>
+        <target state="translated">Tap here...</target>
       </trans-unit>
       <trans-unit id="2yXw6Zm" resname="lobby.message.label">
         <source>lobby.message.label</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Send Message</target>
       </trans-unit>
       <trans-unit id="odr_pxD" resname="Meeting fertig">
         <source>Meeting fertig</source>
-        <target state="needs-translation">Konferenz beendet</target>
+        <target state="translated">Conference ended</target>
       </trans-unit>
       <trans-unit id="R_Regnv" resname="PDF Download">
         <source>PDF Download</source>
-        <target state="needs-translation">PDF Download</target>
+        <target state="translated">PDF download</target>
       </trans-unit>
       <trans-unit id="RosfFYd" resname="Keine Agenda">
         <source>Keine Agenda</source>
-        <target state="needs-translation">Keine Agenda</target>
+        <target state="translated">12 / 5.000
+No agenda</target>
       </trans-unit>
       <trans-unit id="27rjC1Z" resname="Geplant">
         <source>Geplant</source>
-        <target state="needs-translation">Geplant</target>
+        <target state="translated">Scheduled</target>
       </trans-unit>
       <trans-unit id="vqqtmAk" resname="Durchgeführt">
         <source>Durchgeführt</source>
-        <target state="needs-translation">Durchgeführt</target>
+        <target state="translated">Carried out</target>
       </trans-unit>
       <trans-unit id="Q8c.RHz" resname="Jetzt">
         <source>Jetzt</source>
-        <target state="needs-translation">Jetzt</target>
+        <target state="translated">Now</target>
       </trans-unit>
       <trans-unit id="qCKbx7n" resname="Meeting Abgeschlossen">
         <source>Meeting Abgeschlossen</source>
-        <target state="needs-translation">Konferenz Abgeschlossen</target>
+        <target state="translated">Conference ended</target>
       </trans-unit>
       <trans-unit id="IqR9Qwr" resname="Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.">
         <source>Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</source>
-        <target state="needs-translation">Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</target>
+        <target state="translated">With this e-mail you will receive the documents for the conference: {name} as a PDF.</target>
       </trans-unit>
       <trans-unit id="FYNmS49" resname="Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a&#10;            href=&quot;http://www.adobe.com/products/acrobat/readstep2.html&quot;&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;&#10;        herunterladen und installieren können.">
         <source>Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a
             href="http://www.adobe.com/products/acrobat/readstep2.html"&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;
         herunterladen und installieren können.</source>
-        <target state="needs-translation"><![CDATA[Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:<a
-            href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>
-        herunterladen und installieren können.]]></target>
+        <target state="translated"><![CDATA[To view the attachment you need Adobe Reader, which you can download at the URL:<a
+            href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>.]]></target>
       </trans-unit>
       <trans-unit id="FskrrR6" resname="options.meetingNotes">
         <source>Konferennotizen</source>
-        <target state="needs-translation">Konferennotizen</target>
+        <target state="translated">Conference notes</target>
       </trans-unit>
     </body>
   </file>
