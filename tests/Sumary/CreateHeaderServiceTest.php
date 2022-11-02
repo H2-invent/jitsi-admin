@@ -39,7 +39,6 @@ class CreateHeaderServiceTest extends KernelTestCase
                             <tbody>
                                                         </tbody>
                         </table>
-                        <p>
                     </td>
                 </tr>
                 </tbody>

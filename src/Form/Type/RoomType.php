@@ -58,7 +58,7 @@ class RoomType extends AbstractType
         $room = $options['data'];
 //        $room = new Rooms();
         $during = false;
-        if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()){
+        if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()) {
             $during = true;
         }
 
@@ -75,13 +75,18 @@ class RoomType extends AbstractType
                     'attr' => array('class' => 'moreFeatures')
                 ]);
         }
-        $tags = $this->entityManager->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
-        $organisators[] = $options['user'];
-       $organisators = array_merge($organisators,$options['user']->getManagers()->toArray());
+        $tags = $this->entityManager->getRepository(Tag::class)->findBy(array('disabled' => false), array('priority' => 'ASC'));
+        $organisators = array();
+
+        if ($options['user'] instanceof User) {
+            $organisators[] = $options['user'];
+            $organisators = array_merge($organisators, $options['user']->getManagers()->toArray());
+        }
+
 
         $builder
-            ->add('name', TextType::class, ['disabled'=>$during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
-            ->add('agenda', TextareaType::class, ['disabled'=>$during,'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['disabled' => $during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
+            ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
             ->add('start', DateTimeType::class, ['required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add('duration', ChoiceType::class, [
                 'label' => 'label.dauerKonferenz',
@@ -155,11 +160,11 @@ class RoomType extends AbstractType
         }
         if ($options['showTag']) {
             $this->logger->debug('Add the possibility to select a tag');
-            if (sizeof($tags)>0){
+            if (sizeof($tags) > 0) {
                 $builder->add('tag', EntityType::class, array(
                     'class' => Tag::class,
                     'choice_label' => 'title',
-                    'choices' =>$tags,
+                    'choices' => $tags,
                     'required' => true,
                     'label' => 'label.tag',
                     'translation_domain' => 'form'
@@ -169,13 +174,13 @@ class RoomType extends AbstractType
         }
         if (sizeof($organisators) > 1) {
             $this->logger->debug('Add the possibility to select a supervisor');
-            if (sizeof($tags)>0){
+            if (sizeof($tags) > 0) {
                 $builder->add('moderator', EntityType::class, array(
                     'class' => User::class,
-                    'choice_label' => function(User $user){
+                    'choice_label' => function (User $user) {
                         return $user->getFormatedName($this->theme->getApplicationProperties('laf_showNameFrontend'));
                     },
-                    'choices' =>$organisators,
+                    'choices' => $organisators,
                     'required' => true,
                     'label' => 'label.moderator',
                     'translation_domain' => 'form'
@@ -195,7 +200,7 @@ class RoomType extends AbstractType
             'data_class' => Rooms::class,
             'minDate' => 'today',
             'isEdit' => false,
-            'user'=>User::class
+            'user' => User::class
         ]);
 
         $resolver->setDefault('attr', function (Options $options) {
