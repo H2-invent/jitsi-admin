@@ -25,16 +25,18 @@ class SendMessageToWaitingUser
         $this->isAllowedToCreateCustom = $this->themeService->getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES');
     }
 
-    public function sendMessageToAllWaitingUser($message, User $user, Rooms $rooms): int
+    public function sendMessageToAllWaitingUser($message, User $user, Rooms $rooms): array
     {
         $counter = 0;
+        $success = true;
         foreach ($rooms->getLobbyWaitungUsers() as $data) {
-            $counter++;
             if ($this->sendMessage($data->getUid(), $message, $user) === true) {
                 $counter++;
+            }else{
+                $success = false;
             };
         }
-        return $counter;
+        return array('counter'=>$counter,'success'=>$success);
     }
 
     public function sendMessage($uid, $message, User $user): bool

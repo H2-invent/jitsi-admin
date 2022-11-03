@@ -117,6 +117,7 @@ function refresh(data) {
         initCircle();
         countParts();
         initDragParticipants();
+        $('[data-mdb-toggle="tooltip"]').tooltip();
         document.querySelectorAll('.form-outline').forEach((formOutline) => {
             new mdb.Input(formOutline).init();
         });

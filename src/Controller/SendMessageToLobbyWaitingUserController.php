@@ -26,7 +26,7 @@ class SendMessageToLobbyWaitingUserController extends JitsiAdminController
     {
         $data = json_decode($request->getContent(),true);
         $res = $sendMessageToWaitingUser->sendMessage($data['uid'], $data['message'], $this->getUser());
-        return new JsonResponse(array('error' => !$res));
+        return new JsonResponse(array('error' => !$res,'message'=>!$res?$this->translator->trans('lobby.message.failed'):$this->translator->trans('lobby.message.success')));
     }
 
     #[Route('/send/all', name: '_to_waitinguser_all', methods: 'POST')]
@@ -35,10 +35,10 @@ class SendMessageToLobbyWaitingUserController extends JitsiAdminController
         $data = json_decode($request->getContent(),true);
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$data['uid']));
         if (!$room){
-            return new JsonResponse(array('error'=>true));
+            return new JsonResponse(array('error'=>true,'message'=>$this->translator->trans('lobby.message.failed')));
         }
         $res= $sendMessageToWaitingUser->sendMessageToAllWaitingUser($data['message'], $this->getUser(),$room);
-        return new JsonResponse(array('error'=>false, 'counts' => $res));
+        return new JsonResponse(array('error'=>!$res['success'], 'counts' => $res['counter'],'message'=>!$res['success']?$this->translator->trans('lobby.message.failed'):$this->translator->trans('lobby.message.success')));
     }
 
 }

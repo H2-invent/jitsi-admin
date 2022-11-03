@@ -118,8 +118,8 @@ $(document).ready(function () {
     window.history.pushState({}, document.title, location);
 });
 $(window).on('load', function () {
-    $('[data-toggle="popover"]').popover({html: true});
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-mdb-toggle="popover"]').popover({html: true});
+    $('[data-mdb-toggle="tooltip"]').tooltip();
 });
 
 $(document).on('click', '.stopCloseDropdown', function (e) {

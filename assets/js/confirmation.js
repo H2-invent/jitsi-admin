@@ -23,8 +23,8 @@ function initDirectSend() {
             $(target).closest('div').load($targetUrl + ' ' + target, function () {
                 console.log('1.4');
                 hideTooltip();
-                $('[data-toggle="popover"]').popover({html: true});
-                $('[data-toggle="tooltip"]').tooltip();
+                $('[data-mdb-toggle="popover"]').popover({html: true});
+                $('[data-mdb-toggle="tooltip"]').tooltip();
             });
             if (typeof data.snack !== 'undefined') {
                 $('#snackbar').text(data.text).addClass('show');
@@ -138,15 +138,15 @@ function initConfirmDirectSendHref() {
                             $(target).closest('div').load($targetUrl + ' ' + target, function () {
                                 initSearchUser();
                                 hideTooltip();
-                                $('[data-toggle="popover"]').popover({html: true});
-                                $('[data-toggle="tooltip"]').tooltip();
+                                $('[data-mdb-toggle="popover"]').popover({html: true});
+                                $('[data-mdb-toggle="tooltip"]').tooltip();
 
                             });
                             if (typeof data.snack !== 'undefined') {
                                 $('#snackbar').text(data.snack).addClass('show');
                             }
-                            $('[data-toggle="popover"]').popover({html: true});
-                            $('[data-toggle="tooltip"]').tooltip()
+                            $('[data-mdb-toggle="popover"]').popover({html: true});
+                            $('[data-mdb-toggle="tooltip"]').tooltip()
                         })
                     },
 
