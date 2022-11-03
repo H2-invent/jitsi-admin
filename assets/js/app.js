@@ -123,7 +123,6 @@ $(window).on('load', function () {
 });
 
 $(document).on('click', '.stopCloseDropdown', function (e) {
-    console.log('1.2sdf');
     e.stopPropagation();
 });
 
@@ -153,7 +152,6 @@ $(document).on('click', '.testVideo', function (e) {
     var $url = $(this).attr('href');
     $url += '?url=' + $('#server_url').val();
     $url += '&cors=' + $('#server_corsHeader').prop('checked');
-    console.log($url);
     window.open($url, '_blank').focus();
 })
 

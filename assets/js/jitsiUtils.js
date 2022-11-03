@@ -181,7 +181,6 @@ function swithCameraOn(videoOn) {
     if (videoOn === 1) {
         var muted =
             api.isVideoMuted().then(muted => {
-                console.log(muted)
                 if (muted) {
                     api.executeCommand('toggleVideo');
                 }
@@ -196,7 +195,7 @@ function swithCameraOn(videoOn) {
     }
 }
 function checkDeviceinList(list,labelOrId) {
-    console.log(list);
+
 
     for (var type in list){
         for (var dev of list[type]){

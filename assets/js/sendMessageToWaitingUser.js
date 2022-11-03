@@ -46,7 +46,6 @@ function sendToServer(url,message,uid) {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log('Success:', data);
             setSnackbar(data.message,data.error?'danger':'success',false,'0x00',5000);
         })
 

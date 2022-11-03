@@ -21,7 +21,6 @@ function initDirectSend() {
         e.preventDefault();
         $.get($url, function (data) {
             $(target).closest('div').load($targetUrl + ' ' + target, function () {
-                console.log('1.4');
                 hideTooltip();
                 $('[data-mdb-toggle="popover"]').popover({html: true});
                 $('[data-mdb-toggle="tooltip"]').tooltip();

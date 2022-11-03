@@ -26,7 +26,7 @@ var TabUtils = new (function () {
         }
 
         var localStorageKey = keyPrefix + lockname;
-        console.log(lockname);
+
         localStorage.setItem(localStorageKey, myTabId);
         //re-read after a delay (after all tabs have saved their tabIDs into ls)
         setTimeout(function () {

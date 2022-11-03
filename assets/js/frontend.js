@@ -25,7 +25,7 @@ $(document).ready(function () {
 $(window).on('load', function () {
     $('[data-mdb-toggle="popover"]').popover({html: true});
     $('[data-mdb-toggle="toastr"]').click(function (e) {
-        console.log($(this))
+
         setSnackbar($(this).data('text'),$(this).data('type'))
     });
 });

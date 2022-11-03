@@ -32,7 +32,7 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $client->loginUser($user);
         $crawler = $client->request('POST', '/room/lobby/message/send',array(),array(),array(),json_encode(array('uid'=>md5(1),'message'=>$message[0]->getId())));
         self::assertResponseIsSuccessful();
-        self::assertEquals(array('error'=>false,'message' => 'lobby.message.success'),json_decode($client->getResponse()->getContent(),true));
+        self::assertEquals(array('error'=>false,'message' => 'Die Nachricht wurde erfolgreich übermittelt.'),json_decode($client->getResponse()->getContent(),true));
     }
     public function testSendToAll(): void
     {
@@ -55,7 +55,7 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $client->loginUser($user);
         $crawler = $client->request('POST', '/room/lobby/message/send/all',array(),array(),array(),json_encode(array('uid'=>$room->getUidReal(),'message'=>$message[0]->getId())));
         self::assertResponseIsSuccessful();
-        self::assertEquals(array('error'=>false,'message' => 'lobby.message.success', 'counts'=>10),json_decode($client->getResponse()->getContent(),true));
+        self::assertEquals(array('error'=>false,'message' => 'Die Nachricht wurde erfolgreich übermittelt.', 'counts'=>10),json_decode($client->getResponse()->getContent(),true));
     }
     public function testSendToAllNoRoom(): void
     {
@@ -78,6 +78,6 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $client->loginUser($user);
         $crawler = $client->request('POST', '/room/lobby/message/send/all',array(),array(),array(),json_encode(array('uid'=>'notFOund','message'=>$message[0]->getId())));
         self::assertResponseIsSuccessful();
-        self::assertEquals(array('error'=>true,'message' => 'lobby.message.failed'),json_decode($client->getResponse()->getContent(),true));
+        self::assertEquals(array('error'=>true,'message' => 'Bei der Übermittlung der Nachricht gab es einen Fehler.'),json_decode($client->getResponse()->getContent(),true));
     }
 }
