@@ -59,6 +59,7 @@ const searchUSer = ($url,$search) => {
             for (var i = 0; i < $group.length; i++) {
                 $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $group[i].user + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-mdb-toggle="tooltip" title="Moderator"></i> <span><i class="fas fa-users"></i> ' + $group[i].name + '</span></a>');
             }
+            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
             $('[data-mdb-toggle="tooltip"]').tooltip();
 
             $('.chooseParticipant').mousedown(function (e) {

@@ -23,6 +23,7 @@ function initDirectSend() {
             $(target).closest('div').load($targetUrl + ' ' + target, function () {
                 hideTooltip();
                 $('[data-mdb-toggle="popover"]').popover({html: true});
+                $('[data-mdb-toggle="tooltip"]').tooltip('hide');
                 $('[data-mdb-toggle="tooltip"]').tooltip();
             });
             if (typeof data.snack !== 'undefined') {
@@ -138,6 +139,7 @@ function initConfirmDirectSendHref() {
                                 initSearchUser();
                                 hideTooltip();
                                 $('[data-mdb-toggle="popover"]').popover({html: true});
+                                $('[data-mdb-toggle="tooltip"]').tooltip('hide');
                                 $('[data-mdb-toggle="tooltip"]').tooltip();
 
                             });
@@ -145,6 +147,7 @@ function initConfirmDirectSendHref() {
                                 $('#snackbar').text(data.snack).addClass('show');
                             }
                             $('[data-mdb-toggle="popover"]').popover({html: true});
+                            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
                             $('[data-mdb-toggle="tooltip"]').tooltip()
                         })
                     },

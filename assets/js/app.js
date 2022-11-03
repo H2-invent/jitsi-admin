@@ -119,6 +119,7 @@ $(document).ready(function () {
 });
 $(window).on('load', function () {
     $('[data-mdb-toggle="popover"]').popover({html: true});
+    $('[data-mdb-toggle="tooltip"]').tooltip('hide');
     $('[data-mdb-toggle="tooltip"]').tooltip();
 });
 
