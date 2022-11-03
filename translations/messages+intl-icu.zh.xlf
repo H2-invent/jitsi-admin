@@ -1896,8 +1896,72 @@
         herunterladen und installieren können.]]></target>
       </trans-unit>
       <trans-unit id="FskrrR6" resname="options.meetingNotes">
-        <source>Konferennotizen</source>
+        <source>options.meetingNotes</source>
         <target state="needs-translation">Konferennotizen</target>
+      </trans-unit>
+      <trans-unit id="1tk6uB2" resname="lobby.btn.message.to.all">
+        <source>lobby.btn.message.to.all</source>
+        <target state="needs-translation">An alle Wartenden</target>
+      </trans-unit>
+      <trans-unit id="OYdVVKy" resname="lobby.message.failed">
+        <source>Bei der Übermittlung der Nachricht gab es einen Fehler.</source>
+        <target state="needs-translation">Bei der Übermittlung der Nachricht gab es einen Fehler.</target>
+      </trans-unit>
+      <trans-unit id="EaWoPF5" resname="lobby.message.success">
+        <source>Die Nachricht wurde erfolgreich übermittelt.</source>
+        <target state="needs-translation">Die Nachricht wurde erfolgreich übermittelt.</target>
+      </trans-unit>
+      <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
+        <source>Wartenden zulassen</source>
+        <target state="needs-translation">Wartenden zulassen</target>
+      </trans-unit>
+      <trans-unit id="ozoWxDu" resname="lobby.participant.tooltip.decline">
+        <source>Wartenden ablehnen</source>
+        <target state="needs-translation">Wartenden ablehnen</target>
+      </trans-unit>
+      <trans-unit id="fc3.g55" resname="lobby.participant.tooltip.message">
+        <source>Nachricht senden</source>
+        <target state="needs-translation">Nachricht senden</target>
+      </trans-unit>
+      <trans-unit id="P2akYaZ" resname="Hmmmm. Hier lief ziemlich was schief.">
+        <source>Hmmmm. Hier lief ziemlich was schief.</source>
+        <target state="needs-translation">Hmmmm. Hier lief ziemlich was schief.</target>
+      </trans-unit>
+      <trans-unit id="5TfhZhW" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
+        <source>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</source>
+        <target state="needs-translation">Sie haben ein Verhalten gefunden, das uns unbekannt ist.</target>
+      </trans-unit>
+      <trans-unit id="c9AP0oj" resname="Hier gehts zurück">
+        <source>Hier gehts zurück</source>
+        <target state="needs-translation">Hier gehts zurück</target>
+      </trans-unit>
+      <trans-unit id="KBKt3up" resname="Hier sollten Sie nicht sein.">
+        <source>Hier sollten Sie nicht sein.</source>
+        <target state="needs-translation">Hier sollten Sie nicht sein.</target>
+      </trans-unit>
+      <trans-unit id="NyA0D9B" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
+        <source>Beinahe hätten Sie hinter die Kulissen schauen können.</source>
+        <target state="needs-translation">Beinahe hätten Sie hinter die Kullissen schauen können.</target>
+      </trans-unit>
+      <trans-unit id="JQjD_Ln" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
+        <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
+        <target state="needs-translation">Wie hätte nicht gedacht, das jemand so tief gräbt.</target>
+      </trans-unit>
+      <trans-unit id="ImCGLX0" resname="Hier geht es wieder zurück an die Oberfläche">
+        <source>Hier geht es wieder zurück an die Oberfläche</source>
+        <target state="needs-translation">Hier geht es wieder zurück an die Oberfläche</target>
+      </trans-unit>
+      <trans-unit id="xVUYEnR" resname="Sie haben eine Entdeckung gemacht">
+        <source>Sie haben eine Entdeckung gemacht</source>
+        <target state="needs-translation">Sie haben eine Entdeckung gemacht</target>
+      </trans-unit>
+      <trans-unit id="ue1gwrd" resname="Sie haben etwas gefunden, das selbst wir noch nicht kannten...">
+        <source>Sie haben etwas gefunden, das selbst wir noch nicht kannten...</source>
+        <target state="needs-translation">Sie haben etwas gefunden, das selbst wir noch nicht kannten...</target>
+      </trans-unit>
+      <trans-unit id="3rElC1z" resname="Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.">
+        <source>Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</source>
+        <target state="needs-translation">Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</target>
       </trans-unit>
     </body>
   </file>
