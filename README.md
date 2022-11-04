@@ -40,11 +40,7 @@ Please help us to improve our localization
 
 The following features are already part of Jitsi Admin:
 
-* Managing of conferences
-* Managing of Jitsi servers with JWT enabled
-* Adding participants to a conference
-* Sending out emails to the participants
-* Sending out emails prior to the conference based on a Cron job
+* Complete 
 
 ### The Dashboard
 
