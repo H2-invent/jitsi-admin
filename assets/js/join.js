@@ -26,7 +26,7 @@ $(document).ready(function () {
     initSchedulePublic();
 });
 $(window).on('load', function () {
-    $('[data-toggle="popover"]').popover({html: true});
+    $('[data-mdb-toggle="popover"]').popover({html: true});
 });
 
 function checkRoom() {

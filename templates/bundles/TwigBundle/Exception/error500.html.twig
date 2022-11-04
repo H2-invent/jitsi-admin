@@ -1,0 +1,24 @@
+{% extends('bundles/TwigBundle/Exception/errorbase.html.twig') %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="glossy">
+                <div class="card-header">
+                    <h1>{{ exception.statusCode }} - <small>{{ 'Sie haben eine Entdeckung gemacht'|trans }}</small></h1>
+                </div>
+
+                <div class="card-body">
+
+                    <p class="text-white">{{ 'Sie haben etwas gefunden, das selbst wir noch nicht kannten...'|trans }}</p>
+                    <p class="text-white">{{ 'Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.'|trans }}</p>
+                    <hr>
+                    <a class="btn btn-block btn-primary btn-lg" href="{{ path('index') }}">Hier geht es wieder auf erforschtes Terrain</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

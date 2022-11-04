@@ -19,10 +19,11 @@ Toastr.options = {
 }
 
 
-function setSnackbar(text, color, closeWithHover = false, id = '0x00') {
+function setSnackbar(text, color, closeWithHover = false, id = '0x00',timeout=0) {
     if (color === 'danger') {
         color = 'error';
     }
+    Toastr.options.timeOut = timeout;
     if (closeWithHover === true) {
         Toastr.options.timeOut = 0;
         Toastr.options.extendedTimeOut = 0;

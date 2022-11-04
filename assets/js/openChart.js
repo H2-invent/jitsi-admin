@@ -1,5 +1,5 @@
 function initOpenChart() {
-    var ele = document.querySelectorAll('[data-toggle="openChart"]');
+    var ele = document.querySelectorAll('[data-mdb-toggle="openChart"]');
     ele.forEach(function (value, key, parent) {
 
         value.addEventListener('click', function () {

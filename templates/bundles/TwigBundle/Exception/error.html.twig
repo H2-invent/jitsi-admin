@@ -1,0 +1,23 @@
+{% extends('bundles/TwigBundle/Exception/errorbase.html.twig') %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="glossy">
+                <div class="card-header">
+                    <h1>{{ exception.statusCode }} - <small>{{ 'Hmmmm. Hier lief ziemlich was schief.'|trans }}</small></h1>
+                </div>
+
+                <div class="card-body">
+
+                    <p class="text-white">{{ 'Sie haben ein Verhalten gefunden, das uns unbekannt ist.'|trans }}</p>
+                    <hr>
+                    <a class="btn btn-block btn-primary btn-lg" href="{{ path('index') }}">{{ 'Hier gehts zurück'|trans }}</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

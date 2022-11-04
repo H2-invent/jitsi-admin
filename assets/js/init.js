@@ -102,7 +102,7 @@ function initNewModal(e){
     initScheduling();
 
     $('[data-mdb-toggle="popover"]').popover({html: true});
-
+    $('[data-mdb-toggle="tooltip"]').tooltip('hide');
     $('[data-mdb-toggle="tooltip"]').tooltip()
 
     initdateTimePicker('.flatpickr');

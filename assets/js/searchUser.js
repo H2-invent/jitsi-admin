@@ -47,7 +47,7 @@ const searchUSer = ($url,$search) => {
             for (var i = 0; i < $user.length; i++) {
                 var $newUserLine = '<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $user[i].id + '" href="#">' +
                     ($user[i].roles.includes('participant')?'<i class=" text-success fas fa-plus"></i>':'') +
-                    ($user[i].roles.includes('moderator')?'<i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i>':'') +
+                    ($user[i].roles.includes('moderator')?'<i class="chooseModerator text-success fas fa-crown"  data-mdb-toggle="tooltip" title="Moderator"></i>':'') +
                     '<span>' + $user[i].name + '</span> ' +
                     '</a>'
                 $target.append($newUserLine);
@@ -57,9 +57,10 @@ const searchUSer = ($url,$search) => {
                 $target.append('<i class="fas fa-users fa-2x text-center"></i>');
             }
             for (var i = 0; i < $group.length; i++) {
-                $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $group[i].user + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-toggle="tooltip" title="Moderator"></i> <span><i class="fas fa-users"></i> ' + $group[i].name + '</span></a>');
+                $target.append('<a class="dropdown-item chooseParticipant addParticipants" data-val="' + $group[i].user + '" href="#"><i class=" text-success fas fa-plus"></i><i class="chooseModerator text-success fas fa-crown"  data-mdb-toggle="tooltip" title="Moderator"></i> <span><i class="fas fa-users"></i> ' + $group[i].name + '</span></a>');
             }
-            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+            $('[data-mdb-toggle="tooltip"]').tooltip();
 
             $('.chooseParticipant').mousedown(function (e) {
                 e.preventDefault();

@@ -66,17 +66,17 @@ function addmessage(data) {
     var target = document.querySelector('.messageContainer');
     if (target) {
         var html = '<div class="messageWrapper">'
-            +'<div class="content">'
-            +'<div class="from">'
-            +data.from
-            +'</div>'
-            +'<div class="message">'
+            + '<div class="content">'
+            + '<div class="from">'
+            + data.from
+            + '</div>'
+            + '<div class="message">'
             + data.message +
             '</div>' +
             '</div>'
         target.insertAdjacentHTML('afterbegin', html);
-        for (var d of document.querySelectorAll('.messageWrapper')){
-            d.addEventListener('click',function (e) {
+        for (var d of document.querySelectorAll('.messageWrapper')) {
+            d.addEventListener('click', function (e) {
                 e.currentTarget.closest('.messageWrapper').remove();
             })
         }
@@ -104,23 +104,27 @@ function refresh(data) {
     var reloadUrl = data.reloadUrl;
 
     $('#waitingUserWrapper').load(reloadUrl, function () {
-        const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
-        if (exampleEl.length > 0) {
-            for (var prop in exampleEl) {
-                const popover = new mdb.Popover(exampleEl[prop])
+            const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
+            if (exampleEl.length > 0) {
+                for (var prop in exampleEl) {
+                    const popover = new mdb.Popover(exampleEl[prop])
+                }
             }
-        }
 
-        if (!$('#sliderTop').hasClass('notification')) {
-            $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
+            if (!$('#sliderTop').hasClass('notification')) {
+                $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
+            }
+            initCircle();
+            countParts();
+            initDragParticipants();
+            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+            $('[data-mdb-toggle="tooltip"]').tooltip();
+            document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                new mdb.Input(formOutline).init();
+            });
         }
-        initCircle();
-        countParts();
-        initDragParticipants();
-        document.querySelectorAll('.form-outline').forEach((formOutline) => {
-            new mdb.Input(formOutline).init();
-        });
-    });
+    )
+    ;
 }
 
 /*

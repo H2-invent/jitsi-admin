@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -63,16 +64,31 @@ class PublicConferenceController extends JitsiAdminController
     }
 
     #[Route('/m/{confId}', name: 'app_public_conference')]
-    public function startMeeting($confId): Response
+    public function startMeeting($confId, Request $request): Response
     {
         $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
-        return $this->render('public_conference/publicConference.html.twig', [
+        $response = $this->render('public_conference/publicConference.html.twig', [
             'room' => $room,
             'user' => null,
             'name' => 'Meetling',
             'moderator' => !$firstUser
         ]);
+        $lastConf = $request->cookies->get('LAST_CONFERENCE');
+        if (!$lastConf){
+            $lastConf = array($confId);
+        }else{
+            $lastConf = json_decode($lastConf,true);
+            if (!in_array($confId,$lastConf)){
+                $lastConf[] = $confId;
+            }
+        }
+        $response->headers->setCookie(Cookie::create(
+            'LAST_CONFERENCE',
+            json_encode($lastConf),
+            time() + (2 * 365 * 24 * 60 * 60),
+        ));
+        return $response;
     }
 
     /**

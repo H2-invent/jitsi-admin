@@ -1,3 +1,4 @@
+import {setSnackbar} from './myToastr'
 let text;
 function initSendMessage() {
     document.addEventListener('click',function (e) {
@@ -42,8 +43,11 @@ function sendToServer(url,message,uid) {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({uid:uid,message:message})
-    }).then(res => {
-        console.log("Request complete! response:", res);
-    });
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            setSnackbar(data.message,data.error?'danger':'success',false,'0x00',5000);
+        })
+
 }
 export {initSendMessage}

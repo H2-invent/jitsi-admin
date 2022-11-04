@@ -136,7 +136,7 @@ function initJitsiMeet(data) {
 
     var options = data.options.options;
     options.device = choosenId;
-    //here we set the logo into the jitsi iframe options
+
 
     options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
@@ -186,8 +186,6 @@ function initJitsiMeet(data) {
         api.addListener('participantKickedOut', function (e) {
             var id = api.getParticipantsInfo();
 
-            console.log(id);
-            console.log(e);
         });
 
     });
@@ -271,7 +269,7 @@ function swithCameraOn(videoOn) {
     if (videoOn === 1) {
         var muted =
             api.isVideoMuted().then(muted => {
-                console.log(muted)
+
                 if (muted) {
                     api.executeCommand('toggleVideo');
                 }

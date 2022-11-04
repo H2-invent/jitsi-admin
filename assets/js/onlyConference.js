@@ -50,7 +50,6 @@ window.addEventListener('message', function (e) {
     const data = e.data;
     const decoded = JSON.parse(data);
     if (decoded.type === 'pleaseClose') {
-        console.log('we are asked to close');
         if (api) {
             api.executeCommand('hangup')
         }else {

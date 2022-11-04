@@ -34,7 +34,7 @@ function initconfirmLoadOpenPopUp() {
                     btnClass: 'btn-outline-danger btn', // class for the button
                     action: function () {
                         var url = $('#adhocTag').find(":selected").data('value');
-                        console.log(url);
+
 
                         $.get(url, function (data) {
                             if(data.popups){

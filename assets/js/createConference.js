@@ -398,7 +398,7 @@ function addInteractions(ele) {
 
     moveable.on("resizeStart", ({target, clientX, clientY}) => {
         dragactive = true;
-        // console.log("onResizeStart", target);
+
         makeBlury(target.closest('.jitsiadminiframe'));
     }).on("resize", event => {
 
@@ -421,7 +421,7 @@ function addInteractions(ele) {
             event.target.dataset.y = beforeTranslate[1];
         }
     ).on("resizeEnd", ({target, isDrag, clientX, clientY}) => {
-        // console.log("onResizeEnd", target, isDrag);
+
         dragactive = false;
         removeBlury(target.closest('.jitsiadminiframe'));
     });

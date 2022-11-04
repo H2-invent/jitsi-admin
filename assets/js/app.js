@@ -118,12 +118,12 @@ $(document).ready(function () {
     window.history.pushState({}, document.title, location);
 });
 $(window).on('load', function () {
-    $('[data-toggle="popover"]').popover({html: true});
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-mdb-toggle="popover"]').popover({html: true});
+    $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+    $('[data-mdb-toggle="tooltip"]').tooltip();
 });
 
 $(document).on('click', '.stopCloseDropdown', function (e) {
-    console.log('1.2sdf');
     e.stopPropagation();
 });
 
@@ -153,7 +153,6 @@ $(document).on('click', '.testVideo', function (e) {
     var $url = $(this).attr('href');
     $url += '?url=' + $('#server_url').val();
     $url += '&cors=' + $('#server_corsHeader').prop('checked');
-    console.log($url);
     window.open($url, '_blank').focus();
 })
 

@@ -4,6 +4,7 @@ namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\PredefinedLobbyMessages;
+use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,20 @@ class SendMessageToWaitingUser
         $this->isAllowedToCreateCustom = $this->themeService->getApplicationProperties('LAF_LOBBY_ALLOW_CUSTOM_MESSAGES');
     }
 
+    public function sendMessageToAllWaitingUser($message, User $user, Rooms $rooms): array
+    {
+        $counter = 0;
+        $success = true;
+        foreach ($rooms->getLobbyWaitungUsers() as $data) {
+            if ($this->sendMessage($data->getUid(), $message, $user) === true) {
+                $counter++;
+            }else{
+                $success = false;
+            };
+        }
+        return array('counter'=>$counter,'success'=>$success);
+    }
+
     public function sendMessage($uid, $message, User $user): bool
     {
         $waitingUser = $this->entityManager->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $uid));
@@ -31,8 +46,8 @@ class SendMessageToWaitingUser
             $this->logger->error('NO user found for uid', array('uid' => $uid));
             return false;
         }
-        $lobbyMOderator = $user->getPermissionForRoom($waitingUser->getRoom())->getLobbyModerator();
-        if ($user === $waitingUser->getRoom()->getModerator() || $lobbyMOderator) {
+        $lobbyModerator = $user->getPermissionForRoom($waitingUser->getRoom())->getLobbyModerator();
+        if ($user === $waitingUser->getRoom()->getModerator() || $lobbyModerator) {
             if (is_int($message)) {
                 $this->logger->debug('Send Message from id', array('id' => $message));
                 $res = $this->createMesagefromId($message);

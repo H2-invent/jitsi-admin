@@ -43,7 +43,6 @@ function initNewRoomModal() {
             });
 
         } else {
-            console.log('kdsjhkfhdskj')
             sendToServer(form, url)
         }
     })

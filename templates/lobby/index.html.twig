@@ -55,13 +55,23 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-6" id="col-waitinglist">
+                    <div class="dropdown mb-2">
+                        <a class="btn btn-lg btn-outline-success btn-rounded" data-mdb-ripple-color="dark"
+                           id="dropdownMenu2"
+                           data-mdb-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-solid fa-paper-plane"></i> {{ 'lobby.btn.message.to.all'|trans }}
+                        </a>
+                        {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser_all'),'uid':room.uidReal } %}
+                    </div>
                     <div class="row d-md-none slide-text">
                         <div class="col-lg-12 text-center">
                             <p><small>{{ 'Swipen zum zulassen'|trans }}</small></p>
                         </div>
                     </div>
                     <div id="waitingUserWrapper">
+
                         <div id="waitingUser" class="mb-3 d-flex">
+
                             <div class="activeLobbyUsers flex-grow-1 row">
                                 {% for wU in room.lobbyWaitungUsers %}
                                     {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
