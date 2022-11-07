@@ -33,7 +33,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $this->client->loginUser($this->deputy);
     }
 
-    public function testSomething(): void
+    public function testCreateConference(): void
     {
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
@@ -86,5 +86,20 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-options .moderator-edit')->count());
         self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .start-iframe')->count());
         self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .start-app')->count());
+
+        $this->client->loginUser($this->manager);
+        $crawler = $this->client->request('GET', '/room/dashboard');
+        self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
+        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal())->count());
+        self::assertEquals(2, $crawler->filter('#room_card'.$room->getUidReal().' .btn:contains("Starten")')->count());
+        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .btn:contains("Teilnehmende")')->count());
+        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-options')->count());
+        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-sharelink')->count());
+        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .participants-remove')->count());
+        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .participants-participantList')->count());
+        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-options .moderator-edit')->count());
+        self::assertEquals(2, $crawler->filter('#room_card'.$room->getUidReal().' .start-iframe')->count());
+        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .start-app')->count());
+
     }
 }
