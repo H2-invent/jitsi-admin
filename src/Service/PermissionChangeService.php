@@ -9,6 +9,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -87,7 +88,7 @@ class PermissionChangeService
             $rooms = $rooms->getRepeater()->getPrototyp();
             $repeater = true;
         }
-        if ($rooms->getModerator() === $oldUser) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser,$rooms)) {
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
             if (!$roomsUser) {
                 $roomsUser = new RoomsUser();
@@ -129,7 +130,7 @@ class PermissionChangeService
             $rooms = $rooms->getRepeater()->getPrototyp();
             $repeater = true;
         }
-        if ($rooms->getModerator() === $oldUser) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser,$rooms)) {
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
             if (!$roomsUser) {
                 $roomsUser = new RoomsUser();
@@ -181,7 +182,7 @@ class PermissionChangeService
             $rooms = $rooms->getRepeater()->getPrototyp();
             $repeater = true;
         }
-        if ($rooms->getModerator() === $oldUser) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser,$rooms)) {
             $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
             if (!$roomsUser) {
                 $roomsUser = new RoomsUser();

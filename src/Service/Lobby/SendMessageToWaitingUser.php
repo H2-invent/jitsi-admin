@@ -7,6 +7,7 @@ use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\ThemeService;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -46,8 +47,7 @@ class SendMessageToWaitingUser
             $this->logger->error('NO user found for uid', array('uid' => $uid));
             return false;
         }
-        $lobbyModerator = $user->getPermissionForRoom($waitingUser->getRoom())->getLobbyModerator();
-        if ($user === $waitingUser->getRoom()->getModerator() || $lobbyModerator) {
+        if (UtilsHelper::isAllowedToOrganizeLobby($user,$waitingUser->getRoom())) {
             if (is_int($message)) {
                 $this->logger->debug('Send Message from id', array('id' => $message));
                 $res = $this->createMesagefromId($message);

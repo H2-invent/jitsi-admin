@@ -1,7 +1,7 @@
 {% if dropdown_settings_common_edit == 1 %}
     {% if room.persistantRoom or not room.endTimestamp or room.endTimestamp > date().timestamp %}
         <li><a href="{{ path('room_new',{'id':room.id}) }}"
-               class="loadContent dropdown-item">
+               class="loadContent dropdown-item moderator-edit">
                 <i class="fa fa-edit"></i>
                 {{ 'Bearbeiten'|trans }}</a></li>
     {% endif %}

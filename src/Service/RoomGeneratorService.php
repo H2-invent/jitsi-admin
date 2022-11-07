@@ -39,6 +39,7 @@ class RoomGeneratorService
         $room->setDuration(60);
         $room->setUid(rand(01, 99) . time());
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->setSequence(0);
         $room->setUidReal(md5(uniqid('h2-invent', true)));
         $room->setUidModerator(md5(uniqid('h2-invent', true)));
@@ -84,4 +85,16 @@ class RoomGeneratorService
         $room->setCallerRoom($roomCaller);
         return $room;
     }
+    public function addUserToRoom(User $user, Rooms $rooms, $cleanParticipantsBefore = false):Rooms{
+        if ($cleanParticipantsBefore){
+            foreach ($rooms->getUser() as $data){
+                $rooms->removeUser($data);
+            }
+        }
+        $rooms->addUser($user);
+        $this->em->persist($rooms);
+        $this->em->flush();
+        return $rooms;
+    }
+
 }

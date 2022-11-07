@@ -8,6 +8,7 @@ use App\Helper\JitsiAdminController;
 use App\Service\Callout\CalloutService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomAddService;
+use App\UtilsHelper;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +40,7 @@ class SipCallOutController extends JitsiAdminController
     public function invite($roomUid, Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeLobby($this->getUser(),$room)) {
             throw new NotFoundHttpException('Room not found');
         }
         $falseEmails = array();

@@ -41,7 +41,7 @@ class NotificationService
         if ($rooms->getModerator() !== $user) {
             $organizer = $rooms->getModerator()->getEmail();
         } else {
-            $organizer = $rooms->getModerator()->getFirstName() . '@' . $rooms->getModerator()->getLastName() . '.de';
+            $organizer = 'moderator' . '@' . 'jitsi-admin' . '.de';
             $this->ics->setIsModerator(true);
         }
         $this->ics->setTimezoneStart(clone($rooms->getStart()));

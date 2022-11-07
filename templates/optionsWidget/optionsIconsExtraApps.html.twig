@@ -1,7 +1,7 @@
 {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
     {% if room.moderator != app.user %}
         <a href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
-           class=" element btn btn-outline-primary startIframe" data-roomname="{{ room.name }}" data-close="simple">
+           class=" element btn btn-outline-primary startIframe apps-icon-whiteboard" data-roomname="{{ room.name }}" data-close="simple">
             <i class="fa-solid fa-chalkboard"></i>
         </a>
     {% endif %}
@@ -9,7 +9,7 @@
 {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
     {% if room.moderator != app.user %}
         <a href="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ app.user|nameOfUserNoSymbol }}"
-           class=" element btn btn-outline-primary startIframe" data-roomname="{{ room.name }}" data-close="simple">
+           class=" element btn btn-outline-primary startIframe apps-icon-etherpad" data-roomname="{{ room.name }}" data-close="simple">
             <i class="fa-solid fa-clipboard"></i>
         </a>
     {% endif %}

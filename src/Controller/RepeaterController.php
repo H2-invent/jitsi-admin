@@ -13,6 +13,7 @@ use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\ServerUserManagment;
 use App\Service\UserService;
+use App\UtilsHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -33,7 +34,7 @@ class RepeaterController extends JitsiAdminController
 
 
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
             throw new NotFoundHttpException('Not found');
         }
         $repeater = new Repeat();
@@ -92,7 +93,7 @@ class RepeaterController extends JitsiAdminController
     public function editRepeater(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService, RoomAddService $roomAddService): Response
     {
         $repeater = $this->doctrine->getRepository(Repeat::class)->find($request->get('repeat'));
-        if ($repeater->getPrototyp()->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $repeater->getPrototyp())) {
             throw new NotFoundHttpException('Not found');
         }
 
@@ -142,7 +143,7 @@ class RepeaterController extends JitsiAdminController
     {
 
         $repeater = $this->doctrine->getRepository(Repeat::class)->find($request->get('repeat'));
-        if ($repeater->getPrototyp()->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $repeater->getPrototyp())) {
             throw new NotFoundHttpException('Not found');
         }
         $repeaterService->sendEMail(
@@ -183,7 +184,7 @@ class RepeaterController extends JitsiAdminController
             $extra = $this->translator->trans('repeater.edit.warning');
             $room = $room->getRepeater() !== null ? $room->getRepeater()->getPrototyp() : $room;
         }
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             throw new NotFoundHttpException('Not found');
         }
         $option = [

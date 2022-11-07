@@ -91,6 +91,10 @@ class RoomController extends JitsiAdminController
         $form = $this->createForm(RoomType::class, $room, ['user'=>$this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],), 'isEdit' => (bool)$request->get('id')]);
         $form->remove('scheduleMeeting');
 
+        if ($request->get('id')) {
+            $form->remove('moderator');
+        }
+
         try {
             $form->handleRequest($request);
 
@@ -128,7 +132,9 @@ class RoomController extends JitsiAdminController
                         }
                     }
                 } else {
-                    $userService->addUser($room->getModerator(), $room);
+                    $roomGeneratorService->addUserToRoom($room->getModerator(),$room,true);
+                    $moderator = $room->getModerator();
+                    $userService->addUser($moderator, $room);
                 }
 
                 $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));

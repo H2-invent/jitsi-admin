@@ -77,7 +77,6 @@ class UserNewRoomAddService
      */
     function addUserToPersistantRoom(User $user, Rooms $room)
     {
-
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
         $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', array('{name}' => $room->getName()));

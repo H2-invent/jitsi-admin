@@ -63,7 +63,7 @@
 
 </div>
 <div class="col-md-4">
-    <h5 class="h5-responsive">
+    <h5 class="h5-responsive conference-name">
 
         {% if app.user and app.user == room.moderator and room.secondaryName is not null %}
             {{ room.secondaryName }}
@@ -95,7 +95,11 @@
            data-mdb-html="true"
            title="{{ 'Agenda'|trans }}"
            data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|nl2br|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
-                    class="fa fa-info-circle"></i></a></h5>
+                    class="fa fa-info-circle"></i>
+        </a>
+    </h5>
+
+
     <p class="text-black-50 small">
         {{ 'Geplant von'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
         {% if servers|length > 1 %}

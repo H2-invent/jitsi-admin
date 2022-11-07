@@ -1,28 +1,28 @@
 {% if getApplicationProperties('start_dropdown_allow_app') == 1 and getApplicationProperties('start_dropdown_allow_browser') == 1 %}
     <div class="dropdown d-none d-lg-block ">
-        <button class="caretdown btn btn-primary dropdown-toggle" type="button"
+        <button class="caretdown btn btn-primary dropdown-toggle start-dropdown" type="button"
                 id="dropdownMenu1"
                 data-mdb-toggle="dropdown" data-offset="-20,0" aria-haspopup="true"
                 aria-expanded="false">{{ 'Starten'|trans }}
         </button>
         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-            <li><a class="dropdown-item startIframe" data-roomname="{{ room.name }}"
+            <li><a class="dropdown-item startIframe start-iframe" data-roomname="{{ room.name }}"
 
                    href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">{{ 'Im Browser'|trans }}</a>
             </li>
-            <li><a class="dropdown-item" title="In der Electron Jitsi Meet App" rel=opener
+            <li><a class="dropdown-item start-app" title="In der Electron Jitsi Meet App" rel=opener
                    href="{{ path('room_join',{'t':'a','room':room.id}) }}" target="_blank">{{ 'In der App'|trans }}</a>
             </li>
         </ul>
     </div>
 {% elseif getApplicationProperties('start_dropdown_allow_app') == 1 %}
     <div class="d-none d-lg-block ">
-        <a class="btn btn-primary"
+        <a class="btn btn-primary start-app"
            href="{{ path('room_join',{'t':'a','room':room.id}) }}" rel=opener
            target="_blank">{{ 'Starten'|trans }}</a>
     </div>
 {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
-    <div class="d-none d-lg-block ">
+    <div class="d-none d-lg-block start-iframe ">
         <a class="btn btn-primary startIframe" data-roomname="{{ room.name }}"
 
            href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
@@ -30,7 +30,7 @@
     </div>
 {% endif %}
 
-<div class="d-block d-lg-none">
+<div class="d-block d-lg-none start-iframe">
     <a class="btn btn-primary startIframe" data-roomname="{{ room.name }}"
 
        href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener

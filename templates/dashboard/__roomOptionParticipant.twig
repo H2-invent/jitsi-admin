@@ -1,25 +1,29 @@
-{% if app.user != room.moderator %}
+{% if app.user != room.moderator and  app.user != room.creator %}
     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-       class="element btn btn-outline-default confirmHref"
+       class="element btn btn-outline-default confirmHref participants-remove"
        data-text="{{ 'confirm.delete.room'|trans }}">
         {{ 'Entfernen'|trans }}
     </a>
-{% endif %}
-{% if (getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and app.user != room.moderator) and room.totalOpenRooms != true %}
-    <a href="{{ path('room_past_user',{'room':room.id}) }}"
-       class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
-{% endif %}
-{% include('optionsWidget/optionsIconsExtraApps.html.twig') with {'room':room} %}
-
-{% if not room.scheduleMeeting %}
-
-    {% include 'dashboard/__roomOptionStartButton.html.twig' with {'room':room} %}
-{% endif %}
-{% if room.scheduleMeeting %}
-    <a class=" btn btn-outline-primary"
-       href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}"
-       target="_blank">
-        {{ 'Terminplanung'|trans }}
-    </a>
+    {% if (getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and app.user != room.moderator) and room.totalOpenRooms != true %}
+        <a href="{{ path('room_past_user',{'room':room.id}) }}"
+           class=" element btn btn-outline-primary loadContent participants-participantList"><i class="fas fa-users"></i></a>
+    {% endif %}
+    {% include('optionsWidget/optionsIconsExtraApps.html.twig') with {'room':room} %}
 
 {% endif %}
+
+{% if app.user in room.user %}
+    {% if not room.scheduleMeeting %}
+        {% include 'dashboard/__roomOptionStartButton.html.twig' with {'room':room} %}
+    {% else %}
+
+        <a class=" btn btn-outline-primary participant-shedule"
+           href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}"
+           target="_blank">
+            {{ 'Terminplanung'|trans }}
+        </a>
+
+    {% endif %}
+{% endif %}
+
+

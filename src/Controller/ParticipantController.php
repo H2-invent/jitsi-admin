@@ -11,6 +11,7 @@ use App\Service\ParticipantSearchService;
 use App\Service\RoomAddService;
 use App\Service\ThemeService;
 use App\Service\UserService;
+use App\UtilsHelper;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -51,7 +52,7 @@ class ParticipantController extends JitsiAdminController
     {
         $newMember = array();
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
@@ -90,7 +91,7 @@ class ParticipantController extends JitsiAdminController
     {
 
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
-        if ($room->getModerator() !== $this->getUser() && $themeService->getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') === 0) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room) && $themeService->getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') === 0) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
@@ -109,7 +110,7 @@ class ParticipantController extends JitsiAdminController
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $user = $this->doctrine->getRepository(User::class)->findOneBy(['id' => $request->get('user')]);
         $snack = 'Keine Berechtigung';
-        if ($room->getModerator() === $this->getUser() || $user === $this->getUser()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room) || $user === $this->getUser()) {
             $snack =  $roomAddService->removeUserFromRoom($user, $room);
 
         }else{
@@ -124,7 +125,7 @@ class ParticipantController extends JitsiAdminController
     function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$request->get('room')));
-        if ($room->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }

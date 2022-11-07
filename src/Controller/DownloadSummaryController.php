@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Helper\JitsiAdminController;
 use App\Service\Summary\CreateSummaryService;
+use App\UtilsHelper;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class DownloadSummaryController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
 
-        if (!$room || $room->getModerator() !== $this->getUser()){
+        if (!$room || UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)){
             throw new NotFoundHttpException('Room not found');
         }
 

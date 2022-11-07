@@ -16,6 +16,7 @@ use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
 use App\Service\ThemeService;
 use App\Service\UserService;
+use App\UtilsHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -36,7 +37,7 @@ class ScheduleController extends JitsiAdminController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($request->get('id')) {
             $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
-            if ($room->getModerator() !== $this->getUser()) {
+            if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
                 $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
                 return $this->redirectToRoute('dashboard');
             }
@@ -70,13 +71,16 @@ class ScheduleController extends JitsiAdminController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
         $roomold = clone $room;
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
+        $form = $this->createForm(RoomType::class, $room, ['user'=>$this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
 
         $form->remove('scheduleMeeting');
         $form->remove('start');
         $form->remove('persistantRoom');
         $form->remove('totalOpenRooms');
         $form->remove('totalOpenRoomsOpenTime');
+        if ($request->get('id')) {
+            $form->remove('moderator');
+        }
         try {
             $form->handleRequest($request);
 
@@ -112,6 +116,7 @@ class ScheduleController extends JitsiAdminController
                         }
                     }
                 } else {
+                    $roomGeneratorService->addUserToRoom($room->getModerator(),$room,true);
                     $userService->addUser($room->getModerator(), $room);
                 }
 
@@ -137,7 +142,7 @@ class ScheduleController extends JitsiAdminController
      */
     public function index(Rooms $rooms, Request $request): Response
     {
-        if ($rooms->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$rooms)) {
             throw new NotFoundHttpException('Room not found');
         }
         $sheduls = $rooms->getSchedulings();
@@ -153,7 +158,7 @@ class ScheduleController extends JitsiAdminController
      */
     public function add(Rooms $rooms, Request $request): Response
     {
-        if ($rooms->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$rooms)) {
             throw new NotFoundHttpException('Room not found');
         }
         try {
@@ -186,7 +191,7 @@ class ScheduleController extends JitsiAdminController
      */
     public function remove(SchedulingTime $schedulingTime, Request $request): Response
     {
-        if ($schedulingTime->getScheduling()->getRoom()->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
         }
         try {
@@ -211,7 +216,7 @@ class ScheduleController extends JitsiAdminController
      */
     public function choose(SchedulingTime $schedulingTime, Request $request, SchedulingService $schedulingService, TranslatorInterface $translator): Response
     {
-        if ($schedulingTime->getScheduling()->getRoom()->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
         }
         $text = $translator->trans('Sie haben den Terminplan erfolgreich umgewandelt');

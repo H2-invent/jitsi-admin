@@ -12,6 +12,7 @@ use App\Service\PexelService;
 use App\Service\RoomService;
 use App\Service\SubcriptionService;
 use App\Service\UserService;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class ShareLinkController extends JitsiAdminController
      */
     public function index(Rooms $rooms): Response
     {
-        if (!$rooms || !$rooms->getModerator() == $this->getUser() || $rooms->getPublic() != true) {
+        if (!$rooms || !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$rooms) || $rooms->getPublic() != true) {
             throw new NotFoundHttpException('Not found');
         }
         return $this->render('share_link/__shareLinkModal.html.twig', array('room' => $rooms));
@@ -47,7 +48,7 @@ class ShareLinkController extends JitsiAdminController
      */
     public function waitinglistAccept(Waitinglist $waitinglist, SubcriptionService $subcriptionService): Response
     {
-        if ($waitinglist->getRoom()->getModerator() == $this->getUser()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$waitinglist->getRoom())) {
             $subcriptionService->createUserRoom($waitinglist->getUser(), $waitinglist->getRoom());
             $em = $this->doctrine->getManager();
             $em->remove($waitinglist);

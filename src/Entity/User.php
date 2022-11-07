@@ -119,6 +119,9 @@ class User extends BaseUser
     #[ORM\JoinTable(name: "deputy_manager")]
     private Collection $managers;
 
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Rooms::class)]
+    private Collection $creatorOf;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -142,6 +145,7 @@ class User extends BaseUser
         $this->calloutSessions = new ArrayCollection();
         $this->deputy = new ArrayCollection();
         $this->managers = new ArrayCollection();
+        $this->creatorOf = new ArrayCollection();
 
     }
 
@@ -1008,6 +1012,36 @@ class User extends BaseUser
     {
         if ($this->managers->removeElement($manager)) {
             $manager->removeDeputy($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rooms>
+     */
+    public function getCreatorOf(): Collection
+    {
+        return $this->creatorOf;
+    }
+
+    public function addCreatorOf(Rooms $creatorOf): self
+    {
+        if (!$this->creatorOf->contains($creatorOf)) {
+            $this->creatorOf[] = $creatorOf;
+            $creatorOf->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatorOf(Rooms $creatorOf): self
+    {
+        if ($this->creatorOf->removeElement($creatorOf)) {
+            // set the owning side to null (unless already changed)
+            if ($creatorOf->getCreator() === $this) {
+                $creatorOf->setCreator(null);
+            }
         }
 
         return $this;

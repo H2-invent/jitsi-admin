@@ -10,6 +10,7 @@ use App\Form\Type\JoinViewType;
 use App\Helper\JitsiAdminController;
 use App\Service\RoomService;
 use App\Service\StartMeetingService;
+use App\UtilsHelper;
 use Firebase\JWT\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,7 +61,7 @@ class OwnRoomController extends JitsiAdminController
         }
 
         $isModerator = false;
-        if ($this->getUser() === $rooms->getModerator()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$rooms)) {
             $isModerator = true;
         }
 
@@ -83,7 +84,7 @@ class OwnRoomController extends JitsiAdminController
                 //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
                 // Der teilnehmer muss in der Lobby von einem Lobbymoderator in die Konferenz überführt werden
                 if ($rooms->getLobby()) {
-                    if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
+                    if($this->getUser() && UtilsHelper::isAllowedToOrganizeLobby($this->getUser(),$rooms)){
                         $res = $startMeetingService->createLobbyModeratorResponse();
                     }else{
                         $wui = null;
@@ -104,7 +105,7 @@ class OwnRoomController extends JitsiAdminController
             } else {
                 //Der Raum hat die Lobby aktiviert
                 if ($rooms->getLobby()) {
-                    if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
+                    if($this->getUser() && UtilsHelper::isAllowedToOrganizeLobby($this->getUser(),$rooms)){
                         $res = $startMeetingService->createLobbyModeratorResponse();
                     }else{
                         $wui = null;
@@ -161,7 +162,7 @@ class OwnRoomController extends JitsiAdminController
      */
     public function link(Rooms $rooms, Request $request): Response
     {
-        if ($rooms->getModerator() !== $this->getUser()) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$rooms)) {
             throw new NotFoundHttpException('Room not Found');
         }
 

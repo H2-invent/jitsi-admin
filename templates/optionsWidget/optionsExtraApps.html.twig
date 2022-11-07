@@ -3,7 +3,7 @@
                 href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room,true) }}"
                 data-roomname="{{ room.name }}"
                 data-close="simple"
-                class="startIframe dropdown-item "
+                class="startIframe dropdown-item apps-dropdown-whiteboard"
         >
             <i class="fa-solid fa-chalkboard"></i>
             {{ 'options.whiteboard'|trans }}</a></li>
@@ -13,7 +13,7 @@
                 href="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ app.user|nameOfUserNoSymbol }}"
                 data-roomname="{{ room.name }}"
                 data-close="simple"
-                class="startIframe dropdown-item "
+                class="startIframe dropdown-item apps-dropdown-etherpad"
         >
             <i class="fa-solid fa-clipboard"></i>
             {{ 'options.meetingNotes'|trans }}</a></li>

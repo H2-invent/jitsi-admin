@@ -1,18 +1,18 @@
 {% if dropdown_settings_shedule_planer == 1 %}
-    <li><a class="dropdown-item loadContent"
+    <li><a class="dropdown-item loadContent schedule-options"
            href="{{ path('schedule_admin',{'id':room.id}) }}">
             <i class="fa-solid fa-calendar"></i>
             {{ 'Terminplaner'|trans }}</a></li>
 {% endif %}
 {% if dropdown_settings_shedule_edit == 1 %}
     <li><a href="{{ path('schedule_admin_new',{'id':room.id}) }}"
-           class="loadContent dropdown-item">
+           class="loadContent dropdown-item schedule-edit">
             <i class="fa fa-edit"></i>
             {{ 'Bearbeiten'|trans }}</a></li>
 {% endif %}
 {% if dropdown_settings_shedule_share_links == 1 %}
     {% if room.public and room.repeater is null and room.totalOpenRooms != true %}
-        <li><a class="dropdown-item loadContent"
+        <li><a class="dropdown-item loadContent schedule-links"
                href="{{ path('share_link',{'id':room.id}) }}">
                 <i class="fa-solid fa-link"></i>
                 {{ 'Einladungslinks'|trans }}</a></li>
@@ -22,13 +22,13 @@
 {% include('optionsWidget/optionsExtraApps.html.twig') with {'room':room} %}
 
 {% if dropdown_settings_shedule_mail_to_all == 1 %}
-    <li><a class="dropdown-item"
+    <li><a class="dropdown-item schedule-mail"
            href="mailto:?bcc={% for u in room.user %}{{ u.email }}{% if not loop.last %};{% endif %}{% endfor %}">
             <i class="fa fa-envelope"></i>
             {{ 'Mail an die Teilnehmer'|trans }}</a></li>
 {% endif %}
 {% if dropdown_settings_shedule_delete == 1 %}
-    <li><a class="dropdown-item confirmHref"
+    <li><a class="dropdown-item confirmHref schedule-remove"
            href="{{ path('room_remove',{'room':room.id}) }}"
            data-text="{{ 'confirm.delete.room'|trans }}">
             <i class="fa fa-trash"></i>

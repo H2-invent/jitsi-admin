@@ -56,7 +56,6 @@ class RoomType extends AbstractType
 
         $time = (new \DateTime())->getTimestamp();
         $room = $options['data'];
-//        $room = new Rooms();
         $during = false;
         if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()) {
             $during = true;
