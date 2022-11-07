@@ -840,6 +840,7 @@ strong {
 .in-iframe {
   .window {
     overflow-y: auto;
+    grid-template-rows: auto;
   }
 
   .footer {

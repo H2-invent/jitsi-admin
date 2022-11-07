@@ -103,6 +103,7 @@ function initNewModal(e){
 
     $('[data-mdb-toggle="popover"]').popover({html: true});
     $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+    $('.tooltip').remove();
     $('[data-mdb-toggle="tooltip"]').tooltip()
 
     initdateTimePicker('.flatpickr');

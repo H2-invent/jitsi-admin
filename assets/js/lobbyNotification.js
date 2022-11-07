@@ -118,6 +118,7 @@ function refresh(data) {
             countParts();
             initDragParticipants();
             $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+            $('.tooltip').remove();
             $('[data-mdb-toggle="tooltip"]').tooltip();
             document.querySelectorAll('.form-outline').forEach((formOutline) => {
                 new mdb.Input(formOutline).init();

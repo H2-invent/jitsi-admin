@@ -24,6 +24,7 @@ function initDirectSend() {
                 hideTooltip();
                 $('[data-mdb-toggle="popover"]').popover({html: true});
                 $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+                $('.tooltip').remove();
                 $('[data-mdb-toggle="tooltip"]').tooltip();
             });
             if (typeof data.snack !== 'undefined') {
@@ -140,6 +141,7 @@ function initConfirmDirectSendHref() {
                                 hideTooltip();
                                 $('[data-mdb-toggle="popover"]').popover({html: true});
                                 $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+                                $('.tooltip').remove();
                                 $('[data-mdb-toggle="tooltip"]').tooltip();
 
                             });
@@ -148,6 +150,7 @@ function initConfirmDirectSendHref() {
                             }
                             $('[data-mdb-toggle="popover"]').popover({html: true});
                             $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+                            $('.tooltip').remove();
                             $('[data-mdb-toggle="tooltip"]').tooltip()
                         })
                     },
