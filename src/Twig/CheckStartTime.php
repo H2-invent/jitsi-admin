@@ -14,7 +14,9 @@ class CheckStartTime extends AbstractExtension
 {
 
 
-    public function __construct( private TranslatorInterface $translator)
+    public function __construct(
+        private StartMeetingService $startMeetingService,
+    )
     {
     }
 
@@ -28,16 +30,6 @@ class CheckStartTime extends AbstractExtension
 
     public function isRoomOpen(Rooms $room, ?User $user)
     {
-
-        $isOpen = StartMeetingService::checkTime($room, $user);
-        if (!$isOpen) {
-            return $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-                array(
-                    '{from}' => $room->getStartwithTimeZone($user)->modify('-30min')->format('d.m.Y H:i'),
-                    '{to}' => $room->getEndwithTimeZone($user)->format('d.m.Y H:i')
-                ));
-        } else {
-            return true;
-        }
+        return $this->startMeetingService->IsAlloedToEnter($room,$user);
     }
 }
