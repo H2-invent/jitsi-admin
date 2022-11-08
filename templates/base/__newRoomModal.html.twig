@@ -9,7 +9,7 @@
 
         <div class="modal-body">
             {% set server = getServer(app.user) %}
-            {% if server|length > 0 %}
+            {% if server|length > 0 or isEdit   %}
                 {{ form_start(form) }}
                 <div class="row">
                     <div class="col-12 d-flex align-items-center with-help">
@@ -18,10 +18,11 @@
                         {% endif %}
                         {% if form.server is defined and form.server is not null %}
                             {{ form_row(form.server) }}
-                        {% endif %}
-                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                           data-mdb-content="{{ 'room.new.help.server'|trans }}"><i
+                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                                          data-mdb-content="{{ 'room.new.help.server'|trans }}"><i
                                     class="fa fa-question-circle"></i></a>
+                        {% endif %}
+
                     </div>
                     {% if form.tag is defined %}
                         <div class="col-12 d-flex align-items-center with-help">

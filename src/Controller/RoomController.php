@@ -25,6 +25,7 @@ use App\Service\InviteService;
 
 use App\Service\RoomService;
 use App\UtilsHelper;
+use phpDocumentor\Reflection\Types\False_;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,7 +53,7 @@ class RoomController extends JitsiAdminController
                 $this->addFlash('danger', $translator->trans('Fehler'));
                 return $this->redirectToRoute('dashboard');
             }
-            if ($room->getModerator() !== $this->getUser()) {
+            if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
                 $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
                 return $this->redirectToRoute('dashboard');
             }
@@ -77,7 +78,6 @@ class RoomController extends JitsiAdminController
                 }
             }
             if (sizeof($servers) === 1) {
-
                 $serverChhose = $servers[0];
             }
             //Here we create the new Room with all depedencies
@@ -93,6 +93,9 @@ class RoomController extends JitsiAdminController
 
         if ($request->get('id')) {
             $form->remove('moderator');
+            if (!in_array($room->getServer(),$servers)){
+                $form->remove('server');
+            }
         }
 
         try {
@@ -158,7 +161,7 @@ class RoomController extends JitsiAdminController
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'form' => $form->createView(), 'title' => $title, 'isEdit'=> (bool)$request->get('id')));
     }
 
 
@@ -172,7 +175,7 @@ class RoomController extends JitsiAdminController
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $color = 'danger';
         $snack = 'Keine Berechtigung';
-        if ($this->getUser() === $room->getModerator()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
             if ($room->getRepeater()) {
                 $repeater = $room->getRepeater();
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
@@ -215,7 +218,7 @@ class RoomController extends JitsiAdminController
         $snack = $translator->trans('Keine Berechtigung');
         $title = $translator->trans('Konferenz duplizieren');
 
-        if ($this->getUser() === $room->getModerator()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
 
             $servers = $serverUserManagment->getServersFromUser($this->getUser());
             $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $room->getId()])]);

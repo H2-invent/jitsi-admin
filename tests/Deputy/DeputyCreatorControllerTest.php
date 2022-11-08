@@ -102,4 +102,5 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .start-app')->count());
 
     }
+
 }
