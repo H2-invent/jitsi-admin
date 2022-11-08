@@ -124,6 +124,12 @@ class StartMeetingService
         return $this->roomNotFound();
     }
 
+    public function IsAlloedToEnter(Rooms $room, User $user):?string{
+        if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
+            return $this->buildClosedString($room);
+        }
+        return null;
+    }
     public function setAttribute(Rooms $rooms, ?User $user, $t, $name)
     {
         $this->room = $rooms;
