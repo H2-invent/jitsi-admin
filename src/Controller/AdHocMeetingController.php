@@ -38,9 +38,6 @@ class AdHocMeetingController extends JitsiAdminController
     public function confirmation(
         User                $user,
         Server              $server,
-        TranslatorInterface $translator,
-        ServerUserManagment $serverUserManagment,
-        AdhocMeetingService $adhocMeetingService
     ): Response
     {
         $tag = $this->doctrine->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));

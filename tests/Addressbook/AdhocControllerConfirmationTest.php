@@ -9,10 +9,6 @@ use App\Service\adhocmeeting\AdhocMeetingService;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
-use Symfony\Component\Mercure\MockHub;
-use Symfony\Component\Mercure\Update;
-use function PHPUnit\Framework\assertContains;
 use function PHPUnit\Framework\assertStringContainsString;
 
 class AdhocControllerConfirmationTest extends WebTestCase
@@ -21,9 +17,6 @@ class AdhocControllerConfirmationTest extends WebTestCase
     {
         $client = static::createClient();
 
-
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
-        $directSend = $this->getContainer()->get(DirectSendService::class);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tag = $tagRepo->findAll();
@@ -55,8 +48,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $client = static::createClient();
 
 
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
-        $directSend = $this->getContainer()->get(DirectSendService::class);
+
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tagEnable = $tagRepo->findOneBy(array('title' => 'Test Tag Enabled'));
@@ -94,8 +86,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $client = static::createClient();
 
 
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
-        $directSend = $this->getContainer()->get(DirectSendService::class);
+
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));

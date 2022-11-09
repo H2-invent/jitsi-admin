@@ -66,7 +66,7 @@
         {% else %}
             <div class="test">
                 <a
-                        {% if app.user == room.moderator %}
+                        {% if isAllowedToOrganize(room,app.user) %}
                             class="loadContent btn btn-outline-primary dropdown-toggle btn-sm"
                             href="{{ path('schedule_admin',{'id':room.id}) }}"
                         {% else %}

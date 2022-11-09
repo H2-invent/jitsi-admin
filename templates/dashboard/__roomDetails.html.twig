@@ -29,7 +29,7 @@
             <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
         {% endif %}
     {% endif %}
-    {% if app.user == room.moderator %}
+    {% if isAllowedToOrganize(room,app.user) %}
         <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>
             {% if room.lobby == true %}<i class="fa-solid fa-shield-halved"></i>{% endif %}
             {{ 'Organisator'|trans }}</span>
@@ -39,7 +39,7 @@
 
     {% if app.user == room.scheduleMeeting %}
         <a
-                {% if app.user == room.moderator %}
+                {% if isAllowedToOrganize(room,app.user) %}
                     class="loadContent"
                     href="{{ path('schedule_admin',{'id':room.id}) }}"
                 {% else %}

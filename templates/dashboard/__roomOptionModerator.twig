@@ -1,4 +1,4 @@
-{% if room.moderator == app.user or  room.creator == app.user %}
+{% if isAllowedToOrganize(room,app.user) %}
     {{ include('dashboard/__roomOption.html.twig') }}
 
 
@@ -7,7 +7,7 @@
     <a href="{{ path('room_add_user',{'room':room.id}) }}"
        class=" element btn btn-outline-default loadContent moderator-participants">{{ 'Teilnehmer'|trans }}</a>
 {% endif %}
-{% if room.moderator == app.user and room.totalOpenRooms == true %}
+{% if isAllowedToOrganize(room,app.user) and room.totalOpenRooms == true %}
     <a href="{{ path('room_enter_link',{'uid':room.uid}) }}"
        class=" element btn btn-outline-default loadContent moderator-sharelink">{{ 'Beitretenlink'|trans }}</a>
 {% endif %}

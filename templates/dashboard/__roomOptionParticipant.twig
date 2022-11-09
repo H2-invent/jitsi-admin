@@ -1,4 +1,4 @@
-{% if app.user != room.moderator and  app.user != room.creator %}
+{% if not isAllowedToOrganize(room,app.user)%}
     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
        class="element btn btn-outline-default confirmHref participants-remove"
        data-text="{{ 'confirm.delete.room'|trans }}">

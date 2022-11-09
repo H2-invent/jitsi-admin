@@ -16,6 +16,9 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
     public function testSendToOne(): void
     {
         $client = static::createClient();
+        $userrepo = self::getContainer()->get(UserRepository::class);
+        $user = $userrepo->findOneBy(array('email' => 'test@local.de'));
+        $client->loginUser($user);
 
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
@@ -27,9 +30,7 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
         $message = $messageRepo->findAll();
 
-        $userrepo = self::getContainer()->get(UserRepository::class);
-        $user = $userrepo->findOneBy(array('email' => 'test@local.de'));
-        $client->loginUser($user);
+
         $crawler = $client->request('POST', '/room/lobby/message/send',array(),array(),array(),json_encode(array('uid'=>md5(1),'message'=>$message[0]->getId())));
         self::assertResponseIsSuccessful();
         self::assertEquals(array('error'=>false,'message' => 'Die Nachricht wurde erfolgreich übermittelt.'),json_decode($client->getResponse()->getContent(),true));
@@ -37,6 +38,9 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
     public function testSendToAll(): void
     {
         $client = static::createClient();
+        $userrepo = self::getContainer()->get(UserRepository::class);
+        $user = $userrepo->findOneBy(array('email' => 'test@local.de'));
+        $client->loginUser($user);
 
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
@@ -47,12 +51,11 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
         $message = $messageRepo->findAll();
 
-        $userrepo = self::getContainer()->get(UserRepository::class);
-        $user = $userrepo->findOneBy(array('email' => 'test@local.de'));
+
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name'=>'Room with Start and no Participants list and Lobby Activated'));
 
-        $client->loginUser($user);
+
         $crawler = $client->request('POST', '/room/lobby/message/send/all',array(),array(),array(),json_encode(array('uid'=>$room->getUidReal(),'message'=>$message[0]->getId())));
         self::assertResponseIsSuccessful();
         self::assertEquals(array('error'=>false,'message' => 'Die Nachricht wurde erfolgreich übermittelt.', 'counts'=>10),json_decode($client->getResponse()->getContent(),true));

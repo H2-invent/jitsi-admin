@@ -1,10 +1,10 @@
-<div class="btn-group" role="group" aria-label="Basic example">
-    {% if (getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and app.user != room.moderator) and room.totalOpenRooms != true %}
+<div class="btn-group element" role="group" aria-label="Basic example">
+    {% if (getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and not isAllowedToOrganize(room,app.user)) and room.totalOpenRooms != true %}
         <a href="{{ path('room_past_user',{'room':room.id}) }}"
            class=" element btn btn-outline-primary loadContent participants-participantList"><i class="fas fa-users"></i></a>
     {% endif %}
 {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-    {% if room.moderator != app.user %}
+    {% if not isAllowedToOrganize(room,app.user) %}
         <a href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
            class=" element btn btn-outline-primary startIframe apps-icon-whiteboard" data-roomname="{{ room.name }}" data-close="simple">
             <i class="fa-solid fa-chalkboard"></i>
@@ -12,7 +12,7 @@
     {% endif %}
 {% endif %}
 {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
-    {% if room.moderator != app.user %}
+    {% if not isAllowedToOrganize(room,app.user) %}
         <a href="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ app.user|nameOfUserNoSymbol }}"
            class=" element btn btn-outline-primary startIframe apps-icon-etherpad" data-roomname="{{ room.name }}" data-close="simple">
             <i class="fa-solid fa-clipboard"></i>
