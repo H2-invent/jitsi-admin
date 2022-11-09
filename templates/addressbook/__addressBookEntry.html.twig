@@ -30,7 +30,7 @@
                  style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
             </div>
         {% endif %}{{ u|nameOfUser }}
-        {% if u in app.user.deputy %}<i class="ms-2 fa-solid fa-file-contract"></i>{% endif %}
+        {% if u in app.user.deputy %}<i class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"  title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}
     </span>
     <span class="noBreak d-flex align-items-center icon">
                 {% if servers|length == 1 %}
