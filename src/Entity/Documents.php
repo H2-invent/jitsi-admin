@@ -86,4 +86,12 @@ class Documents implements \Serializable
     {
         $this->id = $data;
     }
+    public function serialize()
+    {
+        return null;
+    }
+    public function unserialize($data)
+    {
+        $this->id = $data;
+    }
 }
