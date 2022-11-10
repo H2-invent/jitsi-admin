@@ -1,9 +1,9 @@
-<div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-        <div class="modal-header  light-blue darken-3 white-text">
-            <h5 class="modal-title">{{ 'lobby.participant.modal.end.title'|trans }}</h5>
+<div class="card">
+
+        <div class="card-header">
+            <h5 >{{ 'lobby.participant.modal.end.title'|trans }}</h5>
         </div>
-        <div class="modal-body text-center">
+        <div class="card-body">
             {% if room.server.starServerId is not same as 0 %}
             <div id="remove" class="main">
                 <h1 class="remove">
@@ -41,12 +41,11 @@
 
             {% endif %}
         </div>
-        <div class="modal-footer">
+        <div class="card-footer">
 
             <a id="closeWindow" class="btn btn-block btn-outline-primary">{{ 'text.continue'|trans }}</a>
         </div>
     </div>
-</div>
 <script>
     var popupWatingTime = {{ getApplicationProperties('laf_lobby_popUpDuration') }}
 </script>

@@ -178,9 +178,7 @@
 </div>
 
 {% if room is defined and room is not null %}
-    <div class="modal fade" id="endMeetingModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
-         aria-labelledby="loadContentModal"
-         aria-hidden="true">
+    <div class="fullscreen d-none" id="endMeetingModal">
         {% include 'conference_end/__rating.html.twig' with {'room':room} %}
     </div>
 {% endif %}
