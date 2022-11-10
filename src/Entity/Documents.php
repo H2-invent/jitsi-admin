@@ -78,5 +78,20 @@ class Documents implements \Serializable
     {
         $this->updatedAt = $updatedAt;
     }
-
+    public function __serialize()
+    {
+        return array('id'=>$this->getId());
+    }
+    public function __unserialize($data)
+    {
+        $this->id = $data;
+    }
+    public function serialize()
+    {
+        return serialize($this->__serialize());
+    }
+    public function unserialize($data)
+    {
+        $this->id = $data;
+    }
 }
