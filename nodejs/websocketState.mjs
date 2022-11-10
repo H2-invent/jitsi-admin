@@ -20,9 +20,10 @@ export function websocketState(event, socket, message) {
             setTimeout(function () {
                 if (checkEmptySockets(socket)) {
                     io.emit('sendOnlineUser', JSON.stringify(getOnlineUSer()));
+                    console.log('Send is Offline');
                 }
+                sendStatus(socket);
             }, 7000);
-            sendStatus(socket);
             break;
         case 'login'://fügt den SOcket zu dem USer hinzu. Schickt keine Benachrichtigungen an die anderen Clients
             break;
