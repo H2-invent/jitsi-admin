@@ -91,7 +91,7 @@ class RoomController extends JitsiAdminController
         $form = $this->createForm(RoomType::class, $room, ['user'=>$this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],), 'isEdit' => (bool)$request->get('id')]);
         $form->remove('scheduleMeeting');
 
-        if ($request->get('id')) {
+        if ($edit) {
             $form->remove('moderator');
             if (!in_array($room->getServer(),$servers)){
                 $form->remove('server');
