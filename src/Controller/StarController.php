@@ -56,3 +56,4 @@ class StarController extends JitsiAdminController
         return $res;
     }
 }
+
