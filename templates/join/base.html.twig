@@ -178,9 +178,9 @@
 </div>
 
 {% if room is defined and room is not null %}
-    <div class="fullscreen d-none" id="endMeetingModal">
+
         {% include 'conference_end/__rating.html.twig' with {'room':room} %}
-    </div>
+
 {% endif %}
 <script>
     var confirmTitle = "{{ 'confirm.title'|trans }}";
