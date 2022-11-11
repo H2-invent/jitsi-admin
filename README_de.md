@@ -104,9 +104,12 @@ bash install.sh
 ```
 geben Sie alle informationen während dem Installationsvorgang korrekt ein
 # Update
-Laden Sie sich gewüschte Version herunter oder führen Sie einen checkout auf einen gewünschten Tag aus.
+Führen sie die nachfolgenden Update-Schritte aus
 
-Führen Sie danach folgenden Befehl in dem Ordner aus
-```javascript
-bash update.sh
-```
+Für Versionen <= 0.72x lesen Sie die Update-Anleitungen direkt in der Github Version
+
+Für Versionen 0.73 oder später, lesen Sie zugehörigen Update-Anleitungen
+`update_instruction_<fromVersion>...<toVersion>.md`
+
+[Update instruction 0.73.x to 0.74.x](update_instruction_0.73.x...0.74.x.md)
+[Update instruction 0.72.x to 0.73.x](update_instruction_0.72.x...0.73.x.md)
