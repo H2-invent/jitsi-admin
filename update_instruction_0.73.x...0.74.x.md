@@ -16,7 +16,7 @@ __Node ^16.15 and npm ^8.5 have to be installed__
 11. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
     1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
 
-### Update Docker installation from 0.72.x ... 0.73.x
+### Update Docker installation from 0.73.x ... 0.74.x
 
 1. Checkout latest Tag 
 2. go into the jitsi-admin director e.g. `cd /var/jitsi-admin/`
