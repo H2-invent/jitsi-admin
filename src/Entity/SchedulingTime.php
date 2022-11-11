@@ -7,68 +7,48 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=SchedulingTimeRepository::class)
- */
+#[ORM\Entity(repositoryClass: SchedulingTimeRepository::class)]
 class SchedulingTime
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $time;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Scheduling::class, inversedBy="schedulingTimes")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Scheduling::class, inversedBy: 'schedulingTimes')]
+    #[ORM\JoinColumn(nullable: false)]
     private $scheduling;
-
-    /**
-     * @ORM\OneToMany(targetEntity=SchedulingTimeUser::class, mappedBy="scheduleTime")
-     */
+    #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'scheduleTime')]
     private $schedulingTimeUsers;
-
     public function __construct()
     {
         $this->schedulingTimeUsers = new ArrayCollection();
     }
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
     public function getTime(): ?\DateTimeInterface
     {
         return $this->time;
     }
-
     public function setTime(\DateTimeInterface $time): self
     {
         $this->time = $time;
 
         return $this;
     }
-
     public function getScheduling(): ?Scheduling
     {
         return $this->scheduling;
     }
-
     public function setScheduling(?Scheduling $scheduling): self
     {
         $this->scheduling = $scheduling;
 
         return $this;
     }
-
     /**
      * @return Collection|SchedulingTimeUser[]
      */
@@ -76,7 +56,6 @@ class SchedulingTime
     {
         return $this->schedulingTimeUsers;
     }
-
     public function addSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
     {
         if (!$this->schedulingTimeUsers->contains($schedulingTimeUser)) {
@@ -86,7 +65,6 @@ class SchedulingTime
 
         return $this;
     }
-
     public function removeSchedulingTimeUser(SchedulingTimeUser $schedulingTimeUser): self
     {
         if ($this->schedulingTimeUsers->removeElement($schedulingTimeUser)) {
@@ -98,7 +76,6 @@ class SchedulingTime
 
         return $this;
     }
-
     public function getTimeWithTimeZone(User $user): ?\DateTimeInterface
     {
         $timeZone = $this->scheduling->getRoom()->getTimeZone() ? new \DateTimeZone($this->scheduling->getRoom()->getTimeZone()) : null;
@@ -111,5 +88,4 @@ class SchedulingTime
         }
         return $time;
     }
-
 }

@@ -45,7 +45,7 @@ function initconfirmHref() {
             text = 'Wollen Sie die Aktion durchführen?'
         }
 
-        $.confirm({
+        var jc = $.confirm({
             title: title,
             content: text,
             theme: 'material',
@@ -55,6 +55,8 @@ function initconfirmHref() {
                     btnClass: 'btn-outline-danger btn', // class for the button
                     action: function () {
                         window.location.href = url;
+                        jc.showLoading(false);
+                        return false;
                     },
 
 

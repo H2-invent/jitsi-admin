@@ -66,8 +66,8 @@
         <target state="translated">Jitsi-Конференция</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
-        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
-        <target state="translated">Они были приглашены на видеоконференцию на сервере Jitsi {server}.</target>
+        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <target state="translated">Вас пригласили на видеоконференцию.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
@@ -394,8 +394,8 @@
         <target state="translated">Добро пожаловать!</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="translated">Вы только что были приглашены на видеоконференцию на сервере Jitsi {url}. Вы можете легко присоединиться к видеоконференции, перейдя по прилагаемой ссылке.</target>
+        <source>Sie wurden gerade zu einer Videokonferenz eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target state="translated">Вы только что были приглашены на видеоконференцию. Вы можете легко присоединиться к видеоконференции, перейдя по прилагаемой ссылке.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -699,8 +699,8 @@ ID конференции: {uid}]]></target>
         <target state="translated">Ошибка, пожалуйста, перезагрузите страницу.</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="translated">Планирование встреч</target>
+        <source>Hier abstimmen</source>
+        <target state="needs-translation">Планирование встреч</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
@@ -711,8 +711,8 @@ ID конференции: {uid}]]></target>
         <target state="translated">Приглашение на встречу</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
-        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="translated">Вы только что запланировали встречу на сервере Jitsi {url}. Пожалуйста, выберите дату, перейдя по ссылке.</target>
+        <source>Sie wurden gerade zu einer Terminplanung eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <target state="translated">Вы только что запланировали встречу. Пожалуйста, выберите дату, перейдя по ссылке.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
@@ -806,7 +806,7 @@ ID конференции: {uid}]]></target>
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated"><![CDATA[У меня есть <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">            Уведомление о конфиденциальности от администратора Jitsi             и эти 
+        <target state="translated"><![CDATA[У меня есть <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">            Уведомление о конфиденциальности от администратора Jitsi             и эти
             <u>Уведомление о конфиденциальности </u><i class="fa fa-external-link-alt"></i></a>
            прочитайте и подтвердите их.]]></target>
       </trans-unit>
@@ -1200,7 +1200,7 @@ ID конференции: {uid}]]></target>
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                                 &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                                 eine neue Konferenz.</source>
-        <target state="translated"><![CDATA[В настоящее время конференций нет. 
+        <target state="translated"><![CDATA[В настоящее время конференций нет.
                                 <u><a href="{url}" class="loadContent">hier</a></u>
                                 новая конференция.]]></target>
       </trans-unit>
@@ -1398,7 +1398,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="translated">Завершеть конференцию для всех участников</target>
+        <target state="needs-translation">Konferenz beenden</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1645,10 +1645,6 @@ ID конференции: {uid}]]></target>
         <source>Anzahl Teilnehmende</source>
         <target state="translated">Количество участников</target>
       </trans-unit>
-      <trans-unit id="IN6pKbw" resname="ask.tab.close">
-        <source>ask.tab.close</source>
-        <target state="translated">Вы действительно хотите покинуть конференцию?</target>
-      </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
         <source>Aktuell laufende Konferenzen</source>
         <target state="translated">Текущие конференции</target>
@@ -1656,6 +1652,52 @@ ID конференции: {uid}]]></target>
       <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
         <source>Teilnehmende in aktuell laufenden Konferenzen</source>
         <target state="translated">Участники текущих конференций</target>
+      </trans-unit>
+      <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
+        <source>lobby.endMeeting.ask</source>
+        <target state="needs-translation">Wollen Sie diese Konferenz für alle Teilnehmer beenden?</target>
+      </trans-unit>
+      <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
+        <source>Swipen zum zulassen</source>
+        <target state="needs-translation">Swipen zum zulassen</target>
+      </trans-unit>
+      <trans-unit id="IN6pKbw" resname="ask.tab.close">
+        <source>ask.tab.close</source>
+        <target state="translated">Вы действительно хотите покинуть конференцию?</target>
+      </trans-unit>
+      <trans-unit id="Xf1t6eb" resname="lobby.hangup">
+        <source>lobby.hangup</source>
+        <target state="needs-translation">Nur ich verlasse</target>
+      </trans-unit>
+      <trans-unit id="XJjOklj" resname="Bewertung">
+        <source>Bewertung</source>
+        <target state="needs-translation">Bewertung</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="saiR089" resname="join.privacy.theme">
+        <source>join.privacy.theme</source>
+        <target state="needs-translation"><![CDATA[Ich habe die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
+        <source>join.privacy.ownServer</source>
+        <target state="needs-translation"><![CDATA[ Ich habe die <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von Jitsi Admin</u> <i class="fa fa-external-link-alt"></i></a>
+            und die <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
+            <u>Datenschutzhinweise von {url}</u><i class="fa fa-external-link-alt"></i></a>
+            gelesen und nehme diese zur Kenntnis.]]></target>
+      </trans-unit>
+      <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
+        <source>noch</source>
+        <target state="needs-translation">noch</target>
+      </trans-unit>
+      <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
+        <source>Sekunden</source>
+        <target state="needs-translation">Sekunden</target>
       </trans-unit>
     </body>
   </file>

@@ -97,9 +97,23 @@ class ThemeService
             try {
                 return $theme[$property];
             } catch (\Exception $e) {
-                return false;
+                return null;
             }
         }
-        return false;
+        return null;
+    }
+
+    public function getApplicationProperties($input)
+    {
+        $variable = null;
+        if ($this->parameterBag->has($input)) {
+            $variable = $this->parameterBag->get($input);
+        }
+        $tmp = $this->getThemeProperty($input);
+
+        if ($tmp !== null) {
+            return $tmp;
+        }
+        return $variable;
     }
 }

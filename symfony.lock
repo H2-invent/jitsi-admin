@@ -189,12 +189,6 @@
     "laminas/laminas-escaper": {
         "version": "2.6.1"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.0"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.0.4"
-    },
     "lcobucci/clock": {
         "version": "2.0.0"
     },

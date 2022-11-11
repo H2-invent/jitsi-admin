@@ -7,10 +7,11 @@
 @import "~node-waves/src/scss/waves";
 @import "./helper/variables";
 @import "./layout/fonts";
-
+@import "~css-star-rating/css/star-rating.css";
 @import "./layout/main";
 @import "layout/report";
 @import "~h2-invent-material-tabs/scss/material-tab";
 @import "./layout/header";
 @import "./layout/navbar";
 @import "~@holema/h2datetimepicker/css/dateTimePicker.css";
+

@@ -13,6 +13,7 @@ x-app-common: &jitsi_admin_app
     MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
+    registerEmailAdress: ${registerEmailAdress}
 
 
 services:
@@ -52,9 +53,8 @@ services:
       timeout: 10s
       start_period: 30s
     depends_on:
-      - db-ja
-      - keycloak-ja
-      - mercure-ja
+      db-ja:
+        condition: service_healthy
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -75,6 +75,8 @@ services:
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
       VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+      input_settings_allow_timezone: 1
+      allowTimeZoneSwitch: 1
       CRON_USER_1: root
       CRON_SCHEDULE_1: "* * * * *"
       CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
@@ -115,6 +117,10 @@ services:
     hostname: ${RANDOMTAG}db-ja
     environment:
       MARIADB_ROOT_PASSWORD: test
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -126,7 +132,8 @@ services:
     image: jboss/keycloak:latest
     hostname: ${RANDOMTAG}keycloak-ja
     depends_on:
-      - db-ja
+      db-ja:
+        condition: service_healthy
 
 
     environment:

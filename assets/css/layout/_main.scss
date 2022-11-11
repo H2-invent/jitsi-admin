@@ -518,11 +518,12 @@ strong {
     overflow: hidden;
     position: relative;
     border-radius: 50%;
-
+    background-size: cover;
+    background-position: center;
     img {
-      width: auto !important;
+      width: 100%;
       position: absolute;
-      height: 100%;
+      height: auto;
     }
   }
 }

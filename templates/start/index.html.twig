@@ -13,45 +13,48 @@
 </head>
 <body style="margin: 0">
 
-{%set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
+{% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
 {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
-    {%set logo_small =  server.logoUrl %}
+    {% set logo_small =  server.logoUrl %}
 {% else %}
     {% if theme == false %}
-        {%set logo_small = httpsAbolutUrl(asset('logo_small.png'))%}
+        {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
     {% else %}
-        {%set logo_small = theme.logo %}
+        {% set logo_small = theme.logo %}
     {% endif %}
 {% endif %}
 
-{%set logo_large = httpsAbolutUrl(asset('logo.png')) %}
+{% set logo_large = httpsAbolutUrl(asset('logo.png')) %}
 
 {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
-    {%set logo_large =  server.logoUrl %}
+    {% set logo_large =  server.logoUrl %}
 {% else %}
     {% if theme == false %}
-        {%set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
+        {% set logo_large = httpsAbolutUrl(asset('logo_small.png')) %}
     {% else %}
-        {%set logo_large = theme.logo %}
+        {% set logo_large = theme.logo %}
     {% endif %}
 {% endif %}
 
 <div id="frame">
+    {% block extensions %}
+
+    {% endblock %}
+
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
-        <a href="#" id="logo_image" class="stick">
-            <img class="d-none d-sm-block" src="{{logo_small}}"
+        <div id="logo_image" class="stick">
+            <img class="d-none d-sm-block" src="{{ logo_small }}"
                  alt="Logo"
                  style="height: 50px; width: auto">
-            <img class="d-block d-sm-none" src="{{logo_large}}"
+            <img class="d-block d-sm-none" src="{{ logo_large }}"
                  alt="Logo"
                  style="height: 50px; width: auto">
-
-        </a>
+        </div>
     </div>
 </div>
 
@@ -88,7 +91,10 @@
 
             parentNode: document.querySelector('#jitsiWindow'),
             {% if room.server.appId is not null %}
-            jwt: '{{ jwtFromRoom(user,room,name) }}',
+            {% if moderator is not defined %}
+            {% set moderator = false %}
+            {% endif %}
+            jwt: '{{ jwtFromRoom(user,room,name,moderator) }}',
             {% endif %}
             userInfo: {
                 displayName: '{{ name }}',
@@ -104,9 +110,9 @@
         api = new JitsiMeetExternalAPI(domain, options);
 
         api.addListener('chatUpdated', function (e) {
-            if(e.isOpen == true){
+            if (e.isOpen == true) {
                 document.querySelector('#logo_image').classList.add('transparent');
-            }else {
+            } else {
                 document.querySelector('#logo_image').classList.remove('transparent');
             }
 
@@ -133,9 +139,18 @@
             e.stopImmediatePropagation();
             return '{{ 'ask.tab.close'|trans }}';
         }
+        window.onmessage = function (event) {
+            if (event.data === "jitsi-closed") {
+                window.onbeforeunload = null;
+                window.close();
+            }
+        };
     </script>
 
 
 {% endif %}
+{% block webpack %}
+
+{% endblock %}
 
 </html>

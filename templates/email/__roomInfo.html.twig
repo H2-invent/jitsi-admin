@@ -14,8 +14,9 @@
 <p>
     {{ 'Moderator'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
     {% if not room.persistantRoom %}
-        {% if allowTimeZoneSwitch == 1 %}
-            {{ 'Zeitangaben in Zeitzone'|trans }}: {% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZoneAuto }}{% endif %}<br>
+        {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
+            {{ 'Zeitangaben in Zeitzone'|trans }}: {% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZoneAuto }}{% endif %}
+            <br>
         {% endif %}
         {{ 'Datum'|trans }}: {{ room.startwithTimeZone(user)|date('d.m.Y',false) }}<br>
         {{ 'Startzeit'|trans }}: {{ room.startwithTimeZone(user)|date('H:i',false) }}<br>
@@ -32,6 +33,23 @@
         Ihre E-Mail-Adresse: {email}<br>
         Konferenz ID: {uid}
     {% endtrans %}
+    <spacer size="16"></spacer>
+    {% if getJigasiNumber(room) %}
+    <b>{{ 'email.sip.text'|trans }}</b><br>
+    <spacer size="18"></spacer>
+    <b>{{ 'email.sip.number'|trans }}:</b><br>
+    {% for key,n in getJigasiNumber(room) %}
+    {% for number in n %}
+    {% if room.server.jigasiApiUrl is not null %}
+    <p> ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}# (<a href="tel:{{ number }},,,,{{ getJigasiPin(room) }}#)">{{ number }},,,,{{ getJigasiPin(room) }}#</a>)<p><br>
+    {% elseif  room.callerRoom  %}
+
+    <p> ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
+        (<a href="tel:{{ number }},,,,{{ room.callerRoom.callerId }}#">{{ number }},,,,{{ room.callerRoom.callerId }}#</a>)</p><br>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
 </p>
 <spacer size="16"></spacer>
 {% if url is defined and url is not null %}

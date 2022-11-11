@@ -153,7 +153,7 @@ class RoomNewTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '198273987321';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTime())->modify('+1hour')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $roomRepo =static::getContainer()->get(RoomsRepository::class);
@@ -185,7 +185,7 @@ class RoomNewTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
         $form['room[name]'] = '';
-        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[start]'] = (new \DateTime())->modify('+2hours')->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $client->submit($form);
         $this->assertJsonStringEqualsJsonString(json_encode(array('error' => true, 'messages' => array( 'Fehler, bitte den Namen angeben.'))), $client->getResponse()->getContent());
@@ -238,4 +238,81 @@ class RoomNewTest extends WebTestCase
         self::assertEquals($flash['modalUrl'][0],$modalUrl);
     }
 
+    public function testEditRunningRoom(): void{
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $server = $testUser->getServers()->toArray()[0];
+
+        $crawler = $client->request('GET', '/room/new');
+        $buttonCrawlerNode = $crawler->selectButton('Speichern');
+        $form = $buttonCrawlerNode->form();
+        $form['room[server]'] = $server->getId();
+        $form['room[name]'] = '198273987321';
+        $form['room[agenda]'] = 'this is an agenda for this meeting';
+        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[duration]'] = "60";
+        $client->submit($form);
+        $roomRepo =static::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => '198273987321'));
+        self::assertEquals('this is an agenda for this meeting',$room->getAgenda());
+        self::assertNotNull($room);
+
+
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', array('room' => $room->getId())));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                array(
+                    'error' => false,
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
+                    'cookie' => array(
+                        'room_server' => $server->getId()
+                    )
+                )
+            ),
+            $client->getResponse()->getContent()
+        );
+        $session = $client->getContainer()->get('session');
+        $flash = $session->getBag('flashes')->all();
+        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+        $client->request('GET','/room/dashboard');
+        self::assertResponseIsSuccessful();
+
+        $crawler = $client->request('GET', $urlGenerator->generate('room_new',array('id'=>$room->getId())));
+
+        $disabled = array();
+        foreach ($crawler->filter('[disabled=disabled]') as $content) {
+            $disabled[] = $content;
+        }
+        self::assertEquals(2,sizeof($disabled)) ;
+        self::assertEquals('room_name',$disabled[0]->getAttribute('id'));
+        self::assertEquals('room_agenda',$disabled[1]->getAttribute('id'));
+
+
+        $buttonCrawlerNode = $crawler->selectButton('Speichern');
+        $form = $buttonCrawlerNode->form();
+        $form['room[name]'] = '';
+        $form['room[agenda]'] = '';
+        $client->submit($form);
+        $room = $roomRepo->find($room->getId());
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                array(
+                    'error' => false,
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
+                    'cookie' => array(
+                        'room_server' => $server->getId()
+                    )
+                )
+            ),
+            $client->getResponse()->getContent()
+        );
+        self::assertEquals('198273987321',$room->getName());
+        self::assertEquals('this is an agenda for this meeting',$room->getAgenda());
+    }
 }

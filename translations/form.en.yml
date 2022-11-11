@@ -103,7 +103,7 @@ label:
   puplicRoom: Enable invitation links
   showRoomOnJoinpage: Show conference on joinpage
   subscribe: Subscribe
-  vorname: Firstname
+  vorname: First name
   nachname: Lastname
   maxParticipants: Allow maximum number of participants
   waitinglist: Activate waiting list
@@ -120,18 +120,19 @@ label:
   montlyRelativeMonth: Month
   repeaterRemoved: Edit only this element, not the series
   persistantRoom: This conference has no date and is permanently available.
-  totalOpenRooms: Deactivate participants, enter with participants-link
+  totalOpenRooms: Participants deactivated. Enter with participants-link
   totalOpenRoomsOpenTime: Room-opening-time
-  addressgroupName: Group name
-  addressgroupMember: Select group members
+  addressgroupName: Group Name
+  addressgroupMember: Group Members
   jwtModeratorPosition: Moderator position in JWT token
   timezone: Timezone
-  serverName: Server name
+  serverName: Server Name
   lobby: Activate lobby
   secondEmail: CC Email
   profilImage: Profile picture (Shown in Jitsi-Meet meeting)
   corsHeader: CORS- or frame-ancestor header
   tag: Category
+  serverBackgroundImage: Server Background Image
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

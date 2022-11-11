@@ -1,14 +1,11 @@
-
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
 
 
-
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-
 
 
 /* ---------------------------------------------------
@@ -39,9 +36,6 @@ label.required:after {
 }
 
 
-
-
-
 .snackbar {
   width: 100%;
   background-color: #4b515d;
@@ -55,16 +49,17 @@ label.required:after {
   z-index: 50;
   display: flex;
   flex-direction: column;
-  .innerOnce{
+
+  .innerOnce {
     width: 100%;
     padding: 16px;
     cursor: pointer;
-    -webkit-animation: fadein 0.5s ;
+    -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
   }
 }
 
-#snackbar{
+#snackbar {
   visibility: hidden;
   padding: 1em;
 
@@ -74,7 +69,6 @@ label.required:after {
     animation: fadein 0.5s;
   }
 }
-
 
 
 @-webkit-keyframes fadein {
@@ -168,11 +162,11 @@ label.required:after {
   width: 10px;
 }
 
-@media only screen and (min-width: 992px){
+@media only screen and (min-width: 992px) {
   .hide {
     display: flex;
-    flex-direction: row!important;
-    justify-content: flex-end!important;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
     align-items: center;
   }
 
@@ -188,37 +182,38 @@ label.required:after {
   }
 
 }
-.hide{
+
+.hide {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
 }
-.caretdown{
-  i{
+
+.caretdown {
+  i {
     white-space: nowrap;
   }
-  &[aria-expanded="false"]:before{
-    margin-right: 4px;
+
+  &[aria-expanded="true"] {
+    &:before {
+      transform: rotateX(0.5turn);
+    }
+  }
+
+  &:before {
     font-family: "Font Awesome 5 Free";
+    margin-right: 0.5em;
     font-weight: 900;
-    content: "\f0d7";
     float: left;
     transition: transform 0.3s ease-in;
-  }
-  &[aria-expanded="true"]:before{
-    margin-right: 4px;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
     content: "\f0d7";
-    float: left;
-    transform: rotateX(0.5turn);
-    transition: transform 0.3s ease-in;
   }
+
 }
 
-.iconSytle{
+.iconSytle {
   max-height: 25px;
 }
 
@@ -232,13 +227,16 @@ label.required:after {
     max-height: 30px;
   }
 }
-.breakWord{
+
+.breakWord {
   word-break: break-word;
   padding-right: 5px;
 }
-.noBreak{
+
+.noBreak {
   white-space: nowrap;
 }
+
 #modalAdressbook a[aria-expanded="true"] {
   background: white;
 }

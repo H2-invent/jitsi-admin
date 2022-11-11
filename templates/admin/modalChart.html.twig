@@ -50,16 +50,120 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
-                    <div class="card border-info text-center">
-                        <div class="card-body">
-                            {{ 'Organisatoren'|trans }}
+                <div class="col-md-6 col-sm-6 col-lg-3 mb-2" id="rating">
+                    <div class="card border-info text-center {% if (showAverageStar(server)-lastAverage) > 0.5%}bg-danger text-white{% endif %}">
+                        <div class="card-body ">
+                            {{ 'Bewertung'|trans }} {% if server.stars| length %}
+                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdp-html="true"
+                                   data-mdb-content="<p>&Oslash; {{ 'stars.lastTen'|trans }}: {{ lastAverage|round(0, 'floor') }}</p><ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ s.comment }}</li>{% endif %} {% endfor %}</ul>">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </a>
+                            {% endif %}
                             <hr>
-                            {{ server.user | length }}
+                            <div class="rating value-{{ showAverageStar(server)|round(0, 'floor') }} {% if showAverageStar(server) - showAverageStar(server)|round(0, 'floor') >= 0.25 %} half {% endif %} large  label-left star-svg">
+                                <div class="label-value">{{ showAverageStar(server)|number_format(1) }}</div>
+                                <div class="star-container">
+                                    <div class="star">
+                                        {% if showAverageStar(server) - 1 >= 0 %}
+                                            <svg class="star-filled">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                            </svg>
+                                        {% elseif showAverageStar(server) - 1 >= -0.75 %}
+                                            <svg class="star-half">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="star-empty">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                            </svg>
+                                        {% endif %}
+                                    </div>
+                                    <div class="star">
+                                        {% if showAverageStar(server) - 2 >= 0 %}
+                                            <svg class="star-filled">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                            </svg>
+                                        {% elseif showAverageStar(server) - 2 >= -0.75 %}
+                                            <svg class="star-half">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="star-empty">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                            </svg>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="star">
+                                        {% if showAverageStar(server) - 3 >= 0 %}
+                                            <svg class="star-filled">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                            </svg>
+                                        {% elseif showAverageStar(server) - 3 >= -0.75 %}
+                                            <svg class="star-half">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="star-empty">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                            </svg>
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="star">
+
+                                        {% if showAverageStar(server) - 4 >= 0 %}
+                                            <svg class="star-filled">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                            </svg>
+                                        {% elseif showAverageStar(server) - 4.0 >= -0.75 %}
+                                            <svg class="star-half">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="star-empty">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                            </svg>
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="star">
+                                        {% if showAverageStar(server) - 5 >= 0 %}
+                                            <svg class="star-filled">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-filled"></use>
+                                            </svg>
+                                        {% elseif showAverageStar(server) - 5.0 >= -0.75 %}
+                                            <svg class="star-half">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-half"></use>
+                                            </svg>
+                                        {% else %}
+                                            <svg class="star-empty">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                     xlink:href="/build/star-rating.icons.svg#star-empty"></use>
+                                            </svg>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-6 col-sm-6 col-lg-3 mb-2">
                     {% if tags is defined and tags is not null %}
                         <a href="https://github.com/H2-invent/jitsi-admin/releases/tag/{{ tags[0].name }}"
@@ -100,6 +204,19 @@
                 label: "{{ 'Anzahl Teilnehmer'|trans }}",
                 yAxisID: 'B',
                 data: [{% for date in chart %}"{{ date['participants'] }}",{% endfor %}],
+                backgroundColor: [
+                    'rgba(0, 137, 132, .2)',
+                ],
+                borderColor: [
+                    'rgba(0, 10, 130, .7)',
+                ],
+                borderWidth: 2
+            }
+            ,
+            {
+                label: "{{ 'statistic.real.participants'|trans }}",
+                yAxisID: 'B',
+                data: [{% for date in chart %}"{{ date['participants_real'] }}",{% endfor %}],
                 backgroundColor: [
                     'rgba(0, 137, 132, .2)',
                 ],

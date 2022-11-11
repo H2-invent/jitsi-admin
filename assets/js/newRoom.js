@@ -77,7 +77,7 @@ function sendToServer(form, url) {
             } else {
                 $('.formError').remove();
                 for (var i = 0; i < $res['messages'].length; i++) {
-                    $('<div class="alert alert-dismissible fade show alert-danger w-100" role="alert">' + $res['messages'][i] + '  <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>' +
+                    $('<div class="alert alert-dismissible fade show alert-danger w-100 formError" role="alert">' + $res['messages'][i] + '  <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>' +
                         '</div>')
                         .insertBefore($('#saveRoom'))
                 }

@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <p> {% if theme != false %}{{ theme.nameIdentifier }}{% else %}{{ 'Name'|trans }}{% endif %}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
                     {% if theme != false %}{{ theme.usernameIdentifier }}{% else %}{{ 'Username'|trans }}{% endif %}: {{ app.user.userIdentifier }}<br>
-                    {% if allowTimeZoneSwitch == 1  %}
+                    {% if getApplicationProperties('allowTimeZoneSwitch') == 1  %}
                     {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% else %}{{ 'Zeitzone'|trans }}{% endif %}: {{ app.user.timeZone }}
                     {% endif %}
                 </p>
@@ -49,7 +49,7 @@
                        href="{{ path('connect_keycloak_password') }}"
                        target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
                 {% endif %}
-                {% if allowTimeZoneSwitch == 1 %}
+                {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
                 <a class="btn btn-primary btn-sm loadContent"
                    href="{{ path('time_zone_change') }}"
                    target="_blank">{% trans %}Zeitzone ändern{% endtrans %}</a>

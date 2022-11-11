@@ -31,9 +31,9 @@ class Jwt extends AbstractExtension
             new TwigFunction('urlFromRoom', [$this, 'urlFromRoom']),
         ];
     }
-    public function jwtFromRoom(?User $user,Rooms $rooms, $name)
+    public function jwtFromRoom(?User $user,Rooms $rooms, $name,$moderatorExplizit = false)
     {
-        return $this->roomService->generateJwt($rooms,$user,$name);
+        return $this->roomService->generateJwt($rooms,$user,$name, $moderatorExplizit);
     }
     public function urlFromRoom(?User $user,Rooms $rooms, $name, $t)
     {

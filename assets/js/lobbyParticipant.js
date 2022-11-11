@@ -9,12 +9,12 @@ global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId, stopWebcam} from './cameraUtils'
-import {initAUdio, micId, audioId, echoOff} from './audioUtils'
+import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
+import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
-
+import {checkDeviceinList}  from './jitsiUtils'
 
 initNotofication();
 
@@ -26,6 +26,9 @@ var successTimer;
 var clickLeave = false;
 let es;
 let healtcheckInterval;
+let blockHealtch = false;
+var microphoneLabel = null;
+var cameraLable = null;
 
 function initMercure() {
     connectES();
@@ -43,20 +46,26 @@ function connectES() {
         masterNotify(data);
         if (data.type === 'newJitsi') {
             clearInterval(healtcheckInterval);
+            blockHealtch = true;
             userAccepted(data);
         } else if (data.type === 'endMeeting') {
+            blockHealtch = true;
             clearInterval(healtcheckInterval);
             hangup()
             $('#jitsiWindow').remove();
         } else if (data.type === 'redirect') {
+            blockHealtch = true;
             clearInterval(healtcheckInterval);
         }
     }
     healtcheckInterval = setInterval(function () {
         $.get(healthcheckUrl, function (data) {
-            if (data.error === true) {
-                location.reload()
+                if (data.error === true) {
+                    if (!blockHealtch){
+                    location.reload()
+                }
             }
+
         });
     }, 10000)
 }
@@ -109,7 +118,8 @@ $('.leave').click(function (e) {
 })
 
 function initJitsiMeet(data) {
-
+    cameraLable = webcamArr[choosenId];
+    microphoneLabel = micArr[micId];
     stopWebcam();
     echoOff();
     window.onbeforeunload = null;
@@ -151,18 +161,20 @@ function initJitsiMeet(data) {
         if (avatarUrl !== '') {
             api.executeCommand('avatarUrl', avatarUrl);
         }
+        // api.getAvailableDevices().then(devices => {
+        //     if (checkDeviceinList(devices,cameraLable)){
+        //         api.setVideoInputDevice(cameraLable);
+        //     }
+        //     if (checkDeviceinList(devices,cameraLable)){
+        //         api.setAudioInputDevice(microphoneLabel);
+        //     }
+        //     swithCameraOn(toggle);
+        // });
+        // swithCameraOn(toggle);
     });
 
 
-    api.addListener('participantKickedOut', function (e) {
 
-        $('#jitsiWindow').remove();
-        masterNotify({'type': 'modal', 'content': endModal});
-        setTimeout(function () {
-            masterNotify({'type': 'endMeeting', 'url': '/'});
-        }, popUpDuration)
-
-    });
 
     $(data.options.parentNode).find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
@@ -176,17 +188,25 @@ function hangup() {
 function userAccepted(data) {
     dataSucess = data;
     $('#renewParticipant').remove();
-    $('#stopEntry').removeClass('d-none');
-    text = $('#stopEntry').text();
+    $('.overlay').remove();
+    $('.accessAllowed').removeClass('d-none');
     counter = 10;
+    $('#lobby_participant_counter').text(counter);
+    $('#stopEntry').removeClass('d-none');
+
     interval = setInterval(function () {
         counter = counter - 1;
-        $('#stopEntry').text(text + ' (' + counter + ')');
-        if (counter <= 0) {
-            $('#stopEntry').text(text);
+        $('#lobby_participant_counter').css('transition',' opacity 0s');
+        $('#lobby_participant_counter').css('opacity','0');
+        setTimeout(function () {
+            $('#lobby_participant_counter').css('transition',' opacity 0.5s');
+            $('#lobby_participant_counter').css('opacity','1');
+        },1)
+        if (counter < 0) {
             clearInterval(interval);
             initJitsiMeet(dataSucess);
         }
+        $('#lobby_participant_counter').text(counter);
     }, 1000);
 
 
@@ -195,12 +215,34 @@ function userAccepted(data) {
             clearInterval(interval);
             interval = null;
             text = $(this).data('alternativ')
+            $('.textAllow').remove();
             $(this).text(text);
         } else {
             initJitsiMeet(dataSucess);
         }
     })
 }
+
+
+function swithCameraOn(videoOn) {
+    if (videoOn === 1){
+        var muted =
+            api.isVideoMuted().then(muted => {
+                console.log(muted)
+                if (muted){
+                    api.executeCommand('toggleVideo');
+                }
+            });
+    }else {
+        api.isVideoMuted().then(muted => {
+            if (!muted){
+                api.executeCommand('toggleVideo');
+            }
+
+        });
+    }
+}
+
 
 $(document).ready(function () {
     initGenerell()

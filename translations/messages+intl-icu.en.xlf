@@ -35,7 +35,7 @@
       </trans-unit>
       <trans-unit id="Pxb7Aj_" resname="Teilnehmer wurden eingeladen">
         <source>Teilnehmer wurden eingeladen</source>
-        <target state="translated">The participants habe been invited.</target>
+        <target state="translated">The participants were invited.</target>
       </trans-unit>
       <trans-unit id="K6XEZfk" resname="Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden">
         <source>Einige Teilnehmer eingeladen. {emails} ist/sind nicht korrekt und können nicht eingeladen werden</source>
@@ -47,7 +47,7 @@
       </trans-unit>
       <trans-unit id="BidGKR8" resname="Teilnehmer gelöscht">
         <source>Teilnehmer gelöscht</source>
-        <target state="translated">Participants removed</target>
+        <target state="translated">Participant removed</target>
       </trans-unit>
       <trans-unit id="x.c6LLU" resname="Konferenz gelöscht">
         <source>Konferenz gelöscht</source>
@@ -66,8 +66,8 @@
         <target state="translated">Jitsi conference</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
-        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
-        <target state="translated">You have been added to a videoconference on Jitsi server {server}.</target>
+        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <target state="translated">You have been added to a videoconference.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
@@ -394,8 +394,8 @@
         <target state="translated">Hello!</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="translated">You have been invited to a videoconference on Jitsi server {url}. You can join the videoconference easily via attached link.</target>
+        <source>Sie wurden gerade zu einer Videokonferenz eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <target state="translated">You have been invited to a videoconference on Jitsi server. You can join the videoconference easily via attached link.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -700,8 +700,8 @@
         <target state="translated">Error, please reload the page.</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Terminplanung</source>
-        <target state="translated">Appointment poll</target>
+        <source>Hier abstimmen</source>
+        <target state="translated">Click here to go to the poll</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
         <source>Terminplaner</source>
@@ -712,8 +712,8 @@
         <target state="translated">Invitation to an appointment poll</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
-        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="translated">You have been invited to an appointment poll on Jitsi server {url}. You can join the appointment poll easily via attached link.</target>
+        <source>Sie wurden gerade zu einer Terminplanung eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <target state="translated">You have been invited to an appointment poll on Jitsi server. You can join the appointment poll easily via attached link.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
@@ -907,7 +907,7 @@
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
         <target state="translated">The videoconference {name} was cancelled by {organizer}.</target>
       </trans-unit>
-      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} startet gleich.">
+      <trans-unit id="_wtk.2R" resname="Die Videokonferenz {name} startet gleich.">
         <source>Die Videokonferenz {name} startet gleich.</source>
         <target state="translated">Videoconference {name} starts soon.</target>
       </trans-unit>
@@ -1236,7 +1236,7 @@
       </trans-unit>
       <trans-unit id="VQ5q3RR" resname="[Terminplanung] Neue Einladung zur Terminplanung {name}">
         <source>[Terminplanung] Neue Einladung zur Terminplanung {name}</source>
-        <target state="translated">[Appointmentplanning] There is an invitation to the appointmentplanning {name}.</target>
+        <target state="translated">[Appointmentplanning] There is a new invitation to the appointmentplanning {name}.</target>
       </trans-unit>
       <trans-unit id="UE6M382" resname="[Videokonferenz] Hinzugefügt zur Warteliste">
         <source>[Videokonferenz] Hinzugefügt zur Warteliste</source>
@@ -1392,7 +1392,7 @@
       </trans-unit>
       <trans-unit id="Tf8vjZ2" resname="lobby.endMeeting">
         <source>lobby.endMeeting</source>
-        <target state="translated">Finish the conference for all participants</target>
+        <target state="translated">Stop conference</target>
       </trans-unit>
       <trans-unit id="JNhHT8U" resname="addParticipants.lobbyModerator.help">
         <source>addParticipants.lobbyModerator.help</source>
@@ -1635,20 +1635,56 @@
         <target state="translated">Active speaking time</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmende</source>
+        <source>Anzahl Teilnehmer</source>
         <target state="translated">Number of participants</target>
+      </trans-unit>
+      <trans-unit id="YkaONWP" resname="statistic.actualRooms">
+        <source>statistic.actualRooms</source>
+        <target state="translated">Current Conferences</target>
+      </trans-unit>
+      <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
+        <source>statistic.actualParticipant</source>
+        <target state="translated">Participants in currently running conferences</target>
+      </trans-unit>
+      <trans-unit id="DFKJ0XN" resname="lobby.endMeeting.ask">
+        <source>lobby.endMeeting.ask</source>
+        <target state="translated">Do you want to quit this conference for all participants?</target>
+      </trans-unit>
+      <trans-unit id="IiuRSbQ" resname="Swipen zum zulassen">
+        <source>Swipen zum zulassen</source>
+        <target state="translated">Swipe to allow</target>
       </trans-unit>
       <trans-unit id="IN6pKbw" resname="ask.tab.close">
         <source>ask.tab.close</source>
         <target state="translated">Sure, you want to leave this conference?</target>
       </trans-unit>
-      <trans-unit id="YkaONWP" resname="statistic.actualRooms">
-        <source>Aktuell laufende Konferenzen</source>
-        <target state="translated">Current Conferences</target>
+      <trans-unit id="Xf1t6eb" resname="lobby.hangup">
+        <source>lobby.hangup</source>
+        <target state="translated">Only I leave</target>
       </trans-unit>
-      <trans-unit id="OJQW76u" resname="statistic.actualParticipant">
-        <source>Teilnehmende in aktuell laufenden Konferenzen</source>
-        <target state="translated">Participants in currently running conferences</target>
+      <trans-unit id="XJjOklj" resname="Bewertung">
+        <source>Bewertung</source>
+        <target state="translated">Rating</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="saiR089" resname="join.privacy.theme">
+        <source>join.privacy.theme</source>
+        <target state="translated"><![CDATA[I have read, understand and agree to the <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"> <u>privacy statement of {url}</u> <i class="fa fa-external-link-alt"></i> </a>.]]></target>
+      </trans-unit>
+      <trans-unit id="5mk80gk" resname="join.privacy.ownServer">
+        <source>join.privacy.ownServer</source>
+        <target state="translated"><![CDATA[ I have read, understand and agree to the privacy statement of <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>Jitsi Admin</u> <i class="fa fa-external-link-alt"></i> </a>and <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"> <u>{url}</u><i class="fa fa-external-link-alt"></i> </a>.]]></target>
+      </trans-unit>
+      <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
+        <source>noch</source>
+        <target state="translated">still</target>
+      </trans-unit>
+      <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
+        <source>Sekunden</source>
+        <target state="translated">Seconds</target>
       </trans-unit>
     </body>
   </file>

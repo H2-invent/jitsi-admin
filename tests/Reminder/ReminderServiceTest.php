@@ -12,7 +12,37 @@ class ReminderServiceTest extends WebTestCase
     {
         $client = static::createClient();
         $reminderTest = self::$container->get(ReminderService::class);
-        $res = $reminderTest->sendReminder();
+        $res = $reminderTest->sendReminder(null);
+        $this->assertEquals(10, $res['Konferenzen']);
+        $this->assertEquals(30, $res['Emails']);
+        $this->assertEquals('Cron ok', $res['hinweis']);
+        $this->assertEquals(false, $res['error']);
+    }
+    public function testHasNotificationwithFilter(): void
+    {
+        $client = static::createClient();
+        $reminderTest = self::$container->get(ReminderService::class);
+        $res = $reminderTest->sendReminder(array(null));
+        $this->assertEquals(5, $res['Konferenzen']);
+        $this->assertEquals(15, $res['Emails']);
+        $this->assertEquals('Cron ok', $res['hinweis']);
+        $this->assertEquals(false, $res['error']);
+    }
+    public function testHasNotificationwithFilterLocalhost(): void
+    {
+        $client = static::createClient();
+        $reminderTest = self::$container->get(ReminderService::class);
+        $res = $reminderTest->sendReminder(array('http://localhost:8000'));
+        $this->assertEquals(5, $res['Konferenzen']);
+        $this->assertEquals(15, $res['Emails']);
+        $this->assertEquals('Cron ok', $res['hinweis']);
+        $this->assertEquals(false, $res['error']);
+    }
+    public function testHasNotificationwithFilterMixed(): void
+    {
+        $client = static::createClient();
+        $reminderTest = self::$container->get(ReminderService::class);
+        $res = $reminderTest->sendReminder(array(null,'http://localhost:8000'));
         $this->assertEquals(10, $res['Konferenzen']);
         $this->assertEquals(30, $res['Emails']);
         $this->assertEquals('Cron ok', $res['hinweis']);

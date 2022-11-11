@@ -3,7 +3,7 @@
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
-             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             {{ form_start(form) }}
@@ -57,10 +57,16 @@
                         <h4>{{ 'Hintergrundbild'|trans }}</h4>
                         {{ form_row(form.showStaticBackgroundColor) }}
                         {{ form_row(form.staticBackgroundColor) }}
-
-                    <hr>
+                        {{ form_row(form.serverBackgroundImage) }}
+                        <hr>
                         {{ form_row(form.apiKey) }}
                         <button class="btn btn-primary generateApiKey">{{ 'API-Key neu genereieren'|trans }}</button>
+
+                        <hr class="mt-3">
+                        <h4>{{ 'enterprise.settings.header.sip'|trans }}</h4>
+                        {{ form_row(form.jigasiApiUrl) }}
+                        {{ form_row(form.jigasiNumberUrl) }}
+                        {{ form_row(form.jigasiProsodyDomain) }}
                     </div>
                 </div>
 

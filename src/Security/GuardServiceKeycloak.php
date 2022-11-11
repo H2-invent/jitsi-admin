@@ -8,6 +8,7 @@ use App\Entity\FosUser;
 use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\IndexUserService;
+use App\Service\ThemeService;
 use App\Service\UserCreatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -39,7 +40,8 @@ class GuardServiceKeycloak extends SocialAuthenticator
     private $userCreatorService;
     private $indexer;
     private $logger;
-    public function __construct(LoggerInterface $logger, IndexUserService $indexUserService, UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    private ThemeService $themeService;
+    public function __construct(ThemeService $themeService, LoggerInterface $logger, IndexUserService $indexUserService, UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
@@ -49,6 +51,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $this->userCreatorService = $userCreatorService;
         $this->indexer = $indexUserService;
         $this->logger = $logger;
+        $this->themeService = $themeService;
     }
 
     public function supports(Request $request):bool

@@ -1,4 +1,14 @@
-<div class="col-lg-4 col-12 col-xl-3 waitingUserCard mb-3">
+<div class="col-lg-4 col-12 col-xl-3 waitingUserCard mb-3 position-relative">
+    <div class="position-absolut d-flex icon-holder">
+        <div class="acceptSwipe feedbackSwipe"
+             data-target="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
+            <i class="fas fa-user-check"></i>
+        </div>
+        <div class="denieSwipe feedbackSwipe"
+             data-target="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
+            <i class="fas fa-user-times"></i>
+        </div>
+    </div>
     <div class="card ">
         <div class="card-body text-center d-flex justify-content-between flex-row flex-lg-column align-items-center">
             {% if wU.user is not null and  wU.user.profilePicture is not null %}
@@ -35,16 +45,19 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class="buttonHolder mt-lg-2 d-flex">
+            <div class="buttonHolder mt-lg-2 d-flex d-none d-md-block">
                 <a class="btn btn-lg btn-floating senddirect btn-success"
                    href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
-                    <i class="fas fa-user-check "></i>
+                    <i class="fas fa-user-check"></i>
                 </a>
                 <a class="btn btn-lg btn-floating directSendWithConfirm btn-danger"
                    data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
                    href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
-                    <i class="fas fa-user-times "></i>
+                    <i class="fas fa-user-times"></i>
                 </a>
+            </div>
+            <div class="buttonHolder d-md-none">
+                <i class="fa-solid fa-left-right"></i>
             </div>
         </div>
     </div>

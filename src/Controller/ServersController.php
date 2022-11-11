@@ -115,11 +115,25 @@ class ServersController extends JitsiAdminController
         $errors = array();
         if ($form->isSubmitted() && $form->isValid()) {
             $server = $form->getData();
+
             $errors = $validator->validate($server);
             if (count($errors) == 0) {
                 $em = $this->doctrine->getManager();
                 $em->persist($server);
                 $em->flush();
+                if ($server->getServerBackgroundImage()){
+                    $server->getServerBackgroundImage()->setUpdatedAt(new \DateTime());
+                    $server->setUpdatedAt(new \DateTime());
+                    $em->persist($server);
+                    $em->flush();
+                }
+
+                if ($server->getServerBackgroundImage() && !$server->getServerBackgroundImage()->getDocumentFileName()) {
+                   $server->setServerBackgroundImage(null);
+                    $em->persist($server);
+                    $em->flush();
+                }
+
                 $this->addFlash('success', $translator->trans('Ihre Eingabe wurde Erfolgreich gespeichert.'));
                 return $this->redirectToRoute('dashboard');
             }

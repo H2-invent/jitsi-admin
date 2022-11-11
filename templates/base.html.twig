@@ -7,7 +7,7 @@
     var importBBB = true
 </script>
 
-{% if laf_bbb == 0 %}
+{% if getApplicationProperties('laf_bbb') == 0 %}
     <script>
         var importBBB = false
     </script>
@@ -94,7 +94,7 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {{ helpText|raw }}
+                {{ getApplicationProperties('helpText')|raw }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary"
@@ -110,7 +110,7 @@
     var urlNotification = '{{ path('notification') }}';
     var moreFeatureUrl = '{{ path('more_features') }}';
     var notificationUrl = "{{ laf_notificationUrl }}";
-    var bbbUrl = "{{ laf_bbb_Url }}";
+    var bbbUrl = "{{ getApplicationProperties('laf_bbb_Url') }}";
     var refreshDashboardTime = {{ laf_refreshTimeDashboard }};
     var refreshDashboardUrl = '{{ path('dashboard') }}';
     var confirmTitle = "{{ 'confirm.title'|trans }}";

@@ -24,6 +24,7 @@ Encore
     .addEntry('joinBlack', './assets/js/joinBlack.js')
     .addEntry('black', './assets/js/black.js')
     .addEntry('frontend', './assets/js/frontend.js')
+    .addEntry('public', './assets/js/public.js')
     .addEntry('startpage', './assets/js/startpage.js')
     .addEntry('lobbyModerator', './assets/js/lobbyModerator.js')
     .addEntry('lobbyParticipant', './assets/js/lobbyParticipant.js')
@@ -34,6 +35,16 @@ Encore
             name: 'static/media/[name].[hash:8].[ext]'
         }
     })
+    .addPlugin(
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: './node_modules/css-star-rating/images/star-rating.icons.svg',
+                    to: '.'
+                },
+            ]
+        })
+    )
     // empty the outputPath dir before each build
     .cleanupOutputBeforeBuild()
 

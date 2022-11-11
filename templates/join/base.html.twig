@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-{% set theme =  getThemeProperties()  %}
+{% set theme =  getThemeProperties() %}
 {% set css = 'join' %}
 {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
     {% set css = 'joinBlack' %}
@@ -18,19 +18,39 @@
     is defined and
     server is not null and
     server|validateLicense and
-    server.showStaticBackgroundColor and
-    server.staticBackgroundColor is not null %}
+    (
+    ( server.showStaticBackgroundColor and
+    server.staticBackgroundColor is not null ) or
+    ( server.serverBackgroundImage is not null )
+    )
+    %}
+
+    {% if server.serverBackgroundImage %}
+    .imageBackground {
+        background-image: url("{{ vich_uploader_asset(server.serverBackgroundImage,'documentFile') }}");
+    }
+
+    .blackMode .window {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    {%else%}
     .imageBackground {
         background-color: {{ server.staticBackgroundColor }};
     }
+
+    {%endif%}
+
 
     {% elseif image is not null %}
     .imageBackground {
         background-image: url("{{ image['src']['original'] }}?auto=compress&cs=tinysrgb&w=1920");
     }
-.blackMode .window{
-    background-color: rgba(0,0,0,0.6);
-}
+
+    .blackMode .window {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
     {% endif %}
 
 
@@ -95,26 +115,22 @@
                             <div class="card frozenGlas">
                                 <div class="glossy"></div>
                                 <div class="card-body">
-                                    <div class="row ">
-
-                                        <div class="col-md-12 align-items-center d-flex">
+                                    {% if room is defined and room is not null %}
+                                        {% if room.tag is not null %}
                                             <h3 class="h3-responsive text-center w-100">
-                                                {% if room is defined and room is not null %}
-                                                    {% if room.tag is not null %}
-                                                        <p class="badge badge-danger d-block" id="tagContent"
-                                                           style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
-                                                    {% endif %}
-                                                {% endif %}
-                                                {% block header %}{% endblock %}</h3>
+                                                <p class="badge badge-danger d-block" id="tagContent"
+                                                   style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
+                                            </h3>
+                                        {% endif %}
+                                    {% endif %}
+                                    <div class="row ">
+                                        <div class="col-12">
+                                           <h3 class="text-center">{% block header %}{% endblock %}</h3>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="row mb-5">
-
-
                                         {% block content %}{% endblock %}
-
-
                                     </div>
 
                                     <div class="row">

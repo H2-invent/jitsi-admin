@@ -8,14 +8,14 @@ import $ from 'jquery';
 import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
-import('mdbootstrap');
+
 
 var video = document.querySelector("#testAudio");
 var echoTest = 0;
 var audio = [];
 var mic = [];
-var audioId = null;
-var micId = null;
+let audioId = null;
+let micId = null;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx;
 var source;
@@ -23,6 +23,7 @@ var delay;
 var gain;
 var destination;
 var gStream = null;
+export let micArr = [];
 async function initAUdio() {
     try {
         await navigator.mediaDevices.getUserMedia({audio: true, video: false});
@@ -38,6 +39,7 @@ async function initAUdio() {
                     '<a class="dropdown-item audio_inputSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a>'
                 )
                 mic.push(device);
+                micArr[device.deviceId] = device.label;
             }
         });
         $('.audio_inputSelect').click(function () {

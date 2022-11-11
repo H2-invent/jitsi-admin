@@ -36,11 +36,17 @@ class Theme extends AbstractExtension
 
         return [
             new TwigFunction('getThemeProperties', [$this, 'getThemeProperties']),
+            new TwigFunction('getApplicationProperties', [$this, 'getApplicationProperties']),
         ];
     }
 
     public function getThemeProperties(?Rooms $rooms = null)
     {
         return $this->themeService->getTheme($rooms);
+    }
+
+    public function getApplicationProperties($input)
+    {
+        return $this->themeService->getApplicationProperties($input);
     }
 }

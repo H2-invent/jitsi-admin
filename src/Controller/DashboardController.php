@@ -16,8 +16,11 @@ use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
+use App\Service\ThemeService;
+use Doctrine\Persistence\ManagerRegistry;
 use Firebase\JWT\JWT;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -35,6 +38,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class DashboardController extends JitsiAdminController
 {
 
+    public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private ThemeService $themeService)
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     /**
      * @Route("/", name="index")
      * @param Request $request
@@ -42,24 +50,10 @@ class DashboardController extends JitsiAdminController
      */
     public function index(Request $request)
     {
-        if ($this->getUser() || $this->getParameter('laF_startpage') === 'false') {
+        if ($this->getUser()) {
             return $this->redirectToRoute('dashboard');
         };
-
-        $data = array();
-        // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
-        $dataStr = $request->get('data');
-        $dataAll = base64_decode($dataStr);
-        parse_str($dataAll, $data);
-
-        $form = $this->createForm(JoinViewType::class, $data, ['action' => $this->generateUrl('join_index')]);
-        $form->handleRequest($request);
-
-        $user = $this->doctrine->getRepository(User::class)->findAll();
-        $server = $this->doctrine->getRepository(Server::class)->findAll();
-        $rooms = $this->doctrine->getRepository(Rooms::class)->findAll();
-
-        return $this->render('dashboard/start.html.twig', ['form' => $form->createView(), 'user' => $user, 'server' => $server, 'rooms' => $rooms]);
+        return $this->redirectToRoute('app_public_form');
     }
 
 
@@ -154,16 +148,19 @@ class DashboardController extends JitsiAdminController
      */
     public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
     {
+        $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($type === 'fixed') {
             $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), $offset);
             return $this->render('dashboard/__lazyFixed.html.twig', [
                 'persistantRooms' => $persistantRooms,
+                'servers' => $servers,
                 'offset'=>$offset
             ]);
         } elseif ($type === 'past') {
             $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
             return $this->render('dashboard/__lazyPast.html.twig', [
                 'roomsPast' => $roomsPast,
+                'servers' => $servers,
                 'offset'=>$offset
             ]);
         }

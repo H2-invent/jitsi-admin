@@ -12,12 +12,15 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Message\CustomMailerMessage;
 use App\UtilsHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
@@ -27,12 +30,12 @@ class MailerService
     private $parameter;
     private $kernel;
     private $logger;
-    private $customMailer;
-
+    private ?CustomMailerMessage $customMailer;
     private $licenseService;
     private $mailer;
+    private $bus;
 
-    public function __construct(LicenseService $licenseService, LoggerInterface $logger, ParameterBagInterface $parameterBag, KernelInterface $kernel, MailerInterface $mailer)
+    public function __construct(MessageBusInterface $bus, LicenseService $licenseService, LoggerInterface $logger, ParameterBagInterface $parameterBag, KernelInterface $kernel, MailerInterface $mailer)
     {
 
         $this->parameter = $parameterBag;
@@ -41,6 +44,7 @@ class MailerService
         $this->customMailer = null;
         $this->licenseService = $licenseService;
         $this->mailer = $mailer;
+        $this->bus = $bus;
     }
 
     public function buildTransport(Server $server)
@@ -49,12 +53,16 @@ class MailerService
         if ($server->getSmtpHost()) {
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
             if ($server->getSmtpUsername()) {
-                $this->logger->info('The Transport is new and we take him');
-                $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
-            }else{
+                $this->logger->debug('we have a new Mailer with a pasword');
+                $this->logger->debug('Credentials: ',array('password'=>$server->getSmtpUsername(),'password'=>$server->getSmtpPassword()));
+                $dsn = 'smtp://' . urlencode($server->getSmtpUsername()) . ':' . urlencode($server->getSmtpPassword()) . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
+            } else {
+                $this->logger->debug('We have no password');
                 $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             }
-            $this->customMailer = Transport::fromDsn($dsn);
+            $this->logger->debug($dsn);
+            $this->logger->info('The Transport is new and we take him');
+            $this->customMailer = new CustomMailerMessage($dsn);
             return true;
         }
         return false;
@@ -135,12 +143,22 @@ class MailerService
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {
-                    foreach ($this->parameter->get('delivery_addresses') as $data){
+                    foreach ($this->parameter->get('delivery_addresses') as $data) {
                         $message->to($data);
                     }
                 }
+                if ($rooms && filter_var($rooms->getModerator()->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                    $this->customMailer->setAbsender($rooms->getModerator()->getEmail());
+                }
+                if ($rooms) {
+                    $this->customMailer->setRoomId($rooms->getId());
+                }
+                $this->customMailer->setTo($to);
                 $this->logger->info('Send from Custom Mailer');
-                $this->customMailer->send($message);
+                $this->bus->dispatch($this->customMailer->send($message), [
+                    // wait 5 seconds before processing
+                    new DelayStamp(rand(1000, 10000)),
+                ]);
             } else {
                 $this->mailer->send($message);
             }

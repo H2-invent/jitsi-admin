@@ -38,6 +38,7 @@ parameters:
     laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'
     laf_icon_mapping_search: '%env(laf_icon_mapping_search)%'
     LAF_DEV_URL: '%env(LAF_DEV_URL)%'
+    LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS: '%env(LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS)%'
 
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
@@ -67,7 +68,7 @@ parameters:
     input_settings_deactivate_participantsList: '%env(input_settings_deactivate_participantsList)%'
     input_settings_dissallow_screenshare: '%env(input_settings_dissallow_screenshare)%'
     input_settings_allow_timezone: '%env(input_settings_allow_timezone_default)%'
-
+    helpText: '%env(helpText)%'
     input_settings_persistant_rooms_default: '%env(input_settings_persistant_rooms_default)%'
     input_settings_only_registered_default: '%env(input_settings_only_registered_default)%'
     input_settings_share_link_default: '%env(input_settings_share_link_default)%'
@@ -90,6 +91,11 @@ parameters:
     JITSI_EVENTS_HISTORY: '%env(JITSI_EVENTS_HISTORY)%'
     SIP_CALLER_SECRET: '%env(SIP_CALLER_SECRET)%'
     SIP_CALLER_VERIVY_SPEZIAL_FIELD: '%env(SIP_CALLER_VERIVY_SPEZIAL_FIELD)%'
+    SIP_SHOW_ROOMNUMBER_IN_DETAILS: '%env(SIP_SHOW_ROOMNUMBER_IN_DETAILS)%'
+    PUBLIC_SERVER: '%env(PUBLIC_SERVER)%'
+    PUBLIC_TEXT_HEADER:  '%env(PUBLIC_TEXT_HEADER)%'
+    PUBLIC_TEXT_SUBTITLE:  '%env(PUBLIC_TEXT_SUBTITLE)%'
+    PUBLIC_TEXT_BODY_TEXT:  '%env(PUBLIC_TEXT_BODY_TEXT)%'
 
 services:
     Twig\Extension\StringLoaderExtension:
@@ -112,9 +118,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    dpolac.twig_lambda.extension:
-        class: DPolac\TwigLambda\LambdaExtension
-        tags: [ { name: twig.extension } ]
+
 
 
     ct_file_store.s3:

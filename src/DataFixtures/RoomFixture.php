@@ -172,6 +172,7 @@ class RoomFixture extends Fixture
         $server->setLicenseKey('f5c627f7ac98bef45fcfdd5fcade0246');
         $server->setApiKey('TestApi');
 
+
         $server->setShowStaticBackgroundColor(false);
         $server->setServerName('Server with License');
         $manager->persist($server);
@@ -204,6 +205,7 @@ class RoomFixture extends Fixture
             $callerRoom->setCallerId('1234' . $i);
             $callerRoom->setCreatedAt(new \DateTime());
             $room->setCallerRoom($callerRoom);
+            $room->setHostUrl('http://localhost:8000');
             $manager->persist($room);
         }
         $start = new \DateTime('2021-01-01T15:00');

@@ -8,6 +8,7 @@ use App\Entity\Tag;
 use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
 use App\Service\RoomGeneratorService;
+use App\Service\ThemeService;
 use App\Service\TimeZoneService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,7 @@ class AdhocMeetingService
     private DirectSendService $directSendService;
     private UserService $userService;
     private UrlGeneratorInterface $urlGen;
+    private $theme;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 RoomGeneratorService   $roomGeneratorService,
@@ -31,7 +33,8 @@ class AdhocMeetingService
                                 TranslatorInterface    $translator,
                                 DirectSendService      $directSendService,
                                 UserService            $userService,
-                                UrlGeneratorInterface  $urlGenerator
+                                UrlGeneratorInterface  $urlGenerator,
+                                ThemeService           $themeService
     )
     {
         $this->em = $entityManager;
@@ -41,19 +44,20 @@ class AdhocMeetingService
         $this->directSendService = $directSendService;
         $this->userService = $userService;
         $this->urlGen = $urlGenerator;
+        $this->theme = $themeService;
     }
 
     public function createAdhocMeeting(User $creator, User $reciever, Server $server, Tag $tag = null): ?Rooms
     {
         $room = $this->roomGeneratorService->createRoom($creator, $server);
-        if ($tag){
+        if ($tag) {
             $room->setTag($tag);
-        }else{
+        } else {
             $room->setTag(null);
         }
         $now = new \DateTime('now', TimeZoneService::getTimeZone($creator));
         $room->setStart($now);
-        if ($this->parameterBag->get('allowTimeZoneSwitch') == 1) {
+        if ($this->theme->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $room->setTimeZone($creator->getTimeZone());
         }
         $room->setEnddate((clone $now)->modify('+ 1 hour'));

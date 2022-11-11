@@ -69,13 +69,12 @@ After some minutes just go to the browser and enter **https://<yourDomain>** and
 
 ### I want to visit and harden my keycloak
 
-The keycloak is accessible from the domain: `http/s://keycloak.<yourDomain>`.
+The keycloak is accessible from the domain: `http/s://keycloak.<yourDomain>`. 
 Just klick on Admin console and then the username: **admin** and the password is saved in the file **docker.conf** in the Parameter: **KEYCLOAK_ADMIN_PW**
 Here you can now set up you keycloak as wished.
 
 
 ### I want to visit the traefik Services:
 Go to `http/s://traefik.<yourDomain>`.
-
 Enter the credentials: test:test
 

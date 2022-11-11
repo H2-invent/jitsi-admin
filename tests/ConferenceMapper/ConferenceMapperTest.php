@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Tests\ConferenceMapper;
+
+use App\Entity\RoomStatus;
+use App\Repository\CallerRoomRepository;
+use App\Service\api\ConferenceMapperService;
+use App\Service\RoomService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+
+class ConferenceMapperTest extends KernelTestCase
+{
+    public function testNotStarted(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $confMapperService = self::getContainer()->get(ConferenceMapperService::class);
+        $id = '12340';
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
+        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
+        self::assertEquals(array('state' => 'WAITING', 'reason' => 'NOT_STARTED'), $res);
+    }
+
+    public function testAuthFailed(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $confMapperService = self::getContainer()->get(ConferenceMapperService::class);
+        $id = '12340';
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
+        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApiFailure', '012345123');
+        self::assertEquals(array('error' => true, 'text' => 'AUTHORIZATION_FAILED'), $res);
+    }
+
+    public function testnoServer(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $confMapperService = self::getContainer()->get(ConferenceMapperService::class);
+        $id = '12340';
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
+        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $callerRoom->getRoom()->getServer()->setLicenseKey('test');
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApiFailure', '012345123');
+        self::assertEquals(array('error' => true, 'text' => 'NO_SERVER_FOUND'), $res);
+    }
+
+    public function testnoCallerRoom(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $confMapperService = self::getContainer()->get(ConferenceMapperService::class);
+        $id = '12340';
+
+        $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
+        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+
+        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => '12'));
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
+        self::assertEquals(array('error' => true, 'reason' => 'ROOM_NOT_FOUND'), $res);
+    }
+
+    public function testStarted(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $confMapperService = self::getContainer()->get(ConferenceMapperService::class);
+        $id = '12340';
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
+        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $status = new RoomStatus();
+        $status->setRoom($callerRoom->getRoom())
+            ->setCreatedAt(new \DateTime())
+            ->setJitsiRoomId('test')
+            ->setCreated(true)
+            ->setRoomCreatedAt(new \DateTime())
+            ->setUpdatedAt(new \DateTime());
+        $manager->persist($status);
+        $manager->flush();
+        $callerRoom->getRoom()->addRoomstatus($status);
+        $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
+        $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
+        $jwtService = self::getContainer()->get(RoomService::class);
+        $jwt = $jwtService->generateJwt($callerRoom->getRoom(),null,'012345123');
+
+        self::assertEquals(array(
+            'state' => 'STARTED',
+            'jwt'=>$jwt,'room_name'=>$callerRoom->getRoom()->getUid(),
+            'room_name' => '123456780@testdomain.com'), $res);
+    }
+
+}

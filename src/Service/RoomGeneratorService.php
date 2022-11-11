@@ -18,13 +18,14 @@ class RoomGeneratorService
     private $callerPrepareService;
     private $em;
     private RequestStack $requestStack;
-
-    public function __construct(RequestStack $requestStack, ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager)
+    private ThemeService $themeService;
+    public function __construct(RequestStack $requestStack, ParameterBagInterface $parameterBag, CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager, ThemeService $themeService)
     {
         $this->parameterBag = $parameterBag;
         $this->callerPrepareService = $callerPrepareService;
         $this->em = $entityManager;
         $this->requestStack = $requestStack;
+        $this->themeService = $themeService;
     }
 
     public function createRoom(User $user, ?Server $server = null): Rooms
@@ -43,24 +44,24 @@ class RoomGeneratorService
         $room->setUidModerator(md5(uniqid('h2-invent', true)));
         $room->setUidParticipant(md5(uniqid('h2-invent', true)));
         // here we set the default values
-        $room->setPersistantRoom($this->parameterBag->get('input_settings_persistant_rooms_default'));
-        $room->setOnlyRegisteredUsers($this->parameterBag->get('input_settings_only_registered_default'));
-        $room->setPublic($this->parameterBag->get('input_settings_share_link_default'));
-        if ($this->parameterBag->get('input_settings_max_participants_default') > 0) {
-            $room->setMaxParticipants($this->parameterBag->get('input_settings_max_participants_default'));
+        $room->setPersistantRoom($this->themeService->getApplicationProperties('input_settings_persistant_rooms_default'));
+        $room->setOnlyRegisteredUsers($this->themeService->getApplicationProperties('input_settings_only_registered_default'));
+        $room->setPublic($this->themeService->getApplicationProperties('input_settings_share_link_default'));
+        if ($this->themeService->getApplicationProperties('input_settings_max_participants_default') > 0) {
+            $room->setMaxParticipants($this->themeService->getApplicationProperties('input_settings_max_participants_default'));
         }
-        $room->setWaitinglist($this->parameterBag->get('input_settings_waitinglist_default'));
-        $room->setShowRoomOnJoinpage($this->parameterBag->get('input_settings_conference_join_page_default'));
-        $room->setTotalOpenRooms($this->parameterBag->get('input_settings_deactivate_participantsList_default'));
-        $room->setDissallowScreenshareGlobal($this->parameterBag->get('input_settings_dissallow_screenshare_default'));
-        $room->setLobby($this->parameterBag->get('input_settings_allowLobby_default'));
+        $room->setWaitinglist($this->themeService->getApplicationProperties('input_settings_waitinglist_default'));
+        $room->setShowRoomOnJoinpage($this->themeService->getApplicationProperties('input_settings_conference_join_page_default'));
+        $room->setTotalOpenRooms($this->themeService->getApplicationProperties('input_settings_deactivate_participantsList_default'));
+        $room->setDissallowScreenshareGlobal($this->themeService->getApplicationProperties('input_settings_dissallow_screenshare_default'));
+        $room->setLobby($this->themeService->getApplicationProperties('input_settings_allowLobby_default'));
 
         //end default values
 
-        if ($user->getTimeZone() && $this->parameterBag->get('allowTimeZoneSwitch') == 1) {
+        if ($user->getTimeZone() && $this->themeService->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $room->setTimeZone($user->getTimeZone());
-            if ($this->parameterBag->get('input_settings_allow_timezone_default') != 0) {
-                $room->setTimeZone($this->parameterBag->get('input_settings_allow_timezone_default'));
+            if ($this->themeService->getApplicationProperties('input_settings_allow_timezone_default') != 0) {
+                $room->setTimeZone($this->themeService->getApplicationProperties('input_settings_allow_timezone_default'));
             }
         }
         $room = $this->createCallerId($room);

@@ -13,6 +13,7 @@ x-app-common: &jitsi_admin_app
     MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
+    registerEmailAdress: ${registerEmailAdress}
 
 
 services:
@@ -120,6 +121,8 @@ services:
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
       VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+      input_settings_allow_timezone: 1
+      allowTimeZoneSwitch: 1
       CRON_USER_1: root
       CRON_SCHEDULE_1: "* * * * *"
       CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
