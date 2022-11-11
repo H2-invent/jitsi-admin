@@ -2,6 +2,7 @@ security:
     password_hashers:
         App\Entity\User:
             algorithm: auto
+    enable_authenticator_manager: true
 
 
 
@@ -23,27 +24,25 @@ security:
             security: false
         main:
             pattern: ^/
-            anonymous:    true
             switch_user: true
             logout:
                 path:   app_logout
                 target: logout_keycloak
-            guard:
-                authenticators:
-                    - App\Security\GuardServiceKeycloak
+            custom_authenticators:
+                - App\Security\KeycloakAuthenticator
 
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: /backend/, role: ROLE_ADMIN }
-        - { path: /login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /jitsi/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /api/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /cron/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /health/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /room/lobby/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /login$, role: PUBLIC_ACCESS  }
+        - { path: /jitsi/, role: PUBLIC_ACCESS  }
+        - { path: /api/, role: PUBLIC_ACCESS  }
+        - { path: /cron/, role: PUBLIC_ACCESS  }
+        - { path: /health/, role: PUBLIC_ACCESS  }
+        - { path: /register, role: PUBLIC_ACCESS  }
+        - { path: /room/lobby/, role: PUBLIC_ACCESS  }
         - { path: /room/, role: ROLE_USER }
         - { path: /join, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /server/, role: ROLE_USER }

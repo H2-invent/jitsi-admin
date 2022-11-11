@@ -83,4 +83,9 @@ class UserProvider implements UserProviderInterface
     {
         return $class === 'App\Security\User';
     }
+
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        // TODO: Implement loadUserByIdentifier() method.
+    }
 }

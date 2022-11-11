@@ -7,9 +7,11 @@ use App\Service\CreateHttpsUrl;
 use App\Service\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,8 +38,11 @@ class LoginControllerKeycloak extends JitsiAdminController
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $options['kc_idp_hint'] = $this->themeService->getThemeProperty('idp_provider');
         }
-        return $clientRegistry->getClient('keycloak_main')->redirect(['email'], $options);
+        $res = $clientRegistry->getClient('keycloak_main')->redirect(['email'], $options);
+        return  $res;
+
     }
+
 
     /**
      * @Route("/register", name="register_keycloak")
@@ -50,7 +55,9 @@ class LoginControllerKeycloak extends JitsiAdminController
         return $this->redirect($url);
     }
 
-
+    /**
+     * @Route("/login/keycloak_login/check", name="connect_keycloak_check")
+     */
     public function check(ClientRegistry $clientRegistry, Request $request)
     {
 

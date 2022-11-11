@@ -5,11 +5,8 @@ namespace App\Service\Jigasi;
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Service\LicenseService;
-use App\Service\ThemeService;
-use Doctrine\ORM\EntityManagerInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -18,11 +15,11 @@ use function _PHPStan_9a6ded56a\RingCentral\Psr7\str;
 class JigasiService
 {
     public function __construct(
-        private HttpClientInterface $client,
-        private LoggerInterface     $logger,
-        private LicenseService      $licenseService,
-        private AdapterInterface    $cache,
-        private KernelInterface     $kernel)
+        private HttpClientInterface    $client,
+        private LoggerInterface        $logger,
+        private LicenseService         $licenseService,
+        private CacheItemPoolInterface $cache,
+        private KernelInterface        $kernel)
     {
     }
 

@@ -7,18 +7,13 @@ namespace App\Service;
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use H2Entwicklung\Signature\CheckSignature;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function Symfony\Component\Translation\t;
 
 class ThemeService
 {
@@ -28,9 +23,9 @@ class ThemeService
     private $logger;
     private RequestStack $request;
     private CheckSignature $checkSignature;
-    private AdapterInterface $cache;
+    private CacheItemPoolInterface $cache;
 
-    public function __construct(AdapterInterface $filesystemAdapter, CheckSignature $checkSignature, RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
+    public function __construct(CacheItemPoolInterface $filesystemAdapter, CheckSignature $checkSignature, RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
     {
         $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;

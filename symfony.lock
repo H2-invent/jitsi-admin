@@ -253,9 +253,6 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
-    "php-webdriver/webdriver": {
-        "version": "1.11.1"
-    },
     "phpdocumentor/reflection-common": {
         "version": "2.1.0"
     },
@@ -387,9 +384,6 @@
     "stevenmaguire/oauth2-keycloak": {
         "version": "2.2.1"
     },
-    "symfony/amqp-messenger": {
-        "version": "v5.4.0"
-    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {
@@ -454,9 +448,6 @@
     "symfony/doctrine-bridge": {
         "version": "v4.4.8"
     },
-    "symfony/doctrine-messenger": {
-        "version": "v5.4.0"
-    },
     "symfony/dom-crawler": {
         "version": "v4.4.8"
     },
@@ -497,19 +488,18 @@
         "version": "v4.4.8"
     },
     "symfony/framework-bundle": {
-        "version": "4.4",
+        "version": "6.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "4.4",
-            "ref": "36d3075b2b8e0c4de0e82356a86e4c4a4eb6681b"
+            "branch": "main",
+            "version": "5.4",
+            "ref": "3cd216a4d007b78d8554d44a5b1c0a446dab24fb"
         },
         "files": [
-            "./config/bootstrap.php",
             "./config/packages/cache.yaml",
             "./config/packages/framework.yaml",
-            "./config/packages/test/framework.yaml",
-            "./config/routes/dev/framework.yaml",
+            "./config/preload.php",
+            "./config/routes/framework.yaml",
             "./config/services.yaml",
             "./public/index.php",
             "./src/Controller/.gitignore",
@@ -606,15 +596,6 @@
     "symfony/options-resolver": {
         "version": "v4.4.8"
     },
-    "symfony/panther": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "877d853a05c6713665a2f4b954734592680abff6"
-        }
-    },
     "symfony/password-hasher": {
         "version": "v5.3.3"
     },
@@ -651,9 +632,6 @@
     "symfony/polyfill-php72": {
         "version": "v1.16.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.16.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.0"
     },
@@ -671,9 +649,6 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.18"
-    },
-    "symfony/redis-messenger": {
-        "version": "v5.4.2"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -705,9 +680,6 @@
         "version": "v4.4.8"
     },
     "symfony/security-csrf": {
-        "version": "v4.4.8"
-    },
-    "symfony/security-guard": {
         "version": "v4.4.8"
     },
     "symfony/security-http": {
@@ -796,15 +768,6 @@
             "./config/packages/test/web_profiler.yaml",
             "./config/routes/dev/web_profiler.yaml"
         ]
-    },
-    "symfony/web-server-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
     },
     "symfony/webpack-encore-bundle": {
         "version": "1.6",
