@@ -8,7 +8,7 @@ use Exception;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DocumentsRepository::class)]
 #[Vich\Uploadable()]
@@ -18,23 +18,25 @@ class Documents implements \Serializable
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-
     private $documentFileName;
 
 
     #[Vich\UploadableField(mapping: "profile", fileNameProperty: "documentFileName")]
+    #[Assert\File(maxSize: "3M",maxSizeMessage: 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}',)]
     private $documentFile;
     /**
      * @var \DateTime
      */
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
+
     /**
      * @return string
      */
@@ -42,6 +44,7 @@ class Documents implements \Serializable
     {
         return $this->documentFileName;
     }
+
     /**
      * @param string $documentFileName
      */
@@ -50,6 +53,7 @@ class Documents implements \Serializable
         $this->documentFileName = $documentFileName;
         $this->updatedAt = new \DateTime();
     }
+
     /**
      * @return File
      */
@@ -57,6 +61,7 @@ class Documents implements \Serializable
     {
         return $this->documentFile;
     }
+
     /**
      * @param File $documentFile
      */
@@ -64,6 +69,7 @@ class Documents implements \Serializable
     {
         $this->documentFile = $documentFile;
     }
+
     /**
      * @return \DateTime
      */
@@ -71,6 +77,7 @@ class Documents implements \Serializable
     {
         return $this->updatedAt;
     }
+
     /**
      * @param \DateTime $updatedAt
      */

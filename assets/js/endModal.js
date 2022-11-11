@@ -2,7 +2,8 @@ import $ from "jquery";
 import {close, inIframe} from "./moderatorIframe";
 
 export function initStarSend() {
-    $('#endMeetingModal').modal('show');
+    $('#endMeetingModal').removeClass('d-none');
+    $('#mainContent').remove();
     $('#frame').remove();
     if ($('.starSend').length > 0) {
         $('.starSend').click(

@@ -854,8 +854,10 @@ strong {
 
 
 .star-wrapper {
-  direction: rtl;
+ display: flex;
+  justify-content: center;
   margin-top: 2px;
+  direction: rtl;
 }
 
 .star-wrapper a {
@@ -921,6 +923,18 @@ strong {
   &.w-100 {
     flex-wrap: nowrap;
   }
+}
+.fullscreen{
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: $background-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .with-help {

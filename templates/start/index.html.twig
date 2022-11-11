@@ -122,14 +122,15 @@
     {{ encore_entry_script_tags('onlyConference') }}
 {% endblock %}
 
-<div class="modal fade" id="loadContentModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
+<div class="modal fade" id="loadContentModal"
+     data-mdb-backdrop="static"
+     data-mdb-keyboard="false"
+     tabindex="-1" role="dialog"
      aria-labelledby="loadContentModal"
      aria-hidden="true">
 </div>
 
-<div class="modal fade" id="endMeetingModal" data-mdb-backdrop="static" tabindex="-1" role="dialog"
-     aria-labelledby="loadContentModal"
-     aria-hidden="true">
+
     {% include 'conference_end/__rating.html.twig' with {'room':room} %}
-</div>
+
 </html>
