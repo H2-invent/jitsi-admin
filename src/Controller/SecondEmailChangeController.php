@@ -6,12 +6,14 @@ use App\Entity\User;
 use App\Form\Type\SecondEmailType;
 use App\Form\Type\TimeZoneType;
 use App\Helper\JitsiAdminController;
+
 use http\Exception\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 
@@ -35,7 +37,7 @@ class SecondEmailChangeController extends JitsiAdminController
     /**
      * @Route("/room/secondEmail/save", name="second_email_save")
      */
-    public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger): Response
+    public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger, ValidatorInterface $validator): Response
     {
         $user = $this->getUser();
 
@@ -44,7 +46,16 @@ class SecondEmailChangeController extends JitsiAdminController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+
                 $user = $form->getData();
+                $error = $validator->validate($user->getProfilePicture());
+                if (sizeof($error)){
+                    foreach ($error as $data){
+                        $this->addFlash('danger', $data->getMessage());
+                    }
+
+                    return $this->redirectToRoute('dashboard');
+                }
 
                 if ($user->getSecondEmail()) {
                     foreach (explode(',', $user->getSecondEmail()) as $data) {
