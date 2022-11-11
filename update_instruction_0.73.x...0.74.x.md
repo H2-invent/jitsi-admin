@@ -12,7 +12,8 @@ __Node ^16.15 and npm ^8.5 have to be installed__
 7. Clean cache `php bin/console cache:clear`
 8. Set the permission `sudo chown -R www-data:www-data var/`
 9. Check your email settings with the command `php bin/console app:email:test <serverId> <email@domain.de>`. You should receive a test email
-10. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
+10. If you use profilePicture served from a local storage (default) then set the ENV-Variable in the .env.local file to VICH_BASE=>yourdomain<
+11. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
     1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
 
 ### Update Docker installation from 0.72.x ... 0.73.x
