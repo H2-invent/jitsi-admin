@@ -130,9 +130,11 @@ class ThemeService
         }
 
         try {
+            $res = null;
+            if ($variable) {
+                $res = json_decode($variable, true);
+            }
 
-
-            $res = json_decode($variable, true);
             if (!$res) {
                 return $variable;
             }
