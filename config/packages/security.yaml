@@ -44,5 +44,5 @@ security:
         - { path: /register, role: PUBLIC_ACCESS  }
         - { path: /room/lobby/, role: PUBLIC_ACCESS  }
         - { path: /room/, role: ROLE_USER }
-        - { path: /join, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /join, role: PUBLIC_ACCESS }
         - { path: /server/, role: ROLE_USER }

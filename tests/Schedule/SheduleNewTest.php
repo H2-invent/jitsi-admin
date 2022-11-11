@@ -5,6 +5,8 @@ namespace App\Tests\Schedule;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SheduleNewTest extends WebTestCase
@@ -12,6 +14,10 @@ class SheduleNewTest extends WebTestCase
     public function testCreate(): void
     {
         $client = static::createClient();
+
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
         $testUser = $userRepository->findOneByUsername('test@local.de');
@@ -49,7 +55,7 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
+
         $flash = $session->getBag('flashes')->all();
         self::assertEquals($flash['success'][0],'Terminplanung erfolgreich erstellt');
         self::assertEquals($flash['modalUrl'][0],$modalUrl);

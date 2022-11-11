@@ -4,6 +4,8 @@ namespace App\Tests\PersonalSettings;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -40,6 +42,9 @@ class SecondEmailTest extends WebTestCase
     {
 
         $client = static::createClient();
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $translator = self::getContainer()->get(TranslatorInterface::class);
@@ -55,7 +60,6 @@ class SecondEmailTest extends WebTestCase
 
         $client->submit($form);
         $this->assertResponseRedirects($urlGen->generate('dashboard'));
-        $session = $client->getContainer()->get('session');
         $flash = $session->getBag('flashes')->all();
         self::assertEquals($flash['danger'][0],'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
 

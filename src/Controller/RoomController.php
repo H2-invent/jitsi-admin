@@ -265,6 +265,4 @@ class RoomController extends JitsiAdminController
         $res = $this->generateUrl('dashboard');
         return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
     }
-
-
 }

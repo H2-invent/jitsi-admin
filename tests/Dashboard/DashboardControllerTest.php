@@ -26,7 +26,7 @@ class DashboardControllerTest extends WebTestCase
     public function testdashboardUserFail()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = self::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('testFail@test.com');
       if ($testUser){
           $client->loginUser($testUser);

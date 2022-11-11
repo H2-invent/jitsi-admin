@@ -26,7 +26,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $userfind = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $groupRepo = $this->getContainer()->get(AddressGroupRepository::class);
@@ -46,7 +46,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $userfind = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $groupRepo = $this->getContainer()->get(AddressGroupRepository::class);
@@ -84,7 +84,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $userfind = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $groupRepo = $this->getContainer()->get(AddressGroupRepository::class);
@@ -103,7 +103,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $userRepo->findMyUserByIndex('test@local2.de', $user);
         $string = 'test';
@@ -125,7 +125,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $userRepo->findMyUserByIndex('test@local2.de', $user);
         $string = 'asdf';
@@ -139,7 +139,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $userLdap = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
         $user->addAddressbook($userLdap);
@@ -163,7 +163,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $userfind = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $groupRepo = $this->getContainer()->get(AddressGroupRepository::class);
@@ -190,7 +190,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $groupRepo = $this->getContainer()->get(AddressGroupRepository::class);
         $userRepo->findMyUserByIndex('test@local2.de', $user);
@@ -218,7 +218,7 @@ class AdressbookTest extends KernelTestCase
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
         $this->assertSame('test', $kernel->getEnvironment());
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $groupRepo = $this->getContainer()->get(AddressGroupRepository::class);
         $userRepo->findMyUserByIndex('test@local2.de', $user);
@@ -236,7 +236,7 @@ class AdressbookTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $res = $searchService->buildShowInFrontendString($user);
         self::assertEquals('<i class="fa fa-phone" title="0123456789" data-toggle="tooltip"></i> Test1, 1234, User, Test', $res);
@@ -246,7 +246,7 @@ class AdressbookTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $searchService = $this->getContainer()->get(ParticipantSearchService::class);
-        $userRepo = self::$container->get(UserRepository::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $res = $searchService->buildShowInFrontendStringNoString($user);
         self::assertEquals('Test1, 1234, User, Test', $res);

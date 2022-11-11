@@ -11,7 +11,7 @@ class ReminderServiceTest extends WebTestCase
     public function testHasNotification(): void
     {
         $client = static::createClient();
-        $reminderTest = self::$container->get(ReminderService::class);
+        $reminderTest = self::getContainer()->get(ReminderService::class);
         $res = $reminderTest->sendReminder(null);
         $this->assertEquals(10, $res['Konferenzen']);
         $this->assertEquals(30, $res['Emails']);
@@ -21,7 +21,7 @@ class ReminderServiceTest extends WebTestCase
     public function testHasNotificationwithFilter(): void
     {
         $client = static::createClient();
-        $reminderTest = self::$container->get(ReminderService::class);
+        $reminderTest = self::getContainer()->get(ReminderService::class);
         $res = $reminderTest->sendReminder(array(null));
         $this->assertEquals(5, $res['Konferenzen']);
         $this->assertEquals(15, $res['Emails']);
@@ -31,7 +31,7 @@ class ReminderServiceTest extends WebTestCase
     public function testHasNotificationwithFilterLocalhost(): void
     {
         $client = static::createClient();
-        $reminderTest = self::$container->get(ReminderService::class);
+        $reminderTest = self::getContainer()->get(ReminderService::class);
         $res = $reminderTest->sendReminder(array('http://localhost:8000'));
         $this->assertEquals(5, $res['Konferenzen']);
         $this->assertEquals(15, $res['Emails']);
@@ -41,7 +41,7 @@ class ReminderServiceTest extends WebTestCase
     public function testHasNotificationwithFilterMixed(): void
     {
         $client = static::createClient();
-        $reminderTest = self::$container->get(ReminderService::class);
+        $reminderTest = self::getContainer()->get(ReminderService::class);
         $res = $reminderTest->sendReminder(array(null,'http://localhost:8000'));
         $this->assertEquals(10, $res['Konferenzen']);
         $this->assertEquals(30, $res['Emails']);

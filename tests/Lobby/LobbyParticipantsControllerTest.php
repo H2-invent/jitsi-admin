@@ -116,7 +116,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
         self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
         /** @var InMemoryTransport $transport */
-        $transport = self::$container->get('messenger.transport.async');
+        $transport = self::getContainer()->get('messenger.transport.async');
         $this->assertCount(0, $transport->get());
     }
 
@@ -150,7 +150,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
         self::assertNotNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
         /** @var InMemoryTransport $transport */
-        $transport = self::$container->get('messenger.transport.async');
+        $transport = self::getContainer()->get('messenger.transport.async');
         $this->assertCount(1, $transport->get());
 
     }
