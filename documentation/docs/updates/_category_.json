@@ -1,0 +1,8 @@
+{
+  "label": "Updates",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn how to update your Jitsti-Admin"
+  }
+}
