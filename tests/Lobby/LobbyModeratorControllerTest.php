@@ -66,11 +66,13 @@ class LobbyModeratorControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $url = $urlGenerator->generate('dashboard');
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['danger'][0],'Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.');
 
         self::assertResponseRedirects($url);
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar')->text();
+        self::assertEquals($flashMessage, 'Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.');
     }
 
     public function testAccept(): void
@@ -179,11 +181,12 @@ class LobbyModeratorControllerTest extends WebTestCase
         self::assertResponseRedirects($urlGenerator->joinUrl('b', $room, $moderator->getFormatedName($paramterBag->get('laf_showNameInConference')),true));
         $client->loginUser($user2);
         $crawler = $client->request('GET', $startUrl);
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['danger'][0],'Fehler');
 
         self::assertResponseRedirects('/room/dashboard');
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar')->text();
+        self::assertEquals($flashMessage, 'Fehler');
     }
     public function testAcceptAll(): void
     {

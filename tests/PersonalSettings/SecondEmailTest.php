@@ -31,9 +31,12 @@ class SecondEmailTest extends WebTestCase
         $client->submit($form);
         $this->assertResponseRedirects($urlGen->generate('dashboard'));
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],$translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'));
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar')->text();
+        self::assertEquals($flashMessage, $translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'));
+
 
         self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
 
@@ -42,8 +45,6 @@ class SecondEmailTest extends WebTestCase
     {
 
         $client = static::createClient();
-        $session = new Session(new MockFileSessionStorage());
-        $session->start();
 
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
@@ -60,8 +61,10 @@ class SecondEmailTest extends WebTestCase
 
         $client->submit($form);
         $this->assertResponseRedirects($urlGen->generate('dashboard'));
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['danger'][0],'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar')->text();
+        self::assertEquals($flashMessage, 'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
 
         self::assertEquals(null,$user->getSecondEmail());
     }
@@ -84,9 +87,13 @@ class SecondEmailTest extends WebTestCase
         $client->submit($form);
         $this->assertResponseRedirects($urlGen->generate('dashboard'));
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],$translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'));
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Persönliche Einstellungen erfolgreich geändert.');
+
+
         self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
 
         $crawler = $client->request('GET', '/room/secondEmail/change');
@@ -98,9 +105,12 @@ class SecondEmailTest extends WebTestCase
 
         $client->submit($form);
         $this->assertResponseRedirects($urlGen->generate('dashboard'));
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['danger'][0],'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-danger')->text();
+        self::assertEquals($flashMessage, 'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
+
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
         self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
     }

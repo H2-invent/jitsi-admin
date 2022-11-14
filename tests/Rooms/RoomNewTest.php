@@ -63,13 +63,17 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tag = $tagRepo->findBy(array('disabled'=>false),array('priority'=>'ASC'))[0];
         self::assertEquals($tag,$room->getTag());
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
     }
     public function testNoServer(): void
     {
@@ -119,10 +123,13 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
+
         $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUidReal())));
         self::assertEquals(1, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
         $client->request('GET',$urlGenerator->generate('room_favorite_toogle',array('uid'=>$room->getUidReal())));
@@ -133,9 +140,12 @@ class RoomNewTest extends WebTestCase
         $room = $roomRepo->findOneBy(array('name' => '198273987321'));
         $this->assertEquals(0,sizeof($room->getUser()));
         $this->assertNull($room->getModerator());
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Konferenz gelöscht');
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Konferenz gelöscht');
+
         self::assertEquals(0, $client->request('GET',$urlGenerator->generate('dashboard'))->filter('.favoriteTitle:contains("198273987321")')->count());
 
     }
@@ -173,10 +183,13 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
         $client->request('GET','/room/dashboard');
         self::assertResponseIsSuccessful();
 
@@ -232,10 +245,13 @@ class RoomNewTest extends WebTestCase
             ),
             $test
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich bearbeitet.');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich bearbeitet.');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
     }
 
     public function testEditRunningRoom(): void{
@@ -275,10 +291,13 @@ class RoomNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
         $client->request('GET','/room/dashboard');
         self::assertResponseIsSuccessful();
 

@@ -56,9 +56,13 @@ class SheduleNewTest extends WebTestCase
             $client->getResponse()->getContent()
         );
 
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich erstellt');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
     }
     public function testRemove(): void{
         $client = static::createClient();
@@ -92,18 +96,26 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich erstellt');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
         $client->request('GET','/room/dashboard');
         self::assertResponseIsSuccessful();
 
         $client->request('GET',$urlGenerator->generate('room_remove',array('room'=>$room->getId())));
         $this->assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Konferenz gelöscht');
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Konferenz gelöscht');
+
+
         $room = $roomRepo->findOneBy(array('name' => '198273987321'));
         $this->assertEquals(0,sizeof($room->getUser()));
         $this->assertNull($room->getModerator());
@@ -141,10 +153,14 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich erstellt');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
         $client->request('GET','/room/dashboard');
         $crawler = $client->request('GET', $urlGenerator->generate('schedule_admin_new',array('id'=>$room->getId())));
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
@@ -176,10 +192,13 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Terminplanung erfolgreich bearbeitet');
-        self::assertEquals($flash['modalUrl'][0],$modalUrl);
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Terminplanung erfolgreich bearbeitet');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
     }
 
 }

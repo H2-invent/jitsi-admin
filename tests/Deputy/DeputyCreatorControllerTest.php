@@ -59,10 +59,14 @@ class DeputyCreatorControllerTest extends WebTestCase
 
         $this->client->submit($form);
         $flash = $this->session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0], 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertResponseIsSuccessful();
+
 
         $crawler = $this->client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+
+
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
 

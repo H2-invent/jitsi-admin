@@ -25,11 +25,14 @@ class RepeaterControllerTest extends WebTestCase
         $form['repeater[repeaterDays]'] = 1;
         $form['repeater[repetation]'] = 10;
         $client->submit($form);
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Sie haben erfolgreich einen Serientermin erstellt.');
+
 
         self::assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Sie haben erfolgreich einen Serientermin erstellt.');
 
 
 
@@ -83,11 +86,15 @@ class RepeaterControllerTest extends WebTestCase
         $form['repeater[repeaterDays]'] = 3;
         $client->submit($form);
 
-        $session = $client->getContainer()->get('session');
-        $flash = $session->getBag('flashes')->all();
-        self::assertEquals($flash['success'][0],'Sie haben erfolgreich einen Serientermin bearbeitet.');
+
 
         self::assertTrue($client->getResponse()->isRedirect('/room/dashboard'));
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Sie haben erfolgreich einen Serientermin bearbeitet.');
+
         $rooms = $roomRepo->findBy(array('name' => 'TestMeeting: 0'));
         self::assertEquals(4, sizeof($rooms));
         $start = new \DateTime('2022-04-10T12:00:00');
