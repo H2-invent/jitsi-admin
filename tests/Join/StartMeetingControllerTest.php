@@ -88,7 +88,9 @@ class StartMeetingControllerTest extends WebTestCase
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
 
-        $crawler = $client->request('GET', '/room/join/b/'.$room->getId());
+        $client->loginUser($user);
+
+        $crawler = $client->request('GET', '/room/join/b/-2');
         self::assertResponseRedirects('/room/dashboard');
 
         $crawler = $client->request('GET', '/room/dashboard');
