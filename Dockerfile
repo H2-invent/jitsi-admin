@@ -2,6 +2,7 @@ FROM thecodingmachine/php:8.1-v4-apache-node16
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV TZ=Europe/Berlin
+ENV COMPOSER_MEMORY_LIMIT=-1
 USER root
 RUN usermod -a -G www-data docker
 #Do npm install
@@ -18,7 +19,7 @@ RUN rm -rf node_modules/
 #copy all the rest of the app
 COPY . /var/www/html
 #install all php dependencies
-RUN COMPOSER_MEMORY_LIMIT=-1 composer install
+RUN composer install
 #do all the directory stuff
 RUN chmod -R 775 public/build
 RUN mkdir -p var/cache
