@@ -1,14 +1,22 @@
-<div class="card card-body mb-1 text-lg-start text-center triggerHide {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} warningBorder {%endif%} {% if runningRooms is defined and room in runningRooms %} successBorder {% endif %}" id="room_card{{ room.uidReal }}">
+<div class="card card-body mb-1 text-lg-start text-center triggerHide
+{% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} warningBorder {% endif %} {% if runningRooms is defined and room in runningRooms %} successBorder {% endif %}"
+     id="room_card{{ room.uidReal }}">
     <div class="row">
+        {% if roomIsReadOnly(room,app.user) == true %}
+            {% include 'dashboard/__roomInvisible.html.twig' with {'room':room} %}
+        {% else %}
+            {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
+            <div class="col-md-6 hide">
+                {% if runningRooms is defined and room in runningRooms %}
+                    <div class="d-none">Running Room</div> {% endif %}
+                {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %}
+                    <div class="d-none">almost running Room</div>  {% endif %}
+                {{ include('dashboard/__roomOptionModerator.twig') }}
+                {{ include('dashboard/__roomOptionParticipant.twig') }}
 
-        {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
-        <div class="col-md-6 hide">
-            {% if runningRooms is defined and room in runningRooms %} <div class="d-none">Running Room</div> {% endif %}
-            {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} <div class="d-none">almost running Room</div>  {%endif%}
-            {{ include('dashboard/__roomOptionModerator.twig') }}
-            {{ include('dashboard/__roomOptionParticipant.twig') }}
+            </div>
+        {% endif %}
 
-        </div>
     </div>
 </div>
 

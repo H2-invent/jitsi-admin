@@ -4,7 +4,9 @@ namespace App\Twig;
 
 use App\Entity\Checklist;
 use App\Entity\MyUser;
+use App\Entity\Rooms;
 use App\Entity\Server;
+use App\Entity\User;
 use App\Service\LicenseService;
 use App\Service\MessageService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,6 +37,13 @@ class Utils extends AbstractExtension
         ];
     }
 
+    public function getFunctions()
+    {
+        return [
+            new TwigFunction('roomIsReadOnly', [$this, 'roomIsReadOnly'])
+        ];
+    }
+
     public function addRepetiveCharacters(string $string, string $character, int $sequence): string
     {
         return chunk_split($string, $sequence, $character);
@@ -44,5 +53,14 @@ class Utils extends AbstractExtension
     {
         $res = json_decode($string, true);
         return $res;
+    }
+
+    public function roomIsReadOnly(Rooms $rooms, User $user)
+    {
+        if ($user === $rooms->getModerator() || $user === $rooms->getCreator() || $rooms->getUser()->contains($user)) {
+            return false;
+        }
+        return true;
+
     }
 }

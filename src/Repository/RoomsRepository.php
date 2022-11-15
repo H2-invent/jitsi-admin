@@ -62,9 +62,10 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
+            ->leftJoin('user.deputy','deputy')
             ->andWhere(
                 $qb->expr()->orX(
-                    'user = :user','r.creator=:user')
+                    'user = :user','r.creator=:user', 'deputy = :user')
             )
             ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
@@ -146,9 +147,12 @@ class RoomsRepository extends ServiceEntityRepository
 
         return $qb
             ->innerJoin('r.user', 'user')
+
             ->andWhere(
                 $qb->expr()->orX(
-                    'user = :user','r.creator=:user')
+                    'user = :user',
+                    'r.creator=:user'
+                )
             )
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))

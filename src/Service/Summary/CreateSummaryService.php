@@ -43,6 +43,7 @@ class CreateSummaryService
     public
     function createSummaryPdf(Rooms $room): ?Dompdf
     {
+        ob_start();
         $root = $this->appKernel->getProjectDir();
         $pdfOptions = new Options();
 
@@ -66,7 +67,6 @@ class CreateSummaryService
         // Render the HTML as PDF
         $dompdf->render();
 
-//        ob_end_clean();
 
         // Output the generated PDF to Browser (force download)
         return $dompdf;
