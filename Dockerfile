@@ -18,7 +18,7 @@ RUN rm -rf node_modules/
 #copy all the rest of the app
 COPY . /var/www/html
 #install all php dependencies
-RUN composer install
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install
 #do all the directory stuff
 RUN chmod -R 775 public/build
 RUN mkdir -p var/cache
