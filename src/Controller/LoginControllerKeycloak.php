@@ -55,9 +55,7 @@ class LoginControllerKeycloak extends JitsiAdminController
         return $this->redirect($url);
     }
 
-    /**
-     * @Route("/login/keycloak_login/check", name="connect_keycloak_check")
-     */
+
     public function check(ClientRegistry $clientRegistry, Request $request)
     {
 

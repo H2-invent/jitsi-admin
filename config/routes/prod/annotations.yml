@@ -1,0 +1,5 @@
+controllers:
+  resource: '../../src/Controller/LoginControllerKeycloak.php'
+  type: annotation
+  defaults:
+    schemes: [https]
