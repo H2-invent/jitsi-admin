@@ -129,7 +129,7 @@ services:
 
 
   keycloak-ja:
-    image: jboss/keycloak:latest
+    image: jboss/keycloak:16.1.1
     hostname: ${RANDOMTAG}keycloak-ja
     depends_on:
       db-ja:
