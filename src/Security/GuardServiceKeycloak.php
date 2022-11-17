@@ -41,6 +41,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
     private $indexer;
     private $logger;
     private ThemeService $themeService;
+
     public function __construct(ThemeService $themeService, LoggerInterface $logger, IndexUserService $indexUserService, UserCreatorService $userCreatorService, ParameterBagInterface $parameterBag, TokenStorageInterface $tokenStorage, ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
     {
         $this->clientRegistry = $clientRegistry;
@@ -54,7 +55,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $this->themeService = $themeService;
     }
 
-    public function supports(Request $request):bool
+    public function supports(Request $request): bool
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_keycloak_check';
@@ -62,7 +63,11 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
     public function getCredentials(Request $request)
     {
-        return $this->fetchAccessToken($this->getauth0Client());
+
+        dump($this->getauth0Client());
+        $token = $this->fetchAccessToken($this->getauth0Client(),array('scope'=>['profile','email','openid']));
+        dump($token);
+        return $token;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
@@ -158,8 +163,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
      */
     private function getauth0Client()
     {
-        return $this->clientRegistry
-            ->getClient('keycloak_main');
+        return $this->clientRegistry->getClient('keycloak_main');
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
