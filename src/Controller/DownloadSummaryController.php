@@ -8,8 +8,10 @@ use App\Service\Summary\CreateSummaryService;
 use App\UtilsHelper;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,12 +26,21 @@ class DownloadSummaryController extends JitsiAdminController
         if (!$room || !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             throw new NotFoundHttpException('Room not found');
         }
-
         $res = $createSummaryService->createSummaryPdf($room);
 
-        $res->stream($room->getName() . ".pdf", [
-            "Attachment" => true
-        ]);
+
+        $response =  new Response();
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', 'application/pdf');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $room->getName() . '.pdf";');
+
+
+        $response->sendHeaders();
+
+        $response->setContent($res->output());
+
+        return $response;
+
 
     }
 }

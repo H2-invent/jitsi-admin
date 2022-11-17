@@ -43,7 +43,6 @@ class CreateSummaryService
     public
     function createSummaryPdf(Rooms $room): ?Dompdf
     {
-        ob_start();
         $root = $this->appKernel->getProjectDir();
         $pdfOptions = new Options();
 
@@ -67,7 +66,6 @@ class CreateSummaryService
         // Render the HTML as PDF
         $dompdf->render();
 
-
         // Output the generated PDF to Browser (force download)
         return $dompdf;
     }
@@ -85,7 +83,7 @@ class CreateSummaryService
             $url = $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/preview/' . $room->getUidReal() . '?token=' . $this->whiteboardJwtService->createJwt($room);
             $res = $this->httpClient->request('GET', $url);
             if ($res->getStatusCode() === 200) {
-                    return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '"  width="600" />';
+                return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '"  width="600" />';
             }
         } catch (\Exception $exception) {
         }
