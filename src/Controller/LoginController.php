@@ -6,18 +6,12 @@ use App\Helper\JitsiAdminController;
 use App\Service\CreateHttpsUrl;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\Auth0Client;
-use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Token\AccessTokenInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 
 class LoginController extends JitsiAdminController
 {
@@ -66,26 +60,15 @@ class LoginController extends JitsiAdminController
             'clientId' => $this->getParameter('KEYCLOAK_ID'),
             'clientSecret' => $this->getParameter('KEYCLOAK_SECRET'),
         ]);
-//
-////        $test= $provider->get
-////        dump($test);
-//        $url = $provider->getBaseAccessTokenUrl(['scope' => ['openid']]);
-//        dump($url);
-//        $res = $provider->getHttpClient()->request('POST',$url);
-//        dump($res);
-//        return null;
-//        return new RedirectResponse();
-////        dump($url);
-////        dump($token);
-////       $token =  $provider->getAccessToken('id_token');
-////        $provider->getAuthorizationUrl(['scope' => ['openid']]);
-////        $httpClient->request('POST', $provider->getAuthorizationUrl(['scope' => ['openid']]));
-////       $provider->getAuthorizationUrl();   $accesstoken->getToken();
 
-        $url = $provider->getLogoutUrl([
-//            'id_token_hint' => $token->getValues()['id_token'],
-            'post_logout_redirect_uri' => $createHttpsUrl->createHttpsUrl('/'),
-        ]);
+        $redirectUri = $createHttpsUrl->createHttpsUrl('/login/logout');
+        $url = $provider->getLogoutUrl(
+            array(
+                'id_token_hint' => $request->getSession()->get('id_token'),
+                'post_logout_redirect_uri' => $redirectUri
+            )
+        );
+
         return $this->redirect($url);
 
     }

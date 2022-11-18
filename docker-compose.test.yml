@@ -109,7 +109,7 @@ services:
 
 
   keycloak-ja:
-    image: jboss/keycloak:16.1.1
+    image: jboss/keycloak:latest
 
     depends_on:
       db-ja:

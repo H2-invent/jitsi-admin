@@ -63,10 +63,8 @@ class GuardServiceKeycloak extends SocialAuthenticator
 
     public function getCredentials(Request $request)
     {
-
-        dump($this->getauth0Client());
-        $token = $this->fetchAccessToken($this->getauth0Client(),array('scope'=>['profile','email','openid']));
-        dump($token);
+        $token = $this->fetchAccessToken($this->getauth0Client());
+        $request->getSession()->set('id_token',$token->getValues()['id_token']);
         return $token;
     }
 

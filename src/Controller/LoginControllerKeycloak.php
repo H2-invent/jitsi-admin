@@ -8,12 +8,10 @@ use App\Service\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginControllerKeycloak extends JitsiAdminController
@@ -36,7 +34,7 @@ class LoginControllerKeycloak extends JitsiAdminController
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $options['kc_idp_hint'] = $this->themeService->getThemeProperty('idp_provider');
         }
-        return $clientRegistry->getClient('keycloak_main')->redirect(['email'], $options);
+        return $clientRegistry->getClient('keycloak_main')->redirect(['email','openid','profile'], $options);
     }
 
     /**

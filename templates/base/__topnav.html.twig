@@ -95,7 +95,7 @@
 
     <!-- Basic dropdown -->
     {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
-        <a href="{{ path('app_logout') }}">
+        <a href="{{ path('logout_keycloak') }}">
             {% if theme != false %}
                 <img src="{{ asset(theme.iconLogout) }}" class="iconSytle" title="{{ 'Logout'|trans }}">
             {% else %}
