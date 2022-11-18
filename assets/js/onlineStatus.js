@@ -35,12 +35,15 @@ export function showOnlineUsers(data) {
             for (var i = 0; i < $adressbookLine.length; i++) {
                 if (data[status].includes($adressbookLine[i].dataset.uid)) {
                     $adressbookLine[i].dataset.status = status
-                    $adressbookLine.splice(i, 1);
+                    $adressbookLine[i] = undefined;
                 }
             }
         }
         for (var k in $adressbookLine) {
-            $adressbookLine[k].dataset.status = 'offline'
+            if ($adressbookLine[k]){
+                $adressbookLine[k].dataset.status = 'offline'
+            }
+
         }
     }
 }

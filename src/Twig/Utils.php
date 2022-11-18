@@ -9,6 +9,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\LicenseService;
 use App\Service\MessageService;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -57,10 +58,7 @@ class Utils extends AbstractExtension
 
     public function roomIsReadOnly(Rooms $rooms, User $user)
     {
-        if ($user === $rooms->getModerator() || $user === $rooms->getCreator() || $rooms->getUser()->contains($user)) {
-            return false;
-        }
-        return true;
+        return UtilsHelper::isRoomReadOnly($rooms,$user);
 
     }
 }
