@@ -27,7 +27,7 @@ security:
             switch_user: true
             logout:
                 path:   app_logout
-                target: logout_keycloak
+                target: index
             custom_authenticators:
                 - App\Security\KeycloakAuthenticator
 

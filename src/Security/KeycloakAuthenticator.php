@@ -84,8 +84,8 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     {
         $client = $this->clientRegistry->getClient('keycloak_main');
         $accessToken = $this->fetchAccessToken($client);
-
-        return new SelfValidatingPassport(
+        $request->getSession()->set('id_token',$accessToken->getValues()['id_token']);
+        $passport =  new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
                 /** @var KeycloakUser $keycloakUser */
                 $keycloakUser = $client->fetchUserFromToken($accessToken);
@@ -174,6 +174,10 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
                 return null;
             })
         );
+        $passport->setAttribute('id_token','null');
+        $passport->setAttribute('scope', 'openid');
+
+        return $passport;
     }
 
 

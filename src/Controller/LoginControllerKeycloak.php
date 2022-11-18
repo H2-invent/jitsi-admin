@@ -38,7 +38,7 @@ class LoginControllerKeycloak extends JitsiAdminController
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $options['kc_idp_hint'] = $this->themeService->getThemeProperty('idp_provider');
         }
-        $res = $clientRegistry->getClient('keycloak_main')->redirect(['email'], $options);
+        $res = $clientRegistry->getClient('keycloak_main')->redirect(['email','openid','profile'], $options);
         return  $res;
 
     }
