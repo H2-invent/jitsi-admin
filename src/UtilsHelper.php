@@ -46,11 +46,16 @@ class UtilsHelper
         if (!$user) {
             return false;
         }
-        if ($user === $room->getCreator() || $user === $room->getModerator() || UtilsHelper::roomGeneratedByOtherDeputy($room,$user)) {
+        if (
+            ($user === $room->getCreator() && in_array($user,$room->getModerator()->getDeputy()->toArray())) ||
+            $user === $room->getModerator() ||
+            UtilsHelper::roomGeneratedByOtherDeputy($room,$user)
+        ) {
             return true;
         }
         return false;
     }
+
     public static function isRoomReadOnly(Rooms $rooms, User $user):bool{
         if (
             $user === $rooms->getModerator() ||
