@@ -55,7 +55,7 @@ class LoginController extends JitsiAdminController
     }
 
     /**
-     * @Route("/logout_keycloak", name="logout_keycloak")
+     * @Route("/room/logout_keycloak", name="logout_keycloak")
      */
     public function logout(ClientRegistry          $clientRegistry,
                            Request                 $request,
@@ -70,7 +70,6 @@ class LoginController extends JitsiAdminController
         ]);
 
 
-        dump($request->getSession()->get('id_token'));
         $redirectUri = $createHttpsUrl->createHttpsUrl('/login/logout');
         $url = $provider->getLogoutUrl(
             array(
@@ -78,8 +77,6 @@ class LoginController extends JitsiAdminController
                 'post_logout_redirect_uri' => $redirectUri
             )
         );
-        dump($url);
-
         return $this->redirect($url);
 
     }
