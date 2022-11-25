@@ -68,7 +68,6 @@ class RoomsRepository extends ServiceEntityRepository
                 'user = :user',
                 'deputy = :user'
             ))
-//            ->andWhere('deputy = :user')
             ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
@@ -85,10 +84,11 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user', 'r.creator=:user')
-            )
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                'deputy = :user'
+            ))
             ->andWhere('r.endDateUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
@@ -106,10 +106,11 @@ class RoomsRepository extends ServiceEntityRepository
         $now = new \DateTime();
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user', 'r.creator=:user')
-            )
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                'deputy = :user'
+            ))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('user', $user)
@@ -125,10 +126,11 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user', 'r.creator=:user')
-            )
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                'deputy = :user'
+            ))
             ->andWhere('r.endDateUtc > :now')
             ->andWhere('r.startUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
@@ -149,12 +151,11 @@ class RoomsRepository extends ServiceEntityRepository
 
         return $qb
             ->innerJoin('r.user', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                    'r.creator=:user'
-                )
-            )
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                'deputy = :user'
+            ))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->andWhere($qb->expr()->orX(
@@ -176,10 +177,11 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user', 'rooms.creator=:user')
-            )
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                'deputy = :user'
+            ))
             ->setParameter('user', $user)
             ->andWhere('rooms.scheduleMeeting = true');
         return $qb->getQuery()->getResult();
@@ -189,9 +191,14 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user', 'rooms.creator=:user')
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                $qb->expr()->andX(
+                    'deputy = :user',
+                    'rooms.creator != rooms.moderator'
+                )
+            )
             )
             ->setParameter('user', $user)
             ->andWhere('rooms.persistantRoom = true');
@@ -203,10 +210,11 @@ class RoomsRepository extends ServiceEntityRepository
         $now = (new \DateTime())->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user', 'r.creator=:user')
-            )
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                'deputy = :user'
+            ))
             ->andWhere('r.enddate > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
@@ -221,10 +229,11 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.favoriteUsers', 'user')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user', 'r.creator=:user')
-            )
+            ->leftJoin('user.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                'deputy = :user'
+            ))
             ->setParameter('user', $user)
             ->addSelect('CASE WHEN r.start IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
             ->addOrderBy('list_order_is_null', 'DESC') // always ASC

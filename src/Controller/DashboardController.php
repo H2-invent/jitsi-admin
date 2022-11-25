@@ -71,11 +71,13 @@ class DashboardController extends JitsiAdminController
             return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
         }
         $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
+
         $r = array();
         $future = array();
         foreach ($roomsFuture as $data) {
             $future[$data->getStartwithTimeZone($this->getUser())->format('Ymd')][] = $data;
         }
+
         $em = $this->doctrine->getManager();
         if (!$this->getUser()->getUid()) {
             $user = $this->getUser();

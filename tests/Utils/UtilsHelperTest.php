@@ -26,20 +26,36 @@ class UtilsHelperTest extends KernelTestCase
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
 
         $room->setModerator($manager);  //manager is organiser
+
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy,$room));
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
+        self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
+        self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null,$room));
 
         $room->setCreator($manager);    //manager is creator too --> private room
+
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy,$room));
+        self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
+        self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
+        self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null,$room));
 
         $room->setCreator($deputy);//creator is deputy
+
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy,$room));
+        self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
+        self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null,$room));
+
         $manager->addDeputy($deputy2);//add deputy2 as second deputy
+        self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy,$room));
+        self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
+        self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null,$room));
 
         $manager->removeDeputy($deputy);//creator deputy is no longer deputy
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy,$room));
+        self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
+        self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null,$room));
     }
 
@@ -60,7 +76,12 @@ class UtilsHelperTest extends KernelTestCase
         self::assertFalse(UtilsHelper::isRoomReadOnly($room, $deputy));
         self::assertFalse(UtilsHelper::isRoomReadOnly($room, $manager));
         self::assertTrue(UtilsHelper::isRoomReadOnly($room, $deputy2));
-        $manager->addDeputy($deputy2);
+
+        $manager->addDeputy($deputy2);//deputy 2 is added, so he can see the room not readOnly
         self::assertFalse(UtilsHelper::isRoomReadOnly($room, $deputy2));
+        $manager->removeDeputy($deputy);//remove the first deputy.
+        self::assertFalse(UtilsHelper::isRoomReadOnly($room, $deputy2));
+        $manager->removeDeputy($deputy2);//remove the first deputy.
+        self::assertTrue(UtilsHelper::isRoomReadOnly($room, $deputy2));
     }
 }

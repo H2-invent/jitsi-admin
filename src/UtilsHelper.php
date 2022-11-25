@@ -70,7 +70,7 @@ class UtilsHelper
     }
 
     public static function roomGeneratedByOtherDeputy(Rooms $rooms,User $user):bool{
-        if (in_array($rooms->getCreator(), $rooms->getModerator()->getDeputy()->toArray()) && in_array($user,$rooms->getModerator()->getDeputy()->toArray())){
+        if ($rooms->getCreator() !== $rooms->getModerator() && in_array($user,$rooms->getModerator()->getDeputy()->toArray())){
             return true;
         }else{
             return false;
