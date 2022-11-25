@@ -64,10 +64,11 @@ class RoomsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
             ->leftJoin('user.deputy', 'deputy')
-            ->orWhere(
+            ->andWhere($qb->expr()->orX(
                 'user = :user',
-            )
-            ->orWhere('deputy = :user')
+                'deputy = :user'
+            ))
+//            ->andWhere('deputy = :user')
             ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
