@@ -3,6 +3,8 @@
 namespace App\Service\Deputy;
 
 use App\Entity\User;
+use App\Service\Lobby\DirectSendService;
+use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DeputyService
@@ -11,7 +13,8 @@ class DeputyService
     static $IS_NOT_DEPUTY = 2;
 
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private DirectSendService $directSendService
     )
     {
     }
@@ -23,6 +26,7 @@ class DeputyService
         } else {
             return $this->setDeputy($manager, $deputy);
         }
+
     }
 
     public function setDeputy(User $manager, User $deputy): int
@@ -30,6 +34,7 @@ class DeputyService
         $manager->addDeputy($deputy);
         $this->entityManager->persist($manager);
         $this->entityManager->flush();
+        $this->directSendService->sendRefreshDashboardToUser($deputy);
         return self::$IS_DEPUTY;
     }
 
@@ -38,6 +43,7 @@ class DeputyService
         $manager->removeDeputy($deputy);
         $this->entityManager->persist($manager);
         $this->entityManager->flush();
+        $this->directSendService->sendRefreshDashboardToUser($deputy);
         return self::$IS_NOT_DEPUTY;
     }
 }

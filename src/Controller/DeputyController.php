@@ -21,6 +21,7 @@ class DeputyController extends JitsiAdminController
         TranslatorInterface   $translator,
         LoggerInterface       $logger,
         ParameterBagInterface $parameterBag,
+
         private DeputyService $deputyService)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);

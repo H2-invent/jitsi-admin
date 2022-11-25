@@ -181,6 +181,10 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
+    public function sendRefreshDashboardToUser(User $user){
+        $topic = 'personal/'.$user->getUid();
+        $this->sendRefreshDashboard($topic);
+    }
     public function sendRefreshDashboard($topic)
     {
         $data = array(
