@@ -100,9 +100,7 @@
                 <li class="nav-item">
                     <a class="nav-link page-scroll" href="#details">Details</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link page-scroll" href="#pricing">Preise</a>
-                </li>
+
             </ul>
         </div> <!-- end of navbar-collapse -->
     </div> <!-- end of container -->
@@ -639,113 +637,6 @@
 <!-- end of testimonials -->
 
 
-<!-- Pricing -->
-<div id="pricing" class="cards-2"
-     style="background: linear-gradient(rgba(50, 60, 70, 0.9), rgba(50, 60, 70, 0.9)), url('{{ asset('images/start/pricing-background.jpg') }}') center center no-repeat;">
-    <div class="decoration-bg"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="h2-heading">Kostenlos, Enterprise oder <br>Self-Hosted</h2>
-                <p class="p-heading">Wir bieten für alle Anforderungen die passende Option. Sie können den Jitsi Admin
-                    zusammen mit dem offiziellen Jitsi Meet Server kostenlos nutzen. Für Unternehmen mit höheren
-                    Anforderungen bieten wir passgenaue Lösungen.</p>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-        <div class="row">
-            <div class="col-lg-12">
-
-                <!-- Card-->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">Kostenlos</div>
-                        <div class="price"><span class="currency">free</span><span class="value"> </span></div>
-                        <div class="frequency"></div>
-                        <p>Alle wichtigen Funktionen zum Planen und Verwalten von Konferenzen und Videotalks</p>
-                        <ul class="list-unstyled li-space-lg">
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Termine finden</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Konferenzen planen</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Teilnehmer einladen</div>
-                            </li>
-                        </ul>
-                        <div class="button-wrapper">
-                            <a class="btn-solid-reg page-scroll" href="{{ path('register_keycloak') }}">Registrieren</a>
-                        </div>
-                    </div>
-                </div> <!-- end of card -->
-                <!-- end of card -->
-
-                <!-- Card-->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">Enterprise</div>
-                        <div class="price"><span class="currency">€</span><span class="value">19,99</span></div>
-                        <div class="frequency">pro Jahr</div>
-                        <p>Erweiterte Funktionen speziell für Unternehmen</p>
-                        <ul class="list-unstyled li-space-lg">
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Eigenen SMTP Server einbinden</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">E-Mail Vorlage anpassen</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Design individualisieren</div>
-                            </li>
-                        </ul>
-                        <div class="button-wrapper">
-                            <a class="btn-solid-reg page-scroll"
-                               href="https://h2-invent.com/produkte/jitsi-admin#contact">Anfragen</a>
-                        </div>
-                    </div>
-                </div> <!-- end of card -->
-                <!-- end of card -->
-
-                <!-- Card-->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">Self Hosted</div>
-                        <div class="price"><span class="currency">nach Aufwand</span><span class="value"> </span></div>
-                        <div class="frequency"></div>
-                        <p>Installation eines eigenen Jitsi Admin Servers und KeyCloak</p>
-                        <ul class="list-unstyled li-space-lg">
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Individuelle Anpassung des Designs und der Funktionalität</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">LDAP oder SAML Anbindung</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-chevron-right"></i>
-                                <div class="media-body">Gruppenverwaltung</div>
-                            </li>
-                        </ul>
-                        <div class="button-wrapper">
-                            <a class="btn-solid-reg page-scroll"
-                               href="https://h2-invent.com/kontakt">Anfragen</a>
-                        </div>
-                    </div>
-                </div> <!-- end of card -->
-                <!-- end of card -->
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of cards-2 -->
-<!-- end of pricing -->
 
 
 <!-- Footer -->
@@ -781,7 +672,9 @@
                 </ul>
             </div> <!-- end of col -->
             <div class="col-lg-6">
-                <p class="p-small statement">Copyright © <a href="https://h2-invent.com">H2 invent</a></p>
+                <p class="p-small statement"><a  target="_blank" href="https://h2-invent.com">{{ 'Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent'|trans|raw }}</a></p>
+
+
             </div> <!-- end of col -->
         </div> <!-- enf of row -->
     </div> <!-- end of container -->
