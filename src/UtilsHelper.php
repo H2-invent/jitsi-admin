@@ -59,7 +59,6 @@ class UtilsHelper
     public static function isRoomReadOnly(Rooms $rooms, User $user):bool{
         if (
             $user === $rooms->getModerator() ||
-            $user === $rooms->getCreator() ||
             $rooms->getUser()->contains($user)||
             UtilsHelper::roomGeneratedByOtherDeputy($rooms,$user)
         ) {
@@ -70,7 +69,11 @@ class UtilsHelper
     }
 
     public static function roomGeneratedByOtherDeputy(Rooms $rooms,User $user):bool{
-        if ($rooms->getCreator() !== $rooms->getModerator() && in_array($user,$rooms->getModerator()->getDeputy()->toArray())){
+        if (
+            $rooms->getCreator() !== $rooms->getModerator()
+            &&
+            in_array($user,$rooms->getModerator()->getDeputy()->toArray())
+        ){
             return true;
         }else{
             return false;

@@ -177,14 +177,19 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                'deputy = :user'
-            ))
+            ->leftJoin('rooms.moderator', 'moderator')
+            ->innerJoin('moderator.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->setParameter('user', $user)
             ->andWhere('rooms.scheduleMeeting = true');
-        return $qb->getQuery()->getResult();
+        $query =  $qb->getQuery();
+        dump($query->getSQL());
+        return $query->getResult();
     }
 
     public function getMyPersistantRooms(User $user, $offset)
@@ -229,10 +234,8 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.favoriteUsers', 'user')
-            ->leftJoin('user.deputy', 'deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
-                'deputy = :user'
             ))
             ->setParameter('user', $user)
             ->addSelect('CASE WHEN r.start IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
