@@ -177,18 +177,19 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
-            ->leftJoin('rooms.moderator', 'moderator')
-            ->innerJoin('moderator.deputy', 'deputy')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                    'deputy = :user'
+            ->leftJoin('rooms.moderator','moderator')
+            ->leftJoin('moderator.deputy', 'deputy')
+            ->andWhere($qb->expr()->orX(
+                'user = :user',
+                $qb->expr()->andX(
+                    'deputy = :user',
+                    'rooms.creator != rooms.moderator'
                 )
+            )
             )
             ->setParameter('user', $user)
             ->andWhere('rooms.scheduleMeeting = true');
         $query =  $qb->getQuery();
-        dump($query->getSQL());
         return $query->getResult();
     }
 
@@ -196,7 +197,8 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
+            ->leftJoin('rooms.moderator','moderator')
+            ->leftJoin('moderator.deputy', 'deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 $qb->expr()->andX(
