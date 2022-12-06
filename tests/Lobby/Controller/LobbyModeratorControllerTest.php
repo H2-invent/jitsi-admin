@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Lobby;
+namespace App\Tests\Lobby\Controller;
 
 use App\Entity\LobbyWaitungUser;
 use App\Repository\LobbyWaitungUserRepository;
@@ -11,7 +11,6 @@ use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;

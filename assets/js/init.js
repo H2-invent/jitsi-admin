@@ -7,7 +7,7 @@ import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
-
+import {initPrettyJson} from './jsonBeautifier';
 var audio = new Audio(notificationSound);
 import {TabUtils} from './tabBroadcast';
 import {getCookie} from './cookie';
@@ -134,6 +134,7 @@ function initNewModal(e){
     initKeycloakGroups();
     initAddressGroupSearch();
     initChart();
+    initPrettyJson();
     document.querySelectorAll('.form-outline').forEach((formOutline) => {
         new mdb.Input(formOutline).init();
     });

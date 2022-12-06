@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Lobby;
+namespace App\Tests\Lobby\Service;
 
 use App\Service\Lobby\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

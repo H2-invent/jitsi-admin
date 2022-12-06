@@ -142,6 +142,8 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Los gehts!
+  moderator: Organisator auswählen
+
 
 choice:
   tls: STARTTLS/TLS

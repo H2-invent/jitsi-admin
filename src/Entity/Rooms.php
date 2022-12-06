@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
@@ -25,6 +26,7 @@ class Rooms
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $enddate;
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
+    #[Ignore]
     private $user;
     #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
@@ -33,6 +35,7 @@ class Rooms
     private $uid;
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Ignore]
     private $moderator;
     #[ORM\Column(type: 'float')]
     private $duration;
@@ -45,6 +48,7 @@ class Rooms
     #[ORM\Column(type: 'text', nullable: true)]
     private $agenda;
     #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'room', cascade: ['persist'], orphanRemoval: true)]
+    #[Ignore]
     private $userAttributes;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $dissallowScreenshareGlobal;
@@ -59,22 +63,26 @@ class Rooms
     #[ORM\Column(type: 'text', nullable: true)]
     private $uidModerator;
     #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
+    #[Ignore]
     private $subscribers;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $maxParticipants;
     #[ORM\OneToMany(targetEntity: Scheduling::class, mappedBy: 'room')]
+    #[Ignore]
     private $schedulings;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $scheduleMeeting;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $waitinglist;
     #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
+    #[Ignore]
     private $waitinglists;
     #[ORM\ManyToOne(targetEntity: Repeat::class, inversedBy: 'rooms')]
     private $repeater;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $repeaterRemoved;
     #[ORM\OneToOne(targetEntity: Repeat::class, mappedBy: 'prototyp', cascade: ['persist', 'remove'])]
+    #[Ignore]
     private $repeaterProtoype;
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'protoypeRooms')]
     #[ORM\JoinTable(name: 'prototype_users')]
@@ -98,18 +106,23 @@ class Rooms
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $lobby;
     #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'room', orphanRemoval: true)]
+    #[Ignore]
     private $lobbyWaitungUsers;
     #[ORM\OneToMany(targetEntity: RoomStatus::class, mappedBy: 'room', orphanRemoval: true)]
+    #[Ignore]
     private $roomstatuses;
     #[ORM\OneToOne(targetEntity: CallerRoom::class, mappedBy: 'room', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Ignore]
     private $callerRoom;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $startTimestamp;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $endTimestamp;
     #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist'])]
+    #[Ignore]
     private $callerIds;
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
+    #[Ignore]
     private $tag;
     #[ORM\Column(type: 'text', nullable: true)]
     private $hostUrl;
@@ -118,11 +131,16 @@ class Rooms
     private ?string $secondaryName = null;
 
     #[ORM\OneToMany(mappedBy: 'room', targetEntity: CalloutSession::class, orphanRemoval: true)]
+    #[Ignore]
     private Collection $calloutSessions;
 
     #[ORM\ManyToOne(inversedBy: 'creatorOf')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Ignore]
     private ?User $creator = null;
+
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Log::class)]
+    private Collection $logs;
 
     public function __construct()
     {
@@ -137,6 +155,12 @@ class Rooms
         $this->roomstatuses = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
         $this->calloutSessions = new ArrayCollection();
+        $this->logs = new ArrayCollection();
+    }
+
+    public function normalize(string $propertyName): string
+    {
+        return 'org_'.$propertyName;
     }
 
     #[ORM\PreFlush]
@@ -705,7 +729,7 @@ class Rooms
 
     public function getStartUtc(): ?\DateTimeInterface
     {
-        return new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        return $this->startUtc? new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')):null;
     }
 
     public function setStartUtc(?\DateTimeInterface $startUtc): self
@@ -717,7 +741,7 @@ class Rooms
 
     public function getEndDateUtc(): ?\DateTimeInterface
     {
-        return new \DateTime($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        return $this->endDateUtc? new \DateTime($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')):null;
     }
 
     public function setEndDateUtc(?\DateTimeInterface $endDateUtc): self
@@ -971,6 +995,36 @@ class Rooms
     public function setCreator(?User $creator): self
     {
         $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Log>
+     */
+    public function getLogs(): Collection
+    {
+        return $this->logs;
+    }
+
+    public function addLog(Log $log): self
+    {
+        if (!$this->logs->contains($log)) {
+            $this->logs->add($log);
+            $log->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLog(Log $log): self
+    {
+        if ($this->logs->removeElement($log)) {
+            // set the owning side to null (unless already changed)
+            if ($log->getRoom() === $this) {
+                $log->setRoom(null);
+            }
+        }
 
         return $this;
     }

@@ -20,7 +20,8 @@ class DashboardControllerTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
+        self::assertEquals(0,$crawler->filter('.createdFromText')->count());
+        self::assertEquals(0,$crawler->filter('.createdByDeputy')->count());
     }
 
     public function testdashboardUserFail()

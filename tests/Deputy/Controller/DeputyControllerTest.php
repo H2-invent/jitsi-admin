@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Deputy;
+namespace App\Tests\Deputy\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -20,12 +20,12 @@ class DeputyControllerTest extends WebTestCase
         self::assertResponseRedirects('/room/dashboard');
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertEquals(1,$crawler->filter('.isDeputy')->count());
-        self::assertEquals(1, $crawler->filter('.snackbar:contains("deputy.message.added")')->count());
+        self::assertEquals(1, $crawler->filter('.snackbar:contains("Vertreter erfolgreich hinzugefügt.")')->count());
         $crawler = $client->request('GET', '/room/deputy/toggle/'.$deputy->getUid());
         self::assertResponseRedirects('/room/dashboard');
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertEquals(0,$crawler->filter('.isDeputy')->count());
-        self::assertEquals(1, $crawler->filter('.snackbar:contains("deputy.message.removed")')->count());
+        self::assertEquals(1, $crawler->filter('.snackbar:contains("Vertreter erfolgreich entfernt.")')->count());
     }
     public function testNotInAdressook(): void
     {

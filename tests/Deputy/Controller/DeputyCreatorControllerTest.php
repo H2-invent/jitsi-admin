@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Deputy;
+namespace App\Tests\Deputy\Controller;
 
 use App\Entity\User;
 use App\Repository\RoomsRepository;
@@ -34,7 +34,9 @@ class DeputyCreatorControllerTest extends WebTestCase
 
         $this->client->loginUser($this->manager);
         $this->client->request('GET', '/room/deputy/toggle/' . $this->deputy->getUid());
-        $this->client->request('GET', '/room/dashboard');
+        $crawler = $this->client->request('GET', '/room/dashboard');
+        self::assertEquals(0,$crawler->filter('.createdFromText')->count());
+        self::assertEquals(0,$crawler->filter('.createdByDeputy')->count());
         $this->client->loginUser($this->deputy);
     }
 
@@ -65,8 +67,10 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-
-
+        self::assertEquals(1,$crawler->filter('.createdFromText')->count());
+        self::assertEquals('Erstellt von: Test1, 1234, User, Test', $crawler->filter('.createdFromText')->text());
+        self::assertEquals(1,$crawler->filter('.createdByDeputy')->count());
+        self::assertEquals(0,$crawler->filter('.createdByDeputy.loadContent')->count());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
 
@@ -98,6 +102,7 @@ class DeputyCreatorControllerTest extends WebTestCase
 
         $this->client->loginUser($this->manager);
         $crawler = $this->client->request('GET', '/room/dashboard');
+        self::assertEquals(1, $crawler->filter('.createdByDeputy.loadContent')->count());
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
         self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal())->count());
         self::assertEquals(2, $crawler->filter('#room_card'.$room->getUidReal().' .btn:contains("Starten")')->count());

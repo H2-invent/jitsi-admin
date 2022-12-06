@@ -47,7 +47,12 @@ class RoomAddService
             foreach ($lines as $line) {
                 $user = $this->createUserFromUserUid($line,  $falseEmail);
                 if ($user) {
-                    $this->createUserParticipant($room, $user);
+                    if ($user !== $room->getCreator()){
+                        $this->createUserParticipant($room, $user);
+                    }else{
+                        $falseEmail[] = $line;
+                    }
+
                 }
             }
         }
@@ -74,8 +79,12 @@ class RoomAddService
             foreach ($lines as $line) {
                 $user = $this->createUserFromUserUid($line,  $falseEmail);
                 if ($user) {
-                    $this->createUserParticipant($room, $user);
-                    $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
+                    if ($user !== $room->getCreator()){
+                        $this->createUserParticipant($room, $user);
+                        $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
+                    }else{
+                        $falseEmail[] = $line;
+                    }
                 }
             }
             $this->em->flush();

@@ -209,6 +209,7 @@ class RoomFixture extends Fixture
             $room = new Rooms();
             $room->setTimeZone('Europe/Berlin');
             $room->setModerator($user);
+            $room->setCreator($user);
             $room->setAgenda('Testagenda:' . $i);
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
@@ -240,6 +241,7 @@ class RoomFixture extends Fixture
             $room = new Rooms();
             $room->setTimeZone('Europe/Berlin');
             $room->setModerator($user);
+            $room->setCreator($user);
             $room->setAgenda('Testagenda:' . $i);
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
@@ -276,6 +278,7 @@ class RoomFixture extends Fixture
             $room = new Rooms();
             $room->setTimeZone('America/Adak');
             $room->setModerator($user);
+            $room->setCreator($user);
             $room->setAgenda('Testagenda:' . $i);
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
@@ -301,6 +304,7 @@ class RoomFixture extends Fixture
         $room = new Rooms();
         $room->setTimeZone('Europe/Berlin');
         $room->setModerator(null);
+        $room->setCreator($user);
         $callerRoom = new CallerRoom();
         $callerRoom->setCallerId('1234noRight');
         $callerRoom->setCreatedAt(new \DateTime());
@@ -337,6 +341,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->setUid('roomTomorrow');
@@ -361,7 +366,9 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
+        $room->setCreator($user);
         $room->addUser($user2);
         $room->setUid(md5(uniqid()));
         $room->setUidReal(md5(uniqid()));
@@ -389,6 +396,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->setUid('runningRoomNow');
@@ -480,6 +488,7 @@ class RoomFixture extends Fixture
         $room->setStart(null);
         $room->setEnddate(null);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->setUid('561d6f51s6f');
         $room->setUidReal('5615ds1f65ds');
@@ -503,6 +512,7 @@ class RoomFixture extends Fixture
         $room->setStart(null);
         $room->setEnddate(null);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->setUid('561d6rtzf51s6fwer');
         $room->setUidReal('5615dfggfdds1f65ds');
@@ -525,6 +535,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);
@@ -552,6 +563,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->setUid('lkdsjfkljvcxk');
         $room->setUidReal('5615sd6fs');
@@ -576,6 +588,7 @@ class RoomFixture extends Fixture
         $room1->setStart($start);
         $room1->setEnddate($end);
         $room1->setModerator($user);
+        $room1->setCreator($user);
         $room1->addUser($user);
         $room1->setUid('wertzzrtrrew');
         $room1->setUidReal('sdfgfhhjtr980joifjhg');
@@ -614,6 +627,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);

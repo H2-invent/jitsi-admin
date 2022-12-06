@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Lobby;
+namespace App\Tests\Lobby\Service;
 
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;

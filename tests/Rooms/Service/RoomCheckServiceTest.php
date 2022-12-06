@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Rooms;
+namespace App\Tests\Rooms\Service;
 
 use App\Entity\Rooms;
 use App\Service\RoomCheckService;

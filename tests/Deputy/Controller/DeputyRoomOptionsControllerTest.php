@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Deputy;
+namespace App\Tests\Deputy\Controller;
 
 use App\Entity\User;
 use App\Repository\RoomsRepository;

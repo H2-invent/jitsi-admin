@@ -122,6 +122,9 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Rooms::class)]
     private Collection $creatorOf;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Log::class)]
+    private Collection $logs;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -146,6 +149,7 @@ class User extends BaseUser
         $this->deputy = new ArrayCollection();
         $this->managers = new ArrayCollection();
         $this->creatorOf = new ArrayCollection();
+        $this->logs = new ArrayCollection();
 
     }
 
@@ -1041,6 +1045,36 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($creatorOf->getCreator() === $this) {
                 $creatorOf->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Log>
+     */
+    public function getLogs(): Collection
+    {
+        return $this->logs;
+    }
+
+    public function addLog(Log $log): self
+    {
+        if (!$this->logs->contains($log)) {
+            $this->logs->add($log);
+            $log->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLog(Log $log): self
+    {
+        if ($this->logs->removeElement($log)) {
+            // set the owning side to null (unless already changed)
+            if ($log->getUser() === $this) {
+                $log->setUser(null);
             }
         }
 

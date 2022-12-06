@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Rooms;
+namespace App\Tests\Rooms\Controller;
 
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;

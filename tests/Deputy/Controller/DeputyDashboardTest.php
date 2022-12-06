@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Tests\Deputy;
+namespace App\Tests\Deputy\Controller;
 
-use App\Entity\Rooms;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\Deputy\DeputyService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeputyDashboardTest extends WebTestCase

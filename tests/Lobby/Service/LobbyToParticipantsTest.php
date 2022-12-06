@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Lobby;
+namespace App\Tests\Lobby\Service;
 
 use App\Entity\LobbyWaitungUser;
 use App\Repository\RoomsRepository;

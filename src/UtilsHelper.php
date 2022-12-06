@@ -47,20 +47,21 @@ class UtilsHelper
             return false;
         }
         if (
-            ($user === $room->getCreator() && in_array($user,$room->getModerator()->getDeputy()->toArray())) ||
+            ($user === $room->getCreator() && $room->getModerator() && in_array($user, $room->getModerator()->getDeputy()->toArray())) ||
             $user === $room->getModerator() ||
-            UtilsHelper::roomGeneratedByOtherDeputy($room,$user)
+            UtilsHelper::roomGeneratedByOtherDeputy($room, $user)
         ) {
             return true;
         }
         return false;
     }
 
-    public static function isRoomReadOnly(Rooms $rooms, User $user):bool{
+    public static function isRoomReadOnly(Rooms $rooms, User $user): bool
+    {
         if (
             $user === $rooms->getModerator() ||
-            $rooms->getUser()->contains($user)||
-            UtilsHelper::roomGeneratedByOtherDeputy($rooms,$user)
+            $rooms->getUser()->contains($user) ||
+            UtilsHelper::roomGeneratedByOtherDeputy($rooms, $user)
         ) {
             return false;
         }
@@ -68,21 +69,22 @@ class UtilsHelper
 
     }
 
-    public static function roomGeneratedByOtherDeputy(Rooms $rooms,User $user):bool{
+    public static function roomGeneratedByOtherDeputy(Rooms $rooms, User $user): bool
+    {
         if (
             $rooms->getCreator() !== $rooms->getModerator()
-            &&
-            in_array($user,$rooms->getModerator()->getDeputy()->toArray())
-        ){
+            && $rooms->getModerator()
+            && in_array($user, $rooms->getModerator()->getDeputy()->toArray())
+        ) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     public static function isAllowedToOrganizeLobby(?User $user, Rooms $room): bool
     {
-        if (!$user){
+        if (!$user) {
             return false;
         }
         if ($user === $room->getModerator() || $user->getPermissionForRoom($room)->getLobbyModerator()) {
@@ -93,7 +95,7 @@ class UtilsHelper
 
     public static function hasModeratorRights(?User $user, Rooms $room): bool
     {
-        if (!$user){
+        if (!$user) {
             return false;
         }
         if ($user === $room->getModerator() || $user->getPermissionForRoom($room)->getLobbyModerator()) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Deputy;
+namespace App\Tests\Deputy\Service;
 
 use App\Repository\UserRepository;
 use App\Service\Deputy\DeputyService;

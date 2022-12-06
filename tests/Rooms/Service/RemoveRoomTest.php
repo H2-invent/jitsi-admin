@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests\Rooms;
+namespace App\Tests\Rooms\Service;
 
 use App\Entity\CallerId;
-use App\Entity\CallerRoom;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Repeat;
