@@ -19,7 +19,7 @@ class DownloadParticipantsListController extends JitsiAdminController
     public function index(Request $request)
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
-        if (!$room || UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)){
+        if (!$room || !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)){
             throw new NotFoundHttpException('Room not found');
         }
         $pdfOptions = new Options();

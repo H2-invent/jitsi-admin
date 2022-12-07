@@ -109,7 +109,7 @@
 
     <p class="text-black-50  mb-0 small moderatorText">{{ 'Geplant von'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}</p>
         {% if isAllowedToOrganize(room,app.user) and room.creator is not null and room.moderator != room.creator %}
-            <p class="text-black-50  mb-0 small createdFromText">  {{ 'Erstellt von'|trans }}: {{ nameOfUserwithFormat(room.creator, laf_showNameFrontend) }}</p>
+            <p class="text-black-50  mb-0 small createdFromText">  {{ 'room.creator.text'|trans }}: {{ nameOfUserwithFormat(room.creator, laf_showNameFrontend) }}</p>
         {% endif %}
         {% if servers|length > 1 %}
             <p class=" text-black-50 mb-0 small serverText"> {{ 'Server'|trans }}: {{ room.server.serverName }}</p>

@@ -1770,10 +1770,6 @@
         <source>lobby.endMeeting.ask.participant</source>
         <target>Wollen Sie diese Konferenz wirklich beenden.</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source></source>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
         <target>Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</target>
@@ -1971,40 +1967,60 @@
         <target>Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</target>
       </trans-unit>
       <trans-unit id="pI0mBwO" resname="deputy.message.added">
-        <source>Vertreter erfolgreich hinzugefügt.</source>
+        <source>deputy.message.added</source>
         <target>Vertreter erfolgreich hinzugefügt.</target>
       </trans-unit>
       <trans-unit id="r9gFTO5" resname="deputy.message.removed">
-        <source>Vertreter erfolgreich entfernt.</source>
+        <source>deputy.message.removed</source>
         <target>Vertreter erfolgreich entfernt.</target>
       </trans-unit>
       <trans-unit id="UQPRxI4" resname="deputy.remove">
-        <source>Als Vertreter entfernen</source>
+        <source>deputy.remove</source>
         <target>Als Vertreter entfernen</target>
       </trans-unit>
       <trans-unit id="6HczWjx" resname="deputy.add">
-        <source>Als Vertreter hinzufügen</source>
+        <source>deputy.add</source>
         <target>Als Vertreter hinzufügen</target>
       </trans-unit>
       <trans-unit id=".RyLlN8" resname="deputy.help">
-        <source>Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter darf nicht an einer Konferenz, welche er für Sie geplant hat, teilnehmen.</source>
+        <source>deputy.help</source>
         <target>Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter darf nicht an einer Konferenz, welche er für Sie geplant hat, teilnehmen.</target>
       </trans-unit>
       <trans-unit id="cuWbL6h" resname="deputy.text.isDeputy">
-        <source>Ist Vertreter</source>
+        <source>deputy.text.isDeputy</source>
         <target>Ist Vertreter</target>
       </trans-unit>
       <trans-unit id="SqlzG8G" resname="room.new.help.server">
-        <source>Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</source>
+        <source>room.new.help.server</source>
         <target>Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</target>
       </trans-unit>
       <trans-unit id="WonPJTK" resname="room.new.help.manager">
-        <source>Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</source>
+        <source>room.new.help.manager</source>
         <target>Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</target>
       </trans-unit>
       <trans-unit id="._QAxIk" resname="Private Konferenz">
         <source>Private Konferenz</source>
         <target>Private Konferenz</target>
+      </trans-unit>
+      <trans-unit id="JEvaNwO" resname="log.modal.header">
+        <source>log.modal.header</source>
+        <target>Änderungshistorie</target>
+      </trans-unit>
+      <trans-unit id="G0lWefc" resname="log.new.object">
+        <source>Bach der Änderung</source>
+        <target>Nach der Änderung</target>
+      </trans-unit>
+      <trans-unit id="Fl9wfgz" resname="log.old.object">
+        <source>Vor der Änderung</source>
+        <target>Vor der Änderung</target>
+      </trans-unit>
+      <trans-unit id="i8w5f79" resname="room.creator.text">
+        <source>Erstellt von</source>
+        <target>Erstellt von</target>
+      </trans-unit>
+      <trans-unit id="iyQ3u5e" resname="custom.more">
+        <source>Mehr</source>
+        <target>Mehr</target>
       </trans-unit>
     </body>
   </file>

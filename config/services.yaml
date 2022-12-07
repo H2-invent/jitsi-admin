@@ -59,9 +59,13 @@ parameters:
     ldap_special_Fields: '%env(ldap_special_Fields)%'
     ldap_filter: '%env(ldap_filter)%'
     LDAP_CALLOUT_FIELDS: '%env(LDAP_CALLOUT_FIELDS)%'
-    CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
-
+    LDAP_DEPUTY_GROUP_OBJECTCLASS: '%env(LDAP_DEPUTY_GROUP_OBJECTCLASS)%'
+    LDAP_DEPUTY_GROUP_DN: '%env(LDAP_DEPUTY_GROUP_DN)%'
+    LDAP_DEPUTY_GROUP_LEADER: '%env(LDAP_DEPUTY_GROUP_LEADER)%'
+    LDAP_DEPUTY_GROUP_MEMBERS: '%env(LDAP_DEPUTY_GROUP_MEMBERS)%'
     LDAP_DISALLOW_PROMOTE: '%env(LDAP_DISALLOW_PROMOTE)%'
+
+    CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
     strict_username_only: '%env(strict_username_only)%'
     STRICT_EMAIL_SET_ENVELOP_FROM: '%env(STRICT_EMAIL_SET_ENVELOP_FROM)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'
