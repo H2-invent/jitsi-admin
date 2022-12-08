@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\ldap\LdapService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,30 +13,38 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:ldap:deputy:create',
-    description: 'Add a short description for your command',
+    description: 'Creates Deputys by an LDAP connection',
 )]
 class LdapDeputyCreateCommand extends Command
 {
+
+    public function __construct(private LdapService $ldapService, string $name = null)
+    {
+        parent::__construct($name);
+
+    }
+
     protected function configure(): void
     {
         $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'This command is not writing to the database. Use it to check the connetion')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        $dryrun = $input->getOption('dry-run');
+        if ($dryrun){
+            $io->info('Dryrun is activated. No databases changes are made');
         }
 
-        if ($input->getOption('option1')) {
-            // ...
+        //todo build
+        $this->ldapService->initLdap($io);
+        foreach ($this->ldapService->getLdaps() as $data) {
+
         }
+
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 

@@ -28,7 +28,7 @@ class LogControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/change/log?room_id=' . $room->getId());
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'Änderungsprotokoll');
+        $this->assertSelectorTextContains('.modal-header', 'Änderungshistorie');
         self::assertEquals(0, $crawler->filter('.card')->count());
     }
 
@@ -60,7 +60,7 @@ class LogControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/change/log?room_id=' . $room->getId());
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('.modal-header', 'Änderungsprotokoll');
+        $this->assertSelectorTextContains('.modal-header', 'Änderungshistorie');
         self::assertEquals(1, $crawler->filter('.card')->count());
         $logRepo = self::getContainer()->get(LogRepository::class);
         $log = $logRepo->findAll();
