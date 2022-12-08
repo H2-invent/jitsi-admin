@@ -113,6 +113,7 @@
             .btn-primary {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
+                box-shadow: 0 4px 9px -4px {{ theme.colorButton }};
             }
 
             .btn-primary.dropdown-toggle {
@@ -207,6 +208,11 @@
             .form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
                 border-color: {{ theme.colorButton }};
                 box-shadow: 1px 0 0 0 {{ theme.colorButton }}, 0 -1px 0 0 {{ theme.colorButton }}, 0 1px 0 0{{ theme.colorButton }};
+            }
+
+            .form-check-input[type=radio]:checked:after {
+                 border-color: {{ theme.colorButton }};
+                background-color: {{ theme.colorButton }};
             }
 
         </style>
