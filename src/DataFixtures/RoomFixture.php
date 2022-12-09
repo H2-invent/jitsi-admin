@@ -138,6 +138,11 @@ class RoomFixture extends Fixture
         $user->addAddressbook($user2);
         $user->addAddressbook($user3);
 
+        $user5->addDeputy($user6);
+        $user5->addDeputy($user4);
+        $manager->persist($user5);
+        $manager->flush();
+
         $group = new AddressGroup();
         $group->setLeader($user);
         $group->setIndexer('testgruppe');

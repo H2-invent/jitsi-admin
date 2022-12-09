@@ -101,4 +101,19 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+     /**
+      * @return User[] Returns an array of Server objects
+      */
+    public function findUsersWithDeputy()
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->innerJoin('u.deputy','deputy')
+            ->addSelect('COUNT(deputy) as HIDDEN total')
+            ->having('total > 0')
+            ->groupBy('u')
+            ->getQuery()
+            ->getResult();
+    }
 }

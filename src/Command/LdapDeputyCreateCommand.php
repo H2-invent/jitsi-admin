@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\Deputy\DebutyLdapService;
 use App\Service\ldap\LdapService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +19,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class LdapDeputyCreateCommand extends Command
 {
 
-    public function __construct(private LdapService $ldapService, string $name = null)
+    public function __construct(
+        private LdapService $ldapService,
+        private DebutyLdapService $debutyLdapService,
+        string $name = null)
     {
         parent::__construct($name);
 
@@ -27,26 +31,23 @@ class LdapDeputyCreateCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'This command is not writing to the database. Use it to check the connetion')
-        ;
+            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Not writing to the database. Use it to check the connetion');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $dryrun = $input->getOption('dry-run');
-        if ($dryrun){
+        if ($dryrun) {
             $io->info('Dryrun is activated. No databases changes are made');
         }
 
-        //todo build
         $this->ldapService->initLdap($io);
-        foreach ($this->ldapService->getLdaps() as $data) {
+        $this->debutyLdapService->cleanDeputies($dryrun);
+        $this->ldapService->setDeputies($this->ldapService->fetchDeputies());
 
-        }
 
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('We connect all LDAP Deputies');
 
         return Command::SUCCESS;
     }

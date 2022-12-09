@@ -5,6 +5,7 @@ namespace App\Service\ldap;
 
 
 use App\dataType\LdapType;
+use App\Entity\LdapUserProperties;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -55,9 +56,9 @@ class LdapService
     }
 
     /**
-     * @return void
+     * @return bool
      */
-    public function setConfig()
+    public function setConfig(): bool
     {
 
         $this->URL = explode(';', $this->parameterBag->get('ldap_url'));
@@ -84,6 +85,7 @@ class LdapService
         foreach ($tmp as $data) {
             $this->LDAP_SPECIALFIELD[] = json_decode($data, true);
         }
+        return true;
     }
 
     /**
@@ -113,10 +115,22 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPLEADER($this->LDAP_DEPUTY_GROUP_LEADER[$count]);
                 $ldap->setLDAPDEPUTYGROUPMEMBERS($this->LDAP_DEPUTY_GROUP_MEMBERS[$count]);
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
-                $this->ldaps[] = $ldap;
+                $duplicate = false;
+                foreach ($this->ldaps as $data2) {
+                    if ($data2->getSerVerId() == $ldap->getSerVerId()) {
+                        $duplicate = true;
+                    }
+                }
+                if (!$duplicate) {
+                    $this->ldaps[] = $ldap;
+                }
+
+                $count++;
             }
 
         }
+
+
         return sizeof($this->ldaps);
     }
 
@@ -160,7 +174,7 @@ class LdapService
     {
         $this->setConfig();
         $this->createLdapConnections();
-        return $this->connectToLdap();
+        return $this->connectToLdap($io);
     }
 
 
@@ -190,6 +204,51 @@ class LdapService
 
         return array('ldap' => $ldap, 'user' => $user);
     }
+
+    public function fetchDeputies()
+    {
+        $res = array();
+        foreach ($this->ldaps as $data) {
+            $res = array_merge($res, $data->retrieveDeputies());
+        }
+        $res = array_unique($res, SORT_REGULAR);
+        return $res;
+    }
+
+    /**
+     * @param Entry[] $entrys
+     * @return void
+     */
+    public function setDeputies($entrys,$dryrun = false)
+    {
+       foreach ($entrys as $data){
+           foreach ($this->ldaps as $ldap){
+               $members = $data->getAttribute($ldap->getLDAPDEPUTYGROUPMEMBERS());
+               $leader = $data->getAttribute($ldap->getLDAPDEPUTYGROUPLEADER());
+               foreach ($leader as $lead){
+                   $l = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn'=>$lead,'ldapNumber'=>$ldap->getSerVerId()));
+                   if ($l){
+                       $l = $l->getUser();
+                       foreach ($members as $mem){
+                           $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn'=>$mem,'ldapNumber'=>$ldap->getSerVerId()));
+                           $mem = $mem->getUser();
+                           $l->addDeputy($mem);
+                       }
+                       $this->em->persist($l);
+                   }
+               }
+
+           }
+
+       }
+       if (!$dryrun){
+           $this->em->flush();
+       }else{
+           $this->em->clear();
+       }
+
+    }
+
 
     /**
      * @return LdapType[]|array

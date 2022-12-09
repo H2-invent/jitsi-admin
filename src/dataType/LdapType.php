@@ -32,6 +32,11 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_LEADER;
     private $LDAP_DEPUTY_GROUP_MEMBERS;
 
+    public function __toString(): string
+    {
+        return $this->serVerId;
+    }
+
     /**
      * @return mixed
      */
@@ -259,7 +264,6 @@ class LdapType
         } catch (\Exception $exception) {
             throw $exception;
         }
-        return true;
     }
 
     /**
@@ -292,9 +296,24 @@ class LdapType
         }
         $objectclass .= ')';
         if ($this->filter) {
-            $objectclass = '' . $objectclass . $this->filter;
+            $objectclass .= $this->filter;
         }
         $objectclass = '(&' . $objectclass . ')';
+        return $objectclass;
+    }
+
+    /**
+     * @param $objectClassString
+     * @return string
+     * This Function build the Query String to find the user in the LDAP
+     */
+    public function buildObjectClassDeputy(): string
+    {
+        $objectclass = '(|';
+        foreach (explode(',', $this->LDAP_DEPUTY_GROUP_OBJECTCLASS) as $data2) {
+            $objectclass .= '(objectclass=' . $data2 . ')';
+        }
+        $objectclass .= ')';
         return $objectclass;
     }
 
@@ -314,6 +333,19 @@ class LdapType
         );
 
         $query = $this->ldap->query($this->userDn, $this->buildObjectClass(), $options);
+        $user = $query->execute();
+        return $user->toArray();
+    }
+
+
+    public function retrieveDeputies()
+    {
+
+        $options = array(
+            'scope' => $this->scope,
+        );
+
+        $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
         $user = $query->execute();
         return $user->toArray();
     }

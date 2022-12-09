@@ -248,4 +248,68 @@ class LdapConnectionTest extends KernelTestCase
         self::assertEquals(true,$ldapService->connectToLdap());
     }
 
+    public function testTryToConnectFail(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $ldapService = self::getContainer()->get(LdapService::class);
+        $ldapConnection = new LdapType();
+        $ldapConnection->setUrl($this->LDAPURL.'failure');
+        $ldapConnection->setBindDn('uid=admin,ou=system');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setBindType('simple');
+        $ldapService->setLdaps(array($ldapConnection));
+        self::assertEquals(false,$ldapService->connectToLdap());
+    }
+
+    public function testLdapGenearteConfig(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $ldapService = self::getContainer()->get(LdapService::class);
+        self::assertEquals(true,$ldapService->setConfig());
+
+
+    }
+
+    public function testCreateLdapConnection(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $ldapService = self::getContainer()->get(LdapService::class);
+        self::assertEquals(true,$ldapService->setConfig());
+        self::assertEquals(2,$ldapService->createLdapConnections());
+        self::assertEquals(2,sizeof($ldapService->getLdaps()));
+    }
+
+    public function testinitLDAP(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $ldapService = self::getContainer()->get(LdapService::class);
+        self::assertEquals(true,$ldapService->initLdap());
+        self::assertEquals(2,$ldapService->createLdapConnections());
+        self::assertEquals(2,sizeof($ldapService->getLdaps()));
+    }
+
 }
