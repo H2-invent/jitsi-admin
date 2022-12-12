@@ -2,6 +2,7 @@
 
 namespace App\Service\Deputy;
 
+use App\Entity\Deputy;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -17,15 +18,11 @@ class DebutyLdapService
     public function cleanDeputies($dryRun=false)
     {
         $counter = 0;
-        $user = $this->entityManager->getRepository(User::class)->findUsersWithDeputy();
-        foreach ($user as $data) {
-            if ($data instanceof User) {
-                foreach ($data->getDeputy() as $data2) {
-                    $data->removeDeputy($data2);
-                    $counter++;
-                }
-                $this->entityManager->persist($data);
-            }
+        $deputies = $this->entityManager->getRepository(Deputy::class)->findBy(array('isFromLdap'=>true));
+
+        foreach ($deputies as $data) {
+          $this->entityManager->remove($data);
+          $counter++;
         }
         if (!$dryRun){
             $this->entityManager->flush();

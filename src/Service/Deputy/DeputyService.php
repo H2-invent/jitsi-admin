@@ -2,6 +2,7 @@
 
 namespace App\Service\Deputy;
 
+use App\Entity\Deputy;
 use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
@@ -14,14 +15,15 @@ class DeputyService
 
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private DirectSendService $directSendService
+        private DirectSendService      $directSendService
     )
     {
     }
 
     public function toggleDeputy(User $manager, User $deputy): int
     {
-        if ($manager->getDeputy()->contains($deputy)) {
+        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(array('deputy' => $deputy, 'manager' => $manager));
+        if ($dep) {
             return $this->removeDeputy($manager, $deputy);
         } else {
             return $this->setDeputy($manager, $deputy);
@@ -31,19 +33,31 @@ class DeputyService
 
     public function setDeputy(User $manager, User $deputy): int
     {
-        $manager->addDeputy($deputy);
-        $this->entityManager->persist($manager);
-        $this->entityManager->flush();
-        $this->directSendService->sendRefreshDashboardToUser($deputy);
+        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(array('deputy' => $deputy, 'manager' => $manager));
+        if (!$dep) {
+            $dep = new Deputy();
+            $dep->setManager($manager);
+            $dep->setDeputy($deputy);
+            $dep->setCreatedAt(new \DateTime());
+            $dep->setIsFromLdap(false);
+            $this->entityManager->persist($dep);
+            $this->entityManager->flush();
+            $this->directSendService->sendRefreshDashboardToUser($deputy);
+        }
+
         return self::$IS_DEPUTY;
     }
 
-    public function removeDeputy(User $manager, User $deputy):int
+    public function removeDeputy(User $manager, User $deputy): int
     {
-        $manager->removeDeputy($deputy);
-        $this->entityManager->persist($manager);
-        $this->entityManager->flush();
-        $this->directSendService->sendRefreshDashboardToUser($deputy);
+        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(array('deputy' => $deputy, 'manager' => $manager));
+        if ($dep) {
+            $this->entityManager->remove($dep);
+            $this->entityManager->flush();
+            $this->directSendService->sendRefreshDashboardToUser($deputy);
+        }
+
+
         return self::$IS_NOT_DEPUTY;
     }
 }

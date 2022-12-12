@@ -111,19 +111,18 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: CalloutSession::class, orphanRemoval: true)]
     private Collection $calloutSessions;
 
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'managers')]
-    #[ORM\JoinTable(name: "deputy_manager")]
-    private Collection $deputy;
-
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'deputy')]
-    #[ORM\JoinTable(name: "deputy_manager")]
-    private Collection $managers;
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Rooms::class)]
     private Collection $creatorOf;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Log::class)]
     private Collection $logs;
+
+    #[ORM\OneToMany(mappedBy: 'deputy', targetEntity: Deputy::class, orphanRemoval: true)]
+    private Collection $deputiesElement;
+
+    #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Deputy::class, orphanRemoval: true)]
+    private Collection $managerElement;
 
     public function __construct()
     {
@@ -146,10 +145,10 @@ class User extends BaseUser
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
         $this->calloutSessions = new ArrayCollection();
-        $this->deputy = new ArrayCollection();
-        $this->managers = new ArrayCollection();
         $this->creatorOf = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->deputiesElement = new ArrayCollection();
+        $this->managerElement = new ArrayCollection();
 
     }
 
@@ -975,7 +974,11 @@ class User extends BaseUser
      */
     public function getDeputy(): Collection
     {
-        return $this->deputy;
+        $deputy = array();
+        foreach ($this->getManagerElement() as $data){
+            $deputy[] = $data->getDeputy();
+        }
+        return new ArrayCollection($deputy);
     }
 
     public function addDeputy(self $deputy): self
@@ -999,7 +1002,11 @@ class User extends BaseUser
      */
     public function getManagers(): Collection
     {
-        return $this->managers;
+        $managers = array();
+        foreach ($this->getDeputiesElement() as $data){
+            $managers[] = $data->getManager();
+        }
+        return new ArrayCollection($managers);
     }
 
     public function addManager(self $manager): self
@@ -1075,6 +1082,66 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($log->getUser() === $this) {
                 $log->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deputy>
+     */
+    public function getDeputiesElement(): Collection
+    {
+        return $this->deputiesElement;
+    }
+
+    public function addDeputiesElement(Deputy $deputiesElement): self
+    {
+        if (!$this->deputiesElement->contains($deputiesElement)) {
+            $this->deputiesElement->add($deputiesElement);
+            $deputiesElement->setDeputy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeputiesElement(Deputy $deputiesElement): self
+    {
+        if ($this->deputiesElement->removeElement($deputiesElement)) {
+            // set the owning side to null (unless already changed)
+            if ($deputiesElement->getDeputy() === $this) {
+                $deputiesElement->setDeputy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deputy>
+     */
+    public function getManagerElement(): Collection
+    {
+        return $this->managerElement;
+    }
+
+    public function addManagerElement(Deputy $managerElement): self
+    {
+        if (!$this->managerElement->contains($managerElement)) {
+            $this->managerElement->add($managerElement);
+            $managerElement->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManagerElement(Deputy $managerElement): self
+    {
+        if ($this->managerElement->removeElement($managerElement)) {
+            // set the owning side to null (unless already changed)
+            if ($managerElement->getManager() === $this) {
+                $managerElement->setManager(null);
             }
         }
 

@@ -62,7 +62,6 @@ class AdhocControllerTest extends WebTestCase
         $crawler = $client->request('GET', json_decode($client->getResponse()->getContent(),true)['popups'][0]['url']);
         self::assertSelectorNotExists('#tagContent');
 
-        $client->loginUser($user);
         $crawler = $client->request('GET', '/room/dashboard');
 
         self::assertEquals(1, $crawler->filter('h5:contains("Konferenz mit Test2, 1234, User2, Test2")')->count());

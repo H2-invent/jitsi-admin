@@ -63,7 +63,8 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
+            ->leftJoin('user.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 'deputy = :user'
@@ -84,7 +85,8 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
+            ->leftJoin('user.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 'deputy = :user'
@@ -106,7 +108,8 @@ class RoomsRepository extends ServiceEntityRepository
         $now = new \DateTime();
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
+            ->leftJoin('user.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 'deputy = :user'
@@ -126,7 +129,8 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
+            ->leftJoin('user.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 'deputy = :user'
@@ -151,7 +155,8 @@ class RoomsRepository extends ServiceEntityRepository
 
         return $qb
             ->innerJoin('r.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
+            ->leftJoin('user.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 'deputy = :user'
@@ -178,7 +183,8 @@ class RoomsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
             ->leftJoin('rooms.moderator','moderator')
-            ->leftJoin('moderator.deputy', 'deputy')
+            ->leftJoin('moderator.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 $qb->expr()->andX(
@@ -198,7 +204,8 @@ class RoomsRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
             ->leftJoin('rooms.moderator','moderator')
-            ->leftJoin('moderator.deputy', 'deputy')
+            ->leftJoin('moderator.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 $qb->expr()->andX(
@@ -217,7 +224,8 @@ class RoomsRepository extends ServiceEntityRepository
         $now = (new \DateTime())->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.deputy', 'deputy')
+            ->leftJoin('user.managerElement','managerelement')
+            ->leftJoin('managerelement.deputy','deputy')
             ->andWhere($qb->expr()->orX(
                 'user = :user',
                 'deputy = :user'

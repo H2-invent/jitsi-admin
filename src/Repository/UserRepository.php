@@ -109,8 +109,8 @@ class UserRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('u');
 
-        return $qb->innerJoin('u.deputy','deputy')
-            ->addSelect('COUNT(deputy) as HIDDEN total')
+        return $qb->innerJoin('u.managerElement','managerelement')
+            ->addSelect('COUNT(managerelement) as HIDDEN total')
             ->having('total > 0')
             ->groupBy('u')
             ->getQuery()

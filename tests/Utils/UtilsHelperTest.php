@@ -2,6 +2,7 @@
 
 namespace App\Tests\Utils;
 
+use App\Entity\Deputy;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\UtilsHelper;
@@ -17,7 +18,15 @@ class UtilsHelperTest extends KernelTestCase
         $deputy2 = new User();
         $deputy2->setFirstName('deputy2');
         $manager = new User();
-        $manager->addDeputy($deputy)->setFirstName('manager');
+        $manager->setFirstName('manager');
+        $depElement1 = new Deputy();
+        $depElement1->setManager($manager)
+            ->setDeputy($deputy)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(false);
+        $manager->addManagerElement($depElement1);
+        $deputy->addDeputiesElement($depElement1);
+
         $room = new Rooms();
 
         $room->setModerator($deputy)   //creator is organiser
@@ -46,13 +55,22 @@ class UtilsHelperTest extends KernelTestCase
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null,$room));
 
-        $manager->addDeputy($deputy2);//add deputy2 as second deputy
+        $depElement2 = new Deputy();
+        $depElement2->setManager($manager)
+            ->setDeputy($deputy2)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(false);
+        $manager->addManagerElement($depElement2);
+        $deputy2->addDeputiesElement($depElement2);
+
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy,$room));
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null,$room));
 
-        $manager->removeDeputy($deputy);//creator deputy is no longer deputy
+
+        $manager->removeManagerElement($depElement1);
+        $deputy->removeDeputiesElement($depElement1);
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy,$room));
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager,$room));
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy2,$room));
@@ -66,10 +84,19 @@ class UtilsHelperTest extends KernelTestCase
         $deputy2 = new User();
         $deputy2->setFirstName('deputy2');
         $manager = new User();
-        $manager->addDeputy($deputy)->setFirstName('manager');
+        $manager->setFirstName('manager');
         $room = new Rooms();
         $room->setModerator($deputy)
             ->setCreator($deputy);
+
+        $depElement1 = new Deputy();
+        $depElement1->setManager($manager)
+            ->setDeputy($deputy)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(false);
+        $manager->addManagerElement($depElement1);
+        $deputy->addDeputiesElement($depElement1);
+
         self::assertFalse(UtilsHelper::isRoomReadOnly($room, $deputy));
         self::assertTrue(UtilsHelper::isRoomReadOnly($room, $manager));
        $room->setModerator($manager);
@@ -77,11 +104,21 @@ class UtilsHelperTest extends KernelTestCase
         self::assertFalse(UtilsHelper::isRoomReadOnly($room, $manager));
         self::assertTrue(UtilsHelper::isRoomReadOnly($room, $deputy2));
 
-        $manager->addDeputy($deputy2);//deputy 2 is added, so he can see the room not readOnly
+        $depElement2 = new Deputy();
+        $depElement2->setManager($manager)
+            ->setDeputy($deputy2)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(false);
+        $manager->addManagerElement($depElement2);
+        $deputy2->addDeputiesElement($depElement2);
+
         self::assertFalse(UtilsHelper::isRoomReadOnly($room, $deputy2));
-        $manager->removeDeputy($deputy);//remove the first deputy.
+        $manager->removeManagerElement($depElement1);
+        $deputy->removeDeputiesElement($depElement1);
         self::assertFalse(UtilsHelper::isRoomReadOnly($room, $deputy2));
-        $manager->removeDeputy($deputy2);//remove the first deputy.
+
+        $manager->removeManagerElement($depElement2);
+        $deputy2->removeDeputiesElement($depElement2);
         self::assertTrue(UtilsHelper::isRoomReadOnly($room, $deputy2));
     }
 }

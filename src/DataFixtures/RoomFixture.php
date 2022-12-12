@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\AddressGroup;
 use App\Entity\CallerRoom;
+use App\Entity\Deputy;
 use App\Entity\LdapUserProperties;
 use App\Entity\License;
 use App\Entity\LobbyWaitungUser;
@@ -138,9 +139,20 @@ class RoomFixture extends Fixture
         $user->addAddressbook($user2);
         $user->addAddressbook($user3);
 
-        $user5->addDeputy($user6);
-        $user5->addDeputy($user4);
-        $manager->persist($user5);
+        $deputy1 = new Deputy();
+        $deputy1->setManager($user5)
+            ->setDeputy($user6)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(true);
+        $deputy2 = new Deputy();
+        $deputy2->setManager($user5)
+            ->setDeputy($user6)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(true);
+
+
+        $manager->persist($deputy1);
+        $manager->persist($deputy2);
         $manager->flush();
 
         $group = new AddressGroup();

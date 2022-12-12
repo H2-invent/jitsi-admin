@@ -5,6 +5,7 @@ namespace App\Service\ldap;
 
 
 use App\dataType\LdapType;
+use App\Entity\Deputy;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -231,15 +232,16 @@ class LdapService
                        $l = $l->getUser();
                        foreach ($members as $mem){
                            $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn'=>$mem,'ldapNumber'=>$ldap->getSerVerId()));
-                           $mem = $mem->getUser();
-                           $l->addDeputy($mem);
+                           $deputy = new Deputy();
+                           $deputy->setIsFromLdap(true)
+                               ->setCreatedAt(new \DateTime())
+                               ->setDeputy($mem->getUser())
+                               ->setManager($l);
+                           $this->em->persist($deputy);
                        }
-                       $this->em->persist($l);
                    }
                }
-
            }
-
        }
        if (!$dryrun){
            $this->em->flush();
