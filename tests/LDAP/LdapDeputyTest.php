@@ -4,7 +4,9 @@ namespace App\Tests\LDAP;
 
 use App\Service\Deputy\DebutyLdapService;
 use App\Service\ldap\LdapService;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Tester\CommandTester;
 use function PHPUnit\Framework\assertEquals;
 
 class LdapDeputyTest extends KernelTestCase
@@ -46,5 +48,18 @@ class LdapDeputyTest extends KernelTestCase
         }
         $ldapService->setDeputies($ldapService->fetchDeputies());
 
+    }
+    public function testhwithCommand(): void
+    {
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
+        $command = $application->find('app:ldap:deputy:create');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array());
+        $output = $commandTester->getDisplay();
+        $this->assertStringContainsString(' [INFO] Try to connect to: ldap_1  ', $output);
+        $this->assertStringContainsString(' [INFO] Try to connect to: ldap_2', $output);
+        $this->assertStringContainsString(' [OK] Sucessfully connect to ldap://192.168.230.130:389 ', $output);
+        $this->assertStringContainsString(' [OK] We connect all LDAP Deputies', $output);
     }
 }
