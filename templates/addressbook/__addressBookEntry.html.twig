@@ -9,7 +9,9 @@
                 ><i class="fas fa-ellipsis-v"></i></a>
 
 <div class="dropdown-menu">
+    {% if not deputyIsFromLDAP(app.user,u) %}
 <div class="dropdown-item d-flex">
+
 <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %}"
    href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
      <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}</a>
@@ -17,6 +19,7 @@
             class="fa fa-question-circle"></i></a>
 
 </div>
+    {% endif %}
   {% if theme == false or theme.trashOnAdressBook == true %}
       <div class="dropdown-divider"></div>
       <a class=" dropdown-item confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"

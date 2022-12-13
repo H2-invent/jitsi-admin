@@ -31,6 +31,7 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_DN;
     private $LDAP_DEPUTY_GROUP_LEADER;
     private $LDAP_DEPUTY_GROUP_MEMBERS;
+    private $LDAP_DEPUTY_GROUP_FILTER;
 
     public function __toString(): string
     {
@@ -314,6 +315,12 @@ class LdapType
             $objectclass .= '(objectclass=' . $data2 . ')';
         }
         $objectclass .= ')';
+
+        if ($this->LDAP_DEPUTY_GROUP_FILTER) {
+            $objectclass .= $this->LDAP_DEPUTY_GROUP_FILTER;
+            $objectclass = '(&' . $objectclass . ')';
+        }
+
         return $objectclass;
     }
 
@@ -349,7 +356,6 @@ class LdapType
         $user = $query->execute();
         return $user->toArray();
     }
-
 
 
     /**
@@ -430,6 +436,22 @@ class LdapType
     public function setLDAPDEPUTYGROUPMEMBERS($LDAP_DEPUTY_GROUP_MEMBERS): void
     {
         $this->LDAP_DEPUTY_GROUP_MEMBERS = $LDAP_DEPUTY_GROUP_MEMBERS;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLDAPDEPUTYGROUPFILTER()
+    {
+        return $this->LDAP_DEPUTY_GROUP_FILTER;
+    }
+
+    /**
+     * @param mixed $LDAP_DEPUTY_GROUP_FILTER
+     */
+    public function setLDAPDEPUTYGROUPFILTER($LDAP_DEPUTY_GROUP_FILTER): void
+    {
+        $this->LDAP_DEPUTY_GROUP_FILTER = $LDAP_DEPUTY_GROUP_FILTER;
     }
 
 

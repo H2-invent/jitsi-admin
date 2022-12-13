@@ -48,6 +48,7 @@ class LdapService
     private $LDAP_DEPUTY_GROUP_DN;
     private $LDAP_DEPUTY_GROUP_LEADER;
     private $LDAP_DEPUTY_GROUP_MEMBERS;
+    private $LDAP_DEPUTY_GROUP_FILTER;
 
     public function __construct(LdapUserService $ldapUserService, EntityManagerInterface $entityManager, private ParameterBagInterface $parameterBag, private LoggerInterface $logger)
     {
@@ -78,7 +79,7 @@ class LdapService
         $this->LDAP_DEPUTY_GROUP_LEADER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_LEADER'));
         $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
         $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
-
+        $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
         $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
         foreach ($tmp as $data) {
             $this->MAPPER[] = json_decode($data, true);
@@ -117,6 +118,7 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPLEADER($this->LDAP_DEPUTY_GROUP_LEADER[$count]);
                 $ldap->setLDAPDEPUTYGROUPMEMBERS($this->LDAP_DEPUTY_GROUP_MEMBERS[$count]);
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
+                $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count]);
                 $duplicate = false;
                 foreach ($this->ldaps as $data2) {
                     if ($data2->getSerVerId() == $ldap->getSerVerId()) {
@@ -222,34 +224,34 @@ class LdapService
      * @param Entry[] $entrys
      * @return void
      */
-    public function setDeputies($entrys,$dryrun = false)
+    public function setDeputies($entrys, $dryrun = false)
     {
-       foreach ($entrys as $data){
-           foreach ($this->ldaps as $ldap){
-               $members = $data->getAttribute($ldap->getLDAPDEPUTYGROUPMEMBERS());
-               $leader = $data->getAttribute($ldap->getLDAPDEPUTYGROUPLEADER());
-               foreach ($leader as $lead){
-                   $l = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn'=>$lead,'ldapNumber'=>$ldap->getSerVerId()));
-                   if ($l){
-                       $l = $l->getUser();
-                       foreach ($members as $mem){
-                           $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn'=>$mem,'ldapNumber'=>$ldap->getSerVerId()));
-                           $deputy = new Deputy();
-                           $deputy->setIsFromLdap(true)
-                               ->setCreatedAt(new \DateTime())
-                               ->setDeputy($mem->getUser())
-                               ->setManager($l);
-                           $this->em->persist($deputy);
-                       }
-                   }
-               }
-           }
-       }
-       if (!$dryrun){
-           $this->em->flush();
-       }else{
-           $this->em->clear();
-       }
+        foreach ($entrys as $data) {
+            foreach ($this->ldaps as $ldap) {
+                $members = $data->getAttribute($ldap->getLDAPDEPUTYGROUPMEMBERS());
+                $leader = $data->getAttribute($ldap->getLDAPDEPUTYGROUPLEADER());
+                foreach ($leader as $lead) {
+                    $l = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn' => $lead, 'ldapNumber' => $ldap->getSerVerId()));
+                    if ($l) {
+                        $l = $l->getUser();
+                        foreach ($members as $mem) {
+                            $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn' => $mem, 'ldapNumber' => $ldap->getSerVerId()));
+                            $deputy = new Deputy();
+                            $deputy->setIsFromLdap(true)
+                                ->setCreatedAt(new \DateTime())
+                                ->setDeputy($mem->getUser())
+                                ->setManager($l);
+                            $this->em->persist($deputy);
+                        }
+                    }
+                }
+            }
+        }
+        if (!$dryrun) {
+            $this->em->flush();
+        } else {
+            $this->em->clear();
+        }
 
     }
 

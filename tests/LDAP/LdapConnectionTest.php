@@ -104,6 +104,30 @@ class LdapConnectionTest extends KernelTestCase
         $this->assertEquals('(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user)))', $ldapConnection->buildObjectClass());
     }
 
+    public function testcreateObjectClassDeputy(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+
+        // (3) run some service & test the result
+        $ldapConnection = new LdapType();
+        $ldapConnection->setUrl($this->LDAPURL);
+        $ldapConnection->setBindDn('uid=admin,ou=system');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setBindType('simple');
+        $ldapConnection->setLDAPDEPUTYGROUPFILTER('(&(memberOf=deputy-groups))');
+        $ldapConnection->setLDAPDEPUTYGROUPOBJECTCLASS('posixGroups,groups');
+        $ldapConnection->createLDAP();
+        $ldap = $ldapConnection->getLdap();
+        $this->assertEquals('(&(|(objectclass=posixGroups)(objectclass=groups))(&(memberOf=deputy-groups)))', $ldapConnection->buildObjectClassDeputy());
+        $ldapConnection->setLDAPDEPUTYGROUPFILTER(null);
+        $this->assertEquals('(|(objectclass=posixGroups)(objectclass=groups))', $ldapConnection->buildObjectClassDeputy());
+    }
+
+
     public function testcreateFetchUserOne(): void
     {
         // (1) boot the Symfony kernel
