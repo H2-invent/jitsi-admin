@@ -47,8 +47,5 @@ class LdapDeputyTest extends KernelTestCase
         }
         $ldapService->setDeputies($ldapService->fetchDeputies());
 
-
     }
-
-
 }

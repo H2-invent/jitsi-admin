@@ -9,6 +9,7 @@ use App\Entity\Deputy;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,7 +49,7 @@ class LdapService
     private $LDAP_DEPUTY_GROUP_LEADER;
     private $LDAP_DEPUTY_GROUP_MEMBERS;
 
-    public function __construct(LdapUserService $ldapUserService, EntityManagerInterface $entityManager, private ParameterBagInterface $parameterBag)
+    public function __construct(LdapUserService $ldapUserService, EntityManagerInterface $entityManager, private ParameterBagInterface $parameterBag, private LoggerInterface $logger)
     {
         $this->ldapUserService = $ldapUserService;
         $this->em = $entityManager;
@@ -158,7 +159,8 @@ class LdapService
                 if ($io) {
                     $io->error($exception->getMessage());
                 }
-
+                echo $exception->getMessage();
+                $this->logger->error($exception->getMessage());
                 return false;
             }
         }
