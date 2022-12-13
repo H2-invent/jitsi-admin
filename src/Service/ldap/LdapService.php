@@ -214,7 +214,9 @@ class LdapService
     {
         $res = array();
         foreach ($this->ldaps as $data) {
-            $res = array_merge($res, $data->retrieveDeputies());
+            if ($data->isHealthy()){
+                $res = array_merge($res, $data->retrieveDeputies());
+            }
         }
         $res = array_unique($res, SORT_REGULAR);
         return $res;

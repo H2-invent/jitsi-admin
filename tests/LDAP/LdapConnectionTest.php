@@ -270,6 +270,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setBindType('simple');
         $ldapService->setLdaps(array($ldapConnection));
         self::assertEquals(true,$ldapService->connectToLdap());
+        self::assertTrue($ldapConnection->isHealthy());
     }
 
     public function testTryToConnectFail(): void
@@ -289,6 +290,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setBindType('simple');
         $ldapService->setLdaps(array($ldapConnection));
         self::assertEquals(false,$ldapService->connectToLdap());
+        self::assertFalse($ldapConnection->isHealthy());
     }
 
     public function testLdapGenearteConfig(): void

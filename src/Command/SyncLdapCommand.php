@@ -50,9 +50,7 @@ class SyncLdapCommand extends Command
         $result = array();
         $io->info('We test the all LDAP connections: ');
         $error = false;
-        if (!$this->ldapService->initLdap($io)) {
-            return Command::FAILURE;
-        };
+        $this->ldapService->initLdap($io);
 
 
         $numberUsers = 0;
@@ -60,34 +58,40 @@ class SyncLdapCommand extends Command
         foreach ($this->ldapService->getLdaps() as $data) {
 
             $resTmp = null;
-            try {
-                $resTmp = $this->ldapService->fetchLdap($data, $dryrun);
-            } catch (LdapException $e) {
-                $error = true;
-                $io->error('Fehler in LDAP: ' . $data->getUrl());
-                $io->error('Fehler: ' . $e->getMessage());
+            if ($data->isHealthy()) {
 
-            } catch (NotBoundException $e) {
-                $error = true;
-                $io->error('Fehler in LDAP-Bound: ' . $data->getUrl());
-                $io->error('Fehler: ' . $e->getMessage());
-            }
 
-            if ($resTmp !== null) {
-                $result[] = $resTmp;
-            }
+                try {
+                    $resTmp = $this->ldapService->fetchLdap($data, $dryrun);
+                } catch (LdapException $e) {
+                    $error = true;
+                    $io->error('Fehler in LDAP: ' . $data->getUrl());
+                    $io->error('Fehler: ' . $e->getMessage());
 
-            $table = new Table($output);
-            $table->setHeaders(['email', 'uid', 'dn', 'rdn']);
-            $table->setHeaderTitle($data->getUrl());
-            $table->setStyle('borderless');
-            if (is_array($resTmp['user'])) {
-                foreach ($resTmp['user'] as $data2) {
-                    $numberUsers++;
-                    $table->addRow([$data2->getEmail(), $data2->getUserName(), $data2->getLdapUserProperties()->getLdapDn(), $data2->getLdapUserProperties()->getRdn()]);
+                } catch (NotBoundException $e) {
+                    $error = true;
+                    $io->error('Fehler in LDAP-Bound: ' . $data->getUrl());
+                    $io->error('Fehler: ' . $e->getMessage());
                 }
+
+                if ($resTmp !== null) {
+                    $result[] = $resTmp;
+                }
+
+                $table = new Table($output);
+                $table->setHeaders(['email', 'uid', 'dn', 'rdn']);
+                $table->setHeaderTitle($data->getUrl());
+                $table->setStyle('borderless');
+                if (is_array($resTmp['user'])) {
+                    foreach ($resTmp['user'] as $data2) {
+                        $numberUsers++;
+                        $table->addRow([$data2->getEmail(), $data2->getUserName(), $data2->getLdapUserProperties()->getLdapDn(), $data2->getLdapUserProperties()->getRdn()]);
+                    }
+                }
+                $table->render();
+            }else{
+                $io->error('This LDAP is unhealty: '.$data->getUrl());
             }
-            $table->render();
         }
 
 

@@ -32,6 +32,7 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_LEADER;
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
+    private $isHealthy = false;
 
     public function __toString(): string
     {
@@ -260,6 +261,7 @@ class LdapType
                 $tmp->bind();
             }
             $this->ldap = $tmp;
+            $this->isHealthy = true;
             return $tmp;
 
         } catch (\Exception $exception) {
@@ -348,13 +350,15 @@ class LdapType
     public function retrieveDeputies()
     {
 
-        $options = array(
-            'scope' => $this->scope,
-        );
+            $options = array(
+                'scope' => $this->scope,
+            );
 
-        $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
-        $user = $query->execute();
-        return $user->toArray();
+            $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
+            $user = $query->execute();
+            return $user->toArray();
+
+
     }
 
 
@@ -452,6 +456,22 @@ class LdapType
     public function setLDAPDEPUTYGROUPFILTER($LDAP_DEPUTY_GROUP_FILTER): void
     {
         $this->LDAP_DEPUTY_GROUP_FILTER = $LDAP_DEPUTY_GROUP_FILTER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHealthy(): bool
+    {
+        return $this->isHealthy;
+    }
+
+    /**
+     * @param bool $isHealthy
+     */
+    public function setIsHealthy(bool $isHealthy): void
+    {
+        $this->isHealthy = $isHealthy;
     }
 
 

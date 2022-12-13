@@ -19,7 +19,6 @@ class LdapDeputyTest extends KernelTestCase
         $res = $ldapService->fetchDeputies();
         assertEquals(1, sizeof($res));
 
-
     }
 
     public function testCleanDeputys(): void
