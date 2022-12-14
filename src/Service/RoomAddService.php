@@ -39,7 +39,7 @@ class RoomAddService
      * @return array
      */
     public
-    function createParticipants($input, Rooms $room)
+    function createParticipants($input, Rooms $room,?User $inviter= null)
     {
         $lines = explode("\n", $input);
         $falseEmail = array();
@@ -47,7 +47,7 @@ class RoomAddService
             foreach ($lines as $line) {
                 $user = $this->createUserFromUserUid($line,  $falseEmail);
                 if ($user) {
-                    if ($user !== $room->getCreator()){
+                    if (($inviter === $room->getModerator()) || $user !== $room->getCreator()){
                         $this->createUserParticipant($room, $user);
                     }else{
                         $falseEmail[] = $line;
@@ -71,7 +71,7 @@ class RoomAddService
      * @return array
      */
     public
-    function createModerators($input, Rooms $room)
+    function createModerators($input, Rooms $room,?User $inviter = null)
     {
         $lines = explode("\n", $input);
         $falseEmail = array();
@@ -79,7 +79,7 @@ class RoomAddService
             foreach ($lines as $line) {
                 $user = $this->createUserFromUserUid($line,  $falseEmail);
                 if ($user) {
-                    if ($user !== $room->getCreator()){
+                    if (($inviter === $room->getModerator()) || $user !== $room->getCreator()){
                         $this->createUserParticipant($room, $user);
                         $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
                     }else{

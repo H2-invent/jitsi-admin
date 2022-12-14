@@ -65,7 +65,7 @@ class ParticipantController extends JitsiAdminController
             $newMembers = $form->getData();
             $falseEmail = [];
             $falseEmail = array_merge(
-                $roomAddService->createParticipants($newMembers['member'], $room),
+                $roomAddService->createParticipants($newMembers['member'], $room,$this->getUser()),
                 $roomAddService->createModerators($newMembers['moderator'], $room)
             );
 
