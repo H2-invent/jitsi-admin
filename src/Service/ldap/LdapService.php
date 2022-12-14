@@ -56,12 +56,13 @@ class LdapService
         $this->em = $entityManager;
         $this->ldaps = array();
 
+
     }
 
     /**
      * @return bool
      */
-    public function setConfig(): bool
+    public function readLdapConfig(): bool
     {
 
         $this->URL = explode(';', $this->parameterBag->get('ldap_url'));
@@ -177,7 +178,7 @@ class LdapService
     public
     function initLdap(?SymfonyStyle $io = null): bool
     {
-        $this->setConfig();
+        $this->readLdapConfig();
         $this->createLdapConnections();
         return $this->connectToLdap($io);
     }
