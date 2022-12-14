@@ -1185,7 +1185,7 @@
       </trans-unit>
       <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="translated">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Benutzer in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -2007,20 +2007,44 @@
         <target>Änderungshistorie</target>
       </trans-unit>
       <trans-unit id="G0lWefc" resname="log.new.object">
-        <source>Bach der Änderung</source>
+        <source>log.new.object</source>
         <target>Nach der Änderung</target>
       </trans-unit>
       <trans-unit id="Fl9wfgz" resname="log.old.object">
-        <source>Vor der Änderung</source>
+        <source>log.old.object</source>
         <target>Vor der Änderung</target>
       </trans-unit>
       <trans-unit id="i8w5f79" resname="room.creator.text">
-        <source>Erstellt von</source>
+        <source>room.creator.text</source>
         <target>Erstellt von</target>
       </trans-unit>
       <trans-unit id="iyQ3u5e" resname="custom.more">
-        <source>Mehr</source>
+        <source>custom.more</source>
         <target>Mehr</target>
+      </trans-unit>
+      <trans-unit id="wJaAqBu" resname="room.new.help.name">
+        <source>Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</source>
+        <target>Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
+      </trans-unit>
+      <trans-unit id="Es8.yLb" resname="room.new.help.agenda">
+        <source>Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</source>
+        <target>Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
+      </trans-unit>
+      <trans-unit id="M41U7qV" resname="room.new.help.persistant">
+        <source>Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</source>
+        <target>Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</target>
+      </trans-unit>
+      <trans-unit id="VI.eQ_9" resname="room.new.help.start">
+        <source>Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</source>
+        <target>Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</target>
+      </trans-unit>
+      <trans-unit id="8P9k.W6" resname="room.new.help.duration">
+        <source>Geben Sie hier die Dauer der Konferenz ein.</source>
+        <target>Geben Sie hier die Dauer der Konferenz ein.</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source></source>
+        <target>__</target>
       </trans-unit>
     </body>
   </file>

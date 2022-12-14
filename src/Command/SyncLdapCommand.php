@@ -59,8 +59,6 @@ class SyncLdapCommand extends Command
 
             $resTmp = null;
             if ($data->isHealthy()) {
-
-
                 try {
                     $resTmp = $this->ldapService->fetchLdap($data, $dryrun);
                 } catch (LdapException $e) {
@@ -94,6 +92,9 @@ class SyncLdapCommand extends Command
             }
         }
 
+        if (!$dryrun) {
+            $this->ldapService->cleanUpLdapUsers();
+        }
 
         $io->info('We found # users: ' . $numberUsers);
         if ($error === false) {

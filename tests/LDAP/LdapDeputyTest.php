@@ -23,6 +23,22 @@ class LdapDeputyTest extends KernelTestCase
 
     }
 
+    public function testFetchDeputiesFromLDapWrongFilter(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $ldapService = self::getContainer()->get(LdapService::class);
+        $ldapService->initLdap();
+        $connection1 = $ldapService->getLdaps()[0];
+        self::assertNull($connection1->getLDAPDEPUTYGROUPFILTER());
+        $connection2 = $ldapService->getLdaps()[1];
+        $res = $connection2->retrieveDeputies();
+        assertEquals(0, sizeof($res));
+        assertEquals(1, sizeof($connection1->retrieveDeputies()));
+    }
+
+
     public function testCleanDeputys(): void
     {
         $kernel = self::bootKernel();

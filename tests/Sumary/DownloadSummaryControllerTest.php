@@ -8,12 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DownloadSummaryControllerTest extends WebTestCase
 {
-    /**
-     * @runInSeparateProcess
-     * @return void
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
+
     public function testDownload(): void
     {
         $client = static::createClient();

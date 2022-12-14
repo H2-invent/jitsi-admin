@@ -303,7 +303,7 @@ class LdapConnectionTest extends KernelTestCase
 
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
-        self::assertEquals(true,$ldapService->readLdapConfig());
+        self::assertEquals(2,$ldapService->readLdapConfig());
 
 
     }
@@ -337,5 +337,6 @@ class LdapConnectionTest extends KernelTestCase
         self::assertEquals(2,$ldapService->createLdapConnections());
         self::assertEquals(2,sizeof($ldapService->getLdaps()));
     }
+
 
 }

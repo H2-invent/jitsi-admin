@@ -9,6 +9,7 @@ use App\Entity\Deputy;
 use App\Entity\LdapUserProperties;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Url;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -60,36 +61,40 @@ class LdapService
     }
 
     /**
-     * @return bool
+     * @return bool|int
      */
-    public function readLdapConfig(): bool
+    public function readLdapConfig(): bool|int
     {
+        try {
+            $this->URL = explode(';', $this->parameterBag->get('ldap_url'));
+            $this->LOGIN = explode(';', $this->parameterBag->get('ldap_bind_dn'));
+            $this->PASSWORD = explode(';', $this->parameterBag->get('ldap_password'));
+            $this->USERDN = explode(';', $this->parameterBag->get('ldap_user_dn'));
+            $this->SCOPE = explode(';', $this->parameterBag->get('ldap_search_scope'));
+            $this->OBJECTCLASSES = explode(';', $this->parameterBag->get('ldap_user_object_classes'));
+            $this->USERNAMEATTRIBUTE = explode(';', $this->parameterBag->get('ldap_userName_attribute'));
+            $this->RDN = explode(',', $this->parameterBag->get('ldap_rdn_ldap_attribute'));
+            $this->BINDTYPE = explode(',', $this->parameterBag->get('ldap_bind_type'));
+            $this->LDAPSERVERID = explode(',', $this->parameterBag->get('ldap_server_individualName'));
+            $this->LDAPFILTER = explode(';', $this->parameterBag->get('ldap_filter'));
+            $this->LDAP_DEPUTY_GROUP_DN = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_DN'));
+            $this->LDAP_DEPUTY_GROUP_LEADER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_LEADER'));
+            $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
+            $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
+            $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
+            $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
+            foreach ($tmp as $data) {
+                $this->MAPPER[] = json_decode($data, true);
+            }
+            $tmp = explode(';', $this->parameterBag->get('ldap_special_Fields'));
+            foreach ($tmp as $data) {
+                $this->LDAP_SPECIALFIELD[] = json_decode($data, true);
+            }
+            return sizeof($this->URL);
+        } catch (\Exception $exception) {
+            return false;
+        }
 
-        $this->URL = explode(';', $this->parameterBag->get('ldap_url'));
-        $this->LOGIN = explode(';', $this->parameterBag->get('ldap_bind_dn'));
-        $this->PASSWORD = explode(';', $this->parameterBag->get('ldap_password'));
-        $this->USERDN = explode(';', $this->parameterBag->get('ldap_user_dn'));
-        $this->SCOPE = explode(';', $this->parameterBag->get('ldap_search_scope'));
-        $this->OBJECTCLASSES = explode(';', $this->parameterBag->get('ldap_user_object_classes'));
-        $this->USERNAMEATTRIBUTE = explode(';', $this->parameterBag->get('ldap_userName_attribute'));
-        $this->RDN = explode(',', $this->parameterBag->get('ldap_rdn_ldap_attribute'));
-        $this->BINDTYPE = explode(',', $this->parameterBag->get('ldap_bind_type'));
-        $this->LDAPSERVERID = explode(',', $this->parameterBag->get('ldap_server_individualName'));
-        $this->LDAPFILTER = explode(';', $this->parameterBag->get('ldap_filter'));
-        $this->LDAP_DEPUTY_GROUP_DN = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_DN'));
-        $this->LDAP_DEPUTY_GROUP_LEADER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_LEADER'));
-        $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
-        $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
-        $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
-        $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
-        foreach ($tmp as $data) {
-            $this->MAPPER[] = json_decode($data, true);
-        }
-        $tmp = explode(';', $this->parameterBag->get('ldap_special_Fields'));
-        foreach ($tmp as $data) {
-            $this->LDAP_SPECIALFIELD[] = json_decode($data, true);
-        }
-        return true;
     }
 
     /**
@@ -114,12 +119,12 @@ class LdapService
                 $ldap->setUserDn($this->USERDN[$count]);
                 $ldap->setSpecialFields($this->LDAP_SPECIALFIELD[$count]);
 
-                $ldap->setFilter($this->LDAPFILTER[$count]);
+                $ldap->setFilter($this->LDAPFILTER[$count] !== '' ? $this->LDAPFILTER[$count] : null);
                 $ldap->setLDAPDEPUTYGROUPDN($this->LDAP_DEPUTY_GROUP_DN[$count]);
                 $ldap->setLDAPDEPUTYGROUPLEADER($this->LDAP_DEPUTY_GROUP_LEADER[$count]);
                 $ldap->setLDAPDEPUTYGROUPMEMBERS($this->LDAP_DEPUTY_GROUP_MEMBERS[$count]);
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
-                $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count]);
+                $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
                 $duplicate = false;
                 foreach ($this->ldaps as $data2) {
                     if ($data2->getSerVerId() == $ldap->getSerVerId()) {
@@ -204,9 +209,6 @@ class LdapService
         } catch (\Exception $e) {
             throw $e;
         }
-        if (!$dryRun) {
-            $this->ldapUserService->syncDeletedUser($ldap);
-        }
 
         return array('ldap' => $ldap, 'user' => $user);
     }
@@ -215,7 +217,7 @@ class LdapService
     {
         $res = array();
         foreach ($this->ldaps as $data) {
-            if ($data->isHealthy()){
+            if ($data->isHealthy()) {
                 $res = array_merge($res, $data->retrieveDeputies());
             }
         }
@@ -224,6 +226,9 @@ class LdapService
     }
 
     /**
+     * This Function set the deputyis from the ldap.
+     * An array with LDAP elements is send to tis function. this element is then split into elements and we select the
+     * attributes which are configured i nthe env.
      * @param Entry[] $entrys
      * @return void
      */
@@ -239,12 +244,17 @@ class LdapService
                         $l = $l->getUser();
                         foreach ($members as $mem) {
                             $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn' => $mem, 'ldapNumber' => $ldap->getSerVerId()));
-                            $deputy = new Deputy();
-                            $deputy->setIsFromLdap(true)
-                                ->setCreatedAt(new \DateTime())
-                                ->setDeputy($mem->getUser())
-                                ->setManager($l);
+                            $deputy = $this->em->getRepository(Deputy::class)->findOneBy(array('manager' => $l, 'deputy' => $mem->getUser()));
+                            if (!$deputy) {
+                                $deputy = new Deputy();
+                                $deputy->setCreatedAt(new \DateTime())
+                                    ->setDeputy($mem->getUser())
+                                    ->setManager($l);
+                            }
+
+                            $deputy->setIsFromLdap(true);
                             $this->em->persist($deputy);
+
                         }
                     }
                 }
@@ -277,4 +287,25 @@ class LdapService
         $this->ldaps = $ldaps;
     }
 
+    public function cleanUpLdapUsers()
+    {
+        $ldapUsers = $this->em->getRepository(LdapUserProperties::class)->findAll();
+        foreach ($ldapUsers as $data) {
+            $user = $data->getUser();
+            $ldapTyp = null;
+            foreach ($this->ldaps as $ldap) {
+                if ($ldap->getSerVerId() === $data->getLdapNumber()) {
+                    $ldapTyp = $ldap;
+                }
+            }
+            if (!$ldapTyp) {
+                $this->ldapUserService->deleteUser($user);
+            } else {
+                if ($ldapTyp->isHealthy()) {
+                    $this->ldapUserService->checkUserInLdap($user, $ldapTyp);
+                }
+            }
+
+        }
+    }
 }

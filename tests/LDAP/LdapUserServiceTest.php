@@ -394,8 +394,7 @@ class LdapUserServiceTest extends WebTestCase
         // (1) boot the Symfony kernel
         self::bootKernel();
         $this->getParam();
-        // (2) use static::getContainer() to access the service container
-        $container = static::getContainer();
+
 
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
@@ -404,10 +403,6 @@ class LdapUserServiceTest extends WebTestCase
         $ldapConnection->setBindDn('uid=admin,ou=system');
         $ldapConnection->setPassword('password');
         $ldapConnection->setBindType('simple');
-        $ldapConnection->createLDAP();
-        $ldap = $ldapConnection->getLdap();
-
-        $ldapConnection->setUrl($this->LDAPURL);
         $ldapConnection->setSerVerId('Server1');
         $ldapConnection->setPassword('password');
         $ldapConnection->setScope('sub');
@@ -416,24 +411,70 @@ class LdapUserServiceTest extends WebTestCase
         $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
         $ldapConnection->setBindType('none');
         $ldapConnection->setRdn('uid');
-        $ldapConnection->setLdap($ldap);
         $ldapConnection->setFilter(null);
         $ldapConnection->setObjectClass('person,organizationalPerson,user');
         $ldapConnection->setUserNameAttribute('uid');
         $ldapConnection->createLDAP();
+        $ldapService->setLdaps(array($ldapConnection));
         $entry = $ldapService->fetchLdap($ldapConnection);
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES + 1, sizeof($users));
         $ldapConnection->setFilter('(&(mail=*))');
+        $ldapService->setLdaps(array($ldapConnection));
+        $ldapService->fetchLdap($ldapConnection);
+        $ldapService->cleanUpLdapUsers();
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $users = $userRepository->findUsersfromLdapService();
+        $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES-1, sizeof($users));
+
+    }
+    public function testrUsernoinFilterAnymoreUnhealthy(): void
+    {
+        // (1) boot the Symfony kernel
+        self::bootKernel();
+        $this->getParam();
+
+
+        // (3) run some service & test the result
+        $ldapService = self::getContainer()->get(LdapService::class);
+        $ldapConnection = new LdapType();
+        $ldapConnection->setUrl($this->LDAPURL);
+        $ldapConnection->setBindDn('uid=admin,ou=system');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setBindType('simple');
+        $ldapConnection->setSerVerId('Server1');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setScope('sub');
+        $ldapConnection->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
+        $ldapConnection->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
+        $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
+        $ldapConnection->setBindType('none');
+        $ldapConnection->setRdn('uid');
+        $ldapConnection->setFilter(null);
+        $ldapConnection->setObjectClass('person,organizationalPerson,user');
+        $ldapConnection->setUserNameAttribute('uid');
+        $ldapConnection->createLDAP();
+        $ldapService->setLdaps(array($ldapConnection));
         $entry = $ldapService->fetchLdap($ldapConnection);
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $users = $userRepository->findUsersfromLdapService();
+        $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES + 1, sizeof($users));
+        $ldapConnection->setFilter('(&(mail=*))');
+        $ldapConnection->setIsHealthy(false);
+        $ldapService->setLdaps(array($ldapConnection));
+        $ldapService->fetchLdap($ldapConnection);
+        $ldapService->cleanUpLdapUsers();
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES, sizeof($users));
 
     }
+
 
     public function testremoveUserFunction(): void
     {

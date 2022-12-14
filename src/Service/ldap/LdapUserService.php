@@ -226,6 +226,13 @@ class LdapUserService
         if ($user->getLdapUserProperties()) {
             $this->em->remove($user->getLdapUserProperties());
         }
+        foreach ($user->getManagerElement() as $depElement){
+            $this->em->remove($depElement);
+        }
+
+        foreach ($user->getDeputiesElement() as $depElement){
+            $this->em->remove($depElement);
+        }
         $this->em->persist($user);
         $this->em->flush();
         $this->em->remove($user);

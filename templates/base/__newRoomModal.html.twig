@@ -9,74 +9,92 @@
 
         <div class="modal-body">
             {% set server = getServer(app.user) %}
-            {% if server|length > 0 or isEdit   %}
-                {{ form_start(form) }}
-                <div class="row">
-                    <div class="col-12 d-flex align-items-center with-help">
-                        {% if form.repeaterRemoved is defined %}
-                            {{ form_row(form.repeaterRemoved) }}
-                        {% endif %}
-                        {% if form.server is defined and form.server is not null %}
-                            {{ form_row(form.server) }}
-                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                                          data-mdb-content="{{ 'room.new.help.server'|trans }}"><i
+            {% if server|length > 0 or isEdit %}
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-12 d-flex align-items-center with-help">
+                    {% if form.repeaterRemoved is defined %}
+                        {{ form_row(form.repeaterRemoved) }}
+                    {% endif %}
+                    {% if form.server is defined and form.server is not null %}
+                        {{ form_row(form.server) }}
+                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                           data-mdb-content="{{ 'room.new.help.server'|trans }}"><i
                                     class="fa fa-question-circle"></i></a>
-                        {% endif %}
-
-                    </div>
-                    {% if form.tag is defined %}
-                        <div class="col-12 d-flex align-items-center with-help">
-                            {{ form_row(form.tag) }}
-                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                               data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
-                                        class="fa fa-question-circle"></i></a>
-                        </div>
                     {% endif %}
-                    {% if form.moderator is defined %}
-                        <div class="col-12 d-flex align-items-center with-help">
+
+                </div>
+                {% if form.tag is defined %}
+                    <div class="col-12 d-flex align-items-center with-help">
+                        {{ form_row(form.tag) }}
+                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                           data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
+                                    class="fa fa-question-circle"></i></a>
+                    </div>
+                {% endif %}
+                {% if form.moderator is defined %}
+                    <div class="col-12 d-flex align-items-center with-help">
                         {{ form_row(form.moderator) }}
-                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                               data-mdb-content="{{ 'room.new.help.manager'|trans }}"><i
-                                        class="fa fa-question-circle"></i></a>
+                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                           data-mdb-content="{{ 'room.new.help.manager'|trans }}"><i
+                                    class="fa fa-question-circle"></i></a>
                     </div>
-                    {% endif %}
-                    <div class="col-12">
-                        {{ form_row(form.name) }}
-                    </div>
-                    <div class="col-12">
-                        {{ form_row(form.agenda) }}
-                    </div>
+                {% endif %}
+                <div class="col-12 d-flex align-items-center with-help">
+                    {{ form_row(form.name) }}
+                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                       data-mdb-content="{{ 'room.new.help.name'|trans }}"><i
+                                class="fa fa-question-circle"></i></a>
+                </div>
+                <div class="col-12 d-flex align-items-center with-help">
+                    {{ form_row(form.agenda) }}
+                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                       data-mdb-content="{{ 'room.new.help.agenda'|trans }}"><i
+                                class="fa fa-question-circle"></i></a>
+                </div>
 
-                    {% if form.persistantRoom is defined %}
-                        <div class="col-12">
-                            {{ form_row(form.persistantRoom) }}
-                        </div>
-                    {% endif %}
+                {% if form.persistantRoom is defined %}
+                    <div class="col-12 d-flex align-items-center with-help">
+                        {{ form_row(form.persistantRoom) }}
+                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                           data-mdb-content="{{ 'room.new.help.persistant'|trans }}"><i
+                                    class="fa fa-question-circle"></i></a>
+                    </div>
+                {% endif %}
 
-                    <div class="col-lg-12">
-                        <div id="roomStartForm" class="collapse show">
-                            {% if extra is defined and extra is not null %}
-                                <p class="text-danger">{{ extra }}</p>
-                            {% endif %}
+                <div class="col-lg-12">
+                    <div id="roomStartForm" class="collapse show">
+                        {% if extra is defined and extra is not null %}
+                            <p class="text-danger">{{ extra }}</p>
+                        {% endif %}
+                        <div class="row">
                             {% if form.start is defined %}
-                                {{ form_row(form.start) }}
+                                <div class="col-12  d-flex align-items-center with-help">
+                                    {{ form_row(form.start) }}
+                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'room.new.help.start'|trans }}"><i
+                                                class="fa fa-question-circle"></i></a>
+                                </div>
                             {% endif %}
-                            {{ form_row(form.duration) }}
+                            <div class="col-12  d-flex align-items-center with-help">
+                                {{ form_row(form.duration) }}
+                                <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                   data-mdb-content="{{ 'room.new.help.duration'|trans }}"><i
+                                            class="fa fa-question-circle"></i></a>
+                            </div>
                             {% if form.timeZone is defined %}
-                                <div class="row">
 
-                                    <div class="col-sm-11">
+
+                                    <div class="col-12 d-flex align-items-center with-help">
                                         {{ form_row(form.timeZone) }}
-                                    </div>
-                                    <div class="col-sm-1 ">
+
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                            data-mdb-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
                                                     class="fa fa-question-circle"></i></a>
                                     </div>
-                                </div>
 
                             {% endif %}
-                        </div>
+                    </div>
                     </div>
                     {% if form.lobby is defined %}
                         <div class="col-lg-12">
@@ -198,20 +216,20 @@
                     {% endif %}
                 </div>
                 {{ form_end(form) }}
-            {% else %}
-                <div class="alert alert-danger" role="alert">
-                    {% if laf_CreateServerOpenToEveryone == 1 %}
-                        {{ 'newRoom.error.noServer.addServer'|trans }}
-                    {% else %}
-                        {{ ''|trans }}
-                        {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
-                    {% endif %}
-                </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        {% if laf_CreateServerOpenToEveryone == 1 %}
+                            {{ 'newRoom.error.noServer.addServer'|trans }}
+                        {% else %}
+                            {{ ''|trans }}
+                            {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
+                        {% endif %}
+                    </div>
 
-            {% endif %}
-        </div>
-        <div class="modal-footer">
-            <button href="#" id="saveRoom" class="btn btn-outline-primary">{{ 'Speichern'|trans }}</button>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button href="#" id="saveRoom" class="btn btn-outline-primary">{{ 'Speichern'|trans }}</button>
+            </div>
         </div>
     </div>
-</div>
