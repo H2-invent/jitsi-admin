@@ -68,7 +68,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
                 )
             )
             , json_decode($client->getResponse()->getContent(), true));
@@ -82,7 +82,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => 'testgruppe', 'id' => 'testgruppe',"nameNoIcon"=>"testgruppe", 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
                 )
             )
         ), $client->getResponse()->getContent());
@@ -98,7 +98,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
                 )
             )
             , json_decode($client->getResponse()->getContent(), true));
@@ -113,7 +113,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
                 )
             )
             , json_decode($client->getResponse()->getContent(), true));

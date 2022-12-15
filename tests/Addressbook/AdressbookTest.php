@@ -198,13 +198,13 @@ class AdressbookTest extends KernelTestCase
         $userGroup = $groupRepo->findMyAddressBookGroupsByName($string, $user);
         $res = $searchService->generateGroup($userGroup);
         $this->assertEquals(array(
-            array('name' => "Testgruppe", 'user' => "test2@local.de\ntest@local3.de"),
+            array('name' => "Testgruppe", 'user' => "test2@local.de\ntest@local3.de",'id' => 2),
         ), $res);
         $string = 'Testgruppe';
         $userGroup = $groupRepo->findMyAddressBookGroupsByName($string, $user);
         $res = $searchService->generateGroup($userGroup);
         $this->assertEquals(array(
-            array('name' => "Testgruppe", 'user' => "test2@local.de\ntest@local3.de"),
+            array('name' => "Testgruppe", 'user' => "test2@local.de\ntest@local3.de",'id' => 2),
         ), $res);
         $string = 'testio';
         $userGroup = $groupRepo->findMyAddressBookGroupsByName($string, $user);

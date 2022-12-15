@@ -825,15 +825,23 @@ strong {
   0% {
     background-color: rgba(0, 0, 0, 0.4);
   }
+  80% {
+    transform: translateX(100%);
+    height: inherit;
+    padding: inherit;
+  }
   100% {
     background-color: rgba(0, 0, 0, 0);
+    height: 0;
+    padding: 0;
+    transform: translateX(100%);
   }
 }
 
 
 .line-indicator {
   animation-name: backgroundFlash;
-  animation-duration: 2s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
 }
 
@@ -854,7 +862,7 @@ strong {
 
 
 .star-wrapper {
- display: flex;
+  display: flex;
   justify-content: center;
   margin-top: 2px;
   direction: rtl;
@@ -924,7 +932,8 @@ strong {
     flex-wrap: nowrap;
   }
 }
-.fullscreen{
+
+.fullscreen {
   height: 100vh;
   position: absolute;
   top: 0;
@@ -941,7 +950,12 @@ strong {
   .form-group {
     flex-grow: 1;
   }
-  a{
+
+  a {
     margin-left: 0.5rem;
   }
+}
+
+.removeParticipant {
+  cursor: pointer;
 }

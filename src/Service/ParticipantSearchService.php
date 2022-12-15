@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\AddressGroup;
 use App\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -70,6 +71,7 @@ class ParticipantSearchService
                 $tmpUser[] = $m->getUsername();
             }
             $tmp['user'] = implode("\n", $tmpUser);
+            $tmp['id'] = $data->getId();
             $res[] = $tmp;
         }
         return $res;
