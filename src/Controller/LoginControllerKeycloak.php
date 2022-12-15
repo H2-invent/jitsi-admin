@@ -61,7 +61,12 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function edit(ClientRegistry $clientRegistry, Request $request)
     {
-        $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account';
+        $url = $this->getParameter('KEYCLOAK_URL') ;
+        if ($this->themeService->getThemeProperty('idp_provider')) {
+            $url = $this->themeService->getThemeProperty('idp_provider_url');
+        }
+
+        $url = $url . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account';
         return $this->redirect($url);
     }
 
@@ -70,7 +75,11 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function password(ClientRegistry $clientRegistry, Request $request)
     {
-        $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account/password';
+        $url = $this->getParameter('KEYCLOAK_URL') ;
+        if ($this->themeService->getThemeProperty('idp_provider')) {
+            $url = $this->themeService->getThemeProperty('idp_provider_url');
+        }
+        $url = $url . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account/password';
         return $this->redirect($url);
     }
 }
