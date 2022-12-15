@@ -1179,7 +1179,7 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
       </trans-unit>
       <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="translated">Veuillez sélectionner le fuseau horaire de la réunion prévue ici. Les utilisateurs dans d'autres fuseaux horaires recevront la conférence dans leur fuseau horaire local.</target>
+        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1762,10 +1762,6 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>lobby.endMeeting.ask.participant</source>
         <target state="needs-translation">Wollen Sie diese Konferenz wirklich beenden.</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
         <target state="needs-translation">Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</target>
@@ -1903,30 +1899,30 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <target state="needs-translation">An alle Wartenden</target>
       </trans-unit>
       <trans-unit id="OYdVVKy" resname="lobby.message.failed">
-        <source>Bei der Übermittlung der Nachricht gab es einen Fehler.</source>
+        <source>lobby.message.failed</source>
         <target state="needs-translation">Bei der Übermittlung der Nachricht gab es einen Fehler.</target>
       </trans-unit>
       <trans-unit id="EaWoPF5" resname="lobby.message.success">
-        <source>Die Nachricht wurde erfolgreich übermittelt.</source>
+        <source>lobby.message.success</source>
         <target state="needs-translation">Die Nachricht wurde erfolgreich übermittelt.</target>
       </trans-unit>
       <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
-        <source>Wartenden zulassen</source>
+        <source>lobby.participant.tooltip.acccept</source>
         <target state="needs-translation">Wartenden zulassen</target>
       </trans-unit>
       <trans-unit id="ozoWxDu" resname="lobby.participant.tooltip.decline">
-        <source>Wartenden ablehnen</source>
+        <source>lobby.participant.tooltip.decline</source>
         <target state="needs-translation">Wartenden ablehnen</target>
       </trans-unit>
       <trans-unit id="fc3.g55" resname="lobby.participant.tooltip.message">
-        <source>Nachricht senden</source>
+        <source>lobby.participant.tooltip.message</source>
         <target state="needs-translation">Nachricht senden</target>
       </trans-unit>
       <trans-unit id="P2akYaZ" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
         <target state="needs-translation">Hmmmm. Hier lief ziemlich was schief.</target>
       </trans-unit>
-      <trans-unit id="5TfhZhW" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
+      <trans-unit id="oBFR00l" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
         <source>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</source>
         <target state="needs-translation">Sie haben ein Verhalten gefunden, das uns unbekannt ist.</target>
       </trans-unit>
@@ -1938,8 +1934,8 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>Hier sollten Sie nicht sein.</source>
         <target state="needs-translation">Hier sollten Sie nicht sein.</target>
       </trans-unit>
-      <trans-unit id="NyA0D9B" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
-        <source>Beinahe hätten Sie hinter die Kulissen schauen können.</source>
+      <trans-unit id="0bZlmjh" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
+        <source>Beinahe hätten Sie hinter die Kullissen schauen können.</source>
         <target state="needs-translation">Beinahe hätten Sie hinter die Kullissen schauen können.</target>
       </trans-unit>
       <trans-unit id="JQjD_Ln" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
@@ -1961,6 +1957,86 @@ Le modérateur a été informé et vous laissera entrer.</target>
       <trans-unit id="3rElC1z" resname="Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.">
         <source>Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</source>
         <target state="needs-translation">Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</target>
+      </trans-unit>
+      <trans-unit id="pI0mBwO" resname="deputy.message.added">
+        <source>deputy.message.added</source>
+        <target state="needs-translation">Vertreter erfolgreich hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="r9gFTO5" resname="deputy.message.removed">
+        <source>deputy.message.removed</source>
+        <target state="needs-translation">Vertreter erfolgreich entfernt.</target>
+      </trans-unit>
+      <trans-unit id="UQPRxI4" resname="deputy.remove">
+        <source>deputy.remove</source>
+        <target state="needs-translation">Als Vertreter entfernen</target>
+      </trans-unit>
+      <trans-unit id="6HczWjx" resname="deputy.add">
+        <source>deputy.add</source>
+        <target state="needs-translation">Als Vertreter hinzufügen</target>
+      </trans-unit>
+      <trans-unit id=".RyLlN8" resname="deputy.help">
+        <source>deputy.help</source>
+        <target state="needs-translation">Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter darf nicht an einer Konferenz, welche er für Sie geplant hat, teilnehmen.</target>
+      </trans-unit>
+      <trans-unit id="cuWbL6h" resname="deputy.text.isDeputy">
+        <source>deputy.text.isDeputy</source>
+        <target state="needs-translation">Ist Vertreter</target>
+      </trans-unit>
+      <trans-unit id="SqlzG8G" resname="room.new.help.server">
+        <source>room.new.help.server</source>
+        <target state="needs-translation">Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</target>
+      </trans-unit>
+      <trans-unit id="WonPJTK" resname="room.new.help.manager">
+        <source>room.new.help.manager</source>
+        <target state="needs-translation">Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</target>
+      </trans-unit>
+      <trans-unit id="._QAxIk" resname="Private Konferenz">
+        <source>Private Konferenz</source>
+        <target state="needs-translation">Private Konferenz</target>
+      </trans-unit>
+      <trans-unit id="JEvaNwO" resname="log.modal.header">
+        <source>log.modal.header</source>
+        <target state="needs-translation">Änderungshistorie</target>
+      </trans-unit>
+      <trans-unit id="G0lWefc" resname="log.new.object">
+        <source>log.new.object</source>
+        <target state="needs-translation">Nach der Änderung</target>
+      </trans-unit>
+      <trans-unit id="Fl9wfgz" resname="log.old.object">
+        <source>log.old.object</source>
+        <target state="needs-translation">Vor der Änderung</target>
+      </trans-unit>
+      <trans-unit id="i8w5f79" resname="room.creator.text">
+        <source>room.creator.text</source>
+        <target state="needs-translation">Erstellt von</target>
+      </trans-unit>
+      <trans-unit id="iyQ3u5e" resname="custom.more">
+        <source>custom.more</source>
+        <target state="needs-translation">Mehr</target>
+      </trans-unit>
+      <trans-unit id="wJaAqBu" resname="room.new.help.name">
+        <source>Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</source>
+        <target state="needs-translation">Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
+      </trans-unit>
+      <trans-unit id="Es8.yLb" resname="room.new.help.agenda">
+        <source>Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</source>
+        <target state="needs-translation">Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
+      </trans-unit>
+      <trans-unit id="M41U7qV" resname="room.new.help.persistant">
+        <source>Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</source>
+        <target state="needs-translation">Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</target>
+      </trans-unit>
+      <trans-unit id="VI.eQ_9" resname="room.new.help.start">
+        <source>Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</source>
+        <target state="needs-translation">Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</target>
+      </trans-unit>
+      <trans-unit id="8P9k.W6" resname="room.new.help.duration">
+        <source>Geben Sie hier die Dauer der Konferenz ein.</source>
+        <target state="needs-translation">Geben Sie hier die Dauer der Konferenz ein.</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
       </trans-unit>
     </body>
   </file>
