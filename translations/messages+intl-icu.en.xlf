@@ -1177,7 +1177,7 @@
       </trans-unit>
       <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Please select the timezone for the meeting. Participants in other timezones will receive the conference in their local timezone.</target>
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1714,19 +1714,19 @@
       </trans-unit>
       <trans-unit id="77UF_55" resname="status.offline">
         <source>status.offline</source>
-        <target state="needs-translation">Offline</target>
+        <target state="translated">Offline</target>
       </trans-unit>
       <trans-unit id="Ox5iAwP" resname="status.online">
         <source>status.online</source>
-        <target state="needs-translation">Online</target>
+        <target state="translated">Online</target>
       </trans-unit>
       <trans-unit id="qu.GEA6" resname="status.away">
         <source>status.away</source>
-        <target state="needs-translation">Abwesend</target>
+        <target state="translated">Absent</target>
       </trans-unit>
       <trans-unit id="f49snGy" resname="status.inMeeting">
         <source>status.inMeeting</source>
-        <target state="needs-translation">In einem Meeting</target>
+        <target state="translated">In a Meeting</target>
       </trans-unit>
       <trans-unit id="I4QUydi" resname="lobby.participant.online">
         <source>lobby.participant.online</source>
@@ -1742,7 +1742,7 @@
       </trans-unit>
       <trans-unit id="39o7QWf" resname="Schreibe uns einen Kommentar">
         <source>Schreibe uns einen Kommentar</source>
-        <target state="needs-translation">Schreibe uns einen Kommentar</target>
+        <target state="translated">Leave a comment</target>
       </trans-unit>
       <trans-unit id="VjL2gVD" resname="lobby.notVerified">
         <source>lobby.notVerified</source>
@@ -1750,11 +1750,11 @@
       </trans-unit>
       <trans-unit id="5iIhPot" resname="options.whiteboard">
         <source>options.whiteboard</source>
-        <target state="needs-translation">Whiteboard öffnen</target>
+        <target state="translated">Open whiteboard</target>
       </trans-unit>
       <trans-unit id=".3vR3SM" resname="lobby.notification.newUser.toLobby">
         <source>lobby.notification.newUser.toLobby</source>
-        <target state="needs-translation">Zur Lobby</target>
+        <target state="translated">To lobby</target>
       </trans-unit>
       <trans-unit id="XkrLYIW" resname="lobby.endMeeting.ask.participant">
         <source>lobby.endMeeting.ask.participant</source>
@@ -1766,7 +1766,7 @@
       </trans-unit>
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
-        <target state="needs-translation">Zeit in Minuten</target>
+        <target state="translated">Time in minutes</target>
       </trans-unit>
       <trans-unit id="l2aU5E." resname="stars.lastTen">
         <source>stars.lastTen</source>
@@ -1798,11 +1798,11 @@
       </trans-unit>
       <trans-unit id="8lD0JjZ" resname="callout.status.occupied">
         <source>callout.status.occupied</source>
-        <target state="needs-translation">Besetzt</target>
+        <target state="translated">Busy</target>
       </trans-unit>
       <trans-unit id="22udBvG" resname="callout.status.later">
         <source>callout.status.later</source>
-        <target state="needs-translation">Später</target>
+        <target state="translated">Later</target>
       </trans-unit>
       <trans-unit id="IRAN.Xg" resname="callout.status.timeout">
         <source>callout.status.timeout</source>
@@ -1846,27 +1846,27 @@
       </trans-unit>
       <trans-unit id="2yXw6Zm" resname="lobby.message.label">
         <source>lobby.message.label</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Send Message</target>
       </trans-unit>
       <trans-unit id="odr_pxD" resname="Meeting fertig">
         <source>Meeting fertig</source>
-        <target state="needs-translation">Konferenz beendet</target>
+        <target state="translated">Conference ended</target>
       </trans-unit>
       <trans-unit id="R_Regnv" resname="PDF Download">
         <source>PDF Download</source>
-        <target state="needs-translation">PDF Download</target>
+        <target state="translated">PDF download</target>
       </trans-unit>
       <trans-unit id="RosfFYd" resname="Keine Agenda">
         <source>Keine Agenda</source>
-        <target state="needs-translation">Keine Agenda</target>
+        <target state="translated">No agenda</target>
       </trans-unit>
       <trans-unit id="27rjC1Z" resname="Geplant">
         <source>Geplant</source>
-        <target state="needs-translation">Geplant</target>
+        <target state="translated">Scheduled</target>
       </trans-unit>
       <trans-unit id="vqqtmAk" resname="Durchgeführt">
         <source>Durchgeführt</source>
-        <target state="needs-translation">Durchgeführt</target>
+        <target state="translated">Done</target>
       </trans-unit>
       <trans-unit id="Q8c.RHz" resname="Jetzt">
         <source>Jetzt</source>
@@ -1890,7 +1890,7 @@
       </trans-unit>
       <trans-unit id="FskrrR6" resname="options.meetingNotes">
         <source>options.meetingNotes</source>
-        <target state="needs-translation">Konferennotizen</target>
+        <target state="translated">Conference notes</target>
       </trans-unit>
       <trans-unit id="1tk6uB2" resname="lobby.btn.message.to.all">
         <source>lobby.btn.message.to.all</source>
@@ -1914,7 +1914,7 @@
       </trans-unit>
       <trans-unit id="fc3.g55" resname="lobby.participant.tooltip.message">
         <source>lobby.participant.tooltip.message</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Send Message</target>
       </trans-unit>
       <trans-unit id="P2akYaZ" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
