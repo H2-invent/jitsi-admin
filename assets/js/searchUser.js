@@ -38,16 +38,18 @@ function initSearchUser() {
         })
     }
     $('#form_participant_form').submit(function() {
-        for (var i in newParticipant){
-            var $textarea = $('#new_member_member');
-            var data = $textarea.val();
-            $textarea.val(newParticipant[i].uid + "\n" + data);
-        }
-        for (var i in newModerator){
-            var $textarea = $('#new_member_moderator');
-            var data = $textarea.val();
-            $textarea.val(newModerator[i].uid + "\n" + data);
-        }
+
+            for (var i in newParticipant){
+                var $textarea = $('#new_member_member');
+                var data = $textarea.val();
+                $textarea.val(newParticipant[i].uid + "\n" + data);
+            }
+            for (var i in newModerator){
+                var $textarea = $('#new_member_moderator');
+                var data = $textarea.val();
+                $textarea.val(newModerator[i].uid + "\n" + data);
+            }
+
         return true; // return false to cancel form action
     });
 }
@@ -84,26 +86,10 @@ const searchUSer = ($url, $search) => {
                 e.preventDefault();
                 if (!$(this).hasClass('line-indicator')) {
 
-                    var uid = $(this).data('val');
-                    var id = $(this).data('id');
-                    var listName = $(this).find('span').html();
+                    var ele = this;
+                    setInput(ele,'#new_member_member','#participantsListAdd', newParticipant);
+                    document.getElementById('searchUser').value = '';
 
-                    var $textarea = $('#new_member_member');
-                    var data = $textarea.val();
-                    newParticipant[id] = {uid: uid, name: listName};
-                    if (!$textarea.closest('.row').hasClass('d-none')) {
-                        $textarea.val('').val(uid + "\n" + data);
-                    }
-
-
-                    $('#searchUser').val('');
-                    setParticipantList(newParticipant, '#participantsListAdd');
-                    autosize.update($textarea);
-                    $(this).removeClass('line-indicator').addClass('line-indicator');
-                    let element = $(this);
-                    setTimeout(function (e) {
-                        element.remove();
-                    }, 500);
                 }
             })
             $('.chooseModerator').mousedown(function (e) {
@@ -112,32 +98,39 @@ const searchUSer = ($url, $search) => {
                     e.stopPropagation();
                     $('#moderatorCollapse').collapse('show');
 
-                    var ele = $(this).closest('.chooseParticipant')
-                    var uid = ele.data('val');
-                    var id = ele.data('id');
-                    var listName = ele.find('span').html();
-                    newModerator[id] = {uid: uid, name: listName};
+                    var ele = this.closest('.chooseParticipant');
+                    setInput(ele,'#new_member_moderator','#moderatorListAdd', newModerator);
+                    document.getElementById('searchUser').value = '';
 
 
-                    var $textarea = $('#new_member_moderator');
-                    var data = $textarea.val();
-                    if (!$textarea.closest('.row').hasClass('d-none')) {
-                        $textarea.val('').val(uid + "\n" + data);
-                    }
-
-                    $('#searchUser').val('');
-                    setParticipantList(newModerator, '#moderatorListAdd');
-
-                    autosize.update($textarea);
-                    $(this).closest('.dropdown-item').addClass('line-indicator');
-                    let element = ele;
-                    setTimeout(function (e) {
-                        element.remove();
-                    }, 500);
                 }
             })
         })
     }
+}
+
+function setInput(ele, textfield,listfield,array){
+
+    var uid = ele.dataset.val;
+    var textarea = document.querySelector(textfield);
+    var data = textarea.value;
+
+    if (!textarea.closest('.row').classList.contains('d-none')) {
+        textarea.value = '';
+        textarea.value = uid + "\n" + data;
+    }else {
+        var id = ele.dataset.id;
+        var listName = ele.querySelector('span').innerHTML;
+        array[id] = {uid: uid, name: listName};
+        setParticipantList(array, listfield);
+    }
+
+
+    ele.classList.add('line-indicator');
+    ele.addEventListener('animationend', () => {
+        ele.remove();
+    });
+    autosize.update(textarea);
 }
 
 function setParticipantList(list, listToAdd, textArea) {

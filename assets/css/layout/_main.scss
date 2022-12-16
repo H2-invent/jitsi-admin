@@ -826,15 +826,15 @@ strong {
     background-color: rgba(0, 0, 0, 0.4);
   }
   80% {
-    transform: translateX(100%);
+    transform: translateX(120%);
     height: inherit;
     padding: inherit;
   }
   100% {
     background-color: rgba(0, 0, 0, 0);
     height: 0;
-    padding: 0;
-    transform: translateX(100%);
+    padding: 0 1em 0;
+    transform: translateX(120%);
   }
 }
 
