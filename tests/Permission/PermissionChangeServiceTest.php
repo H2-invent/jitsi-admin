@@ -29,7 +29,7 @@ class PermissionChangeServiceTest extends KernelTestCase
         $userRoomRepo = self::getContainer()->get(RoomsUserRepository::class);
         $userRoom = $userRoomRepo->findOneBy(array('user' => $testUser, 'room' => $room));
         $this->assertEquals(true, $userRoom->getModerator());
-        $this->assertEquals(false, $userRoom->getLobbyModerator());
+        $this->assertEquals(true, $userRoom->getLobbyModerator());
         $this->assertEquals(false, $userRoom->getPrivateMessage());
         $this->assertEquals(false, $userRoom->getShareDisplay());
         $this->assertEquals(true, $changePermissionService->toggleModerator($room->getModerator(), $testUser, $room));
