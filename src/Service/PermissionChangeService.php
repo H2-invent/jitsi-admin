@@ -99,6 +99,7 @@ class PermissionChangeService
                 $roomsUser->setModerator(false);
             } else {
                 $roomsUser->setModerator(true);
+                $roomsUser->setLobbyModerator(true);
             }
             if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
                 $roomsUser->setModerator(false);

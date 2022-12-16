@@ -133,7 +133,7 @@ function setInput(ele, textfield,listfield,array){
     autosize.update(textarea);
 }
 
-function setParticipantList(list, listToAdd, textArea) {
+function setParticipantList(list, listToAdd) {
 
     document.querySelector(listToAdd).innerHTML = ''
     for (var $i in list) {
