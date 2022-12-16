@@ -383,29 +383,22 @@ strong {
 
 ::-webkit-scrollbar-thumb {
   background: #727272;
-  border: 0px none #ffffff;
+  border: 0px none $background-color;
   border-radius: 50px;
 }
 
 
-::-webkit-scrollbar-thumb:active {
-  background: #000000;
-}
+
 
 ::-webkit-scrollbar-track {
-  background: rgba(102, 102, 102, 0);
-  border: 0px none #ffffff;
+  background: $background-color;
+  border: 0px none $background-color;
   border-radius: 50px;
 }
 
 
-::-webkit-scrollbar-track:active {
-  background: #333333;
-}
 
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
+
 
 
 .language-dropdown {
@@ -958,4 +951,7 @@ strong {
 
 .removeParticipant {
   cursor: pointer;
+}
+.tab-content-watch{
+  min-height: 500px;
 }
