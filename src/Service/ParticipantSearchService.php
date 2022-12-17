@@ -64,7 +64,7 @@ class ParticipantSearchService
     {
         $res = array();
         foreach ($group as $data) {
-            $tmp = array('name' => '', 'user' => '');
+            $tmp = array('name' => '', 'user' => '','id'=>'');
             $tmpUser = array();
             $tmp['name'] = $data->getName();
             foreach ($data->getMember() as $m) {
