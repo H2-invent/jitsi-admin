@@ -129,8 +129,10 @@ function setInput(ele, textfield,listfield,array){
     ele.classList.add('line-indicator');
     ele.addEventListener('animationend', () => {
         ele.remove();
+        $('.tooltip').remove();
     });
     autosize.update(textarea);
+    $('.tooltip').remove();
 }
 
 function setParticipantList(list, listToAdd) {

@@ -26,7 +26,7 @@
     "oneup/flysystem-bundle": "^4.3",
     "phpdocumentor/reflection-docblock": "^5.2",
     "sensio/framework-extra-bundle": "^6.0",
-    "stevenmaguire/oauth2-keycloak": "^2.2",
+    "stevenmaguire/oauth2-keycloak": "^3.2",
     "symfony/apache-pack": "^1.0",
     "symfony/asset": "6.0.*",
     "symfony/console": "6.0.*",
