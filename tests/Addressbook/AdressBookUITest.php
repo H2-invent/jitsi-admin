@@ -2,6 +2,7 @@
 
 namespace App\Tests\Addressbook;
 
+use App\Repository\AddressGroupRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -61,6 +62,8 @@ class AdressBookUITest extends WebTestCase
             , json_decode($client->getResponse()->getContent(), true));
         $url = $urlGenerator->generate('search_participant', array('search' => 'test'));
         $crawler = $client->request('GET', $url);
+        $addressbookRepo = self::getContainer()->get(AddressGroupRepository::class);
+        $group = $addressbookRepo->findOneBy(array('name'=>'Testgruppe'));
         self::assertEquals(
             array(
                 'user' => array(
@@ -68,7 +71,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => $group->getId())
                 )
             )
             , json_decode($client->getResponse()->getContent(), true));
@@ -82,7 +85,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => 'testgruppe', 'id' => 'testgruppe',"nameNoIcon"=>"testgruppe", 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => $group->getId())
                 )
             )
         ), $client->getResponse()->getContent());
@@ -98,7 +101,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => $group->getId())
                 )
             )
             , json_decode($client->getResponse()->getContent(), true));
@@ -113,7 +116,7 @@ class AdressBookUITest extends WebTestCase
                     array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => 2)
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de",'id' => $group->getId())
                 )
             )
             , json_decode($client->getResponse()->getContent(), true));
