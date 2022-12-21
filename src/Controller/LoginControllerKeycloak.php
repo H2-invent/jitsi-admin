@@ -59,27 +59,27 @@ class LoginControllerKeycloak extends JitsiAdminController
     /**
      * @Route("/login/keycloak_edit", name="connect_keycloak_edit")
      */
-    public function edit(ClientRegistry $clientRegistry, Request $request)
+    public function edit(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
         $url = $this->getParameter('KEYCLOAK_URL') ;
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }
 
-        $url = $url . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account';
+        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account';
         return $this->redirect($url);
     }
 
     /**
      * @Route("/login/keycloak_password", name="connect_keycloak_password")
      */
-    public function password(ClientRegistry $clientRegistry, Request $request)
+    public function password(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
         $url = $this->getParameter('KEYCLOAK_URL') ;
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }
-        $url = $url . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account/password';
+        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account/password';
         return $this->redirect($url);
     }
 }
