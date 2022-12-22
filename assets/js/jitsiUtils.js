@@ -8,6 +8,7 @@ import {enterMeeting, leaveMeeting} from "./websocket";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import {toggle} from "./cameraUtils";
+
 import('bootstrap');
 import('popper.js');
 global.$ = global.jQuery = $;
@@ -22,6 +23,8 @@ var ok = "OK";
 var microphoneLabel = null;
 var cameraLable = null;
 var displayName = null;
+var isMuted = null;
+var isVideoMuted = null;
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
@@ -64,12 +67,13 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         enterMeeting();
         initStartWhiteboard();
 
-         api.addListener('videoConferenceLeft', function (e) {
+        api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
             api = null;
         });
-
+        api.addListener('audioMuteStatusChanged', eventIsMuted);
+        api.addListener('videoMuteStatusChanged', eventIsVideoMuted);
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             var url = $(this).prop('href');
@@ -106,18 +110,15 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         }
 
         api.getAvailableDevices().then(devices => {
-            if (checkDeviceinList(devices,cameraLable)){
-                api.setVideoInputDevice(checkDeviceinList(devices,cameraLable));
+            if (checkDeviceinList(devices, cameraLable)) {
+                api.setVideoInputDevice(checkDeviceinList(devices, cameraLable));
             }
-            if (checkDeviceinList(devices,microphoneLabel)){
-                api.setAudioInputDevice(checkDeviceinList(devices,microphoneLabel));
+            if (checkDeviceinList(devices, microphoneLabel)) {
+                api.setAudioInputDevice(checkDeviceinList(devices, microphoneLabel));
             }
             swithCameraOn(videoOn);
         });
         swithCameraOn(videoOn);
-        displayName = api.getParticipantsInfo();
-        displayName = displayName[0].displayName;
-        // api.executeCommand('displayName', displayName+'(Abwesend)');
 
 
         $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
@@ -194,15 +195,16 @@ function swithCameraOn(videoOn) {
         });
     }
 }
-function checkDeviceinList(list,labelOrId) {
+
+function checkDeviceinList(list, labelOrId) {
 
 
-    for (var type in list){
-        for (var dev of list[type]){
-            if (dev.deviceId === labelOrId){
+    for (var type in list) {
+        for (var dev of list[type]) {
+            if (dev.deviceId === labelOrId) {
                 return dev.deviceId
             }
-            if(dev.label ===  labelOrId){
+            if (dev.label === labelOrId) {
                 return dev.deviceId;
             }
 
@@ -210,4 +212,44 @@ function checkDeviceinList(list,labelOrId) {
     }
     return false;
 }
-export {initJitsi, hangup, askHangup, checkDeviceinList}
+
+function eventIsMuted(e) {
+    isMuted = e.muted;
+}
+
+function eventIsVideoMuted(e) {
+    isVideoMuted = e.muted;
+}
+
+
+function pauseConference() {
+    displayName = api.getParticipantsInfo();
+    displayName = displayName[0].displayName;
+    api.executeCommand('displayName', '(Away) ' + displayName);
+    api.removeListener('audioMuteStatusChanged', eventIsMuted);
+    api.removeListener('videoMuteStatusChanged', eventIsVideoMuted);
+    api.isAudioMuted().then(muted => {
+        if (!muted) {
+            api.executeCommand('toggleAudio');
+        }
+    });
+    api.isVideoMuted().then(muted => {
+        if (!muted) {
+            api.executeCommand('toggleVideo');
+        }
+    });
+}
+
+function playConference() {
+    api.executeCommand('displayName', displayName);
+    if (!isMuted) {
+        api.executeCommand('toggleAudio');
+    }
+    if (!isVideoMuted){
+        api.executeCommand('toggleVideo');
+    }
+    api.addListener('audioMuteStatusChanged',eventIsMuted);
+    api.addListener('videoMuteStatusChanged', eventIsVideoMuted);
+}
+
+export {initJitsi, hangup, askHangup, checkDeviceinList, pauseConference, playConference}

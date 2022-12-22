@@ -63,6 +63,7 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="headerBar">' +
         '<div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
+        '<div class="pauseConference  actionIcon" data-pause="0"><i class="fa-solid fa-pause"></i></div> ' +
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
         '<div class="button-restore actionIcon d-none" data-maximal="0"><i class="fa-solid fa-window-restore"></i></div> ' +
         '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
@@ -99,6 +100,11 @@ function createIframe(url, title, closeIntelligent = true) {
         minimizeFrame(e)
         removeInteraction();
     })
+
+    document.getElementById('jitsiadminiframe' + random).querySelector('.pauseConference').addEventListener('click', function (e) {
+        pauseIframe(e);
+    })
+
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-fullscreen').addEventListener('click', function (e) {
         e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe').requestFullscreen();
@@ -137,17 +143,31 @@ function closeFrame(e, closeIntelligent, random) {
     // let current = e.currentTarget;
     // current.dataset.closeBlocker = '1';
     // if (typeof blocker === 'undefined' || blocker === '0') {
-        if (closeIntelligent) {
-            var id = e.currentTarget.dataset.id;
-            sendCommand(id, {type: 'pleaseClose'})
-        } else {
-            closeIframe(e.currentTarget.closest('.jitsiadminiframe').id);
-        }
+    if (closeIntelligent) {
+        var id = e.currentTarget.dataset.id;
+        sendCommand(id, {type: 'pleaseClose'})
+    } else {
+        closeIframe(e.currentTarget.closest('.jitsiadminiframe').id);
+    }
     // }
 
     // setTimeout(function () {
     //     current.removeAttribute('data-close-blocker');
     // }, 500)
+}
+
+function pauseIframe(e) {
+
+    var currentElement = e.currentTarget;
+    if (currentElement.dataset.pause == 0) {
+        currentElement.dataset.pause = 1;
+        currentElement.innerHTML = '<i class="fa-solid fa-play"></i>';
+        sendCommand(e.currentTarget.closest('.jitsiadminiframe').id, {type: 'pauseIframe'})
+    } else {
+        currentElement.dataset.pause = 0;
+        currentElement.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        sendCommand(e.currentTarget.closest('.jitsiadminiframe').id, {type: 'playIframe'})
+    }
 }
 
 function maximizeWindow(e) {
@@ -240,9 +260,9 @@ function initInteractionFrame(ele) {
     var t = ele.target.closest('.jitsiadminiframe')
     if (t && t.style.width !== '100%' && !t.classList.contains('minified') && dragactive === false) {
         addInteractions(ele.target.closest('.jitsiadminiframe'));
-        if (ele.target.classList.contains('dragger')){
+        if (ele.target.classList.contains('dragger')) {
             switchDragOn();
-        }else {
+        } else {
             switchDragOff();
         }
     }
@@ -254,12 +274,14 @@ function switchDragOn() {
         return null;
     }
 }
+
 function switchDragOff() {
     if (moveable) {
         moveable.draggable = false;
         return null;
     }
 }
+
 function addInteractions(ele) {
 
     const position = {x: counter, y: counter}

@@ -1,3 +1,4 @@
+import {pauseConference, playConference} from "./jitsiUtils";
 
 global.frameId = null;
 function initModeratorIframe(closeFkt) {
@@ -13,7 +14,16 @@ function initModeratorIframe(closeFkt) {
                  frameId = decoded.frameId;
              }
              closeFkt();
-        }
+        }else if(decoded.type === 'pauseIframe'){
+             console.log('pause COnference')
+             pauseConference();
+         }
+         else if(decoded.type === 'playIframe'){
+             if (typeof decoded.frameId !== 'undefined'){
+                 console.log('play COnference')
+                 playConference();
+             }
+         }
     });
 }
 
