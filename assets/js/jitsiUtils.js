@@ -7,10 +7,7 @@ import $ from 'jquery';
 import {enterMeeting, leaveMeeting} from "./websocket";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
-import {toggle} from "./cameraUtils";
 
-import('bootstrap');
-import('popper.js');
 global.$ = global.jQuery = $;
 
 import ('jquery-confirm');
@@ -223,36 +220,34 @@ function eventIsVideoMuted(e) {
 }
 
 
-async function pauseConference(){
-            displayName = api.getParticipantsInfo();
-            displayName = displayName[0].displayName;
-            api.executeCommand('displayName', '(Away) ' + displayName);
-            api.removeListener('audioMuteStatusChanged', eventIsMuted);
-            api.removeListener('videoMuteStatusChanged', eventIsVideoMuted);
-            api.isAudioMuted().then(muted => {
-                if (!muted) {
-                    api.executeCommand('toggleAudio');
-                }
-            });
-            api.isVideoMuted().then(muted => {
-                if (!muted) {
-                    api.executeCommand('toggleVideo');
-                }
-            });
-        }
-
-;
-
-async function playConference  () {
-        api.executeCommand('displayName', displayName);
-        if (!isMuted) {
+async function pauseConference() {
+    displayName = api.getParticipantsInfo();
+    displayName = displayName[0].displayName;
+    api.executeCommand('displayName', '(Away) ' + displayName);
+    api.removeListener('audioMuteStatusChanged', eventIsMuted);
+    api.removeListener('videoMuteStatusChanged', eventIsVideoMuted);
+    api.isAudioMuted().then(muted => {
+        if (!muted) {
             api.executeCommand('toggleAudio');
         }
-        if (!isVideoMuted) {
+    });
+    api.isVideoMuted().then(muted => {
+        if (!muted) {
             api.executeCommand('toggleVideo');
         }
-        api.addListener('audioMuteStatusChanged', eventIsMuted);
-        api.addListener('videoMuteStatusChanged', eventIsVideoMuted);
+    });
+}
+
+async function playConference() {
+    api.executeCommand('displayName', displayName);
+    if (!isMuted) {
+        api.executeCommand('toggleAudio');
     }
+    if (!isVideoMuted) {
+        api.executeCommand('toggleVideo');
+    }
+    api.addListener('audioMuteStatusChanged', eventIsMuted);
+    api.addListener('videoMuteStatusChanged', eventIsVideoMuted);
+}
 
 export {initJitsi, hangup, askHangup, checkDeviceinList, pauseConference, playConference}
