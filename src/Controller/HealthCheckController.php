@@ -25,4 +25,6 @@ class HealthCheckController extends JitsiAdminController
 
         return new JsonResponse(array('health' => true));
     }
+    //todo healthcheck mit LDAP erweitern
+    //todo DB in ´den HEalthcheck
 }
