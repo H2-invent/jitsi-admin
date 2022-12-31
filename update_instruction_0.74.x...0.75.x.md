@@ -25,7 +25,24 @@ __Node ^16.15 and npm ^8.5 have to be installed__
 7. Clean cache `php bin/console cache:clear`
 8. Set the permission `sudo chown -R www-data:www-data var/`
 9. Check your email settings with the command `php bin/console app:email:test <serverId> <email@domain.de>`. You should receive a test email
-10. Install the new websocket application:
+10. New Environment Variables:
+```
+WEBSOCKET_SECRET="Enter your External Secret for the Websocket here"
+MERCURE_JWT_SECRET="Enter your External Secret for the Websocket here"
+MERCURE_PUBLIC_URL=https://yourdomain.de:3000 #IMPORTANT: Don`t add a /ws ore something behind the URL
+MERCURE_URL=http://localhost:3000/.well-known/mercure
+
+### WHITEBOARD If you want to integrate Whitebophir (https://github.com/lovasoa/whitebophir)
+LAF_WHITEBOARD_FUNCTION=1
+WHITEBOARD_URL=https://wbo.domain.de
+WHITEBOARD_SECRET=MY_SECRET
+
+### ETHERPAD If you want to inegrate Etherpad in the Jitsi-Admin
+LAF_ETHERPAD_FUNCTION=1
+ETHERPAD_URL=https://etherpad.domain.de
+### <ETHERPAD
+```
+11. Install the new websocket application:
     1. __We replace the mercure HUb because of connection issues__
     2. For detailed instruction follow [https://github.com/H2-invent/jitsi-admin/wiki/Websocket-installation](https://github.com/H2-invent/jitsi-admin/wiki/Websocket-installation)
     2. install node Version >16
@@ -40,9 +57,9 @@ __Node ^16.15 and npm ^8.5 have to be installed__
           ````
     4. Change into the application directory `cd nodejs`
     5. install the websocket assets with `npm install`
-    5. Start the websocket application `WEBSOCKET_SECRET=<SECRET_FROM_ENV> AWAY_TIME=<TIME_UNTIL_AUTOMATIC_AWAY_STATUS> PORT=3000 node .`
+    5. Start the websocket application `WEBSOCKET_SECRET=<Enter your External Secret for the Websocket here> AWAY_TIME=<TIME_UNTIL_AUTOMATIC_AWAY_STATUS> PORT=3000 node .`
     6. Configure your reverse proxy to find the websocket.
-11. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
+12. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
     1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
 
 
