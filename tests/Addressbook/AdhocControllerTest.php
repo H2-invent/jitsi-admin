@@ -21,7 +21,11 @@ class AdhocControllerTest extends WebTestCase
         $client = static::createClient();
 
 
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $client->loginUser($user);
+
         $directSend = $this->getContainer()->get(DirectSendService::class);
 
 
@@ -40,10 +44,7 @@ class AdhocControllerTest extends WebTestCase
         });
         $directSend->setMercurePublisher($hub);
 
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $client->loginUser($user);
+
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findAll();
@@ -76,9 +77,11 @@ class AdhocControllerTest extends WebTestCase
     public function testcreateAdhocMeetingWithTag(): void
     {
         $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $client->loginUser($user);
 
-
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
 
 
@@ -97,10 +100,7 @@ class AdhocControllerTest extends WebTestCase
         });
         $directSend->setMercurePublisher($hub);
 
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $client->loginUser($user);
+
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tag = $tagRepo->findOneBy(array('title'=>'Test Tag Enabled'));
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId().'/'.$tag->getId());

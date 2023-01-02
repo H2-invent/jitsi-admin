@@ -20,10 +20,12 @@ class AdhocControllerConfirmationTest extends WebTestCase
     public function testcreateAdhocMeetingConfirmationWindowwithNoTag(): void
     {
         $client = static::createClient();
+        $userRepo = self::getContainer()->get(UserRepository::class);
 
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $client->loginUser($user);
 
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
-        $directSend = $this->getContainer()->get(DirectSendService::class);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tag = $tagRepo->findAll();
@@ -32,10 +34,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         }
 
         $em->flush();
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $client->loginUser($user);
+
         $crawler = $client->request('GET', '/room/adhoc/confirmation/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findAll();
@@ -54,9 +53,10 @@ class AdhocControllerConfirmationTest extends WebTestCase
     {
         $client = static::createClient();
 
-
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
-        $directSend = $this->getContainer()->get(DirectSendService::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $client->loginUser($user);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tagEnable = $tagRepo->findOneBy(array('title' => 'Test Tag Enabled'));
@@ -68,10 +68,7 @@ class AdhocControllerConfirmationTest extends WebTestCase
         }
 
         $em->flush();
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $client->loginUser($user);
+
         $crawler = $client->request('GET', '/room/adhoc/confirmation/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findAll();
@@ -94,8 +91,6 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $client = static::createClient();
 
 
-        $adhockservice = self::getContainer()->get(AdhocMeetingService::class);
-        $directSend = $this->getContainer()->get(DirectSendService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));

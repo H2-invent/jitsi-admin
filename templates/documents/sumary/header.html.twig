@@ -15,14 +15,18 @@
                 <tbody>
                 <tr>
                     <td style="padding: 16px; width: 125px; vertical-align: top">
+                        {% if room.persistantRoom %}
+                        {{ 'fixed.Room.name'|trans }}
+                        {% else %}
                         <h2>{{ 'Geplant'|trans }}:</h2> <p>{{ room.start|date('d.m.Y') }}</p>
                         <p>{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</p>
+                        {% endif %}
                     </td>
                     <td style="padding: 16px; width: 125px; vertical-align: top">
                         <h2>{{ 'Durchgeführt'|trans }}:</h2>
                         <table>
                             <tbody>
-                            {% for s in room.roomstatuses %}
+                            {% for s in room.roomstatuses|reverse %}
                                 <tr>
                                     <td style="padding: 8px">
                                         {{ s.createdAt|date('d.m.Y') }}:

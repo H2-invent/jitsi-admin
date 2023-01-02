@@ -15,20 +15,22 @@ class SipCallerLobbyControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $user = $room->getModerator();
+        $client->loginUser($user);
         $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
         $roomService = self::getContainer()->get(RoomService::class);
-        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
 
-        $user = $room->getModerator();
-        $client->loginUser($user);
+
 
         $crawler = $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
         $this->assertResponseIsSuccessful();
@@ -41,21 +43,23 @@ class SipCallerLobbyControllerTest extends WebTestCase
     public function testCallerLobbyVerified(): void
     {
         $client = static::createClient();
-
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $user = $room->getModerator();
+        $client->loginUser($user);
 
         $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
         $roomService = self::getContainer()->get(RoomService::class);
-        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '0123456789');
 
-        $user = $room->getModerator();
-        $client->loginUser($user);
+
 
         $crawler = $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
         $this->assertResponseIsSuccessful();

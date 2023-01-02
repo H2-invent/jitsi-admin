@@ -85,7 +85,10 @@ class CreateSummaryService
             $url = $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/preview/' . $room->getUidReal() . '?token=' . $this->whiteboardJwtService->createJwt($room);
             $res = $this->httpClient->request('GET', $url);
             if ($res->getStatusCode() === 200) {
-                    return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '"  width="600" />';
+                if ($res->getContent() !== '<text>Sorry, an error occured</text>') {
+                    return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '" style="width: 700px; height: auto; max-width: none; min-height: none; min-width: none;/>';
+                }
+
             }
         } catch (\Exception $exception) {
         }

@@ -7,7 +7,7 @@ import ClipboardJS from 'clipboard'
 import {initStartIframe} from "./createConference";
 var frameId;
 var api = new JitsiMeetExternalAPI(domain, options);
-
+var joined = false;
 api.addListener('chatUpdated', function (e) {
     if (e.isOpen == true) {
         document.querySelector('#logo_image').classList.add('transparent');
@@ -21,6 +21,7 @@ api.addListener('chatUpdated', function (e) {
 api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
     initStartWhiteboard();
+    joined = true;
     window.onbeforeunload = function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -79,6 +80,11 @@ function docReady(fn) {
 }
 
 function checkClose() {
+
+    if (!api || !joined){
+        leaveMeeting();
+        initStarSend();
+    }
     api.executeCommand('hangup');
     leaveMeeting();
 }

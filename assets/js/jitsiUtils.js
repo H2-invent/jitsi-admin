@@ -136,6 +136,7 @@ function endMeeting() {
 }
 
 function askHangup() {
+
     if (!api) {
         return false;
     }
