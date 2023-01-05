@@ -101,7 +101,7 @@ function createIframe(url, title, closeIntelligent = true) {
     })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-fullscreen').addEventListener('click', function (e) {
-        e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe').requestFullscreen();
+       fulscreenWindow(e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe'));
     })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
@@ -122,34 +122,44 @@ function createIframe(url, title, closeIntelligent = true) {
     if (closeIntelligent) {
         setTimeout(function () {
             sendCommand('jitsiadminiframe' + random, {type: 'init'});
-        }, 5000)
+        }, 10000)
     }
     counter += 40;
     if (window.innerWidth < 992) {
         document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
     }
 
+    if (isFullscreen()) {
+        document.exitFullscreen();
+        var iframe=document.getElementById('jitsiadminiframe' + random).querySelector('iframe');
+        fulscreenWindow(iframe);
+    }
+}
+
+function isFullscreen(){
+
+    var st=screen.top || screen.availTop || window.screenTop;
+
+    if(st!=window.screenY){
+
+        return false;
+    }
+
+    return window.fullScreen==true || screen.height-document.documentElement.clientHeight<=30;
 }
 
 function closeFrame(e, closeIntelligent, random) {
-
-    // var blocker = e.currentTarget.dataset.closeBlocker ;
-    // let current = e.currentTarget;
-    // current.dataset.closeBlocker = '1';
-    // if (typeof blocker === 'undefined' || blocker === '0') {
         if (closeIntelligent) {
             var id = e.currentTarget.dataset.id;
             sendCommand(id, {type: 'pleaseClose'})
         } else {
             closeIframe(e.currentTarget.closest('.jitsiadminiframe').id);
         }
-    // }
-
-    // setTimeout(function () {
-    //     current.removeAttribute('data-close-blocker');
-    // }, 500)
 }
 
+function fulscreenWindow(element){
+   element.requestFullscreen();
+}
 function maximizeWindow(e) {
 
     var frame = e.currentTarget.closest('.jitsiadminiframe');

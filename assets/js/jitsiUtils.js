@@ -130,7 +130,10 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 function endMeeting() {
     participants = api.getParticipantsInfo();
     for (var i = 0; i < participants.length; i++) {
-        api.executeCommand('kickParticipant', participants[i].participantId);
+        if (api){
+            api.executeCommand('kickParticipant', participants[i].participantId);
+        }
+
     }
     return 0;
 }
@@ -149,7 +152,7 @@ function askHangup() {
                 text: hangupText, // text for button
                 btnClass: 'btn-danger btn', // class for the button
                 action: function () {
-                    api.executeCommand('hangup');
+                    hangup();
                 },
             }, killAll: {
                 text: endMeetingText, // text for button
@@ -157,7 +160,7 @@ function askHangup() {
                 action: function () {
                     endMeeting();
                     $.getJSON(endMeetingUrl);
-                    api.executeCommand('hangup');
+                    hangup();
                 },
             },
 
@@ -171,7 +174,10 @@ function askHangup() {
 }
 
 function hangup() {
-    api.executeCommand('hangup');
+    if (api){
+        api.executeCommand('hangup');
+    }
+
 }
 
 function renewPartList() {
