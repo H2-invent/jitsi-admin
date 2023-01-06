@@ -1,7 +1,11 @@
 import $ from "jquery";
 import {close, inIframe} from "./moderatorIframe";
 
+export var starShowed = false;
 export function initStarSend() {
+    if (starShowed){
+        closeWindow();
+    }
     $('#endMeetingModal').removeClass('d-none');
     $('#mainContent').remove();
     $('#frame').remove();
@@ -35,6 +39,10 @@ export function initStarSend() {
     $('#closeWindow').click(function () {
         closeWindow();
     })
+    setTimeout(function () {
+        starShowed = true;
+
+    },1000);
 }
 
 function closeWindow() {

@@ -19,10 +19,13 @@ class AdhocControllerTest extends WebTestCase
     public function testcreateAdhocMeetingNoTag(): void
     {
         $client = static::createClient();
+
+
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
         $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
         $client->loginUser($user);
+
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $directSend = $this->getContainer()->get(DirectSendService::class);

@@ -65,7 +65,7 @@ class RoomStatus
     {
         return new \DateTime($this->RoomCreatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
     }
-    public function getRoomCreatedAtwithTimeZone(?User $user): ?\DateTimeInterface
+    public function getRoomCreatedAtwithTimeZone(?User $user = null): ?\DateTimeInterface
     {
         $data = $this->getCreatedUtc();
         if (!$data) {
@@ -74,7 +74,11 @@ class RoomStatus
         if ($user && $user->getTimeZone()) {
             $localTimezone = new \DateTimeZone($user->getTimeZone());
         } else {
-            $localTimezone = (new \DateTime())->getTimezone();
+            if ($this->room && $this->room->getTimeZone()){
+                $localTimezone = new \DateTimeZone($this->room->getTimeZone());
+            }else{
+                $localTimezone = (new \DateTime())->getTimezone();
+            }
         }
         $data->setTimeZone($localTimezone);
         return $data;
@@ -93,7 +97,7 @@ class RoomStatus
     {
         return $this->destroyedAt;
     }
-    public function getDestroyedAtwithTimeZone(?User $user): ?\DateTimeInterface
+    public function getDestroyedAtwithTimeZone(?User $user = null): ?\DateTimeInterface
     {
         $data = $this->getDestroyedAtUTC();
         if (!$data) {
@@ -102,7 +106,11 @@ class RoomStatus
         if ($user && $user->getTimeZone()) {
             $localTimezone = new \DateTimeZone($user->getTimeZone());
         } else {
-            $localTimezone = (new \DateTime())->getTimezone();
+            if ($this->room && $this->room->getTimeZone()){
+                $localTimezone = new \DateTimeZone($this->room->getTimeZone());
+            }else{
+                $localTimezone = (new \DateTime())->getTimezone();
+            }
         }
         $data->setTimeZone($localTimezone);
         return $data;
