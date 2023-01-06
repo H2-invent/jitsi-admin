@@ -14,6 +14,12 @@
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
   overflow: hidden;
 
+  &:not(.maximized) {
+    .dragger {
+      cursor: move;
+    }
+  }
+
   .iframeFrame {
     flex-grow: 1;
     background-color: inherit;
@@ -30,7 +36,6 @@
 
     .dragger {
       flex-grow: 1;
-      cursor: move;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -84,11 +89,11 @@
   transform: none !important;
   position: absolute !important;
   height: unset !important;
-  flex-direction: column-reverse!important;
+  flex-direction: column-reverse !important;
   bottom: 0;
   left: 0;
-  z-index: 500!important;
-  border-width: 8px!important;
+  z-index: 500 !important;
+  border-width: 8px !important;
   border-style: solid;
 
   [class^="fa-"] {
@@ -96,7 +101,7 @@
   }
 
   .actionIconLeft {
-    display: none!important;
+    display: none !important;
   }
 
   .headerBar {
@@ -107,13 +112,13 @@
       cursor: pointer !important;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 100%!important;
-      white-space: nowrap!important;
+      max-width: 100% !important;
+      white-space: nowrap !important;
     }
   }
 
   &:hover > .iframeFrame {
-    height: 33vh!important;
+    height: 33vh !important;
     -webkit-transition-delay: 0.25s;
     -moz-transition-delay: 0.25s;
     -ms-transition-delay: 0.25s;

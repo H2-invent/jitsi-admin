@@ -177,7 +177,6 @@ function hangup() {
     if (api){
         api.executeCommand('hangup');
     }
-
 }
 
 function renewPartList() {

@@ -10,16 +10,20 @@
         <td style="width: 250px"><h3>{{ 'Organisator'|trans }}</h3>{{ room.moderator|nameOfUserNoSymbol }}</td>
     </tr>
     <tr>
+        <td colspan="2"><p>
+                <small>{% trans with {'{timezone}':room.timeZone} %}report.info.timezone{% endtrans %}</small></p></td>
+    </tr>
+    <tr>
         <td>
             <table>
                 <tbody>
                 <tr>
                     <td style="padding: 16px; width: 125px; vertical-align: top">
                         {% if room.persistantRoom %}
-                        {{ 'fixed.Room.name'|trans }}
+                            <h2>{{ 'fixed.Room.name'|trans }}</h2>
                         {% else %}
-                        <h2>{{ 'Geplant'|trans }}:</h2> <p>{{ room.start|date('d.m.Y') }}</p>
-                        <p>{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</p>
+                            <h2>{{ 'Geplant'|trans }}:</h2> <p>{{ room.start|date('d.m.Y') }}</p>
+                            <p>{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</p>
                         {% endif %}
                     </td>
                     <td style="padding: 16px; width: 125px; vertical-align: top">
@@ -28,9 +32,11 @@
                             <tbody>
                             {% for s in room.roomstatuses|reverse %}
                                 <tr>
-                                    <td style="padding: 8px">
-                                        {{ s.createdAt|date('d.m.Y') }}:
-                                        <p>{{ s.createdAt|date('H:i') }} - {% if s.destroyedAt is not null %}  {{ s.destroyedAt|date('H:i') }}{% else%} {{ 'Jetzt'|trans}} {% endif %}</p>
+                                    <td>
+                                        {{ s.roomCreatedAtwithTimeZone()|date('d.m.Y') }}:
+                                        <p>{{ s.roomCreatedAtwithTimeZone()|date('H:i') }}
+                                            - {% if s.destroyedAt is not null %}  {{ s.destroyedAtwithTimeZone()|date('H:i') }}{% else %} {{ 'Jetzt'|trans }} {% endif %}</p>
+
                                     </td>
                                 </tr>
 

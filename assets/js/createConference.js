@@ -175,6 +175,7 @@ function maximizeWindow(e) {
         frame.style.height = "100%";
         frame.style.transform = 'translate(0px, 0px)'
         frame.style.borderWidth = '0px'
+        frame.classList.add('maximized');
         frame.querySelector('.headerBar').style.padding = '8px'
         restoreButton.classList.remove('d-none');
         maxiIcon.classList.add('d-none');
@@ -198,6 +199,7 @@ function restoreWindow(e) {
         maxiIcon.dataset.maximal = "0";
         maxiIcon.classList.remove('d-none');
         restoreButton.classList.add('d-none');
+        frame.classList.remove('maximized');
     }
 }
 
