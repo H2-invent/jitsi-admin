@@ -30,6 +30,7 @@ api.addListener('videoConferenceJoined', function (e) {
     api.addListener('videoConferenceLeft', function (e) {
         leaveMeeting();
         initStarSend();
+        api = null;
     });
 
     if (setTileview === 1) {
@@ -85,7 +86,9 @@ function checkClose() {
         leaveMeeting();
         initStarSend();
     }
-    api.executeCommand('hangup');
+    if (api){
+        api.executeCommand('hangup');
+    }
     leaveMeeting();
 }
 
