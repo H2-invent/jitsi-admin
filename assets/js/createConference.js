@@ -89,7 +89,9 @@ function createIframe(url, title, closeIntelligent = true) {
     document.getElementById('jitsiadminiframe' + random).querySelector('iframe').src = site;
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').dataset.maximal = "0";
     document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
-
+    document.getElementById('jitsiadminiframe' + random).addEventListener('dblclick', function (e) {
+        toggleMaximize(e);
+    })
     document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
         closeFrame(e, closeIntelligent);
 
@@ -157,6 +159,14 @@ function closeFrame(e, closeIntelligent, random) {
         }
 }
 
+function toggleMaximize(e) {
+    var element = e.currentTarget
+    if (element.classList.contains('maximized')){
+        restoreWindow(e)
+    }else {
+        maximizeWindow(e)
+    }
+}
 function fulscreenWindow(element){
    element.requestFullscreen();
 }
