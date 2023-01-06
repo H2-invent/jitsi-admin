@@ -543,6 +543,4 @@ label.required:after {
 #modalAdressbook a[aria-expanded="true"] {
     background: white;
 }
-.woot-widget-bubble{
-    z-index: 5!important;
-}
+
