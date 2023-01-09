@@ -35,7 +35,7 @@ line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(self::$sampleSvg)) . '"  width="600" />';
+        $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(self::$sampleSvg)) . '" width="600"/>';
 
     }
 

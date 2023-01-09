@@ -10,8 +10,11 @@
         <td style="width: 250px"><h3>{{ 'Organisator'|trans }}</h3>{{ room.moderator|nameOfUserNoSymbol }}</td>
     </tr>
     <tr>
-        <td colspan="2"><p>
-                <small>{% trans with {'{timezone}':room.timeZone} %}report.info.timezone{% endtrans %}</small></p></td>
+        <td colspan="2">
+            <p>
+                <small>{% trans with {'{timezone}':room.timeZone} %}report.info.timezone{% endtrans %}</small>
+            </p>
+        </td>
     </tr>
     <tr>
         <td>

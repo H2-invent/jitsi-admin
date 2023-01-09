@@ -24,6 +24,12 @@ class CreateHeaderServiceTest extends KernelTestCase
         <td style=\"width: 250px; padding: 16px\"><p>Testagenda:0</p></td>
         <td style=\"width: 250px\"><h3>Organisator</h3>Test1, 1234, User, Test</td>
     </tr>
+    <tr>        
+<td colspan=\"2\">
+            <p>
+                <small>Alle Zeitangaben sind in der Zeitzone Europe/Berlin</small>   
+         </p></td>
+    </tr>
     <tr>
         <td>
             <table>
@@ -81,7 +87,7 @@ class CreateHeaderServiceTest extends KernelTestCase
         $headerResponse = $service->createHeader($room);
 
 
-        self::assertEquals(trim(preg_replace('~[\r\n]+~', '', $headerResponse)), trim(preg_replace('~[\r\n]+~', '',sprintf(self::$headerHtml, $room->getStart()->format('d.m.Y'),$room->getStart()->format('H:i'),$room->getEnddate()->format('H:i')))));
+        self::assertEquals(trim(preg_replace('~[\r\n\s]+~', '', $headerResponse)), trim(preg_replace('~[\r\n\s]+~', '',sprintf(self::$headerHtml, $room->getStart()->format('d.m.Y'),$room->getStart()->format('H:i'),$room->getEnddate()->format('H:i')))));
 
 
     }
