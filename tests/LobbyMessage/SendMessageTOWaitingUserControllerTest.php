@@ -19,7 +19,6 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $userrepo = self::getContainer()->get(UserRepository::class);
         $user = $userrepo->findOneBy(array('email' => 'test@local.de'));
         $client->loginUser($user);
-
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
             self::assertEquals('{"type":"message","message":"Bitte warten!","from":"Test1, 1234, User, Test"}', $update->getData());
@@ -40,8 +39,9 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $client = static::createClient();
         $userrepo = self::getContainer()->get(UserRepository::class);
         $user = $userrepo->findOneBy(array('email' => 'test@local.de'));
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name'=>'Room with Start and no Participants list and Lobby Activated'));
         $client->loginUser($user);
-
         $directSend = $this->getContainer()->get(DirectSendService::class);
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
             self::assertEquals('{"type":"message","message":"Bitte warten!","from":"Test1, 1234, User, Test"}', $update->getData());
@@ -52,8 +52,6 @@ class SendMessageTOWaitingUserControllerTest extends WebTestCase
         $message = $messageRepo->findAll();
 
 
-        $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Room with Start and no Participants list and Lobby Activated'));
 
 
         $crawler = $client->request('POST', '/room/lobby/message/send/all',array(),array(),array(),json_encode(array('uid'=>$room->getUidReal(),'message'=>$message[0]->getId())));

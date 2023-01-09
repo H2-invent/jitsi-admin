@@ -19,8 +19,10 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $user = $room->getModerator();
         $client->loginUser($user);
-
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $roomService = self::getContainer()->get(RoomService::class);
+
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
 
@@ -45,7 +47,10 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
         $user = $room->getModerator();
         $client->loginUser($user);
+
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $roomService = self::getContainer()->get(RoomService::class);
 
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
