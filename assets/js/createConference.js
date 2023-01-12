@@ -511,15 +511,20 @@ function makeid(length) {
 }
 
 function makeBlury(frame) {
-    frame.querySelector('.iframeFrame').insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.5; background-color: inherit"></div>');
-
+    var frames = document.querySelectorAll('.iframeFrame');
+    for( var  f of frames){
+    f.insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.0; background-color: inherit"></div>');
+    }
+    frame.querySelector('.blurryOverlay').style.opacity=0.5;
 }
 
 function removeBlury(frame) {
-    if (frame.querySelector('.blurryOverlay')) {
-        frame.querySelector('.blurryOverlay').remove();
+    var frames = document.querySelectorAll('.iframeFrame');
+    for( var  f of frames){
+        if (f.querySelector('.blurryOverlay')) {
+            f.querySelector('.blurryOverlay').remove();
+        }
     }
-
 
 }
 
