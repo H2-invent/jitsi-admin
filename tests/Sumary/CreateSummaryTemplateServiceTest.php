@@ -191,7 +191,7 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(CreateWhiteboardServiceTest::$sampleSvg)) . '"  width="600" />';
+        $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(CreateWhiteboardServiceTest::$sampleSvg)) . '"  style="width: 600px"/>';
 
     }
 
@@ -219,8 +219,8 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
         $whiteboardResponse = $service->createSummary($room);
 
 
-        self::assertSame(trim(preg_replace('~[\r\n]+~', '',$whiteboardResponse)),
-            trim(preg_replace('~[\r\n]+~', '',self::$pdfHeader .
+        self::assertSame(trim(preg_replace('~[\r\n\s]+~', '',$whiteboardResponse)),
+            trim(preg_replace('~[\r\n\s]+~', '',self::$pdfHeader .
             sprintf(CreateHeaderServiceTest::$headerHtml, $room->getStart()->format('d.m.Y'),$room->getStart()->format('H:i'),$room->getEnddate()->format('H:i')).
             $this->sampleSvgResult .
             CreateEtherpadServiceTest::$samplePadREsult .
