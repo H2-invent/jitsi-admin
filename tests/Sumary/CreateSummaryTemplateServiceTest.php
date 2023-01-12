@@ -191,7 +191,7 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(CreateWhiteboardServiceTest::$sampleSvg)) . '"  width="600" />';
+        $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(CreateWhiteboardServiceTest::$sampleSvg)) . '"  style="width: 600px"/>';
 
     }
 

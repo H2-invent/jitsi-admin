@@ -201,6 +201,11 @@ class RoomStatus
     }
     public function getDestroyedUtc(): ?\DateTimeInterface
     {
-        return new \DateTime($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        if ($this->destroyedAt){
+            return new \DateTime($this->destroyedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        }else{
+            return new \DateTime($this->updatedAt->format('Y-m-d H:i:s'), new \DateTimeZone('utc'));
+        }
+
     }
 }

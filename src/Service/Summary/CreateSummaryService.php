@@ -84,7 +84,7 @@ class CreateSummaryService
             $res = $this->httpClient->request('GET', $url);
             if ($res->getStatusCode() === 200) {
                 if ($res->getContent() !== '<text>Sorry, an error occured</text>') {
-                    return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '" width="600"/>';
+                    return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '" style="width: 600px"/>';
                 }
 
             }
