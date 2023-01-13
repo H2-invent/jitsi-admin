@@ -111,6 +111,9 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: CalloutSession::class, orphanRemoval: true)]
     private Collection $calloutSessions;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $acceptTermsAndConditions = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -948,6 +951,18 @@ class User extends BaseUser
                 $calloutSession->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isAcceptTermsAndConditions(): ?bool
+    {
+        return $this->acceptTermsAndConditions;
+    }
+
+    public function setAcceptTermsAndConditions(?bool $acceptTermsAndConditions): self
+    {
+        $this->acceptTermsAndConditions = $acceptTermsAndConditions;
 
         return $this;
     }

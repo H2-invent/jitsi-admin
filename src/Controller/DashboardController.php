@@ -83,6 +83,9 @@ class DashboardController extends JitsiAdminController
      */
     public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
     {
+        if (!$this->getUser()->isAcceptTermsAndConditions()){
+            return  $this->redirectToRoute('app_terms_and_conditions');
+        }
         $stopwatch = new Stopwatch();
         $start = $stopwatch->start('dashboard');
         if ($request->get('join_room') && $request->get('type')) {
