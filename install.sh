@@ -1,6 +1,17 @@
 echo Welcome to the installer:
 
-
+echo --------------------------------------------------------------------------
+echo -----------------------Install Apache and PHP---------------------
+echo --------------------------------------------------------------------------
+sudo apt update
+sudo apt install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
+echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/sury-php.list
+curl -fsSL  https://packages.sury.org/php/apt.gpg| sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sury-keyring.gpg
+sudo apt update
+sudo apt install php8.1 -y
+sudo apt install php8.1-{bcmath,fpm,xml,mysql,zip,intl,ldap,gd,cli,bz2,curl,mbstring,pgsql,opcache,soap,cgi} -y
+curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+sudo apt -y install nodejs
 echo ------------ install latest packages-------------
 php composer.phar install
 cp .env.sample .env.local
@@ -96,6 +107,15 @@ systemctl daemon-reload
 service start jitsi-admin_messenger
 restart start jitsi-admin_messenger
 service enable jitsi-admin_messenger
+echo --------------------------------------------------------------------------
+echo -----------------------Install Websocket-Application----------------------
+echo --------------------------------------------------------------------------
+cp nodejs /usr/local/bin/websocket
+cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
+systemctl daemon-reload
+service start jitsi-admin-websocket
+restart start jitsi-admin-websocket
+service enable jitsi-admin-websocket
 echo --------------------------------------------------------------------------
 echo -----------------------Installed the Jitsi-Admin correct------------------
 echo --------------------------------------------------------------------------
