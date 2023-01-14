@@ -110,6 +110,9 @@ service enable jitsi-admin_messenger
 echo --------------------------------------------------------------------------
 echo -----------------------Install Websocket-Application----------------------
 echo --------------------------------------------------------------------------
+cd nodejs
+npm install
+cd ..
 cp nodejs /usr/local/bin/websocket
 cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 systemctl daemon-reload
