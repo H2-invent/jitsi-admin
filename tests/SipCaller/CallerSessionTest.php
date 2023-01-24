@@ -323,6 +323,7 @@ class CallerSessionTest extends KernelTestCase
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
                 'room_name' => $room->getUid(),
+                'displayname' => 'User, Test, test@local.de',
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
@@ -359,6 +360,7 @@ class CallerSessionTest extends KernelTestCase
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
                 'room_name' => $room->getUid(),
+                'displayname' => 'User, Test, test@local.de',
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
@@ -524,7 +526,6 @@ class CallerSessionTest extends KernelTestCase
     }
 
 
-
     public function testLobbydeactivated(): void
     {
         $kernel = self::bootKernel();
@@ -558,12 +559,13 @@ class CallerSessionTest extends KernelTestCase
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
+                'displayname' => 'User, Test, test@local.de',
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
                     'left' => $urlGen->generate('caller_left', array('session_id' => $session->getSessionId())),
                 ),
-                'room_name'=>$session->getCaller()->getRoom()->getUid()
+                'room_name' => $session->getCaller()->getRoom()->getUid()
             )
             , $sessionService->getSessionStatus($session->getSessionId()));
     }

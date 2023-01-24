@@ -4,12 +4,15 @@ namespace App\Service\caller;
 
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
+use App\Service\FormatName;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\RoomService;
+use App\Service\ThemeService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -22,7 +25,17 @@ class CallerSessionService
     private $roomService;
     private UrlGeneratorInterface $urlGen;
     private RequestStack $requestStack;
-    public function __construct(RequestStack $requestStack, UrlGeneratorInterface $urlGenerator, RoomService $roomService, ToModeratorWebsocketService $toModeratorWebsocketService, LoggerInterface $logger, RoomStatusFrontendService $roomStatusFrontendService, EntityManagerInterface $entityManager)
+
+    public function __construct(
+        RequestStack                $requestStack,
+        UrlGeneratorInterface       $urlGenerator,
+        RoomService                 $roomService,
+        ToModeratorWebsocketService $toModeratorWebsocketService,
+        LoggerInterface             $logger,
+        RoomStatusFrontendService   $roomStatusFrontendService,
+        EntityManagerInterface      $entityManager,
+        private FormatName          $formatName,
+        private ThemeService        $themeService)
     {
         $this->em = $entityManager;
         $this->roomStatus = $roomStatusFrontendService;
@@ -33,15 +46,16 @@ class CallerSessionService
         $this->requestStack = $requestStack;
     }
 
-    public function getSessionStatus($sessionId)
+    public
+    function getSessionStatus($sessionId)
     {
         $this->loggger->debug('Start with Session', array('sessionId' => $sessionId));
         $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId' => $sessionId));
         if (!$session) {
             $this->loggger->debug('No Session found', array('sessionId' => $sessionId));
-            if ($this->requestStack->getCurrentRequest()){
-                $this->loggger->emergency('Wrong Session-ID', array('sessionId' => $sessionId,'ip'=>$this->requestStack->getCurrentRequest()->getClientIp()));
-            }else{
+            if ($this->requestStack->getCurrentRequest()) {
+                $this->loggger->emergency('Wrong Session-ID', array('sessionId' => $sessionId, 'ip' => $this->requestStack->getCurrentRequest()->getClientIp()));
+            } else {
                 $this->loggger->debug('We are in a Test');
             }
             return array(
@@ -73,7 +87,8 @@ class CallerSessionService
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => $participants,
                 'status_of_meeting' => 'STARTED',
-                'room_name'=>$session->getCaller()->getRoom()->getUid(),
+                'room_name' => $session->getCaller()->getRoom()->getUid(),
+                'displayname' => $this->formatName->formatName($this->themeService->getApplicationProperties('laf_showNameInConference'),$session->getCaller()->getUser()),
                 'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $this->urlGen->generate('caller_session', array('session_id' => $session->getSessionId())),
@@ -88,8 +103,7 @@ class CallerSessionService
             return array(
                 'status' => 'HANGUP',
                 'reason' => 'DECLINED',
-                'links' => array(
-                )
+                'links' => array()
             );
         }
 
@@ -149,7 +163,8 @@ class CallerSessionService
         );
     }
 
-    public function cleanUpSession(CallerSession $callerSession)
+    public
+    function cleanUpSession(CallerSession $callerSession)
     {
         $this->loggger->debug('We start to destroy the caller session', array('sessionID' => $callerSession->getSessionId()));
         try {
@@ -176,7 +191,8 @@ class CallerSessionService
         return true;
     }
 
-    public function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser)
+    public
+    function acceptCallerUser(LobbyWaitungUser $lobbyWaitungUser)
     {
         if ($lobbyWaitungUser->getCallerSession()) {
             $caller = $lobbyWaitungUser->getCallerSession();

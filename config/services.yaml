@@ -43,6 +43,7 @@ parameters:
     LAF_LOBBY_ALLOW_CUSTOM_MESSAGES: '%env(LAF_LOBBY_ALLOW_CUSTOM_MESSAGES)%'
     LAF_TERMS_AND_CONDITIONS: '%env(LAF_TERMS_AND_CONDITIONS)%'
     DROPDOWN_SETTINGS_DOWNLOAD_PDF : '%env(DROPDOWN_SETTINGS_DOWNLOAD_PDF)%'
+    LAF_USE_MULTIFRAME: '%env(LAF_USE_MULTIFRAME)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
