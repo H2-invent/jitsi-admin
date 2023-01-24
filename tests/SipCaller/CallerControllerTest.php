@@ -394,6 +394,7 @@ class CallerControllerTest extends WebTestCase
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
                 'room_name' => $room->getUid(),
+                'displayname' => 'User2, Test2, test@local2.de',
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $sessionLink,
@@ -454,6 +455,7 @@ class CallerControllerTest extends WebTestCase
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
                 'room_name' => $room->getUid(),
+                'displayname' => 'User2, Test2, test@local2.de',
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $sessionLink,

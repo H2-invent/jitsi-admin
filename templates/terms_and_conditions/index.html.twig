@@ -1,0 +1,8 @@
+{% extends 'join/base.html.twig' %}
+
+{% block header %}{{'terms.haeder'|trans}}{% endblock %}
+
+{% block content %}
+   <p>{{ getApplicationProperties('LAF_TERMS_AND_CONDITIONS')|raw }}</p>
+   <a href="{{ path('app_terms_and_conditions_accept') }}" class="btn btn-block btn-primary">{{ 'terms.accept'|trans }}</a>
+{% endblock %}

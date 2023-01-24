@@ -71,15 +71,16 @@ class AdhocMeetingService
         $creator->addRoom($room);
         $this->em->persist($creator);
         $this->em->flush();
-        $this->sendAddhocMeetingWebsocket($reciever,$creator,$room);
+        $this->sendAddhocMeetingWebsocket($reciever, $creator, $room);
         $this->userService->addUser($reciever, $room);
         $this->userService->addUser($creator, $room);
         return $room;
     }
 
-    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room){
+    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room)
+    {
         $topic = 'personal/' . $reciever->getUid();
-        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess startIframe" data-roomname="%s"><i class="fas fa-phone"></i> %s</a><a class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></a>';
+        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess ' . $this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') === 1 ? 'startIframe' : '' . 'data-roomname = "%s" ><i class="fas fa-phone" ></i > %s </a ><a class="btn btn-sm btn-danger" ><i class="fas fa-phone-slash" ></i ></a > ';
         $toastText = sprintf($format,
             $this->translator->trans('addhock.notification.pushMessage', array('{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
             $this->urlGen->generate('room_join', array('room' => $room->getId(), 't' => 'b')) ,

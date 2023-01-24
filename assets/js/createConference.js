@@ -30,7 +30,6 @@ function initStartIframe() {
             } else {
                 createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true);
             }
-
         }
     });
 

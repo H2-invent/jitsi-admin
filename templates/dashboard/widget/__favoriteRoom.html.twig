@@ -44,12 +44,12 @@
                        aria-expanded="false"><i class="fa fa-play"></i></a>
 
                     <div class="dropdown-menu">
-                        <a class="dropdown-item startIframe" href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" data-roomname="{{ room.name }}">{{ 'Im Browser'|trans }}</a>
+                        <a class="dropdown-item {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" data-roomname="{{ room.name }}">{{ 'Im Browser'|trans }}</a>
                         <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" rel=opener
                            target="_blank">{{ 'In der App'|trans }}</a>
                     </div>
 
-                    <a class="btn btn-outline-primary bt-sm  d-lg-none startIframe" data-roomname="{{ room.name }}"
+                    <a class="btn btn-outline-primary bt-sm  d-lg-none {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}"
                        href="{{ path('room_join',{'t':'b','room':room.id}) }}"
                        target="_blank"><i class="fa fa-play"></i></a>
 
@@ -58,7 +58,7 @@
                        href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank"><i
                                 class="fa fa-play"></i></a>
                 {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
-                    <a class="btn btn-outline-primary dropdown-toggle btn-sm startIframe" data-roomname="{{ room.name }}"
+                    <a class="btn btn-outline-primary dropdown-toggle btn-sm {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}"
                        href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank"><i
                                 class="fa fa-play"></i></a>
                 {% endif %}

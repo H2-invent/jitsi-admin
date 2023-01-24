@@ -16,6 +16,7 @@ use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
+use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use Firebase\JWT\JWT;
@@ -81,8 +82,11 @@ class DashboardController extends JitsiAdminController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
+    public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, TermsAndConditionsService $termsAndConditionsService)
     {
+        if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())){
+            return  $this->redirectToRoute('app_terms_and_conditions');
+        }
         $stopwatch = new Stopwatch();
         $start = $stopwatch->start('dashboard');
         if ($request->get('join_room') && $request->get('type')) {

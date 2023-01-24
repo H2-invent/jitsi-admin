@@ -1907,30 +1907,30 @@
         <target>An alle Wartenden</target>
       </trans-unit>
       <trans-unit id="OYdVVKy" resname="lobby.message.failed">
-        <source>lobby.message.failed</source>
+        <source>Bei der Übermittlung der Nachricht gab es einen Fehler.</source>
         <target>Bei der Übermittlung der Nachricht gab es einen Fehler.</target>
       </trans-unit>
       <trans-unit id="EaWoPF5" resname="lobby.message.success">
-        <source>lobby.message.success</source>
+        <source>Die Nachricht wurde erfolgreich übermittelt.</source>
         <target>Die Nachricht wurde erfolgreich übermittelt.</target>
       </trans-unit>
       <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
-        <source>lobby.participant.tooltip.acccept</source>
+        <source>Wartenden zulassen</source>
         <target>Wartenden zulassen</target>
       </trans-unit>
       <trans-unit id="ozoWxDu" resname="lobby.participant.tooltip.decline">
-        <source>lobby.participant.tooltip.decline</source>
+        <source>Wartenden ablehnen</source>
         <target>Wartenden ablehnen</target>
       </trans-unit>
       <trans-unit id="fc3.g55" resname="lobby.participant.tooltip.message">
-        <source>lobby.participant.tooltip.message</source>
+        <source>Nachricht senden</source>
         <target>Nachricht senden</target>
       </trans-unit>
       <trans-unit id="P2akYaZ" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
         <target>Hmmmm. Hier lief ziemlich was schief.</target>
       </trans-unit>
-      <trans-unit id="oBFR00l" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
+      <trans-unit id="5TfhZhW" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
         <source>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</source>
         <target>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</target>
       </trans-unit>
@@ -1942,13 +1942,13 @@
         <source>Hier sollten Sie nicht sein.</source>
         <target>Hier sollten Sie nicht sein.</target>
       </trans-unit>
-      <trans-unit id="0bZlmjh" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
-        <source>Beinahe hätten Sie hinter die Kullissen schauen können.</source>
+      <trans-unit id="NyA0D9B" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
+        <source>Beinahe hätten Sie hinter die Kulissen schauen können.</source>
         <target>Beinahe hätten Sie hinter die Kullissen schauen können.</target>
       </trans-unit>
       <trans-unit id="JQjD_Ln" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
-        <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
-        <target>Wie hätte nicht gedacht, das jemand so tief gräbt.</target>
+        <source>Wie hätte nicht gedacht, dass jemand so tief gräbt.</source>
+        <target>Wie hätte nicht gedacht, dass jemand so tief gräbt.</target>
       </trans-unit>
       <trans-unit id="ImCGLX0" resname="Hier geht es wieder zurück an die Oberfläche">
         <source>Hier geht es wieder zurück an die Oberfläche</source>
@@ -2042,10 +2042,18 @@
         <source>Geben Sie hier die Dauer der Konferenz ein.</source>
         <target>Geben Sie hier die Dauer der Konferenz ein.</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source></source>
-        <target>__</target>
-      </trans-unit>
+        <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
+            <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
+            <target><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+        </trans-unit>
+        <trans-unit id="Wc6qVwo" resname="terms.haeder">
+            <source>Allgemeinen Geschäftsbedingungen</source>
+            <target>Allgemeinen Geschäftsbedingungen</target>
+        </trans-unit>
+        <trans-unit id="vK.Wq8P" resname="terms.accept">
+            <source>Ich akzeptiere die allgemeinen Geschäftsbedingungen</source>
+            <target>Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>
