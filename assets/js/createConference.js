@@ -519,13 +519,10 @@ function makeBlury(frame) {
 }
 
 function removeBlury(frame) {
-    var frames = document.querySelectorAll('.iframeFrame');
+    var frames = document.querySelectorAll('.blurryOverlay');
     for( var  f of frames){
-        if (f.querySelector('.blurryOverlay')) {
-            f.querySelector('.blurryOverlay').remove();
-        }
+            f.remove();
     }
-
 }
 
 export {initStartIframe, createIframe}
