@@ -129,7 +129,7 @@ function createIframe(url, title, closeIntelligent = true) {
     if (closeIntelligent) {
         setTimeout(function () {
             sendCommand('jitsiadminiframe' + random, {type: 'init'});
-        }, 15000)
+        }, 10000)
     }
     counter += 40;
     if (window.innerWidth < 992) {
