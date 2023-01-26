@@ -218,6 +218,7 @@ function sendCommand(id, message) {
     var ele = document.getElementById(id).querySelector('iframe');
     var messageId = makeid(32);
     message.frameId = id;
+    message.scope='jitsi-admin-iframe';
     message.messageId = messageId;
     ele.contentWindow.postMessage(JSON.stringify(message), '*');
     messages[messageId] = id;
@@ -510,7 +511,7 @@ function makeid(length) {
 }
 
 function makeBlury(frame) {
-    var frames = document.querySelectorAll('.iframeFrame');
+    var frames = document.querySelectorAll('.iframeFrame, #frame');
     for( var  f of frames){
     f.insertAdjacentHTML('afterbegin', '<div class="blurryOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.0; background-color: inherit"></div>');
     }
@@ -518,13 +519,10 @@ function makeBlury(frame) {
 }
 
 function removeBlury(frame) {
-    var frames = document.querySelectorAll('.iframeFrame');
+    var frames = document.querySelectorAll('.blurryOverlay');
     for( var  f of frames){
-        if (f.querySelector('.blurryOverlay')) {
-            f.querySelector('.blurryOverlay').remove();
-        }
+            f.remove();
     }
-
 }
 
 export {initStartIframe, createIframe}

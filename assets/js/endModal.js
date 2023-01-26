@@ -2,14 +2,16 @@ import $ from "jquery";
 import {close, inIframe} from "./moderatorIframe";
 
 export var starShowed = false;
+export var initilized = false;
+
 export function initStarSend() {
-    if (starShowed){
+    if (starShowed) {
         closeWindow();
     }
     $('#endMeetingModal').removeClass('d-none');
     $('#mainContent').remove();
     $('#frame').remove();
-    if ($('.starSend').length > 0) {
+    if ($('.starSend').length > 0 && initilized == false) {
         $('.starSend').click(
             function (e) {
                 var _navigator = {};
@@ -30,6 +32,7 @@ export function initStarSend() {
                 });
             }
         )
+        initilized = true;
     } else {
         setTimeout(function () {
             closeWindow();
@@ -42,7 +45,7 @@ export function initStarSend() {
     setTimeout(function () {
         starShowed = true;
 
-    },1000);
+    }, 2000);
 }
 
 function closeWindow() {
