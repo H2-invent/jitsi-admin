@@ -21,7 +21,7 @@ import {leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
 import {initSearchCallOut} from "./inviteCalloutUser";
 import {initSendMessage} from "./sendMessageToWaitingUser";
-import {detectOverflow} from "@popperjs/core";
+
 
 var jitsiApi;
 
@@ -39,7 +39,7 @@ initSearchCallOut();
 initSendMessage();
 
 function checkCloseModerator() {
-    echoOff();//echo ausschlaten wenn ncoh an
+    echoOff();//echo ausschalten wenn ncoh an
     stopWebcam();//Webcam auschalten
     var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
     if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
