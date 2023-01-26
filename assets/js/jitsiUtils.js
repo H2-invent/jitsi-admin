@@ -22,6 +22,7 @@ var cameraLable = null;
 var displayName = null;
 var isMuted = null;
 var isVideoMuted = null;
+var avatarUrl = null;
 
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
@@ -30,6 +31,12 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     microphoneLabel = micId;
     cameraLable = videoId;
     api = new JitsiMeetExternalAPI(domain, options);
+    if (typeof options.userInfo.avatarUrl !== 'undefined'){
+        avatarUrl = options.userInfo.avatarUrl;
+    }
+    if (typeof options.userInfo.displayName !== 'undefined'){
+        displayName = options.userInfo.displayName;
+    }
     renewPartList()
 
     api.addListener('participantJoined', function (id, name) {
@@ -64,7 +71,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
-
+        api.executeCommand('avatarUrl', avatarUrl);
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
@@ -129,7 +136,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 function endMeeting() {
     participants = api.getParticipantsInfo();
     for (var i = 0; i < participants.length; i++) {
-        if (api){
+        if (api) {
             api.executeCommand('kickParticipant', participants[i].participantId);
         }
 
@@ -173,7 +180,7 @@ function askHangup() {
 }
 
 function hangup() {
-    if (api){
+    if (api) {
         api.executeCommand('hangup');
     }
 }
@@ -227,8 +234,6 @@ function eventIsVideoMuted(e) {
 
 
 async function pauseConference() {
-    displayName = api.getParticipantsInfo();
-    displayName = displayName[0].displayName;
     api.executeCommand('displayName', '(Away) ' + displayName);
     api.removeListener('audioMuteStatusChanged', eventIsMuted);
     api.removeListener('videoMuteStatusChanged', eventIsVideoMuted);
@@ -242,6 +247,7 @@ async function pauseConference() {
             api.executeCommand('toggleVideo');
         }
     });
+    api.executeCommand('avatarUrl', 'https://avatars0.githubusercontent.com/u/3671647');
 }
 
 async function playConference() {
@@ -254,6 +260,7 @@ async function playConference() {
     }
     api.addListener('audioMuteStatusChanged', eventIsMuted);
     api.addListener('videoMuteStatusChanged', eventIsVideoMuted);
+    api.executeCommand('avatarUrl', avatarUrl);
 }
 
 export {initJitsi, hangup, askHangup, checkDeviceinList, pauseConference, playConference}
