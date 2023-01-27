@@ -169,7 +169,7 @@
 
                                 {% if form.dissallowScreenshareGlobal is defined %}
                                     <div class="col-lg-12">
-                                        <div id="enableFeateureJwt" class="d-none row">
+                                        <div id="enableFeateureJwt" class="{% if serverchoose is null or not serverchoose.featureEnableByJWT %}d-none{% endif%} row">
                                             <div class="col-sm-11">
                                                 {{ form_row(form.dissallowScreenshareGlobal) }}
                                             </div>
