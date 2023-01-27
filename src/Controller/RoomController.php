@@ -77,6 +77,7 @@ class RoomController extends JitsiAdminController
                 $room->setUidParticipant(md5(uniqid('h2-invent', true)));
             }
             $edit = true;
+            $serverChhose = $room->getServer();
         } else {
             $serverChhose = null;
             if ($request->cookies->has('room_server')) {
@@ -106,7 +107,7 @@ class RoomController extends JitsiAdminController
             }
         }
 
-//        try {
+        try {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -202,14 +203,14 @@ class RoomController extends JitsiAdminController
 
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
+            }
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+            $this->addFlash('danger', 'Fehler, Bitte kontrollieren Sie ihre Daten.');
+            $res = $this->generateUrl('dashboard');
+            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-//        } catch (\Exception $e) {
-//            $this->logger->error($e->getMessage());
-//            $this->addFlash('danger', 'Fehler, Bitte kontrollieren Sie ihre Daten.');
-//            $res = $this->generateUrl('dashboard');
-//            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
-//        }
-        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'form' => $form->createView(), 'title' => $title, 'isEdit' => (bool)$request->get('id')));
+        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers,'serverchoose'=>$serverChhose, 'form' => $form->createView(), 'title' => $title));
     }
 
 
