@@ -112,7 +112,7 @@ function createIframe(url, title, closeIntelligent = true) {
     })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
-        maximizeWindow(e);
+        maximizeWindow(e.target);
         removeInteraction();
     })
 
@@ -169,7 +169,7 @@ function toggleMaximize(e) {
     if (element.classList.contains('maximized')){
         restoreWindow(e)
     }else {
-        maximizeWindow(e)
+        maximizeWindow(element)
     }
 }
 function fulscreenWindow(element){
@@ -192,15 +192,15 @@ function pauseIframe(e) {
 
 function maximizeWindow(e) {
 
-    var frame = e.currentTarget.closest('.jitsiadminiframe');
+    var frame = e.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
     if (maxiIcon.dataset.maximal === "0") {
-        maxiIcon.dataset.height = e.currentTarget.closest('.jitsiadminiframe').style.height;
-        maxiIcon.dataset.width = e.currentTarget.closest('.jitsiadminiframe').style.width;
-        maxiIcon.dataset.translation = e.currentTarget.closest('.jitsiadminiframe').style.transform;
-        maxiIcon.dataset.x = e.currentTarget.closest('.jitsiadminiframe').dataset.x;
-        maxiIcon.dataset.y = e.currentTarget.closest('.jitsiadminiframe').dataset.y;
+        maxiIcon.dataset.height = frame.style.height;
+        maxiIcon.dataset.width = frame.style.width;
+        maxiIcon.dataset.translation = frame.style.transform;
+        maxiIcon.dataset.x = frame.dataset.x;
+        maxiIcon.dataset.y = frame.dataset.y;
         frame.style.width = "100%";
         frame.style.height = "100%";
         frame.style.transform = 'translate(0px, 0px)'
@@ -396,11 +396,8 @@ function addInteractions(ele) {
 
 
         } else if (event.clientX >= 20 && event.clientY <= 20 && event.clientX <= window.innerWidth - 20) {//top
-
-            position.x = 0;
-            position.y = 0;
-            event.target.closest('.jitsiadminiframe').style.height = window.innerHeight / 2 + 'px'
-            event.target.closest('.jitsiadminiframe').style.width = window.innerWidth + 'px'
+            position.x += event.delta[0];
+            position.y += event.delta[1]
         } else if (event.clientX <= 0 && event.clientY >= 0 && event.clientY <= window.innerHeight - 20) {//on the right side
 
             position.x = 0;
@@ -414,11 +411,14 @@ function addInteractions(ele) {
             position.y += event.delta[1]
         }
 
+        if (position.x !== null){
+            event.target.closest('.jitsiadminiframe').style.transform =
+                `translate(${position.x}px, ${position.y}px)`
+        }
 
-        event.target.closest('.jitsiadminiframe').style.transform =
-            `translate(${position.x}px, ${position.y}px)`
 
     }).on("dragEnd", event => {
+
         removeBlury(event.target.closest('.jitsiadminiframe'))
         var ifr = event.target.closest('.jitsiadminiframe').querySelector('.multiframeIframe');
         ifr.style.removeProperty('display');
@@ -433,7 +433,16 @@ function addInteractions(ele) {
                 event.inputEvent.target.click()
             }
         }
+        if (event.clientX >= 20 && event.clientY <= 20 && event.clientX <= window.innerWidth - 20) {//top
+            console.log('Fullscreen')
+            position.y = 5;
+            event.target.closest('.jitsiadminiframe').style.transform =
+                `translate(${position.x}px, ${position.y}px)`
+            event.target.closest('.jitsiadminiframe').dataset.x = position.x;
+            event.target.closest('.jitsiadminiframe').dataset.y = position.y;
+            maximizeWindow(event.target);
 
+        }
 
     });
 

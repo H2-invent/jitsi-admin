@@ -306,7 +306,7 @@ class RoomController extends JitsiAdminController
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
             }
-            return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
+            return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(),'serverchoose'=>$serverChhose, 'title' => $title));
         }
 
         $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');

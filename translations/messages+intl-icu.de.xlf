@@ -1907,30 +1907,30 @@
         <target>An alle Wartenden</target>
       </trans-unit>
       <trans-unit id="OYdVVKy" resname="lobby.message.failed">
-        <source>Bei der Übermittlung der Nachricht gab es einen Fehler.</source>
+        <source>lobby.message.failed</source>
         <target>Bei der Übermittlung der Nachricht gab es einen Fehler.</target>
       </trans-unit>
       <trans-unit id="EaWoPF5" resname="lobby.message.success">
-        <source>Die Nachricht wurde erfolgreich übermittelt.</source>
+        <source>lobby.message.success</source>
         <target>Die Nachricht wurde erfolgreich übermittelt.</target>
       </trans-unit>
       <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
-        <source>Wartenden zulassen</source>
+        <source>lobby.participant.tooltip.acccept</source>
         <target>Wartenden zulassen</target>
       </trans-unit>
       <trans-unit id="ozoWxDu" resname="lobby.participant.tooltip.decline">
-        <source>Wartenden ablehnen</source>
+        <source>lobby.participant.tooltip.decline</source>
         <target>Wartenden ablehnen</target>
       </trans-unit>
       <trans-unit id="fc3.g55" resname="lobby.participant.tooltip.message">
-        <source>Nachricht senden</source>
+        <source>lobby.participant.tooltip.message</source>
         <target>Nachricht senden</target>
       </trans-unit>
       <trans-unit id="P2akYaZ" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
         <target>Hmmmm. Hier lief ziemlich was schief.</target>
       </trans-unit>
-      <trans-unit id="5TfhZhW" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
+      <trans-unit id="oBFR00l" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
         <source>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</source>
         <target>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</target>
       </trans-unit>
@@ -1942,12 +1942,12 @@
         <source>Hier sollten Sie nicht sein.</source>
         <target>Hier sollten Sie nicht sein.</target>
       </trans-unit>
-      <trans-unit id="NyA0D9B" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
-        <source>Beinahe hätten Sie hinter die Kulissen schauen können.</source>
+      <trans-unit id="0bZlmjh" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
+        <source>Beinahe hätten Sie hinter die Kullissen schauen können.</source>
         <target>Beinahe hätten Sie hinter die Kullissen schauen können.</target>
       </trans-unit>
       <trans-unit id="JQjD_Ln" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
-        <source>Wie hätte nicht gedacht, dass jemand so tief gräbt.</source>
+        <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
         <target>Wie hätte nicht gedacht, dass jemand so tief gräbt.</target>
       </trans-unit>
       <trans-unit id="ImCGLX0" resname="Hier geht es wieder zurück an die Oberfläche">
@@ -2023,37 +2023,37 @@
         <target>Mehr</target>
       </trans-unit>
       <trans-unit id="wJaAqBu" resname="room.new.help.name">
-        <source>Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</source>
+        <source>room.new.help.name</source>
         <target>Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
       </trans-unit>
       <trans-unit id="Es8.yLb" resname="room.new.help.agenda">
-        <source>Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</source>
+        <source>room.new.help.agenda</source>
         <target>Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
       </trans-unit>
       <trans-unit id="M41U7qV" resname="room.new.help.persistant">
-        <source>Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</source>
+        <source>room.new.help.persistant</source>
         <target>Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</target>
       </trans-unit>
       <trans-unit id="VI.eQ_9" resname="room.new.help.start">
-        <source>Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</source>
+        <source>room.new.help.start</source>
         <target>Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</target>
       </trans-unit>
       <trans-unit id="8P9k.W6" resname="room.new.help.duration">
-        <source>Geben Sie hier die Dauer der Konferenz ein.</source>
+        <source>room.new.help.duration</source>
         <target>Geben Sie hier die Dauer der Konferenz ein.</target>
       </trans-unit>
-        <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
-            <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-            <target><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
-        </trans-unit>
-        <trans-unit id="Wc6qVwo" resname="terms.haeder">
-            <source>Allgemeinen Geschäftsbedingungen</source>
-            <target>Allgemeinen Geschäftsbedingungen</target>
-        </trans-unit>
-        <trans-unit id="vK.Wq8P" resname="terms.accept">
-            <source>Ich akzeptiere die allgemeinen Geschäftsbedingungen</source>
-            <target>Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
-        </trans-unit>
+      <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
+        <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
+        <target><![CDATA[Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+      </trans-unit>
+      <trans-unit id="Wc6qVwo" resname="terms.haeder">
+        <source>terms.haeder</source>
+        <target>Allgemeinen Geschäftsbedingungen</target>
+      </trans-unit>
+      <trans-unit id="vK.Wq8P" resname="terms.accept">
+        <source>terms.accept</source>
+        <target>Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
