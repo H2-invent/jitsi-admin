@@ -55,6 +55,19 @@ function close(frameIdTmp) {
     }
 }
 
+function showPlayPause() {
+    if (inIframe()) {
+        var id =  frameId
+        if (id) {
+            const message = JSON.stringify({
+                type: 'showPlayPause',
+                frameId: id
+            });
+            window.parent.postMessage(message, '*');
+        }
+    }
+}
+
 function inIframe() {
     try {
         return window.self !== window.top;
@@ -63,4 +76,4 @@ function inIframe() {
     }
 }
 
-export {initModeratorIframe, close, inIframe}
+export {initModeratorIframe, close,showPlayPause, inIframe}

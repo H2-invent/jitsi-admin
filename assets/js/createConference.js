@@ -62,7 +62,7 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="headerBar">' +
         '<div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
-        '<div class="pauseConference  actionIcon" data-pause="0"><i class="fa-solid fa-pause"></i></div> ' +
+        '<div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause"></i></div> ' +
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
         '<div class="button-restore actionIcon d-none" data-maximal="0"><i class="fa-solid fa-window-restore"></i></div> ' +
         '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
@@ -260,6 +260,8 @@ function recievecommand(data) {
         }
     } else if (type === 'openNewIframe') {
         createIframe(decoded.url, decoded.title, false);
+    } else if (type === 'showPlayPause') {
+        console.log(decoded);
     } else if (type === 'ack') {
         var messageId = decoded.messageId
         delete messages[messageId];

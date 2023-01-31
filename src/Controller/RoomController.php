@@ -185,7 +185,6 @@ class RoomController extends JitsiAdminController
                             JsonEncoder::FORMAT,
                             [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
                     );
-                    dump($message);
                     $log->setCreatedAt(new \DateTime())
                         ->setUserName($this->getUser()->getUid())
                         ->setMessage(json_encode($message))

@@ -71,6 +71,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
+        show
         api.executeCommand('avatarUrl', avatarUrl);
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
