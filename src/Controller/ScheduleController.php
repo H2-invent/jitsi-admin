@@ -35,6 +35,7 @@ class ScheduleController extends JitsiAdminController
     public function new(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, Request $request, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, UserService $userService, SchedulingService $schedulingService): Response
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
+        $edit = false;
         if ($request->get('id')) {
             $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
             if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
@@ -52,6 +53,7 @@ class ScheduleController extends JitsiAdminController
                 $room->setUidParticipant(md5(uniqid('h2-invent', true)));
             }
         $serverChhose = $room->getServer();
+            $edit = true;
         } else {
             $serverChhose = null;
             if ($request->cookies->has('room_server')) {
@@ -72,7 +74,12 @@ class ScheduleController extends JitsiAdminController
 
         $roomold = clone $room;
         $form = $this->createForm(RoomType::class, $room, ['user'=>$this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
-
+        if ($edit) {
+            $form->remove('moderator');
+            if (!in_array($room->getServer(), $servers)) {
+                $form->remove('server');
+            }
+        }
         $form->remove('scheduleMeeting');
         $form->remove('start');
         $form->remove('persistantRoom');
@@ -133,7 +140,7 @@ class ScheduleController extends JitsiAdminController
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'serverchoose'=>$serverChhose,'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('isEdit'=>$edit, 'server'=>$servers, 'serverchoose'=>$serverChhose,'form' => $form->createView(), 'title' => $title));
     }
 
     /**

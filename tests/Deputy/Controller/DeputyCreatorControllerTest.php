@@ -117,4 +117,65 @@ class DeputyCreatorControllerTest extends WebTestCase
 
     }
 
+    public function testDuplicateConference(): void
+    {
+
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $manager  = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+
+
+        $server = $this->deputy->getServers()->toArray()[0];
+
+        $crawler = $this->client->request('GET', '/room/new');
+        $buttonCrawlerNode = $crawler->selectButton('Speichern');
+        $form = $buttonCrawlerNode->form();
+        $form['room[server]'] = $server->getId();
+        $form['room[moderator]'] = $this->manager->getId();
+        $form['room[name]'] = 'test for the supervisor';
+        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[duration]'] = "60";
+
+        $this->client->submit($form);
+        $flash = $this->session->getBag('flashes')->all();
+
+
+        $crawler = $this->client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
+
+        foreach ($this->deputy->getServers() as $s){
+            $this->deputy->removeServer($s);
+
+        }
+        $this->em->persist($this->deputy);
+        foreach ($this->manager->getServers() as $s){
+            $this->manager->removeServer($s);
+
+        }
+        $this->em->persist($this->manager);
+        $this->em->flush();
+
+        $crawler = $this->client->request('GET', '/room/clone?room='.$room->getId());
+
+        $buttonCrawlerNode = $crawler->selectButton('Speichern');
+        $form = $buttonCrawlerNode->form();
+        $form['room[name]'] = 'test for the supervisor';
+        $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
+        $form['room[duration]'] = "60";
+
+
+        $this->client->submit($form);
+
+
+        $crawler = $this->client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+        $rooms = $roomRepo->findBy(array('name' => 'test for the supervisor'));
+        self::assertEquals(2, sizeof($rooms));
+
+    }
+
 }

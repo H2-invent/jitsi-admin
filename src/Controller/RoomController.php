@@ -209,7 +209,7 @@ class RoomController extends JitsiAdminController
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'serverchoose' => $serverChhose, 'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('isEdit'=>$edit, 'server' => $servers, 'serverchoose' => $serverChhose, 'form' => $form->createView(), 'title' => $title));
     }
 
 
@@ -248,6 +248,7 @@ class RoomController extends JitsiAdminController
     {
 
         $roomOld = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
+        $edit = true;
         $room = clone $roomOld;
         $room->setStart(null);
         $room->setStartUtc(null);
@@ -317,7 +318,7 @@ class RoomController extends JitsiAdminController
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
             }
-            return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'server' => $servers, 'serverchoose' => $serverChhose, 'title' => $title));
+            return $this->render('base/__newRoomModal.html.twig', array('isEdit'=>$edit,'form' => $form->createView(), 'server' => $servers, 'serverchoose' => $serverChhose, 'title' => $title));
         }
 
         $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');

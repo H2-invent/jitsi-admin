@@ -34,7 +34,7 @@ class RepeaterController extends JitsiAdminController
 
 
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             throw new NotFoundHttpException('Not found');
         }
         $repeater = new Repeat();
@@ -175,6 +175,7 @@ class RepeaterController extends JitsiAdminController
     {
         $title = $this->translator->trans('Alle Serienelement der Serie bearbeiten');
         $extra = null;
+        $edit = true;
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('id'));
         $serverChhose = $room->getServer();
@@ -201,7 +202,10 @@ class RepeaterController extends JitsiAdminController
         $form = $this->createForm(RoomType::class, $room, $option);
         $form->remove('scheduleMeeting');
         $form->remove('persistantRoom');
-
+        $form->remove('moderator');
+        if (!in_array($room->getServer(), $servers)) {
+            $form->remove('server');
+        }
         try {
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -234,6 +238,7 @@ class RepeaterController extends JitsiAdminController
         }
         return $this->render('base/__newRoomModal.html.twig', [
             'form' => $form->createView(),
+            'isEdit'=>$edit,
             'serverchoose' => $serverChhose,
             'title' => $title,
             'extra' => $extra
