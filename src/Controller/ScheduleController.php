@@ -51,7 +51,7 @@ class ScheduleController extends JitsiAdminController
             if (!$room->getUidParticipant()) {
                 $room->setUidParticipant(md5(uniqid('h2-invent', true)));
             }
-
+        $serverChhose = $room->getServer();
         } else {
             $serverChhose = null;
             if ($request->cookies->has('room_server')) {
@@ -133,7 +133,7 @@ class ScheduleController extends JitsiAdminController
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'serverchoose'=>$serverChhose,'form' => $form->createView(), 'title' => $title));
     }
 
     /**
