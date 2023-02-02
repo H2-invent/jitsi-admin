@@ -1,5 +1,5 @@
 import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
-import {close, inIframe, initModeratorIframe} from "./moderatorIframe";
+import {close, inIframe, initModeratorIframe, showPlayPause} from "./moderatorIframe";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import * as mdb from 'mdb-ui-kit'; // lib
@@ -21,6 +21,7 @@ api.addListener('chatUpdated', function (e) {
 api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
     initStartWhiteboard();
+    showPlayPause();
     joined = true;
     window.onbeforeunload = function (e) {
         e.preventDefault();

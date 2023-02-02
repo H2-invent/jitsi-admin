@@ -7,6 +7,8 @@ import $ from 'jquery';
 import {enterMeeting, leaveMeeting} from "./websocket";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
+import {showPlayPause} from "./moderatorIframe";
+import {jitsiController} from "./pauseJitsi";
 
 global.$ = global.jQuery = $;
 
@@ -23,7 +25,7 @@ var displayName = null;
 var isMuted = null;
 var isVideoMuted = null;
 var avatarUrl = null;
-
+var pauseController;
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
@@ -71,15 +73,15 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
-        show
         api.executeCommand('avatarUrl', avatarUrl);
+        pauseController = new jitsiController(api,displayName,avatarUrl);
+
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();
             api = null;
         });
-        api.addListener('audioMuteStatusChanged', eventIsMuted);
-        api.addListener('videoMuteStatusChanged', eventIsVideoMuted);
+
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             var url = $(this).prop('href');

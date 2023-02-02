@@ -15,10 +15,11 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {enterMeeting, leaveMeeting, socket} from './websocket';
-import {initModeratorIframe, close, inIframe} from './moderatorIframe'
+import {initModeratorIframe, close, inIframe, showPlayPause} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import {checkDeviceinList} from './jitsiUtils'
+import {jitsiController} from "./pauseJitsi";
 
 import ('jquery-confirm');
 
@@ -48,7 +49,8 @@ var successTimer;
 var clickLeave = false;
 var microphoneLabel = null;
 var cameraLable = null;
-
+var displayName = null;
+var avatarUrl = null;
 
 function initMercure() {
 
@@ -139,6 +141,12 @@ function initJitsiMeet(data) {
 
 
     options.parentNode = document.querySelector(data.options.parentNode);
+    if (typeof options.userInfo.avatarUrl !== 'undefined'){
+        avatarUrl = options.userInfo.avatarUrl;
+    }
+    if (typeof options.userInfo.displayName !== 'undefined'){
+        displayName = options.userInfo.displayName;
+    }
     api = new JitsiMeetExternalAPI(data.options.domain, options);
     api.addListener('chatUpdated', function (e) {
         if (e.isOpen == true) {
@@ -152,6 +160,8 @@ function initJitsiMeet(data) {
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
+        showPlayPause();
+        var pauseController = new jitsiController(api,displayName,avatarUrl);
         window.onbeforeunload = function (e) {
             return '';
         }

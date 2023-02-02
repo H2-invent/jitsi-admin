@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@babel/plugin-proposal-class-properties": "^7.18.6",
         "@symfony/webpack-encore": "^0.30.0",
         "chromedriver": "^105.0.0",
         "core-js": "^3.8.1",
@@ -17,7 +18,6 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@babel/plugin-proposal-class-properties": "^7.18.6",
         "@dmuy/datepicker": "^2.0.1",
         "@dmuy/timepicker": "^2.0.0",
         "@fortawesome/fontawesome-free": "^6.1",

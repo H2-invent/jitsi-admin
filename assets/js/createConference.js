@@ -179,6 +179,8 @@ function fulscreenWindow(element){
 function pauseIframe(e) {
 
     var currentElement = e.currentTarget;
+
+    // Aktivieren Sie die Tonwiedergabe im iFrame
     if (currentElement.dataset.pause == 0) {
         currentElement.dataset.pause = 1;
         currentElement.innerHTML = '<i class="fa-solid fa-play"></i>';
@@ -261,7 +263,8 @@ function recievecommand(data) {
     } else if (type === 'openNewIframe') {
         createIframe(decoded.url, decoded.title, false);
     } else if (type === 'showPlayPause') {
-        console.log(decoded);
+        var frame = document.getElementById(decoded.frameId);
+        frame.querySelector('.pauseConference').classList.remove('d-none');
     } else if (type === 'ack') {
         var messageId = decoded.messageId
         delete messages[messageId];
@@ -436,7 +439,6 @@ function addInteractions(ele) {
             }
         }
         if (event.clientX >= 20 && event.clientY <= 20 && event.clientX <= window.innerWidth - 20) {//top
-            console.log('Fullscreen')
             position.y = 5;
             event.target.closest('.jitsiadminiframe').style.transform =
                 `translate(${position.x}px, ${position.y}px)`

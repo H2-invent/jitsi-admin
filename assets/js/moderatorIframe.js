@@ -1,42 +1,25 @@
-import {pauseConference, playConference} from "./jitsiUtils";
-
 global.frameId = null;
 var blockPause = null;
+var showBlockPause = false;
+var jitsiC = null;
 
-function initModeratorIframe(closeFkt) {
-
+function initModeratorIframe(closeFkt, jitsiController = null) {
+    jitsiC = jitsiController;
     window.addEventListener('message', function (e) {
 
         const decoded = JSON.parse(e.data);
-        if (typeof decoded.scope !== 'undefined' && decoded.scope=="jitsi-admin-iframe"){
-            window.parent.postMessage(JSON.stringify({type:'ack',messageId:decoded.messageId}), '*');
-        }
-
-         if (decoded.type === 'init') {
-            frameId = decoded.frameId;
-        } else if (decoded.type === 'pleaseClose') {
-            if (typeof decoded.frameId !== 'undefined') {
+        if (typeof decoded.scope !== 'undefined' && decoded.scope == "jitsi-admin-iframe") {
+            window.parent.postMessage(JSON.stringify({type: 'ack', messageId: decoded.messageId}), '*');
+            if (decoded.type === 'init') {
                 frameId = decoded.frameId;
-            }
-            closeFkt();
-        } else if (decoded.type === 'pauseIframe') {
-
-            if (blockPause!== true){
-                blockPause = true;
-                pauseConference().then(function () {
-                    blockPause = false
-                });
-            }
-
-        } else if (decoded.type === 'playIframe') {
-            if (typeof decoded.frameId !== 'undefined') {
-                if (blockPause !== true) {
-                    blockPause = true;
-                    playConference().then(function () {
-                        blockPause = false
-                    });
+                if (showBlockPause) {
+                    showPlayPause();
                 }
-
+            } else if (decoded.type === 'pleaseClose') {
+                if (typeof decoded.frameId !== 'undefined') {
+                    frameId = decoded.frameId;
+                }
+                closeFkt();
             }
         }
     });
@@ -57,13 +40,15 @@ function close(frameIdTmp) {
 
 function showPlayPause() {
     if (inIframe()) {
-        var id =  frameId
+        var id = frameId
         if (id) {
             const message = JSON.stringify({
                 type: 'showPlayPause',
                 frameId: id
             });
             window.parent.postMessage(message, '*');
+        } else {
+            showBlockPause = true;
         }
     }
 }
@@ -76,4 +61,4 @@ function inIframe() {
     }
 }
 
-export {initModeratorIframe, close,showPlayPause, inIframe}
+export {initModeratorIframe, close, showPlayPause, inIframe}
