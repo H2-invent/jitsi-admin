@@ -122,15 +122,16 @@
         <row>
             <columns>
                 <spacer size="32"></spacer>
-                <p style="text-align: center">
-                    <b>{{ 'Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.'|trans}} </b>
-                </p>
+
                 <spacer size="16"></spacer>
                 {% block content %}
 
                 {% endblock %}
                 <spacer size="16"></spacer>
-
+                <p style="text-align: center">
+                    <b>{{ 'Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.'|trans}} </b>
+                </p>
+                <spacer size="16"></spacer>
                 <center>
                     {% if laF_emailTextLogin == 1 %}
                         <p style="text-align: center">
