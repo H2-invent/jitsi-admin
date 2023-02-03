@@ -46,7 +46,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     {
         $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/protocol/openid-connect/registrations?client_id=' .
             $this->getParameter('KEYCLOAK_ID') .
-            '&response_type=code&scope=openid email&redirect_uri=' . $createHttpsUrl->createHttpsUrl($this->generateUrl('connect_keycloak_check', array())) . '&kc_locale=de';
+            '&response_type=code&scope=openid email&redirect_uri=' . $createHttpsUrl->createHttpsUrl($this->generateUrl('connect_keycloak_check')) . '&kc_locale=de';
         return $this->redirect($url);
     }
 

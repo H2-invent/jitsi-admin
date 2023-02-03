@@ -1,8 +1,8 @@
 $main-color: #2561ef; //#04d9c4
 $main-color-hover: lighten($main-color ,10%);
 $main-color-activ: darken($main-color ,10%);
-$sec-color: rgb(245, 26, 32);
-$sec-color-hover: rgb(201, 2, 0);
+$sec-color: rgb(172, 26, 245);
+$sec-color-hover: lighten($sec-color, 10%);
 $sec-color-activ: rgb(244, 105, 104);
 $contrast-base: rgb(85, 83, 80);
 $contrast-dark: rgb(23, 21, 18);

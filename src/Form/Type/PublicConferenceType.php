@@ -27,7 +27,7 @@ class PublicConferenceType extends AbstractType
 
         $builder
             ->add('roomName', TextType::class, ['attr' => ['placeholder' => 'label.konferenzName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-        ->add('submit', SubmitType::class,array('attr'=>array('class'=>'btn btn-outline-primary'),'label' => 'label.go', 'translation_domain' => 'form'),);
+        ->add('submit', SubmitType::class,array('attr'=>array('class'=>'btn btn-primary btn-rounded'),'label' => 'label.go', 'translation_domain' => 'form'),);
     }
 
     public function configureOptions(OptionsResolver $resolver)
