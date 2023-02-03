@@ -930,3 +930,28 @@ strong {
   justify-content: center;
   align-items: center;
 }
+.fa {
+  &.fa-star{
+    color: gold;
+  }
+}
+a:hover{
+  .far{
+    &.fa-star{
+      color: gold;
+    }
+  }
+}
+.btn-darkred{
+  &[class*='btn-outline']{
+    border-color: #A10808;
+    color: #A10808;
+    &:hover{
+      border-color: lighten(#A10808,10%);
+      color: lighten(#A10808,10%);
+    }
+  }
+}
+.btn{
+  text-transform: none!important;
+}

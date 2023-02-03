@@ -70,7 +70,7 @@
         {% else %}
             {{ room.name }}
         {% endif %}<a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i
-                    class="{{ room in app.user.favorites?'text-success fa':'far' }} fa-star"></i> </a>
+                    class="{{ room in app.user.favorites?'fa':'far' }} fa-star"></i> </a>
         {% if getApplicationProperties('SIP_SHOW_ROOMNUMBER_IN_DETAILS') == 1 and  room.callerRoom and getJigasiNumber(room)|length > 0 %}
             <a tabindex="0"
                data-mdb-toggle="popover"

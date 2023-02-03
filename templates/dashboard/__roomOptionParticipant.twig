@@ -1,8 +1,8 @@
 {% if app.user != room.moderator %}
     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-       class="element btn btn-outline-default confirmHref"
+       class="element btn btn-outline-default btn-darkred confirmHref"
        data-text="{{ 'confirm.delete.room'|trans }}">
-        {{ 'Entfernen'|trans }}
+        <i class="fa-solid fa-trash"></i>
     </a>
 {% endif %}
 {% if (getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and app.user != room.moderator) and room.totalOpenRooms != true %}

@@ -1,4 +1,4 @@
-<div class="card text-center favorites {% if r in runningRooms %} successBorder {% endif %}">
+<div class="card favorites {% if r in runningRooms %} successBorder {% endif %}">
 
     <div class="card-body d-flex flex-column justify-content-between">
         <h5 class="card-title favoriteTitle">
@@ -38,10 +38,10 @@
             <div class="startConferenceFromFavorite">
                 {% if getApplicationProperties('start_dropdown_allow_app') == 1 and getApplicationProperties('start_dropdown_allow_browser') == 1 %}
 
-                    <a class="btn btn-outline-primary dropdown-toggle btn-sm d-none d-lg-inline " type="button"
+                    <a class="btn btn-outline-primary dropdown-toggle caretdown btn-sm d-none d-lg-inline " type="button"
                        data-mdb-toggle="dropdown"
                        aria-haspopup="true"
-                       aria-expanded="false"><i class="fa fa-play"></i></a>
+                       aria-expanded="false">{{ 'Starten'|trans }}</a>
 
                     <div class="dropdown-menu">
                         <a class="dropdown-item {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" data-roomname="{{ room.name }}">{{ 'Im Browser'|trans }}</a>
@@ -51,16 +51,14 @@
 
                     <a class="btn btn-outline-primary bt-sm  d-lg-none {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}"
                        href="{{ path('room_join',{'t':'b','room':room.id}) }}"
-                       target="_blank"><i class="fa fa-play"></i></a>
+                       target="_blank">{{ 'Starten'|trans }}</a>
 
                 {% elseif getApplicationProperties('start_dropdown_allow_app') == 1 %}
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
-                       href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank"><i
-                                class="fa fa-play"></i></a>
+                       href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank">{{ 'Starten'|trans }}</a>
                 {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}"
-                       href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank"><i
-                                class="fa fa-play"></i></a>
+                       href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank">{{ 'Starten'|trans }}</a>
                 {% endif %}
             </div>
         {% else %}
