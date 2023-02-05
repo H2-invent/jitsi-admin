@@ -1088,8 +1088,8 @@
         <target state="translated">Nur Nutzer, die einen Account auf der Plattform haben, können diesem Meeting beitreten. Dafür ist die Eingabe von Benutzername und Passwort erforderlich. Das bedeutet einen zusätzlichen Schutz.</target>
       </trans-unit>
       <trans-unit id="9UX9V9a" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
-        <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
-        <target state="translated">Es wird ein Link erstellt, den Sie weitergeben können. Über diesen Link können sich Teilnehmende selbst in die Teilnehmendenliste eintragen. Sie können diese Liste bearbeiten und sich als Teilnehmer entfernen.</target>
+        <source>Es wird ein Link erstellt, den Sie weitergeben können. Über diesen Link können sich Teilnehmende selbst in die Teilnehmendenliste eintragen. Sie können diese Liste bearbeiten und unangebrachte Teilnehmer entfernen.</source>
+        <target state="translated">Es wird ein Link erstellt, den Sie weitergeben können. Über diesen Link können sich Teilnehmende selbst in die Teilnehmendenliste eintragen. Sie können diese Liste bearbeiten und unangebrachte Teilnehmer entfernen.</target>
       </trans-unit>
       <trans-unit id="C9MwZGx" resname="Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können">
         <source>Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können</source>
@@ -1108,8 +1108,8 @@
         <target state="translated">Nur der Organisator darf die Ansicht auf seinem Bildschirm teilen, jedoch nicht die Teilnehmenden. Der Organisator kann in der Teilnehmendenübersicht einzelne Personen wieder zulassen.</target>
       </trans-unit>
       <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
-        <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
-        <target state="translated">Es gibt keine Teilnehmendenliste. Die Teilnehmenden können der Konferenz über den generierten Link beitreten.</target>
+        <source>Sie erhalten einen Link, welchen Sie an die Teilnehmenden weiterleiten können. Die Teilnehmenden können der Konferenz über den generierten Link beitreten.</source>
+        <target state="translated">Sie erhalten einen Link, welchen Sie an die Teilnehmenden weiterleiten können. Die Teilnehmenden können der Konferenz über den generierten Link beitreten.</target>
       </trans-unit>
       <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
         <source>Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.</source>
@@ -1907,23 +1907,23 @@
         <target>An alle Wartenden</target>
       </trans-unit>
       <trans-unit id="OYdVVKy" resname="lobby.message.failed">
-        <source>lobby.message.failed</source>
+        <source>Bei der Übermittlung der Nachricht gab es einen Fehler.</source>
         <target>Bei der Übermittlung der Nachricht gab es einen Fehler.</target>
       </trans-unit>
       <trans-unit id="EaWoPF5" resname="lobby.message.success">
-        <source>lobby.message.success</source>
+        <source>Die Nachricht wurde erfolgreich übermittelt.</source>
         <target>Die Nachricht wurde erfolgreich übermittelt.</target>
       </trans-unit>
       <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
-        <source>lobby.participant.tooltip.acccept</source>
+        <source>Wartenden zulassen</source>
         <target>Wartenden zulassen</target>
       </trans-unit>
       <trans-unit id="ozoWxDu" resname="lobby.participant.tooltip.decline">
-        <source>lobby.participant.tooltip.decline</source>
+        <source>Wartenden ablehnen</source>
         <target>Wartenden ablehnen</target>
       </trans-unit>
       <trans-unit id="fc3.g55" resname="lobby.participant.tooltip.message">
-        <source>lobby.participant.tooltip.message</source>
+        <source>Nachricht senden</source>
         <target>Nachricht senden</target>
       </trans-unit>
       <trans-unit id="P2akYaZ" resname="Hmmmm. Hier lief ziemlich was schief.">
@@ -1947,7 +1947,7 @@
         <target>Beinahe hätten Sie hinter die Kullissen schauen können.</target>
       </trans-unit>
       <trans-unit id="JQjD_Ln" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
-        <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
+        <source>Wie hätte nicht gedacht, dass jemand so tief gräbt.</source>
         <target>Wie hätte nicht gedacht, dass jemand so tief gräbt.</target>
       </trans-unit>
       <trans-unit id="ImCGLX0" resname="Hier geht es wieder zurück an die Oberfläche">
@@ -2053,6 +2053,26 @@
       <trans-unit id="vK.Wq8P" resname="terms.accept">
         <source>terms.accept</source>
         <target>Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
+      </trans-unit>
+      <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
+        <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
+        <target><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+      </trans-unit>
+      <trans-unit id="Wc6qVwo" resname="terms.haeder">
+        <source>terms.haeder</source>
+        <target>Allgemeinen Geschäftsbedingungen</target>
+      </trans-unit>
+      <trans-unit id="vK.Wq8P" resname="terms.accept">
+        <source>terms.accept</source>
+        <target>Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
+      </trans-unit>
+      <trans-unit id="07QbdUY" resname="Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.">
+        <source>Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</source>
+        <target>Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</target>
+      </trans-unit>
+      <trans-unit id="eVgaxAg" resname="Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.">
+        <source>Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</source>
+        <target>Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</target>
       </trans-unit>
     </body>
   </file>

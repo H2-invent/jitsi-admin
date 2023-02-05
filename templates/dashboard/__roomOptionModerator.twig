@@ -5,11 +5,10 @@
 {% if  room.totalOpenRooms != true %}
 
     <a href="{{ path('room_add_user',{'room':room.id}) }}"
-       class=" element btn btn-outline-default loadContent moderator-participants">{{ 'Teilnehmer'|trans }}</a>
+       class=" element btn btn-outline-primary loadContent moderator-participants"><i class="fa-solid fa-users"></i></a>
 {% endif %}
 {% if isAllowedToOrganize(room,app.user) and room.totalOpenRooms == true %}
     <a href="{{ path('room_enter_link',{'uid':room.uid}) }}"
-       class=" element btn btn-outline-default loadContent moderator-sharelink">{{ 'Beitretenlink'|trans }}</a>
+       class=" element btn btn-outline-primary loadContent moderator-sharelink">{{ 'Beitretenlink'|trans }}</a>
 {% endif %}
-
 {% endif %}
