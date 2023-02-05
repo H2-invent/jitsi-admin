@@ -98,7 +98,7 @@ class JoinService
                 }
             }
         }else{
-            $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
+            $snack = $this->translator->trans('Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
             $color = 'danger';
         }
 
