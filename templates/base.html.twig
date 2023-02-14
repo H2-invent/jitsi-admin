@@ -21,7 +21,7 @@
 
     <!-- Page Content  -->
     <div class="window" id="window">
-        <div class="navigation shadow-3">
+        <div class="navigation fullwidth shadow-3">
             <a href="{{ path('dashboard') }}">
                 {% if theme %}
                     <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
@@ -47,7 +47,12 @@
 
 
         </div>
+<div class="fullwidth w-100 d-flex justify-content-end">
 
+        {% include('dashboard/widget/__profile_Dashboard.twig') %}
+
+
+</div>
         <div class="sidebar" id="sidebar">
             <div class="sidebarToggle d-none">
                 <i class="fa fa-times fa-2x"></i>
@@ -123,7 +128,7 @@
 
 {% block javascripts %}{% endblock %}
 {{ include('base/__script.html.twig') }}
-<style>
+<style type="text/css">
     .woot-widget-bubble {
         z-index: 5!important;
     }

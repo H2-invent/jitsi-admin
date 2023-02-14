@@ -26,61 +26,6 @@
  {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12  d-flex w-100 justify-content-end">
-                <div class="dropdown onlineSelector me-3">
-                    <a
-                            data-status="{{ app.user.onlineStatus==1?'online':'offline' }}"
-                            data-uid="{{ app.user.uid }}"
-                            type="button"
-                            id="onlineSelector"
-                            data-mdb-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        <div class="dot"></div>
-                        <span class="statusText">{{ app.user.onlineStatus==1?'status.online'|trans:'status.offline'|trans }}</span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item changeStatus" data-status="online"
-                               href="{{ path('app_online_status',{'status':1}) }}">
-                                <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
-                        <li><a class="dropdown-item changeStatus" data-status="away"
-                               href="{{ path('app_online_status',{'status':1}) }}">
-                                <div class="dot"></div>{{ 'status.away'|trans }}</a>
-                        </li>
-                        <li><a class="dropdown-item changeStatus" data-status="offline"
-                               href="{{ path('app_online_status',{'status':0}) }}">
-                                <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
-                        <li><a class="dropdown-item changeStatus" data-status="inMeeting"
-                               href="{{ path('app_online_status',{'status':1}) }}">
-                                <div class="dot"></div>{{ 'status.inMeeting'|trans }}</a></li>
-                    </ul>
-                </div>
-                <div class="custom-control custom-switch mb-2">
-                    <div class="d-flex justify-content-end">
-
-
-                        {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}<span class="me-3" id="actualTime">
-                            <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
-                        <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input switchDarkmode" type="checkbox" role="switch"
-                                   id="switchDarkmode2"
-                                    {{ app.request.cookies.get('DARK_MODE') }}
-                                    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                            checked
-                                    {% endif %}/>
-                            <label class="form-check-label" for="switchDarkmode2">
-                                <i class="fas fa-moon"></i>
-                            </label>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="container">
         <!-- Tabs navs -->

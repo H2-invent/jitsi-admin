@@ -2044,18 +2044,6 @@
       </trans-unit>
       <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-        <target><![CDATA[Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
-      </trans-unit>
-      <trans-unit id="Wc6qVwo" resname="terms.haeder">
-        <source>terms.haeder</source>
-        <target>Allgemeinen Geschäftsbedingungen</target>
-      </trans-unit>
-      <trans-unit id="vK.Wq8P" resname="terms.accept">
-        <source>terms.accept</source>
-        <target>Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
-      </trans-unit>
-      <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
-        <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
         <target><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
       </trans-unit>
       <trans-unit id="Wc6qVwo" resname="terms.haeder">

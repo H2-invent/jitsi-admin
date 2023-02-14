@@ -71,6 +71,8 @@ $(document).ready(function () {
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
+    console.log(document.getElementById('profileIcons').offsetHeight);
+    document.getElementById('profilLine').style.height = document.getElementById('profileIcons').offsetHeight+'px';
     initDashboardnotification(topic);
 
     setTimeout(function () {

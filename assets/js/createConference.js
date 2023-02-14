@@ -9,7 +9,12 @@ let height = window.innerHeight * 0.75;
 let moveable;
 let frames = [];
 let dragactive = false;
-
+let startWidth = null;
+let startHeight = null;
+let startx = null;
+let starty = null;
+let tryfullscreen = null;
+let startTransform = null;
 function initStartIframe() {
 
     document.addEventListener("mouseover", function (ele) {
@@ -112,6 +117,8 @@ function createIframe(url, title, closeIntelligent = true) {
     })
 
     document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
+
+        prepareMaximize(e);
         maximizeWindow(e.target);
         removeInteraction();
     })
@@ -169,6 +176,7 @@ function toggleMaximize(e) {
     if (element.classList.contains('maximized')){
         restoreWindow(e)
     }else {
+        prepareMaximize(e)
         maximizeWindow(element)
     }
 }
@@ -192,17 +200,24 @@ function pauseIframe(e) {
     }
 }
 
+function prepareMaximize(e) {
+    startx= parseInt(e.target.closest('.jitsiadminiframe').dataset.x);
+    starty = parseInt(e.target.closest('.jitsiadminiframe').dataset.y);
+    startHeight= e.target.closest('.jitsiadminiframe').offsetHeight;
+    startWidth = e.target.closest('.jitsiadminiframe').offsetWidth;
+    startTransform = e.target.closest('.jitsiadminiframe').style.transform;
+}
 function maximizeWindow(e) {
 
     var frame = e.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
     if (maxiIcon.dataset.maximal === "0") {
-        maxiIcon.dataset.height = frame.style.height;
-        maxiIcon.dataset.width = frame.style.width;
-        maxiIcon.dataset.translation = frame.style.transform;
-        maxiIcon.dataset.x = frame.dataset.x;
-        maxiIcon.dataset.y = frame.dataset.y;
+        maxiIcon.dataset.height = startHeight;
+        maxiIcon.dataset.width = startWidth;
+        maxiIcon.dataset.translation = startTransform;
+        maxiIcon.dataset.x = startx;
+        maxiIcon.dataset.y = starty;
         frame.style.width = "100%";
         frame.style.height = "100%";
         frame.style.transform = 'translate(0px, 0px)'
@@ -221,8 +236,8 @@ function restoreWindow(e) {
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
     if (maxiIcon.dataset.maximal === "1") {
-        frame.style.width = maxiIcon.dataset.width;
-        frame.style.height = maxiIcon.dataset.height;
+        frame.style.width = maxiIcon.dataset.width+'px';
+        frame.style.height = maxiIcon.dataset.height+'px';
         frame.style.transform = maxiIcon.dataset.translation;
         frame.style.removeProperty('border-width');
         frame.querySelector('.headerBar').style.removeProperty('padding');
@@ -336,6 +351,12 @@ function addInteractions(ele) {
 
         position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
         position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
+        startx = position.x;
+        starty = position.y;
+        startWidth = event.target.closest('.jitsiadminiframe').offsetWidth;
+        startHeight = event.target.closest('.jitsiadminiframe').offsetHeight;
+        startTransform= event.target.closest('.jitsiadminiframe').style.transform
+        tryfullscreen = false;
         // event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
         event.target.closest('.jitsiadminiframe').style.removeProperty('border');
 
@@ -349,7 +370,7 @@ function addInteractions(ele) {
         if (event.target.closest('.jitsiadminiframe').style.zIndex < zindex - 1) {
             event.target.closest('.jitsiadminiframe').style.zIndex = zindex++;
         }
-
+        tryfullscreen = false;
         if (event.clientX >= window.innerWidth - 20 && event.clientY >= 20 && event.clientY <= window.innerHeight - 20) {//on the left side
 
             position.x = window.innerWidth / 2;
@@ -401,8 +422,12 @@ function addInteractions(ele) {
 
 
         } else if (event.clientX >= 20 && event.clientY <= 20 && event.clientX <= window.innerWidth - 20) {//top
-            position.x += event.delta[0];
-            position.y += event.delta[1]
+            event.target.closest('.jitsiadminiframe').style.height = "100vh";
+            event.target.closest('.jitsiadminiframe').style.width = "100%";
+
+            position.x =0;
+            position.y =0;
+            tryfullscreen = true;
         } else if (event.clientX <= 0 && event.clientY >= 0 && event.clientY <= window.innerHeight - 20) {//on the right side
 
             position.x = 0;
@@ -438,7 +463,7 @@ function addInteractions(ele) {
                 event.inputEvent.target.click()
             }
         }
-        if (event.clientX >= 20 && event.clientY <= 20 && event.clientX <= window.innerWidth - 20) {//top
+        if (tryfullscreen === true) {//top
             position.y = 5;
             event.target.closest('.jitsiadminiframe').style.transform =
                 `translate(${position.x}px, ${position.y}px)`

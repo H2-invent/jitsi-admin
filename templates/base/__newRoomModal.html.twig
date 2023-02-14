@@ -12,7 +12,7 @@
             {% if server|length > 0 or isEdit %}
             {{ form_start(form) }}
             <div class="row">
-                <div class="col-12 d-flex align-items-center with-help">
+                <div class="col-12 d-flex align-items-start with-help">
                     {% if form.repeaterRemoved is defined %}
                         {{ form_row(form.repeaterRemoved) }}
                     {% endif %}
@@ -25,7 +25,7 @@
 
                 </div>
                 {% if form.tag is defined %}
-                    <div class="col-12 d-flex align-items-center with-help">
+                    <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.tag) }}
                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                            data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
@@ -33,20 +33,20 @@
                     </div>
                 {% endif %}
                 {% if form.moderator is defined %}
-                    <div class="col-12 d-flex align-items-center with-help">
+                    <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.moderator) }}
                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                            data-mdb-content="{{ 'room.new.help.manager'|trans }}"><i
                                     class="fa fa-question-circle"></i></a>
                     </div>
                 {% endif %}
-                <div class="col-12 d-flex align-items-center with-help">
+                <div class="col-12 d-flex align-items-start with-help">
                     {{ form_row(form.name) }}
                     <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                        data-mdb-content="{{ 'room.new.help.name'|trans }}"><i
                                 class="fa fa-question-circle"></i></a>
                 </div>
-                <div class="col-12 d-flex align-items-center with-help">
+                <div class="col-12 d-flex align-items-start with-help">
                     {{ form_row(form.agenda) }}
                     <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                        data-mdb-content="{{ 'room.new.help.agenda'|trans }}"><i
@@ -54,7 +54,7 @@
                 </div>
 
                 {% if form.persistantRoom is defined %}
-                    <div class="col-12 d-flex align-items-center with-help">
+                    <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.persistantRoom) }}
                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                            data-mdb-content="{{ 'room.new.help.persistant'|trans }}"><i
@@ -69,14 +69,14 @@
                         {% endif %}
                         <div class="row">
                             {% if form.start is defined %}
-                                <div class="col-12  d-flex align-items-center with-help">
+                                <div class="col-12  d-flex align-items-start with-help">
                                     {{ form_row(form.start) }}
                                     <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                        data-mdb-content="{{ 'room.new.help.start'|trans }}"><i
                                                 class="fa fa-question-circle"></i></a>
                                 </div>
                             {% endif %}
-                            <div class="col-12  d-flex align-items-center with-help">
+                            <div class="col-12  d-flex align-items-start with-help">
                                 {{ form_row(form.duration) }}
                                 <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                    data-mdb-content="{{ 'room.new.help.duration'|trans }}"><i
@@ -85,7 +85,7 @@
                             {% if form.timeZone is defined %}
 
 
-                                    <div class="col-12 d-flex align-items-center with-help">
+                                    <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.timeZone) }}
 
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -99,7 +99,7 @@
                     {% if form.lobby is defined %}
                         <div class="col-lg-12">
                             <div id="lobby" class="row">
-                                <div class="col-12 d-flex align-items-center with-help">
+                                <div class="col-12 d-flex align-items-start with-help">
                                     {{ form_row(form.lobby) }}
                                     <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                        data-mdb-content="{{ 'room.new.help.lobby'|trans }}"><i
@@ -123,7 +123,7 @@
                             <div class="row">
                                 {% if form.scheduleMeeting is defined %}
 
-                                    <div class="col-12 d-flex align-items-center with-help">
+                                    <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.scheduleMeeting) }}
 
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -133,7 +133,7 @@
                                 {% endif %}
 
                                 {% if form.onlyRegisteredUsers is defined %}
-                                    <div class="col-sm-11">
+                                    <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.onlyRegisteredUsers) }}
 
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -142,7 +142,7 @@
                                     </div>
                                 {% endif %}
                                 {% if form.public is defined %}
-                                    <div class="col-12 d-flex align-items-center with-help">
+                                    <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.public) }}
 
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -154,7 +154,7 @@
                                     <div class="col-lg-12">
                                         <div id="maxParticipants" class=" collapse ">
                                             <div class="row">
-                                                <div class="col-12 d-flex align-items-center with-help">
+                                                <div class="col-12 d-flex align-items-start with-help">
                                                     {{ form_row(form.maxParticipants) }}
 
                                                     <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -162,7 +162,7 @@
                                                                 class="fa fa-question-circle"></i></a>
                                                 </div>
                                                 {% if form.waitinglist is defined %}
-                                                    <div class="col-12 d-flex align-items-center with-help">
+                                                    <div class="col-12 d-flex align-items-start with-help">
                                                         {{ form_row(form.waitinglist) }}
 
                                                         <a tabindex="0" data-mdb-toggle="popover"
@@ -178,7 +178,7 @@
                                     </div>
                                 {% endif %}
                                 {% if form.showRoomOnJoinpage is defined %}
-                                    <div class="col-12 d-flex align-items-center with-help">
+                                    <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.showRoomOnJoinpage) }}
 
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -190,7 +190,7 @@
                                 {% if form.dissallowScreenshareGlobal is defined %}
                                     <div class="col-lg-12">
                                         <div id="enableFeateureJwt" class="{% if serverchoose is null or not serverchoose.featureEnableByJWT %}d-none{% endif%} row">
-                                            <div class="col-12 d-flex align-items-center with-help">
+                                            <div class="col-12 d-flex align-items-start with-help">
                                                 {{ form_row(form.dissallowScreenshareGlobal) }}
 
                                                 <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -201,7 +201,7 @@
                                     </div>
                                 {% endif %}
                                 {% if form.totalOpenRooms is defined %}
-                                    <div class="col-12 d-flex align-items-center with-help">
+                                    <div class="col-12 d-flex align-items-start with-help">
                                         {{ form_row(form.totalOpenRooms) }}
 
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"

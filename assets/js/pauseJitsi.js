@@ -13,6 +13,10 @@ class jitsiController {
     isMuted = false;
     isVideoMuted = false;
 
+    participants = {};
+
+    iframeIsSilent = null;
+
     constructor(api, displayName, avatarUrl) {
         this.api = api;
         this.displayName = displayName;
@@ -21,7 +25,7 @@ class jitsiController {
         this.initMessengerListener();
     }
 
-    initMessengerListener(){
+    initMessengerListener() {
         const self = this;
         window.addEventListener('message', function (e) {
 
@@ -37,6 +41,7 @@ class jitsiController {
     }
 
     pauseConference() {
+        this.iframeIsSilent = true;
         this.api.isAudioMuted().then(muted => {
             this.isMuted = muted;
             if (!muted) {
@@ -51,12 +56,22 @@ class jitsiController {
         });
         this.api.executeCommand('displayName', '(Away) ' + this.displayName);
         this.api.executeCommand('avatarUrl', 'https://avatars0.githubusercontent.com/u/3671647');
-        var audioElement = document.getElementById("audio");
-        console.log(audioElement);
-        audioElement.muted = true;
+        api.getRoomsInfo().then(rooms => {
+            var participants = rooms.rooms[0].participants;
+            for (var p of participants) {
+                console.log(p);
+                api.executeCommand('setParticipantVolume', {
+                        participantID: p.id,
+                        volume: 0
+                    }
+                );
+            }
+        })
     }
 
+
     playConference() {
+        this.iframeIsSilent = true;
         this.api.executeCommand('displayName', this.displayName);
         if (!this.isMuted) {
             this.api.executeCommand('toggleAudio');
@@ -65,9 +80,17 @@ class jitsiController {
             this.api.executeCommand('toggleVideo');
         }
         this.api.executeCommand('avatarUrl', this.avatarUrl);
-        var audioElement = document.getElementById("audio");
-        console.log(audioElement);
-        audioElement.muted = false;
+        api.getRoomsInfo().then(rooms => {
+            var participants = rooms.rooms[0].participants;
+            for (var p of participants) {
+                console.log(p);
+                api.executeCommand('setParticipantVolume', {
+                        participantID: p.id,
+                        volume: 1
+                    }
+                );
+            }
+        })
     }
 }
 
