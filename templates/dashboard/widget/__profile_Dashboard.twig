@@ -15,6 +15,11 @@
                 {% endif %}
             </a>
 
+            {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
+
+                <b id="actualTime">{{ getTime(app.user)|date('d.m.y H:i',false) }} <i class="fa-regular fa-clock"></i></b>
+            {% endif %}
+
             {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
                 <a href="{{ path('logout_keycloak') }}">
                     {% if theme != false %}

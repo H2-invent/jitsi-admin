@@ -79,8 +79,7 @@
         <div class="d-flex justify-content-end">
 
 
-            {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}<span class="me-3" id="actualTime">
-                <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
+
             <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
             <div class="form-check form-switch">
                 <input class="form-check-input switchDarkmode" type="checkbox" role="switch"
