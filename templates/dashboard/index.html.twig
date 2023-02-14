@@ -5,8 +5,8 @@
 {% endblock %}
  {% block sidebar %}
      <div id="favorite-Container" class="mb-3">
-         <h5 class="text-center">{{ 'favorite.sidebar.title'|trans }}</h5>
-         <hr>
+         <h5 class="text-left mb-3"><b>{{ 'favorite.sidebar.title'|trans }}</b></h5>
+
          {% if favorite|length > 0 %}
              {% for r in favorite %}
                  {% if r in runningRooms %}
@@ -27,7 +27,7 @@
 
 {% block body %}
 
-    <div class="container">
+
         <!-- Tabs navs -->
         <div class="d-block">
             <ul class="nav-mat nav-mat-tabs mb-3 " id="ex1" data-swipe="#ex1-content">
@@ -181,7 +181,7 @@
             </div>
         </div>
         <!-- Tabs content -->
-    </div>
+
 
 {% endblock %}
 {% block javascripts %}

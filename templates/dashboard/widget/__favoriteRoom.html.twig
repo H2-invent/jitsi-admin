@@ -1,12 +1,12 @@
 <div class="card favorites {% if r in runningRooms %} successBorder {% endif %}">
 
     <div class="card-body d-flex flex-column justify-content-between">
-        <h5 class="card-title favoriteTitle">
+        <h6 class="card-title favoriteTitle">
             {{ room.name }}
             <small>
                 <a href="{{ path('room_favorite_toogle',{'uid':room.uidReal}) }}"><i class="fa fa-star"></i> </a>
             </small>
-        </h5>
+        </h6>
         {% if RoomStatusOpen(room) == false %}
         <p><small>
                 {% if room.persistantRoom != true and room.scheduleMeeting != true %}
@@ -38,7 +38,7 @@
             <div class="startConferenceFromFavorite">
                 {% if getApplicationProperties('start_dropdown_allow_app') == 1 and getApplicationProperties('start_dropdown_allow_browser') == 1 %}
 
-                    <button class="caretdown btn btn-outline-primary dropdown-toggle start-dropdown" type="button"
+                    <button class="d-none d-lg-block caretdown btn btn-outline-primary dropdown-toggle start-dropdown" type="button"
                             id="dropdownMenu1"
                             data-mdb-toggle="dropdown" data-offset="-20,0" aria-haspopup="true"
                             aria-expanded="false">{{ 'Starten'|trans }}
