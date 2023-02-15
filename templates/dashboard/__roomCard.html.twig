@@ -16,5 +16,19 @@
             </div>
         {% endif %}
     </div>
+
+    {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %}
+        <div class="showTime bg-warning text-black">
+            {% set time = (( room.startTimestamp - timestamp)/60)|number_format(0) %}
+            {{ 'Startet in %time%min'|trans({'%time%': time}) }}
+        </div>
+    {% endif %}
+    {% if runningRooms is defined and room in runningRooms %}
+        <div class="showTime bg-success text-white">
+            {% set time = (( room.startTimestamp - timestamp)/60)|number_format(0) %}
+            {{ 'Jetzt'|trans }}
+        </div>
+    {% endif %}
+
 </div>
 

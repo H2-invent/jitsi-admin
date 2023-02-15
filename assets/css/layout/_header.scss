@@ -190,27 +190,47 @@ label.required:after {
 
 }
 
+@mixin caret-down {
+  font-family: "Font Awesome 5 Free";
+  margin-right: 0.5em;
+  font-weight: 900;
+  transition: transform 0.3s ease-in;
+  content: "\f107";
+  float: left;
+}
+
 .caretdown {
   i {
     white-space: nowrap;
   }
 
-  &[aria-expanded="true"] {
+  &:not(.after) {
+    &[aria-expanded="true"] {
+      &:before {
+        transform: rotatez(0.5turn);
+      }
+    }
+
     &:before {
-      transform: rotatez(0.5turn);
+      @include caret-down;
     }
   }
 
-  &:before {
-    font-family: "Font Awesome 5 Free";
-    margin-right: 0.5em;
-    font-weight: 900;
-    float: left;
-    transition: transform 0.3s ease-in;
-    content: "\f107";
-  }
+  &.after {
+    &:after {
+      @include caret-down;
+    }
 
+    &[aria-expanded="true"] {
+      &:after {
+        transform: rotatez(0.5turn);
+      }
+    }
+
+
+  }
 }
+
 
 .iconSytle {
   height: 25px;

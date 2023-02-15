@@ -5,16 +5,16 @@
     {% if theme %}
         <link rel="shortcut icon" type="image/x-icon" href="{{ theme.icon }}">
     {% else %}
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.png') }}">
     {% endif %}
 
     <link rel="manifest" href="{{ path('app_manifest') }}">
     {% block title %}
         {% if theme and theme.title is defined %}
-    <title>{{ theme.title }}</title>
-        {%else%}
-        <title>Jitsi Konferenz Manager</title>
-        {%endif%}
+            <title>{{ theme.title }}</title>
+        {% else %}
+            <title>Jitsi Konferenz Manager</title>
+        {% endif %}
     {% endblock %}
 
 
@@ -86,6 +86,7 @@
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
                 color: {{ theme.colorButtonOutlineTextcolor }} !important;
             }
+
             .btn-secondary {
                 background: {{ theme.colorButtonSecondary }} !important;
                 color: {{ theme.colorButtonSecondaryText }} !important;
@@ -122,7 +123,7 @@
             .btn-primary {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
-                box-shadow: 0 4px 9px -4px {{ theme.colorButton }};
+                box-shadow: 0 4px 9px -4px{{ theme.colorButton }};
             }
 
             .btn-primary.dropdown-toggle {
@@ -220,10 +221,16 @@
             }
 
             .form-check-input[type=radio]:checked:after {
-                 border-color: {{ theme.colorButton }};
+                border-color: {{ theme.colorButton }};
                 background-color: {{ theme.colorButton }};
             }
 
+            {% if getApplicationProperties('FAVORITEBACKGROUND') %}
+            .card.favorites::after {
+                background-image: url("{{ getApplicationProperties('FAVORITEBACKGROUND') }}");
+            }
+
+            {% endif %}
         </style>
 
     {% endif %}

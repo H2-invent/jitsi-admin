@@ -341,6 +341,7 @@ strong {
     z-index: 3;
     width: 100vw;
     overflow-y: auto;
+    backdrop-filter: blur(100px);
     @media only screen and (min-width: 768px) {
       width: 300px;
     }
@@ -355,8 +356,10 @@ strong {
       background-color: inherit;
       box-shadow: none;
       z-index: auto;
+      backdrop-filter: none;
     }
-    &.showSidebar{
+
+    &.showSidebar {
       transform: translateX(0%);
 
 
@@ -377,7 +380,7 @@ strong {
     }
 
     .card {
-      margin-bottom: 8px;
+      margin-bottom: 16px;
     }
 
 
@@ -633,6 +636,7 @@ strong {
       border-radius: 500000px;
       margin-right: 16px;
       background-position: center;
+      cursor: pointer;
     }
   }
 }
@@ -998,6 +1002,7 @@ a:hover {
 
   .profileLine {
     display: flex;
+    align-items: flex-end;
     flex-direction: row;
     margin-bottom: 0.2em;
     margin-top: 1em;
@@ -1008,10 +1013,12 @@ a:hover {
       margin-right: 1em;
       padding-top: 8px;
       font-weight: bold;
+
       a {
         margin-bottom: 0.5rem;
         text-align: right;
         cursor: pointer;
+        color: inherit;
 
         &:hover {
           color: inherit;
@@ -1029,7 +1036,7 @@ a:hover {
       object-fit: contain;
       overflow: hidden;
       border-radius: 5000px;
-
+      cursor: pointer;
       img {
         object-fit: cover;
         height: 100%;
@@ -1072,5 +1079,63 @@ a:hover {
 
   span {
     margin-left: 1rem;
+  }
+}
+
+.card {
+
+  &.favorites {
+    position: relative;
+    background: none;
+
+    &:after {
+      content: "";
+      background-image: url("../../image/jits-admin-half.png");
+      opacity: 0.3;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      background-position: right;
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: -1;
+    }
+
+    .card-background {
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -2;
+      margin: 0;
+    }
+  }
+}
+
+.showTime {
+  position: absolute;
+  bottom: -13px;
+  align-self: center;
+  font-size: small;
+  border-radius: 5000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 12px 1px 12px;
+}
+.bg-color{
+  background-color: $background-color;
+}
+
+.modal-header {
+  border-bottom: none;
+
+  .modal-header{
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 2em;
   }
 }

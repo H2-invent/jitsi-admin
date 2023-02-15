@@ -39,7 +39,7 @@ class ManifestController extends JitsiAdminController
     {
         $url = '/room/dashboard';
         $favicon = $this->themeService->getThemeProperty('icon');
-        $favicon = $favicon ?: 'favicon-large.ico';
+        $favicon = $favicon ?: 'favicon-large.png';
         $backgroundColor = $this->themeService->getThemeProperty('primaryColor');
         $title = $this->themeService->getThemeProperty('title');
         $ending = explode('.', $favicon);

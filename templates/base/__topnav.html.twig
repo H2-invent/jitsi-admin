@@ -2,82 +2,9 @@
 
 
     <!-- Button trigger modal -->
-    <a class="ms-auto me-2 me-sm-4"
-       data-mdb-toggle="modal" data-mdb-target="#helpModal">
-        {% if theme != false %}
-            <img src="{{ asset(theme.iconHelp) }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
-        {% else %}
-            <img src="{{ asset('images/question.png') }}" class="iconSytle" title="{{ 'Hilfe'|trans }}">
-        {% endif %}
-
-    </a>
-
-
-
-    {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
-        {% if theme == false or theme.disableAddServer != true %}
-            <a class="ms-auto me-2 me-sm-4"
-               data-mdb-toggle="modal"
-               data-mdb-target="#settings">
-                {% if theme != false %}
-                    <img src="{{ asset(theme.iconSettings) }}" class="iconSytle"
-                         title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
-                {% else %}
-                    <img src="{{ asset('images/settings.svg') }}" class="iconSytle"
-                         title="{{ 'Jitsi-Meet-Servereinstellungen'|trans }}">
-                {% endif %}
-            </a>
-        {% endif %}
-    {% endif %}
-    <!-- Button trigger modal -->
-
-
-
-    <div class="dropdown language-dropdown">
-        <a class=" dropdown-toggle ms-auto me-2 me-sm-4" data-mdb-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-            <img src="{{ asset('/images/locale/'~app.request.locale~'.png') }}" class="iconSytle">
-        </a>
-        <div class="dropdown-menu language-dropdown-menue">
-            {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}"><img
-                            src="{{ asset('/images/locale/de.png') }}" class="iconSytle" alt="Deutsch"></a>
-            {% endif %}
-            {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}"><img
-                            src="{{ asset('/images/locale/en.png') }}" class="iconSytle" alt="English"></a>
-            {% endif %}
-            {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}"><img
-                            src="{{ asset('/images/locale/fr.png') }}" class="iconSytle" alt="French"></a>
-            {% endif %}
-            {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}"><img
-                            src="{{ asset('/images/locale/es.png') }}" class="iconSytle" alt="Español"></a>
-            {% endif %}
-            {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}"><img
-                            src="{{ asset('/images/locale/vi.png') }}" class="iconSytle" alt="Tiếng Việt"></a>
-            {% endif %}
-            {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}"><img
-                            src="{{ asset('/images/locale/zh.png') }}" class="iconSytle" alt="中国人"></a>
-            {% endif %}
-            {% if theme == false  or (theme is not null and 'ja' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ja"}) }}"><img
-                            src="{{ asset('/images/locale/ja.png') }}" class="iconSytle" alt="日本"></a>
-            {% endif %}
-            {% if theme == false  or (theme is not null and 'ru' in theme.profileAllowLanguages  ) %}
-                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ru"}) }}"><img
-                            src="{{ asset('/images/locale/ru.png') }}" class="iconSytle" alt="Русский"></a>
-            {% endif %}
-
-        </div>
-    </div>
     <!-- Basic dropdown -->
-    <div class="custom-control custom-switch mb-2">
+    <div class="custom-control custom-switch me-2 me-sm-4  ">
         <div class="d-flex justify-content-end">
-
 
 
             <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
@@ -95,8 +22,61 @@
 
         </div>
     </div>
-    <!-- Basic dropdown -->
 
+    {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
+        {% if theme == false or theme.disableAddServer != true %}
+            <a class="ms-auto me-2 me-sm-4"
+               data-mdb-toggle="modal"
+               data-mdb-target="#settings">
+
+                <i class="fa-solid fa-server"></i> {{ 'Server'|trans }}
+
+            </a>
+        {% endif %}
+    {% endif %}
+    <a class="ms-auto me-2 me-sm-4"
+       data-mdb-toggle="modal" data-mdb-target="#helpModal">
+        <i class="fa-solid fa-circle-question"></i>
+
+    </a>
+    <!-- Button trigger modal -->
+
+
+    <div class="dropdown language-dropdown">
+        <a class="dropdown-toggle caretdown  ms-auto" data-mdb-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            <i class="fa-solid fa-globe"></i> {{ app.request.locale|capitalize }}
+        </a>
+        <div class="dropdown-menu language-dropdown-menue">
+            {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}">Deutsch</a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}">English</a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}">Français</a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}">Español</a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}">Tiếng Việt</a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}">中国人</a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'ja' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ja"}) }}">日本</a>
+            {% endif %}
+            {% if theme == false  or (theme is not null and 'ru' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ru"}) }}">Русский</a>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <!-- Basic dropdown -->
 
 
     <!-- To change the direction of the modal animation change .right class -->

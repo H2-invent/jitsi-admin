@@ -1,20 +1,46 @@
-<div class="modal fade right" id="sideModalTR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade right " id="sideModalTR" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
 
     <div class="modal-dialog modal-full-height modal-right" role="document">
 
-        <div class="modal-content">
+        <div class="modal-content  bg-color ">
             <div class="modal-header">
-                <h4 class="modal-title w-100" id="myModalLabel">{{ 'Profil'|trans }}</h4>
+                <h4 class="modal-title w-100" id="myModalLabel">{{ 'Profileinstellungen'|trans }}</h4>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p> {% if theme != false %}{{ theme.nameIdentifier }}{% else %}{{ 'Name'|trans }}{% endif %}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}<br>
-                    {% if theme != false %}{{ theme.usernameIdentifier }}{% else %}{{ 'Username'|trans }}{% endif %}: {{ app.user.userIdentifier }}<br>
-                    {% if getApplicationProperties('allowTimeZoneSwitch') == 1  %}
-                    {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% else %}{{ 'Zeitzone'|trans }}{% endif %}: {{ app.user.timeZone }}
-                    {% endif %}
-                </p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="mb-0">{% if theme != false %}{{ theme.nameIdentifier }}{% else %}{{ 'Name'|trans }}{% endif %}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}</p>
+                                <p class="mb-0"><small>{% if theme != false %}{{ theme.usernameIdentifier }}{% else %}{{ 'Username'|trans }}{% endif %}: {{ app.user.userIdentifier }}</small></p>
+                                {% if getApplicationProperties('allowTimeZoneSwitch') == 1  %}
+                                    <p><small>
+                                    {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% else %}{{ 'Zeitzone'|trans }}{% endif %}: {{ app.user.timeZone }}
+                                    </small></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
+                           <p class="mb-0"> <a
+                                    href="{{ path('connect_keycloak_edit') }}"
+                                    target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a></p>
+                        {% endif %}
+                        {% if theme == false  or (theme is not null and theme.profileAllowPasswortreset == true  ) %}
+                           <p> <a
+                                       href="{{ path('connect_keycloak_password') }}"
+                                       target="_blank">{% trans %}Passwort ändern{% endtrans %}</a></p>
+                        {% endif %}
+                    </div>
+                </div>
+
+
                 <div class="form-check form-switch">
                     <input class="form-check-input switchDarkmode" type="checkbox" role="switch" id="switchDarkmode2"
                             {{ app.request.cookies.get('DARK_MODE') }}
@@ -39,16 +65,8 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
-                    <a class="btn btn-primary btn-sm"
-                       href="{{ path('connect_keycloak_edit') }}"
-                       target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a>
-                {% endif %}
-                {% if theme == false  or (theme is not null and theme.profileAllowPasswortreset == true  ) %}
-                    <a class="btn btn-primary btn-sm"
-                       href="{{ path('connect_keycloak_password') }}"
-                       target="_blank">{% trans %}Passwort ändern{% endtrans %}</a>
-                {% endif %}
+
+
                 {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
                 <a class="btn btn-primary btn-sm loadContent"
                    href="{{ path('time_zone_change') }}"
@@ -72,7 +90,7 @@
 
             <div class="modal-footer">
                 {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
-                    <a href="{{ path('logout_keycloak') }}" class="btn btn-danger btn-sm">{{ 'Logout'|trans }}</a>
+                    <a href="{{ path('logout_keycloak') }}" class="btn btn-block btn-danger btn-sm">{{ 'Logout'|trans }}</a>
                 {% endif %}
             </div>
         </div>
