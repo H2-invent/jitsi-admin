@@ -25,11 +25,10 @@
 
     {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
         {% if theme == false or theme.disableAddServer != true %}
-            <a class="ms-auto me-2 me-sm-4"
+            <a class="ms-auto me-2 me-sm-4 d-flex align-items-center"
                data-mdb-toggle="modal"
                data-mdb-target="#settings">
-
-                <i class="fa-solid fa-server"></i> {{ 'Server'|trans }}
+                <i class="fa-solid fa-server me-2"></i><span class="d-none d-lg-block"> {{ 'Server'|trans }}</span>
 
             </a>
         {% endif %}
