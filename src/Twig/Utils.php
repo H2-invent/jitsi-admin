@@ -35,6 +35,7 @@ class Utils extends AbstractExtension
         return [
             new TwigFilter('addRepetiveCharacters', [$this, 'addRepetiveCharacters']),
             new TwigFilter('json_decode', [$this, 'json_decode']),
+            new TwigFilter('colorFromString', [$this, 'colorFromString']),
         ];
     }
 
@@ -58,7 +59,15 @@ class Utils extends AbstractExtension
 
     public function roomIsReadOnly(Rooms $rooms, User $user)
     {
-        return UtilsHelper::isRoomReadOnly($rooms,$user);
+        return UtilsHelper::isRoomReadOnly($rooms, $user);
 
+    }
+
+    public function colorFromString($string)
+    {
+
+        $code = dechex(crc32($string));
+        $code = substr($code, 0, 6);
+        return $code;
     }
 }

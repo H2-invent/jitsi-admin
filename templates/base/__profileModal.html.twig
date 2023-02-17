@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card mb-3">
                             <div class="card-body">
                                 <p class="mb-0">{% if theme != false %}{{ theme.nameIdentifier }}{% else %}{{ 'Name'|trans }}{% endif %}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}</p>
                                 <p class="mb-0"><small>{% if theme != false %}{{ theme.usernameIdentifier }}{% else %}{{ 'Username'|trans }}{% endif %}: {{ app.user.userIdentifier }}</small></p>
@@ -51,20 +51,7 @@
                         {{ 'Darkmode'|trans }}</i>
                     </label>
                 </div>
-                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
-                <div class="row">
-                    <div class="col-lg-12 mt-3">
-                        <p>{{ 'iCal Link'|trans }}</p>
-                        <div class="input-group mb-3">
-                            <input id="linkical" readonly type="text" class="form-control"
-                                   value="{{ httpsAbolutUrl(path('ical',{ 'id':app.user.uid })) }}">
-                                <button class="btn btn-md btn-outline-primary  waves-effect copyLink"
-                                        type="button" data-clipboard-target="#linkical"><i class="far fa-clipboard"></i>
-                                </button>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
+
 
 
                 {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
@@ -86,7 +73,22 @@
                         </div>
                     </div>
                 </div>
+                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
+                    <div class="row">
+                        <div class="col-lg-12 mt-3">
+                            <p><b>{{ 'iCal Link'|trans }}</b></p>
+                            <div class="input-group mb-3">
+                                <input id="linkical" readonly type="text" class="form-control"
+                                       value="{{ httpsAbolutUrl(path('ical',{ 'id':app.user.uid })) }}">
+                                <button class="btn btn-md btn-outline-primary  waves-effect copyLink"
+                                        type="button" data-clipboard-target="#linkical"><i class="fa-regular fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
+
 
             <div class="modal-footer">
                 {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}

@@ -3,37 +3,27 @@
     data-filterafter="{{ u.categories|json_encode }}">
 
     <span class="breakWord d-flex align-items-center name">
-                <a class="dropdown-toggle" type="button" data-mdb-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false"
-                   data-mdb-auto-close="outside"
-                ><i class="fas fa-ellipsis-v"></i></a>
 
-<div class="dropdown-menu">
-    {% if not deputyIsFromLDAP(app.user,u) %}
-<div class="dropdown-item d-flex">
-
-<a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %}"
-   href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
-     <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}</a>
-<a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-content="{{ 'deputy.help'|trans }}"><i
-            class="fa fa-question-circle"></i></a>
-
-</div>
-    {% endif %}
-  {% if theme == false or theme.trashOnAdressBook == true %}
-      <div class="dropdown-divider"></div>
-      <a class=" dropdown-item confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
-         data-text="{{ 'confirm.delete.adressbookUser'|trans }}">
-                     <i class="fa fa-trash text-danger"></i>{{ 'Löschen'|trans }}
-    </a>
-  {% endif %}
-</div>
         {% if u.profilePicture %}
-            <div class="iconSytle imageIcon me-2"
+            <div class="profilepicture me-2"
                  style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
+                <div class="dot"></div>
             </div>
-        {% endif %}{{ u|nameOfUser }}
-        {% if u in app.user.deputy %}<i class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"  title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}
+        {% else %}
+            <div class="profilepicture me-2"
+                 style="background-color: #{{ u.username |colorFromString }}">
+                {{ u|nameOfUserNoSymbol[:2]|upper }}
+                <div class="dot"></div>
+            </div>
+        {% endif %}
+        <div class="d-flex flex-column">
+                   <p class="mb-0">{{ u|nameOfUser }} {% if u in app.user.deputy %}<i
+                           class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"
+                           title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}</p>
+        <p class="mb-0"><small>{{ u.username }}</small></p>
+        </div>
+
+
     </span>
     <span class="noBreak d-flex align-items-center icon">
                 {% if servers|length == 1 %}
@@ -56,5 +46,30 @@
 
         </div>
                 {% endif %}
+                <a class="dropdown-toggle ms-3" type="button" data-mdb-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false"
+                   data-mdb-auto-close="outside"
+                ><i class="fas fa-ellipsis-v"></i></a>
 
+                <div class="dropdown-menu">
+                    {% if not deputyIsFromLDAP(app.user,u) %}
+                        <div class="dropdown-item d-flex">
+
+                <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %}"
+                   href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
+                     <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}</a>
+                <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                   data-mdb-content="{{ 'deputy.help'|trans }}"><i
+                            class="fa fa-question-circle"></i></a>
+
+                </div>
+                    {% endif %}
+                    {% if theme == false or theme.trashOnAdressBook == true %}
+                        <div class="dropdown-divider"></div>
+                        <a class=" dropdown-item confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
+                           data-text="{{ 'confirm.delete.adressbookUser'|trans }}">
+                                     <i class="fa fa-trash text-danger"></i>{{ 'Löschen'|trans }}
+                    </a>
+                    {% endif %}
+                </div>
         </span></li>

@@ -29,9 +29,11 @@ a {
   color: $contrast-dark;
 
   &:hover {
-    color: $main-color;
+    color: lighten($contrast-dark,15%);
   }
-
+  &:active {
+    color: lighten($contrast-dark,5%);
+  }
   &:focus {
     color: $main-color-hover;
     text-decoration: none;
@@ -417,7 +419,7 @@ strong {
 
 
 ::-webkit-scrollbar-track:active {
-  background: #333333;
+  background: #a6a6a6;
 }
 
 ::-webkit-scrollbar-corner {
@@ -1013,20 +1015,12 @@ a:hover {
       margin-right: 1em;
       padding-top: 8px;
       font-weight: bold;
-
+      align-items: flex-end;
       a {
         margin-bottom: 0.5rem;
         text-align: right;
         cursor: pointer;
-        color: inherit;
 
-        &:hover {
-          color: inherit;
-        }
-
-        &:active {
-          color: inherit;;
-        }
       }
     }
 
@@ -1138,4 +1132,8 @@ a:hover {
     font-weight: bold;
     line-height: 2em;
   }
+}
+.modal-title{
+  font-weight: bold;
+  font-size: 1.3em;
 }

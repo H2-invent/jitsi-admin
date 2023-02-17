@@ -2,10 +2,17 @@
 .capital-Letter {
   border-right: none;
   border-left: none;
+  border-bottom: none;
   background: none !important;
+  padding-bottom: 0;
+  padding-left: 0;
 }
 
 .adressbookline {
+  padding: 14px 12px 14px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+
   .name {
     i {
       margin-right: 0.5rem !important;
@@ -17,17 +24,44 @@
       width: max-content;
     }
   }
+
+  .profilepicture {
+    height: 44px;
+    width: 44px;
+    background-size: contain;
+    background-position: center;
+    border-radius: 5000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    position: relative;
+
+    .dot {
+      height: 0.5em;
+      width: 0.5em;
+      border-radius: 5000px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+
+  p {
+    font-size: 1em;
+    line-height: 1.1em;
+
+    small {
+      font-size: 0.9em;
+      line-height: 0.95em;
+    }
+  }
 }
 
 
 @mixin statusColors {
-  &[data-status="online"] {
-    border: $success 2px solid;
-  }
-
-  &[data-status="away"] {
-    border: $warning 2px solid;
-  }
 
   &[data-status="inMeeting"] {
     border: $info 2px solid;
@@ -48,7 +82,8 @@
 
   .register {
     .registerElement {
-      padding: 0.5em 0.5rem 0.5em 0.5rem;
+      padding: 0.1em 0.5rem 0.1em 0.5rem;
+      font-size: 0.75em;
 
       &.adressBookPointOut {
         background-color: rgba(0, 0, 0, 0.2);
@@ -103,6 +138,94 @@
 }
 
 
+@mixin dotColor {
+
+  &[data-status="away"] {
+    .dot {
+      background-color: $warning;
+
+
+    }
+  }
+
+  &[data-status="offline"] {
+    .dot {
+      background-color: grey;
+
+
+    }
+  }
+
+  &[data-status="inMeeting"] {
+    .dot {
+      background-color: $info;
+
+    }
+  }
+  &[data-status="online"] {
+    .dot {
+      background-color: #00c851;
+
+    }
+  }
+}
+
+@mixin dotIcon {
+  .dot{
+    color: white;
+
+    &:before{
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 8px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+  &[data-status="away"] {
+    .dot {
+      &:before {
+        content: "\f1da";
+      }
+
+    }
+  }
+
+  &[data-status="offline"] {
+    .dot {
+      &:before {
+
+        content: "\58";
+      }
+
+    }
+  }
+
+  &[data-status="inMeeting"] {
+    .dot {
+      &:before {
+
+        content: "\f095";
+      }
+
+    }
+  }
+  &[data-status="online"] {
+    .dot {
+      &:before {
+
+        content: "\f00c";
+      }
+
+    }
+  }
+}
+
 @mixin statusDot {
   a {
     display: flex;
@@ -115,34 +238,17 @@
       margin-right: 4px;
     }
 
-
-    &[data-status="away"] {
-      .dot {
-        background-color: $warning;
-      }
-    }
-
-    &[data-status="offline"] {
-      .dot {
-        background-color: $danger;
-      }
-    }
-
-    &[data-status="inMeeting"] {
-      .dot {
-        background-color: $info;
-      }
-    }
-
-    &[data-status="online"] {
-      .dot {
-        background-color: #00c851;
-      }
-    }
+    @include dotColor();
   }
 }
 
+
 .onlineSelector {
   @include statusDot();
+}
+
+.adressbookline {
+  @include dotColor();
+  @include dotIcon();
 }
 
