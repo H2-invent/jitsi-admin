@@ -1029,12 +1029,30 @@ a:hover {
       aspect-ratio: 1/1;
       object-fit: contain;
       overflow: hidden;
-      border-radius: 5000px;
+
       cursor: pointer;
+      position: relative;
       img {
         object-fit: cover;
         height: 100%;
         width: 100%;
+        border-radius: 5000px;
+      }
+      .pic-content{
+        border-radius: 5000px;
+      }
+      .dot{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 25%;
+        height: 25%;;
+        border-radius: 5000px;
+        &.with-icon{
+          &:before{
+          font-size: 1em!important;
+          }
+        }
       }
     }
   }
@@ -1136,4 +1154,22 @@ a:hover {
 .modal-title{
   font-weight: bold;
   font-size: 1.3em;
+}
+
+
+.btn-close{
+  background-color: transparent;
+  background-image: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  opacity: 1;
+  &:before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 1.5em;
+    content: "\f00d";
+    line-height: 1.5em;
+  }
 }

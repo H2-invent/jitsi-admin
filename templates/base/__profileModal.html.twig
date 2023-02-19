@@ -13,13 +13,42 @@
                     <div class="col-12">
                         <div class="card mb-3">
                             <div class="card-body">
-                                <p class="mb-0">{% if theme != false %}{{ theme.nameIdentifier }}{% else %}{{ 'Name'|trans }}{% endif %}:  {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}</p>
-                                <p class="mb-0"><small>{% if theme != false %}{{ theme.usernameIdentifier }}{% else %}{{ 'Username'|trans }}{% endif %}: {{ app.user.userIdentifier }}</small></p>
-                                {% if getApplicationProperties('allowTimeZoneSwitch') == 1  %}
-                                    <p><small>
-                                    {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% else %}{{ 'Zeitzone'|trans }}{% endif %}: {{ app.user.timeZone }}
-                                    </small></p>
-                                {% endif %}
+                                <div class="d-flex">
+
+
+                                    <div class="picture me-2 " style="width: 4em; height: 4em; border-radius: 5000px; overflow: hidden">
+
+
+                                        {% if app.user.profilePicture %}
+
+                                            <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}"
+                                                 class="pic-content w-100">
+
+                                        {% else %}
+                                            <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content"
+                                                 style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
+                                                {{ app.user|nameOfUserNoSymbol[:2]|upper }}
+                                            </div>
+
+
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="d-flex flex-column">
+
+
+                                        <p class="mb-0">{% if theme != false %}{{ theme.nameIdentifier }}: {% endif %} {{ nameOfUserwithFormat(app.user, laf_showNameFrontend) }}</p>
+                                        <p class="mb-0">
+                                            <small>{% if theme != false %}{{ theme.usernameIdentifier }}: {% endif %}{{ app.user.userIdentifier }}</small>
+                                        </p>
+                                        {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
+                                            <p><small>
+                                                    {% if  theme != false %}{{ theme.timeZoneIdentifier }}{% endif %}
+                                                    : {{ app.user.timeZone }}
+                                                </small></p>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -28,14 +57,14 @@
                 <div class="row">
                     <div class="col-12">
                         {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
-                           <p class="mb-0"> <a
-                                    href="{{ path('connect_keycloak_edit') }}"
-                                    target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a></p>
+                            <p class="mb-0"><a
+                                        href="{{ path('connect_keycloak_edit') }}"
+                                        target="_blank">{% trans %}Profil bearbeiten{% endtrans %}</a></p>
                         {% endif %}
                         {% if theme == false  or (theme is not null and theme.profileAllowPasswortreset == true  ) %}
-                           <p> <a
-                                       href="{{ path('connect_keycloak_password') }}"
-                                       target="_blank">{% trans %}Passwort ändern{% endtrans %}</a></p>
+                            <p><a
+                                        href="{{ path('connect_keycloak_password') }}"
+                                        target="_blank">{% trans %}Passwort ändern{% endtrans %}</a></p>
                         {% endif %}
                     </div>
                 </div>
@@ -53,14 +82,13 @@
                 </div>
 
 
-
                 {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
-                <a class="btn btn-primary btn-sm loadContent"
-                   href="{{ path('time_zone_change') }}"
-                   target="_blank">{% trans %}Zeitzone ändern{% endtrans %}</a>
+                    <a class="btn btn-primary  loadContent"
+                       href="{{ path('time_zone_change') }}"
+                       target="_blank">{% trans %}Zeitzone ändern{% endtrans %}</a>
                 {% endif %}
                 {% if theme == false  or (theme is not null and theme.profileAllowSecondEmail == true  ) %}
-                    <a class="btn btn-primary btn-sm loadContent"
+                    <a class="btn btn-primary  loadContent"
                        href="{{ path('second_email_change') }}"
                        target="_blank">{{ 'second.email.title'|trans }}</a>
                 {% endif %}
@@ -68,7 +96,7 @@
                     <div class="col-lg-12">
                         <p>{{ 'input.help.timeaway'|trans }}</p>
                         <div class="form-outline">
-                            <input type="number" id="awayTimeField" class="form-control" />
+                            <input type="number" id="awayTimeField" class="form-control"/>
                             <label class="form-label" for="awayTimeField">{{ 'input.label.timeaway'|trans }}</label>
                         </div>
                     </div>
@@ -81,7 +109,8 @@
                                 <input id="linkical" readonly type="text" class="form-control"
                                        value="{{ httpsAbolutUrl(path('ical',{ 'id':app.user.uid })) }}">
                                 <button class="btn btn-md btn-outline-primary  waves-effect copyLink"
-                                        type="button" data-clipboard-target="#linkical"><i class="fa-regular fa-copy"></i>
+                                        type="button" data-clipboard-target="#linkical"><i
+                                            class="fa-regular fa-copy"></i>
                                 </button>
                             </div>
                         </div>
@@ -92,7 +121,8 @@
 
             <div class="modal-footer">
                 {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
-                    <a href="{{ path('logout_keycloak') }}" class="btn btn-block btn-danger btn-sm">{{ 'Logout'|trans }}</a>
+                    <a href="{{ path('logout_keycloak') }}"
+                       class="btn btn-block btn-danger btn-sm">{{ 'Logout'|trans }}</a>
                 {% endif %}
             </div>
         </div>

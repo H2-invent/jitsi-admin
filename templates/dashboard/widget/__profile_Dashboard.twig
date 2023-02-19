@@ -1,12 +1,13 @@
-<div class="profile me-3">
-    <div class="profileLine" id="profilLine">
+<div class="profile me-3" >
+    <div class="profileLine" id="profilLine" data-status="{{ app.user.onlineStatus==1?'online':'offline' }}">
         <div class="icons" id="profileIcons">
-            <a class="loadContent" href="{{ path('second_email_change') }}" target="_blank">Einstellungen <i class="fa fa-cog"></i> </a>
+            <a class="loadContent" href="{{ path('second_email_change') }}" target="_blank">Einstellungen <i
+                        class="fa fa-cog"></i> </a>
             <a
-               data-mdb-toggle="modal"
-               data-mdb-target="#modalAdressbook"
-               id="toggleAdressbook"
-               href="#"
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#modalAdressbook"
+                    id="toggleAdressbook"
+                    href="#"
             >
                 {% if theme != false %}
                     {{ 'Adressbuch'|trans }} <i class="fa fa-address-book"></i>
@@ -17,7 +18,8 @@
 
             {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
 
-                <b id="actualTime">{{ getTime(app.user)|date('d.m.y H:i',false) }} <i class="fa-regular fa-clock"></i></b>
+                <b id="actualTime">{{ getTime(app.user)|date('d.m.y H:i',false) }} <i
+                            class="fa-regular fa-clock"></i></b>
             {% endif %}
 
             {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
@@ -31,40 +33,38 @@
             {% endif %}
         </div>
 
-            <div class="picture"
-                 data-mdb-toggle="modal"
-                 data-mdb-target="#sideModalTR">
+        <div class="picture"
+             data-mdb-toggle="modal"
+             data-mdb-target="#sideModalTR">
 
 
-                {% if app.user.profilePicture %}
+            {% if app.user.profilePicture %}
 
-                    <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}">
+            <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}" class="pic-content">
 
-                {% else %}
-                    {% if theme != false %}
-                        <img src="{{ asset(theme.iconProfile) }}" title="{{ 'Profil'|trans }}">
-                    {% else %}
-                        <img src="{{ asset('images/profil.svg') }}" title="{{ 'Profil'|trans }}">
-                    {% endif %}
-                {% endif %}
+            {% else %}
+                <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content"
+                     style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
+                    {{ app.user|nameOfUserNoSymbol[:2]|upper }}
+                </div>
 
 
+            {% endif %}
 
-
+            <div class="dot with-icon"></div>
         </div>
 
     </div>
     <div class="statusLine">
         <div class="dropdown onlineSelector">
             <a
-                    data-status="{{ app.user.onlineStatus==1?'online':'offline' }}"
+
                     data-uid="{{ app.user.uid }}"
                     type="button"
                     id="onlineSelector"
                     data-mdb-toggle="dropdown"
                     aria-expanded="false"
             >
-                <div class="dot"></div>
                 <span class="statusText">{{ app.user.onlineStatus==1?'status.online'|trans:'status.offline'|trans }}</span>
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

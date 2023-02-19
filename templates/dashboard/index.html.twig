@@ -74,7 +74,31 @@
         <!-- Tabs navs -->
 
         <!-- Tabs content -->
-
+    <div class="row">
+        {% if input_settings_allow_sheduling == 1 %}
+            <div class="col-md-6 mb-3">
+                <a href="{{ path('room_new') }}" class="loadContent dashboardBtn"
+                   id="createNewConference">
+                    <div class=" btn-block btn btn-dashboard">
+                        <p class="mt-2 mb-2 text-center">
+                            {{ 'Eine Konferenz planen'|trans }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if input_settings_allow_roomPlanning == 1 %}
+            <div class="col-md-6 mb-3">
+                <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
+                    <div class=" btn-block btn btn-outline-dashboard">
+                        <p class="mt-2 mb-2 text-center ">
+                            {{ 'Einen Termin finden'|trans }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+    </div>
 
         <div class="tab-content" id="ex1-content" data-swipe="#ex1">
             <div class="tab-content-watch mat-active">
@@ -83,31 +107,7 @@
                         id="ex1-tabs-1"
                         aria-labelledby="ex1-tab-1"
                 >
-                    <div class="row">
-                        {% if input_settings_allow_sheduling == 1 %}
-                            <div class="col-md-6 mb-3">
-                                <a href="{{ path('room_new') }}" class="loadContent dashboardBtn"
-                                   id="createNewConference">
-                                    <div class=" btn-block btn btn-dashboard">
-                                        <p class="mt-2 mb-2 text-center">
-                                            {{ 'Eine Konferenz planen'|trans }}
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endif %}
-                        {% if input_settings_allow_roomPlanning == 1 %}
-                            <div class="col-md-6 mb-3">
-                                <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
-                                    <div class=" btn-block btn btn-outline-dashboard">
-                                        <p class="mt-2 mb-2 text-center ">
-                                            {{ 'Einen Termin finden'|trans }}
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endif %}
-                    </div>
+
                     {% if myScheduledMeeting(app.user)|length > 0 %}
 
                         <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3"> {{ 'Einen Termin finden'|trans }}</h4>

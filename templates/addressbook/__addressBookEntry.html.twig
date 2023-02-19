@@ -7,13 +7,13 @@
         {% if u.profilePicture %}
             <div class="profilepicture me-2"
                  style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
-                <div class="dot"></div>
+                <div class="dot with-icon"></div>
             </div>
         {% else %}
             <div class="profilepicture me-2"
                  style="background-color: #{{ u.username |colorFromString }}">
                 {{ u|nameOfUserNoSymbol[:2]|upper }}
-                <div class="dot"></div>
+                <div class="dot with-icon"></div>
             </div>
         {% endif %}
         <div class="d-flex flex-column">

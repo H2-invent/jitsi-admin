@@ -138,43 +138,40 @@
 }
 
 
-@mixin dotColor {
-
-  &[data-status="away"] {
-    .dot {
-      background-color: $warning;
-
-
-    }
-  }
-
-  &[data-status="offline"] {
-    .dot {
-      background-color: grey;
-
-
-    }
-  }
-
-  &[data-status="inMeeting"] {
-    .dot {
-      background-color: $info;
-
-    }
-  }
-  &[data-status="online"] {
-    .dot {
-      background-color: #00c851;
-
-    }
+[data-status="away"] {
+  .dot {
+    background-color: $warning;
   }
 }
 
-@mixin dotIcon {
-  .dot{
+[data-status="offline"] {
+  .dot {
+    background-color: grey;
+
+
+  }
+}
+
+[data-status="inMeeting"] {
+  .dot {
+    background-color: $info;
+
+  }
+}
+
+[data-status="online"] {
+  .dot {
+    background-color: #00c851;
+
+  }
+}
+
+
+.dot {
+  &.with-icon {
     color: white;
 
-    &:before{
+    &:before {
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
       font-size: 8px;
@@ -187,44 +184,51 @@
       left: 0;
     }
   }
-  &[data-status="away"] {
-    .dot {
+}
+
+[data-status="away"] {
+  .dot {
+    &.with-icon {
       &:before {
         content: "\f1da";
       }
-
     }
   }
+}
 
-  &[data-status="offline"] {
-    .dot {
+[data-status="offline"] {
+  .dot {
+    &.with-icon {
       &:before {
 
         content: "\58";
       }
-
     }
   }
+}
 
-  &[data-status="inMeeting"] {
-    .dot {
+[data-status="inMeeting"] {
+  .dot {
+    &.with-icon {
       &:before {
 
         content: "\f095";
       }
-
     }
   }
-  &[data-status="online"] {
-    .dot {
+}
+
+[data-status="online"] {
+  .dot {
+    &.with-icon {
       &:before {
 
         content: "\f00c";
       }
-
     }
   }
 }
+
 
 @mixin statusDot {
   a {
@@ -238,7 +242,7 @@
       margin-right: 4px;
     }
 
-    @include dotColor();
+
   }
 }
 
@@ -247,8 +251,6 @@
   @include statusDot();
 }
 
-.adressbookline {
-  @include dotColor();
-  @include dotIcon();
-}
+
+
 
