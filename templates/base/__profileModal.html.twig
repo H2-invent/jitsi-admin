@@ -22,7 +22,7 @@
                                         {% if app.user.profilePicture %}
 
                                             <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}"
-                                                 class="pic-content w-100">
+                                                 class="pic-content w-100 h-100" style="object-fit: cover">
 
                                         {% else %}
                                             <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content"

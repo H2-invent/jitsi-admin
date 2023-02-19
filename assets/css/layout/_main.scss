@@ -463,9 +463,7 @@ strong {
 }
 
 .light-blue.darken-3 {
-  .modal-title {
     color: white;
-  }
 }
 
 #atendeeModalScroll {
@@ -1164,6 +1162,9 @@ a:hover {
   align-items: center;
   justify-content: center;
   color: inherit;
+  &:hover{
+    color: inherit;
+  }
   opacity: 1;
   &:before{
     font-family: "Font Awesome 5 Free";

@@ -28,7 +28,7 @@
   .profilepicture {
     height: 44px;
     width: 44px;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     border-radius: 5000px;
     display: flex;
@@ -38,7 +38,7 @@
     font-size: 1.5em;
     font-weight: bold;
     position: relative;
-
+    background-repeat: no-repeat;
     .dot {
       height: 0.5em;
       width: 0.5em;
