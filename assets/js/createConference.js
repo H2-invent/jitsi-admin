@@ -193,10 +193,12 @@ function pauseIframe(e) {
 
     // Aktivieren Sie die Tonwiedergabe im iFrame
     if (currentElement.dataset.pause == 0) {
+        currentElement.closest('.isMutable').dataset.muted=1;
         currentElement.dataset.pause = 1;
         currentElement.innerHTML = '<i class="fa-solid fa-play"></i>';
         sendCommand(e.currentTarget.closest('.jitsiadminiframe').id, {type: 'pauseIframe'})
     } else {
+        currentElement.closest('.isMutable').dataset.muted=0;
         currentElement.dataset.pause = 0;
         currentElement.innerHTML = '<i class="fa-solid fa-pause"></i>';
         sendCommand(e.currentTarget.closest('.jitsiadminiframe').id, {type: 'playIframe'})
@@ -267,7 +269,7 @@ function sendCommand(id, message) {
         if (messages[messageId]) {
             closeIframe(messages[messageId]);
         }
-    }, 200)
+    }, 2000)
 }
 
 function recievecommand(data) {
@@ -282,8 +284,10 @@ function recievecommand(data) {
         createIframe(decoded.url, decoded.title, false);
     } else if (type === 'showPlayPause') {
         var frame = document.getElementById(decoded.frameId);
-        frame.classList.add('isMustable');
+        frame.classList.add('isMutable');
+        frame.dataset.muted=0;
         frame.querySelector('.pauseConference').classList.remove('d-none');
+        checkIfIsMutable(frame);
     } else if (type === 'ack') {
         var messageId = decoded.messageId
         delete messages[messageId];
@@ -593,21 +597,24 @@ function moveInForeground(frame) {
     if (frame.style.zIndex < zindex - 1) {
         frame.style.zIndex = zindex++;
     }
+    checkIfIsMutable(frame);
 
 }
 
 function checkIfIsMutable(frame) {
     if (frame.classList.contains('isMutable')) {
-        var actualPaiuse = frame.querySelector('.pauseConference')
-        var allFrames = document.querySelectorAll('.isMutable');
+        var actualPause = frame.querySelector('.pauseConference')
+        var allFrames = document.querySelectorAll(".isMutable[data-muted='0']");
         for (var a of allFrames) {
             if (a !== frame) {
-                var pauseButton = a.querySelector('.pauseConference');
-                isFullscreen(pauseButton.dataset.pause != 1)
-                {
-                    pauseButton.click();
-                }
+                    var pauseButton = a.querySelector('.pauseConference');
+                    {
+                        pauseButton.click();
+                    }
             }
+        }
+        if (frame.dataset.muted == 1){
+            actualPause.click();
         }
     }
 }

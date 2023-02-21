@@ -137,3 +137,8 @@
     transition: height 0.2s ease-in;
   }
 }
+.isMutable{
+  &[data-muted='0']{
+    border-color: $info;
+  }
+}
