@@ -139,6 +139,9 @@
 }
 .isMutable{
   &[data-muted='0']{
-    border-color: $info;
+    .headerBar{
+      background: $info;
+      background: linear-gradient(90deg, $info 0%, rgba(0,0,0,0) 100%);
+    }
   }
 }
