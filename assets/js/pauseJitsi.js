@@ -15,12 +15,17 @@ class jitsiController {
 
     participants = {};
 
-    iframeIsSilent = null;
-
-    constructor(api, displayName, avatarUrl) {
+    iframeIsSilent = false;
+    myId = null;
+    roomName = null;
+    isBreakout = null;
+    constructor(api, displayName, avatarUrl,myId, roomName,isBreakout) {
         this.api = api;
         this.displayName = displayName;
         this.avatarUrl = avatarUrl;
+        this.myId = myId;
+        this.roomName = roomName;
+        this.isBreakout = isBreakout;
         showPlayPause();
         this.initMessengerListener();
     }
@@ -38,6 +43,11 @@ class jitsiController {
                 }
             }
         });
+        api.addListener('participantJoined', participant => {
+            // update mute state for newly joined participant
+            self.updateMuteState(participant.id);
+        });
+
     }
 
     pauseConference() {
@@ -56,22 +66,12 @@ class jitsiController {
         });
         this.api.executeCommand('displayName', '(Away) ' + this.displayName);
         this.api.executeCommand('avatarUrl', 'https://avatars0.githubusercontent.com/u/3671647');
-        api.getRoomsInfo().then(rooms => {
-            var participants = rooms.rooms[0].participants;
-            for (var p of participants) {
-                console.log(p);
-                api.executeCommand('setParticipantVolume', {
-                        participantID: p.id,
-                        volume: 0
-                    }
-                );
-            }
-        })
+        this.updateMuteStateForAll();
     }
 
 
     playConference() {
-        this.iframeIsSilent = true;
+        this.iframeIsSilent = false;
         this.api.executeCommand('displayName', this.displayName);
         if (!this.isMuted) {
             this.api.executeCommand('toggleAudio');
@@ -80,17 +80,36 @@ class jitsiController {
             this.api.executeCommand('toggleVideo');
         }
         this.api.executeCommand('avatarUrl', this.avatarUrl);
-        api.getRoomsInfo().then(rooms => {
-            var participants = rooms.rooms[0].participants;
-            for (var p of participants) {
-                console.log(p);
-                api.executeCommand('setParticipantVolume', {
-                        participantID: p.id,
-                        volume: 1
+        this.updateMuteStateForAll();
+    }
+
+     updateMuteState(participantId) {
+        console.log(`participant ${participantId} muted=${this.iframeIsSilent}`);
+        api.executeCommand('setParticipantVolume', participantId, this.iframeIsSilent ? 0 : 1);
+    }
+
+
+     updateMuteStateForAll() {
+        api.getRoomsInfo().then(event => {
+            event.rooms.forEach(room => {
+                if (!this.isCurrentRoom(room)) {
+                    return;
+                }
+                room.participants.forEach(participant => {
+                    if (participant.id !== this.myId) {
+                        this.updateMuteState(participant.id);
                     }
-                );
-            }
-        })
+                })
+            })
+        });
+    }
+
+     isCurrentRoom(room) {
+        if (!this.isBreakout && room.isMainRoom) {
+            return true;
+        } else {
+            return room.jid.startWith(`${roomName}@`);
+        }
     }
 }
 

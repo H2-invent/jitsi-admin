@@ -29,11 +29,13 @@ a {
   color: $contrast-dark;
 
   &:hover {
-    color: lighten($contrast-dark,15%);
+    color: lighten($contrast-dark, 15%);
   }
+
   &:active {
-    color: lighten($contrast-dark,5%);
+    color: lighten($contrast-dark, 5%);
   }
+
   &:focus {
     color: $main-color-hover;
     text-decoration: none;
@@ -463,7 +465,7 @@ strong {
 }
 
 .light-blue.darken-3 {
-    color: white;
+  color: white;
 }
 
 #atendeeModalScroll {
@@ -1014,6 +1016,7 @@ a:hover {
       padding-top: 8px;
       font-weight: bold;
       align-items: flex-end;
+
       a {
         margin-bottom: 0.5rem;
         text-align: right;
@@ -1030,25 +1033,29 @@ a:hover {
 
       cursor: pointer;
       position: relative;
+
       img {
         object-fit: cover;
         height: 100%;
         width: 100%;
         border-radius: 5000px;
       }
-      .pic-content{
+
+      .pic-content {
         border-radius: 5000px;
       }
-      .dot{
+
+      .dot {
         position: absolute;
         bottom: 0;
         right: 0;
         width: 25%;
         height: 25%;;
         border-radius: 5000px;
-        &.with-icon{
-          &:before{
-          font-size: 1em!important;
+
+        &.with-icon {
+          &:before {
+            font-size: 1em !important;
           }
         }
       }
@@ -1136,37 +1143,42 @@ a:hover {
   justify-content: center;
   padding: 1px 12px 1px 12px;
 }
-.bg-color{
+
+.bg-color {
   background-color: $background-color;
 }
 
 .modal-header {
   border-bottom: none;
 
-  .modal-header{
+  .modal-header {
     font-size: 1em;
     font-weight: bold;
     line-height: 2em;
   }
 }
-.modal-title{
+
+.modal-title {
   font-weight: bold;
   font-size: 1.3em;
 }
 
 
-.btn-close{
+.btn-close {
   background-color: transparent;
   background-image: none;
   display: flex;
   align-items: center;
   justify-content: center;
   color: inherit;
-  &:hover{
+
+  opacity: 1;
+
+  &:hover {
     color: inherit;
   }
-  opacity: 1;
-  &:before{
+
+  &:before {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 1.5em;

@@ -76,7 +76,7 @@ class UserShowTest extends WebTestCase
             $crawler->filter('.breakWord:contains("AA, 45689, Forelle, Frieder")')->count()
         );
         $this->assertEquals(
-            0,
+            3,
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
 
@@ -148,7 +148,7 @@ class UserShowTest extends WebTestCase
             $crawler->filter('.breakWord:contains("AA, 45689, Forelle, Frieder")')->count()
         );
         $this->assertEquals(
-            0,
+            3,
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
 

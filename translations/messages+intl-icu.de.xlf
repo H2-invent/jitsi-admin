@@ -893,7 +893,7 @@
       </trans-unit>
       <trans-unit id="iHWAl7b" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="translated">Bitte hier beitreten</target>
+        <target state="translated">Hier beitreten</target>
       </trans-unit>
       <trans-unit id="qjr7pXm" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>

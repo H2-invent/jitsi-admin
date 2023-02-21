@@ -26,6 +26,9 @@ var isMuted = null;
 var isVideoMuted = null;
 var avatarUrl = null;
 var pauseController;
+var myId = null;
+var roomName = null;
+var isBreakout = null;
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
@@ -74,7 +77,11 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         enterMeeting();
         initStartWhiteboard();
         api.executeCommand('avatarUrl', avatarUrl);
-        pauseController = new jitsiController(api,displayName,avatarUrl);
+        myId = e.id;
+        roomName = e.roomName;
+        isBreakout = e.breakoutRoom;
+
+        pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
 
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
