@@ -40,8 +40,8 @@
     position: relative;
     background-repeat: no-repeat;
     .dot {
-      height: 0.5em;
-      width: 0.5em;
+      height: 33%;
+      width: 33%;
       border-radius: 5000px;
       position: absolute;
       bottom: 0;
@@ -179,6 +179,7 @@
       height: 100%;
       display: flex;
       justify-content: center;
+      align-items: center;
       position: absolute;
       top: 0;
       left: 0;
