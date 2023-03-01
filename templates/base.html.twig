@@ -23,20 +23,18 @@
     <div class="window" id="window">
         <div class="navigation fullwidth shadow-3">
             <div class="container d-flex justify-content-between align-items-center">
-                <a href="{{ path('dashboard') }}">
-                    {% if theme %}
-                        <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                        <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                    {% else %}
-                        <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                        <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
-                             style="height: 50px; width: auto">
-                    {% endif %}
+                <div class="logo">
+                    <a href="{{ path('dashboard') }}">
+                        {% if theme %}
+                            <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo">
+                            <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo">
+                        {% else %}
+                            <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo">
+                            <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo">
+                        {% endif %}
+                    </a>
+                </div>
 
-                </a>
                 {% if theme != false %}
                     <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
                         {{ theme.headerLine }}

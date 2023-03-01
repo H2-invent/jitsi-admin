@@ -279,7 +279,26 @@ strong {
     padding-bottom: 8px;
     background-color: white;
     height: fit-content;
+    .container{
+      padding: 0;
+      .logo{
+        flex: 1;
+        img{
+          max-width: 100%;
+          max-height: 50px;
+          height: auto;
 
+        }
+      }
+      ul{
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+      }
+    }
     .nav {
       a {
         cursor: pointer;
@@ -1026,10 +1045,9 @@ a:hover {
     }
 
     .picture {
-      height: 100px;
+      height: 100%;
       aspect-ratio: 1/1;
       object-fit: contain;
-      overflow: hidden;
 
       cursor: pointer;
       position: relative;
@@ -1047,15 +1065,14 @@ a:hover {
 
       .dot {
         position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 25%;
-        height: 25%;;
+        bottom: -10%;
+        right: -10%;
+        width: 33%;
+        height: 33%;;
         border-radius: 5000px;
-
         &.with-icon {
           &:before {
-            font-size: 1em !important;
+            font-size: 50%;
           }
         }
       }
@@ -1185,4 +1202,8 @@ a:hover {
     content: "\f00d";
     line-height: 1.5em;
   }
+}
+.dot{
+  box-sizing: content-box;
+  border: 2px white solid;
 }

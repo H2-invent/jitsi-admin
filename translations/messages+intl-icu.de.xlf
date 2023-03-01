@@ -1984,7 +1984,7 @@
       </trans-unit>
       <trans-unit id=".RyLlN8" resname="deputy.help">
         <source>deputy.help</source>
-        <target>Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter darf nicht an einer Konferenz, welche er für Sie geplant hat, teilnehmen.</target>
+        <target>Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter nimmt nicht automatisch an einer von ihm geplanten Konferenz Teil, sondern muss separate von dem Organisator eingeladen werden.</target>
       </trans-unit>
       <trans-unit id="cuWbL6h" resname="deputy.text.isDeputy">
         <source>deputy.text.isDeputy</source>

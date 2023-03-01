@@ -1,8 +1,7 @@
 <div class="profile me-3" >
     <div class="profileLine" id="profilLine" data-status="{{ app.user.onlineStatus==1?'online':'offline' }}">
         <div class="icons" id="profileIcons">
-            <a class="loadContent" href="{{ path('second_email_change') }}" target="_blank">Einstellungen <i
-                        class="fa fa-cog"></i> </a>
+
             <a
                     data-mdb-toggle="modal"
                     data-mdb-target="#modalAdressbook"
@@ -22,15 +21,6 @@
                             class="fa-regular fa-clock"></i></b>
             {% endif %}
 
-            {% if theme == false  or (theme is not null and theme.profileAllowLogout == true  ) %}
-                <a href="{{ path('logout_keycloak') }}">
-                    {% if theme != false %}
-                        {{ 'Logout'|trans }} <i class="fa fa-sign-out"></i>
-                    {% else %}
-                        {{ 'Logout'|trans }}   <i class="fa fa-sign-out"></i>
-                    {% endif %}
-                </a>
-            {% endif %}
         </div>
 
         <div class="picture"

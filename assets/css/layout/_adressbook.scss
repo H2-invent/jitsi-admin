@@ -40,12 +40,12 @@
     position: relative;
     background-repeat: no-repeat;
     .dot {
-      height: 33%;
+      bottom: -10%;
+      right: -10%;
       width: 33%;
+      height: 33%;;
       border-radius: 5000px;
       position: absolute;
-      bottom: 0;
-      right: 0;
     }
   }
 

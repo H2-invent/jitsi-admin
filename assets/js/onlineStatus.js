@@ -1,4 +1,5 @@
 import {sendViaWebsocket} from "./websocket";
+import {createElement} from "@fullcalendar/core";
 
 var status;
 var login = true;
@@ -15,7 +16,7 @@ export function initStatus() {
         }
         var target = this.closest('.profile').querySelector('.profileLine');
         profillLine.dataset.status = this.dataset.status;
-        document.getElementById('onlineSelector').innerHTML = this.innerHTML;
+        document.getElementById('onlineSelector').innerHTML = this.innerText;
         status = this.dataset.status;
         setStatus();
     })
@@ -56,8 +57,9 @@ export function setMyStatus(status) {
         profillLine.dataset.status = status;
         var query = '.changeStatus[data-status="' + status + '"]';
         var source = document.querySelector(query)
-        var innerHtml = source.innerHTML;
-        switcher.innerHTML = innerHtml;
+        var text = source.innerText;
+
+        switcher.innerHTML = text;
     }
 
 }
