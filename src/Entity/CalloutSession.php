@@ -11,17 +11,19 @@ class CalloutSession
 {
     public static $STATE = array(
         0 => 'INITIATED',
-        1 => 'DIALED',
-        2 => 'ON_HOLD',
-        3 => 'OCCUPIED',
-        4 => 'LATER',
-        5 => 'TIMEOUT',
+        10 => 'DIALED',
+        15 => 'RINGING',
+        20 => 'ON_HOLD',
+        30 => 'OCCUPIED',
+        40 => 'LATER',
+        50 => 'TIMEOUT',
     );
-    public static $TIMEOUT = 5;
-    public static $LATER = 4;
-    public static $OCCUPIED = 3;
-    public static $ON_HOLD = 2;
-    public static $DIALED = 1;
+    public static $RINGING = 15;
+    public static $TIMEOUT = 50;
+    public static $LATER = 40;
+    public static $OCCUPIED = 30;
+    public static $ON_HOLD = 20;
+    public static $DIALED = 10;
     public static $INITIATED = 0;
 
 

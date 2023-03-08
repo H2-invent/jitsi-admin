@@ -28,7 +28,7 @@ class CallOutSessionAPIHoldService
 
     public function timeout($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
@@ -38,7 +38,7 @@ class CallOutSessionAPIHoldService
 
     public function occupied($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
@@ -46,9 +46,19 @@ class CallOutSessionAPIHoldService
 
     }
 
+    public function ringing($sessionId): array
+    {
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
+        if (!$calloutSession) {
+            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
+        }
+        return $this->setRinging($calloutSession);
+
+    }
+
     public function later($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
@@ -58,7 +68,7 @@ class CallOutSessionAPIHoldService
 
     public function setCalloutSessionOnHold(CalloutSession $calloutSession, $state, $message)
     {
-        if ($calloutSession->getState() !== CalloutSession::$DIALED){
+        if ($calloutSession->getState() >= CalloutSession::$ON_HOLD || $calloutSession->getState() < CalloutSession::$DIALED){
             return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
         }
         $calloutSession->setState($state);
@@ -77,6 +87,24 @@ class CallOutSessionAPIHoldService
         );
     }
 
+    public function setRinging(CalloutSession $calloutSession,){
+        if ($calloutSession->getState() >= CalloutSession::$ON_HOLD){
+            return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
+        }
+        $calloutSession->setState(CalloutSession::$RINGING);
+        $this->entityManager->persist($calloutSession);
+        $this->entityManager->flush();
+        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
+        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(array('room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()));
+        $sipRaumnummer = $calloutSession->getRoom()->getCallerRoom();
+        return array(
+            'status' => 'RINGING',
+            'pin' => $pin->getCallerId(),
+            'room_number' => $sipRaumnummer->getCallerId(),
+            'links' => array()
+        );
+
+    }
     public function sendMessage(Rooms $room, $message)
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();

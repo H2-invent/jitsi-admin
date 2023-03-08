@@ -128,6 +128,17 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
+    #[Route('/ringing/{calloutSessionId}', name: 'ringing')]
+    public function ringing($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = $callOutSessionAPIHoldService->ringing($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
     #[Route('/on_hold/', name: 'on_hold_pool',methods: 'GET')]
     public function onHoldPool( Request $request): Response
     {

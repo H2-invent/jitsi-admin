@@ -61,7 +61,8 @@ class CalloutApiActionControllerTest extends WebTestCase
                 'error' => '/api/v1/call/out/error/' . $this->calloutSession->getUid(),
                 'later' => '/api/v1/call/out/later/' . $this->calloutSession->getUid(),
                 'dial' => '/api/v1/call/out/dial/' . $this->calloutSession->getUid(),
-                'occupied' => '/api/v1/call/out/occupied/' . $this->calloutSession->getUid()
+                'occupied' => '/api/v1/call/out/occupied/' . $this->calloutSession->getUid(),
+                 'ringing' => '/api/v1/call/out/ringing/' . $this->calloutSession->getUid()
             ),
         ), json_decode($this->client->getResponse()->getContent(), true));
     }
@@ -149,6 +150,40 @@ class CalloutApiActionControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $url);
         assertEquals(1, $crawler->filter('.calloutsymbol')->count());
         $this->assertSelectorTextContains('.calloutsymbol .badge', 'Später');
+    }
+
+    public function testRinging(): void
+    {
+        $crawler = $this->client->request('GET', '/api/v1/call/out/dial/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $url = '/room/join/b/' . $this->room->getId();
+        $crawler = $this->client->request('GET', $url);
+        assertEquals(1, $crawler->filter('.calloutsymbol .fa-phone')->count());
+        $crawler = $this->client->request('GET', '/api/v1/call/out/ringing/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        self::assertEquals(array(
+            'status' => 'RINGING',
+            'links' => array(),
+            'pin' => '987654321',
+            'room_number' => $this->room->getCallerRoom()->getCallerId(),
+        ), json_decode($this->client->getResponse()->getContent(), true));
+
+        $this->client->loginUser(new User());
+        $user = $this->calloutSession->getRoom()->getModerator();
+
+        $this->client->loginUser($user);
+        $url = '/room/join/b/' . $this->room->getId();
+        $crawler = $this->client->request('GET', $url);
+        assertEquals(1, $crawler->filter('.calloutsymbol')->count());
+        $this->assertSelectorExists('.calloutsymbol .fa-phone-volume');
+
+
+        $crawler = $this->client->request('GET', '/api/v1/call/out/dial/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
+        $this->assertResponseIsSuccessful();
+        $url = '/room/join/b/' . $this->room->getId();
+        $crawler = $this->client->request('GET', $url);
+        assertEquals(1, $crawler->filter('.calloutsymbol .fa-phone-volume')->count());
+        assertEquals(0, $crawler->filter('.calloutsymbol .fa-phone')->count());
     }
 
     public function testOccupied(): void

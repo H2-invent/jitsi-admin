@@ -27,14 +27,17 @@ class CallOutSessionAPIDialService
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
-        if ($calloutSession->getState() > CalloutSession::$DIALED){
+        if ($calloutSession->getState() >= CalloutSession::$ON_HOLD){
             return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
         }
 
         $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(array('room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()));
-        $calloutSession->setState(CalloutSession::$DIALED);
-        $this->entityManager->persist($calloutSession);
-        $this->entityManager->flush();
+        if ($calloutSession->getState() < CalloutSession::$DIALED){
+            $calloutSession->setState(CalloutSession::$DIALED);
+            $this->entityManager->persist($calloutSession);
+            $this->entityManager->flush();
+        }
+
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
         $res = array(
             'status' => 'OK',
@@ -46,6 +49,7 @@ class CallOutSessionAPIDialService
                         'pin' => $pin->getCallerId())
                 ),
                 'refuse' => $this->urlGenerator->generate('callout_api_refuse', array('calloutSessionId' => $calloutSession->getUid())),
+                'ringing' => $this->urlGenerator->generate('callout_api_ringing', array('calloutSessionId' => $calloutSession->getUid())),
                 'timeout' => $this->urlGenerator->generate('callout_api_timeout', array('calloutSessionId' => $calloutSession->getUid())),
                 'error' => $this->urlGenerator->generate('callout_api_error', array('calloutSessionId' => $calloutSession->getUid())),
                 'later' => $this->urlGenerator->generate('callout_api_later', array('calloutSessionId' => $calloutSession->getUid())),

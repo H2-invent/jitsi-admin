@@ -15,7 +15,7 @@ use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;
 
-class CalloutAPIRemoveServiceTest extends KernelTestCase
+class CalloutAPIRemoveServiceFromRingingTest extends KernelTestCase
 {
     protected function setUp(): void
     {
@@ -31,7 +31,7 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
             ->setRoom($room)
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
-            ->setState(CalloutSession::$DIALED)
+            ->setState(CalloutSession::$RINGING)
             ->setUid('ksdlfjlkfds')
             ->setLeftRetries(2);
         $manager->persist($calloutSession1);

@@ -15,7 +15,7 @@ use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;
 
-class CalloutHoldApiServiceTest extends KernelTestCase
+class CalloutHoldApiFromRingingServiceTest extends KernelTestCase
 {
     protected function setUp(): void
     {
@@ -31,7 +31,7 @@ class CalloutHoldApiServiceTest extends KernelTestCase
             ->setRoom($room)
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
-            ->setState(10)
+            ->setState(15)
             ->setUid('ksdlfjlkfds')
             ->setLeftRetries(2);
         $manager->persist($calloutSession1);

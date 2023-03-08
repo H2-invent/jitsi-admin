@@ -196,12 +196,14 @@ function pauseIframe(e) {
         currentElement.closest('.isMutable').dataset.muted=1;
         currentElement.dataset.pause = 1;
         currentElement.innerHTML = '<i class="fa-solid fa-play"></i>';
-        sendCommand(e.currentTarget.closest('.jitsiadminiframe').id, {type: 'pauseIframe'})
+        currentElement.closest('.jitsiadminiframe').querySelector('.iframeFrame').insertAdjacentHTML( 'afterbegin', '<div class="pausedFrame"><i class="fa-solid fa-circle-pause"></i></div>' );
+        sendCommand(currentElement.closest('.jitsiadminiframe').id, {type: 'pauseIframe'})
     } else {
         currentElement.closest('.isMutable').dataset.muted=0;
         currentElement.dataset.pause = 0;
         currentElement.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        sendCommand(e.currentTarget.closest('.jitsiadminiframe').id, {type: 'playIframe'})
+        currentElement.closest('.jitsiadminiframe').querySelector('.pausedFrame').remove();
+        sendCommand(currentElement.closest('.jitsiadminiframe').id, {type: 'playIframe'})
     }
 }
 

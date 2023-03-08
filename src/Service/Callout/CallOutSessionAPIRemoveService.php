@@ -29,7 +29,7 @@ class CallOutSessionAPIRemoveService
 
     public function refuse($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive( $sessionId);
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
@@ -42,7 +42,7 @@ class CallOutSessionAPIRemoveService
 
     public function error($sessionId): array
     {
-        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId, 'state' => CalloutSession::$DIALED));
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive( $sessionId);
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }

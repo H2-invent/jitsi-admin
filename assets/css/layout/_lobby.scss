@@ -461,7 +461,7 @@ $rotateNeg: -20deg;
 .ringingsymbol {
   position: relative;
 
-  .fa-phone {
+  .fa-phone,.fa-phone-volume {
     animation-name: shake;
     animation-duration: 4s;
     animation-iteration-count: infinite;

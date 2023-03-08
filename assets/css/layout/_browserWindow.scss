@@ -44,6 +44,7 @@
     .actionIconLeft {
       display: flex;
       align-items: center;
+
       .actionIcon {
         height: 20px;
         width: 20px;
@@ -137,22 +138,22 @@
     transition: height 0.2s ease-in;
   }
 }
-.isMutable{
-  &[data-muted='1']{
-    .iframeFrame{
-      position: relative;
-      :before{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255,255,255,0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Font Awesome 5 Free";
-        content: "\f04c";
-        font-size: 5em;
-      }
-    }
+
+.iframeFrame {
+  position: relative;
+
+  .pausedFrame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Font Awesome 5 Free";
+    color: white;
+    font-size: 7em;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 }
