@@ -55,7 +55,7 @@
                         <div class="card-body ">
                             {{ 'Bewertung'|trans }} {% if server.stars| length %}
                                 <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdp-html="true"
-                                   data-mdb-content="<p>&Oslash; {{ 'stars.lastTen'|trans }}: {{ lastAverage|round(0, 'floor') }}</p><ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ s.comment }}</li>{% endif %} {% endfor %}</ul>">
+                                   data-mdb-content="<p>{{ server.stars|length }} {{ 'Bewertungen'|trans }}</p><p>&Oslash; {{ 'stars.lastTen'|trans }}: {{ lastAverage|round(0, 'floor') }}</p><ul>{% for s in server.stars %}{% if s.comment is not null and s.comment != '' %}<li>{{ s.comment }}</li>{% endif %} {% endfor %}</ul>">
                                     <i class="fa-solid fa-circle-info"></i>
                                 </a>
                             {% endif %}
@@ -158,6 +158,7 @@
                                         {% endif %}
                                     </div>
                                 </div>
+
                             </div>
 
 

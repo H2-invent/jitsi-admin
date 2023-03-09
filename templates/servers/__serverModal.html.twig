@@ -61,7 +61,7 @@
                                        class="loadContent">{{ 'Organisatoren'|trans }}</a>
                                     <br>
                                     <a href="{{ path('admin_server',{'server':server.id}) }}" data-mdb-dismiss="modal"
-                                       class="loadContent">{{ 'Statistiken'|trans }}</a>
+                                       class="loadContent">{{ 'Statistiken'|trans }} {% if server.stars|length > 0 %}(<i class="fa fa-star"></i> {{ showAverageStar(server)|round(1) }}){% endif %}</a>
                                     <br>
                                     <a href="{{ path('server_delete',{'id':server.id}) }}" data-mdb-dismiss="modal"
                                        class="confirmHref"

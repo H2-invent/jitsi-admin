@@ -45,36 +45,7 @@ class DashboardController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    /**
-     * @Route("/", name="index")
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function index(Request $request)
-    {
 
-        if ($this->getUser() || $this->themeService->getApplicationProperties('laF_startpage') == 0) {
-            if ($this->getUser()) {
-                return $this->redirectToRoute('dashboard');
-            };
-
-            return $this->redirectToRoute('app_public_form');
-        };
-
-        $data = array();
-        // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
-        $dataStr = $request->get('data');
-        $dataAll = base64_decode($dataStr);
-        parse_str($dataAll, $data);
-        $form = $this->createForm(JoinViewType::class, $data, ['action' => $this->generateUrl('join_index')]);
-        $form->handleRequest($request);
-        $user = $this->doctrine->getRepository(User::class)->findAll();
-        $server = $this->doctrine->getRepository(Server::class)->findAll();
-        $rooms = $this->doctrine->getRepository(Rooms::class)->findAll();
-        return $this->render('dashboard/start.html.twig', ['form' => $form->createView(), 'user' => $user, 'server' => $server, 'rooms' => $rooms]);
-
-
-    }
 
 
     /**
