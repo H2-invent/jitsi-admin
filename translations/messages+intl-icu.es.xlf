@@ -315,7 +315,7 @@
       </trans-unit>
       <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
         <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="translated">No hay ninguna conferencia programada para hoy.</target>
+        <target state="translated">Hoy no hay conferencia/s de Jistsu Meet.</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
@@ -1180,7 +1180,7 @@
       </trans-unit>
       <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Seleccione aquí la zona horaria de la reunión programada. Los usuarios de otras zonas horarias recibirán la conferencia en su zona horaria local.</target>
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1733,27 +1733,27 @@
       </trans-unit>
       <trans-unit id="v.H1nyD" resname="lobby.participant.notInLobby">
         <source>lobby.participant.notInLobby</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
+        <target state="translated">Este participante ya no está en el lobby.</target>
       </trans-unit>
       <trans-unit id="VuGcf_V" resname="Wie war die Gesprächsqualität?">
         <source>Wie war die Gesprächsqualität?</source>
-        <target state="needs-translation">Wie war die Gesprächsqualität?</target>
+        <target state="translated">¿Cómo fue la calidad de la llamada?</target>
       </trans-unit>
       <trans-unit id="39o7QWf" resname="Schreibe uns einen Kommentar">
         <source>Schreibe uns einen Kommentar</source>
-        <target state="needs-translation">Schreibe uns einen Kommentar</target>
+        <target state="translated">Escríbenos un comentario</target>
       </trans-unit>
       <trans-unit id="VjL2gVD" resname="lobby.notVerified">
         <source>lobby.notVerified</source>
-        <target state="needs-translation">Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
+        <target state="translated">El número de teléfono desde el que llama el participante no coincide con el que fue añadido a la lista de participantes.</target>
       </trans-unit>
       <trans-unit id="5iIhPot" resname="options.whiteboard">
         <source>options.whiteboard</source>
-        <target state="needs-translation">Whiteboard öffnen</target>
+        <target state="translated">Abrir la pizarra</target>
       </trans-unit>
       <trans-unit id=".3vR3SM" resname="lobby.notification.newUser.toLobby">
         <source>lobby.notification.newUser.toLobby</source>
-        <target state="needs-translation">Zur Lobby</target>
+        <target state="translated">Ir a la sala de espera</target>
       </trans-unit>
       <trans-unit id="XkrLYIW" resname="lobby.endMeeting.ask.participant">
         <source>lobby.endMeeting.ask.participant</source>
@@ -1761,11 +1761,11 @@
       </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</target>
+        <target state="translated">Tiempo para que el estado "en línea" cambie automáticamente a "ausente".</target>
       </trans-unit>
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
-        <target state="needs-translation">Zeit in Minuten</target>
+        <target state="translated">Tiempo en minutos</target>
       </trans-unit>
       <trans-unit id="l2aU5E." resname="stars.lastTen">
         <source>stars.lastTen</source>
