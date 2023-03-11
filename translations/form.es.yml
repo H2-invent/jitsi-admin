@@ -139,6 +139,7 @@ label:
   jigasiNumberUrl: Números de acceso Jigasi en formato JSON
   jigasiProsodyDomain: Dominio de Prosodi Jigasi
   go: Los gehts!
+  moderator: Organisator auswählen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
