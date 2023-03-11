@@ -67,7 +67,7 @@
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
         <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
-        <target state="needs-translation">Sie wurden zu einer Videokonferenz hinzugefügt.</target>
+        <target state="translated">Вас пригласили на видеоконференцию.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
@@ -315,7 +315,7 @@
       </trans-unit>
       <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
         <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="needs-translation">Heute ist keine Konferenz geplant.</target>
+        <target state="translated">На сегодня конференция Jitsi Meet не запланирована.</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
@@ -395,7 +395,7 @@
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
         <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Videokonferenz eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
+        <target state="translated">Вы только что были приглашены на видеоконференцию. Вы можете легко присоединиться к видеоконференции, перейдя по прилагаемой ссылке.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
         <source>Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?
@@ -712,7 +712,7 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
         <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
-        <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
+        <target state="translated">Вы только что запланировали встречу. Пожалуйста, выберите дату, перейдя по ссылке.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
         <source>Klicken Sie hier um über den optimalen Termin abzustimmen.</source>
@@ -806,7 +806,7 @@ ID конференции: {uid}]]></target>
         <source>Ich habe die &lt;a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"&gt;
             &lt;u&gt;Datenschutzhinweise von Jitsi Admin&lt;/u&gt; &lt;i class="fa fa-external-link-alt"&gt;&lt;/i&gt;&lt;/a&gt;
             gelesen und nehme diese zur Kenntnis.</source>
-        <target state="translated"><![CDATA[У меня есть <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">            Уведомление о конфиденциальности от администратора Jitsi             и эти 
+        <target state="translated"><![CDATA[У меня есть <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer">            Уведомление о конфиденциальности от администратора Jitsi             и эти
             <u>Уведомление о конфиденциальности </u><i class="fa fa-external-link-alt"></i></a>
            прочитайте и подтвердите их.]]></target>
       </trans-unit>
@@ -1200,7 +1200,7 @@ ID конференции: {uid}]]></target>
         <source>Aktuell sind keine Konferenzen vorhanden. Erstellen Sie
                                 &lt;u&gt;&lt;a href="{url}" class="loadContent"&gt;hier&lt;/a&gt;&lt;/u&gt;
                                 eine neue Konferenz.</source>
-        <target state="translated"><![CDATA[В настоящее время конференций нет. 
+        <target state="translated"><![CDATA[В настоящее время конференций нет.
                                 <u><a href="{url}" class="loadContent">hier</a></u>
                                 новая конференция.]]></target>
       </trans-unit>
