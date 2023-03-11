@@ -76,7 +76,7 @@ help:
   teilnehmerEmailhinzufuegenModerator: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки.
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
   secondEmail: Все электронные письма должны быть отправлены на эти адреса электронной почты в дополнение к моему стандартному адресу электронной почты (через запятую).
-  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
+  corsHeader: Если установлен заголовок CORS или frame-ancestor, который не указывает на этот URL-адрес, то невозможно использовать Jitsi-iFrame API. Это приводит к потере некоторых функций.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
   jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
