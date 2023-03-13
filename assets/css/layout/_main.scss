@@ -1281,3 +1281,28 @@ a:hover {
     border-left: none;
   }
 }
+
+.picture {
+  .no-picture {
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      &:before {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        color: white;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f030";
+      }
+    }
+  }
+}

@@ -33,7 +33,7 @@
                         <div class="vichImageWrapper align-self-center" style="background-image: url('{{ image_uri }}')"></div>
                     {% endif %}
                     {% if download_uri %}
-                        <div class="text-center">
+                        <div>
                             <a class="btn btn-sm btn-success" download href="{{ download_uri }}">{{'Download'|trans}}</a>
                             {% if form.delete is defined %}
                                     {{ form_widget(form.delete) }}

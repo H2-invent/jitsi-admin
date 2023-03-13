@@ -2,11 +2,12 @@
 {% block header %}
     <div class="d-flex flex-column">
         <h4 class="h4-responsive w-100">{{ room.name }}</h4>
+        {% set locale =  app.request.locale %}
         <p>  {% if room.scheduleMeeting %}
 
                 {{ 'Einen Termin finden'|trans }}
             {% else %}
-                {% set locale =  app.request.locale %}
+
                 {{ room.start|format_date(pattern="EEEE",locale=locale) }},
                 {{ room.start|format_datetime('long', 'none', locale=locale) }},
                 {{ room.start|date('H:i') }} - {{ room.endDate|date('H:i') }}

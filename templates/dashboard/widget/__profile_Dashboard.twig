@@ -1,7 +1,13 @@
 <div class="profile me-3" >
     <div class="profileLine" id="profilLine" data-status="{{ app.user.onlineStatus==1?'online':'offline' }}">
         <div class="icons" id="profileIcons">
-
+            <a
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#sideModalTR"
+                    id="toggleProfile"
+                    href="#"
+            >
+                {{ 'Einstellungen'|trans }} <i class="fa-solid fa-gear"></i></a>
             <a
                     data-mdb-toggle="modal"
                     data-mdb-target="#modalAdressbook"
@@ -16,31 +22,28 @@
             </a>
 
             {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
-
                 <b id="actualTime">{{ getTime(app.user)|date('d.m.y H:i',false) }} <i
                             class="fa-regular fa-clock"></i></b>
             {% endif %}
 
         </div>
 
-        <div class="picture"
-             data-mdb-toggle="modal"
-             data-mdb-target="#sideModalTR">
-
+        <div class="picture">
+            <a href="{{ path('profile_image_change') }}" class="loadContent">
 
             {% if app.user.profilePicture %}
 
             <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}" class="pic-content">
 
             {% else %}
-                <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content"
-                     style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
-                    {{ app.user|nameOfUserNoSymbol[:2]|upper }}
-                </div>
 
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content no-picture"
+                         style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
+                        {{ app.user|nameOfUserNoSymbol[:2]|upper }}
+                    </div>
 
             {% endif %}
-
+            </a>
             <div class="dot with-icon"></div>
         </div>
 

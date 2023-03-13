@@ -8,10 +8,30 @@
         <div class="modal-body">
             {{ form_start(form) }}
             <div class="row">
-                <div class="col-lg-12">
-                    {{ form_rest(form) }}
+                {% if form.secondEmail is defined %}
+                <div class="col-12 mb-3">
+                    {{ form_widget(form.secondEmail) }}
+                </div>
+                {% endif %}
+                {% if form.timeZone is defined %}
+                <div class="col-12 mb-3">
+                    {{ form_widget(form.timeZone) }}
+                </div>
+                {% endif %}
+                <div class="col-12 mb-3">
+                    {{ form_widget(form.profilePicture) }}
+                </div>
+                <div class="col-12 mb-3">
+
                 </div>
             </div>
+            <hr>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </div>
+            {{ form_rest(form) }}
             {{ form_end(form) }}
             {% if message is defined %}<p>{{ message }}</p>{% endif %}
         </div>
