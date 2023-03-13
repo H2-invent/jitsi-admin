@@ -54,11 +54,13 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12 d-flex align-items-start">
-        {{ form_row(form.submit) }}
+    <div class="col-lg-12 mt-3 d-flex align-items-start justify-content-end">
+
         <a class="btn btn-outline-danger" href="{{ path('dashboard') }}">
             {{ 'Abbrechen' | trans }}
+
         </a>
+        {{ form_row(form.submit) }}
     </div>
 
 </div>

@@ -63,7 +63,7 @@ class AddressGroupType extends AbstractType
                     ];
                 },
             ))
-            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary btn-sm'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
+            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

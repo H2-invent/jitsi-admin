@@ -24,7 +24,7 @@ class PublicRegisterType extends AbstractType
             ->add('firstName', TextType::class, ['attr' => ['placeholder' => 'label.vorname'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
             ->add('lastName', TextType::class, ['attr' => ['placeholder' => 'label.nachname'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
             ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
-            ->add('subscribe', SubmitType::class, ['attr' => array('class' => 'btn btn-primary btn-block p-3'), 'label' => 'label.subscribe', 'translation_domain' => 'form']);
+            ->add('subscribe', SubmitType::class, ['attr' => array('class' => 'btn btn-primary btn-block '), 'label' => 'label.subscribe', 'translation_domain' => 'form']);
       }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -1,11 +1,16 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    <div class="d-flex flex-column align-items-center">
-        <h4 class="h4-responsive text-center w-100">{{ room.name }}</h4>
-        <p class=" text-center">  {% set locale =  app.request.locale %}
-            {{ room.start|format_date(pattern="EEEE",locale=locale) }},
-            {{ room.start|format_datetime('long', 'none', locale=locale) }},
-            {{ room.start|date('H:i') }} - {{ room.endDate|date('H:i') }}</p>
+    <div class="d-flex flex-column">
+        <h4 class="h4-responsive w-100">{{ room.name }}</h4>
+        <p>  {% if room.scheduleMeeting %}
+
+                {{ 'Einen Termin finden'|trans }}
+            {% else %}
+                {% set locale =  app.request.locale %}
+                {{ room.start|format_date(pattern="EEEE",locale=locale) }},
+                {{ room.start|format_datetime('long', 'none', locale=locale) }},
+                {{ room.start|date('H:i') }} - {{ room.endDate|date('H:i') }}
+        {% endif %}</p>
         {% if room.maxParticipants is null %}
             {% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Unbegrenzte Teilnehmerzahl{% endtrans %}
         {% elseif room.maxParticipants - room.user|length >1 %}
@@ -24,7 +29,7 @@
 
 
     {% if room.maxParticipants - room.user|length >0 or room.waitinglist == true or room.maxParticipants is null %}
-        <div class="offset-sm-1 col-sm-10 col-lg-8">
+
             <p class="text-center text-md-start">
                 {{ 'Melden Sie sich an und schreiben Sie sich auf der Teilnehmerliste ein'|trans }}
             </p>
@@ -46,12 +51,11 @@
                     {{ form_row(form.subscribe) }}
                 </div>
             </div>
-        </div>
         {{ form_end(form) }}
     {% else %}
-        <div class="col-lg-12">
+
             <h3 class="text-center ">{% trans with {'{spaces}':room.maxParticipants - room.user|length} %}Keine Plätze mehr frei{% endtrans %}</h3>
-        </div>
+
 
 
 

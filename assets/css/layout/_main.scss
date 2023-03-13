@@ -77,17 +77,14 @@ a {
 }
 
 .btn-dashboard {
-  background-color: $btn-primary !important;
-  border: none !important;
+  font-size: 1em;
+  padding: 20px;
 
-  p {
-    color: $contrast-extra-light;
-
+  &.btn-outline-primary {
+    border-width: 3px;
+    padding-top: 17px;
+    padding-bottom: 17px;
   }
-}
-
-.btn-outline-dashboard {
-  border: 0.2rem solid $btn-primary;
 }
 
 
@@ -263,7 +260,7 @@ strong {
     justify-content: space-between;
     align-items: center;
     z-index: 5;
-    padding: 8px 8px 8px 16px;
+    padding: 8px 0 8px 0;
     height: fit-content;
   }
 
@@ -295,7 +292,7 @@ strong {
       }
 
       ul {
-        @media only screen and (max-width: 992px){
+        @media only screen and (max-width: 992px) {
           flex: 1;
         }
         white-space: nowrap;
@@ -361,6 +358,10 @@ strong {
 
     .sidebarToggle {
       left: 0;
+    }
+
+    .container {
+      padding: 0;
     }
   }
 
@@ -568,7 +569,6 @@ strong {
 .vich-image {
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   .vichImageWrapper {
     height: 200px;
@@ -1041,6 +1041,7 @@ a:hover {
     flex-direction: row;
     margin-bottom: 0.2em;
     margin-top: 1em;
+
     .icons {
       display: flex;
       flex-direction: column;
@@ -1222,14 +1223,61 @@ a:hover {
   box-sizing: content-box;
   border: 2px white solid;
 }
-.headerLine{
+
+.headerLine {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-right: 1em;
   text-align: center;
   display: none;
-  @media only screen and (min-width: 992px){
+  @media only screen and (min-width: 992px) {
     display: block;
+  }
+}
+
+.modal-footer {
+  padding-right: 0;
+  padding-left: 0;
+
+  .btn {
+    margin: 0;
+  }
+}
+
+.form-control, .form-check-input {
+  border-color: $main-color;
+  border-radius: 8px;
+  border-width: 3px;
+}
+
+.form-check-input {
+  border-radius: 4px;
+}
+
+
+.btn-outline-white {
+  border-color: white;
+  border-width: 3px;
+  color: white;
+}
+
+.input-group {
+  *:first-child {
+    border-bottom-left-radius: 8px !important;
+    border-top-left-radius: 8px !important;
+  }
+
+  *:last-child {
+    border-bottom-right-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+  }
+
+  .btn {
+    border-width: 3px;
+  }
+
+  .flatpickr {
+    border-left: none;
   }
 }

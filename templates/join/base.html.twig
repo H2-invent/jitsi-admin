@@ -11,7 +11,7 @@
 {% set image = pexelsImage() %}
 
 <body
-      class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+        class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
     blackMode{% endif %} joinPage">
 <style>
     {% if server
@@ -59,9 +59,10 @@
 
 <div id="mainContent" class="wrapper">
     <div class="window" id="window">
-        <div class="navigation z-depth-1">
-            <div id="logo_image">
-                <img class="d-none d-sm-block" src="
+        <div class="navigation fullwidth shadow-3">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div id="logo_image">
+                    <img class="d-none d-sm-block" src="
                     {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
                         {% else %}
@@ -72,9 +73,9 @@
                             {% endif %}
 
                         {% endif %}"
-                     alt="Logo"
-                     style="height: 50px; width: auto">
-                <img class="d-block d-sm-none" src="
+                         alt="Logo"
+                         style="height: 50px; width: auto">
+                    <img class="d-block d-sm-none" src="
                         {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
                         {% else %}
@@ -86,18 +87,18 @@
 
                         {% endif %}
                     "
-                     alt="Logo"
-                     style="height: 50px; width: auto">
+                         alt="Logo"
+                         style="height: 50px; width: auto">
 
+                </div>
+                {% if theme != false %}
+                    <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
+                        {{ theme.headerLine }}
+                    </p>
+
+                {% endif %}
+                {{ include('join/__navbar.html.twig') }}
             </div>
-            {% if theme != false %}
-                <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
-                    {{ theme.headerLine }}
-                </p>
-
-            {% endif %}
-            {{ include('join/__navbar.html.twig') }}
-
         </div>
 
         <div class="main" id="main">
@@ -110,7 +111,7 @@
                     {% block body %}{% endblock %}
                     <div class="row justify-content-center">
                         {% block mainRow %}
-                        <div class="col-lg-10 ">
+                        <div class="col-lg-8 ">
                             {% endblock %}
                             <div class="card frozenGlas">
                                 <div class="glossy"></div>
@@ -123,29 +124,47 @@
                                             </h3>
                                         {% endif %}
                                     {% endif %}
-                                    <div class="row ">
-                                        <div class="col-12 text-center">
-                                      <span class="joinPageHeader">{% block header %}{% endblock %}</span>
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-10 ">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span class="joinPageHeader">{% block header %}{% endblock %}</span>
+                                                </div>
+                                                {% block content %}{% endblock %}
+                                                <div class="col-12">
+                                                    {% if not server %}
+                                                        <p>
+                                                            {% trans %}Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.{% endtrans %}
+                                                        </p>
+                                                    {% endif %}
+                                                </div>
+                                                {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+
+                                                {% elseif image is not null %}
+
+                                                    <div class="col-12 d-flex justify-content-center"
+                                                         style="font-size: 12px">
+                                                        <a href="{{ image['photographer_url'] }}" target="_blank"
+                                                           referrerpolicy="no-referrer"
+                                                           rel="noreferrer noopener">
+                                                            Image by {{ image['photographer'] }} </a>
+                                                        <a href="https://www.pexels.com" target="_blank"
+                                                           referrerpolicy="no-referrer"
+                                                           rel="noreferrer noopener"> provided by <img height="16px"
+                                                                                                       src="{{ asset('images/pexels.png') }}"/>
+                                                        </a>
+                                                    </div>
+
+                                                {% endif %}
+                                            </div>
+
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="row mb-5  justify-content-center">
-                                        {% block content %}{% endblock %}
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-12 d-flex justify-content-center">
-                                            {% if not server %}
-                                                <p>
-                                                    {% trans %}Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.{% endtrans %}
-                                                </p>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-
                                 </div>
-                                {{ include('join/__frozenGlasContent.html.twig') }}
+
+
                             </div>
+                            {{ include('join/__frozenGlasContent.html.twig') }}
                             {% if server and server|roomsinFuture|length > 0 %}
                                 {{ include('join/__publicRooms.html.twig') }}
                             {% endif %}
@@ -179,7 +198,7 @@
 
 {% if room is defined and room is not null %}
 
-        {% include 'conference_end/__rating.html.twig' with {'room':room} %}
+    {% include 'conference_end/__rating.html.twig' with {'room':room} %}
 
 {% endif %}
 <script>

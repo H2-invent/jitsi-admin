@@ -39,7 +39,7 @@
 
     {% if theme %}
         <style>
-            .btn-dashboard, .btn-dashboard p, .sidebarToggle {
+            .sidebarToggle {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
@@ -228,6 +228,20 @@
             {% if getApplicationProperties('FAVORITEBACKGROUND') %}
             .card.favorites::after {
                 background-image: url("{{ getApplicationProperties('FAVORITEBACKGROUND') }}");
+            }
+
+            .form-control, .form-check-input {
+                border-color: {{ theme.colorButton }};
+                border-radius: 8px;
+                border-width: 3px;
+            }
+
+            .form-check-input {
+                border-radius: 4px;
+            }
+
+            input {
+                border-color: inherit;
             }
 
             {% endif %}
