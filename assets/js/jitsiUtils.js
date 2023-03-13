@@ -97,6 +97,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
                 title: title,
                 content: text,
                 theme: 'material',
+                columnClass: 'col-md-8 col-12 col-lg-6',
                 buttons: {
                     confirm: {
                         text: ok, // text for button
@@ -163,6 +164,7 @@ function askHangup() {
         title: null,
         content: hangupQuestion,
         theme: 'material',
+        columnClass: 'col-md-8 col-12 col-lg-6',
         buttons: {
             confirm: {
                 text: hangupText, // text for button

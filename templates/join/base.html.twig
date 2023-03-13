@@ -125,7 +125,7 @@
                                         {% endif %}
                                     {% endif %}
                                     <div class="row justify-content-center">
-                                        <div class="col-lg-10 ">
+                                        <div class="{% if fullwidth is defined and fullwidth %}col-lg-12{% else %}col-lg-10 {% endif %}">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <span class="joinPageHeader">{% block header %}{% endblock %}</span>

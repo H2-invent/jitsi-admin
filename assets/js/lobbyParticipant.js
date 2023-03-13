@@ -215,6 +215,7 @@ function askHangup() {
         title: null,
         content: hangupQuestion,
         theme: 'material',
+        columnClass: 'col-md-8 col-12 col-lg-6',
         buttons: {
             confirm: {
                 text: hangupText, // text for button
