@@ -66,7 +66,7 @@ services:
   #Here is the mercure hub
   mercure-ja:
     hostname: ${RANDOMTAG}mercure-ja
-    image: dunglas/mercure:0.14.3
+    image: dunglas/mercure:v0.14.3
     restart: unless-stopped
     depends_on:
       - traefik-ja
