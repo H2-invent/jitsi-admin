@@ -1258,8 +1258,13 @@ a:hover {
   border-width: 3px;
   color: white;
 }
+.input-group-text {
+  border-color: $main-color;
+  border-width: 3px;
+}
 
 .input-group {
+
   *:first-child {
     border-bottom-left-radius: 8px !important;
     border-top-left-radius: 8px !important;
@@ -1270,13 +1275,14 @@ a:hover {
     border-top-right-radius: 8px !important;
   }
 
+  > :not(:first-child) {
+    border-left: none;
+  }
+
   .btn {
     border-width: 3px;
   }
 
-  .flatpickr {
-    border-left: none;
-  }
 }
 
 .picture {

@@ -9,6 +9,7 @@ import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import {showPlayPause} from "./moderatorIframe";
 import {jitsiController} from "./pauseJitsi";
+import {jitsiErrorHandling} from "./jitsiErrorHandling";
 
 global.$ = global.jQuery = $;
 
@@ -26,6 +27,7 @@ var isMuted = null;
 var isVideoMuted = null;
 var avatarUrl = null;
 var pauseController;
+var jitsiErrorController;
 var myId = null;
 var roomName = null;
 var isBreakout = null;
@@ -82,6 +84,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         isBreakout = e.breakoutRoom;
 
         pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
+        jitsiErrorController= new jitsiErrorHandling(api);
 
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
