@@ -208,7 +208,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.innerOnce','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.innerOnce','Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
     }
     public function testJoin_Conference_NotcorrectRoom(): void
     {
@@ -226,7 +226,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.snackbar','Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
     }
     public function testJoin_Conference_UserDoesNotexist(): void
     {
@@ -244,7 +244,7 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] ='usernotexits@local6.de';
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.snackbar','Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
     }
     public function testJoin_Conference_fixedroom_Correctuser_Userloginuser_Userismoderator_Correctroomnumber(): void
     {
@@ -344,6 +344,6 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.snackbar','Fehler, bitte kontrollieren Sie Ihre Daten.');
+        $this->assertSelectorTextContains('.snackbar','Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
     }
 }

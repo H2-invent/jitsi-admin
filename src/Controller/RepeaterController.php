@@ -231,6 +231,7 @@ class RepeaterController extends JitsiAdminController
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
         return $this->render('base/__newRoomModal.html.twig', [
+            'serverchoose'=>$room->getServer(),
             'form' => $form->createView(),
             'title' => $title,
             'extra' => $extra
