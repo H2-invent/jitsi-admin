@@ -758,6 +758,7 @@ strong {
   margin-top: 4px;
   margin-bottom: 4px;
   margin-right: 16px;
+  border-radius: 8px;
 }
 
 .input-group, .btn-group {
@@ -1281,6 +1282,9 @@ a:hover {
 
   .btn {
     border-width: 3px;
+  }
+  >:not(:last-child){
+    border-right-width: 1px;
   }
 
 }

@@ -3,7 +3,7 @@
      aria-hidden="true">
 
     <!-- Add class .modal-side and then add class .modal-top-right (or other classes from list above) to set a position to the modal -->
-    <div class="modal-dialog modal-lg  modal-full-height modal-right" role="document">
+    <div class="modal-dialog  modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="h4-responsive w-100"
@@ -13,7 +13,7 @@
             <div class="modal-body">
                 {% if laf_CreateServerOpenToEveryone == 1 or (laf_keycloakGroupToCreateServer in app.user.groups) %}
                     <a href="{{ path('servers_add') }}" data-mdb-dismiss="modal"
-                       class="btn btn-primary loadContent">{{ 'Server hinzufügen'|trans }}</a>
+                       class="btn btn-primary btn-block mb-3 loadContent">{{ 'Server hinzufügen'|trans }}</a>
                 {% else %}
                     <p>
                         {% trans %}
@@ -25,46 +25,47 @@
                     <p><a href="mailto:{{ laf_administratorEmail }}">{{ laf_administratorEmail }}</a></p>
                 {% endif %}
                 {% for server in servers%}
-                    <div class="card card-body mb-1">
+                    <div class="card card-body mb-1 ">
                         <div class="row">
 
-                            <div class="col-md-4">
-                                {{ server.serverName }} {% if server.administrator == app.user %}(Id #{{server.id}}){%endif%}
-                            </div>
+                            <div class="col-12">
+                                <p class="caretdown after m-0" data-mdb-toggle="collapse"
+                                    href="#servercollape_{{ server.id }}"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="servercollape_{{ server.id }}">
+                                      {% if server.administrator == app.user %}(Id #{{server.id}}) {% if server|validateLicense %}<span class="badge badge-success">Pro</span>{% endif%}{%endif%} {{ server.serverName }}   {% if server.stars|length > 0 %}<small>(<i class="fa fa-star"></i> {{ showAverageStar(server)|round(1) }})</small>{% endif %}</p>
 
-                            <div class="col-md-4">
+                            <div class="collapse mt-3" id="servercollape_{{ server.id }}">
                                 {% if server.administrator == app.user %}
                                     {% if server|validateLicense %}
                                         <a href="{{ path('servers_enterprise',{'id':server.id}) }}" data-mdb-dismiss="modal"
-                                           class="loadContent"><span
-                                                    class="badge badge-success">pro</span> {{ 'Enterprise Einstellungen'|trans }}
+                                           class="loadContent btn btn-outline-primary btn-block mb-3">{{ 'Enterprise Einstellungen'|trans }}
                                         </a>
                                         <br>
                                         <a href="{{ path('server_check_email',{'id':server.id}) }}">
-                                            <span
-                                                    class="badge badge-success">pro</span> {{ 'Teste SMTP'|trans }}</a>
+                                             {{ 'Teste SMTP'|trans }}</a>
                                         <br>
                                         <a href="{{ path('join_index',{'slug':server.slug}) }}" target="_blank">
-                                            <span
-                                                    class="badge badge-success">pro</span> {{ 'Meine Join-Seite'|trans }}
+                                             {{ 'Meine Join-Seite'|trans }}
                                         </a>
                                         <br>
                                     {% endif %}
+                                    <hr>
                                 {% endif %}
-                            </div>
-                            <div class="col-md-4">
+
                                 {% if server.administrator == app.user %}
                                     <a href="{{ path('servers_add',{'id':server.id}) }}" data-mdb-dismiss="modal"
-                                       class="loadContent">{{ 'Bearbeiten'|trans }}</a>
+                                       class="loadContent btn btn-outline-primary btn-block">{{ 'Bearbeiten'|trans }}</a>
                                     <br>
                                     <a href="{{ path('server_add_user',{'id':server.id}) }}" data-mdb-dismiss="modal"
-                                       class="loadContent">{{ 'Organisatoren'|trans }}</a>
+                                       class="loadContent btn btn-outline-primary btn-block">{{ 'Organisatoren'|trans }}</a>
                                     <br>
                                     <a href="{{ path('admin_server',{'server':server.id}) }}" data-mdb-dismiss="modal"
-                                       class="loadContent">{{ 'Statistiken'|trans }} {% if server.stars|length > 0 %}(<i class="fa fa-star"></i> {{ showAverageStar(server)|round(1) }}){% endif %}</a>
+                                       class="loadContent btn btn-outline-primary btn-block">{{ 'Statistiken'|trans }}</a>
                                     <br>
                                     <a href="{{ path('server_delete',{'id':server.id}) }}" data-mdb-dismiss="modal"
-                                       class="confirmHref"
+                                       class="confirmHref  btn btn-outline-danger btn-block"
                                        data-text="{{ 'confirm.delete.server'|trans }}">
                                         {{ 'Server löschen'|trans }}
                                     </a>
@@ -72,16 +73,18 @@
                                 {% else %}
                                     {% if server in app.user.servers %}
                                         <a href="{{ path('admin_server',{'server':server.id}) }}" data-mdb-dismiss="modal"
-                                                                          class="loadContent">{{ 'Statistiken'|trans }}</a><br>
-                                    <a class="confirmHref"
-                                       data-text="{{ 'confirm.delete.server'|trans }}"
-                                       href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i
-                                                class="fa fa-trash"></i></a>
+                                           class="loadContent">{{ 'Statistiken'|trans }}</a><br>
+                                        <a class="confirmHref"
+                                           data-text="{{ 'confirm.delete.server'|trans }}"
+                                           href="{{ path('server_user_remove',{'id':server.id,'user':app.user.id}) }}"><i
+                                                    class="fa fa-trash"></i></a>
 
-                                        {% endif %}
+                                    {% endif %}
                                 {% endif %}
+
                             </div>
                         </div>
+                    </div>
                     </div>
                 {% endfor %}
             </div>

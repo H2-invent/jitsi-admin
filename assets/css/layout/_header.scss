@@ -196,7 +196,7 @@ label.required:after {
   font-weight: 900;
   transition: transform 0.3s ease-in;
   content: "\f107";
-  float: left;
+
 }
 
 .caretdown {
@@ -213,12 +213,14 @@ label.required:after {
 
     &:before {
       @include caret-down;
+      float: left;
     }
   }
 
   &.after {
     &:after {
       @include caret-down;
+      float: right;
     }
 
     &[aria-expanded="true"] {
