@@ -51,25 +51,35 @@
                    data-mdb-auto-close="outside"
                 ><i class="fas fa-ellipsis-v"></i></a>
 
-                <div class="dropdown-menu">
-                    {% if not deputyIsFromLDAP(app.user,u) %}
-                        <div class="dropdown-item d-flex">
+                <ul class="dropdown-menu">
 
-                <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %}"
+                        <li class="dropdown-item  d-flex">
+                            {% if not deputyIsFromLDAP(app.user,u) %}
+                <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %} "
                    href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
                      <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}</a>
-                <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                   data-mdb-content="{{ 'deputy.help'|trans }}"><i
-                            class="fa fa-question-circle"></i></a>
+                                <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                   data-mdb-content="{{ 'deputy.help'|trans }}"><i
+                                            class="fa fa-question-circle"></i></a>
+                                {% else %}
+                                <a  class="disabled">
+                                     <i class="fa-solid fa-file-contract"></i>{{ 'deputy.fromLdap.disabled'|trans }}
+                                </a>
+                                <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                   data-mdb-content="{{ 'deputy.help.ldap'|trans }}"><i
+                                            class="fa fa-question-circle"></i></a>
+                            {% endif %}
 
-                </div>
-                    {% endif %}
+                        </li>
+
                     {% if theme == false or theme.trashOnAdressBook == true %}
                         <div class="dropdown-divider"></div>
-                        <a class=" dropdown-item confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
-                           data-text="{{ 'confirm.delete.adressbookUser'|trans }}">
+                       <li>
+                           <a class=" dropdown-item confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
+                              data-text="{{ 'confirm.delete.adressbookUser'|trans }}">
                                      <i class="fa fa-trash text-danger"></i>{{ 'Löschen'|trans }}
                     </a>
+                       </li>
                     {% endif %}
-                </div>
+                </ul>
         </span></li>
