@@ -274,17 +274,7 @@ class RoomController extends JitsiAdminController
             $form->remove('scheduleMeeting');
             $form->handleRequest($request);
 
-            $serverChhose = null;
-            if ($request->cookies->has('room_server')) {
-                $server = $this->doctrine->getRepository(Server::class)->find($request->cookies->get('room_server'));
-                if ($server && in_array($server, $servers)) {
-                    $serverChhose = $server;
-                }
-            }
-            if (sizeof($servers) === 1) {
-
-                $serverChhose = $server[0];
-            }
+            $serverChhose = $room->getServer();
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();

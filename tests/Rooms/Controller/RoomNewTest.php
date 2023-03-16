@@ -254,6 +254,82 @@ class RoomNewTest extends WebTestCase
 
     }
 
+    public function testClone(): void{
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        // retrieve the test user
+        $testUser = $userRepository->findOneByUsername('test@local.de');
+        $client->loginUser($testUser);
+        $server = $testUser->getServers()->toArray()[0];
+
+        $crawler = $client->request('GET', '/room/new');
+        $buttonCrawlerNode = $crawler->selectButton('Speichern');
+        $form = $buttonCrawlerNode->form();
+        $form['room[server]'] = $server->getId();
+        $form['room[name]'] = '198273987321';
+        $form['room[start]'] = (new \DateTime())->modify('+1hour')->format('Y-m-d H:i:s');
+        $form['room[duration]'] = "60";
+        $client->submit($form);
+        $roomRepo =static::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(array('name' => '198273987321'));
+        self::assertNotNull($room);
+        $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
+        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', array('room' => $room->getId())));
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                array(
+                    'error' => false,
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
+                    'cookie' => array(
+                        'room_server' => $server->getId()
+                    )
+                )
+            ),
+            $client->getResponse()->getContent()
+        );
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
+        $client->request('GET','/room/dashboard');
+        self::assertResponseIsSuccessful();
+
+        $crawler = $client->request('GET', $urlGenerator->generate('room_clone',array('room'=>$room->getId())));
+        self::assertResponseIsSuccessful();
+        $buttonCrawlerNode = $crawler->selectButton('Speichern');
+        $form = $buttonCrawlerNode->form();
+        $form['room[name]'] = 'Roome Clone';
+        $form['room[start]'] = (new \DateTime())->modify('+2hours')->format('Y-m-d H:i:s');
+
+        $client->submit($form);
+        $room = $roomRepo->findOneBy(array('name' => 'Roome Clone'));
+        $this->assertNotNull($room);
+        $modalUrl = base64_encode($urlGenerator->generate('room_add_user', array('room' => $room->getId())));
+        $test = $client->getResponse()->getContent();
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                array(
+                    'error' => false,
+                    'redirectUrl' => $urlGenerator->generate('dashboard'),
+                    'cookie' => array(
+                        'room_server' => $server->getId()
+                    )
+                )
+            ),
+            $test
+        );
+
+        $crawler = $client->request('GET', '/room/dashboard');
+        self::assertResponseIsSuccessful();
+        $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
+        self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
+        self::assertStringContainsString(' var modalUrl = \''.$modalUrl,$client->getResponse()->getContent().'\'');
+
+    }
+
     public function testEditRunningRoom(): void{
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);

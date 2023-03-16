@@ -24,6 +24,8 @@ class RoomControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5', 'Bitte neue Konferenz erstellen');
     }
+
+
     public function testEditNoRight()
     {
         $client = static::createClient();
