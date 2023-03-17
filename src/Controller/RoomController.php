@@ -103,7 +103,7 @@ class RoomController extends JitsiAdminController
                 if (sizeof($error) > 0) {
                     return new JsonResponse(array('error' => true, 'messages' => $error));
                 }
-                if ($room->getPersistantRoom()){
+                if ($room->getPersistantRoom()) {
                     $room->setStart(null);
                     $room->setStartUtc(null);
                     $room->setStartTimestamp(null);
@@ -153,7 +153,7 @@ class RoomController extends JitsiAdminController
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers,'serverchoose'=>$serverChhose, 'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'serverchoose' => $serverChhose, 'form' => $form->createView(), 'title' => $title));
     }
 
 
@@ -217,6 +217,18 @@ class RoomController extends JitsiAdminController
             $form->remove('scheduleMeeting');
             $form->handleRequest($request);
 
+            $serverChhose = null;
+            if ($request->cookies->has('room_server')) {
+                $server = $this->doctrine->getRepository(Server::class)->find($request->cookies->get('room_server'));
+                if ($server && in_array($server, $servers)) {
+                    $serverChhose = $server;
+                }
+            }
+            if (sizeof($servers) === 1) {
+
+                $serverChhose = $server[0];
+            }
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();
                 foreach ($roomOld->getUserAttributes() as $data) {
@@ -249,7 +261,7 @@ class RoomController extends JitsiAdminController
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
             }
-            return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
+            return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'server' => $servers, 'serverchoose' => $serverChhose, 'title' => $title));
         }
 
         $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');

@@ -22,6 +22,11 @@ class CreateHttpsUrl
 
     public function createHttpsUrl($url, ?Rooms $rooms = null)
     {
+        if(str_contains($url, $this->paramterBag->get('laF_baseUrl'))){
+            return $this->generateAbsolutUrl($url);
+        }
+
+
         if ($this->paramterBag->get('LAF_DEV_URL') !== '') {
             return $this->paramterBag->get('LAF_DEV_URL') . $url;
         } else {
@@ -43,7 +48,7 @@ class CreateHttpsUrl
 
     }
 
-    public function generateAbsolutUrl($baseUrl, $url)
+    public function generateAbsolutUrl($baseUrl, $url = '')
     {
         return str_replace('http://', 'https://', $baseUrl) . $url;
     }
