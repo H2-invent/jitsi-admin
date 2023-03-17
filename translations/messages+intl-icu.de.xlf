@@ -2063,11 +2063,11 @@
         <target>Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</target>
       </trans-unit>
       <trans-unit id="I4FmwuJ" resname="deputy.fromLdap.disabled">
-        <source>Ist ihnen als Vertreter zugeteilt</source>
+        <source>deputy.fromLdap.disabled</source>
         <target>Ist ihnen als Vertreter zugeteilt</target>
       </trans-unit>
       <trans-unit id="ziDzjp." resname="deputy.help.ldap">
-        <source>Dieser Vertreter wurde Ihnen von Ihrer Organisation zugeteilt und kann nicht durch Sie bearbeitet werden. Wollen Sie diesen Vertreter bearbeiten, wenden Sie sich bitte an Ihren Support. Die Kontaktdaten für Ihren Support erhalten Sie durch einen Klick auf das "?" in der Navigationsleiste.</source>
+        <source>deputy.help.ldap</source>
         <target>Dieser Vertreter wurde Ihnen von Ihrer Organisation zugeteilt und kann nicht durch Sie bearbeitet werden. Wollen Sie diesen Vertreter bearbeiten, wenden Sie sich bitte an Ihren Support. Die Kontaktdaten für Ihren Support erhalten Sie durch einen Klick auf das "?" in der Navigationsleiste.</target>
       </trans-unit>
       <trans-unit id="IEmtTcn" resname="Bewertungen">
@@ -2086,9 +2086,9 @@
         <source>Einstellungen</source>
         <target>Einstellungen</target>
       </trans-unit>
-      <trans-unit id="6kE.f5L" resname="Startet in %time%min">
-        <source>Startet in %time%min</source>
-        <target>Startet in %time%min</target>
+      <trans-unit id="zU3M4mU" resname="Startet in {time} min">
+        <source>Startet in {time} min</source>
+        <target>Startet in {time} min</target>
       </trans-unit>
     </body>
   </file>

@@ -22,15 +22,22 @@ export function initWebsocket(jwt) {
 
     socket.on('openNewIframe', function (data) {
         data = JSON.parse(data);
+        var url = data.url;
+        if (typeof schowNameInWidgets !== 'undefined'){
+            url = url.replace('%name%',encodeURIComponent(schowNameInWidgets))
+        }else {
+            url = url.replace('%name%','')
+        }
+        console.log(url);
         const parentMessage = JSON.stringify({
             type: 'openNewIframe',
-            url: data.url,
+            url: url,
             'title': data.title
         });
         if (inIframe()){
             window.parent.postMessage(parentMessage, '*');
         }else {
-            createIframe(data.url, data.title, false);
+            createIframe(url, data.title, false);
         }
 
     })

@@ -5,7 +5,7 @@
     {% endif %}
 {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
     {% if not isAllowedToOrganize(room,app.user) %}
-        <a href="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+        <a href="{{ createWhitebophirLink(room,false) }}"
            class=" element btn btn-outline-primary startIframe apps-icon-whiteboard" data-roomname="{{ room.name }}" data-close="simple">
             <i class="fa-solid fa-chalkboard"></i>
         </a>
@@ -13,7 +13,7 @@
 {% endif %}
 {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
     {% if not isAllowedToOrganize(room,app.user) %}
-        <a href="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ app.user|nameOfUserNoSymbol }}"
+        <a href="{{ createEtherpadLink(room, app.user ) }}"
            class=" element btn btn-outline-primary startIframe apps-icon-etherpad" data-roomname="{{ room.name }}" data-close="simple">
             <i class="fa-solid fa-clipboard"></i>
         </a>

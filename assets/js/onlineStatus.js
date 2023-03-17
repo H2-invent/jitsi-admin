@@ -5,6 +5,9 @@ var status;
 var login = true;
 var profillLine = null;
 export function initStatus() {
+    if (!document.getElementById('onlineSelector')){
+        return;
+    }
     profillLine = document.getElementById('onlineSelector').closest('.profile').querySelector('.profileLine');
     status = profillLine ? profillLine.dataset.status : null;
 

@@ -1,4 +1,9 @@
 <div class="conference-sidebar" >
+    {% if user is defined and user is not null %}
+    <script>
+        var schowNameInWidgets = "{{ user|nameOfUserNoSymbol }}";
+    </script>
+    {% endif %}
     <div class="wrapperIcons" >
         {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
             <div class="wrapper" >
@@ -9,11 +14,11 @@
                             room.moderator == app.user
                             or roomPermissions(app.user,room).moderator == true
                             or roomPermissions(app.user,room).lobbyModerator == true) %}
-                            data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room, true) }}"
+                            data-selfurl="{{ createWhitebophirLink(room,true) }}"
                             data-room="whiteboard/{{ room.uidReal }}"
-                            data-url="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+                            data-url="{{ createWhitebophirLink(room,false) }}"
                         {% else %}
-                            data-selfurl="{{ WHITEBOARD_URL }}/boards/{{ room.uidReal }}?token={{ getJwtforWhiteboard(room) }}"
+                            data-selfurl="{{ createWhitebophirLink(room,false) }}"
                         {% endif %}
                 >
                     <i class="fa-solid fa-chalkboard"></i>
@@ -34,11 +39,11 @@
                             room.moderator == app.user
                             or roomPermissions(app.user,room).moderator == true
                             or roomPermissions(app.user,room).lobbyModerator == true) %}
-                            data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ name }}"
+                            data-selfurl="{{ createEtherpadLink(room,user) }}"
                             data-room="whiteboard/{{ room.uidReal }}"
-                            data-url="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false"
+                            data-url="{{ createEtherpadLink(room) }}"
                         {% else %}
-                            data-selfurl="{{ getApplicationProperties('ETHERPAD_URL') }}/p/{{ room.uidReal }}?showChat=false&userName={{ name }}"
+                            data-selfurl="{{ createEtherpadLink(room,user) }}"
                         {% endif %}
                 >
                     <i class="fa-solid fa-clipboard"></i>

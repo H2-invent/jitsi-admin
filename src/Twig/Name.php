@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Entity\Checklist;
+use App\Entity\LobbyWaitungUser;
 use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\MessageService;
@@ -33,9 +34,11 @@ class Name extends AbstractExtension
         ];
     }
 
-    public function nameOfUser(User $user)
+    public function nameOfUser(User|LobbyWaitungUser $user)
     {
-
+        if ($user instanceof LobbyWaitungUser){
+            $user = $user->getUser();
+        }
         return new Markup(
             str_replace(
                 array('<script>', '</script>'),
@@ -45,8 +48,12 @@ class Name extends AbstractExtension
             'utf-8'
         );
     }
-    public function nameOfUserNoSymbol(User $user)
+    public function nameOfUserNoSymbol(User|LobbyWaitungUser $user)
     {
+        if ($user instanceof LobbyWaitungUser){
+            $userT = $user->getUser();
+                return $user->getShowName();
+        }
         return $this->participantSearchService->buildShowInFrontendStringNoString($user);
     }
 }
