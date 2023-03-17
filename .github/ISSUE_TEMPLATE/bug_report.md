@@ -17,6 +17,10 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
+**Branch or Version you using**
+Please tell us which Version you are using. you can get this information by typing `git branch` or `git describe --tags` in your console
+
+
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
