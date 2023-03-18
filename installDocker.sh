@@ -126,13 +126,13 @@ chmod +x dockerupdate.sh
 
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
-  docker-compose -f docker-compose.test.yml up -d
+  docker-compose -f docker-compose.test.yml up -d --remove-orphans 
 elif [ "$ENVIRONMENT" == 'cluster' ]; then
   docker-compose -f docker-compose.test.yml build
-  docker-compose -f docker-compose.cluster.yml up -d
+  docker-compose -f docker-compose.cluster.yml up -d --remove-orphans 
 else
    docker-compose -f docker-compose.yml build
-  docker-compose -f docker-compose.yml up -d
+  docker-compose -f docker-compose.yml up -d --remove-orphans 
 fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color
