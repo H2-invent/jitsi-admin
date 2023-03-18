@@ -52,7 +52,7 @@ class ScheduleController extends JitsiAdminController
             if (!$room->getUidParticipant()) {
                 $room->setUidParticipant(md5(uniqid('h2-invent', true)));
             }
-        $serverChhose = $room->getServer();
+            $serverChhose = $room->getServer();
             $edit = true;
         } else {
             $serverChhose = null;
