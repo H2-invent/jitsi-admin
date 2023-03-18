@@ -43,7 +43,7 @@ class jitsiController {
                 }
             }
         });
-        api.addListener('participantJoined', participant => {
+        this.api.addListener('participantJoined', participant => {
             // update mute state for newly joined participant
             self.updateMuteState(participant.id);
         });
@@ -85,12 +85,12 @@ class jitsiController {
 
      updateMuteState(participantId) {
         console.log(`participant ${participantId} muted=${this.iframeIsSilent}`);
-        api.executeCommand('setParticipantVolume', participantId, this.iframeIsSilent ? 0 : 1);
+        this.api.executeCommand('setParticipantVolume', participantId, this.iframeIsSilent ? 0 : 1);
     }
 
 
      updateMuteStateForAll() {
-        api.getRoomsInfo().then(event => {
+        this.api.getRoomsInfo().then(event => {
             event.rooms.forEach(room => {
                 if (!this.isCurrentRoom(room)) {
                     return;

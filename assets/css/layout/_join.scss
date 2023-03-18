@@ -137,12 +137,11 @@ strong {
 }
 
 
-
 .conference-sidebar {
   position: absolute;
   z-index: 10;
   top: 0;
-  left: 8px;
+  left: 4px;
   width: 0;
   display: flex;
   flex-direction: column;
@@ -154,22 +153,49 @@ strong {
     width: fit-content;
     width: -moz-fit-content;
 
-    .wrapper{
+    .wrapper {
       display: flex;
-      width: 100%
+      width: 100%;
+      position: relative;
+
+      &:hover {
+        .wrapper-helper {
+          width: auto;
+          padding: 4px;
+        }
+      }
     }
+
     .conference-icon {
       width: 100%;
-      padding: 1rem;
+      padding: 0.5rem;
       cursor: pointer;
       margin-bottom: 8px;
       width: -moz-available;
       width: available;
       border-radius: 8px;
+      display: flex;
+      justify-content: center;
+
+    }
+
+    .wrapper-helper {
+      white-space: nowrap;
+      position: absolute;
+      top: 0;
+      left: 120%;
+      background-color: white;
+      padding: 4px 0 4px 0;
+      overflow: hidden;
+      border-radius: 8px;
+      width: 0;
+      transition: width ease-in 0.2s;
+      z-index: -1;
     }
   }
 
 }
-.modal-backdrop{
+
+.modal-backdrop {
   background-color: $background-color;
 }
