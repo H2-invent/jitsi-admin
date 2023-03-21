@@ -77,7 +77,13 @@ function closeBrowser() {
             if (inIframe()) {
                 close()
             } else {
-                window.close();
+                try {
+                    window.close();
+                    location.href = "/";
+                }catch (e) {
+
+                }
+
             }
 
         });
@@ -113,8 +119,9 @@ $('.renew').click(function (e) {
 $('.leave').click(function (e) {
     e.preventDefault();
     clickLeave = true;
+    var url = this.getAttribute('href');
+    browserLeave = url;
     closeBrowser();
-    browserLeave = $(this).attr('href');
 })
 
 function initJitsiMeet(data) {

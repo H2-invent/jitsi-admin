@@ -1,13 +1,15 @@
 {% extends 'join/base.html.twig' %}
+{% set fullwidth = true %}
 {% block header %}
 
     {{ room.name }}
 {% endblock %}
 {% block content %}
+
     <div class=" col-12 ">
         <div class="row d-flex justify-content-center mb-3" id="webcamRow">
 
-            <div class="col-lg-6 col-xl-8 position-relative overflow-y-scroll" id="webcamCol">
+            <div class="col-lg-6 col-xl-7 position-relative overflow-y-scroll" id="webcamCol">
                 <div class="messageContainer"></div>
                 <div class="card webcamArea" id="webcamArea">
                     <div class="accessAllowed d-none">
@@ -46,14 +48,14 @@
             </div>
 
             {% if getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') %}
-                <div class="col-lg-6 col-xl-4 d-none d-lg-block lobbyPartList">
-                    <div class="">
-                        <h4>{{ 'Teilnehmer'|trans }}</h4>
-                        <ul class="list-group">
+                <div class="col-lg-6 col-xl-5 d-none d-lg-block lobbyPartList">
+                    <div class=" card card-body h-100">
+                        <h5><b>{{ 'Teilnehmer'|trans }}</b></h5>
+                        <ul class="list-group overflow-y-scroll">
                             {% set inRoom= [] %}
                             {% for u in RoomStatusOccupats(room) |sort((a, b) => a.participantName <=> b.participantName) %}
                                 {% set inRoom = inRoom|merge([u.participantName]) %}
-                                <li class="list-group-item text-success lobbyPart lobbyOnlinePart"><div class="onlineDot" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div>{{ u.participantName }}</li>
+                                <li class="list-group-item lobbyPart d-flex justify-content-between" data-status="online">{{ u.participantName }}<div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div> </li>
                             {% endfor %}
                             {% for u in room.user|sort((a, b) => a.formatedName(laf_showNameInConference) <=> b.formatedName(laf_showNameInConference)) %}
                                 {% if  u.formatedName(laf_showNameInConference) not in inRoom %}
@@ -69,43 +71,49 @@
 
         </div>
         <div class="row ">
-            <div class="col-12 d-flex flex-column flex-md-row justify-content-center">
-                <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-center" type="button"
-                   id="selectWebcamDropdown"
-                   data-mdb-toggle="dropdown" aria-haspopup="true"
-                   aria-expanded="false"><i class="me-2 fa fa-video"></i><span
-                            class="  w-100 text-ellipsis  text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
-                </a>
-                <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
-                </ul>
+            <div class="col-12 d-flex flex-column flex-md-row justify-content-around">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-md-center w-100" type="button"
+                           id="selectWebcamDropdown"
+                           data-mdb-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"><i class="me-2 fa fa-video"></i><span
+                                    class="  w-100 text-ellipsis  text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
+                        </a>
+                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="btn-group w-100">
+                            <a href="#" type="button"
+                               class="btn btn-primary dropdown-toggle caretdown px-3 d-flex align-items-center"
+                               data-mdb-toggle="dropdown"
+                               data-mdb-reference="parent"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-microphone"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div id="audioInputSelect">
+                                    <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                                </div>
+                            </div>
+                            <a href="#" type="button" class="btn btn-primary text-nowrap" id="startEcho"
+                               data-texton="{{ 'lobby.start.echo'|trans }}"
+                               data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
 
-
-                <div class="btn-group">
-                    <a href="#" type="button" class="btn btn-primary text-nowrap" id="startEcho"
-                       data-texton="{{ 'lobby.start.echo'|trans }}"
-                       data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
-                    <a href="#" type="button"
-                       class="btn btn-primary dropdown-toggle caretdown px-3 d-flex align-items-center"
-                       data-mdb-toggle="dropdown"
-                       data-mdb-reference="parent"
-                       aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-microphone"></i>
-                    </a>
-                    <div class="dropdown-menu">
-                        <div id="audioInputSelect">
-                            <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                         </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}" id="renewParticipant"
+                           class="btn btn-outline-primary renew w-100">{{ 'lobby.renew'|trans }}</a>
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 d-flex justify-content-center">
-                <a href="{{ path('lobby_participants_renew',{'userUid':user.uid}) }}" id="renewParticipant"
-                   class="btn btn-outline-primary renew">{{ 'lobby.renew'|trans }}</a>
-
+<hr class="mt-3 mb-3">
+            <div class="col-12 d-flex justify-content-end">
 
                 <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}" id="leavParticipant"
-                   class="btn btn-outline-primary leave">{{ 'lobby.exit'|trans }}</a>
+                   class="btn btn-outline-danger leave">{{ 'lobby.exit'|trans }}</a>
             </div>
         </div>
 

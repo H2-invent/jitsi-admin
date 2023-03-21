@@ -15,14 +15,18 @@
   overflow: hidden;
 
   &:not(.maximized) {
+    border-radius: 8px;
+
     .dragger {
       cursor: move;
     }
   }
 
+
   .iframeFrame {
     flex-grow: 1;
     background-color: inherit;
+    border-radius: 8px;
   }
 
   .headerBar {

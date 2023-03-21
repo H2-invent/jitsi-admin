@@ -76,6 +76,7 @@ const searchUSer = ($url,$search) => {
                     autosize.update($textarea);
                     $(this).removeClass('line-indicator').addClass('line-indicator');
                     let element = $(this);
+                    removeElement(this);
                     setTimeout(function (e) {
                         element.removeClass('line-indicator');
                     }, 2000);
@@ -96,6 +97,7 @@ const searchUSer = ($url,$search) => {
                     autosize.update($textarea);
                     $(this).removeClass('line-indicator').addClass('line-indicator');
                     let element = $(this);
+                    removeElement(this);
                     setTimeout(function (e) {
                         element.removeClass('line-indicator');
                     }, 2000);
@@ -103,6 +105,13 @@ const searchUSer = ($url,$search) => {
             })
         })
     }
+}
+const removeElement = ($ele) => {
+    var el = $ele.closest('.addParticipants')
+    el.classList.add('willRemoved');
+    setTimeout(function () {
+        el.remove();
+    },900);
 }
 
 export {initSearchUser};

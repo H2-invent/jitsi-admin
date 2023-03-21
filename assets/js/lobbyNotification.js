@@ -5,6 +5,7 @@ import Push from "push.js";
 import {initCircle} from './initCircle'
 import notificationSound from '../sound/notification.mp3'
 import callerSound from '../sound/ringtone.mp3'
+import newMessageSound from '../sound/new_message.mp3'
 import {setSnackbar, deleteToast} from './myToastr';
 import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
@@ -81,6 +82,8 @@ function addmessage(data) {
             })
         }
     }
+    var audio = new Audio(newMessageSound);
+    audio.play();
 }
 
 function notifymoderator(data) {

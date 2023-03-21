@@ -373,16 +373,9 @@ body {
   display: flex;
   align-items: center;
   position: relative;
-
-  .onlineDot {
-    position: absolute;
-    left: 10px;
-    width: 8px;
-    height: 8px;
-    background-color: #00c851;
-    border-radius: 50000px;
-    margin-right: 4px;
-  }
+  border: none;
+  padding-right: 0;
+  padding-left: 0;
 
 }
 
@@ -561,5 +554,17 @@ $rotateNeg: -20deg;
     }
   }
 }
+
+.onlineDotJoin{
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 5000px;
+  position: relative;
+  &:before{
+    font-size: 1em!important;
+  }
+}
+
+
 
 

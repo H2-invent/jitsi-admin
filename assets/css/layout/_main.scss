@@ -198,11 +198,6 @@ strong {
 }
 
 
-.dropdown-menu {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
 .logoNavbar {
   display: flex;
   justify-content: center;
@@ -600,6 +595,7 @@ strong {
 .successBorder {
   border: #00c851 solid 4px !important;;
 }
+
 .infoBorder {
   border: $info solid 4px !important;;
 }
@@ -683,6 +679,29 @@ strong {
   -webkit-box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
   box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
   border: none;
+  border-radius: 8px !important;
+  max-height: 200px;
+  overflow-y: auto;
+
+  li {
+    position: relative;
+  }
+
+  .dropdown-submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -7px;
+  }
+
+  .dropdown-submenu-left {
+    right: 100%;
+    left: auto;
+  }
+
+  & > li:hover > .dropdown-submenu {
+    display: block;
+  }
 
   .dropdown-item {
     i {
@@ -762,16 +781,18 @@ strong {
   margin-bottom: 4px;
   margin-right: 16px;
 }
-.btn{
+
+.btn {
   border-radius: 8px;
 }
-.btn-floating{
+
+.btn-floating {
   border-radius: 50%;
 }
 
 
 .btn-group {
-  *{
+  * {
     border-radius: 0;
   }
 
@@ -979,25 +1000,6 @@ strong {
   white-space: nowrap;
 }
 
-.dropdown-menu li {
-  position: relative;
-}
-
-.dropdown-menu .dropdown-submenu {
-  display: none;
-  position: absolute;
-  left: 100%;
-  top: -7px;
-}
-
-.dropdown-menu .dropdown-submenu-left {
-  right: 100%;
-  left: auto;
-}
-
-.dropdown-menu > li:hover > .dropdown-submenu {
-  display: block;
-}
 
 .input-group {
   &.w-100 {
@@ -1285,6 +1287,7 @@ a:hover {
   border-width: 3px;
   color: white;
 }
+
 .input-group-text {
   border-color: $main-color;
   border-width: 3px;
@@ -1309,7 +1312,8 @@ a:hover {
   .btn {
     border-width: 3px;
   }
-  >:not(:last-child){
+
+  > :not(:last-child) {
     border-right-width: 1px;
   }
 
@@ -1338,4 +1342,26 @@ a:hover {
       }
     }
   }
+}
+
+@keyframes removeSearchentry {
+  0% {
+    transform: translateX(0);
+    height: auto;
+
+  }
+  50% {
+    transform: translateX(100%);
+    height: auto;
+  }
+  100% {
+    transform: translateX(100%);
+    height: 0;
+  }
+}
+
+
+.willRemoved {
+  animation-name: removeSearchentry; /** Name der Animation **/
+  animation-duration: 0.9s; /** Dauer der Animation **/
 }
