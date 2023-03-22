@@ -555,14 +555,23 @@ $rotateNeg: -20deg;
   }
 }
 
+.part-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  margin: 0;
+}
 .onlineDotJoin{
   width: 1.5em;
   height: 1.5em;
   border-radius: 5000px;
   position: relative;
+  margin-left: 4px;
   &:before{
     font-size: 1em!important;
   }
+  flex: 0 0 auto;
 }
 
 

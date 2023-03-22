@@ -55,11 +55,11 @@
                             {% set inRoom= [] %}
                             {% for u in RoomStatusOccupats(room) |sort((a, b) => a.participantName <=> b.participantName) %}
                                 {% set inRoom = inRoom|merge([u.participantName]) %}
-                                <li class="list-group-item lobbyPart d-flex justify-content-between" data-status="online">{{ u.participantName }}<div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div> </li>
+                                <li class="list-group-item lobbyPart d-flex justify-content-between" data-status="online"><p class="part-text">{{ u.participantName }}</p><div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div> </li>
                             {% endfor %}
                             {% for u in room.user|sort((a, b) => a.formatedName(laf_showNameInConference) <=> b.formatedName(laf_showNameInConference)) %}
                                 {% if  u.formatedName(laf_showNameInConference) not in inRoom %}
-                                    <li class="list-group-item lobbyPart">{{ u.formatedName(laf_showNameInConference) }}</li>
+                                    <li class="list-group-item lobbyPart"><p class="part-text">{{ u.formatedName(laf_showNameInConference) }}</p></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>

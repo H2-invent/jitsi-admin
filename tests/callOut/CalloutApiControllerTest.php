@@ -59,7 +59,7 @@ class CalloutApiControllerTest extends WebTestCase
                         'sip_room_number' => '12341232',
                         'sip_pin' => $callerId->getCallerId(),
                         "display_name" => "Sie wurden von Test1, 1234, User, Test eingeladen",
-                        "tag" => "none",
+                        "tag" => null,
                         "organisator" => "Test1, 1234, User, Test",
                         "title" => "This is a room with Lobby",
                         "links" => array(

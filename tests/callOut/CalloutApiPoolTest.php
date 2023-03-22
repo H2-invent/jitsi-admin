@@ -79,7 +79,7 @@ class CalloutApiPoolTest extends KernelTestCase
             'sip_room_number' => '12340',
             'sip_pin' => '987654321',
             'display_name' => 'Sie wurden von Test1, 1234, User, Test eingeladen',
-            'tag' => 'none',
+            'tag' => null,
             'organisator' => 'Test1, 1234, User, Test',
             'title' => 'TestMeeting: 0',
             'links' => array('dial' => '/api/v1/call/out/dial/ksdlfjlkfds')
@@ -116,7 +116,7 @@ class CalloutApiPoolTest extends KernelTestCase
                     'sip_room_number' => '12340',
                     'sip_pin' => '987654321',
                     'display_name' => 'Sie wurden von Test1, 1234, User, Test eingeladen',
-                    'tag' => 'none',
+                    'tag' => null,
                     'organisator' => 'Test1, 1234, User, Test',
                     'title' => 'TestMeeting: 0',
                     'links' => array('dial' => '/api/v1/call/out/dial/ksdlfjlkfds')
@@ -139,7 +139,7 @@ class CalloutApiPoolTest extends KernelTestCase
                     'sip_room_number' => '12340',
                     'sip_pin' => '987654321',
                     'display_name' => 'Sie wurden von Test1, 1234, User, Test eingeladen',
-                    'tag' => 'none',
+                    'tag' => null,
                     'organisator' => 'Test1, 1234, User, Test',
                     'title' => 'TestMeeting: 0',
                     'links' => array('dial' => '/api/v1/call/out/dial/ksdlfjlkfdfgsdds')
@@ -162,7 +162,7 @@ class CalloutApiPoolTest extends KernelTestCase
                     'sip_room_number' => '12340',
                     'sip_pin' => '987654321',
                     'display_name' => 'Sie wurden von Test1, 1234, User, Test eingeladen',
-                    'tag' => 'none',
+                    'tag' => null,
                     'organisator' => 'Test1, 1234, User, Test',
                     'title' => 'TestMeeting: 0',
                     'links' => array('dial' => '/api/v1/call/out/dial/ksddfglfjlkfds')

@@ -3,7 +3,6 @@
 namespace App\Service\Callout;
 
 use App\Entity\CallerId;
-use App\Entity\CallerSession;
 use App\Entity\CalloutSession;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +16,7 @@ class CalloutSessionAPIService
         private TranslatorInterface    $translator,
         private ThemeService           $themeService,
         private UrlGeneratorInterface  $urlGenerator,
-        private CalloutService         $calloutService
+        private CalloutService         $calloutService,
     )
     {
     }
@@ -52,7 +51,7 @@ class CalloutSessionAPIService
         $roomId = $calloutSession->getRoom()->getCallerRoom();
         if ($pin && $roomId) {
             return array(
-                'state'=>CalloutSession::$STATE[$calloutSession->getState()],
+                'state' => CalloutSession::$STATE[$calloutSession->getState()],
                 'call_number' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
                 'sip_room_number' => $roomId->getCallerId(),
                 'sip_pin' => $pin->getCallerId(),
@@ -60,7 +59,7 @@ class CalloutSessionAPIService
                     array('{name}' => $calloutSession->getInvitedFrom()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))
                     )
                 ),
-                'tag' => $calloutSession->getRoom()->getTag() ? $calloutSession->getRoom()->getTag()->getTitle() : 'none',
+                'tag' => $calloutSession->getRoom()->getTag() ? $calloutSession->getRoom()->getTag()->getTitle() : null,
                 'organisator' => $calloutSession->getRoom()->getModerator()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
                 'title' => $calloutSession->getRoom()->getName(),
                 'links' => array(
@@ -91,7 +90,8 @@ class CalloutSessionAPIService
      * returns a pool of callout sessions which are in dialing state.
      * @return array[]
      */
-    public function getDialPool(){
+    public function getDialPool()
+    {
         $calloutSession = $this->findCalloutSessionByState(CalloutSession::$DIALED);
         $res = array();
         foreach ($calloutSession as $data) {
@@ -108,7 +108,8 @@ class CalloutSessionAPIService
      * Returns the Pool of callout Sessions which are in an on hold state.
      * @return array[]
      */
-    public function getOnHoldPool(){
+    public function getOnHoldPool()
+    {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findonHoldCalloutSessions();
         $res = array();
         foreach ($calloutSession as $data) {
@@ -120,5 +121,6 @@ class CalloutSessionAPIService
         }
         return array('calls' => $res);
     }
+
 
 }
