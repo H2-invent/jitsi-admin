@@ -1,4 +1,6 @@
 // CORE FUNCTIONS
+
+
 @import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/functions';
 @import '~mdb-ui-kit/src/scss/bootstrap/functions';
 
@@ -7,6 +9,14 @@
 @import '~mdb-ui-kit/src/scss/free/variables';
 @import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/variables';
 
+
+$container-max-widths: (
+        sm: 540px,
+        md: 720px,
+        lg: 960px,
+        xl: 1180px,
+        xxl: 1380px
+);
 // BOOTSTRAP CORE
 @import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/mixins';
 @import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/utilities';

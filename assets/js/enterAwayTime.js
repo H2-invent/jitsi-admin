@@ -14,7 +14,7 @@ const sendAwayTime = (time) => {
 export function initAwayTime() {
     const input = document.querySelector('#awayTimeField');
     if (input){
-        input.addEventListener('keyup', (e) => {
+        input.addEventListener('change', (e) => {
             const text = e.currentTarget.value;
 
             // Clear timer

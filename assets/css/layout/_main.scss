@@ -338,9 +338,8 @@ strong {
 
       .body {
         flex: 1;
-        @media only screen and (min-width: $breakpointMenue) {
-          padding-left: 12px;
-        }
+        padding-left: 8px;
+        padding-right: 8px;
       }
     }
 
@@ -636,13 +635,10 @@ strong {
   display: flex;
   flex-direction: column;
   color: #00c851;
+  font-size: 1em;
 
-  .text {
-
-  }
 
   .number {
-    font-size: 24px;
     font-weight: bold;
   }
 }
@@ -1063,7 +1059,7 @@ a:hover {
 .profile {
   display: flex;
   flex-direction: column;
-
+  margin-right: 8px;
   .profileLine {
     display: flex;
     align-items: center;

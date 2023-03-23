@@ -143,13 +143,14 @@
   .dot {
     background-color: $warning;
   }
+  &.adressbookline{
+    border-left: 4px $warning solid;
+  }
 }
 
 [data-status="offline"] {
   .dot {
     background-color: grey;
-
-
   }
 }
 
@@ -158,12 +159,18 @@
     background-color: $info;
 
   }
+  &.adressbookline{
+    border-left: 4px $info solid;
+  }
 }
 
 [data-status="online"] {
   .dot {
     background-color: #00c851;
 
+  }
+  &.adressbookline{
+    border-left: 4px #00c851 solid;
   }
 }
 
