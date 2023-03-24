@@ -74,9 +74,9 @@
         <!-- Tabs navs -->
 
         <!-- Tabs content -->
-    <div class="row">
+    <div class="row w-100 m-0">
         {% if input_settings_allow_sheduling == 1 %}
-            <div class="col-md-6 mb-3">
+            <div class="col-md-6 mb-3 p-0 pe-md-1 ps-md-1">
                 <a href="{{ path('room_new') }}" class="loadContent dashboardBtn"
                    id="createNewConference">
                     <div class=" btn-block btn-primary btn btn-dashboard">
@@ -86,7 +86,7 @@
             </div>
         {% endif %}
         {% if input_settings_allow_roomPlanning == 1 %}
-            <div class="col-md-6 mb-3">
+            <div class="col-md-6 mb-3 p-0 pe-md-0 ps-md-1">
                 <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
                     <div class=" btn-block btn btn-outline-primary btn-dashboard">
                             {{ 'Einen Termin finden'|trans }}
