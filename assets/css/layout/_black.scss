@@ -97,7 +97,7 @@ p {
   color: $black_font-color;
 }
 
-.modal-body {
+.modal-body, .modal-content {
   background-color: $black_modal;
   color: $black_font-color;
 }
@@ -417,4 +417,10 @@ hr {
 
 .adressbookline {
   border: none;
+}
+
+.input-group {
+  .btn-outline-primary {
+    border-color: $main-color!important;
+  }
 }

@@ -203,7 +203,9 @@
             .form-outline .form-control:focus ~ .form-label {
                 color: {{ theme.colorButton }};
             }
-
+            .input-group > .btn[class*=btn-outline-]{
+                border-color: {{ theme.colorButton }} !important;
+            }
             .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
                 border-color: {{ theme.colorButton }};
                 box-shadow: -1px 0 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }}, 0 -1px 0 0{{ theme.colorButton }};
