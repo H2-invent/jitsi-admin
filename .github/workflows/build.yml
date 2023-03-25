@@ -14,7 +14,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "laF_version=2.0.0-dev"
-          replace: "laF_version=0.CI.${BUILD_ID}"
+          replace: "laF_version=0.CI.${{ github.ref }}"
           regex: false
           include: ".env.local"
       - name: INstall PHP Dependencies
@@ -44,7 +44,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: application
+          name: application${{ github.ref }}.zip
           path: release.zip
 
       - name: Upload Artifact Websocket
