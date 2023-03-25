@@ -44,12 +44,12 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: application${{github.run_number}}.zip
+          name: application_GITHUB_CI_${{github.run_number}}.zip
           path: release.zip
 
       - name: Upload Artifact Websocket
         uses: actions/upload-artifact@v3
         with:
-          name: websocket
+          name: websocket_GITHUB_CI_${{github.run_number}}.zip
           path: nodejs/
     # ... then your own project steps ...
