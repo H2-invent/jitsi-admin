@@ -30,12 +30,12 @@ jobs:
             npm install
             npm run build
       - name: Build Websocket
-        working-directory: nodejs
+        working-directory: nodejs/
         run: npm install
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: symfony
+          name: application
           path: /
       - name: Upload Artifact Websocket
         uses: actions/upload-artifact@v3
