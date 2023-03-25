@@ -8,7 +8,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: php-actions/composer@v6
+      - name: Prepare Symfony
+        working-directory: /
+        run: cp .env.sample .env.local
+      - name: Write Version
+        uses: jacobtomlinson/gha-find-replace@v3
+          with:
+            find: "laF_version=2.0.0-dev"
+            replace: "laF_version=0.CI.${BUILD_ID}"
+            regex: false
+            include: ".env.local"
+      -name: INstall PHP Dependencies
+       uses: php-actions/composer@v6
         with:
           php_version: "8.1"
           php_extensions: ldap xsl zip
