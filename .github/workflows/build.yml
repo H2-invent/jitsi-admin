@@ -9,4 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
+        with:
+          php_version: "8.1"
+          php_extensions: ldap xsl zip
+
     # ... then your own project steps ...
