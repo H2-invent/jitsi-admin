@@ -9,7 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Prepare Symfony
-        working-directory: /
         run: cp .env.sample .env.local
       - name: Write Version
         uses: jacobtomlinson/gha-find-replace@v3
