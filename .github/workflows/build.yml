@@ -26,6 +26,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm install
-      - run: npm run build
+          run: |
+            npm install
+            npm run build
+      - name: Build Websocket
+        working-directory: nodejs
+        run: npm install
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: symfony
+          path: /
+      - name: Upload Artifact Websocket
+        uses: actions/upload-artifact@v3
+        with:
+          name: websocket
+          path: nodejs/
     # ... then your own project steps ...
