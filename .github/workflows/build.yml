@@ -13,18 +13,18 @@ jobs:
         run: cp .env.sample .env.local
       - name: Write Version
         uses: jacobtomlinson/gha-find-replace@v3
-          with:
-            find: "laF_version=2.0.0-dev"
-            replace: "laF_version=0.CI.${BUILD_ID}"
-            regex: false
-            include: ".env.local"
-      -name: INstall PHP Dependencies
-       uses: php-actions/composer@v6
+        with:
+          find: "laF_version=2.0.0-dev"
+          replace: "laF_version=0.CI.${BUILD_ID}"
+          regex: false
+          include: ".env.local"
+      - name: INstall PHP Dependencies
+        uses: php-actions/composer@v6
         with:
           php_version: "8.1"
           php_extensions: ldap xsl zip
-
-      - uses: actions/setup-node@v3
+      - name: Install NPM Packages
+        uses: actions/setup-node@v3
         with:
           node-version: 16
       - run: npm install
