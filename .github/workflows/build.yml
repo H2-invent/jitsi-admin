@@ -8,8 +8,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Prepare Symfony
-        run: cp .env.sample .env.local
+#      - name: Prepare Symfony
+#        run: cp .env.sample .env.local
       - name: Write Version
         uses: jacobtomlinson/gha-find-replace@v3
         with:
