@@ -32,17 +32,21 @@ jobs:
           npm install
           npm run build
 
-      - name: Remove node-module Directory
-        run: rm -rf node-modules/
+      - name: Remove node_module Directory
+        run: rm -rf node_modules/
 
       - name: Build Websocket
         working-directory: nodejs/
         run: npm install
+      - name: zip Application
+        run: zip -r release.zip ./*
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: application
-          path: /
+          path: release.zip
+
       - name: Upload Artifact Websocket
         uses: actions/upload-artifact@v3
         with:
