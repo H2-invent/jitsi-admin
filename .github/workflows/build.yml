@@ -37,9 +37,9 @@ jobs:
         run: npm install
 
       - name: Remove Cache
-        uses: JesseTG/rm@v1.0.3
-        with:
-          path: /var/
+        run: |
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+          rm -rf /ar/
 
       - name: Remove Node MOdules
         uses: JesseTG/rm@v1.0.3
