@@ -17,7 +17,7 @@ jobs:
           replace: "laF_version=GITHUB.${{github.run_number}}"
           regex: false
           include: ".env.local"
-      - name: INstall PHP Dependencies
+      - name: Install PHP Dependencies
         uses: php-actions/composer@v6
         with:
           php_version: "8.1"
@@ -32,33 +32,28 @@ jobs:
           npm install
           npm run build
 
-      - name: Remove node_module Directory
-        run: rm -rf node_modules/
-
       - name: Build Websocket
         working-directory: nodejs/
         run: npm install
 
       - name: Clean UP Installation by remove Cache
-        uses: JesseTG/rm@v1.0.3
-        with:
-          path: | 
-            var/
-            node_modules/
+        run: |
+          rm -rf var/
+          rm -rf node_modules/
             
 
       - name: zip Application
-        run: zip -r release.zip ./*
+        run: zip -r jitsi-admin.zip ./*
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: application_GITHUB_CI_${{github.run_number}}.zip
-          path: release.zip
+          name: jitsi_admin_GITHUB_CI_${{github.run_number}}.zip
+          path: jitsi-admin.zip
 
       - name: Upload Artifact Websocket
         uses: actions/upload-artifact@v3
         with:
-          name: websocket_GITHUB_CI_${{github.run_number}}.zip
+          name: JA_websocket_GITHUB_CI_${{github.run_number}}.zip
           path: nodejs/
     # ... then your own project steps ...
