@@ -8,8 +8,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Prepare Symfony
-        run: cp ./.env.sample ./.env.local
+#      - name: Prepare Symfony
+#        run: cp ./.env.sample ./.env.local
       - name: Write Version
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 16
 
-      - name: Build the Appication JS ans CSS
+      - name: Build the Application JS ans CSS
         run: |
           npm install
           npm run build
