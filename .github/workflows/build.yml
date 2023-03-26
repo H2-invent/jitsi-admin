@@ -8,8 +8,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-#      - name: Prepare Symfony
-#        run: cp .env.sample .env.local
+      - name: Prepare Symfony
+        run: cp ./.env.sample ./.env.local
       - name: Write Version
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -38,6 +38,10 @@ jobs:
       - name: Build Websocket
         working-directory: nodejs/
         run: npm install
+
+      - name: Clean installation
+        run: rm -rf ./var/
+
       - name: zip Application
         run: zip -r release.zip ./*
 
