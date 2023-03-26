@@ -36,10 +36,15 @@ jobs:
         working-directory: nodejs/
         run: npm install
 
-      - name: Clean UP Installation by remove Cache
-        run: |
-          rm -rf var/
-          rm -rf node_modules/
+      - name: Remove Cache
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /var/
+
+      - name: Remove Node MOdules
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: /node_modules
             
 
       - name: zip Application
