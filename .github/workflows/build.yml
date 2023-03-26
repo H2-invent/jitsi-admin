@@ -36,15 +36,13 @@ jobs:
         working-directory: nodejs/
         run: npm install
 
-      - name: Remove Cache
+      - name: Clean up Build
         run: |
           sudo chown -R $USER:$USER ./var
           rm -rf ./var
+          rm -rf ./node_modules
 
-      - name: Remove Node MOdules
-        uses: JesseTG/rm@v1.0.3
-        with:
-          path: /node_modules
+    
             
 
       - name: zip Application
