@@ -8,8 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-#      - name: Prepare Symfony
-#        run: cp ./.env.sample ./.env.local
+
       - name: Write Version
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -41,6 +40,11 @@ jobs:
           sudo chown -R $USER:$USER ./var
           rm -rf ./var
           rm -rf ./node_modules
+          rm -rf ./.github
+          rm -rf ./.git
+
+      - name: Move Env Variable
+        run: cp ./.env.sample ./.env.local
 
       - name: zip Application
         uses: montudor/action-zip@v1
@@ -50,12 +54,12 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: jitsi_admin_GITHUB_CI_${{github.run_number}}.zip
+          name: jitsi_admin_GITHUB_CI_${{github.run_number}}
           path: jitsi-admin.zip
 
       - name: Upload Artifact Websocket
         uses: actions/upload-artifact@v3
         with:
-          name: JA_websocket_GITHUB_CI_${{github.run_number}}.zip
+          name: JA_websocket_GITHUB_CI_${{github.run_number}}
           path: nodejs/
     # ... then your own project steps ...
