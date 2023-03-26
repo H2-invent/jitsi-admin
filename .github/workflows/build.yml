@@ -1,4 +1,4 @@
-name: CI
+name: Build Pipeline
 
 on: [push]
 
@@ -39,8 +39,13 @@ jobs:
         working-directory: nodejs/
         run: npm install
 
-      - name: Clean installation
-        run: rm -rf ./var/
+      - name: Clean UP Installation by remove Cache
+        uses: JesseTG/rm@v1.0.3
+        with:
+          path: | 
+            var/
+            node_modules/
+            
 
       - name: zip Application
         run: zip -r release.zip ./*
