@@ -38,8 +38,8 @@ jobs:
 
       - name: Remove Cache
         run: |
-          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
-          rm -rf /var/
+          sudo chown -R $USER:$USER ./var
+          rm -rf ./var
 
       - name: Remove Node MOdules
         uses: JesseTG/rm@v1.0.3
