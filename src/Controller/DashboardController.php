@@ -12,6 +12,7 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
+use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
 use App\Service\RoomService;
@@ -46,17 +47,15 @@ class DashboardController extends JitsiAdminController
     }
 
 
-
-
     /**
      * @Route("/room/dashboard", name="dashboard")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, TermsAndConditionsService $termsAndConditionsService)
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, TermsAndConditionsService $termsAndConditionsService)
     {
-        if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())){
-            return  $this->redirectToRoute('app_terms_and_conditions');
+        if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
+            return $this->redirectToRoute('app_terms_and_conditions');
         }
         $stopwatch = new Stopwatch();
         $start = $stopwatch->start('dashboard');
@@ -102,14 +101,17 @@ class DashboardController extends JitsiAdminController
         $tomorrow = (clone $today)->modify('+1day');
         $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
         $timer = $stopwatch->stop('dashboard');
-        if ($request->get('snack')){
-            if ($request->get('color')){
-                $this->addFlash($request->get('color'),$request->get('snack'));
+        if ($request->get('snack')) {
+            if ($request->get('color')) {
+                $this->addFlash($request->get('color'), $request->get('snack'));
             }
         }
         $date = new \DateTime();
         $timestamp = $date->getTimestamp();
+        $form = $this->createForm(SecondEmailType::class, $this->getUser(), ['action' => $this->generateUrl('second_email_save')]);
+       $form->remove('profilePicture');
         $res = $this->render('dashboard/index.html.twig', [
+            'secondEmailForm' => $form->createView(),
             'roomsFuture' => $future,
             'roomsPast' => $roomsPast,
             'runningRooms' => $roomsNow,
@@ -119,8 +121,8 @@ class DashboardController extends JitsiAdminController
             'today' => $today,
             'tomorrow' => $tomorrow,
             'favorite' => $favorites,
-            'timestamp'=>$timestamp,
-            'time'=>$timer->getDuration(),
+            'timestamp' => $timestamp,
+            'time' => $timer->getDuration(),
         ]);
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
@@ -151,18 +153,18 @@ class DashboardController extends JitsiAdminController
             return $this->render('dashboard/__lazyFixed.html.twig', [
                 'persistantRooms' => $persistantRooms,
                 'servers' => $servers,
-                'offset'=>$offset
+                'offset' => $offset
             ]);
         } elseif ($type === 'past') {
             $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
             return $this->render('dashboard/__lazyPast.html.twig', [
                 'roomsPast' => $roomsPast,
                 'servers' => $servers,
-                'offset'=>$offset
+                'offset' => $offset
             ]);
         }
 
-        return  new JsonResponse(array('error'=>true));
+        return new JsonResponse(array('error' => true));
 
 
     }

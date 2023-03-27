@@ -1060,6 +1060,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   margin-right: 8px;
+
   .profileLine {
     display: flex;
     align-items: center;
@@ -1360,4 +1361,24 @@ a:hover {
 .willRemoved {
   animation-name: removeSearchentry; /** Name der Animation **/
   animation-duration: 0.9s; /** Dauer der Animation **/
+}
+
+#sideModalTR {
+  b {
+    font-size: 18px;
+    font-weight: bold;
+
+  }
+
+  label {
+    @extend b;
+    margin-bottom: 1rem;
+  }
+  form{
+    button{
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+
 }
