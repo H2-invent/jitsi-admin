@@ -126,9 +126,9 @@ function createIframe(url, title, closeIntelligent = true) {
         }, 10000)
     }
     counter += 40;
-    if (window.innerWidth < 992) {
+
         document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
-    }
+
 
     if (isFullscreen()) {
         document.exitFullscreen();

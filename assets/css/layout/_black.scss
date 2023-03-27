@@ -386,7 +386,7 @@ hr {
 #sliderTop{
   #col-waitinglist{
     &.large {
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: $black_background;
     }
   }
   .dragger{
