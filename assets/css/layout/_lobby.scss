@@ -95,7 +95,7 @@ body {
 #col-waitinglist {
   &.large {
     padding-top: 18px;
-    background-color: $background-color;
+    background-color: white;
     -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   }
@@ -155,9 +155,19 @@ body {
 
 @mixin hoverDragger {
   transition: transform 0.5s;
+  -webkit-transition-delay: 2s;
+  -moz-transition-delay: 2s;
+  -ms-transition-delay: 2s;
+  -o-transition-delay: 2s;
+  transition-delay: 2s;
   &:hover {
     transform: translateY(0) !important;
     transition: transform 0.5s;
+    -webkit-transition-delay: 0s;
+    -moz-transition-delay: 0s;
+    -ms-transition-delay: 0s;
+    -o-transition-delay: 0s;
+    transition-delay: 0s;
 
     .dragger {
       &:before {
@@ -181,9 +191,13 @@ body {
   left: 0;
   z-index: 10;
 
-  @media (min-width: 992px) {
-    @include hoverDragger()
+    @media (min-width: 992px) {
+      @include hoverDragger();
+      &.openSlider {
+        transform: translateY(0) !important;
+      }
   }
+
 }
 
 .in-iframe {
@@ -217,7 +231,8 @@ body {
 
 #waitingUserWrapper {
   flex-grow: 1;
-  &:has(.waitingUserCard:nth-child(n+5)){
+
+  &:has(.waitingUserCard:nth-child(n+5)) {
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 60vh;
@@ -383,9 +398,9 @@ body {
   &:not(.in-smartPhone) {
     .buttonHolder {
 
-        .btn{
-          display: flex !important;
-        }
+      .btn {
+        display: flex !important;
+      }
 
       .slider {
         display: none !important;
@@ -397,12 +412,14 @@ body {
     }
   }
 }
-.buttonHolder{
-  .btn{
+
+.buttonHolder {
+  .btn {
     margin-right: 8px;
     margin-left: 8px;
   }
 }
+
 .searchCallOutParticipantsDropdown {
   @include statusDot();
 }
@@ -454,7 +471,7 @@ $rotateNeg: -20deg;
 .ringingsymbol {
   position: relative;
 
-  .fa-phone,.fa-phone-volume {
+  .fa-phone, .fa-phone-volume {
     animation-name: shake;
     animation-duration: 4s;
     animation-iteration-count: infinite;
@@ -502,10 +519,10 @@ $rotateNeg: -20deg;
     padding-top: 1em;
     padding-bottom: 1em;
   }
-  60%{
+  60% {
     transform: translateX(-150%);
   }
-  100%{
+  100% {
     transform: translateX(0);
   }
 }
@@ -521,6 +538,7 @@ $rotateNeg: -20deg;
   .messageWrapper {
     animation-name: growheight;
     animation-duration: 1s;
+
     &:before {
       font-family: "Font Awesome 5 Free";
       margin-right: 0.5em;
@@ -555,22 +573,25 @@ $rotateNeg: -20deg;
   }
 }
 
-.part-text{
+.part-text {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   flex: 1 1 auto;
   margin: 0;
 }
-.onlineDotJoin{
+
+.onlineDotJoin {
   width: 1.5em;
   height: 1.5em;
   border-radius: 5000px;
   position: relative;
   margin-left: 4px;
-  &:before{
-    font-size: 1em!important;
+
+  &:before {
+    font-size: 1em !important;
   }
+
   flex: 0 0 auto;
 }
 

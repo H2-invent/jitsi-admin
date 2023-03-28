@@ -103,7 +103,7 @@
 
         <div class="main" id="main">
             <div class="imageBackground"></div>
-            <div class="mainContent">
+            <div class="mainContent d-flex flex-column pb-0 justify-content-between">
 
                 {% block container %}
                 <div class="container mb-5">
@@ -138,24 +138,7 @@
                                                         </p>
                                                     {% endif %}
                                                 </div>
-                                                {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
 
-                                                {% elseif image is not null %}
-
-                                                    <div class="col-12 d-flex justify-content-center"
-                                                         style="font-size: 12px">
-                                                        <a href="{{ image['photographer_url'] }}" target="_blank"
-                                                           referrerpolicy="no-referrer"
-                                                           rel="noreferrer noopener">
-                                                            Image by {{ image['photographer'] }} </a>
-                                                        <a href="https://www.pexels.com" target="_blank"
-                                                           referrerpolicy="no-referrer"
-                                                           rel="noreferrer noopener"> provided by <img height="16px"
-                                                                                                       src="{{ asset('images/pexels.png') }}"/>
-                                                        </a>
-                                                    </div>
-
-                                                {% endif %}
                                             </div>
 
                                         </div>
@@ -168,15 +151,15 @@
                             {% if server is defined and server and server|roomsinFuture|length > 0 %}
                                 {{ include('join/__publicRooms.html.twig') }}
                             {% endif %}
-                            {% if theme == false or theme.joinPageFooter == true %}
-                                {{ include('join/__footer.html.twig') }}
-                            {% endif %}
+
                         </div>
 
                     </div>
                 </div>
 
-
+                {% if theme == false or theme.joinPageFooter == true %}
+                    {{ include('join/__footer.html.twig') }}
+                {% endif %}
             </div>
 
         </div>

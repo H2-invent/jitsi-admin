@@ -199,9 +199,23 @@ strong {
 .modal-backdrop {
   background-color: $background-color;
 }
+
 .joinPageHeader {
   font-size: 2em;
   font-weight: bold;
+}
+
+.joinFooter {
+  background-color: white;
+  padding: 16px;
+}
+
+.mainContent {
+  > .joinFooter {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
 
 

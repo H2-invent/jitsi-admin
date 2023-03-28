@@ -1365,11 +1365,11 @@
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target>Alle Teilnehmende zulassen</target>
+        <target>Alle Wartenden zulassen</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target>Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target>Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
