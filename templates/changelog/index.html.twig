@@ -1,0 +1,276 @@
+{% extends 'join/base.html.twig' %}
+
+{% block header %}{{ 'Changelog'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="row markdown">
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC19</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * New changelog page. It is this page :)
+
+               __Bugfix__
+                * Sometimes a too fast click on accept in the lobby can lead to a timeout and when the waiting user is not fully loaded, then the websocket is not active and no message is recieved
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC18</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * merge languages
+
+                __Bugfix__
+                * Server to choose was wrong when only one server
+                * Wrong timezone leads to an error if timezone is +UTC
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC17</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * Change all Buttons on the join page
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC16</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * Start with a bis UI redesign which is in progress until 0.76.x
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC15</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * remove all rounded buttons
+                * notification to not forward the email to other persons because the link is personalised
+                * some improvements in help texts
+
+                __Bugfix__
+                * Server to choose was wrong when only one server
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC14</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * remove all overlays when a conference is dragged and released
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC13</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * rate conference --> improve timeout to 2sec
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC12</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Improve multiframe moving with better overlay
+                * install script contains now the new websocket
+                * robust terms and conditions when first enter the application
+                * multiframe can now be switched off by default on an instance
+                * add displayname to call in response when user is accepted in a conference
+
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC11</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * Add Terms and Conditions of jitsi-Admin to the first login
+                * Can be disabled by the jitsi-admin theme
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC10</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * conference report SVG improvement. svg of the whitboard was sometimes not in the right size
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC09</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * improve drag and drop of the multiframe
+                * room status can lead to an error when destroyed at was empty
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC08</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * woochat bubble is above the conference multiframe
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC05</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * maximize multiframe when double click
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC05</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * woochat bubble is above the conference multiframe
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC04</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Set default whiteboard and etherpad
+                * refactor multiframe window
+                * Close Fullscreen when etherpad or whiteboard is opened
+                * refactor hangup function in jitsi-admin lobby iframe window
+                * new conference download header
+                * add update instruction
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC03</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Readd startpage
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC02</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Fix Edit Profile and Passwort ehen used with an external IDP
+                * Some UI improvement
+                * Show Message when hit save in a schedule
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0-RC01</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * New Websocket not SSE
+                * https://github.com/H2-invent/jitsi-admin/wiki/Websocket-installation
+                * Online status
+                * See online status of users in you contact list
+                * Send messages to wating users in the lobby
+                * Multiframe (One Pager)
+                * Open the videoconference in the same tab
+                * Open several conference in one tab if needed
+                * Include any othe webapplications in you jitsiadmin and open the application on all participants screens (whiteboard, etherpad, nextcloud ....)
+                * Generate reporting from your conference and sent it to the participants
+                * Include your Etherpad notes and your Whiteboard in the reporting.
+                * Japanese and russian localization(We are looking for help: https://crowdin.com/project/jitsi-admin)
+                * Add new participants from the lobby panel
+                * Public conferences (Disabled by default)
+                * Allow any user to create a conference as they are used to it with normal jitsi . Just type in a name of the conference and go.
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.74.6</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Docker installation leads to a invalid redirect uri when in prod mode. Thanks to @yoitcj for reporting this issue
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.74.5</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Docker installation: mercure hub was not starting because of wrong version. Mercure hub will be dropped in version 0.75.0. Thanks to @kiroubel-girma for reporting the issue
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.74.4</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Errormessage when creating an conference when having a timezone UTC- x hours and creating a conference between local time and utc Thanks @kiroubel-girma  for reporting this bug
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.74.3</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Allow Screenshare to specific perticipants was not shown when only one server is available to repeating conference and conference scheduling
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.74.2</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * Allow Screenshare to specific perticipants was not shown when only one server is available Thanks to @supczinskib  For reporting the issue
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.74.1</h4>
+            {% apply markdown_to_html %}
+               __Bugfix__
+                * The camera was not working on some devices
+                * Readd Startpage and make it default
+            {% endapply %}
+            <hr>
+        </div>
+
+        <div class="col-12">
+            <h4 class="h4-responsive">0.74.0</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * __PHP >=8.0 is required__
+                * Swipe Participants in the Lobby to accept (Mobile only)
+                * Close Conference for all in the Lobby is now triggered when pressing the hang up button
+                * Healtcheck in the lobby. If the Lobby session got lost do a reload
+                * Enable Timezone switch by default
+                * Add Conference Rating. So users can Rate their conference experience
+                * Dont show Server in the conference card, if there is only one server to choose for the user.
+                * Possibility to show participants to invited participants. So everyone can get a overview who is in the conference.
+                * When edit a room, a notification to all participants is only send when : Name, Agenda, time, or duration is changed. All other settings (e.g. switch lobby on/off) can be set without inform the participants
+                * Set static background image on the join page
+                * Cutom mailer can now be send asynchrouns
+                * __Jigasi__ integration. Jitsi-Admin can now send the phone number and idal in number via email
+                * Own Jigasi Conference Mapper. So no external Jigasi-Conference mapper is needed, bcause jitsi-admin knows much better who and when someone is alloed to enter.
+                * New Crowdin updates by @holema in https://github.com/H2-invent/jitsi-admin/pull/337
+            {% endapply %}
+            <hr>
+        </div>
+
+    </div>
+{% endblock %}
