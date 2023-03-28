@@ -18,6 +18,7 @@ var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 
 var closeCallbackFkt = null;
+var reloadTimeout = null;
 
 function initNotofication(closeFkt = null) {
     Push.Permission.request();
@@ -105,8 +106,10 @@ function notifymoderator(data) {
 
 function refresh(data) {
     var reloadUrl = data.reloadUrl;
+    var timeout =  setTimeout(function () {
 
-    $('#waitingUserWrapper').load(reloadUrl, function () {
+
+        $('#waitingUserWrapper').load(reloadUrl, function () {
             const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
             if (exampleEl.length > 0) {
                 for (var prop in exampleEl) {
@@ -126,9 +129,8 @@ function refresh(data) {
             document.querySelectorAll('.form-outline').forEach((formOutline) => {
                 new mdb.Input(formOutline).init();
             });
-        }
-    )
-    ;
+        })
+    }, 3000);
 }
 
 /*

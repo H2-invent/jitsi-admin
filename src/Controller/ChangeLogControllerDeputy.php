@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ChangeLogController extends JitsiAdminController
+class ChangeLogControllerDeputy extends JitsiAdminController
 {
     #[Route('room/change/log', name: 'app_change_log')]
     public function index(Request $request): Response
