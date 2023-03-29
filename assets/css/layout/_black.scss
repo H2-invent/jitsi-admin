@@ -424,3 +424,12 @@ hr {
     border-color: $main-color!important;
   }
 }
+.proTips{
+  background-color: $black_background;
+  color: $black_font-color;
+  border-color: $black-font-color;
+  img{
+    -webkit-filter: invert(1);
+    filter: invert(1);
+  }
+}

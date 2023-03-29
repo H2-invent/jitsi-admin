@@ -1374,16 +1374,55 @@ a:hover {
     @extend b;
     margin-bottom: 1rem;
   }
-  form{
-    button{
+
+  form {
+    button {
       width: 100%;
       margin-right: 0;
     }
   }
 
 }
-.markdown{
-  img{
+
+.markdown {
+  img {
     max-width: 100%;
+  }
+}
+
+.proTips {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 50px;
+  z-index: 10;
+  @media only screen and (min-width: $breakpointMenue) {
+    display: flex;
+  }
+
+  flex-direction: column;
+  background-color: $background-color;
+  padding: 8px;
+  border-radius: 8px 8px 0 0;
+  border-top: 4px solid $main-color;
+  border-right: 1px solid $main-color;
+  border-left: 1px solid $main-color;
+  transform: translateY(400px);
+  transition: all ease-in 0.2s;
+  &:hover{
+    transform: translateY(0)!important;
+  }
+  .first-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bolder;
+    margin-bottom: 4px;
+    *{
+      &:last-child {
+        margin-left: auto;
+      }
+    }
   }
 }
