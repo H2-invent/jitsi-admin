@@ -237,7 +237,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         self::assertEquals('{"error":false,"message":"Fehler, bitte laden Sie die Seite neu","color":"danger"}',$client->getResponse()->getContent());
         $client->loginUser($moderator);
         $crawler = $client->request('GET',$url->generate('lobby_moderator_accept_all',array('roomId'=>$room->getUidReal())));
-        self::assertEquals('{"error":false,"message":"Alle Teilnehmenden wurden erfolgreich zur Konferenz zugelassen.","color":"success"}',$client->getResponse()->getContent());
+        self::assertEquals('{"error":false,"message":"Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.","color":"success"}',$client->getResponse()->getContent());
         $crawler = $client->request('GET',$url->generate('lobby_moderator',array('uid'=>$room->getUidReal())));
         self::assertEquals(0,$crawler->filter('.waitingUserCard')->count());
     }
