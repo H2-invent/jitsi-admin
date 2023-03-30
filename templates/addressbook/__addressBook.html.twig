@@ -33,15 +33,27 @@
         </div>
         <div class="content">
             <ul class="list-group">
+                <li class="list-group-item capital-Letter"><b><i
+                                class="fa fa-star"></i> {{ 'favorite.sidebar.title'|trans }}</b>
+                </li>
+                {% if app.user.adressbookFavorites|length == 0 %}
+                    <li class="list-group-item"> {{ 'addressbook.favorite.help'|trans|raw }}
+                    </li>
+                {% else %}
+                    {% for u in app.user.adressbookFavorites %}
+                        {% include('addressbook/__addressBookEntry.html.twig') with {'u':u} %}
+                    {% endfor %}
+                {% endif %}
+                <li class="mb-3"></li>
                 {% set name = null %}
                 {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
-                {% if u|nameOfUserNoSymbol|first|upper != name %}
-                    <li class="list-group-item capital-Letter"
-                        id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}
-                    </li>
-                    {% set name = u|nameOfUserNoSymbol|first|upper %}
-                {% endif %}
-                {% include('addressbook/__addressBookEntry.html.twig') with {'u':u} %}
+                    {% if u|nameOfUserNoSymbol|first|upper != name %}
+                        <li class="list-group-item capital-Letter"
+                            id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}
+                        </li>
+                        {% set name = u|nameOfUserNoSymbol|first|upper %}
+                    {% endif %}
+                    {% include('addressbook/__addressBookEntry.html.twig') with {'u':u} %}
                 {% endfor %}
             </ul>
         </div>

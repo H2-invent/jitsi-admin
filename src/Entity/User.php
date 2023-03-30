@@ -126,6 +126,14 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Deputy::class, orphanRemoval: true)]
     private Collection $managerElement;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'isAdressbookFavoriteFrom')]
+    #[ORM\JoinTable(name: 'addressbook_favorites')]
+    private Collection $AdressbookFavorites;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'AdressbookFavorites')]
+    #[ORM\JoinTable(name: 'addressbook_favorites')]
+    private Collection $isAdressbookFavoriteFrom;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -151,6 +159,8 @@ class User extends BaseUser
         $this->logs = new ArrayCollection();
         $this->deputiesElement = new ArrayCollection();
         $this->managerElement = new ArrayCollection();
+        $this->AdressbookFavorites = new ArrayCollection();
+        $this->isAdressbookFavoriteFrom = new ArrayCollection();
 
     }
 
@@ -1158,6 +1168,57 @@ class User extends BaseUser
     public function setAcceptTermsAndConditions(?bool $acceptTermsAndConditions): self
     {
         $this->acceptTermsAndConditions = $acceptTermsAndConditions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAdressbookFavorites(): Collection
+    {
+        return $this->AdressbookFavorites;
+    }
+
+    public function addAdressbookFavorite(self $adressbookFavorite): self
+    {
+        if (!$this->AdressbookFavorites->contains($adressbookFavorite)) {
+            $this->AdressbookFavorites->add($adressbookFavorite);
+        }
+
+        return $this;
+    }
+
+    public function removeAdressbookFavorite(self $adressbookFavorite): self
+    {
+        $this->AdressbookFavorites->removeElement($adressbookFavorite);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getIsAdressbookFavoriteFrom(): Collection
+    {
+        return $this->isAdressbookFavoriteFrom;
+    }
+
+    public function addIsAdressbookFavoriteFrom(self $isAdressbookFavoriteFrom): self
+    {
+        if (!$this->isAdressbookFavoriteFrom->contains($isAdressbookFavoriteFrom)) {
+            $this->isAdressbookFavoriteFrom->add($isAdressbookFavoriteFrom);
+            $isAdressbookFavoriteFrom->addAdressbookFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIsAdressbookFavoriteFrom(self $isAdressbookFavoriteFrom): self
+    {
+        if ($this->isAdressbookFavoriteFrom->removeElement($isAdressbookFavoriteFrom)) {
+            $isAdressbookFavoriteFrom->removeAdressbookFavorite($this);
+        }
 
         return $this;
     }

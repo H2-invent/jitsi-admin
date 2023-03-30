@@ -1411,6 +1411,9 @@ a:hover {
   transition: all ease-in 0.2s;
   &:hover{
     transform: translateY(0)!important;
+    .fa{
+      transform: rotateZ(180deg);
+    }
   }
   .first-line {
     display: flex;
