@@ -26,7 +26,6 @@ final class Version20230330075157 extends AbstractMigration
             $this->addSql('CREATE INDEX IDX_D3FE5EA5233D34C1 ON addressbook_favorites (user_target)');
             $this->addSql('ALTER TABLE addressbook_favorites ADD CONSTRAINT FK_D3FE5EA53AD8644E FOREIGN KEY (user_source) REFERENCES fos_user (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
             $this->addSql('ALTER TABLE addressbook_favorites ADD CONSTRAINT FK_D3FE5EA5233D34C1 FOREIGN KEY (user_target) REFERENCES fos_user (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-            $this->addSql('ALTER TABLE fos_user DROP accept_terms_and_condition_domain');
         }
     }
 
@@ -38,7 +37,6 @@ final class Version20230330075157 extends AbstractMigration
             $this->addSql('ALTER TABLE addressbook_favorites DROP CONSTRAINT FK_D3FE5EA53AD8644E');
             $this->addSql('ALTER TABLE addressbook_favorites DROP CONSTRAINT FK_D3FE5EA5233D34C1');
             $this->addSql('DROP TABLE addressbook_favorites');
-            $this->addSql('ALTER TABLE fos_user ADD accept_terms_and_condition_domain TEXT DEFAULT NULL');
             $this->addSql('COMMENT ON COLUMN fos_user.accept_terms_and_condition_domain IS \'(DC2Type:array)\'');
         }
     }

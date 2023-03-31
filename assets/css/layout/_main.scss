@@ -591,44 +591,22 @@ strong {
   opacity: 0.95;
 }
 
-.successBorder {
-  border: #00c851 solid 4px !important;;
+.olineBorder {
+  border: $online solid 4px !important;;
 }
-
+.bg-online{
+  background-color: $online;
+}
 .infoBorder {
-  border: $info solid 4px !important;;
+  border: $in-a-meeting solid 4px !important;;
 }
-
-@keyframes warning-roller {
-  0% {
-    border-image: linear-gradient(
-                    to right,
-                    #dad78a 0%,
-                    #ded201 1%,
-                    #dad78a 100%
-    );
-
-  }
-  100% {
-    border-image: linear-gradient(
-                    to right,
-                    #dad78a 0%,
-                    #ded201 99%,
-                    #dad78a 100%
-    );
-  }
+.bg-away{
+  background-color: $away;
 }
 
 
-.warningBorder {
-  //border: #c8be00 solid 4px !important;
-  //border-width: 3px!important;
-  //border-style: solid!important;
-  //animation-name: warning-roller;                /** Name der Animation **/
-  //animation-duration: 5s;               /** Dauer der Animation **/
-  //animation-iteration-count: infinite;  /** Anzahl der Wiederholungen **/
-  //border-image-slice: 1!important;
-  border: #eaca00 solid 4px !important;;
+.awayBorder {
+  border: $away solid 4px !important;;
 }
 
 .occupant {
@@ -1165,7 +1143,7 @@ a:hover {
 
     &:after {
       content: "";
-      background-image: url("../../image/jits-admin-half.png");
+      background-image: url("../../image/jitsi-admin-half.png");
       opacity: 0.3;
       top: 0;
       left: 0;
@@ -1394,10 +1372,13 @@ a:hover {
   display: none;
   position: absolute;
   bottom: 0;
-  right: 50px;
+  right: 20px;
   z-index: 10;
   @media only screen and (min-width: $breakpointMenue) {
     display: flex;
+  }
+  img{
+    height: 20px;
   }
 
   flex-direction: column;
@@ -1414,12 +1395,18 @@ a:hover {
     .fa{
       transform: rotateZ(180deg);
     }
+    .first-line {
+      font-size: 18px;
+    }
+    img{
+      height: 100%;
+    }
   }
   .first-line {
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: bolder;
     margin-bottom: 4px;
     *{
@@ -1428,4 +1415,9 @@ a:hover {
       }
     }
   }
+}
+
+.card {
+  border: 0;
+  box-shadow: 0px 0px 11px 1px rgb(0 0 0 / 7%), 0 10px 20px -2px rgb(0 0 0 / 4%);
 }

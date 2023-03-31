@@ -17,10 +17,10 @@
             </div>
         {% endif %}
         <div class="d-flex flex-column">
-                   <p class="mb-0">{{ u|nameOfUser }} {% if u in app.user.deputy %}<i
+                   <p class="mb-0">{{ u|nameOfUser }} <small><a href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"><i class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif%} fa-star"></i> </a></small>  {% if u in app.user.deputy %}<i
                            class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"
                            title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}</p>
-        <p class="mb-0"><small>{{ u.username }}<a href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"><i class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif%} fa-star"></i> </a> </small></p>
+        <p class="mb-0"><small>{{ u.username }}</small></p>
         </div>
 
 
