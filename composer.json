@@ -55,7 +55,7 @@
     "symfony/twig-bundle": "6.2.*",
     "symfony/validator": "6.2.*",
     "symfony/web-link": "6.2.*",
-    "symfony/webpack-encore-bundle": "^1.7",
+    "symfony/webpack-encore-bundle": "^1.16",
     "symfony/yaml": "6.2.*",
     "twig/cssinliner-extra": "^3.0",
     "twig/extra-bundle": "~3.1",

@@ -32,10 +32,11 @@ Encore
     .addLoader({
         test: /\.mp3$/,
         loader: 'file-loader',
-        query: {
+        options: {
             name: 'static/media/[name].[hash:8].[ext]'
         }
     })
+
     .addPlugin(
         new CopyWebpackPlugin({
             patterns: [

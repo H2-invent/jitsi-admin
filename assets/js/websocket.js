@@ -1,4 +1,4 @@
-import {io} from "socket.io/client-dist/socket.io";
+import {io} from "socket.io-client";
 import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
