@@ -2,7 +2,7 @@
 
 
 @import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/functions';
-@import '~mdb-ui-kit/src/scss/bootstrap/functions';
+@import 'functions';
 
 // CORE VARIABLES
 @import '~mdb-ui-kit/src/scss/custom/variables';
@@ -17,6 +17,7 @@ $container-max-widths: (
         xl: 1200px,
         xxl: 1450px
 );
+
 // BOOTSTRAP CORE
 @import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/mixins';
 @import '~mdb-ui-kit/src/scss/bootstrap-rtl-fix/utilities';
