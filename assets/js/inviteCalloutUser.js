@@ -110,7 +110,7 @@ function selectUser(userEle) {
     userUidSelected = ele.dataset.val;
     userNameShown = ele.dataset.name;
     searchUserInput.value = userNameShown;
-    initInput();
+    // initInput();
 }
 
 function sendInvitation(url) {
@@ -126,7 +126,7 @@ function sendInvitation(url) {
         inviteButton.disabled = true;
         searchUserInput.value = '';
         inviteButton.innerHTML = '<i class="fa fa-user-plus"></i>';
-        initInput();
+        // initInput();
     })
         .fail(function (data) {
         });

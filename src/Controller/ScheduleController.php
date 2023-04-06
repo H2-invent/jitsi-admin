@@ -38,7 +38,7 @@ class ScheduleController extends JitsiAdminController
         $edit = false;
         if ($request->get('id')) {
             $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('id' => $request->get('id')));
-            if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$room)) {
+            if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
                 $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
                 return $this->redirectToRoute('dashboard');
             }
@@ -66,14 +66,14 @@ class ScheduleController extends JitsiAdminController
 
                 $serverChhose = $servers[0];
             }
-            $room = $roomGeneratorService->createRoom($this->getUser(),$serverChhose);
+            $room = $roomGeneratorService->createRoom($this->getUser(), $serverChhose);
             $snack = $translator->trans('Terminplanung erfolgreich erstellt');
             $title = $translator->trans('Neue Terminplanung erstellen');
         }
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
         $roomold = clone $room;
-        $form = $this->createForm(RoomType::class, $room, ['user'=>$this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
+        $form = $this->createForm(RoomType::class, $room, ['user' => $this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]), 'isEdit' => (bool)$request->get('id')]);
         if ($edit) {
             $form->remove('moderator');
             if (!in_array($room->getServer(), $servers)) {
@@ -123,7 +123,7 @@ class ScheduleController extends JitsiAdminController
                         }
                     }
                 } else {
-                    $roomGeneratorService->addUserToRoom($room->getModerator(),$room,true);
+                    $roomGeneratorService->addUserToRoom($room->getModerator(), $room, true);
                     $userService->addUser($room->getModerator(), $room);
                 }
 
@@ -131,16 +131,32 @@ class ScheduleController extends JitsiAdminController
                 $res = $this->generateUrl('dashboard');
                 $this->addFlash('success', $snack);
                 $this->addFlash('modalUrl', $modalUrl);
-                return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
+                return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $this->addFlash('danger',$snack );
+            $this->addFlash('danger', $snack);
             $res = $this->generateUrl('dashboard');
-            return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
+            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('isEdit'=>$edit, 'server'=>$servers, 'serverchoose'=>$serverChhose,'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('isEdit' => $edit, 'server' => $servers, 'serverchoose' => $serverChhose, 'form' => $form->createView(), 'title' => $title));
+    }
+
+    /**
+     * @Route("room/schedule/admin/participants/{id}", name="schedule_admin_participants",methods={"GET"})
+     * @ParamConverter("room", options={"mapping"={"room"="id"}})
+     */
+    public function participants(Rooms $rooms, Request $request): Response
+    {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
+            throw new NotFoundHttpException('Room not found');
+        }
+        $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $rooms->getId())));
+        $res = $this->redirectToRoute('dashboard');
+        $this->addFlash('modalUrl', $modalUrl);
+        return $res;
+
     }
 
     /**
@@ -149,7 +165,7 @@ class ScheduleController extends JitsiAdminController
      */
     public function index(Rooms $rooms, Request $request): Response
     {
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$rooms)) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
         }
         $sheduls = $rooms->getSchedulings();
@@ -165,7 +181,7 @@ class ScheduleController extends JitsiAdminController
      */
     public function add(Rooms $rooms, Request $request): Response
     {
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$rooms)) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
         }
         try {
@@ -198,7 +214,7 @@ class ScheduleController extends JitsiAdminController
      */
     public function remove(SchedulingTime $schedulingTime, Request $request): Response
     {
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$schedulingTime->getScheduling()->getRoom())) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
         }
         try {
@@ -223,16 +239,16 @@ class ScheduleController extends JitsiAdminController
      */
     public function choose(SchedulingTime $schedulingTime, Request $request, SchedulingService $schedulingService, TranslatorInterface $translator): Response
     {
-        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(),$schedulingTime->getScheduling()->getRoom())) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
         }
         $text = $translator->trans('Sie haben den Terminplan erfolgreich umgewandelt');
         $color = 'success';
         if (!$schedulingService->chooseTimeSlot($schedulingTime)) {
             $text = $translator->trans('Fehler, Bitte Laden Sie die Seite neu');
-            $color='danger';
+            $color = 'danger';
         };
-        $this->addFlash($color,$text);
+        $this->addFlash($color, $text);
         return $this->redirectToRoute('dashboard');
     }
 

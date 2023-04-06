@@ -1373,7 +1373,7 @@ a:hover {
   position: absolute;
   bottom: 0;
   right: 20px;
-  z-index: 10;
+  z-index: 9;
   @media only screen and (min-width: $breakpointMenue) {
     display: flex;
   }
