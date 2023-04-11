@@ -594,13 +594,16 @@ strong {
 .olineBorder {
   border: $online solid 4px !important;;
 }
-.bg-online{
+
+.bg-online {
   background-color: $online;
 }
+
 .infoBorder {
   border: $in-a-meeting solid 4px !important;;
 }
-.bg-away{
+
+.bg-away {
   background-color: $away;
 }
 
@@ -1368,54 +1371,74 @@ a:hover {
   }
 }
 
-.proTips {
-  display: none;
+.proTips-wrapper {
   position: absolute;
-  bottom: 0;
+  top: 100%;
   right: 20px;
-  z-index: 9;
-  @media only screen and (min-width: $breakpointMenue) {
-    display: flex;
-  }
-  img{
-    height: 20px;
-  }
+  white-space: nowrap;
 
-  flex-direction: column;
-  background-color: $background-color;
-  padding: 8px;
-  border-radius: 8px 8px 0 0;
-  border-top: 4px solid $main-color;
-  border-right: 1px solid $main-color;
-  border-left: 1px solid $main-color;
-  transform: translateY(400px);
-  transition: all ease-in 0.2s;
-  &:hover{
-    transform: translateY(0)!important;
-    .fa{
-      transform: rotateZ(180deg);
+  .proTips {
+    display: none;
+
+    z-index: 9;
+    @media only screen and (min-width: $breakpointMenue) {
+      display: flex;
     }
+
+    img {
+      height: 20px;
+    }
+
+    flex-direction: column;
+    background-color: $background-color;
+    padding: 8px;
+    border-radius: 8px 8px 0 0;
+    border-top: 4px solid $main-color;
+    border-right: 1px solid $main-color;
+    border-left: 1px solid $main-color;
+    transition: all ease-in 0.2s;
+
+    .fa {
+      transition: all ease-in 0.2s;
+    }
+
     .first-line {
-      font-size: 18px;
+      transition: all ease-in 0.2s;
     }
-    img{
-      height: 100%;
+
+    &:hover {
+      transform: translateY(-100%) !important;
+
+      .fa {
+        transform: rotateZ(180deg);
+      }
+
+      .first-line {
+        font-size: 18px;
+      }
+
+      img {
+        height: 100%;
+      }
     }
-  }
-  .first-line {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 12px;
-    font-weight: bolder;
-    margin-bottom: 4px;
-    *{
-      &:last-child {
-        margin-left: auto;
+
+    .first-line {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 12px;
+      font-weight: bolder;
+      margin-bottom: 4px;
+
+      * {
+        &:last-child {
+          margin-left: auto;
+        }
       }
     }
   }
 }
+
 
 .card {
   border: 0;

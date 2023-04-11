@@ -73,7 +73,7 @@ $(document).ready(function () {
     init();
     var proTip = document.getElementById('proTip')
     if (proTip){
-        proTip.style.transform = 'translateY('+(proTip.querySelector('.second-line').clientHeight+5)+'px)';
+        proTip.style.transform = 'translateY(-'+(proTip.querySelector('.first-line').clientHeight+8+4)+'px)';
     }
 
     initDashboardnotification(topic);
