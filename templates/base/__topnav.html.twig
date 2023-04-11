@@ -96,6 +96,10 @@
                 <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ru"}) }}"><img
                             src="{{ asset('/images/locale/ru.png') }}" class="iconSytle" alt="Русский"></a>
             {% endif %}
+            {% if theme == false  or (theme is not null and 'pt' in theme.profileAllowLanguages  ) %}
+                <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "pt"}) }}"><img
+                            src="{{ asset('/images/locale/pt.png') }}" class="iconSytle" alt="Português"></a>
+            {% endif %}
 
         </div>
     </div>
