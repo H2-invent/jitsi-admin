@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="lpzL089" resname="Email">
         <source>Email</source>
-        <target state="needs-translation">E-Mail-Adresse</target>
+        <target state="translated">Endereço de E-Mail</target>
       </trans-unit>
       <trans-unit id="34R6VMk" resname="Keine Berechtigung">
         <source>Keine Berechtigung</source>
@@ -537,7 +537,7 @@
       </trans-unit>
       <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="needs-translation">Anmelden</target>
+        <target state="translated">Iniciar Sessão</target>
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
@@ -1538,7 +1538,7 @@
       </trans-unit>
       <trans-unit id="t1d0iZI" resname="common.save">
         <source>common.save</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">Salvar</target>
       </trans-unit>
       <trans-unit id="YZqDLMj" resname="common.success.save">
         <source>common.success.save</source>
@@ -1638,7 +1638,7 @@
       </trans-unit>
       <trans-unit id="9rL.OfV" resname="Speichern">
         <source>Speichern</source>
-        <target state="needs-translation">Speichern</target>
+        <target state="translated">Salvar</target>
       </trans-unit>
       <trans-unit id="QTciEb5" resname="report.speakerTime">
         <source>report.speakerTime</source>
