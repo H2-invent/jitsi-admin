@@ -1,54 +1,54 @@
-label.konferenzId: Konferenz-ID
-label.email: E-Mail-Adresse
-label.name: Ihr Name
-label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
-label.teilnehmerSpeichern: E-Mail zur Einladung versenden
-label.emailModerator: E-Mail-Adresse des Organisators eingeben
-help.emailTextfeld: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
-label.organisatorhinzufuegen: Organisator hinzufügen
-label.serverKonferenz: Jitsi Meet Server
-label.konferenzName: Name der Konferenz
-label.start: Start
-label.dauerKonferenz: Dauer der Konferenz
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
-label.speichern: Speichern
-option.15min: 15 Minuten
-option.30min: 30 Minuten
-option.45min: 45 Minuten
-option.60min: 1 Stunde
-option.75min: 1:15 Stunden
-option.90min: 1:30 Stunden
-option.105min: 1:45 Stunden
-option.120min: 2 Stunden
-option.150min: 2:30 Stunden
-option.180min: 3 Stunden
-option.210min: 3:30 Stunden
-option.240min: 4 Stunden
-option.270min: 4:30 Stunden
-option.300min: 5 Stunden
-option.330min: 5:30 Stunden
-option.360min: 6 Stunden
-option.390min: 6:30 Stunden
-option.420min: 7 Stunden
-option.450min: 7:30 Stunden
-option.480min: 8 Stunden
+label.konferenzId: ID da conferência
+label.email: Endereço de E-Mail
+label.name: Seu Nome
+label.teilnehmerEmailhinzufuegen: Insira o endereço de e-mail de novos participantes
+label.teilnehmerSpeichern: Enviar um convite por e-mail
+label.emailModerator: Digite o endereço de email do organizador
+help.emailTextfeld: Mais de um endereço pode ser inserido por vez. Cada endereço de e-mail precisa estar em uma nova linha.
+label.organisatorhinzufuegen: Adicionar organizador
+label.serverKonferenz: Servidor Jitsi Meet
+label.konferenzName: Nome da conferência
+label.start: Iniciar
+label.dauerKonferenz: Duração da conferência
+label.nurRegistriertenutzer: Apenas usuários registrados podem entrar nesta conferência.
+label.speichern: Salvar
+option.15min: 15 minutos
+option.30min: 30 minutos
+option.45min: 45 minutos
+option.60min: 1 hora
+option.75min: 1:15 horas
+option.90min: 1:30 horas
+option.105min: 1:45 horas
+option.120min: 2 horas
+option.150min: 2:30 horas
+option.180min: 3 horas
+option.210min: 3:30 horas
+option.240min: 4 horas
+option.270min: 4:30 horas
+option.300min: 5 horas
+option.330min: 5:30 horas
+option.360min: 6 horas
+option.390min: 6:30 horas
+option.420min: 7 horas
+option.450min: 7:30 horas
+option.480min: 8 horas
 option:
-  monday: Montag
-  tuesday: Dienstag
-  wednesday: Mittwoch
-  thursday: Donnerstag
-  friday: Freitag
-  saturday: Samstag
-  sunday: Sonntag
-  weekly: Wöchentlich
-  daily: Täglich
-  montly: Monatlich
-  yearly: Jährlich
-  montlyRelative: Monatlich flexibel festlegen
-  yearlyRelative: Jährlich flexibel festlegen
-  first: Erster
-  second: Zweiter
-  third: Dritter
+  monday: Segunda-feira
+  tuesday: Terça-feira
+  wednesday: Quarta-feira
+  thursday: Quinta-feira
+  friday: Sexta-feira
+  saturday: Sábado
+  sunday: Domingo
+  weekly: Semanal
+  daily: Diariamente
+  montly: Mensalmente
+  yearly: Anualmente
+  montlyRelative: Relativamente mensal
+  yearlyRelative: Relativamente anual
+  first: Primeiro
+  second: Segundo
+  third: Terceiro
   fourth: Vierter
   fifth: Fünfter
   last: Letzter
@@ -73,7 +73,7 @@ label.scheduleMeeting: Termin vorschlagen
 help:
   serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
   featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
-  teilnehmerEmailhinzufuegenModerator: Es können mehrere E-Mail-Adressen auf einmal hinzugefügt werden. Bitte jede E-Mail-Adresse in eine eigene Zeile schreiben.
+  teilnehmerEmailhinzufuegenModerator: Mais de um endereço pode ser inserido por vez. Cada endereço de e-mail precisa estar em uma nova linha.
   serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
@@ -103,11 +103,11 @@ label:
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
   puplicRoom: Link zur Einladung freischalten
-  showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
-  subscribe: Anmelden
-  vorname: Vorname
-  nachname: Nachname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
+  showRoomOnJoinpage: Mostrar conferência na página de entrada
+  subscribe: Iniciar Sessão
+  vorname: Primeiro nome
+  nachname: Último nome
+  maxParticipants: Número máximo de participantes permitido
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
