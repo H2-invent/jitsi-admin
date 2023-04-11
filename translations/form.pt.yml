@@ -109,41 +109,41 @@ label:
   nachname: Último nome
   maxParticipants: Número máximo de participantes permitido
   waitinglist: Habilitar lista de espera
-  teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
-  weekday: Wochentag
-  repetation: Endet nach x Terminen
-  repeatType: Serienmuster
-  repeaterDays: Nach x Tagen wiederholen
-  repeaterWeeks: Nach x Wochen wiederholen
-  repeatMontly: Nach x Monaten wiederholen
-  repeatYearly: Nach x Jahren wiederholen
-  montlyRelativeNumber: Wie vielter Wochentag im Monat
-  montlyRelativeWeekday: Wochentag
-  montlyRelativeMonth: Monat
-  repeaterRemoved: Nur dieses Element bearbeiten (nicht die gesamte Serie)
-  persistantRoom: Diese Konferenz hat kein Datum, sondern ist immer verfügbar.
-  totalOpenRooms: Teilnehmendenliste deaktivieren, beitreten über Teilnehmenden-Link
-  totalOpenRoomsOpenTime: Raumöffnungszeit
-  addressgroupName: Gruppenname
-  addressgroupMember: Gruppenmitglieder auswählen
-  jwtModeratorPosition: Moderatorposition im JWT Token
-  timezone: Zeitzone
-  serverName: Servername
-  lobby: Lobby aktivieren
-  secondEmail: CC-E-Mail
-  profilImage: Profilbild (Wird im Jitsi-Meet Meeting angezeigt)
-  corsHeader: CORS-Header oder frame-ancestor Header
-  tag: Kategorie
+  teilnehmerEmailhinzufuegenModerator: Insira o endereço de e-mail de novos moderadores
+  weekday: Dia da semana
+  repetation: Terminar depois de x agendamentos
+  repeatType: Tipo de Repetição
+  repeaterDays: Repetir após x dias
+  repeaterWeeks: Repetir após x semanas
+  repeatMontly: Repetir após x meses
+  repeatYearly: Repetir após x anos
+  montlyRelativeNumber: X-ésimo dia da semana no mês
+  montlyRelativeWeekday: Dia da semana
+  montlyRelativeMonth: Mês
+  repeaterRemoved: Modificar apenas este elemento (não a série completa)
+  persistantRoom: Essa conferência não possui data e está disponível permanentemente.
+  totalOpenRooms: Participantes desativados. Entre com o link de participantes
+  totalOpenRoomsOpenTime: Hora de abertura da sala
+  addressgroupName: Nome do grupo
+  addressgroupMember: Membros do grupo
+  jwtModeratorPosition: Posição do moderador no token JWT
+  timezone: Fuso horário
+  serverName: Nome do servidor
+  lobby: Ativar sala de espera
+  secondEmail: E-mail CC
+  profilImage: Imagem de perfil (aparecerá na conferência em Jitsi-Meet)
+  corsHeader: Header CORS ou Header frame-ancestor
+  tag: Categoria
   serverBackgroundImage: Statitisches Hintergrund für die Joinseite
-  jigasiApiUrl: Jigasi ConferenceMapper-URL
-  jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
-  jigasiProsodyDomain: Jigasi Prosody Domain
-  go: Los gehts!
-  moderator: Organisator auswählen
+  jigasiApiUrl: URL do Jigasi ConferenceMapper
+  jigasiNumberUrl: Número de acessos ao Jigasi em formato JSON
+  jigasiProsodyDomain: Domínio do Jigasi Prosody
+  go: Vamos Lá!
+  moderator: Selecionar organizador
 choice:
-  tls: STARTTLS/TLS
+  tls: STARTTLS / TLS
   ssl: SSL
-  none: Keine
+  none: Nenhum
 placeholder:
-  maxParticipants: Keine Begrenzung
-  chooseTime: Zeit und Datum auswählen
+  maxParticipants: Sem limite
+  chooseTime: Selecionar data e hora
