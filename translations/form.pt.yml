@@ -49,27 +49,27 @@ option:
   first: Primeiro
   second: Segundo
   third: Terceiro
-  fourth: Vierter
-  fifth: Fünfter
-  last: Letzter
-  january: Januar
-  february: Februar
-  march: März
-  april: April
-  may: Mai
-  june: Juni
-  july: Juli
-  august: August
-  septembre: September
-  octobre: Oktober
-  novembre: November
-  decembre: Dezember
-  user: Im User Claim
-  root: Im Root Claim
-lable.serverUrl: Jitsi Meet Server URL
-label.appId: App-ID
-label.appSecret: App-Secret
-label.scheduleMeeting: Termin vorschlagen
+  fourth: Quarto
+  fifth: Quinto
+  last: Último
+  january: Janeiro
+  february: Fevereiro
+  march: Março
+  april: Abril
+  may: Maio
+  june: Junho
+  july: Julho
+  august: Agosto
+  septembre: Setembro
+  octobre: Outubro
+  novembre: Novembro
+  decembre: Dezembro
+  user: Reclamação de usuário
+  root: Reclamação de administrador
+lable.serverUrl: URL do servidor Jitsi Meet
+label.appId: ID do App
+label.appSecret: Segredo do App
+label.scheduleMeeting: Agendar conferência
 help:
   serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
   featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
