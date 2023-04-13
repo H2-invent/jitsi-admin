@@ -1358,11 +1358,11 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="translated">Autoriser tous les participants</target>
+        <target state="needs-translation">Alle Wartenden zulassen</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="translated">Tous les participants ont été admis avec succès à la conférence.</target>
+        <target state="needs-translation">Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1764,7 +1764,7 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Zeit bis die Online-Statusanzeige automatisch auf Abwesend wechselt.</target>
+        <target state="needs-translation">Abwesend anzeigen nach</target>
       </trans-unit>
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -2078,9 +2078,77 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>Einstellungen</source>
         <target state="needs-translation">Einstellungen</target>
       </trans-unit>
-      <trans-unit id="zU3M4mU" resname="Startet in {time} min">
+      <trans-unit id="dMRxR_U" resname="Startet in {time} min">
         <source>Startet in {time} min</source>
         <target state="needs-translation">Startet in {time} min</target>
+      </trans-unit>
+      <trans-unit id="NCP2l7d" resname="addressbook.favorite.remove.success">
+        <source>addressbook.favorite.remove.success</source>
+        <target state="needs-translation">Sie haben {name} als Favorit entfernt.</target>
+      </trans-unit>
+      <trans-unit id="qhKUCGn" resname="addressbook.favorite.remove.failure">
+        <source>addressbook.favorite.remove.failure</source>
+        <target state="needs-translation">Der Kontakt konte nicht als Favorit entfernt werden.</target>
+      </trans-unit>
+      <trans-unit id="g3TAvzR" resname="addressbook.favorite.add.success">
+        <source>addressbook.favorite.add.success</source>
+        <target state="needs-translation">Sie haben {name} erfolgreich als Favorit hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="xsL.l3b" resname="addressbook.favorite.add.failure">
+        <source>addressbook.favorite.add.failure</source>
+        <target state="needs-translation">Der Kontakt konnte nicht als Favorit hinzugefügt werden.</target>
+      </trans-unit>
+      <trans-unit id="n3J_rNc" resname="addressbook.favorite.help">
+        <source>addressbook.favorite.help</source>
+        <target state="needs-translation"><![CDATA[<i class="far fa-star"></i> drücken, um einen Kontakt als Favorit zu markieren.]]></target>
+      </trans-unit>
+      <trans-unit id="hevpMRf" resname="Meetling Pro Tip">
+        <source>Meetling Pro Tip</source>
+        <target state="needs-translation">Meetling Pro Tip</target>
+      </trans-unit>
+      <trans-unit id="wV8VMNI" resname="Hotkeys">
+        <source>Hotkeys</source>
+        <target state="needs-translation">Hotkeys</target>
+      </trans-unit>
+      <trans-unit id="W25PgHx" resname="Allgemeiner Fehler">
+        <source>Allgemeiner Fehler</source>
+        <target state="needs-translation">Allgemeiner Fehler</target>
+      </trans-unit>
+      <trans-unit id="xFrrBI8" resname="Hier ist was schief gelaufen. Tut uns Leid">
+        <source>Hier ist was schiefgelaufen. Tut uns Leid</source>
+        <target state="needs-translation">Hier ist was schiefgelaufen. Tut uns Leid</target>
+      </trans-unit>
+      <trans-unit id="4pmAB3F" resname="Zur Startseite">
+        <source>Zur Startseite</source>
+        <target state="needs-translation">Zur Startseite</target>
+      </trans-unit>
+      <trans-unit id="EG0viST" resname="Seite nicht gefunden">
+        <source>Seite nicht gefunden</source>
+        <target state="needs-translation">Seite nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="L5FRnrH" resname="Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.">
+        <source>Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</source>
+        <target state="needs-translation">Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</target>
+      </trans-unit>
+      <trans-unit id="yF80qIE" resname="Hier gehts zurück zur Startseite">
+        <source>Hier gehts zurück zur Startseite</source>
+        <target state="needs-translation">Hier gehts zurück zur Startseite</target>
+      </trans-unit>
+      <trans-unit id="elqNziw" resname="Seite kaputt">
+        <source>Seite kaputt</source>
+        <target state="needs-translation">Seite kaputt</target>
+      </trans-unit>
+      <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
+        <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
+        <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+      </trans-unit>
+      <trans-unit id="6tB8hLq" resname="Changelog">
+        <source>Changelog</source>
+        <target state="needs-translation">Changelog</target>
+      </trans-unit>
+      <trans-unit id="aIUgk0b" resname="Jetzt einladen">
+        <source>Jetzt einladen</source>
+        <target state="needs-translation">Jetzt einladen</target>
       </trans-unit>
     </body>
   </file>
