@@ -1,11 +1,12 @@
 import {sendViaWebsocket} from "./websocket";
-import {createElement} from "@fullcalendar/core";
+import {categorySort} from "./addressGroup"
 
 var status;
 var login = true;
 var profillLine = null;
+
 export function initStatus() {
-    if (!document.getElementById('onlineSelector')){
+    if (!document.getElementById('onlineSelector')) {
         return;
     }
     profillLine = document.getElementById('onlineSelector').closest('.profile').querySelector('.profileLine');
@@ -41,6 +42,15 @@ export function showOnlineUsers(data) {
             for (var i = 0; i < $adressbookLine.length; i++) {
                 if (typeof $adressbookLine[i] !== 'undefined' && data[status].includes($adressbookLine[i].dataset.uid)) {
                     $adressbookLine[i].dataset.status = status
+                    try {
+                        var $filter = JSON.parse($adressbookLine[i].dataset.filterafter);
+                        $filter = cleanFilterArr($filter)
+                        $filter.push(status);
+                        $adressbookLine[i].dataset.filterafter = JSON.stringify($filter);
+                    } catch (e) {
+
+                    }
+
                     $adressbookLine[i] = undefined;
                 }
             }
@@ -51,7 +61,16 @@ export function showOnlineUsers(data) {
             }
 
         }
+        categorySort();
     }
+}
+
+function cleanFilterArr($input) {
+    $input = $input.filter(e => e != 'online');
+    $input = $input.filter(e => e != 'offline');
+    $input = $input.filter(e => e != 'away');
+    $input = $input.filter(e => e != 'inMeeting');
+    return $input;
 }
 
 export function setMyStatus(status) {

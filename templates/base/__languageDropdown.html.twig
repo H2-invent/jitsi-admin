@@ -28,7 +28,9 @@
         {% if theme == false  or (theme is not null and 'ru' in theme.profileAllowLanguages  ) %}
             <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ru"}) }}">Русский</a>
         {% endif %}
-
+        {% if theme == false  or (theme is not null and 'pt' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "pt"}) }}">Português</a>
+        {% endif %}
     </div>
 </div>
 

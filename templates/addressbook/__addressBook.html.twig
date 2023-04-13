@@ -15,21 +15,76 @@
     </div>
     <div class="textarea">
         <div class="topbar">
-            {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
-                <div class="d-flex flex-wrap mt-2 mb-2 ps-2">
-                    {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
-                        <div class="form-check me-2">
-                            <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
-                                   data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}"
-                                   checked/>
-                            <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
             <div class="form-grou mt-2 mb-2">
                 <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
             </div>
+            <div class="filterbar d-flex justify-content-end mt-4">
+
+            <div class="dropdown me-2">
+                <a href="#"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false"
+                >
+                   {{ 'Filter'|trans }}
+                    <i class="fas fa-filter"><div class="filter-dot d-none">0</div></i>
+
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
+
+                            {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="form-check">
+                                        <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
+                                                                               data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}"/>
+                                        <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
+                                        </div>
+                                    </a>
+                                    </li>
+                            {% endfor %}
+                    {% endif %}
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input adressBookFilter" data-filter='["online","away","inMeeting"]' type="checkbox" value="" id="addressbookFilterOnline" checked />
+                                <label class="form-check-label" for="addressbookFilterOnline">{{ 'status.online'|trans }}</label>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input adressBookFilter" data-filter='["favorite"]' type="checkbox" value="" id="addressbookFilterFavorit" checked />
+                                <label class="form-check-label" for="addressbookFilterFavorit">{{ 'favorite.sidebar.title'|trans }}</label>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+                <div class="dropdown">
+                    <a href="#"
+                       type="button"
+                       id="dropdownMenuButton"
+                       data-mdb-toggle="dropdown"
+                       aria-expanded="false"
+                    >
+                        {{ 'Sortieren'|trans }} <i class="fa-solid fa-arrow-down-wide-short"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                        <li><a class="dropdown-item" href="#">{{ 'Alphabetisch'|trans }}</a></li>
+                        <li><a class="dropdown-item" href="#">{{ 'Zuletzt Kontaktiert'|trans }}</a></li>
+                        <li><a class="dropdown-item" href="#">{{ 'Häufig kontaktiert'|trans }}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
         </div>
         <div class="content">
             <ul class="list-group">

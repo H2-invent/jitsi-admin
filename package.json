@@ -48,6 +48,7 @@
         "interactjs": "^1.10.17",
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
+        "lodash": "^4.17.21",
         "mdb-ui-kit": "^5.0.0",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",

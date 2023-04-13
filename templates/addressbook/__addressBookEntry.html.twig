@@ -1,6 +1,11 @@
 <li class="list-group-item adressbookline" data-uid="{{ u.uid }}"
     data-indexer="{{ u.indexer }}"
-    data-filterafter="{{ u.categories|json_encode }}">
+        {% set kat = u.categories %}
+        {% set kat = kat|merge(['all']) %}
+        {% if u in app.user.adressbookFavorites %}
+            {% set kat = kat|merge(['favorite']) %}
+        {% endif %}
+    data-filterafter="{{ kat|json_encode }}">
 
     <span class="breakWord d-flex align-items-center name">
 
@@ -17,7 +22,10 @@
             </div>
         {% endif %}
         <div class="d-flex flex-column">
-                   <p class="mb-0">{{ u|nameOfUser }} <small><a href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"><i class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif%} fa-star"></i> </a></small>  {% if u in app.user.deputy %}<i
+                   <p class="mb-0">{{ u|nameOfUser }} <small><a
+                                   href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"><i
+                                       class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif %} fa-star"></i> </a></small>  {% if u in app.user.deputy %}
+                           <i
                            class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"
                            title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}</p>
         <p class="mb-0"><small>{{ u.username }}</small></p>
@@ -55,14 +63,14 @@
 
                         <li class="dropdown-item  d-flex">
                             {% if not deputyIsFromLDAP(app.user,u) %}
-                <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %} "
-                   href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
+                                <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %} "
+                                   href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
                      <i class="fa-solid fa-file-contract"></i>{% if u in app.user.deputy %}{{ 'deputy.remove'|trans }}{% else %}{{ 'deputy.add'|trans }}{% endif %}</a>
                                 <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
                                    data-mdb-content="{{ 'deputy.help'|trans }}"><i
                                             class="fa fa-question-circle"></i></a>
                                 {% else %}
-                                <a  class="disabled">
+                                <a class="disabled">
                                      <i class="fa-solid fa-file-contract"></i>{{ 'deputy.fromLdap.disabled'|trans }}
                                 </a>
                                 <a class="ms-2" tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
@@ -74,7 +82,7 @@
 
                     {% if theme == false or theme.trashOnAdressBook == true %}
                         <div class="dropdown-divider"></div>
-                       <li>
+                        <li>
                            <a class=" dropdown-item confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
                               data-text="{{ 'confirm.delete.adressbookUser'|trans }}">
                                      <i class="fa fa-trash text-danger"></i>{{ 'Löschen'|trans }}

@@ -1376,7 +1376,7 @@ a:hover {
   top: 100%;
   right: 20px;
   white-space: nowrap;
-
+  z-index: 9;
   .proTips {
     display: none;
 
@@ -1443,4 +1443,24 @@ a:hover {
 .card {
   border: 0;
   box-shadow: 0px 0px 11px 1px rgb(0 0 0 / 7%), 0 10px 20px -2px rgb(0 0 0 / 4%);
+}
+
+.language-dropdown-menue{
+  max-height: initial;
+}
+.filter-dot{
+  position: absolute;
+  top: -0.5em;
+  right: -0.5em;
+  font-size: 0.75em;
+  background-color: $main-color;
+  z-index: 2;
+  padding: 2px;
+  color: white;
+  border-radius: 5000px;
+  height: 16px;
+  width: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
