@@ -6,9 +6,41 @@
     <div class="row markdown">
         <div class="col-12">
             {% apply markdown_to_html %}
+                #### 0.76.0-dev
+
+                __What's new__
+                * Requires PHP8.1 and node18
+                * Bug UI-Improvement
+                * Meetling Pro Tip
+                * Refactor of addressbook
+                * New Logo
+                * Pause conference
+                    * A multiframe can be muted
+                    * microphone and the camera is switched
+                    * The paused user is shown in th conference as away
+                    * A paused conference is shown with a big pause symbol on an overlay
+                    * Automatic muting
+                       * When two conferences are opened in two multi frames then all conference in the background are automatically muted
+                * Deputy function
+                    * A debuty can be selected
+                    * Deputys can create a conference in name of the superior
+                    * Deputys can see when the superior has a conference planed
+                        * These conference are marked as privat and the name and the agenda is not shown to deputies
+                    * Other deputies of the same superior can edit the conferences which are created by other deputies
+                * Migration of SSO to Keycloak >16
+                * Upgrade to Symfony 6.2
+
+                __Bugfix__
+                * A lot of Bugfixes
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            {% apply markdown_to_html %}
                 #### 0.75.0-RC19
 
-                __What`s new__
+                __What's new__
                 * New changelog page. -This page-
 
                 __Bugfix__
@@ -21,7 +53,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC18
 
-                __What`s new__
+                __What's new__
                 * merge languages
 
                 __Bugfix__
@@ -34,7 +66,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC17
 
-                __What`s new__
+                __What's new__
                 * Change all Buttons on the join page
             {% endapply %}
             <hr>
@@ -43,7 +75,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC16
 
-                __What`s new__
+                __What's new__
                 * Start with a bis UI redesign which is in progress until 0.76.x
             {% endapply %}
             <hr>
@@ -52,7 +84,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC15
 
-                __What`s new__
+                __What's new__
                 * remove all rounded buttons
                 * notification to not forward the email to other persons because the link is personalised
                 * some improvements in help texts
@@ -99,7 +131,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC11
 
-                __What`s new__
+                __What's new__
                 * Add Terms and Conditions of jitsi-Admin to the first login
                 * Can be disabled by the jitsi-admin theme
 
@@ -120,7 +152,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC09
 
-                __What`s new__
+                __What's new__
                 * improve drag and drop of the multiframe
                 * room status can lead to an error when destroyed at was empty
 
@@ -141,7 +173,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC05
 
-                __What`s new__
+                __What's new__
                 * maximize multiframe when double click
 
             {% endapply %}
@@ -198,7 +230,7 @@
             {% apply markdown_to_html %}
                 #### 0.75.0-RC01
 
-                __What`s new__
+                __What's new__
                 * New Websocket not SSE
                 * https://github.com/H2-invent/jitsi-admin/wiki/Websocket-installation
                 * Online status
@@ -278,7 +310,7 @@
             {% apply markdown_to_html %}
                 #### 0.74.0
 
-                __What`s new__
+                __What's new__
                 * __PHP >=8.0 is required__
                 * Swipe Participants in the Lobby to accept (Mobile only)
                 * Close Conference for all in the Lobby is now triggered when pressing the hang up button

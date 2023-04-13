@@ -92,7 +92,7 @@
                                 class="fa fa-star"></i> {{ 'favorite.sidebar.title'|trans }}</b>
                 </li>
                 {% if app.user.adressbookFavorites|length == 0 %}
-                    <li class="list-group-item"> {{ 'addressbook.favorite.help'|trans|raw }}
+                    <li class="list-group-item adressbookline"> {{ 'addressbook.favorite.help'|trans|raw }}
                     </li>
                 {% else %}
                     {% for u in app.user.adressbookFavorites %}

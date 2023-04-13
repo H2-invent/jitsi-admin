@@ -60,7 +60,7 @@ function initCategoryFilter() {
 
         var tmp = $checkbox[i];
         var $cookie = getCookie(tmp.id);
-        if ($cookie === 'true' || $cookie === '') {
+        if ($cookie === 'true') {
             tmp.checked = true;
         } else {
             tmp.checked = false;
@@ -103,16 +103,21 @@ function categorySort(ele) {
     var $list = document.getElementById('adressbookModalTabContent').querySelectorAll('.adressbookline');
 
     for (var k = 0; k < $list.length; k++) {
-        var filterTmp = JSON.parse($list[k].dataset.filterafter);
-        var visible = findCommonElements(filterArr, filterTmp);
-        if (filterTmp.length === 0) {
-            visible = true
+        try {
+            var filterTmp = JSON.parse($list[k].dataset.filterafter);
+            var visible = findCommonElements(filterArr, filterTmp);
+            if (filterTmp.length === 0) {
+                visible = true
+            }
+            if (!visible) {
+                $list[k].classList.add('addressbookCategorieHidden')
+            } else {
+                $list[k].classList.remove('addressbookCategorieHidden')
+            }
+        }catch (e) {
+
         }
-        if (!visible) {
-            $list[k].classList.add('addressbookCategorieHidden')
-        } else {
-            $list[k].classList.remove('addressbookCategorieHidden')
-        }
+
     }
     cleanCapitalLetters();
 }
