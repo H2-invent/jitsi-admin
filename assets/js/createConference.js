@@ -1,6 +1,9 @@
 import md5 from "blueimp-md5"
 import {setSnackbar} from "./myToastr";
 import Moveable from "moveable";
+import { Tooltip } from 'mdb-ui-kit';
+import $ from "jquery";
+
 
 let counter = 50;
 let zindex = 10
@@ -67,12 +70,12 @@ function createIframe(url, title, closeIntelligent = true) {
         '<div class="headerBar">' +
         '<div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
-        '<div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause"></i></div> ' +
-        '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize"></i></div> ' +
-        '<div class="button-restore actionIcon d-none" data-maximal="0"><i class="fa-solid fa-window-restore"></i></div> ' +
-        '<div class="button-maximize  actionIcon" data-maximal="0"><i class="fa-solid fa-window-maximize"></i></div> ' +
-        (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-maximal="0"><i class="fa-solid fa-expand"></i></div> ' : '') +
-        '<div class="closer  actionIcon"><i class="fa-solid fa-xmark"></i></div> ' +
+        '<div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause" data-mdb-toggle="tooltip" title="Pause"></i></div> ' +
+        '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize" data-mdb-toggle="tooltip" title="Minimize"></i></div> ' +
+        '<div class="button-restore actionIcon d-none" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> ' +
+        '<div class="button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> ' +
+        (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : '') +
+        '<div class="closer  actionIcon"><i class="fa-solid fa-xmark" data-mdb-toggle="tooltip" title="Exit"></i></div> ' +
         '</div>' +
         '</div>' +
         '<div class="iframeFrame">' +
@@ -86,7 +89,7 @@ function createIframe(url, title, closeIntelligent = true) {
     } else {
         document.querySelector('body').insertAdjacentHTML('beforeend', html);
     }
-
+    $('[data-mdb-toggle="tooltip"]').tooltip();
     document.getElementById('jitsiadminiframe' + random).style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
     document.getElementById('jitsiadminiframe' + random).style.width = width + 'px';
     document.getElementById('jitsiadminiframe' + random).style.height = height + 'px';
@@ -299,7 +302,7 @@ function recievecommand(data) {
 function closeIframe(id) {
     document.getElementById(id).remove();
     removeInteraction();
-
+    $('.tooltip').remove();
 }
 
 function removeInteraction() {

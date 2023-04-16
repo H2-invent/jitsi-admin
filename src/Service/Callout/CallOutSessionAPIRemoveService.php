@@ -53,6 +53,20 @@ class CallOutSessionAPIRemoveService
         );
     }
 
+    public function unreachable($sessionId): array
+    {
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive( $sessionId);
+        if (!$calloutSession) {
+            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
+        }
+        return $this->removeCalloutSession($calloutSession,
+            $this->translator->trans('callout.message.unreachable',
+                array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))
+            )
+        );
+    }
+
+
     public function removeCalloutSession(?CalloutSession $calloutSession, $message)
     {
 

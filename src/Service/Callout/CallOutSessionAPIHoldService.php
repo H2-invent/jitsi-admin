@@ -87,24 +87,7 @@ class CallOutSessionAPIHoldService
         );
     }
 
-    public function setRinging(CalloutSession $calloutSession,){
-        if ($calloutSession->getState() >= CalloutSession::$ON_HOLD){
-            return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
-        }
-        $calloutSession->setState(CalloutSession::$RINGING);
-        $this->entityManager->persist($calloutSession);
-        $this->entityManager->flush();
-        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
-        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(array('room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()));
-        $sipRaumnummer = $calloutSession->getRoom()->getCallerRoom();
-        return array(
-            'status' => 'RINGING',
-            'pin' => $pin->getCallerId(),
-            'room_number' => $sipRaumnummer->getCallerId(),
-            'links' => array()
-        );
 
-    }
     public function sendMessage(Rooms $room, $message)
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();

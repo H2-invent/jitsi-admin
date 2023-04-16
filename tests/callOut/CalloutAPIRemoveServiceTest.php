@@ -51,7 +51,7 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
 
         $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
             if (json_decode($update->getData(), true)['type'] === 'snackbar') {
-                self::assertEquals('{"type":"snackbar","message":"Der\/Die Angerufene hat abgelehnt.","color":"danger"}', $update->getData());
+                self::assertEquals('{"type":"snackbar","message":"AA, 45689, Ldap, LdapUSer hat abgelehnt.","color":"danger"}', $update->getData());
                 self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
             }
             if (json_decode($update->getData(), true)['type'] === 'refresh') {
