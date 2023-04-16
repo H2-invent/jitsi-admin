@@ -117,7 +117,7 @@ npm install
 # shellcheck disable=SC2164
 popd
 
-cp nodejs /usr/local/bin/websocket
+cp -r nodejs /usr/local/bin/websocket
 cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 mkdir /var/log/websocket/
 systemctl daemon-reload
