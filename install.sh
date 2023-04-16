@@ -1,14 +1,14 @@
 echo Welcome to the installer:
 
 echo --------------------------------------------------------------------------
-echo -----------------------Install Apache and PHP---------------------
+echo -----------------------Install NGINX and PHP---------------------
 echo --------------------------------------------------------------------------
 sudo apt update
 sudo apt install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
 echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/sury-php.list
 curl -fsSL  https://packages.sury.org/php/apt.gpg| sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sury-keyring.gpg
 sudo apt update
-sudo apt install php8.1 -y
+sudo apt install php8.1 nginx nginx-extras -y
 sudo apt install php8.1-bcmath php8.1-fpm php8.1-xml php8.1-mysql php8.1-zip php8.1-intl php8.1-ldap php8.1-gd php8.1-cli php8.1-bz2 php8.1-curl php8.1-mbstring php8.1-pgsql php8.1-opcache php8.1-soap php8.1-cgi php8.1-dom php8.1-simplexml -y
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 sudo apt -y install nodejs
@@ -112,9 +112,13 @@ service enable jitsi-admin_messenger
 echo --------------------------------------------------------------------------
 echo -----------------------Install Websocket-Application----------------------
 echo --------------------------------------------------------------------------
-cd nodejs
+# shellcheck disable=SC2164
+pushd nodejs
+
 npm install
-cd ..
+# shellcheck disable=SC2164
+popd
+
 cp nodejs /usr/local/bin/websocket
 cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 mkdir /var/log/websocket/
