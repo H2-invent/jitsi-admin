@@ -104,9 +104,9 @@ echo -----------------------Install Worker for Async Work----------------------
 echo --------------------------------------------------------------------------
 cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
 systemctl daemon-reload
-service start jitsi-admin_messenger
-restart start jitsi-admin_messenger
-service enable jitsi-admin_messenger
+service  jitsi-admin_messenger start
+service  jitsi-admin_messenger restart
+systemctl enable jitsi-admin_messenger
 echo --------------------------------------------------------------------------
 echo -----------------------Install Websocket-Application----------------------
 echo --------------------------------------------------------------------------
@@ -121,9 +121,9 @@ cp nodejs /usr/local/bin/websocket
 cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 mkdir /var/log/websocket/
 systemctl daemon-reload
-service start jitsi-admin-websocket
-restart start jitsi-admin-websocket
-service enable jitsi-admin-websocket
+service  jitsi-admin-websocket start
+service  jitsi-admin-websocket start
+systemctl enable jitsi-admin-websocket
 echo --------------------------------------------------------------------------
 echo -----------------------Installed the Jitsi-Admin correct------------------
 echo --------------------------------------------------------------------------
