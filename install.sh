@@ -113,7 +113,6 @@ echo -----------------------Install Websocket-Application----------------------
 echo --------------------------------------------------------------------------
 # shellcheck disable=SC2164
 pushd nodejs
-
 npm install
 # shellcheck disable=SC2164
 popd
