@@ -18,17 +18,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Dotenv\Dotenv;
 
 #[AsCommand(name: 'app:install', description: 'Jitsi admin installer')]
 class InstallerCommand extends Command
 {
-    public function __construct(private ParameterBagInterface $parameterBag, string $name = null)
+    private string $projectDir;
+
+    public function __construct(ParameterBagInterface $parameterBag, string $name = null)
     {
+        $this->projectDir = $parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR;
+        (new Dotenv())->bootEnv($this->projectDir . '.env.local');
+
         parent::__construct($name);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if(getenv('CONFIGURED')){
+            return self::SUCCESS;
+        }
+
         $helper = $this->getHelper('question');
 
         try {
@@ -36,6 +46,7 @@ class InstallerCommand extends Command
             $dbConfig = $this->getDBConfig(input: $input, output: $output, helper: $helper);
             $smtpConfig = $this->getSmtpConfig(input: $input, output: $output, helper: $helper);
             $keycloakConfig = $this->getKeycloakConfig(input: $input, output: $output, helper: $helper);
+            $this->writeWebsocketConfFile($baseConfig);
             $this->writeEnvFile($baseConfig, $dbConfig, $smtpConfig, $keycloakConfig);
         } catch (InvalidArgumentException $e) {
             return Command::FAILURE;
@@ -119,13 +130,26 @@ class InstallerCommand extends Command
     /** @param ConvertToEnvironmentInterface[] $convertibles */
     private function writeEnvFile(...$convertibles): void
     {
-        $envVars = [];
+        $envVars = [
+            'CONFIGURED=1'.PHP_EOL,
+        ];
 
         foreach ($convertibles as $convertible) {
             $envVars = array_merge($envVars, $convertible->getAsEnvironment());
         }
 
-        file_put_contents(filename: $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . '.env.local', data: $envVars, flags: FILE_APPEND);
+        file_put_contents(filename: $this->projectDir . '.env.local', data: $envVars, flags: FILE_APPEND);
+    }
+
+    private function writeWebsocketConfFile(BasicConfig $basicConfig): void
+    {
+        $lines = [
+            'WEBSOCKET_SECRET='.$basicConfig->secret().PHP_EOL,
+            'PORT=3000'.PHP_EOL,
+            'AWAY_TIME=5'.PHP_EOL,
+        ];
+
+        file_put_contents(filename: $this->projectDir . 'nodejs' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'websocket.conf', data: $lines);
     }
 
     private function askForUrl(

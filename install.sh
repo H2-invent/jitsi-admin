@@ -20,6 +20,8 @@ sudo apt install -y \
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 sudo apt -y install nodejs
 
+clear
+
 echo ""
 echo ******INSTALLING JITSI-ADMIN*******
 echo ""
@@ -31,6 +33,8 @@ popd
 pushd /var/www/jitsi-admin
 git checkout installer
 
+clear
+
 export COMPOSER_ALLOW_SUPERUSER=1
 php composer.phar install --no-interaction
 php composer.phar dump-autoload
@@ -40,23 +44,33 @@ sudo mysql -e "CREATE USER 'jitsiadmin'@'localhost' IDENTIFIED  BY 'jitsiadmin';
 sudo mysql -e "GRANT ALL PRIVILEGES ON jitsi_admin.* TO 'jitsiadmin'@'localhost';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
+clear
+
 php bin/console app:install
+clear
 php bin/console cache:clear
+clear
 php bin/console doctrine:database:create --if-not-exists --no-interaction
+clear
 php bin/console doctrine:migrations:migrate --no-interaction
+clear
 php bin/console cache:clear
+clear
 php bin/console cache:warmup
+clear
 
 npm install
 npm run build
 rm -rf node_modules/
+clear
 
 popd
 pushd /var/www/jitsi-admin/nodejs
 npm install
 popd
-pushd /var/www/jitsi-admin
+clear
 
+pushd /var/www/jitsi-admin
 echo ""
 echo *******CONFIGURING SERVICES********
 echo ""
@@ -70,22 +84,32 @@ chown -R www-data:www-data var/cache
 chmod -R 775 var/cache
 chown -R www-data:www-data public/uploads/images
 chmod -R 775 public/uploads/images
+clear
 
-cp jitsi-admin.conf /etc/nginx/sites-enabled/
+cp nginx.conf /etc/nginx/sites-enabled/jitsi-admin.conf
 cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
+cp nodejs/config/websocket.conf /etc/systemd/system/jitsi-admin.conf
 cp -r nodejs /usr/local/bin/websocket
 cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 mkdir /var/log/websocket/
+clear
 
 service php8.1-fpm restart
+clear
 systemctl daemon-reload
+clear
 service  jitsi-admin_messenger start
 service  jitsi-admin_messenger restart
+clear
 systemctl enable jitsi-admin_messenger
+clear
 systemctl daemon-reload
+clear
 service  jitsi-admin-websocket start
 service  jitsi-admin-websocket restart
+clear
 systemctl enable jitsi-admin-websocket
+clear
 
 popd
 
