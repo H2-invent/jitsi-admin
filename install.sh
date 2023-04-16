@@ -44,6 +44,7 @@ crontab -l > cron_bkp
 echo "* * * * * php /var/www/jitsi-admin/bin/console cron:run 1>> /dev/null 2>&1" > cron_bkp
 crontab cron_bkp
 rm cron_bkp
+cp jitsi-admin.conf /etc/nginx/sites-enabled/
 echo --------------------------------------------------------------------------
 echo -----------------We looking for all the other parameters-------------------
 echo --------------------------------------------------------------------------
