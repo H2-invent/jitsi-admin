@@ -75,6 +75,7 @@ function closeBrowser() {
             if (inIframe()) {
                 close()
             } else {
+                window.location.href = "/";
                 window.close();
             }
 
