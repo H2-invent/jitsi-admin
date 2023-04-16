@@ -7,6 +7,7 @@ use App\Entity\CalloutSession;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use App\Service\Callout\CallOutSessionAPIDialService;
 use App\Service\Callout\CallOutSessionAPIHoldService;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,24 +68,46 @@ class CalloutHoldApiServiceTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
+        $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $calloutSession = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
 
-        $calloutHoldService = self::getContainer()->get(CallOutSessionAPIHoldService::class);
+        $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
         self::assertEquals(array(
             'status' => 'RINGING',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
-        ), $calloutHoldService->ringing('ksdlfjlkfds'));
+            'links' => array(
+                'accept' => '/api/v1/lobby/sip/pin/'.$calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
+                'refuse' => '/api/v1/call/out/refuse/'.$calloutSession->getUid(),
+                'ringing' => '/api/v1/call/out/ringing/'.$calloutSession->getUid(),
+                'timeout' => '/api/v1/call/out/timeout/'.$calloutSession->getUid(),
+                'error' => '/api/v1/call/out/error/'.$calloutSession->getUid(),
+                'unreachable' => '/api/v1/call/out/unreachable/'.$calloutSession->getUid(),
+                'later' => '/api/v1/call/out/later/'.$calloutSession->getUid(),
+                'dial' => '/api/v1/call/out/dial/'.$calloutSession->getUid(),
+                'occupied' => '/api/v1/call/out/occupied/'.$calloutSession->getUid(),
+            )
+        ), $calloutDialService->ringing('ksdlfjlkfds'));
         self::assertEquals(array(
             'status' => 'RINGING',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
-        ), $calloutHoldService->ringing('ksdlfjlkfds'));
+            'links' => array(
+                'accept' => '/api/v1/lobby/sip/pin/'.$calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
+                'refuse' => '/api/v1/call/out/refuse/'.$calloutSession->getUid(),
+                'ringing' => '/api/v1/call/out/ringing/'.$calloutSession->getUid(),
+                'timeout' => '/api/v1/call/out/timeout/'.$calloutSession->getUid(),
+                'error' => '/api/v1/call/out/error/'.$calloutSession->getUid(),
+                'unreachable' => '/api/v1/call/out/unreachable/'.$calloutSession->getUid(),
+                'later' => '/api/v1/call/out/later/'.$calloutSession->getUid(),
+                'dial' => '/api/v1/call/out/dial/'.$calloutSession->getUid(),
+                'occupied' => '/api/v1/call/out/occupied/'.$calloutSession->getUid(),
+            )
+        ), $calloutDialService->ringing('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
         self::assertEquals(CalloutSession::$RINGING, $callout->getState());
-        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'), $calloutHoldService->ringing('invalid'));
+        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'), $calloutDialService->ringing('invalid'));
 
     }
 

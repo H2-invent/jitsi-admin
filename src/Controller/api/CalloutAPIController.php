@@ -94,6 +94,18 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
+    #[Route('/unreachable/{calloutSessionId}', name: 'unreachable')]
+    public function unreachable($calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = $callOutSessionAPIRemoveService->unreachable($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
+
     #[Route('/timeout/{calloutSessionId}', name: 'timeout')]
     public function timeout($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
@@ -135,7 +147,7 @@ class CalloutAPIController extends JitsiAdminController
         if ($check) {
             return $check;
         }
-        $res = $callOutSessionAPIHoldService->ringing($calloutSessionId);
+        $res = $this->callOutSessionAPIDialService->ringing($calloutSessionId);
         return new JsonResponse($res);
     }
 

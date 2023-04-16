@@ -55,7 +55,8 @@ class CalloutAPIDialServiceTest extends KernelTestCase
             'later' => '/api/v1/call/out/later/ksdlfjlkfds',
             'dial' => '/api/v1/call/out/dial/ksdlfjlkfds',
             'occupied' => '/api/v1/call/out/occupied/ksdlfjlkfds',
-            'ringing' => '/api/v1/call/out/ringing/ksdlfjlkfds'
+            'ringing' => '/api/v1/call/out/ringing/ksdlfjlkfds',
+            'unreachable' => '/api/v1/call/out/unreachable/ksdlfjlkfds'
         )), $calloutDialService->dialSession('ksdlfjlkfds'));
     }
 

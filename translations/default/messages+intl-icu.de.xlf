@@ -1788,19 +1788,19 @@
       </trans-unit>
       <trans-unit id="l7wQdDI" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target>Der/Die Angerufene hat nicht abgenommen</target>
+        <target>{name} hat nicht abgenommen</target>
       </trans-unit>
       <trans-unit id="5NiLGgo" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target>Der Anschluss ist besetzt.</target>
+        <target>Der Anschluss von {name} ist besetzt.</target>
       </trans-unit>
       <trans-unit id="rJeuurV" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target>Der/Die Angerufene wird später der Konferenz beitreten.</target>
+        <target>{name} wird später der Konferenz beitreten.</target>
       </trans-unit>
       <trans-unit id="ACda2_m" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target>Der/Die Angerufene hat abgelehnt.</target>
+        <target>{name} hat abgelehnt.</target>
       </trans-unit>
       <trans-unit id="YSIci3n" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -2123,7 +2123,7 @@
         <target>Allgemeiner Fehler</target>
       </trans-unit>
       <trans-unit id="xFrrBI8" resname="Hier ist was schief gelaufen. Tut uns Leid">
-        <source>Hier ist was schiefgelaufen. Tut uns Leid</source>
+        <source>Hier ist was schief gelaufen. Tut uns Leid</source>
         <target>Hier ist was schiefgelaufen. Tut uns Leid</target>
       </trans-unit>
       <trans-unit id="4pmAB3F" resname="Zur Startseite">
@@ -2147,7 +2147,7 @@
         <target>Seite kaputt</target>
       </trans-unit>
       <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
-        <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
+        <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
         <target>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
       </trans-unit>
       <trans-unit id="6tB8hLq" resname="Changelog">
@@ -2157,6 +2157,18 @@
       <trans-unit id="aIUgk0b" resname="Jetzt einladen">
         <source>Jetzt einladen</source>
         <target>Jetzt einladen</target>
+      </trans-unit>
+      <trans-unit id="N3_BJHi" resname="callout.message.unreachable">
+        <source>{name} ist nicht erreichbar.</source>
+        <target>{name} ist nicht erreichbar.</target>
+      </trans-unit>
+      <trans-unit id="Y44kn0o" resname="Filter">
+        <source>Filter</source>
+        <target>Filter</target>
+      </trans-unit>
+      <trans-unit id="L4szaw3" resname="deputy.mydebutys">
+        <source>Meine Vertreter</source>
+        <target>Meine Vertreter</target>
       </trans-unit>
     </body>
   </file>

@@ -55,14 +55,15 @@ class CalloutApiActionControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         self::assertEquals(array(
             'status' => 'OK',
-            'links' => array('accept' => '/api/v1/lobby/sip/pin/'.$this->calloutSession->getRoom()->getCallerRoom()->getCallerId().'?caller_id=987654321012&pin=987654321',
+            'links' => array('accept' => '/api/v1/lobby/sip/pin/' . $this->calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
                 'refuse' => '/api/v1/call/out/refuse/' . $this->calloutSession->getUid(),
                 'timeout' => '/api/v1/call/out/timeout/' . $this->calloutSession->getUid(),
                 'error' => '/api/v1/call/out/error/' . $this->calloutSession->getUid(),
                 'later' => '/api/v1/call/out/later/' . $this->calloutSession->getUid(),
                 'dial' => '/api/v1/call/out/dial/' . $this->calloutSession->getUid(),
                 'occupied' => '/api/v1/call/out/occupied/' . $this->calloutSession->getUid(),
-                 'ringing' => '/api/v1/call/out/ringing/' . $this->calloutSession->getUid()
+                'ringing' => '/api/v1/call/out/ringing/' . $this->calloutSession->getUid(),
+                'unreachable' => '/api/v1/call/out/unreachable/' . $this->calloutSession->getUid()
             ),
         ), json_decode($this->client->getResponse()->getContent(), true));
     }
@@ -117,7 +118,7 @@ class CalloutApiActionControllerTest extends WebTestCase
             'status' => 'ON_HOLD',
             'links' => array(),
             'pin' => '987654321',
-            'room_number' =>  $this->room->getCallerRoom()->getCallerId(),
+            'room_number' => $this->room->getCallerRoom()->getCallerId(),
         ), json_decode($this->client->getResponse()->getContent(), true));
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);
@@ -163,9 +164,19 @@ class CalloutApiActionControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         self::assertEquals(array(
             'status' => 'RINGING',
-            'links' => array(),
             'pin' => '987654321',
             'room_number' => $this->room->getCallerRoom()->getCallerId(),
+            'links' => array(
+                'accept' => '/api/v1/lobby/sip/pin/'.$this->calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
+                'refuse' => '/api/v1/call/out/refuse/'.$this->calloutSession->getUid(),
+                'ringing' => '/api/v1/call/out/ringing/'.$this->calloutSession->getUid(),
+                'timeout' => '/api/v1/call/out/timeout/'.$this->calloutSession->getUid(),
+                'error' => '/api/v1/call/out/error/'.$this->calloutSession->getUid(),
+                'unreachable' => '/api/v1/call/out/unreachable/'.$this->calloutSession->getUid(),
+                'later' => '/api/v1/call/out/later/'.$this->calloutSession->getUid(),
+                'dial' => '/api/v1/call/out/dial/'.$this->calloutSession->getUid(),
+                'occupied' => '/api/v1/call/out/occupied/'.$this->calloutSession->getUid(),
+            )
         ), json_decode($this->client->getResponse()->getContent(), true));
 
         $this->client->loginUser(new User());
@@ -196,7 +207,7 @@ class CalloutApiActionControllerTest extends WebTestCase
             'status' => 'ON_HOLD',
             'links' => array(),
             'pin' => '987654321',
-            'room_number' =>  $this->room->getCallerRoom()->getCallerId(),
+            'room_number' => $this->room->getCallerRoom()->getCallerId(),
         ), json_decode($this->client->getResponse()->getContent(), true));
         $user = $this->calloutSession->getRoom()->getModerator();
         $this->client->loginUser($user);
@@ -205,6 +216,7 @@ class CalloutApiActionControllerTest extends WebTestCase
         assertEquals(1, $crawler->filter('.calloutsymbol')->count());
         $this->assertSelectorTextContains('.calloutsymbol .badge', 'Besetzt');
     }
+
     public function testOccupiedthreeTimes(): void
     {
         $crawler = $this->client->request('GET', '/api/v1/call/out/dial/' . $this->calloutSession->getUid(), [], [], $this->authHEader);
