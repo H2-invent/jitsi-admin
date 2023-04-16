@@ -93,6 +93,7 @@ echo ----------------Create Upload Folder and Set permissions------------------
 echo --------------------------------------------------------------------------
 chown -R www-data:www-data public/uploads/images
 chmod -R 775 public/uploads/images
+service php8.1-fpm restart
 echo --------------------------------------------------------------------------
 echo -----------------------Install NPM and Assets----------------------------
 echo --------------------------------------------------------------------------
