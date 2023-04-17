@@ -1,126 +1,95 @@
-echo Welcome to the installer:
+cat << "EOF"
+     _ _ _      _      _      _       _        ___         _        _ _
+  _ | (_) |_ __(_)___ /_\  __| |_ __ (_)_ _   |_ _|_ _  __| |_ __ _| | |___ _ _
+ | || | |  _(_-< |___/ _ \/ _` | '  \| | ' \   | || ' \(_-<  _/ _` | | / -_) '_|
+  \__/|_|\__/__/_|  /_/ \_\__,_|_|_|_|_|_||_| |___|_||_/__/\__\__,_|_|_\___|_|
 
-echo --------------------------------------------------------------------------
-echo -----------------------Install Apache and PHP---------------------
-echo --------------------------------------------------------------------------
+EOF
+
+sudo mkdir -p /var/www
+
+echo ""
+echo ******INSTALLING DEPENDENCIES******
+echo ""
 sudo apt update
-sudo apt install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/sury-php.list
-curl -fsSL  https://packages.sury.org/php/apt.gpg| sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sury-keyring.gpg
-sudo apt update
-sudo apt install php8.1 -y
-sudo apt install php8.1-bcmath php8.1-fpm php8.1-xml php8.1-mysql php8.1-zip php8.1-intl php8.1-ldap php8.1-gd php8.1-cli php8.1-bz2 php8.1-curl php8.1-mbstring php8.1-pgsql php8.1-opcache php8.1-soap php8.1-cgi php8.1-dom php8.1-simplexml -y
+sudo apt install -y \
+    git curl lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 mysql-server \
+    nginx nginx-extras\
+    php php-bcmath php-fpm php-xml php-mysql php-zip php-intl php-ldap php-gd php-cli php-bz2 php-curl php-mbstring \
+    php-opcache php-soap php-cgi php-dom php-simplexml
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 sudo apt -y install nodejs
-echo ------------ install latest packages-------------
+
+echo ""
+echo ******INSTALLING JITSI-ADMIN*******
+echo ""
+
+pushd /var/www
+git clone https://github.com/H2-invent/jitsi-admin.git
+popd
+
+pushd /var/www/jitsi-admin
+git checkout installer
+
 php composer.phar install --no-interaction
 php composer.phar dump-autoload
 cp .env.sample .env.local
-echo --------------------------------------------------------------------------
-echo ----------------Create Database-------------------------------------------
-echo --------------------------------------------------------------------------
-read -p "Want to enter Database DSN directly or should we ask you for your mysql-credentials? Type dsn or hit enter: " dsnOrCreds
 
-if [[ "$dsnOrCreds" == "dsn" ]]
-then
-    echo Example DSN: sqlite3:////opt/jitsi-admin/jitsi-admin.sqlite3?mode=0666
-    echo See here for documentation: https://www.doctrine-project.org/projects/doctrine1/en/latest/manual/introduction-to-connections.html
-    echo Please ensure, you installed and activated needed php-modules!!!
-    read -p "Enter Database DSN: " DatabaseDSN
-    sed -i "s%^DATABASE_URL=.*%DATABASE_URL=${DatabaseDSN}%g" .env.local
-else
-    read -p "Enter the database Host: " databaseHost
-    read -p "Enter the database port[3306]: " databasePort
-    read -p "Enter the database name: " databaseName
-    read -p "Enter the database username: " databaseUsername
-    read -p"Enter the database password: " databasePassword
-    databasePort=${databasePort:-3306}
-    sed -i "s%^DATABASE_URL=.*%DATABASE_URL=mysql://$databaseUsername:$databasePassword@$databaseHost:$databasePort/$databaseName%g" .env.local
-fi
+php bin/console app:install
+cp jitsi-admin-env /etc/systemd/jitsi-admin.conf
+rm jitsi-admin-env
 
-php bin/console doctrine:mig:mig --no-interaction
+php bin/console doctrine:database:create --if-not-exists
+php bin/console doctrine:migrations:migrate --no-interaction
+
 php bin/console cache:clear
+php bin/console cache:warmup
+
+npm install
+npm run build
+rm -rf node_modules/
+
+popd
+pushd /var/www/jitsi-admin/nodejs
+npm install
+popd
+pushd /var/www/jitsi-admin
+
+echo ""
+echo *******CONFIGURING SERVICES********
+echo ""
+
 crontab -l > cron_bkp
 echo "* * * * * php /var/www/jitsi-admin/bin/console cron:run 1>> /dev/null 2>&1" > cron_bkp
 crontab cron_bkp
 rm cron_bkp
-echo --------------------------------------------------------------------------
-echo -----------------We looking for all the other parameters-------------------
-echo --------------------------------------------------------------------------
-echo -------------------------------------------------------------
-echo -----------------Mailer--------------------------------------
-echo -------------------------------------------------------------
-read -p "Enter smtp host: " smtpHost
-read -p "Enter smtp port: " smtpPort
-read -p "Enter smtp username: " smtpUsername
-read -p "Enter smtp password: " smtpPassword
 
-sed -i "s/<smtpHost>/$smtpHost/" .env.local
-sed -i "s/<smtpPort>/$smtpPort/" .env.local
-sed -i "s/<smtpUsername>/$smtpUsername/" .env.local
-sed -i "s/<smtpPassword>/$smtpPassword/" .env.local
-
-echo -------------------------------------------------------------
-echo -----------------Keycloak--------------------------------------
-echo -------------------------------------------------------------
-read -p "Enter the base url of the Jitsi-Admin: " baseUrl
-read -p "Enter the URL to keycloak with /auth at the end: " keycloakServer
-read -p "Keycloak realm: " keycloakRealm
-read -p "Keycloak Client Id: " keycloakClientId
-read -p "Keycloak Client Secret: " keycloakClientSecret
-
-sed -i "s%<baseUrl>%$baseUrl%" .env.local
-
-sed -i "s%<keycloakServer>%$keycloakServer%" .env.local
-sed -i "s/<keycloakRealm>/$keycloakRealm/" .env.local
-sed -i "s/<keycloakClientId>/$keycloakClientId/" .env.local
-sed -i "s/<keycloakClientSecret>/$keycloakClientSecret/" .env.local
-echo --------------------------------------------------------------------------
-echo -----------------They are many more parameters explore them by yourself---
-echo --------------------------------------------------------------------------
-
-echo --------------------------------------------------------------------------
-echo -----------------Clear Cache----------------------------------------------
-echo --------------------------------------------------------------------------
-php bin/console cache:clear
-php bin/console cache:warmup
-echo --------------------------------------------------------------------------
-echo ----------------Setting Permissin-----------------------------------------
-echo --------------------------------------------------------------------------
 chown -R www-data:www-data var/cache
 chmod -R 775 var/cache
-echo --------------------------------------------------------------------------
-echo ----------------Create Upload Folder and Set permissions------------------
-echo --------------------------------------------------------------------------
 chown -R www-data:www-data public/uploads/images
 chmod -R 775 public/uploads/images
-echo --------------------------------------------------------------------------
-echo -----------------------Install NPM and Assets----------------------------
-echo --------------------------------------------------------------------------
-npm install
-npm run build
-rm -rf node_modules/
-echo --------------------------------------------------------------------------
-echo -----------------------Install Worker for Async Work----------------------
-echo --------------------------------------------------------------------------
+
+cp jitsi-admin.conf /etc/nginx/sites-enabled/
 cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
-systemctl daemon-reload
-service start jitsi-admin_messenger
-restart start jitsi-admin_messenger
-service enable jitsi-admin_messenger
-echo --------------------------------------------------------------------------
-echo -----------------------Install Websocket-Application----------------------
-echo --------------------------------------------------------------------------
-cd nodejs
-npm install
-cd ..
-cp nodejs /usr/local/bin/websocket
+cp -r nodejs /usr/local/bin/websocket
 cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 mkdir /var/log/websocket/
+
+service php8.1-fpm restart
 systemctl daemon-reload
-service start jitsi-admin-websocket
-restart start jitsi-admin-websocket
-service enable jitsi-admin-websocket
-echo --------------------------------------------------------------------------
-echo -----------------------Installed the Jitsi-Admin correct------------------
-echo --------------------------------------------------------------------------
+service  jitsi-admin_messenger start
+service  jitsi-admin_messenger restart
+systemctl enable jitsi-admin_messenger
+systemctl daemon-reload
+service  jitsi-admin-websocket start
+service  jitsi-admin-websocket restart
+systemctl enable jitsi-admin-websocket
+
+popd
+
+cat << "EOF"
+  ___         _        _ _        _                            __      _
+ |_ _|_ _  __| |_ __ _| | |___ __| |  ____  _ __ __ ___ ______/ _|_  _| |
+  | || ' \(_-|  _/ _` | | / -_/ _` | (_-| || / _/ _/ -_(_-(_-|  _| || | |
+ |___|_||_/__/\__\__,_|_|_\___\__,_| /__/\_,_\__\__\___/__/__|_|  \_,_|_|
+EOF
