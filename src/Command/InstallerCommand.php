@@ -18,7 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Dotenv\Dotenv;
 
 #[AsCommand(name: 'app:install', description: 'Jitsi admin installer')]
 class InstallerCommand extends Command
@@ -28,14 +27,13 @@ class InstallerCommand extends Command
     public function __construct(ParameterBagInterface $parameterBag, string $name = null)
     {
         $this->projectDir = $parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR;
-        (new Dotenv())->bootEnv($this->projectDir . '.env.local');
 
         parent::__construct($name);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if(getenv('CONFIGURED')){
+        if(file_exists($this->projectDir . '.env.prod.local')){
             return self::SUCCESS;
         }
 
@@ -130,15 +128,15 @@ class InstallerCommand extends Command
     /** @param ConvertToEnvironmentInterface[] $convertibles */
     private function writeEnvFile(...$convertibles): void
     {
-        $envVars = [
-            'CONFIGURED=1'.PHP_EOL,
-        ];
+        $envVars = [];
 
         foreach ($convertibles as $convertible) {
+            $envVars[] = '### Start: '.$convertible::class.' ###'.PHP_EOL;
             $envVars = array_merge($envVars, $convertible->getAsEnvironment());
+            $envVars[] = '### End: '.$convertible::class.' ###'.PHP_EOL.PHP_EOL;
         }
 
-        file_put_contents(filename: $this->projectDir . '.env.local', data: $envVars, flags: FILE_APPEND);
+        file_put_contents(filename: $this->projectDir . '.env.prod.local', data: $envVars);
     }
 
     private function writeWebsocketConfFile(BasicConfig $basicConfig): void
