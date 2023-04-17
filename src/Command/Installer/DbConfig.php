@@ -16,12 +16,12 @@ class DbConfig implements ConvertToEnvironmentInterface
 
     private function __construct(
         private string  $engine,
-        private ?string $serverVersion = null,
-        private ?string $host = null,
-        private ?int    $port = null,
-        private ?string $database = null,
-        private ?string $username = null,
-        private ?string $password = null,
+        private string $serverVersion,
+        private string $host,
+        private int    $port,
+        private string $database,
+        private string $username = 'jitsiadmin',
+        private string $password = 'jitsiadmin',
     )
     {
     }
@@ -55,8 +55,8 @@ class DbConfig implements ConvertToEnvironmentInterface
             host: 'localhost',
             port: 3306,
             database: 'jitsi-admin',
-            username: 'root',
-            password: 'root'
+            username: 'jitsiadmin',
+            password: 'jitsiadmin',
         );
     }
 

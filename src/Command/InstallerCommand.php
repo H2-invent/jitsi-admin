@@ -41,6 +41,8 @@ class InstallerCommand extends Command
             return Command::FAILURE;
         }
 
+        $output->writeln('<info>Configuration done!</info>');
+
         return Command::SUCCESS;
     }
 
@@ -96,12 +98,10 @@ class InstallerCommand extends Command
         $clientIdQuestion = new Question('<question>Enter the keycloak client id: </question>' . PHP_EOL);
         $clientSecretQuestion = new Question('<question>Enter the keycloak client secret: </question>' . PHP_EOL);
 
-        $helper->ask($input, $output, $versionQuestion);
-
         return KeycloakConfig::createFromParameters(
             url: $this->askForUrl($input, $output, $helper, $urlQuestion),
-            version: $this->askForNumeric($input, $output, $helper, $versionQuestion),
             realm: $helper->ask($input, $output, $realmQuestion),
+            version: $this->askForNumeric($input, $output, $helper, $versionQuestion),
             clientId: $helper->ask($input, $output, $clientIdQuestion),
             clientSecret: $helper->ask($input, $output, $clientSecretQuestion),
         );
@@ -125,7 +125,7 @@ class InstallerCommand extends Command
             $envVars = array_merge($envVars, $convertible->getAsEnvironment());
         }
 
-        file_put_contents(filename: $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'jitsi-admin-env', data: $envVars);
+        file_put_contents(filename: $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . '.env.local', data: $envVars, flags: FILE_APPEND);
     }
 
     private function askForUrl(

@@ -18,7 +18,7 @@ class BasicConfig implements ConvertToEnvironmentInterface
     private function __construct(
         private string $baseUrl = '',
         private string $secret = '',
-        private string $mercureUrl = 'http://localhost:3000/.well-known/mercure',
+        private string $mercureUrl = 'http://localhost:3000',
     )
     {
     }
@@ -48,6 +48,6 @@ class BasicConfig implements ConvertToEnvironmentInterface
 
     public function mercureUrl(): string
     {
-        return $this->mercureUrl;
+        return $this->mercureUrl.'/.well-known/mercure';
     }
 }

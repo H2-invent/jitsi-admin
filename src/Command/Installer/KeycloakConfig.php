@@ -23,12 +23,15 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
         private string $clientSecret,
     )
     {
+        if(str_ends_with($this->url, '/auth')) {
+            $this->url = str_replace('/auth', '', $this->url);
+        }
     }
 
     public static function createFromParameters(
         string $url,
-        int    $version,
         string $realm,
+        int    $version,
         string $clientId,
         string $clientSecret,
     ): self

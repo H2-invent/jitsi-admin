@@ -36,13 +36,14 @@ php composer.phar install --no-interaction
 php composer.phar dump-autoload
 cp .env.sample .env.local
 
+sudo mysql -e "CREATE USER 'jitsiadmin'@'localhost' IDENTIFIED  BY 'jitsiadmin';"
+sudo mysql -e "GRANT ALL PRIVILEGES ON jitsi_admin.* TO 'jitsiadmin'@'localhost';"
+sudo mysql -e "FLUSH PRIVILEGES;"
+
 php bin/console app:install
-cp jitsi-admin-env /etc/systemd/jitsi-admin.conf
-rm jitsi-admin-env
-
-php bin/console doctrine:database:create --if-not-exists
+php bin/console cache:clear
+php bin/console doctrine:database:create --if-not-exists --no-interaction
 php bin/console doctrine:migrations:migrate --no-interaction
-
 php bin/console cache:clear
 php bin/console cache:warmup
 
