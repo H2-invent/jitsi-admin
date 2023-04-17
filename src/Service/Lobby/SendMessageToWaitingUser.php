@@ -58,6 +58,11 @@ class SendMessageToWaitingUser
             }
             if ($res) {
                 $this->logger->debug('Send Message via websocket', array('uid' => $waitingUser->getUid(), 'message' => $res));
+                if ($waitingUser->getCallerSession()){
+                    $this->logger->debug('The Waitunguser is from a callersession', array('calleruid'=>$waitingUser->getCallerSession()->getId()));
+                    $callerSession = $waitingUser->getCallerSession();
+//                    $callerSession->set
+                }
                 $this->toParticipantWebsocketService->sendMessage($waitingUser, $res, $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')));
             }
 
