@@ -87,6 +87,7 @@ chmod -R 775 public/uploads/images
 clear
 
 cp nginx.conf /etc/nginx/sites-enabled/jitsi-admin.conf
+rm /etc/nginx/sites-enabled/default
 cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
 cp nodejs/config/websocket.conf /etc/systemd/system/jitsi-admin.conf
 cp -r nodejs /usr/local/bin/websocket
