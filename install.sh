@@ -31,6 +31,7 @@ popd
 pushd /var/www/jitsi-admin
 git checkout installer
 
+export COMPOSER_ALLOW_SUPERUSER=1
 php composer.phar install --no-interaction
 php composer.phar dump-autoload
 cp .env.sample .env.local
