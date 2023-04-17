@@ -215,6 +215,7 @@ class CallerControllerTest extends WebTestCase
                 "reason" => "NOT_ACCEPTED",
                 "number_of_participants" => 0,
                 "status_of_meeting" => "STARTED",
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -241,6 +242,7 @@ class CallerControllerTest extends WebTestCase
                 "reason" => "NOT_ACCEPTED",
                 "number_of_participants" => 1,
                 "status_of_meeting" => "STARTED",
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -263,6 +265,7 @@ class CallerControllerTest extends WebTestCase
                 "reason" => "NOT_ACCEPTED",
                 "number_of_participants" => 2,
                 "status_of_meeting" => "STARTED",
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -282,6 +285,7 @@ class CallerControllerTest extends WebTestCase
         self::assertEquals(array(
                 'status' => "HANGUP",
                 "reason" => "MEETING_HAS_FINISHED",
+                "message"=>array(),
                 'links' => array(
                     'left' => $leafLink,
                 )
@@ -321,6 +325,7 @@ class CallerControllerTest extends WebTestCase
                 "reason" => "NOT_ACCEPTED",
                 "number_of_participants" => 0,
                 "status_of_meeting" => "STARTED",
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -337,6 +342,7 @@ class CallerControllerTest extends WebTestCase
         self::assertEquals(array(
                 'status' => "HANGUP",
                 "reason" => "DECLINED",
+                "message"=>array(),
                 'links' => array()
             )
             , json_decode($client->getResponse()->getContent(), true));
@@ -374,6 +380,7 @@ class CallerControllerTest extends WebTestCase
                 "reason" => "NOT_ACCEPTED",
                 "number_of_participants" => 0,
                 "status_of_meeting" => "STARTED",
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -391,6 +398,7 @@ class CallerControllerTest extends WebTestCase
         self::assertEquals(array(
                 'status' => 'ACCEPTED',
                 'reason' => 'ACCEPTED_BY_MODERATOR',
+                "message"=>array(),
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
                 'room_name' => $room->getUid(),
@@ -436,6 +444,7 @@ class CallerControllerTest extends WebTestCase
                 'reason' => 'NOT_ACCEPTED',
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -455,6 +464,7 @@ class CallerControllerTest extends WebTestCase
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
                 'room_name' => $room->getUid(),
+                "message"=>array(),
                 'displayname' => 'User2, Test2, test@local2.de',
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
@@ -497,6 +507,7 @@ class CallerControllerTest extends WebTestCase
                 'reason' => 'NOT_ACCEPTED',
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -558,6 +569,7 @@ class CallerControllerTest extends WebTestCase
                 "reason" => "NOT_ACCEPTED",
                 "number_of_participants" => 0,
                 "status_of_meeting" => "NOT_STARTED",
+                "message"=>array(),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,

@@ -31,6 +31,12 @@ class CallerSession
     private $callerIdVerified = false;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $forceFinish;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $messageUid = null;
+
+    #[ORM\Column(length: 3000, nullable: true)]
+    private ?string $messageText = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -132,6 +138,30 @@ class CallerSession
     public function setForceFinish(?bool $forceFinish): self
     {
         $this->forceFinish = $forceFinish;
+
+        return $this;
+    }
+
+    public function getMessageUid(): ?string
+    {
+        return $this->messageUid;
+    }
+
+    public function setMessageUid(?string $messageUid): self
+    {
+        $this->messageUid = $messageUid;
+
+        return $this;
+    }
+
+    public function getMessageText(): ?string
+    {
+        return $this->messageText;
+    }
+
+    public function setMessageText(?string $messageText): self
+    {
+        $this->messageText = $messageText;
 
         return $this;
     }
