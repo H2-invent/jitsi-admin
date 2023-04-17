@@ -13,10 +13,8 @@ use InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -32,7 +30,6 @@ class InstallerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $helper = $this->getHelper('question');
-        $this->writeGreeting($output);
 
         try {
             $baseConfig = $this->getBaseConfig(input: $input, output: $output, helper: $helper);
@@ -45,11 +42,6 @@ class InstallerCommand extends Command
         }
 
         return Command::SUCCESS;
-    }
-
-    private function writeGreeting(OutputInterface $output): void
-    {
-        $output->writeln('<comment>You are entering the Jitsi-Install wizard</comment>');
     }
 
     private function getDBConfig(InputInterface $input, OutputInterface $output, QuestionHelper $helper): DbConfig
@@ -69,7 +61,7 @@ class InstallerCommand extends Command
                 engine: 'mysql',
                 serverVersion: $helper->ask($input, $output, $serverVersionQuestion),
                 host: $helper->ask($input, $output, $hostQuestion),
-                port: (int)$helper->ask($input, $output, $portQuestion),
+                port: $this->askForNumeric($input, $output, $helper, $portQuestion),
                 database: $helper->ask($input, $output, $databaseQuestion),
                 username: $helper->ask($input, $output, $usernameQuestion),
                 password: $helper->ask($input, $output, $passwordQuestion),
@@ -89,7 +81,7 @@ class InstallerCommand extends Command
 
         return SmtpConfig::createFromParameters(
             host: $helper->ask($input, $output, $hostQuestion),
-            port: (int)$helper->ask($input, $output, $portQuestion),
+            port: $this->askForNumeric($input, $output, $helper, $portQuestion),
             username: $helper->ask($input, $output, $usernameQuestion),
             password: $helper->ask($input, $output, $passwordQuestion),
             sender: $this->askForEmail($input, $output, $helper, $senderQuestion),
@@ -104,9 +96,11 @@ class InstallerCommand extends Command
         $clientIdQuestion = new Question('<question>Enter the keycloak client id: </question>' . PHP_EOL);
         $clientSecretQuestion = new Question('<question>Enter the keycloak client secret: </question>' . PHP_EOL);
 
+        $helper->ask($input, $output, $versionQuestion);
+
         return KeycloakConfig::createFromParameters(
             url: $this->askForUrl($input, $output, $helper, $urlQuestion),
-            version: $helper->ask($input, $output, $versionQuestion),
+            version: $this->askForNumeric($input, $output, $helper, $versionQuestion),
             realm: $helper->ask($input, $output, $realmQuestion),
             clientId: $helper->ask($input, $output, $clientIdQuestion),
             clientSecret: $helper->ask($input, $output, $clientSecretQuestion),
@@ -179,5 +173,27 @@ class InstallerCommand extends Command
         $output->writeln('<error>Invalid email</error>' . PHP_EOL);
 
         return $this->askForEmail($input, $output, $helper, $question, ++$attempt);
+    }
+
+    private function askForNumeric(
+        InputInterface  $input,
+        OutputInterface $output,
+        QuestionHelper  $helper,
+        Question        $question,
+        int             $attempt = 1
+    ): int{
+        $numeric = $helper->ask($input, $output, $question);
+
+        if(is_numeric($numeric)){
+            return (int) $numeric;
+        }
+
+        if ($attempt >= 3) {
+            throw new InvalidArgumentException('Invalid number: ' . $numeric);
+        }
+
+        $output->writeln('<error>Invalid number</error>' . PHP_EOL);
+
+        return $this->askForNumeric($input, $output, $helper, $question, ++$attempt);
     }
 }
