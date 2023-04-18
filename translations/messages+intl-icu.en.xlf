@@ -66,7 +66,7 @@
         <target state="translated">Jitsi conference</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
-        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
+        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
         <target state="translated">You have been added to a videoconference.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
@@ -394,7 +394,7 @@
         <target state="translated">Hello!</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
         <target state="translated">You have been invited to a videoconference on Jitsi server. You can join the videoconference easily via attached link.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
@@ -535,7 +535,7 @@
       </trans-unit>
       <trans-unit id="oymjImO" resname="Anmelden">
         <source>Anmelden</source>
-        <target state="translated">Log in</target>
+        <target state="translated">Subscribe</target>
       </trans-unit>
       <trans-unit id="5I2Q5yI" resname="Teilnehmerliste">
         <source>Teilnehmerliste</source>
@@ -700,7 +700,7 @@
         <target state="translated">Error, please reload the page.</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Hier abstimmen</source>
+        <source>Terminplanung</source>
         <target state="translated">Click here to go to the poll</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
@@ -712,7 +712,7 @@
         <target state="translated">Invitation to an appointment poll</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
-        <source>Sie wurden gerade zu einer Terminplanung eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
         <target state="translated">You have been invited to an appointment poll on Jitsi server. You can join the appointment poll easily via attached link.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
@@ -1236,7 +1236,7 @@
       </trans-unit>
       <trans-unit id="VQ5q3RR" resname="[Terminplanung] Neue Einladung zur Terminplanung {name}">
         <source>[Terminplanung] Neue Einladung zur Terminplanung {name}</source>
-        <target state="translated">[Appointmentplanning] There is a new invitation to the appointmentplanning {name}.</target>
+        <target state="translated">[Appointmentplanning] There is an invitation to the appointmentplanning {name}.</target>
       </trans-unit>
       <trans-unit id="UE6M382" resname="[Videokonferenz] Hinzugefügt zur Warteliste">
         <source>[Videokonferenz] Hinzugefügt zur Warteliste</source>
@@ -1679,12 +1679,68 @@
         <target state="translated"><![CDATA[ I have read, understand and agree to the privacy statement of <a href="{dataPrivay}" target="_blank" referrerpolicy="no-referrer"><u>Jitsi Admin</u> <i class="fa fa-external-link-alt"></i> </a>and <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer"> <u>{url}</u><i class="fa fa-external-link-alt"></i> </a>.]]></target>
       </trans-unit>
       <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
-        <source>noch</source>
+        <source>lobby.participants.noch</source>
         <target state="translated">still</target>
       </trans-unit>
       <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
-        <source>Sekunden</source>
+        <source>lobby.participants.seconds</source>
         <target state="translated">Seconds</target>
+      </trans-unit>
+      <trans-unit id="jjTtEi5" resname="email.sip.text">
+        <source>email.sip.text</source>
+        <target state="needs-translation">Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+      </trans-unit>
+      <trans-unit id="yYT7KvW" resname="email.sip.number">
+        <source>email.sip.number</source>
+        <target state="needs-translation">Einwahlnummern</target>
+      </trans-unit>
+      <trans-unit id="ATAJQ4B" resname="email.sip.pin">
+        <source>email.sip.pin</source>
+        <target state="translated">PIN</target>
+      </trans-unit>
+      <trans-unit id="egctRia" resname="enterprise.settings.header.sip">
+        <source>enterprise.settings.header.sip</source>
+        <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
+      </trans-unit>
+      <trans-unit id="ijp6Gol" resname="statistic.real.participants">
+        <source>statistic.real.participants</source>
+        <target state="needs-translation">Anzahl reale Teilnehmende</target>
+      </trans-unit>
+      <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
+        <source>email.sip.roomnumber</source>
+        <target state="needs-translation">Raumnummer</target>
+      </trans-unit>
+      <trans-unit id="l2aU5E." resname="stars.lastTen">
+        <source>stars.lastTen</source>
+        <target state="needs-translation">Letzte Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="AHd_0xd" resname="public.invite.more">
+        <source>public.invite.more</source>
+        <target state="translated">Invite People</target>
+      </trans-unit>
+      <trans-unit id="9SW2XfU" resname="public.invite.text">
+        <source>public.invite.text</source>
+        <target state="translated">Share the conference link to invite others</target>
+      </trans-unit>
+      <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
+        <source>public.invite.moreApps</source>
+        <target state="translated">Share the invitation to the meeting</target>
+      </trans-unit>
+      <trans-unit id="8khGYau" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
+        <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
+        <target state="translated">You have been invited to attend a meeting.</target>
+      </trans-unit>
+      <trans-unit id="fwbS4t6" resname="Am Meeting teilnehmen">
+        <source>Am Meeting teilnehmen</source>
+        <target state="translated">Join the meeting</target>
+      </trans-unit>
+      <trans-unit id="QywJJfy" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
+        <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
+        <target state="translated">Select if you would like to join by phone instead</target>
+      </trans-unit>
+      <trans-unit id="KPYmZun" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
+        <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
+        <target state="translated">If you're also dialing in from a room phone, join without connecting to audio</target>
       </trans-unit>
     </body>
   </file>
