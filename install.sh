@@ -4,6 +4,7 @@ cat << "EOF"
  | || | |  _(_-< |___/ _ \/ _` | '  \| | ' \   | || ' \(_-<  _/ _` | | / -_) '_|
   \__/|_|\__/__/_|  /_/ \_\__,_|_|_|_|_|_||_| |___|_||_/__/\__\__,_|_|_\___|_|
 
+
 EOF
 
 sudo mkdir -p /var/www
@@ -84,12 +85,14 @@ chown -R www-data:www-data var/cache
 chmod -R 775 var/cache
 chown -R www-data:www-data public/uploads/images
 chmod -R 775 public/uploads/images
+
 clear
 
 cp nginx.conf /etc/nginx/sites-enabled/jitsi-admin.conf
 rm /etc/nginx/sites-enabled/default
 cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
 cp nodejs/config/websocket.conf /etc/systemd/system/jitsi-admin.conf
+
 cp -r nodejs /usr/local/bin/websocket
 cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 mkdir /var/log/websocket/
@@ -120,3 +123,4 @@ cat << "EOF"
   | || ' \(_-|  _/ _` | | / -_/ _` | (_-| || / _/ _/ -_(_-(_-|  _| || | |
  |___|_||_/__/\__\__,_|_|_\___\__,_| /__/\_,_\__\__\___/__/__|_|  \_,_|_|
 EOF
+
