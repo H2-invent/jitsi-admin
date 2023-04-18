@@ -1,4 +1,3 @@
----
 label.konferenzId: ID de conferencia
 label.email: Dirección de correo electrónico
 label.name: Su nombre
@@ -78,6 +77,9 @@ help:
   serverName: Introduzca aquí el nombre del servidor. Esto se muestra a los participantes.
   secondEmail: Todos los correos electrónicos deben enviarse a estas direcciones, además de a su dirección de correo electrónico estándar (separadas por comas).
   corsHeader: Si se configura un encabezado CORS o frame-ancestor que no hace referencia a esta URL, entonces no es posible usar la API de Jitsi-iFrame. Esto conlleva la pérdida de algunas funciones.
+  jigasiApiUrl: Inserte la API de Jigasi aquí, que se puede usar para recuperar el pin de la conferencia. Esta generalmente termina con "ConferenceMapper".
+  jigasiNumberUrl: Introduzca aquí el número de acceso telefónico en formato JSON, como se hace en Jigasi en “numbers.json”.
+  jigasiProsodyDomain: Inserte el dominio de Prosody aquí. Por lo general, sigue el patrón "conference.domain.topdomain".
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -133,6 +135,10 @@ label:
   corsHeader: Encabezado CORS o encabezado frame-ancestor
   tag: Categoría
   serverBackgroundImage: Estadísticas previas de la página de unión
+  jigasiApiUrl: URL de Jigasi ConferenceMapper
+  jigasiNumberUrl: Números de acceso Jigasi en formato JSON
+  jigasiProsodyDomain: Dominio de Prosodi Jigasi
+  go: Los gehts!
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
