@@ -33,11 +33,11 @@ class SendMessageToWaitingUser
         foreach ($rooms->getLobbyWaitungUsers() as $data) {
             if ($this->sendMessage($data->getUid(), $message, $user) === true) {
                 $counter++;
-            }else{
+            } else {
                 $success = false;
             };
         }
-        return array('counter'=>$counter,'success'=>$success);
+        return array('counter' => $counter, 'success' => $success);
     }
 
     public function sendMessage($uid, $message, User $user): bool
@@ -47,7 +47,7 @@ class SendMessageToWaitingUser
             $this->logger->error('NO user found for uid', array('uid' => $uid));
             return false;
         }
-        if (UtilsHelper::isAllowedToOrganizeLobby($user,$waitingUser->getRoom())) {
+        if (UtilsHelper::isAllowedToOrganizeLobby($user, $waitingUser->getRoom())) {
             if (is_int($message)) {
                 $this->logger->debug('Send Message from id', array('id' => $message));
                 $res = $this->createMesagefromId($message);
@@ -58,10 +58,13 @@ class SendMessageToWaitingUser
             }
             if ($res) {
                 $this->logger->debug('Send Message via websocket', array('uid' => $waitingUser->getUid(), 'message' => $res));
-                if ($waitingUser->getCallerSession()){
-                    $this->logger->debug('The Waitunguser is from a callersession', array('calleruid'=>$waitingUser->getCallerSession()->getId()));
+                if ($waitingUser->getCallerSession()) {
+                    $this->logger->debug('The Waitunguser is from a callersession', array('calleruid' => $waitingUser->getCallerSession()->getId()));
                     $callerSession = $waitingUser->getCallerSession();
-//                    $callerSession->set
+                    $callerSession->setMessageUid(messageUid: md5(uniqid()));
+                    $callerSession->setMessageText(messageText: $res);
+                    $this->entityManager->persist($callerSession);
+                    $this->entityManager->flush();
                 }
                 $this->toParticipantWebsocketService->sendMessage($waitingUser, $res, $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')));
             }

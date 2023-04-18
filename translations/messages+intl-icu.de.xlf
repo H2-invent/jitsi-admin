@@ -2159,7 +2159,7 @@
         <target>Jetzt einladen</target>
       </trans-unit>
       <trans-unit id="N3_BJHi" resname="callout.message.unreachable">
-        <source>{name} ist nicht erreichbar.</source>
+        <source>callout.message.unreachable</source>
         <target>{name} ist nicht erreichbar.</target>
       </trans-unit>
       <trans-unit id="Y44kn0o" resname="Filter">
@@ -2167,7 +2167,7 @@
         <target>Filter</target>
       </trans-unit>
       <trans-unit id="L4szaw3" resname="deputy.mydebutys">
-        <source>Meine Vertreter</source>
+        <source>deputy.mydebutys</source>
         <target>Meine Vertreter</target>
       </trans-unit>
     </body>
