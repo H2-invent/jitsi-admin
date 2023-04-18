@@ -13,16 +13,18 @@ class CreateHttpsUrl
     private $request;
     private LoggerInterface $logger;
 
+    private string $baseUrl;
     public function __construct(LoggerInterface $logger, RequestStack $requestStack, ParameterBagInterface $parameterBag)
     {
         $this->paramterBag = $parameterBag;
         $this->request = $requestStack;
         $this->logger = $logger;
+        $this->baseUrl = $this->paramterBag->get('laF_baseUrl');
     }
 
     public function createHttpsUrl($url, ?Rooms $rooms = null)
     {
-        if(str_contains($url, $this->paramterBag->get('laF_baseUrl'))){
+        if(str_contains($url, $this->baseUrl)){
             return $this->generateAbsolutUrl($url);
         }
 
@@ -34,15 +36,15 @@ class CreateHttpsUrl
                 if ($rooms && $rooms->getHostUrl()) {
                     return $this->generateAbsolutUrl($rooms->getHostUrl(), $url);
                 } elseif ($rooms && !$rooms->getHostUrl()) {
-                    return $this->paramterBag->get('laF_baseUrl') . $url;
+                    return $this->baseUrl . $url;
                 } elseif ($this->request && $this->request->getCurrentRequest()) {
                     return $this->generateAbsolutUrl($this->request->getCurrentRequest()->getSchemeAndHttpHost(), $url);
                 } else {
-                    return $this->paramterBag->get('laF_baseUrl') . $url;
+                    return $this->baseUrl . $url;
                 }
             } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage());
-                return $this->paramterBag->get('laF_baseUrl') . $url;
+                return $this->baseUrl . $url;
             }
         }
 
@@ -50,7 +52,12 @@ class CreateHttpsUrl
 
     public function generateAbsolutUrl($baseUrl, $url = '')
     {
-        return str_replace('http://', 'https://', $baseUrl) . $url;
+        $isStricktHttps = str_contains($this->baseUrl,'https://');
+        $res = $baseUrl .$url;
+        if ($isStricktHttps){
+            str_replace('http://', 'https://', $res);
+        }
+        return $res;
     }
 
 }
