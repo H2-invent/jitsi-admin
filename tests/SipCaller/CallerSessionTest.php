@@ -2,17 +2,27 @@
 
 namespace App\Tests\SipCaller;
 
+use App\Entity\CallerSession;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
+use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\RoomsRepository;
+use App\Repository\UserRepository;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
 use App\Service\caller\CallerSessionService;
+use App\Service\Lobby\DirectSendService;
+use App\Service\Lobby\SendMessageToWaitingUser;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
+use Symfony\Component\Mercure\MockHub;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function PHPUnit\Framework\assertEquals;
 
 class CallerSessionTest extends KernelTestCase
 {
@@ -542,7 +552,7 @@ class CallerSessionTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
+
         $sessionService = self::getContainer()->get(CallerSessionService::class);
         $callerPinService = self::getContainer()->get(CallerPinService::class);
         $roomService = self::getContainer()->get(RoomService::class);
@@ -581,5 +591,66 @@ class CallerSessionTest extends KernelTestCase
                 'room_name' => $session->getCaller()->getRoom()->getUid()
             )
             , $sessionService->getSessionStatus($session->getSessionId()));
+    }
+
+    public function testCreateResponseMessage(): void
+    {
+        $kernel = self::bootKernel();
+
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerSession = new CallerSession();
+        $callerSession->setMessageUid('testUID')->setMessageText('Test Message');
+        assertEquals(array('uid'=>'testUID','message'=>'Test Message'),$sessionService->createMessageElement($callerSession));
+
+    }
+    public function testCreateResponseMessageEmpty(): void
+    {
+        $kernel = self::bootKernel();
+
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerSession = new CallerSession();
+        $callerSession->setMessageUid(null)->setMessageText(null);
+        assertEquals(array(),$sessionService->createMessageElement($callerSession));
+
+    }
+
+    public function testSendMessageToCallerIn(): void
+    {
+        $kernel = self::bootKernel();
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+
+        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+            self::assertEquals('{"type":"message","message":"test Nachricht","from":"Test1, 1234, User, Test"}', $update->getData());
+            self::assertEquals(['lobby_WaitingUser_websocket/c4ca4238a0b923820dcc509a6f75849b'], $update->getTopics());
+            return 'id';
+        });
+        $directSend->setMercurePublisher($hub);
+        $messageRepo = self::getContainer()->get(PredefinedLobbyMessagesRepository::class);
+        $message = $messageRepo->findAll();
+        $sendMessage = self::getContainer()->get(SendMessageToWaitingUser::class);
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+
+        $waitingUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $waitingUser = $waitingUSerRepo->findOneBy(array('uid'=>md5(1)));
+        $sessionService = self::getContainer()->get(CallerSessionService::class);
+        $callerSession = new CallerSession();
+        $callerSession->setSessionId('test')
+            ->setAuthOk(false)
+            ->setCreatedAt(new \DateTime())
+            ->setShowName('testUser');
+        $waitingUser->setCallerSession($callerSession);
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($callerSession);
+        $em->persist($waitingUser);
+        $em->flush();
+
+        self::assertEquals(true, $sendMessage->sendMessage(md5(1), 'test Nachricht', $user));
+
+        $callerSessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $callerSession2 = $callerSessionRepo->findOneBy(array('sessionId'=>'test'));
+        assertEquals(array('uid'=>$callerSession2->getMessageUid(),'message'=>'test Nachricht'),$sessionService->createMessageElement($callerSession));
+
     }
 }

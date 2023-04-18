@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CleanUpLobbyCommand extends Command
 {
     protected static $defaultName = 'app:lobby:cleanUp';
-    protected static $defaultDescription = 'Add a short description for your command';
+    protected static $defaultDescription = 'Enter the max age of Waiting users in the lobby in hours';
     private $cleanUp;
 
     public function __construct(CleanupLobbyService $cleanupLobbyService, string $name = null)

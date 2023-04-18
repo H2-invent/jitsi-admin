@@ -24,8 +24,8 @@ final class Version20230417095346 extends AbstractMigration
 
         $messageUid = $table->addColumn('message_uid', Types::STRING);
         $messageText = $table->addColumn('message_text', Types::STRING);
-        $messageUid->setDefault(null)->setLength(255);
-        $messageText->setDefault(null)->setLength(3000);
+        $messageUid->setDefault(null)->setLength(255)->setNotnull(false);
+        $messageText->setDefault(null)->setLength(3000)->setNotnull(false);
 
     }
 
