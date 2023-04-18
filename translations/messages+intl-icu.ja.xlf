@@ -66,8 +66,8 @@
         <target state="translated">Jitsi会議</target>
       </trans-unit>
       <trans-unit id="RjeZ5m9" resname="Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.">
-        <source>Sie wurden zu einer Videokonferenz hinzugefügt.</source>
-        <target state="needs-translation">の会議に追加されました。</target>
+        <source>Sie wurden zu einer Videokonferenz auf dem Jitsi Server {server} hinzugefügt.</source>
+        <target state="needs-translation">Sie wurden zu einer Videokonferenz hinzugefügt.</target>
       </trans-unit>
       <trans-unit id="OemRd5F" resname="Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} ">
         <source>Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.\nName: {name} \nModerator: {moderator} </source>
@@ -315,7 +315,7 @@
       </trans-unit>
       <trans-unit id="Wp3jm6z" resname="Heute steht keine Jitsi Meet Konferenz an.">
         <source>Heute steht keine Jitsi Meet Konferenz an.</source>
-        <target state="needs-translation">Heute ist keine Jitsi-Meet-Konferenz geplant.</target>
+        <target state="needs-translation">Heute ist keine Konferenz geplant.</target>
       </trans-unit>
       <trans-unit id="N32Eyrl" resname="Aktuell sind keine vergangenen Konferenzen vorhanden.">
         <source>Aktuell sind keine vergangenen Konferenzen vorhanden.</source>
@@ -394,7 +394,7 @@
         <target state="needs-translation">Hallo!</target>
       </trans-unit>
       <trans-unit id="qRZh83u" resname="Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.">
-        <source>Sie wurden gerade zu einer Videokonferenz eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
+        <source>Sie wurden gerade zu einer Videokonferenz auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach zur Videokonferenz beitreten.</source>
         <target state="needs-translation">Sie wurden soeben zu einer Videokonferenz eingeladen. Über den beigefügten Link treten Sie ganz einfach der Videokonferenz bei.</target>
       </trans-unit>
       <trans-unit id="PpCoGOQ" resname="Sie wollen diese Konferenz komfortabel in einer Übersicht verwalten?&#10;                                    &lt;br&gt;&#10;                                    Dann melden Sie sich &lt;a href=&quot;{url}&quot;&gt;hier&lt;/a&gt;&amp;nbsp;an.">
@@ -702,7 +702,7 @@
         <target state="needs-translation">Fehler, bitte laden Sie die Seite neu.</target>
       </trans-unit>
       <trans-unit id="SKDmXpu" resname="Terminplanung">
-        <source>Hier abstimmen</source>
+        <source>Terminplanung</source>
         <target state="needs-translation">Hier abstimmen</target>
       </trans-unit>
       <trans-unit id="_RCpCcb" resname="Terminplaner">
@@ -714,7 +714,7 @@
         <target state="needs-translation">Einladung zu einer Terminplanung</target>
       </trans-unit>
       <trans-unit id="TvbH9Bf" resname="Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.">
-        <source>Sie wurden gerade zu einer Terminplanung eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
+        <source>Sie wurden gerade zu einer Terminplanung auf dem Jitsi Server {url} eingeladen. Über den beigefügten Link können Sie ganz einfach Ihren Wunschtermin aussuchen.</source>
         <target state="needs-translation">Sie wurden soeben zu einer Terminplanung eingeladen. Bitte suchen Sie über den beigefügten Link ganz einfach Ihren Wunschtermin aus.</target>
       </trans-unit>
       <trans-unit id=".ss4JZN" resname="Klicken Sie hier um über den optimalen Termin abzustimmen.">
@@ -915,7 +915,7 @@
         <source>Die Videokonferenz {name} wurde von {organizer} abgesagt.</source>
         <target state="needs-translation">Die Videokonferenz {name} wurde von {organizer} abgesagt.</target>
       </trans-unit>
-      <trans-unit id="cWHV6yU" resname="Die Videokonferenz {name} startet gleich.">
+      <trans-unit id="_wtk.2R" resname="Die Videokonferenz {name} startet gleich.">
         <source>Die Videokonferenz {name} startet gleich.</source>
         <target state="needs-translation">Die Videokonferenz {name} beginnt gleich.</target>
       </trans-unit>
@@ -1645,7 +1645,7 @@
         <target state="needs-translation">Aktive Sprechzeit</target>
       </trans-unit>
       <trans-unit id="y4maxG8" resname="Anzahl Teilnehmer">
-        <source>Anzahl Teilnehmende</source>
+        <source>Anzahl Teilnehmer</source>
         <target state="needs-translation">Anzahl Teilnehmende</target>
       </trans-unit>
       <trans-unit id="YkaONWP" resname="statistic.actualRooms">
@@ -1695,12 +1695,68 @@
             gelesen und nehme diese zur Kenntnis.]]></target>
       </trans-unit>
       <trans-unit id="qgqCbDM" resname="lobby.participants.noch">
-        <source>noch</source>
+        <source>lobby.participants.noch</source>
         <target state="needs-translation">noch</target>
       </trans-unit>
       <trans-unit id="3.Uqn1l" resname="lobby.participants.seconds">
-        <source>Sekunden</source>
+        <source>lobby.participants.seconds</source>
         <target state="needs-translation">Sekunden</target>
+      </trans-unit>
+      <trans-unit id="jjTtEi5" resname="email.sip.text">
+        <source>email.sip.text</source>
+        <target state="needs-translation">Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+      </trans-unit>
+      <trans-unit id="yYT7KvW" resname="email.sip.number">
+        <source>email.sip.number</source>
+        <target state="needs-translation">Einwahlnummern</target>
+      </trans-unit>
+      <trans-unit id="ATAJQ4B" resname="email.sip.pin">
+        <source>email.sip.pin</source>
+        <target state="needs-translation">PIN</target>
+      </trans-unit>
+      <trans-unit id="egctRia" resname="enterprise.settings.header.sip">
+        <source>enterprise.settings.header.sip</source>
+        <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
+      </trans-unit>
+      <trans-unit id="ijp6Gol" resname="statistic.real.participants">
+        <source>statistic.real.participants</source>
+        <target state="needs-translation">Anzahl reale Teilnehmende</target>
+      </trans-unit>
+      <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
+        <source>email.sip.roomnumber</source>
+        <target state="needs-translation">Raumnummer</target>
+      </trans-unit>
+      <trans-unit id="l2aU5E." resname="stars.lastTen">
+        <source>stars.lastTen</source>
+        <target state="needs-translation">Letzte Bewertungen</target>
+      </trans-unit>
+      <trans-unit id="AHd_0xd" resname="public.invite.more">
+        <source>public.invite.more</source>
+        <target state="needs-translation">Mehr Leute einladen</target>
+      </trans-unit>
+      <trans-unit id="9SW2XfU" resname="public.invite.text">
+        <source>public.invite.text</source>
+        <target state="needs-translation">Teilen Sie den Konferenzlink, um andere einzuladen</target>
+      </trans-unit>
+      <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
+        <source>public.invite.moreApps</source>
+        <target state="needs-translation">Einladung zur Versammlung teilen</target>
+      </trans-unit>
+      <trans-unit id="8khGYau" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
+        <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
+        <target state="needs-translation">Sie wurden zur Teilnahme an einem Meeting eingeladen.</target>
+      </trans-unit>
+      <trans-unit id="fwbS4t6" resname="Am Meeting teilnehmen">
+        <source>Am Meeting teilnehmen</source>
+        <target state="needs-translation">Am Meeting teilnehmen</target>
+      </trans-unit>
+      <trans-unit id="QywJJfy" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
+        <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
+        <target state="needs-translation">Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</target>
+      </trans-unit>
+      <trans-unit id="KPYmZun" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
+        <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
+        <target state="needs-translation">Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</target>
       </trans-unit>
     </body>
   </file>
