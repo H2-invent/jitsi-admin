@@ -155,11 +155,11 @@ body {
 
 @mixin hoverDragger {
   transition: transform 0.5s;
-  -webkit-transition-delay: 2s;
-  -moz-transition-delay: 2s;
-  -ms-transition-delay: 2s;
-  -o-transition-delay: 2s;
-  transition-delay: 2s;
+  -webkit-transition-delay: 1s;
+  -moz-transition-delay: 1s;
+  -ms-transition-delay: 1s;
+  -o-transition-delay: 1s;
+  transition-delay: 1s;
   &:hover {
     transform: translateY(0) !important;
     transition: transform 0.5s;
@@ -170,6 +170,7 @@ body {
     transition-delay: 0s;
 
     .dragger {
+      cursor: pointer;
       &:before {
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
@@ -593,6 +594,10 @@ $rotateNeg: -20deg;
   }
 
   flex: 0 0 auto;
+}
+
+.calloutSearchUser{
+  cursor: pointer;
 }
 
 

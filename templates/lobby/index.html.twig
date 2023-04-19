@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="lobbyButtons">
-                        <div class=" flex-grow-1 p-2 d-flex flex-column flex-lg-row">
+                        <div class=" flex-grow-1 p-2 d-flex flex-column flex-lg-row align-items-lg-center">
                             {% if type == 'a' %}
                                 <a class="btn btn-primary start-btn me-0  me-lg-2 flex-grow-1"
                                    href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
@@ -110,11 +110,10 @@
                                 {% endif %}
                             {% endif %}
 
-                            <a class="btn btn-success directSend flex-grow-1 me-0"
+                            <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
                                href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                        </div>
-                        <div class="flex-grow-1 p-2">
-                            <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
+
+                            <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
                                 <div class="input-group  w-100">
 
                                     <div class="form-outline bg-white flex-grow-1">
@@ -147,9 +146,10 @@
                                 </div>
                                 <div class="dropdown-menu searchCallOutParticipantsDropdown"
                                      id="searchCallOutParticipantsDropdown">
-                                    <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+                                    <a class="dropdown-item defaultSearch">{{ 'callout.dropdown.empty'|trans }}</a>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>

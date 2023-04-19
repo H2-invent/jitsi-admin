@@ -75,7 +75,7 @@ const searchUSer = ($url, $search) => {
                     + user.nameNoIcon
                     + '" data-val="'
                     + user.id
-                    + '" href="#">' +
+                    + '">' +
                     '<div class="dot"></div>'
                     + user.name
                     + '</a>';

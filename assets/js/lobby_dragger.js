@@ -5,6 +5,9 @@ import {inIframe} from "./moderatorIframe";
 
 function initDragDragger() {
     if(window.innerWidth > 768 ){
+        document.getElementById('dragger').addEventListener('click',function (e) {
+
+        })
         return false;
     }
     let  blockTouchInternal = false;

@@ -2170,6 +2170,10 @@
         <source>deputy.mydebutys</source>
         <target>Meine Vertreter</target>
       </trans-unit>
+      <trans-unit id="1Ko4REx" resname="callout.dropdown.empty">
+        <source>Hier werden die Ergebnisse der Suche angezeigt</source>
+        <target>Hier werden die Ergebnisse der Suche angezeigt</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
