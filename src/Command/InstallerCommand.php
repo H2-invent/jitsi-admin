@@ -46,6 +46,7 @@ class InstallerCommand extends Command
             $keycloakConfig = $this->getKeycloakConfig(input: $input, output: $output, helper: $helper);
             $this->writeWebsocketConfFile($baseConfig);
             $this->writeEnvFile($baseConfig, $dbConfig, $smtpConfig, $keycloakConfig);
+            $this->removeKeycloakProdConfig($baseConfig);
         } catch (InvalidArgumentException $e) {
             return Command::FAILURE;
         }
@@ -217,5 +218,12 @@ class InstallerCommand extends Command
         $output->writeln('<error>Invalid number</error>' . PHP_EOL);
 
         return $this->askForNumeric($input, $output, $helper, $question, ++$attempt);
+    }
+
+    private function removeKeycloakProdConfig(BasicConfig $basicConfig): void
+    {
+        if(str_starts_with($basicConfig->baseUrl(),'http://')){
+            unlink($this->projectDir.'config'.DIRECTORY_SEPARATOR.'routes'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'keycloak.yml');
+        }
     }
 }
