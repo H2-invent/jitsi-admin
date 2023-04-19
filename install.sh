@@ -100,6 +100,7 @@ mkdir /var/log/websocket/
 clear
 
 service php8.1-fpm restart
+service nginx restart
 clear
 systemctl daemon-reload
 clear
