@@ -81,9 +81,8 @@ function closeBrowser() {
                     window.close();
                     location.href = "/";
                 }catch (e) {
-
+                    window.location.href = "/";
                 }
-
             }
 
         });
