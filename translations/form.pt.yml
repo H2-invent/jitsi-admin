@@ -49,59 +49,59 @@ option:
   first: Primeiro
   second: Segundo
   third: Terceiro
-  fourth: Vierter
-  fifth: Fünfter
-  last: Letzter
-  january: Januar
-  february: Februar
-  march: März
-  april: April
-  may: Mai
-  june: Juni
-  july: Juli
-  august: August
-  septembre: September
-  octobre: Oktober
-  novembre: November
-  decembre: Dezember
-  user: Im User Claim
-  root: Im Root Claim
-lable.serverUrl: Jitsi Meet Server URL
-label.appId: App-ID
-label.appSecret: App-Secret
-label.scheduleMeeting: Termin vorschlagen
+  fourth: Quarto
+  fifth: Quinto
+  last: Último
+  january: Janeiro
+  february: Fevereiro
+  march: Março
+  april: Abril
+  may: Maio
+  june: Junho
+  july: Julho
+  august: Agosto
+  septembre: Setembro
+  octobre: Outubro
+  novembre: Novembro
+  decembre: Dezembro
+  user: Reclamação de usuário
+  root: Reclamação de administrador
+lable.serverUrl: URL do servidor Jitsi Meet
+label.appId: ID do App
+label.appSecret: Segredo do App
+label.scheduleMeeting: Agendar conferência
 help:
-  serverUrl: Ohne „https://“ angeben (z.B. meet.jit.si)
-  featureEnalbeByJwt: Das Plug-in „Enable Feature By JWT“ muss auf dem Jitsi Meet Server aktiviert sein. Sonst wird der JWT nicht korrekt vom Server erkannt und verarbeitet.
+  serverUrl: Entre com ou sem "https://" (como em meet.jit.si)
+  featureEnalbeByJwt: O plugin "Habilitar Funcionalidade por JWT" precisa estar ativado no servidor Jitsi-Meet. Caso contrário, o token JWT não será reconhecido corretamente e não será processado pelo servidor.
   teilnehmerEmailhinzufuegenModerator: Mais de um endereço pode ser inserido por vez. Cada endereço de e-mail precisa estar em uma nova linha.
-  serverName: Bitte geben Sie hier den Servernamen an. Dieser wird den Teilnehmenden angezeigt.
-  secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
-  corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
-  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
-  jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
-  jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
+  serverName: Insira o nome do servidor. Isso será mostrado aos participantes.
+  secondEmail: Todos os e-mails enviados para o meu e-mail padrão devem também ser enviados para estes e-mails adicionais (separados por vírgula).
+  corsHeader: Se um CORS ou um header frame-ancestor estiver configurado, caso este não aponte para esta URL, não será possível utilizar a API iFrame do Jitsi. Isso pode causar perda de funcionalidades.
+  jigasiApiUrl: Insira a API do Jigasi aqui, que poderá ser utilizada para recuperar o pin da conferência. Este normalmente termina com "ConferenceMapper".
+  jigasiNumberUrl: Insira aqui o número de telefone em formato JSON, como feito no arquivo "numbers.json" no Jigasi.
+  jigasiProsodyDomain: Insira o domínio do Prosody aqui. No geral segue o padrão "conference.domain.topdomain".
 label:
-  beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
-  serverSmtpHostName: SMTP-Hostname
-  serverSmtpHostPort: SMTP-Port
-  serverSmtpEncryption: Verschlüsselung
-  serverSmtpUsername: SMTP-Benutzername
-  serverSmtpPassword: SMTP-Passwort
-  serverSmtpSenderEmail: Absender-E-Mail
-  serverSmtpSenderName: Absendername
-  serverLintLogo: Link zu Logo
-  serverPrivacyPolicy: Datenschutzhinweise für diesen Server
-  serverEmailHeader: Individuelle Überschrift für E-Mail
-  serverEmailBody: Individueller Content für E-Mail
-  serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
-  apiKey: Api-Key für diesen Server
-  agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
-  schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
-  featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
-  dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
+  beitretenApp: Entrar com app electron
+  beitretenBrowser: Entrar com navegador
+  serverSmtpHostName: Servidor SMTP
+  serverSmtpHostPort: Porta SMTP
+  serverSmtpEncryption: Tipo de Criptografia
+  serverSmtpUsername: Usuário SMTP
+  serverSmtpPassword: Senha SMTP
+  serverSmtpSenderEmail: E-mail do Remetente
+  serverSmtpSenderName: Nome do remetente
+  serverLintLogo: Link para logo
+  serverPrivacyPolicy: Política de privacidade do servidor
+  serverEmailHeader: Assunto do e-mail
+  serverEmailBody: Conteúdo do e-mail
+  serverLicenseKey: Insira a chave de licença do Jitsi-Admin
+  apiKey: Chave de Api deste servidor
+  agenda: Pequena descrição da conferência (markdown)
+  staticBackgroundColor: Mostrar cor estática ao invés de imagens na página de entrada.
+  schowStaticBackgroundColor: Mostrar cor estática ao invés de imagens na página de entrada.
+  featureEnalbeByJwt: O plugin "Enable Feature by JWT" está ativo no neste servidor.
+  dissallowScreenshareGlobal: Apenas moderadores podem compartilhar telas.
+  dissallowPrivateMessage: Apenas moderadores podem enviar mensagens prpivadas aos participantes.
   puplicRoom: Selbsteinschreibung aktivieren
   showRoomOnJoinpage: Mostrar conferência na página de entrada
   subscribe: Iniciar Sessão
@@ -134,7 +134,7 @@ label:
   profilImage: Imagem de perfil (aparecerá na conferência em Jitsi-Meet)
   corsHeader: Header CORS ou Header frame-ancestor
   tag: Categoria
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  serverBackgroundImage: Estatísticas prévias da página de entrada
   jigasiApiUrl: URL do Jigasi ConferenceMapper
   jigasiNumberUrl: Número de acessos ao Jigasi em formato JSON
   jigasiProsodyDomain: Domínio do Jigasi Prosody
