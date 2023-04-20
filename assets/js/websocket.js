@@ -4,6 +4,7 @@ import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 import {createIframe} from "./createConference";
 import {initAwayTime, setAwayTimeField} from "./enterAwayTime";
+import {setSnackbar,deleteToast} from './myToastr'
 
 export let socket = null;
 export var token = null;
@@ -20,6 +21,13 @@ export function initWebsocket(jwt) {
         masterNotify(JSON.parse(data));
     })
 
+    socket.io.on("error", (error) => {
+      setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.','danger',true,'socketAlert',30000)
+    });
+    socket.io.on("reconnect", (attempt) => {
+       deleteToast('socketAlert');
+        setSnackbar('Websocket successfully reconnected','success',false,'socketAlert',10000)
+    });
     socket.on('openNewIframe', function (data) {
         data = JSON.parse(data);
         var url = data.url;
