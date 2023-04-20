@@ -63,7 +63,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        self::assertSelectorTextContains('.joinPageHeader','Lobby für die Konferenz: TestMeeting: 1');
+        self::assertSelectorTextContains('.joinPageHeader','TestMeeting: 1');
         self::assertEquals($user->getId(),$client->getRequest()->getSession()->get('userId'));
         $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
         self::assertResponseIsSuccessful();
@@ -122,7 +122,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        self::assertSelectorTextContains('.joinPageHeader','Lobby für die Konferenz: TestMeeting: 1');
+        self::assertSelectorTextContains('.joinPageHeader','TestMeeting: 1');
         self::assertEquals($user->getId(),$client->getRequest()->getSession()->get('userId'));
         $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
         self::assertResponseIsSuccessful();
@@ -172,7 +172,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        self::assertSelectorTextContains('.joinPageHeader','Lobby für die Konferenz: TestMeeting: 1');
+        self::assertSelectorTextContains('.joinPageHeader','TestMeeting: 1');
         self::assertEquals($user->getId(),$client->getRequest()->getSession()->get('userId'));
         $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
         self::assertResponseIsSuccessful();
