@@ -596,8 +596,10 @@ $rotateNeg: -20deg;
   flex: 0 0 auto;
 }
 
-.calloutSearchUser{
-  cursor: pointer;
+.dropdown-menu{
+  a{
+    cursor: pointer;
+  }
 }
 
 

@@ -25,7 +25,7 @@ async function initWebcam() {
                     webcamArr[device.deviceId] = device.label;
                     var name = device.label.replace(/\(\w*:.*\)/g, "");
                     $('#webcamSelect').append(
-                        '<li><a class="dropdown-item webcamSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a></li>'
+                        '<li><a class="dropdown-item webcamSelect" data-value="' + device.deviceId + '">' + name + '</a></li>'
                     )
                     webcams.push(device);
                 }
