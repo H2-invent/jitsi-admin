@@ -46,7 +46,8 @@ body {
 
 .initialCircle {
   background-color: black;
-  display: flex;
+  display: flex!important;
+  font-weight: bold;
   justify-content: center;
   width: 75px;
   border-radius: 50%;

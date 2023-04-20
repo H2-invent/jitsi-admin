@@ -1297,7 +1297,7 @@
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target>Lobby für die Konferenz: {name}</target>
+        <target>{name}</target>
       </trans-unit>
       <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
