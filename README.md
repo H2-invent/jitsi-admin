@@ -14,7 +14,13 @@ Jitsi Manager or Jitsi Admin is a tool to manage Jitsi conferences and server wi
 
 
 
-### Mailing List
+### Mailing List and contact
+
+To directly chat with the community join our matrix group
+
+__#jitsi-admin:h2-invent.com__
+
+[Join the matrix grop via matrix.to](https://matrix.to/#/#jitsi-admin:h2-invent.com)
 
 If you want to be notified, if there are new updates or releases, you can subscribe to the __Jitsi Admin Update__ mailing list.
 H2 invent will send out information to the mailing list concering releases, updates or new features.
