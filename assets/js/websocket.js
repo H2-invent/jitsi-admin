@@ -4,6 +4,7 @@ import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 import {createIframe} from "./createConference";
 import {initAwayTime, setAwayTimeField} from "./enterAwayTime";
+import {setSnackbar} from './myToastr'
 
 export let socket = null;
 export var token = null;
@@ -19,6 +20,10 @@ export function initWebsocket(jwt) {
     socket.on('mercure', function (data) {
         masterNotify(JSON.parse(data));
     })
+
+    socket.io.on("error", (error) => {
+      setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.','danger',true,'socketAlert',30000)
+    });
 
     socket.on('openNewIframe', function (data) {
         data = JSON.parse(data);
