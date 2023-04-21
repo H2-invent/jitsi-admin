@@ -18,10 +18,17 @@ __The installer is now using nginx so please remove Apache when you use it__
 
 __Node ^16.15 and npm ^8.5 have to be installed__
 
-1. Go into the directory where your jitsi-admin is installed e.g. `cd /var/www/html`
-2. Start the installer with `sudo bash install.sh`
-3. Insert the database Credentials and the SMTP Credentials again.
-4.If you want to use the whiteboard or/and etherpad integration
+__Prequrequesits for the installer: jitsi-admin is installed in /var/www/jitsi-admin__
+If not then copy your old `.env.local` file into `/var/www/jitsi-admin` to save your existing settings
+
+1. 
+```bash
+cd ~
+wget https://github.com/H2-invent/jitsi-admin/raw/master/install.sh
+sudo bash install.sh
+```
+2. Start the Updater with `sudo bash install.sh` and follow the steps
+3. If you want to use the whiteboard or/and etherpad integration set the paramter in the .env.local file
 ```
 ### WHITEBOARD If you want to integrate Whitebophir (https://github.com/lovasoa/whitebophir)
 LAF_WHITEBOARD_FUNCTION=1
@@ -33,7 +40,7 @@ LAF_ETHERPAD_FUNCTION=1
 ETHERPAD_URL=https://etherpad.domain.de
 ### <ETHERPAD
 ```
-5. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
+4. To customize the jitsi-admin to follow your CI-guidelines contact [H2-Invent GmbH](mailto:info@h2-invent.com)
     1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
 
 
