@@ -23,11 +23,11 @@ class BasicConfig implements ConvertToEnvironmentInterface
     {
     }
 
-    public static function createFromParameters(string $baseUrl): self
+    public static function createFromParameters(string $baseUrl, ?string $secret): self
     {
         return new self(
             baseUrl: $baseUrl,
-            secret: md5(uniqid()),
+            secret: $secret ?? md5(uniqid()),
         );
     }
 

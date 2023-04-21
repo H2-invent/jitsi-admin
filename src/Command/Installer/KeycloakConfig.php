@@ -73,4 +73,8 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
     {
         return $this->clientSecret;
     }
+
+    public function version(): int{
+        return $this->version;
+    }
 }

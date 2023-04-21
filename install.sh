@@ -43,7 +43,7 @@ clear
 export COMPOSER_ALLOW_SUPERUSER=1
 php composer.phar install --no-interaction
 php composer.phar dump-autoload
-cp .env.sample .env.local
+cp -n .env.sample .env.local
 
 sudo mysql -e "CREATE USER 'jitsiadmin'@'localhost' IDENTIFIED  BY 'jitsiadmin';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON jitsi_admin.* TO 'jitsiadmin'@'localhost';"
