@@ -13,6 +13,9 @@ echo ""
 echo ******INSTALLING DEPENDENCIES******
 echo ""
 sudo apt update
+sudo service apache2 stop
+sudo apt-get purge apache2 apache2-utils apache2.2-bin apache2-common
+sudo apt-get autoremove
 sudo apt install -y \
     git curl lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 mysql-server \
     nginx nginx-extras\

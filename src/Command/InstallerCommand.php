@@ -33,6 +33,11 @@ class InstallerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        //todo @denis DIe ENv kannst du so bekommen.  dump($_ENV['DATABASE_URL']);
+        //todo abfrage wenn die Datebase URl schon gesetzt (kein dummy mehr in der URL) ist, dann diese nicht mehr abfragen auch beim SMTP (kein DUmmy mehr) und beim KC ebenfalls kein DUmmy mehr
+        // wenn die Angaben schon vorhanden, dann die bisherigen Werte in die neuen prod.env übertragen und nicht mehr abfragen (quasi ein updater)
+
+
         if(file_exists($this->projectDir . '.env.prod.local')){
             return self::SUCCESS;
         }
@@ -224,6 +229,7 @@ class InstallerCommand extends Command
     {
         if(str_starts_with($basicConfig->baseUrl(),'http://')){
             unlink($this->projectDir.'config'.DIRECTORY_SEPARATOR.'routes'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'keycloak.yml');
+            rename($this->projectDir.'config'.DIRECTORY_SEPARATOR.'routes'.DIRECTORY_SEPARATOR.'dev'.DIRECTORY_SEPARATOR.'keycloak.yml',$this->projectDir.'config'.DIRECTORY_SEPARATOR.'routes'.DIRECTORY_SEPARATOR.'prod'.DIRECTORY_SEPARATOR.'keycloak.yml');
         }
     }
 }
