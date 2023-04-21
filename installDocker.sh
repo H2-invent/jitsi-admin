@@ -4,11 +4,11 @@ if [ -f "$FILE" ]; then
   source $FILE
 else
   touch $FILE
-    KEYCLOAK_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    JITSI_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    MERCURE_JWT_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    KEYCLOAK_ADMIN_PW=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-    NEW_UUID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+    KEYCLOAK_PW=$(date +%s | sha256sum | base64 | head -c 32)
+    JITSI_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
+    MERCURE_JWT_SECRET=$(date +%s | sha256sum | base64 | head -c 32)
+    KEYCLOAK_ADMIN_PW=$(date +%s | sha256sum | base64 | head -c 32)
+    NEW_UUID=$(date +%s | sha256sum | base64 | head -c 32)
     echo "KEYCLOAK_PW=$KEYCLOAK_PW" >> $FILE
     echo "MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET" >> $FILE
     echo "KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW" >> $FILE
@@ -119,7 +119,7 @@ export KEYCLOAK_PW=$KEYCLOAK_PW
 export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
-RANDOMTAG=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1);
+RANDOMTAG=$(date +%s | sha256sum | base64 | head -c 10);
 export RANDOMTAG
 
 chmod +x dockerupdate.sh
