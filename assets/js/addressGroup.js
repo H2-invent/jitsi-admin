@@ -71,7 +71,7 @@ function initCategoryFilter() {
             categorySort(this);
         })
     }
-    categorySort()
+    categorySort();
 
 }
 
@@ -117,7 +117,6 @@ function categorySort(ele) {
         }catch (e) {
 
         }
-
     }
     cleanCapitalLetters();
 }
@@ -137,7 +136,7 @@ function cleanCapitalLetters() {
     var cap = $('.textarea').find('.capital-Letter');
     for (var i = 0; i < cap.length; i++) {
         var next = cap[i].nextElementSibling;
-        while (isHidden(next)) {
+        while (isHidden(next) && !next.classList.contains('capital-Letter')) {
             next = next.nextElementSibling;
             if (!next) {
                 break;
@@ -165,7 +164,7 @@ function isHidden(el) {
 function findRegister(register) {
     try {
         for (const a of register.closest('.adressbookComponent').querySelectorAll('.registerElement ')) {
-            if (a.textContent.includes(register.textContent)) {
+            if (a.textContent.trim().toLowerCase().includes(register.textContent.trim().toLowerCase())) {
                 return a;
             }
         }
