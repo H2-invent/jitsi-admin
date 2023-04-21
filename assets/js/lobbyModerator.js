@@ -6,20 +6,25 @@ import 'regenerator-runtime/runtime'
 import $ from 'jquery';
 import {initDragDragger} from './lobby_dragger'
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
+
 global.$ = global.jQuery = $;
 import * as mdb from 'mdb-ui-kit'; // lib
 import ('jquery-confirm');
-import stc from 'string-to-color/index';
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
 import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
-import {initJitsi, hangup} from './jitsiUtils'
+import {initJitsi, hangup, askHangup} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
-import {disableBodyScroll}  from 'body-scroll-lock'
+import {leaveMeeting, socket} from "./websocket";
+import {initModeratorIframe, close} from './moderatorIframe'
+import {initSearchCallOut} from "./inviteCalloutUser";
+import {initSendMessage} from "./sendMessageToWaitingUser";
+
 
 var jitsiApi;
+
 try {
     navigator.mediaDevices.getUserMedia({audio: true, video: true})
 } catch ($e) {
@@ -30,31 +35,38 @@ initNotofication();
 initAUdio();
 initWebcam();
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
-let es;
+initSearchCallOut();
+initSendMessage();
 
-function initMercure() {
-    connectES();
-    setInterval(function () {
-
-        if (es.readyState === 2) {
-            connectES();
-        }
-    }, 5000);
+function checkCloseModerator() {
+    echoOff();//echo ausschalten wenn ncoh an
+    stopWebcam();//Webcam auschalten
+    var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
+    if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
+        closeIframe(); // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
+    }
 }
 
-function connectES() {
-    es = new EventSource([topic]);
-    es.onmessage = e => {
-        var data = JSON.parse(e.data)
+initModeratorIframe(checkCloseModerator);
+
+export function closeIframe() {
+    leaveMeeting();
+    close()
+}
+
+function initMercure() {
+    socket.on('mercure', function (inData) {
+        var data = JSON.parse(inData)
         masterNotify(data);
         if (data.type === 'endMeeting') {
             hangup();
         }
-    }
+    })
+
 }
 
 
-$('.startIframe').click(function (e) {
+$('.startJitsiIframe').click(function (e) {
     e.preventDefault();
     echoOff();
     document.title = conferenzeName;
@@ -71,11 +83,11 @@ $('.startIframe').click(function (e) {
     window.onbeforeunload = function () {
         return '';
     }
-    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel,toggle,webcamArr[choosenId], micArr[micId]);
-
+    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel, toggle, webcamArr[choosenId], micArr[micId]);
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
     initDragDragger();
+    initSearchCallOut();
     document.querySelector('body').classList.add('touchactionNone');
     // document.getElementsByTagName('body').style.width='100%';
 
@@ -92,7 +104,7 @@ function moveWrapper() {
 
     var frameDIv = $('#frame');
     frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
-    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
+    $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow').removeClass('d-none');
     frameDIv.prepend($('#jitsiWrapper'));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'));
     frameDIv.append($('#snackbar'))
@@ -124,6 +136,6 @@ $(document).ready(function () {
     initGenerell();
     initMercure();
     initDragParticipants();
+    const customBoundary = document.querySelector('body');
+
 })
-
-

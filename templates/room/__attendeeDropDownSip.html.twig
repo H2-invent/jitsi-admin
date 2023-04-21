@@ -1,0 +1,28 @@
+
+    {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and room.scheduleMeeting != true %}
+        {% if  sipPinFromRoomAndUser(room,user) is not null %}
+            <a class=" dropdown-item stopCloseDropdown"
+               href="#sipCaller{{ user.id }}" type="button" data-mdb-toggle="collapse"
+               aria-expanded="false" aria-controls="sipCaller{{ user.id }}">
+                <i class="fas fa-phone"></i> {{ 'sip.caller.data'|trans }}</a>
+
+            <div class="collapse dropdown-item stopCloseDropdown" id="sipCaller{{ user.id }}">
+                <div class="">
+                    <div class="d-flex w-100">
+                        <div class="me-2">
+                            {{ 'email.sip.number'|trans }}:
+                        </div>
+                        <div>
+                            {% for key,n in getJigasiNumber(room) %}
+                                {% for number in n %}
+                                   ({{ key }}) {{ number }}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId|addRepetiveCharacters(' ',3)  }}<br>
+                    {{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room,user).callerId|addRepetiveCharacters(' ',3)  }}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}

@@ -1,0 +1,53 @@
+<div class="fullscreen d-none" id="endMeetingModal">
+<div class="card">
+
+        <div class="card-header">
+            <h5 >{{ 'lobby.participant.modal.end.title'|trans }}</h5>
+        </div>
+        <div class="card-body">
+            {% if room.server.starServerId is not same as 0 %}
+            <div id="remove" class="main">
+                <h1 class="remove">
+                    {{ 'Wie war die Gesprächsqualität?'|trans }}
+                </h1>
+                <textarea class="remove w-100" id="comment" name="comment" rows="2" cols="50"
+                          placeholder="{{ ' Schreibe uns einen Kommentar'|trans }}"></textarea>
+                <div class="star-wrapper remove">
+                    <a href="#" class="s1 starSend"
+                       data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                       data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                       data-star=5>☆</a>
+                    <a href="#" class="s2 starSend"
+                       data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                       data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                       data-star=4>☆</a>
+                    <a href="#" class="s3 starSend"
+                       data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                       data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                       data-star=3>☆</a>
+                    <a href="#" class="s4 starSend"
+                       data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                       data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                       data-star=2>☆</a>
+                    <a href="#" class="s5 starSend"
+                       data-server="{{ room.server.starUrl?room.server.starUrl:path('app_star') }}"
+                       data-serverId="{{ room.server.starServerId?room.server.starServerId:room.server.id }}"
+                       data-star=1>☆</a>
+                </div>
+            </div>
+            {% else %}
+                <p>
+                    {{ 'lobby.participant.modal.end.text'|trans }}
+                </p>
+
+            {% endif %}
+        </div>
+        <div class="card-footer">
+
+            <a id="closeWindow" class="btn btn-block btn-outline-primary">{{ 'text.continue'|trans }}</a>
+        </div>
+    </div>
+</div>
+<script>
+    var popupWatingTime = {{ getApplicationProperties('laf_lobby_popUpDuration') }}
+</script>

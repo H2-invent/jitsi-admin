@@ -337,8 +337,7 @@ class CallerControllerTest extends WebTestCase
         self::assertEquals(array(
                 'status' => "HANGUP",
                 "reason" => "DECLINED",
-                'links' => array(
-                )
+                'links' => array()
             )
             , json_decode($client->getResponse()->getContent(), true));
 
@@ -390,11 +389,13 @@ class CallerControllerTest extends WebTestCase
         $crawler = $client->request('GET', $sessionLink);
         $session = $this->getSessionfromLink($sessionLink);
         self::assertEquals(array(
-            'status' => 'ACCEPTED',
-            'reason' => 'ACCEPTED_BY_MODERATOR',
-            'number_of_participants' => 0,
-            'status_of_meeting' => 'STARTED',
-            'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+                'status' => 'ACCEPTED',
+                'reason' => 'ACCEPTED_BY_MODERATOR',
+                'number_of_participants' => 0,
+                'status_of_meeting' => 'STARTED',
+                'room_name' => $room->getUid(),
+                'displayname' => 'User2, Test2, test@local2.de',
+                'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $sessionLink,
                     'left' => $leafLink,
@@ -453,6 +454,8 @@ class CallerControllerTest extends WebTestCase
                 'reason' => 'ACCEPTED_BY_MODERATOR',
                 'number_of_participants' => 0,
                 'status_of_meeting' => 'STARTED',
+                'room_name' => $room->getUid(),
+                'displayname' => 'User2, Test2, test@local2.de',
                 'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
                 'links' => array(
                     'session' => $sessionLink,

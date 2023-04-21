@@ -6,15 +6,22 @@
              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p>{{ 'Teilnehmerliste'|trans }}</p>
+            <p>{{ 'Teilnehmerliste'|trans }}
+                {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1  and room.scheduleMeeting != true %}
+                <a target="_blank" href="{{ path('app_download_participants_list',{'room':room.id}) }}">
+                    <i class="fa fa-print"></i>
+                </a>
+            {% endif %}
+            </p>
             <div class="attendeeScroll">
                 <ul id="atendeeList" class="material-list">
                     <li class="d-flex  flex-row align-items-center">
                         {% if getApplicationProperties('SIP_CALLER_SHOW_IN_FRONTEND') == 1 and room.scheduleMeeting != true %}
-                            <a class=" dropdown-toggle me-4" type="button"
+                            <a class=" dropdown-toggle" type="button"
                                data-mdb-toggle="dropdown"
                                data-mdb-auto-close="outside"
-                               aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                               aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i>
+                            </a>
 
                             <div class="dropdown-menu">
                                 {% if  sipPinFromRoomAndUser(room,room.moderator) is not null %}
@@ -26,6 +33,19 @@
                                     <div class="collapse dropdown-item stopCloseDropdown"
                                          id="sipCaller{{ room.moderator.id }}">
                                         <div class="">
+                                            <div class="d-flex w-100">
+                                                <div>
+                                                    {{ 'email.sip.number'|trans }}:
+
+                                                </div>
+                                                <div>
+                                                    {% for key,n in getJigasiNumber(room) %}
+                                                    {% for number in n %}
+                                                        ({{ key }}) {{ number }}
+                                                        {% endfor %}
+                                                        {% endfor %}
+                                                </div>
+                                            </div>
                                             {{ 'email.sip.roomnumber'|trans }}: {{ room.callerRoom.callerId }}<br>
                                             {{ 'email.sip.pin'|trans }}: {{ sipPinFromRoomAndUser(room,room.moderator).callerId }}
                                         </div>

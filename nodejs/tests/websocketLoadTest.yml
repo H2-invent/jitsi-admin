@@ -1,0 +1,31 @@
+config:
+  target: "wss://mercure.dev.jitsi-admin.de"
+  phases:
+    - duration: 20
+      arrivalRate: 10
+  socketio:
+    query:
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqaXRzaS1hZG1pbiIsImF1ZCI6ImppdHNpLWFkbWluIiwic3ViIjoiMzkxZWRhZGFlN2I5MmYwN2RlMTRjNGJkZmNjMDZjNWEiLCJpYXQiOjE2NjI5MjMzNzAsIm5iZiI6MTY2MjkyMzM3MCwiZXhwIjoxNjYzMTgyNTcwLCJyb29tcyI6WyJwZXJzb25hbFwvMzkxZWRhZGFlN2I5MmYwN2RlMTRjNGJkZmNjMDZjNWEiXX0.yfCd5Np7kdDFAhy7a3PQy58XUaNqWq3Drax6Lqpw0Tk"
+
+
+scenarios:
+  - name: "Log in to websocket"
+    engine: socketio
+    flow:
+      - emit:
+          channel: "login"
+          data: ""
+      - emit:
+          channel: "getMyStatus"
+          data: ""
+          response:
+            channel: "sendUserStatus"
+            data: "online"
+
+
+#      - emit:
+#          channel: "setStatus"
+#          data: "online"
+#          response:
+#            channel: "sendOnlineUser"
+#            data: "Hello from Artillery"

@@ -25,9 +25,7 @@ label.required:after {
 #mainContent {
   position: relative;
   min-height: 100%;
-  height: auto !important;
   height: 100%;
-  background-color: whitesmoke
 }
 
 #footer {
@@ -56,6 +54,7 @@ label.required:after {
     cursor: pointer;
     -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16) !important;
   }
 }
 
@@ -208,13 +207,13 @@ label.required:after {
     font-weight: 900;
     float: left;
     transition: transform 0.3s ease-in;
-    content: "\f0d7";
+    content: "\f107";
   }
 
 }
 
 .iconSytle {
-  max-height: 25px;
+  height: 25px;
 }
 
 .iconSytle:Hover {
@@ -224,7 +223,7 @@ label.required:after {
 
 @media only screen and (min-width: 768px) {
   .iconSytle {
-    max-height: 30px;
+    height: 30px;
   }
 }
 

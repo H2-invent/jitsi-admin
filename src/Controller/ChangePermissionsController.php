@@ -34,8 +34,7 @@ class ChangePermissionsController extends JitsiAdminController
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleShareScreen($userOld, $userNew, $room)) {
-            $this->addFlash('success', $translator->trans('Dieser Teilnehmer darf seinen Bildschirm teilen'));
-            return $this->redirectToRoute('dashboard');
+            return new JsonResponse(array('error' => false));
         }
         $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
         return $this->redirectToRoute('dashboard');
@@ -58,8 +57,7 @@ class ChangePermissionsController extends JitsiAdminController
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->togglePrivateMessage($userOld, $userNew, $room)) {
-            $this->addFlash('success', $translator->trans('Dieser Teilnehmer darf private Nachrichten versenden'));
-            return $this->redirectToRoute('dashboard');
+            return new JsonResponse(array('error' => false));
         }
         $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
         return $this->redirectToRoute('dashboard');
@@ -82,8 +80,7 @@ class ChangePermissionsController extends JitsiAdminController
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleModerator($userOld, $userNew, $room)) {
-            $this->addFlash('success', $translator->trans('Der Moderator wurde erfolgreich hinzugefügt'));
-            return $this->redirectToRoute('dashboard' );
+            return new JsonResponse(array('error' => false));
         }
         $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
         return $this->redirectToRoute('dashboard');

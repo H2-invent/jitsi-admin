@@ -164,7 +164,7 @@ class ServersController extends JitsiAdminController
             $newMembers = $form->getData();
             $lines = explode("\n", $newMembers['member']);
 
-            if (!empty($lines)) {
+            if (sizeof($lines) > 0) {
                 $em = $this->doctrine->getManager();
                 foreach ($lines as $line) {
                     $newMember = trim($line);

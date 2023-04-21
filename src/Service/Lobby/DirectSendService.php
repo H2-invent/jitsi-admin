@@ -4,6 +4,7 @@ namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
+use App\Entity\User;
 use App\Service\RoomService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -26,7 +27,15 @@ class DirectSendService
     private $roomService;
     private $twig;
 
-    public function __construct(Environment $environment, HubInterface $publisher, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, LoggerInterface $logger, TranslatorInterface $translator)
+    public function __construct(
+        Environment $environment,
+        HubInterface $publisher,
+        RoomService $roomService,
+        UrlGeneratorInterface $urlGenerator,
+        ParameterBagInterface $parameterBag,
+        LoggerInterface $logger,
+        TranslatorInterface $translator
+    )
     {
         $this->publisher = $publisher;
         $this->urlgenerator = $urlGenerator;
@@ -54,7 +63,18 @@ class DirectSendService
 
 
     }
+    public function sendMessage($topic, $message, string $from)
+    {
+        $data = array(
+            'type' => 'message',
+            'message' => $message,
+            'from'=> $from
+        );
+        $update = new Update($topic, json_encode($data));
+        return $this->publisher->publish($update);
 
+
+    }
     public function sendReloadPage($topic, $timeout)
     {
         $data = array(
@@ -174,6 +194,7 @@ class DirectSendService
     private function sendUpdate(Update $update)
     {
         try {
+            $this->logger->debug('send Message via Websocket:',array('topic'=>$update->getTopics(),'data'=>$update->getData()));
             $res = $this->publisher->publish($update);
             return true;
         } catch (RuntimeException $e) {

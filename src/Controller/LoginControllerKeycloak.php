@@ -46,7 +46,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     {
         $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/protocol/openid-connect/registrations?client_id=' .
             $this->getParameter('KEYCLOAK_ID') .
-            '&response_type=code&scope=openid email&redirect_uri=' . $createHttpsUrl->createHttpsUrl($this->generateUrl('connect_keycloak_check', array())) . '&kc_locale=de';
+            '&response_type=code&scope=openid email&redirect_uri=' . $createHttpsUrl->createHttpsUrl($this->generateUrl('connect_keycloak_check')) . '&kc_locale=de';
         return $this->redirect($url);
     }
 
@@ -59,18 +59,27 @@ class LoginControllerKeycloak extends JitsiAdminController
     /**
      * @Route("/login/keycloak_edit", name="connect_keycloak_edit")
      */
-    public function edit(ClientRegistry $clientRegistry, Request $request)
+    public function edit(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
-        $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account';
+        $url = $this->getParameter('KEYCLOAK_URL') ;
+        if ($this->themeService->getThemeProperty('idp_provider')) {
+            $url = $this->themeService->getThemeProperty('idp_provider_url');
+        }
+
+        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account';
         return $this->redirect($url);
     }
 
     /**
      * @Route("/login/keycloak_password", name="connect_keycloak_password")
      */
-    public function password(ClientRegistry $clientRegistry, Request $request)
+    public function password(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
-        $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account/password';
+        $url = $this->getParameter('KEYCLOAK_URL') ;
+        if ($this->themeService->getThemeProperty('idp_provider')) {
+            $url = $this->themeService->getThemeProperty('idp_provider_url');
+        }
+        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account/password';
         return $this->redirect($url);
     }
 }

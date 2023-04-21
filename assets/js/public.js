@@ -1,6 +1,6 @@
 import * as mdb from 'mdb-ui-kit'; // lib
 import ClipboardJS from 'clipboard'
-
+import * as onlyconference from './onlyConference'
 
 
 function docReady(fn) {

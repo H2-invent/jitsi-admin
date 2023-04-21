@@ -4,55 +4,84 @@
     {{ room.name }}
 {% endblock %}
 {% block content %}
-    <div class=" col-12 col-lg-8 offset-lg-2">
-        <div class="card webcamArea">
-            <div class="accessAllowed d-none">
-                <p class="small textAllow">{{'lobby.participants.noch'|trans}}</p>
-                <div id="lobby_participant_counter" class="textAllow"></div>
-                <p class="small textAllow">{{'lobby.participants.seconds'|trans}}</p>
-                <a id="stopEntry"
-                   class="btn btn-lg btn-outline-primary"
-                   data-alternativ="{{ 'lobby.participant.enterNow'|trans }}">{{ 'lobby.participant.pauseEnter'|trans }}</a>
+    <div class=" col-12 ">
+        <div class="row d-flex justify-content-center mb-3" id="webcamRow">
 
-            </div>
-            <div class="overlay">
-                <div class="lds-roller">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+            <div class="col-lg-6 col-xl-8 position-relative overflow-y-scroll" id="webcamCol">
+                <div class="messageContainer"></div>
+                <div class="card webcamArea" id="webcamArea">
+                    <div class="accessAllowed d-none">
+                        <p class="small textAllow">{{ 'lobby.participants.noch'|trans }}</p>
+                        <div id="lobby_participant_counter" class="textAllow"></div>
+                        <p class="small textAllow">{{ 'lobby.participants.seconds'|trans }}</p>
+                        <a id="stopEntry"
+                           class="btn btn-lg btn-outline-primary"
+                           data-alternativ="{{ 'lobby.participant.enterNow'|trans }}">{{ 'lobby.participant.pauseEnter'|trans }}</a>
+
+                    </div>
+                    <div class="overlay">
+                        <div class="lds-roller">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <h4 class="text-center">{{ 'lobby.participant.pleaseWait'|trans }}</h4>
+                    </div>
+                    <video autoplay="true" id="lobbyWebcam"></video>
+                    <div class="webcamToolbar">
+                        <i class="fa fa-video" id="webcamSwitch"></i>
+                        {{ user.showName }}
+                        {% if user.user is not null %}
+                            {% if user == room.moderator %}
+                                <i class="fa fa-star"></i>
+                            {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
-                <h4 class="text-center">{{ 'lobby.participant.pleaseWait'|trans }}</h4>
             </div>
-            <video autoplay="true" id="lobbyWebcam"></video>
-            <div class="webcamToolbar">
-                <i class="fa fa-video" id="webcamSwitch"></i>
-                {{ user.showName }}
-                {% if user.user is not null %}
-                    {% if user == room.moderator %}
-                        <i class="fa fa-star"></i>
-                    {% endif %}
-                {% endif %}
-            </div>
+
+            {% if getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') %}
+                <div class="col-lg-6 col-xl-4 d-none d-lg-block lobbyPartList">
+                    <div class="">
+                        <h4>{{ 'Teilnehmer'|trans }}</h4>
+                        <ul class="list-group">
+                            {% set inRoom= [] %}
+                            {% for u in RoomStatusOccupats(room) |sort((a, b) => a.participantName <=> b.participantName) %}
+                                {% set inRoom = inRoom|merge([u.participantName]) %}
+                                <li class="list-group-item text-success lobbyPart lobbyOnlinePart"><div class="onlineDot" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div>{{ u.participantName }}</li>
+                            {% endfor %}
+                            {% for u in room.user|sort((a, b) => a.formatedName(laf_showNameInConference) <=> b.formatedName(laf_showNameInConference)) %}
+                                {% if  u.formatedName(laf_showNameInConference) not in inRoom %}
+                                    <li class="list-group-item lobbyPart">{{ u.formatedName(laf_showNameInConference) }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+
+                </div>
+            {% endif %}
+
         </div>
         <div class="row ">
             <div class="col-12 d-flex flex-column flex-md-row justify-content-center">
-                <a class="caretdown btn btn-primary dropdown-toggle d-flex align-items-center" type="button"
+                <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-center" type="button"
                    id="selectWebcamDropdown"
                    data-mdb-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false"><i class="me-2 fa fa-video"></i><span
-                            class=" d-flex w-100     justify-content-center text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
+                            class="  w-100 text-ellipsis  text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
                 </a>
                 <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
                 </ul>
 
 
                 <div class="btn-group">
-                    <a href="#" type="button" class="btn btn-primary " id="startEcho"
+                    <a href="#" type="button" class="btn btn-primary text-nowrap" id="startEcho"
                        data-texton="{{ 'lobby.start.echo'|trans }}"
                        data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
                     <a href="#" type="button"
@@ -82,8 +111,11 @@
 
 
     </div>
-    <div class="w-100" id="jitsiWindow">
 
+    <div class="w-100" id="jitsiWindow">
+        {% block sidebar %}
+            {% include('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+        {% endblock %}
     </div>
 
 
@@ -93,21 +125,25 @@
     <script>
         var reknockingTime = {{ laf_lobby_ReKnockTime }};
         var type = '{{ type }}';
-        var topic =
-
-                {% if user.user is defined and user.user is not null %}
-                {{ mercure([
-                    'lobby_WaitingUser_websocket/'~ user.uid,
-                    'lobby_broadcast_websocket/'~room.uidReal,
-                    'lobby_personal'~room.uidReal~user.user.uid
-                ])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
-                {% else %}
-                {{ mercure([
-                    'lobby_WaitingUser_websocket/'~ user.uid,
-                    'lobby_broadcast_websocket/'~room.uidReal,
-                ])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
-                {% endif %}
-        ;
+        {% if user.user is defined and user.user is not null %}
+        {% set topics = [
+            'lobby_WaitingUser_websocket/'~ user.uid,
+            'lobby_broadcast_websocket/'~room.uidReal,
+            'lobby_personal'~room.uidReal~user.user.uid,
+            'whiteboard/'~room.uidReal
+        ] %}
+        {% else %}
+        {% set topics = [
+            'lobby_WaitingUser_websocket/'~ user.uid,
+            'lobby_broadcast_websocket/'~room.uidReal,
+            'whiteboard/'~room.uidReal
+        ] %}
+        {% endif %}
+        var topic ={{ mercure(topics)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+        var websocketTopics = "{{ getJwtforWebsocket(topics,app.user) }}";
+        var hangupText = "{{ 'Ja'|trans }}";
+        var hangupQuestion = "{{ 'lobby.endMeeting.ask.participant'|trans }}";
+        var cancel = "{{ "Abbrechen"|trans }}";
         var removeUrl = '{{ path('lobby_participants_leave',{'roomUid':room.uidReal,'userUid':user.uid}) }}';
         {% set content %}{% include 'lobby_participants/endMeeting.html.twig' with {'url':'/'} %}{% endset %}
         var endModal = '{{ content|replace({"\n":'',})|escape('js') }}';

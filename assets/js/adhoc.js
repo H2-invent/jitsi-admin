@@ -4,6 +4,7 @@
  */
 
 import $ from 'jquery';
+import {createIframe} from "./createConference";
 
 global.$ = global.jQuery = $;
 import ('jquery-confirm');
@@ -23,7 +24,6 @@ function initconfirmLoadOpenPopUp() {
 
             text = 'Wollen Sie die Aktion durchführen?'
         }
-        console.log('1.234');
         $.confirm({
             title: title,
             content: 'url:'+url,
@@ -34,19 +34,16 @@ function initconfirmLoadOpenPopUp() {
                     btnClass: 'btn-outline-danger btn', // class for the button
                     action: function () {
                         var url = $('#adhocTag').find(":selected").data('value');
-                        console.log(url);
-                        const win = window.open('about:blank');
+
+
                         $.get(url, function (data) {
                             if(data.popups){
-                                data.popups.forEach(function (value,i) {
-                                    win.location.href = value;
-                                })
+                                for (var value of data.popups){
+                                    createIframe(value.url,value.title);
+                                }
                             }
-                            window.location.href = data.redirectUrl;
                         })
                     },
-
-
                 },
                 cancel: {
                     text: cancel, // text for button

@@ -31,9 +31,9 @@ class StarControllerTest extends WebTestCase
         $serverRepo = self::getContainer()->get(ServerRepository::class);
         $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
         $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=5&comment=test123&browser=opera&os=windows');
-        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=4&comment=test123&browser=safari&os=windows');
-        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=3&comment=test123&browser=esge&os=windows');
-        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=2&comment=test123&browser=chrom&os=linux');
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=4&comment=test123');
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=3&comment=test123&os=windows');
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=2&comment=test123&browser=chrom');
         $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=1&comment=test123&browser=firefox&os=apple');
 
         $starRepo = self::getContainer()->get(StarRepository::class);

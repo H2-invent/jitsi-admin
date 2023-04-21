@@ -19,14 +19,15 @@ Toastr.options = {
 }
 
 
-function setSnackbar(text, color, closeWithHover = false, id = '0x00') {
+function setSnackbar(text, color, closeWithHover = false, id = '0x00',timeout=0) {
     if (color === 'danger') {
         color = 'error';
     }
+    Toastr.options.timeOut = timeout;
     if (closeWithHover === true) {
         Toastr.options.timeOut = 0;
         Toastr.options.extendedTimeOut = 0;
-    }else {
+    } else {
         Toastr.options.extendedTimeOut = 200;
     }
     text = '<span id="jitsi_toastr_' + id + '"></span>' + text;
@@ -36,8 +37,12 @@ function setSnackbar(text, color, closeWithHover = false, id = '0x00') {
 
 function deleteToast(id) {
     var tid = '#jitsi_toastr_' + id;
-    var ele = document.querySelector(tid).closest('.toast');
-    ele.remove();
+    if (document.querySelector(tid)) {
+        var ele = document.querySelector(tid).closest('.toast');
+        ele.remove();
+    }
+
+
 }
 
 

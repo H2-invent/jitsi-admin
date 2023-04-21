@@ -28,6 +28,7 @@ Encore
     .addEntry('startpage', './assets/js/startpage.js')
     .addEntry('lobbyModerator', './assets/js/lobbyModerator.js')
     .addEntry('lobbyParticipant', './assets/js/lobbyParticipant.js')
+    .addEntry('onlyConference', './assets/js/onlyConference.js')
     .addLoader({
         test: /\.mp3$/,
         loader: 'file-loader',

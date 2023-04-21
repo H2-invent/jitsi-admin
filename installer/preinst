@@ -1,0 +1,4 @@
+if systemctl --type=service | grep -Fq 'nginx'; then
+  systemctl stop nginx
+fi
+

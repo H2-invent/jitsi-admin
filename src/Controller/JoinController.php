@@ -61,7 +61,7 @@ class JoinController extends JitsiAdminController
             $user = $this->doctrine->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
             //If the room ID is correct set and the room exists
-            if ($this->onlyWithUserAccount($room, $user)) {
+            if ($this->onlyWithUserAccount($room)) {
                 return $this->redirectToRoute('room_join', ['room' => $room->getId(), 't' => 'b']);
             }
         } else {

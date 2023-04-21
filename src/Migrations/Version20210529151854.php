@@ -19,7 +19,7 @@ final class Version20210529151854 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE `repeat` ADD prototyp_id INT NOT NULL');
             $this->addSql('ALTER TABLE `repeat` ADD CONSTRAINT FK_A857B3C027692A7E FOREIGN KEY (prototyp_id) REFERENCES rooms (id)');
@@ -29,7 +29,7 @@ final class Version20210529151854 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE `repeat` DROP FOREIGN KEY FK_A857B3C027692A7E');
             $this->addSql('DROP INDEX UNIQ_A857B3C027692A7E ON `repeat`');

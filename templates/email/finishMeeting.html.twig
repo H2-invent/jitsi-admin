@@ -1,0 +1,23 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    {{'Meeting Abgeschlossen'|trans}}
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <b>
+        {{'Hallo!'|trans}}
+    </b>
+    <p>
+        {% trans with {'{name}': room.name} %}Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.{% endtrans %}
+    </p>
+    <p>
+        {{'Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:<a
+            href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>
+        herunterladen und installieren können.'|trans|raw}}
+
+    </p>
+
+{% endblock %}

@@ -97,7 +97,7 @@ label:
   serverLicenseKey: Wprowadź klucz licencyjny jitsi-admin
   apiKey: Klucz Api serwera
   agenda: Plan spotkania
-  staticBackgroundColor:
+  staticBackgroundColor: Wybierz inny kolor tła strony dołączenia.
   schowStaticBackgroundColor: Wybierz inny kolor tła strony dołączenia.
   featureEnalbeByJwt: Wtyczka "Enable Feature By JWT" jest włączona na serwerze.
   dissallowScreenshareGlobal: Tylko moderator może udostępnić widok na swoim ekranie.

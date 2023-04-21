@@ -1,31 +1,65 @@
-<div class="row">
-    <div class="col mt-4">
-        <div class="form-group">
-            <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
+<div class="d-flex h-100 adressbookComponent" id="adressbookModalTabContent">
+    <div class="register">
+        <div class="flex-grow-1 d-flex flex-column mb-3 capital-Letter">
+            {% set name = null %}
+            {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
+                {% if u|nameOfUserNoSymbol|first|upper != name %}
+                    <div class="registerElement">
+                        <a class="adressbookSearchletter" href="#"
+                           data-target="#adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</a>
+                    </div>
+                    {% set name = u|nameOfUserNoSymbol|first|upper %}
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
-</div>
-<ul class="list-group">
-    {% set name = null %}
-    {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
-        {% if u|nameOfUserNoSymbol|first|upper != name %}
-            {{ u|nameOfUserNoSymbol|first|upper }}
-            {% set name = u|nameOfUserNoSymbol|first|upper %}
-        {% endif %}
+    <div class="textarea">
+        <div class="topbar">
+            {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
+                <div class="d-flex flex-wrap mt-2 mb-2 ps-2">
+                    {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
+                        <div class="form-check me-2">
+                            <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
+                                   data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}" checked/>
+                            <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="form-grou mt-2 mb-2">
+                <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
+            </div>
+        </div>
+        <div class="content">
+            <ul class="list-group">
+                {% set name = null %}
+                {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
+                    {% if u|nameOfUserNoSymbol|first|upper != name %}
+                        <li class="list-group-item capital-Letter"
+                            id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</li>
+                        {% set name = u|nameOfUserNoSymbol|first|upper %}
+                    {% endif %}
 
-        <li class="list-group-item" style="display: flex; justify-content: space-between">
-            <span class="breakWord">{{ u|nameOfUser }} </span>
-            <span class="noBreak d-flex">
+                    <li class="list-group-item adressbookline" data-uid="{{ u.uid }}"
+                        data-indexer="{{ u.indexer }}"
+                        data-filterafter="{{ u.categories|json_encode }}">
+            <span class="breakWord d-flex align-items-center name">
+        {% if u.profilePicture %}
+            <div class="iconSytle imageIcon me-2"
+                 style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
+            </div>
+        {% endif %}{{ u|nameOfUser }} </span>
+                        <span class="noBreak d-flex align-items-center icon">
                 {% if servers|length == 1 %}
-                    <a class="text-success adhocConfirm me-2"
+                    <a class="text-success adhocConfirm me-2 "
                        data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
                        href="{{ path('add_hoc_confirm',{'serverId':servers[0].id,'userId':u.id}) }}">
-                        <i class="fa fa-phone"></i>
+                       <i class="fa-solid fa-phone-volume"></i>
                              </a>
                 {% else %}
-                    <a class="caretdown dropdown-toggle me-1 text-success" data-mdb-toggle="dropdown"
+                    <a class="caretdown dropdown-toggle text-success" data-mdb-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-phone"></i>
+                                        <i class="fa-solid fa-phone-volume"></i>
                              </a>
                     <div class="dropdown-menu">
             {% for s in servers %}
@@ -36,11 +70,20 @@
 
         </div>
                 {% endif %}
-                {% if theme == false or theme.trashOnAdressBook == true %}
-                    <a class="confirmHref" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
-                       data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
-                                class="fa fa-trash text-danger"></i> </a>
-                {% endif %}
+                            {% if theme == false or theme.trashOnAdressBook == true %}
+                                <a class="confirmHref ms-2" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
+                                   data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
+                                            class="fa fa-trash text-danger"></i> </a>
+                            {% endif %}
         </span></li>
-    {% endfor %}
-</ul>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+
+
+    </div>
+
+
+</div>

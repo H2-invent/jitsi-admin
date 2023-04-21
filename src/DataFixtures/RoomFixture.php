@@ -4,8 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\AddressGroup;
 use App\Entity\CallerRoom;
+use App\Entity\LdapUserProperties;
 use App\Entity\License;
 use App\Entity\LobbyWaitungUser;
+use App\Entity\PredefinedLobbyMessages;
 use App\Entity\Rooms;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
@@ -55,6 +57,31 @@ class RoomFixture extends Fixture
         $user2->setCreatedAt(new \DateTime());
         $user2->setIndexer('test@local2.de test@local2.de test2 user2 test2 1234 9876543210');
         $manager->persist($user2);
+
+
+        $userLDAP = new \App\Entity\User();
+        $userLDAP->setEmail('ldapUser@local.de');
+        $userLDAP->setCreatedAt(new \DateTime());
+        $userLDAP->setKeycloakId(123456);
+        $userLDAP->setFirstName('LdapUSer');
+        $userLDAP->setLastName('Ldap');
+        $userLDAP->setRegisterId(123456);
+        $userLDAP->setSpezialProperties(array('ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',));
+        $userLDAP->setTimeZone('Europe/Berlin');
+        $userLDAP->setUuid('dfsdffscxv');
+        $userLDAP->setUid('kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj');
+        $userLDAP->setUsername('ldapUser@local.de');
+        $userLDAP->setCreatedAt(new \DateTime());
+        $userLDAP->setIndexer('ldapuser@local.de ldapuser@local.de ldapuser ldap aa 45689 987654321012');
+        $manager->persist($userLDAP);
+        $ldapUserProperty = new LdapUserProperties();
+        $ldapUserProperty->setUser($userLDAP);
+        $ldapUserProperty->setLdapDn('');
+        $ldapUserProperty->setLdapHost('');
+        $ldapUserProperty->setLdapNumber('ldap_3');
+        $ldapUserProperty->setRdn('');
+        $manager->persist($ldapUserProperty);
+
 
         $user3 = new \App\Entity\User();
         $user3->setEmail('test@local3.de');
@@ -601,6 +628,12 @@ class RoomFixture extends Fixture
         $manager->persist($room);
         $manager->flush();
 
+        $callerIdLoby = new CallerRoom();
+        $callerIdLoby->setRoom($room)
+            ->setCreatedAt(new \DateTime())
+            ->setCallerId('12341232');
+        $manager->persist($callerIdLoby);
+        $manager->flush();
         $tag = new Tag();
         $tag->setTitle('Test Tag Enabled');
         $tag->setPriority(-10);
@@ -621,6 +654,25 @@ class RoomFixture extends Fixture
         }
         $manager->flush();
 
+        $predefined1 = new PredefinedLobbyMessages();
+        $predefined1->setActive(true)
+            ->setText('Bitte warten!')
+            ->setCreatedAt(new \DateTime())
+            ->setPriority(0);
+        $manager->persist($predefined1);
+        $predefined2 = new PredefinedLobbyMessages();
+        $predefined2->setActive(false)
+            ->setText('Bitte warten/Disabled!')
+            ->setCreatedAt(new \DateTime())
+            ->setPriority(1);
+        $manager->persist($predefined2);
+        $predefined3 = new PredefinedLobbyMessages();
+        $predefined3->setActive(true)
+            ->setText('Wir haben andere Themen!')
+            ->setCreatedAt(new \DateTime())
+            ->setPriority(2);
 
+        $manager->persist($predefined3);
+        $manager->flush();
     }
 }

@@ -10,8 +10,22 @@
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {{ encore_entry_link_tags('join') }}
+    {% set theme =  getThemeProperties() %}
+    {% if theme is defined and theme != false %}
+        <style>
+            .blackMode.joinPage .modal-backdrop {
+                background-image: radial-gradient({{ theme.colorButton }}, black);
+            }
+
+            .joinPage .modal-backdrop {
+                background-image: radial-gradient({{ theme.colorButton }}, white);
+            }
+        </style>
+    {% endif %}
 </head>
-<body style="margin: 0">
+<body style="margin: 0"
+      class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
+    blackMode{% endif %} joinPage">
 
 {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
@@ -36,25 +50,17 @@
         {% set logo_large = theme.logo %}
     {% endif %}
 {% endif %}
+{% block sidebar %}
+    {% include('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+{% endblock %}
 
 <div id="frame">
-    {% block extensions %}
-
-    {% endblock %}
-
     {% if room.tag is not null %}
         <p class="floating-tag" id="tagContent"
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
-        <div id="logo_image" class="stick">
-            <img class="d-none d-sm-block" src="{{ logo_small }}"
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-            <img class="d-block d-sm-none" src="{{ logo_large }}"
-                 alt="Logo"
-                 style="height: 50px; width: auto">
-        </div>
+        {% include('conference_modules/conference_logo.html.twig') with {'logo_small':logo_small,'logo_large':logo_large} %}
     </div>
 </div>
 
@@ -64,7 +70,7 @@
 
     <script>
         if ({{ room.server.corsHeader }}) {
-            window.location.replace("{{ urlFromRoom(user,room, name,'b') }}");
+            window.top.location.href = "{{ urlFromRoom(user,room, name,'b') }}";
         }
     </script>
 
@@ -73,13 +79,13 @@
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
         var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
         var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
+        var closeTabText = '{{ 'ask.tab.close'|trans }}';
         const domain = '{{ room.server.url }}';
         const options = {
             roomName: '{{ room.uid }}',
             width: '100%',
             height: 700,
             configOverwrite: {
-                prejoinPageEnabled: false,
                 disableBeforeUnloadHandlers: true,
             },
             interfaceConfigOverwrite: {
@@ -106,51 +112,25 @@
         var conferenzeName = '{{ room.name }}';
         var topic = {{ mercure(absolute_url(path('lobby_moderator',{'uid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
-
-        api = new JitsiMeetExternalAPI(domain, options);
-
-        api.addListener('chatUpdated', function (e) {
-            if (e.isOpen == true) {
-                document.querySelector('#logo_image').classList.add('transparent');
-            } else {
-                document.querySelector('#logo_image').classList.remove('transparent');
-            }
-
-        });
-
-        api.addListener('videoConferenceJoined', function (e) {
-            if (setTileview === 1) {
-                api.executeCommand('setTileView', {enabled: true});
-            }
-            if (avatarUrl !== '') {
-                api.executeCommand('avatarUrl', avatarUrl);
-            }
-            if (setParticipantsPane === 1) {
-                api.executeCommand('toggleParticipantsPane', {enabled: true});
-            }
-        })
-        var iframe = document.querySelector('#jitsiConferenceFrame0');
-        iframe.style.height = '100%';
-    </script>
-
-    <script type="text/javascript">
-        window.onbeforeunload = function (e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return '{{ 'ask.tab.close'|trans }}';
-        }
-        window.onmessage = function (event) {
-            if (event.data === "jitsi-closed") {
-                window.onbeforeunload = null;
-                window.close();
-            }
-        };
+        var websocketTopics = "{{ getJwtforWebsocket(['whiteboard/'~room.uidReal],app.user) }}";
+        var websocketUrl = "{{ getUrlforWebsocket() }}";
     </script>
 
 
 {% endif %}
 {% block webpack %}
-
+    {{ encore_entry_script_tags('onlyConference') }}
 {% endblock %}
+
+<div class="modal fade" id="loadContentModal"
+     data-mdb-backdrop="static"
+     data-mdb-keyboard="false"
+     tabindex="-1" role="dialog"
+     aria-labelledby="loadContentModal"
+     aria-hidden="true">
+</div>
+
+
+    {% include 'conference_end/__rating.html.twig' with {'room':room} %}
 
 </html>

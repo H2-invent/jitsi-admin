@@ -33,7 +33,7 @@ $(function () {
 });
 
 // offcanvas script from Bootstrap + added element to close menu on click in small viewport
-$('[data-toggle="offcanvas"], .navbar-nav li a:not(.dropdown-toggle').on('click', function () {
+$('[data-mdb-toggle="offcanvas"], .navbar-nav li a:not(.dropdown-toggle').on('click', function () {
     $('.offcanvas-collapse').toggleClass('open')
 })
 
@@ -45,7 +45,7 @@ function toggleDropdown(e) {
         const shouldOpen = e.type !== 'click' && _d.is(':hover');
         _m.toggleClass('show', shouldOpen);
         _d.toggleClass('show', shouldOpen);
-        $('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+        $('[data-mdb-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
     }, e.type === 'mouseleave' ? 300 : 0);
 }
 

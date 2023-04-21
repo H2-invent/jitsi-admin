@@ -16,6 +16,7 @@ use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
 use App\Service\RoomService;
 use App\Service\ServerUserManagment;
+use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use Firebase\JWT\JWT;
@@ -24,6 +25,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -80,8 +82,11 @@ class DashboardController extends JitsiAdminController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
+    public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, TermsAndConditionsService $termsAndConditionsService)
     {
+        if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())){
+            return  $this->redirectToRoute('app_terms_and_conditions');
+        }
         $stopwatch = new Stopwatch();
         $start = $stopwatch->start('dashboard');
         if ($request->get('join_room') && $request->get('type')) {
@@ -156,6 +161,7 @@ class DashboardController extends JitsiAdminController
                 false     // HttpOnly Flag
             ));
         }
+
         return $res;
     }
 
@@ -183,7 +189,7 @@ class DashboardController extends JitsiAdminController
             ]);
         }
 
-
+        return  new JsonResponse(array('error'=>true));
 
 
     }

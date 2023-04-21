@@ -33,7 +33,7 @@ class AdressBookUITest extends WebTestCase
 
     public function testSearchUser(): void
     {
-        $client = static::createClient(array('environment'=>'test'));
+        $client = static::createClient(array('environment' => 'test'));
         $crawler = $client->request('GET', '/');
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
@@ -44,34 +44,34 @@ class AdressBookUITest extends WebTestCase
         $url = $urlGenerator->generate('search_participant', array('search' => 'test@local2.de'));
         $crawler = $client->request('GET', $url);
         self::assertEquals(array('user' => array(
-            array(
-                'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'
+                array(
+                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')
+                )
+            ), 'group' => array()
             )
-        ), 'group' => array()
-        )
-        , json_decode($client->getResponse()->getContent(),true));
+            , json_decode($client->getResponse()->getContent(), true));
         $url = $urlGenerator->generate('search_participant', array('search' => 'local2.de'));
         $crawler = $client->request('GET', $url);
         self::assertEquals(array('user' => array(
-            array(
-                'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'
+                array(
+                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')
+                )
+            ), 'group' => array()
             )
-        ), 'group' => array()
-        )
-        , json_decode($client->getResponse()->getContent(),true));
+            , json_decode($client->getResponse()->getContent(), true));
         $url = $urlGenerator->generate('search_participant', array('search' => 'test'));
         $crawler = $client->request('GET', $url);
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
-                    array('name' => '', 'id' => 'test@local3.de')
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')),
+                    array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
-                        array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
+                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
                 )
             )
-        , json_decode($client->getResponse()->getContent(), true));
+            , json_decode($client->getResponse()->getContent(), true));
         $url = $urlGenerator->generate('search_participant', array('search' => 'Testgruppe'));
         $crawler = $client->request('GET', $url);
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
@@ -79,7 +79,7 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(json_encode(
             array(
                 'user' => array(
-                    array('name' => 'testgruppe', 'id' => 'testgruppe')
+                    array('name' => 'testgruppe', 'id' => 'testgruppe',"nameNoIcon"=>"testgruppe", 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
@@ -94,14 +94,14 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
-                     array('name' => '', 'id' => 'test@local3.de')
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')),
+                    array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
                 )
             )
-            , json_decode($client->getResponse()->getContent(),true));
+            , json_decode($client->getResponse()->getContent(), true));
         $url = $urlGenerator->generate('search_participant', array('search' => 'test'));
         $crawler = $client->request('GET', $url);
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
@@ -109,14 +109,14 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de'),
-                     array('name' => '', 'id' => 'test@local3.de')
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')),
+                    array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
                 ),
                 'group' => array(
                     array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
                 )
             )
-        , json_decode($client->getResponse()->getContent(),true));
+            , json_decode($client->getResponse()->getContent(), true));
         $url = $urlGenerator->generate('search_participant', array('search' => '1234'));
         $crawler = $client->request('GET', $url);
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
@@ -124,13 +124,11 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(
             array(
                 'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'id' => 'test2@local.de')
+                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => 'test2@local.de', 'roles' => array('participant', 'moderator'))
                 ),
-                'group' => array(
-
-                )
+                'group' => array()
             )
-        , json_decode($client->getResponse()->getContent(),true));
+            , json_decode($client->getResponse()->getContent(), true));
         $url = $urlGenerator->generate('search_participant', array('search' => 'asdf'));
         $crawler = $client->request('GET', $url);
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
@@ -138,16 +136,12 @@ class AdressBookUITest extends WebTestCase
         self::assertEquals(json_encode(
             array(
                 'user' => array(
-                    array('name' => 'asdf', 'id' => 'asdf')
+                    array('name' => 'asdf', 'id' => 'asdf', "nameNoIcon"=>"asdf",'roles' => array('participant', 'moderator'))
                 ),
-                'group' => array(
-
-                )
+                'group' => array()
             )
         ), $client->getResponse()->getContent());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-
     }
-
 }

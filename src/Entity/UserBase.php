@@ -86,14 +86,6 @@ class UserBase implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     * @return string
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
 
     /**
      * @see UserInterface
@@ -102,5 +94,10 @@ class UserBase implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
     }
 }

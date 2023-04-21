@@ -14,7 +14,23 @@ Jitsi Manager or Jitsi Admin is a tool to manage Jitsi conferences and server wi
 
 
 
-### Mailing List
+### Mailing list and contact
+
+To directly chat with the community join our matrix group
+
+__#jitsi-admin:h2-invent.com__
+
+
+[Join the matrix grop via matrix.to](https://matrix.to/#/#jitsi-admin:h2-invent.com)
+
+
+Furthermore, we are excited to announce that we will be hosting an open conference every two weeks, where you can join us to discuss how we can make Jitsi and Jitsi-admin even more popular.
+We welcome your ideas and suggestions to enhance the project and encourage you to be a part of this exciting initiative. The community talk takes place every even Thursday at 06:00pm
+
+To join the community talk, please click on the subscription link provided: http://jitsi-admin.de/subscribe/self/4754e33d3ee9a6c40a2bf04ffa1528c7
+
+Once you have subscribed, we will send you a reminder closer to the date of the talk. We hope to see you there!
+
 
 If you want to be notified, if there are new updates or releases, you can subscribe to the __Jitsi Admin Update__ mailing list.
 H2 invent will send out information to the mailing list concering releases, updates or new features.
@@ -40,11 +56,7 @@ Please help us to improve our localization
 
 The following features are already part of Jitsi Admin:
 
-* Managing of conferences
-* Managing of Jitsi servers with JWT enabled
-* Adding participants to a conference
-* Sending out emails to the participants
-* Sending out emails prior to the conference based on a Cron job
+* Complete 
 
 ### The Dashboard
 
@@ -102,6 +114,8 @@ For versions <= 0.72x checkout the update instruction in the github version desc
 For Version 0.73 or later the update instruction is described in the file 
 `update_instruction_<fromVersion>...<toVersion>.md`
 
+[Update instruction 0.74.x to 0.75.x](update_instruction_0.74.x...0.75.x.md)
 [Update instruction 0.73.x to 0.74.x](update_instruction_0.73.x...0.74.x.md)
 [Update instruction 0.72.x to 0.73.x](update_instruction_0.72.x...0.73.x.md)
+
 

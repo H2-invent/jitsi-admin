@@ -36,32 +36,63 @@
                 {% endif %}
             </div>
             <div class="nameHolder">
-                <div class="participantsName">{{ wU.showName }}</div>
+                <div class="participantsName">{{ wU.showName }}
+
+                </div>
                 {% if wU.callerSession is not null %}
                     <div class="participantsName callerId"><i
                                 class="fa fa-phone text-success"></i> {{ wU.callerSession.callerId }}</div>
                     {% if wU.callerSession.callerIdVerified %}
                         <span class="callerVerified badge badge-success">{{ 'lobby.verified'|trans }}</span>
+                    {% else %}
+                        <a class="callerNotVerified badge badge-danger w-100"
+                           data-mdb-toggle="popover"
+                           data-mdb-trigger="focus"
+                           tabindex="0"
+                           data-mdb-content="{{ 'lobby.notVerified'|trans }}">
+                            <i class="fa-2x fa-solid fa-bolt text-warning"></i>
+                        </a>
                     {% endif %}
                 {% endif %}
             </div>
-            <div class="buttonHolder mt-lg-2 d-flex d-none d-md-block">
-                <a class="btn btn-lg btn-floating senddirect btn-success"
+            <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
+                <a
+                        data-mdb-toggle="tooltip"
+                        title="{{ 'lobby.participant.tooltip.acccept'|trans }}"
+                    class="btn btn-lg btn-floating senddirect btn-success d-none d-md-block"
                    href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-check"></i>
                 </a>
-                <a class="btn btn-lg btn-floating directSendWithConfirm btn-danger"
+                <a
+                        data-mdb-toggle="tooltip"
+                        title="{{ 'lobby.participant.tooltip.decline'|trans }}"
+                        class="btn btn-lg btn-floating directSendWithConfirm btn-danger d-none d-md-block"
                    data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
                    href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
                     <i class="fas fa-user-times"></i>
                 </a>
-            </div>
-            <div class="buttonHolder d-md-none">
-                <i class="fa-solid fa-left-right"></i>
+
+
+                <div class="dropdown dropstart"
+                     data-mdb-toggle="tooltip"
+                     title="{{ 'lobby.participant.tooltip.message'|trans }}"
+                >
+                    <a class="btn btn-lg btn-outline-success btn-floating"
+
+                       data-mdb-ripple-color="dark"
+                       id="dropdownMenu2"
+                       data-mdb-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-solid fa-paper-plane"></i>
+                    </a>
+                    {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser'),'uid':wU.uid } %}
+                </div>
+
+                <div class=" slider d-md-none">
+                    <i class="fa-solid fa-left-right"></i>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 
 

@@ -121,7 +121,7 @@ h5 {
 
 .list-group-item {
   background-color: $black_navbar;
-  border: 1px solid $black_font-color;
+  border-color: $black_font-color;
 }
 
 a {
@@ -162,10 +162,6 @@ a {
   &:hover {
     color: white;
   }
-}
-
-.list-group-item {
-  border: 1px solid #c9d1d9 !important;
 }
 
 
@@ -298,9 +294,7 @@ a {
 }
 
 
-.dragger {
-  color: black;
-}
+
 
 #col-waitinglist {
   .card {
@@ -335,7 +329,7 @@ hr {
 
       & ~ .form-notch {
         .form-notch-leading {
-          border-color: $black_font-color !important ;
+          border-color: $black_font-color !important;
           box-shadow: -1px 0 0 0 $black_font-color, 0 1px 0 0 $black_font-color, 0 -1px 0 0 $black_font-color !important;
         }
 
@@ -354,22 +348,64 @@ hr {
     }
 
     & ~ .form-label {
-      color: $black_font-color ;
+      color: $black_font-color;
     }
   }
 
+  input[type=text]  {
+    &.form-control {
+      background-color: $black_background;
+    }
+  }
 }
-
 
 @supports (-webkit-appearance:none) {
   .frozenGlas {
-    background-color: transparent!important;
+    background-color: transparent !important;
     backdrop-filter: blur(5px);
   }
 }
 
-.reportTimeLine_room{
+.reportTimeLine_room {
   .showOnHover {
     background-color: $black_background;
   }
 }
+
+.calloutsymbol {
+  .content {
+    background-color: $black_background;
+    border: 1px $black_font-color solid;
+  }
+
+  .ringingsymbol {
+    background-color: $black_background;
+    border: 1px $black_font-color solid;
+  }
+}
+#sliderTop{
+  #col-waitinglist{
+    &.large {
+      background-color: $black_background;
+    }
+  }
+  .dragger{
+    background-color: $black_background;
+    color: $black_font-color;
+  }
+}
+.joinPageHeader{
+  color: $black_font-color;
+}
+.conference-icon{
+  background-color: $black_background!important;
+  color: $black_font-color!important;
+}
+.jitsiadminiframe{
+  box-shadow: 0 0 0 2px $black_font-color
+}
+
+.fullscreen{
+  background-color: $black_background;
+}
+

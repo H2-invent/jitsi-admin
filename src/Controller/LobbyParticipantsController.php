@@ -43,7 +43,6 @@ class LobbyParticipantsController extends JitsiAdminController
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
-        $this->lobbyUpdateService = $lobbyUpdateService;
         $this->toModerator = $toModeratorWebsocketService;
         $this->toParticipant = $toParticipantWebsocketService;
         $this->eventDispatcher = $eventDispatcher;
@@ -97,7 +96,9 @@ class LobbyParticipantsController extends JitsiAdminController
     public function remove($userUid, MessageBusInterface $bus): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $userUid));
+        $this->logger->debug('leave Lobby');
         if ($lobbyUser) {
+            $this->logger->debug('lobby User:',array('id'=>$lobbyUser->getUid()));
             $em = $this->doctrine->getManager();
             $em->remove($lobbyUser);
             $em->flush();

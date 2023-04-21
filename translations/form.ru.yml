@@ -97,7 +97,7 @@ label:
   serverLicenseKey: Введите лицензионный ключ Jitsi-Администратора
   apiKey: API - Команды для этого сервера
   agenda: Краткая программа мероприятия
-  staticBackgroundColor:
+  staticBackgroundColor: Показывать статический цвет вместо изображений на странице соединения
   schowStaticBackgroundColor: Показывать статический цвет вместо изображений на странице соединения
   featureEnalbeByJwt: Плагин "Включить функцию с помощью JWT" активен на сервере
   dissallowScreenshareGlobal: Только модераторам разрешается делиться экраном

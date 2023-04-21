@@ -9,37 +9,116 @@ x-app-common: &jitsi_admin_app
     PHP_EXTENSION_LDAP: 1
     PHP_EXTENSION_INTL: 1
     DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
-    MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
-    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+    MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
+    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+    WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
     registerEmailAdress: ${registerEmailAdress}
 
 
 services:
-  mercure-ja:
-    image: dunglas/mercure:v0.14.3
-    hostname: ${RANDOMTAG}mercure-ja
+  websocket-ja:
+    build: nodejs
+    hostname: ${RANDOMTAG}websocket-ja
+    restart: unless-stopped
     environment:
-
-      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      SERVER_NAME: ':3000'
-    # Uncomment the following line to enable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+      WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/healthz"]
+      interval: 10s
+      retries: 5
+      timeout: 10s
+      start_period: 10s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.rule=Host(`mercure.${PUBLIC_URL}`)"
-      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.entrypoints=web"
-      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls=true"
-      - "traefik.http.services.mercure-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
-      - "traefik.http.routers.mercure-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.websocket-ja-${RANDOMTAG}.rule=Host(`websocket.${PUBLIC_URL}`)"
+      - "traefik.http.routers.websocket-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.routers.websocket-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.services.websocket-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
+      - "traefik.http.routers.websocket-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=http"
+      - "traefik.http.routers.app-secure.middlewares=sslheader@docker"
 
     volumes:
       - caddy_config:/config
     networks:
       - default
       - jitsi-admin
+
+  whiteboard-ja:
+    build: https://github.com/H2-invent/materialWhitebophir.git
+    restart: unless-stopped
+    environment:
+      AUTH_SECRET_KEY: '${MERCURE_JWT_SECRET}'
+      PORT: 80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.rule=Host(`whiteboard.${PUBLIC_URL}`)"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.services.whiteboard-ja-${RANDOMTAG}.loadbalancer.server.port=80"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+
+    volumes:
+      - wbo-boards:/opt/app/server-data
+
+    networks:
+      - default
+
+  etherpad:
+    #build: .
+    image: etherpad/etherpad:latest
+    restart: unless-stopped
+    environment:
+      AUTH_SECRET_KEY: MY_SECRET
+      PAD_OPTIONS_SHOW_CHAT: false
+      PAD_SHORTCUTS_ENABLED_ALT_C: false
+      DEFAULT_PAD_TEXT: "Agenda\n\nTOP1\n\nTOP2\n\nTOP3\n\nTOP4\n\n\n\nNext Steps:\n Write here what to do next\n\n\n\n\nQuestions:\nWrite here any questions the team have\n\n"
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - etherpad_data:/opt/etherpad-lite/var
+
+    networks:
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.tls=true"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.rule=Host(`meeting-notes.${PUBLIC_URL}`)"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.services.etherpad-ja-${RANDOMTAG}.loadbalancer.server.port=9001"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+
+
+  screego:
+    image: screego/server:1.0.1
+    restart: unless-stopped
+    networks:
+      - default
+    expose:
+      - 5050
+    ports:
+      - 0.0.0.0:3478:3478
+      - 0.0.0.0:3478:3478/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.screego-ja-${RANDOMTAG}.rule=Host(`screego.${PUBLIC_URL}`)"
+      - "traefik.http.routers.screego-ja-${RANDOMTAG}.entrypoints=web"
+      - "traefik.http.routers.screego-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
+      - "traefik.http.services.screego-ja-${RANDOMTAG}.loadbalancer.server.port=5050"
+#    volumes:
+#      - ./htpasswd:/etc/screego.passwd:ro
+    environment:
+      SCREEGO_EXTERNAL_IP: "17.5.7.8"
+      SCREEGO_SECRET: "xxxxxxxxxxxx"
+      SCREEGO_SERVER_ADDRESS: "0.0.0.0:5050"
+      SCREEGO_TURN_ADDRESS: "0.0.0.0:3478"
+      SCREEGO_TRUST_PROXY_HEADERS: "true"
+      SCREEGO_AUTH_MODE: "turn"
+#      SCREEGO_CORS_ALLOWED_ORIGINS: "https://screen.example.org"
+      SCREEGO_USERS_FILE: "/etc/screego.passwd"
+      SCREEGO_LOG_LEVEL: debug
 
   #Here is the Jitsi-Admin app
   app-ja:
@@ -61,20 +140,30 @@ services:
       PHP_INI_MEMORY_LIMIT: "1G"
       PHP_EXTENSION_LDAP: 1
       PHP_EXTENSION_INTL: 1
+      PHP_INI_UPLOAD_MAX_FILESIZE: 8M
+      PHP_INI_POST_MAX_SIZE: 8M
       DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
       OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
       OAUTH_KEYCLOAK_REALM: jitsiadmin
-      MERCURE_URL: http://${RANDOMTAG}mercure-ja:3000/.well-known/mercure
-      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
       laF_version: ${GIT_VERSION}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
       VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
+      LAF_WHITEBOARD_FUNCTION: 1
+      WHITEBOARD_URL:  ${HTTP_METHOD}://whiteboard.${PUBLIC_URL}
+      WHITEBOARD_SECRET: '${MERCURE_JWT_SECRET}'
+      ETHERPAD_URL: ${HTTP_METHOD}://meeting-notes.${PUBLIC_URL}
+      ETHERPAD_SECRET: MY_SECRET
+      LAF_ETHERPAD_FUNCTION: 1
+      SEND_REPORT_AFTER_MEETING: 1
       input_settings_allow_timezone: 1
       allowTimeZoneSwitch: 1
       CRON_USER_1: root
@@ -167,6 +256,8 @@ volumes:
   mariadb:
   caddy_config:
   image_upload:
+  wbo-boards:
+  etherpad_data:
 
 networks:
   default:

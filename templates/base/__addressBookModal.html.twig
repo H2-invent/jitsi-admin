@@ -1,36 +1,33 @@
-
-<div class="modal fade right" id="modalAdressbook" tabindex="-1" role="dialog"
+<div class="modal fade right " id="modalAdressbook" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalPreviewLabel" aria-hidden="true">
     <div class="modal-dialog modal-full-height modal-right" role="document">
-        <div class="modal-content" style="height: 100vh;display: flex; flex-direction: column">
+        <div class="modal-content flex-column d-flex ">
             <div class="modal-header">
                 <h4 class="h4-responsive" id="exampleModalPreviewLabel">{{ 'Kontakte'|trans }}</h4>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="flex-grow: 1;overflow-y: auto">
-                <div>
-                    <ul class="nav-mat nav-mat-tabs" id="addressbookTab" data-swipe="#addressbookContent">
-                        <li class="nav-mat-item mat-active">
-                            <a class="nav-mat-link" id="home-tab"  href="#home" role="tab" aria-controls="home"
-                               aria-selected="true">{{ 'Adressbuch'|trans }}</a>
-                        </li>
-                        <li class="nav-mat-item">
-                            <a class="nav-mat-link" id="profile-tab"  href="#profile"  aria-controls="profile"
-                               aria-selected="false"> {{ 'Gruppen'|trans }}</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="addressbookContent" data-swipe="#addressbookTab">
-                        <div class="tab-content-watch mat-active">
+            <div class="modal-body overflow-y-auto flex-grow-1" id="modalAdressbookBody">
+
+                <ul class="nav-mat nav-mat-tabs" id="addressbookTab" data-swipe="#addressbookContent">
+                    <li class="nav-mat-item mat-active">
+                        <a class="nav-mat-link" id="home-tab" href="#home" role="tab" aria-controls="home"
+                           aria-selected="true">{{ 'Adressbuch'|trans }}</a>
+                    </li>
+                    <li class="nav-mat-item">
+                        <a class="nav-mat-link" id="profile-tab" href="#profile" aria-controls="profile"
+                           aria-selected="false"> {{ 'Gruppen'|trans }}</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="addressbookContent" data-swipe="#addressbookTab">
+                    <div class="tab-content-watch mat-active">
                         <div class="tab-pane fade show mat-active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             {{ include('addressbook/__addressBook.html.twig') }}
                         </div>
+                    </div>
+                    <div class="tab-content-watch">
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            {{ include('addressbook/__addressGroups.html.twig') }}
                         </div>
-                        <div class="tab-content-watch">
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                {{ include('addressbook/__addressGroups.html.twig') }}
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

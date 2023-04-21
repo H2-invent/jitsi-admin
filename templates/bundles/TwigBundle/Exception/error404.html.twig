@@ -1,0 +1,28 @@
+{% extends('bundles/TwigBundle/Exception/errorbase.html.twig') %}
+
+  {% block image %}
+      background-image: url("/images/error/under-earth.jpg");
+  {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="glossy">
+                <div class="card-header">
+                    <h1>{{ exception.statusCode }} - <small>{{ 'Hier sollten Sie nicht sein.'|trans }}</small></h1>
+                </div>
+
+                <div class="card-body">
+
+                    <p class="text-white">{{ 'Beinahe hätten Sie hinter die Kullissen schauen können.'|trans }}</p>
+                    <p class="text-white">{{ 'Wie hätte nicht gedacht, das jemand so tief gräbt.'|trans }}</p>
+                    <hr>
+                    <a class="btn btn-block btn-lg btn-primary" href="{{ path('index') }}">{{'Hier geht es wieder zurück an die Oberfläche'|trans}}</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

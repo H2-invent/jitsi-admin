@@ -8,6 +8,7 @@
 
 namespace App\Service;
 
+use App\Entity\CallerId;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\caller\CallerPrepareService;
@@ -126,7 +127,6 @@ class UserService
         if ($room->getScheduleMeeting()) {
             $this->userRemoveService->removeRoomScheduling($user, $room);
         } elseif ($room->getPersistantRoom()) {
-
             return $this->userRemoveService->removePersistantRoom($user, $room);
         } else {
             if ($room->getEnddate() > new \DateTime()) {

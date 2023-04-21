@@ -97,7 +97,7 @@ label:
   serverLicenseKey: Giấy phép Jitsi-Admin
   apiKey: Khóa API cho máy chủ này
   agenda: Chương trình nghị sự cho cuộc họp này (đánh dấu)
-  staticBackgroundColor:
+  staticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
   schowStaticBackgroundColor: Hiển thị màu cố định thay vì hình ảnh trên trang tham dự
   featureEnalbeByJwt: Tính năng "Token - JWT" được kích hoạt trên máy chủ
   dissallowScreenshareGlobal: Chỉ người kiểm duyệt mới có thể chia sẻ màn hình

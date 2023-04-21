@@ -18,9 +18,9 @@ class RepeaterService
 {
     private $em;
     private $mailer;
-    private $icsService;
+
     private $icalService;
-    private $userService;
+
     private $translator;
     private $twig;
     private $callerUserService;
@@ -60,7 +60,6 @@ class RepeaterService
     {
         $this->icsService = $icsService;
         $this->em = $entityManager;
-
         $this->mailer = $mailerService;
         $this->userService = $userService;
         $this->translator = $translator;

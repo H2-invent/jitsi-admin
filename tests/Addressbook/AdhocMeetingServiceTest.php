@@ -31,7 +31,7 @@ class AdhocMeetingServiceTest extends KernelTestCase
                 self::assertEquals('Ad Hoc Meeting', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             } elseif (str_contains($data, '"type":"notification"')) {
-                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test2, 1234, User2, Test2.', $tmp['title']);
+                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             }
             return 'id';
@@ -43,12 +43,11 @@ class AdhocMeetingServiceTest extends KernelTestCase
         $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
         $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
         $room = $adhockservice->createAdhocMeeting($user,$user2,$user->getServers()[0]);
-        self::assertEquals('Konferenz mit Test2, 1234, User2, Test2', $room->getName());
+        self::assertEquals('Konferenz mit Test1, 1234, User, Test', $room->getName());
+        self::assertEquals('Konferenz mit Test2, 1234, User2, Test2', $room->getSecondaryName());
         self::assertNull($room->getTag());
 
 
-        //$routerService = static::getContainer()->get('router');
-        //$myCustomService = static::getContainer()->get(CustomService::class);
     }
 
     public function testCreateAdhocmeetingWithTag(): void
@@ -69,7 +68,7 @@ class AdhocMeetingServiceTest extends KernelTestCase
                 self::assertEquals('Ad Hoc Meeting', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             } elseif (str_contains($data, '"type":"notification"')) {
-                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test2, 1234, User2, Test2.', $tmp['title']);
+                self::assertEquals('[Videokonferenz] Es gibt eine neue Einladung zur Videokonferenz Konferenz mit Test1, 1234, User, Test.', $tmp['title']);
                 self::assertEquals(['personal/kljlsdkjflkjddfgslfjsdlkjsdflkj'], $update->getTopics());
             }
             return 'id';

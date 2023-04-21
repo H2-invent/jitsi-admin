@@ -1,0 +1,46 @@
+{% extends 'documents/base.html.twig' %}
+
+{% block body %}
+    <p style="text-align: right">{{ 'now'|date('d.m.Y') }}</p>
+    <h1>{{ room.name }}</h1>
+    {% if getJigasiNumber(room) %}
+        <table style="width: 100%">
+            <tbody>
+            <tr style=" vertical-align: top">
+                <td >
+                    <h3>{{ 'email.sip.number'|trans }}:</h3>
+                </td>
+                <td ><h4>
+                    {% for key,n in getJigasiNumber(room) %}
+                        {% for number in n %}
+                             ({{ key }}) {{ number }} <br>
+                        {% endfor %}
+                    {% endfor %}
+                    </h4>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    {% endif %}
+    <b>{{ 'Teilnehmerliste'|trans }}</b>
+    <table style="width: 100%">
+        <thead>
+        <tr>
+            <th style="text-align: left">{{ 'Name'|trans }}</th>
+            <th style="text-align: right">{{ 'email.sip.roomnumber'|trans }}</th>
+            <th style="text-align: right">{{ 'email.sip.pin'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in room.user %}
+            <tr style="border-bottom: solid 1px black">
+                <td style="border-bottom: solid 1px black">{{ u|nameOfUser }}</td>
+                <td style="text-align: right; border-bottom: solid black 1px">{{ room.callerRoom.callerId|addRepetiveCharacters(' ',3) }}</td>
+                <td style="text-align: right; border-bottom: solid black 1px">{{ sipPinFromRoomAndUser(room,u).callerId|addRepetiveCharacters(' ',3) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+{% endblock %}

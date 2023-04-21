@@ -30,20 +30,18 @@ services:
       - ./tools/certs:/tools/certs
       - ./tools/traefik/config.yml:/etc/traefik/dynamic_conf/conf.yml:ro
 
-  mercure-ja:
-    image: dunglas/mercure:v0.14.3
+  websocket-ja:
+    build: nodejs
     restart: unless-stopped
     environment:
-      MERCURE_PUBLISHER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      MERCURE_SUBSCRIBER_JWT_KEY: '${MERCURE_JWT_SECRET}'
-      SERVER_NAME: ':3000'
+      WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
     # Uncomment the following line to enable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mercure-ja.rule=Host(`mercure.${PUBLIC_URL}`)"
-      - "traefik.http.routers.mercure-ja.entrypoints=web"
-      - "traefik.http.services.mercure-ja.loadbalancer.server.port=3000"
+      - "traefik.http.routers.websocket-ja.rule=Host(`websocket.${PUBLIC_URL}`)"
+      - "traefik.http.routers.websocket-ja.entrypoints=web"
+      - "traefik.http.services.websocket-ja.loadbalancer.server.port=3000"
 
     volumes:
       - caddy_data:/data
@@ -66,6 +64,8 @@ services:
       PHP_INI_MEMORY_LIMIT: "1G"
       PHP_EXTENSION_LDAP: 1
       PHP_EXTENSION_INTL: 1
+      PHP_INI_UPLOAD_MAX_FILESIZE: 8M
+      PHP_INI_POST_MAX_SIZE: 8M
       APP_ENV: dev
       APP_DEBUG: 1
       DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
@@ -74,9 +74,10 @@ services:
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
       OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
       OAUTH_KEYCLOAK_REALM: jitsiadmin
-      MERCURE_URL: http://mercure-ja:3000/.well-known/mercure
-      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://mercure.${PUBLIC_URL}/.well-known/mercure
+      MERCURE_URL: http://websocket-ja:3000/.well-known/mercure
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
+      WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
       registerEmailAdress: ${registerEmailAdress}
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}

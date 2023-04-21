@@ -23,9 +23,9 @@ $(document).ready(function () {
 
 });
 $(window).on('load', function () {
-    $('[data-toggle="popover"]').popover({html: true});
-    $('[data-toggle="toastr"]').click(function (e) {
-        console.log($(this))
+    $('[data-mdb-toggle="popover"]').popover({html: true});
+    $('[data-mdb-toggle="toastr"]').click(function (e) {
+
         setSnackbar($(this).data('text'),$(this).data('type'))
     });
 });

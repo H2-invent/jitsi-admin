@@ -4,6 +4,7 @@ namespace App\Service\Lobby;
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
+use App\Entity\User;
 use App\Service\RoomService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -54,11 +55,15 @@ class ToModeratorWebsocketService
         $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info');
         sleep(1);
 
-        $messageDashboard = $this->translator->trans('lobby.dashboard.newUser.message', array(
-                '{name}' => $lobbyWaitungUser->getShowName(),
-                '{room}' => $room->getName(),
-                '{url}' => $this->urlgenerator->generate('room_join', array('room' => $room->getId(), 't' => 'b'))
-            )
+        $messageDashboard = sprintf('%s<br><a href="%s"  class="btn btn-sm btn-primary startIframe" data-roomname="%s">%s</a>',
+            $this->translator->trans('lobby.notification.newUser.message', array(
+                    '{name}' => $lobbyWaitungUser->getShowName(),
+                    '{room}' => $room->getName()
+                )
+            ),
+            $this->urlgenerator->generate('room_join', array('room' => $room->getId(), 't' => 'b')),
+            $room->getName(),
+            $this->translator->trans('lobby.notification.newUser.toLobby')
         );
 
         //this message goes to the moderators which are not already in the lobby
@@ -74,7 +79,12 @@ class ToModeratorWebsocketService
 
     public function refreshLobby(LobbyWaitungUser $lobbyWaitungUser)
     {
-        $room = $lobbyWaitungUser->getRoom();
+        $this->refreshLobbyByRoom($lobbyWaitungUser->getRoom());
+    }
+
+    public function refreshLobbyByRoom(Rooms $room)
+    {
+
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal())) . ' #waitingUser');
     }

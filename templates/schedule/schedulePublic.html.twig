@@ -7,7 +7,7 @@
 
 
 
-    <div class=" col-sm-12 offset-lg-1 col-lg-10">
+    <div class=" col-sm-12 col-lg-10">
         <p class="text-center text-md-start">
             {{ 'Welcher Termin passt für Sie am besten?'|trans }}
         </p>
@@ -18,9 +18,10 @@
                     <div class="scrollEle me-3 text-center">
                         <small>{{ s.time|format_date(pattern="EE",locale=locale,timezone=false) }}</small>
                         <p>{{ s.timeWithTimeZone(user)|date('d.m.Y',false) }}
-                        {% if getApplicationProperties('allowTimeZoneSwitch') == 1  %}
-                            <br><small>{% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZone }}{% endif %}</small>
-                        {% endif %}
+                            {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
+                                <br>
+                                <small>{% if user.timeZone is not null %}{{ user.timeZone }}{% else %}{{ room.timeZone }}{% endif %}</small>
+                            {% endif %}
                         </p>
                         <hr>
                         <b>{{ s.timeWithTimeZone(user)|date('H:i',false) }}
@@ -31,34 +32,41 @@
                         <small>{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</small><br>
                         <div class="row">
                             <div class="col-lg-12 mb-3 mt-2 text-start">
-                                <div class="custom-control custom-radio">
+
+                                <div class="form-check">
+
+
                                     <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
                                            data-url="{{ path('schedule_public_vote') }}"
-                                           data-type="0" type="radio" class="custom-control-input scheduleSelect"
+                                           data-type="0" type="radio"
+                                           class="form-check-input custom-control-input scheduleSelect"
                                            id="schedule-{{ s.id }}-yes"
                                            name="scheduleGroup-{{ s.id }}"
                                            {% if scheduleOwnJoice(user,s) is same as 0 %}checked{% endif %}>
-                                    <label class="custom-control-label"
+                                    <label class="custom-control-label form-check-label"
                                            for="schedule-{{ s.id }}-yes">{{ 'Ja'|trans }}</label>
                                 </div>
-                                <div class="custom-control custom-radio">
+
+                                <div class="form-check">
                                     <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
                                            data-url="{{ path('schedule_public_vote') }}"
-                                           data-type="1" type="radio" class="custom-control-input scheduleSelect"
+                                           data-type="1" type="radio"
+                                           class="form-check-input custom-control-input scheduleSelect"
                                            id="schedule-{{ s.id }}-no"
                                            name="scheduleGroup-{{ s.id }}"
                                            {% if scheduleOwnJoice(user,s) is same as 1 %}checked{% endif %}>
-                                    <label class="custom-control-label"
+                                    <label class="custom-control-label custom-control-label"
                                            for="schedule-{{ s.id }}-no">{{ 'Nein'|trans }}</label>
                                 </div>
-                                <div class="custom-control custom-radio">
+                                <div class="form-check">
                                     <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
                                            data-url="{{ path('schedule_public_vote') }}"
-                                           data-type="2" type="radio" class="custom-control-input scheduleSelect"
+                                           data-type="2" type="radio"
+                                           class="form-check-input custom-control-input scheduleSelect"
                                            id="schedule-{{ s.id }}-maybe"
                                            name="scheduleGroup-{{ s.id }}"
                                            {% if scheduleOwnJoice(user,s) is same as 2 %}checked{% endif %}>
-                                    <label class="custom-control-label"
+                                    <label class="custom-control-label custom-control-label"
                                            for="schedule-{{ s.id }}-maybe">{{ 'Vielleicht'|trans }}</label>
                                 </div>
                             </div>
@@ -68,7 +76,7 @@
             </div>
 
         </div>
-        <button class="btn btn-outline-primary" data-toggle="toastr" data-target="#saveModal"
+        <button class="btn btn-primary btn-block" data-mdb-toggle="toastr" data-target="#saveModal"
                 data-text=" {{ 'common.success.save'|trans }}" data-type="success">{{ 'common.save'|trans }}</button>
 
         <div class="row form-group">
@@ -79,14 +87,8 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-
         </div>
-
-        </div>
-
-
-
-
+    </div>
 
 {% endblock %}
 {% block pageEnd %}

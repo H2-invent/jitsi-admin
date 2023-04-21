@@ -9,7 +9,7 @@
 {% block content %}
 
 
-    <div class="offset-sm-1 col-sm-10 offset-lg-2 col-lg-8 text-center mt-5">
+    <div class=" col-12 text-center mt-5">
         {{ form_start(form) }}
         <div class="input-group mb-3">
             {{ form_widget(form.roomName) }}
@@ -18,8 +18,15 @@
 
         {{ form_end(form) }}
         <a href="{{ path('dashboard') }}" class="btn btn-outline-primary btn-block">{{ 'Login'|trans }}</a>
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="row mt-3">
+            <div class="col-lg-6">
+                <ul class="list-group">
+                    {% for lC in  app.request.cookies.get('LAST_CONFERENCE')|json_decode  %}
+                        <li class="list-group-item"><a href="{{ path('app_public_conference',{'confId':lC}) }}">{{ lC }}</a> </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-lg-6">
                 {{ getApplicationProperties('PUBLIC_TEXT_BODY_TEXT')|raw }}
             </div>
 

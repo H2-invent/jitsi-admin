@@ -1,5 +1,5 @@
 import $ from 'jquery';
-
+import * as mdb from 'mdb-ui-kit'; // lib
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initCircle} from './initCircle'
@@ -10,12 +10,18 @@ import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
 
 import {initDragParticipants} from './lobby_moderator_acceptDragger'
+import {close, inIframe} from './moderatorIframe'
+import {initStarSend} from "./endModal";
 
 var callersoundplay = new Audio(callerSound);
 callersoundplay.loop = true;
 
-function initNotofication() {
+var closeCallbackFkt = null;
+var reloadTimeout = null;
+
+function initNotofication(closeFkt = null) {
     Push.Permission.request();
+    closeCallbackFkt = closeFkt;
 }
 
 function masterNotify(data) {
@@ -30,7 +36,7 @@ function masterNotify(data) {
     } else if (data.type === 'modal') {
         loadModal(data)
     } else if (data.type === 'redirect') {
-        redirect(data)
+        redirect(data);
     } else if (data.type === 'snackbar') {
         setSnackbar(data.message, data.color)
     } else if (data.type === 'newJitsi') {
@@ -38,7 +44,11 @@ function masterNotify(data) {
     } else if (data.type === 'refreshDashboard') {
         refreshDashboard();
     } else if (data.type === 'endMeeting') {
-        endMeeting(data)
+        if (!closeCallbackFkt) {
+            endMeeting(data)
+        } else {
+            closeCallbackFkt();
+        }
     } else if (data.type === 'reload') {
         setTimeout(function () {
             location.reload();
@@ -46,11 +56,33 @@ function masterNotify(data) {
         }, data.timeout)
     } else if (data.type === 'call') {
         callAddhock(data);
+    } else if (data.type === 'message') {
+        addmessage(data);
     } else {
-        alert('Error, Please reload the page')
+        console.log()('Error, Please reload the page')
     }
 }
 
+function addmessage(data) {
+    var target = document.querySelector('.messageContainer');
+    if (target) {
+        var html = '<div class="messageWrapper">'
+            + '<div class="content">'
+            + '<div class="from">'
+            + data.from
+            + '</div>'
+            + '<div class="message">'
+            + data.message +
+            '</div>' +
+            '</div>'
+        target.insertAdjacentHTML('afterbegin', html);
+        for (var d of document.querySelectorAll('.messageWrapper')) {
+            d.addEventListener('click', function (e) {
+                e.currentTarget.closest('.messageWrapper').remove();
+            })
+        }
+    }
+}
 
 function notifymoderator(data) {
     showPush(data);
@@ -71,28 +103,41 @@ function notifymoderator(data) {
 
 function refresh(data) {
     var reloadUrl = data.reloadUrl;
+    var timeout =  setTimeout(function () {
 
-    $('#waitingUserWrapper').load(reloadUrl, function () {
-        if (!$('#sliderTop').hasClass('notification')) {
-            $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
-        }
-        initCircle();
-        countParts();
-        initDragParticipants();
-    });
+
+        $('#waitingUserWrapper').load(reloadUrl, function () {
+            const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
+            if (exampleEl.length > 0) {
+                for (var prop in exampleEl) {
+                    const popover = new mdb.Popover(exampleEl[prop])
+                }
+            }
+
+            if (!$('#sliderTop').hasClass('notification')) {
+                $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
+            }
+            initCircle();
+            countParts();
+            initDragParticipants();
+            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+            $('.tooltip').remove();
+            $('[data-mdb-toggle="tooltip"]').tooltip();
+            document.querySelectorAll('.form-outline').forEach((formOutline) => {
+                new mdb.Input(formOutline).init();
+            });
+        })
+    }, 3000);
 }
 
+/*
+wenn ein Meeting komplett durch den Moderator beendet wird:
+Sende ein loadModal an alle teilnehmer mit der INformation warum es geshclossenwird
+sende ein End-Meeting an alle Teilneher.
+ in der Funktion der Teilnehmer wird nochmal ein hangup ausglöst und somit die Konferenz aufgelegt.
+*/
 function endMeeting(data) {
-    window.onbeforeunload = null;
-    if (window.opener == null) {
-        setTimeout(function () {
-            window.location.href = data.url;
-        }, data.timeout)
-    } else {
-        setTimeout(function () {
-            window.close();
-        }, data.timeout)
-    }
+    initStarSend();
 }
 
 function loadModal(data) {
@@ -103,9 +148,8 @@ function loadModal(data) {
 
 function redirect(data) {
     setTimeout(function () {
-        window.location.href = data.url;
+        window.top.location.href = data.url;
     }, data.timeout)
-
 }
 
 function countParts() {

@@ -1,0 +1,35 @@
+<div class="calloutsymbol d-flex position-relative shadow-2">
+    <div class="content  p-2 shadow-2 position-absolute">
+        <div class="participantsName d-flex flex-column">
+            {% if cU.state > 1 %}
+                <p class="badge badge-warning">
+                    {% if cU.state == 3 %}
+                        {{ 'callout.status.occupied'|trans }}
+                    {% elseif cU.state == 4 %}
+                        {{ 'callout.status.later'|trans }}
+                    {% elseif cU.state == 5 %}
+                        {{ 'callout.status.timeout'|trans }}
+                    {% endif %}
+                </p>
+           {% endif %}
+            {{ nameOfUserwithFormat(cU.user, laf_showNameFrontend) }}
+            {% if cU.leftRetries == 0 %}
+                <p class="badge badge-warning no-more-retries">{{ 'callout.info.noMoreRetries'|trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="ringingsymbol p-2">
+        {% if cU.state < 2 %}
+            <i class="fa-2x fa-solid fa-phone text-success fa-fw"></i>
+        {% else %}
+            <i class="fa-2x fa-solid fa-phone-slash text-warning fa-fw"></i>
+        {% endif %}
+    </div>
+
+</div>
+
+
+
+
+
+

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RoomsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -112,6 +113,13 @@ class Rooms
     private $tag;
     #[ORM\Column(type: 'text', nullable: true)]
     private $hostUrl;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $secondaryName = null;
+
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: CalloutSession::class, orphanRemoval: true)]
+    private Collection $calloutSessions;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -124,6 +132,7 @@ class Rooms
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->roomstatuses = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
+        $this->calloutSessions = new ArrayCollection();
     }
     #[ORM\PreFlush]
     public function preUpdate()
@@ -797,6 +806,48 @@ class Rooms
     public function setHostUrl(?string $hostUrl): self
     {
         $this->hostUrl = $hostUrl;
+
+        return $this;
+    }
+
+    public function getSecondaryName(): ?string
+    {
+        return $this->secondaryName;
+    }
+
+    public function setSecondaryName(?string $secondaryName): self
+    {
+        $this->secondaryName = $secondaryName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CalloutSession>
+     */
+    public function getCalloutSessions(): Collection
+    {
+        return $this->calloutSessions;
+    }
+
+    public function addCalloutSession(CalloutSession $calloutSession): self
+    {
+        if (!$this->calloutSessions->contains($calloutSession)) {
+            $this->calloutSessions[] = $calloutSession;
+            $calloutSession->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCalloutSession(CalloutSession $calloutSession): self
+    {
+        if ($this->calloutSessions->removeElement($calloutSession)) {
+            // set the owning side to null (unless already changed)
+            if ($calloutSession->getRoom() === $this) {
+                $calloutSession->setRoom(null);
+            }
+        }
 
         return $this;
     }

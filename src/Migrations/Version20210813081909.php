@@ -19,7 +19,7 @@ final class Version20210813081909 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE rooms ADD time_zone VARCHAR(255) DEFAULT NULL');
         }
@@ -27,7 +27,7 @@ final class Version20210813081909 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() == 'mysql') {
+        if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE rooms DROP time_zone');
         }

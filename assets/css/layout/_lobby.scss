@@ -1,5 +1,11 @@
 body {
   overscroll-behavior-y: contain;
+  background-color: white;
+  min-height: 100vh;
+
+  &.blackMode {
+    background-color: black;
+  }
 }
 
 #lobbyWebcam {
@@ -89,61 +95,84 @@ body {
 #col-waitinglist {
   &.large {
     padding-top: 18px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: $background-color;
     -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
   }
 }
 
-.dragger {
-  padding-right: 50px;
-  padding-left: 50px;
-  background-color: #ffffff;
-  border-radius: 0 0 20px 20px;
-  -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-  transition: background-color 1s;
-
-  &:before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f107\00a0";
-  }
-
-  &:after {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\00a0\f107";
-  }
-
-  @keyframes blinkGreen {
-    0% {
-      background-color: white;
-      color: black
-    }
-    50% {
-      background-color: #00c851;
-      color: white
-    }
-    100% {
-      background-color: white;
-      color: black
-    }
-  }
-
-  &.active {
-    background-color: #00c851;
-    color: white;
-    animation-name: blinkGreen;
-    animation-duration: 4s;
-    animation-iteration-count: infinite;
-  }
-}
-
-
 .lobbyWindow {
   display: flex;
   justify-content: center;
+
+  .dragger {
+    padding-right: 50px;
+    padding-left: 50px;
+    background-color: #ffffff;
+    border-radius: 0 0 20px 20px;
+    -webkit-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    transition: background-color 1s;
+
+    &:before {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      content: "\f107\00a0";
+    }
+
+    &:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      content: "\00a0\f107";
+    }
+
+    @keyframes blinkGreen {
+      0% {
+        background-color: white;
+        color: black
+      }
+      50% {
+        background-color: #00c851;
+        color: white
+      }
+      100% {
+        background-color: white;
+        color: black
+      }
+    }
+
+    &.active {
+      background-color: #00c851;
+      color: white;
+      animation-name: blinkGreen;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+    }
+  }
+
+
+}
+
+@mixin hoverDragger {
+  transition: transform 0.5s;
+  &:hover {
+    transform: translateY(0) !important;
+    transition: transform 0.5s;
+
+    .dragger {
+      &:before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f106\00a0" !important;
+      }
+
+      &:after {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\00a0\f106" !important;
+      }
+    }
+  }
 }
 
 #sliderTop {
@@ -153,28 +182,21 @@ body {
   z-index: 10;
 
   @media (min-width: 992px) {
-    transition: transform 0.5s;
-    &:hover {
-      transform: translateY(0) !important;
-      transition: transform 0.5s;
+    @include hoverDragger()
+  }
+}
 
-      .dragger {
-        &:before {
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-          content: "\f106\00a0" !important;
-        }
+.in-iframe {
+  &:not(.in-smartPhone) {
+    #sliderTop {
+      @include hoverDragger();
 
-        &:after {
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-          content: "\00a0\f106" !important;
-        }
+      &.openSlider {
+        transform: translateY(0) !important;
       }
     }
   }
 }
-
 
 .selectedDevice {
   font-weight: bold;
@@ -190,41 +212,40 @@ body {
 #col-waitinglist {
   display: flex;
   flex-direction: column;
-  max-height: 60vh;
   align-content: stretch;
 }
 
 #waitingUserWrapper {
   flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  &:has(.waitingUserCard:nth-child(n+5)){
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 60vh;
+  }
+
 }
 
 .lobbyButtons {
   display: flex;
-  flex-direction: row;
-  @media (min-width: 600px) {
-    width: max-content;
-    max-width: 100%;
-  }
+  flex-direction: column;
   width: 100%;
+  align-items: stretch;
+
+}
+
+@media (min-width: 768px) {
+  .lobbyButtons {
+    flex-direction: row;
+  }
 }
 
 .lobbyCard {
   .lobbyButtons {
     flex-direction: column;
+
   }
 }
 
-.blackMode.joinPage .modal-backdrop {
-  background-image: radial-gradient($main-color, black);
-  opacity: 1;
-}
-
-.joinPage .modal-backdrop {
-  background-image: radial-gradient($main-color, white);
-  opacity: 1;
-}
 
 .lobbyCard {
   .dropdown-toggle {
@@ -268,14 +289,14 @@ body {
   .acceptSwipe {
     background-color: $success;
     padding-left: 18px;
-    border-radius: 8px ;
+    border-radius: 8px;
   }
 
   .denieSwipe {
     padding-right: 18px;
     background-color: $danger;
     justify-content: end;
-    border-radius:  8px;
+    border-radius: 8px;
   }
 }
 
@@ -294,21 +315,25 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  #waitingUser {
-    .waitingUserCard {
-      &:nth-child(1) {
-        .card {
-          animation-name: showSwipe;
-          animation-duration: 1s;
-          animation-iteration-count: 1;
-          animation-delay: 1s;
+.in-smartPhone {
+  @media (max-width: 768px) {
+    #waitingUser {
+      .waitingUserCard {
+        &:nth-child(1) {
+          .card {
+            animation-name: showSwipe;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-delay: 1s;
+          }
         }
       }
     }
   }
 }
-.accessAllowed{
+
+
+.accessAllowed {
   position: absolute;
   background-color: rgb(0, 0, 0, 0.4);
   width: 100%;
@@ -318,20 +343,223 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 3;
-  p{
+
+  p {
     margin: 0;
   }
-  #lobby_participant_counter{
+
+  #lobby_participant_counter {
     font-size: 50px;
     color: white;
     line-height: 1;
   }
 }
-.textAllow{
+
+.textAllow {
   color: white;
 }
-#stopEntry{
-  color: white!important;
-  border-color: white!important;
+
+#stopEntry {
+  color: white !important;
+  border-color: white !important;
 }
+
+.lobbyPartList {
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.lobbyPart {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .onlineDot {
+    position: absolute;
+    left: 10px;
+    width: 8px;
+    height: 8px;
+    background-color: #00c851;
+    border-radius: 50000px;
+    margin-right: 4px;
+  }
+
+}
+
+.in-iframe {
+  &:not(.in-smartPhone) {
+    .buttonHolder {
+
+        .btn{
+          display: flex !important;
+        }
+
+      .slider {
+        display: none !important;
+      }
+    }
+
+    .slide-text {
+      display: none !important;
+    }
+  }
+}
+.buttonHolder{
+  .btn{
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+}
+.searchCallOutParticipantsDropdown {
+  @include statusDot();
+}
+
+
+$rotatePos: 20deg;
+$rotateNeg: -20deg;
+@keyframes shake {
+
+  @for $i from 1 through 10 {
+    #{$i*4-2}% {
+      transform: rotateZ($rotateNeg)
+    }
+  }
+  @for $i from 1 through 10 {
+    @if ($i == 10) {
+      #{$i*4}% {
+        transform: rotateZ(0)
+      }
+    } @else {
+      #{$i*4}% {
+        transform: rotateZ($rotatePos)
+      }
+    }
+
+  }
+}
+
+
+@keyframes resize {
+  0% {
+    transform: scale(1)
+  }
+  10% {
+    transform: scale(1.2)
+  }
+  20% {
+    transform: scale(1)
+  }
+  30% {
+    transform: scale(1.2)
+  }
+  40% {
+    transform: scale(1)
+  }
+}
+
+
+.ringingsymbol {
+  position: relative;
+
+  .fa-phone {
+    animation-name: shake;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+  }
+
+  .fa-phone-slash {
+    animation-name: resize;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+  }
+}
+
+.calloutsymbol {
+  margin-bottom: 4px;
+
+  .content {
+    left: 0;
+    transform: translateX(-50%) scale(0%);
+    width: max-content;
+    transition: transform 0.5s;
+    background-color: $background-color;
+  }
+
+  &:hover > .content, &:active > .content {
+    transform: translateX(-105%) scale(100%);
+    border-radius: 4px;
+    transition: transform 0.5s;
+  }
+
+  .ringingsymbol {
+    border-radius: 4px;
+    background-color: $background-color;
+  }
+}
+
+@keyframes growheight {
+  0% {
+    transform: translateX(-150%);
+    height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  50% {
+    height: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+  60%{
+    transform: translateX(-150%);
+  }
+  100%{
+    transform: translateX(0);
+  }
+}
+
+.messageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  padding: inherit;
+
+  .messageWrapper {
+    animation-name: growheight;
+    animation-duration: 1s;
+    &:before {
+      font-family: "Font Awesome 5 Free";
+      margin-right: 0.5em;
+      font-weight: 900;
+      float: left;
+      content: "\f1d8";
+    }
+
+    background-color: $info;
+    padding: 1em;
+    border-bottom: 1px black solid;
+    color: white;
+    cursor: pointer;
+    display: flex;
+
+    &:last-child {
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+
+    &:first-child {
+      border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+
+      .from {
+        font-size: x-small;
+      }
+    }
+  }
+}
+
 

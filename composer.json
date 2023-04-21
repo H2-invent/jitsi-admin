@@ -12,6 +12,7 @@
     "doctrine/doctrine-bundle": "^2.4",
     "doctrine/doctrine-migrations-bundle": "^3.1",
     "doctrine/orm": "^2.9",
+    "dompdf/dompdf": "^2.0",
     "eluceo/ical": "^2",
     "erusev/parsedown": "^1.7",
     "gjuric/i18n-routing-bundle": "^3.1",
@@ -67,6 +68,7 @@
     "dama/doctrine-test-bundle": "^6.6",
     "dbrekelmans/bdi": "^1.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
+    "phpstan/phpstan": "^1.8",
     "phpunit/phpunit": "^9.5",
     "rector/rector": "^0.13.9",
     "symfony/browser-kit": "5.4.*",
@@ -116,7 +118,8 @@
     ],
     "post-update-cmd": [
       "@auto-scripts"
-    ]
+    ],
+      "phpstan": "vendor/bin/phpstan -c phpstan.neon"
   },
   "conflict": {
     "symfony/symfony": "*"

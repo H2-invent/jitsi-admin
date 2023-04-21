@@ -12,7 +12,7 @@
         </div>
         <div class="modal-body">
             {{ form_start(form) }}
-            <div class="row d-flex align-items-center">
+            <div class="row d-flex align-items-center textarea">
                 <div class="col-lg-8 ">
                     {{ form_row(form.name) }}
                 </div>
@@ -25,12 +25,17 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12 mt-2">
+                <div class="col-lg-12 mt-2 ">
                     <ul class="list-group" id="addressGroupList">
-                        {%  for member in form.member %}
-                            <li class="list-group-item">
+                        {% set name = null %}
+                        {%  for member in form.member|sort((a, b) => a.vars.attr['data-labelNoIcon']|lower <=> b.vars.attr['data-labelNoIcon']|lower)  %}
+                            {% if member.vars.attr['data-labelNoIcon']|first|upper != name %}
+                                <li class="list-group-item capital-Letter"
+                                    id="adressbook_{{ member.vars.attr['data-labelNoIcon']|first|upper }}">{{ member.vars.attr['data-labelNoIcon']|first|upper }}</li>
+                                {% set name = member.vars.attr['data-labelNoIcon']|first|upper %}
+                            {% endif %}
+                            <li class="list-group-item adressbookline" data-indexer="{{ member.vars.attr['data-indexer'] }}">
                                 {{ form_widget(member)|raw }}
-
                             </li>
                         {% endfor %}
                     </ul>

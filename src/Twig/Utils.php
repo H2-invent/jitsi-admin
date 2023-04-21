@@ -31,12 +31,18 @@ class Utils extends AbstractExtension
     {
         return [
             new TwigFilter('addRepetiveCharacters', [$this, 'addRepetiveCharacters']),
+            new TwigFilter('json_decode', [$this, 'json_decode']),
         ];
     }
 
-    public function addRepetiveCharacters(string $string, string $character, int $sequence):string
+    public function addRepetiveCharacters(string $string, string $character, int $sequence): string
     {
         return chunk_split($string, $sequence, $character);
     }
 
+    public function json_decode($string)
+    {
+        $res = json_decode($string, true);
+        return $res;
+    }
 }

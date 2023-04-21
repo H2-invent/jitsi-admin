@@ -1,0 +1,148 @@
+
+.capital-Letter {
+  border-right: none;
+  border-left: none;
+  background: none !important;
+}
+
+.adressbookline {
+  .name {
+    i {
+      margin-right: 0.5rem !important;
+    }
+  }
+
+  .icon {
+    .dropdown-toggle {
+      width: max-content;
+    }
+  }
+}
+
+
+@mixin statusColors {
+  &[data-status="online"] {
+    border: $success 2px solid;
+  }
+
+  &[data-status="away"] {
+    border: $warning 2px solid;
+  }
+
+  &[data-status="inMeeting"] {
+    border: $info 2px solid;
+  }
+
+}
+
+#modalAdressbookBody {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .adressbookline {
+    display: flex;
+    justify-content: space-between;
+    @include statusColors();
+  }
+
+  .register {
+    .registerElement {
+      padding: 0.5em 0.5rem 0.5em 0.5rem;
+
+      &.adressBookPointOut {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: .2rem;
+      }
+    }
+  }
+
+  .nav-mat {
+    flex: 1;
+  }
+
+  .tab-content {
+    height: 100%;
+
+    .tab-pane {
+      height: 100%;
+
+      .register {
+        overflow-y: auto;
+      }
+
+      .textarea {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .topbar {
+        }
+
+        .content {
+          overflow-y: auto;
+          min-height: 50%;
+
+          .adressBookPointOut {
+            &:before {
+              font-family: "Font Awesome 5 Free";
+              margin-right: 0.5em;
+              font-weight: 900;
+              float: left;
+              content: "\f178";
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.addressbookSearchHidden, .addressbookCategorieHidden {
+  display: none !important;
+}
+
+
+@mixin statusDot {
+  a {
+    display: flex;
+    align-items: center;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50000px;
+      margin-right: 4px;
+    }
+
+
+    &[data-status="away"] {
+      .dot {
+        background-color: $warning;
+      }
+    }
+
+    &[data-status="offline"] {
+      .dot {
+        background-color: $danger;
+      }
+    }
+
+    &[data-status="inMeeting"] {
+      .dot {
+        background-color: $info;
+      }
+    }
+
+    &[data-status="online"] {
+      .dot {
+        background-color: #00c851;
+      }
+    }
+  }
+}
+
+.onlineSelector {
+  @include statusDot();
+}
+

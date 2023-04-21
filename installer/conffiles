@@ -1,0 +1,2 @@
+/etc/nginx/sites-available/jitsiadmin.conf
+/etc/php/8.1/fpm/pool.d/jitsiadmin.conf

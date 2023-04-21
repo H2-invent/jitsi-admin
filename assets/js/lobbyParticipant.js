@@ -10,80 +10,80 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
 import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
-import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
+import {initAUdio, micId, echoOff, micArr} from './audioUtils'
 import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
-import {checkDeviceinList}  from './jitsiUtils'
+import {enterMeeting, leaveMeeting, socket} from './websocket';
+import {initModeratorIframe, close, inIframe} from './moderatorIframe'
+import {initStarSend} from "./endModal";
+import {initStartWhiteboard} from "./startWhiteboard";
+import {checkDeviceinList} from './jitsiUtils'
 
-initNotofication();
+import ('jquery-confirm');
 
+
+function closeForAll() {
+    api = null;
+    initStarSend();
+}
+initNotofication(closeForAll);
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
-var api;
+function checkCloseParticipant() {
+    echoOff();//echo ausschlaten wenn ncoh an
+    stopWebcam();//Webcam auschalten
+    var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
+    if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
+        // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
+        closeBrowser();
+        leaveMeeting();
+        close();
+    }
+}
+initModeratorIframe(checkCloseParticipant);
+let api;
 var dataSucess;
 var successTimer;
 var clickLeave = false;
-let es;
-let healtcheckInterval;
-let blockHealtch = false;
 var microphoneLabel = null;
 var cameraLable = null;
 
+
 function initMercure() {
-    connectES();
-    setInterval(function () {
-        if (es.readyState === 2) {
-            connectES();
-        }
-    }, 5000);
-}
 
-function connectES() {
-    es = new EventSource([topic]);
-    es.onmessage = e => {
-        var data = JSON.parse(e.data)
-        masterNotify(data);
+    socket.on('mercure', function (inData) {
+        var data = JSON.parse(inData)
         if (data.type === 'newJitsi') {
-            clearInterval(healtcheckInterval);
-            blockHealtch = true;
             userAccepted(data);
-        } else if (data.type === 'endMeeting') {
-            blockHealtch = true;
-            clearInterval(healtcheckInterval);
-            hangup()
-            $('#jitsiWindow').remove();
         } else if (data.type === 'redirect') {
-            blockHealtch = true;
-            clearInterval(healtcheckInterval);
-        }
-    }
-    healtcheckInterval = setInterval(function () {
-        $.get(healthcheckUrl, function (data) {
-                if (data.error === true) {
-                    if (!blockHealtch){
-                    location.reload()
-                }
-            }
 
-        });
-    }, 10000)
+        }
+    })
 }
 
 window.onbeforeunload = function (e) {
     if (!clickLeave) {
         closeBrowser();
     }
-    return;
+    return null;
 };
 
 function closeBrowser() {
-    $.ajax({
-        url: browserLeave,
-        context: document.body
-    })
+    fetch(browserLeave)
+        .then(response => {
+            if (inIframe()) {
+                close()
+            } else {
+                window.location.href = "/";
+                window.close();
+            }
+
+        });
+
     for (var i = 0; i < 500000000; i++) {
     }
+
 }
 
 initCircle();
@@ -112,9 +112,8 @@ $('.renew').click(function (e) {
 $('.leave').click(function (e) {
     e.preventDefault();
     clickLeave = true;
-    $.get($(this).attr('href'), function (data) {
-        window.location.href = "/";
-    })
+    closeBrowser();
+    browserLeave = $(this).attr('href');
 })
 
 function initJitsiMeet(data) {
@@ -123,9 +122,7 @@ function initJitsiMeet(data) {
     stopWebcam();
     echoOff();
     window.onbeforeunload = null;
-    window.onbeforeunload = function (e) {
-        return '';
-    }
+
     $('body').prepend('<div id="frame"></div>');
 
     var frameDIv = $('#frame');
@@ -133,13 +130,14 @@ function initJitsiMeet(data) {
     frameDIv.prepend($(data.options.parentNode));
     frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
     $('#window').remove();
+    $('#mainContent').remove();
     $('.imageBackground').remove();
     document.title = data.options.roomName
     frameDIv.append('<div id="snackbar" class="bg-success d-none"></div>')
 
     var options = data.options.options;
     options.device = choosenId;
-    //here we set the logo into the jitsi iframe options
+
 
     options.parentNode = document.querySelector(data.options.parentNode);
     api = new JitsiMeetExternalAPI(data.options.domain, options);
@@ -151,7 +149,20 @@ function initJitsiMeet(data) {
         }
 
     });
+
     api.addListener('videoConferenceJoined', function (e) {
+        enterMeeting();
+        initStartWhiteboard();
+        window.onbeforeunload = function (e) {
+            return '';
+        }
+
+        api.addListener('videoConferenceLeft', function (e) {
+            leaveMeeting();
+            initStarSend();
+            api = null;
+        });
+
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});
         }
@@ -161,19 +172,24 @@ function initJitsiMeet(data) {
         if (avatarUrl !== '') {
             api.executeCommand('avatarUrl', avatarUrl);
         }
-        // api.getAvailableDevices().then(devices => {
-        //     if (checkDeviceinList(devices,cameraLable)){
-        //         api.setVideoInputDevice(cameraLable);
-        //     }
-        //     if (checkDeviceinList(devices,cameraLable)){
-        //         api.setAudioInputDevice(microphoneLabel);
-        //     }
-        //     swithCameraOn(toggle);
-        // });
-        // swithCameraOn(toggle);
+        api.getAvailableDevices().then(devices => {
+            if (checkDeviceinList(devices, cameraLable)) {
+                api.setVideoInputDevice(checkDeviceinList(devices, cameraLable));
+            }
+            if (checkDeviceinList(devices, microphoneLabel)) {
+                api.setAudioInputDevice(checkDeviceinList(devices, microphoneLabel));
+            }
+            swithCameraOn(toggle);
+        });
+        swithCameraOn(toggle);
+
+
+        api.addListener('participantKickedOut', function (e) {
+            var id = api.getParticipantsInfo();
+
+        });
+
     });
-
-
 
 
     $(data.options.parentNode).find('iframe').css('height', '100%');
@@ -181,8 +197,34 @@ function initJitsiMeet(data) {
 
 }
 
+
+function askHangup() {
+    if (!api) {
+        return false;
+    }
+    $.confirm({
+        title: null,
+        content: hangupQuestion,
+        theme: 'material',
+        buttons: {
+            confirm: {
+                text: hangupText, // text for button
+                btnClass: 'btn-danger btn', // class for the button
+                action: function () {
+                    hangup();
+                },
+            },
+            cancel: {
+                text: cancel, // text for button
+                btnClass: 'btn-outline-primary btn', // class for the button
+            },
+        }
+    });
+    return true;
+}
+
 function hangup() {
-    api.command('hangup')
+    api.executeCommand('hangup')
 }
 
 function userAccepted(data) {
@@ -196,12 +238,12 @@ function userAccepted(data) {
 
     interval = setInterval(function () {
         counter = counter - 1;
-        $('#lobby_participant_counter').css('transition',' opacity 0s');
-        $('#lobby_participant_counter').css('opacity','0');
+        $('#lobby_participant_counter').css('transition', ' opacity 0s');
+        $('#lobby_participant_counter').css('opacity', '0');
         setTimeout(function () {
-            $('#lobby_participant_counter').css('transition',' opacity 0.5s');
-            $('#lobby_participant_counter').css('opacity','1');
-        },1)
+            $('#lobby_participant_counter').css('transition', ' opacity 0.5s');
+            $('#lobby_participant_counter').css('opacity', '1');
+        }, 1)
         if (counter < 0) {
             clearInterval(interval);
             initJitsiMeet(dataSucess);
@@ -225,17 +267,17 @@ function userAccepted(data) {
 
 
 function swithCameraOn(videoOn) {
-    if (videoOn === 1){
+    if (videoOn === 1) {
         var muted =
             api.isVideoMuted().then(muted => {
-                console.log(muted)
-                if (muted){
+
+                if (muted) {
                     api.executeCommand('toggleVideo');
                 }
             });
-    }else {
+    } else {
         api.isVideoMuted().then(muted => {
-            if (!muted){
+            if (!muted) {
                 api.executeCommand('toggleVideo');
             }
 
@@ -243,12 +285,21 @@ function swithCameraOn(videoOn) {
     }
 }
 
-
 $(document).ready(function () {
     initGenerell()
     initAUdio();
     initWebcam();
     initMercure();
+    $('#webcamRow').css('height', $('.webcamArea').height());
+    var ro = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            $('#webcamRow').css('height', $('.webcamArea').height());
+        }
+    });
+
+// Observe one or multiple elements
+    ro.observe(document.querySelector('.webcamArea'));
+
 })
 
 

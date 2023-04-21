@@ -11,7 +11,7 @@ label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Name der Konferenz
 label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
+label.nurRegistriertenutzer: Nur registrierte Benutzer mit einem Account auf dieser Plattform dürfen der Konferenz beitreten.
 label.speichern: Speichern
 option.15min: 15 Minuten
 option.30min: 30 Minuten
@@ -83,7 +83,6 @@ help:
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
   jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
-
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Im Browser beitreten
@@ -101,12 +100,12 @@ label:
   serverLicenseKey: Jitsi-Admin-Lizenz-Key eingeben
   apiKey: Api-Key für diesen Server
   agenda: Kurze Agenda für dieses Meeting (Markdown)
-  staticBackgroundColor:
+  staticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
   schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
   featureEnalbeByJwt: „Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
-  puplicRoom: Link zur Einladung freischalten
+  puplicRoom: Selbsteinschreibung aktivieren
   showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Anmelden
   vorname: Vorname
@@ -143,7 +142,6 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Los gehts!
-
 
 choice:
   tls: STARTTLS/TLS

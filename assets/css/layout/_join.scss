@@ -104,51 +104,74 @@ strong {
   }
 }
 
-.invitePeopleFrame {
-  z-index: 50;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  max-width: 100%;
+
+.inviteNewParticipants {
   display: flex;
+  position: relative;
 
-  flex-direction: column;
-  justify-content: center;
-  //transform: translateX(-100%);
-
-  .inviteNewParticipants {
-    display: flex;
-    position: relative;
-
-    &:hover, :active {
-      > .content {
-        position: absolute;
-        transform: translateX(0%);
-      }
-    }
-
-    .content {
+  &:hover, :active {
+    > .content {
       position: absolute;
-      top: -200%;
-      background-color: $black_background;
+      transform: translateX(0%);
+    }
+  }
+
+  .content {
+    position: absolute;
+    top: -200%;
+    background-color: $black_background;
+    color: $black_font-color;
+    padding: 1.5em;
+    transform: translateX(-100%);
+    transition: ease-in transform 0.5s;
+
+    p {
       color: $black_font-color;
-      padding: 1.5em;
-      transform: translateX(-100%);
-      transition: ease-in transform 0.5s;
-      p{
-        color: $black_font-color;
-      }
-      a{
-        cursor: pointer;
-      }
     }
 
-    .toggle {
-      background-color: white;
-      color: black;
+    a {
+      cursor: pointer;
+    }
+  }
+
+  .toggle {
+    background-color: white;
+    color: black;
+    padding: 1rem;
+  }
+}
+
+.conference-sidebar {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+
+
+  .wrapperIcons {
+    width: fit-content;
+    width: -moz-fit-content;
+
+    .wrapper{
+      display: flex;
+      width: 100%
+    }
+    .conference-icon {
+      width: 100%;
       padding: 1rem;
+      cursor: pointer;
+      margin-bottom: 8px;
+      width: -moz-available;
+      width: available;
     }
   }
 
 }
-
+.modal-backdrop{
+  background-color: $background-color;
+}

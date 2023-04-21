@@ -10,7 +10,7 @@
 
 {% set image = pexelsImage() %}
 
-<body style="background-color: #C9C9C9"
+<body
       class="{% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
     blackMode{% endif %} joinPage">
 <style>
@@ -60,7 +60,7 @@
 <div id="mainContent" class="wrapper">
     <div class="window" id="window">
         <div class="navigation z-depth-1">
-            <a href="{{ path('index') }}" id="logo_image">
+            <div id="logo_image">
                 <img class="d-none d-sm-block" src="
                     {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
@@ -89,7 +89,7 @@
                      alt="Logo"
                      style="height: 50px; width: auto">
 
-            </a>
+            </div>
             {% if theme != false %}
                 <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
                     {{ theme.headerLine }}
@@ -124,18 +124,18 @@
                                         {% endif %}
                                     {% endif %}
                                     <div class="row ">
-                                        <div class="col-12">
-                                           <h3 class="text-center">{% block header %}{% endblock %}</h3>
+                                        <div class="col-12 text-center">
+                                      <span class="joinPageHeader">{% block header %}{% endblock %}</span>
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="row mb-5">
+                                    <div class="row mb-5  justify-content-center">
                                         {% block content %}{% endblock %}
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 text-center">
-                                            {% if not server %}
+                                        <div class="col-12 d-flex justify-content-center">
+                                            {% if server is not defined or not server %}
                                                 <p>
                                                     {% trans %}Wer eine datenschutzfreundliche Videokonferenz Plattform sucht die auf dem eigenen Server betrieben wird ist mit dem Open Source Tool Jitsi gut bedient. Jitsi ist eine Alternative zu Zoom. Sie speichert keine Nutzerdaten und ermöglicht die verschlüsselte Anwendung.{% endtrans %}
                                                 </p>
@@ -146,7 +146,7 @@
                                 </div>
                                 {{ include('join/__frozenGlasContent.html.twig') }}
                             </div>
-                            {% if server and server|roomsinFuture|length > 0 %}
+                            {% if server is defined and server and server|roomsinFuture|length > 0 %}
                                 {{ include('join/__publicRooms.html.twig') }}
                             {% endif %}
                             {% if theme == false or theme.joinPageFooter == true %}
@@ -176,6 +176,12 @@
      aria-labelledby="loadContentModal"
      aria-hidden="true">
 </div>
+
+{% if room is defined and room is not null %}
+
+        {% include 'conference_end/__rating.html.twig' with {'room':room} %}
+
+{% endif %}
 <script>
     var confirmTitle = "{{ 'confirm.title'|trans }}";
     var confirmCancel = "{{ 'confirm.cancel'|trans }}";
@@ -183,6 +189,8 @@
     var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
     var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
     var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
+    var websocketTopics = "{{ getJwtforWebsocket([],app.user) }}";
+    var websocketUrl = "{{ getUrlforWebsocket() }}";
 
     {% if app.request is not null and app.request.cookies.get('DARK_MODE') =="" %}
 
