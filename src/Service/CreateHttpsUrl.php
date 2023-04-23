@@ -55,7 +55,7 @@ class CreateHttpsUrl
         $isStricktHttps = str_contains($this->baseUrl,'https://');
         $res = $baseUrl .$url;
         if ($isStricktHttps){
-            str_replace('http://', 'https://', $res);
+            $res = str_replace('http://', 'https://', $res);
         }
         return $res;
     }
