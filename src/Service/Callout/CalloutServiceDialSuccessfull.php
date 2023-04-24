@@ -22,6 +22,12 @@ class CalloutServiceDialSuccessfull
     }
 
 
+    /**
+     * @param User $user
+     * @param Rooms $rooms
+     * @return bool
+     * This function removes the calloutsession when a called user is successfully transformed into a callin user.
+     */
     public function dialSuccessfull(User $user, Rooms $rooms): bool
     {
         $calloutRepo = $this->entityManager->getRepository(CalloutSession::class);

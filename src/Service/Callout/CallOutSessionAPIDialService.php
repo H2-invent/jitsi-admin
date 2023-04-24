@@ -22,6 +22,13 @@ class CallOutSessionAPIDialService
     {
     }
 
+    /**
+     * @param $sessionId
+     * @return array
+     * A session is dialed.
+     * Every Session has to go through this session
+     * Every Session has to be dialed after it is shown in the pool
+     */
     public function dialSession($sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId));
@@ -48,12 +55,19 @@ class CallOutSessionAPIDialService
 
     }
 
+    /**
+     * @param string $sessionId
+     * @return array
+     * A session can be set in ringing state.
+     * A ringing State is show with a different symbol in the frontend.
+     * A Session has to be in DIaling state to be moved to the ringing state
+     */
     public function ringing(string $sessionId):array{
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId));
         if (!$calloutSession) {
             return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
         }
-        if ($calloutSession->getState() >= CalloutSession::$ON_HOLD){
+        if ($calloutSession->getState() >= CalloutSession::$ON_HOLD || $calloutSession->getState() < CalloutSession::$DIALED){
             return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
         }
         $calloutSession->setState(CalloutSession::$RINGING);
@@ -71,7 +85,16 @@ class CallOutSessionAPIDialService
 
     }
 
-   public function generateLinkList(CalloutSession $calloutSession, CallerId $pin):array{
+    /**
+     * @param CalloutSession $calloutSession
+     * @param CallerId $pin
+     * @return array
+     * This function genetrates the link list
+     * The Link list return the link for:
+     * refuse, ringing, timeout, error, unreachable, later, dial, occupied,accept
+     * the accept array retunrs the dial in information (pin and caller id) which is necessary to dialin in a meeting via phone
+     */
+    public function generateLinkList(CalloutSession $calloutSession, CallerId $pin):array{
 
 
         return array(
@@ -91,4 +114,31 @@ class CallOutSessionAPIDialService
                 'occupied' => $this->urlGenerator->generate('callout_api_occupied', array('calloutSessionId' => $calloutSession->getUid())),
         );
     }
+
+    /**
+     * @param string $sessionId
+     * @return array
+     * This FUnction resets a session from on hold back to dial State.
+     * This is necessary when a called user wants to revert his decision from f.eg. klicking want to join later but then he wants to join now
+     */
+    public function backSession(string $sessionId):array{
+        $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('uid' => $sessionId));
+        if (!$calloutSession) {
+            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
+        }
+        if ($calloutSession->getState() < CalloutSession::$ON_HOLD){//Wenn die Session
+            return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
+        }
+        $calloutSession->setState(CalloutSession::$DIALED);
+        $this->entityManager->persist($calloutSession);
+        $this->entityManager->flush();
+        $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
+        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(array('room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()));
+        return array(
+            'status' => CalloutSession::$STATE[$calloutSession->getState()],
+            'links' => $this->generateLinkList(calloutSession: $calloutSession,pin: $pin),
+        );
+
+    }
+
 }

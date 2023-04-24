@@ -163,4 +163,15 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
+    #[Route('/back/{calloutSessionId}', name: 'back',methods: 'GET')]
+    public function back($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = $this->callOutSessionAPIDialService->backSession($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
 }

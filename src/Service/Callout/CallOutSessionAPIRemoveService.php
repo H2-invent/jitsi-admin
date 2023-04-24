@@ -14,6 +14,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * This Calls contains functions when a callout session is removed
+ */
 class CallOutSessionAPIRemoveService
 {
     public function __construct(
@@ -27,6 +30,12 @@ class CallOutSessionAPIRemoveService
     {
     }
 
+    /**
+     * @param $sessionId
+     * @return array
+     * the user refuse the call
+     * the session is removed and a message is send to the lobbymoderator
+     */
     public function refuse($sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive( $sessionId);
@@ -40,6 +49,11 @@ class CallOutSessionAPIRemoveService
         );
     }
 
+    /**
+     * @param $sessionId
+     * @return array
+     * An error occurred during calling a invited participant
+     */
     public function error($sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive( $sessionId);
@@ -53,6 +67,13 @@ class CallOutSessionAPIRemoveService
         );
     }
 
+    /**
+     * @param $sessionId
+     * @return array
+     * The phone is not reachable.
+     * The inviter is informed about the unreachable of the invited phone
+     * The difference between error and unreachable is only the message which is send to the lobbymoderator
+     */
     public function unreachable($sessionId): array
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive( $sessionId);
@@ -67,6 +88,12 @@ class CallOutSessionAPIRemoveService
     }
 
 
+    /**
+     * @param CalloutSession|null $calloutSession
+     * @param $message
+     * @return array
+     * This is a generic function to remove the callout session
+     */
     public function removeCalloutSession(?CalloutSession $calloutSession, $message)
     {
 
@@ -82,6 +109,12 @@ class CallOutSessionAPIRemoveService
         return $res;
     }
 
+    /**
+     * @param Rooms $room
+     * @param $message
+     * @return void
+     * This function sends a refuse message to the lobbymoderator
+     */
     public function sendRefuseMessage(Rooms $room, $message)
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();

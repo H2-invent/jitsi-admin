@@ -55,7 +55,9 @@ class CalloutHoldApiFromRingingServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->later('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
@@ -119,7 +121,9 @@ class CalloutHoldApiFromRingingServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->occupied('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
@@ -138,7 +142,9 @@ class CalloutHoldApiFromRingingServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->timeout('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
@@ -173,7 +179,9 @@ class CalloutHoldApiFromRingingServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->setCalloutSessionOnHold($callout, 30, 'testmessage'));
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
         self::assertEquals(30, $callout->getState());

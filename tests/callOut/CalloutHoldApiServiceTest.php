@@ -55,7 +55,9 @@ class CalloutHoldApiServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->later('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
@@ -77,15 +79,15 @@ class CalloutHoldApiServiceTest extends KernelTestCase
             'pin' => '987654321',
             'room_number' => '12340',
             'links' => array(
-                'accept' => '/api/v1/lobby/sip/pin/'.$calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
-                'refuse' => '/api/v1/call/out/refuse/'.$calloutSession->getUid(),
-                'ringing' => '/api/v1/call/out/ringing/'.$calloutSession->getUid(),
-                'timeout' => '/api/v1/call/out/timeout/'.$calloutSession->getUid(),
-                'error' => '/api/v1/call/out/error/'.$calloutSession->getUid(),
-                'unreachable' => '/api/v1/call/out/unreachable/'.$calloutSession->getUid(),
-                'later' => '/api/v1/call/out/later/'.$calloutSession->getUid(),
-                'dial' => '/api/v1/call/out/dial/'.$calloutSession->getUid(),
-                'occupied' => '/api/v1/call/out/occupied/'.$calloutSession->getUid(),
+                'accept' => '/api/v1/lobby/sip/pin/' . $calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
+                'refuse' => '/api/v1/call/out/refuse/' . $calloutSession->getUid(),
+                'ringing' => '/api/v1/call/out/ringing/' . $calloutSession->getUid(),
+                'timeout' => '/api/v1/call/out/timeout/' . $calloutSession->getUid(),
+                'error' => '/api/v1/call/out/error/' . $calloutSession->getUid(),
+                'unreachable' => '/api/v1/call/out/unreachable/' . $calloutSession->getUid(),
+                'later' => '/api/v1/call/out/later/' . $calloutSession->getUid(),
+                'dial' => '/api/v1/call/out/dial/' . $calloutSession->getUid(),
+                'occupied' => '/api/v1/call/out/occupied/' . $calloutSession->getUid(),
             )
         ), $calloutDialService->ringing('ksdlfjlkfds'));
         self::assertEquals(array(
@@ -93,15 +95,15 @@ class CalloutHoldApiServiceTest extends KernelTestCase
             'pin' => '987654321',
             'room_number' => '12340',
             'links' => array(
-                'accept' => '/api/v1/lobby/sip/pin/'.$calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
-                'refuse' => '/api/v1/call/out/refuse/'.$calloutSession->getUid(),
-                'ringing' => '/api/v1/call/out/ringing/'.$calloutSession->getUid(),
-                'timeout' => '/api/v1/call/out/timeout/'.$calloutSession->getUid(),
-                'error' => '/api/v1/call/out/error/'.$calloutSession->getUid(),
-                'unreachable' => '/api/v1/call/out/unreachable/'.$calloutSession->getUid(),
-                'later' => '/api/v1/call/out/later/'.$calloutSession->getUid(),
-                'dial' => '/api/v1/call/out/dial/'.$calloutSession->getUid(),
-                'occupied' => '/api/v1/call/out/occupied/'.$calloutSession->getUid(),
+                'accept' => '/api/v1/lobby/sip/pin/' . $calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
+                'refuse' => '/api/v1/call/out/refuse/' . $calloutSession->getUid(),
+                'ringing' => '/api/v1/call/out/ringing/' . $calloutSession->getUid(),
+                'timeout' => '/api/v1/call/out/timeout/' . $calloutSession->getUid(),
+                'error' => '/api/v1/call/out/error/' . $calloutSession->getUid(),
+                'unreachable' => '/api/v1/call/out/unreachable/' . $calloutSession->getUid(),
+                'later' => '/api/v1/call/out/later/' . $calloutSession->getUid(),
+                'dial' => '/api/v1/call/out/dial/' . $calloutSession->getUid(),
+                'occupied' => '/api/v1/call/out/occupied/' . $calloutSession->getUid(),
             )
         ), $calloutDialService->ringing('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
@@ -110,6 +112,31 @@ class CalloutHoldApiServiceTest extends KernelTestCase
         self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'), $calloutDialService->ringing('invalid'));
 
     }
+
+    public function testRingingFalseState(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $calloutSession = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
+        $entitymanager = self::getContainer()->get(EntityManagerInterface::class);
+        $calloutSession->setState(CalloutSession::$INITIATED);
+        $entitymanager->persist($calloutSession);
+        $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
+        self::assertEquals(array(
+            'error' => true,
+            'reason' => 'SESSION_NOT_IN_CORRECT_STATE'
+        ), $calloutDialService->ringing('ksdlfjlkfds'));
+
+        $calloutSession->setState(CalloutSession::$ON_HOLD);
+        $entitymanager->persist($calloutSession);
+        self::assertEquals(array(
+            'error' => true,
+            'reason' => 'SESSION_NOT_IN_CORRECT_STATE'
+        ), $calloutDialService->ringing('ksdlfjlkfds'));
+
+    }
+
 
     public function testOccupied(): void
     {
@@ -121,7 +148,9 @@ class CalloutHoldApiServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->occupied('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
@@ -140,7 +169,9 @@ class CalloutHoldApiServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->timeout('ksdlfjlkfds'));
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
@@ -175,7 +206,9 @@ class CalloutHoldApiServiceTest extends KernelTestCase
             'status' => 'ON_HOLD',
             'pin' => '987654321',
             'room_number' => '12340',
-            'links' => array(),
+            'links' => array(
+                'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+            ),
         ), $calloutHoldService->setCalloutSessionOnHold($callout, 30, 'testmessage'));
         $callout = $calloutRepo->findOneBy(array('uid' => 'ksdlfjlkfds'));
         self::assertEquals(30, $callout->getState());
@@ -199,7 +232,6 @@ class CalloutHoldApiServiceTest extends KernelTestCase
         self::assertEquals(2, $callout->getLeftRetries());
 
     }
-
 
 
     public function testsendMessage(): void
