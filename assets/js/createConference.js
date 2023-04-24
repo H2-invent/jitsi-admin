@@ -274,7 +274,7 @@ function sendCommand(id, message) {
         if (messages[messageId]) {
             closeIframe(messages[messageId]);
         }
-    }, 2000)
+    }, 10000)
 }
 
 function recievecommand(data) {
