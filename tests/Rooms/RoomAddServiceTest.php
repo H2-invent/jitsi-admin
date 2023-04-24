@@ -19,7 +19,7 @@ class RoomAddServiceTest extends KernelTestCase
         $roomAddService = self::getContainer()->get(RoomAddService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
-        $user = "test@local5.de\ntest@local4.de\ntest@local6.de";
+        $user = "test@local5.de".PHP_EOL.PHP_EOL."test@local4.de".PHP_EOL."test@local6.de";
         $res = $roomAddService->createParticipants($user, $room);
         self::assertEquals(0, sizeof($res));
         $count = 0;
