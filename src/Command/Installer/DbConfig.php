@@ -15,7 +15,7 @@ class DbConfig implements ConvertToEnvironmentInterface
     ];
 
     private function __construct(
-        private string  $engine,
+        private string $engine,
         private string $serverVersion,
         private string $host,
         private int    $port,
@@ -37,13 +37,13 @@ class DbConfig implements ConvertToEnvironmentInterface
     ): self
     {
         return new self(
-            engine: $engine,
+            engine: urlencode($engine),
             serverVersion: $serverVersion,
-            host: $host,
+            host: urlencode($host),
             port: $port,
-            database: $database,
-            username: $username,
-            password: $password,
+            database: urlencode($database),
+            username: urlencode($username),
+            password: urlencode($password),
         );
     }
 
@@ -57,6 +57,21 @@ class DbConfig implements ConvertToEnvironmentInterface
             database: 'jitsi-admin',
             username: 'jitsiadmin',
             password: 'jitsiadmin',
+        );
+    }
+
+    public static function createFromDsn(string $dsn): self
+    {
+        $dbConfig = [];
+        preg_match('~.*://(?<username>.*):(?<password>.*)@(?<host>.*):(?<port>\d*)/(?<database>.*)\?serverVersion=(?<serverVersion>.*)~', $dsn, $dbConfig);
+        return new self(
+            engine: 'mysql',
+            serverVersion: $dbConfig['serverVersion'],
+            host: $dbConfig['host'],
+            port: (int)$dbConfig['port'],
+            database: $dbConfig['database'],
+            username: $dbConfig['username'],
+            password: $dbConfig['password'],
         );
     }
 
@@ -77,5 +92,35 @@ class DbConfig implements ConvertToEnvironmentInterface
             $this->database,
             $this->serverVersion,
         );
+    }
+
+    public function username(): string
+    {
+        return urldecode($this->username);
+    }
+
+    public function password(): string
+    {
+        return urldecode($this->password);
+    }
+
+    public function host(): string
+    {
+        return urldecode($this->host);
+    }
+
+    public function port(): int
+    {
+        return $this->port;
+    }
+
+    public function database(): string
+    {
+        return urldecode($this->database);
+    }
+
+    public function serverVersion(): string
+    {
+        return $this->serverVersion;
     }
 }

@@ -13,6 +13,9 @@ echo ""
 echo ******INSTALLING DEPENDENCIES******
 echo ""
 sudo apt update
+sudo service apache2 stop
+sudo apt-get purge apache2 apache2-utils apache2.2-bin apache2-common
+sudo apt-get autoremove
 sudo apt install -y \
     git curl lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 mysql-server \
     nginx nginx-extras\
@@ -32,7 +35,7 @@ git clone https://github.com/H2-invent/jitsi-admin.git
 popd
 
 pushd /var/www/jitsi-admin
-git checkout freeze/0.75.x
+git checkout master
 
 
 clear
@@ -40,7 +43,7 @@ clear
 export COMPOSER_ALLOW_SUPERUSER=1
 php composer.phar install --no-interaction
 php composer.phar dump-autoload
-cp .env.sample .env.local
+cp -n .env.sample .env.local
 
 sudo mysql -e "CREATE USER 'jitsiadmin'@'localhost' IDENTIFIED  BY 'jitsiadmin';"
 sudo mysql -e "GRANT ALL PRIVILEGES ON jitsi_admin.* TO 'jitsiadmin'@'localhost';"
@@ -59,6 +62,7 @@ clear
 php bin/console cache:clear
 clear
 php bin/console cache:warmup
+php bin/console app:system:repair
 clear
 
 npm install

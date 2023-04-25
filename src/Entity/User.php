@@ -171,7 +171,7 @@ class User extends BaseUser
 
     public function setEmail(string $email): self
     {
-        $this->email = $email;
+        $this->email = rtrim($email);
 
         return $this;
     }
@@ -207,7 +207,7 @@ class User extends BaseUser
 
     public function setUsername(?string $username): self
     {
-        $this->username = $username;
+        $this->username = rtrim($username);
 
         return $this;
     }
