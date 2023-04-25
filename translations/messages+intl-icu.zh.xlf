@@ -1290,7 +1290,7 @@
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">Lobby für die Konferenz: {name}</target>
+        <target state="needs-translation">{name}</target>
       </trans-unit>
       <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
@@ -1781,19 +1781,19 @@
       </trans-unit>
       <trans-unit id="l7wQdDI" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="needs-translation">Der/Die Angerufene hat nicht abgenommen</target>
+        <target state="needs-translation">{name} hat nicht abgenommen</target>
       </trans-unit>
       <trans-unit id="5NiLGgo" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="needs-translation">Der Anschluss ist besetzt.</target>
+        <target state="needs-translation">Der Anschluss von {name} ist besetzt.</target>
       </trans-unit>
       <trans-unit id="rJeuurV" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="needs-translation">Der/Die Angerufene wird später der Konferenz beitreten.</target>
+        <target state="needs-translation">{name} wird später der Konferenz beitreten.</target>
       </trans-unit>
       <trans-unit id="ACda2_m" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="needs-translation">Der/Die Angerufene hat abgelehnt.</target>
+        <target state="needs-translation">{name} hat abgelehnt.</target>
       </trans-unit>
       <trans-unit id="YSIci3n" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -2116,7 +2116,7 @@
         <target state="needs-translation">Allgemeiner Fehler</target>
       </trans-unit>
       <trans-unit id="xFrrBI8" resname="Hier ist was schief gelaufen. Tut uns Leid">
-        <source>Hier ist was schiefgelaufen. Tut uns Leid</source>
+        <source>Hier ist was schief gelaufen. Tut uns Leid</source>
         <target state="needs-translation">Hier ist was schiefgelaufen. Tut uns Leid</target>
       </trans-unit>
       <trans-unit id="4pmAB3F" resname="Zur Startseite">
@@ -2139,7 +2139,7 @@
         <source>Seite kaputt</source>
         <target state="needs-translation">Seite kaputt</target>
       </trans-unit>
-      <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
+      <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
         <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
       </trans-unit>
@@ -2150,6 +2150,22 @@
       <trans-unit id="aIUgk0b" resname="Jetzt einladen">
         <source>Jetzt einladen</source>
         <target state="needs-translation">Jetzt einladen</target>
+      </trans-unit>
+      <trans-unit id="N3_BJHi" resname="callout.message.unreachable">
+        <source>callout.message.unreachable</source>
+        <target state="needs-translation">{name} ist nicht erreichbar.</target>
+      </trans-unit>
+      <trans-unit id="Y44kn0o" resname="Filter">
+        <source>Filter</source>
+        <target state="needs-translation">Filter</target>
+      </trans-unit>
+      <trans-unit id="L4szaw3" resname="deputy.mydebutys">
+        <source>deputy.mydebutys</source>
+        <target state="needs-translation">Meine Vertreter</target>
+      </trans-unit>
+      <trans-unit id="1Ko4REx" resname="callout.dropdown.empty">
+        <source>Hier werden die Ergebnisse der Suche angezeigt</source>
+        <target state="needs-translation">Hier werden die Ergebnisse der Suche angezeigt</target>
       </trans-unit>
     </body>
   </file>
