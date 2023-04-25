@@ -22,6 +22,7 @@ class SystemRepairCommand extends Command
     private SymfonyStyle $io;
     private string $logfile = 'repairLog.txt';
     private $logFileFile;
+
     public function __construct(private LdapUserService $ldapUserService, EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
