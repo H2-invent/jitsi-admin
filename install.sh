@@ -37,7 +37,7 @@ git clone https://github.com/H2-invent/jitsi-admin.git
 popd
 
 pushd /var/www/jitsi-admin
-git checkout master
+git checkout feature/development
 
 
 clear
