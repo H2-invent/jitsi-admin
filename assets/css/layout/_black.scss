@@ -399,8 +399,8 @@ hr {
   color: $black_font-color !important;
 }
 
-.jitsiadminiframe {
-  box-shadow: 0 0 0 2px $black_font-color
+.jitsiadminiframe:not(.maximized) {
+  outline: solid 1px $black_font-color
 }
 
 .fullscreen {
