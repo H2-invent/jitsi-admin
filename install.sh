@@ -14,14 +14,16 @@ echo ******INSTALLING DEPENDENCIES******
 echo ""
 sudo apt update
 sudo service apache2 stop
-sudo apt-get purge apache2 apache2-utils apache2.2-bin apache2-common
+sudo apt-get purge apache2 apache2-utils apache2.2-bin apache2-common php php-*
 sudo apt-get autoremove
+sudo apt install -y lsb-release gnupg2 ca-certificates apt-transport-https software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+
 sudo apt install -y \
     git curl lsb-release ca-certificates apt-transport-https software-properties-common gnupg2 mysql-server \
     nginx nginx-extras\
-    php php-bcmath php-fpm php-xml php-mysql php-zip php-intl php-ldap php-gd php-cli php-bz2 php-curl php-mbstring \
-    php-opcache php-soap php-cgi php-dom php-simplexml
-curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+    php8.2 php8.2-{bcmath,fpm,xml,mysql,zip,intl,ldap,gd,cli,bz2,curl,mbstring,opcache,soap,cgi,dom,simplexml}
+curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 sudo apt -y install nodejs
 
 clear
