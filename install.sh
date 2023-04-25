@@ -62,6 +62,7 @@ clear
 php bin/console cache:clear
 clear
 php bin/console cache:warmup
+php bin/console app:system:repair
 clear
 
 npm install

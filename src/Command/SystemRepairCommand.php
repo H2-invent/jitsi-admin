@@ -18,9 +18,9 @@ class SystemRepairCommand extends Command
     protected static $defaultName = 'app:system:repair';
     protected static $defaultDescription = 'Add a short description for your command';
     private $em;
+    private  SymfonyStyle $io;
 
-
-    public function __construct(EntityManagerInterface $entityManager,string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
@@ -35,13 +35,20 @@ class SystemRepairCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $this->io = $io;
         $io->info('We try to repair the system.....');
         $count = 0;
-        $rooms =$this->em->getRepository(Rooms::class)->findAll();
+        $user = $this->em->getRepository(User::class)->findAll();
+        $io->info('--------We start with the users------');
+        foreach ($user as $u){
+            $this->repairEmail(user: $u);
+        }
+        $this->em->flush();
+        $rooms = $this->em->getRepository(Rooms::class)->findAll();
 
-        foreach ($rooms as $room){
-            if(!$room->getModerator() || !$room->getServer()){
-                foreach ($room->getUser() as $user){
+        foreach ($rooms as $room) {
+            if (!$room->getModerator() || !$room->getServer()) {
+                foreach ($room->getUser() as $user) {
                     $count++;
                     $room->removeUser($user);
                 }
@@ -50,8 +57,8 @@ class SystemRepairCommand extends Command
         }
         $this->em->flush();
         $lobbyWaitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
-        foreach ($lobbyWaitingUser as $waitingUser){
-            if($waitingUser->getCreatedAt() < (new \DateTime())->modify('-10days')){
+        foreach ($lobbyWaitingUser as $waitingUser) {
+            if ($waitingUser->getCreatedAt() < (new \DateTime())->modify('-10days')) {
                 $count++;
                 $this->em->remove($waitingUser);
             }
@@ -59,23 +66,35 @@ class SystemRepairCommand extends Command
         $this->em->flush();
         $user = $this->em->getRepository(User::class)->findAll();
         $count += $this->repairWaitungUser();
-        $io->success(sprintf('We found %d coruppt datasets',$count));
+        $io->success(sprintf('We found %d coruppt datasets', $count));
 
         return Command::SUCCESS;
     }
 
-    private function repairWaitungUser(){
-        $waitingUser =$this->em->getRepository(LobbyWaitungUser::class)->findAll();
+    private function repairWaitungUser()
+    {
+        $waitingUser = $this->em->getRepository(LobbyWaitungUser::class)->findAll();
         $count = 0;
-        foreach ($waitingUser as $data){
+        foreach ($waitingUser as $data) {
             try {
-               $session = $data->getCallerSession();
-            }catch (\Exception $exception){
+                $session = $data->getCallerSession();
+            } catch (\Exception $exception) {
                 $this->em->remove($data);
                 $count++;
             }
         }
         $this->em->flush();
         return $count;
+    }
+
+    private function repairEmail(User $user)
+    {
+        $emailOrg = $user->getEmail();
+        $email = rtrim($user->getEmail());
+        if ($email!== $emailOrg){
+            $this->io->info(sprintf('-------%s was corrupt--------',$email));
+            $user->setEmail(email: $email);
+            $this->em->persist($user);
+        }
     }
 }
