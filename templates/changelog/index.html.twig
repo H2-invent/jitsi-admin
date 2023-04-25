@@ -5,6 +5,55 @@
 {% block content %}
     <div class="row markdown">
         <div class="col-12">
+            <h4 class="h4-responsive">0.75.2</h4>
+            {% apply markdown_to_html %}
+                __Bugfix__
+                * Invited emails are sometimes doubled
+                   * Run `php bin/console app:system:repair` as server administrator to remove all double emails and connect the correct emails with the invited conferences
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.1</h4>
+            {% apply markdown_to_html %}
+                __Bugfix__
+                * Invited emails are sometime wrong because there is a newline after an email address save which is not allowed to be there
+                   * Run `php bin/console app:system:repair` as server administrator to auto repair all emails with a trailing new line
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.0</h4>
+            {% apply markdown_to_html %}
+                __What`s new__
+                * New Websocket not SSE
+                * https://github.com/H2-invent/jitsi-admin/wiki/Websocket-installation
+                * Online status
+                * See online status of users in you contact list
+                * Send messages to wating users in the lobby
+                * Multiframe (One Pager)
+                * Open the videoconference in the same tab
+                * Open several conference in one tab if needed
+                * Include any othe webapplications in you jitsiadmin and open the application on all participants screens (whiteboard, etherpad, nextcloud ....)
+                * Generate reporting from your conference and sent it to the participants
+                * Include your Etherpad notes and your Whiteboard in the reporting.
+                * Japanese and russian localization(We are looking for help: https://crowdin.com/project/jitsi-admin)
+                * Add new participants from the lobby panel
+                * Public conferences (Disabled by default)
+                * Allow any user to create a conference as they are used to it with normal jitsi . Just type in a name of the conference and go.
+                * New changelog page. It is this page :)
+                * New changelog page. It is this page :)
+
+                __Bugfix__
+                * See below
+
+            {% endapply %}
+            <hr>
+        </div>
+
+        <div class="col-12">
             <h4 class="h4-responsive">0.75.0-RC19</h4>
             {% apply markdown_to_html %}
                 __What`s new__
