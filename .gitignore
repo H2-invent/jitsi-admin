@@ -58,3 +58,4 @@ docker.conf
 
 /tests_output/*
 /CAPrivate.crt
+repairLog.txt
