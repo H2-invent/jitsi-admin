@@ -1,9 +1,9 @@
-systemctl stop websocket.service
+systemctl stop *websocket.service
 systemctl daemon-reload
-systemctl enable websocket.service
-systemctl start websocket.service
-systemctl restart websocket.service
-systemctl is-active --quiet websocket.service && echo websocket.service is running
+systemctl enable jitsi-admin_websocket.service
+systemctl start jitsi-admin_websocket.service
+systemctl restart jitsi-admin_websocket.service
+systemctl is-active --quiet jitsi-admin_websocket.service && echo jitsi-admin_websocket.service is running
 
 
 
@@ -128,8 +128,9 @@ php bin/console cache:clear
 chown -R www-data:www-data /var/www/jitsi-admin/var/
 chown -R www-data:www-data /var/log/websocket/
 
-ln -s /etc/nginx/sites-available/jitsiadmin.conf /etc/nginx/sites-enabled/
-rm /etc/nginx/sites-enabled/default
-systemctl restart nginx
-systemctl restart php8.1-fpm
+a2ensite jitsiadmin
+a2ensite jitsiadmin-le-ssl
+a2enmod proxy_fcgi proxy
+systemctl restart apache2
+
 

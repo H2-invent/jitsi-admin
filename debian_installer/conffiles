@@ -1,0 +1,4 @@
+/etc/nginx/sites-available/jitsiadmin.conf
+/etc/php/8.2/fpm/pool.d/jitsiadmin.conf
+/etc/apache2/sites-available/jitsiadmin.conf
+/etc/apache2/sites-available/jitsiadmin-le-ssl.conf
