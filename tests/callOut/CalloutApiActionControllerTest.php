@@ -264,7 +264,7 @@ class CalloutApiActionControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $url = '/room/join/b/' . $this->room->getId();
         $crawler = $this->client->request('GET', $url);
-        assertEquals(1, $crawler->filter('.calloutsymbol .fa-phone-volume')->count());
+        assertEquals(1, $crawler->filter('.calloutsymbol .fa-bell')->count());
         assertEquals(0, $crawler->filter('.calloutsymbol .fa-phone')->count());
     }
 
