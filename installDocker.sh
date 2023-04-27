@@ -82,29 +82,29 @@ fi
   echo -------------------------------------------------------------
   echo -----------------we build the KEycloak-----------------------
   echo -------------------------------------------------------------
-sed -i "s|<clientsecret>|$NEW_UUID|g" keycloak/realm-export.json
-sed -i "s|<clientUrl>|$HTTP_METHOD://$PUBLIC_URL|g" keycloak/realm-export.json
+sed -i "s|<clientsecret>|$NEW_UUID|g" docker/keycloak/realm-export.json
+sed -i "s|<clientUrl>|$HTTP_METHOD://$PUBLIC_URL|g" docker/keycloak/realm-export.json
 
-sed -i "s|<smtpPassword>|$smtpPassword|g" keycloak/realm-export.json
-sed -i "s|<smtpPort>|$smtpPort|g" keycloak/realm-export.json
-sed -i "s|<smtpHost>|$smtpHost|g" keycloak/realm-export.json
-sed -i "s|<smtpFrom>|$smtpFrom|g" keycloak/realm-export.json
-sed -i "s|<smtpUser>|$smtpUsername|g" keycloak/realm-export.json
+sed -i "s|<smtpPassword>|$smtpPassword|g" docker/keycloak/realm-export.json
+sed -i "s|<smtpPort>|$smtpPort|g" docker/keycloak/realm-export.json
+sed -i "s|<smtpHost>|$smtpHost|g" docker/keycloak/realm-export.json
+sed -i "s|<smtpFrom>|$smtpFrom|g" docker/keycloak/realm-export.json
+sed -i "s|<smtpUser>|$smtpUsername|g" docker/keycloak/realm-export.json
 
 
 if [ "$smtpEncryption" == 'tls' ]; then
-   sed -i "s|<smtpEncyption>|\"starttls\": \"true\",|g" keycloak/realm-export.json
+   sed -i "s|<smtpEncyption>|\"starttls\": \"true\",|g" docker/keycloak/realm-export.json
 elif [ "$smtpEncryption" == 'ssl' ]; then
-   sed -i "s|<smtpEncyption>| \"ssl\": \"true\",|g" keycloak/realm-export.json
+   sed -i "s|<smtpEncyption>| \"ssl\": \"true\",|g" docker/keycloak/realm-export.json
    else
-     sed -i "s|<smtpEncyption>| \"ssl\": \"false\",\n\"starttls\": \"false\",|g" keycloak/realm-export.json
+     sed -i "s|<smtpEncyption>| \"ssl\": \"false\",\n\"starttls\": \"false\",|g" docker/keycloak/realm-export.json
 fi
 
   echo -------------------------------------------------------------
   echo -----------------we build the Database-----------------------
   echo -------------------------------------------------------------
-sed -i "s|<jitsi-admin-pw>|$JITSI_ADMIN_PW|g" docker-entrypoint-initdb.d/init-userdb.sql
-sed -i "s|<keycloak-pw>|$KEYCLOAK_PW|g" docker-entrypoint-initdb.d/init-userdb.sql
+sed -i "s|<jitsi-admin-pw>|$JITSI_ADMIN_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
+sed -i "s|<keycloak-pw>|$KEYCLOAK_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
 
 
 export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
