@@ -2,7 +2,7 @@
   "type": "project",
   "license": "proprietary",
   "require": {
-    "php": " ^8.1",
+    "php": " ^8.2",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "aws/aws-sdk-php": "^3.209",
@@ -121,7 +121,12 @@
     "post-update-cmd": [
       "@auto-scripts"
     ],
-      "phpstan": "vendor/bin/phpstan -c phpstan.neon"
+    "phpstan": "vendor/bin/phpstan -c phpstan.neon",
+    "db-reset": [
+      "php bin/console doctrine:database:drop --force --if-exists",
+      "php bin/console doctrine:database:create",
+      "php bin/console doctrine:migrations:migrate -n"
+    ]
   },
   "conflict": {
     "symfony/symfony": "*"

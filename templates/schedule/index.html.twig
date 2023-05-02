@@ -33,18 +33,33 @@
                                         <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}</p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}&nbsp;<a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-html="true"
-                                                                                                      title="{{ 'Abstimmung'|trans }}"
-                                                                                                      data-mdb-content="{% if scheduleUser(s,0)|length >0 %}{% for s in scheduleUser(s,0) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
+                                        <p class="mb-0">{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}&nbsp;
+                                            <a
+                                                    tabindex="0"
+                                                    data-mdb-toggle="popover"
+                                                    data-mdb-trigger="focus"
+                                                    data-mdb-html="true"
+                                                    title="{{ 'Abstimmung'|trans }}"
+                                                    data-mdb-content="{% if scheduleUser(s,0)|length >0 %}{% for s in scheduleUser(s,0) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
                                                         class="fa fa-info-circle"></i></a></p>
                                         <p class="mb-0">{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}&nbsp;<a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-html="true"
                                                                                                         title="{{ 'Abstimmung'|trans }}"
                                                                                                         data-mdb-content="{% if scheduleUser(s,1)|length >0 %}{% for s in scheduleUser(s,1) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
                                                         class="fa fa-info-circle"></i></a></p>
-                                        <p class="mb-0">{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}&nbsp;<a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-html="true"
-                                                                                                              title="{{ 'Abstimmung'|trans }}"
-                                                                                                              data-mdb-content="{% if scheduleUser(s,2)|length >0 %}{% for s in scheduleUser(s,2) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
-                                                        class="fa fa-info-circle"></i></a></p>
+                                        {% if room.allowMaybeOption %}
+                                        <p class="mb-0">{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}&nbsp;
+                                            <a
+                                                    tabindex="0"
+                                                    data-mdb-toggle="popover"
+                                                    data-mdb-trigger="focus"
+                                                    data-mdb-html="true"
+                                                    title="{{ 'Abstimmung'|trans }}"
+                                                    data-mdb-content="{% if scheduleUser(s,2)|length >0 %}{% for s in scheduleUser(s,2) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"
+                                            >
+                                                <i class="fa fa-info-circle"></i>
+                                            </a>
+                                        </p>
+                                        {% endif %}
                                         <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}"
                                                                                                                    class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref"
                                                                                                                    data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln?'|trans }}">
