@@ -60,3 +60,7 @@ docker.conf
 /CAPrivate.crt
 repairLog.txt
 /public/theme/
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
