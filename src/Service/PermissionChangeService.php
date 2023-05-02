@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
@@ -21,8 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class PermissionChangeService
 {
-
-
     public function __construct(
         private ParameterBagInterface  $parameterBag,
         private UrlGeneratorInterface  $urlGen,
@@ -51,7 +47,7 @@ class PermissionChangeService
             $repeater = true;
         }
         if ($rooms->getModerator() === $oldUser) {
-            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);
             if (!$roomsUser) {
                 $roomsUser = new RoomsUser();
                 $roomsUser->setUser($user);
@@ -83,13 +79,13 @@ class PermissionChangeService
     function toggleModerator(User $oldUser, User $user, Rooms $rooms)
     {
 
-            $repeater = false;
+        $repeater = false;
         if ($rooms->getRepeater()) {
             $rooms = $rooms->getRepeater()->getPrototyp();
             $repeater = true;
         }
-        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser,$rooms)) {
-            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser, $rooms)) {
+            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);
             if (!$roomsUser) {
                 $roomsUser = new RoomsUser();
                 $roomsUser->setUser($user);
@@ -100,7 +96,7 @@ class PermissionChangeService
             } else {
                 $roomsUser->setModerator(true);
             }
-            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
+            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))) {
                 $roomsUser->setModerator(false);
             }
             $this->em->persist($roomsUser);
@@ -130,8 +126,8 @@ class PermissionChangeService
             $rooms = $rooms->getRepeater()->getPrototyp();
             $repeater = true;
         }
-        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser,$rooms)) {
-            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser, $rooms)) {
+            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);
             if (!$roomsUser) {
                 $roomsUser = new RoomsUser();
                 $roomsUser->setUser($user);
@@ -142,7 +138,7 @@ class PermissionChangeService
             } else {
                 $roomsUser->setLobbyModerator(true);
             }
-            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
+            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))) {
                 $roomsUser->setLobbyModerator(false);
             }
             $this->em->persist($roomsUser);
@@ -150,7 +146,7 @@ class PermissionChangeService
             if ($repeater) {
                 $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
             }
-            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);
             if ($lobbyUser) {
                 $this->em->remove($lobbyUser);
                 $this->em->flush();
@@ -158,8 +154,10 @@ class PermissionChangeService
             $topic = 'lobby_personal' . $rooms->getUidReal() . $user->getUid();
             $this->websocketService->sendSnackbar($topic, $this->translator->trans('lobby.change.moderator.permissions'), 'info');
             $this->websocketService->sendReloadPage($topic, $this->parameterBag->get('laf_lobby_popUpDuration'));
-            $this->websocketService->sendRefresh('lobby_moderator/' . $rooms->getUidReal(),
-                $this->urlGen->generate('lobby_moderator', array('uid' => $rooms->getUidReal())) . ' #waitingUser');
+            $this->websocketService->sendRefresh(
+                'lobby_moderator/' . $rooms->getUidReal(),
+                $this->urlGen->generate('lobby_moderator', ['uid' => $rooms->getUidReal()]) . ' #waitingUser'
+            );
 
             return $roomsUser;
         }
@@ -182,8 +180,8 @@ class PermissionChangeService
             $rooms = $rooms->getRepeater()->getPrototyp();
             $repeater = true;
         }
-        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser,$rooms)) {
-            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+        if (UtilsHelper::isAllowedToOrganizeRoom($oldUser, $rooms)) {
+            $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);
             if (!$roomsUser) {
                 $roomsUser = new RoomsUser();
                 $roomsUser->setUser($user);

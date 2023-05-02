@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -11,7 +12,6 @@ namespace App\Form\Type;
 use App\Service\ThemeService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,11 +35,10 @@ class JoinViewType extends AbstractType
             ->add('email', TextType::class, ['attr' => ['placeholder' => 'label.email'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
             ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.name'], 'label' => false, 'required' => true, 'translation_domain' => 'form']);
         if ($this->themeService->getApplicationProperties('start_dropdown_allow_app')) {
-            $builder->add('joinApp', SubmitType::class, ['attr' => array('class' => 'btn btn-primary btn-block '), 'label' => 'label.beitretenApp', 'translation_domain' => 'form']);
-
+            $builder->add('joinApp', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.beitretenApp', 'translation_domain' => 'form']);
         }
         if ($this->themeService->getApplicationProperties('start_dropdown_allow_browser')) {
-            $builder->add('joinBrowser', SubmitType::class, ['attr' => array('class' => 'btn btn-primary btn-block '), 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']);
+            $builder->add('joinBrowser', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block '], 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']);
         }
     }
 

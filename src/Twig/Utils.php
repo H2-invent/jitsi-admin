@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -16,18 +17,16 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+
 use function GuzzleHttp\Psr7\str;
 
 class Utils extends AbstractExtension
 {
-
-
     private $licenseService;
 
     public function __construct(LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
     {
         $this->licenseService = $licenseService;
-
     }
 
     public function getFilters()
@@ -60,7 +59,6 @@ class Utils extends AbstractExtension
     public function roomIsReadOnly(Rooms $rooms, User $user)
     {
         return UtilsHelper::isRoomReadOnly($rooms, $user);
-
     }
 
     public function colorFromString($string)

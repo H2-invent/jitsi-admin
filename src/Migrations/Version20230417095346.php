@@ -26,7 +26,6 @@ final class Version20230417095346 extends AbstractMigration
         $messageText = $table->addColumn('message_text', Types::STRING);
         $messageUid->setDefault(null)->setLength(255)->setNotnull(false);
         $messageText->setDefault(null)->setLength(3000)->setNotnull(false);
-
     }
 
     public function down(Schema $schema): void
@@ -36,5 +35,4 @@ final class Version20230417095346 extends AbstractMigration
         $table->dropColumn('message_uid');
         $table->dropColumn('message_text');
     }
-
 }

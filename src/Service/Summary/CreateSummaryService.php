@@ -10,7 +10,6 @@ use Dompdf\Options;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 class CreateSummaryService
@@ -21,27 +20,25 @@ class CreateSummaryService
         private ThemeService         $themeService,
         private WhiteboardJwtService $whiteboardJwtService,
         private KernelInterface      $appKernel,
-        private LoggerInterface      $logger)
+        private LoggerInterface      $logger
+    )
     {
     }
 
-    public
-    function setHttpClient(HttpClientInterface $httpClient)
+    public function setHttpClient(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
     }
 
-    public
-    function createSummary(Rooms $room): string
+    public function createSummary(Rooms $room): string
     {
         $res = $this->createHeader($room);
         $res .= $this->createWhiteBoardSummary($room);
         $res .= $this->createEtherpadExport($room);
-        return $this->environment->render('documents/sumary/template.html.twig', array('text' => $res, 'title' => $room->getName()));
+        return $this->environment->render('documents/sumary/template.html.twig', ['text' => $res, 'title' => $room->getName()]);
     }
 
-    public
-    function createSummaryPdf(Rooms $room): ?Dompdf
+    public function createSummaryPdf(Rooms $room): ?Dompdf
     {
         $root = $this->appKernel->getProjectDir();
         $pdfOptions = new Options();
@@ -70,14 +67,12 @@ class CreateSummaryService
         return $dompdf;
     }
 
-    public
-    function createHeader(Rooms $rooms): string
+    public function createHeader(Rooms $rooms): string
     {
-        return $this->environment->render('documents/sumary/header.html.twig', array('room' => $rooms));
+        return $this->environment->render('documents/sumary/header.html.twig', ['room' => $rooms]);
     }
 
-    public
-    function createWhiteBoardSummary(Rooms $room): ?string
+    public function createWhiteBoardSummary(Rooms $room): ?string
     {
         try {
             $url = $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/preview/' . $room->getUidReal() . '?token=' . $this->whiteboardJwtService->createJwt($room);
@@ -86,16 +81,13 @@ class CreateSummaryService
                 if ($res->getContent() !== '<text>Sorry, an error occured</text>') {
                     return '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . base64_encode($res->getContent()) . '" style="width: 600px"/>';
                 }
-
             }
         } catch (\Exception $exception) {
         }
         return '';
-
     }
 
-    public
-    function createEtherpadExport(Rooms $room): string
+    public function createEtherpadExport(Rooms $room): string
     {
         try {
             $res = $this->httpClient->request('GET', $this->themeService->getApplicationProperties('ETHERPAD_URL') . '/p/' . $room->getUidReal() . '/export/html');

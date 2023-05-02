@@ -22,12 +22,12 @@ class LobbyUtilsTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $roomGen = self::getContainer()->get(RoomGeneratorService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('username'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('username'=>'test@local2.de'));
-        $user3 = $userRepo->findOneBy(array('username'=>'test@local3.de'));
+        $user = $userRepo->findOneBy(['username' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['username' => 'test@local2.de']);
+        $user3 = $userRepo->findOneBy(['username' => 'test@local3.de']);
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url'=>'meet.jit.si'));
-        $room = $roomGen->createRoom($user,$server);
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
+        $room = $roomGen->createRoom($user, $server);
         $room->setName('kjdshfhds');
         $lobbUtils = self::getContainer()->get(LobbyUtils::class);
         $em = self::getContainer()->get(EntityManagerInterface::class);
@@ -43,7 +43,7 @@ class LobbyUtilsTest extends KernelTestCase
         $lobbyWaitinguser->setUser($user3)->setRoom($room)->setShowName('test 1231')->setCreatedAt(new \DateTime())->setUid('lkjsdjfjdskjf')->setType('a');
 
 
-        $callerId= new CallerId();
+        $callerId = new CallerId();
         $callerId->setCreatedAt(new \DateTime())->setRoom($room)->setUser($user3)->setCallerId('testPIN');
         $em->persist($callerId);
         $em->flush();
@@ -56,8 +56,7 @@ class LobbyUtilsTest extends KernelTestCase
             ->setCallerId('test123')
             ->setCreatedAt(new \DateTime())
             ->setShowName('test')
-            ->setSessionId('test')
-        ;
+            ->setSessionId('test');
         $lobbyWaitinguser->setCallerSession($callerSession);
         $room->addLobbyWaitungUser($lobbyWaitinguser);
 
@@ -66,19 +65,17 @@ class LobbyUtilsTest extends KernelTestCase
         $em->persist($callerSession);
         $em->flush();
 
-        self::assertEquals(2,sizeof($lobbyWaitingUSerRepo->findBy(array('room'=>$room))));
+        self::assertEquals(2, sizeof($lobbyWaitingUSerRepo->findBy(['room' => $room])));
         $callerSessionRepo = self::getContainer()->get(CallerSessionRepository::class);
         $callerSess = $callerSessionRepo->findCallerSessionsByRoom($room);
-        self::assertEquals(1,sizeof($callerSess));
+        self::assertEquals(1, sizeof($callerSess));
 
         $lobbUtils->cleanLobby($room);
 
-        self::assertEquals(0,sizeof($lobbyWaitingUSerRepo->findBy(array('room'=>$room))));
-        self::assertEquals(1,sizeof($callerSess));
+        self::assertEquals(0, sizeof($lobbyWaitingUSerRepo->findBy(['room' => $room])));
+        self::assertEquals(1, sizeof($callerSess));
         self::assertTrue($callerSess[0]->getForceFinish());
 
         $this->assertSame('test', $kernel->getEnvironment());
-
-
     }
 }

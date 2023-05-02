@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -11,13 +12,7 @@ namespace App\Service;
 use App\Entity\Rooms;
 use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
-
 
 class AdminService
 {
@@ -30,18 +25,18 @@ class AdminService
 
     public function createChart(Server $server)
     {
-        $rooms = $this->em->getRepository(Rooms::class)->findBy(['server'=>$server]);
+        $rooms = $this->em->getRepository(Rooms::class)->findBy(['server' => $server]);
 
 
-        $chart = array();
+        $chart = [];
         $firstDate = new \DateTime();
-        $firstDate = date_modify($firstDate,'-30 days');
+        $firstDate = date_modify($firstDate, '-30 days');
         $lastDate = new \DateTime();
-        $lastDate = date_modify($lastDate,'+30 days');
-        $participants = $this->em->getRepository(RoomStatusParticipant::class)->findParticipantsByServer($server,$firstDate, $lastDate);
+        $lastDate = date_modify($lastDate, '+30 days');
+        $participants = $this->em->getRepository(RoomStatusParticipant::class)->findParticipantsByServer($server, $firstDate, $lastDate);
         for ($x = 0; $x <= 60; $x++) {
             $d = clone $firstDate;
-            $date = date_modify($d,'+'.$x.'days');
+            $date = date_modify($d, '+' . $x . 'days');
 
             $chart[$date->format('Ymd')]['date'] = $date;
             $chart[$date->format('Ymd')]['participants'] = 0;
@@ -52,13 +47,14 @@ class AdminService
                 if ($data->getScheduleMeeting() != true
                     && $data->getStart()
                     && !$data->getRepeaterProtoype()
-                    && $data->getStart()->format('Ymd') === $date->format('Ymd')) {
+                    && $data->getStart()->format('Ymd') === $date->format('Ymd')
+                ) {
                     $chart[$date->format('Ymd')]['rooms'] = $chart[$date->format('Ymd')]['rooms'] + 1;
                     $chart[$date->format('Ymd')]['participants'] = $chart[$date->format('Ymd')]['participants'] + count($data->getUser());
                 }
             }
 
-            foreach ($participants as $p){
+            foreach ($participants as $p) {
                 if ($p->getEnteredRoomAt()->format('Ymd') === $date->format('Ymd')) {
                     $chart[$date->format('Ymd')]['participants_real'] = $chart[$date->format('Ymd')]['participants_real'] + 1;
                 }
@@ -66,5 +62,4 @@ class AdminService
         }
         return $chart;
     }
-
 }

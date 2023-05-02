@@ -5,26 +5,16 @@ namespace App\Controller;
 use App\Helper\JitsiAdminController;
 use App\Service\CreateHttpsUrl;
 use App\Service\ThemeService;
-use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\Auth0Client;
-use KnpU\OAuth2ClientBundle\Security\User\OAuthUserProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use Psr\Log\LoggerInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginController extends JitsiAdminController
 {
-
     /**
      * @Route("/login/auth0_login", name="login_auth0")
      */
@@ -46,7 +36,6 @@ class LoginController extends JitsiAdminController
         $client = $clientRegistry->getClient('auth0_main');
 
         try {
-
             $user = $client->fetchUser();
 
             // do something with all this new power!
@@ -63,34 +52,36 @@ class LoginController extends JitsiAdminController
     /**
      * @Route("/room/logout_keycloak", name="logout_keycloak")
      */
-    public function logout(ClientRegistry $clientRegistry,
-                           Request        $request,
-                           CreateHttpsUrl $createHttpsUrl,
-                           ThemeService   $themeService,
+    public function logout(
+        ClientRegistry $clientRegistry,
+        Request        $request,
+        CreateHttpsUrl $createHttpsUrl,
+        ThemeService   $themeService,
     )
     {
-        $provider = new Keycloak([
-            'authServerUrl' => $this->getParameter('KEYCLOAK_URL'),
-            'realm' => $this->getParameter('KEYCLOAK_REALM'),
-            'clientId' => $this->getParameter('KEYCLOAK_ID'),
-            'clientSecret' => $this->getParameter('KEYCLOAK_SECRET'),
-        ]);
+        $provider = new Keycloak(
+            [
+                'authServerUrl' => $this->getParameter('KEYCLOAK_URL'),
+                'realm' => $this->getParameter('KEYCLOAK_REALM'),
+                'clientId' => $this->getParameter('KEYCLOAK_ID'),
+                'clientSecret' => $this->getParameter('KEYCLOAK_SECRET'),
+            ]
+        );
 
 
         $redirectUri = $createHttpsUrl->createHttpsUrl('/login/logout');
-        $options = array(
+        $options = [
             'id_token_hint' => $request->getSession()->get('id_token'),
             'post_logout_redirect_uri' => $redirectUri,
-        );
-        if ($themeService->getApplicationProperties('idp_provider')){
+        ];
+        if ($themeService->getApplicationProperties('idp_provider')) {
             $options['kc_idp_hint'] = $themeService->getApplicationProperties('idp_provider');
         }
 
 
-            $url = $provider->getLogoutUrl(
-               $options
-            );
+        $url = $provider->getLogoutUrl(
+            $options
+        );
         return $this->redirect($url);
-
     }
 }

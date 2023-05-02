@@ -18,7 +18,7 @@ class SecondEmailTest extends WebTestCase
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $translator = self::getContainer()->get(TranslatorInterface::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
 
         $crawler = $client->request('GET', '/room/secondEmail/change');
@@ -30,7 +30,7 @@ class SecondEmailTest extends WebTestCase
 
         $client->submit($form);
         $this->assertResponseRedirects($urlGen->generate('dashboard'));
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
@@ -38,8 +38,7 @@ class SecondEmailTest extends WebTestCase
         self::assertEquals($flashMessage, $translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}'));
 
 
-        self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
-
+        self::assertEquals('testcc@test.de, test@cc.de', $user->getSecondEmail());
     }
     public function testInvalidEmail(): void
     {
@@ -49,7 +48,7 @@ class SecondEmailTest extends WebTestCase
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $translator = self::getContainer()->get(TranslatorInterface::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
 
         $crawler = $client->request('GET', '/room/secondEmail/change');
@@ -66,7 +65,7 @@ class SecondEmailTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar')->text();
         self::assertEquals($flashMessage, 'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
 
-        self::assertEquals(null,$user->getSecondEmail());
+        self::assertEquals(null, $user->getSecondEmail());
     }
     public function testCombined(): void
     {
@@ -75,7 +74,7 @@ class SecondEmailTest extends WebTestCase
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $translator = self::getContainer()->get(TranslatorInterface::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($user);
         $crawler = $client->request('GET', '/room/secondEmail/change');
         $this->assertResponseIsSuccessful();
@@ -86,7 +85,7 @@ class SecondEmailTest extends WebTestCase
 
         $client->submit($form);
         $this->assertResponseRedirects($urlGen->generate('dashboard'));
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
@@ -94,7 +93,7 @@ class SecondEmailTest extends WebTestCase
         self::assertEquals($flashMessage, 'Persönliche Einstellungen erfolgreich geändert.');
 
 
-        self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
+        self::assertEquals('testcc@test.de, test@cc.de', $user->getSecondEmail());
 
         $crawler = $client->request('GET', '/room/secondEmail/change');
         $this->assertResponseIsSuccessful();
@@ -111,7 +110,7 @@ class SecondEmailTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-danger')->text();
         self::assertEquals($flashMessage, 'Ungültige E-Mail. Bitte überprüfen Sie Ihre E-Mail-Adresse.');
 
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        self::assertEquals('testcc@test.de, test@cc.de',$user->getSecondEmail());
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        self::assertEquals('testcc@test.de, test@cc.de', $user->getSecondEmail());
     }
 }

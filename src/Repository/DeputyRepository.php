@@ -63,5 +63,4 @@ class DeputyRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -22,7 +20,7 @@ class SubcriptionService
     private $notifier;
     private $userService;
     private $userCreationService;
-    public function __construct(UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator,UserCreatorService $userCreationService)
+    public function __construct(UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator, UserCreatorService $userCreationService)
     {
         $this->em = $entityManager;
         $this->twig = $environment;
@@ -46,7 +44,7 @@ class SubcriptionService
      */
     public function subscripe($userData, Rooms $rooms, $moderator = false)
     {
-        $res = array('error' => true);
+        $res = ['error' => true];
         if ($rooms->getMaxParticipants() && (sizeof($rooms->getUser()->toArray()) >= $rooms->getMaxParticipants()) && $rooms->getWaitinglist() != true) {
             $res['text'] = $this->translator->trans('Die maximale Teilnehmeranzahl ist bereits erreicht.');
             $res['color'] = 'danger';
@@ -58,13 +56,13 @@ class SubcriptionService
             return $res;
         }
 
-        $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $userData['email']));
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $userData['email']]);
         //create a new User from the email entered
         if (!$user) {
-            $user = $this->userCreationService->createUser($userData['email'],$userData['email'],$userData['firstName'],$userData['lastName']);
+            $user = $this->userCreationService->createUser($userData['email'], $userData['email'], $userData['firstName'], $userData['lastName']);
         }
 
-        $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('room' => $rooms, 'user' => $user));
+        $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(['room' => $rooms, 'user' => $user]);
 
         if ($subscriber) {
             $res['text'] = $this->translator->trans('Sie haben sich bereits angemeldet. Bite bestätigen sie noch ihre Anmeldung durch klick auf den Link in der Email.');
@@ -86,8 +84,8 @@ class SubcriptionService
                 $this->em->flush();
             }
             $this->notifier->sendNotification(
-                $this->twig->render('email/subscriptionToRoom.html.twig', array('room' => $rooms, 'subsription' => $subscriber)),
-                $this->translator->trans('[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}', array('{name}' => $rooms->getName())),
+                $this->twig->render('email/subscriptionToRoom.html.twig', ['room' => $rooms, 'subsription' => $subscriber]),
+                $this->translator->trans('[Videokonferenz] Bestätigung ihrer Anmeldung zur Konferenz: {name}', ['{name}' => $rooms->getName()]),
                 $user,
                 $rooms->getServer(),
                 $rooms
@@ -125,15 +123,13 @@ class SubcriptionService
                 $this->em->remove($subscriber);
                 $this->em->flush();
             } else {
-                $this->createUserRoom($subscriber->getUser(),$subscriber->getRoom());
+                $this->createUserRoom($subscriber->getUser(), $subscriber->getRoom());
                 $this->em->remove($subscriber);
                 $this->em->flush();
             }
-
         } catch (\Exception $exception) {
             $res['message'] = $this->translator->trans('Fehler, Bitte klicken Sie den link erneut an.');
             $res['title'] = $this->translator->trans('Fehler');
-
         }
 
         return $res;
@@ -173,7 +169,7 @@ class SubcriptionService
         $res['text'] = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.');
         $res['color'] = 'success';
         $res['error'] = false;
-        $this->userService->addWaitinglist($user,$rooms);
+        $this->userService->addWaitinglist($user, $rooms);
         return $res;
     }
 
@@ -182,7 +178,8 @@ class SubcriptionService
      * @param Rooms $rooms
      * creates a new roomUser element and sends the email with the room infos  to the subscriber
      */
-    function createUserRoom(User $user, Rooms $rooms){
+    function createUserRoom(User $user, Rooms $rooms)
+    {
         $user->addRoom($rooms);
         $this->em->persist($user);
         $this->em->flush();

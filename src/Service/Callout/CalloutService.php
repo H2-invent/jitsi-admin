@@ -12,8 +12,6 @@ use Psr\Log\LoggerInterface;
 
 class CalloutService
 {
-
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private AdhocMeetingService    $adhocMeetingService,
@@ -90,7 +88,7 @@ class CalloutService
      */
     public function checkCallout(Rooms $rooms, User $user): ?CalloutSession
     {
-        return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('room' => $rooms, 'user' => $user));
+        return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
     }
 
     /**

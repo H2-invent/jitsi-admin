@@ -14,7 +14,6 @@ class UidHelper
         private EntityManagerInterface $entityManager,
     )
     {
-
     }
 
     public function getUid(Rooms $rooms): string

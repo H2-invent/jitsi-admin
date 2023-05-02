@@ -18,24 +18,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StartController extends JitsiAdminController
 {
-
     /**
      * @Route("/room/join/{t}/{room}", name="room_join")
      */
-    public
-    function joinRoom(RoomService $roomService, $room, $t, StartMeetingService $startMeetingService)
+    public function joinRoom(RoomService $roomService, $room, $t, StartMeetingService $startMeetingService)
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->find($room);
-        return $startMeetingService->startMeeting($roomL,$this->getUser(),$t,$this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
+        return $startMeetingService->startMeeting($roomL, $this->getUser(), $t, $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameInConference')));
     }
     /**
      * @Route("/room/checkCors", name="room_check_cors")
      */
-    public
-    function checkCorsRoom(Request $request,RoomService $roomService)
+    public function checkCorsRoom(Request $request, RoomService $roomService)
     {
-        $weiterleitung = 'https://'.$request->get('url').'/testRoom';
-        return $this->render('start/corsTest.html.twig',array('serverUrl'=>$request->get('url'),'cors'=>$request->get('cors'),'weiterleitung'=>$weiterleitung));
-
+        $weiterleitung = 'https://' . $request->get('url') . '/testRoom';
+        return $this->render('start/corsTest.html.twig', ['serverUrl' => $request->get('url'), 'cors' => $request->get('cors'), 'weiterleitung' => $weiterleitung]);
     }
 }

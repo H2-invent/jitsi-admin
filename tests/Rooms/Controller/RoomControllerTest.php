@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Tests\Rooms\Controller;
+
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RoomControllerTest extends WebTestCase
 {
-
     public function testNew()
     {
         $client = static::createClient();
@@ -37,10 +37,9 @@ class RoomControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'No Right'));
-        $client->request('GET', '/room/new?id='.$room->getId());
+        $room = $roomRepo->findOneBy(['name' => 'No Right']);
+        $client->request('GET', '/room/new?id=' . $room->getId());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
     }
     public function testEditRight()
     {
@@ -53,11 +52,10 @@ class RoomControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 1'));
-        $client->request('GET', '/room/new?id='.$room->getId());
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
+        $client->request('GET', '/room/new?id=' . $room->getId());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5', 'Konferenz bearbeiten');
-
     }
     public function testnoRoom()
     {
@@ -72,6 +70,5 @@ class RoomControllerTest extends WebTestCase
 
         $client->request('GET', '/room/new?id=-1');
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
     }
 }

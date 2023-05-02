@@ -26,7 +26,7 @@ class LobbyUtils
         }
         $this->em->flush();
 
-        $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findBy(array('room' => $rooms));
+        $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findBy(['room' => $rooms]);
 
         foreach ($lobbyUser as $data) {
             $this->em->remove($data);

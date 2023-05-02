@@ -103,7 +103,6 @@ class Server
         $this->keycloakGroups = new ArrayCollection();
         $this->OwnRoomUSer = new ArrayCollection();
         $this->stars = new ArrayCollection();
-
     }
     public function getId(): ?int
     {

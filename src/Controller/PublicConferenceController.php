@@ -48,19 +48,21 @@ class PublicConferenceController extends JitsiAdminController
             return $this->redirectToRoute('dashboard');
         }
 
-        $data = array('roomName' => UtilsHelper::readable_random_string(20));
+        $data = ['roomName' => UtilsHelper::readable_random_string(20)];
         $form = $this->createForm(PublicConferenceType::class, $data);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $room = $this->publicConferenceService->createNewRoomFromName($data['roomName'], $this->server);
-            return $this->redirectToRoute('app_public_conference', array('confId' => $room->getName()));
-
+            return $this->redirectToRoute('app_public_conference', ['confId' => $room->getName()]);
         }
-        return $this->render('public_conference/index.html.twig', [
-            'form' => $form->createView(),
-            'server' => $this->server
-        ]);
+        return $this->render(
+            'public_conference/index.html.twig',
+            [
+                'form' => $form->createView(),
+                'server' => $this->server
+            ]
+        );
     }
 
     #[Route('/m/{confId}', name: 'app_public_conference')]
@@ -68,26 +70,31 @@ class PublicConferenceController extends JitsiAdminController
     {
         $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
-        $response = $this->render('public_conference/publicConference.html.twig', [
-            'room' => $room,
-            'user' => null,
-            'name' => 'Meetling',
-            'moderator' => !$firstUser
-        ]);
+        $response = $this->render(
+            'public_conference/publicConference.html.twig',
+            [
+                'room' => $room,
+                'user' => null,
+                'name' => 'Meetling',
+                'moderator' => !$firstUser
+            ]
+        );
         $lastConf = $request->cookies->get('LAST_CONFERENCE');
-        if (!$lastConf){
-            $lastConf = array($confId);
-        }else{
-            $lastConf = json_decode($lastConf,true);
-            if (!in_array($confId,$lastConf)){
+        if (!$lastConf) {
+            $lastConf = [$confId];
+        } else {
+            $lastConf = json_decode($lastConf, true);
+            if (!in_array($confId, $lastConf)) {
                 $lastConf[] = $confId;
             }
         }
-        $response->headers->setCookie(Cookie::create(
-            'LAST_CONFERENCE',
-            json_encode($lastConf),
-            time() + (2 * 365 * 24 * 60 * 60),
-        ));
+        $response->headers->setCookie(
+            Cookie::create(
+                'LAST_CONFERENCE',
+                json_encode($lastConf),
+                time() + (2 * 365 * 24 * 60 * 60),
+            )
+        );
         return $response;
     }
 
@@ -106,6 +113,4 @@ class PublicConferenceController extends JitsiAdminController
     {
         $this->server = $server;
     }
-
-
 }

@@ -1,19 +1,16 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\StartMeetingService;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-
 class CheckStartTime extends AbstractExtension
 {
-
-
     public function __construct(
         private StartMeetingService $startMeetingService,
     )
@@ -30,6 +27,6 @@ class CheckStartTime extends AbstractExtension
 
     public function isRoomOpen(Rooms $room, ?User $user)
     {
-        return $this->startMeetingService->IsAlloedToEnter($room,$user);
+        return $this->startMeetingService->IsAlloedToEnter($room, $user);
     }
 }

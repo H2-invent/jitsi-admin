@@ -2,7 +2,6 @@
 
 namespace App\Tests\FormatedName;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\FormatName;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -15,7 +14,7 @@ class FormatedNameServiceTest extends KernelTestCase
         $formatedNameService = self::getContainer()->get(FormatName::class);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         self::assertEquals('Test', $formatedNameService->formatName('user.firstName$', $user));
         self::assertEquals('User', $formatedNameService->formatName('user.lastName$', $user));
         self::assertEquals('test@local.de', $formatedNameService->formatName('user.email$', $user));
@@ -33,7 +32,7 @@ class FormatedNameServiceTest extends KernelTestCase
         $formatedNameService = self::getContainer()->get(FormatName::class);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         self::assertEquals(
             'test@local.de test@local.de, Test1+-0123456789',
             $formatedNameService->formatName('user.email$ user.username$, user.specialField.ou$+-user.specialField.telephoneNumber$', $user)
@@ -54,7 +53,7 @@ class FormatedNameServiceTest extends KernelTestCase
         $formatedNameService = self::getContainer()->get(FormatName::class);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         self::assertEquals(
             'User,+- Test',
             $formatedNameService->formatName('user.lastName$,+- user.firstName$', $user)
@@ -64,7 +63,6 @@ class FormatedNameServiceTest extends KernelTestCase
             'User',
             $formatedNameService->formatName('user.lastName$,+- user.firstName$', $user)
         );
-
     }
 
     public function testCreateFormatedNameEmptyFieldsSecond(): void
@@ -73,31 +71,30 @@ class FormatedNameServiceTest extends KernelTestCase
         $formatedNameService = self::getContainer()->get(FormatName::class);
         $this->assertSame('test', $kernel->getEnvironment());
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         self::assertEquals(
             'User,+- Test',
-            $formatedNameService->formatName('user.lastName$,+- user.firstName$',$user)
+            $formatedNameService->formatName('user.lastName$,+- user.firstName$', $user)
         );
         $user->setLastName('');
         self::assertEquals(
             'Test',
-            $formatedNameService->formatName('user.lastName$,+- user.firstName$',$user)
+            $formatedNameService->formatName('user.lastName$,+- user.firstName$', $user)
         );
 
         self::assertEquals(
             'Test1',
-            $formatedNameService->formatName('user.lastName$, user.specialField.outch$+-user.specialField.ou$',$user)
+            $formatedNameService->formatName('user.lastName$, user.specialField.outch$+-user.specialField.ou$', $user)
         );
         self::assertEquals(
             'Test+-Test1',
-            $formatedNameService->formatName('user.firstName$, user.lastName$, user.specialField.outch$+-user.specialField.ou$',$user)
+            $formatedNameService->formatName('user.firstName$, user.lastName$, user.specialField.outch$+-user.specialField.ou$', $user)
         );
         $user->setFirstName('');
         self::assertEquals(
             'Test1',
-            $formatedNameService->formatName('user.firstName$, user.lastName$, user.specialField.outch$+-user.specialField.ou$',$user)
+            $formatedNameService->formatName('user.firstName$, user.lastName$, user.specialField.outch$+-user.specialField.ou$', $user)
         );
-
     }
 
     public function testCreateFormatedNameEmptyStringFieldsSecond(): void
@@ -106,18 +103,17 @@ class FormatedNameServiceTest extends KernelTestCase
         $formatedNameService = self::getContainer()->get(FormatName::class);
         $this->assertSame('test', $kernel->getEnvironment());
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         self::assertEquals(
             'test@local.de test@local.de +-0123456789',
-            $formatedNameService->formatName('user.email$ user.username$, user.specialField.notThere$ +-user.specialField.telephoneNumber$',$user)
+            $formatedNameService->formatName('user.email$ user.username$, user.specialField.notThere$ +-user.specialField.telephoneNumber$', $user)
         );
         $specialField = $user->getSpezialProperties();
         $specialField['telephoneNumber'] = '';
         $user->setSpezialProperties($specialField);
         self::assertEquals(
             'test@local.de test@local.de',
-            $formatedNameService->formatName('user.email$ user.username$, user.specialField.notThere$ +-user.specialField.telephoneNumber$',$user)
+            $formatedNameService->formatName('user.email$ user.username$, user.specialField.notThere$ +-user.specialField.telephoneNumber$', $user)
         );
     }
-
 }

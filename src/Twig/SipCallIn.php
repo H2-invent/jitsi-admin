@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -21,12 +22,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+
 use function GuzzleHttp\Psr7\str;
 
 class SipCallIn extends AbstractExtension
 {
-
-
     public function getFunctions(): array
     {
 
@@ -35,14 +35,13 @@ class SipCallIn extends AbstractExtension
         ];
     }
 
-    public function sipPinFromRoomAndUser(Rooms $rooms,User $user)
+    public function sipPinFromRoomAndUser(Rooms $rooms, User $user)
     {
-        foreach ($user->getCallerIds() as $data){
-            if ($data->getRoom() === $rooms){
+        foreach ($user->getCallerIds() as $data) {
+            if ($data->getRoom() === $rooms) {
                 return $data;
             }
         }
         return null;
     }
-
 }

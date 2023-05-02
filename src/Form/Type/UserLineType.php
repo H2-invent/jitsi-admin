@@ -9,7 +9,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserLineType extends AbstractType
 {
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('choice_indexerName');

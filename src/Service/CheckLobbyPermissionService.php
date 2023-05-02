@@ -8,10 +8,8 @@ use App\UtilsHelper;
 
 class CheckLobbyPermissionService
 {
-
     public function checkPermissions(Rooms $room, ?User $user)
     {
-        return UtilsHelper::isAllowedToOrganizeLobby($user,$room);
-
+        return UtilsHelper::isAllowedToOrganizeLobby($user, $room);
     }
 }

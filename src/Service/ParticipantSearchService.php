@@ -17,16 +17,16 @@ class ParticipantSearchService
 
     public function generateUserwithoutEmptyUser($user)
     {
-        $res = array();
+        $res = [];
         foreach ($user as $data) {
-            $tmp = array(
+            $tmp = [
                 'name' => $this->buildShowInFrontendString($data),
                 'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
                 'id' => $data->getUsername(),
                 'uid' => $data->getUid(),
                 'roles' => ['participant', 'moderator']
-            );
-            $this->filterForModerator($data,$tmp);
+            ];
+            $this->filterForModerator($data, $tmp);
 
             $res[] = $tmp;
         }
@@ -35,24 +35,24 @@ class ParticipantSearchService
 
     public function generateUserwithEmptyUser($user, $searchString)
     {
-        $res = array();
+        $res = [];
         if (sizeof($user) === 0) {
-            $res[] = array(
+            $res[] = [
                 'name' => $searchString,
                 'id' => $searchString,
                 'nameNoIcon' => $searchString,
                 'roles' => ['participant', 'moderator']
-            );
+            ];
         } else {
             foreach ($user as $data) {
-                $tmp = array(
+                $tmp = [
                     'name' => $this->buildShowInFrontendString($data),
                     'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
                     'uid' => $data->getUid(),
                     'id' => $data->getUsername(),
                     'roles' => ['participant', 'moderator']
-                );
-                $this->filterForModerator($data,$tmp);
+                ];
+                $this->filterForModerator($data, $tmp);
                 $res[] = $tmp;
             }
         }
@@ -61,10 +61,10 @@ class ParticipantSearchService
 
     public function generateGroup($group)
     {
-        $res = array();
+        $res = [];
         foreach ($group as $data) {
-            $tmp = array('name' => '', 'user' => '');
-            $tmpUser = array();
+            $tmp = ['name' => '', 'user' => ''];
+            $tmpUser = [];
             $tmp['name'] = $data->getName();
             foreach ($data->getMember() as $m) {
                 $tmpUser[] = $m->getUsername();
@@ -87,7 +87,6 @@ class ParticipantSearchService
             }
         }
         return $res;
-
     }
 
     public function buildShowInFrontendStringNoString(User $user)
@@ -95,22 +94,27 @@ class ParticipantSearchService
         $res = '';
         $res .= $user->getFormatedName($this->parameterBag->get('laf_showName'));
         return $res;
-
     }
-    public function filterForModerator(User $user, &$inputArr){
+
+    public function filterForModerator(User $user, &$inputArr)
+    {
         try {
-            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(),$this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))){
-                $inputArr['roles'] = $this->filterRole($inputArr['roles'],'moderator');
+            if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))) {
+                $inputArr['roles'] = $this->filterRole($inputArr['roles'], 'moderator');
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
         }
         return $inputArr;
     }
 
-    public function filterRole($inputArr, $role){
-        return \array_filter($inputArr, static function ($element) use($role) {
-            return $element !== $role;
-        });
+    public function filterRole($inputArr, $role)
+    {
+        return \array_filter(
+            $inputArr,
+            static function ($element) use ($role) {
+                return $element !== $role;
+            }
+        );
     }
 }

@@ -7,7 +7,6 @@ use App\Exceptions\UserAlreadyAdressbookFavoriteException;
 use App\Exceptions\UserNotInAdressbookException;
 use App\Repository\UserRepository;
 use App\Service\adressbookFavoriteService\AdressbookFavoriteService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
@@ -23,8 +22,7 @@ class AdressbookFavoriteTest extends KernelTestCase
         $user1 = new User();
         $user2 = new User();
         self::expectException(UserNotInAdressbookException::class);
-        $adresbookService->addFavorite($user1,$user2);
-
+        $adresbookService->addFavorite($user1, $user2);
     }
     public function testAddUseralreadFavorite(): void
     {
@@ -38,8 +36,7 @@ class AdressbookFavoriteTest extends KernelTestCase
         $user1->addAddressbook($user2);
         $user1->addAdressbookFavorite($user2);
         self::expectException(UserAlreadyAdressbookFavoriteException::class);
-        $adresbookService->addFavorite($user1,$user2);
-
+        $adresbookService->addFavorite($user1, $user2);
     }
     public function testAddUserFavoriteSuccessfully(): void
     {
@@ -49,13 +46,13 @@ class AdressbookFavoriteTest extends KernelTestCase
         $adresbookService = self::getContainer()->get(AdressbookFavoriteService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
 
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
-        self::assertTrue($adresbookService->addFavorite($user1,$user2));
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        self::assertEquals(1,sizeof($user1->getAdressbookFavorites()));
-        self::assertEquals($user2,$user1->getAdressbookFavorites()[0]);
+        self::assertTrue($adresbookService->addFavorite($user1, $user2));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        self::assertEquals(1, sizeof($user1->getAdressbookFavorites()));
+        self::assertEquals($user2, $user1->getAdressbookFavorites()[0]);
     }
     public function testRemoveUserFavoriteSuccessfully(): void
     {
@@ -65,12 +62,12 @@ class AdressbookFavoriteTest extends KernelTestCase
         $adresbookService = self::getContainer()->get(AdressbookFavoriteService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
 
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $user1->addAdressbookFavorite($user2);
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        assertTrue($adresbookService->removeFavorite($user1,$user2));
-        self::assertEquals(0,sizeof($user1->getAdressbookFavorites()));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        assertTrue($adresbookService->removeFavorite($user1, $user2));
+        self::assertEquals(0, sizeof($user1->getAdressbookFavorites()));
     }
 
     public function testRemoveUserFavoriteFail(): void
@@ -81,10 +78,10 @@ class AdressbookFavoriteTest extends KernelTestCase
         $adresbookService = self::getContainer()->get(AdressbookFavoriteService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
 
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
-        assertFalse($adresbookService->removeFavorite($user1,$user2));
-        self::assertEquals(0,sizeof($user1->getAdressbookFavorites()));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        assertFalse($adresbookService->removeFavorite($user1, $user2));
+        self::assertEquals(0, sizeof($user1->getAdressbookFavorites()));
     }
 
     public function testAddUserFavoriteIISuccessfully(): void
@@ -95,11 +92,10 @@ class AdressbookFavoriteTest extends KernelTestCase
         $adresbookService = self::getContainer()->get(AdressbookFavoriteService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
 
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
-        $res = $adresbookService->userFavorite($user1,$user2);
-        self::assertEquals(array('success','Sie haben Test2, 1234, User2, Test2 erfolgreich als Favorit hinzugefügt.'),$res);
-
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $res = $adresbookService->userFavorite($user1, $user2);
+        self::assertEquals(['success', 'Sie haben Test2, 1234, User2, Test2 erfolgreich als Favorit hinzugefügt.'], $res);
     }
     public function testAddUserFavoriteIIFail(): void
     {
@@ -109,12 +105,11 @@ class AdressbookFavoriteTest extends KernelTestCase
         $adresbookService = self::getContainer()->get(AdressbookFavoriteService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
 
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $user1->removeAddressbook($user2);
-        $res = $adresbookService->userFavorite($user1,$user2);
-        self::assertEquals(array('danger','Der Kontakt konnte nicht als Favorit hinzugefügt werden.'),$res);
-
+        $res = $adresbookService->userFavorite($user1, $user2);
+        self::assertEquals(['danger', 'Der Kontakt konnte nicht als Favorit hinzugefügt werden.'], $res);
     }
     public function testRemoveUserFavoriteIISuccessfully(): void
     {
@@ -124,16 +119,14 @@ class AdressbookFavoriteTest extends KernelTestCase
         $adresbookService = self::getContainer()->get(AdressbookFavoriteService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
 
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        $user2 = $userRepo->findOneBy(array('email'=>'test@local2.de'));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $user1->addAdressbookFavorite($user2);
-        $user1 = $userRepo->findOneBy(array('email'=>'test@local.de'));
-        self::assertEquals($user2,$user1->getAdressbookFavorites()[0]);
-        self::assertEquals(1,sizeof($user1->getAdressbookFavorites()));
-        $res = $adresbookService->userFavorite($user1,$user2);
-        self::assertEquals(array('success','Sie haben Test2, 1234, User2, Test2 als Favorit entfernt.'),$res);
-        self::assertEquals(0,sizeof($user1->getAdressbookFavorites()));
+        $user1 = $userRepo->findOneBy(['email' => 'test@local.de']);
+        self::assertEquals($user2, $user1->getAdressbookFavorites()[0]);
+        self::assertEquals(1, sizeof($user1->getAdressbookFavorites()));
+        $res = $adresbookService->userFavorite($user1, $user2);
+        self::assertEquals(['success', 'Sie haben Test2, 1234, User2, Test2 als Favorit entfernt.'], $res);
+        self::assertEquals(0, sizeof($user1->getAdressbookFavorites()));
     }
-
-
 }

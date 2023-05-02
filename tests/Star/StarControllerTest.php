@@ -14,22 +14,22 @@ class StarControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url'=>'meet.jit.si'));
-        $crawler = $client->request('GET', '/star/submit?server='.$server->getId().'&star=3&comment=test123&browser=opera&os=windows');
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=3&comment=test123&browser=opera&os=windows');
         self::assertResponseIsSuccessful();
-        self::assertEquals(array('error'=>false),json_decode($client->getResponse()->getContent(),true));
+        self::assertEquals(['error' => false], json_decode($client->getResponse()->getContent(), true));
         $starRepo = self::getContainer()->get(StarRepository::class);
         $stars = $starRepo->findAll();
-        self::assertEquals(1,sizeof($stars));
-        self::assertEquals((new \DateTime())->format('d.m.YTH:i'),$stars[0]->getCreatedAt()->format('d.m.YTH:i'));
-        self::assertEquals('windows',$stars[0]->getOs());
-        self::assertEquals('opera',$stars[0]->getBrowser());
+        self::assertEquals(1, sizeof($stars));
+        self::assertEquals((new \DateTime())->format('d.m.YTH:i'), $stars[0]->getCreatedAt()->format('d.m.YTH:i'));
+        self::assertEquals('windows', $stars[0]->getOs());
+        self::assertEquals('opera', $stars[0]->getBrowser());
     }
     public function testSendSomeStarsStar(): void
     {
         $client = static::createClient();
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=5&comment=test123&browser=opera&os=windows');
         $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=4&comment=test123');
         $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=3&comment=test123&os=windows');
@@ -79,25 +79,25 @@ class StarControllerTest extends WebTestCase
             $crawler->filter('#rating .star-half')->count()
         );
     }
-        public function testSendBorderStars(): void
+
+    public function testSendBorderStars(): void
     {
         $client = static::createClient();
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url'=>'meet.jit.si'));
-        $crawler = $client->request('GET', '/star/submit?server='.$server->getId().'&star=1&comment=test123');
-        $crawler = $client->request('GET', '/star/submit?server='.$server->getId().'&star=1&comment=test123');
-        $crawler = $client->request('GET', '/star/submit?server='.$server->getId().'&star=1&comment=test123');
-
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=1&comment=test123');
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=1&comment=test123');
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=1&comment=test123');
 
 
         $starRepo = self::getContainer()->get(StarRepository::class);
         $stars = $starRepo->findAll();
-        self::assertEquals(3,sizeof($stars));
+        self::assertEquals(3, sizeof($stars));
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
         $testUser = $userRepository->findOneByUsername('test@local.de');
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/admin/server/'.$server->getId());
+        $crawler = $client->request('GET', '/admin/server/' . $server->getId());
         self::assertResponseIsSuccessful();
 
         $this->assertEquals(
@@ -117,8 +117,8 @@ class StarControllerTest extends WebTestCase
             $crawler->filter('#rating .star-half')->count()
         );
 
-        $crawler = $client->request('GET', '/star/submit?server='.$server->getId().'&star=2&comment=test123');
-        $crawler = $client->request('GET', '/admin/server/'.$server->getId());
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=2&comment=test123');
+        $crawler = $client->request('GET', '/admin/server/' . $server->getId());
         $this->assertEquals(
             1,
             $crawler->filter('#rating .label-value:contains("1.3")')->count()
@@ -135,8 +135,8 @@ class StarControllerTest extends WebTestCase
             1,
             $crawler->filter('#rating .star-half')->count()
         );
-        $crawler = $client->request('GET', '/star/submit?server='.$server->getId().'&star=1&comment=test123');
-        $crawler = $client->request('GET', '/admin/server/'.$server->getId());
+        $crawler = $client->request('GET', '/star/submit?server=' . $server->getId() . '&star=1&comment=test123');
+        $crawler = $client->request('GET', '/admin/server/' . $server->getId());
         $this->assertEquals(
             1,
             $crawler->filter('#rating .label-value:contains("1.2")')->count()

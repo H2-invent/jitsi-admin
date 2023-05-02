@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -17,10 +18,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-
 class UserNewRoomAddService
 {
-
     public function __construct(
         private JoinUrlGeneratorService $urlGenerator,
         private PushService             $pushService,
@@ -29,9 +28,9 @@ class UserNewRoomAddService
         private Environment             $twig,
         private NotificationService     $notificationService,
         private UrlGeneratorInterface   $url,
-        private ParameterBagInterface   $parameterBag)
+        private ParameterBagInterface   $parameterBag
+    )
     {
-
     }
 
 
@@ -48,18 +47,20 @@ class UserNewRoomAddService
     {
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', array('{name}' => $room->getName()));
+        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', ['{name}' => $room->getName()]);
         $ics = $this->notificationService->createIcs($room, $user, $url, 'REQUEST');
-        $attachement[] = array('type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()), 0, 10) . '.ics', 'body' => $ics);
+        $attachement[] = ['type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()), 0, 10) . '.ics', 'body' => $ics];
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room, $attachement);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
-                    array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
-                        '{name}' => $room->getName())),
+                $this->translator->trans(
+                    'Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
+                    ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
+                        '{name}' => $room->getName()]
+                ),
                 $user,
-                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL),
+                $this->url->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 $room->getUid()
             );
         }
@@ -79,16 +80,18 @@ class UserNewRoomAddService
     {
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/addUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', array('{name}' => $room->getName()));
+        $subject = $this->translator->trans('[Videokonferenz] Neue Einladung zur Videokonferenz {name}', ['{name}' => $room->getName()]);
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
-                    array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
-                        '{name}' => $room->getName())),
+                $this->translator->trans(
+                    'Sie wurden zu der Videokonferenz {name} von {organizer} eingeladen.',
+                    ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
+                        '{name}' => $room->getName()]
+                ),
                 $user,
-                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                $this->url->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)
             );
         }
 
@@ -108,16 +111,18 @@ class UserNewRoomAddService
     {
 
         $content = $this->twig->render('email/scheduleMeeting.html.twig', ['user' => $user, 'room' => $room,]);
-        $subject = $this->translator->trans('[Terminplanung] Neue Einladung zur Terminplanung {name}', array('{name}' => $room->getName()));
+        $subject = $this->translator->trans('[Terminplanung] Neue Einladung zur Terminplanung {name}', ['{name}' => $room->getName()]);
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.',
-                    array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
-                        '{name}' => $room->getName())),
+                $this->translator->trans(
+                    'Sie wurden zu der Terminplanung {name} von {organizer} eingeladen.',
+                    ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showName')),
+                        '{name}' => $room->getName()]
+                ),
                 $user,
-                $this->url->generate('schedule_public_main', array('scheduleId' => $room->getUid(), 'userId' => $user->getUid()), UrlGeneratorInterface::ABSOLUTE_URL)
+                $this->url->generate('schedule_public_main', ['scheduleId' => $room->getUid(), 'userId' => $user->getUid()], UrlGeneratorInterface::ABSOLUTE_URL)
             );
         }
         return true;
@@ -140,10 +145,12 @@ class UserNewRoomAddService
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Sie wurden auf die Warteliste für:  {name} hinzugefügt ',
-                    array('{name}' => $room->getName())),
+                $this->translator->trans(
+                    'Sie wurden auf die Warteliste für:  {name} hinzugefügt ',
+                    ['{name}' => $room->getName()]
+                ),
                 $user,
-                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                $this->url->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)
             );
         }
         return true;

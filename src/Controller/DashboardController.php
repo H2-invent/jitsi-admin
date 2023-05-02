@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: andreas.holzmann
@@ -9,27 +10,18 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
-use App\Entity\Server;
-use App\Entity\User;
-use App\Form\Type\JoinViewType;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
-use App\Service\RoomService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
-use Firebase\JWT\JWT;
-
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -40,7 +32,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DashboardController extends JitsiAdminController
 {
-
     public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private ThemeService $themeService)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -64,8 +55,8 @@ class DashboardController extends JitsiAdminController
         }
         $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
 
-        $r = array();
-        $future = array();
+        $r = [];
+        $future = [];
         foreach ($roomsFuture as $data) {
             $future[$data->getStartwithTimeZone($this->getUser())->format('Ymd')][] = $data;
         }
@@ -109,32 +100,37 @@ class DashboardController extends JitsiAdminController
         $date = new \DateTime();
         $timestamp = $date->getTimestamp();
         $form = $this->createForm(SecondEmailType::class, $this->getUser(), ['action' => $this->generateUrl('second_email_save')]);
-       $form->remove('profilePicture');
-        $res = $this->render('dashboard/index.html.twig', [
-            'secondEmailForm' => $form->createView(),
-            'roomsFuture' => $future,
-            'roomsPast' => $roomsPast,
-            'runningRooms' => $roomsNow,
-            'persistantRooms' => $persistantRooms,
-            'todayRooms' => $roomsToday,
-            'servers' => $servers,
-            'today' => $today,
-            'tomorrow' => $tomorrow,
-            'favorite' => $favorites,
-            'timestamp' => $timestamp,
-            'time' => $timer->getDuration(),
-        ]);
+        $form->remove('profilePicture');
+        $res = $this->render(
+            'dashboard/index.html.twig',
+            [
+                'secondEmailForm' => $form->createView(),
+                'roomsFuture' => $future,
+                'roomsPast' => $roomsPast,
+                'runningRooms' => $roomsNow,
+                'persistantRooms' => $persistantRooms,
+                'todayRooms' => $roomsToday,
+                'servers' => $servers,
+                'today' => $today,
+                'tomorrow' => $tomorrow,
+                'favorite' => $favorites,
+                'timestamp' => $timestamp,
+                'time' => $timer->getDuration(),
+            ]
+        );
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
-            $res->headers->setCookie(Cookie::create(
-                'DARK_MODE',
-                1,
-                time() + (2 * 365 * 24 * 60 * 60),
-                '/',      // Path.
-                null,     // Domain.
-                false,    // Xmit secure https.
-                false     // HttpOnly Flag
-            ));
+            $res->headers->setCookie(
+                Cookie::create(
+                    'DARK_MODE',
+                    1,
+                    time() + (2 * 365 * 24 * 60 * 60),
+                    '/',      // Path.
+                    null,     // Domain.
+                    false,    // Xmit secure https.
+                    false     // HttpOnly Flag
+                )
+            );
         }
 
         return $res;
@@ -150,22 +146,26 @@ class DashboardController extends JitsiAdminController
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         if ($type === 'fixed') {
             $persistantRooms = $this->doctrine->getRepository(Rooms::class)->getMyPersistantRooms($this->getUser(), $offset);
-            return $this->render('dashboard/__lazyFixed.html.twig', [
-                'persistantRooms' => $persistantRooms,
-                'servers' => $servers,
-                'offset' => $offset
-            ]);
+            return $this->render(
+                'dashboard/__lazyFixed.html.twig',
+                [
+                    'persistantRooms' => $persistantRooms,
+                    'servers' => $servers,
+                    'offset' => $offset
+                ]
+            );
         } elseif ($type === 'past') {
             $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
-            return $this->render('dashboard/__lazyPast.html.twig', [
-                'roomsPast' => $roomsPast,
-                'servers' => $servers,
-                'offset' => $offset
-            ]);
+            return $this->render(
+                'dashboard/__lazyPast.html.twig',
+                [
+                    'roomsPast' => $roomsPast,
+                    'servers' => $servers,
+                    'offset' => $offset
+                ]
+            );
         }
 
-        return new JsonResponse(array('error' => true));
-
-
+        return new JsonResponse(['error' => true]);
     }
 }

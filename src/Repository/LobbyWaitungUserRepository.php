@@ -53,7 +53,6 @@ class LobbyWaitungUserRepository extends ServiceEntityRepository
             ->andWhere('l.createdAt < :oldest')
             ->setParameter('oldest', $oldestDate)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

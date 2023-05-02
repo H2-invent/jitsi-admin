@@ -8,7 +8,6 @@ use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerSessionService;
-use App\Service\Callout\CalloutSessionAPIService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -26,14 +25,15 @@ class CallerController extends JitsiAdminController
     private $callerSessionService;
     private $callerLeftService;
 
-    public function __construct(ManagerRegistry       $managerRegistry,
-                                TranslatorInterface   $translator,
-                                LoggerInterface       $logger,
-                                ParameterBagInterface $parameterBag,
-                                CallerLeftService     $callerLeftService,
-                                CallerSessionService  $callerSessionService,
-                                CallerPinService      $callerPinService,
-                                CallerFindRoomService $callerFindRoomService
+    public function __construct(
+        ManagerRegistry       $managerRegistry,
+        TranslatorInterface   $translator,
+        LoggerInterface       $logger,
+        ParameterBagInterface $parameterBag,
+        CallerLeftService     $callerLeftService,
+        CallerSessionService  $callerSessionService,
+        CallerPinService      $callerPinService,
+        CallerFindRoomService $callerFindRoomService
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -65,7 +65,7 @@ class CallerController extends JitsiAdminController
         if ($check) {
             return $check;
         }
-        $error = array();
+        $error = [];
         if (!$request->get('pin')) {
             $error['error'] = 'MISSING_ARGUMENT';
             $error['argument'][] = 'pin';
@@ -79,18 +79,18 @@ class CallerController extends JitsiAdminController
         }
         $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'));
         if (!$session) {
-            $res = array(
+            $res = [
                 'auth_ok' => false,
-                'links' => array()
-            );
+                'links' => []
+            ];
         } else {
-            $res = array(
+            $res = [
                 'auth_ok' => true,
-                'links' => array(
-                    'session' => $this->generateUrl('caller_session', array('session_id' => $session->getSessionId())),
-                    'left' => $this->generateUrl('caller_left', array('session_id' => $session->getSessionId()))
-                )
-            );
+                'links' => [
+                    'session' => $this->generateUrl('caller_session', ['session_id' => $session->getSessionId()]),
+                    'left' => $this->generateUrl('caller_left', ['session_id' => $session->getSessionId()])
+                ]
+            ];
         }
         return new JsonResponse($res);
     }
@@ -104,10 +104,10 @@ class CallerController extends JitsiAdminController
         if ($check) {
             return $check;
         }
-        $error = array();
+        $error = [];
         if (!$request->get('session_id')) {
             $error['error'] = 'MISSING_ARGUMENT';
-            $error['argument'] = array();
+            $error['argument'] = [];
             $error['argument'][] = 'session_id';
         }
         if (sizeof($error) > 0) {
@@ -128,18 +128,16 @@ class CallerController extends JitsiAdminController
             return $check;
         }
 
-        $error = array();
+        $error = [];
         if (!$request->get('session_id')) {
             $error['error'] = 'MISSING_ARGUMENT';
-            $error['argument'] = array();
+            $error['argument'] = [];
             $error['argument'][] = 'session_id';
         }
         if (sizeof($error) > 0) {
             return new JsonResponse($error, 404);
         }
 
-        return new JsonResponse(array('error' => $this->callerLeftService->callerLeft($request->get('session_id'))));
+        return new JsonResponse(['error' => $this->callerLeftService->callerLeft($request->get('session_id'))]);
     }
-
-
 }

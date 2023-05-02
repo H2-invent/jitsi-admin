@@ -8,7 +8,6 @@ use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\Callout\CalloutService;
 use App\Service\Callout\CalloutServiceDialSuccessfull;
-use App\Service\Callout\CalloutSessionAPIService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use function PHPUnit\Framework\assertEquals;
@@ -22,10 +21,10 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $inviter = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $inviter = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(0, sizeof($callOurRepo->findAll()));
         self::assertNull($calloutService->checkCallout($room, $user));
         $callout = $calloutService->createCallout($room, $user, $inviter);
@@ -44,10 +43,10 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $inviter = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $inviter = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(0, sizeof($callOurRepo->findAll()));
         self::assertNull($calloutService->checkCallout($room, $user));
         $callout = $calloutService->createCallout($room, $user, $inviter);
@@ -61,10 +60,10 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $inviter = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $user = $userRepo->findOneBy(array('email' => 'test@local.de'));
+        $inviter = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(0, sizeof($callOurRepo->findAll()));
         self::assertNull($calloutService->checkCallout($room, $user));
         $callout = $calloutService->createCallout($room, $user, $inviter);
@@ -78,7 +77,7 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
         self::assertEquals('987654321012', $calloutService->getCallerIdForUser($user));
     }
 
@@ -89,7 +88,7 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'user@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'user@local.de']);
         self::assertNull($calloutService->getCallerIdForUser($user));
     }
 
@@ -100,7 +99,7 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
         self::assertTrue($calloutService->isAllowedToBeCalled($user));
     }
 
@@ -111,7 +110,7 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@localfalse.de'));
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@localfalse.de']);
         self::assertFalse($calloutService->isAllowedToBeCalled($user));
     }
 
@@ -122,7 +121,7 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
         self::assertFalse($calloutService->isAllowedToBeCalled($user));
     }
 
@@ -133,8 +132,8 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
-        $user->setSpezialProperties(array('noPhoneNumber' => '123456'));
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
+        $user->setSpezialProperties(['noPhoneNumber' => '123456']);
         self::assertFalse($calloutService->isAllowedToBeCalled($user));
     }
 
@@ -145,10 +144,10 @@ class CalloutServiceTest extends KernelTestCase
         $calloutService = self::getContainer()->get(CalloutService::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $inviter = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $inviter = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(0, sizeof($callOurRepo->findAll()));
         self::assertNull($calloutService->checkCallout($room, $user));
         $callout = $calloutService->createCallout($room, $user, $inviter);
@@ -183,22 +182,21 @@ class CalloutServiceTest extends KernelTestCase
         $calloutServiceDialSuccessfull = self::getContainer()->get(CalloutServiceDialSuccessfull::class);
         $callOurRepo = self::getContainer()->get(CalloutSessionRepository::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $inviter = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $inviter = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(0, sizeof($callOurRepo->findAll()));
         self::assertNull($calloutService->checkCallout($room, $user));
-        self::assertFalse($calloutServiceDialSuccessfull->dialSuccessfull($user,$room));
+        self::assertFalse($calloutServiceDialSuccessfull->dialSuccessfull($user, $room));
         $callout = $calloutService->createCallout($room, $user, $inviter);
         self::assertNotNull($callout);
-        assertEquals(CalloutSession::$INITIATED,$callout->getState());
-        self::assertFalse($calloutServiceDialSuccessfull->dialSuccessfull($user,$room));
+        assertEquals(CalloutSession::$INITIATED, $callout->getState());
+        self::assertFalse($calloutServiceDialSuccessfull->dialSuccessfull($user, $room));
         $callout->setState(CalloutSession::$DIALED);
         $manager->persist($callout);
         $manager->flush();
-        self::assertTrue($calloutServiceDialSuccessfull->dialSuccessfull($user,$room));
-        self::assertFalse($calloutServiceDialSuccessfull->dialSuccessfull($user,$room));
+        self::assertTrue($calloutServiceDialSuccessfull->dialSuccessfull($user, $room));
+        self::assertFalse($calloutServiceDialSuccessfull->dialSuccessfull($user, $room));
     }
-
 }

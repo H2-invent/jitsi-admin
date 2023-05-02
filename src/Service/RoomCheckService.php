@@ -21,7 +21,7 @@ class RoomCheckService
     public function checkRoom(Rooms $room, &$error)
     {
 
-        $error = array();
+        $error = [];
         if (!$room->getStart() && !$room->getPersistantRoom()) {
             $error[] = $this->translator->trans('Fehler, das Startdatum darf nicht leer sein');
         }
@@ -31,10 +31,10 @@ class RoomCheckService
 
         $room = $this->setRoomProps($room);
         if ($room->getStart()) {
-            $now =(new \DateTime())->getTimestamp();
-            $start = (new \DateTime($room->getStart()->format('Y-m-d H:i:s'), $room->getTimeZone()?new \DateTimeZone($room->getTimeZone()):null))->getTimestamp();
-            $end = (new \DateTime((clone $room->getStart())->modify('+'.$room->getDuration().'min')->format('Y-m-d H:i:s'),$room->getTimeZone()?new \DateTimeZone($room->getTimeZone()):null))->getTimestamp();
-            if (($start< $now && $end < $now) && !$room->getPersistantRoom()) {
+            $now = (new \DateTime())->getTimestamp();
+            $start = (new \DateTime($room->getStart()->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
+            $end = (new \DateTime((clone $room->getStart())->modify('+' . $room->getDuration() . 'min')->format('Y-m-d H:i:s'), $room->getTimeZone() ? new \DateTimeZone($room->getTimeZone()) : null))->getTimestamp();
+            if (($start < $now && $end < $now) && !$room->getPersistantRoom()) {
                 $error[] = $this->translator->trans('Fehler, das Startdatum und das Enddatum liegen in der Vergangenheit');
             }
         }
@@ -62,9 +62,8 @@ class RoomCheckService
             }
             $room->setStart(null);
             $room->setEnddate(null);
-
         } else {
-            if($room->getStart()){
+            if ($room->getStart()) {
                 $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
             }
         }

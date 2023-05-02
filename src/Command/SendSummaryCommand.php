@@ -27,8 +27,7 @@ class SendSummaryCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('roomid', InputArgument::OPTIONAL, 'Room id to send summary')
-        ;
+            ->addArgument('roomid', InputArgument::OPTIONAL, 'Room id to send summary');
     }
 
 
@@ -39,7 +38,7 @@ class SendSummaryCommand extends Command
         $room = $this->entityManager->getRepository(Rooms::class)->find($arg1);
 
         $this->sendSummaryViaEmailService->sendSummaryForRoom($room);
-        $io->success(sprintf('We send the summary for %s to %d participants',$room->getName(),sizeof($room->getUser())));
+        $io->success(sprintf('We send the summary for %s to %d participants', $room->getName(), sizeof($room->getUser())));
 
         return Command::SUCCESS;
     }

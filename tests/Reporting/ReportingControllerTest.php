@@ -19,7 +19,7 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
+        $room = $roomRepo->findOneBy(['name' => 'Running Room']);
 
         $crawler = $client->request('GET', '/room/report/' . $room->getId());
 
@@ -36,7 +36,7 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
+        $room = $roomRepo->findOneBy(['name' => 'Running Room']);
         $status = $room->getRoomstatuses()->toArray()[0];
         $crawler = $client->request('GET', '/room/report/' . $room->getId());
 
@@ -122,7 +122,7 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Room Yesterday'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Yesterday']);
         $status = $room->getRoomstatuses()->toArray();
         $crawler = $client->request('GET', '/room/report/' . $room->getId());
         $this->assertEquals(
@@ -147,7 +147,7 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
+        $room = $roomRepo->findOneBy(['name' => 'Running Room']);
         $room->setModerator($testUser);
         $room->addUser($testUser);
         $status = $room->getRoomstatuses()->toArray()[0];
@@ -229,7 +229,7 @@ class ReportingControllerTest extends WebTestCase
         // simulate $testUser being logged in
         $client->loginUser($testUser);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
+        $room = $roomRepo->findOneBy(['name' => 'Running Room']);
         $room->setModerator($testUser);
         $room->addUser($testUser);
         $status = $room->getRoomstatuses()->toArray()[0];

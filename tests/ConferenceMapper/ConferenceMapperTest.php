@@ -20,9 +20,9 @@ class ConferenceMapperTest extends KernelTestCase
         $id = '12340';
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
-        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
-        self::assertEquals(array('state' => 'WAITING', 'reason' => 'NOT_STARTED'), $res);
+        self::assertEquals(['state' => 'WAITING', 'reason' => 'NOT_STARTED'], $res);
     }
 
     public function testAuthFailed(): void
@@ -34,9 +34,9 @@ class ConferenceMapperTest extends KernelTestCase
         $id = '12340';
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
-        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApiFailure', '012345123');
-        self::assertEquals(array('error' => true, 'text' => 'AUTHORIZATION_FAILED'), $res);
+        self::assertEquals(['error' => true, 'text' => 'AUTHORIZATION_FAILED'], $res);
     }
 
     public function testnoServer(): void
@@ -48,10 +48,10 @@ class ConferenceMapperTest extends KernelTestCase
         $id = '12340';
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
-        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
         $callerRoom->getRoom()->getServer()->setLicenseKey('test');
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApiFailure', '012345123');
-        self::assertEquals(array('error' => true, 'text' => 'NO_SERVER_FOUND'), $res);
+        self::assertEquals(['error' => true, 'text' => 'NO_SERVER_FOUND'], $res);
     }
 
     public function testnoCallerRoom(): void
@@ -63,11 +63,11 @@ class ConferenceMapperTest extends KernelTestCase
         $id = '12340';
 
         $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
-        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
 
-        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => '12'));
+        $callerRoom = $callerRoomRepo->findOneBy(['callerId' => '12']);
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
-        self::assertEquals(array('error' => true, 'reason' => 'ROOM_NOT_FOUND'), $res);
+        self::assertEquals(['error' => true, 'reason' => 'ROOM_NOT_FOUND'], $res);
     }
 
     public function testStarted(): void
@@ -79,7 +79,7 @@ class ConferenceMapperTest extends KernelTestCase
         $id = '12340';
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $callerRoomRepo = self::getContainer()->get(CallerRoomRepository::class);
-        $callerRoom = $callerRoomRepo->findOneBy(array('callerId' => $id));
+        $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
 
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $status = new RoomStatus();
@@ -95,12 +95,14 @@ class ConferenceMapperTest extends KernelTestCase
         $callerRoom->getRoom()->getServer()->setJigasiProsodyDomain('testdomain.com');
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApi', '012345123');
         $jwtService = self::getContainer()->get(RoomService::class);
-        $jwt = $jwtService->generateJwt($callerRoom->getRoom(),null,'012345123');
+        $jwt = $jwtService->generateJwt($callerRoom->getRoom(), null, '012345123');
 
-        self::assertEquals(array(
-            'state' => 'STARTED',
-            'jwt'=>$jwt,'room_name'=>$callerRoom->getRoom()->getUid(),
-            'room_name' => '123456780@testdomain.com'), $res);
+        self::assertEquals(
+            [
+                'state' => 'STARTED',
+                'jwt' => $jwt, 'room_name' => $callerRoom->getRoom()->getUid(),
+                'room_name' => '123456780@testdomain.com'],
+            $res
+        );
     }
-
 }

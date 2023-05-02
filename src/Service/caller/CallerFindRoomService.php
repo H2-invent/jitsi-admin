@@ -18,39 +18,37 @@ class CallerFindRoomService
 
     public function findRoom($id)
     {
-        $caller = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId' => $id));
+        $caller = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $id]);
         $now = (new \DateTime())->getTimestamp();
         if (!$caller) {
-            return array('status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => array());
+            return ['status' => 'ROOM_ID_UKNOWN', 'reason' => 'ROOM_ID_UKNOWN', 'links' => []];
         }
 
-        if ($caller->getRoom()->getStartTimestamp()-1800 > $now && $caller->getRoom()->getPersistantRoom() !== true) {
-            return array(
+        if ($caller->getRoom()->getStartTimestamp() - 1800 > $now && $caller->getRoom()->getPersistantRoom() !== true) {
+            return [
                 'status' => 'HANGUP',
                 'reason' => 'TO_EARLY',
                 'startTime' => $caller->getRoom()->getStartTimestamp(),
                 'endTime' => $caller->getRoom()->getEndTimestamp(),
-                'links' => array()
-            );
+                'links' => []
+            ];
         }
         if ($caller->getRoom()->getEndTimestamp() < $now && $caller->getRoom()->getPersistantRoom() !== true) {
-            return array(
+            return [
                 'status' => 'HANGUP',
                 'reason' => 'TO_LATE',
                 'startTime' => $caller->getRoom()->getStartTimestamp(),
                 'endTime' => $caller->getRoom()->getEndTimestamp(),
-                'links' => array()
-            );
+                'links' => []
+            ];
         }
-        return array(
+        return [
             'status' => 'ACCEPTED',
             'startTime' => $caller->getRoom()->getStartTimestamp(),
             'endTime' => $caller->getRoom()->getEndTimestamp(),
             'roomName' => $caller->getRoom()->getName(),
             //todo hier die url rein
-            'links' => array('pin' => $this->urlGen->generate('caller_pin',array('roomId'=>$id)) )
-        );
+            'links' => ['pin' => $this->urlGen->generate('caller_pin', ['roomId' => $id])]
+        ];
     }
-
 }
-
