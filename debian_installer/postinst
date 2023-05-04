@@ -18,6 +18,8 @@ php /var/www/jitsi-admin/bin/console cache:clear
 
 chown -R www-data:www-data /var/www/jitsi-admin/var/
 chown -R www-data:www-data /var/log/websocket/
+mkdir -p /var/www/img_data/
+ln -s  /var/www/img_data/ /var/www/jitsi-admin/public/uploads/images
 
 a2dissite 000-default
 a2ensite jitsiadmin
