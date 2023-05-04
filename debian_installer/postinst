@@ -19,9 +19,10 @@ php /var/www/jitsi-admin/bin/console cache:clear
 chown -R www-data:www-data /var/www/jitsi-admin/var/
 chown -R www-data:www-data /var/log/websocket/
 
+a2dissite 000-default
 a2ensite jitsiadmin
 a2ensite jitsiadmin-le-ssl
-a2enmod proxy_fcgi proxy setenvif
+a2enmod proxy_fcgi proxy setenvif rewrite
 a2enconf php-fpm
 systemctl reload apache2
 systemctl restart apache2
