@@ -26,7 +26,7 @@ a2enmod proxy_fcgi proxy setenvif rewrite
 a2enconf php-fpm
 systemctl reload apache2
 systemctl restart apache2
-systemctl restart php-fpm
+systemctl restart php*-fpm
 
 
 
