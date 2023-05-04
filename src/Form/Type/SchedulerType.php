@@ -6,17 +6,16 @@ use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Repository\TagRepository;
 use App\Service\ThemeService;
 use App\Util\InputSettings;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -32,11 +31,11 @@ class SchedulerType extends AbstractType
     private const DURATION_LABEL_FORMAT = 'option.%dmin';
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private TagRepository $tagRepository,
         private LoggerInterface        $logger,
         private ThemeService           $themeService,
         private TranslatorInterface    $translator,
-    ){
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -50,7 +49,6 @@ class SchedulerType extends AbstractType
         for ($i = 150; $i <= 480; $i += 30) {
             $durations[sprintf(self::DURATION_LABEL_FORMAT, $i)] = $i;
         }
-
 
         $time = (new DateTime())->getTimestamp();
         $room = $options['data'];
@@ -77,14 +75,13 @@ class SchedulerType extends AbstractType
                     ),
                 );
         }
-        $tags = $this->entityManager->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
+
         $organisators = [];
 
         if ($options['user'] instanceof User) {
             $organisators[] = $options['user'];
             $organisators = array_merge($organisators, $options['user']->getManagers()->toArray());
         }
-
 
         $builder
             ->add(
@@ -186,8 +183,8 @@ class SchedulerType extends AbstractType
                 $this->getOptions(false, 'label.lobby'),
             );
         }
-        // TODO: FIX
-        if (!$this->checkAppProperty(InputSettings::ALLOW_MAYBE_OPTION)) {
+
+        if ($this->checkAppProperty(InputSettings::ALLOW_MAYBE_OPTION)) {
             $this->logger->debug('Add the possibility to disable the maybe option');
             $builder->add(
                 'allowMaybeOption',
@@ -200,6 +197,7 @@ class SchedulerType extends AbstractType
         if ($options['showTag']) {
             $this->logger->debug('Add the possibility to select a tag');
 
+            $tags = $this->tagRepository->findBy(['disabled' => false], ['priority' => 'ASC']);
             if (count($tags) > 0) {
                 $builder->add(
                     'tag',
@@ -310,6 +308,8 @@ class SchedulerType extends AbstractType
 
     private function checkAppProperty(string $parameter): bool
     {
-        return ($this->themeService->getApplicationProperties($parameter) == 1);
+        $propValue = $this->themeService->getApplicationProperties($parameter);
+
+        return ($propValue == 1);
     }
 }

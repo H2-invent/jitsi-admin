@@ -66,11 +66,11 @@
     "vich/uploader-bundle": "^1.19"
   },
   "require-dev": {
-    "dama/doctrine-test-bundle": "^6.6",
+    "dama/doctrine-test-bundle": "^v7.2",
     "dbrekelmans/bdi": "^1.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "phpstan/phpstan": "^1.8",
-    "phpunit/phpunit": "^9.5",
+    "phpunit/phpunit": "^10.1",
     "rector/rector": "^0.13.9",
     "squizlabs/php_codesniffer": "^3.7",
     "symfony/browser-kit": "5.4.*",
@@ -122,10 +122,25 @@
       "@auto-scripts"
     ],
     "phpstan": "vendor/bin/phpstan -c phpstan.neon",
+    "db-drop": "php bin/console doctrine:database:drop --force --if-exists",
+    "db-create": "php bin/console doctrine:database:create",
+    "db-migrate": "php bin/console doctrine:migrations:migrate -n",
+    "db-fixtures-test": "php bin/console doctrine:fixtures:load -n --env=test",
     "db-reset": [
-      "php bin/console doctrine:database:drop --force --if-exists",
-      "php bin/console doctrine:database:create",
-      "php bin/console doctrine:migrations:migrate -n"
+      "@db-drop",
+      "@db-create",
+      "@db-migrate"
+    ],
+    "db-reset-test": [
+      "@db-drop --env=test",
+      "@db-create --env=test",
+      "@db-migrate --env=test",
+      "@db-fixtures-test"
+    ],
+    "test": [
+      "@db-reset-test",
+      "@db-fixtures-test",
+      "php vendor/bin/phpunit"
     ]
   },
   "conflict": {
