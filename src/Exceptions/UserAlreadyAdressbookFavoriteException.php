@@ -7,11 +7,14 @@ use App\Entity\User;
 class UserAlreadyAdressbookFavoriteException extends \Exception
 {
     private User $user;
+
     public function __construct(User $user)
     {
         parent::__construct('User already in Adressbook favorite');
     }
-    public function customMessage(){
+
+    public function customMessage()
+    {
         echo 'User: {$this->user->getUid()} already in Adressbook favorite';
     }
 }

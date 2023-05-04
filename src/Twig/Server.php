@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -10,12 +11,11 @@ use App\Service\ServerUserManagment;
 use App\Service\ThemeService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+
 use function GuzzleHttp\Psr7\str;
 
 class Server extends AbstractExtension
 {
-
-
     private $serverUserManagment;
     public function __construct(ServerUserManagment $serverUserManagment)
     {

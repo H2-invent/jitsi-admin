@@ -20,7 +20,6 @@ class RemoveServerAndGroupsCommand extends Command
     {
         parent::__construct($name);
         $this->em = $entityManager;
-
     }
 
     protected function configure()
@@ -43,9 +42,9 @@ class RemoveServerAndGroupsCommand extends Command
             $io->error('This server is not available.');
             return Command::FAILURE;
         }
-        $groupServer = $this->em->getRepository(KeycloakGroupsToServers::class)->findOneBy(array('server'=>$server,'keycloakGroup'=>$keycloakGroup));
+        $groupServer = $this->em->getRepository(KeycloakGroupsToServers::class)->findOneBy(['server' => $server, 'keycloakGroup' => $keycloakGroup]);
 
-        if (!$groupServer){
+        if (!$groupServer) {
             $io->error('This Connection is not set');
             return Command::FAILURE;
         }
@@ -54,8 +53,7 @@ class RemoveServerAndGroupsCommand extends Command
         $this->em->flush();
 
 
-
-        $io->success('We removed the '.$keycloakGroup.' group from the server '.$server->getUrl());
+        $io->success('We removed the ' . $keycloakGroup . ' group from the server ' . $server->getUrl());
 
         return Command::SUCCESS;
     }

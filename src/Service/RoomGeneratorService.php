@@ -67,11 +67,10 @@ class RoomGeneratorService
         }
         $room = $this->createCallerId($room);
         if ($this->parameterBag->get('input_settings_allow_tag') == 1) {
-            $tag = $this->em->getRepository(Tag::class)->findOneBy(array('disabled' => false), array('priority' => 'ASC'));
+            $tag = $this->em->getRepository(Tag::class)->findOneBy(['disabled' => false], ['priority' => 'ASC']);
             if ($tag) {
                 $room->setTag($tag);
             }
-
         }
 
         return $room;
@@ -85,9 +84,11 @@ class RoomGeneratorService
         $room->setCallerRoom($roomCaller);
         return $room;
     }
-    public function addUserToRoom(User $user, Rooms $rooms, $cleanParticipantsBefore = false):Rooms{
-        if ($cleanParticipantsBefore){
-            foreach ($rooms->getUser() as $data){
+
+    public function addUserToRoom(User $user, Rooms $rooms, $cleanParticipantsBefore = false): Rooms
+    {
+        if ($cleanParticipantsBefore) {
+            foreach ($rooms->getUser() as $data) {
                 $rooms->removeUser($data);
             }
         }
@@ -96,5 +97,4 @@ class RoomGeneratorService
         $this->em->flush();
         return $rooms;
     }
-
 }

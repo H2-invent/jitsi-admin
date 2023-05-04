@@ -14,7 +14,7 @@ class Nl2liExtension extends AbstractExtension
             // If your filter generates SAFE HTML, you should add a third
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
-            new TwigFilter('nl2li', [$this, 'nl2li'], ['is_safe' => array('html')]),
+            new TwigFilter('nl2li', [$this, 'nl2li'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -28,6 +28,6 @@ class Nl2liExtension extends AbstractExtension
     public function nl2li($value)
     {
         // Check for http at beginning of string
-        return '<li>'.str_replace( "\n", "</li><li>", $value ).'</li>';
+        return '<li>' . str_replace("\n", "</li><li>", $value) . '</li>';
     }
 }

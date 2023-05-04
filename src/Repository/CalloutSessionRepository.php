@@ -88,8 +88,8 @@ class CalloutSessionRepository extends ServiceEntityRepository
             ->andWhere($qb->expr()->gte('c.state', ':minState'))
             ->andWhere($qb->expr()->lt('c.state', ':maxState'))
             ->setParameter(':maxState', CalloutSession::$ON_HOLD)
-            ->setParameter('minState',CalloutSession::$DIALED)
-            ->setParameter('sessionId',$calloutSessionId)
+            ->setParameter('minState', CalloutSession::$DIALED)
+            ->setParameter('sessionId', $calloutSessionId)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -106,5 +106,4 @@ class CalloutSessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

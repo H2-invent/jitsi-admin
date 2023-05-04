@@ -15,21 +15,28 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
 
         $whiteboardService = self::getContainer()->get(WhiteboardJwtService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
-        self::assertEquals(JWT::encode([
-            'iat' => (new \DateTime())->getTimestamp(),
-            'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
-            'roles' => array('editor:'.$room->getUidReal())
-        ],'MY_SECRET'),
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        self::assertEquals(
+            JWT::encode(
+                [
+                    'iat' => (new \DateTime())->getTimestamp(),
+                    'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
+                    'roles' => ['editor:' . $room->getUidReal()]
+                ],
+                'MY_SECRET'
+            ),
             $whiteboardService->createJwt($room)
         );
-        self::assertEquals(JWT::encode([
-            'iat' => (new \DateTime())->getTimestamp(),
-            'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
-            'roles' => array('moderator:'.$room->getUidReal())
-        ],'MY_SECRET'),
-            $whiteboardService->createJwt($room,true)
+        self::assertEquals(
+            JWT::encode(
+                [
+                    'iat' => (new \DateTime())->getTimestamp(),
+                    'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
+                    'roles' => ['moderator:' . $room->getUidReal()]
+                ],
+                'MY_SECRET'
+            ),
+            $whiteboardService->createJwt($room, true)
         );
-
     }
 }

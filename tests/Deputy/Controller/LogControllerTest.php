@@ -15,11 +15,11 @@ class LogControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($master);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $room->setCreator($deputy);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($room);
@@ -36,13 +36,13 @@ class LogControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($deputy);
         $deputyService = self::getContainer()->get(DeputyService::class);
         $deputyService->setDeputy($master, $deputy);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $room->setCreator($deputy);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($room);
@@ -64,20 +64,20 @@ class LogControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('.card')->count());
         $logRepo = self::getContainer()->get(LogRepository::class);
         $log = $logRepo->findAll();
-        self::assertEquals(1,sizeof($log));
-        self::assertEquals($deputy->getId(),$log[0]->getUser()->getId());
-        self::assertEquals($room->getId(),$log[0]->getRoom()->getId());
+        self::assertEquals(1, sizeof($log));
+        self::assertEquals($deputy->getId(), $log[0]->getUser()->getId());
+        self::assertEquals($room->getId(), $log[0]->getRoom()->getId());
     }
 
     public function testNotAllowed(): void
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($deputy);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $room->setCreator($deputy);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($room);
@@ -86,6 +86,5 @@ class LogControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/change/log?room_id=' . $room->getId());
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-
     }
 }

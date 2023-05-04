@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: andreas.holzmann
@@ -7,7 +8,6 @@
  */
 
 namespace App\Service;
-
 
 use App\Entity\Rooms;
 use App\Entity\Server;
@@ -19,7 +19,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-
 
 class ServerService
 {
@@ -61,6 +60,5 @@ class ServerService
                 $tmp = $slug . '-' . $counter;
             }
         }
-
     }
 }

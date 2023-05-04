@@ -39,18 +39,17 @@ class SipCallOutController extends JitsiAdminController
     #[Route('invite/{roomUid}', name: 'invite', methods: 'POST')]
     public function invite($roomUid, Request $request): Response
     {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
-        if (!UtilsHelper::isAllowedToOrganizeLobby($this->getUser(),$room)) {
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);
+        if (!UtilsHelper::isAllowedToOrganizeLobby($this->getUser(), $room)) {
             throw new NotFoundHttpException('Room not found');
         }
-        $falseEmails = array();
-        $user = $this->roomAddService->createUserFromUserUid($request->get('uid'),  $falseEmails);
+        $falseEmails = [];
+        $user = $this->roomAddService->createUserFromUserUid($request->get('uid'), $falseEmails);
         if ($user) {
-            $this->roomAddService->addUserOnlytoOneRoom($user,$room);
+            $this->roomAddService->addUserOnlytoOneRoom($user, $room);
             $this->calloutService->initCalloutSession($room, $user, $this->getUser());
             $this->toModeratorWebsocketService->refreshLobbyByRoom($room);
         }
-        return new JsonResponse(array('error' => !(sizeof($falseEmails) === 0), 'falseEmails' => $falseEmails));
+        return new JsonResponse(['error' => !(sizeof($falseEmails) === 0), 'falseEmails' => $falseEmails]);
     }
-
 }

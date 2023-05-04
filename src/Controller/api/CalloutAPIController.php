@@ -8,7 +8,6 @@ use App\Service\Callout\CallOutSessionAPIDialService;
 use App\Service\Callout\CallOutSessionAPIHoldService;
 use App\Service\Callout\CallOutSessionAPIRemoveService;
 use App\Service\Callout\CalloutSessionAPIService;
-use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -28,8 +27,6 @@ class CalloutAPIController extends JitsiAdminController
         ParameterBagInterface                $parameterBag,
         private CalloutSessionAPIService     $calloutSessionAPIService,
         private CallOutSessionAPIDialService $callOutSessionAPIDialService,
-
-
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -48,8 +45,8 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($calloutSessions);
     }
 
-    #[Route('/dial/', name: 'dial_pool',methods: 'GET')]
-    public function dialPool( Request $request): Response
+    #[Route('/dial/', name: 'dial_pool', methods: 'GET')]
+    public function dialPool(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -151,8 +148,8 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/on_hold/', name: 'on_hold_pool',methods: 'GET')]
-    public function onHoldPool( Request $request): Response
+    #[Route('/on_hold/', name: 'on_hold_pool', methods: 'GET')]
+    public function onHoldPool(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -163,7 +160,7 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/back/{calloutSessionId}', name: 'back',methods: 'GET')]
+    #[Route('/back/{calloutSessionId}', name: 'back', methods: 'GET')]
     public function back($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -173,5 +170,4 @@ class CalloutAPIController extends JitsiAdminController
         $res = $this->callOutSessionAPIDialService->backSession($calloutSessionId);
         return new JsonResponse($res);
     }
-
 }

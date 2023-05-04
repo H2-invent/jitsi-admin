@@ -1,31 +1,18 @@
 <?php
 
-
 namespace App\Service\ldap;
-
 
 use App\dataType\LdapType;
 use App\Entity\Deputy;
 use App\Entity\LdapUserProperties;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Url;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Ldap\Entry;
-use Symfony\Component\Ldap\Exception\InvalidCredentialsException;
-use Symfony\Component\Ldap\Exception\LdapException;
-use Symfony\Component\Ldap\Exception\NotBoundException;
-use Symfony\Component\Ldap\Ldap;
 
 class LdapService
 {
-
     private $ldapUserService;
     private $em;
     /**
@@ -55,9 +42,7 @@ class LdapService
     {
         $this->ldapUserService = $ldapUserService;
         $this->em = $entityManager;
-        $this->ldaps = array();
-
-
+        $this->ldaps = [];
     }
 
     /**
@@ -94,7 +79,6 @@ class LdapService
         } catch (\Exception $exception) {
             return false;
         }
-
     }
 
     /**
@@ -137,7 +121,6 @@ class LdapService
 
                 $count++;
             }
-
         }
 
 
@@ -151,7 +134,6 @@ class LdapService
     public function connectToLdap(?SymfonyStyle $io = null): bool
     {
         foreach ($this->ldaps as $data) {
-
             if ($io) {
                 $io->info('Try to connect to: ' . $data);
             }
@@ -161,7 +143,6 @@ class LdapService
                 if ($io) {
                     $io->success('Sucessfully connect to ' . $data->getUrl());
                 }
-
             } catch (\Exception $exception) {
                 $error = true;
                 if ($io) {
@@ -180,8 +161,7 @@ class LdapService
      * @param SymfonyStyle $io
      * @return bool
      */
-    public
-    function initLdap(?SymfonyStyle $io = null): bool
+    public function initLdap(?SymfonyStyle $io = null): bool
     {
         $this->readLdapConfig();
         $this->createLdapConnections();
@@ -194,14 +174,12 @@ class LdapService
      * @return array
      * @throws \Exception
      */
-    public
-    function fetchLdap(LdapType $ldap, $dryRun = false)
+    public function fetchLdap(LdapType $ldap, $dryRun = false)
     {
 
         $user = null;
 
         try {
-
             $userLdap = $ldap->retrieveUser(); //Here we fetch all coresponding users from the LDAP
             foreach ($userLdap as $u) {// Here we itterate over the user from user
                 $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap, $dryRun);
@@ -210,12 +188,12 @@ class LdapService
             throw $e;
         }
 
-        return array('ldap' => $ldap, 'user' => $user);
+        return ['ldap' => $ldap, 'user' => $user];
     }
 
     public function fetchDeputies()
     {
-        $res = array();
+        $res = [];
         foreach ($this->ldaps as $data) {
             if ($data->isHealthy()) {
                 $res = array_merge($res, $data->retrieveDeputies());
@@ -239,12 +217,12 @@ class LdapService
                 $members = $data->getAttribute($ldap->getLDAPDEPUTYGROUPMEMBERS());
                 $leader = $data->getAttribute($ldap->getLDAPDEPUTYGROUPLEADER());
                 foreach ($leader as $lead) {
-                    $l = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn' => $lead, 'ldapNumber' => $ldap->getSerVerId()));
+                    $l = $this->em->getRepository(LdapUserProperties::class)->findOneBy(['ldapDn' => $lead, 'ldapNumber' => $ldap->getSerVerId()]);
                     if ($l) {
                         $l = $l->getUser();
                         foreach ($members as $mem) {
-                            $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(array('ldapDn' => $mem, 'ldapNumber' => $ldap->getSerVerId()));
-                            $deputy = $this->em->getRepository(Deputy::class)->findOneBy(array('manager' => $l, 'deputy' => $mem->getUser()));
+                            $mem = $this->em->getRepository(LdapUserProperties::class)->findOneBy(['ldapDn' => $mem, 'ldapNumber' => $ldap->getSerVerId()]);
+                            $deputy = $this->em->getRepository(Deputy::class)->findOneBy(['manager' => $l, 'deputy' => $mem->getUser()]);
                             if (!$deputy) {
                                 $deputy = new Deputy();
                                 $deputy->setCreatedAt(new \DateTime())
@@ -254,7 +232,6 @@ class LdapService
 
                             $deputy->setIsFromLdap(true);
                             $this->em->persist($deputy);
-
                         }
                     }
                 }
@@ -265,15 +242,13 @@ class LdapService
         } else {
             $this->em->clear();
         }
-
     }
 
 
     /**
      * @return LdapType[]|array
      */
-    public
-    function getLdaps(): array
+    public function getLdaps(): array
     {
         return $this->ldaps;
     }
@@ -281,8 +256,7 @@ class LdapService
     /**
      * @param LdapType[]|array $ldaps
      */
-    public
-    function setLdaps(array $ldaps): void
+    public function setLdaps(array $ldaps): void
     {
         $this->ldaps = $ldaps;
     }
@@ -305,7 +279,6 @@ class LdapService
                     $this->ldapUserService->checkUserInLdap($user, $ldapTyp);
                 }
             }
-
         }
     }
 }

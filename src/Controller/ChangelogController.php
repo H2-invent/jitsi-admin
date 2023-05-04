@@ -11,8 +11,11 @@ class ChangelogController extends AbstractController
     #[Route('/changelog', name: 'app_changelog')]
     public function index(): Response
     {
-        return $this->render('changelog/index.html.twig', [
-            'controller_name' => 'ChangelogController',
-        ]);
+        return $this->render(
+            'changelog/index.html.twig',
+            [
+                'controller_name' => 'ChangelogController',
+            ]
+        );
     }
 }

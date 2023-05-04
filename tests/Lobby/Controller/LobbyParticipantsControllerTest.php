@@ -16,28 +16,31 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LobbyParticipantsControllerTest extends WebTestCase
 {
-
     public function testLobby(): void
     {
         $client = static::createClient();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
         $moderator = $room->getModerator();
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            return 'id';
-        });
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        self::assertNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+        $url = $urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()]);
         $crawler = $client->request('GET', $url);
-        self::assertNotNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        self::assertNotNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
 
         $this->assertEquals(
             1,
@@ -58,28 +61,32 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $client = static::createClient();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
         $moderator = $room->getModerator();
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            return 'id';
-        });
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $urlRenew = $urlGenerator->generate('lobby_participants_renew', array('userUid' => 'test'));
+        $urlRenew = $urlGenerator->generate('lobby_participants_renew', ['userUid' => 'test']);
         $crawler = $client->request('GET', $urlRenew);
         self::assertEquals('{"error":true,"message":"Fehler"}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
-        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+        self::assertNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
+        $url = $urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()]);
 
         $crawler = $client->request('GET', $url);
-        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
-        $urlRenew = $urlGenerator->generate('lobby_participants_renew', array('userUid' => $lobbyUser->getUid()));
-        $this->assertStringContainsString('href="'.$urlRenew,$client->getResponse()->getContent());
+        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
+        $urlRenew = $urlGenerator->generate('lobby_participants_renew', ['userUid' => $lobbyUser->getUid()]);
+        $this->assertStringContainsString('href="' . $urlRenew, $client->getResponse()->getContent());
         self::assertNotNull($lobbyUser);
         $crawler = $client->request('GET', $urlRenew);
         self::assertEquals('{"error":false,"message":"Sie haben Ihren Beitritt erfolgreich angefordert.","color":"success"}', $client->getResponse()->getContent());
@@ -90,31 +97,35 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $client = static::createClient();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
         $moderator = $room->getModerator();
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            return 'id';
-        });
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array('userUid' => 'test'));
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', ['userUid' => 'test']);
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":true}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
-        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+        self::assertNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
+        $url = $urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()]);
         $crawler = $client->request('GET', $url);
-        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
         self::assertNotNull($lobbyUser);
-        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array( 'userUid' => $lobbyUser->getUid()));
-        $this->assertStringContainsString('href="'.$urlLeave,$client->getResponse()->getContent());
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', ['userUid' => $lobbyUser->getUid()]);
+        $this->assertStringContainsString('href="' . $urlLeave, $client->getResponse()->getContent());
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        self::assertNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
         /** @var InMemoryTransport $transport */
         $transport = self::getContainer()->get('messenger.transport.async');
         $this->assertCount(0, $transport->get());
@@ -125,34 +136,37 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $client = static::createClient();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
         $moderator = $room->getModerator();
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            return 'id';
-        });
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array('userUid' => 'test'));
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', ['userUid' => 'test']);
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":true}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
-        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+        self::assertNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
+        $url = $urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()]);
         $crawler = $client->request('GET', $url);
-        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
         self::assertNotNull($lobbyUser);
-        $urlLeave = $urlGenerator->generate('lobby_participants_browser_leave', array( 'userUid' => $lobbyUser->getUid()));
+        $urlLeave = $urlGenerator->generate('lobby_participants_browser_leave', ['userUid' => $lobbyUser->getUid()]);
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
-        self::assertNotNull($lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room)));
+        self::assertNotNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
         /** @var InMemoryTransport $transport */
         $transport = self::getContainer()->get('messenger.transport.async');
         $this->assertCount(1, $transport->get());
-
     }
 
     public function testHEalthcheck(): void
@@ -160,30 +174,34 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $client = static::createClient();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'This is a room with Lobby'));
+        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
         $moderator = $room->getModerator();
-        $user2 = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $directSend = $this->getContainer()->get(DirectSendService::class);
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            return 'id';
-        });
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                return 'id';
+            }
+        );
         $directSend->setMercurePublisher($hub);
         $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
-        $url = $urlGenerator->generate('lobby_participants_wait', array('roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()));
+        $url = $urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()]);
         $crawler = $client->request('GET', $url);
-        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
         self::assertNotNull($lobbyUser);
-        $lobbyUser = $lobbyUSerRepo->findOneBy(array('user' => $user2, 'room' => $room));
+        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
         self::assertNotNull($lobbyUser);
-        $urlHealthCheck = $urlGenerator->generate('lobby_participants_healthCheck', array( 'userUid' => $lobbyUser->getUid()));
+        $urlHealthCheck = $urlGenerator->generate('lobby_participants_healthCheck', ['userUid' => $lobbyUser->getUid()]);
         $crawler = $client->request('GET', $urlHealthCheck);
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
-        $urlLeave = $urlGenerator->generate('lobby_participants_leave', array( 'userUid' => $lobbyUser->getUid()));
+        $urlLeave = $urlGenerator->generate('lobby_participants_leave', ['userUid' => $lobbyUser->getUid()]);
         $crawler = $client->request('GET', $urlLeave);
-        $urlHealthCheck = $urlGenerator->generate('lobby_participants_healthCheck', array( 'userUid' => $lobbyUser->getUid()));
+        $urlHealthCheck = $urlGenerator->generate('lobby_participants_healthCheck', ['userUid' => $lobbyUser->getUid()]);
         $crawler = $client->request('GET', $urlHealthCheck);
         self::assertEquals('{"error":true}', $client->getResponse()->getContent());
     }

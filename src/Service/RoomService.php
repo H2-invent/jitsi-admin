@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: andreas.holzmann
@@ -7,7 +8,6 @@
  */
 
 namespace App\Service;
-
 
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -21,7 +21,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
-
 
 /**
  * Class RoomService
@@ -40,7 +39,6 @@ class RoomService
         $this->logger = $logger;
         $this->translator = $translator;
         $this->uploadHelper = $uploaderHelper;
-
     }
 
     /**
@@ -55,7 +53,7 @@ class RoomService
      */
     function join(Rooms $room, ?User $user, $t, $userName)
     {
-        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
+        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $room]);
         if (!$roomUser) {
             $roomUser = new RoomsUser();
         }
@@ -109,7 +107,7 @@ class RoomService
 
     public function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false)
     {
-        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
+        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $room]);
         if (!$roomUser) {
             $roomUser = new RoomsUser();
         }
@@ -132,7 +130,7 @@ class RoomService
         if (!$server->getAppId()) {
             return null;
         }
-        $payload = array(
+        $payload = [
             "aud" => "jitsi_admin",
             "iss" => $room->getServer()->getAppId(),
             "sub" => $room->getServer()->getUrl(),
@@ -143,7 +141,7 @@ class RoomService
                 ],
             ],
 
-        );
+        ];
         if ($roomUser && !$avatar) {
             if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
                 $avatar = $this->uploadHelper->asset($roomUser->getUser()->getProfilePicture(), 'documentFile');
@@ -157,17 +155,16 @@ class RoomService
         } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
             $payload['context']['user']['moderator'] = $moderator;
         }
-        $screen = array(
+        $screen = [
             'screen-sharing' => true,
             'private-message' => true,
 
-        );
+        ];
         if ($room->getServer()->getFeatureEnableByJWT()) {
             if ($room->getDissallowScreenshareGlobal()) {
                 $screen['screen-sharing'] = false;
                 if (($roomUser && $roomUser->getShareDisplay()) || $moderator) {
                     $screen['screen-sharing'] = true;
-
                 }
             }
             if ($room->getDissallowPrivateMessage()) {

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Helper\JitsiAdminController;
 use App\Service\FavoriteService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,9 +15,9 @@ class FavoriteController extends JitsiAdminController
     /**
      * @Route("/room/favorite/toggle", name="room_favorite_toogle")
      */
-    public function index(Request $request,TranslatorInterface $translator, FavoriteService $favoriteService): Response
+    public function index(Request $request, TranslatorInterface $translator, FavoriteService $favoriteService): Response
     {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);
         $user = $this->getUser();
 
         if (in_array($user, $room->getUser()->toArray())) {
@@ -27,7 +26,7 @@ class FavoriteController extends JitsiAdminController
             } else {
                 $user->addFavorite($room);
             }
-        }else{
+        } else {
             $this->addFlash('danger', $translator->trans('Fehler'));
             return $this->redirectToRoute('dashboard');
         }

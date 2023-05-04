@@ -2,7 +2,6 @@
 
 namespace App\Helper;
 
-
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;

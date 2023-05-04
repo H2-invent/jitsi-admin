@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -22,15 +23,16 @@ class ProfileImageType extends AbstractType
     {
 
         $builder
-            ->add('profilePicture', ImageType::class,['label' => 'label.profilImage', 'translation_domain' => 'form'])
-            ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
+            ->add('profilePicture', ImageType::class, ['label' => 'label.profilImage', 'translation_domain' => 'form'])
+            ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-          'data_class' => User::class,
-        ]);
-
+        $resolver->setDefaults(
+            [
+                'data_class' => User::class,
+            ]
+        );
     }
 }

@@ -10,17 +10,18 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class WhiteboardJwtService
 {
-    public function __construct(private ParameterBagInterface $parameterBag,private UidHelper $uidHelper)
+    public function __construct(private ParameterBagInterface $parameterBag, private UidHelper $uidHelper)
     {
     }
 
-    public function createJwt(Rooms $rooms, $isModerator=false):string{
+    public function createJwt(Rooms $rooms, $isModerator = false): string
+    {
         $ui = $this->uidHelper->getUid($rooms);
         $payload = [
             'iat' => (new \DateTime())->getTimestamp(),
             'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
-            'roles' => array(($isModerator?'moderator':'editor').':'.$ui)
+            'roles' => [($isModerator ? 'moderator' : 'editor') . ':' . $ui]
         ];
-        return JWT::encode($payload,$this->parameterBag->get('WHITEBOARD_SECRET'));
+        return JWT::encode($payload, $this->parameterBag->get('WHITEBOARD_SECRET'));
     }
 }

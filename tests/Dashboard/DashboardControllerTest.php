@@ -1,16 +1,12 @@
 <?php
 
-
 namespace App\Tests\Dashboard;
 
-
-use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DashboardControllerTest extends WebTestCase
 {
-
     public function testdashboardUserSuccess()
     {
         $client = static::createClient();
@@ -20,8 +16,8 @@ class DashboardControllerTest extends WebTestCase
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertEquals(0,$crawler->filter('.createdFromText')->count());
-        self::assertEquals(0,$crawler->filter('.createdByDeputy')->count());
+        self::assertEquals(0, $crawler->filter('.createdFromText')->count());
+        self::assertEquals(0, $crawler->filter('.createdByDeputy')->count());
     }
 
     public function testdashboardUserFail()
@@ -29,10 +25,9 @@ class DashboardControllerTest extends WebTestCase
         $client = static::createClient();
         $userRepository = self::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('testFail@test.com');
-      if ($testUser){
-          $client->loginUser($testUser);
-      }
-
+        if ($testUser) {
+            $client->loginUser($testUser);
+        }
 
 
         $client->request('GET', '/room/dashboard');
@@ -46,7 +41,6 @@ class DashboardControllerTest extends WebTestCase
 
         $client->request('GET', '/');
         self::assertResponseRedirects('/m');
-
     }
     public function testDayDescription()
     {
@@ -58,7 +52,7 @@ class DashboardControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
-        self::assertEquals(1,$crawler->filter('h4:contains("Heute")')->count());
+        self::assertEquals(1, $crawler->filter('h4:contains("Heute")')->count());
     }
     public function testservernameInSettings()
     {
@@ -83,7 +77,6 @@ class DashboardControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
         self::assertEquals(2, $crawler->filter('.dropdown-item:contains("Server with License")')->count());
-
     }
     public function testservernameinConferenceCard()
     {

@@ -25,7 +25,7 @@ class RemoveRoomTest extends KernelTestCase
         $removeRoomService = self::getContainer()->get(RemoveRoomService::class);
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $em = self::getContainer()->get(EntityManagerInterface::class);
         $user = $room->getModerator();
         $room->addFavoriteUser($user);
@@ -43,7 +43,7 @@ class RemoveRoomTest extends KernelTestCase
             $callerID->setCreatedAt(new \DateTime());
             $callerID->setUser($data);
             $callerID->setCallerId('test123');
-            if ($data == $room->getModerator()){
+            if ($data == $room->getModerator()) {
                 $modSId = $callerID;
             }
             $room->addCallerId($callerID);
@@ -77,7 +77,7 @@ class RemoveRoomTest extends KernelTestCase
 
         $callerPrepareService->createUserCallerIDforRoom($room);
         $callerPrepareService->addCallerIdToRoom($room);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, sizeof($room->getCallerIds()));
         self::assertNotNull($room->getCallerRoom()->getId());
 
@@ -87,7 +87,7 @@ class RemoveRoomTest extends KernelTestCase
 
         self::assertEquals(true, $removeRoomService->deleteRoom($room));
 
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(0, sizeof($room->getUser()));
         self::assertNull($room->getModerator());
         self::assertEquals(0, sizeof($room->getFavoriteUsers()));
@@ -95,7 +95,7 @@ class RemoveRoomTest extends KernelTestCase
         self::assertEquals(0, sizeof($room->getSubscribers()));
         self::assertEquals(0, sizeof($room->getWaitinglists()));
         self::assertEquals(0, sizeof($room->getCallerIds()));
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertNull($room->getCallerRoom()->getId());
     }
 
@@ -106,7 +106,7 @@ class RemoveRoomTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $removeRoomService = self::getContainer()->get(RemoveRoomService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $repeaterService = self::getContainer()->get(RepeaterService::class);
         $repeat = new Repeat();
         $repeat->setRepeatType(0);

@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -7,18 +8,13 @@ use App\Entity\MyUser;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\MessageService;
-use App\Service\RoomService;
 use App\UtilsHelper;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 use function GuzzleHttp\Psr7\str;
 
 class CheckIfUserIsAllowdToOrganize extends AbstractExtension
 {
-
-
     public function getFunctions()
     {
         return [
@@ -27,7 +23,6 @@ class CheckIfUserIsAllowdToOrganize extends AbstractExtension
     }
     public function isAllowedToOrganize(Rooms $rooms, ?User $user)
     {
-       return UtilsHelper::isAllowedToOrganizeRoom($user,$rooms);
+        return UtilsHelper::isAllowedToOrganizeRoom($user, $rooms);
     }
-
 }

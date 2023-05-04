@@ -2,15 +2,12 @@
 
 namespace App\Command\LobbyMessage;
 
-
 use App\Entity\PredefinedLobbyMessages;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -38,13 +35,11 @@ class LobbyMessageListCommand extends Command
             ->setHeaders(['ID', 'Active', 'Text', 'Prio']);
 
 
-        $messages = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findBy(array(), array('priority' => 'ASC'));
+        $messages = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findBy([], ['priority' => 'ASC']);
 
         foreach ($messages as $data) {
-
             if ($data->isActive()) {
                 $table->addRow([$data->getId(), '[X]', $data->getText(), $data->getPriority()]);
-
             } else {
                 $table->addRow([$data->getId(), '[ ]', $data->getText(), $data->getPriority()]);
             }

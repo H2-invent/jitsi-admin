@@ -35,8 +35,8 @@ class UserShowTest extends WebTestCase
         $ldapConnection->setSerVerId('Server1');
         $ldapConnection->setPassword('password');
         $ldapConnection->setScope('sub');
-        $ldapConnection->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
-        $ldapConnection->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
+        $ldapConnection->setMapper(["firstName" => "givenName", "lastName" => "sn", "email" => "uid"]);
+        $ldapConnection->setSpecialFields(["ou" => "ou", "departmentNumber" => "departmentNumber"]);
         $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
         $ldapConnection->setBindType('none');
         $ldapConnection->setRdn('uid');
@@ -55,13 +55,13 @@ class UserShowTest extends WebTestCase
         //login as the ldap user and test if the name in the adressbook is written correctly
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(array('username' => 'unitTest1Sub'));
+        $testUser = $userRepository->findOneBy(['username' => 'unitTest1Sub']);
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
             1,
-        $crawler->filter('.breakWord:contains("Reh, Rainer")')->count()
+            $crawler->filter('.breakWord:contains("Reh, Rainer")')->count()
         );
         $this->assertEquals(
             1,
@@ -79,9 +79,6 @@ class UserShowTest extends WebTestCase
             3,
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
-
-
-
     }
     public function testShowName2(): void
     {
@@ -107,8 +104,8 @@ class UserShowTest extends WebTestCase
         $ldapConnection->setSerVerId('Server1');
         $ldapConnection->setPassword('password');
         $ldapConnection->setScope('sub');
-        $ldapConnection->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
-        $ldapConnection->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
+        $ldapConnection->setMapper(["firstName" => "givenName", "lastName" => "sn", "email" => "uid"]);
+        $ldapConnection->setSpecialFields(["ou" => "ou", "departmentNumber" => "departmentNumber"]);
         $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
         $ldapConnection->setBindType('none');
         $ldapConnection->setRdn('uid');
@@ -127,7 +124,7 @@ class UserShowTest extends WebTestCase
         //login as the ldap user and test if the name in the adressbook is written correctly
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser2 = $userRepository->findOneBy(array('username' => 'unitTest1'));
+        $testUser2 = $userRepository->findOneBy(['username' => 'unitTest1']);
         $client->loginUser($testUser2);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
@@ -151,7 +148,6 @@ class UserShowTest extends WebTestCase
             3,
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
-
     }
     private function getParam()
     {

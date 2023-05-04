@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -10,16 +11,11 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
-
 
 class JoinUrlGeneratorService
 {
-
     private $parameterBag;
 
     private $url;
@@ -36,14 +32,12 @@ class JoinUrlGeneratorService
     {
 
         $data = base64_encode('uid=' . $room->getUid() . '&email=' . $user->getEmail());
-        $url = $this->createHttps->createHttpsUrl
-        (
+        $url = $this->createHttps->createHttpsUrl(
             $room->getPersistantRoom() ?
                 $this->url->generate('join_index_uid', ['data' => $data, 'uid' => $room->getUid(), 'slug' => $room->getServer()->getSlug()]) :
-                $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()])
-            , $room);
+                $this->url->generate('join_index', ['data' => $data, 'slug' => $room->getServer()->getSlug()]),
+            $room
+        );
         return $url;
     }
-
-
 }

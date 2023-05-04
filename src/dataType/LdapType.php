@@ -2,10 +2,6 @@
 
 namespace App\dataType;
 
-use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapUserService;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Ldap\Ldap;
 
 class LdapType
@@ -253,7 +249,6 @@ class LdapType
         $anonym = $this->bindType === 'simple' ? false : true;
 
         try {
-
             $tmp = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
             if ($anonym === false) {
                 $tmp->bind($this->bindDn, $this->password);
@@ -263,7 +258,6 @@ class LdapType
             $this->ldap = $tmp;
             $this->isHealthy = true;
             return $tmp;
-
         } catch (\Exception $exception) {
             throw $exception;
         }
@@ -337,9 +331,9 @@ class LdapType
     public function retrieveUser()
     {
 
-        $options = array(
+        $options = [
             'scope' => $this->scope,
-        );
+        ];
 
         $query = $this->ldap->query($this->userDn, $this->buildObjectClass(), $options);
         $user = $query->execute();
@@ -350,15 +344,13 @@ class LdapType
     public function retrieveDeputies()
     {
 
-            $options = array(
-                'scope' => $this->scope,
-            );
+        $options = [
+            'scope' => $this->scope,
+        ];
 
-            $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
-            $user = $query->execute();
-            return $user->toArray();
-
-
+        $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
+        $user = $query->execute();
+        return $user->toArray();
     }
 
 
@@ -473,6 +465,4 @@ class LdapType
     {
         $this->isHealthy = $isHealthy;
     }
-
-
 }

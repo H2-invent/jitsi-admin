@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,38 +53,38 @@ class ThemeService
 
 
         try {
-            $value = $this->cache->get('theme_' . $url, function (ItemInterface $item) use ($url) {
-                $item->expiresAfter(3600);
+            $value = $this->cache->get(
+                'theme_' . $url,
+                function (ItemInterface $item) use ($url) {
+                    $item->expiresAfter(3600);
 
-                $finder = new Finder();
-                $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url . '.' . 'theme.json.signed');
-                if ($finder->count() > 0) {
-                    $arr = iterator_to_array($finder);
-                    $theme = reset($arr)->getContents();
+                    $finder = new Finder();
+                    $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url . '.' . 'theme.json.signed');
+                    if ($finder->count() > 0) {
+                        $arr = iterator_to_array($finder);
+                        $theme = reset($arr)->getContents();
 
-                    $valid = $this->checkSignature->verifySignature($theme);
-                    if ($valid) {
-                        $res = $this->checkSignature->verifyValidUntil($theme);
-                        if ($res !== false) {
-                            return $res;
+                        $valid = $this->checkSignature->verifySignature($theme);
+                        if ($valid) {
+                            $res = $this->checkSignature->verifyValidUntil($theme);
+                            if ($res !== false) {
+                                return $res;
+                            }
+                            $this->logger->error('Theme valid until is before now');
+                        } else {
+                            $this->logger->error('Signature invalid');
                         }
-                        $this->logger->error('Theme valid until is before now');
-                    } else {
-                        $this->logger->error('Signature invalid');
                     }
+                    return false;
                 }
-                return false;
-            });
+            );
             return $value;
-
         } catch (\Exception $exception) {
-
         }
         return false;
     }
 
-    public
-    function getThemeProperty($property)
+    public function getThemeProperty($property)
     {
         $theme = $this->getTheme();
         if ($theme) {
@@ -110,18 +108,15 @@ class ThemeService
         $tmp = $this->getThemeProperty($input);
 
         if ($tmp !== null) {
-
             try {
                 $res = json_decode($tmp, true);
                 if (!$res) {
                     return $tmp;
                 }
                 return $res;
-
             } catch (\Exception $exception) {
                 return $tmp;
             }
-
         }
 
         try {
@@ -137,7 +132,5 @@ class ThemeService
         } catch (\Exception $exception) {
             return $variable;
         }
-
-
     }
 }

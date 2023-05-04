@@ -8,16 +8,15 @@ use App\Exceptions\UserNotInAdressbookException;
 use App\Service\ParticipantSearchService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdressbookFavoriteService
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private TranslatorInterface       $translator,
-        private LoggerInterface           $logger,
-        private ParticipantSearchService  $participantSearchService
+        private TranslatorInterface             $translator,
+        private LoggerInterface                 $logger,
+        private ParticipantSearchService        $participantSearchService
     )
     {
     }
@@ -28,12 +27,12 @@ class AdressbookFavoriteService
      * @return bool
      * @throws UserNotInAdressbookException
      */
-    public function addFavorite(User $addUser, User $favoriteUser):bool
+    public function addFavorite(User $addUser, User $favoriteUser): bool
     {
-        if ($addUser->getAdressbookFavorites()->contains($favoriteUser)){
+        if ($addUser->getAdressbookFavorites()->contains($favoriteUser)) {
             throw new UserAlreadyAdressbookFavoriteException($favoriteUser);
         }
-        if (!$addUser->getAddressbook()->contains($favoriteUser)){
+        if (!$addUser->getAddressbook()->contains($favoriteUser)) {
             throw new UserNotInAdressbookException($favoriteUser);
         }
         $addUser->addAdressbookFavorite($favoriteUser);
@@ -47,9 +46,9 @@ class AdressbookFavoriteService
      * @param User $favoriteUser
      * @return bool
      */
-    public function removeFavorite(User $addUser, User $favoriteUser):bool
+    public function removeFavorite(User $addUser, User $favoriteUser): bool
     {
-        if (!$addUser->getAdressbookFavorites()->contains($favoriteUser)){
+        if (!$addUser->getAdressbookFavorites()->contains($favoriteUser)) {
             return false;
         }
         $addUser->removeAdressbookFavorite($favoriteUser);
@@ -57,24 +56,25 @@ class AdressbookFavoriteService
         $this->entityManager->flush();
         return true;
     }
-    public function userFavorite(User $addUser, User $favoriteUser):array{
+
+    public function userFavorite(User $addUser, User $favoriteUser): array
+    {
         if ($addUser->getAdressbookFavorites()->contains($favoriteUser)) {
-                $this->removeFavorite($addUser,$favoriteUser);
-                return array('success', $this->translator->trans('addressbook.favorite.remove.success', array('{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser))));
+            $this->removeFavorite($addUser, $favoriteUser);
+            return ['success', $this->translator->trans('addressbook.favorite.remove.success', ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)])];
         } else {
             try {
                 $this->addFavorite($addUser, $favoriteUser);
-                return array('success',$this->translator->trans('addressbook.favorite.add.success', array('{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser))));
+                return ['success', $this->translator->trans('addressbook.favorite.add.success', ['{name}' => $this->participantSearchService->buildShowInFrontendStringNoString($favoriteUser)])];
             } catch (UserAlreadyAdressbookFavoriteException $exception) {
-
                 $this->logger->debug($exception->getMessage());
-                return array('danger', $this->translator->trans('addressbook.favorite.add.failure'));
+                return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
             } catch (UserNotInAdressbookException $exception) {
                 $this->logger->debug($exception->getMessage());
-                return array('danger', $this->translator->trans('addressbook.favorite.add.failure'));
+                return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
             } catch (\Exception $exception) {
                 $this->logger->debug($exception->getMessage());
-                return array('danger', $this->translator->trans('addressbook.favorite.add.failure'));
+                return ['danger', $this->translator->trans('addressbook.favorite.add.failure')];
             }
         }
     }

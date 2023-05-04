@@ -29,7 +29,6 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ServersController extends JitsiAdminController
@@ -42,7 +41,7 @@ class ServersController extends JitsiAdminController
         $originalKeycloakGroups = new ArrayCollection();
 
         if ($request->get('id')) {
-            $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+            $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
 
             foreach ($server->getkeycloakGroups() as $keycloakGroup) {
                 $originalKeycloakGroups->add($keycloakGroup);
@@ -63,7 +62,7 @@ class ServersController extends JitsiAdminController
         $form = $this->createForm(ServerType::class, $server, ['action' => $this->generateUrl('servers_add', ['id' => $server->getId()])]);
         $form->handleRequest($request);
 
-        $errors = array();
+        $errors = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $server = $form->getData();
             $url = $server->getUrl();
@@ -91,8 +90,7 @@ class ServersController extends JitsiAdminController
             }
         }
 
-        return $this->render('servers/__addServerModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
-
+        return $this->render('servers/__addServerModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'server' => $server]);
     }
 
     /**
@@ -101,7 +99,7 @@ class ServersController extends JitsiAdminController
     public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
     {
 
-        $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('id' => $request->get('id')));
+        $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
             $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
@@ -112,7 +110,7 @@ class ServersController extends JitsiAdminController
         $form = $this->createForm(EnterpriseType::class, $server, ['action' => $this->generateUrl('servers_enterprise', ['id' => $server->getId()])]);
         $form->handleRequest($request);
 
-        $errors = array();
+        $errors = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $server = $form->getData();
 
@@ -121,7 +119,7 @@ class ServersController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 $em->persist($server);
                 $em->flush();
-                if ($server->getServerBackgroundImage()){
+                if ($server->getServerBackgroundImage()) {
                     $server->getServerBackgroundImage()->setUpdatedAt(new \DateTime());
                     $server->setUpdatedAt(new \DateTime());
                     $em->persist($server);
@@ -129,7 +127,7 @@ class ServersController extends JitsiAdminController
                 }
 
                 if ($server->getServerBackgroundImage() && !$server->getServerBackgroundImage()->getDocumentFileName()) {
-                   $server->setServerBackgroundImage(null);
+                    $server->setServerBackgroundImage(null);
                     $em->persist($server);
                     $em->flush();
                 }
@@ -139,8 +137,7 @@ class ServersController extends JitsiAdminController
             }
         }
 
-        return $this->render('servers/__serverEnterpriseModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'server' => $server));
-
+        return $this->render('servers/__serverEnterpriseModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'server' => $server]);
     }
 
     /**
@@ -148,19 +145,17 @@ class ServersController extends JitsiAdminController
      */
     public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService)
     {
-        $newMember = array();
+        $newMember = [];
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         if ($server->getAdministrator() !== $this->getUser()) {
-            $this->addFlash('danger',$translator->trans('Keine Berechtigung'));
+            $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
         $form = $this->createForm(NewPermissionType::class, $newMember, ['action' => $this->generateUrl('server_add_user', ['id' => $server->getId()])]);
         $form->handleRequest($request);
 
-        $errors = array();
+        $errors = [];
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $newMembers = $form->getData();
             $lines = explode("\n", $newMembers['member']);
 
@@ -175,20 +170,19 @@ class ServersController extends JitsiAdminController
                 }
                 $em->flush();
                 $snack = 'Berechtigung hinzugefügt';
-                $this->addFlash('success',$snack);
+                $this->addFlash('success', $snack);
                 return $this->redirectToRoute('dashboard');
             }
         }
         $title = $translator->trans('Organisator zu Server hinzufügen');
 
-        return $this->render('servers/permissionModal.html.twig', array('form' => $form->createView(), 'title' => $title, 'users' => $server->getUser(), 'server' => $server));
+        return $this->render('servers/permissionModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'users' => $server->getUser(), 'server' => $server]);
     }
 
     /**
      * @Route("/server/user/remove", name="server_user_remove")
      */
-    public
-    function serverUserRemove(Request $request, TranslatorInterface $translator)
+    public function serverUserRemove(Request $request, TranslatorInterface $translator)
     {
 
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
@@ -208,15 +202,14 @@ class ServersController extends JitsiAdminController
     /**
      * @Route("/server/delete", name="server_delete")
      */
-    public
-    function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService)
+    public function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService)
     {
 
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
         $snack = $translator->trans('Keine Berechtigung');
         if ($server->getAdministrator() === $this->getUser()) {
             $em = $this->doctrine->getManager();
-            $groupServer = $this->doctrine->getRepository(KeycloakGroupsToServers::class)->findBy(array('server' => $server));
+            $groupServer = $this->doctrine->getRepository(KeycloakGroupsToServers::class)->findBy(['server' => $server]);
             foreach ($groupServer as $data) {
                 $em->remove($data);
             }
@@ -228,15 +221,14 @@ class ServersController extends JitsiAdminController
 
             $snack = $translator->trans('Server gelöscht');
         }
-        $this->addFlash('success',$snack);
+        $this->addFlash('success', $snack);
         return $this->redirectToRoute('dashboard');
     }
 
     /**
      * @Route("/server/check/email", name="server_check_email")
      */
-    public
-    function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
+    public function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
     {
 
         $color = 'success';
@@ -254,34 +246,33 @@ class ServersController extends JitsiAdminController
                     if ($server->getSmtpUsername()) {
                         $this->logger->info('The Transport is new and we take him');
                         $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
-                    }else{
+                    } else {
                         $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
                     }
-
-                }else{
-                    $snack= $translator->trans('Fehler').': SMTP-Host';
+                } else {
+                    $snack = $translator->trans('Fehler') . ': SMTP-Host';
                     $color = 'danger';
                     $this->addFlash($color, $snack);
                     return $this->redirectToRoute('dashboard');
                 }
-                $transport= Transport::fromDsn($dsn);
+                $transport = Transport::fromDsn($dsn);
                 $message = (new Email())
                     ->subject($translator->trans('Testmail vom Jitsi-Admin') . ' | ' . $server->getUrl())
                     ->from(new Address($server->getSmtpEmail(), $server->getSmtpSenderName()))
                     ->to($this->getUser()->getEmail())
-                    ->html('<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
+                    ->html(
+                        '<h1>' . $translator->trans('Sie haben einen SMTP-Server für Ihren Jitsi-Server erfolgreich eingerichtet') . '</h1>'
                         . $server->getSmtpHost() . '<br>'
                         . $server->getSmtpEmail() . '<br>'
-                        . $server->getSmtpSenderName() . '<br>');
+                        . $server->getSmtpSenderName() . '<br>'
+                    );
                 $transport->send($message);
-
             } catch (\Exception $e) {
                 $color = 'danger';
-                $snack = $translator->trans('Fehler').': '.$e->getMessage();
+                $snack = $translator->trans('Fehler') . ': ' . $e->getMessage();
             }
         }
         $this->addFlash($color, $snack);
         return $this->redirectToRoute('dashboard');
-
     }
 }

@@ -5,25 +5,22 @@ namespace App\Helper;
 use App\Entity\Rooms;
 use App\Service\ThemeService;
 use App\Service\Whiteboard\WhiteboardJwtService;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ExternalApplication
 {
     public function __construct(
-        private WhiteboardJwtService   $whiteboardJwtService,
-        private ThemeService           $themeService,
-        private UidHelper $uidHelper,
+        private WhiteboardJwtService $whiteboardJwtService,
+        private ThemeService         $themeService,
+        private UidHelper            $uidHelper,
     )
     {
-
     }
 
     public function etherpadLink(Rooms $rooms, $name = null)
     {
-        if (!$name){
+        if (!$name) {
             $name = '%name%';
-        }else{
+        } else {
             $name = urlencode($name);
         }
         $ui = $this->uidHelper->getUid($rooms);
@@ -35,6 +32,4 @@ class ExternalApplication
         $ui = $this->uidHelper->getUid($rooms);
         return $this->themeService->getApplicationProperties('WHITEBOARD_URL') . '/boards/' . $ui . '?token=' . $this->whiteboardJwtService->createJwt($rooms, $moderator);
     }
-
-
 }

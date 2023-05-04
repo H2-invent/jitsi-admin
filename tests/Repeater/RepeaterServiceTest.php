@@ -60,7 +60,6 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
-
     }
 
     public function testMonthlyRepeater(): void
@@ -85,7 +84,6 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
-
     }
 
     public function testMonthlyRelativeRepeaterNextMonth(): void
@@ -112,7 +110,6 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
-
     }
 
     public function testMonthlyRelativeRepeaterThisMonth(): void
@@ -141,7 +138,6 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
-
     }
 
     public function testYearlyRepeater(): void
@@ -166,7 +162,6 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
-
     }
 
     public function testYearlyRelativeRepeaterNextYear(): void
@@ -175,7 +170,7 @@ class RepeaterServiceTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $repeaterService = self::getContainer()->get(RepeaterService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $room = $this->prepareRoom($roomRepo);
         $repeat = new Repeat();
         $repeat->setRepeatType(5);
@@ -247,9 +242,8 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertEquals(3, sizeof($repeat->getRooms()[0]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[1]->getUser()));
         self::assertEquals(3, sizeof($repeat->getRooms()[2]->getUser()));
-        $repeaterService->sendEMail($repeat, 'email/repeaterNew.html.twig', 'Eine neue Serienvideokonferenz wurde erstellt', array('room' => $repeat->getPrototyp()));
-        $repeaterService->sendEMail($repeat, 'email/repeaterNew.html.twig', 'Eine neue Serienvideokonferenz wurde erstellt', array('room' => $repeat->getPrototyp()),'REQUEST',$repeat->getPrototyp()->getUser());
-
+        $repeaterService->sendEMail($repeat, 'email/repeaterNew.html.twig', 'Eine neue Serienvideokonferenz wurde erstellt', ['room' => $repeat->getPrototyp()]);
+        $repeaterService->sendEMail($repeat, 'email/repeaterNew.html.twig', 'Eine neue Serienvideokonferenz wurde erstellt', ['room' => $repeat->getPrototyp()], 'REQUEST', $repeat->getPrototyp()->getUser());
     }
     public function testChangeRepeaterRooms(): void
     {
@@ -259,7 +253,7 @@ class RepeaterServiceTest extends KernelTestCase
         $repeaterService = self::getContainer()->get(RepeaterService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $room = $this->prepareRoom($roomRepo);
-        foreach ($room->getUser() as $data){
+        foreach ($room->getUser() as $data) {
             $room->addPrototypeUser($data);
             $room->removeUser($data);
         }
@@ -288,20 +282,20 @@ class RepeaterServiceTest extends KernelTestCase
         $manager->flush();
         $roomTmp = $roomRepo->find($repeat->getRooms()[2]->getId());
         $repTmp = $roomTmp->getRepeater();
-        $roomNew = $repTmp -> getPrototyp();
+        $roomNew = $repTmp->getPrototyp();
         $roomNew->setRepeaterProtoype($repTmp);
         $roomNew->setDuration(90);
         $roomNew->setStart(new \DateTime('2021-01-20T18:00'));
         $rep = $repeaterService->prepareRepeater($roomNew);
-        self::assertEquals('2021-01-20T18:00', $rep->getStartDate()->format('Y-m-d').'T'.$rep->getStartDate()->format('H:i'));
+        self::assertEquals('2021-01-20T18:00', $rep->getStartDate()->format('Y-m-d') . 'T' . $rep->getStartDate()->format('H:i'));
         $rep = $repeaterService->replaceRooms($roomNew);
         $repRepo = self::getContainer()->get(RepeatRepository::class);
-        $repTmp  = $repRepo->find($repTmp->getId());
-        self::assertEquals('Sie haben erfolgreich einen Serientermin bearbeitet.',$rep);
+        $repTmp = $repRepo->find($repTmp->getId());
+        self::assertEquals('Sie haben erfolgreich einen Serientermin bearbeitet.', $rep);
         self::assertEquals(3, sizeof($repTmp->getRooms()));
 
         $date = new \DateTime('2021-01-20T18:00');
-        foreach ($repTmp->getRooms() as $data){
+        foreach ($repTmp->getRooms() as $data) {
             self::assertEquals($date, $data->getStart());
             $date->modify('+1day');
             self::assertEquals(3, sizeof($data->getUser()));
@@ -314,10 +308,10 @@ class RepeaterServiceTest extends KernelTestCase
     {
         $manager = self::getContainer()->get(EntityManagerInterface::class);
 
-        $rooms = $roomsRepository->findOneBy(array('name' => 'TestMeeting: 0'));
+        $rooms = $roomsRepository->findOneBy(['name' => 'TestMeeting: 0']);
         $rooms = $this->changeStart($rooms, '2021-01-15T15:00');
-        foreach ($rooms->getUser() as $data){
-            if($data !== $rooms->getModerator()){
+        foreach ($rooms->getUser() as $data) {
+            if ($data !== $rooms->getModerator()) {
                 $userAttr = new RoomsUser();
                 $userAttr->setRoom($rooms);
                 $userAttr->setUser($data);
@@ -359,11 +353,9 @@ class RepeaterServiceTest extends KernelTestCase
         self::assertTrue($repeaterService->checkData($repeat));
         $repeaterService->createNewRepeater($repeat);
         $repeaterService->createNewCaller($repeat);
-        foreach ($repeat->getRooms() as $data){
+        foreach ($repeat->getRooms() as $data) {
             self::assertEquals(3, sizeof($data->getCallerIds()));
             self::assertNotNull($data->getCallerRoom());
         }
-
     }
-
 }

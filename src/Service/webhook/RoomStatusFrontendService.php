@@ -31,24 +31,24 @@ class RoomStatusFrontendService
         return $parts;
     }
 
-    public function isRoomClosed(Rooms $rooms):bool
+    public function isRoomClosed(Rooms $rooms): bool
     {
-        $status = $this->em->getRepository(RoomStatus::class)->findBy(array('room'=>$rooms));
+        $status = $this->em->getRepository(RoomStatus::class)->findBy(['room' => $rooms]);
 
-        if(sizeof($status) === 0){
+        if (sizeof($status) === 0) {
             return false;
         }
-        if (!$rooms->getStart()){
+        if (!$rooms->getStart()) {
             return false;
         }
-        foreach ($status as $data){
-            if ($data->getDestroyed() !== true){
+        foreach ($status as $data) {
+            if ($data->getDestroyed() !== true) {
                 return false;
             }
         }
-        foreach ($status as $data){
-            if ($data->getDestroyedUtc() > $rooms->getStartUtc()){
-              return true;
+        foreach ($status as $data) {
+            if ($data->getDestroyedUtc() > $rooms->getStartUtc()) {
+                return true;
             }
         }
 

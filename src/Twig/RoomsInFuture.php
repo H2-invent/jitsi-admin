@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -12,13 +13,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+
 use function Doctrine\ORM\QueryBuilder;
 use function GuzzleHttp\Psr7\str;
 
 class RoomsInFuture extends AbstractExtension
 {
-
-
     private $licenseService;
     private $em;
 
@@ -41,9 +41,9 @@ class RoomsInFuture extends AbstractExtension
         $qb = $this->em->getRepository(Rooms::class)->createQueryBuilder('rooms');
         $qb->andWhere('rooms.server = :server')
             ->andWhere('rooms.showRoomOnJoinpage = true')
-            ->leftJoin('rooms.repeaterProtoype','repeaterProtoype')
+            ->leftJoin('rooms.repeaterProtoype', 'repeaterProtoype')
             ->andWhere($qb->expr()->isNull('repeaterProtoype.id'))
-            ->leftJoin('rooms.repeater','repeater')
+            ->leftJoin('rooms.repeater', 'repeater')
             ->andWhere($qb->expr()->isNull('repeater.id'))
             ->andWhere('rooms.start > :now')
             ->andWhere($qb->expr()->isNotNull('rooms.moderator'))
@@ -53,7 +53,5 @@ class RoomsInFuture extends AbstractExtension
         $rooms = $qb->getQuery()->getResult();
 
         return $rooms;
-
     }
-
 }

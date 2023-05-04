@@ -20,8 +20,8 @@ class CalloutAPIDialServiceTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
 
         $calloutSession1 = new CalloutSession();
         $calloutSession1->setUser($user)
@@ -47,17 +47,20 @@ class CalloutAPIDialServiceTest extends KernelTestCase
 
         $this->assertSame('test', $kernel->getEnvironment());
         $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
-        self::assertEquals(array('status' => 'OK', 'links' => array(
-            'accept' => '/api/v1/lobby/sip/pin/12340?caller_id=987654321012&pin=987654321',
-            'refuse' => '/api/v1/call/out/refuse/ksdlfjlkfds',
-            'timeout' => '/api/v1/call/out/timeout/ksdlfjlkfds',
-            'error' => '/api/v1/call/out/error/ksdlfjlkfds',
-            'later' => '/api/v1/call/out/later/ksdlfjlkfds',
-            'dial' => '/api/v1/call/out/dial/ksdlfjlkfds',
-            'occupied' => '/api/v1/call/out/occupied/ksdlfjlkfds',
-            'ringing' => '/api/v1/call/out/ringing/ksdlfjlkfds',
-            'unreachable' => '/api/v1/call/out/unreachable/ksdlfjlkfds'
-        )), $calloutDialService->dialSession('ksdlfjlkfds'));
+        self::assertEquals(
+            ['status' => 'OK', 'links' => [
+                'accept' => '/api/v1/lobby/sip/pin/12340?caller_id=987654321012&pin=987654321',
+                'refuse' => '/api/v1/call/out/refuse/ksdlfjlkfds',
+                'timeout' => '/api/v1/call/out/timeout/ksdlfjlkfds',
+                'error' => '/api/v1/call/out/error/ksdlfjlkfds',
+                'later' => '/api/v1/call/out/later/ksdlfjlkfds',
+                'dial' => '/api/v1/call/out/dial/ksdlfjlkfds',
+                'occupied' => '/api/v1/call/out/occupied/ksdlfjlkfds',
+                'ringing' => '/api/v1/call/out/ringing/ksdlfjlkfds',
+                'unreachable' => '/api/v1/call/out/unreachable/ksdlfjlkfds'
+            ]],
+            $calloutDialService->dialSession('ksdlfjlkfds')
+        );
     }
 
 
@@ -67,7 +70,7 @@ class CalloutAPIDialServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
         $this->assertSame('test', $kernel->getEnvironment());
         $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
-        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'), $calloutDialService->dialSession('invalid'));
+        self::assertEquals(['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'], $calloutDialService->dialSession('invalid'));
     }
 
     public function testDialAndPool(): void
@@ -81,7 +84,6 @@ class CalloutAPIDialServiceTest extends KernelTestCase
         $calloutDialService->dialSession('ksdlfjlkfds');
         self::assertEquals(0, sizeof($calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)));
         self::assertEquals(1, sizeof($calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$DIALED)));
-
     }
     public function testDialWrongState(): void
     {
@@ -90,8 +92,8 @@ class CalloutAPIDialServiceTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
-        $callout = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
         $callout->setState(CalloutSession::$ON_HOLD);
-        self::assertEquals(array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'), $calloutDialService->dialSession('ksdlfjlkfds'));
+        self::assertEquals(['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'], $calloutDialService->dialSession('ksdlfjlkfds'));
     }
 }

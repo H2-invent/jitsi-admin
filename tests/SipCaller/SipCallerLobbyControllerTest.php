@@ -16,7 +16,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $client = static::createClient();
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
         $user = $room->getModerator();
         $client->loginUser($user);
         $sessionService = self::getContainer()->get(CallerSessionService::class);
@@ -31,8 +31,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
 
 
-
-        $crawler = $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
+        $crawler = $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
         $this->assertSelectorTextContains('.participantsName', $session->getLobbyWaitingUser()->getShowName());
@@ -44,7 +43,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
         $user = $room->getModerator();
         $client->loginUser($user);
 
@@ -60,8 +59,7 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '0123456789');
 
 
-
-        $crawler = $client->request('GET', '/room/lobby/moderator/b/'.$room->getUidReal());
+        $crawler = $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         $this->assertResponseIsSuccessful();
 
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
@@ -69,6 +67,4 @@ class SipCallerLobbyControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.callerId', $session->getCallerId());
         $this->assertSelectorExists('.callerVerified');
     }
-
-
 }

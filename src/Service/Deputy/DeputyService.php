@@ -5,7 +5,6 @@ namespace App\Service\Deputy;
 use App\Entity\Deputy;
 use App\Entity\User;
 use App\Service\Lobby\DirectSendService;
-use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DeputyService
@@ -22,18 +21,17 @@ class DeputyService
 
     public function toggleDeputy(User $manager, User $deputy): int
     {
-        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(array('deputy' => $deputy, 'manager' => $manager));
+        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(['deputy' => $deputy, 'manager' => $manager]);
         if ($dep) {
             return $this->removeDeputy($manager, $deputy);
         } else {
             return $this->setDeputy($manager, $deputy);
         }
-
     }
 
     public function setDeputy(User $manager, User $deputy): int
     {
-        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(array('deputy' => $deputy, 'manager' => $manager));
+        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(['deputy' => $deputy, 'manager' => $manager]);
         if (!$dep) {
             $dep = new Deputy();
             $dep->setManager($manager);
@@ -50,7 +48,7 @@ class DeputyService
 
     public function removeDeputy(User $manager, User $deputy): int
     {
-        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(array('deputy' => $deputy, 'manager' => $manager));
+        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(['deputy' => $deputy, 'manager' => $manager]);
         if ($dep) {
             $this->entityManager->remove($dep);
             $this->entityManager->flush();

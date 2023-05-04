@@ -161,7 +161,6 @@ class User extends BaseUser
         $this->managerElement = new ArrayCollection();
         $this->AdressbookFavorites = new ArrayCollection();
         $this->isAdressbookFavoriteFrom = new ArrayCollection();
-
     }
 
     public function getEmail(): ?string
@@ -779,10 +778,9 @@ class User extends BaseUser
     {
         $this->formatName = new FormatName();
         return $this->formatName->formatName($string, $this);
-
     }
 
-    public function getUserIdentifier():string
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }
@@ -931,7 +929,7 @@ class User extends BaseUser
 
     public function getCategories()
     {
-        $res = array();
+        $res = [];
 
         if ($this->ldapUserProperties) {
             $res[] = $this->ldapUserProperties->getLdapNumber();
@@ -986,8 +984,8 @@ class User extends BaseUser
      */
     public function getDeputy(): Collection
     {
-        $deputy = array();
-        foreach ($this->getManagerElement() as $data){
+        $deputy = [];
+        foreach ($this->getManagerElement() as $data) {
             $deputy[] = $data->getDeputy();
         }
         return new ArrayCollection($deputy);
@@ -1014,8 +1012,8 @@ class User extends BaseUser
      */
     public function getManagers(): Collection
     {
-        $managers = array();
-        foreach ($this->getDeputiesElement() as $data){
+        $managers = [];
+        foreach ($this->getDeputiesElement() as $data) {
             $managers[] = $data->getManager();
         }
         return new ArrayCollection($managers);

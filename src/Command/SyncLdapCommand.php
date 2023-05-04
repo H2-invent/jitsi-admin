@@ -47,7 +47,7 @@ class SyncLdapCommand extends Command
         }
 
         $count = 0;
-        $result = array();
+        $result = [];
         $io->info('We test the all LDAP connections: ');
         $error = false;
         $this->ldapService->initLdap($io);
@@ -56,7 +56,6 @@ class SyncLdapCommand extends Command
         $numberUsers = 0;
 
         foreach ($this->ldapService->getLdaps() as $data) {
-
             $resTmp = null;
             if ($data->isHealthy()) {
                 try {
@@ -65,7 +64,6 @@ class SyncLdapCommand extends Command
                     $error = true;
                     $io->error('Fehler in LDAP: ' . $data->getUrl());
                     $io->error('Fehler: ' . $e->getMessage());
-
                 } catch (NotBoundException $e) {
                     $error = true;
                     $io->error('Fehler in LDAP-Bound: ' . $data->getUrl());
@@ -87,8 +85,8 @@ class SyncLdapCommand extends Command
                     }
                 }
                 $table->render();
-            }else{
-                $io->error('This LDAP is unhealty: '.$data->getUrl());
+            } else {
+                $io->error('This LDAP is unhealty: ' . $data->getUrl());
             }
         }
 
@@ -104,6 +102,5 @@ class SyncLdapCommand extends Command
             $io->error('There was an error. Check the output above');
             return Command::FAILURE;
         }
-
     }
 }

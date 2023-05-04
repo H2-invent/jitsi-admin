@@ -37,29 +37,28 @@ class SendMessageToWaitingUser
                 $success = false;
             };
         }
-        return array('counter' => $counter, 'success' => $success);
+        return ['counter' => $counter, 'success' => $success];
     }
 
     public function sendMessage($uid, $message, User $user): bool
     {
-        $waitingUser = $this->entityManager->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $uid));
+        $waitingUser = $this->entityManager->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $uid]);
         if (!$waitingUser) {
-            $this->logger->error('NO user found for uid', array('uid' => $uid));
+            $this->logger->error('NO user found for uid', ['uid' => $uid]);
             return false;
         }
         if (UtilsHelper::isAllowedToOrganizeLobby($user, $waitingUser->getRoom())) {
             if (is_int($message)) {
-                $this->logger->debug('Send Message from id', array('id' => $message));
+                $this->logger->debug('Send Message from id', ['id' => $message]);
                 $res = $this->createMesagefromId($message);
-
             } else {
-                $this->logger->debug('Send Message from string', array('id' => $message));
+                $this->logger->debug('Send Message from string', ['id' => $message]);
                 $res = $this->createMessageFromString($message, $this->isAllowedToCreateCustom);
             }
             if ($res) {
-                $this->logger->debug('Send Message via websocket', array('uid' => $waitingUser->getUid(), 'message' => $res));
+                $this->logger->debug('Send Message via websocket', ['uid' => $waitingUser->getUid(), 'message' => $res]);
                 if ($waitingUser->getCallerSession()) {
-                    $this->logger->debug('The Waitunguser is from a callersession', array('calleruid' => $waitingUser->getCallerSession()->getId()));
+                    $this->logger->debug('The Waitunguser is from a callersession', ['calleruid' => $waitingUser->getCallerSession()->getId()]);
                     $callerSession = $waitingUser->getCallerSession();
                     $callerSession->setMessageUid(messageUid: md5(uniqid()));
                     $callerSession->setMessageText(messageText: $res);
@@ -71,21 +70,19 @@ class SendMessageToWaitingUser
 
             return (bool)$res;
         } else {
-            $this->logger->error('USer tried to send message where he has no acess to', array('USer-uid' => $user->getUsername()));
+            $this->logger->error('USer tried to send message where he has no acess to', ['USer-uid' => $user->getUsername()]);
             return false;
         }
-
-
     }
 
     public function createMesagefromId($id): ?string
     {
-        $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findOneBy(array('id' => $id, 'active' => true));
+        $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findOneBy(['id' => $id, 'active' => true]);
         if (!$message) {
-            $this->logger->debug('Fetch message from id', array('message' => $id));
+            $this->logger->debug('Fetch message from id', ['message' => $id]);
             return null;
         }
-        $this->logger->debug('Fetch message from id', array('message' => $message->getText()));
+        $this->logger->debug('Fetch message from id', ['message' => $message->getText()]);
         return $message->getText();
     }
 
@@ -98,5 +95,4 @@ class SendMessageToWaitingUser
         $this->logger->debug('No custom messages are allowed');
         return null;
     }
-
 }

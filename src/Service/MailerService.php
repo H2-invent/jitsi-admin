@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -7,7 +8,6 @@
  */
 
 namespace App\Service;
-
 
 use App\Entity\Rooms;
 use App\Entity\Server;
@@ -18,7 +18,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Mime\Address;
@@ -26,7 +25,6 @@ use Symfony\Component\Mime\Email;
 
 class MailerService
 {
-
     private $parameter;
     private $kernel;
     private $logger;
@@ -54,7 +52,7 @@ class MailerService
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
             if ($server->getSmtpUsername()) {
                 $this->logger->debug('we have a new Mailer with a pasword');
-                $this->logger->debug('Credentials: ',array('password'=>$server->getSmtpUsername(),'password'=>$server->getSmtpPassword()));
+                $this->logger->debug('Credentials: ', ['password' => $server->getSmtpUsername(), 'password' => $server->getSmtpPassword()]);
                 $dsn = 'smtp://' . urlencode($server->getSmtpUsername()) . ':' . urlencode($server->getSmtpPassword()) . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             } else {
                 $this->logger->debug('We have no password');
@@ -68,10 +66,10 @@ class MailerService
         return false;
     }
 
-    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array()): bool
+    public function sendEmail(User $user, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = []): bool
     {
         $to = $user->getEmail();
-        $cc = array();
+        $cc = [];
         if ($user->getSecondEmail()) {
             foreach (explode(',', $user->getSecondEmail()) as $data) {
                 $e = trim($data);
@@ -91,7 +89,6 @@ class MailerService
         try {
             $this->logger->info('Mail To: ' . $to);
             $res = $this->sendViaMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment, $cc);
-
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $res = false;
@@ -100,7 +97,7 @@ class MailerService
     }
 
 
-    private function sendViaMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = array(), $cc = array()): bool
+    private function sendViaMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = [], $cc = []): bool
     {
         $this->buildTransport($server);
         if ($server->getSmtpHost() && $this->licenseService->verify($server)) {
@@ -155,10 +152,13 @@ class MailerService
                 }
                 $this->customMailer->setTo($to);
                 $this->logger->info('Send from Custom Mailer');
-                $this->bus->dispatch($this->customMailer->send($message), [
-                    // wait 5 seconds before processing
-                    new DelayStamp(rand(1000, 10000)),
-                ]);
+                $this->bus->dispatch(
+                    $this->customMailer->send($message),
+                    [
+                        // wait 5 seconds before processing
+                        new DelayStamp(rand(1000, 10000)),
+                    ]
+                );
             } else {
                 $this->mailer->send($message);
             }

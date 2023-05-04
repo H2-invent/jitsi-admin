@@ -3,7 +3,6 @@
 namespace App\Service\Deputy;
 
 use App\Entity\Deputy;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DebutyLdapService
@@ -15,18 +14,18 @@ class DebutyLdapService
     /**
      * @return int
      */
-    public function cleanDeputies($dryRun=false)
+    public function cleanDeputies($dryRun = false)
     {
         $counter = 0;
-        $deputies = $this->entityManager->getRepository(Deputy::class)->findBy(array('isFromLdap'=>true));
+        $deputies = $this->entityManager->getRepository(Deputy::class)->findBy(['isFromLdap' => true]);
 
         foreach ($deputies as $data) {
-          $this->entityManager->remove($data);
-          $counter++;
+            $this->entityManager->remove($data);
+            $counter++;
         }
-        if (!$dryRun){
+        if (!$dryRun) {
             $this->entityManager->flush();
-        }else{
+        } else {
             $this->entityManager->clear();
         }
 

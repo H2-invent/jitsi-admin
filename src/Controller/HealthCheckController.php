@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,12 +16,12 @@ class HealthCheckController extends JitsiAdminController
     public function index(): Response
     {
         try {
-            $res = $this->doctrine->getRepository(User::class)->findOneBy(array());
+            $res = $this->doctrine->getRepository(User::class)->findOneBy([]);
         } catch (\Exception $exception) {
             throw $this->createNotFoundException('Database not working');
         }
 
-        return new JsonResponse(array('health' => true));
+        return new JsonResponse(['health' => true]);
     }
     //todo healthcheck mit LDAP erweitern
     //todo DB in ´den HEalthcheck

@@ -7,6 +7,7 @@ use App\Entity\RoomStatusParticipant;
 use App\Entity\Server;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 use function Doctrine\ORM\QueryBuilder;
 
 /**
@@ -93,7 +94,7 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
      * @return RoomStatusParticipant[] Returns an array of RoomStatusParticipant objects
      */
 
-    public function findParticipantsByServer(Server $server, $startDate,$endDate)
+    public function findParticipantsByServer(Server $server, $startDate, $endDate)
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.roomStatus', 'roomStatus')
@@ -101,12 +102,11 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->innerJoin('room.server', 'server')
             ->andWhere('server = :server')
             ->andWhere($qb->expr()->gte('r.enteredRoomAt', ':startDate'))
-            ->andWhere($qb->expr()->lte('r.enteredRoomAt',':endDate'))
+            ->andWhere($qb->expr()->lte('r.enteredRoomAt', ':endDate'))
             ->setParameter('server', $server)
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
             ->getQuery()
             ->getResult();
     }
-
 }

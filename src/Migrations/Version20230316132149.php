@@ -29,7 +29,6 @@ final class Version20230316132149 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         if ($this->connection->getDatabasePlatform()->getName() === 'postgresql') {
-
             $this->addSql('ALTER TABLE "repeat" DROP uid');
         }
     }

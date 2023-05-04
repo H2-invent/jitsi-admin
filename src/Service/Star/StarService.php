@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StarService
 {
-
-
     public function __construct(private LoggerInterface $logger, private EntityManagerInterface $em)
     {
     }
@@ -27,7 +25,7 @@ class StarService
             if ($comment !== '') {
                 $star->setComment($comment);
             }
-            $this->logger->debug($starInt, array('this ist the star!!!'));
+            $this->logger->debug($starInt, ['this ist the star!!!']);
             $star->setStar($starInt);
             if ($os) {
                 $star->setOs($os);
@@ -44,11 +42,10 @@ class StarService
             }
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
-            $res = new JsonResponse(array('error' => true));
+            $res = new JsonResponse(['error' => true]);
             return $res;
-
         }
-        $res = new JsonResponse(array('error' => false));
+        $res = new JsonResponse(['error' => false]);
         $res->headers->set('Access-Control-Allow-Origin:', '*');
         return $res;
     }

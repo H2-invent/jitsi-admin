@@ -7,8 +7,6 @@ use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
-use App\Service\RoomAddService;
-use App\Service\RoomService;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -36,10 +34,9 @@ class CallOutSessionAPIHoldService
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
-            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
+            return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
-        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$TIMEOUT, $this->translator->trans('callout.message.timeout', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
-
+        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$TIMEOUT, $this->translator->trans('callout.message.timeout', ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]));
     }
 
     /**
@@ -51,10 +48,9 @@ class CallOutSessionAPIHoldService
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
-            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
+            return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
-        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$OCCUPIED, $this->translator->trans('callout.message.occupied', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
-
+        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$OCCUPIED, $this->translator->trans('callout.message.occupied', ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]));
     }
 
 
@@ -69,10 +65,9 @@ class CallOutSessionAPIHoldService
     {
         $calloutSession = $this->entityManager->getRepository(CalloutSession::class)->findCalloutSessionActive($sessionId);
         if (!$calloutSession) {
-            return array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND');
+            return ['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'];
         }
-        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$LATER, $this->translator->trans('callout.message.later', array('name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')))));
-
+        return $this->setCalloutSessionOnHold($calloutSession, CalloutSession::$LATER, $this->translator->trans('callout.message.later', ['name' => $calloutSession->getUser()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))]));
     }
 
     /**
@@ -87,7 +82,7 @@ class CallOutSessionAPIHoldService
     public function setCalloutSessionOnHold(CalloutSession $calloutSession, $state, $message)
     {
         if ($calloutSession->getState() >= CalloutSession::$ON_HOLD || $calloutSession->getState() < CalloutSession::$DIALED) {
-            return array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE');
+            return ['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'];
         }
         $calloutSession->setState($state);
         $this->entityManager->persist($calloutSession);
@@ -95,16 +90,16 @@ class CallOutSessionAPIHoldService
         $this->sendMessage($calloutSession->getRoom(), $message);
         $this->toModeratorWebsocketService->refreshLobbyByRoom($calloutSession->getRoom());
         $sipRaumnummer = $calloutSession->getRoom()->getCallerRoom();
-        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(array('room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()));
+        $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
 
-        return array(
+        return [
             'status' => 'ON_HOLD',
             'pin' => $pin->getCallerId(),
             'room_number' => $sipRaumnummer->getCallerId(),
-            'links' => array(
-                'back' => $this->urlGenerator->generate('callout_api_back',array('calloutSessionId'=>$calloutSession->getUid()))
-            )
-        );
+            'links' => [
+                'back' => $this->urlGenerator->generate('callout_api_back', ['calloutSessionId' => $calloutSession->getUid()])
+            ]
+        ];
     }
 
 
@@ -120,6 +115,4 @@ class CallOutSessionAPIHoldService
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSendService->sendSnackbar($topic, $message, 'info');
     }
-
-
 }

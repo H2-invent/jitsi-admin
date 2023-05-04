@@ -18,7 +18,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorrow']);
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('123456');
@@ -27,7 +27,6 @@ class CallerPrepareServiceTest extends KernelTestCase
         $manager->flush();
         self::assertTrue($callerPrpareService->checkRandomId('123456'));
         self::assertFalse($callerPrpareService->checkRandomId('000000'));
-
     }
 
     public function testGenerateRandomId(): void
@@ -36,7 +35,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorrow']);
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
@@ -44,7 +43,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $manager->persist($callerId);
         $manager->flush();
         $callerPrpareService->generateRoomId(1);
-        self::assertEquals('0',$callerPrpareService->generateRoomId(1));
+        self::assertEquals('0', $callerPrpareService->generateRoomId(1));
     }
 
     public function testGenerateRandomIdGen(): void
@@ -53,7 +52,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorrow']);
         $callerId = new CallerRoom();
         $callerId->setRoom($room);
         $callerId->setCallerId('1');
@@ -61,10 +60,10 @@ class CallerPrepareServiceTest extends KernelTestCase
         $manager->persist($callerId);
         $manager->flush();
         $callerPrpareService->generateRoomId(1);
-        self::assertEquals(6,strlen($callerPrpareService->generateRoomId(999999)));
-        self::assertEquals(5,strlen($callerPrpareService->generateRoomId(99999)));
-        self::assertEquals(4,strlen($callerPrpareService->generateRoomId(9999)));
-        self::assertEquals(3,strlen($callerPrpareService->generateRoomId(999)));
+        self::assertEquals(6, strlen($callerPrpareService->generateRoomId(999999)));
+        self::assertEquals(5, strlen($callerPrpareService->generateRoomId(99999)));
+        self::assertEquals(4, strlen($callerPrpareService->generateRoomId(9999)));
+        self::assertEquals(3, strlen($callerPrpareService->generateRoomId(999)));
     }
     public function testAddCallerIdToRoom(): void
     {
@@ -72,14 +71,14 @@ class CallerPrepareServiceTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorrow']);
         self::assertNull($room->getCallerRoom());
         $callerPrpareService->addCallerIdToRoom($room);
-        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorrow']);
         self::assertNotNull($room->getCallerRoom());
         $id = $room->getCallerRoom();
         self::assertEquals($id, $callerPrpareService->addCallerIdToRoom($room));
-        $room = $roomRepo->findOneBy(array('name'=>'Room Tomorrow'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorrow']);
         self::assertEquals($id, $room->getCallerRoom());
     }
 
@@ -108,7 +107,7 @@ class CallerPrepareServiceTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:caller:prepare');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array());
+        $commandTester->execute([]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [OK] We added to all Rooms which had no caller-Id a caller-Id', $output);
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
@@ -116,5 +115,4 @@ class CallerPrepareServiceTest extends KernelTestCase
         self::assertEquals(0, sizeof($callerPrpareService->deleteOldId()));
         self::assertEquals(0, sizeof($callerPrpareService->addNewId()));
     }
-
 }

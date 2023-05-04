@@ -16,12 +16,12 @@ class CallerIdPrepareTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $callerId = new CallerId();
         $callerId->setRoom($room)->setCallerId('10')->setUser($room->getModerator())->setCreatedAt(new \DateTime());
         $manager->persist($callerId);
         $manager->flush();
-        for ($i = 0; $i<10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             self::assertEquals(false, $callerPrpareService->checkRandomCallerUserId('0' . $i, $room));
         }
         self::assertEquals(true, $callerPrpareService->checkRandomCallerUserId('10', $room));
@@ -33,13 +33,13 @@ class CallerIdPrepareTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $callerId = new CallerId();
         $callerId->setRoom($room)->setCallerId('1')->setUser($room->getModerator())->setCreatedAt(new \DateTime());
         $manager->persist($callerId);
         $manager->flush();
 
-        self::assertEquals('0', $callerPrpareService->generateCallerUserId( $room, 1));
+        self::assertEquals('0', $callerPrpareService->generateCallerUserId($room, 1));
     }
 
     public function testAddCallerIdToRoom(): void
@@ -48,9 +48,9 @@ class CallerIdPrepareTest extends KernelTestCase
         $callerPrpareService = self::getContainer()->get(CallerPrepareService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, sizeof($callerPrpareService->createUserCallerIDforRoom($room)));
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         self::assertEquals(3, sizeof($room->getCallerIds()));
     }
 
