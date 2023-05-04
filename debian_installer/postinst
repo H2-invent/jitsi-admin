@@ -22,7 +22,7 @@ chown -R www-data:www-data /var/log/websocket/
 a2dissite 000-default
 a2ensite jitsiadmin
 a2ensite jitsiadmin-le-ssl
-a2enmod proxy_fcgi proxy setenvif rewrite
+a2enmod proxy_fcgi proxy setenvif rewrite ssl
 a2enconf php-fpm
 systemctl reload apache2
 systemctl restart apache2
