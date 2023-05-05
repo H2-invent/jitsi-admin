@@ -1,0 +1,6 @@
+rm -rf /var/www/jitsi-admin
+rm -rf /usr/local/bin/websocket
+
+systemctl reload apache2
+systemctl restart apache2
+systemctl restart php*-fpm

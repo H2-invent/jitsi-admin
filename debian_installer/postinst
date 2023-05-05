@@ -7,7 +7,7 @@ systemctl is-active --quiet jitsi-admin_websocket.service && echo jitsi-admin_we
 
 
 systemctl daemon-reload
-systemctl enable jitsi-admin_messenger.service
+systemctl enable jitsi-admin_websocket.service
 systemctl start jitsi-admin_messenger.service
 systemctl restart jitsi-admin_messenger.service
 systemctl is-active --quiet jitsi-admin_messenger.service && echo jitsi-admin_messenger.service is running
@@ -23,7 +23,6 @@ ln -s  /var/www/img_data/ /var/www/jitsi-admin/public/uploads/images
 
 a2dissite 000-default
 a2ensite jitsiadmin
-a2ensite jitsiadmin-le-ssl
 a2enmod proxy_fcgi proxy setenvif rewrite ssl
 a2enconf php-fpm
 systemctl reload apache2
