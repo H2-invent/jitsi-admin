@@ -62,7 +62,7 @@ class CsvHandler
             }
 
             if (count($lastDimension) !== count($currentDimension)
-                || array_keys($lastDimension) !== array_keys($currentDimension)
+                || count(array_diff_key($lastDimension, $currentDimension)) > 0
             ) {
                 return false;
             }
