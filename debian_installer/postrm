@@ -1,3 +1,4 @@
+#!/bin/bash
 rm -rf /var/www/jitsi-admin
 rm -rf /usr/local/bin/websocket
 

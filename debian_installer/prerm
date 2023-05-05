@@ -1,3 +1,4 @@
+#!/bin/bash
 systemctl stop jitsi-admin_messenger.service
 systemctl stop jitsi-admin_websocket.service
 systemctl disable jitsi-admin_websocket.service

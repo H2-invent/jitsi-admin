@@ -1,3 +1,4 @@
+#!/bin/bash
 systemctl stop "*jitsi-admin*"
 systemctl daemon-reload
 systemctl enable jitsi-admin_websocket.service
