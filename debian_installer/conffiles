@@ -1,3 +1,2 @@
 /etc/apache2/sites-available/jitsiadmin.conf
-/etc/apache2/sites-available/jitsiadmin-le-ssl.conf
 /etc/letsencrypt/options-ssl-apache.conf
