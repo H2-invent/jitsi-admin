@@ -333,11 +333,11 @@ class ScheduleController extends JitsiAdminController
         $votings = [];
 
         foreach ($room->getSchedulings() as $scheduling) {
-            foreach ($scheduling->getSchedulingTimes() as $schedulingTimes) {
-                $schedulingTime = $schedulingTimes->getTime()->format('d-m-Y H:i:s');
-                $votings['times'][] = $schedulingTime;
+            foreach ($scheduling->getSchedulingTimes() as $schedulingTime) {
+                $schedulingTimeString = $schedulingTime->getTime()->format('d-m-Y H:i:s');
+                $votings['times'][] = $schedulingTimeString;
 
-                foreach ($schedulingTimes->getSchedulingTimeUsers() as $schedulingTimeUser) {
+                foreach ($schedulingTime->getSchedulingTimeUsers() as $schedulingTimeUser) {
                     $user = $schedulingTimeUser->getUser();
                     $name = implode(' ', [$user->getFirstName(), $user->getLastName()]);
                     $vote = $this->getVoteString($schedulingTimeUser->getAccept());
@@ -349,7 +349,7 @@ class ScheduleController extends JitsiAdminController
                         ];
                     }
 
-                    $votings['user'][$user->getId()][$schedulingTime] = $vote;
+                    $votings['user'][$user->getId()][$schedulingTimeString] = $vote;
                 }
             }
         }
