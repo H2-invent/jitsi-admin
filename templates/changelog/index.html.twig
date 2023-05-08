@@ -5,6 +5,29 @@
 {% block content %}
     <div class="row markdown">
         <div class="col-12">
+            <h4 class="h4-responsive">0.75.4</h4>
+            {% apply markdown_to_html %}
+                __Bugfix__
+                * Invited emails are sometimes doubled
+                * Run `php bin/console app:system:repair` as server administrator to remove all double emails and connect the correct emails with the invited conferences
+                * Add again two "$$" in the env
+                * Remove commentary in one row and move the commentary to the row above
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.3</h4>
+            {% apply markdown_to_html %}
+                __Bugfix__
+                * Invited emails are sometimes doubled
+                * Run `php bin/console app:system:repair` as server administrator to remove all double emails and connect the correct emails with the invited conferences
+                * Add only one "$" in the env
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
             <h4 class="h4-responsive">0.75.2</h4>
             {% apply markdown_to_html %}
                 __Bugfix__
