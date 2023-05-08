@@ -40,7 +40,6 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         self::assertEquals(7, sizeof($res));
         $lobbyRepoUser = $lobbyRepo->findAll();
         self::assertEquals(3, sizeof($lobbyRepoUser));
-
     }
 
     public function test4hwithCallerSession(): void
@@ -75,7 +74,6 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         self::assertEquals(7, sizeof($res));
         $lobbyRepoUser = $lobbyRepo->findAll();
         self::assertEquals(3, sizeof($lobbyRepoUser));
-
     }
 
     public function test4hwithCommand(): void
@@ -84,7 +82,7 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:lobby:cleanUp');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('maxAge' => 4));
+        $commandTester->execute(['maxAge' => 4]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [NOTE] We delete all Lobbyusers which are older then 4 hours', $output);
         $this->assertStringContainsString(' [OK] We deleted 7 lobby users', $output);
@@ -96,7 +94,7 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:lobby:cleanUp');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array());
+        $commandTester->execute([]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [NOTE] We delete all Lobbyusers which are older then 72 hours', $output);
         $this->assertStringContainsString(' [OK] We deleted 0 lobby users', $output);
@@ -108,10 +106,9 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:lobby:cleanUp');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('maxAge' => 0));
+        $commandTester->execute(['maxAge' => 0]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [NOTE] We delete all Lobbyusers which are older then 0 hours', $output);
         $this->assertStringContainsString(' [OK] We deleted 10 lobby users', $output);
     }
-
 }

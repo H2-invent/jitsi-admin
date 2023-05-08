@@ -15,6 +15,7 @@ use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class ToModeratorWebsocketService
@@ -44,24 +45,29 @@ class ToModeratorWebsocketService
     {
 
         $room = $lobbyWaitungUser->getRoom();
-        $title = $this->translator->trans('lobby.notification.newUser.title', array('{name}' => $lobbyWaitungUser->getShowName()));
-        $message = $this->translator->trans('lobby.notification.newUser.message', array(
+        $title = $this->translator->trans('lobby.notification.newUser.title', ['{name}' => $lobbyWaitungUser->getShowName()]);
+        $message = $this->translator->trans(
+            'lobby.notification.newUser.message',
+            [
                 '{name}' => $lobbyWaitungUser->getShowName(),
                 '{room}' => $room->getName()
-            )
+            ]
         );
         $topic = 'lobby_moderator/' . $room->getUidReal();
         // this message goes to the moderators wich are in the lobby
         $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info');
         sleep(1);
 
-        $messageDashboard = sprintf('%s<br><a href="%s"  class="btn btn-sm btn-primary startIframe" data-roomname="%s">%s</a>',
-            $this->translator->trans('lobby.notification.newUser.message', array(
+        $messageDashboard = sprintf(
+            '%s<br><a href="%s"  class="btn btn-sm btn-primary startIframe" data-roomname="%s">%s</a>',
+            $this->translator->trans(
+                'lobby.notification.newUser.message',
+                [
                     '{name}' => $lobbyWaitungUser->getShowName(),
                     '{room}' => $room->getName()
-                )
+                ]
             ),
-            $this->urlgenerator->generate('room_join', array('room' => $room->getId(), 't' => 'b')),
+            $this->urlgenerator->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
             $room->getName(),
             $this->translator->trans('lobby.notification.newUser.toLobby')
         );
@@ -86,7 +92,7 @@ class ToModeratorWebsocketService
     {
 
         $topic = 'lobby_moderator/' . $room->getUidReal();
-        $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', array('uid' => $room->getUidReal())) . ' #waitingUser');
+        $this->directSend->sendRefresh($topic, $this->urlgenerator->generate('lobby_moderator', ['uid' => $room->getUidReal()]) . ' #waitingUser');
     }
 
 
@@ -107,5 +113,4 @@ class ToModeratorWebsocketService
         $topic = 'lobby_moderator/' . $room->getUidReal();
         $this->directSend->sendCleanBrowserNotification($topic, $lobbyWaitungUser->getUid());
     }
-
 }

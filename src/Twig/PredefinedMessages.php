@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -23,17 +24,15 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+
 use function GuzzleHttp\Psr7\str;
 
 class PredefinedMessages extends AbstractExtension
 {
-
-
     public function __construct(
         private EntityManagerInterface $entityManager
     )
     {
-
     }
 
     public function getFunctions(): array
@@ -48,6 +47,6 @@ class PredefinedMessages extends AbstractExtension
     public function getPredefinedMessages()
     {
 
-        return $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findBy(array('active'=>true),array('priority'=>'ASC'));
+        return $this->entityManager->getRepository(PredefinedLobbyMessages::class)->findBy(['active' => true], ['priority' => 'ASC']);
     }
 }

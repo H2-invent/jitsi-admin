@@ -8,7 +8,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -19,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageChangeTextCommand extends Command
 {
-    public function __construct( private EntityManagerInterface $entityManager,string $name = null)
+    public function __construct(private EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
     }
@@ -27,8 +26,7 @@ class LobbyMessageChangeTextCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('id', InputArgument::OPTIONAL, 'Insert message id change text')
-        ;
+            ->addArgument('id', InputArgument::OPTIONAL, 'Insert message id change text');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -38,25 +36,23 @@ class LobbyMessageChangeTextCommand extends Command
 
         if ($id) {
             $message = $this->entityManager->getRepository(PredefinedLobbyMessages::class)->find($id);
-            if ($message){
+            if ($message) {
                 $io->note(sprintf('We edit the message: %s', $message->getText()));
                 $textQ = new Question('Enter the message text: ', $message->getText());
-                $message->setText( $io->askQuestion( $textQ));
+                $message->setText($io->askQuestion($textQ));
                 $this->entityManager->persist($message);
                 $this->entityManager->flush();
-            }else{
+            } else {
                 $io->error('Wrong ID. no message found');
                 return Command::FAILURE;
             }
-
-        }else{
+        } else {
             $io->error('Please enter a valid id');
             return Command::FAILURE;
         }
 
 
-
-        $io->success(sprintf('You have changed the message to %s',$message->getText()));
+        $io->success(sprintf('You have changed the message to %s', $message->getText()));
 
         return Command::SUCCESS;
     }

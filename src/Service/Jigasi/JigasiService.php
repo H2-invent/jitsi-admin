@@ -3,14 +3,12 @@
 namespace App\Service\Jigasi;
 
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Service\LicenseService;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function _PHPStan_9a6ded56a\RingCentral\Psr7\str;
 
 class JigasiService
 {
@@ -19,7 +17,8 @@ class JigasiService
         private LoggerInterface        $logger,
         private LicenseService         $licenseService,
         private CacheItemPoolInterface $cache,
-        private KernelInterface        $kernel)
+        private KernelInterface        $kernel
+    )
     {
     }
 
@@ -58,16 +57,19 @@ class JigasiService
                 $this->cache->delete('jigasi_pin_' . $rooms->getUid());
             }
 
-            $sipPin = $this->cache->get('jigasi_pin_' . $rooms->getUid(), function (ItemInterface $item) use ($server, $rooms) {
-                $item->expiresAfter(3600);
-                try {
-                    $pin = $this->pingJigasi($rooms);
-                } catch (\Exception $exception) {
-                    $item->expiresAfter(1);
-                    return null;
+            $sipPin = $this->cache->get(
+                'jigasi_pin_' . $rooms->getUid(),
+                function (ItemInterface $item) use ($server, $rooms) {
+                    $item->expiresAfter(3600);
+                    try {
+                        $pin = $this->pingJigasi($rooms);
+                    } catch (\Exception $exception) {
+                        $item->expiresAfter(1);
+                        return null;
+                    }
+                    return $pin;
                 }
-                return $pin;
-            });
+            );
             return $sipPin;
         }
         return null;
@@ -108,6 +110,4 @@ class JigasiService
         $stringSanitize = trim(preg_replace('/\s\s+/m', ' ', $stringSanitize));
         return $stringSanitize;
     }
-
 }
-

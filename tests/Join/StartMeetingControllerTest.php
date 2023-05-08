@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StartMeetingControllerTest extends WebTestCase
 {
-
     public function testRoomisToEarly_User_isLogin(): void
     {
         $client = static::createClient();
@@ -28,9 +27,9 @@ class StartMeetingControllerTest extends WebTestCase
 
         $startService = self::getContainer()->get(StartMeetingService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Room Tomorrow'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorrow']);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $permission = new RoomsUser();
         $permission->setRoom($room);
         $permission->setUser($user);
@@ -40,7 +39,7 @@ class StartMeetingControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $crawler = $client->request('GET', '/room/join/b/'.$room->getId());
+        $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
         self::assertResponseRedirects('/room/dashboard');
 
         $crawler = $client->request('GET', '/room/dashboard');
@@ -56,9 +55,9 @@ class StartMeetingControllerTest extends WebTestCase
 
         $startService = self::getContainer()->get(StartMeetingService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Room yesterday'));
+        $room = $roomRepo->findOneBy(['name' => 'Room yesterday']);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $permission = new RoomsUser();
         $permission->setRoom($room);
         $permission->setUser($user);
@@ -68,13 +67,12 @@ class StartMeetingControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $crawler = $client->request('GET', '/room/join/b/'.$room->getId());
+        $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
         self::assertResponseRedirects('/room/dashboard');
 
         $crawler = $client->request('GET', '/room/dashboard');
         $flash = $crawler->filter('.snackbar .bg-danger')->text();
         self::assertEquals('Der Beitritt ist nur von ' . (clone $room->getStart())->modify('-30min')->format('d.m.Y H:i') . ' bis ' . $room->getEnddate()->format('d.m.Y') . ' ' . $room->getEnddate()->format('H:i') . ' möglich.', $flash);
-
     }
     public function testNoRoom(): void
     {
@@ -82,9 +80,9 @@ class StartMeetingControllerTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $startService = self::getContainer()->get(StartMeetingService::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Room Tomorroww'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Tomorroww']);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $urlGen = self::getContainer()->get(UrlGeneratorInterface::class);
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
 
@@ -96,8 +94,5 @@ class StartMeetingControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/room/dashboard');
         $flash = $crawler->filter('.snackbar .bg-danger')->text();
         self::assertEquals('Die Konferenz wurde nicht gefunden. Bitte geben Sie Ihre Zugangsdaten erneut ein.', $flash);
-
     }
-
-
 }

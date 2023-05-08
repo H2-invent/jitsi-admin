@@ -6,9 +6,7 @@ use App\Entity\Server;
 use App\Service\RenameServerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -18,7 +16,7 @@ class MigrateServernameCommand extends Command
     protected static $defaultDescription = 'This command adds the server url as server name. This only happens when the entry is empty or null';
     private $em;
     private $serverRename;
-    public function __construct( EntityManagerInterface $entityManager, RenameServerService $renameServerService,$name = null)
+    public function __construct(EntityManagerInterface $entityManager, RenameServerService $renameServerService, $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
@@ -27,7 +25,6 @@ class MigrateServernameCommand extends Command
 
     protected function configure(): void
     {
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -35,10 +32,10 @@ class MigrateServernameCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $server = $this->em->getRepository(Server::class)->findAll();
         $res = $this->serverRename->renameServer($server);
-        foreach ($res as $data){
-            $io->info(sprintf('We rename the server with the url %s',$data->getUrl()));
+        foreach ($res as $data) {
+            $io->info(sprintf('We rename the server with the url %s', $data->getUrl()));
         }
-        $io->success(sprintf('We rename # %u of servers',sizeof($res)));
+        $io->success(sprintf('We rename # %u of servers', sizeof($res)));
         return Command::SUCCESS;
     }
 }

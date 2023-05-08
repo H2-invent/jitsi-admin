@@ -4,7 +4,6 @@ namespace App\Tests\Sumary;
 
 use App\Repository\RoomsRepository;
 use App\Service\Summary\CreateSummaryService;
-use App\Service\Whiteboard\WhiteboardJwtService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -36,7 +35,6 @@ line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
         parent::__construct($name, $data, $dataName);
 
         $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(self::$sampleSvg)) . '" style="width: 600px"/>';
-
     }
 
     public function testWhiteboardSuccess(): void
@@ -45,14 +43,17 @@ line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
         // Arrange
 
 
-        $mockResponse = new MockResponse(self::$sampleSvg, [
-            'http_code' => 200,
-        ]);
+        $mockResponse = new MockResponse(
+            self::$sampleSvg,
+            [
+                'http_code' => 200,
+            ]
+        );
 
         $httpClient = new MockHttpClient($mockResponse, 'http://whiteboardurl.com');
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $service = self::getContainer()->get(CreateSummaryService::class);
         $service->setHttpClient($httpClient);
         $whiteboardResponse = $service->createWhiteBoardSummary($room);
@@ -76,14 +77,17 @@ line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
         $expectedRequestData = 'json_encode($requestData, JSON_THROW_ON_ERROR)';
 
 
-        $mockResponse = new MockResponse('kjsdhfkjfhds', [
-            'http_code' => 404,
-        ]);
+        $mockResponse = new MockResponse(
+            'kjsdhfkjfhds',
+            [
+                'http_code' => 404,
+            ]
+        );
 
         $httpClient = new MockHttpClient($mockResponse, 'http://whiteboardurl.com');
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $service = self::getContainer()->get(CreateSummaryService::class);
         $service->setHttpClient($httpClient);
         $whiteboardResponse = $service->createWhiteBoardSummary($room);

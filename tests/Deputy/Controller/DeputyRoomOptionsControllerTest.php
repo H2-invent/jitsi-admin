@@ -21,8 +21,8 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $this->client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
         $this->em = self::getContainer()->get(EntityManagerInterface::class);
-        $this->deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $this->manager = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $this->deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $this->manager->addAddressbook($this->deputy);
         $this->em->persist($this->manager);
         $this->em->flush();
@@ -32,8 +32,8 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $this->client->request('GET', '/room/dashboard');
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $this->client->loginUser($deputy);
         $server = $deputy->getServers()->toArray()[0];
 
@@ -46,22 +46,16 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
         $this->client->submit($form);
-
-
-
-
-
-
     }
 
     public function testEditConferenceByManager(): void
     {
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
+        $room = $roomRepo->findOneBy(['name' => 'test for the supervisor']);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         $this->client->loginUser($manager);
 
@@ -79,25 +73,24 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
 
         self::assertEquals(1, $crawler->filter('.snackbar:contains("Die Konferenz wurde erfolgreich bearbeitet")')->count());
         $room = $roomRepo->find($room->getId());
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         self::assertEquals($deputy, $room->getCreator());
         self::assertEquals($manager, $room->getModerator());
         self::assertEquals(45, $room->getDuration());
         self::assertEquals(1, sizeof($room->getUser()));
         self::assertEquals($manager, $room->getUser()[0]);
-
     }
 
     public function testEditConferenceByDeputy(): void
     {
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
+        $room = $roomRepo->findOneBy(['name' => 'test for the supervisor']);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         $this->client->loginUser($deputy);
 
@@ -115,25 +108,24 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
 
         self::assertEquals(1, $crawler->filter('.snackbar:contains("Die Konferenz wurde erfolgreich bearbeitet")')->count());
         $room = $roomRepo->find($room->getId());
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         self::assertEquals($deputy, $room->getCreator());
         self::assertEquals($manager, $room->getModerator());
         self::assertEquals(45, $room->getDuration());
         self::assertEquals(1, sizeof($room->getUser()));
         self::assertEquals($manager, $room->getUser()[0]);
-
     }
 
     public function testAddPArticipantsDeputy(): void
     {
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
+        $room = $roomRepo->findOneBy(['name' => 'test for the supervisor']);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         $this->client->loginUser($deputy);
 
@@ -144,6 +136,4 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/room/participant/add?room=' . $room->getId());
         self::assertEquals(1, $crawler->filter('#atendeeList:contains("Test2, 1234, User2, Test2")')->count());
     }
-
-
 }

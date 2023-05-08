@@ -19,6 +19,5 @@ class IndexGroupsServiceTest extends KernelTestCase
         $index = $indexer->indexGroup($group);
         self::assertEquals('testme with space__ ', $index);
         self::assertNull($indexer->indexGroup(null));
-
     }
 }

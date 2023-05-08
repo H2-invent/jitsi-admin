@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 use function Doctrine\ORM\QueryBuilder;
 
 class ReminderService
@@ -42,17 +41,16 @@ class ReminderService
             ->setParameter('now', $now)
             ->setParameter(':false', false);
 
-        if ($filter){
+        if ($filter) {
             $orX = $qb->expr()->orX();
             $count = 0;
-            foreach ($filter as $data){
-                if ($data === null){
+            foreach ($filter as $data) {
+                if ($data === null) {
                     $orX->add($qb->expr()->isNull('rooms.hostUrl'));
-                }else{
-                    $orX->add($qb->expr()->eq('rooms.hostUrl',':url'.$count));
-                    $qb->setParameter(':url'.$count++,$data);
+                } else {
+                    $orX->add($qb->expr()->eq('rooms.hostUrl', ':url' . $count));
+                    $qb->setParameter(':url' . $count++, $data);
                 }
-
             }
             $qb->andWhere($orX);
         }
@@ -69,5 +67,4 @@ class ReminderService
         $message = ['error' => false, 'hinweis' => 'Cron ok', 'Konferenzen' => count($rooms), 'Emails' => $emails];
         return $message;
     }
-
 }

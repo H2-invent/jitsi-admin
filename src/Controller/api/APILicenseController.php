@@ -2,10 +2,8 @@
 
 namespace App\Controller\api;
 
-use App\Entity\License;
 use App\Helper\JitsiAdminController;
 use App\Service\LicenseService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +16,10 @@ class APILicenseController extends JitsiAdminController
      */
     public function index(Request $request, LicenseService $licenseService): Response
     {
-        return new JsonResponse($licenseService->generateNewLicense(
-            $request->get('license')
-        )
+        return new JsonResponse(
+            $licenseService->generateNewLicense(
+                $request->get('license')
+            )
         );
     }
 }

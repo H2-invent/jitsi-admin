@@ -25,5 +25,4 @@ class LobbyLeaverMessage
     {
         $this->id = $id;
     }
-
 }

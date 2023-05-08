@@ -18,8 +18,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StarController extends JitsiAdminController
 {
-
-
     public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private StarService $starService)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -40,4 +38,3 @@ class StarController extends JitsiAdminController
         );
     }
 }
-

@@ -33,7 +33,7 @@ class RoomFixture extends Fixture
         $user->setFirstName('Test');
         $user->setLastName('User');
         $user->setRegisterId(123456);
-        $user->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user->setTimeZone('Europe/Berlin');
         $user->setUuid('lksdhflkjdsljflkjds');
         $user->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
@@ -50,7 +50,7 @@ class RoomFixture extends Fixture
         $user2->setFirstName('Test2');
         $user2->setLastName('User2');
         $user2->setRegisterId(123456);
-        $user2->setSpezialProperties(array('ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',));
+        $user2->setSpezialProperties(['ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',]);
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflhjkkjds');
         $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
@@ -67,7 +67,7 @@ class RoomFixture extends Fixture
         $userLDAP->setFirstName('LdapUSer');
         $userLDAP->setLastName('Ldap');
         $userLDAP->setRegisterId(123456);
-        $userLDAP->setSpezialProperties(array('ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',));
+        $userLDAP->setSpezialProperties(['ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',]);
         $userLDAP->setTimeZone('Europe/Berlin');
         $userLDAP->setUuid('dfsdffscxv');
         $userLDAP->setUid('kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj');
@@ -112,7 +112,7 @@ class RoomFixture extends Fixture
         $user5->setFirstName('Test');
         $user5->setLastName('User');
         $user5->setRegisterId(123456);
-        $user5->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user5->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user5->setTimeZone('Australia/Lindeman');
         $user5->setUuid('lksdhflkjdsljflkjds');
         $user5->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
@@ -128,7 +128,7 @@ class RoomFixture extends Fixture
         $user6->setFirstName('Test');
         $user6->setLastName('User');
         $user6->setRegisterId(123456);
-        $user6->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user6->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user6->setUuid('lksdhflkjdsljflkjds');
         $user6->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
         $user6->setUsername('test@noTimeZone.de');
@@ -289,7 +289,6 @@ class RoomFixture extends Fixture
 
             $manager->persist($selectDate);
             $manager->persist($room);
-
         }
         for ($i = 0; $i < 20; $i++) {
             $room = new Rooms();
@@ -628,7 +627,6 @@ class RoomFixture extends Fixture
             $lobbyUser->setShowName('LobbyUser ' . $i);
             $lobbyUser->setType('a');
             $manager->persist($lobbyUser);
-
         }
         $manager->flush();
 

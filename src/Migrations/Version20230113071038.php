@@ -31,6 +31,5 @@ final class Version20230113071038 extends AbstractMigration
             // this down() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE fos_user DROP accept_terms_and_conditions');
         }
-
     }
 }

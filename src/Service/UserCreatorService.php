@@ -17,7 +17,7 @@ class UserCreatorService
 
     public function createUser($email, $userName, $firstName = null, $lastName = null, $dryrun = false): User
     {
-        $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $userName));
+        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $userName]);
         if (!$user) {
             $user = new User();
             $user->setCreatedAt(new \DateTime())
@@ -29,7 +29,7 @@ class UserCreatorService
                 ->setPassword('123')
                 ->setUid(md5(uniqid()));
             $user->setIndexer($this->indexer->indexUser($user));
-            if (!$dryrun){
+            if (!$dryrun) {
                 $this->em->persist($user);
                 $this->em->flush();
             }

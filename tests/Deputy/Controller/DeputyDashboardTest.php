@@ -14,9 +14,9 @@ class DeputyDashboardTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $deputy2 = $userRepo->findOneBy(array('email' => 'test@local3.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $deputy2 = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $client->loginUser($master);
 
         $client->loginUser($master);
@@ -37,7 +37,7 @@ class DeputyDashboardTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
         $rooomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $rooomRepo->findOneBy(array('name' => 'test von deputy'));
+        $room = $rooomRepo->findOneBy(['name' => 'test von deputy']);
         $conf = $crawler->filter('#room_card' . $room->getUidReal())->count();
         self::assertEquals($conf, 1);
 
@@ -71,16 +71,15 @@ class DeputyDashboardTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $conf = $crawler->filter('#room_card' . $room->getUidReal())->count();
         self::assertEquals($conf, 0);
-
     }
 
     public function testRoomWithDateFromDeputy(): void
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy2 = $userRepo->findOneBy(array('email' => 'test@local3.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy2 = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $client->loginUser($master);
         $deputyService = self::getContainer()->get(DeputyService::class);
         $deputyService->toggleDeputy($master, $deputy);
@@ -105,7 +104,7 @@ class DeputyDashboardTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
         $rooomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $rooomRepo->findOneBy(array('name' => 'test von deputy'));
+        $room = $rooomRepo->findOneBy(['name' => 'test von deputy']);
         $conf = $crawler->filter('#room_card' . $room->getUidReal());
         self::assertEquals($conf->count(), 1);
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .start-dropdown')->count(), 0);
@@ -137,9 +136,9 @@ class DeputyDashboardTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy2 = $userRepo->findOneBy(array('email' => 'test@local3.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy2 = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $client->loginUser($master);
         $deputyService = self::getContainer()->get(DeputyService::class);
         $deputyService->toggleDeputy($master, $deputy);
@@ -163,7 +162,7 @@ class DeputyDashboardTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
         $rooomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $rooomRepo->findOneBy(array('name' => 'test von deputy'));
+        $room = $rooomRepo->findOneBy(['name' => 'test von deputy']);
         $conf = $crawler->filter('#room_card' . $room->getUidReal());
         self::assertEquals($conf->count(), 1);
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .start-dropdown')->count(), 0);
@@ -195,9 +194,9 @@ class DeputyDashboardTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $deputy2 = $userRepo->findOneBy(array('email' => 'test@local3.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $deputy2 = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $client->loginUser($master);
         $deputyService = self::getContainer()->get(DeputyService::class);
         $deputyService->toggleDeputy($master, $deputy);
@@ -220,7 +219,7 @@ class DeputyDashboardTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
         $rooomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $rooomRepo->findOneBy(array('name' => 'test von deputy'));
+        $room = $rooomRepo->findOneBy(['name' => 'test von deputy']);
         $conf = $crawler->filter('#room_card' . $room->getUidReal());
         self::assertEquals($conf->count(), 1);
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .start-dropdown')->count(), 1);
@@ -240,16 +239,15 @@ class DeputyDashboardTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $conf = $crawler->filter('#room_card' . $room->getUidReal());
         self::assertEquals($conf->count(), 0);
-
     }
 
     public function testScheduleFromManager(): void
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $deputy2 = $userRepo->findOneBy(array('email' => 'test@local3.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $deputy2 = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $client->loginUser($master);
         $deputyService = self::getContainer()->get(DeputyService::class);
         $deputyService->toggleDeputy($master, $deputy);
@@ -272,7 +270,7 @@ class DeputyDashboardTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
         $rooomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $rooomRepo->findOneBy(array('name' => 'test von deputy'));
+        $room = $rooomRepo->findOneBy(['name' => 'test von deputy']);
         $conf = $crawler->filter('#room_card' . $room->getUidReal());
         self::assertEquals($conf->count(), 1);
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .schedule-edit')->count(), 1);
@@ -292,16 +290,15 @@ class DeputyDashboardTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $conf = $crawler->filter('#room_card' . $room->getUidReal());
         self::assertEquals($conf->count(), 0);
-
     }
 
     public function testScheduleFromDeputy(): void
     {
         $client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $master = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $deputy2 = $userRepo->findOneBy(array('email' => 'test@local3.de'));
+        $master = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $deputy2 = $userRepo->findOneBy(['email' => 'test@local3.de']);
         $client->loginUser($master);
         $deputyService = self::getContainer()->get(DeputyService::class);
         $deputyService->toggleDeputy($master, $deputy);
@@ -325,7 +322,7 @@ class DeputyDashboardTest extends WebTestCase
         $flashMessage = $crawler->filter('.snackbar .bg-success')->text();
         self::assertEquals($flashMessage, 'Terminplanung erfolgreich erstellt');
         $rooomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $rooomRepo->findOneBy(array('name' => 'test von deputy'));
+        $room = $rooomRepo->findOneBy(['name' => 'test von deputy']);
         $conf = $crawler->filter('#room_card' . $room->getUidReal());
         self::assertEquals($conf->count(), 1);
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .schedule-edit')->count(), 1);
@@ -351,7 +348,5 @@ class DeputyDashboardTest extends WebTestCase
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .schedule-edit')->count(), 1);
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-participants')->count(), 1);
         self::assertEquals($crawler->filter('#room_card' . $room->getUidReal() . ' .schedule-options')->count(), 1);
-
     }
-
 }

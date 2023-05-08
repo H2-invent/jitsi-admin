@@ -18,11 +18,15 @@ class LobbyToModeratorTest extends KernelTestCase
         $directSend = $this->getContainer()->get(DirectSendService::class);
 
 
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            self::assertEquals('{"type":"snackbar","message":"TestText","color":"danger"}', $update->getData());
-            self::assertEquals(['test/test/numberofUser'], $update->getTopics());
-            return 'id';
-        });
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                self::assertEquals('{"type":"snackbar","message":"TestText","color":"danger"}', $update->getData());
+                self::assertEquals(['test/test/numberofUser'], $update->getTopics());
+                return 'id';
+            }
+        );
         $directSend->setMercurePublisher($hub);
         $directSend->sendSnackbar('test/test/numberofUser', 'TestText', 'danger');
     }

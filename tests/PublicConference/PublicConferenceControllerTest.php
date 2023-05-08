@@ -15,7 +15,7 @@ class PublicConferenceControllerTest extends WebTestCase
         $client = static::createClient();
         $publicConference = self::getContainer()->get(PublicConferenceService::class);
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $publicConferenceController = self::getContainer()->get(PublicConferenceController::class);
         $publicConferenceController->setServer($server);
         $crawler = $client->request('GET', '/m');
@@ -25,11 +25,12 @@ class PublicConferenceControllerTest extends WebTestCase
         $buttonCrawlerNode = $crawler->selectButton('Los gehts!');
         $form = $buttonCrawlerNode->form();
         $publicConferenceController->setServer($server);
-        $client->submit($form, [
-            'public_conference[roomName]' => 'testMyRoom'
-        ]);
-
-
+        $client->submit(
+            $form,
+            [
+                'public_conference[roomName]' => 'testMyRoom'
+            ]
+        );
     }
 
     public function testConference(): void
@@ -37,7 +38,7 @@ class PublicConferenceControllerTest extends WebTestCase
         $client = static::createClient();
         $publicConference = self::getContainer()->get(PublicConferenceService::class);
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $publicConferenceController = self::getContainer()->get(PublicConferenceController::class);
         $publicConferenceController->setServer($server);
         $room = $publicConference->createNewRoomFromName('testMyRoom', $server);
@@ -45,7 +46,6 @@ class PublicConferenceControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('title', 'testmyroom');
-
     }
 
     public function testCrazyConference(): void
@@ -53,7 +53,7 @@ class PublicConferenceControllerTest extends WebTestCase
         $client = static::createClient();
         $publicConference = self::getContainer()->get(PublicConferenceService::class);
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $publicConferenceController = self::getContainer()->get(PublicConferenceController::class);
         $publicConferenceController->setServer($server);
 

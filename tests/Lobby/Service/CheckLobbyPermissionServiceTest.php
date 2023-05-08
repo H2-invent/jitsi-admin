@@ -19,7 +19,7 @@ class CheckLobbyPermissionServiceTest extends KernelTestCase
 
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 1'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
         $room->setLobby(true);
         $room->setPersistantRoom(true);
         $room->setStart(null);
@@ -29,22 +29,21 @@ class CheckLobbyPermissionServiceTest extends KernelTestCase
         $manager->flush();
 
 
-
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local3.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
 
         $permissionCheckService = self::getContainer()->get(CheckLobbyPermissionService::class);
-        self::assertFalse($permissionCheckService->checkPermissions($room,$user));
+        self::assertFalse($permissionCheckService->checkPermissions($room, $user));
 
         $permissionService = self::getContainer()->get(PermissionChangeService::class);
-        $per = $permissionService->toggleLobbyModerator($room->getModerator(),$user,$room);
-        self::assertEquals($user, $per->getUser() );
+        $per = $permissionService->toggleLobbyModerator($room->getModerator(), $user, $room);
+        self::assertEquals($user, $per->getUser());
         self::assertEquals($room, $per->getRoom());
         $manager->persist($per);
         $manager->flush();
         $user->addRoomsAttributes($per);
         $room->addUserAttribute($per);
-        self::assertTrue($permissionCheckService->checkPermissions($room,$room->getModerator()));
-        self::assertTrue($permissionCheckService->checkPermissions($room,$user));
+        self::assertTrue($permissionCheckService->checkPermissions($room, $room->getModerator()));
+        self::assertTrue($permissionCheckService->checkPermissions($room, $user));
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: andreas.holzmann
@@ -8,11 +9,9 @@
 
 namespace App\Service;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
-
 
 class CronService
 {
@@ -23,7 +22,6 @@ class CronService
     {
         $this->em = $entityManager;
         $this->logger = $logger;
-
     }
 
     function check($request)

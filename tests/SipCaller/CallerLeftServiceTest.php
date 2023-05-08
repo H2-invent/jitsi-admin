@@ -24,14 +24,12 @@ class CallerLeftServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
         $session = $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345');
 
         self::assertTrue($callerLEftService->callerLeft('12345'));
-
-
     }
     public function testCorrectSession(): void
     {
@@ -45,7 +43,7 @@ class CallerLeftServiceTest extends KernelTestCase
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
         $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
         $id = '123419';
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 19'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
         $callerPrepareService->createUserCallerIDforRoom($room);
         $caller = $room->getCallerIds()[0];
 

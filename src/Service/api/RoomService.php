@@ -1,13 +1,10 @@
 <?php
 
-
 namespace App\Service\api;
-
 
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
-
 use App\Service\InviteService;
 use App\Service\UserCreatorService;
 use App\Service\UserService;
@@ -85,7 +82,7 @@ class RoomService
         }
         $room->setModerator(null);
         $this->em->persist($room);
-        foreach ($room->getFavoriteUsers() as $data){
+        foreach ($room->getFavoriteUsers() as $data) {
             $data->removeFavorite($room);
             $this->em->persist($data);
         }
@@ -98,39 +95,39 @@ class RoomService
     public function removeUserFromRoom(?Rooms $room, $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return array('error' => true, 'text' => 'Email incorrect');
+            return ['error' => true, 'text' => 'Email incorrect'];
         };
         if (!$room) {
-            return array('error' => true, 'text' => 'no Room found');
+            return ['error' => true, 'text' => 'no Room found'];
         };
-        $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $email));
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
         if (!$user) {
-            return array('error' => true, 'text' => 'User incorrect');
+            return ['error' => true, 'text' => 'User incorrect'];
         };
-        if (in_array($user,$room->getUser()->toArray())){
+        if (in_array($user, $room->getUser()->toArray())) {
             $room->removeUser($user);
 
             $this->em->persist($room);
             $this->em->flush();
             $this->userService->removeRoom($user, $room);
-        }else{
-            return array('error' => true, 'text' => 'User incorrect');
+        } else {
+            return ['error' => true, 'text' => 'User incorrect'];
         }
 
-        return array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich gelöscht');
+        return ['uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich gelöscht'];
     }
 
     public function addUserToRoom(?Rooms $room, $email): array
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return array('error' => true, 'text' => 'Email incorrect');
+            return ['error' => true, 'text' => 'Email incorrect'];
         };
         if (!$room) {
-            return array('error' => true, 'text' => 'no Room found');
+            return ['error' => true, 'text' => 'no Room found'];
         };
 //Here we get the User from an email if the user with the email does not exist, then we we create it
-        $user = $this->userCreatorService->createUser($email,$email,'','');
-        if (!in_array($user,$room->getUser()->toArray())){
+        $user = $this->userCreatorService->createUser($email, $email, '', '');
+        if (!in_array($user, $room->getUser()->toArray())) {
             $user->addRoom($room);
             $user->addAddressbookInverse($room->getModerator());
             $this->em->persist($user);
@@ -139,21 +136,22 @@ class RoomService
             $this->em->flush();
         }
 
-        return array('uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich hinzugefügt');
-
+        return ['uid' => $room->getUidReal(), 'user' => $email, 'error' => false, 'text' => 'Teilnehmer ' . $email . ' erfolgreich hinzugefügt'];
     }
-    public function generateRoomInfo(Rooms $room):array{
+
+    public function generateRoomInfo(Rooms $room): array
+    {
 
         if (!$room) {
-            return array('error' => true, 'text' => 'no Room found');
+            return ['error' => true, 'text' => 'no Room found'];
         }
-        $res = array();
-        $user = array();
+        $res = [];
+        $user = [];
         foreach ($room->getUser() as $data) {
             $user[] = $data->getEmail();
         }
-        $res['timeZone']=$room->getTimeZoneAuto();
-        $res['error']= false;
+        $res['timeZone'] = $room->getTimeZoneAuto();
+        $res['error'] = false;
         $res['teilnehmer'] = $user;
         $res['start'] = $room->getStart()->format('Y-m-dTH:i:s');
         $res['end'] = $room->getEnddate()->format('Y-m-dTH:i:s');
@@ -161,8 +159,8 @@ class RoomService
         $res['name'] = $room->getName();
         $res['moderator'] = $room->getModerator() ? $room->getModerator()->getEmail() : '';
         $res['server'] = $room->getServer()->getUrl();
-        $res['joinBrowser'] = $this->urlGenerator->generate('room_join', array('t' => 'b', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
-        $res['joinApp'] = $this->urlGenerator->generate('room_join', array('t' => 'a', 'room' => $room->getId()), UrlGenerator::ABSOLUTE_URL);
+        $res['joinBrowser'] = $this->urlGenerator->generate('room_join', ['t' => 'b', 'room' => $room->getId()], UrlGenerator::ABSOLUTE_URL);
+        $res['joinApp'] = $this->urlGenerator->generate('room_join', ['t' => 'a', 'room' => $room->getId()], UrlGenerator::ABSOLUTE_URL);
         return $res;
     }
 }

@@ -6,8 +6,6 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\PermissionChangeService;
-use App\Service\RoomService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ChangePermissionsController extends JitsiAdminController
 {
-
     /**
      * @Route("/room/change/permissions/shareScreen", name="change_permissions_screenShare")
      */
@@ -34,7 +31,7 @@ class ChangePermissionsController extends JitsiAdminController
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleShareScreen($userOld, $userNew, $room)) {
-            return new JsonResponse(array('error' => false));
+            return new JsonResponse(['error' => false]);
         }
         $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
         return $this->redirectToRoute('dashboard');
@@ -57,7 +54,7 @@ class ChangePermissionsController extends JitsiAdminController
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->togglePrivateMessage($userOld, $userNew, $room)) {
-            return new JsonResponse(array('error' => false));
+            return new JsonResponse(['error' => false]);
         }
         $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
         return $this->redirectToRoute('dashboard');
@@ -80,7 +77,7 @@ class ChangePermissionsController extends JitsiAdminController
         }
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleModerator($userOld, $userNew, $room)) {
-            return new JsonResponse(array('error' => false));
+            return new JsonResponse(['error' => false]);
         }
         $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
         return $this->redirectToRoute('dashboard');
@@ -93,21 +90,21 @@ class ChangePermissionsController extends JitsiAdminController
     {
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if (!$room) {
-            return new JsonResponse(array('snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')));
+            return new JsonResponse(['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
         }
         $userNew = $this->doctrine->getRepository(User::class)->find($request->get('user'));
         if (!$userNew) {
-            return new JsonResponse(array('snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')));
+            return new JsonResponse(['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
         }
         $userOld = $room->getModerator();
         $roomUser = $permissionChangeService->toggleLobbyModerator($userOld, $userNew, $room);
         if ($roomUser) {
-            if($roomUser->getLobbyModerator()){
-                return new JsonResponse(array('error' => false));
-            }else{
-                return new JsonResponse(array('error' => false));
+            if ($roomUser->getLobbyModerator()) {
+                return new JsonResponse(['error' => false]);
+            } else {
+                return new JsonResponse(['error' => false]);
             }
         }
-        return new JsonResponse(array('snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')));
+        return new JsonResponse(['snack' => $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.')]);
     }
 }

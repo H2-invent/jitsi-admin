@@ -22,7 +22,7 @@ class ReminderServiceTest extends WebTestCase
     {
         $client = static::createClient();
         $reminderTest = self::getContainer()->get(ReminderService::class);
-        $res = $reminderTest->sendReminder(array(null));
+        $res = $reminderTest->sendReminder([null]);
         $this->assertEquals(5, $res['Konferenzen']);
         $this->assertEquals(15, $res['Emails']);
         $this->assertEquals('Cron ok', $res['hinweis']);
@@ -32,7 +32,7 @@ class ReminderServiceTest extends WebTestCase
     {
         $client = static::createClient();
         $reminderTest = self::getContainer()->get(ReminderService::class);
-        $res = $reminderTest->sendReminder(array('http://localhost:8000'));
+        $res = $reminderTest->sendReminder(['http://localhost:8000']);
         $this->assertEquals(5, $res['Konferenzen']);
         $this->assertEquals(15, $res['Emails']);
         $this->assertEquals('Cron ok', $res['hinweis']);
@@ -42,7 +42,7 @@ class ReminderServiceTest extends WebTestCase
     {
         $client = static::createClient();
         $reminderTest = self::getContainer()->get(ReminderService::class);
-        $res = $reminderTest->sendReminder(array(null,'http://localhost:8000'));
+        $res = $reminderTest->sendReminder([null, 'http://localhost:8000']);
         $this->assertEquals(10, $res['Konferenzen']);
         $this->assertEquals(30, $res['Emails']);
         $this->assertEquals('Cron ok', $res['hinweis']);

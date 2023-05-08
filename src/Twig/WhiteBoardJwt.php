@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -22,18 +23,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+
 use function GuzzleHttp\Psr7\str;
 
 class WhiteBoardJwt extends AbstractExtension
 {
-
-
     public function __construct(
-        private WhiteboardJwtService   $whiteboardJwtService,
+        private WhiteboardJwtService  $whiteboardJwtService,
         private ParameterBagInterface $parameterBag
     )
     {
-
     }
 
     public function getFunctions(): array
@@ -45,7 +44,7 @@ class WhiteBoardJwt extends AbstractExtension
         ];
     }
 
-    public function getJwtforWhiteboard(Rooms $room,$isModerator = false)
+    public function getJwtforWhiteboard(Rooms $room, $isModerator = false)
     {
         return $this->whiteboardJwtService->createJwt($room, $isModerator);
     }

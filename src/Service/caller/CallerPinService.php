@@ -5,10 +5,8 @@ namespace App\Service\caller;
 use App\Entity\CallerId;
 use App\Entity\CallerRoom;
 use App\Entity\CallerSession;
-
 use App\Service\Callout\CalloutServiceDialSuccessfull;
 use App\Service\Lobby\CreateLobbyUserService;
-
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -20,11 +18,12 @@ class CallerPinService
     private $loggger;
     private ParameterBagInterface $parameterBag;
 
-    public function __construct(LoggerInterface                       $logger,
-                                EntityManagerInterface                $entityManager,
-                                CreateLobbyUserService                $createLobbyUserService,
-                                ParameterBagInterface                 $parameterBag,
-                                private CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull,
+    public function __construct(
+        LoggerInterface                       $logger,
+        EntityManagerInterface                $entityManager,
+        CreateLobbyUserService                $createLobbyUserService,
+        ParameterBagInterface                 $parameterBag,
+        private CalloutServiceDialSuccessfull $calloutServiceDialSuccessfull,
     )
     {
         $this->em = $entityManager;
@@ -35,25 +34,25 @@ class CallerPinService
 
     public function createNewCallerSession($roomId, $pin, $callerId): ?CallerSession
     {
-        $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId' => $roomId));
+        $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
         if (!$callerRoom) {
-            $this->loggger->error('Room not found', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
+            $this->loggger->error('Room not found', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
         $room = $callerRoom->getRoom();
         $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);
         if (!$callInUser) {
-            $this->loggger->error('PIN not found for the room', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
+            $this->loggger->error('PIN not found for the room', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
         if ($callInUser->getCallerSession()) {
-            $this->loggger->error('The Session is already used. Only one Session per PIN is allowed', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
+            $this->loggger->error('The Session is already used. Only one Session per PIN is allowed', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
         $lobbyUser = $this->createLobbyUserService->createNewLobbyUser($callInUser->getUser(), $callInUser->getRoom(), 'c');
 
-        $this->em->getRepository(CallerSession::class)->findOneBy(array('lobbyWaitingUser' => $lobbyUser));
-        $this->loggger->debug('We create a session for the caller', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
+        $this->em->getRepository(CallerSession::class)->findOneBy(['lobbyWaitingUser' => $lobbyUser]);
+        $this->loggger->debug('We create a session for the caller', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
         $session = new CallerSession();
         $session->setSessionId(md5($roomId . $pin . uniqid()))
             ->setCreatedAt(new \DateTime())
@@ -68,7 +67,7 @@ class CallerPinService
         $lobbyUser->setCallerSession($session);
         $this->em->persist($lobbyUser);
         $this->em->flush();
-        $this->loggger->debug('Session was successfully build', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
+        $this->loggger->debug('Session was successfully build', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
         $this->calloutServiceDialSuccessfull->dialSuccessfull($lobbyUser->getUser(), $room);
         return $session;
     }
@@ -85,8 +84,6 @@ class CallerPinService
             return true;
         }
         return false;
-
-
     }
 
     public function clean($string)
@@ -96,5 +93,4 @@ class CallerPinService
         $res = preg_replace('/[^0-9]/', '', $string); // Removes special chars.
         return $res;
     }
-
 }

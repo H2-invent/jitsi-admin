@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: andreas.holzmann
@@ -13,24 +14,12 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Form\Type\JoinViewType;
 use App\Helper\JitsiAdminController;
-use App\Service\FavoriteService;
-use App\Service\RoomService;
-use App\Service\ServerUserManagment;
-use App\Service\TermsAndConditions\TermsAndConditionsService;
 use App\Service\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
-use Firebase\JWT\JWT;
-
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -39,7 +28,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class IndexController extends JitsiAdminController
 {
-
     public function __construct(ManagerRegistry $managerRegistry, TranslatorInterface $translator, LoggerInterface $logger, ParameterBagInterface $parameterBag, private ThemeService $themeService)
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -61,7 +49,7 @@ class IndexController extends JitsiAdminController
             return $this->redirectToRoute('app_public_form');
         };
 
-        $data = array();
+        $data = [];
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
         $dataStr = $request->get('data');
         $dataAll = base64_decode($dataStr);
@@ -72,9 +60,5 @@ class IndexController extends JitsiAdminController
         $server = $this->doctrine->getRepository(Server::class)->findAll();
         $rooms = $this->doctrine->getRepository(Rooms::class)->findAll();
         return $this->render('dashboard/start.html.twig', ['form' => $form->createView(), 'user' => $user, 'server' => $server, 'rooms' => $rooms]);
-
-
     }
-
-
 }

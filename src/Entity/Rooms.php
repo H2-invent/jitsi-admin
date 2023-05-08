@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-
 #[ORM\Entity(repositoryClass: RoomsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Rooms
@@ -160,7 +159,7 @@ class Rooms
 
     public function normalize(string $propertyName): string
     {
-        return 'org_'.$propertyName;
+        return 'org_' . $propertyName;
     }
 
     #[ORM\PreFlush]
@@ -700,7 +699,6 @@ class Rooms
         } else {
             return $this->moderator->getTimeZone();
         }
-
     }
 
     public function getStartwithTimeZone(?User $user): ?\DateTimeInterface
@@ -729,7 +727,7 @@ class Rooms
 
     public function getStartUtc(): ?\DateTimeInterface
     {
-        return $this->startUtc? new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')):null;
+        return $this->startUtc ? new \DateTime($this->startUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
     }
 
     public function setStartUtc(?\DateTimeInterface $startUtc): self
@@ -741,7 +739,7 @@ class Rooms
 
     public function getEndDateUtc(): ?\DateTimeInterface
     {
-        return $this->endDateUtc? new \DateTime($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')):null;
+        return $this->endDateUtc ? new \DateTime($this->endDateUtc->format('Y-m-d H:i:s'), new \DateTimeZone('utc')) : null;
     }
 
     public function setEndDateUtc(?\DateTimeInterface $endDateUtc): self
@@ -1028,5 +1026,4 @@ class Rooms
 
         return $this;
     }
-
 }

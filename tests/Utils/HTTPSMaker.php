@@ -4,7 +4,6 @@ namespace App\Tests\Utils;
 
 use App\Entity\Rooms;
 use App\Service\CreateHttpsUrl;
-
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

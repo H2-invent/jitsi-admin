@@ -20,7 +20,6 @@ class LdapDeputyTest extends KernelTestCase
         $ldapService->initLdap();
         $res = $ldapService->fetchDeputies();
         assertEquals(1, sizeof($res));
-
     }
 
     public function testFetchDeputiesFromLDapWrongFilter(): void
@@ -47,7 +46,6 @@ class LdapDeputyTest extends KernelTestCase
         $ldapDeputy = self::getContainer()->get(DebutyLdapService::class);
 
         assertEquals(2, $ldapDeputy->cleanDeputies());
-
     }
 
     public function testaddNewDeputies(): void
@@ -59,11 +57,10 @@ class LdapDeputyTest extends KernelTestCase
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
         assertEquals(2, $ldapDeputy->cleanDeputies());
-        foreach ($ldapService->getLdaps() as $data){
+        foreach ($ldapService->getLdaps() as $data) {
             $ldapService->fetchLdap($data);
         }
         $ldapService->setDeputies($ldapService->fetchDeputies());
-
     }
     public function testhwithCommand(): void
     {
@@ -71,7 +68,7 @@ class LdapDeputyTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:ldap:deputy:create');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array());
+        $commandTester->execute([]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [INFO] Try to connect to: ldap_1  ', $output);
         $this->assertStringContainsString(' [INFO] Try to connect to: ldap_2', $output);

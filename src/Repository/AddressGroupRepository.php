@@ -59,6 +59,5 @@ class AddressGroupRepository extends ServiceEntityRepository
             ->setParameter('search', '%' . $value . '%')
             ->getQuery()
             ->getResult();
-
     }
 }

@@ -24,7 +24,7 @@ class CreateHttpsUrl
 
     public function createHttpsUrl($url, ?Rooms $rooms = null)
     {
-        if(str_contains($url, $this->baseUrl)){
+        if (str_contains($url, $this->baseUrl)) {
             return $this->generateAbsolutUrl($url);
         }
 
@@ -47,17 +47,15 @@ class CreateHttpsUrl
                 return $this->baseUrl . $url;
             }
         }
-
     }
 
     public function generateAbsolutUrl($baseUrl, $url = '')
     {
-        $isStricktHttps = str_contains($this->baseUrl,'https://');
-        $res = $baseUrl .$url;
-        if ($isStricktHttps){
+        $isStricktHttps = str_contains($this->baseUrl, 'https://');
+        $res = $baseUrl . $url;
+        if ($isStricktHttps) {
             $res = str_replace('http://', 'https://', $res);
         }
         return $res;
     }
-
 }

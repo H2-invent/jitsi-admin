@@ -8,7 +8,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -28,8 +27,7 @@ class LobbyMessageCreateCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('text', InputArgument::OPTIONAL, 'Enter the text you want to send to the waiting user')
-        ;
+            ->addArgument('text', InputArgument::OPTIONAL, 'Enter the text you want to send to the waiting user');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -39,9 +37,9 @@ class LobbyMessageCreateCommand extends Command
 
         if ($text) {
             $io->note(sprintf('We create a new Predefined message with the text: %s', $text));
-        }else{
+        } else {
             $textQ = new Question('Enter the message text: ', 'Please wait. I will let you in in some minutes.');
-            $text = $io->askQuestion( $textQ);
+            $text = $io->askQuestion($textQ);
         }
 
 

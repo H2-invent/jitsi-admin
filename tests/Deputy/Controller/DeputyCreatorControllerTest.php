@@ -26,17 +26,17 @@ class DeputyCreatorControllerTest extends WebTestCase
         $this->client = static::createClient();
         $userRepo = self::getContainer()->get(UserRepository::class);
         $this->em = self::getContainer()->get(EntityManagerInterface::class);
-        $this->deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $this->manager  = $userRepo->findOneBy(array('email' => 'test@local2.de'));
-        $this->manager ->addAddressbook($this->deputy);
-        $this->em->persist( $this->manager );
+        $this->deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $this->manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $this->manager->addAddressbook($this->deputy);
+        $this->em->persist($this->manager);
         $this->em->flush();
 
         $this->client->loginUser($this->manager);
         $this->client->request('GET', '/room/deputy/toggle/' . $this->deputy->getUid());
         $crawler = $this->client->request('GET', '/room/dashboard');
-        self::assertEquals(0,$crawler->filter('.createdFromText')->count());
-        self::assertEquals(0,$crawler->filter('.createdByDeputy')->count());
+        self::assertEquals(0, $crawler->filter('.createdFromText')->count());
+        self::assertEquals(0, $crawler->filter('.createdByDeputy')->count());
         $this->client->loginUser($this->deputy);
     }
 
@@ -44,8 +44,8 @@ class DeputyCreatorControllerTest extends WebTestCase
     {
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager  = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
 
         $server = $this->deputy->getServers()->toArray()[0];
@@ -67,16 +67,16 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        self::assertEquals(1,$crawler->filter('.createdFromText')->count());
+        self::assertEquals(1, $crawler->filter('.createdFromText')->count());
         self::assertEquals('Erstellt von: Test1, 1234, User, Test', $crawler->filter('.createdFromText')->text());
-        self::assertEquals(1,$crawler->filter('.createdByDeputy')->count());
-        self::assertEquals(0,$crawler->filter('.createdByDeputy.loadContent')->count());
+        self::assertEquals(1, $crawler->filter('.createdByDeputy')->count());
+        self::assertEquals(0, $crawler->filter('.createdByDeputy.loadContent')->count());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
+        $room = $roomRepo->findOneBy(['name' => 'test for the supervisor']);
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager  = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
 
         self::assertNotNull($room);
@@ -89,40 +89,39 @@ class DeputyCreatorControllerTest extends WebTestCase
 
 
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal())->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .btn:contains("Starten")')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .fa-solid.fa-users')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-options')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-sharelink')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .participants-remove')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .participants-participantList')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-options .moderator-edit')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .start-iframe')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .start-app')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal())->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .btn:contains("Starten")')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .fa-solid.fa-users')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-sharelink')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-remove')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-participantList')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options .moderator-edit')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-iframe')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-app')->count());
 
         $this->client->loginUser($this->manager);
         $crawler = $this->client->request('GET', '/room/dashboard');
         self::assertEquals(1, $crawler->filter('.createdByDeputy.loadContent')->count());
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal())->count());
-        self::assertEquals(2, $crawler->filter('#room_card'.$room->getUidReal().' .btn:contains("Starten")')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .fa-solid.fa-users')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-options')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-sharelink')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .participants-remove')->count());
-        self::assertEquals(0, $crawler->filter('#room_card'.$room->getUidReal().' .participants-participantList')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .moderator-options .moderator-edit')->count());
-        self::assertEquals(2, $crawler->filter('#room_card'.$room->getUidReal().' .start-iframe')->count());
-        self::assertEquals(1, $crawler->filter('#room_card'.$room->getUidReal().' .start-app')->count());
-
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal())->count());
+        self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .btn:contains("Starten")')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .fa-solid.fa-users')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-sharelink')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-remove')->count());
+        self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-participantList')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options .moderator-edit')->count());
+        self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-iframe')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-app')->count());
     }
 
     public function testDuplicateConference(): void
     {
 
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $deputy = $userRepo->findOneBy(array('email' => 'test@local.de'));
-        $manager  = $userRepo->findOneBy(array('email' => 'test@local2.de'));
+        $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
 
         $server = $this->deputy->getServers()->toArray()[0];
@@ -143,21 +142,19 @@ class DeputyCreatorControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'test for the supervisor'));
+        $room = $roomRepo->findOneBy(['name' => 'test for the supervisor']);
 
-        foreach ($this->deputy->getServers() as $s){
+        foreach ($this->deputy->getServers() as $s) {
             $this->deputy->removeServer($s);
-
         }
         $this->em->persist($this->deputy);
-        foreach ($this->manager->getServers() as $s){
+        foreach ($this->manager->getServers() as $s) {
             $this->manager->removeServer($s);
-
         }
         $this->em->persist($this->manager);
         $this->em->flush();
 
-        $crawler = $this->client->request('GET', '/room/clone?room='.$room->getId());
+        $crawler = $this->client->request('GET', '/room/clone?room=' . $room->getId());
 
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
@@ -173,9 +170,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
         $flashMessage = $crawler->filter('.snackbar')->text();
         self::assertEquals($flashMessage, 'Die Konferenz wurde erfolgreich erstellt.');
-        $rooms = $roomRepo->findBy(array('name' => 'test for the supervisor'));
+        $rooms = $roomRepo->findBy(['name' => 'test for the supervisor']);
         self::assertEquals(2, sizeof($rooms));
-
     }
-
 }

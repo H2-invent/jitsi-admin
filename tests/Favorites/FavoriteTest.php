@@ -10,23 +10,22 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FavoriteTest extends WebTestCase
 {
-
     public function testToggleFavorite(): void
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         // retrieve the test user
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($testUser);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 1'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
         $room->setStart($room->getStart()->modify('-10min'));
         $manager->persist($room);
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
 
         $this->assertEquals(
             1,
@@ -41,17 +40,17 @@ class FavoriteTest extends WebTestCase
             $crawler->filter('.favorites .dropdown-item:contains("Im Browser")')->count()
         );
 
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local2.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($testUser);
         $crawler = $client->request('GET', $urlGenerator->generate('dashboard'));
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("TestMeeting: 1")')->count()
         );
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($testUser);
 
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("TestMeeting: 1")')->count()
@@ -63,12 +62,12 @@ class FavoriteTest extends WebTestCase
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local4.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local4.de']);
         $client->loginUser($testUser);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 1'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
         $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard')));
         $crawler = $client->request('GET', $urlGenerator->generate('dashboard'));
         $this->assertEquals(
@@ -87,7 +86,7 @@ class FavoriteTest extends WebTestCase
             0,
             $crawler->filter('.favorites .badge:contains("Läuft gerade")')->count()
         );
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
         $this->assertTrue($client->getResponse()->isRedirect($urlGenerator->generate('dashboard')));
         $this->assertEquals(
             0,
@@ -100,16 +99,16 @@ class FavoriteTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         // retrieve the test user
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($testUser);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Running Room'));
+        $room = $roomRepo->findOneBy(['name' => 'Running Room']);
         $room->setStart($room->getStart()->modify('-10min'));
         $manager->persist($room);
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
 
         $this->assertEquals(
             1,
@@ -128,17 +127,17 @@ class FavoriteTest extends WebTestCase
             $crawler->filter('.favorites .dropdown-item:contains("Im Browser")')->count()
         );
 
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local2.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($testUser);
         $crawler = $client->request('GET', $urlGenerator->generate('dashboard'));
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("Running Room")')->count()
         );
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($testUser);
 
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("Running Room")')->count()
@@ -150,21 +149,20 @@ class FavoriteTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         // retrieve the test user
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($testUser);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'Room Yesterday'));
+        $room = $roomRepo->findOneBy(['name' => 'Room Yesterday']);
         $manager->persist($room);
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
 
         $this->assertEquals(
             0,
             $crawler->filter('.favorites:contains("Room Yesterday")')->count()
         );
-
     }
     public function testToggleFixedRoom(): void
     {
@@ -172,15 +170,15 @@ class FavoriteTest extends WebTestCase
         $userRepository = static::getContainer()->get(UserRepository::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         // retrieve the test user
-        $testUser = $userRepository->findOneBy(array('email' => 'test@local.de'));
+        $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
         $client->loginUser($testUser);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'This is a fixed room'));
+        $room = $roomRepo->findOneBy(['name' => 'This is a fixed room']);
         $manager->persist($room);
         $manager->flush();
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->followRedirects();
-        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', array('uid' => $room->getUidReal())));
+        $crawler = $client->request('GET', $urlGenerator->generate('room_favorite_toogle', ['uid' => $room->getUidReal()]));
 
         $this->assertEquals(
             1,

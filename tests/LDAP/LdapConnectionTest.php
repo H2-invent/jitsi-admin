@@ -39,7 +39,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setPassword('');
         $ldapConnection->setBindType('none');
         $ldap = $ldapConnection->createLDAP();
-        $this->assertEquals(self::$UserInLDAP, $ldapConnection->getLdap()->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', array('scope' => 'sub'))->execute()->count());
+        $this->assertEquals(self::$UserInLDAP, $ldapConnection->getLdap()->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', ['scope' => 'sub'])->execute()->count());
     }
 
     public function testConnectionMitLogin(): void
@@ -59,7 +59,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setBindType('simple');
         $ldapConnection->createLDAP();
         $ldap = $ldapConnection->getLdap();
-        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', array('scope' => 'sub'))->execute()->count());
+        $this->assertEquals(self::$UserInLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', ['scope' => 'sub'])->execute()->count());
     }
 
     public function testConnectionMitLoginOne(): void
@@ -78,7 +78,7 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setBindType('simple');
         $ldapConnection->createLDAP();
         $ldap = $ldapConnection->getLdap();
-        $this->assertEquals(self::$UserInOneLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', array('scope' => 'one'))->execute()->count());
+        $this->assertEquals(self::$UserInOneLDAP, $ldap->query('o=unitTest,dc=example,dc=com', '(&(|(objectclass=person)(objectclass=organizationalPerson)(objectclass=user))(&(mail=*)))', ['scope' => 'one'])->execute()->count());
     }
 
     public function testcreateObjectClass(): void
@@ -150,8 +150,8 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setSerVerId('Server1');
         $ldapConnection->setPassword('password');
         $ldapConnection->setScope('one');
-        $ldapConnection->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
-        $ldapConnection->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
+        $ldapConnection->setMapper(["firstName" => "givenName", "lastName" => "sn", "email" => "uid"]);
+        $ldapConnection->setSpecialFields(["ou" => "ou", "departmentNumber" => "departmentNumber"]);
         $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
         $ldapConnection->setBindType('none');
         $ldapConnection->setRdn('uid');
@@ -160,7 +160,6 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setUserNameAttribute('uid');
         $ldapConnection->setFilter('(&(mail=*))');
         $this->assertEquals(2, sizeof($ldapService->fetchLdap($ldapConnection)['user']));
-
     }
 
     public function testcreateFetchUserSub(): void
@@ -185,8 +184,8 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setSerVerId('Server1');
         $ldapConnection->setPassword('password');
         $ldapConnection->setScope('sub');
-        $ldapConnection->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
-        $ldapConnection->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
+        $ldapConnection->setMapper(["firstName" => "givenName", "lastName" => "sn", "email" => "uid"]);
+        $ldapConnection->setSpecialFields(["ou" => "ou", "departmentNumber" => "departmentNumber"]);
         $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
         $ldapConnection->setBindType('none');
         $ldapConnection->setRdn('uid');
@@ -268,8 +267,8 @@ class LdapConnectionTest extends KernelTestCase
         $ldapConnection->setBindDn('uid=admin,ou=system');
         $ldapConnection->setPassword('password');
         $ldapConnection->setBindType('simple');
-        $ldapService->setLdaps(array($ldapConnection));
-        self::assertEquals(true,$ldapService->connectToLdap());
+        $ldapService->setLdaps([$ldapConnection]);
+        self::assertEquals(true, $ldapService->connectToLdap());
         self::assertTrue($ldapConnection->isHealthy());
     }
 
@@ -284,12 +283,12 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapConnection = new LdapType();
-        $ldapConnection->setUrl($this->LDAPURL.'failure');
+        $ldapConnection->setUrl($this->LDAPURL . 'failure');
         $ldapConnection->setBindDn('uid=admin,ou=system');
         $ldapConnection->setPassword('password');
         $ldapConnection->setBindType('simple');
-        $ldapService->setLdaps(array($ldapConnection));
-        self::assertEquals(false,$ldapService->connectToLdap());
+        $ldapService->setLdaps([$ldapConnection]);
+        self::assertEquals(false, $ldapService->connectToLdap());
         self::assertFalse($ldapConnection->isHealthy());
     }
 
@@ -303,9 +302,7 @@ class LdapConnectionTest extends KernelTestCase
 
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
-        self::assertEquals(2,$ldapService->readLdapConfig());
-
-
+        self::assertEquals(2, $ldapService->readLdapConfig());
     }
 
     public function testCreateLdapConnection(): void
@@ -318,9 +315,9 @@ class LdapConnectionTest extends KernelTestCase
 
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
-        self::assertEquals(true,$ldapService->readLdapConfig());
-        self::assertEquals(2,$ldapService->createLdapConnections());
-        self::assertEquals(2,sizeof($ldapService->getLdaps()));
+        self::assertEquals(true, $ldapService->readLdapConfig());
+        self::assertEquals(2, $ldapService->createLdapConnections());
+        self::assertEquals(2, sizeof($ldapService->getLdaps()));
     }
 
     public function testinitLDAP(): void
@@ -333,10 +330,8 @@ class LdapConnectionTest extends KernelTestCase
 
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
-        self::assertEquals(true,$ldapService->initLdap());
-        self::assertEquals(2,$ldapService->createLdapConnections());
-        self::assertEquals(2,sizeof($ldapService->getLdaps()));
+        self::assertEquals(true, $ldapService->initLdap());
+        self::assertEquals(2, $ldapService->createLdapConnections());
+        self::assertEquals(2, sizeof($ldapService->getLdaps()));
     }
-
-
 }

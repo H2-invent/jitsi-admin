@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -17,10 +18,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-
 class UserServiceRemoveRoom
 {
-
     private $twig;
     private $notificationService;
     private $url;
@@ -44,18 +43,20 @@ class UserServiceRemoveRoom
 
         $url = $this->urlGenerator->generateUrl($room, $user);
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
-        $subject = $this->translator->trans('[Videokonferenz] Videokonferenz {name} abgesagt', array('{name}' => $room->getName()));
+        $subject = $this->translator->trans('[Videokonferenz] Videokonferenz {name} abgesagt', ['{name}' => $room->getName()]);
         $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
-        $attachement[] = array('type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()), 0, 10) . '.ics', 'body' => $ics);
+        $attachement[] = ['type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()), 0, 10) . '.ics', 'body' => $ics];
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room, $attachement);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Die Videokonferenz {name} wurde von {organizer} abgesagt.',
-                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
-                        '{name}' => $room->getName())),
+                $this->translator->trans(
+                    'Die Videokonferenz {name} wurde von {organizer} abgesagt.',
+                    ['{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                        '{name}' => $room->getName()]
+                ),
                 $user,
-                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                $this->url->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)
             );
         }
         return true;
@@ -66,14 +67,16 @@ class UserServiceRemoveRoom
         $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
         $subject = $this->translator->trans('[Videokonferenz] Videokonferenz abgesagt');
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
-        if (!UtilsHelper::isAllowedToOrganizeRoom($user,$room)) {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($user, $room)) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Die Videokonferenz {name} wurde von {organizer} abgesagt.',
-                    array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
-                        '{name}' => $room->getName())),
+                $this->translator->trans(
+                    'Die Videokonferenz {name} wurde von {organizer} abgesagt.',
+                    ['{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
+                        '{name}' => $room->getName()]
+                ),
                 $user,
-                $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
+                $this->url->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)
             );
         }
         return true;

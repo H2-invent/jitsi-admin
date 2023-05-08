@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Service\ReminderService;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,7 +24,7 @@ class CronSendReminderCommand extends Command
     {
 
         $this
-            ->addOption('host_url', 'u',InputOption::VALUE_OPTIONAL, 'Set the server-domain from which you want to send the reminder. this is a komma seperated list. Write null to send from a room with host_url null leave blank to send from all host_url')
+            ->addOption('host_url', 'u', InputOption::VALUE_OPTIONAL, 'Set the server-domain from which you want to send the reminder. this is a komma seperated list. Write null to send from a room with host_url null leave blank to send from all host_url')
             ->setDescription('Send a reminder to all users which are in a room in the next 10 min');
     }
 
@@ -42,7 +41,7 @@ class CronSendReminderCommand extends Command
                     $io->writeln('We select Rooms with an empty hostUrl');
                 } else {
                     $filter[] = $data;
-                    $io->writeln(sprintf('We select Rooms with %s',$data));
+                    $io->writeln(sprintf('We select Rooms with %s', $data));
                 }
             }
         }

@@ -2,8 +2,6 @@
 
 namespace App\Message;
 
-use Symfony\Component\Mailer\Transport;
-use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Email;
 
 class CustomMailerMessage
@@ -13,12 +11,15 @@ class CustomMailerMessage
     private $absender;
     private $roomId;
     private $to;
+
     public function __construct(string $dsn)
     {
 
         $this->dsn = $dsn;
     }
-    public function send(Email $email){
+
+    public function send(Email $email)
+    {
         $this->email = $email;
         return $this;
     }
@@ -103,6 +104,4 @@ class CustomMailerMessage
     {
         $this->to = $to;
     }
-
-
 }

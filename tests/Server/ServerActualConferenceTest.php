@@ -15,21 +15,20 @@ class ServerActualConferenceTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si2'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si2']);
         $this->assertSame('test', $kernel->getEnvironment());
         $serverService = self::getContainer()->get(ServerUserManagment::class);
         self::assertEquals(1, sizeof($serverService->getActualConference($server)));
 
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         self::assertEquals(0, sizeof($serverService->getActualConference($server)));
-
     }
 
     public function testActiveRoomsParticipants(): void
     {
         $kernel = self::bootKernel();
         $serverRepo = self::getContainer()->get(ServerRepository::class);
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si2'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si2']);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $serverService = self::getContainer()->get(ServerUserManagment::class);
         $part = $serverService->getActualParticipantsFromServer($server)[0];
@@ -45,7 +44,7 @@ class ServerActualConferenceTest extends KernelTestCase
         $manager->flush();
         self::assertEquals(2, sizeof($serverService->getActualParticipantsFromServer($server)));
 
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         self::assertEquals(0, sizeof($serverService->getActualParticipantsFromServer($server)));
     }
 }

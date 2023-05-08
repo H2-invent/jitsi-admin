@@ -8,19 +8,18 @@ use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Routing\RouterInterface;
 
 class LobbyLeaverMessageDispatcher implements MessageHandlerInterface
 {
-
     private LoggerInterface $logger;
     private $toModerator;
     private EntityManagerInterface $em;
 
     public function __construct(
-        LoggerInterface $logger,
+        LoggerInterface             $logger,
         ToModeratorWebsocketService $toModerator,
-        EntityManagerInterface $entityManager)
+        EntityManagerInterface      $entityManager
+    )
     {
         $this->logger = $logger;
         $this->toModerator = $toModerator;
@@ -29,7 +28,7 @@ class LobbyLeaverMessageDispatcher implements MessageHandlerInterface
 
     public function __invoke(LobbyLeaverMessage $lobbyLeaverMessage)
     {
-        $lobbyWaitingUSer = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $lobbyLeaverMessage->getId()));
+        $lobbyWaitingUSer = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $lobbyLeaverMessage->getId()]);
 
 
         if ($lobbyWaitingUSer) {

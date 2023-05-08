@@ -4,15 +4,12 @@ namespace App\Tests\Sumary;
 
 use App\Repository\RoomsRepository;
 use App\Service\Summary\CreateSummaryService;
-use App\Service\Whiteboard\WhiteboardJwtService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 class CreateSummaryTemplateServiceTest extends KernelTestCase
 {
-
-
     private $sampleSvgResult = '';
     public static $pdfHeader = '<!DOCTYPE html>
 <html>
@@ -192,7 +189,6 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
         parent::__construct($name, $data, $dataName);
 
         $this->sampleSvgResult = '<div class="page_break"></div><img src="data:image/svg+xml;base64,' . (base64_encode(CreateWhiteboardServiceTest::$sampleSvg)) . '"  style="width: 600px"/>';
-
     }
 
     public function testWhiteboardSuccess(): void
@@ -202,30 +198,43 @@ class CreateSummaryTemplateServiceTest extends KernelTestCase
 
 
         $responses = [
-            new MockResponse(CreateWhiteboardServiceTest::$sampleSvg, [
-                'http_code' => 200,
-            ]),
-            new MockResponse(CreateEtherpadServiceTest::$samplePadHtml, [
-                'http_code' => 200,
-            ])
+            new MockResponse(
+                CreateWhiteboardServiceTest::$sampleSvg,
+                [
+                    'http_code' => 200,
+                ]
+            ),
+            new MockResponse(
+                CreateEtherpadServiceTest::$samplePadHtml,
+                [
+                    'http_code' => 200,
+                ]
+            )
         ];
 
         $httpClient = new MockHttpClient($responses);
 
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $service = self::getContainer()->get(CreateSummaryService::class);
         $service->setHttpClient($httpClient);
         $whiteboardResponse = $service->createSummary($room);
 
 
-        self::assertSame(trim(preg_replace('~[\r\n\s]+~', '',$whiteboardResponse)),
-            trim(preg_replace('~[\r\n\s]+~', '',self::$pdfHeader .
-            sprintf(CreateHeaderServiceTest::$headerHtml, $room->getStart()->format('d.m.Y'),$room->getStart()->format('H:i'),$room->getEnddate()->format('H:i')).
-            $this->sampleSvgResult .
-            CreateEtherpadServiceTest::$samplePadREsult .
-            '
-</body></html>'))
+        self::assertSame(
+            trim(preg_replace('~[\r\n\s]+~', '', $whiteboardResponse)),
+            trim(
+                preg_replace(
+                    '~[\r\n\s]+~',
+                    '',
+                    self::$pdfHeader .
+                    sprintf(CreateHeaderServiceTest::$headerHtml, $room->getStart()->format('d.m.Y'), $room->getStart()->format('H:i'), $room->getEnddate()->format('H:i')) .
+                    $this->sampleSvgResult .
+                    CreateEtherpadServiceTest::$samplePadREsult .
+                    '
+</body></html>'
+                )
+            )
         );
 
         $this->assertSame('test', $kernel->getEnvironment());

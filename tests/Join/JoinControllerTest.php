@@ -17,12 +17,12 @@ class JoinControllerTest extends WebTestCase
         // retrieve the test user
         $testUser = $userRepository->findOneByUsername('test@local.de');
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 1'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/room/join/b/'.$room->getId());
+        $crawler = $client->request('GET', '/room/join/b/' . $room->getId());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIn19LCJtb2RlcmF0b3IiOnRydWV9.rgoK2HJlevbuRz1M3cIrkmJSARhQ6addjyaBG6zP4qU',$client->getResponse()->getContent());
+        self::assertStringContainsString('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgxIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyLCBUZXN0LCB0ZXN0QGxvY2FsLmRlIn19LCJtb2RlcmF0b3IiOnRydWV9.rgoK2HJlevbuRz1M3cIrkmJSARhQ6addjyaBG6zP4qU', $client->getResponse()->getContent());
     }
     public function testjoinRoomApp(): void
     {
@@ -31,13 +31,13 @@ class JoinControllerTest extends WebTestCase
         // retrieve the test user
         $testUser = $userRepository->findOneByUsername('test@local.de');
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 1'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);
         $client->loginUser($testUser);
-        $crawler = $client->request('GET', '/room/join/a/'.$room->getId());
+        $crawler = $client->request('GET', '/room/join/a/' . $room->getId());
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $jwtFactory = self::getContainer()->get(RoomService::class);
-        $jwt = $jwtFactory->generateJwt($room,$testUser,'User, Test, test@local.de');
-        $slugyfy= UtilsHelper::slugify($room->getName());
-        self::assertTrue($client->getResponse()->isRedirect('jitsi-meet://'.$room->getServer()->getUrl().'/'.$room->getUid().'?jwt='.$jwt.'#config.subject=%22'.$slugyfy.'%22'));
+        $jwt = $jwtFactory->generateJwt($room, $testUser, 'User, Test, test@local.de');
+        $slugyfy = UtilsHelper::slugify($room->getName());
+        self::assertTrue($client->getResponse()->isRedirect('jitsi-meet://' . $room->getServer()->getUrl() . '/' . $room->getUid() . '?jwt=' . $jwt . '#config.subject=%22' . $slugyfy . '%22'));
     }
 }

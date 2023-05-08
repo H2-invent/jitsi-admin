@@ -20,7 +20,7 @@ class PublicConferenceService
     {
         $roomname = UtilsHelper::slugify($roomName);
         $uid = md5($server->getUrl() . $roomname);
-        $room = $this->entityManager->getRepository(Rooms::class)->findOneBy(array('uid' => $uid, 'moderator' => null));
+        $room = $this->entityManager->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'moderator' => null]);
         if (!$room) {
             $room = new Rooms();
             $room->setServer($server)

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -17,7 +18,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-
 
 class UserService
 {
@@ -70,7 +70,6 @@ class UserService
         $this->callerUserService = $callerPrepareService;
         $this->createHttpsUrl = $createHttpsUrl;
         $this->joinUrlGenerator = $joinUrlGeneratorService;
-
     }
 
     function generateUrl(Rooms $room, User $user)
@@ -95,7 +94,6 @@ class UserService
             $this->callerUserService->createUserCallerIDforRoom($room);
             return $this->userAddService->addUserToRoom($user, $room);
         }
-
     }
 
     function addWaitinglist(User $user, Rooms $room)
@@ -106,20 +104,17 @@ class UserService
             $this->em->flush();
         }
         return $this->userAddService->addWaitinglist($user, $room);
-
     }
 
     function editRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
             return $this->userEditService->editRoomSchedule($user, $room);
-
         } elseif ($room->getPersistantRoom()) {
             return $this->userEditService->editPersistantRoom($user, $room);
         } else {
             return $this->userEditService->editRoom($user, $room);
         }
-
     }
 
     function removeRoom(User $user, Rooms $room)
@@ -132,7 +127,6 @@ class UserService
             if ($room->getEnddate() > new \DateTime()) {
                 $this->userRemoveService->removeRoom($user, $room);
             }
-
         }
         return true;
     }
@@ -141,26 +135,26 @@ class UserService
     {
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
-        $subject = $this->translator->trans('[Erinnerung] Videokonferenz {room} startet gleich', array('{room}' => $room->getName()));
+        $subject = $this->translator->trans('[Erinnerung] Videokonferenz {room} startet gleich', ['{room}' => $room->getName()]);
         $this->notificationService->sendCron($content, $subject, $user, $room->getServer(), $room);
 
 
-        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index_no_slug', array()), $room);
+        $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index_no_slug', []), $room);
 
         if ($this->licenseService->verify($room->getServer())) {
-            $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', array('slug' => $room->getServer()->getSlug())), $room);
+            $url = $this->createHttpsUrl->createHttpsUrl($this->url->generate('join_index', ['slug' => $room->getServer()->getSlug()]), $room);
         }
 
         $this->pushService->generatePushNotification(
             $subject,
-            $this->translator->trans('Die Videokonferenz {name} startet gleich.',
-                array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')),
-                    '{name}' => $room->getName())),
+            $this->translator->trans(
+                'Die Videokonferenz {name} startet gleich.',
+                ['{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')),
+                    '{name}' => $room->getName()]
+            ),
             $user,
             $url
         );
         return true;
     }
-
-
 }

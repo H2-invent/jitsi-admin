@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Service\TimeZoneService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 use function Doctrine\ORM\QueryBuilder;
 use function PHPUnit\Framework\returnArgument;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
@@ -63,12 +64,14 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                'deputy = :user'
-            ))
+            ->leftJoin('user.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->andWhere('r.endDateUtc > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
@@ -85,12 +88,14 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                'deputy = :user'
-            ))
+            ->leftJoin('user.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->andWhere('r.endDateUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
@@ -108,12 +113,14 @@ class RoomsRepository extends ServiceEntityRepository
         $now = new \DateTime();
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                'deputy = :user'
-            ))
+            ->leftJoin('user.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
             ->setParameter('user', $user)
@@ -129,12 +136,14 @@ class RoomsRepository extends ServiceEntityRepository
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                'deputy = :user'
-            ))
+            ->leftJoin('user.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->andWhere('r.endDateUtc > :now')
             ->andWhere('r.startUtc < :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
@@ -155,22 +164,26 @@ class RoomsRepository extends ServiceEntityRepository
 
         return $qb
             ->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                'deputy = :user'
-            ))
+            ->leftJoin('user.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
-            ->andWhere($qb->expr()->orX(
-                $qb->expr()->between('r.enddate', ':now', ':midnight'),
-                $qb->expr()->between('r.start', ':now', ':midnight'),
-                $qb->expr()->andX(
-                    $qb->expr()->gte('r.enddate', ':midnight'),
-                    $qb->expr()->lte('r.start', ':now')
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->between('r.enddate', ':now', ':midnight'),
+                    $qb->expr()->between('r.start', ':now', ':midnight'),
+                    $qb->expr()->andX(
+                        $qb->expr()->gte('r.enddate', ':midnight'),
+                        $qb->expr()->lte('r.start', ':now')
+                    )
                 )
-            ))
+            )
             ->setParameter('now', $now)
             ->setParameter('midnight', $midnight)
             ->setParameter('user', $user)
@@ -182,16 +195,17 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
-            ->leftJoin('rooms.moderator','moderator')
-            ->leftJoin('moderator.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                $qb->expr()->andX(
-                    'deputy = :user',
-                    'rooms.creator != rooms.moderator'
+            ->leftJoin('rooms.moderator', 'moderator')
+            ->leftJoin('moderator.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    $qb->expr()->andX(
+                        'deputy = :user',
+                        'rooms.creator != rooms.moderator'
+                    )
                 )
-            )
             )
             ->setParameter('user', $user)
             ->andWhere('rooms.scheduleMeeting = true');
@@ -203,16 +217,17 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('rooms');
         $qb->innerJoin('rooms.user', 'user')
-            ->leftJoin('rooms.moderator','moderator')
-            ->leftJoin('moderator.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                $qb->expr()->andX(
-                    'deputy = :user',
-                    'rooms.creator != rooms.moderator'
+            ->leftJoin('rooms.moderator', 'moderator')
+            ->leftJoin('moderator.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    $qb->expr()->andX(
+                        'deputy = :user',
+                        'rooms.creator != rooms.moderator'
+                    )
                 )
-            )
             )
             ->setParameter('user', $user)
             ->andWhere('rooms.persistantRoom = true');
@@ -224,12 +239,14 @@ class RoomsRepository extends ServiceEntityRepository
         $now = (new \DateTime())->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement','managerelement')
-            ->leftJoin('managerelement.deputy','deputy')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-                'deputy = :user'
-            ))
+            ->leftJoin('user.managerElement', 'managerelement')
+            ->leftJoin('managerelement.deputy', 'deputy')
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                    'deputy = :user'
+                )
+            )
             ->andWhere('r.enddate > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))
@@ -244,9 +261,11 @@ class RoomsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.favoriteUsers', 'user')
-            ->andWhere($qb->expr()->orX(
-                'user = :user',
-            ))
+            ->andWhere(
+                $qb->expr()->orX(
+                    'user = :user',
+                )
+            )
             ->setParameter('user', $user)
             ->addSelect('CASE WHEN r.start IS NULL THEN 1 ELSE 0 END as HIDDEN list_order_is_null')
             ->addOrderBy('list_order_is_null', 'DESC') // always ASC

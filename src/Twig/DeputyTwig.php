@@ -1,6 +1,8 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
+
 use App\Entity\Deputy;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,12 +11,8 @@ use Twig\TwigFunction;
 
 class DeputyTwig extends AbstractExtension
 {
-
-
-
     public function __construct(private EntityManagerInterface $entityManager)
     {
-
     }
 
     public function getFunctions(): array
@@ -27,12 +25,10 @@ class DeputyTwig extends AbstractExtension
 
     public function deputyIsFromLDAP(User $manager, User $deputy)
     {
-        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(array('manager'=>$manager,'deputy'=>$deputy));
-        if ($dep && $dep->isIsFromLdap()){
+        $dep = $this->entityManager->getRepository(Deputy::class)->findOneBy(['manager' => $manager, 'deputy' => $deputy]);
+        if ($dep && $dep->isIsFromLdap()) {
             return true;
         }
         return false;
     }
-
-
 }

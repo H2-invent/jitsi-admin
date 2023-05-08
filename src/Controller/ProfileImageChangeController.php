@@ -7,7 +7,6 @@ use App\Form\Type\ProfileImageType;
 use App\Form\Type\SecondEmailType;
 use App\Form\Type\TimeZoneType;
 use App\Helper\JitsiAdminController;
-
 use http\Exception\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-
 class ProfileImageChangeController extends JitsiAdminController
 {
-
-
     /**
      * @Route("/room/profileImage/change", name="profile_image_change")
      */
@@ -29,10 +25,13 @@ class ProfileImageChangeController extends JitsiAdminController
     {
         $user = $this->getUser();
         $form = $this->createForm(ProfileImageType::class, $user, ['action' => $this->generateUrl('profile_image_save')]);
-        return $this->render('time_zone/index.html.twig', array(
-            'form' => $form->createView(),
-            'title' => $translator->trans('second.email.title')
-        ));
+        return $this->render(
+            'time_zone/index.html.twig',
+            [
+                'form' => $form->createView(),
+                'title' => $translator->trans('second.email.title')
+            ]
+        );
     }
 
     /**
@@ -47,11 +46,10 @@ class ProfileImageChangeController extends JitsiAdminController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $user = $form->getData();
                 $error = $validator->validate($user->getProfilePicture());
-                if (sizeof($error)){
-                    foreach ($error as $data){
+                if (sizeof($error)) {
+                    foreach ($error as $data) {
                         $this->addFlash('danger', $data->getMessage());
                     }
 
@@ -87,7 +85,7 @@ class ProfileImageChangeController extends JitsiAdminController
             $this->addFlash('danger', $translator->trans('Fehler'));
             return $this->redirectToRoute('dashboard');
         }
-        $this->addFlash('success', $translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}', array('{secondEmails}' => $user->getSecondEmail())));
+        $this->addFlash('success', $translator->trans('CC-E-Mails erfolgreich geändert auf: {secondEmails}', ['{secondEmails}' => $user->getSecondEmail()]));
         return $this->redirectToRoute('dashboard');
     }
 }

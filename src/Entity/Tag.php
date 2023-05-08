@@ -19,7 +19,7 @@ class Tag
     #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'tag')]
     private $rooms;
     #[ORM\Column(type: 'boolean')]
-    private $disabled=false;
+    private $disabled = false;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $priority;
     #[ORM\Column(type: 'text', nullable: true)]

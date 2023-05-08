@@ -1,19 +1,16 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
-
 
 use App\Entity\Rooms;
 use App\Service\CreateHttpsUrl;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-
 class HttpsAbsolutUrl extends AbstractExtension
 {
-
     private $httpsUrl;
     private $paramterBag;
 
@@ -34,6 +31,5 @@ class HttpsAbsolutUrl extends AbstractExtension
     public function httpsAbolutUrl($url, ?Rooms $rooms = null)
     {
         return $this->httpsUrl->createHttpsUrl($url, $rooms);
-
     }
 }

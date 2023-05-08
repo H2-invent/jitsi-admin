@@ -13,15 +13,13 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class RenameServerNameTest extends KernelTestCase
 {
-
-
     public function testSomething(): void
     {
         $kernel = self::bootKernel();
 
         $serverRepo = $this->getContainer()->get(ServerRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $serverrename = $this->getContainer()->get(RenameServerService::class);
         $s = new Server();
         $s->setUrl('testRename.de');
@@ -32,19 +30,19 @@ class RenameServerNameTest extends KernelTestCase
         $s->setJwtModeratorPosition(1);
         $s->setAdministrator($user);
         $s->addUser($user);
-        $server = array();
+        $server = [];
         $server[] = $s;
         $serverrename->renameServer($server);
-        $serverTmp = $serverRepo->findOneBy(array('url'=>'testRename.de'));
-        $this->assertEquals('testRename.de',$serverTmp->getServerName());
-        $this->assertEquals(1,sizeof($server));
+        $serverTmp = $serverRepo->findOneBy(['url' => 'testRename.de']);
+        $this->assertEquals('testRename.de', $serverTmp->getServerName());
+        $this->assertEquals(1, sizeof($server));
         $s->setServerName(null);
-        $server = array();
+        $server = [];
         $server[] = $s;
         $serverrename->renameServer($server);
-        $serverTmp = $serverRepo->findOneBy(array('url'=>'testRename.de'));
-        $this->assertEquals('testRename.de',$serverTmp->getServerName());
-        $this->assertEquals(1,sizeof($server));
+        $serverTmp = $serverRepo->findOneBy(['url' => 'testRename.de']);
+        $this->assertEquals('testRename.de', $serverTmp->getServerName());
+        $this->assertEquals(1, sizeof($server));
     }
     public function testExecute()
     {
@@ -52,7 +50,7 @@ class RenameServerNameTest extends KernelTestCase
         $em = $this->getContainer()->get(EntityManagerInterface::class);
         $serverRepo = $this->getContainer()->get(ServerRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
         $serverrename = $this->getContainer()->get(RenameServerService::class);
         $s = new Server();
         $s->setUrl('testRename.de');
@@ -68,7 +66,7 @@ class RenameServerNameTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:migrate:servername');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array());
+        $commandTester->execute([]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [INFO] We rename the server with the url testRename.de', $output);
         $this->assertStringContainsString(' [OK] We rename # 1', $output);

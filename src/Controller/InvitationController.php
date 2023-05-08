@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\InviteService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +19,7 @@ class InvitationController extends JitsiAdminController
     public function index(InviteService $inviteService, User $user, Request $request): Response
     {
 
-        $inviteService->connectUserWithEmail($user,$this->getUser());
+        $inviteService->connectUserWithEmail($user, $this->getUser());
         return $this->redirectToRoute('dashboard');
     }
 }

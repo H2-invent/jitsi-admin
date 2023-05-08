@@ -23,7 +23,7 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
         private string $clientSecret,
     )
     {
-        if(str_ends_with($this->url, '/auth')) {
+        if (str_ends_with($this->url, '/auth')) {
             $this->url = str_replace('/auth', '', $this->url);
         }
     }
@@ -74,7 +74,8 @@ class KeycloakConfig implements ConvertToEnvironmentInterface
         return $this->clientSecret;
     }
 
-    public function version(): int{
+    public function version(): int
+    {
         return $this->version;
     }
 }
