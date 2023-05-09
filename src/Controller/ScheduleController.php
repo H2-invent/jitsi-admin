@@ -14,12 +14,13 @@ use App\Service\PexelService;
 use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
 use App\Service\ServerUserManagment;
-use App\Service\ThemeService;
 use App\Service\UserService;
+use App\Util\CsvHandler;
 use App\UtilsHelper;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -196,7 +197,7 @@ class ScheduleController extends JitsiAdminController
             }
             $em = $this->doctrine->getManager();
             $scheduleTime = new SchedulingTime();
-            $scheduleTime->setTime(new \DateTime($request->get('date')));
+            $scheduleTime->setTime(new DateTime($request->get('date')));
             $scheduleTime->setScheduling($schedule);
             $em->persist($schedule);
             $em->persist($scheduleTime);
@@ -295,5 +296,89 @@ class ScheduleController extends JitsiAdminController
         $em->persist($scheduleTimeUser);
         $em->flush();
         return new JsonResponse(array('error' => false, 'text' => $translator->trans('common.success.save'), 'color' => 'success'));
+    }
+
+    #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
+    #[ParamConverter(data: 'room', class: Rooms::class)]
+    public function generateVoteCsv(Rooms $room): Response
+    {
+        $votingsAndTimes = $this->getUserVotes($room);
+        $votings = $this->fillAllVotings($votingsAndTimes['user'], array_unique($votingsAndTimes['times']));
+        $csv = implode(PHP_EOL, CsvHandler::generateFromArray($votings));
+        $response = new Response($csv);
+
+        $response->headers->set(
+            'Content-Disposition',
+            HeaderUtils::makeDisposition(
+                HeaderUtils::DISPOSITION_ATTACHMENT,
+                $room->getName() . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
+            )
+        );
+
+        return $response;
+    }
+
+    private function getVoteString(int $vote): ?string
+    {
+        return match ($vote) {
+            0 => $this->translator->trans(id: 'Ja', domain: 'messages'),
+            1 => $this->translator->trans(id: 'Nein', domain: 'messages'),
+            2 => $this->translator->trans(id: 'Vielleicht', domain: 'messages'),
+            default => null,
+        };
+    }
+
+    private function getUserVotes(Rooms $room): array
+    {
+        $votings = [];
+
+        foreach ($room->getSchedulings() as $scheduling) {
+            foreach ($scheduling->getSchedulingTimes() as $schedulingTime) {
+                $schedulingTimeString = $schedulingTime->getTime()->format('d-m-Y H:i:s');
+                $votings['times'][] = $schedulingTimeString;
+
+                foreach ($schedulingTime->getSchedulingTimeUsers() as $schedulingTimeUser) {
+                    $user = $schedulingTimeUser->getUser();
+                    $name = implode(' ', [$user->getFirstName(), $user->getLastName()]);
+                    $vote = $this->getVoteString($schedulingTimeUser->getAccept());
+
+                    if (!isset($votings['user'][$user->getId()])) {
+                        $votings['user'][$user->getId()] = [
+                            'Name' => $name,
+                            'Email' => $user->getEmail(),
+                        ];
+                    }
+
+                    $votings['user'][$user->getId()][$schedulingTimeString] = $vote;
+                }
+            }
+        }
+
+        return $votings;
+    }
+
+    private function fillAllVotings(array $userVotings, array $times): array
+    {
+        $filledUpVotings = [];
+        sort($times);
+
+        foreach ($userVotings as $userVoting) {
+            $filledUpVoting = [
+                'Name' => $userVoting['Name'],
+                'Email' => $userVoting['Email'],
+            ];
+
+            foreach ($times as $time) {
+                if (isset($userVoting[$time])) {
+                    $filledUpVoting[$time] = $userVoting[$time];
+                } else {
+                    $filledUpVoting[$time] = 'null';
+                }
+            }
+
+            $filledUpVotings[] = $filledUpVoting;
+        }
+
+        return $filledUpVotings;
     }
 }
