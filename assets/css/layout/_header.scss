@@ -172,12 +172,17 @@ label.required:after {
   .triggerHide:hover .element {
     visibility: visible;
     opacity: 1;
-    transition: visibility 0s linear 0s, opacity 500ms;
+    transition-property: opacity, visibility;
+    transition-duration: 200ms,0ms ;
+    transition-delay: 0ms,0ms;
   }
   .triggerHide .element {
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s linear 0s, opacity 500ms;
+    transition: visibility 0s linear 500ms, opacity 500ms;
+    transition-property: opacity, visibility;
+    transition-duration: 500ms,500ms ;
+    transition-delay: 500ms,700ms;
   }
 
 }

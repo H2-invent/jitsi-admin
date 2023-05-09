@@ -20,6 +20,9 @@ function searchUSers(inputField) {
     var value = $(inputField).val().toLowerCase();
     var $list = $(inputField).closest('.textarea').find('.adressbookline');
     $list.filter(function () {
+        if (!$(this).data('indexer')){
+            return;
+        }
         var indexer = $(this).data('indexer').toLowerCase();
         var res = indexer.indexOf(value) > -1;
         if (!res) {

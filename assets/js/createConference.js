@@ -3,7 +3,7 @@ import {setSnackbar} from "./myToastr";
 import Moveable from "moveable";
 import {Tooltip} from 'mdb-ui-kit';
 import $ from "jquery";
-import {setCookie,getCookie} from './cookie'
+import {setCookie, getCookie} from './cookie'
 
 let counter = 50;
 let zindex = 10
@@ -18,6 +18,7 @@ let startx = null;
 let starty = null;
 let tryfullscreen = null;
 let startTransform = null;
+let messageTimeout = {};
 
 function initStartIframe() {
 
@@ -143,11 +144,11 @@ function createIframe(url, title, closeIntelligent = true, startMaximized = true
     if (closeIntelligent) {
         setTimeout(function () {
             sendCommand('jitsiadminiframe' + random, {type: 'init'});
-        }, 5000)
+        }, 7000)
     }
     counter += 40;
     if (startMaximized) {
-        if (getCookie('startMaximized') && getCookie('startMaximized') == 1){
+        if (getCookie('startMaximized') && getCookie('startMaximized') == 1) {
             document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
         }
     }
@@ -224,7 +225,7 @@ function prepareMaximize(e) {
 }
 
 function maximizeWindow(e) {
-    setCookie('startMaximized',1,365)
+    setCookie('startMaximized', 1, 365)
     var frame = e.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
@@ -248,7 +249,7 @@ function maximizeWindow(e) {
 }
 
 function restoreWindow(e) {
-    setCookie('startMaximized',0,365)
+    setCookie('startMaximized', 0, 365)
     var frame = e.currentTarget.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
@@ -277,11 +278,11 @@ function sendCommand(id, message) {
     message.messageId = messageId;
     ele.contentWindow.postMessage(JSON.stringify(message), '*');
     messages[messageId] = id;
-    setTimeout(function (e) {
-        if (messages[messageId]) {
-            closeIframe(messages[messageId]);
-        }
-    }, 10000)
+    messageTimeout[messageId] = setTimeout(closeWhenNoAck, 10000,id)
+}
+
+function closeWhenNoAck(messageId) {
+    closeIframe(messages[messageId]);
 }
 
 function recievecommand(data) {
@@ -302,14 +303,19 @@ function recievecommand(data) {
         checkIfIsMutable(frame);
     } else if (type === 'ack') {
         var messageId = decoded.messageId
-        delete messages[messageId];
+        clearTimeout(messageTimeout[messageId]);
+        delete messageTimeout[messageId];
     }
 }
 
 function closeIframe(id) {
-    document.getElementById(id).remove();
-    removeInteraction();
-    $('.tooltip').remove();
+    var $iframe = document.getElementById(id);
+    if ($iframe) {
+        document.getElementById(id).remove();
+        removeInteraction();
+        $('.tooltip').remove();
+    }
+
 }
 
 function removeInteraction() {

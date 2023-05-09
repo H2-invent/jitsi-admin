@@ -1012,13 +1012,14 @@ a:hover {
 }
 
 .btn-darkred {
+  color: #A10808;
+  &:hover{
+    color: lighten(#A10808, 10%);
+  }
   &[class*='btn-outline'] {
     border-color: #A10808;
-    color: #A10808;
-
     &:hover {
       border-color: lighten(#A10808, 10%);
-      color: lighten(#A10808, 10%);
     }
   }
 }
