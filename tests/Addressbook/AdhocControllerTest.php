@@ -57,7 +57,7 @@ class AdhocControllerTest extends WebTestCase
                 ['redirectUrl' => '/room/dashboard',
                     'popups' => [
                         [
-                            'url' => '/room/join/b/' . $room->getId(),
+                            'url' => 'http://localhost/room/join/b/' . $room->getId(),
                             'title' => 'Konferenz mit Test2, 1234, User2, Test2']
                     ]
                 ]
@@ -121,7 +121,7 @@ class AdhocControllerTest extends WebTestCase
                     'redirectUrl' => '/room/dashboard',
                     'popups' => [
                         [
-                            'url' => '/room/join/b/' . $room->getId(),
+                            'url' => 'http://localhost/room/join/b/' . $room->getId(),
                             'title' => 'Konferenz mit Test2, 1234, User2, Test2']
                     ]
                 ]
