@@ -12,6 +12,7 @@ label.start: Iniciar
 label.dauerKonferenz: Duración de la conferencia
 label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia.
 label.speichern: Guardar
+label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 minutos
 option.30min: 30 minutos
 option.45min: 45 minutos
@@ -139,7 +140,7 @@ label:
   jigasiNumberUrl: Números de acceso Jigasi en formato JSON
   jigasiProsodyDomain: Dominio de Prosodi Jigasi
   go: Los gehts!
-  moderator: Seleccionar organizador
+  moderator: Organisator auswählen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
