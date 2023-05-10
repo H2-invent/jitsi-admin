@@ -15,7 +15,7 @@ class JoinPublicTest extends WebTestCase
     public function testNoServer(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/join');
+        $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
         $this->assertStringNotContainsString('https://privacy.dev', $client->getResponse()->getContent());
@@ -27,7 +27,7 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $serverRepo = $this->getContainer()->get(ServerRepository::class);
         $server = $serverRepo->findOneBy(['url' => 'meet.jit.si2']);
-        $crawler = $client->request('GET', '/join/' . $server->getSlug());
+        $client->request('GET', '/join/' . $server->getSlug());
         $this->assertResponseIsSuccessful();
         $this->assertStringContainsString('https://test.img', $client->getResponse()->getContent());
     }
@@ -37,12 +37,12 @@ class JoinPublicTest extends WebTestCase
         $client = static::createClient();
         $serverRepo = $this->getContainer()->get(ServerRepository::class);
         $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
-        $crawler = $client->request('GET', '/join/' . $server->getSlug());
+        $client->request('GET', '/join/' . $server->getSlug());
         $this->assertResponseIsSuccessful();
         $this->assertStringContainsString('https://privacy.dev', $client->getResponse()->getContent());
     }
 
-    public function testJoinConference_Open_Correctuser_Userisloginuser_Correctroomnumber(): void
+    public function testJoinConferenceOpenCorrectUserUserIsLoginUserCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -71,7 +71,8 @@ class JoinPublicTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
-    public function testJoin_ConferenceOpen_CorrectuserUser_isnoLoginuser_Correctroomnumber(): void
+
+    public function testJoinConferenceOpenCorrectuserUserIsNoLoginUserCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -100,7 +101,8 @@ class JoinPublicTest extends WebTestCase
         $url = $urlGen->joinUrl('a', $room, 'Test User 123', false);
         $this->assertTrue($client->getResponse()->isRedirect($url));
     }
-    public function testJoin_ConferenceClosed_Correctuser_Userisnologinuser_Correctroomnumber(): void
+
+    public function testJoinConferenceClosedCorrectUserUserIsNotLoginUserCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $session = new Session(new MockArraySessionStorage());
@@ -118,10 +120,15 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $res = 'Der Beitritt ist nur von ' . ($room->getStart())->modify('-30min')->format('d.m.Y H:i T') . ' bis ' . ($room->getEnddate())->format('d.m.Y H:i T') . ' möglich';
+        $res = 'Der Beitritt ist nur von ' .
+            ($room->getStart())->modify('-30min')->format('d.m.Y H:i T') .
+            ' bis ' .
+            ($room->getEnddate())->format('d.m.Y H:i T') .
+            ' möglich';
         $this->assertSelectorTextContains('.innerOnce', $res);
     }
-    public function testJoin_ConferenceClosed_Correctuser_Userisloginuser_Correctroomnumber(): void
+
+    public function testJoinConferenceClosedCorrectUserUserIsLoginUserCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -139,7 +146,8 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/b/' . $room->getId()));
     }
-    public function testJoin_ConferenceClosed_CorrectuserUser_loginuser_Userismoderator_Correctroomnumber(): void
+
+    public function testJoinConferenceClosedCorrectUserUserIsLoginUserUserIsModeratorCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -165,7 +173,8 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
     }
-    public function testJoin_ConferenceOpen_CorrectuserUser_loginuser_Userismoderator_Correctroomnumber(): void
+
+    public function testJoinConferenceOpenCorrectUserUserLoginUserUserIsModeratorCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -190,7 +199,8 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
     }
-    public function testJoin_Conference_Notcorrectuser_User(): void
+
+    public function testJoinConferenceNotCorrectUser(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -206,9 +216,13 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.innerOnce', 'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
+        $this->assertSelectorTextContains(
+            '.innerOnce',
+            'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.'
+        );
     }
-    public function testJoin_Conference_NotcorrectRoom(): void
+
+    public function testJoinConferenceNotCorrectRoom(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -224,9 +238,13 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.snackbar', 'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
+        $this->assertSelectorTextContains(
+            '.snackbar',
+            'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.'
+        );
     }
-    public function testJoin_Conference_UserDoesNotexist(): void
+
+    public function testJoinConferenceUserDoesNotExist(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -242,9 +260,13 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = 'usernotexits@local6.de';
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.snackbar', 'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
+        $this->assertSelectorTextContains(
+            '.snackbar',
+            'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.'
+        );
     }
-    public function testJoin_Conference_fixedroom_Correctuser_Userloginuser_Userismoderator_Correctroomnumber(): void
+
+    public function testJoinConferenceFixedRoomCorrectUserUserLoginUserUserIsModeratorCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -269,7 +291,8 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
     }
-    public function testJoinConference_fixedroom_CorrectuserUser_loginuser_Correctroomnumber(): void
+
+    public function testJoinConferenceFixedRoomCorrectUserUserLoginUserCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -295,7 +318,8 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect('/room/join/a/' . $room->getId()));
     }
-    public function testJoinConference_fixedroom_Correctuser_Usernologinuser_Correctroomnumber(): void
+
+    public function testJoinConferenceFixedRoomCorrectUserUserNoLoginUserCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -314,9 +338,13 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertSelectorTextContains('title', 'This is a fixed room');
         $this->assertStringContainsString('<title>This is a fixed room</title>', $client->getResponse()->getContent());
-        $this->assertStringContainsString('https://' . $room->getServer()->getUrl() . '/external_api.js', $client->getResponse()->getContent());
+        $this->assertStringContainsString(
+            'https://' . $room->getServer()->getUrl() . '/external_api.js', $client->getResponse()->getContent()
+        );
         $this->assertStringContainsString("roomName: '" . $room->getUid() . "',", $client->getResponse()->getContent());
-        $this->assertStringContainsString("jwt: '" . $roomService->generateJwt($room, $user, 'Test User 123') . "',", $client->getResponse()->getContent());
+        $this->assertStringContainsString(
+            "jwt: '" . $roomService->generateJwt($room, $user, 'Test User 123') . "',", $client->getResponse()->getContent()
+        );
         $buttonCrawlerNode = $crawler->selectButton('Mit der Elektron-App beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_view[uid]'] = $room->getUid();
@@ -325,7 +353,8 @@ class JoinPublicTest extends WebTestCase
         $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect($roomService->join($room, $user, 'a', 'Test User 123')));
     }
-    public function testJoinConference_fixedroom_Nocorrectuser_Usernologinuser_Correctroomnumber(): void
+
+    public function testJoinConferenceFixedRoomNoCorrectUserUserNoLoginUserCorrectRoomNumber(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/join');
@@ -342,6 +371,9 @@ class JoinPublicTest extends WebTestCase
         $form['join_view[email]'] = $user->getEmail();
         $form['join_view[name]'] = 'Test User 123';
         $client->submit($form);
-        $this->assertSelectorTextContains('.snackbar', 'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.');
+        $this->assertSelectorTextContains(
+            '.snackbar',
+            'Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.'
+        );
     }
 }

@@ -6,16 +6,12 @@ use App\Entity\Rooms;
 use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class SchedulingService
 {
-    private $em;
-    private $userService;
-
-    public function __construct(EntityManagerInterface $entityManager, UserService $userService)
+    public function __construct(private EntityManagerInterface $em, private UserService $userService)
     {
-        $this->em = $entityManager;
-        $this->userService = $userService;
     }
 
     public function chooseTimeSlot(SchedulingTime $schedulingTime): ?bool
@@ -32,13 +28,13 @@ class SchedulingService
             foreach ($room->getUser() as $data) {
                 $this->userService->addUser($data, $room);
             }
-        } catch (\Exception $exception) {
+        } catch (Exception) {
             return false;
         }
         return true;
     }
 
-    public function createScheduling(Rooms $rooms)
+    public function createScheduling(Rooms $rooms): void
     {
         if (sizeof($rooms->getSchedulings()->toArray()) < 1) {
             $schedule = new Scheduling();

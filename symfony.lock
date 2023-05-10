@@ -189,9 +189,6 @@
     "laminas/laminas-escaper": {
         "version": "2.6.1"
     },
-    "lcobucci/clock": {
-        "version": "2.0.0"
-    },
     "lcobucci/jwt": {
         "version": "4.0.4"
     },
@@ -359,9 +356,6 @@
     },
     "sebastian/recursion-context": {
         "version": "4.0.4"
-    },
-    "sebastian/resource-operations": {
-        "version": "3.0.3"
     },
     "sebastian/type": {
         "version": "2.3.1"

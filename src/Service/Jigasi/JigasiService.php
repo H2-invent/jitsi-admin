@@ -36,7 +36,11 @@ class JigasiService
         if ($server && $this->licenseService->verify($server) && $server->getJigasiNumberUrl()) {
             try {
                 $responseArr = json_decode($server->getJigasiNumberUrl(), true);
-                $numbers = $responseArr['numbers'];
+                $numbers = null;
+
+                if (isset($responseArr['numbers'])) {
+                    $numbers = $responseArr['numbers'];
+                }
             } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage());
                 return null;
