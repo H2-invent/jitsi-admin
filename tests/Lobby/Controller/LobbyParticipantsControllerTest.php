@@ -169,7 +169,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $this->assertCount(1, $transport->get());
     }
 
-    public function testHEalthcheck(): void
+    public function testHealthcheck(): void
     {
         $client = static::createClient();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);

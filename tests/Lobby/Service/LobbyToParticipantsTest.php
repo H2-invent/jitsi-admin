@@ -96,7 +96,7 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyToParticipant->acceptLobbyUser($lobbyUser);
     }
 
-    public function testinBrowser(): void
+    public function testInBrowser(): void
     {
         $kernel = self::bootKernel();
 
