@@ -1,14 +1,21 @@
 name: Build Pipeline
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ["Development Pipeline"]
+    types:
+      - completed
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-
+      # region setup
+      # region checkout
+      - name: GIT PULL
+        uses: actions/checkout@v3
+      # endregion checkout
+      # region create_version
       - name: Write Version
         uses: jacobtomlinson/gha-find-replace@v3
         with:
@@ -16,25 +23,44 @@ jobs:
           replace: "laF_version=GITHUB.${{github.run_number}}"
           regex: false
           include: ".env.local"
-      - name: Install PHP Dependencies
-        uses: php-actions/composer@v6
+      # endregion create_version
+      # region install_php
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
         with:
-          php_version: "8.2"
-          php_extensions: ldap xsl zip
-      - name: Install NPM Packages
+          php-version: '8.2'
+          tools: composer ldap xsl zip
+      # endregion install_php
+      # region install_composer
+      - name: Composer install
+        run: composer install --no-dev
+      # endregion install_composer
+      # region install_node
+      - name: Install Node Packages
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
+      # endregion install_node
+      # region install_npm
+      - name: Install npm packages
+        run: npm install
+      # endregion install_npm
+      # endregion setup
+      # region build
+      # region create_local_env
+      - name: Move Env Variable
+        run: cp ./.env.sample ./.env.local
+      # endregion create_local_env
+      # region build_npm
       - name: Build the Application JS ans CSS
-        run: |
-          npm install
-          npm run build
-
+        run: npm run build
+      # endregion build_npm
+      # region build_websocket
       - name: Build Websocket
         working-directory: nodejs/
         run: npm install
-
+      # endregion build_websocket
+      # region clean_up_build
       - name: Clean up Build
         run: |
           sudo chown -R $USER:$USER ./var
@@ -42,24 +68,29 @@ jobs:
           rm -rf ./node_modules
           rm -rf ./.github
           rm -rf ./.git
-
-      - name: Move Env Variable
-        run: cp ./.env.sample ./.env.local
-
+          rm -rf ./tests
+          rm .env.sample phpunit.xml.dist phpunit.xml.dist.bak
+      # endregion clean_up_build
+      # endregion build
+      # region artifact
+      # region create_zip
       - name: zip Application
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r jitsi-admin.zip .
-
+      # endregion create_zip
+      # region upload_artifact
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: jitsi_admin_GITHUB_CI_${{github.run_number}}
           path: jitsi-admin.zip
-
+      # endregion upload_artifact
+      # region upload_websocket_artifact
       - name: Upload Artifact Websocket
         uses: actions/upload-artifact@v3
         with:
           name: JA_websocket_GITHUB_CI_${{github.run_number}}
           path: nodejs/
-    # ... then your own project steps ...
+      # endregion upload_websocket_artifact
+      # endregion artifact

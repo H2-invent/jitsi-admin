@@ -11,6 +11,7 @@
 >
   <coverage/>
   <php>
+    <ini name="date.timezone" value="Europe/Berlin"/>
     <ini name="error_reporting" value="-1"/>
     <server name="APP_ENV" value="test" force="true"/>
     <server name="SHELL_VERBOSITY" value="-1"/>
