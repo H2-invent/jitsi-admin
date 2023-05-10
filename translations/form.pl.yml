@@ -12,6 +12,7 @@ label.start: Rozpocznij
 label.dauerKonferenz: Czas trwania konferencji
 label.nurRegistriertenutzer: Tylko zarejestrowani użytkownicy mogą dołączyć do konferencji.
 label.speichern: Zapisz
+label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 minut
 option.30min: 30 minut
 option.45min: 45 minut
