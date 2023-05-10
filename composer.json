@@ -137,10 +137,17 @@
       "@db-migrate --env=test",
       "@db-fixtures-test"
     ],
-    "test": [
+    "test-prepare": [
       "@db-reset-test",
-      "@db-fixtures-test",
-      "php vendor/bin/phpunit"
+      "Composer\\Config::disableProcessTimeout"
+    ],
+    "test": [
+      "@test-prepare",
+      "SYMFONY_DEPRECATIONS_HELPER='disabled=1' php vendor/bin/phpunit --testsuite=Development"
+    ],
+    "test-complete": [
+      "@test-prepare",
+      "SYMFONY_DEPRECATIONS_HELPER='disabled=1' php vendor/bin/phpunit --testsuite=Complete"
     ]
   },
   "conflict": {
