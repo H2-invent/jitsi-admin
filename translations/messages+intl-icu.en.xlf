@@ -1684,11 +1684,11 @@
       </trans-unit>
       <trans-unit id="jjTtEi5" resname="email.sip.text">
         <source>email.sip.text</source>
-        <target state="needs-translation">Sie können sich auch einfach per Telefon in die Konferenz einwählen.</target>
+        <target state="translated">You can also simply dial into the conference by phone.</target>
       </trans-unit>
       <trans-unit id="yYT7KvW" resname="email.sip.number">
         <source>email.sip.number</source>
-        <target state="needs-translation">Einwahlnummern</target>
+        <target state="translated">Dial-in numbers</target>
       </trans-unit>
       <trans-unit id="ATAJQ4B" resname="email.sip.pin">
         <source>email.sip.pin</source>
@@ -1696,15 +1696,15 @@
       </trans-unit>
       <trans-unit id="egctRia" resname="enterprise.settings.header.sip">
         <source>enterprise.settings.header.sip</source>
-        <target state="needs-translation">Jigasi SIP-Einwahldaten</target>
+        <target state="translated">Jigasi SIP dial-up data</target>
       </trans-unit>
       <trans-unit id="ijp6Gol" resname="statistic.real.participants">
         <source>statistic.real.participants</source>
-        <target state="needs-translation">Anzahl reale Teilnehmende</target>
+        <target state="translated">Number of real participants</target>
       </trans-unit>
       <trans-unit id="uwdp59B" resname="email.sip.roomnumber">
         <source>email.sip.roomnumber</source>
-        <target state="needs-translation">Raumnummer</target>
+        <target state="translated">Room number</target>
       </trans-unit>
       <trans-unit id="77UF_55" resname="status.offline">
         <source>status.offline</source>
@@ -1724,15 +1724,15 @@
       </trans-unit>
       <trans-unit id="I4QUydi" resname="lobby.participant.online">
         <source>lobby.participant.online</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist bereits in der Konferenz</target>
+        <target state="translated">This participant is already in the conference</target>
       </trans-unit>
       <trans-unit id="v.H1nyD" resname="lobby.participant.notInLobby">
         <source>lobby.participant.notInLobby</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist nicht mehr in der Lobby.</target>
+        <target state="translated">This participant is no longer in the lobby.</target>
       </trans-unit>
       <trans-unit id="VuGcf_V" resname="Wie war die Gesprächsqualität?">
         <source>Wie war die Gesprächsqualität?</source>
-        <target state="needs-translation">Wie war die Gesprächsqualität?</target>
+        <target state="translated">How was the quality of the conversation?</target>
       </trans-unit>
       <trans-unit id="39o7QWf" resname="Schreibe uns einen Kommentar">
         <source>Schreibe uns einen Kommentar</source>
@@ -1740,7 +1740,7 @@
       </trans-unit>
       <trans-unit id="VjL2gVD" resname="lobby.notVerified">
         <source>lobby.notVerified</source>
-        <target state="needs-translation">Die Telefonnummer, von welcher der Teilnehmer anruft, weicht von der Telefonnummer ab, welche in der Teilnehmendenliste eingeladen wurde.</target>
+        <target state="translated">The phone number from which the participant calls differs from the phone number invited in the list of participants.</target>
       </trans-unit>
       <trans-unit id="5iIhPot" resname="options.whiteboard">
         <source>options.whiteboard</source>
@@ -1752,7 +1752,7 @@
       </trans-unit>
       <trans-unit id="XkrLYIW" resname="lobby.endMeeting.ask.participant">
         <source>lobby.endMeeting.ask.participant</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich beenden.</target>
+        <target state="translated">Do you really want to end this conference.</target>
       </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
@@ -1764,11 +1764,11 @@
       </trans-unit>
       <trans-unit id="l2aU5E." resname="stars.lastTen">
         <source>stars.lastTen</source>
-        <target state="needs-translation">Letzte Bewertungen</target>
+        <target state="translated">Last ratings</target>
       </trans-unit>
       <trans-unit id="HZQLWbn" resname="Sie wurden von {name} eingeladen">
         <source>Sie wurden von {name} eingeladen</source>
-        <target state="needs-translation">Sie wurden von {name} eingeladen</target>
+        <target state="translated">You were invited by {name}</target>
       </trans-unit>
       <trans-unit id="l7wQdDI" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
@@ -1800,7 +1800,7 @@
       </trans-unit>
       <trans-unit id="IRAN.Xg" resname="callout.status.timeout">
         <source>callout.status.timeout</source>
-        <target state="needs-translation">Nicht abgenommen</target>
+        <target state="translated">Pending acceptance</target>
       </trans-unit>
       <trans-unit id="Vu7cvDR" resname="callout.info.noMoreRetries">
         <source>callout.info.noMoreRetries</source>
@@ -1836,7 +1836,7 @@
       </trans-unit>
       <trans-unit id="IZse4aO" resname="lobby.message.placeholder">
         <source>lobby.message.placeholder</source>
-        <target state="needs-translation">Hier tippen...</target>
+        <target state="translated">Tap here...</target>
       </trans-unit>
       <trans-unit id="2yXw6Zm" resname="lobby.message.label">
         <source>lobby.message.label</source>
@@ -1864,11 +1864,11 @@
       </trans-unit>
       <trans-unit id="Q8c.RHz" resname="Jetzt">
         <source>Jetzt</source>
-        <target state="needs-translation">Jetzt</target>
+        <target state="translated">Now</target>
       </trans-unit>
       <trans-unit id="qCKbx7n" resname="Meeting Abgeschlossen">
         <source>Meeting Abgeschlossen</source>
-        <target state="needs-translation">Konferenz Abgeschlossen</target>
+        <target state="translated">Conference ended</target>
       </trans-unit>
       <trans-unit id="IqR9Qwr" resname="Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.">
         <source>Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</source>
