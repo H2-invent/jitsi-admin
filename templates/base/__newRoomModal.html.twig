@@ -85,16 +85,16 @@
                             {% if form.timeZone is defined %}
 
 
-                                    <div class="col-12 d-flex align-items-start with-help">
-                                        {{ form_row(form.timeZone) }}
+                                <div class="col-12 d-flex align-items-start with-help">
+                                    {{ form_row(form.timeZone) }}
 
-                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                           data-mdb-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
-                                                    class="fa fa-question-circle"></i></a>
-                                    </div>
+                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.'|trans }}"><i
+                                                class="fa fa-question-circle"></i></a>
+                                </div>
 
                             {% endif %}
-                    </div>
+                        </div>
                     </div>
                     {% if form.lobby is defined %}
                         <div class="col-lg-12">
@@ -189,7 +189,8 @@
 
                                 {% if form.dissallowScreenshareGlobal is defined %}
                                     <div class="col-lg-12">
-                                        <div id="enableFeateureJwt" class="{% if serverchoose is null or not serverchoose.featureEnableByJWT %}d-none{% endif%} row">
+                                        <div id="enableFeateureJwt"
+                                             class="{% if serverchoose is null or not serverchoose.featureEnableByJWT %}d-none{% endif %} row">
                                             <div class="col-12 d-flex align-items-start with-help">
                                                 {{ form_row(form.dissallowScreenshareGlobal) }}
 
@@ -205,9 +206,20 @@
                                         {{ form_row(form.totalOpenRooms) }}
 
                                         <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                                           data-mdb-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}"><i
-                                                    class="fa fa-question-circle"></i></a>
+                                           data-mdb-content="{{ 'Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.'|trans }}">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
                                     </div>
+                                {% endif %}
+                                {% if form.allowMaybeOption is defined %}
+                                <div class="col-12 d-flex align-items-start with-help">
+                                    {{ form_row(form.allowMaybeOption) }}
+
+                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                       data-mdb-content="{{ 'Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.'|trans }}">
+                                        <i class="fa fa-question-circle"></i>
+                                    </a>
+                                </div>
                                 {% endif %}
                             </div>
                         </div>

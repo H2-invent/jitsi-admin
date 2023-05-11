@@ -8,6 +8,7 @@ use App\Entity\Server;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Service\caller\CallerPrepareService;
+use App\Util\InputSettings;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -45,29 +46,29 @@ class RoomGeneratorService
         $room->setUidModerator(md5(uniqid('h2-invent', true)));
         $room->setUidParticipant(md5(uniqid('h2-invent', true)));
         // here we set the default values
-        $room->setPersistantRoom($this->themeService->getApplicationProperties('input_settings_persistant_rooms_default'));
-        $room->setOnlyRegisteredUsers($this->themeService->getApplicationProperties('input_settings_only_registered_default'));
-        $room->setPublic($this->themeService->getApplicationProperties('input_settings_share_link_default'));
-        if ($this->themeService->getApplicationProperties('input_settings_max_participants_default') > 0) {
-            $room->setMaxParticipants($this->themeService->getApplicationProperties('input_settings_max_participants_default'));
+        $room->setPersistantRoom($this->themeService->getApplicationProperties(InputSettings::PERSISTENT_ROOMS_DEFAULT));
+        $room->setOnlyRegisteredUsers($this->themeService->getApplicationProperties(InputSettings::ONLY_REGISTERED_DEFAULT));
+        $room->setPublic($this->themeService->getApplicationProperties(InputSettings::SHARE_LINK_DEFAULT));
+        if ($this->themeService->getApplicationProperties(InputSettings::MAX_PARTICIPANTS_DEFAULT) > 0) {
+            $room->setMaxParticipants($this->themeService->getApplicationProperties(InputSettings::MAX_PARTICIPANTS_DEFAULT));
         }
-        $room->setWaitinglist($this->themeService->getApplicationProperties('input_settings_waitinglist_default'));
-        $room->setShowRoomOnJoinpage($this->themeService->getApplicationProperties('input_settings_conference_join_page_default'));
-        $room->setTotalOpenRooms($this->themeService->getApplicationProperties('input_settings_deactivate_participantsList_default'));
-        $room->setDissallowScreenshareGlobal($this->themeService->getApplicationProperties('input_settings_dissallow_screenshare_default'));
-        $room->setLobby($this->themeService->getApplicationProperties('input_settings_allowLobby_default'));
+        $room->setWaitinglist($this->themeService->getApplicationProperties(InputSettings::WAITING_LIST_DEFAULT));
+        $room->setShowRoomOnJoinpage($this->themeService->getApplicationProperties(InputSettings::CONFERENCE_JOIN_PAGE_DEFAULT));
+        $room->setTotalOpenRooms($this->themeService->getApplicationProperties(InputSettings::DEACTIVATE_PARTICIPANTS_LIST_DEFAULT));
+        $room->setDissallowScreenshareGlobal($this->themeService->getApplicationProperties(InputSettings::DISALLOW_SCREENSHARE_DEFAULT));
+        $room->setLobby($this->themeService->getApplicationProperties(InputSettings::ALLOW_LOBBY_DEFAULT));
 
         //end default values
 
         if ($user->getTimeZone() && $this->themeService->getApplicationProperties('allowTimeZoneSwitch') == 1) {
             $room->setTimeZone($user->getTimeZone());
-            if ($this->themeService->getApplicationProperties('input_settings_allow_timezone_default') != 0) {
-                $room->setTimeZone($this->themeService->getApplicationProperties('input_settings_allow_timezone_default'));
+            if ($this->themeService->getApplicationProperties(InputSettings::ALLOW_TIMEZONE_DEFAULT) != 0) {
+                $room->setTimeZone($this->themeService->getApplicationProperties(InputSettings::ALLOW_TIMEZONE_DEFAULT));
             }
         }
         $room = $this->createCallerId($room);
-        if ($this->parameterBag->get('input_settings_allow_tag') == 1) {
-            $tag = $this->em->getRepository(Tag::class)->findOneBy(['disabled' => false], ['priority' => 'ASC']);
+        if ($this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+            $tag = $this->em->getRepository(Tag::class)->findOneBy(array('disabled' => false), array('priority' => 'ASC'));
             if ($tag) {
                 $room->setTag($tag);
             }

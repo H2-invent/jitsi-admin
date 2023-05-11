@@ -3,11 +3,7 @@
     {{ room.name }}
 {% endblock %}
 {% block content %}
-
-
-
-
-    <div class=" col-sm-12 col-lg-10">
+        <div class=" col-sm-12 col-lg-10">
         <p class="text-center text-md-start">
             {{ 'Welcher Termin passt für Sie am besten?'|trans }}
         </p>
@@ -29,7 +25,7 @@
 
                         <small>{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}</small><br>
                         <small>{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}</small><br>
-                        <small>{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</small><br>
+                        {% if room.allowMaybeOption %}<small>{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</small><br>{% endif %}
                         <div class="row">
                             <div class="col-lg-12 mb-3 mt-2 text-start">
 
@@ -58,6 +54,7 @@
                                     <label class="custom-control-label custom-control-label"
                                            for="schedule-{{ s.id }}-no">{{ 'Nein'|trans }}</label>
                                 </div>
+                                {% if room.allowMaybeOption %}
                                 <div class="form-check">
                                     <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
                                            data-url="{{ path('schedule_public_vote') }}"
@@ -69,6 +66,7 @@
                                     <label class="custom-control-label custom-control-label"
                                            for="schedule-{{ s.id }}-maybe">{{ 'Vielleicht'|trans }}</label>
                                 </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

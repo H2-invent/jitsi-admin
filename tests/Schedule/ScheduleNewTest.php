@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SheduleNewTest extends WebTestCase
+class ScheduleNewTest extends WebTestCase
 {
     public function testCreate(): void
     {
@@ -27,17 +27,28 @@ class SheduleNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/schedule/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
-        $form['room[name]'] = '';
-        $form['room[duration]'] = "60";
+        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[name]'] = '';
+        $form['scheduler[duration]'] = "60";
 
         $client->submit($form);
 
         $this->assertResponseIsSuccessful();
-        $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte den Namen angeben.']]), $client->getResponse()->getContent());
-        $form['room[server]'] = $server->getId();
-        $form['room[name]'] = '198273987321';
-        $form['room[duration]'] = "60";
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(
+                [
+                    'error' => true,
+                    'messages' => [
+                        'Fehler, bitte den Namen angeben.'
+                    ]
+                ]
+            ),
+            $client->getResponse()->getContent(),
+        );
+
+        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[name]'] = '198273987321';
+        $form['scheduler[duration]'] = "60";
         $client->submit($form);
         $room = (static::getContainer()->get(RoomsRepository::class))->findOneBy(['name' => 198273987321]);
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
@@ -55,7 +66,6 @@ class SheduleNewTest extends WebTestCase
             ),
             $client->getResponse()->getContent()
         );
-
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
@@ -76,12 +86,12 @@ class SheduleNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/schedule/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
-        $form['room[name]'] = '198273987321';
-        $form['room[duration]'] = "60";
+        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[name]'] = '198273987321';
+        $form['scheduler[duration]'] = "60";
         $client->submit($form);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(['name' => '198273987321']);
+        $room = $roomRepo->findOneBy(array('name' => '198273987321'));
         self::assertNotNull($room);
         $urlGenerator = static::getContainer()->get(UrlGeneratorInterface::class);
         $modalUrl = base64_encode($urlGenerator->generate('schedule_admin', ['id' => $room->getId()]));
@@ -134,9 +144,9 @@ class SheduleNewTest extends WebTestCase
         $crawler = $client->request('GET', '/room/schedule/new');
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
-        $form['room[name]'] = '198273987321';
-        $form['room[duration]'] = "60";
+        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[name]'] = '198273987321';
+        $form['scheduler[duration]'] = "60";
         $client->submit($form);
         $roomRepo = static::getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => '198273987321']);
@@ -167,15 +177,15 @@ class SheduleNewTest extends WebTestCase
         $crawler = $client->request('GET', $urlGenerator->generate('schedule_admin_new', ['id' => $room->getId()]));
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
-        $form['room[server]'] = $server->getId();
-        $form['room[name]'] = '';
-        $form['room[duration]'] = "60";
+        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[name]'] = '';
+        $form['scheduler[duration]'] = "60";
         $client->submit($form);
         $this->assertJsonStringEqualsJsonString(json_encode(['error' => true, 'messages' => ['Fehler, bitte den Namen angeben.']]), $client->getResponse()->getContent());
 
-        $form['room[server]'] = $server->getId();
-        $form['room[name]'] = '765456654456';
-        $form['room[duration]'] = "60";
+        $form['scheduler[server]'] = $server->getId();
+        $form['scheduler[name]'] = '765456654456';
+        $form['scheduler[duration]'] = "60";
         $client->submit($form);
         $room = $roomRepo->findOneBy(['name' => '198273987321']);
         $this->assertNull($room);

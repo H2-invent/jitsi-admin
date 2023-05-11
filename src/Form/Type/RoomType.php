@@ -15,6 +15,7 @@ use App\Entity\Tag;
 use App\Entity\User;
 use App\Repository\TagRepository;
 use App\Service\ThemeService;
+use App\Util\InputSettings;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -124,36 +125,36 @@ class RoomType extends AbstractType
             )
             ->add('scheduleMeeting', CheckboxType::class, ['required' => false, 'label' => 'label.scheduleMeeting', 'translation_domain' => 'form']);
 
-        if ($this->theme->getApplicationProperties('input_settings_persistant_rooms') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::PERSISTENT_ROOMS) == 1) {
             $this->logger->debug('Add Persistant Rooms to the Form');
             $builder->add('persistantRoom', CheckboxType::class, ['required' => false, 'label' => 'label.persistantRoom', 'translation_domain' => 'form']);
         };
-        if ($this->theme->getApplicationProperties('input_settings_only_registered') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::ONLY_REGISTERED) == 1) {
             $this->logger->debug('Add Only Registered Users to the Form');
             $builder->add('onlyRegisteredUsers', CheckboxType::class, ['required' => false, 'label' => 'label.nurRegistriertenutzer', 'translation_domain' => 'form']);
         };
-        if ($this->theme->getApplicationProperties('input_settings_share_link') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::SHARE_LINK) == 1) {
             $this->logger->debug('Add Share Links to the Form');
             $builder->add('public', CheckboxType::class, ['required' => false, 'label' => 'label.puplicRoom', 'translation_domain' => 'form']);
         };
 
-        if ($this->theme->getApplicationProperties('input_settings_max_participants') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::MAX_PARTICIPANTS) == 1) {
             $this->logger->debug('Add A maximal allowed number of participants to the Form');
             $builder->add('maxParticipants', NumberType::class, ['required' => false, 'label' => 'label.maxParticipants', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']]);
         };
-        if ($this->theme->getApplicationProperties('input_settings_waitinglist') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::WAITING_LIST) == 1) {
             $this->logger->debug('Add a waitinglist to the Form');
             $builder->add('waitinglist', CheckboxType::class, ['required' => false, 'label' => 'label.waitinglist', 'translation_domain' => 'form']);
         };
-        if ($this->theme->getApplicationProperties('input_settings_conference_join_page') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::CONFERENCE_JOIN_PAGE) == 1) {
             $this->logger->debug('Add Show Room on Joinpage to the Form');
             $builder->add('showRoomOnJoinpage', CheckboxType::class, ['required' => false, 'label' => 'label.showRoomOnJoinpage', 'translation_domain' => 'form']);
         };
-        if ($this->theme->getApplicationProperties('input_settings_deactivate_participantsList') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::DEACTIVATE_PARTICIPANTS_LIST) == 1) {
             $this->logger->debug('Add the possibility the users must not be on the participants list  to the Form');
             $builder->add('totalOpenRooms', CheckboxType::class, ['required' => false, 'label' => 'label.totalOpenRooms', 'translation_domain' => 'form']);
         };
-        if ($this->theme->getApplicationProperties('input_settings_dissallow_screenshare') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::DISALLOW_SCREENSHARE) == 1) {
             $this->logger->debug('Add the possibility to dissallow screenshare');
             $builder->add('dissallowScreenshareGlobal', CheckboxType::class, ['required' => false, 'label' => 'label.dissallowScreenshareGlobal', 'translation_domain' => 'form']);
         }
@@ -161,7 +162,7 @@ class RoomType extends AbstractType
             $this->logger->debug('Add the possibility to select a Timezone');
             $builder->add('timeZone', TimezoneType::class, ['required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form']);
         }
-        if ($this->theme->getApplicationProperties('input_settings_allowLobby') == 1) {
+        if ($this->theme->getApplicationProperties(InputSettings::ALLOW_LOBBY) == 1) {
             $this->logger->debug('Add the possibility to select the lobby');
             $builder->add('lobby', CheckboxType::class, ['required' => false, 'label' => 'label.lobby', 'translation_domain' => 'form']);
         }
@@ -220,30 +221,26 @@ class RoomType extends AbstractType
             ]
         );
 
-        $resolver->setDefault(
-            'attr',
-            function (Options $options) {
-                $attr = ['id' => 'newRoom_form'];
-                if (!$options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
-                    $attr['data-blocktext'] = $this->translator->trans('new.room.blockSave.text');
-                    return $attr;
-                }
+        $resolver->setDefault('attr', function (Options $options) {
+            $attr = array('id' => 'newRoom_form');
+            if (!$options['isEdit'] && $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 0 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+                $attr['data-blocktext'] = $this->translator->trans('new.room.blockSave.text');
                 return $attr;
             }
+            return $attr;
+        }
         );
-        $resolver->setDefault(
-            'showTag',
-            function (Options $options) {
-                if ($this->parameterBag->get('input_settings_allow_edit_tag') == 1 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
-                    return true;
-                }
-                if (!$options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
-                    return true;
-                } elseif ($options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
-                    return false;
-                }
+        $resolver->setDefault('showTag', function (Options $options) {
+            if ($this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 1 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+                return true;
+            }
+            if (!$options['isEdit'] && $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 0 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
+                return true;
+            } elseif ($options['isEdit'] && $this->parameterBag->get(InputSettings::ALLOW_EDIT_TAG) == 0 && $this->parameterBag->get(InputSettings::ALLOW_TAG) == 1) {
                 return false;
             }
+            return false;
+        }
         );
     }
 }

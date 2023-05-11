@@ -22,6 +22,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -41,17 +43,28 @@ class DashboardController extends JitsiAdminController
     /**
      * @Route("/room/dashboard", name="dashboard")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
-    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, TermsAndConditionsService $termsAndConditionsService)
-    {
+    public function dashboard(
+        Request                   $request,
+        ServerUserManagment       $serverUserManagment,
+        ParameterBagInterface     $parameterBag,
+        FavoriteService           $favoriteService,
+        TermsAndConditionsService $termsAndConditionsService,
+    ): Response {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
             return $this->redirectToRoute('app_terms_and_conditions');
         }
         $stopwatch = new Stopwatch();
         $start = $stopwatch->start('dashboard');
         if ($request->get('join_room') && $request->get('type')) {
-            return $this->redirectToRoute('room_join', ['room' => $request->get('join_room'), 't' => $request->get('type')]);
+            return $this->redirectToRoute(
+                'room_join',
+                [
+                    'room' => $request->get('join_room'),
+                    't' => $request->get('type'),
+                ],
+            );
         }
         $roomsFuture = $this->doctrine->getRepository(Rooms::class)->findRoomsInFuture($this->getUser());
 
@@ -99,7 +112,13 @@ class DashboardController extends JitsiAdminController
         }
         $date = new \DateTime();
         $timestamp = $date->getTimestamp();
-        $form = $this->createForm(SecondEmailType::class, $this->getUser(), ['action' => $this->generateUrl('second_email_save')]);
+        $form = $this->createForm(
+            SecondEmailType::class,
+            $this->getUser(),
+            [
+                'action' => $this->generateUrl('second_email_save'),
+            ],
+        );
         $form->remove('profilePicture');
         $res = $this->render(
             'dashboard/index.html.twig',
@@ -116,7 +135,7 @@ class DashboardController extends JitsiAdminController
                 'favorite' => $favorites,
                 'timestamp' => $timestamp,
                 'time' => $timer->getDuration(),
-            ]
+            ],
         );
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
@@ -139,7 +158,7 @@ class DashboardController extends JitsiAdminController
     /**
      * @Route("/room/dashboard/lazy/{type}/{offset}", name="dashboard_lazy")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
     {

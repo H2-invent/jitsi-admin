@@ -48,7 +48,7 @@ class RoomCheckServiceTest extends KernelTestCase
         self::assertEquals([], $error);
         self::assertEquals((new \DateTime())->modify('+60min')->format('H:i:s'), $room->getEnddate()->format('H:i:s'));
         self::assertStringStartsNotWith('test123-', $room->getUid());
-        self::assertStringStartsNotWith('test123-', $room->getSlug());
+        self::assertStringStartsNotWith('test123-', (string)$room->getSlug());
         $error = [];
         $room->setPersistantRoom(true);
         $checkService->checkRoom($room, $error);
