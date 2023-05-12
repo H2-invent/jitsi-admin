@@ -3,6 +3,9 @@
 namespace App\dataType;
 
 use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LdapType
 {
@@ -247,13 +250,18 @@ class LdapType
     {
 
         $anonym = $this->bindType === 'simple' ? false : true;
-
+        $validator = Validation::createValidator();
         try {
             $tmp = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
-            if ($anonym === false) {
-                $tmp->bind($this->bindDn, $this->password);
+            $isUrl = preg_match('/^(ldap(s)?:\/\/)(((\d{1,3}.){3}\d{1,3}(:\d+)?)|(\w|\d|)+|((\[([a-f0-9]{1,4}:{1,2}){1,4}([a-f0-9]{1,4})\])))$/m',$this->url);
+            if ($isUrl) {
+                if ($anonym === false) {
+                    $tmp->bind($this->bindDn, $this->password);
+                } else {
+                    $tmp->bind();
+                }
             } else {
-                $tmp->bind();
+               throw new \Exception('invalid Bind URL');
             }
             $this->ldap = $tmp;
             $this->isHealthy = true;

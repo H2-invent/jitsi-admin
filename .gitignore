@@ -64,3 +64,4 @@ repairLog.txt
 /.phpcs-cache
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
+/results*.xml
