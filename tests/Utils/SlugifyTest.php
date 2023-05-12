@@ -2,11 +2,13 @@
 
 namespace App\Tests\Utils;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\UtilsHelper;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SlugifyTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testnoDot(): void
     {
         $kernel = self::bootKernel();

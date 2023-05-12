@@ -2,6 +2,7 @@
 
 namespace App\Tests\Deputy\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Deputy;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeputyDashboardTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testRoomWithDateFromManager(): void
     {
         $client = static::createClient();

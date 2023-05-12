@@ -2,6 +2,7 @@
 
 namespace App\Tests\ConferenceMapper;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomStatus;
 use App\Repository\CallerRoomRepository;
 use App\Service\api\ConferenceMapperService;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ConferenceMapperTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testNotStarted(): void
     {
         $kernel = self::bootKernel();

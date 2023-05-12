@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OwnRoomJoinTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function test_hasStart_toearly_noModerator_no_Lobby(): void
     {
         $client = static::createClient();

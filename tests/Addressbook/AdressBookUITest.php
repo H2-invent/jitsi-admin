@@ -2,13 +2,15 @@
 
 namespace App\Tests\Addressbook;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 class AdressBookUITest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testAdressbookUI(): void
     {
         $client = static::createClient();
@@ -18,6 +20,7 @@ class AdressBookUITest extends WebTestCase
         $testUser = $userRepository->findOneByUsername('test@local.de');
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
+
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
         self::assertEquals(1, $crawler->filter('#profile:contains("Testgruppe (2)")')->count());

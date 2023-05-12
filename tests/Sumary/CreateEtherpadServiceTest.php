@@ -2,6 +2,7 @@
 
 namespace App\Tests\Sumary;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\Summary\CreateSummaryService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class CreateEtherpadServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public static $samplePadREsult = '<div class="page_break"></div><h1>test</h1>';
     public static $samplePadHtml = '<h1>test</h1>';
 

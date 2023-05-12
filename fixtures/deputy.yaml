@@ -1,0 +1,6 @@
+App\Entity\Deputy:
+  deputy_{1..2}:
+    manager: '@user_7'
+    deputy: '@user_8'
+    created_at: '<(new \DateTime())>'
+    is_from_ldap: true

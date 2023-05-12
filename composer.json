@@ -69,6 +69,7 @@
     "dama/doctrine-test-bundle": "^v7.2",
     "dbrekelmans/bdi": "^1.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
+    "hautelook/alice-bundle": "^2.12",
     "phpstan/phpstan": "^1.8",
     "phpunit/phpunit": "^10.1",
     "rector/rector": "^0.13.9",
@@ -125,7 +126,7 @@
     "db-drop": "php bin/console doctrine:database:drop --force --if-exists",
     "db-create": "php bin/console doctrine:database:create",
     "db-migrate": "php bin/console doctrine:migrations:migrate -n",
-    "db-fixtures-test": "php bin/console doctrine:fixtures:load -n --env=test",
+    "db-fixtures-test": "php bin/console hautelook:fixtures:load -n --env=test",
     "db-reset": [
       "@db-drop",
       "@db-create",

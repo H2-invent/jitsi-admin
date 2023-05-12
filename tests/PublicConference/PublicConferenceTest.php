@@ -2,6 +2,7 @@
 
 namespace App\Tests\PublicConference;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Service\PublicConference\PublicConferenceService;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PublicConferenceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreateRoom(): void
     {
         $kernel = self::bootKernel();

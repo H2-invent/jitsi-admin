@@ -1,0 +1,16 @@
+App\Entity\PredefinedLobbyMessages:
+  predefined_lobby_messages_waiting:
+    active: true
+    text: 'Bitte warten!'
+    created_at: '<(new \DateTime())>'
+    priority: 0
+  predefined_lobby_messages_disabled:
+    active: false
+    text: 'Bitte warten!/Disabled!'
+    created_at: '<(new \DateTime())>'
+    priority: 1
+  predefined_lobby_messages_different_themes:
+    active: true
+    text: 'Wir haben andere Themen!'
+    created_at: '<(new \DateTime())>'
+    priority: 2

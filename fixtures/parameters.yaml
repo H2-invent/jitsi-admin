@@ -1,0 +1,5 @@
+parameters:
+  currentDateTime: '(new \DateTime())'
+  timeZone: 'Europe/Berlin'
+  dateTimeZone: '<(new \DateTimeZone({timeZone}))>'
+  localhost: 'http://localhost:8000'

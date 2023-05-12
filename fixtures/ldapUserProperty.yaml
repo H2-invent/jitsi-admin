@@ -1,0 +1,7 @@
+App\Entity\LdapUserProperties:
+  ldap_user_property:
+    user: '@ldap_user'
+    ldap_dn: ''
+    ldap_host: ''
+    ldap_number: 'ldap_3'
+    rdn: ''

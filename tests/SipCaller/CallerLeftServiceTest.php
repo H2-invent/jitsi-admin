@@ -2,6 +2,7 @@
 
 namespace App\Tests\SipCaller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
@@ -12,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CallerLeftServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testwrongSession(): void
     {
         $kernel = self::bootKernel();

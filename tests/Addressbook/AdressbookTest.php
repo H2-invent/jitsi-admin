@@ -2,6 +2,7 @@
 
 namespace App\Tests\Addressbook;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\AddressGroupRepository;
 use App\Repository\UserRepository;
 use App\Service\ParticipantSearchService;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AdressbookTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public const SEARCHUSERPOSITIVE = [
         'test@local2.de',
         'local2.de',

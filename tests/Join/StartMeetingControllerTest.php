@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomsUser;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class StartMeetingControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testRoomisToEarly_User_isLogin(): void
     {
         $client = static::createClient();

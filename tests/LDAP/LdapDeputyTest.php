@@ -2,6 +2,7 @@
 
 namespace App\Tests\LDAP;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Service\Deputy\DebutyLdapService;
 use App\Service\ldap\LdapService;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -11,6 +12,7 @@ use function PHPUnit\Framework\assertEquals;
 
 class LdapDeputyTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testFetchDeputiesFromLDap(): void
     {
         $kernel = self::bootKernel();

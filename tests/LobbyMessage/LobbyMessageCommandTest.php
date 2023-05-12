@@ -2,6 +2,7 @@
 
 namespace App\Tests\LobbyMessage;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class LobbyMessageCommandTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreateLobbyMessage(): void
     {
         $kernel = self::bootKernel();

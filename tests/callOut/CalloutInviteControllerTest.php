@@ -2,6 +2,7 @@
 
 namespace App\Tests\callOut;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -10,6 +11,7 @@ use function PHPUnit\Framework\assertEquals;
 
 class CalloutInviteControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testInviteSuccess(): void
     {
         $client = static::createClient();

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Sumary;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\Summary\CreateSummaryService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class CreateWhiteboardServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     private $sampleSvgResult = '';
     public static $sampleSvg = '<svg id="canvas" width="3109" height="2590" version="1.1" xmlns="http://www.w3.org/2000/svg">
 			<defs id="defs"><pattern id="smallGrid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="gray" stroke-width="0.5"></path></pattern><pattern id="grid" width="300" height="300" patternUnits="userSpaceOnUse"><rect width="300" height="300" fill="url(#smallGrid)"></rect><path d="M 300 0 L 0 0 0 300" fill="none" stroke="gray" stroke-width="1"></path></pattern><pattern id="dots" width="30" height="30" x="-10" y="-10" patternUnits="userSpaceOnUse"><circle fill="gray" cx="10" cy="10" r="2"></circle></pattern></defs>

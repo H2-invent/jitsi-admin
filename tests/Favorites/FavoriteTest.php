@@ -2,6 +2,7 @@
 
 namespace App\Tests\Favorites;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FavoriteTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testToggleFavorite(): void
     {
         $client = static::createClient();

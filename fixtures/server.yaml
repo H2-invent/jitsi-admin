@@ -1,0 +1,35 @@
+App\Entity\Server:
+  server_1:
+    url: 'meet.jit.si'
+    administrator: '@user_3'
+    user: ['@user_3']
+    slug: 'test'
+    logo_url: 'https://test.test'
+    app_secret: 'jitsiSecret'
+    app_id: 'jitsiId'
+    jwt_moderator_position: 0
+    privacy_policy: 'https://privacy.dev'
+    server_name: 'Server without License'
+  server_2:
+    url: 'meet.jit.si3'
+    administrator: '@user_3'
+    user: ['@user_3']
+    slug: 'test'
+    logo_url: 'https://test.test'
+    app_secret: ''
+    app_id: ''
+    jwt_moderator_position: 0
+    privacy_policy: 'https://privacy.dev'
+    server_name: 'Server no JWT'
+  server_3:
+    url: 'meet.jit.si2'
+    administrator: '@user_3'
+    user: ['@user_3']
+    slug: 'test2'
+    logo_url: 'https://test.img'
+    app_secret: 'jitsiSecret'
+    app_id: 'jitsiId'
+    jwt_moderator_position: 0
+    privacy_policy: 'https://privacy.dev'
+    show_static_background_color: false
+    server_name: Server with License

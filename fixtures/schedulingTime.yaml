@@ -1,0 +1,3 @@
+App\Entity\SchedulingTime:
+  scheduling_time_{0..99}:
+    time: '<((new \DateTime())->setTimeZone(new \DateTimeZone("Europe/Berlin"))->modify("+".($current-1)."day"))>'

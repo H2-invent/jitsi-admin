@@ -2,6 +2,7 @@
 
 namespace App\Tests\Whiteboard;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\Whiteboard\WhiteboardJwtService;
 use Firebase\JWT\JWT;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class WhiteBoardJwtServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $kernel = self::bootKernel();

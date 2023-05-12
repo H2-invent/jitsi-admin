@@ -2,6 +2,7 @@
 
 namespace App\Tests\Server;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Server;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
@@ -13,6 +14,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class RenameServerNameTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $kernel = self::bootKernel();

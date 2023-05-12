@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomsUser;
 use App\Repository\RoomsRepository;
 use App\Service\RoomService;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JwtTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testJwtModeratorNOJwtOptions(): void
     {
         $kernel = self::bootKernel();

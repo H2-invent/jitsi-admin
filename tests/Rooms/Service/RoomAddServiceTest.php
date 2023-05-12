@@ -2,6 +2,7 @@
 
 namespace App\Tests\Rooms\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
 use App\Entity\RoomsUser;
@@ -13,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RoomAddServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testaddParticipant(): void
     {
         $kernel = self::bootKernel();

@@ -2,6 +2,7 @@
 
 namespace App\Tests\SipCaller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerRoom;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerPrepareService;
@@ -12,6 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class CallerPrepareServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testRandomId(): void
     {
         $kernel = self::bootKernel();

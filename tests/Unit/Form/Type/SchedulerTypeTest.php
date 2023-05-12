@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Form\Type;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Rooms;
 use App\Entity\User;
 use App\Form\Type\SchedulerType;
@@ -25,6 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SchedulerTypeTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     private MockObject&TagRepository $tagRepository;
 
     private MockObject&LoggerInterface $logger;

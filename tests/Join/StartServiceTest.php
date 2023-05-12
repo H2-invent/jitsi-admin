@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomStatus;
 use App\Entity\RoomsUser;
 use App\Repository\LobbyWaitungUserRepository;
@@ -22,6 +23,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class StartServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testUserIsOrganizer(): void
     {
         $kernel = self::bootKernel();

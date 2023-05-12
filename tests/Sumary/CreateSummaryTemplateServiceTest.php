@@ -2,6 +2,7 @@
 
 namespace App\Tests\Sumary;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\Summary\CreateSummaryService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class CreateSummaryTemplateServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     private $sampleSvgResult = '';
     public static $pdfHeader = '<!DOCTYPE html>
 <html>

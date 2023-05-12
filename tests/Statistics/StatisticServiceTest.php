@@ -2,6 +2,7 @@
 
 namespace App\Tests\Statistics;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -14,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class StatisticServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testStatiskidAdmin(): void
     {
         $kernel = self::bootKernel();

@@ -2,12 +2,14 @@
 
 namespace App\Tests\User;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use App\Service\UserCreatorService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CreateUserTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $kernel = self::bootKernel();

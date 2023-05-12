@@ -2,6 +2,7 @@
 
 namespace App\Tests\Server;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomStatusParticipant;
 use App\Repository\ServerRepository;
 use App\Service\ServerService;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ServerActualConferenceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testActiveRooms(): void
     {
         $kernel = self::bootKernel();

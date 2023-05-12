@@ -2,12 +2,14 @@
 
 namespace App\Tests\Repeater;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RepeaterControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testRepeaterControllerCreateEditDelete(): void
     {
         $client = static::createClient();

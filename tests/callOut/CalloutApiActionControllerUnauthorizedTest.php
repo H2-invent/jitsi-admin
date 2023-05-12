@@ -2,6 +2,7 @@
 
 namespace App\Tests\callOut;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
 use App\Repository\RoomsRepository;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CalloutApiActionControllerUnauthorizedTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     private $client;
 
     protected function setUp(): void

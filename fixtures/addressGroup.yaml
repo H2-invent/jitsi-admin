@@ -1,0 +1,7 @@
+App\Entity\AddressGroup:
+  address_group:
+    leader: '@user_3'
+    indexer: 'testgruppe'
+    created_at: '<(new \DateTimeImmutable())>'
+    name: 'Testgruppe'
+    member: ['@user_4', '@user_5']

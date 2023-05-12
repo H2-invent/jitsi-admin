@@ -2,12 +2,14 @@
 
 namespace App\Tests\Rooms\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RoomControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testNew()
     {
         $client = static::createClient();

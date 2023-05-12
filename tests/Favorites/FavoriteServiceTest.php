@@ -2,6 +2,7 @@
 
 namespace App\Tests\Favorites;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\FavoriteService;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class FavoriteServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCorrectUser(): void
     {
         $kernel = self::bootKernel();

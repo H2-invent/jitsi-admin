@@ -2,6 +2,7 @@
 
 namespace App\Tests\Indexer;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use App\Service\IndexUser;
 use App\Service\IndexUserService;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class IndexerServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testIndexer(): void
     {
         $kernel = self::bootKernel();

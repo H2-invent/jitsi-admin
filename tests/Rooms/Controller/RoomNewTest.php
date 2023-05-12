@@ -2,6 +2,7 @@
 
 namespace App\Tests\Rooms\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
@@ -10,6 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RoomNewTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreate(): void
     {
         $client = static::createClient();

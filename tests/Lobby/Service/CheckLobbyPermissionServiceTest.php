@@ -2,6 +2,7 @@
 
 namespace App\Tests\Lobby\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\CheckLobbyPermissionService;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CheckLobbyPermissionServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testLobbyPermissionService(): void
     {
         $kernel = self::bootKernel();

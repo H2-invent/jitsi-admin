@@ -2,12 +2,14 @@
 
 namespace App\Tests\Deputy\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use App\Service\Deputy\DeputyService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DeputyServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSetDeputy(): void
     {
         $kernel = self::bootKernel();

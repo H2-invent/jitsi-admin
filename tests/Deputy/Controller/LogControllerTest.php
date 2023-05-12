@@ -2,6 +2,7 @@
 
 namespace App\Tests\Deputy\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\LogRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class LogControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testEmptyLog(): void
     {
         $client = static::createClient();

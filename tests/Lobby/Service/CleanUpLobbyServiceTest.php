@@ -2,6 +2,7 @@
 
 namespace App\Tests\Lobby\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerId;
 use App\Entity\CallerSession;
 use App\Repository\LobbyWaitungUserRepository;
@@ -13,6 +14,8 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class CleanUpLobbyServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
+
     public function test8h(): void
     {
         $kernel = self::bootKernel();
@@ -20,11 +23,11 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $lobbyRepoUser = $lobbyRepo->findAll();
         $this->assertSame('test', $kernel->getEnvironment());
         $cleanUp = self::getContainer()->get(CleanupLobbyService::class);
-        self::assertEquals(10, sizeof($lobbyRepoUser));
+        self::assertEquals(10, count($lobbyRepoUser));
         $res = $cleanUp->cleanUp(8);
-        self::assertEquals(3, sizeof($res));
+        self::assertEquals(3, count($res));
         $lobbyRepoUser = $lobbyRepo->findAll();
-        self::assertEquals(7, sizeof($lobbyRepoUser));
+        self::assertEquals(7, count($lobbyRepoUser));
     }
 
     public function test4h(): void
@@ -35,11 +38,11 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         $cleanUp = self::getContainer()->get(CleanupLobbyService::class);
         $lobbyRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $lobbyRepoUser = $lobbyRepo->findAll();
-        self::assertEquals(10, sizeof($lobbyRepoUser));
+        self::assertEquals(10, count($lobbyRepoUser));
         $res = $cleanUp->cleanUp(4);
-        self::assertEquals(7, sizeof($res));
+        self::assertEquals(7, count($res));
         $lobbyRepoUser = $lobbyRepo->findAll();
-        self::assertEquals(3, sizeof($lobbyRepoUser));
+        self::assertEquals(3, count($lobbyRepoUser));
     }
 
     public function test4hwithCallerSession(): void
@@ -69,11 +72,11 @@ class CleanUpLobbyServiceTest extends KernelTestCase
         }
         $manager->flush();
         $lobbyRepoUser = $lobbyRepo->findAll();
-        self::assertEquals(10, sizeof($lobbyRepoUser));
+        self::assertEquals(10, count($lobbyRepoUser));
         $res = $cleanUp->cleanUp(4);
-        self::assertEquals(7, sizeof($res));
+        self::assertEquals(7, count($res));
         $lobbyRepoUser = $lobbyRepo->findAll();
-        self::assertEquals(3, sizeof($lobbyRepoUser));
+        self::assertEquals(3, count($lobbyRepoUser));
     }
 
     public function test4hwithCommand(): void

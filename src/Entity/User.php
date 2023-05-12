@@ -43,41 +43,41 @@ class User extends BaseUser
     private $lastName;
     #[ORM\Column(type: 'text', nullable: true)]
     private $registerId;
-    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'user')]
+    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'user', fetch: 'EAGER')]
     private $rooms;
-    #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'user')]
+    #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'user', fetch: 'EAGER')]
     private $servers;
-    #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'moderator')]
+    #[ORM\OneToMany(targetEntity: Rooms::class, mappedBy: 'moderator', fetch: 'EAGER')]
     private $roomModerator;
-    #[ORM\OneToMany(targetEntity: Server::class, mappedBy: 'administrator')]
+    #[ORM\OneToMany(targetEntity: Server::class, mappedBy: 'administrator', fetch: 'EAGER')]
     private $serverAdmins;
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'addressbookInverse')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'addressbookInverse', fetch: 'EAGER')]
     private $addressbook;
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'addressbook')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'addressbook', fetch: 'EAGER')]
     private $addressbookInverse;
-    #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'user', fetch: 'EAGER')]
     private $roomsAttributes;
-    #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'user', fetch: 'EAGER')]
     private $subscribers;
     #[ORM\Column(type: 'array', nullable: true, name: 'keycloakGroup')]
     private $groups = [];
-    #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'user', fetch: 'EAGER')]
     private $schedulingTimeUsers;
     #[ORM\Column(type: 'text', nullable: true)]
     private $uid;
-    #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'user', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'user', cascade: ['remove'], fetch: 'EAGER')]
     private $waitinglists;
-    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user', fetch: 'EAGER')]
     private $notifications;
-    #[ORM\ManyToMany(targetEntity: Repeat::class, mappedBy: 'participants')]
+    #[ORM\ManyToMany(targetEntity: Repeat::class, mappedBy: 'participants', fetch: 'EAGER')]
     private $repeaterUsers;
-    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'prototypeUsers')]
+    #[ORM\ManyToMany(targetEntity: Rooms::class, mappedBy: 'prototypeUsers', fetch: 'EAGER')]
     private $protoypeRooms;
     #[ORM\Column(type: 'text', nullable: true)]
     private $ownRoomUid;
-    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'OwnRoomUSer')]
+    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'OwnRoomUSer', fetch: 'EAGER')]
     private $myOwnRoomServer;
-    #[ORM\OneToMany(targetEntity: AddressGroup::class, mappedBy: 'leader', cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: AddressGroup::class, mappedBy: 'leader', cascade: ['remove'], fetch: 'EAGER')]
     private $AddressGroupLeader;
     #[ORM\ManyToMany(targetEntity: AddressGroup::class, mappedBy: 'member')]
     private $AddressGroupMember;

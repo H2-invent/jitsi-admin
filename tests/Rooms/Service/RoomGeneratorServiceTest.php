@@ -2,6 +2,7 @@
 
 namespace App\Tests\Rooms\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\ServerRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RoomGeneratorServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testnoServer(): void
     {
         $kernel = self::bootKernel();

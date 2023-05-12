@@ -2,6 +2,7 @@
 
 namespace App\Tests\LDAP;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\dataType\LdapType;
 use App\Entity\CallerId;
 use App\Entity\LobbyWaitungUser;
@@ -21,6 +22,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class LdapUserServiceTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public $LDAPURL = 'ldap://192.168.230.128:10389';
 
     protected function setUp(): void

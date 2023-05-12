@@ -2,11 +2,13 @@
 
 namespace App\Tests\FormatedName;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class FormatedNameTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreateFormatedName(): void
     {
         $kernel = self::bootKernel();

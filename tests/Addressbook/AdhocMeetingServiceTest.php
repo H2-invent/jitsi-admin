@@ -2,6 +2,7 @@
 
 namespace App\Tests\Addressbook;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Service\adhocmeeting\AdhocMeetingService;
@@ -13,6 +14,7 @@ use Symfony\Component\Mercure\Update;
 
 class AdhocMeetingServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreateAdhocmeeting(): void
     {
         $kernel = self::bootKernel();

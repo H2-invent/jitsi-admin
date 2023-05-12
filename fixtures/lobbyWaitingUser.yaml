@@ -1,0 +1,8 @@
+App\Entity\LobbyWaitungUser:
+  lobby_waiting_user_{0..9}:
+    user: '@user_3'
+    room: '@room_start_no_participants_lobby'
+    uid: '<(md5($current))>'
+    created_at: '<((new \DateTime())->modify("-1 hour"))>'
+    show_name: 'LobbyUser<current()>'
+    type: 'a'

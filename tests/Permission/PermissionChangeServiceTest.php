@@ -2,6 +2,7 @@
 
 namespace App\Tests\Permission;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\LobbyWaitungUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
@@ -14,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PermissionChangeServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testchangeModarator(): void
     {
         $kernel = self::bootKernel();

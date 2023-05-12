@@ -2,6 +2,7 @@
 
 namespace App\Tests\Tag;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class TagCommandTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreateTag(): void
     {
         $kernel = self::bootKernel();

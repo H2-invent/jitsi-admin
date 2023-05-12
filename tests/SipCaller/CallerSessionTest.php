@@ -2,6 +2,7 @@
 
 namespace App\Tests\SipCaller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerSession;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
@@ -26,6 +27,7 @@ use function PHPUnit\Framework\assertEquals;
 
 class CallerSessionTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testNoSession(): void
     {
         $kernel = self::bootKernel();

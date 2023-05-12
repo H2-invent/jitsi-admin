@@ -2,12 +2,14 @@
 
 namespace App\Tests\Sumary;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DownloadSummaryControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testDownload(): void
     {
         $client = static::createClient();

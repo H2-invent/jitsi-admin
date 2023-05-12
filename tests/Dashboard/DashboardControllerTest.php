@@ -2,11 +2,13 @@
 
 namespace App\Tests\Dashboard;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DashboardControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testdashboardUserSuccess()
     {
         $client = static::createClient();

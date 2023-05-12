@@ -2,6 +2,7 @@
 
 namespace App\Tests\Star;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\ServerRepository;
 use App\Repository\StarRepository;
 use App\Repository\UserRepository;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class StarControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testSendStar(): void
     {
         $client = static::createClient();

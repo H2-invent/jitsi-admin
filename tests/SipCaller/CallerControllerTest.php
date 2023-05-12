@@ -2,6 +2,7 @@
 
 namespace App\Tests\SipCaller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\RoomStatus;
@@ -20,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CallerControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testAuthorizedFalse(): void
     {
         $client = static::createClient();

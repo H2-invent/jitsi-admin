@@ -2,6 +2,7 @@
 
 namespace App\Tests\PublicConference;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Controller\PublicConferenceController;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PublicConferenceControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testForm(): void
     {
         $client = static::createClient();

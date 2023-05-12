@@ -2,6 +2,7 @@
 
 namespace App\Tests\callOut;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerId;
 use App\Entity\CalloutSession;
 use App\Entity\User;
@@ -14,6 +15,7 @@ use function PHPUnit\Framework\assertEquals;
 
 class CalloutApiActionControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     private $client;
     private $room;
     private $authHEader;

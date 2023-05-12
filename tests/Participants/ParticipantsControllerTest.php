@@ -2,6 +2,7 @@
 
 namespace App\Tests\Participants;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\RoomsUserRepository;
 use App\Repository\UserRepository;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ParticipantsControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testCorrectInvite(): void
     {
         $client = static::createClient();

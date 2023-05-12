@@ -2,6 +2,7 @@
 
 namespace App\Tests\Lobby\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Service\Lobby\DirectSendService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
@@ -10,6 +11,7 @@ use Symfony\Component\Mercure\Update;
 
 class LobbyToModeratorTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $kernel = self::bootKernel();

@@ -1,0 +1,115 @@
+App\Entity\User:
+  user_1:
+    email: 'test@local123.de'
+    keycloak_id: 123456
+    first_name: 'Test'
+    last_name: 'User'
+    register_id: 123456
+    spezial_properties:
+      ou: 'Test1'
+      departmentNumber: '1234'
+    time_zone: '<{timeZone}>'
+    uuid: 'lksdhflkjdsljflkjds'
+    username: 'test@local123.de'
+    created_at: '<(new \DateTime())>'
+  user_2:
+    email: 'testNoId@local.de'
+    created_at: '<(new \DateTime())>'
+    first_name: 'Test'
+    last_name: 'User No ID'
+    register_id: 123456
+  user_3:
+    email: 'test@local.de'
+    keycloak_id: 123456
+    first_name: 'Test'
+    last_name: 'User'
+    register_id: 123456
+    spezial_properties:
+      ou: 'Test2'
+      departmentNumber: '1234'
+      telephoneNumber: '0123456789'
+    time_zone: '<{timeZone}>'
+    uuid: 'lksdhflkjdsljflkjds'
+    uid: 'kljlsdkjflkjdslfjsjkldlkjsdflkj'
+    username: 'test@local.de'
+    created_at: '<(new \DateTime())>'
+    indexer: 'test@local.de test@local.de test user test1 1234 0123456789'
+    address_book: ['@user_4', '@user_5']
+  user_4:
+    email: 'test@local2.de'
+    keycloak_id: 123456
+    first_name: 'Test2'
+    last_name: 'User2'
+    register_id: 123456
+    spezial_properties:
+      ou: 'Test2'
+      departmentNumber: '1234'
+      telephoneNumber: '9876543210'
+    time_zone: '<{timeZone}>'
+    uuid: 'lksdhflkjdsljflhjkkjds'
+    uid: 'kljlsdkjflkjddfgslfjsdlkjsdflkj'
+    username: 'test2@local.de'
+    created_at: '<(new \DateTime())>'
+    indexer: 'test@local2.de test@local2.de test2 user2 test2 1234 9876543210'
+  ldap_user:
+    email: 'ldapUser@local.de'
+    keycloak_id: 123456
+    first_name: 'LdapUSer'
+    last_name: 'Ldap'
+    register_id: 123456
+    spezial_properties:
+      ou: 'AA'
+      departmentNumber: '45689'
+      telephoneNumber: '987654321012'
+    time_zone: '<{timeZone}>'
+    uuid: 'dfsdffscxv'
+    uid: 'kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj'
+    username: 'ldapUser@local.de'
+    created_at: '<(new \DateTime())>'
+    indexer: 'ldapuser@local.de ldapuser@local.de ldapuser ldap aa 45689 987654321012'
+  user_5:
+    email: 'test@local3.de'
+    username: 'test@local3.de'
+    register_id: 123456
+    created_at: '<(new \DateTime())>'
+    uid: 'kjsdfhkjds'
+    indexer: 'test@local3.de test@local3.de'
+
+  user_6:
+    email: 'test@local4.de'
+    username: 'test@local4.de'
+    register_id: 123456
+    created_at: '<(new \DateTime())>'
+    uid: 'bjhxbcvuzcbxv7'
+    indexer: 'test@local4.de test@local4.de'
+  user_7:
+    email: 'test@australia.de'
+    keycloakId: '123456'
+    first_name: 'Test'
+    last_name: 'User'
+    register_id: 123456
+    spezial_properties:
+      ou: 'Test1'
+      department_number: '1234'
+      telephone_number: '0123456789'
+    time_zone: 'Australia/Lindeman'
+    uuid: 'lksdhflkjdsljflkjds'
+    uid: 'kljlsdkjflkjdslfjsjkldlkjsdflkj'
+    username: 'test@australia.de'
+    created_at: '<(new \DateTime())>'
+    indexer: 'test@australia.de test@australia.de test user test1 1234 0123456789'
+  user_8:
+    email: 'test@noTimeZone.de'
+    keycloakId: '123456'
+    first_name: 'Test'
+    last_name: 'User'
+    register_id: 123456
+    spezial_properties:
+      ou: 'Test1'
+      department_number: '1234'
+      telephone_number: '0123456789'
+    uuid: 'lksdhflkjdsljflkjds'
+    uid: 'kljlsdkjflkjdslfjsjkldlkjsdflkj'
+    username: 'test@noTimeZone.de'
+    created_at: '<(new \DateTime())>'
+    indexer: 'test@noTimeZone.de test@noTimeZone.de test user test1 1234 0123456789'

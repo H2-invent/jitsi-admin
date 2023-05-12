@@ -2,6 +2,7 @@
 
 namespace App\Tests\LDAP;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\dataType\LdapType;
 use App\Service\ldap\LdapService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -9,6 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class LdapConnectionTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public static $UserInLDAP = 4;
     public static $USERWITHLDAPUSERPROPERTIES = 4 + 1;
     public static $UserInSubLDAP = 2;

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Util;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Util\CsvHandler;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +12,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(CsvHandler::class)]
 class CsvHandlerTest extends TestCase
 {
+use RefreshDatabaseTrait;
     #[DataProvider('providerForGenerate')]
     public function testGenerate(array $arrayData, array $expectedCsv, ?string $seperator): void
     {

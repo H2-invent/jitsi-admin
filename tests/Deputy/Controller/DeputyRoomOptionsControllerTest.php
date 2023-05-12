@@ -2,6 +2,7 @@
 
 namespace App\Tests\Deputy\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -10,8 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeputyRoomOptionsControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     private $client;
-    private User $manager;
+    private User $manager_user;
     private User $deputy;
     private EntityManagerInterface $em;
 
@@ -22,18 +24,18 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $this->em = self::getContainer()->get(EntityManagerInterface::class);
         $this->deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $this->manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
-        $this->manager->addAddressbook($this->deputy);
-        $this->em->persist($this->manager);
+        $this->manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $this->manager_user->addAddressbook($this->deputy);
+        $this->em->persist($this->manager_user);
         $this->em->flush();
 
-        $this->client->loginUser($this->manager);
+        $this->client->loginUser($this->manager_user);
         $this->client->request('GET', '/room/deputy/toggle/' . $this->deputy->getUid());
         $this->client->request('GET', '/room/dashboard');
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $this->client->loginUser($deputy);
         $server = $deputy->getServers()->toArray()[0];
 
@@ -41,7 +43,7 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
-        $form['room[moderator]'] = $manager->getId();
+        $form['room[moderator]'] = $manager_user->getId();
         $form['room[name]'] = 'test for the supervisor';
         $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -55,9 +57,9 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
-        $this->client->loginUser($manager);
+        $this->client->loginUser($manager_user);
 
 
         $crawler = $this->client->request('GET', '/room/new?id=' . $room->getId());
@@ -74,13 +76,13 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('.snackbar:contains("Die Konferenz wurde erfolgreich bearbeitet")')->count());
         $room = $roomRepo->find($room->getId());
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         self::assertEquals($deputy, $room->getCreator());
-        self::assertEquals($manager, $room->getModerator());
+        self::assertEquals($manager_user, $room->getModerator());
         self::assertEquals(45, $room->getDuration());
         self::assertEquals(1, sizeof($room->getUser()));
-        self::assertEquals($manager, $room->getUser()[0]);
+        self::assertEquals($manager_user, $room->getUser()[0]);
     }
 
     public function testEditConferenceByDeputy(): void
@@ -90,7 +92,7 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         $this->client->loginUser($deputy);
 
@@ -109,13 +111,13 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('.snackbar:contains("Die Konferenz wurde erfolgreich bearbeitet")')->count());
         $room = $roomRepo->find($room->getId());
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         self::assertEquals($deputy, $room->getCreator());
-        self::assertEquals($manager, $room->getModerator());
+        self::assertEquals($manager_user, $room->getModerator());
         self::assertEquals(45, $room->getDuration());
         self::assertEquals(1, sizeof($room->getUser()));
-        self::assertEquals($manager, $room->getUser()[0]);
+        self::assertEquals($manager_user, $room->getUser()[0]);
     }
 
     public function testAddPArticipantsDeputy(): void
@@ -125,14 +127,14 @@ class DeputyRoomOptionsControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
         $this->client->loginUser($deputy);
 
         $crawler = $this->client->request('GET', '/room/participant/add?room=' . $room->getId());
 
         self::assertEquals(1, $crawler->filter('#atendeeList:contains("Test2, 1234, User2, Test2")')->count());
-        $this->client->loginUser($manager);
+        $this->client->loginUser($manager_user);
         $crawler = $this->client->request('GET', '/room/participant/add?room=' . $room->getId());
         self::assertEquals(1, $crawler->filter('#atendeeList:contains("Test2, 1234, User2, Test2")')->count());
     }

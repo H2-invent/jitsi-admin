@@ -1,0 +1,16 @@
+App\Entity\RoomStatus:
+    room_status_now:
+      created: true
+      room: '@room_now'
+      jitsi_room_id: 'test@test.test'
+      updated_at: '<(new \Datetime())>'
+      created_at: '<(new \Datetime())>'
+    room_status_destroyed:
+      created: true
+      room_created_at: '<((new \Datetime())->modify("-2hours"))>'
+      destroyed: true
+      destroyed_at: '<((new \Datetime())->modify("-1hour"))>'
+      room: '@room_now'
+      jitsi_room_id: 'test@test.test'
+      updated_at: '<(new \Datetime())>'
+      created_at: '<(new \Datetime())>'

@@ -2,6 +2,7 @@
 
 namespace App\Tests\ConferenceMapper;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomStatus;
 use App\Repository\CallerRoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ConferenceMapperControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testRoute(): void
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer TestApi']);

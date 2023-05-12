@@ -2,6 +2,7 @@
 
 namespace App\Tests\Jigasi;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Service\Jigasi\JigasiService;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class JigasiServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testGetNumber(): void
     {
         $kernel = self::bootKernel();

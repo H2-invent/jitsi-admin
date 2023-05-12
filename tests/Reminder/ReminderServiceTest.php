@@ -2,12 +2,14 @@
 
 namespace App\Tests\Reminder;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\NotificationRepository;
 use App\Service\ReminderService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ReminderServiceTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testHasNotification(): void
     {
         $client = static::createClient();

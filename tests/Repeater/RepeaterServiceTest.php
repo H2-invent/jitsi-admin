@@ -2,6 +2,7 @@
 
 namespace App\Tests\Repeater;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -13,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RepeaterServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testDailyRepeater(): void
     {
         $kernel = self::bootKernel();

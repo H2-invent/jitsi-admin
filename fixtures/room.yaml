@@ -1,0 +1,247 @@
+App\Entity\Rooms:
+  room_without_scheduling_{1..20}:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    agenda: 'Testagenda:<($current - 1)>'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+".(($current - 1) * 2)."minutes"))>'
+    enddate: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+".((($current - 1) * 2)+60)."minutes"))>'
+    user: ['@user_3', '@user_4', '@user_5']
+    uid: '12345678<($current - 1)>'
+    uid_real: '987654321<($current - 1)>'
+    slug: 'test'
+    schedule_meeting: false
+    name: 'TestMeeting:<($current - 1)>'
+    sequence: 0
+    server: '@server_3'
+    host_url: '<{localhost}>'
+  room_with_american_timezone_{1..20}:
+    time_zone: 'America/Adak'
+    moderator: '@user_3'
+    creator: '@user_3'
+    agenda: 'Testagenda:<($current - 1)>'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+".(($current-1) * 2)."minutes"))>'
+    enddate: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+".((($current-1) * 2)+60)."minutes"))>'
+    user: [ '@user_3', '@user_4', '@user_5' ]
+    uid: '97531<($current - 1)>'
+    slug: 'test'
+    schedule_meeting: false
+    name: 'TestMeeting_Amerika: <($current - 1)>'
+    sequence: 0
+    server: '@server_3'
+  room_with_scheduling_{1..20}:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    agenda: 'Testagenda:<($current - 1)>'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+".(($current - 1) * 5)."day"))>'
+    enddate: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+".(($current - 1) * 5)."day")->modify("+60minutes"))>'
+    user: [ '@user_3', '@user_4', '@user_5' ]
+    uid : '123456789<($current - 1)>'
+    uid_real: '987654321<($current - 1)>'
+    slug: 'test'
+    schedule_meeting: true
+    name: 'Termin finden: <($current - 1)>'
+    sequence: 0
+    server: '@server_3'
+  room_no_right:
+    time_zone: '<{timeZone}>'
+    moderator: null
+    creator: '@user_3'
+    agenda: 'Testagenda:'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin")))>'
+    enddate: '<((new \DateTime())->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+60min"))>'
+    uid: '<(md5(uniqid()))>'
+    uid_real: '<(md5(uniqid()))>'
+    slug: 'test7'
+    schedule_meeting: false
+    name: 'No Right'
+    sequence: 0
+    server: '@server_3'
+  room_tomorrow:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: ['@user_3', '@user_4']
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(10, 0))>'
+    enddate: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(11, 0))>'
+    uid: 'roomTomorrow'
+    uid_real: '<(md5(uniqid()))>'
+    slug: 'test5'
+    schedule_meeting: false
+    name: 'Room Tomorrow'
+    sequence: 0
+    server: '@server_3'
+  room_yesterday:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: [ '@user_3', '@user_4' ]
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime("yesterday"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(10, 0))>'
+    enddate: '<((new \DateTime("yesterday"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->setTime(11, 0))>'
+    uid: '<(md5(uniqid()))>'
+    uid_real: '<(md5(uniqid()))>'
+    slug: 'test5'
+    schedule_meeting: false
+    name: 'Room Yesterday'
+    sequence: 0
+    server: '@server_3'
+  room_now:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: [ '@user_3', '@user_4' ]
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime("yesterday"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("-10min"))>'
+    enddate: '<((new \DateTime("yesterday"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+50min"))>'
+    uid: 'runningRoomNow'
+    uid_real: '<(md5(uniqid()))>'
+    slug: 'test5'
+    schedule_meeting: false
+    name: 'Running Room'
+    sequence: 0
+    server: '@server_3'
+  room_no_participant_fixed:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: ['@user_3']
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: null
+    enddate: null
+    uid: '561d6f51s6f'
+    uid_real: '5615ds1f65ds'
+    slug: 'test_open_room3'
+    schedule_meeting: false
+    name: 'This Room has no participants and fixed room'
+    sequence: 0
+    server: '@server_3'
+    total_open_rooms: true
+    persistant_room: true
+    total_open_rooms_open_time: 1
+  room_no_participant_fixed_active_lobby:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: ['@user_3']
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: null
+    enddate: null
+    uid: '561d6rtzf51s6fwer'
+    uid_real: '5615dfggfdds1f65ds'
+    slug: 'test_open_room3'
+    schedule_meeting: false
+    name: 'This Room has no participants and fixed room and Lobby activated'
+    sequence: 0
+    server: '@server_3'
+    total_open_rooms: true
+    persistant_room: true
+    lobby: true
+    total_open_rooms_open_time: 1  
+  room_fixed:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: ['@user_3', '@user_4', '@user_5']
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: null
+    enddate: null
+    uid: '12313231sdf'
+    uid_real: '561984sdf'
+    slug: 'test_open_room2'
+    schedule_meeting: false
+    name: 'This is a fixed room'
+    sequence: 0
+    server: '@server_3'
+    total_open_rooms: false
+    persistant_room: true
+  room_start_no_participants:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: [ '@user_3' ]
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin")))>'
+    enddate: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+60min"))>'
+    uid: 'lkdsjfkljvcxk'
+    uid_real: '5615sd6fs'
+    slug: 'test5'
+    schedule_meeting: false
+    name: 'Room with Start and no Participants list'
+    sequence: 0
+    total_open_rooms: true
+    server: '@server_3'
+  room_start_no_participants_lobby:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: [ '@user_3' ]
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin")))>'
+    enddate: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+60min"))>'
+    uid: 'wertzzrtrrew'
+    uid_real: 'sdfgfhhjtr980joifjhg'
+    slug: 'test534'
+    schedule_meeting: false
+    name: 'Room with Start and no Participants list and Lobby Activated'
+    sequence: 0
+    total_open_rooms: true
+    lobby: true
+    server: '@server_3'
+  room_with_lobby:
+    time_zone: '<{timeZone}>'
+    moderator: '@user_3'
+    creator: '@user_3'
+    user: [ '@user_3', '@user_4', '@user_5' ]
+    agenda: 'Testagenda:20'
+    duration: 60
+    dissallow_private_message: true
+    dissallow_screenshare_global: true
+    start: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("-10min"))>'
+    enddate: '<((new \DateTime("tomorrow"))->setTimezone(new \DateTimeZone("Europe/Berlin"))->modify("+50min"))>'
+    uid: '12313231ghjgfdsdf'
+    uid_real: '561ghj984ssdfdf'
+    slug: 'lobby_room'
+    schedule_meeting: false
+    name: 'This is a room with Lobby'
+    sequence: 0
+    server: '@server_3'
+    lobby: true

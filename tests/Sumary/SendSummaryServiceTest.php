@@ -2,6 +2,7 @@
 
 namespace App\Tests\Sumary;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\Summary\CreateSummaryService;
 use App\Service\Summary\SendSummaryViaEmailService;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class SendSummaryServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $kernel = self::bootKernel();

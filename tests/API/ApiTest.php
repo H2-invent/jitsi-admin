@@ -2,12 +2,14 @@
 
 namespace App\Tests\API;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ApiTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testcreateRoomSucess(): void
     {
         $client = static::createClient(

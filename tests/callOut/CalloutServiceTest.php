@@ -2,6 +2,7 @@
 
 namespace App\Tests\callOut;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CalloutSession;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
@@ -14,6 +15,7 @@ use function PHPUnit\Framework\assertEquals;
 
 class CalloutServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreateNewCallout(): void
     {
         $kernel = self::bootKernel();

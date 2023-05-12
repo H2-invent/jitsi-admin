@@ -2,6 +2,7 @@
 
 namespace App\Tests\LobbyMessage;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -14,6 +15,7 @@ use Symfony\Component\Mercure\Update;
 
 class SendMessageToWaitingUSerServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testfromMessage(): void
     {
         $kernel = self::bootKernel();

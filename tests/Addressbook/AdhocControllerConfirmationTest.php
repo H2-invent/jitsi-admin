@@ -2,6 +2,7 @@
 
 namespace App\Tests\Addressbook;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
@@ -11,6 +12,7 @@ use function PHPUnit\Framework\assertStringContainsString;
 
 class AdhocControllerConfirmationTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testcreateAdhocMeetingConfirmationWindowwithNoTag(): void
     {
         $client = static::createClient();

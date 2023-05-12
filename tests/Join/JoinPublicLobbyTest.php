@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\LobbyWaitungUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
@@ -12,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class JoinPublicLobbyTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testJoin_ConferencewithLobbyAcceptWaitingUser(): void
     {
         $client = static::createClient();

@@ -2,12 +2,14 @@
 
 namespace App\Tests\Rooms\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Rooms;
 use App\Service\RoomCheckService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RoomCheckServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $kernel = self::bootKernel();

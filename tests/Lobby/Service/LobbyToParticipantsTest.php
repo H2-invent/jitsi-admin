@@ -2,6 +2,7 @@
 
 namespace App\Tests\Lobby\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\LobbyWaitungUser;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -15,6 +16,7 @@ use Symfony\Component\Mercure\Update;
 
 class LobbyToParticipantsTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testInAppRedirect(): void
     {
         $kernel = self::bootKernel();

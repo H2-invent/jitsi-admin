@@ -2,6 +2,7 @@
 
 namespace App\Tests\SipCaller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SipCallerLobbyControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testCallerLobbyNotVerified(): void
     {
         $client = static::createClient();

@@ -2,6 +2,7 @@
 
 namespace App\Tests\SipCaller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CallerServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testGetroomSuccess(): void
     {
         $kernel = self::bootKernel();

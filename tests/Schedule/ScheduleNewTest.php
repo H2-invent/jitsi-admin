@@ -2,6 +2,7 @@
 
 namespace App\Tests\Schedule;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -11,6 +12,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ScheduleNewTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreate(): void
     {
         $client = static::createClient();

@@ -2,6 +2,7 @@
 
 namespace App\Tests\JitsiEvents;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomStatusParticipant;
 use App\Repository\RoomsRepository;
 use App\Service\webhook\RoomWebhookService;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JitsiEventsServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public static $roomCreatedData = [
         "event_name" => "muc-room-created",
         "created_at" => 1647337556,

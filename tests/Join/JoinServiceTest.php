@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\JoinService;
 use App\Service\RoomService;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class JoinServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $kernel = self::bootKernel();

@@ -2,6 +2,7 @@
 
 namespace App\Tests\AdressbookFavorite;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\User;
 use App\Exceptions\UserAlreadyAdressbookFavoriteException;
 use App\Exceptions\UserNotInAdressbookException;
@@ -13,6 +14,7 @@ use function PHPUnit\Framework\assertTrue;
 
 class AdressbookFavoriteTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testAddUserNotInAdressbook(): void
     {
         $kernel = self::bootKernel();

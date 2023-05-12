@@ -3,6 +3,7 @@
 // tests/Functional/Fixtures/HubStub.php
 namespace App\Tests\Functional\Fixtures;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Jwt\TokenFactoryInterface;
 use Symfony\Component\Mercure\Jwt\TokenProviderInterface;

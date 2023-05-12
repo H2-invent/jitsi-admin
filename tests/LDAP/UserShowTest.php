@@ -2,6 +2,7 @@
 
 namespace App\Tests\LDAP;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\dataType\LdapType;
 use App\Repository\UserRepository;
 use App\Service\ldap\LdapService;
@@ -11,6 +12,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserShowTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public $LDAPURL = 'ldap://192.168.230.128:10389';
     public function testShowName(): void
     {

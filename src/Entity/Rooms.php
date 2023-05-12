@@ -23,15 +23,15 @@ class Rooms
     private $start;
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $enddate;
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms', fetch: 'EAGER')]
     #[Ignore]
     private $user;
-    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'rooms')]
+    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'rooms', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     private $server;
     #[ORM\Column(type: 'text')]
     private $uid;
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'roomModerator', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: true)]
     #[Ignore]
     private $moderator;
@@ -45,7 +45,7 @@ class Rooms
     private $onlyRegisteredUsers = false;
     #[ORM\Column(type: 'text', nullable: true)]
     private $agenda;
-    #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'room', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: RoomsUser::class, mappedBy: 'room', cascade: ['persist'], orphanRemoval: true, fetch: 'EAGER')]
     #[Ignore]
     private $userAttributes;
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -60,29 +60,29 @@ class Rooms
     private $uidParticipant;
     #[ORM\Column(type: 'text', nullable: true)]
     private $uidModerator;
-    #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Subscriber::class, mappedBy: 'room', cascade: ['persist', 'remove'], fetch: 'EAGER')]
     #[Ignore]
     private $subscribers;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $maxParticipants;
-    #[ORM\OneToMany(targetEntity: Scheduling::class, mappedBy: 'room')]
+    #[ORM\OneToMany(targetEntity: Scheduling::class, mappedBy: 'room', fetch: 'EAGER')]
     #[Ignore]
     private $schedulings;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $scheduleMeeting;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $waitinglist;
-    #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'room', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Waitinglist::class, mappedBy: 'room', cascade: ['persist', 'remove'], fetch: 'EAGER')]
     #[Ignore]
     private $waitinglists;
     #[ORM\ManyToOne(targetEntity: Repeat::class, inversedBy: 'rooms')]
     private $repeater;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $repeaterRemoved;
-    #[ORM\OneToOne(targetEntity: Repeat::class, mappedBy: 'prototyp', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Repeat::class, mappedBy: 'prototyp', cascade: ['persist', 'remove'], fetch: 'EAGER')]
     #[Ignore]
     private $repeaterProtoype;
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'protoypeRooms')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'protoypeRooms', fetch: 'EAGER')]
     #[ORM\JoinTable(name: 'prototype_users')]
     private $prototypeUsers;
     #[ORM\Column(type: 'boolean', nullable: true)]
@@ -99,24 +99,24 @@ class Rooms
     private $startUtc;
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $endDateUtc;
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favorites', fetch: 'EAGER')]
     private $favoriteUsers;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $lobby;
-    #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'room', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: LobbyWaitungUser::class, mappedBy: 'room', orphanRemoval: true, fetch: 'EAGER')]
     #[Ignore]
     private $lobbyWaitungUsers;
-    #[ORM\OneToMany(targetEntity: RoomStatus::class, mappedBy: 'room', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: RoomStatus::class, mappedBy: 'room', orphanRemoval: true, fetch: 'EAGER')]
     #[Ignore]
     private $roomstatuses;
-    #[ORM\OneToOne(targetEntity: CallerRoom::class, mappedBy: 'room', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: CallerRoom::class, mappedBy: 'room', cascade: ['persist', 'remove'], orphanRemoval: true, fetch: 'EAGER')]
     #[Ignore]
     private $callerRoom;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $startTimestamp;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $endTimestamp;
-    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: CallerId::class, mappedBy: 'room', orphanRemoval: true, cascade: ['persist'], fetch: 'EAGER')]
     #[Ignore]
     private $callerIds;
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'rooms')]
@@ -128,11 +128,11 @@ class Rooms
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $secondaryName = null;
 
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: CalloutSession::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: CalloutSession::class, orphanRemoval: true, fetch: 'EAGER')]
     #[Ignore]
     private Collection $calloutSessions;
 
-    #[ORM\ManyToOne(inversedBy: 'creatorOf')]
+    #[ORM\ManyToOne(inversedBy: 'creatorOf', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: true)]
     #[Ignore]
     private ?User $creator = null;

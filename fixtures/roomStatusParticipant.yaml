@@ -1,0 +1,29 @@
+App\Entity\RoomStatusParticipant:
+  room_status_participant_now_1:
+    in_room: true
+    participant_id: 'inderKonferenz@test.de'
+    participant_name: 'in der Konferenz'
+    room_status: '@room_status_now'
+    entered_room_at:  '<(new \Datetime())>'
+  room_status_participant_now_2:
+    in_room: false
+    participant_id: 'inderKonferenz3@test.de'
+    participant_name: 'aus der Konferenz 1 Tag'
+    room_status: '@room_status_now'
+    entered_room_at:  '<(new \Datetime())>'
+    left_room_at:  '<((new \Datetime())->modify("+1day"))>'
+  room_status_participant_now_3:
+    in_room: false
+    participant_id: 'inderKonferenz3@test.de'
+    participant_name: 'aus der Konferenz 1 Stunde'
+    room_status: '@room_status_now'
+    entered_room_at:  '<(new \Datetime())>'
+    left_room_at:  '<((new \Datetime())->modify("+1hour"))>'
+  room_status_participant_destroyed:
+    in_room: false
+    participant_id: 'inderKonferenz@test.de'
+    participant_name: 'beim letzen mal'
+    room_status: '@room_status_destroyed'
+    entered_room_at: '<(new \Datetime())>'
+    left_room_at: '<((new \Datetime())->modify("-1hour"))>'
+    dominant_speaker_time: 11100000

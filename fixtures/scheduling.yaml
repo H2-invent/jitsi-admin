@@ -1,0 +1,101 @@
+App\Entity\Scheduling:
+  scheduling_1:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_1'
+    scheduling_times: ['@scheduling_time_0', '@scheduling_time_1', '@scheduling_time_2', '@scheduling_time_3', '@scheduling_time_4']
+  scheduling_2:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_2'
+    scheduling_times: ['@scheduling_time_5', '@scheduling_time_6', '@scheduling_time_7', '@scheduling_time_8', '@scheduling_time_9']
+  scheduling_3:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_3'
+    scheduling_times: ['@scheduling_time_10', '@scheduling_time_11', '@scheduling_time_12', '@scheduling_time_13', '@scheduling_time_14']
+  scheduling_4:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_4'
+    scheduling_times: ['@scheduling_time_15', '@scheduling_time_16', '@scheduling_time_17', '@scheduling_time_18', '@scheduling_time_19']
+  scheduling_5:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_5'
+    scheduling_times: ['@scheduling_time_20', '@scheduling_time_21', '@scheduling_time_22', '@scheduling_time_23', '@scheduling_time_24']
+  scheduling_6:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_6'
+    scheduling_times: ['@scheduling_time_25', '@scheduling_time_26', '@scheduling_time_27', '@scheduling_time_28', '@scheduling_time_29']
+  scheduling_7:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_7'
+    scheduling_times: ['@scheduling_time_30', '@scheduling_time_31', '@scheduling_time_32', '@scheduling_time_33', '@scheduling_time_34']
+  scheduling_8:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_8'
+    scheduling_times: ['@scheduling_time_35', '@scheduling_time_36', '@scheduling_time_37', '@scheduling_time_38', '@scheduling_time_39']
+  scheduling_9:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_9'
+    scheduling_times: ['@scheduling_time_40', '@scheduling_time_41', '@scheduling_time_42', '@scheduling_time_43', '@scheduling_time_44']
+  scheduling_10:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_10'
+    scheduling_times: ['@scheduling_time_45', '@scheduling_time_46', '@scheduling_time_47', '@scheduling_time_48', '@scheduling_time_49']
+  scheduling_11:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_11'
+    scheduling_times: ['@scheduling_time_50', '@scheduling_time_51', '@scheduling_time_52', '@scheduling_time_53', '@scheduling_time_54']
+  scheduling_12:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_12'
+    scheduling_times: ['@scheduling_time_55', '@scheduling_time_56', '@scheduling_time_57', '@scheduling_time_58', '@scheduling_time_59']
+  scheduling_13:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_13'
+    scheduling_times: ['@scheduling_time_60', '@scheduling_time_61', '@scheduling_time_62', '@scheduling_time_63', '@scheduling_time_64']
+  scheduling_14:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_14'
+    scheduling_times: ['@scheduling_time_65', '@scheduling_time_66', '@scheduling_time_67', '@scheduling_time_68', '@scheduling_time_69']
+  scheduling_15:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_15'
+    scheduling_times: ['@scheduling_time_70', '@scheduling_time_71', '@scheduling_time_72', '@scheduling_time_73', '@scheduling_time_74']
+  scheduling_16:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_16'
+    scheduling_times: ['@scheduling_time_75', '@scheduling_time_76', '@scheduling_time_77', '@scheduling_time_78', '@scheduling_time_79']
+  scheduling_17:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_17'
+    scheduling_times: ['@scheduling_time_80', '@scheduling_time_81', '@scheduling_time_82', '@scheduling_time_83', '@scheduling_time_84']
+  scheduling_18:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_18'
+    scheduling_times: ['@scheduling_time_85', '@scheduling_time_86', '@scheduling_time_87', '@scheduling_time_88', '@scheduling_time_89']
+  scheduling_19:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_19'
+    scheduling_times: ['@scheduling_time_90', '@scheduling_time_91', '@scheduling_time_92', '@scheduling_time_93', '@scheduling_time_94']
+  scheduling_20:
+    uid: '<(md5(uniqid()))>'
+    description: 'test'
+    room: '@room_with_scheduling_20'
+    scheduling_times: ['@scheduling_time_95', '@scheduling_time_96', '@scheduling_time_97', '@scheduling_time_98', '@scheduling_time_99']

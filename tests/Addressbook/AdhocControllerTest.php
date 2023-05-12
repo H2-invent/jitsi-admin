@@ -2,6 +2,7 @@
 
 namespace App\Tests\Addressbook;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
@@ -13,6 +14,7 @@ use Symfony\Component\Mercure\Update;
 
 class AdhocControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testcreateAdhocMeetingNoTag(): void
     {
         $client = static::createClient();

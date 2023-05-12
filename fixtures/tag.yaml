@@ -1,0 +1,12 @@
+App\Entity\Tag:
+  tag_{0..4}:
+    title: 'Test Tag<current()>'
+    priority: '<(10 * $current)>'
+  tag_disabled:
+    title: 'Test Tag Disabled'
+    priority: -10
+    disabled: true
+  tag_enabled:
+    title: 'Test Tag Enabled'
+    priority: -10
+    disabled: false

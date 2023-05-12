@@ -1,0 +1,17 @@
+App\Entity\CallerRoom:
+  caller_room_{1..20}:
+    caller_id: '1234<current()>'
+    created_at: '<(new \DateTime())>'
+    room: '@room_without_scheduling_<current()>'
+  caller_room_no_rights:
+    caller_id: '1234noRight'
+    created_at: '<(new \DateTime())>'
+    room: '@room_no_right'
+  caller_room_yesterday:
+    caller_id: '123456'
+    created_at: '<(new \DateTime())>'
+    room: '@room_yesterday'
+  caller_room_lobby:
+    created_at: '<(new \DateTime())>'
+    caller_id: 12341232
+    room: '@room_with_lobby'

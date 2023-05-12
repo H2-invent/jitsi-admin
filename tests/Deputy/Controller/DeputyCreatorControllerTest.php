@@ -2,6 +2,7 @@
 
 namespace App\Tests\Deputy\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -12,8 +13,9 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 class DeputyCreatorControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     private $client;
-    private User $manager;
+    private User $manager_user;
     private User $deputy;
     private EntityManagerInterface $em;
     private $session;
@@ -27,12 +29,12 @@ class DeputyCreatorControllerTest extends WebTestCase
         $userRepo = self::getContainer()->get(UserRepository::class);
         $this->em = self::getContainer()->get(EntityManagerInterface::class);
         $this->deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $this->manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
-        $this->manager->addAddressbook($this->deputy);
-        $this->em->persist($this->manager);
+        $this->manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $this->manager_user->addAddressbook($this->deputy);
+        $this->em->persist($this->manager_user);
         $this->em->flush();
 
-        $this->client->loginUser($this->manager);
+        $this->client->loginUser($this->manager_user);
         $this->client->request('GET', '/room/deputy/toggle/' . $this->deputy->getUid());
         $crawler = $this->client->request('GET', '/room/dashboard');
         self::assertEquals(0, $crawler->filter('.createdFromText')->count());
@@ -45,7 +47,7 @@ class DeputyCreatorControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
 
         $server = $this->deputy->getServers()->toArray()[0];
@@ -54,7 +56,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
-        $form['room[moderator]'] = $this->manager->getId();
+        $form['room[moderator]'] = $this->manager_user->getId();
         $form['room[name]'] = 'test for the supervisor';
         $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -76,16 +78,16 @@ class DeputyCreatorControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
 
         self::assertNotNull($room);
 
         self::assertEquals($deputy, $room->getCreator());
-        self::assertEquals($manager, $room->getModerator());
+        self::assertEquals($manager_user, $room->getModerator());
 
         self::assertEquals(1, sizeof($room->getUser()));
-        self::assertEquals($manager, $room->getUser()[0]);
+        self::assertEquals($manager_user, $room->getUser()[0]);
 
 
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
@@ -100,7 +102,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-iframe')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-app')->count());
 
-        $this->client->loginUser($this->manager);
+        $this->client->loginUser($this->manager_user);
         $crawler = $this->client->request('GET', '/room/dashboard');
         self::assertEquals(1, $crawler->filter('.createdByDeputy.loadContent')->count());
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
@@ -121,7 +123,7 @@ class DeputyCreatorControllerTest extends WebTestCase
 
         $userRepo = self::getContainer()->get(UserRepository::class);
         $deputy = $userRepo->findOneBy(['email' => 'test@local.de']);
-        $manager = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $manager_user = $userRepo->findOneBy(['email' => 'test@local2.de']);
 
 
         $server = $this->deputy->getServers()->toArray()[0];
@@ -130,7 +132,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();
         $form['room[server]'] = $server->getId();
-        $form['room[moderator]'] = $this->manager->getId();
+        $form['room[moderator]'] = $this->manager_user->getId();
         $form['room[name]'] = 'test for the supervisor';
         $form['room[start]'] = (new \DateTime())->format('Y-m-d H:i:s');
         $form['room[duration]'] = "60";
@@ -148,10 +150,10 @@ class DeputyCreatorControllerTest extends WebTestCase
             $this->deputy->removeServer($s);
         }
         $this->em->persist($this->deputy);
-        foreach ($this->manager->getServers() as $s) {
-            $this->manager->removeServer($s);
+        foreach ($this->manager_user->getServers() as $s) {
+            $this->manager_user->removeServer($s);
         }
-        $this->em->persist($this->manager);
+        $this->em->persist($this->manager_user);
         $this->em->flush();
 
         $crawler = $this->client->request('GET', '/room/clone?room=' . $room->getId());

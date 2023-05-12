@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 
 class JoinPublicTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testNoServer(): void
     {
         $client = static::createClient();

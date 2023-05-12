@@ -2,6 +2,7 @@
 
 namespace App\Tests\LobbyMessage;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\PredefinedLobbyMessagesRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
@@ -13,6 +14,7 @@ use Symfony\Component\Mercure\Update;
 
 class SendMessageTOWaitingUserControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testSendToOne(): void
     {
         $client = static::createClient();

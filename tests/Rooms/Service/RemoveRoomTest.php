@@ -2,6 +2,7 @@
 
 namespace App\Tests\Rooms\Service;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\CallerId;
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
@@ -17,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class RemoveRoomTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testRemoveAll(): void
     {
         $kernel = self::bootKernel();

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Join;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
 use App\Service\RoomService;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class JoinControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testjoinRoomBrowser(): void
     {
         $client = static::createClient();

@@ -2,12 +2,14 @@
 
 namespace App\Tests\Sumary;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\RoomsRepository;
 use App\Service\Summary\CreateSummaryService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CreateHeaderServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public static $headerHtml = "<table style=\"width: 500px\">
     <tbody>
     <tr>

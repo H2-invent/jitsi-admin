@@ -2,6 +2,7 @@
 
 namespace App\Tests\ExternalApplication;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Repeat;
 use App\Entity\Rooms;
@@ -12,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ApplicationUrlGeneratorTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testEtherpad(): void
     {
         $room = new Rooms();

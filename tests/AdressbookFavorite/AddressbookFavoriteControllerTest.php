@@ -2,11 +2,13 @@
 
 namespace App\Tests\AdressbookFavorite;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AddressbookFavoriteControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $client = static::createClient();

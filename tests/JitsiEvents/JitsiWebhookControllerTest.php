@@ -2,10 +2,12 @@
 
 namespace App\Tests\JitsiEvents;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class JitsiWebhookControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testAuthenticationSuccess(): void
     {
         $client = static::createClient([],['HTTP_AUTHORIZATION' => 'Bearer 123456']);

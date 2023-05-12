@@ -2,6 +2,7 @@
 
 namespace App\Tests\Unit\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Controller\ScheduleController;
 use App\Entity\Rooms;
 use App\Entity\Scheduling;
@@ -23,6 +24,7 @@ use function PHPUnit\Framework\exactly;
 
 class ScheduleControllerTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
 
     private MockObject&ManagerRegistry $managerRegistry;
 

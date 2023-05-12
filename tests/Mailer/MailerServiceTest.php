@@ -2,6 +2,7 @@
 
 namespace App\Tests\Mailer;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\LdapUserProperties;
 use App\Entity\Rooms;
 use App\Entity\Server;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class MailerServiceTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     private $userReciever;
     private $userSender;
     private $server;

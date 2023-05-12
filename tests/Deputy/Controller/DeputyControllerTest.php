@@ -2,11 +2,13 @@
 
 namespace App\Tests\Deputy\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeputyControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testUserIsInAdressbook(): void
     {
         $client = static::createClient();

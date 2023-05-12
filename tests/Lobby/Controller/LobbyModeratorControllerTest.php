@@ -2,6 +2,7 @@
 
 namespace App\Tests\Lobby\Controller;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\LobbyWaitungUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LobbyModeratorControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testLobby(): void
     {
         $client = static::createClient();

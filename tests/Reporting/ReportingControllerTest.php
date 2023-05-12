@@ -2,6 +2,7 @@
 
 namespace App\Tests\Reporting;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Repository\RoomsRepository;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ReportingControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testOpenModal(): void
     {
         $client = static::createClient();

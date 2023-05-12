@@ -2,10 +2,12 @@
 
 namespace App\Tests\Utils;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ChangelogControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testSomething(): void
     {
         $client = static::createClient();

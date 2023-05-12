@@ -2,6 +2,7 @@
 
 namespace App\Tests\PersonalSettings;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -11,6 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SecondEmailTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testSucess(): void
     {
 

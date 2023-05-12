@@ -2,6 +2,7 @@
 
 namespace App\Tests\Utils;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Rooms;
 use App\Service\CreateHttpsUrl;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -9,6 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HTTPSMaker extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testCreatHttps(): void
     {
         $kernel = self::bootKernel();

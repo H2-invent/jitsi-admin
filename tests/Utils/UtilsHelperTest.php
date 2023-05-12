@@ -2,6 +2,7 @@
 
 namespace App\Tests\Utils;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Entity\Deputy;
 use App\Entity\Rooms;
 use App\Entity\User;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UtilsHelperTest extends KernelTestCase
 {
+use RefreshDatabaseTrait;
     public function testIsAllowedToOrganiser(): void
     {
         $deputy = new User();

@@ -2,6 +2,7 @@
 
 namespace App\Tests\callOut;
 
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use App\Repository\CallerIdRepository;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CalloutApiControllerTest extends WebTestCase
 {
+use RefreshDatabaseTrait;
     public function testEmptyResponse(): void
     {
         $client = static::createClient(
