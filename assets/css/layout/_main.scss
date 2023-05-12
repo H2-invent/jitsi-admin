@@ -374,6 +374,13 @@ strong {
     width: 100vw;
     overflow-y: auto;
     backdrop-filter: blur(100px);
+    #favorite-Container{
+      h5{
+        border-bottom: $main-color 3px solid;
+        padding-top: 8px;
+        padding-bottom: 5px;
+      }
+    }
     @media only screen and (min-width: 768px) {
       width: 300px;
     }
