@@ -411,7 +411,7 @@ class ScheduleController extends JitsiAdminController
     private
     function validateVote(int $vote, bool $allowMaybe): bool
     {
-        return !($allowMaybe && $vote === 2);
+        return !(!$allowMaybe && $vote === 2);
     }
 
     #[
