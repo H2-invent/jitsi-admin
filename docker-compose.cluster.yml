@@ -182,7 +182,7 @@ services:
       - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.secure=true"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
-      - $PWD/docker/dockerupdate.sh:/etc/container/startup.sh
+      - $PWD/dockerupdate.sh:/etc/container/startup.sh
     networks:
       - default
       - jitsi-admin
