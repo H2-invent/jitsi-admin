@@ -3,7 +3,6 @@
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ 'Terminplaner'|trans }}</h5>
-            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <small>{{ 'Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.'|trans }}</small>
@@ -36,6 +35,9 @@
                     {% endif %}
                 </div>
             </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" onClick="window.location.reload();">{{'Schließen'|trans }}</a>
         </div>
     </div>
 </div>
