@@ -30,7 +30,7 @@
                             <ul class="list-group">
                                 <li class="list-group-item d-flex flex-column">
                                     <div class="d-flex">
-                                        <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}</p>
+                                        <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}{% if s.createdFrom%} <small>{{ s.createdFrom.email }}</small>{% endif %}</p>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <p class="mb-0">{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}&nbsp;

@@ -11,6 +11,7 @@ use App\Form\Type\SchedulerType;
 use App\Helper\JitsiAdminController;
 use App\Repository\RoomsRepository;
 use App\Repository\SchedulingTimeRepository;
+use App\Repository\SchedulingTimeUserRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
 use App\Service\PexelService;
@@ -22,8 +23,11 @@ use App\Util\CsvHandler;
 use App\UtilsHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +38,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ScheduleController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry           $managerRegistry,
+        TranslatorInterface       $translator,
+        LoggerInterface           $logger,
+        ParameterBagInterface     $parameterBag,
+        private SchedulingService $schedulingService)
+    {
+        parent::__construct(
+            $managerRegistry,
+            $translator,
+            $logger,
+            $parameterBag,);
+    }
+
     /**
      * @Route("room/schedule/new", name="schedule_admin_new")
      */
@@ -216,8 +234,6 @@ class ScheduleController extends JitsiAdminController
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
         }
-        $sheduls = $rooms->getSchedulings();
-
         return $this->render(
             'schedule/index.html.twig',
             [
@@ -254,7 +270,7 @@ class ScheduleController extends JitsiAdminController
         } catch (Exception $e) {
             return new JsonResponse(['error' => true]);
         }
-
+        $this->schedulingService->sendEmailWhenNewSchedulingTime(schedulingTime: $scheduleTime);
         return new JsonResponse(['error' => false]);
     }
 
@@ -332,12 +348,14 @@ class ScheduleController extends JitsiAdminController
      * @Route("schedule/vote", name="schedule_public_vote", methods={"POST"})
      */
     public function vote(
-        Request                  $request,
-        TranslatorInterface      $translator,
-        UserRepository           $userRepository,
-        SchedulingTimeRepository $schedulingTimeRepository,
-        EntityManagerInterface   $em,
-    ): Response {
+        Request                      $request,
+        TranslatorInterface          $translator,
+        UserRepository               $userRepository,
+        SchedulingTimeRepository     $schedulingTimeRepository,
+        SchedulingTimeUserRepository $schedulingTimeUserRepository,
+        EntityManagerInterface       $em,
+    ): Response
+    {
         $user = $userRepository->find($request->get('user'));
         $scheduleTime = $schedulingTimeRepository->find($request->get('time'));
         $room = $scheduleTime->getScheduling()->getRoom();
@@ -355,7 +373,8 @@ class ScheduleController extends JitsiAdminController
                 ],
             );
         }
-        $scheduleTimeUser = $schedulingTimeRepository->findOneBy(['user' => $user, 'scheduleTime' => $scheduleTime]);
+
+        $scheduleTimeUser = $schedulingTimeUserRepository->findOneBy(['user' => $user, 'scheduleTime' => $scheduleTime]);
 
         if (!$scheduleTimeUser) {
             $scheduleTimeUser = new SchedulingTimeUser();
@@ -377,7 +396,8 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    private function roomChanged(Rooms $oldRoom, Rooms $newRoom): bool
+    private
+    function roomChanged(Rooms $oldRoom, Rooms $newRoom): bool
     {
         return (
             $oldRoom->getStart() !== $newRoom->getStart()
@@ -388,12 +408,14 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    private function validateVote(int $vote, bool $allowMaybe): bool
+    private
+    function validateVote(int $vote, bool $allowMaybe): bool
     {
         return !($allowMaybe && $vote === 2);
     }
 
-    #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
+    #[
+        Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
     #[ParamConverter(data: 'room', class: Rooms::class)]
     public function generateVoteCsv(Rooms $room): Response
     {
