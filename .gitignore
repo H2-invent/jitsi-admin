@@ -65,3 +65,4 @@ repairLog.txt
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
 /results*.xml
+.phpunit.cache/

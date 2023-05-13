@@ -20,10 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class SchedulerPublicCreatorController extends AbstractController
 {
     public function __construct(
-        private RoomsRepository $roomsRepository,
-        private UserRepository $userRepo,
+        private RoomsRepository        $roomsRepository,
+        private UserRepository         $userRepo,
         private EntityManagerInterface $entityManager,
-        private SchedulingService $schedulingService,
+        private SchedulingService      $schedulingService,
     )
     {
     }
@@ -31,18 +31,18 @@ class SchedulerPublicCreatorController extends AbstractController
     #[Route('/', name: '')]
     public function index(Request $request): Response
     {
-        $room = $this->roomsRepository->findOneBy(array('uid'=>$request->get('room_id')));
-        $user = $this->userRepo->findOneBy(array('uid'=>$request->get('user_id')));
-        if (!$room){
+        $room = $this->roomsRepository->findOneBy(array('uid' => $request->get('room_id')));
+        $user = $this->userRepo->findOneBy(array('uid' => $request->get('user_id')));
+        if (!$room) {
             throw new NotFoundHttpException('Schuduler not found');
         }
-        if (!$user){
+        if (!$user) {
             throw new NotFoundHttpException('User not found');
         }
         return $this->render(
             'scheduler_public_creator/index.html.twig',
             [
-                'user'=>$user,
+                'user' => $user,
                 'room' => $room,
             ]
         );
@@ -52,12 +52,12 @@ class SchedulerPublicCreatorController extends AbstractController
     #[Route('/add', name: '_add')]
     public function add(Request $request): Response
     {
-        $room = $this->roomsRepository->findOneBy(array('uid'=>$request->get('room_id')));
-        $user = $this->userRepo->findOneBy(array('uid'=>$request->get('user_id')));
-        if (!$room){
+        $room = $this->roomsRepository->findOneBy(array('uid' => $request->get('room_id')));
+        $user = $this->userRepo->findOneBy(array('uid' => $request->get('user_id')));
+        if (!$room) {
             throw new NotFoundHttpException('Schuduler not found');
         }
-        if (!$user){
+        if (!$user) {
             throw new NotFoundHttpException('User not found');
         }
         try {
@@ -72,6 +72,7 @@ class SchedulerPublicCreatorController extends AbstractController
             $scheduleTime->setTime(new \DateTime($request->get('date')));
             $scheduleTime->setScheduling($schedule);
             $scheduleTime->setCreatedFrom($user);
+            $schedule->addSchedulingTime($scheduleTime);
             $this->entityManager->persist($schedule);
             $this->entityManager->persist($scheduleTime);
             $this->entityManager->flush();
