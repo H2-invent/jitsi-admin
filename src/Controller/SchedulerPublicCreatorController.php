@@ -73,6 +73,7 @@ class SchedulerPublicCreatorController extends AbstractController
             $scheduleTime->setScheduling($schedule);
             $scheduleTime->setCreatedFrom($user);
             $schedule->addSchedulingTime($scheduleTime);
+            $schedule->setCompletedEmailSent(false);
             $this->entityManager->persist($schedule);
             $this->entityManager->persist($scheduleTime);
             $this->entityManager->flush();

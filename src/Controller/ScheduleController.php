@@ -264,6 +264,7 @@ class ScheduleController extends JitsiAdminController
             $scheduleTime = new SchedulingTime();
             $scheduleTime->setTime(new DateTime($request->get('date')));
             $scheduleTime->setScheduling($schedule);
+            $schedule->setCompletedEmailSent(false);
             $em->persist($schedule);
             $em->persist($scheduleTime);
             $em->flush();
@@ -373,19 +374,8 @@ class ScheduleController extends JitsiAdminController
                 ],
             );
         }
+        $this->schedulingService->voteForSchedulingTime(user: $user, schedulingTime: $scheduleTime, type: $type);
 
-        $scheduleTimeUser = $schedulingTimeUserRepository->findOneBy(['user' => $user, 'scheduleTime' => $scheduleTime]);
-
-        if (!$scheduleTimeUser) {
-            $scheduleTimeUser = new SchedulingTimeUser();
-            $scheduleTimeUser->setUser($user);
-            $scheduleTimeUser->setScheduleTime($scheduleTime);
-        }
-
-        $scheduleTimeUser->setAccept($type);
-
-        $em->persist($scheduleTimeUser);
-        $em->flush();
 
         return new JsonResponse(
             [
