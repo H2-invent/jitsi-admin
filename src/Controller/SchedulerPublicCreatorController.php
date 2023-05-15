@@ -31,10 +31,10 @@ class SchedulerPublicCreatorController extends AbstractController
     #[Route('/', name: '')]
     public function index(Request $request): Response
     {
-        $room = $this->roomsRepository->findOneBy(array('uid' => $request->get('room_id')));
-        $user = $this->userRepo->findOneBy(array('uid' => $request->get('user_id')));
+        $room = $this->roomsRepository->findOneBy(['uid' => $request->get('room_id')]);
+        $user = $this->userRepo->findOneBy(['uid' => $request->get('user_id')]);
         if (!$room) {
-            throw new NotFoundHttpException('Schuduler not found');
+            throw new NotFoundHttpException('Scheduler not found');
         }
         if (!$user) {
             throw new NotFoundHttpException('User not found');
@@ -52,10 +52,10 @@ class SchedulerPublicCreatorController extends AbstractController
     #[Route('/add', name: '_add')]
     public function add(Request $request): Response
     {
-        $room = $this->roomsRepository->findOneBy(array('uid' => $request->get('room_id')));
-        $user = $this->userRepo->findOneBy(array('uid' => $request->get('user_id')));
+        $room = $this->roomsRepository->findOneBy(['uid' => $request->get('room_id')]);
+        $user = $this->userRepo->findOneBy(['uid' => $request->get('user_id')]);
         if (!$room) {
-            throw new NotFoundHttpException('Schuduler not found');
+            throw new NotFoundHttpException('Scheduler not found');
         }
         if (!$user) {
             throw new NotFoundHttpException('User not found');

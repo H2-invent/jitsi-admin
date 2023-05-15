@@ -386,8 +386,7 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    private
-    function roomChanged(Rooms $oldRoom, Rooms $newRoom): bool
+    private function roomChanged(Rooms $oldRoom, Rooms $newRoom): bool
     {
         return (
             $oldRoom->getStart() !== $newRoom->getStart()
@@ -398,14 +397,12 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    private
-    function validateVote(int $vote, bool $allowMaybe): bool
+    private function validateVote(int $vote, bool $allowMaybe): bool
     {
         return !(!$allowMaybe && $vote === 2);
     }
 
-    #[
-        Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
+    #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
     #[ParamConverter(data: 'room', class: Rooms::class)]
     public function generateVoteCsv(Rooms $room): Response
     {
