@@ -255,7 +255,7 @@ class LdapType
             $tmp = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
             $isUrl = preg_match('/^(ldap(s)?:\/\/)(((\d{1,3}.){3}\d{1,3}(:\d+)?)|(\w|\d|)+|((\[([a-f0-9]{1,4}:{1,2}){1,4}([a-f0-9]{1,4})\])))$/m',$this->url);
             if ($isUrl) {
-                if ($anonym === false) {
+                if (!$anonym) {
                     $tmp->bind($this->bindDn, $this->password);
                 } else {
                     $tmp->bind();
