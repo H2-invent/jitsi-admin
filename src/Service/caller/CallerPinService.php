@@ -77,7 +77,7 @@ class CallerPinService
         $callerID = $callerSession->getCallerId();
         try {
             $properties = $callerSession->getCaller()->getUser()->getSpezialProperties();
-            $key = $this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD')
+            $key = $this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD');
   
             if (isset($properties[$key])){
                 $phoneNumber = $properties[$key];
