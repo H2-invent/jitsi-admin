@@ -8,6 +8,7 @@ use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
 use App\Entity\SchedulingTimeUser;
 use App\Entity\User;
+use App\Service\SchedulingService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
@@ -36,6 +37,7 @@ class ScheduleControllerTest extends KernelTestCase
     {
         $this->managerRegistry = $this->createMock(ManagerRegistry::class);
         $translator = $this->bootKernel()->getContainer()->get('translator');
+        $schedulingService = $this->createMock(SchedulingService::class);
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->parameterBag = $this->createMock(ParameterBagInterface::class);
 
@@ -44,6 +46,7 @@ class ScheduleControllerTest extends KernelTestCase
             $translator,
             $this->logger,
             $this->parameterBag,
+            schedulingService: $schedulingService,
         );
     }
 

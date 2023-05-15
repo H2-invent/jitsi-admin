@@ -24,7 +24,7 @@
         </testsuite>
         <testsuite name="Development">
             <directory>tests</directory>
-            <exclude>tests/LDAP/*</exclude>
+            <exclude>tests/LDAP/</exclude>
         </testsuite>
     </testsuites>
 
