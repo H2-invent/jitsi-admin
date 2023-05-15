@@ -46,13 +46,13 @@ class SchedulingCheckEmailTest extends KernelTestCase
         $room = $roomRepo->findOneBy(['name' => 'Termin finden: 0']);
 
         self::assertFalse($schedulingService->checkIfAllUserVoted($room->getSchedulings()[0]));
-        $schedulingService->voteForSchedulingTime($user1, $room->getSchedulings()[0]->getSchedulingTimes()[0], 0);
+        $schedulingService->voteForSchedulingTimeOnly($user1, $room->getSchedulings()[0]->getSchedulingTimes()[0], 0);
         self::assertFalse($schedulingService->checkIfAllUserVoted($room->getSchedulings()[0]));
-        $schedulingService->voteForSchedulingTime($user2, $room->getSchedulings()[0]->getSchedulingTimes()[0], 0);
+        $schedulingService->voteForSchedulingTimeOnly($user2, $room->getSchedulings()[0]->getSchedulingTimes()[0], 0);
         self::assertFalse($schedulingService->checkIfAllUserVoted($room->getSchedulings()[0]));
-        $schedulingService->voteForSchedulingTime($user3, $room->getSchedulings()[0]->getSchedulingTimes()[0], 0);
+        $schedulingService->voteForSchedulingTimeOnly($user3, $room->getSchedulings()[0]->getSchedulingTimes()[0], 0);
         self::assertTrue($schedulingService->checkIfAllUserVoted($room->getSchedulings()[0]));
-
+        self::assertFalse($schedulingService->checkIfAllUserVoted($room->getSchedulings()[0]));
     }
 
     public function testSendEmail(): void
