@@ -1,0 +1,27 @@
+{% extends 'email/base.html.twig' %}
+{% block header %}
+    {{'scheduling.new.schedulingTime.header'|trans}}
+{% endblock %}
+
+{% block content %}
+    <h4 class="text-center">
+        {{ room.name }}
+    </h4>
+    <b>
+        {{'Hallo!'|trans}}
+    </b>
+    <p>
+        {% trans with {'{url}': room.server.serverName} %}scheduling.new.schedulingTime.text{% endtrans %}
+    </p>
+
+    <p>
+        <a href="{{ absolute_url(path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':user.uid})) }}">{{ 'Klicken Sie hier um über den optimalen Termin abzustimmen.'|trans }}</a>
+    </p>
+
+    <p>
+        {% if server is defined and  server is not null and server|validateLicense and server.serverEmailBody is not null %}
+            {{ server.serverEmailBody|nl2br }}
+        {% endif %}
+    </p>
+
+{% endblock %}

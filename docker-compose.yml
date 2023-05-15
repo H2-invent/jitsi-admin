@@ -172,7 +172,7 @@ services:
       MARIADB_ROOT_PASSWORD: test
     volumes:
       - mariadb:/var/lib/mysql
-      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
 
   keycloak-ja:
@@ -204,7 +204,7 @@ services:
       - "traefik.http.routers.keycloak-ja.tls.certresolver=letsencrypt"
 
     volumes:
-      - ./keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/realm-export.json:/tmp/realm-export.json
 
 volumes:
   mariadb:

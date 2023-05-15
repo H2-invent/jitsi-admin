@@ -24,6 +24,9 @@ class Scheduling
     private $room;
     #[ORM\OneToMany(targetEntity: SchedulingTime::class, mappedBy: 'scheduling')]
     private $schedulingTimes;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $completedEmailSent = null;
     public function __construct()
     {
         $this->schedulingTimes = new ArrayCollection();
@@ -86,6 +89,18 @@ class Scheduling
                 $schedulingTime->setScheduling(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isCompletedEmailSent(): ?bool
+    {
+        return $this->completedEmailSent;
+    }
+
+    public function setCompletedEmailSent(?bool $completedEmailSent): self
+    {
+        $this->completedEmailSent = $completedEmailSent;
 
         return $this;
     }

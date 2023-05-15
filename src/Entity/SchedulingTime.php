@@ -21,6 +21,9 @@ class SchedulingTime
     private $scheduling;
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'scheduleTime')]
     private $schedulingTimeUsers;
+
+    #[ORM\ManyToOne(inversedBy: 'schedulingTimesCreated')]
+    private ?User $createdFrom = null;
     public function __construct()
     {
         $this->schedulingTimeUsers = new ArrayCollection();
@@ -87,5 +90,17 @@ class SchedulingTime
             }
         }
         return $time;
+    }
+
+    public function getCreatedFrom(): ?User
+    {
+        return $this->createdFrom;
+    }
+
+    public function setCreatedFrom(?User $createdFrom): self
+    {
+        $this->createdFrom = $createdFrom;
+
+        return $this;
     }
 }

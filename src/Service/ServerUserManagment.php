@@ -52,11 +52,14 @@ class ServerUserManagment
             }
         }
         try {
-            $domain = explode('@', $user->getEmail())[1];
-            $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $domain]);
-            foreach ($tmpE as $data2) {
-                if (!in_array($data2->getServer(), $servers)) {
-                    $servers[] = $data2->getServer();
+            $domainArr =explode('@', $user->getEmail());
+            if (count($domainArr) > 1){
+                $domain = explode('@', $user->getEmail())[1];
+                $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $domain]);
+                foreach ($tmpE as $data2) {
+                    if (!in_array($data2->getServer(), $servers)) {
+                        $servers[] = $data2->getServer();
+                    }
                 }
             }
         } catch (\Exception $exception) {

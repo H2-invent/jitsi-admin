@@ -45,7 +45,7 @@ export function initWebsocket(jwt) {
         if (inIframe()){
             window.parent.postMessage(parentMessage, '*');
         }else {
-            createIframe(url, data.title, false);
+            createIframe(url, data.title, false,false);
         }
 
     })

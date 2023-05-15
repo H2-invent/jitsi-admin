@@ -134,6 +134,9 @@ class User extends BaseUser
     #[ORM\JoinTable(name: 'addressbook_favorites')]
     private Collection $isAdressbookFavoriteFrom;
 
+    #[ORM\OneToMany(mappedBy: 'createdFrom', targetEntity: SchedulingTime::class)]
+    private Collection $schedulingTimesCreated;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -161,6 +164,7 @@ class User extends BaseUser
         $this->managerElement = new ArrayCollection();
         $this->AdressbookFavorites = new ArrayCollection();
         $this->isAdressbookFavoriteFrom = new ArrayCollection();
+        $this->schedulingTimesCreated = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -1216,6 +1220,36 @@ class User extends BaseUser
     {
         if ($this->isAdressbookFavoriteFrom->removeElement($isAdressbookFavoriteFrom)) {
             $isAdressbookFavoriteFrom->removeAdressbookFavorite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SchedulingTime>
+     */
+    public function getSchedulingTimesCreated(): Collection
+    {
+        return $this->schedulingTimesCreated;
+    }
+
+    public function addSchedulingTimesCreated(SchedulingTime $schedulingTimesCreated): self
+    {
+        if (!$this->schedulingTimesCreated->contains($schedulingTimesCreated)) {
+            $this->schedulingTimesCreated->add($schedulingTimesCreated);
+            $schedulingTimesCreated->setCreatedFrom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedulingTimesCreated(SchedulingTime $schedulingTimesCreated): self
+    {
+        if ($this->schedulingTimesCreated->removeElement($schedulingTimesCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($schedulingTimesCreated->getCreatedFrom() === $this) {
+                $schedulingTimesCreated->setCreatedFrom(null);
+            }
         }
 
         return $this;

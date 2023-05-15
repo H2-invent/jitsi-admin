@@ -77,17 +77,16 @@ class CallerPinService
         $callerID = $callerSession->getCallerId();
         try {
             $properties = $callerSession->getCaller()->getUser()->getSpezialProperties();
-            $key = $this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD');
-
-            if (!isset($properties[$key])) {
-                return false;
+            $key = $this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD')
+  
+            if (isset($properties[$key])){
+                $phoneNumber = $properties[$key];
             }
 
-            $phoneNumber = $properties[$key];
-        } catch (\Exception) {
+        } catch (\Exception $exception) {
             return false;
         }
-        if ($this->clean($callerID) === $this->clean($phoneNumber)) {
+        if ($this->clean($callerID) === $this->clean($phoneNumber) && isset($phoneNumber)) {
             return true;
         }
         return false;
