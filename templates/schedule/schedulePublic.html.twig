@@ -3,7 +3,7 @@
     {{ room.name }}
 {% endblock %}
 {% block content %}
-        <div class=" col-sm-12 col-lg-10">
+        <div class=" col-sm-12 col-lg-12">
         <p class="text-center text-md-start">
             {{ 'Welcher Termin passt für Sie am besten?'|trans }}
         </p>
@@ -74,6 +74,7 @@
             </div>
 
         </div>
+            <a class="btn btn-primary btn-block loadContent" href="{{ path('app_scheduler_public_creator',{'room_id':room.uid,'user_id':user.uid}) }}">{{ 'scheduler.new.schedule'|trans }}</a>
         <button class="btn btn-primary btn-block" data-mdb-toggle="toastr" data-target="#saveModal"
                 data-text=" {{ 'common.success.save'|trans }}" data-type="success">{{ 'common.save'|trans }}</button>
 

@@ -14,7 +14,7 @@
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
   overflow: hidden;
 
-  &:not(.maximized) {
+  &:not(.maximized,.minified) {
     outline: 1px solid black;
     border-radius: 8px;
     .dragger {
@@ -100,6 +100,9 @@
   z-index: 500 !important;
   border-width: 8px !important;
   border-style: solid;
+  @media (min-width: $breakpointMenue) {
+    max-width: 50vw;
+  }
 
   [class^="fa-"] {
     display: none;

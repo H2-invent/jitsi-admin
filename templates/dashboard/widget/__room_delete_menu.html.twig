@@ -1,11 +1,11 @@
 {% if room.persistantRoom == true or (room.endDate is not null and 'now'|date('U') < room.endTimestamp) %}
-    <li><a class="dropdown-item confirmHref"
+    <li><a class="dropdown-item btn-darkred confirmHref"
            href="{{ path('room_remove',{'room':room.id}) }}"
            data-text="{{ 'confirm.delete.room'|trans }}">
             <i class="fa fa-trash"></i>
             {{ 'Löschen'|trans }}</a></li>
 {% else %}
-    <li><a class="dropdown-item confirmHref"
+    <li><a class="dropdown-item btn-darkred confirmHref"
            href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
            data-text="{{ 'confirm.delete.room'|trans }}">
             <i class="fa fa-trash"></i>

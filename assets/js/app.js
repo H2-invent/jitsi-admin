@@ -139,9 +139,7 @@ $('#modalAdressbook').on('shown.bs.modal', function (e) {
     initalSetUnderline('#modalAdressbook .underline');
 });
 
-$('#loadContentModal').on('shown.bs.modal', function (e) {
-    initNewModal(e)
-});
+
 
 
 $(".clickable-row").click(function () {

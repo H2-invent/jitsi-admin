@@ -58,13 +58,13 @@ function initSchedulePublic() {
         var $type = $(this).data('type');
         var $url = $(this).data('url');
         $.post($url, {user: $user, type: $type, time: $schedule}, function (data) {
-            snackbar(data.text);
+            snackbar(data.text,data.color);
         })
     })
 }
 
-function snackbar($text) {
-    $('#snackbar').text($text).addClass('show').removeClass('d-none');
+function snackbar($text,$color) {
+    $('#snackbar').text($text).removeClass('bg-danger').removeClass('bg-success').addClass('show').addClass('bg-'+$color).removeClass('d-none');
     setTimeout(function () {
         $('#snackbar').removeClass('show').addClass('d-none');
     }, 3000);

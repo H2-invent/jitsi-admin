@@ -2,7 +2,7 @@
   "type": "project",
   "license": "proprietary",
   "require": {
-    "php": " ^8.2",
+    "php": " ^8.1",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "aws/aws-sdk-php": "^3.209",
@@ -143,11 +143,11 @@
     ],
     "test": [
       "@test-prepare",
-      "SYMFONY_DEPRECATIONS_HELPER='disabled=1' php vendor/bin/phpunit --testsuite=Development"
+      " php vendor/bin/phpunit --testsuite=Development"
     ],
     "test-complete": [
       "@test-prepare",
-      "SYMFONY_DEPRECATIONS_HELPER='disabled=1' php vendor/bin/phpunit --testsuite=Complete"
+      " php vendor/bin/phpunit --testsuite=Complete"
     ]
   },
   "conflict": {

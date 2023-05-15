@@ -1,0 +1,43 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'Terminplaner'|trans }}</h5>
+        </div>
+        <div class="modal-body">
+            <small>{{ 'Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.'|trans }}</small>
+
+            <div class="input-group mb-3">
+                <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control" id="schedulePickr">
+
+                <button id="scheduleAppendBtn" class="btn btn-md btn-outline-primary waves-effect addSchedule"
+                        type="button"
+                        data-reload="{{ path('app_scheduler_public_creator',{'room_id':room.uid,'user_id':user.uid}) }}"
+                        data-url="{{ path('app_scheduler_public_creator_add',{'room_id':room.uid,'user_id':user.uid}) }}">
+                    <i class="fas fa-plus"></i>
+                </button>
+
+            </div>
+
+            <div id="scheduleSlots">
+                <div id="slot">
+                    {% if room.schedulings|length>0 %}
+                        {% for s in room.schedulings[0].schedulingTimes|sort((a, b) => a.time <=> b.time) %}
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex flex-column mb-1">
+                                    <div class="d-flex">
+                                        <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}</p>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" onClick="window.location.reload();">{{'Schließen'|trans }}</a>
+        </div>
+    </div>
+</div>

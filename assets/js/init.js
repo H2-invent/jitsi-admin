@@ -97,6 +97,9 @@ function initLoadContent() {
 }
 
 
+$('#loadContentModal').on('shown.bs.modal', function (e) {
+    initNewModal(e)
+});
 function initNewModal(e){
 
     initScheduling();

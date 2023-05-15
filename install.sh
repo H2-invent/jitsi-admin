@@ -1,3 +1,4 @@
+#!/bin/bash
 cat << "EOF"
      _ _ _      _      _      _       _        ___         _        _ _
   _ | (_) |_ __(_)___ /_\  __| |_ __ (_)_ _   |_ _|_ _  __| |_ __ _| | |___ _ _
@@ -95,13 +96,13 @@ chmod -R 775 public/uploads/images
 
 clear
 
-cp nginx.conf /etc/nginx/sites-enabled/jitsi-admin.conf
+cp installer/nginx.conf /etc/nginx/sites-enabled/jitsi-admin.conf
 rm /etc/nginx/sites-enabled/default
-cp jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
+cp installer/jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
 cp nodejs/config/websocket.conf /etc/systemd/system/jitsi-admin.conf
 
 cp -r nodejs /usr/local/bin/websocket
-cp nodejs/config/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
+cp installer/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
 mkdir /var/log/websocket/
 clear
 
