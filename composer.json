@@ -70,7 +70,7 @@
     "dbrekelmans/bdi": "^1.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "phpstan/phpstan": "^1.8",
-    "phpunit/phpunit": "^10.1",
+    "phpunit/phpunit": "^9",
     "rector/rector": "^0.13.9",
     "squizlabs/php_codesniffer": "^3.7",
     "symfony/browser-kit": "5.4.*",
