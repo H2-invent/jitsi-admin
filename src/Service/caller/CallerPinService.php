@@ -83,7 +83,7 @@ class CallerPinService
         } catch (\Exception $exception) {
             return false;
         }
-        if ($this->clean($callerID) === $this->clean($phoneNumber) && isset($phoneNumber)) {
+        if (isset($phoneNumber) && $this->clean($callerID) === $this->clean($phoneNumber)) {
             return true;
         }
         return false;
