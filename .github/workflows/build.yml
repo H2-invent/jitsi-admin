@@ -3,7 +3,7 @@ name: Build Pipeline
 
 on:
   workflow_run:
-    workflows: ["Development Pipeline"]
+    workflows: [Development Pipeline]
     types:
       - completed
 
