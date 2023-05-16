@@ -232,7 +232,7 @@ class InstallerCommand extends Command
 
     private function createDbConfig(): DbConfig
     {
-        $dbExistsQuestion = $this->getConfirmationQuestion('Do you already have an existing database', false);
+        $dbExistsQuestion = $this->getConfirmationQuestion('Do you want to use an external database? If you don\'t have a database and want the internal database please select N ', false);
 
         if ($this->ask($dbExistsQuestion)) {
             return $this->askForDbConfig(
