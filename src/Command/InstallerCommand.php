@@ -223,7 +223,7 @@ class InstallerCommand extends Command
     {
         return $this->askForSmtpConfig(
             defaultHost: 'localhost',
-            defaultPort: 465,
+            defaultPort: 587,
             defaultUsername: 'root',
             defaultPassword: 'root',
             defaultEmail: null,
