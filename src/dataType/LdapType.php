@@ -271,6 +271,13 @@ class LdapType
         }
     }
 
+    public function isValidLdapUrl(string $url):bool{
+        $regex = '/^(ldap(s)?:\/\/)(((((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4})|([a-zA-Z][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@%_\+.~#?&\/=]*))))(?:\:\d+)?$/m';
+
+        $isUrl = preg_match($regex,$url);
+        $res = $isUrl>0?true:false;
+        return $res;
+    }
     /**
      * @return mixed
      */
