@@ -1,4 +1,4 @@
-name: Development Pipeline
+name: Development
 
 on: push
 
