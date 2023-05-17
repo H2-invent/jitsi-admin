@@ -25,6 +25,7 @@ class LdapConnectionTest extends KernelTestCase
         'ldaps://1.1.1.1:639',
         'ldaps://1.1.1.1',
         'ldaps://test.test-test.de',
+        'ldaps://test01.t-test.de:636',
     ];
 
     private static $testURLFalse = [

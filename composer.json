@@ -147,7 +147,7 @@
     ],
     "test-complete": [
       "@test-prepare",
-      " php vendor/bin/phpunit --configuration=phpunit-complete.xml.dist --testsuite=Complete"
+      " php vendor/bin/phpunit --testsuite=Complete"
     ]
   },
   "conflict": {

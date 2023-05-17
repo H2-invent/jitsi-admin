@@ -253,7 +253,7 @@ class LdapType
         $validator = Validation::createValidator();
         try {
             $tmp = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
-            $isUrl = preg_match('/^(ldap(s)?:\/\/)(((\d{1,3}.){3}\d{1,3}(:\d+)?)|(\w|\d|)+|((\[([a-f0-9]{1,4}:{1,2}){1,4}([a-f0-9]{1,4})\])))$/m',$this->url);
+            $isUrl = $this->isValidLdapUrl($this->url);
             if ($isUrl) {
                 if (!$anonym) {
                     $tmp->bind($this->bindDn, $this->password);
@@ -275,8 +275,7 @@ class LdapType
         $regex = '/^(ldap(s)?:\/\/)(((((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4})|([a-zA-Z][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@%_\+.~#?&\/=]*))))(?:\:\d+)?$/m';
 
         $isUrl = preg_match($regex,$url);
-        $res = $isUrl>0?true:false;
-        return $res;
+        return $isUrl>0;
     }
     /**
      * @return mixed
