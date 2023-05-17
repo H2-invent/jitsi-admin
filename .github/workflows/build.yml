@@ -1,6 +1,12 @@
 name: Build Pipeline
 
-on: [push]
+
+on:
+  workflow_run:
+    workflows: [Development]
+    types:
+      - completed
+
 
 jobs:
   build:

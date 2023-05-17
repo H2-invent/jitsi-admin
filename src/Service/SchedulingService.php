@@ -143,7 +143,7 @@ class SchedulingService
         return true;
     }
 
-    public function voteForSchedulingTime(User $user, SchedulingTime $schedulingTime, $type): bool
+    public function voteForSchedulingTimeOnly(User $user, SchedulingTime $schedulingTime, $type)
     {
         $scheduleTimeUser = $this->schedulingTimeUserRepository->findOneBy(['user' => $user, 'scheduleTime' => $schedulingTime]);
 
@@ -157,6 +157,11 @@ class SchedulingService
 
         $this->entityManager->persist($scheduleTimeUser);
         $this->entityManager->flush();
+    }
+
+    public function voteForSchedulingTime(User $user, SchedulingTime $schedulingTime, $type): bool
+    {
+        $this->voteForSchedulingTimeOnly(user: $user, schedulingTime: $schedulingTime, type: $type);
         $this->sendEmailWhenAllFinish($schedulingTime->getScheduling()->getRoom());
         return true;
     }
