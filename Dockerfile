@@ -26,5 +26,6 @@ RUN mkdir -p var/cache
 RUN chown -R www-data:www-data var
 RUN chmod -R 777 var
 RUN chown -R www-data:www-data public/uploads/
-RUN chmod -R 775 public/uploads/
+RUN chown -R www-data:www-data public/
+RUN chown -R www-data:www-data theme
 USER docker
