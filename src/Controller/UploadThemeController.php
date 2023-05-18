@@ -104,7 +104,8 @@ class UploadThemeController extends AbstractController
         $this->addFlash('danger','Please upload a zip file');
         return $this->redirectToRoute('app_upload_theme_form');
     }
-    public function moveTheme($themePath, $path){
+
+    private function moveTheme($themePath, $path){
         $filesystem = new Filesystem();
         $tmp = explode(DIRECTORY_SEPARATOR,$themePath);
         $fileName = end($tmp);
@@ -112,6 +113,7 @@ class UploadThemeController extends AbstractController
         $filesystem->remove($themeTargetPath);
         $filesystem->copy($themePath,$themeTargetPath);
         $filesystem->remove($themePath);
+
         $finder = new Finder();
         $finder->files()->in($path)->directories();
         $arr = iterator_to_array($finder);

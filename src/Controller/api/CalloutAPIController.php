@@ -20,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/api/v1/call/out', name: 'callout_api_')]
 class CalloutAPIController extends JitsiAdminController
 {
+    private $token;
     public function __construct(
         ManagerRegistry                      $managerRegistry,
         TranslatorInterface                  $translator,

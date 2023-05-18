@@ -22,6 +22,8 @@ class RepeaterService
     private $translator;
     private $twig;
     private $callerUserService;
+    private $userService;
+    private $icsService;
     private $days = [
         1 => 'Monday',
         2 => 'Tuesday',
@@ -54,7 +56,15 @@ class RepeaterService
         'December',
     ];
 
-    public function __construct(CallerPrepareService $callerPrepareService, IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager)
+    public function __construct(
+        CallerPrepareService $callerPrepareService,
+        IcalService $icalService,
+        Environment $environment,
+        TranslatorInterface $translator,
+        UserService $userService,
+        IcsService $icsService,
+        MailerService $mailerService,
+        EntityManagerInterface $entityManager)
     {
         $this->icsService = $icsService;
         $this->em = $entityManager;
