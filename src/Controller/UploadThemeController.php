@@ -29,7 +29,13 @@ class UploadThemeController extends AbstractController
       private CacheItemPoolInterface $cacheItemPool,
     )
     {
+        $this->CACHE_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
+        $this->THEME_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR .'theme'.DIRECTORY_SEPARATOR;
+        $this->PUBLIC_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR .'public'.DIRECTORY_SEPARATOR;
     }
+    private $THEME_DIR;
+    private $PUBLIC_DIR;
+    private $CACHE_DIR;
 
     #[Route('form', name: 'form', methods: ['GET'])]
     public function index(): Response
@@ -56,7 +62,7 @@ class UploadThemeController extends AbstractController
             if ($themeFile) {
                 try {
 
-                    $path = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . md5(uniqid());
+                    $path = $this->CACHE_DIR. md5(uniqid());
                     $zip = new \ZipArchive();
                     $res = $zip->open($themeFile->getRealPath());
                     if ($res) {
@@ -102,7 +108,7 @@ class UploadThemeController extends AbstractController
         $filesystem = new Filesystem();
         $tmp = explode(DIRECTORY_SEPARATOR,$themePath);
         $fileName = end($tmp);
-        $themeTargetPath = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR .'theme'.DIRECTORY_SEPARATOR.$fileName;
+        $themeTargetPath = $this->THEME_DIR.$fileName;
         $filesystem->remove($themeTargetPath);
         $filesystem->copy($themePath,$themeTargetPath);
         $filesystem->remove($themePath);
@@ -112,7 +118,7 @@ class UploadThemeController extends AbstractController
         foreach ($arr as $assest){
             $tmp = explode(DIRECTORY_SEPARATOR,$assest);
             $dir = end($tmp);
-            $assetTargetPath = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR .'public'.DIRECTORY_SEPARATOR.$dir;
+            $assetTargetPath = $this->PUBLIC_DIR.$dir;
             $filesystem->remove($assetTargetPath);
             $filesystem->mirror($assest,$assetTargetPath);
         }
