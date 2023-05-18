@@ -21,10 +21,7 @@ COPY . /var/www/html
 #install all php dependencies
 RUN composer install
 #do all the directory stuff
-RUN chmod -R 775 public/build
-RUN mkdir -p var/cache
-RUN chown -R www-data:www-data var
-RUN chmod -R 777 var
+RUN chown -R docker:docker var
 RUN chown -R www-data:www-data public/uploads/
 RUN chown -R docker:docker public/
 RUN chown -R docker:docker theme/
