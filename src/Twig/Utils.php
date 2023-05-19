@@ -52,7 +52,7 @@ class Utils extends AbstractExtension
 
     public function json_decode($string)
     {
-        $res = json_decode($string, true);
+        $res = json_decode($string ?? '', true);
         return $res;
     }
 

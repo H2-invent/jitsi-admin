@@ -20,7 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/api/v1/call/out', name: 'callout_api_')]
 class CalloutAPIController extends JitsiAdminController
 {
-    private $token;
+    private string $token;
+
     public function __construct(
         ManagerRegistry                      $managerRegistry,
         TranslatorInterface                  $translator,
@@ -33,7 +34,6 @@ class CalloutAPIController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
     }
-
 
     #[Route('/', name: 'pool')]
     public function index(Request $request): Response

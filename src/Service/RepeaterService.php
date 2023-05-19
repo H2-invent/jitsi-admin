@@ -22,8 +22,6 @@ class RepeaterService
     private $translator;
     private $twig;
     private $callerUserService;
-    private $userService;
-    private $icsService;
     private $days = [
         1 => 'Monday',
         2 => 'Tuesday',
@@ -57,19 +55,16 @@ class RepeaterService
     ];
 
     public function __construct(
-        CallerPrepareService $callerPrepareService,
-        IcalService $icalService,
-        Environment $environment,
-        TranslatorInterface $translator,
-        UserService $userService,
-        IcsService $icsService,
-        MailerService $mailerService,
-        EntityManagerInterface $entityManager)
+        CallerPrepareService   $callerPrepareService,
+        IcalService            $icalService,
+        Environment            $environment,
+        TranslatorInterface    $translator,
+        MailerService          $mailerService,
+        EntityManagerInterface $entityManager,
+    )
     {
-        $this->icsService = $icsService;
         $this->em = $entityManager;
         $this->mailer = $mailerService;
-        $this->userService = $userService;
         $this->translator = $translator;
         $this->twig = $environment;
         $this->icalService = $icalService;
@@ -372,6 +367,7 @@ class RepeaterService
         $this->em->flush();
         return $repeater;
     }
+
     /**
      * this function replaces the prototype in a repeater and hangs all attributes from the old prototype to the new prototype
      * @param Rooms $rooms
