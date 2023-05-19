@@ -48,16 +48,20 @@ class CheckThemeValidDateCommand extends Command
                 'entwicklung@h2-invent.com',
                 'buchhaltung@h2-invent.com'
             ];
+            $contactEmail = 'Not in Theme';
             if (isset($theme['contactEmail'])) {
-                $contact = array_merge(explode(',', $theme['contactEmail']));
+                $contactEmail = $theme['contactEmail'];
+                $contact = array_merge(explode(',', $contactEmail));
             }
+
             if ($validUntil) {
                 $validDate = new \DateTime($validUntil);
                 $now = new \DateTime();
                 $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
                 if ($daysDifff < $maxTime && $daysDifff > 0) {
-                    $subject = sprintf('[Jitsi-admin theme expiring] Expiring Theme for URL: %s', $path->getFileName());
-                    $message = sprintf('Your Theme for your jitsi-admin is expiring in %d days.<br> Your Theme file is named: %s<br>Your contact mail address is; %s', $daysDifff, $path->getFileName,$theme['contactEmail']);
+                    $filename = $path->getFileName();
+                    $subject = sprintf('[Jitsi-admin theme expiring] Expiring Theme for URL: %s', $filename);
+                    $message = sprintf('Your Theme for your jitsi-admin is expiring in %d days.<br> Your Theme file is named: %s<br>Your contact mail address is: %s', $daysDifff, $filename, $contactEmail);
                     $this->mailerService->sendPlainMail(implode(',', $contact), $subject, $message);
                     $count++;
                 }
