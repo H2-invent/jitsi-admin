@@ -42,9 +42,9 @@ class UploadThemeController extends AbstractController
     #[Route('form', name: 'form', methods: ['GET'])]
     public function index(): Response
     {
-        if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP')!== ''){
+        if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
             $groups = $this->getUser()->getGroups();
-            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'),$groups)){
+            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
                 $this->addFlash('danger', 'Permission denied');
                 return $this->redirectToRoute('index');
             }
@@ -125,13 +125,14 @@ class UploadThemeController extends AbstractController
         $filesystem->remove($themePath);
 
         $finder = new Finder();
+        $finder->depth('==0');
         $finder->files()->in($path)->directories();
         $arr = iterator_to_array($finder);
         foreach ($arr as $assest) {
             $tmp = explode(DIRECTORY_SEPARATOR, $assest);
             $dir = end($tmp);
             $assetTargetPath = $this->PUBLIC_DIR . $dir;
-            $filesystem->remove($assetTargetPath);
+            $filesystem->remove($assetTargetPath . '/*');
             $filesystem->mirror($assest, $assetTargetPath);
         }
 
