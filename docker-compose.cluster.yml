@@ -182,6 +182,8 @@ services:
       - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.secure=true"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
+      - theme_data:/var/www/html/theme
+      - theme_assests_data:/var/www/html/public/theme
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
     networks:
       - default
@@ -258,6 +260,8 @@ volumes:
   image_upload:
   wbo-boards:
   etherpad_data:
+  theme_data:
+  theme_assests_data:
 
 networks:
   default:

@@ -56,8 +56,8 @@ class CheckThemeValidDateCommand extends Command
                 $now = new \DateTime();
                 $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
                 if ($daysDifff < $maxTime && $daysDifff > 0) {
-                    $subject = sprintf('Expiring Theme for URL: %s', $path->getFileName());
-                    $message = sprintf('Your Theme for your jitsi-admin is expiring in %d days.<br> Your Theme file is named: %s', $daysDifff, $path->getFileName());
+                    $subject = sprintf('[Jitsi-admin theme expiring] Expiring Theme for URL: %s', $path->getFileName());
+                    $message = sprintf('Your Theme for your jitsi-admin is expiring in %d days.<br> Your Theme file is named: %s<br>Your contact mail address is; %s', $daysDifff, $path->getFileName,$theme['contactEmail']);
                     $this->mailerService->sendPlainMail(implode(',', $contact), $subject, $message);
                     $count++;
                 }
