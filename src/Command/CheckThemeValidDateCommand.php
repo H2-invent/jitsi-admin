@@ -42,16 +42,17 @@ class CheckThemeValidDateCommand extends Command
         $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('*theme.json.signed');
         $arr = iterator_to_array($finder);
         foreach ($arr as $path) {
-            $theme = json_decode($path->getContents(), true);
+            $theme = json_decode($path->getContents(), true)['entry'];
             $validUntil = $theme['validUntil'];
             $contact = [
                 'entwicklung@h2-invent.com',
                 'buchhaltung@h2-invent.com'
             ];
             $contactEmail = 'Not in Theme';
+
             if (isset($theme['contactEmail'])) {
                 $contactEmail = $theme['contactEmail'];
-                $contact = array_merge(explode(',', $contactEmail));
+                $contact = array_merge($contact, explode(',', $contactEmail));
             }
 
             if ($validUntil) {
@@ -59,6 +60,7 @@ class CheckThemeValidDateCommand extends Command
                 $now = new \DateTime();
                 $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
                 if ($daysDifff < $maxTime && $daysDifff > 0) {
+
                     $filename = $path->getFileName();
                     $subject = sprintf('[Jitsi-admin theme expiring] Expiring Theme for URL: %s', $filename);
                     $message = sprintf('Your Theme for your jitsi-admin is expiring in %d days.<br> Your Theme file is named: %s<br>Your contact mail address is: %s', $daysDifff, $filename, $contactEmail);
@@ -73,3 +75,4 @@ class CheckThemeValidDateCommand extends Command
         return Command::SUCCESS;
     }
 }
+
