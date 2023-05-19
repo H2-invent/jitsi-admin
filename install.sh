@@ -89,10 +89,9 @@ echo "* * * * * php /var/www/jitsi-admin/bin/console cron:run 1>> /dev/null 2>&1
 crontab cron_bkp
 rm cron_bkp
 
-chown -R www-data:www-data var/cache
-chmod -R 775 var/cache
-chown -R www-data:www-data public/uploads/images
-chmod -R 775 public/uploads/images
+chown -R www-data:www-data var/
+chown -R www-data:www-data public/
+chown -R www-data:www-data theme/
 
 clear
 
