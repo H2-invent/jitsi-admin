@@ -52,7 +52,7 @@ class MailerService
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
             if ($server->getSmtpUsername()) {
                 $this->logger->debug('we have a new Mailer with a pasword');
-                $this->logger->debug('Credentials: ', ['password' => $server->getSmtpUsername(), 'password' => $server->getSmtpPassword()]);
+                $this->logger->debug('Credentials: ', ['username' => $server->getSmtpUsername(), 'password' => $server->getSmtpPassword()]);
                 $dsn = 'smtp://' . urlencode($server->getSmtpUsername()) . ':' . urlencode($server->getSmtpPassword()) . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             } else {
                 $this->logger->debug('We have no password');
@@ -96,6 +96,15 @@ class MailerService
         return $res;
     }
 
+    public function sendPlainMail($to, $suject, $message)
+    {
+        $server = new Server();
+        $reciever = explode(',',$to);
+        foreach ($reciever as $data){
+            $this->sendViaMailer(to: $data,betreff: $suject, content: $message, server: $server);
+        }
+
+    }
 
     private function sendViaMailer($to, $betreff, $content, Server $server, $replyTo = null, Rooms $rooms = null, $attachment = [], $cc = []): bool
     {

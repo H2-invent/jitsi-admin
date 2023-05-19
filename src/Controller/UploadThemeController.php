@@ -23,16 +23,18 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class UploadThemeController extends AbstractController
 {
     public function __construct(
-        private UrlGeneratorInterface $urlGenerator,
-        private ParameterBagInterface $parameterBag,
-        private CheckSignature $checkSignature,
-      private CacheItemPoolInterface $cacheItemPool,
+        private UrlGeneratorInterface  $urlGenerator,
+        private ParameterBagInterface  $parameterBag,
+        private CheckSignature         $checkSignature,
+        private CacheItemPoolInterface $cacheItemPool,
+        private ThemeService           $themeService,
     )
     {
         $this->CACHE_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->THEME_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR .'theme'.DIRECTORY_SEPARATOR;
-        $this->PUBLIC_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR .'public'.DIRECTORY_SEPARATOR;
+        $this->THEME_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
+        $this->PUBLIC_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
     }
+
     private $THEME_DIR;
     private $PUBLIC_DIR;
     private $CACHE_DIR;
@@ -40,6 +42,13 @@ class UploadThemeController extends AbstractController
     #[Route('form', name: 'form', methods: ['GET'])]
     public function index(): Response
     {
+        if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP')!== ''){
+            $groups = $this->getUser()->getGroups();
+            if (!in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'),$groups)){
+                $this->addFlash('danger', 'Permission denied');
+                return $this->redirectToRoute('index');
+            }
+        }
         $form = $this->createForm(ThemeUploadType::class, null, ['action' => $this->urlGenerator->generate('app_upload_theme_save')]);
         return $this->render('upload_theme/index.html.twig', [
             'form' => $form->createView(),
@@ -62,7 +71,7 @@ class UploadThemeController extends AbstractController
             if ($themeFile) {
                 try {
 
-                    $path = $this->CACHE_DIR. md5(uniqid());
+                    $path = $this->CACHE_DIR . md5(uniqid());
                     $zip = new \ZipArchive();
                     $res = $zip->open($themeFile->getRealPath());
                     if ($res) {
@@ -84,7 +93,7 @@ class UploadThemeController extends AbstractController
                             $filesystem = new Filesystem();
                             $filesystem->remove($path);
                             $this->cacheItemPool->clear();
-                            $this->addFlash('success','Theme successfully uploaded');
+                            $this->addFlash('success', 'Theme successfully uploaded');
                             return $this->redirectToRoute('app_upload_theme_form');
                         } else {
                             $this->addFlash('danger', 'No Theme in the zip');
@@ -92,37 +101,38 @@ class UploadThemeController extends AbstractController
                         }
 
                     }
-                }catch (\Exception $exception){
-                    $this->addFlash('danger',$exception->getMessage());
+                } catch (\Exception $exception) {
+                    $this->addFlash('danger', $exception->getMessage());
                     return $this->redirectToRoute('app_upload_theme_form');
                 }
-            }else{
-                $this->addFlash('danger','No Theme uploaded');
+            } else {
+                $this->addFlash('danger', 'No Theme uploaded');
                 return $this->redirectToRoute('app_upload_theme_form');
             }
         }
-        $this->addFlash('danger','Please upload a zip file');
+        $this->addFlash('danger', 'Please upload a zip file');
         return $this->redirectToRoute('app_upload_theme_form');
     }
 
-    private function moveTheme($themePath, $path){
+    private function moveTheme($themePath, $path)
+    {
         $filesystem = new Filesystem();
-        $tmp = explode(DIRECTORY_SEPARATOR,$themePath);
+        $tmp = explode(DIRECTORY_SEPARATOR, $themePath);
         $fileName = end($tmp);
-        $themeTargetPath = $this->THEME_DIR.$fileName;
+        $themeTargetPath = $this->THEME_DIR . $fileName;
         $filesystem->remove($themeTargetPath);
-        $filesystem->copy($themePath,$themeTargetPath);
+        $filesystem->copy($themePath, $themeTargetPath);
         $filesystem->remove($themePath);
 
         $finder = new Finder();
         $finder->files()->in($path)->directories();
         $arr = iterator_to_array($finder);
-        foreach ($arr as $assest){
-            $tmp = explode(DIRECTORY_SEPARATOR,$assest);
+        foreach ($arr as $assest) {
+            $tmp = explode(DIRECTORY_SEPARATOR, $assest);
             $dir = end($tmp);
-            $assetTargetPath = $this->PUBLIC_DIR.$dir;
+            $assetTargetPath = $this->PUBLIC_DIR . $dir;
             $filesystem->remove($assetTargetPath);
-            $filesystem->mirror($assest,$assetTargetPath);
+            $filesystem->mirror($assest, $assetTargetPath);
         }
 
     }

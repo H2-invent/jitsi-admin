@@ -21,6 +21,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,7 +52,8 @@ class DashboardController extends JitsiAdminController
         ParameterBagInterface     $parameterBag,
         FavoriteService           $favoriteService,
         TermsAndConditionsService $termsAndConditionsService,
-    ): Response {
+    ): Response
+    {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
             return $this->redirectToRoute('app_terms_and_conditions');
         }
@@ -151,7 +153,18 @@ class DashboardController extends JitsiAdminController
                 )
             );
         }
+        if (!$request->isXmlHttpRequest()) {
+            if ($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP') !== '') {
+                $groups = $this->getUser()->getGroups();
+                if (in_array($this->themeService->getApplicationProperties('SECURITY_ALLLOW_UPLOAD_THEME_GROUP'), $groups)) {
+                    $this->themeService->checkRemainingDays();
+                }
+            } else {
+                $this->themeService->checkRemainingDays();
+            }
 
+
+        }
         return $res;
     }
 
