@@ -23,6 +23,7 @@ RUN composer install
 #do all the directory stuff
 RUN chown -R docker:docker var
 RUN chown -R docker:docker public/uploads/
+RUN mkdir -p public/theme/
 RUN chown -R docker:docker public/theme/
 RUN chown -R docker:docker theme/
 USER docker
