@@ -15,7 +15,9 @@ x-app-common: &jitsi_admin_app
     WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
     registerEmailAdress: ${registerEmailAdress}
-
+  volumes:
+    - image_upload:/var/www/html/public/uploads/images
+    - theme_data:/var/www/html/theme
 
 services:
   websocket-ja:
@@ -181,8 +183,6 @@ services:
       - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.name=jad"
       - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.secure=true"
     volumes:
-      - image_upload:/var/www/html/public/uploads/images
-      - theme_data:/var/www/html/theme
       - theme_assests_data:/var/www/html/public/theme
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
     networks:

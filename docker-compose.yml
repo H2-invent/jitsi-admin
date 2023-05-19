@@ -15,7 +15,9 @@ x-app-common: &jitsi_admin_app
     MAILER_DSN: ${MAILER_DSN}
     registerEmailAdress: ${registerEmailAdress}
     WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
-
+  volumes:
+    - image_upload:/var/www/html/public/uploads/images
+    - theme_data:/var/www/html/theme
 
 services:
   traefik-ja:
@@ -211,3 +213,5 @@ volumes:
   caddy_data:
   caddy_config:
   image_upload:
+  theme_data:
+  theme_assests_data:
