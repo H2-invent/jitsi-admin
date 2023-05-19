@@ -260,7 +260,7 @@ class Rooms
 
     public function getUid(): ?string
     {
-        return strtolower($this->uid);
+        return strtolower($this->uid ?? '');
     }
 
     public function setUid(string $uid): self
