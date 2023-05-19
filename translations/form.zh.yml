@@ -12,6 +12,7 @@ label.start: 开始
 label.dauerKonferenz: 会议持续时间
 label.nurRegistriertenutzer: 仅允许注册用户加入会议
 label.speichern: 保存
+label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15分钟
 option.30min: 30分钟
 option.45min: 45分钟

@@ -12,6 +12,7 @@ label.start: Начать
 label.dauerKonferenz: Продолжительность конференции
 label.nurRegistriertenutzer: Только зарегистрированные пользователи могут подключиться
 label.speichern: Сохранить
+label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 минут
 option.30min: 30 минут
 option.45min: 45 минут

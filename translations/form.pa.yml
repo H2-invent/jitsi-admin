@@ -10,7 +10,7 @@ label.serverKonferenz: Jitsi Meet Server
 label.konferenzName: Name der Konferenz
 label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
-label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
+label.nurRegistriertenutzer: Nur registrierte Benutzer mit einem Account auf dieser Plattform dürfen der Konferenz beitreten.
 label.speichern: Speichern
 label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 Minuten
@@ -103,7 +103,7 @@ label:
   featureEnalbeByJwt: '„Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.'
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
   dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
-  puplicRoom: Link zur Einladung freischalten
+  puplicRoom: Selbsteinschreibung aktivieren
   showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Anmelden
   vorname: Vorname
