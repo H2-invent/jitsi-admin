@@ -16,7 +16,7 @@ parameters:
     KEYCLOAK_SECRET: '%env(OAUTH_KEYCLOAK_CLIENT_SECRET)%'
     KEYCLOAK_ID: '%env(OAUTH_KEYCLOAK_CLIENT_ID)%'
     registerEmailName: '%env(registerEmailName)%'
-    registerEmailAdress: '%env(registerEmailAdress)%'
+    registerEmailAdress: '%env(DEFAULT_EMAIL)%'
     default_jitsi_server_id: '%env(default_jitsi_server_id)%'
 
 
