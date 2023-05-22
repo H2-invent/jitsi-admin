@@ -41,8 +41,6 @@ pushd /var/www/jitsi-admin
 git checkout $BRANCH
 git pull
 
-
-
 export COMPOSER_ALLOW_SUPERUSER=1
 php composer.phar install --no-interaction
 php composer.phar dump-autoload
