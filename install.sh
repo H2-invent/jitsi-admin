@@ -109,7 +109,7 @@ cp installer/jitsi-admin_websocket.service /etc/systemd/system/jitsi-admin_webso
 mkdir /var/log/websocket/
 
 
-service php8.1-fpm restart
+service php*-fpm restart
 service nginx restart
 
 systemctl daemon-reload
