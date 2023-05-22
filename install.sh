@@ -39,6 +39,7 @@ popd
 
 pushd /var/www/jitsi-admin
 git checkout $BRANCH
+git pull
 
 
 
