@@ -214,8 +214,8 @@ class InstallerCommand extends Command
             defaultVersion: 21,
             defaultRealm: 'jitsi-admin',
             defaultUrl: null,
-            defaultClientId: null,
-            defaultClientSecret: null,
+            defaultClientId: 'clientId',
+            defaultClientSecret: 'clientSecret',
         );
     }
 
