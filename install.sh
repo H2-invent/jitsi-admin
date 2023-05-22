@@ -7,7 +7,7 @@ cat << "EOF"
 
 
 EOF
-
+BRANCH=${1:-master}
 sudo mkdir -p /var/www
 
 echo ""
@@ -38,7 +38,7 @@ git clone https://github.com/H2-invent/jitsi-admin.git
 popd
 
 pushd /var/www/jitsi-admin
-git checkout feature/development
+git checkout $BRANCH
 
 
 
