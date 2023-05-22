@@ -185,6 +185,7 @@ services:
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
+
     networks:
       - default
       - jitsi-admin

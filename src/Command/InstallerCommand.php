@@ -489,7 +489,7 @@ class InstallerCommand extends Command
             'AWAY_TIME=5' . PHP_EOL,
         ];
 
-        file_put_contents(filename: $this->projectDir . 'nodejs' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'websocket.conf', data: $lines);
+        file_put_contents(filename: $this->projectDir . 'installer' . DIRECTORY_SEPARATOR . 'jitsi-admin.conf', data: $lines);
     }
     # endregion file_editing
 }
