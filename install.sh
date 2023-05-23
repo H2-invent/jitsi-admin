@@ -40,6 +40,7 @@ popd
 
 pushd /var/www/jitsi-admin
 git -C /var/www/jitsi-admin checkout $BRANCH
+git -C /var/www/jitsi-admin reset --hard
 git -C /var/www/jitsi-admin pull
 
 export COMPOSER_ALLOW_SUPERUSER=1
