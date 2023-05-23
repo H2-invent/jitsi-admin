@@ -34,12 +34,13 @@ echo ******INSTALLING JITSI-ADMIN*******
 echo ""
 
 pushd /var/www
-git clone https://github.com/H2-invent/jitsi-admin.git
+[ ! -d "/var/www/jitsi-admin" ] && git clone https://github.com/H2-invent/jitsi-admin.git
+
 popd
 
 pushd /var/www/jitsi-admin
-git checkout $BRANCH
-git pull
+git -C /var/www/jitsi-admin checkout $BRANCH
+git -C /var/www/jitsi-admin pull
 
 export COMPOSER_ALLOW_SUPERUSER=1
 php composer.phar install --no-interaction
