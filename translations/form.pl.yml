@@ -103,7 +103,7 @@ label:
   featureEnalbeByJwt: Wtyczka "Enable Feature By JWT" jest włączona na serwerze.
   dissallowScreenshareGlobal: Tylko moderator może udostępnić widok na swoim ekranie.
   dissallowPrivateMessage: Tylko moderator może wysyłać prywatne wiadomości do uczestników.
-  puplicRoom: Link zur Einladung freischalten
+  puplicRoom: Aktywuj link z zaproszeniem
   showRoomOnJoinpage: Pokaż konferencję na stronie dołączania
   subscribe: Anmelden
   vorname: Imię

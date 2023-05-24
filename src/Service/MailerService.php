@@ -96,7 +96,7 @@ class MailerService
         return $res;
     }
 
-    public function sendPlainMail($to, $suject, $message)
+    public function sendPlainMail($to, $suject, $message):void
     {
         $server = new Server();
         $reciever = explode(',',$to);

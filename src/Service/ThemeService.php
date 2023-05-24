@@ -139,7 +139,7 @@ class ThemeService
         }
     }
 
-    public function checkRemainingDays()
+    public function checkRemainingDays():?int
     {
         $validUntil = $this->getThemeProperty('validUntil');
         if ($validUntil) {
@@ -152,6 +152,8 @@ class ThemeService
                     $this->translator->trans('theme.invalid.',array('{days}'=>$daysDifff))
                 );
             }
+            return $daysDifff;
         }
+        return null;
     }
 }
