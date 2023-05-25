@@ -7,7 +7,7 @@ cat << "EOF"
 
 
 EOF
-
+BRANCH=${1:-master}
 sudo mkdir -p /var/www
 
 echo ""
@@ -34,14 +34,14 @@ echo ******INSTALLING JITSI-ADMIN*******
 echo ""
 
 pushd /var/www
-git clone https://github.com/H2-invent/jitsi-admin.git
+[ ! -d "/var/www/jitsi-admin" ] && git clone https://github.com/H2-invent/jitsi-admin.git
+
 popd
 
 pushd /var/www/jitsi-admin
-git checkout feature/development
-
-
-clear
+git -C /var/www/jitsi-admin checkout $BRANCH
+git -C /var/www/jitsi-admin reset --hard
+git -C /var/www/jitsi-admin pull
 
 export COMPOSER_ALLOW_SUPERUSER=1
 php composer.phar install --no-interaction
@@ -52,31 +52,36 @@ sudo mysql -e "CREATE USER 'jitsiadmin'@'localhost' IDENTIFIED  BY 'jitsiadmin';
 sudo mysql -e "GRANT ALL PRIVILEGES ON jitsi_admin.* TO 'jitsiadmin'@'localhost';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
-clear
-
 php bin/console app:install
-clear
+
 php bin/console cache:clear
-clear
+
 php bin/console doctrine:database:create --if-not-exists --no-interaction
-clear
+
 php bin/console doctrine:migrations:migrate --no-interaction
-clear
+
 php bin/console cache:clear
-clear
+
 php bin/console cache:warmup
 php bin/console app:system:repair
-clear
 
+clear
+echo ""
+echo *******Build JS and CSS********
+echo ""
 npm install
 npm run build
 rm -rf node_modules/
-clear
 
+clear
+echo ""
+echo *******Build Webesocket********
+echo ""
 popd
 pushd /var/www/jitsi-admin/nodejs
 npm install
 popd
+
 clear
 
 pushd /var/www/jitsi-admin
@@ -93,35 +98,36 @@ chown -R www-data:www-data var/
 chown -R www-data:www-data public/
 chown -R www-data:www-data theme/
 
-clear
+
 
 cp installer/nginx.conf /etc/nginx/sites-enabled/jitsi-admin.conf
 rm /etc/nginx/sites-enabled/default
 cp installer/jitsi-admin_messenger.service /etc/systemd/system/jitsi-admin_messenger.service
-cp nodejs/config/websocket.conf /etc/systemd/system/jitsi-admin.conf
+cp installer/jitsi-admin.conf /etc/systemd/system/jitsi-admin.conf
 
 cp -r nodejs /usr/local/bin/websocket
-cp installer/websocket.service /etc/systemd/system/jitsi-admin-websocket.service
+cp installer/jitsi-admin_websocket.service /etc/systemd/system/jitsi-admin_websocket.service
 mkdir /var/log/websocket/
-clear
 
-service php8.1-fpm restart
+
+service php*-fpm restart
 service nginx restart
-clear
+
 systemctl daemon-reload
-clear
+service  jitsi-admin* stop
+
 service  jitsi-admin_messenger start
 service  jitsi-admin_messenger restart
-clear
+
 systemctl enable jitsi-admin_messenger
-clear
+
 systemctl daemon-reload
-clear
-service  jitsi-admin-websocket start
-service  jitsi-admin-websocket restart
-clear
-systemctl enable jitsi-admin-websocket
-clear
+
+service  jitsi-admin_websocket start
+service  jitsi-admin_websocket restart
+
+systemctl enable jitsi-admin_websocket
+
 
 popd
 

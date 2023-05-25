@@ -12,20 +12,25 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ThemeService
 {
-    private $licenseService;
     private $parameterBag;
-    private $client;
     private $logger;
     private RequestStack $request;
     private CheckSignature $checkSignature;
     private CacheItemPoolInterface $cache;
 
-    public function __construct(CacheItemPoolInterface $filesystemAdapter, CheckSignature $checkSignature, RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
+    public function __construct(
+        CacheItemPoolInterface      $filesystemAdapter,
+        CheckSignature              $checkSignature,
+        RequestStack                $request,
+        HttpClientInterface         $httpClient,
+        ParameterBagInterface       $parameterBag,
+        LoggerInterface             $logger,
+        private TranslatorInterface $translator)
     {
-        $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;
         $this->client = $httpClient;
         $this->logger = $logger;
@@ -132,5 +137,23 @@ class ThemeService
         } catch (\Exception $exception) {
             return $variable;
         }
+    }
+
+    public function checkRemainingDays():?int
+    {
+        $validUntil = $this->getThemeProperty('validUntil');
+        if ($validUntil) {
+            $validDate = new \DateTime($validUntil);
+            $now = new \DateTime();
+            $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
+            if ($daysDifff < $this->getApplicationProperties('SECURITY_THEME_REMINDER_DAYS')) {
+                $this->request->getSession()->getBag('flashes')->add(
+                    $daysDifff>0?'warning':'danger',
+                    $this->translator->trans('theme.invalid.',array('{days}'=>$daysDifff))
+                );
+            }
+            return $daysDifff;
+        }
+        return null;
     }
 }

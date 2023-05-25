@@ -22,7 +22,7 @@ COPY . /var/www/html
 RUN composer install
 #do all the directory stuff
 RUN chown -R docker:docker var
-RUN chown -R www-data:www-data public/uploads/
-RUN chown -R docker:docker public/
+RUN chown -R docker:docker public/uploads/
+RUN chown -R docker:docker public/theme/
 RUN chown -R docker:docker theme/
 USER docker

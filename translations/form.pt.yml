@@ -103,7 +103,7 @@ label:
   featureEnalbeByJwt: O plugin "Enable Feature by JWT" está ativo no neste servidor.
   dissallowScreenshareGlobal: Apenas moderadores podem compartilhar telas.
   dissallowPrivateMessage: Apenas moderadores podem enviar mensagens prpivadas aos participantes.
-  puplicRoom: Ativar links de convite
+  puplicRoom: Selbsteinschreibung aktivieren
   showRoomOnJoinpage: Mostrar conferência na página de entrada
   subscribe: Iniciar Sessão
   vorname: Primeiro nome
