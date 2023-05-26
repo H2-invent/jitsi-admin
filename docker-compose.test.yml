@@ -116,8 +116,6 @@ services:
     depends_on:
       db-ja:
         condition: service_healthy
-
-
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PW}
