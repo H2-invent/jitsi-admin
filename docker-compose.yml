@@ -195,7 +195,6 @@ services:
       - --db-username=keycloak
       - --db-password=${KEYCLOAK_PW}
       - --hostname-url=${HTTP_METHOD}://keycloak.${PUBLIC_URL}
-
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.tls=true"
