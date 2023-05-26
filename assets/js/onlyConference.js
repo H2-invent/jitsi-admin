@@ -7,6 +7,7 @@ import ClipboardJS from 'clipboard'
 import {initStartIframe} from "./createConference";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
+import {checkFirefox} from "./checkFirefox";
 
 var frameId;
 let api = new JitsiMeetExternalAPI(domain, options);
@@ -122,4 +123,6 @@ docReady(function () {
     initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
     initStartIframe();
+    checkFirefox();
+
 });

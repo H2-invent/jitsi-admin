@@ -64,6 +64,25 @@
     </div>
 </div>
 
+{% if room.server.disallowFirefox and isFirefox() %}
+    <div class="modal fade" id="noFIrefoxModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ 'browser.warning'|trans }}</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'browser.warning.text'|trans }}</p>
+                    <a href="#" class="btn btn-outline-primary btn-block btn-edge mt-3">{{ 'browser.warning.toEdge'|trans }}</a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% include('__checkFirefox.html.twig') with {'room':room} %}
 </body>
 {% if name is defined and name is not null %}
 

@@ -8,6 +8,7 @@ import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
 import {initPrettyJson} from './jsonBeautifier';
+
 var audio = new Audio(notificationSound);
 import {TabUtils} from './tabBroadcast';
 import {getCookie} from './cookie';
@@ -25,8 +26,10 @@ import {initChart} from "./chart";
 import {Chart} from "chart.js";
 import ClipboardJS from "clipboard";
 import {initStartIframe} from "./createConference";
+import {checkFirefox} from "./checkFirefox";
 
 function initGenerell() {
+    checkFirefox();
     Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
@@ -34,7 +37,7 @@ function initGenerell() {
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
-    if(window.innerWidth < 768 ){
+    if (window.innerWidth < 768) {
         document.body.classList.add("in-smartPhone");
     }
     openBlankTarget(blankTarget);
@@ -88,7 +91,7 @@ function initLoadContent() {
             } else {
                 if (!$('#loadContentModal ').hasClass('show')) {
                     $('#loadContentModal').modal('show');
-                }else {
+                } else {
                     initNewModal(this);
                 }
             }
@@ -100,7 +103,8 @@ function initLoadContent() {
 $('#loadContentModal').on('shown.bs.modal', function (e) {
     initNewModal(e)
 });
-function initNewModal(e){
+
+function initNewModal(e) {
 
     initScheduling();
 

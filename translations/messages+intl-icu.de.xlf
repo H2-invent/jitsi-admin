@@ -2215,8 +2215,20 @@
         <target>Die Teilnehmenden haben abgestimmt und die Ergebnisse sind nun verfügbar. Die Zusammenfassung der Ergebnisse finden Sie auf Ihrem Dashboard.</target>
       </trans-unit>
       <trans-unit id="Edrc_Uf" resname="theme.invalid.">
-        <source>Ihr Theme läuft in {days} Tagen ab</source>
+        <source>theme.invalid.</source>
         <target>Ihr Theme läuft in {days} Tagen ab</target>
+      </trans-unit>
+      <trans-unit id="KwoLLsf" resname="browser.warning">
+        <source>Browserwarnung</source>
+        <target>Browserwarnung</target>
+      </trans-unit>
+      <trans-unit id="vzbzhGI" resname="browser.warning.text">
+        <source>Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</source>
+        <target>Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
+      </trans-unit>
+      <trans-unit id="daah4it" resname="browser.warning.toEdge">
+        <source>Weiter mit Edge</source>
+        <target>Weiter mit Edge</target>
       </trans-unit>
     </body>
   </file>
