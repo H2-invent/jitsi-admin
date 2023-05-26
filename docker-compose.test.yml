@@ -95,7 +95,6 @@ services:
     volumes:
       - image_upload:/var/www/html/public/uploads/images
       - theme_data:/var/www/html/theme
-      - image_upload:/var/www/html/public/uploads/images
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
   db-ja:
