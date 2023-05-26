@@ -223,7 +223,7 @@ services:
 
 
   keycloak-ja:
-    image: jboss/keycloak:latest
+    image: quay.io/keycloak/keycloak:21.1.1
     hostname: ${RANDOMTAG}keycloak-ja
     depends_on:
       db-ja:
@@ -231,8 +231,8 @@ services:
 
 
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PW}
       DB_VENDOR: mariadb
       DB_ADDR: ${RANDOMTAG}db-ja
       DB_DATABASE: keycloak
@@ -243,6 +243,13 @@ services:
       KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
       JAVA_OPTS_APPEND: "-Djboss.as.management.blocking.timeout=7200"
       JDBC_PARAMS: "connectTimeout=30000"
+    command:
+      - start
+      - --import-realm
+      -  --db=mariadb
+      -  --db-url=jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
+      - --db-username=keycloak
+      - --db-password=${KEYCLOAK_PW}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls=true"
@@ -252,7 +259,7 @@ services:
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
     volumes:
-      - ./docker/keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/realm-export.json:/opt/keycloak/data/import/realm.json
     networks:
       - default
       - jitsi-admin
