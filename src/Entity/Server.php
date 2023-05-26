@@ -96,6 +96,9 @@ class Server
 
     #[ORM\Column(nullable: true)]
     private ?int $starServerId = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $disallowFirefox = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -554,6 +557,18 @@ class Server
     public function setStarServerId(?int $starServerId): self
     {
         $this->starServerId = $starServerId;
+
+        return $this;
+    }
+
+    public function isDisallowFirefox(): ?bool
+    {
+        return $this->disallowFirefox;
+    }
+
+    public function setDisallowFirefox(?bool $disallowFirefox): self
+    {
+        $this->disallowFirefox = $disallowFirefox;
 
         return $this;
     }

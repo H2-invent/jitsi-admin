@@ -166,6 +166,7 @@
 
 {% endblock %}
 {% block script %}
+    {% include('__checkFirefox.html.twig') with {'room':room} %}
     {% if name is defined and name is not null %}
         <script src='https://{{ room.server.url }}/external_api.js'></script>
         <script>

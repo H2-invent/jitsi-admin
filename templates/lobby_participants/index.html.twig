@@ -129,6 +129,7 @@
 
 {% endblock %}
 {% block script %}
+    {% include('__checkFirefox.html.twig') with {'room':room} %}
     <script src='https://{{ room.server.url }}/external_api.js'></script>
     <script>
         var reknockingTime = {{ laf_lobby_ReKnockTime }};
