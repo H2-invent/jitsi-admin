@@ -2219,16 +2219,20 @@
         <target>Ihr Theme läuft in {days} Tagen ab</target>
       </trans-unit>
       <trans-unit id="KwoLLsf" resname="browser.warning">
-        <source>Browserwarnung</source>
+        <source>browser.warning</source>
         <target>Browserwarnung</target>
       </trans-unit>
       <trans-unit id="vzbzhGI" resname="browser.warning.text">
-        <source>Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</source>
+        <source>browser.warning.text</source>
         <target>Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
       </trans-unit>
       <trans-unit id="daah4it" resname="browser.warning.toEdge">
-        <source>Weiter mit Edge</source>
+        <source>browser.warning.toEdge</source>
         <target>Weiter mit Edge</target>
+      </trans-unit>
+      <trans-unit id="6VWajOy" resname="browser.warning.toMac">
+        <source>Weiter mit Safari</source>
+        <target>Weiter mit Safari</target>
       </trans-unit>
     </body>
   </file>
