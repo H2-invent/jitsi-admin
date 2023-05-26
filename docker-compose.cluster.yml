@@ -146,7 +146,7 @@ services:
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
-      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
@@ -233,23 +233,14 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PW}
-      DB_VENDOR: mariadb
-      DB_ADDR: ${RANDOMTAG}db-ja
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: ${KEYCLOAK_PW}
-      DB_PORT: 3306
-      KEYCLOAK_IMPORT: /tmp/realm-export.json
-      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
-      JAVA_OPTS_APPEND: "-Djboss.as.management.blocking.timeout=7200"
-      JDBC_PARAMS: "connectTimeout=30000"
     command:
-      - start
+      - start-dev
       - --import-realm
-      -  --db=mariadb
-      -  --db-url=jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
+      - --db=mariadb
+      - --db-url=jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
       - --db-username=keycloak
       - --db-password=${KEYCLOAK_PW}
+      - --hostname-url=${HTTP_METHOD}://keycloak.${PUBLIC_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls=true"
