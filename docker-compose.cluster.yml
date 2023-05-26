@@ -246,8 +246,8 @@ services:
     command:
       - start
       - --import-realm
-      -  --db=mariadb
-      -  --db-url=jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
+      - --db=mariadb
+      - --db-url=jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
       - --db-username=keycloak
       - --db-password=${KEYCLOAK_PW}
     labels:
