@@ -29,6 +29,7 @@ class BrowserCompability extends AbstractExtension
     {
         return [
             new TwigFunction('isFirefox', [$this, 'isFirefox']),
+            new TwigFunction('isMacOS', [$this, 'isMacOS']),
         ];
     }
 
@@ -43,5 +44,15 @@ class BrowserCompability extends AbstractExtension
         $clientInfo = $dd->getClient(); // holds information about browser, feed reader, media player, ...
         return strtolower($clientInfo['name'])=='firefox';
     }
+    public function isMacOS(): bool
+    {
+        $userAgent = $_SERVER['HTTP_USER_AGENT']; // change this to the useragent you want to parse
+        $clientHints = ClientHints::factory($_SERVER); // client hints are optional
 
+        $dd = new DeviceDetector($userAgent, $clientHints);
+        $dd->parse();
+
+        $clientInfo = $dd->getOs(); // holds information about browser, feed reader, media player, ...
+        return strtolower($clientInfo['name'])=='Mac';
+    }
 }
