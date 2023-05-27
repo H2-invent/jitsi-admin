@@ -6,7 +6,36 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 [![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
 
-Jitsi Manager or Jitsi Admin is a tool to manage Jitsi conferences and server with JWT
+
+Jitsi Manager, also known as Jitsi Admin, is a powerful tool designed to manage Jitsi conferences and servers effectively. This README provides an overview of its features and functionalities.
+
+## Introduction
+
+Jitsi Manager offers a comprehensive solution for organizing and securing your conferences, ensuring a seamless communication experience for all participants. Whether you prefer to use JSON Web Tokens (JWT) for enhanced security or opt for a simpler setup without JWT, Jitsi Manager has got you covered. It provides robust protection against conference bombing attacks, giving you peace of mind during your meetings.
+
+## Key Features
+
+Jitsi Manager boasts a range of features to streamline your conference management tasks. Some of the key functionalities include:
+
+* **Organize Meetings and Manage Participants**: Easily create and manage meetings, allowing you to control participant access and privileges effectively.
+
+* **Series Appointments**: Schedule recurring meetings, enabling you to set up regular conferences without manual intervention.
+
+* **Appointment Polls**: Create polls to gather availability information from participants and find the best time for your meetings.
+
+* **Adressbook Integration**: Organize your participants efficiently by integrating them into your address book or contact management system.
+
+* **Direct Calls**: Make direct calls using your Jitsi Meet backend, facilitating one-on-one communication with participants.
+
+* **LDAP or SSO Integration**: Seamlessly integrate Jitsi Admin with your existing LDAP or Single Sign-On (SSO) infrastructure, simplifying user management and authentication.
+
+* **Outlook Integration**: Import all your conferences into Outlook using iCal Link, ensuring synchronization between Jitsi Manager and your calendar.
+
+* **Meeting Reminders**: Send email reminders to participants before each meeting, helping them stay informed and prepared.
+
+* **Webinars and Open Conferences**: Create webinars and other open conferences, allowing for broader participation and engagement.
+
+* **Additional Great Features**: Jitsi Manager includes many more powerful features that you would typically find in leading conference tools, providing a comprehensive solution for your needs.
 
 ### Known from
 
