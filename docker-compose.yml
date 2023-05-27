@@ -192,6 +192,8 @@ services:
       KC_DB_URL: jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
       KC_DB_USERNAME: keycloak
       KC_HOSTNAME_URL: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
+      KC_PROXY: passthrough
+
     command:
       - start-dev
       - --import-realm
@@ -204,7 +206,8 @@ services:
       - "traefik.http.routers.keycloak-ja.tls.certresolver=letsencrypt"
 
     volumes:
-      - ./docker/keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/:/opt/keycloak/data/import
+
 
 volumes:
   mariadb:
