@@ -130,7 +130,7 @@ Currently Jitsi Admin is released under the [AGPL-3.0 License](https://www.gnu.o
 # Installation
 Download the version you want to install or clone the whole repository.
 After that execute the following command
-```javascript
+```bash
 bash install.sh
 ```
 Follow the instruction in the command window.
@@ -143,8 +143,10 @@ For versions <= 0.72x checkout the update instruction in the github version desc
 For Version 0.73 or later the update instruction is described in the file 
 `update_instruction_<fromVersion>...<toVersion>.md`
 
+[Update instruction 0.75.x to 0.76.x](update_instruction_0.75.x...0.76.x.md)
 [Update instruction 0.74.x to 0.75.x](update_instruction_0.74.x...0.75.x.md)
 [Update instruction 0.73.x to 0.74.x](update_instruction_0.73.x...0.74.x.md)
 [Update instruction 0.72.x to 0.73.x](update_instruction_0.72.x...0.73.x.md)
+
 
 
