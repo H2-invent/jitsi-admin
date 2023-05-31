@@ -19,7 +19,9 @@ RUN rm -rf node_modules/
 #copy all the rest of the app
 COPY . /var/www/html
 #install all php dependencies
+USER docker
 RUN composer install
+USER root
 #do all the directory stuff
 RUN chown -R docker:docker var
 RUN chown -R docker:docker public/uploads/
