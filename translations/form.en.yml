@@ -142,7 +142,7 @@ label:
   jigasiProsodyDomain: Jigasi prosody domain
   go: Let's go!
   moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
+  disallowFirefox: Firefox is disabled on this jitsi meer server
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
