@@ -1900,7 +1900,7 @@
       </trans-unit>
       <trans-unit id="EaWoPF5" resname="lobby.message.success">
         <source>lobby.message.success</source>
-        <target state="needs-translation">Die Nachricht wurde erfolgreich übermittelt.</target>
+        <target state="translated">The message was successfully submitted.</target>
       </trans-unit>
       <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
         <source>lobby.participant.tooltip.acccept</source>
