@@ -1780,11 +1780,11 @@
       </trans-unit>
       <trans-unit id="rJeuurV" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="needs-translation">{name} wird später der Konferenz beitreten.</target>
+        <target state="translated">{name} will join the conference later.</target>
       </trans-unit>
       <trans-unit id="ACda2_m" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="needs-translation">{name} hat abgelehnt.</target>
+        <target state="translated">{name} has declined.</target>
       </trans-unit>
       <trans-unit id="YSIci3n" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -1896,7 +1896,7 @@
       </trans-unit>
       <trans-unit id="EaWoPF5" resname="lobby.message.success">
         <source>lobby.message.success</source>
-        <target state="needs-translation">Die Nachricht wurde erfolgreich übermittelt.</target>
+        <target state="translated">The message was successfully submitted.</target>
       </trans-unit>
       <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
         <source>lobby.participant.tooltip.acccept</source>
@@ -1952,19 +1952,19 @@
       </trans-unit>
       <trans-unit id="pI0mBwO" resname="deputy.message.added">
         <source>deputy.message.added</source>
-        <target state="needs-translation">Vertreter erfolgreich hinzugefügt.</target>
+        <target state="translated">Representative successfully added.</target>
       </trans-unit>
       <trans-unit id="r9gFTO5" resname="deputy.message.removed">
         <source>deputy.message.removed</source>
-        <target state="needs-translation">Vertreter erfolgreich entfernt.</target>
+        <target state="translated">Representative successfully removed.</target>
       </trans-unit>
       <trans-unit id="UQPRxI4" resname="deputy.remove">
         <source>deputy.remove</source>
-        <target state="needs-translation">Als Vertreter entfernen</target>
+        <target state="translated">Remove as representative</target>
       </trans-unit>
       <trans-unit id="6HczWjx" resname="deputy.add">
         <source>deputy.add</source>
-        <target state="needs-translation">Als Vertreter hinzufügen</target>
+        <target state="translated">Add as representative</target>
       </trans-unit>
       <trans-unit id=".RyLlN8" resname="deputy.help">
         <source>deputy.help</source>
@@ -1972,7 +1972,7 @@
       </trans-unit>
       <trans-unit id="cuWbL6h" resname="deputy.text.isDeputy">
         <source>deputy.text.isDeputy</source>
-        <target state="needs-translation">Ist Vertreter</target>
+        <target state="translated">Is representative</target>
       </trans-unit>
       <trans-unit id="SqlzG8G" resname="room.new.help.server">
         <source>room.new.help.server</source>
@@ -2056,7 +2056,7 @@
       </trans-unit>
       <trans-unit id="IEmtTcn" resname="Bewertungen">
         <source>Bewertungen</source>
-        <target state="needs-translation">Bewertungen</target>
+        <target state="translated">Ratings</target>
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
@@ -2064,15 +2064,15 @@
       </trans-unit>
       <trans-unit id="kKLiefR" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
-        <target state="needs-translation">Profileinstellungen</target>
+        <target state="translated">Profile settings</target>
       </trans-unit>
       <trans-unit id="9XUKXXI" resname="Einstellungen">
         <source>Einstellungen</source>
-        <target state="needs-translation">Einstellungen</target>
+        <target state="translated">Settings</target>
       </trans-unit>
       <trans-unit id="dMRxR_U" resname="Startet in {time} min">
         <source>Startet in {time} min</source>
-        <target state="needs-translation">Startet in {time} min</target>
+        <target state="translated">Starts in {time} min</target>
       </trans-unit>
       <trans-unit id="NCP2l7d" resname="addressbook.favorite.remove.success">
         <source>addressbook.favorite.remove.success</source>
@@ -2100,11 +2100,11 @@
       </trans-unit>
       <trans-unit id="wV8VMNI" resname="Hotkeys">
         <source>Hotkeys</source>
-        <target state="needs-translation">Hotkeys</target>
+        <target state="translated">Hotkeys</target>
       </trans-unit>
       <trans-unit id="W25PgHx" resname="Allgemeiner Fehler">
         <source>Allgemeiner Fehler</source>
-        <target state="needs-translation">Allgemeiner Fehler</target>
+        <target state="translated">General error</target>
       </trans-unit>
       <trans-unit id="xFrrBI8" resname="Hier ist was schief gelaufen. Tut uns Leid">
         <source>Hier ist was schief gelaufen. Tut uns Leid</source>
@@ -2112,11 +2112,11 @@
       </trans-unit>
       <trans-unit id="4pmAB3F" resname="Zur Startseite">
         <source>Zur Startseite</source>
-        <target state="needs-translation">Zur Startseite</target>
+        <target state="translated">Go to homepate</target>
       </trans-unit>
       <trans-unit id="EG0viST" resname="Seite nicht gefunden">
         <source>Seite nicht gefunden</source>
-        <target state="needs-translation">Seite nicht gefunden</target>
+        <target state="translated">Page not found</target>
       </trans-unit>
       <trans-unit id="L5FRnrH" resname="Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.">
         <source>Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</source>
@@ -2128,7 +2128,7 @@
       </trans-unit>
       <trans-unit id="elqNziw" resname="Seite kaputt">
         <source>Seite kaputt</source>
-        <target state="needs-translation">Seite kaputt</target>
+        <target state="translated">Page broken</target>
       </trans-unit>
       <trans-unit id="5TruHhH" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
@@ -2148,11 +2148,11 @@
       </trans-unit>
       <trans-unit id="Y44kn0o" resname="Filter">
         <source>Filter</source>
-        <target state="needs-translation">Filter</target>
+        <target state="translated">Filter</target>
       </trans-unit>
       <trans-unit id="L4szaw3" resname="deputy.mydebutys">
         <source>deputy.mydebutys</source>
-        <target state="needs-translation">Meine Vertreter</target>
+        <target state="translated">My representatives</target>
       </trans-unit>
       <trans-unit id="1Ko4REx" resname="callout.dropdown.empty">
         <source>callout.dropdown.empty</source>
@@ -2204,19 +2204,19 @@
       </trans-unit>
       <trans-unit id="KwoLLsf" resname="browser.warning">
         <source>browser.warning</source>
-        <target state="needs-translation">Browserwarnung</target>
+        <target state="translated">Browserwarning</target>
       </trans-unit>
       <trans-unit id="vzbzhGI" resname="browser.warning.text">
         <source>browser.warning.text</source>
-        <target state="needs-translation">Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
+        <target state="translated">Your current browser is not supprted. Please use a modern browser which fully supports WebRTC.</target>
       </trans-unit>
       <trans-unit id="daah4it" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
-        <target state="needs-translation">Weiter mit Edge</target>
+        <target state="translated">Continue with Edge</target>
       </trans-unit>
       <trans-unit id="6VWajOy" resname="browser.warning.toMac">
         <source>Weiter mit Safari</source>
-        <target state="needs-translation">Weiter mit Safari</target>
+        <target state="translated">Continue with Safari</target>
       </trans-unit>
     </body>
   </file>
