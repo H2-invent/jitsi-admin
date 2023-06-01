@@ -182,7 +182,7 @@ services:
   keycloak-ja:
     image: quay.io/keycloak/keycloak:21.1.1
     depends_on:
-      db-ja:
+      app-ja:
         condition: service_healthy
     environment:
       KEYCLOAK_ADMIN: admin

@@ -5,7 +5,7 @@
 {% endblock %}
  {% block sidebar %}
      <div id="favorite-Container" class="mb-3">
-         <h5 class="text-left mb-3"><b>{{ 'favorite.sidebar.title'|trans }}</b></h5>
+         <h5 class="text-left"><b>{{ 'favorite.sidebar.title'|trans }}</b></h5>
 
          {% if favorite|length > 0 %}
              {% for r in favorite %}
