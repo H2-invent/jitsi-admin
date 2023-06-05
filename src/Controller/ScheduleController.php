@@ -404,10 +404,25 @@ class ScheduleController extends JitsiAdminController
 
     #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
     #[ParamConverter(data: 'room', class: Rooms::class)]
-    public function generateVoteCsv(Rooms $room): Response
+    public function generateVoteCsv(Rooms $room, TranslatorInterface $translator): Response
     {
         $votingsAndTimes = $this->getUserVotes($room);
+
+        if (!isset($votingsAndTimes['times']) || count($votingsAndTimes['times']) === 0) {
+            $this->addFlash('danger', $translator->trans('Fehler, es gibt noch keine Terminvorschläge.'));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        if (!isset($votingsAndTimes['user']) || count($votingsAndTimes['user']) === 0) {
+            $this->addFlash('danger', $translator->trans('Fehler, es wurde noch nicht abgestimmt.'));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
         $votings = $this->fillAllVotings($votingsAndTimes['user'], array_unique($votingsAndTimes['times']));
+
+
         $csv = implode(PHP_EOL, CsvHandler::generateFromArray($votings));
         $response = new Response($csv);
 
