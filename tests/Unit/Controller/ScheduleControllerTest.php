@@ -17,8 +17,15 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Router;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use function PHPUnit\Framework\exactly;
 
@@ -217,9 +224,58 @@ class ScheduleControllerTest extends KernelTestCase
 
         $actualResponse = $this->subject->generateVoteCsv($room);
 
-        $expected = 'Name,Email,'.$dateTime1->format('d-m-Y H:i:s').','.$dateTime2->format('d-m-Y H:i:s').PHP_EOL.'user1 test1,email1,Ja,null'.PHP_EOL.'user2 test2,email2,Nein,Vielleicht'.PHP_EOL.'user3 test3,email3,null,Vielleicht';
+        $expected = 'Name,Email,' . $dateTime1->format('d-m-Y H:i:s') . ',' . $dateTime2->format('d-m-Y H:i:s');
+        $expected .= PHP_EOL . 'user1 test1,email1,Ja,null' . PHP_EOL . 'user2 test2,email2,Nein,Vielleicht' . PHP_EOL;
+        $expected .= 'user3 test3,email3,null,Vielleicht';
 
         $this->assertEquals($expected, $actualResponse->getContent());
+    }
+
+    public function testGenerateCsvSkipsOnNoScheduling(): void
+    {
+        $room = $this->getRoomMock();
+
+        $room
+            ->expects(self::once())
+            ->method('getSchedulings')
+            ->willReturn(new ArrayCollection());
+
+        $this->subject->setContainer($this->getContainerMockWithSession());
+
+        $this->assertInstanceOf(RedirectResponse::class, $this->subject->generateVoteCsv($room));
+    }
+
+    public function testGenerateCsvSkipsOnNoVotes(): void
+    {
+        $room = $this->getRoomMock();
+        $scheduling = $this->getSchedulingMock();
+        $schedulingTime = $this->getSchedulingTimeMock();
+        $dateTime = new DateTime();
+
+        $schedulingCollection = new ArrayCollection();
+        $schedulingCollection->add($scheduling);
+
+        $schedulingTimeCollection = new ArrayCollection();
+        $schedulingTimeCollection->add($schedulingTime);
+
+        $room
+            ->expects(self::once())
+            ->method('getSchedulings')
+            ->willReturn($schedulingCollection);
+
+        $scheduling
+            ->expects(self::once())
+            ->method('getSchedulingTimes')
+            ->willReturn($schedulingTimeCollection);
+
+        $schedulingTime
+            ->expects(self::once())
+            ->method('getTime')
+            ->willReturn($dateTime);
+
+        $this->subject->setContainer($this->getContainerMockWithSession());
+
+        $this->assertInstanceOf(RedirectResponse::class, $this->subject->generateVoteCsv($room));
     }
 
     private function getRoomMock(): MockObject&Rooms
@@ -245,5 +301,25 @@ class ScheduleControllerTest extends KernelTestCase
     private function getUserMock(): MockObject&User
     {
         return $this->createMock(User::class);
+    }
+
+    private function getContainerMockWithSession(): ContainerInterface
+    {
+        $container = $this->getContainer();
+        $requestStack = $this->createMock(RequestStack::class);
+        $session = $this->createMock(FlashbagAwareSessionInterface::class);
+        $flashbag = $this->createMock(FlashBagInterface::class);
+
+        $container->set('request_stack', $requestStack);
+
+        $requestStack
+            ->method('getSession')
+            ->willReturn($session);
+
+        $session
+            ->method('getFlashBag')
+            ->willReturn($flashbag);
+
+        return $container;
     }
 }

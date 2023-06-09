@@ -407,7 +407,22 @@ class ScheduleController extends JitsiAdminController
     public function generateVoteCsv(Rooms $room): Response
     {
         $votingsAndTimes = $this->getUserVotes($room);
+
+        if (!isset($votingsAndTimes['times']) || count($votingsAndTimes['times']) === 0) {
+            $this->addFlash('danger', $this->translator->trans('Fehler, es gibt noch keine Terminvorschläge.'));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+        if (!isset($votingsAndTimes['user']) || count($votingsAndTimes['user']) === 0) {
+            $this->addFlash('danger', $this->translator->trans('Fehler, es wurde noch nicht abgestimmt.'));
+
+            return $this->redirectToRoute('dashboard');
+        }
+
         $votings = $this->fillAllVotings($votingsAndTimes['user'], array_unique($votingsAndTimes['times']));
+
+
         $csv = implode(PHP_EOL, CsvHandler::generateFromArray($votings));
         $response = new Response($csv);
 
