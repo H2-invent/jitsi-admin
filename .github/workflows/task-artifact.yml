@@ -8,11 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install PHP Dependencies
-        uses: php-actions/composer@v6
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
         with:
-          php_version: ${{ vars.PHP_VERSION }}
-          php_extensions: ldap xsl zip
+          php-version: ${{ vars.PHP_VERSION }}
+          ini-values: date.timezone ="Europe/Berlin"
+      - name: Run composer Install
+        run: php composer.phar install
 
       - name: Install NPM Packages
         uses: actions/setup-node@v3
