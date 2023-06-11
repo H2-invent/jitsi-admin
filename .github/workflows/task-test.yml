@@ -36,11 +36,13 @@ jobs:
       # endregion load_artifact
       # region test
       # region phpunit
-      - name: Install dependencies
-        uses: php-actions/composer@v6
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
         with:
-          php_version: ${{ vars.PHP_VERSION }}
-          php_extensions: ldap xsl zip
-          command: php composer.phar test
+          php-version: ${{ vars.PHP_VERSION }}
+          tools: composer
+          ini-values: date.timezone ="Europe/Berlin"
+      - name: Run php test
+        run: php composer.phar test
       # endregion phpunit
       # endregion test
