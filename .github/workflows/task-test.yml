@@ -36,14 +36,11 @@ jobs:
       # endregion load_artifact
       # region test
       # region phpunit
-      - name: PHPUnit tests
-        uses: php-actions/phpunit@v3
+      - name: Install dependencies
+        uses: php-actions/composer@v6
         with:
-          configuration: "./phpunit.xml.dist"
-          version: 9
-          memory_limit: "1024M"
-          testsuite: "Development"
           php_version: ${{ vars.PHP_VERSION }}
-          php_extensions: ldap xsl zip intl pdo_mysql mysqli
+          php_extensions: ldap xsl zip
+          command: php composer.phar test
       # endregion phpunit
       # endregion test
