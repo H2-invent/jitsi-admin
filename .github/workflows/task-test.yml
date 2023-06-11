@@ -29,10 +29,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: artifact_${{github.run_number}}
+
       - name: Unzip Artifact
         run: unzip -qq artifact_${{github.run_number}}.zip -d .
-      - name: List directory
-        run: ls -ls
       # endregion load_artifact
       # region test
       # region phpunit
