@@ -41,7 +41,7 @@ jobs:
         with:
           configuration: "./phpunit.xml.dist"
           version: 9
-          memory_limit: "256M"
+          memory_limit: "1024M"
           testsuite: "Development"
           php_version: ${{ vars.PHP_VERSION }}
           php_extensions: ldap xsl zip intl
