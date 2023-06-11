@@ -13,20 +13,27 @@ jobs:
         with:
           php-version: ${{ vars.PHP_VERSION }}
           ini-values: date.timezone ="Europe/Berlin"
-      - name: Run composer Install
-        run: php composer.phar install
 
       - name: Install NPM Packages
         uses: actions/setup-node@v3
         with:
           node-version: ${{ vars.NODE_VERSION }}
-      - run: npm install
-      - run: npm run build
-      - run: rm -r node_modules
 
-      - name: Build JS for the Websocket
-        working-directory: nodejs/
+      - name: Run composer Install
+        run: php composer.phar install
+        
+      - name: Install Node modules
         run: npm install
+
+      - name: Build NPM Files
+        run: npm run build
+
+      - name: Remove node_modules
+        run: rm -r node_modules
+
+      - name: Install Node modules for the Websocket
+        run: npm install
+        working-directory: nodejs/
 
       - uses: montudor/action-zip@v1
         with:
