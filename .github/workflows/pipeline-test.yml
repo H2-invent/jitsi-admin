@@ -1,0 +1,12 @@
+name: Test Pipeline
+
+on: [push]
+
+jobs:
+  artifact:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+
+  test:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    needs:
+      - artifact
