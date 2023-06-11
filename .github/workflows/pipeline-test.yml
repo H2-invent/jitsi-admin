@@ -3,5 +3,22 @@ name: Test Pipeline
 on: [push]
 
 jobs:
+  check_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: paulhatch/semantic-version@v5.0.2
+        id: version
+        with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          change_path: .
+          version_format: "${major}.${minor}.${patch}"
+
   artifact:
     uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
