@@ -37,7 +37,8 @@ jobs:
       - name: PHPUnit tests
         uses: php-actions/phpunit@v3
         with:
-          configuration: "phpunit.xml.dist"
+          configuration: "./phpunit.xml.dist"
+          version: 9
           memory_limit: "256M"
           testsuite: "Development"
           php_version: ${{ vars.PHP_VERSION }}
