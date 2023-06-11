@@ -6,41 +6,7 @@ jobs:
   artifact:
     uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
 
-  run_php_unit_test:
+  test:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
     needs:
       - artifact
-
-    runs-on: ubuntu-latest
-    
-    # region declare_services
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-    # endregion declare_services
-    
-    steps:
-      # region mysql_start
-      - name: MySQL start
-        run: |
-          sudo /etc/init.d/mysql start
-          sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
-          sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
-          sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"
-      # endregion mysql_start
-      # region load_artifact
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: artifact_${{github.run_number}}
-      - name: Unzip Artifact
-        run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
-      # endregion load_artifact
-      # region test
-      # region phpunit
-      - name: Run PHP-Unit tests
-        working-directory: ./artifact
-        run: php composer.phar test
-      # endregion phpunit
-      # endregion test
