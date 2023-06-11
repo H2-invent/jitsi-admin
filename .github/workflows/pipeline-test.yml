@@ -6,7 +6,7 @@ jobs:
   artifact:
     uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
 
-  test:
+  run_php_unit_test:
     needs:
       - artifact
 
