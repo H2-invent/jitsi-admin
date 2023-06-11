@@ -40,8 +40,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ vars.PHP_VERSION }}
-          tools: composer
           ini-values: date.timezone ="Europe/Berlin"
+
       - name: Run php test
         run: php composer.phar test
       # endregion phpunit
