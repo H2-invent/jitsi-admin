@@ -44,6 +44,6 @@ jobs:
           memory_limit: "256M"
           testsuite: "Development"
           php_version: ${{ vars.PHP_VERSION }}
-          php_extentions: ldap xsl zip intl
+          php_extensions: ldap xsl zip intl
       # endregion phpunit
       # endregion test
