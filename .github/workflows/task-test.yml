@@ -34,8 +34,12 @@ jobs:
       # endregion load_artifact
       # region test
       # region phpunit
-      - name: Run PHP-Unit tests
-        working-directory: ./artifact
-        run: php composer.phar test
+      - name: PHPUnit tests
+        uses: php-actions/phpunit@v3
+        with:
+          configuration: "phpunit.xml.dist"
+          memory_limit: "256M"
+          testsuite: "Development"
+          php_version: ${{ vars.PHP_VERSION }}
       # endregion phpunit
       # endregion test
