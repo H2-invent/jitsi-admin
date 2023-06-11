@@ -1,0 +1,1 @@
+# Add here all the theme assets file ike logo, icons etc.

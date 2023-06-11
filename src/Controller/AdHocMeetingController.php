@@ -7,8 +7,13 @@ use App\Entity\Tag;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Service\adhocmeeting\AdhocMeetingService;
+use App\Service\CreateHttpsUrl;
 use App\Service\ServerUserManagment;
+use Doctrine\Persistence\ManagerRegistry;
+use GuzzleHttp\Promise\Create;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +24,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AdHocMeetingController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+        private CreateHttpsUrl $createHttpsUrl,
+    )
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     /**
      * @Route("confirmation/{userId}/{serverId}", name="_confirm")
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
@@ -67,7 +83,7 @@ class AdHocMeetingController extends JitsiAdminController
                 [
                     'redirectUrl' => $this->generateUrl('dashboard'),
                     'popups' => [
-                        ['url' => $this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()]), 'title' => $room->getSecondaryName() ? : $room->getName()]
+                        ['url' => $this->createHttpsUrl->createHttpsUrl($this->generateUrl('room_join', ['t' => 'b', 'room' => $room->getId()])), 'title' => $room->getSecondaryName() ? : $room->getName()]
                     ]
                 ]
             );

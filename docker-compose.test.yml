@@ -94,6 +94,8 @@ services:
       - "traefik.http.services.app-ja.loadbalancer.server.port=80"
     volumes:
       - image_upload:/var/www/html/public/uploads/images
+      - theme_data:/var/www/html/theme
+      - theme_assests_data:/var/www/html/public/theme
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
   db-ja:
@@ -106,7 +108,7 @@ services:
       retries: 10
     volumes:
       - mariadb:/var/lib/mysql
-      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
 
   keycloak-ja:
@@ -134,10 +136,12 @@ services:
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
     volumes:
-      - ./keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/realm-export.json:/tmp/realm-export.json
 
 volumes:
   mariadb:
   caddy_data:
   caddy_config:
   image_upload:
+  theme_data:
+  theme_assests_data:

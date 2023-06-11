@@ -3,6 +3,9 @@
 namespace App\dataType;
 
 use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LdapType
 {
@@ -247,13 +250,18 @@ class LdapType
     {
 
         $anonym = $this->bindType === 'simple' ? false : true;
-
+        $validator = Validation::createValidator();
         try {
             $tmp = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
-            if ($anonym === false) {
-                $tmp->bind($this->bindDn, $this->password);
+            $isUrl = $this->isValidLdapUrl($this->url);
+            if ($isUrl) {
+                if (!$anonym) {
+                    $tmp->bind($this->bindDn, $this->password);
+                } else {
+                    $tmp->bind();
+                }
             } else {
-                $tmp->bind();
+               throw new \Exception('invalid Bind URL');
             }
             $this->ldap = $tmp;
             $this->isHealthy = true;
@@ -263,6 +271,12 @@ class LdapType
         }
     }
 
+    public function isValidLdapUrl(string $url):bool{
+        $regex = '/^(ldap(s)?:\/\/)(((((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4})|([a-zA-Z][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@%_\+.~#?&\/=]*))))(?:\:\d+)?$/m';
+
+        $isUrl = preg_match($regex,$url);
+        return $isUrl>0;
+    }
     /**
      * @return mixed
      */

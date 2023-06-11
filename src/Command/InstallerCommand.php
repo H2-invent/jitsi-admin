@@ -214,8 +214,8 @@ class InstallerCommand extends Command
             defaultVersion: 21,
             defaultRealm: 'jitsi-admin',
             defaultUrl: null,
-            defaultClientId: null,
-            defaultClientSecret: null,
+            defaultClientId: 'clientId',
+            defaultClientSecret: 'clientSecret',
         );
     }
 
@@ -223,7 +223,7 @@ class InstallerCommand extends Command
     {
         return $this->askForSmtpConfig(
             defaultHost: 'localhost',
-            defaultPort: 465,
+            defaultPort: 587,
             defaultUsername: 'root',
             defaultPassword: 'root',
             defaultEmail: null,
@@ -232,7 +232,7 @@ class InstallerCommand extends Command
 
     private function createDbConfig(): DbConfig
     {
-        $dbExistsQuestion = $this->getConfirmationQuestion('Do you already have an existing database', false);
+        $dbExistsQuestion = $this->getConfirmationQuestion('Do you want to use an external database? If you don\'t have a database and want the internal database please select N ', false);
 
         if ($this->ask($dbExistsQuestion)) {
             return $this->askForDbConfig(
@@ -489,7 +489,7 @@ class InstallerCommand extends Command
             'AWAY_TIME=5' . PHP_EOL,
         ];
 
-        file_put_contents(filename: $this->projectDir . 'nodejs' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'websocket.conf', data: $lines);
+        file_put_contents(filename: $this->projectDir . 'installer' . DIRECTORY_SEPARATOR . 'jitsi-admin.conf', data: $lines);
     }
     # endregion file_editing
 }

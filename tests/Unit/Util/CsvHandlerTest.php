@@ -11,13 +11,19 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(CsvHandler::class)]
 class CsvHandlerTest extends TestCase
 {
-    #[DataProvider('providerForGenerate')]
+
+    /**
+     * @dataProvider providerForGenerate
+     */
     public function testGenerate(array $arrayData, array $expectedCsv, ?string $seperator): void
     {
         $this->assertSame($expectedCsv, CsvHandler::generateFromArray($arrayData, $seperator));
     }
 
-    #[DataProvider('providerForGenerateWillThrowException')]
+
+    /**
+     * @dataProvider providerForGenerateWillThrowException
+     */
     public function testGenerateWillThrowException(array $arrayData, string $exception): void
     {
         $this->expectException(InvalidArgumentException::class);

@@ -181,8 +181,11 @@ services:
       - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.name=jad"
       - "traefik.http.services.app-ja-${RANDOMTAG}.loadbalancer.sticky.cookie.secure=true"
     volumes:
+      - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
+      - theme_assests_data:/var/www/html/public/theme
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
+
     networks:
       - default
       - jitsi-admin
@@ -197,6 +200,8 @@ services:
       app-ja:
         condition: service_healthy
     command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
+    volumes:
+      - theme_data:/var/www/html/theme
     networks:
       - default
       - jitsi-admin
@@ -212,7 +217,7 @@ services:
       retries: 10
     volumes:
       - mariadb:/var/lib/mysql
-      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     networks:
       - jitsi-admin
 
@@ -247,7 +252,7 @@ services:
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
     volumes:
-      - ./keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/realm-export.json:/tmp/realm-export.json
     networks:
       - default
       - jitsi-admin
@@ -258,6 +263,8 @@ volumes:
   image_upload:
   wbo-boards:
   etherpad_data:
+  theme_data:
+  theme_assests_data:
 
 networks:
   default:

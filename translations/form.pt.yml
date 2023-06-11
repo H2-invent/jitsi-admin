@@ -12,6 +12,7 @@ label.start: Iniciar
 label.dauerKonferenz: Duração da conferência
 label.nurRegistriertenutzer: Apenas usuários registrados podem entrar nesta conferência.
 label.speichern: Salvar
+label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 minutos
 option.30min: 30 minutos
 option.45min: 45 minutos
@@ -102,7 +103,7 @@ label:
   featureEnalbeByJwt: O plugin "Enable Feature by JWT" está ativo no neste servidor.
   dissallowScreenshareGlobal: Apenas moderadores podem compartilhar telas.
   dissallowPrivateMessage: Apenas moderadores podem enviar mensagens prpivadas aos participantes.
-  puplicRoom: Ativar links de convite
+  puplicRoom: Selbsteinschreibung aktivieren
   showRoomOnJoinpage: Mostrar conferência na página de entrada
   subscribe: Iniciar Sessão
   vorname: Primeiro nome
@@ -139,7 +140,7 @@ label:
   jigasiNumberUrl: Número de acessos ao Jigasi em formato JSON
   jigasiProsodyDomain: Domínio do Jigasi Prosody
   go: Vamos Lá!
-  moderator: Selecionar organizador
+  moderator: Organisator auswählen
 choice:
   tls: STARTTLS / TLS
   ssl: SSL

@@ -52,6 +52,7 @@ class ServerType extends AbstractType
             ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add('licenseKey', TextType::class, ['required' => false, 'label' => 'label.serverLicenseKey', 'translation_domain' => 'form'])
             ->add('featureEnableByJWT', CheckboxType::class, ['required' => false, 'label' => 'label.featureEnalbeByJwt', 'help' => 'help.featureEnalbeByJwt', 'translation_domain' => 'form'])
+            ->add('disallowFirefox', CheckboxType::class, ['required' => false, 'label' => 'label.disallowFirefox', 'help' => 'help.disallowFirefox', 'translation_domain' => 'form'])
             ->add(
                 'jwtModeratorPosition',
                 ChoiceType::class,

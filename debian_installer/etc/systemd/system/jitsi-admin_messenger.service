@@ -1,0 +1,15 @@
+[Unit]
+Description=Jitsi-Admin Messenger service
+After=network.target
+StartLimitBurst=5
+StartLimitIntervalSec=20s
+
+[Service]
+WorkingDirectory=/var/www/jitsi-admin
+ExecStart=/usr/bin/php -d memory_limit=-1 bin/console messenger:consume async --memory-limit=512m --env=prod
+Restart=always
+RestartSec=1
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target

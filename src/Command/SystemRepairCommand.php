@@ -8,6 +8,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,7 +24,11 @@ class SystemRepairCommand extends Command
     private string $logfile = 'repairLog.txt';
     private $logFileFile;
 
-    public function __construct(private LdapUserService $ldapUserService, EntityManagerInterface $entityManager, string $name = null)
+    public function __construct(
+        private LdapUserService $ldapUserService,
+        EntityManagerInterface $entityManager,
+        private CacheItemPoolInterface $cacheItemPool,
+        string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
@@ -74,6 +79,8 @@ class SystemRepairCommand extends Command
         $count += $this->repairWaitungUser();
         $io->success(sprintf('We found %d coruppt datasets', $count));
         fclose($this->logFileFile);
+        $io->info('We clear the cache');
+        $this->cacheItemPool->clear();
         return Command::SUCCESS;
     }
 

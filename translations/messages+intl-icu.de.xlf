@@ -2146,7 +2146,7 @@
         <source>Seite kaputt</source>
         <target>Seite kaputt</target>
       </trans-unit>
-      <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
+      <trans-unit id="5TruHhH" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
         <target>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
       </trans-unit>
@@ -2171,8 +2171,68 @@
         <target>Meine Vertreter</target>
       </trans-unit>
       <trans-unit id="1Ko4REx" resname="callout.dropdown.empty">
-        <source>Hier werden die Ergebnisse der Suche angezeigt</source>
+        <source>callout.dropdown.empty</source>
         <target>Hier werden die Ergebnisse der Suche angezeigt</target>
+      </trans-unit>
+      <trans-unit id="SB9w0dm" resname="scheduling.new.schedulingTime.subject">
+        <source>scheduling.new.schedulingTime.subject</source>
+        <target>[Terminplanung] Neuer Terminvorschlag zu einer Terminumfrage hinzugefügt</target>
+      </trans-unit>
+      <trans-unit id="o46lsH1" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
+        <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
+        <target>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</target>
+      </trans-unit>
+      <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
+        <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
+        <target>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+      </trans-unit>
+      <trans-unit id="vfIUwCz" resname="scheduling.new.schedulingTime.header">
+        <source>scheduling.new.schedulingTime.header</source>
+        <target>Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="QSMGE51" resname="Als CSV Downloaden">
+        <source>Als CSV Downloaden</source>
+        <target>Als CSV Downloaden</target>
+      </trans-unit>
+      <trans-unit id="tKYYjoS" resname="scheduler.new.schedule">
+        <source>scheduler.new.schedule</source>
+        <target>Weiteren Termin zur Auswahl hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="q.M4VTr" resname="scheduling.new.schedulingTime.text">
+        <source>scheduling.new.schedulingTime.text</source>
+        <target>Es wurde ein neuer Termin in die Liste der Terminvorschläge hinzugefügt. Dieser kann entweder durch den Moderator oder durch einen anderen Eingeladenen hinzugefügt worden sein.</target>
+      </trans-unit>
+      <trans-unit id="8znj8yB" resname="scheduling.completeVoting.subject">
+        <source>scheduling.completeVoting.subject</source>
+        <target>[Terminplanung] Es haben alle Teilnehmenden abgestimmt</target>
+      </trans-unit>
+      <trans-unit id="TGBfazG" resname="scheduling.completeVoting.header">
+        <source>scheduling.completeVoting.header</source>
+        <target>Es haben alle Teilnehmenden abgestimmt</target>
+      </trans-unit>
+      <trans-unit id="EZcM0YG" resname="scheduling.completeVoting.text">
+        <source>scheduling.completeVoting.text</source>
+        <target>Die Teilnehmenden haben abgestimmt und die Ergebnisse sind nun verfügbar. Die Zusammenfassung der Ergebnisse finden Sie auf Ihrem Dashboard.</target>
+      </trans-unit>
+      <trans-unit id="Edrc_Uf" resname="theme.invalid.">
+        <source>theme.invalid.</source>
+        <target>Ihr Theme läuft in {days} Tagen ab</target>
+      </trans-unit>
+      <trans-unit id="KwoLLsf" resname="browser.warning">
+        <source>browser.warning</source>
+        <target>Browserwarnung</target>
+      </trans-unit>
+      <trans-unit id="vzbzhGI" resname="browser.warning.text">
+        <source>browser.warning.text</source>
+        <target>Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
+      </trans-unit>
+      <trans-unit id="daah4it" resname="browser.warning.toEdge">
+        <source>browser.warning.toEdge</source>
+        <target>Weiter mit Edge</target>
+      </trans-unit>
+      <trans-unit id="6VWajOy" resname="browser.warning.toMac">
+        <source>Weiter mit Safari</source>
+        <target>Weiter mit Safari</target>
       </trans-unit>
     </body>
   </file>

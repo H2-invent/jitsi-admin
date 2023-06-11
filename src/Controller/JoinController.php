@@ -42,7 +42,7 @@ class JoinController extends JitsiAdminController
         $data = [];
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['slug' => $slug]);
         // dataStr wird mit den Daten uid und email encoded übertragen. Diese werden daraufhin als Vorgaben in das Formular eingebaut
-        $dataStr = $request->get('data');
+        $dataStr = $request->get('data', '');
         $snack = $request->get('snack');
         $color = 'success';
         $dataAll = base64_decode($dataStr);

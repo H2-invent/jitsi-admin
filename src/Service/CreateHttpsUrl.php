@@ -49,7 +49,7 @@ class CreateHttpsUrl
         }
     }
 
-    public function generateAbsolutUrl($baseUrl, $url = '')
+    private function generateAbsolutUrl($baseUrl, $url = '')
     {
         $isStricktHttps = str_contains($this->baseUrl, 'https://');
         $res = $baseUrl . $url;

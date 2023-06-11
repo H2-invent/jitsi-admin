@@ -6,32 +6,61 @@
     <div class="row markdown">
         <div class="col-12">
             {% apply markdown_to_html %}
-                #### 0.76.0-dev
+                #### 0.76.0-dev Changelog
 
                 __What's new__
-                * Requires PHP8.1 and node18
-                * Bug UI-Improvement
-                * Meetling Pro Tip
-                * Refactor of addressbook
-                * New Logo
-                * Pause conference
-                * A multiframe can be muted
-                * microphone and the camera is switched
-                * The paused user is shown in th conference as away
-                * A paused conference is shown with a big pause symbol on an overlay
-                * Automatic muting
-                * When two conferences are opened in two multi frames then all conference in the background are automatically muted
-                * Deputy function
-                * A debuty can be selected
-                * Deputys can create a conference in name of the superior
-                * Deputys can see when the superior has a conference planed
-                * These conference are marked as privat and the name and the agenda is not shown to deputies
-                * Other deputies of the same superior can edit the conferences which are created by other deputies
-                * Migration of SSO to Keycloak >16
-                * Upgrade to Symfony 6.2
+                - Requires PHP8.1 and node18
+                - Big UI Improvement
+                - Meetling Pro Tip
+                - Refactor of addressbook
+                - New Logo
+                - Pause conference
+                    - A multiframe can be muted
+                    - Microphone and camera can be switched off for paused users
+                    - Paused users are shown as "away" in the conference
+                    - Paused conferences are displayed with a big pause symbol on an overlay
+                    - Automatic muting
+                    - When two conferences are opened in two multi frames, all conferences in the background are automatically muted
+                - Deputy function
+                    - A deputy can be selected
+                    - Deputies can create conferences on behalf of their superiors
+                    - Deputies can see when their superiors have planned conferences
+                    - These conferences are marked as private, and the name and agenda are not shown to deputies
+                    - Other deputies of the same superior can edit conferences created by other deputies
+                - Scheduling improvements
+                    - Download scheduling results in CSV format
+                    - Hide "maybe" option in scheduling
+                    - Send email when all participants have voted
+                    - Other participants can make a counterproposal
+                - Migration of SSO to Keycloak version 16 or higher
+                - Upgrade to Symfony 6.2
 
                 __Bugfix__
-                * A lot of Bugfixes
+                - Numerous bugfixes
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.4</h4>
+            {% apply markdown_to_html %}
+                __Bugfix__
+                * Invited emails are sometimes doubled
+                * Run `php bin/console app:system:repair` as server administrator to remove all double emails and connect the correct emails with the invited conferences
+                * Add again two "$$" in the env
+                * Remove commentary in one row and move the commentary to the row above
+                * Move system repair command from Dockerfile into dockerupdate.sh
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            <h4 class="h4-responsive">0.75.3</h4>
+            {% apply markdown_to_html %}
+                __Bugfix__
+                * Invited emails are sometimes doubled
+                * Run `php bin/console app:system:repair` as server administrator to remove all double emails and connect the correct emails with the invited conferences
+                * Add only one "$" in the env
 
             {% endapply %}
             <hr>
@@ -85,38 +114,7 @@
             <hr>
         </div>
 
-        <div class="col-12">
-            {% apply markdown_to_html %}
-                #### 0.76.0-dev
 
-                __What's new__
-                * Requires PHP8.1 and node18
-                * Bug UI-Improvement
-                * Meetling Pro Tip
-                * Refactor of addressbook
-                * New Logo
-                * Pause conference
-                    * A multiframe can be muted
-                    * microphone and the camera is switched
-                    * The paused user is shown in th conference as away
-                    * A paused conference is shown with a big pause symbol on an overlay
-                    * Automatic muting
-                       * When two conferences are opened in two multi frames then all conference in the background are automatically muted
-                * Deputy function
-                    * A debuty can be selected
-                    * Deputys can create a conference in name of the superior
-                    * Deputys can see when the superior has a conference planed
-                        * These conference are marked as privat and the name and the agenda is not shown to deputies
-                    * Other deputies of the same superior can edit the conferences which are created by other deputies
-                * Migration of SSO to Keycloak >16
-                * Upgrade to Symfony 6.2
-
-                __Bugfix__
-                * A lot of Bugfixes
-
-            {% endapply %}
-            <hr>
-        </div>
         <div class="col-12">
             {% apply markdown_to_html %}
                 #### 0.75.0-RC19

@@ -2,9 +2,10 @@
   "type": "project",
   "license": "proprietary",
   "require": {
-    "php": " ^8.2",
+    "php": " ^8.1",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "ext-zip": "*",
     "aws/aws-sdk-php": "^3.209",
     "composer/package-versions-deprecated": "^1.10",
     "cron/cron-bundle": "^2.6",
@@ -23,6 +24,7 @@
     "laminas/laminas-escaper": "^2.6",
     "league/flysystem-aws-s3-v3": "^2.4",
     "liip/imagine-bundle": "^2.7",
+    "matomo/device-detector": "^6.1",
     "oneup/flysystem-bundle": "^4.3",
     "phpdocumentor/reflection-docblock": "^5.2",
     "sensio/framework-extra-bundle": "^6.2",
@@ -70,7 +72,7 @@
     "dbrekelmans/bdi": "^1.0",
     "doctrine/doctrine-fixtures-bundle": "^3.4",
     "phpstan/phpstan": "^1.8",
-    "phpunit/phpunit": "^10.1",
+    "phpunit/phpunit": "^9",
     "rector/rector": "^0.13.9",
     "squizlabs/php_codesniffer": "^3.7",
     "symfony/browser-kit": "5.4.*",
@@ -143,11 +145,11 @@
     ],
     "test": [
       "@test-prepare",
-      "SYMFONY_DEPRECATIONS_HELPER='disabled=1' php vendor/bin/phpunit --testsuite=Development"
+      " php vendor/bin/phpunit --testsuite=Development"
     ],
     "test-complete": [
       "@test-prepare",
-      "SYMFONY_DEPRECATIONS_HELPER='disabled=1' php vendor/bin/phpunit --testsuite=Complete"
+      " php vendor/bin/phpunit --testsuite=Complete"
     ]
   },
   "conflict": {

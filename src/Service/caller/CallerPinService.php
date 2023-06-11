@@ -76,11 +76,17 @@ class CallerPinService
     {
         $callerID = $callerSession->getCallerId();
         try {
-            $phoneNumber = $callerSession->getCaller()->getUser()->getSpezialProperties()[$this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD')];
+            $properties = $callerSession->getCaller()->getUser()->getSpezialProperties();
+            $key = $this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD');
+  
+            if (isset($properties[$key])){
+                $phoneNumber = $properties[$key];
+            }
+
         } catch (\Exception $exception) {
             return false;
         }
-        if ($this->clean($callerID) === $this->clean($phoneNumber)) {
+        if (isset($phoneNumber) && $this->clean($callerID) === $this->clean($phoneNumber)) {
             return true;
         }
         return false;
@@ -88,9 +94,9 @@ class CallerPinService
 
     public function clean($string)
     {
-        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $string = str_replace(' ', '-', $string ?? ''); // Replaces all spaces with hyphens.
 
-        $res = preg_replace('/[^0-9]/', '', $string); // Removes special chars.
+        $res = preg_replace('/[^0-9]/', '', $string ?? ''); // Removes special chars.
         return $res;
     }
 }

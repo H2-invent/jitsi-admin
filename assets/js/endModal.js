@@ -14,6 +14,7 @@ export function initStarSend() {
     if ($('.starSend').length > 0 && initilized == false) {
         $('.starSend').click(
             function (e) {
+                e.preventDefault();
                 $('.starSend').remove();
                 var _navigator = {};
                 for (var i in window.navigator) _navigator[i] = navigator[i];

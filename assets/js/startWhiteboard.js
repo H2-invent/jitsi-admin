@@ -3,7 +3,7 @@ import {sendViaWebsocket} from "./websocket";
 import {createIframe} from "./createConference";
 
 export function initStartWhiteboard() {
-    if (!document.querySelector('.startExternalApp')){
+    if (!document.querySelector('.startExternalApp')) {
         return null;
     }
     var eles = document.querySelectorAll('.startExternalApp');
@@ -31,7 +31,7 @@ export function initStartWhiteboard() {
                 });
                 window.parent.postMessage(parentMessage, '*');
             } else {
-                createIframe(selfurl, document.title, false);
+                createIframe(selfurl, document.title, false, false);
             }
         })
     }

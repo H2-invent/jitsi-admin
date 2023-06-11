@@ -1,0 +1,7 @@
+#!/bin/bash
+if systemctl --type=service | grep -Fq 'nginx'; then
+  systemctl stop nginx
+fi
+if systemctl --type=service | grep -Fq 'apache2'; then
+  systemctl stop apache2
+fi

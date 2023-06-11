@@ -168,13 +168,6 @@
                 color: {{ theme.colorButton }} !important;
             }
 
-            .blackMode.joinPage .modal-backdrop {
-                background-image: radial-gradient({{ theme.colorButton }}, black);
-            }
-
-            .joinPage .modal-backdrop {
-                background-image: radial-gradient({{ theme.colorButton }}, white);
-            }
 
             .successBorder {
                 border: {{ theme.colorBadgeRunningNow }} 4px solid;
@@ -251,6 +244,10 @@
             .blackMode .proTips{
                 background-color: {{ theme.darkmodeBackgroudcolor }}!important;
             }
+            .window .sidebar #favorite-Container h5, .window .sidebar #favorite-Container .h5 {
+                border-color: {{ theme.colorButton  }};
+            }
+
             {% endif %}
         </style>
 
