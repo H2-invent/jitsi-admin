@@ -57,6 +57,12 @@ class LobbyModeratorControllerTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         $this->assertEquals(
+            0,
+            $crawler->filter('.participantsName:contains("Test2 User2")')->count()
+        );
+        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
+        $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
+        $this->assertEquals(
             1,
             $crawler->filter('.participantsName:contains("Test2 User2")')->count()
         );
@@ -239,7 +245,10 @@ class LobbyModeratorControllerTest extends WebTestCase
 
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
         $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
-
+        self::assertEquals(0, $crawler->filter('.waitingUserCard')->count());
+        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
+        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf');
+        $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
         self::assertEquals(2, $crawler->filter('.waitingUserCard')->count());
 
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
