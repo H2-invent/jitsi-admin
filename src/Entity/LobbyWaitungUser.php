@@ -32,6 +32,9 @@ class LobbyWaitungUser
     private $callerSession;
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $closeBrowser;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $websocketReady = false;
     public function getId(): ?int
     {
         return $this->id;
@@ -118,6 +121,18 @@ class LobbyWaitungUser
     public function setCloseBrowser(?bool $closeBrowser): self
     {
         $this->closeBrowser = $closeBrowser;
+
+        return $this;
+    }
+
+    public function isWebsocketReady(): ?bool
+    {
+        return $this->websocketReady;
+    }
+
+    public function setWebsocketReady(?bool $websocketReady): self
+    {
+        $this->websocketReady = $websocketReady;
 
         return $this;
     }

@@ -214,7 +214,6 @@ class StartMeetingService
             $lobbyUser->setShowName($this->name);
             $this->em->persist($lobbyUser);
             $this->em->flush();
-            $this->toModerator->newParticipantInLobby($lobbyUser);
         }
         $lobbyUser->setShowName($this->name);
         $lobbyUser->setType($this->type);
