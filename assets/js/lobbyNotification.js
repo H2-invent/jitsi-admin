@@ -106,32 +106,31 @@ function notifymoderator(data) {
 
 function refresh(data) {
     var reloadUrl = data.reloadUrl;
-    var timeout =  setTimeout(function () {
 
 
-        $('#waitingUserWrapper').load(reloadUrl, function () {
-            const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
-            if (exampleEl.length > 0) {
-                for (var prop in exampleEl) {
-                    const popover = new mdb.Popover(exampleEl[prop])
-                }
+    $('#waitingUserWrapper').load(reloadUrl, function () {
+        const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
+        if (exampleEl.length > 0) {
+            for (var prop in exampleEl) {
+                const popover = new mdb.Popover(exampleEl[prop])
             }
+        }
 
-            if (!$('#sliderTop').hasClass('notification')) {
-                $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
-            }
-            initCircle();
-            countParts();
-            initDragParticipants();
-            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
-            $('.tooltip').remove();
-            $('[data-mdb-toggle="tooltip"]').tooltip();
-            document.querySelectorAll('.form-outline').forEach((formOutline) => {
-                new mdb.Input(formOutline).init();
-            });
-        })
-    }, 3000);
+        if (!$('#sliderTop').hasClass('notification')) {
+            $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
+        }
+        initCircle();
+        countParts();
+        initDragParticipants();
+        $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+        $('.tooltip').remove();
+        $('[data-mdb-toggle="tooltip"]').tooltip();
+        document.querySelectorAll('.form-outline').forEach((formOutline) => {
+            new mdb.Input(formOutline).init();
+        });
+    })
 }
+
 
 /*
 wenn ein Meeting komplett durch den Moderator beendet wird:

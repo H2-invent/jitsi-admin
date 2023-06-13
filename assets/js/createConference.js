@@ -286,8 +286,9 @@ function closeWhenNoAck(messageId) {
 }
 
 function recievecommand(data) {
+    let decoded;
     try {
-        const decoded = JSON.parse(data);
+         decoded = JSON.parse(data);
     } catch (e) {
         return false;
     }
