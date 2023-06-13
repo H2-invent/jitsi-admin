@@ -403,9 +403,11 @@ hr {
   &.minified {
     outline: solid 1px $black_font-color !important;
   }
+
   &:not(.maximized) {
     outline: solid 1px $black_font-color
   }
+}
 
   .fullscreen {
     background-color: $black_background;
@@ -451,4 +453,4 @@ hr {
       }
     }
   }
-}
+
