@@ -15,6 +15,7 @@ use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function PHPUnit\Framework\assertEquals;
 
 class LobbyModeratorControllerTest extends WebTestCase
 {
@@ -246,8 +247,11 @@ class LobbyModeratorControllerTest extends WebTestCase
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
         $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
         self::assertEquals(0, $crawler->filter('.waitingUserCard')->count());
+        assertEquals(false,$lobbyUser2->isWebsocketReady());
         $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
         $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf');
+        $lobbyUser2 = $lobbyUSerRepo->findOneBy(['uid'=>'lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf']);
+        self::assertTrue($lobbyUser2->isWebsocketReady());
         $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
         self::assertEquals(2, $crawler->filter('.waitingUserCard')->count());
 
