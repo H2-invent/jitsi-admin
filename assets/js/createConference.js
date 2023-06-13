@@ -286,7 +286,12 @@ function closeWhenNoAck(messageId) {
 }
 
 function recievecommand(data) {
-    const decoded = JSON.parse(data);
+    try {
+        const decoded = JSON.parse(data);
+    } catch (e) {
+        return false;
+    }
+
     const type = decoded.type
 
     if (type === 'closeMe') {
