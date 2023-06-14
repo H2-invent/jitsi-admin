@@ -169,7 +169,7 @@ function initJitsiMeet(data) {
         showPlayPause();
         var pauseController = new jitsiController(api,displayName,avatarUrl);
         window.onbeforeunload = function (e) {
-            return '';
+            return 'Do you really want to leave this conference';
         }
 
         api.addListener('videoConferenceLeft', function (e) {

@@ -51,7 +51,9 @@ function masterNotify(data) {
             closeCallbackFkt();
         }
     } else if (data.type === 'reload') {
+
         setTimeout(function () {
+            window.onbeforeunload = null;
             location.reload();
 
         }, data.timeout)
