@@ -34,6 +34,7 @@ function initGenerell() {
     initDarkmodeSwitch();
     initLayzLoading();
     initStartIframe();
+    wrapSelect();
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
@@ -74,6 +75,23 @@ function initGenerell() {
     initWebsocket(websocketTopics);
     initLoadContent();
 }
+
+function wrapSelect() {
+    var select = document.querySelectorAll('select');
+    select.forEach(function (ele) {
+        if (ele && !ele.closest('.selectWrapper')){
+            var eleWrap = document.createElement('div');
+            eleWrap.classList.add('selectWrapper');
+           wrap(ele,eleWrap);
+            console.log('wrapperFound');
+        }
+    })
+}
+function wrap(el, wrapper) {
+    el.parentNode.insertBefore(wrapper, el);
+    wrapper.appendChild(el);
+}
+
 
 function openBlankTarget(targets) {
     targets.forEach(function (value, i) {
@@ -142,6 +160,7 @@ function initNewModal(e) {
     initAddressGroupSearch();
     initChart();
     initPrettyJson();
+    wrapSelect();
     document.querySelectorAll('.form-outline').forEach((formOutline) => {
         new mdb.Input(formOutline).init();
     });
