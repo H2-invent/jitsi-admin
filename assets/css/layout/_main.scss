@@ -276,6 +276,7 @@ strong {
         border-bottom: $main-color 3px solid;
         padding-top: 8px;
         padding-bottom: 5px;
+        margin-bottom: 22px;
       }
     }
 
@@ -1380,3 +1381,18 @@ a:hover {
 .border-none{
   border:none!important;
 }
+.selectWrapper{
+   display: flex;
+   align-items: center;
+   position: relative;
+   &:after{
+     right: 0;
+     font-family: "Font Awesome 5 Free";
+     font-weight: 900;
+     float: left;
+     transition: transform 0.3s ease-in;
+     content: "\f107";
+     position: absolute;
+     margin-right: 8px;
+   }
+ }
