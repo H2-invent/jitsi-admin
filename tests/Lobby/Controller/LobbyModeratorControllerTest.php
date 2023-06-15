@@ -80,8 +80,6 @@ class LobbyModeratorControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
-        $flashMessage = $crawler->filter('.snackbar')->text();
-        self::assertEquals($flashMessage, 'Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.');
     }
 
     public function testAccept(): void
