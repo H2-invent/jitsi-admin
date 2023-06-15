@@ -95,6 +95,7 @@ function closeBrowser() {
 initCircle();
 var counter = 0;
 var interval;
+var intervalRenew;
 var text;
 
 $('.renew').click(function (e) {
@@ -103,12 +104,12 @@ $('.renew').click(function (e) {
         counter = reknockingTime;
         text = $(this).text();
         $.get($(this).attr('href'), function (data) {
-            interval = setInterval(function () {
+            intervalRenew = setInterval(function () {
                 counter = counter - 1;
                 $('.renew').text(text + ' (' + counter + ')');
                 if (counter <= 0) {
                     $('.renew').text(text);
-                    clearInterval(interval);
+                    clearInterval(intervalRenew);
                 }
             }, 1000);
             setSnackbar(data.message, data.color);
