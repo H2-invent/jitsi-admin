@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Rooms;
 use App\Form\Type\SecondEmailType;
 use App\Helper\JitsiAdminController;
+use App\Service\analytics\AnalyticsService;
 use App\Service\FavoriteService;
 use App\Service\ServerUserManagment;
 use App\Service\TermsAndConditions\TermsAndConditionsService;
@@ -52,6 +53,7 @@ class DashboardController extends JitsiAdminController
         ParameterBagInterface     $parameterBag,
         FavoriteService           $favoriteService,
         TermsAndConditionsService $termsAndConditionsService,
+        AnalyticsService          $analyticsService,
     ): Response
     {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
@@ -139,6 +141,7 @@ class DashboardController extends JitsiAdminController
                 'time' => $timer->getDuration(),
             ],
         );
+        $analyticsService->sendAnalytics();
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
             $res->headers->setCookie(
