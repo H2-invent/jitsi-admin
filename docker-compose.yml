@@ -169,7 +169,7 @@ services:
     image: mariadb:latest
     hostname: ${RANDOMTAG}db-ja
     healthcheck:
-      test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
     environment:
