@@ -91,7 +91,6 @@ class AnalyticsService
                 }
                 return $res;
             });
-            $cache->delete('send_analytics');
         }
 
     }
