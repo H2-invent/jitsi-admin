@@ -12,7 +12,8 @@ class jitsiController {
     avatarUrl = null;
     isMuted = false;
     isVideoMuted = false;
-
+    isMutedBeforePause = false;
+    isVideoMutedBefore = false;
     participants = {};
 
     iframeIsPause = false;
@@ -48,6 +49,23 @@ class jitsiController {
         this.api.addListener('participantJoined', participant => {
             // update mute state for newly joined participant
             self.updateMuteState(participant.id);
+        });
+
+        this.api.isAudioMuted().then(muted => {
+            this.isVideoMuted = muted
+        });
+        this.api.isVideoMuted().then(muted => {
+            this.isMuted = muted;
+        });
+
+        this.api.addListener('audioMuteStatusChanged', data => {
+            // update mute state for newly joined participant
+            this.isMuted = data['muted'];
+
+        });
+
+        this.api.addListener('videoMuteStatusChanged', data => {
+            this.isVideoMuted = data['muted'];
         });
 
     }
@@ -100,24 +118,21 @@ class jitsiController {
     }
 
     changeMicAndCamStatus() {
-        this.api.isAudioMuted().then(muted => {
 
-            if (!muted && this.iframeIsPause) {
-                this.isMuted = muted;
-                this.api.executeCommand('toggleAudio');
-            } else if (muted && !this.iframeIsPause && !this.isMuted) {
-                this.api.executeCommand('toggleAudio');
-            }
-        });
-        this.api.isVideoMuted().then(muted => {
 
-            if (!muted && this.iframeIsPause) {
-                this.isVideoMuted = muted;
-                this.api.executeCommand('toggleVideo');
-            } else if (muted && !this.iframeIsPause && !this.isVideoMuted) {
-                this.api.executeCommand('toggleVideo');
-            }
-        });
+        if (!this.isMuted && this.iframeIsPause) {
+            this.isMutedBeforePause = this.isMuted;
+            this.api.executeCommand('toggleAudio');
+        } else if (this.isMuted && !this.iframeIsPause && !this.isMuted && this.isMutedBeforePause) {
+            this.api.executeCommand('toggleAudio');
+        }
+
+        if (!this.isVideoMuted && this.iframeIsPause) {
+            this.isVideoMutedBefore = this.isVideoMuted;
+            this.api.executeCommand('toggleVideo');
+        } else if (!this.iframeIsPause && this.isVideoMuted && this.isVideoMutedBefore) {
+            this.api.executeCommand('toggleVideo');
+        }
     }
 }
 
