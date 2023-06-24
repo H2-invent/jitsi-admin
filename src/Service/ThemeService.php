@@ -167,9 +167,9 @@ class ThemeService
 
         $res = [];
         $arr = iterator_to_array($finder);
-        dump($arr);
+
         foreach ($arr as $file) {
-            dump($file);
+
             $theme = $file->getContents();
 
             $tmp = [
