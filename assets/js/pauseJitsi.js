@@ -119,18 +119,17 @@ class jitsiController {
 
     changeMicAndCamStatus() {
 
-
-        if (!this.isMuted && this.iframeIsPause) {
+        if (this.iframeIsPause) {
             this.isMutedBeforePause = this.isMuted;
-            this.api.executeCommand('toggleAudio');
-        } else if (this.isMuted && !this.iframeIsPause && !this.isMuted && this.isMutedBeforePause) {
+            this.isVideoMutedBefore = this.isVideoMuted;
+        }
+
+        if ((!this.isMuted && this.iframeIsPause) || (this.isMuted && !this.iframeIsPause && !this.isMutedBeforePause)) {
             this.api.executeCommand('toggleAudio');
         }
 
-        if (!this.isVideoMuted && this.iframeIsPause) {
-            this.isVideoMutedBefore = this.isVideoMuted;
-            this.api.executeCommand('toggleVideo');
-        } else if (!this.iframeIsPause && this.isVideoMuted && this.isVideoMutedBefore) {
+
+        if ((!this.isVideoMuted && this.iframeIsPause) || (!this.iframeIsPause && this.isVideoMuted && !this.isVideoMutedBefore)) {
             this.api.executeCommand('toggleVideo');
         }
     }
