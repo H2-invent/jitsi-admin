@@ -21,6 +21,7 @@ class jitsiController {
     myId = null;
     roomName = null;
     isBreakout = null;
+    muteTimer = null;
 
     constructor(api, displayName, avatarUrl, myId, roomName, isBreakout) {
         this.api = api;
@@ -72,7 +73,7 @@ class jitsiController {
 
     pauseConference() {
         this.iframeIsPause = true;
-        this.changeMicAndCamStatus();
+        this.changeMicStart();
         this.api.executeCommand('displayName', '(Away) ' + this.displayName);
         this.api.executeCommand('avatarUrl', 'https://avatars0.githubusercontent.com/u/3671647');
         this.updateMuteStateForAll();
@@ -81,8 +82,9 @@ class jitsiController {
 
     playConference() {
         this.iframeIsPause = false;
+        this.changeMicStart();
         this.api.executeCommand('displayName', this.displayName);
-        this.changeMicAndCamStatus();
+
 
         this.api.executeCommand('avatarUrl', this.avatarUrl);
         this.updateMuteStateForAll();
@@ -117,22 +119,32 @@ class jitsiController {
         }
     }
 
-    changeMicAndCamStatus() {
-
-        if (this.iframeIsPause) {
-            this.isMutedBeforePause = this.isMuted;
-            this.isVideoMutedBefore = this.isVideoMuted;
+    changeMicStart() {
+        if (this.muteTimer) {
+            clearTimeout(this.muteTimer);
         }
 
-        if ((!this.isMuted && this.iframeIsPause) || (this.isMuted && !this.iframeIsPause && !this.isMutedBeforePause)) {
-            this.api.executeCommand('toggleAudio');
+        this.muteTimer = setTimeout(this.changeMicAndCamStatus, 1000, this);
+    }
+
+    changeMicAndCamStatus(ele) {
+
+        if (ele.iframeIsPause) {
+            ele.isMutedBeforePause = ele.isMuted;
+            ele.isVideoMutedBefore = ele.isVideoMuted;
+        }
+
+        if ((!ele.isMuted && ele.iframeIsPause) || (ele.isMuted && !ele.iframeIsPause && !ele.isMutedBeforePause)) {
+            api.executeCommand('toggleAudio');
         }
 
 
-        if ((!this.isVideoMuted && this.iframeIsPause) || (!this.iframeIsPause && this.isVideoMuted && !this.isVideoMutedBefore)) {
-            this.api.executeCommand('toggleVideo');
+        if ((!ele.isVideoMuted && ele.iframeIsPause) || (!ele.iframeIsPause && ele.isVideoMuted && !ele.isVideoMutedBefore)) {
+            api.executeCommand('toggleVideo');
         }
     }
+
+
 }
 
 
