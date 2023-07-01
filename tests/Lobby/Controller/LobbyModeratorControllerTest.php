@@ -15,6 +15,7 @@ use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\MockHub;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function PHPUnit\Framework\assertEquals;
 
 class LobbyModeratorControllerTest extends WebTestCase
 {
@@ -57,6 +58,12 @@ class LobbyModeratorControllerTest extends WebTestCase
         $em->flush();
         $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
         $this->assertEquals(
+            0,
+            $crawler->filter('.participantsName:contains("Test2 User2")')->count()
+        );
+        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
+        $crawler = $client->request('GET', '/room/lobby/moderator/a/' . $room->getUidReal());
+        $this->assertEquals(
             1,
             $crawler->filter('.participantsName:contains("Test2 User2")')->count()
         );
@@ -73,8 +80,6 @@ class LobbyModeratorControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/dashboard');
         self::assertResponseIsSuccessful();
-        $flashMessage = $crawler->filter('.snackbar')->text();
-        self::assertEquals($flashMessage, 'Fehler. Sie haben keine Berechtigung diese Aktion auszuführen.');
     }
 
     public function testAccept(): void
@@ -239,7 +244,13 @@ class LobbyModeratorControllerTest extends WebTestCase
 
         $url = self::getContainer()->get(UrlGeneratorInterface::class);
         $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
-
+        self::assertEquals(0, $crawler->filter('.waitingUserCard')->count());
+        assertEquals(false,$lobbyUser2->isWebsocketReady());
+        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsjflkjdslkjflkjdslkjf');
+        $crawler = $client->request('GET', '/lobby/websocket/ready/lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf');
+        $lobbyUser2 = $lobbyUSerRepo->findOneBy(['uid'=>'lkdsjhflkjlkdsfghhgfjflkjdslkjflkjdslkjf']);
+        self::assertTrue($lobbyUser2->isWebsocketReady());
+        $crawler = $client->request('GET', $url->generate('lobby_moderator', ['uid' => $room->getUidReal()]));
         self::assertEquals(2, $crawler->filter('.waitingUserCard')->count());
 
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());

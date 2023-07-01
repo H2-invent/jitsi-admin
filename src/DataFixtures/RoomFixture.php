@@ -620,6 +620,7 @@ class RoomFixture extends Fixture
         $lobbyTime = new \DateTime();
         for ($i = 0; $i < 10; $i++) {
             $lobbyUser = new LobbyWaitungUser();
+            $lobbyUser->setWebsocketReady(true);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room1);
             $lobbyUser->setUid(md5($i));

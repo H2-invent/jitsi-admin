@@ -67,7 +67,7 @@ class LobbyModeratorController extends JitsiAdminController
         }
 
         $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()]);
-        $this->addFlash('danger', $this->translator->trans('error.noPermission'));
+//        $this->addFlash('danger', $this->translator->trans('error.noPermission'));
         return $this->redirectToRoute('dashboard');
     }
 

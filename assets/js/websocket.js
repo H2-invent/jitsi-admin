@@ -20,7 +20,13 @@ export function initWebsocket(jwt) {
     socket.on('mercure', function (data) {
         masterNotify(JSON.parse(data));
     })
-
+    socket.on('connect',function (data) {
+        if (typeof urlWebsocketReady !== 'undefined'){
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", urlWebsocketReady, true);
+            xhttp.send();
+        }
+    })
     socket.io.on("error", (error) => {
       setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.','danger',true,'socketAlert',30000)
     });
