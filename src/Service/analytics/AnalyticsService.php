@@ -77,7 +77,7 @@ class AnalyticsService
                     $res = false;
                     $this->httpClient->request(
                         'POST',
-                        'https://analytics.jitsi-admin.de/analytics',
+                        'https://stats.jitsi-admin.de/analytics',
                         [
                             'body' => [
                                 'data' => json_encode($data)
