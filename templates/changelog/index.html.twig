@@ -6,7 +6,37 @@
     <div class="row markdown">
         <div class="col-12">
             {% apply markdown_to_html %}
-                #### 0.76.0-dev Changelog
+                #### 0.76.0-RC03
+
+                __What's new__
+
+                __Bugfix__
+                - pause a multiframe leads sometimes to a wrong execute command
+
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            {% apply markdown_to_html %}
+                #### 0.76.0-RC02
+
+                __What's new__
+
+                - when multiframe is minimized make it clickable to resize
+                - send websocket ready when participant is in lobby
+                - allow sending mails to fixed rooms
+                - add GitHub pipelines
+                - add update instruction
+                __Bugfix__
+                - make pause a conference more robust
+                - Docker maria DB healthcheck fix
+                - remove css animation because of high CPU usage
+            {% endapply %}
+            <hr>
+        </div>
+        <div class="col-12">
+            {% apply markdown_to_html %}
+                #### 0.76.0-RC01
 
                 __What's new__
                 - Requires PHP8.1 and node18

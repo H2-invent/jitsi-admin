@@ -135,12 +135,12 @@ class jitsiController {
         }
 
         if ((!ele.isMuted && ele.iframeIsPause) || (ele.isMuted && !ele.iframeIsPause && !ele.isMutedBeforePause)) {
-            api.executeCommand('toggleAudio');
+            ele.api.executeCommand('toggleAudio');
         }
 
 
         if ((!ele.isVideoMuted && ele.iframeIsPause) || (!ele.iframeIsPause && ele.isVideoMuted && !ele.isVideoMutedBefore)) {
-            api.executeCommand('toggleVideo');
+            ele.api.executeCommand('toggleVideo');
         }
     }
 
