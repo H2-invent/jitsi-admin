@@ -81,6 +81,7 @@ help:
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
   jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
+  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
@@ -141,6 +142,7 @@ label:
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Los gehts!
   moderator: Organisator auswählen
+  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
