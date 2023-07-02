@@ -10,7 +10,7 @@ label.serverKonferenz: Servidor Jitsi Meet
 label.konferenzName: Nome da conferência
 label.start: Iniciar
 label.dauerKonferenz: Duração da conferência
-label.nurRegistriertenutzer: Apenas usuários registrados podem entrar nesta conferência.
+label.nurRegistriertenutzer: Nur registrierte Benutzer mit einem Account auf dieser Plattform dürfen der Konferenz beitreten.
 label.speichern: Salvar
 label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 minutos
@@ -81,6 +81,7 @@ help:
   jigasiApiUrl: Insira a API do Jigasi aqui, que poderá ser utilizada para recuperar o pin da conferência. Este normalmente termina com "ConferenceMapper".
   jigasiNumberUrl: Insira aqui o número de telefone em formato JSON, como feito no arquivo "numbers.json" no Jigasi.
   jigasiProsodyDomain: Insira o domínio do Prosody aqui. No geral segue o padrão "conference.domain.topdomain".
+  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: Entrar com app electron
   beitretenBrowser: Entrar com navegador
@@ -141,6 +142,7 @@ label:
   jigasiProsodyDomain: Domínio do Jigasi Prosody
   go: Vamos Lá!
   moderator: Organisator auswählen
+  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
