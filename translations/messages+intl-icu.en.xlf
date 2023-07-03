@@ -885,7 +885,7 @@
       </trans-unit>
       <trans-unit id="iHWAl7b" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="translated">Please enter here</target>
+        <target state="translated">Enter here</target>
       </trans-unit>
       <trans-unit id="qjr7pXm" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -1080,7 +1080,7 @@
         <target state="translated">Only users, which have an account on the platform, can join the meeting. Username and password are. This is an additional protection.</target>
       </trans-unit>
       <trans-unit id="9UX9V9a" resname="Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.">
-        <source>Es wird ein Link erstellt, den Sie weitergeben können. Über diesen Link können sich Teilnehmende selbst in die Teilnehmendenliste eintragen. Sie können diese Liste bearbeiten und unangebrachte Teilnehmer entfernen.</source>
+        <source>Es wird ein Link erstellt, welchen Sie weitergeben können. Über diesen Link können sich Teilnehmer, selber auf die Teilnehmerliste eintragen. Sie können die Teilnerliste bearbeiten und Teilnehmer entfernen.</source>
         <target state="translated">A link will be generated, which can be distributed. With this link, participants can self-subscribe to the participants list. You can edit the list and remove participants.</target>
       </trans-unit>
       <trans-unit id="C9MwZGx" resname="Maximale Anzahl an Teilnehmer, die sich per Selbsteinschreibung bei der Konferenz anmelden können">
@@ -1100,7 +1100,7 @@
         <target state="translated">Participants are not allowed to share their screen. This can be set per participant on the participant-list.</target>
       </trans-unit>
       <trans-unit id="ofRVDyj" resname="Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.">
-        <source>Sie erhalten einen Link, welchen Sie an die Teilnehmenden weiterleiten können. Die Teilnehmenden können der Konferenz über den generierten Link beitreten.</source>
+        <source>Es gibt keine Teilnehmerliste. Die Teilnehmer können der Konferenz durch den generierten Link beitreten.</source>
         <target state="translated">There is no participant-list. The participants can join the conference with the generated link.</target>
       </trans-unit>
       <trans-unit id="tTyxnPc" resname="Der Organisator schließt für die angegebene Zeit den Konferenzraum auf, wenn er diesen durch klick auf Start betritt.">
@@ -1288,7 +1288,7 @@
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="translated">Lobby for conference: {name}</target>
+        <target state="translated">{name}</target>
       </trans-unit>
       <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
@@ -1356,11 +1356,11 @@
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="translated">Allow all participants</target>
+        <target state="translated">Allow all waiters</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="translated">All participants were successfully admitted to the conference.</target>
+        <target state="translated">All waiters were successfully admitted to the conference.</target>
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1754,13 +1754,9 @@
         <source>lobby.endMeeting.ask.participant</source>
         <target state="translated">Do you really want to end this conference.</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="translated">Time until the online status display automatically changes to Absent.</target>
+        <target state="translated">Show absent after</target>
       </trans-unit>
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -1776,19 +1772,19 @@
       </trans-unit>
       <trans-unit id="l7wQdDI" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="translated">The person you called did not pick up the phone</target>
+        <target state="translated">{name} did not pick up the phone</target>
       </trans-unit>
       <trans-unit id="5NiLGgo" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="translated">The phone is busy.</target>
+        <target state="translated">The phone of {name} is busy.</target>
       </trans-unit>
       <trans-unit id="rJeuurV" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="translated">The person you called will join the conference later.</target>
+        <target state="translated">{name} will join the conference later.</target>
       </trans-unit>
       <trans-unit id="ACda2_m" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="translated">The person you called has declined.</target>
+        <target state="translated">{name} has declined.</target>
       </trans-unit>
       <trans-unit id="YSIci3n" resname="callout.message.error">
         <source>callout.message.error</source>
@@ -1953,6 +1949,82 @@
         <source>Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</source>
         <target state="translated">We will investigate, how you reached this page to be able to explore this here as well.</target>
       </trans-unit>
+      <trans-unit id="pI0mBwO" resname="deputy.message.added">
+        <source>deputy.message.added</source>
+        <target state="translated">Representative successfully added.</target>
+      </trans-unit>
+      <trans-unit id="r9gFTO5" resname="deputy.message.removed">
+        <source>deputy.message.removed</source>
+        <target state="translated">Representative successfully removed.</target>
+      </trans-unit>
+      <trans-unit id="UQPRxI4" resname="deputy.remove">
+        <source>deputy.remove</source>
+        <target state="translated">Remove as representative</target>
+      </trans-unit>
+      <trans-unit id="6HczWjx" resname="deputy.add">
+        <source>deputy.add</source>
+        <target state="translated">Add as representative</target>
+      </trans-unit>
+      <trans-unit id=".RyLlN8" resname="deputy.help">
+        <source>deputy.help</source>
+        <target state="translated">You can allow this user to create conferences, edit them and invite participants. ATTENTION! A representative does not automatically join the conference but must be invited by the organizer.</target>
+      </trans-unit>
+      <trans-unit id="cuWbL6h" resname="deputy.text.isDeputy">
+        <source>deputy.text.isDeputy</source>
+        <target state="translated">Is representative</target>
+      </trans-unit>
+      <trans-unit id="SqlzG8G" resname="room.new.help.server">
+        <source>room.new.help.server</source>
+        <target state="translated">Select the server which should host the conference.</target>
+      </trans-unit>
+      <trans-unit id="WonPJTK" resname="room.new.help.manager">
+        <source>room.new.help.manager</source>
+        <target state="translated">You are listed as representative. Select if you want to create this conference for you or for the person you represent.</target>
+      </trans-unit>
+      <trans-unit id="._QAxIk" resname="Private Konferenz">
+        <source>Private Konferenz</source>
+        <target state="translated">Private conference</target>
+      </trans-unit>
+      <trans-unit id="JEvaNwO" resname="log.modal.header">
+        <source>log.modal.header</source>
+        <target state="translated">Change history</target>
+      </trans-unit>
+      <trans-unit id="G0lWefc" resname="log.new.object">
+        <source>log.new.object</source>
+        <target state="translated">After change</target>
+      </trans-unit>
+      <trans-unit id="Fl9wfgz" resname="log.old.object">
+        <source>log.old.object</source>
+        <target state="translated">Before change</target>
+      </trans-unit>
+      <trans-unit id="i8w5f79" resname="room.creator.text">
+        <source>room.creator.text</source>
+        <target state="translated">Created By</target>
+      </trans-unit>
+      <trans-unit id="iyQ3u5e" resname="custom.more">
+        <source>custom.more</source>
+        <target state="translated">More</target>
+      </trans-unit>
+      <trans-unit id="wJaAqBu" resname="room.new.help.name">
+        <source>room.new.help.name</source>
+        <target state="translated">Enter a short and concise name for the conference.</target>
+      </trans-unit>
+      <trans-unit id="Es8.yLb" resname="room.new.help.agenda">
+        <source>room.new.help.agenda</source>
+        <target state="translated">Enter the agenda and tell the participants the reason for this conference.</target>
+      </trans-unit>
+      <trans-unit id="M41U7qV" resname="room.new.help.persistant">
+        <source>room.new.help.persistant</source>
+        <target state="translated">This conference is permanently available. You have to tell the participants the beginning of the conference on a different communication channel (phone or chat). A permanent conference does not have a start time nor duration.</target>
+      </trans-unit>
+      <trans-unit id="VI.eQ_9" resname="room.new.help.start">
+        <source>room.new.help.start</source>
+        <target state="translated">When will the conference begin? Open the calendar by clicking on the button and select the date followed by the time.</target>
+      </trans-unit>
+      <trans-unit id="8P9k.W6" resname="room.new.help.duration">
+        <source>room.new.help.duration</source>
+        <target state="translated">Enter duration of conference here.</target>
+      </trans-unit>
       <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
         <target state="translated"><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
@@ -1965,13 +2037,185 @@
         <source>terms.accept</source>
         <target state="translated">I accept the terms &amp; conditions</target>
       </trans-unit>
-      <trans-unit id="07QbdUY" resname="Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.">
+      <trans-unit id="31p54Gl" resname="Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.">
         <source>Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</source>
         <target state="translated">Error: Your email address is not in participants list. Please contact the moderator so you can be invited to the conference.</target>
       </trans-unit>
-      <trans-unit id="eVgaxAg" resname="Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.">
+      <trans-unit id="S6ofVy3" resname="Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.">
         <source>Wichtig: Leiten Sie diese E-Mail nicht weiter. Alle Links in dieser E-Mail sind personalisiert und nur für Sie gültig. Wollen Sie weitere Personen zu dieser Konferenz einladen, antworten Sie auf diese E-Mail mit der E-Mail-Adresse der Person.</source>
         <target state="translated">Important: Do not forward this message. All links in this meesage are for you personally and only valid for you. If you want to invite another person, answer to this mail with the mail address of the person to be invited.</target>
+      </trans-unit>
+      <trans-unit id="I4FmwuJ" resname="deputy.fromLdap.disabled">
+        <source>deputy.fromLdap.disabled</source>
+        <target state="translated">Is assigend to you as representative</target>
+      </trans-unit>
+      <trans-unit id="ziDzjp." resname="deputy.help.ldap">
+        <source>deputy.help.ldap</source>
+        <target state="translated">This representative was assigned by your organization. If you want to edit this, contact your support. You find the contact details to your support by clicking "?" symbol in the navigation bar.</target>
+      </trans-unit>
+      <trans-unit id="IEmtTcn" resname="Bewertungen">
+        <source>Bewertungen</source>
+        <target state="translated">Ratings</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="kKLiefR" resname="Profileinstellungen">
+        <source>Profileinstellungen</source>
+        <target state="translated">Profile settings</target>
+      </trans-unit>
+      <trans-unit id="9XUKXXI" resname="Einstellungen">
+        <source>Einstellungen</source>
+        <target state="translated">Settings</target>
+      </trans-unit>
+      <trans-unit id="dMRxR_U" resname="Startet in {time} min">
+        <source>Startet in {time} min</source>
+        <target state="translated">Starts in {time} min</target>
+      </trans-unit>
+      <trans-unit id="NCP2l7d" resname="addressbook.favorite.remove.success">
+        <source>addressbook.favorite.remove.success</source>
+        <target state="translated">You removed {name} as favorite.</target>
+      </trans-unit>
+      <trans-unit id="qhKUCGn" resname="addressbook.favorite.remove.failure">
+        <source>addressbook.favorite.remove.failure</source>
+        <target state="translated">Contact clould not be removed as favorite.</target>
+      </trans-unit>
+      <trans-unit id="g3TAvzR" resname="addressbook.favorite.add.success">
+        <source>addressbook.favorite.add.success</source>
+        <target state="translated">{name} was successfully added as favorite.</target>
+      </trans-unit>
+      <trans-unit id="xsL.l3b" resname="addressbook.favorite.add.failure">
+        <source>addressbook.favorite.add.failure</source>
+        <target state="translated">Contact could not be added as favorite.</target>
+      </trans-unit>
+      <trans-unit id="n3J_rNc" resname="addressbook.favorite.help">
+        <source>addressbook.favorite.help</source>
+        <target state="translated"><![CDATA[Press <i class="far fa-star"></i> to add contact to favorites.]]></target>
+      </trans-unit>
+      <trans-unit id="hevpMRf" resname="Meetling Pro Tip">
+        <source>Meetling Pro Tip</source>
+        <target state="translated">Meetling pro tip</target>
+      </trans-unit>
+      <trans-unit id="wV8VMNI" resname="Hotkeys">
+        <source>Hotkeys</source>
+        <target state="translated">Hotkeys</target>
+      </trans-unit>
+      <trans-unit id="W25PgHx" resname="Allgemeiner Fehler">
+        <source>Allgemeiner Fehler</source>
+        <target state="translated">General error</target>
+      </trans-unit>
+      <trans-unit id="xFrrBI8" resname="Hier ist was schief gelaufen. Tut uns Leid">
+        <source>Hier ist was schief gelaufen. Tut uns Leid</source>
+        <target state="translated">Something went wrong. We are sorry</target>
+      </trans-unit>
+      <trans-unit id="4pmAB3F" resname="Zur Startseite">
+        <source>Zur Startseite</source>
+        <target state="translated">Go to homepate</target>
+      </trans-unit>
+      <trans-unit id="EG0viST" resname="Seite nicht gefunden">
+        <source>Seite nicht gefunden</source>
+        <target state="translated">Page not found</target>
+      </trans-unit>
+      <trans-unit id="L5FRnrH" resname="Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.">
+        <source>Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</source>
+        <target state="translated">Huh. Where did you want to go? Meetling could not find this page.</target>
+      </trans-unit>
+      <trans-unit id="yF80qIE" resname="Hier gehts zurück zur Startseite">
+        <source>Hier gehts zurück zur Startseite</source>
+        <target state="translated">Back to Startpage</target>
+      </trans-unit>
+      <trans-unit id="elqNziw" resname="Seite kaputt">
+        <source>Seite kaputt</source>
+        <target state="translated">Page broken</target>
+      </trans-unit>
+      <trans-unit id="5TruHhH" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
+        <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
+        <target state="translated">Oh, oh - what's happening here? The Conference seems to be broken. Don't worry he is already trying to fix this.</target>
+      </trans-unit>
+      <trans-unit id="6tB8hLq" resname="Changelog">
+        <source>Changelog</source>
+        <target state="translated">Changelog</target>
+      </trans-unit>
+      <trans-unit id="aIUgk0b" resname="Jetzt einladen">
+        <source>Jetzt einladen</source>
+        <target state="translated">Invite Now</target>
+      </trans-unit>
+      <trans-unit id="N3_BJHi" resname="callout.message.unreachable">
+        <source>callout.message.unreachable</source>
+        <target state="translated">{name} could not be reached.</target>
+      </trans-unit>
+      <trans-unit id="Y44kn0o" resname="Filter">
+        <source>Filter</source>
+        <target state="translated">Filter</target>
+      </trans-unit>
+      <trans-unit id="L4szaw3" resname="deputy.mydebutys">
+        <source>deputy.mydebutys</source>
+        <target state="translated">My representatives</target>
+      </trans-unit>
+      <trans-unit id="1Ko4REx" resname="callout.dropdown.empty">
+        <source>callout.dropdown.empty</source>
+        <target state="translated">Results of search will be displayed here</target>
+      </trans-unit>
+      <trans-unit id="SB9w0dm" resname="scheduling.new.schedulingTime.subject">
+        <source>scheduling.new.schedulingTime.subject</source>
+        <target state="translated">[Appointment poll] New date suggestion has been added for an appointmeht poll</target>
+      </trans-unit>
+      <trans-unit id="o46lsH1" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
+        <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
+        <target state="translated">Participants can vote with "maybe".</target>
+      </trans-unit>
+      <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
+        <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
+        <target state="translated">Oh, oh - what's happening here? The Conference seems to be broken. Don't worry he is already trying to fix this.</target>
+      </trans-unit>
+      <trans-unit id="vfIUwCz" resname="scheduling.new.schedulingTime.header">
+        <source>scheduling.new.schedulingTime.header</source>
+        <target state="translated">A new date proposal was added.</target>
+      </trans-unit>
+      <trans-unit id="QSMGE51" resname="Als CSV Downloaden">
+        <source>Als CSV Downloaden</source>
+        <target state="translated">Download as csv</target>
+      </trans-unit>
+      <trans-unit id="tKYYjoS" resname="scheduler.new.schedule">
+        <source>scheduler.new.schedule</source>
+        <target state="translated">Add new date to choices</target>
+      </trans-unit>
+      <trans-unit id="q.M4VTr" resname="scheduling.new.schedulingTime.text">
+        <source>scheduling.new.schedulingTime.text</source>
+        <target state="translated">A new date was added to the date proposals. Moderator or another invited person can add date proposals.</target>
+      </trans-unit>
+      <trans-unit id="8znj8yB" resname="scheduling.completeVoting.subject">
+        <source>scheduling.completeVoting.subject</source>
+        <target state="translated">[Appointment poll] All participants have voted</target>
+      </trans-unit>
+      <trans-unit id="TGBfazG" resname="scheduling.completeVoting.header">
+        <source>scheduling.completeVoting.header</source>
+        <target state="translated">All participants have voted</target>
+      </trans-unit>
+      <trans-unit id="EZcM0YG" resname="scheduling.completeVoting.text">
+        <source>scheduling.completeVoting.text</source>
+        <target state="translated">All participants have voted and results are now available. You find the summary on your dashboard.</target>
+      </trans-unit>
+      <trans-unit id="Edrc_Uf" resname="theme.invalid.">
+        <source>theme.invalid.</source>
+        <target state="translated">Your theme expires in {days} days</target>
+      </trans-unit>
+      <trans-unit id="KwoLLsf" resname="browser.warning">
+        <source>browser.warning</source>
+        <target state="translated">Browserwarning</target>
+      </trans-unit>
+      <trans-unit id="vzbzhGI" resname="browser.warning.text">
+        <source>browser.warning.text</source>
+        <target state="translated">Your current browser is not supprted. Please use a modern browser which fully supports WebRTC.</target>
+      </trans-unit>
+      <trans-unit id="daah4it" resname="browser.warning.toEdge">
+        <source>browser.warning.toEdge</source>
+        <target state="translated">Continue with Edge</target>
+      </trans-unit>
+      <trans-unit id="6VWajOy" resname="browser.warning.toMac">
+        <source>Weiter mit Safari</source>
+        <target state="translated">Continue with Safari</target>
       </trans-unit>
     </body>
   </file>
