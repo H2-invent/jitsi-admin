@@ -33,7 +33,7 @@ jobs:
           version_format: "${major}.${minor}.${patch}"
 
       - name: Create new Release with semantic-version tag
-        uses: actions/create-release@v1
+        uses: actions/create-release@main
         id: create_release
         with:
           draft: false
@@ -64,7 +64,7 @@ jobs:
           directory: artifact
 
       - name: Upload Application Asset to Release
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@main
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: artifact/release.zip
