@@ -7,7 +7,6 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateLobbyUserService
 {
@@ -15,18 +14,19 @@ class CreateLobbyUserService
     private $toModerator;
     private $parameterBag;
 
-    public function __construct(EntityManagerInterface $entityManager,  ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag)
+    public function __construct(EntityManagerInterface $entityManager, ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag)
     {
         $this->toModerator = $toModeratorWebsocketService;
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
     }
 
-    public function createNewLobbyUser(User $user, Rooms $room, $type):LobbyWaitungUser
+    public function createNewLobbyUser(User $user, Rooms $room, $type,$websocketReady=false): LobbyWaitungUser
     {
-        $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $user, 'room' => $room));
+        $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]);
         if (!$lobbyUser) {
             $lobbyUser = new LobbyWaitungUser();
+            $lobbyUser->setWebsocketReady(websocketReady: $websocketReady);
             $lobbyUser->setType($type);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room);

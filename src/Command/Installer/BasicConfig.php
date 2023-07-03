@@ -36,7 +36,7 @@ class BasicConfig implements ConvertToEnvironmentInterface
         return self::ENVIRONMENT;
     }
 
-    public function baseUrl() : string
+    public function baseUrl(): string
     {
         return $this->baseUrl;
     }
@@ -48,6 +48,6 @@ class BasicConfig implements ConvertToEnvironmentInterface
 
     public function mercureUrl(): string
     {
-        return $this->mercureUrl.'/.well-known/mercure';
+        return $this->mercureUrl . '/.well-known/mercure';
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\CalloutSession;
 use App\Repository\CalloutSessionRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use App\Service\Callout\CallOutSessionAPIDialService;
 use App\Service\Callout\CallOutSessionAPIHoldService;
 use App\Service\Lobby\DirectSendService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,15 +24,15 @@ class CalloutHoldApiServiceTest extends KernelTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name' => 'TestMeeting: 0'));
-        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $user = $userRepo->findOneBy(['email' => 'ldapUser@local.de']);
 
         $calloutSession1 = new CalloutSession();
         $calloutSession1->setUser($user)
             ->setRoom($room)
             ->setCreatedAt(new \DateTime())
             ->setInvitedFrom($room->getModerator())
-            ->setState(1)
+            ->setState(10)
             ->setUid('ksdlfjlkfds')
             ->setLeftRetries(2);
         $manager->persist($calloutSession1);
@@ -50,86 +51,192 @@ class CalloutHoldApiServiceTest extends KernelTestCase
 
 
         $calloutHoldService = self::getContainer()->get(CallOutSessionAPIHoldService::class);
-        self::assertEquals(array(
-            'status'=>'ON_HOLD',
-            'pin'=>'987654321',
-            'room_number'=>'12340',
-            'links'=>array(),
-        ),$calloutHoldService->later('ksdlfjlkfds'));
+        self::assertEquals(
+            [
+                'status' => 'ON_HOLD',
+                'pin' => '987654321',
+                'room_number' => '12340',
+                'links' => [
+                    'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+                ],
+            ],
+            $calloutHoldService->later('ksdlfjlkfds')
+        );
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
-        self::assertEquals(CalloutSession::$LATER,$callout->getState());
-        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'),$calloutHoldService->later('invalid'));
-
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+        self::assertEquals(CalloutSession::$LATER, $callout->getState());
+        self::assertEquals(['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'], $calloutHoldService->later('invalid'));
     }
+
+    public function testRinging(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $calloutSession = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+
+        $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
+        self::assertEquals(
+            [
+                'status' => 'RINGING',
+                'pin' => '987654321',
+                'room_number' => '12340',
+                'links' => [
+                    'accept' => '/api/v1/lobby/sip/pin/' . $calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
+                    'refuse' => '/api/v1/call/out/refuse/' . $calloutSession->getUid(),
+                    'ringing' => '/api/v1/call/out/ringing/' . $calloutSession->getUid(),
+                    'timeout' => '/api/v1/call/out/timeout/' . $calloutSession->getUid(),
+                    'error' => '/api/v1/call/out/error/' . $calloutSession->getUid(),
+                    'unreachable' => '/api/v1/call/out/unreachable/' . $calloutSession->getUid(),
+                    'later' => '/api/v1/call/out/later/' . $calloutSession->getUid(),
+                    'dial' => '/api/v1/call/out/dial/' . $calloutSession->getUid(),
+                    'occupied' => '/api/v1/call/out/occupied/' . $calloutSession->getUid(),
+                ]
+            ],
+            $calloutDialService->ringing('ksdlfjlkfds')
+        );
+        self::assertEquals(
+            [
+                'status' => 'RINGING',
+                'pin' => '987654321',
+                'room_number' => '12340',
+                'links' => [
+                    'accept' => '/api/v1/lobby/sip/pin/' . $calloutSession->getRoom()->getCallerRoom()->getCallerId() . '?caller_id=987654321012&pin=987654321',
+                    'refuse' => '/api/v1/call/out/refuse/' . $calloutSession->getUid(),
+                    'ringing' => '/api/v1/call/out/ringing/' . $calloutSession->getUid(),
+                    'timeout' => '/api/v1/call/out/timeout/' . $calloutSession->getUid(),
+                    'error' => '/api/v1/call/out/error/' . $calloutSession->getUid(),
+                    'unreachable' => '/api/v1/call/out/unreachable/' . $calloutSession->getUid(),
+                    'later' => '/api/v1/call/out/later/' . $calloutSession->getUid(),
+                    'dial' => '/api/v1/call/out/dial/' . $calloutSession->getUid(),
+                    'occupied' => '/api/v1/call/out/occupied/' . $calloutSession->getUid(),
+                ]
+            ],
+            $calloutDialService->ringing('ksdlfjlkfds')
+        );
+        $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+        self::assertEquals(CalloutSession::$RINGING, $callout->getState());
+        self::assertEquals(['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'], $calloutDialService->ringing('invalid'));
+    }
+
+    public function testRingingFalseState(): void
+    {
+        $kernel = self::bootKernel();
+
+        $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
+        $calloutSession = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+        $entitymanager = self::getContainer()->get(EntityManagerInterface::class);
+        $calloutSession->setState(CalloutSession::$INITIATED);
+        $entitymanager->persist($calloutSession);
+        $calloutDialService = self::getContainer()->get(CallOutSessionAPIDialService::class);
+        self::assertEquals(
+            [
+                'error' => true,
+                'reason' => 'SESSION_NOT_IN_CORRECT_STATE'
+            ],
+            $calloutDialService->ringing('ksdlfjlkfds')
+        );
+
+        $calloutSession->setState(CalloutSession::$ON_HOLD);
+        $entitymanager->persist($calloutSession);
+        self::assertEquals(
+            [
+                'error' => true,
+                'reason' => 'SESSION_NOT_IN_CORRECT_STATE'
+            ],
+            $calloutDialService->ringing('ksdlfjlkfds')
+        );
+    }
+
+
     public function testOccupied(): void
     {
         $kernel = self::bootKernel();
 
 
         $calloutHoldService = self::getContainer()->get(CallOutSessionAPIHoldService::class);
-        self::assertEquals(array(
-            'status'=>'ON_HOLD',
-            'pin'=>'987654321',
-            'room_number'=>'12340',
-            'links'=>array(),
-        ),$calloutHoldService->occupied('ksdlfjlkfds'));
+        self::assertEquals(
+            [
+                'status' => 'ON_HOLD',
+                'pin' => '987654321',
+                'room_number' => '12340',
+                'links' => [
+                    'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+                ],
+            ],
+            $calloutHoldService->occupied('ksdlfjlkfds')
+        );
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
-        self::assertEquals(CalloutSession::$OCCUPIED,$callout->getState());
-        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'),$calloutHoldService->occupied('invalid'));
-
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+        self::assertEquals(CalloutSession::$OCCUPIED, $callout->getState());
+        self::assertEquals(['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'], $calloutHoldService->occupied('invalid'));
     }
+
     public function testTimeout(): void
     {
         $kernel = self::bootKernel();
 
 
         $calloutHoldService = self::getContainer()->get(CallOutSessionAPIHoldService::class);
-        self::assertEquals(array(
-            'status'=>'ON_HOLD',
-            'pin'=>'987654321',
-            'room_number'=>'12340',
-            'links'=>array(),
-        ),$calloutHoldService->timeout('ksdlfjlkfds'));
+        self::assertEquals(
+            [
+                'status' => 'ON_HOLD',
+                'pin' => '987654321',
+                'room_number' => '12340',
+                'links' => [
+                    'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+                ],
+            ],
+            $calloutHoldService->timeout('ksdlfjlkfds')
+        );
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
-        self::assertEquals(CalloutSession::$TIMEOUT,$callout->getState());
-        self::assertEquals(array('error' => true, 'reason' => 'NO_SESSION_ID_FOUND'),$calloutHoldService->timeout('invalid'));
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+        self::assertEquals(CalloutSession::$TIMEOUT, $callout->getState());
+        self::assertEquals(['error' => true, 'reason' => 'NO_SESSION_ID_FOUND'], $calloutHoldService->timeout('invalid'));
     }
+
     public function testChangeState(): void
     {
         $kernel = self::bootKernel();
 
         $directSend = $this->getContainer()->get(DirectSendService::class);
 
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
-            if (json_decode($update->getData(), true)['type'] === 'snackbar') {
-                self::assertEquals('{"type":"snackbar","message":"testmessage","color":"info"}', $update->getData());
-                self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                if (json_decode($update->getData(), true)['type'] === 'snackbar') {
+                    self::assertEquals('{"type":"snackbar","message":"testmessage","color":"info"}', $update->getData());
+                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                }
+                if (json_decode($update->getData(), true)['type'] === 'refresh') {
+                    self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/9876543210 #waitingUser"}', $update->getData());
+                    self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
+                }
+                return 'id';
             }
-            if (json_decode($update->getData(), true)['type'] === 'refresh') {
-                self::assertEquals('{"type":"refresh","reloadUrl":"\/room\/lobby\/moderator\/a\/9876543210 #waitingUser"}', $update->getData());
-                self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
-            }
-            return 'id';
-        });
+        );
         $directSend->setMercurePublisher($hub);
 
         $calloutHoldService = self::getContainer()->get(CallOutSessionAPIHoldService::class);
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
 
-        self::assertEquals(array(
-            'status'=>'ON_HOLD',
-            'pin'=>'987654321',
-            'room_number'=>'12340',
-            'links'=>array(),
-        ),$calloutHoldService->setCalloutSessionOnHold($callout,3,'testmessage'));
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
-        self::assertEquals(3, $callout->getState());
-        self::assertEquals(2,$callout->getLeftRetries());
-
+        self::assertEquals(
+            [
+                'status' => 'ON_HOLD',
+                'pin' => '987654321',
+                'room_number' => '12340',
+                'links' => [
+                    'back' => '/api/v1/call/out/back/ksdlfjlkfds'
+                ],
+            ],
+            $calloutHoldService->setCalloutSessionOnHold($callout, 30, 'testmessage')
+        );
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+        self::assertEquals(30, $callout->getState());
+        self::assertEquals(2, $callout->getLeftRetries());
     }
 
     public function testChangeStateFailure(): void
@@ -137,14 +244,17 @@ class CalloutHoldApiServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
         $calloutHoldService = self::getContainer()->get(CallOutSessionAPIHoldService::class);
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
         $callout->setState(0);
-        self::assertEquals(array('error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'), $calloutHoldService->setCalloutSessionOnHold($callout,3,'testmessage'));
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em->persist($callout);
+        $em->flush();
+        self::assertEquals(['error' => true, 'reason' => 'SESSION_NOT_IN_CORRECT_STATE'], $calloutHoldService->setCalloutSessionOnHold($callout, 30, 'testmessage'));
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
         self::assertEquals(0, $callout->getState());
-        self::assertEquals(2,$callout->getLeftRetries());
-
+        self::assertEquals(2, $callout->getLeftRetries());
     }
+
 
     public function testsendMessage(): void
     {
@@ -152,19 +262,22 @@ class CalloutHoldApiServiceTest extends KernelTestCase
 
         $directSend = $this->getContainer()->get(DirectSendService::class);
 
-        $hub = new MockHub('http://localhost:3000/.well-known/mercure', new StaticTokenProvider('test'), function (Update $update): string {
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
 
                 self::assertEquals('{"type":"snackbar","message":"testmessage123","color":"info"}', $update->getData());
                 self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
 
-            return 'id';
-        });
+                return 'id';
+            }
+        );
         $directSend->setMercurePublisher($hub);
 
         $calloutHoldService = self::getContainer()->get(CallOutSessionAPIHoldService::class);
         $calloutRepo = self::getContainer()->get(CalloutSessionRepository::class);
-        $callout  = $calloutRepo->findOneBy(array('uid'=>'ksdlfjlkfds'));
-        $calloutHoldService->sendMessage($callout->getRoom(),'testmessage123');
+        $callout = $calloutRepo->findOneBy(['uid' => 'ksdlfjlkfds']);
+        $calloutHoldService->sendMessage($callout->getRoom(), 'testmessage123');
     }
-
 }

@@ -5,16 +5,16 @@
     {% if theme %}
         <link rel="shortcut icon" type="image/x-icon" href="{{ theme.icon }}">
     {% else %}
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.png') }}">
     {% endif %}
 
     <link rel="manifest" href="{{ path('app_manifest') }}">
     {% block title %}
         {% if theme and theme.title is defined %}
-    <title>{{ theme.title }}</title>
-        {%else%}
-        <title>Jitsi Konferenz Manager</title>
-        {%endif%}
+            <title>{{ theme.title }}</title>
+        {% else %}
+            <title>Jitsi Konferenz Manager</title>
+        {% endif %}
     {% endblock %}
 
 
@@ -39,7 +39,7 @@
 
     {% if theme %}
         <style>
-            .btn-dashboard, .btn-dashboard p, .sidebarToggle {
+            .sidebarToggle {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
             }
@@ -86,6 +86,7 @@
                 border-color: {{ theme.colorButtonOutlinecolor }} !important;
                 color: {{ theme.colorButtonOutlineTextcolor }} !important;
             }
+
             .btn-secondary {
                 background: {{ theme.colorButtonSecondary }} !important;
                 color: {{ theme.colorButtonSecondaryText }} !important;
@@ -122,7 +123,7 @@
             .btn-primary {
                 background-color: {{ theme.colorButton }} !important;
                 color: {{ theme.colorButtonText }} !important;
-                box-shadow: 0 4px 9px -4px {{ theme.colorButton }};
+                box-shadow: 0 4px 9px -4px{{ theme.colorButton }};
             }
 
             .btn-primary.dropdown-toggle {
@@ -167,13 +168,6 @@
                 color: {{ theme.colorButton }} !important;
             }
 
-            .blackMode.joinPage .modal-backdrop {
-                background-image: radial-gradient({{ theme.colorButton }}, black);
-            }
-
-            .joinPage .modal-backdrop {
-                background-image: radial-gradient({{ theme.colorButton }}, white);
-            }
 
             .successBorder {
                 border: {{ theme.colorBadgeRunningNow }} 4px solid;
@@ -202,7 +196,9 @@
             .form-outline .form-control:focus ~ .form-label {
                 color: {{ theme.colorButton }};
             }
-
+            .input-group > .btn[class*=btn-outline-]{
+                border-color: {{ theme.colorButton }} !important;
+            }
             .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
                 border-color: {{ theme.colorButton }};
                 box-shadow: -1px 0 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }}, 0 -1px 0 0{{ theme.colorButton }};
@@ -220,12 +216,42 @@
             }
 
             .form-check-input[type=radio]:checked:after {
-                 border-color: {{ theme.colorButton }};
+                border-color: {{ theme.colorButton }};
                 background-color: {{ theme.colorButton }};
             }
 
+            {% if getApplicationProperties('FAVORITEBACKGROUND') %}
+            .card.favorites::after {
+                background-image: url("{{ getApplicationProperties('FAVORITEBACKGROUND') }}");
+            }
+
+            .form-control, .form-check-input, .input-group-text {
+                border-color: {{ theme.colorButton }};
+                border-radius: 8px;
+                border-width: 3px;
+            }
+
+            .form-check-input {
+                border-radius: 4px;
+            }
+
+            input {
+                border-color: inherit;
+            }
+            .proTips {
+                border-color: {{ theme.colorButton }}!important;
+            }
+            .blackMode .proTips{
+                background-color: {{ theme.darkmodeBackgroudcolor }}!important;
+            }
+            .window .sidebar #favorite-Container h5, .window .sidebar #favorite-Container .h5 {
+                border-color: {{ theme.colorButton  }};
+            }
+
+            {% endif %}
         </style>
 
     {% endif %}
+
 
 </head>

@@ -20,7 +20,6 @@ final class Version20210319120208 extends AbstractMigration
     public function up(Schema $schema): void
     {
         if ($this->connection->getDatabasePlatform()->getName() !== 'postgresql') {
-
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE rooms ADD uid_participant LONGTEXT DEFAULT NULL, ADD uid_moderator LONGTEXT DEFAULT NULL');
         }

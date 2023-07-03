@@ -16,12 +16,18 @@ class SendSummaryServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
 //prepare
         $responses = [
-            new MockResponse(CreateWhiteboardServiceTest::$sampleSvg, [
-                'http_code' => 200,
-            ]),
-            new MockResponse(CreateEtherpadServiceTest::$samplePadHtml, [
-                'http_code' => 200,
-            ])
+            new MockResponse(
+                CreateWhiteboardServiceTest::$sampleSvg,
+                [
+                    'http_code' => 200,
+                ]
+            ),
+            new MockResponse(
+                CreateEtherpadServiceTest::$samplePadHtml,
+                [
+                    'http_code' => 200,
+                ]
+            )
         ];
 
         $httpClient = new MockHttpClient($responses);
@@ -31,7 +37,7 @@ class SendSummaryServiceTest extends KernelTestCase
 
         $this->assertSame('test', $kernel->getEnvironment());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $service = self::getContainer()->get(SendSummaryViaEmailService::class);
         $service->sendSummaryForRoom($room);
         $this->assertEmailCount(3);
@@ -40,6 +46,6 @@ class SendSummaryServiceTest extends KernelTestCase
 
         $this->assertEmailHtmlBodyContains($email, 'Konferenz Abgeschlossen');
         $this->assertEmailHtmlBodyContains($email, $room->getName());
-        self::assertEmailAttachmentCount($email,1);
+        self::assertEmailAttachmentCount($email, 1);
     }
 }

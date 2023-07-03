@@ -1,5 +1,5 @@
 import $ from "jquery";
-
+import _ from "lodash/array";
 import {getCookie, setCookie} from './cookie'
 
 function initAddressGroupSearch() {
@@ -20,6 +20,9 @@ function searchUSers(inputField) {
     var value = $(inputField).val().toLowerCase();
     var $list = $(inputField).closest('.textarea').find('.adressbookline');
     $list.filter(function () {
+        if (!$(this).data('indexer')){
+            return;
+        }
         var indexer = $(this).data('indexer').toLowerCase();
         var res = indexer.indexOf(value) > -1;
         if (!res) {
@@ -55,64 +58,88 @@ function initAddressbook() {
 }
 
 function initCategoryFilter() {
-    var $checkbox = $('.adressBookFilter');
+    var $checkbox = document.querySelectorAll('.adressBookFilter');
     for (var i = 0; i < $checkbox.length; i++) {
 
         var tmp = $checkbox[i];
         var $cookie = getCookie(tmp.id);
-        if ($cookie === 'true' ||  $cookie === '') {
-            tmp.setAttribute('checked', 'checked');
+        if ($cookie === 'true') {
+            tmp.checked = true;
         } else {
-            tmp.removeAttribute('checked');
+            tmp.checked = false;
         }
+        tmp.addEventListener('change', function () {
+            var id = this.id;
+            setCookie(id, this.checked, 365);
+            categorySort(this);
+        })
     }
-    categorySort()
-    $checkbox.on('change', function () {
-        var id = this.id;
-        setCookie(id, $(this).prop('checked'), 365);
-        categorySort(this);
-    })
+    categorySort();
+
 }
 
 
 function categorySort(ele) {
-    var filter = $('.adressBookFilter');
+
+
+    var $dot = document.querySelector('.filter-dot');
+
+    var filter = document.querySelectorAll('.adressBookFilter');
     var checked = [];
-    var unchecked = [];
+    var checkcounter = 0;
     for (var i = 0; i < filter.length; i++) {
         var filterEle = JSON.parse(filter[i].dataset.filter);
-        if ($(filter[i]).prop('checked')) {
-            checked = checked.concat(filterEle)
-        } else {
-            unchecked = unchecked.concat(filterEle)
+        if (filter[i].checked) {
+            checked.push(filterEle)
+            checkcounter++;
         }
     }
+    if ($dot) {
+        if (checkcounter > 0) {
+            $dot.classList.remove('d-none');
+            $dot.innerHTML = checkcounter;
+        } else {
+            $dot.classList.add('d-none')
+        }
+    }
+    var filterArr = checked.length === 0 ? [['all']] : checked
     var $list = document.getElementById('adressbookModalTabContent').querySelectorAll('.adressbookline');
 
     for (var k = 0; k < $list.length; k++) {
-        var filterTmp = JSON.parse($list[k].dataset.filterafter);
-        var visible = findCommonElements3(checked, filterTmp);
-        if (filterTmp.length === 0) {
-            visible = true
-        }
-        if (!visible) {
-            $list[k].classList.add('addressbookCategorieHidden')
-        } else {
-            $list[k].classList.remove('addressbookCategorieHidden')
+        try {
+            var filterTmp = JSON.parse($list[k].dataset.filterafter);
+            var visible = findCommonElements(filterArr, filterTmp);
+            if (filterTmp.length === 0) {
+                visible = true
+            }
+            if (!visible) {
+                $list[k].classList.add('addressbookCategorieHidden')
+            } else {
+                $list[k].classList.remove('addressbookCategorieHidden')
+            }
+        }catch (e) {
+
         }
     }
     cleanCapitalLetters();
 }
 
-function findCommonElements3(arr1, arr2) {
-    return arr1.some(item => arr2.includes(item))
+function findCommonElements(filter, content) {
+    for (var i = 0; i < filter.length; i++) {
+        var res = _.intersection(filter[i], content)
+        if (res.length === 0) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function cleanCapitalLetters() {
     var cap = $('.textarea').find('.capital-Letter');
     for (var i = 0; i < cap.length; i++) {
         var next = cap[i].nextElementSibling;
-        while (isHidden(next)) {
+        while (isHidden(next) && !next.classList.contains('capital-Letter')) {
             next = next.nextElementSibling;
             if (!next) {
                 break;
@@ -121,12 +148,12 @@ function cleanCapitalLetters() {
         var register = findRegister(cap[i]);
         if (!next || next.classList.contains('capital-Letter')) {
             cap[i].style.display = 'none';
-            if (register){
+            if (register) {
                 register.style.display = 'none';
             }
         } else {
             cap[i].style.removeProperty('display');
-            if (register){
+            if (register) {
                 register.style.removeProperty('display');
             }
         }
@@ -140,7 +167,7 @@ function isHidden(el) {
 function findRegister(register) {
     try {
         for (const a of register.closest('.adressbookComponent').querySelectorAll('.registerElement ')) {
-            if (a.textContent.includes(register.textContent)) {
+            if (a.textContent.trim().toLowerCase().includes(register.textContent.trim().toLowerCase())) {
                 return a;
             }
         }
@@ -150,4 +177,4 @@ function findRegister(register) {
 
 }
 
-export {initAddressGroupSearch, initListSearch};
+export {initAddressGroupSearch, initListSearch, categorySort};

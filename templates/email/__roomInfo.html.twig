@@ -59,7 +59,7 @@
         <a href="{{ url }}">{{ url }}</a>
     </p>
 {% endif %}
-{% if room.totalOpenRooms and user == room.moderator %}
+{% if room.totalOpenRooms and isAllowedToOrganize(room,app.user) %}
     {{ 'Leiten Sie diesen Link an die Teilnehmer weiter'|trans }}:
     <br>
     {{ httpsAbolutUrl(path('own_room_startPage',{'uid':room.uid}),room is defined?room:null) }}

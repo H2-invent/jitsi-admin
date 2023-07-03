@@ -5,9 +5,7 @@ namespace App\Command;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -24,7 +22,6 @@ class MigrateEmailToUsernameCommand extends Command
 
     protected function configure(): void
     {
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -32,13 +29,13 @@ class MigrateEmailToUsernameCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $users = $this->em->getRepository(User::class)->findAll();
         $counter = 0;
-        foreach ($users as $data){
+        foreach ($users as $data) {
             $data->setUsername($data->getEmail());
             $this->em->persist($data);
             $counter++;
         }
         $this->em->flush();
-        $io->success(sprintf('We transform %d User',$counter));
+        $io->success(sprintf('We transform %d User', $counter));
 
         return Command::SUCCESS;
     }

@@ -72,13 +72,26 @@ class CalloutSessionRepository extends ServiceEntityRepository
         return $qb
             ->andWhere('c.room = :room')
             ->andWhere('c.user = :user')
-            ->andWhere($qb->expr()->lt(':maxStatus','c.status'))
-            ->setParameter(':room',$rooms)
+            ->andWhere($qb->expr()->lt(':maxStatus', 'c.status'))
+            ->setParameter(':room', $rooms)
             ->setParameter(':user', $user)
-            ->setParameter(':maxStatus',2)
+            ->setParameter(':maxStatus', CalloutSession::$ON_HOLD)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
+    }
+
+    public function findCalloutSessionActive($calloutSessionId): ?CalloutSession
+    {
+        $qb = $this->createQueryBuilder('c');
+        return $qb
+            ->andWhere('c.uid=:sessionId')
+            ->andWhere($qb->expr()->gte('c.state', ':minState'))
+            ->andWhere($qb->expr()->lt('c.state', ':maxState'))
+            ->setParameter(':maxState', CalloutSession::$ON_HOLD)
+            ->setParameter('minState', CalloutSession::$DIALED)
+            ->setParameter('sessionId', $calloutSessionId)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
@@ -88,11 +101,9 @@ class CalloutSessionRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c');
         return $qb
-            ->andWhere($qb->expr()->gte('c.state',':state'))
-            ->setParameter('state', 2)
+            ->andWhere($qb->expr()->gte('c.state', ':state'))
+            ->setParameter('state', CalloutSession::$ON_HOLD)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-
 }

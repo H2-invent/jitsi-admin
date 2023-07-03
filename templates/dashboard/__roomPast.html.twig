@@ -1,12 +1,12 @@
-<div class="card card-body mb-1 text-lg-start text-center">
+<div class="card card-body mb-1 text-lg-start text-center mb-3">
     <div class="row">
 
         {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
         <div class="col-md-4 d-flex align-items-start justify-content-lg-start justify-content-center">
 
-            {% if room.moderator == app.user %}
+            {% if isAllowedToOrganize(room,app.user) %}
                 {{ include('dashboard/__roomOption.html.twig') }}
-                {% if (room.moderator == app.user or getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1) and room.totalOpenRooms != true %}
+                {% if (isAllowedToOrganize(room,app.user) or getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1) and room.totalOpenRooms != true %}
                     <a href="{{ path('room_past_user',{'room':room.id}) }}"
                        class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
                 {% endif %}

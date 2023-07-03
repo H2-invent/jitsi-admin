@@ -1,0 +1,20 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    Upload a new theme to the jitsi-admin
+{% endblock %}
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <p>
+                The theme has to be signed from H2 invent GmbH.
+            </p>
+            <p>
+                To get your theme go to the <a href="https://meetling.de/meetling-konfigurator/"><i class="fa fa-external-link"></i> meetling konfigurator</a>
+                and enter  your data there.
+            </p>
+            {{ form_start(form) }}
+            {{ form_row(form.theme) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

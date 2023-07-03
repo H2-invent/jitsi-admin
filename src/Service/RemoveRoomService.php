@@ -64,18 +64,16 @@ class RemoveRoomService
             $this->em->persist($room);
             $this->em->flush();
 
-            if ($room->getCallerRoom()){
+            if ($room->getCallerRoom()) {
                 $callerRoom = $room->getCallerRoom();
                 $this->em->remove($callerRoom);
                 $this->em->flush();
             }
-
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             return false;
         }
 
         return true;
-
     }
 }

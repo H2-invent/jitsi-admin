@@ -16,7 +16,7 @@ class IndexerServiceTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
         $indexer = self::getContainer()->get(IndexUserService::class);
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('username'=>'test@local.de'));
+        $user = $userRepo->findOneBy(['username' => 'test@local.de']);
         $index = $indexer->indexUser($user);
         self::assertEquals($user->getIndexer(), $index);
         self::assertNull($indexer->indexUser(null));

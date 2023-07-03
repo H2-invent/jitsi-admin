@@ -4,14 +4,14 @@ namespace App\Controller;
 
 use App\Helper\JitsiAdminController;
 use App\Service\CreateHttpsUrl;
+use App\Service\ThemeService;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\Auth0Client;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class LoginController extends JitsiAdminController
 {
@@ -20,8 +20,9 @@ class LoginController extends JitsiAdminController
      */
     public function index(ClientRegistry $clientRegistry): Response
     {
-      return $clientRegistry->getClient('auth0_main')->redirect(['user']);
+        return $clientRegistry->getClient('auth0_main')->redirect(['user']);
     }
+
     /**
      * @Route("/login/auth0_login/check", name="connect_auth0_check")
      */
@@ -35,7 +36,6 @@ class LoginController extends JitsiAdminController
         $client = $clientRegistry->getClient('auth0_main');
 
         try {
-
             $user = $client->fetchUser();
 
             // do something with all this new power!
@@ -48,15 +48,40 @@ class LoginController extends JitsiAdminController
             die;
         }
     }
-    /**
-     * @Route("/logout_keycloak", name="logout_keycloak")
-     */
-    public function logout(ClientRegistry $clientRegistry, Request $request, CreateHttpsUrl $createHttpsUrl)
-    {
-        $url = $this->getParameter('KEYCLOAK_URL')
-            .'/realms/'.$this->getParameter('KEYCLOAK_REALM')
-            .'/protocol/openid-connect/logout?redirect_uri='.$createHttpsUrl->createHttpsUrl('/');
-        return $this->redirect($url);
 
+    /**
+     * @Route("/room/logout_keycloak", name="logout_keycloak")
+     */
+    public function logout(
+        ClientRegistry $clientRegistry,
+        Request        $request,
+        CreateHttpsUrl $createHttpsUrl,
+        ThemeService   $themeService,
+    )
+    {
+        $provider = new Keycloak(
+            [
+                'authServerUrl' => $this->getParameter('KEYCLOAK_URL'),
+                'realm' => $this->getParameter('KEYCLOAK_REALM'),
+                'clientId' => $this->getParameter('KEYCLOAK_ID'),
+                'clientSecret' => $this->getParameter('KEYCLOAK_SECRET'),
+            ]
+        );
+
+
+        $redirectUri = $createHttpsUrl->createHttpsUrl('/login/logout');
+        $options = [
+            'id_token_hint' => $request->getSession()->get('id_token'),
+            'post_logout_redirect_uri' => $redirectUri,
+        ];
+        if ($themeService->getApplicationProperties('idp_provider')) {
+            $options['kc_idp_hint'] = $themeService->getApplicationProperties('idp_provider');
+        }
+
+
+        $url = $provider->getLogoutUrl(
+            $options
+        );
+        return $this->redirect($url);
     }
 }

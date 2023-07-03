@@ -17,7 +17,6 @@ use Psr\Log\LoggerInterface;
  */
 final class Version20220225112622 extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return '';
@@ -295,7 +294,5 @@ final class Version20220225112622 extends AbstractMigration
 //                )
 //            );
 //        }
-
     }
-
 }

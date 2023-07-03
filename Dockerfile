@@ -1,6 +1,7 @@
-FROM thecodingmachine/php:8.1-v4-apache-node16
+FROM thecodingmachine/php:8.2-v4-apache-node18
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
+ENV COMPOSER_MEMORY_LIMIT=-1
 ENV TZ=Europe/Berlin
 USER root
 RUN usermod -a -G www-data docker
@@ -18,12 +19,12 @@ RUN rm -rf node_modules/
 #copy all the rest of the app
 COPY . /var/www/html
 #install all php dependencies
+USER docker
 RUN composer install
+USER root
 #do all the directory stuff
-RUN chmod -R 775 public/build
-RUN mkdir -p var/cache
-RUN chown -R www-data:www-data var
-RUN chmod -R 777 var
-RUN chown -R www-data:www-data public/uploads/
-RUN chmod -R 775 public/uploads/
+RUN chown -R docker:docker var
+RUN chown -R docker:docker public/uploads/
+RUN chown -R docker:docker public/theme/
+RUN chown -R docker:docker theme/
 USER docker

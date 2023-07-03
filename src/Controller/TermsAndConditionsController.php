@@ -16,9 +16,12 @@ class TermsAndConditionsController extends JitsiAdminController
     public function index(ThemeService $themeService, TermsAndConditionsService $termsAndConditionsService): Response
     {
         if (!$termsAndConditionsService->hasAcceptedTerms($this->getUser())) {
-            return $this->render('terms_and_conditions/index.html.twig', [
-               'server'=>null,
-            ]);
+            return $this->render(
+                'terms_and_conditions/index.html.twig',
+                [
+                    'server' => null,
+                ]
+            );
         }
         return $this->redirectToRoute('dashboard');
     }
@@ -26,7 +29,7 @@ class TermsAndConditionsController extends JitsiAdminController
     #[Route('/room/terms/and/conditions/accept', name: 'app_terms_and_conditions_accept')]
     public function accept(TermsAndConditionsService $termsAndConditionsService): Response
     {
-      $termsAndConditionsService->acceptTerms($this->getUser());
+        $termsAndConditionsService->acceptTerms($this->getUser());
         return $this->redirectToRoute('dashboard');
     }
 }

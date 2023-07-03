@@ -2,20 +2,16 @@
 
 namespace App\Service\Lobby;
 
-use App\Entity\LobbyWaitungUser;
-use App\Entity\Rooms;
 use App\Entity\User;
 use App\Service\RoomService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mercure\Exception\RuntimeException;
 use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Publisher;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class DirectSendService
 {
@@ -28,13 +24,13 @@ class DirectSendService
     private $twig;
 
     public function __construct(
-        Environment $environment,
-        HubInterface $publisher,
-        RoomService $roomService,
+        Environment           $environment,
+        HubInterface          $publisher,
+        RoomService           $roomService,
         UrlGeneratorInterface $urlGenerator,
         ParameterBagInterface $parameterBag,
-        LoggerInterface $logger,
-        TranslatorInterface $translator
+        LoggerInterface       $logger,
+        TranslatorInterface   $translator
     )
     {
         $this->publisher = $publisher;
@@ -53,60 +49,54 @@ class DirectSendService
 
     public function sendSnackbar($topic, $text, $color)
     {
-        $data = array(
+        $data = [
             'type' => 'snackbar',
             'message' => $text,
             'color' => $color
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
-
-
     }
     public function sendMessage($topic, $message, string $from)
     {
-        $data = array(
+        $data = [
             'type' => 'message',
             'message' => $message,
-            'from'=> $from
-        );
+            'from' => $from
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
-
-
     }
     public function sendReloadPage($topic, $timeout)
     {
-        $data = array(
+        $data = [
             'type' => 'reload',
             'timeout' => $timeout,
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
-
-
     }
 
     public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color)
     {
-        $data = array(
+        $data = [
             'type' => 'notification',
             'title' => $title,
             'message' => $message,
             'pushNotification' => $pushMessage,
             'messageId' => $id,
             'color' => $color
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
 
     public function sendCleanBrowserNotification($topic, $id)
     {
-        $data = array(
+        $data = [
             'type' => 'cleanNotification',
             'messageId' => $id,
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
@@ -114,78 +104,83 @@ class DirectSendService
     public function sendModal($topic, $content)
     {
 
-        $data = array(
+        $data = [
             'type' => 'modal',
             'content' => $content,
 
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
-
     }
 
     public function sendRedirect($topic, $url, $timeout = 1000)
     {
-        $data = array(
+        $data = [
             'type' => 'redirect',
             'url' => $url,
             'timeout' => $timeout,
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
 
     public function sendEndMeeting($topic, $url, $timeout = 1000)
     {
-        $data = array(
+        $data = [
             'type' => 'endMeeting',
             'url' => $url,
             'timeout' => $timeout
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
 
     public function sendNewJitsiMeeting($topic, $options)
     {
-        $data = array(
+        $data = [
             'type' => 'newJitsi',
             'options' => $options,
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
 
     public function sendRefresh($topic, $url)
     {
-        $data = array(
+        $data = [
             'type' => 'refresh',
             'reloadUrl' => $url,
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
 
-    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time,$id)
+    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time, $id)
     {
-        $data = array(
+        $data = [
             'type' => 'call',
-            'title'=>$title,
-            'message'=>$message,
-            'pushMessage'=>$pushMesage,
-            'time'=>$time,
-            'color'=>'success',
-            'messageId'=>$id
-        );
+            'title' => $title,
+            'message' => $message,
+            'pushMessage' => $pushMesage,
+            'time' => $time,
+            'color' => 'success',
+            'messageId' => $id
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
+    }
+
+    public function sendRefreshDashboardToUser(User $user)
+    {
+        $topic = 'personal/' . $user->getUid();
+        $this->sendRefreshDashboard($topic);
     }
 
     public function sendRefreshDashboard($topic)
     {
-        $data = array(
+        $data = [
             'type' => 'refreshDashboard',
-        );
+        ];
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
     }
@@ -194,7 +189,7 @@ class DirectSendService
     private function sendUpdate(Update $update)
     {
         try {
-            $this->logger->debug('send Message via Websocket:',array('topic'=>$update->getTopics(),'data'=>$update->getData()));
+            $this->logger->debug('send Message via Websocket:', ['topic' => $update->getTopics(), 'data' => $update->getData()]);
             $res = $this->publisher->publish($update);
             return true;
         } catch (RuntimeException $e) {
@@ -202,5 +197,4 @@ class DirectSendService
             return false;
         }
     }
-
 }

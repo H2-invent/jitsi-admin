@@ -1,0 +1,36 @@
+<div class="dropdown language-dropdown">
+    <a class="dropdown-toggle caretdown   ms-auto" data-mdb-toggle="dropdown"
+       aria-haspopup="true" aria-expanded="false">
+        <i class="fa-solid fa-globe"></i> {{ app.request.locale|upper }}
+    </a>
+    <div class="dropdown-menu language-dropdown-menue">
+        {% if theme == false or (theme is not null and 'de' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "de"}) }}">Deutsch</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'en' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "en"}) }}">English</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'fr' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "fr"}) }}">Français</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'es' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "es"}) }}">Español</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'vi' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "vi"}) }}">Tiếng Việt</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'zh' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "zh"}) }}">中国人</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'ja' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ja"}) }}">日本</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'ru' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "ru"}) }}">Русский</a>
+        {% endif %}
+        {% if theme == false  or (theme is not null and 'pt' in theme.profileAllowLanguages  ) %}
+            <a class="dropdown-item" href="{{ path("dashboard", {"_locale": "pt"}) }}">Português</a>
+        {% endif %}
+    </div>
+</div>
+

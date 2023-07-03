@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Rooms;
+use App\Entity\Scheduling;
 use App\Entity\SchedulingTime;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -46,5 +49,23 @@ class SchedulingTimeRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+
+     /**
+      * @return SchedulingTime[] Returns an array of SchedulingTime objects
+      */
+    public function findSchedulingTimeForUserAndScheduling(Scheduling $scheduling, User $user)
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.scheduling','scheduling')
+            ->andWhere('scheduling =:scheduling')
+            ->setParameter('scheduling', $scheduling)
+            ->innerJoin('s.schedulingTimeUsers','schedulingTimeUsers')
+            ->innerJoin('schedulingTimeUsers.user', 'user')
+            ->andWhere('user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 }

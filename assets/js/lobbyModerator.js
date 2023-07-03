@@ -57,7 +57,6 @@ export function closeIframe() {
 function initMercure() {
     socket.on('mercure', function (inData) {
         var data = JSON.parse(inData)
-        masterNotify(data);
         if (data.type === 'endMeeting') {
             hangup();
         }

@@ -14,6 +14,8 @@ export function initStarSend() {
     if ($('.starSend').length > 0 && initilized == false) {
         $('.starSend').click(
             function (e) {
+                e.preventDefault();
+                $('.starSend').remove();
                 var _navigator = {};
                 for (var i in window.navigator) _navigator[i] = navigator[i];
                 const params = {
@@ -53,12 +55,7 @@ function closeWindow() {
         close();
     } else {
         window.onbeforeunload = null;//setze die Anchfrage ob das Ffenster geshclossen werden soll
-        if (window.opener == null) {// wenn der aufrufende Tab nicht mehr geöffnet ist  dann
-            close();//schließe das Fenster wenn es ein Iframe ist
-            window.location.href = '/';// leite weiter an die Url in dem Comand
-        } else {
-            close();
-            window.close();
-        }
+        close();//schließe das Fenster wenn es ein Iframe ist
+        window.location.href = '/';// leite weiter an die Url in dem Comand
     }
 }

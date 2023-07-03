@@ -18,13 +18,12 @@ class JigasiServiceTest extends KernelTestCase
         $this->assertSame('test', $kernel->getEnvironment());
 
 
-
-
         $jigasiService = self::getContainer()->get(JigasiService::class);
         $serverRepo = self::getContainer()->get(ServerRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
-        $room->getServer()->setJigasiNumberUrl('{
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $room->getServer()->setJigasiNumberUrl(
+            '{
     "message": "Einwahlnummern",
     "numbers": {
         "DE": [
@@ -35,7 +34,8 @@ class JigasiServiceTest extends KernelTestCase
         ]
     },
     "numbersEnabled": true
-}')
+}'
+        )
 
         ->setJigasiApiUrl('https://jigasi.org/conferenceMapper')
         ->setJigasiProsodyDomain('conference.jigasi.org');
@@ -49,7 +49,7 @@ class JigasiServiceTest extends KernelTestCase
         $room->getServer()->setJigasiNumberUrl('https://invalid.url');
         self::assertNull($jigasiService->getNumber($room));
 
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $room->setServer($server);
         $res = $jigasiService->getNumber($room);
         self::assertNull($res);
@@ -67,12 +67,14 @@ class JigasiServiceTest extends KernelTestCase
 
         $callback = function ($method, $url, $options) {
             if ($url === 'https://jigasi.org/conferenceMapper?conference=123456780@conference.jigasi.org&url=https://meet.jit.si2/123456780') {
-                return new MockResponse('
+                return new MockResponse(
+                    '
                 {
     "conference": "test@conference.domain",
     "id": 154428,
     "message": "Successfully retrieved conference mapping"
-}');
+}'
+                );
             } else {
                 return new MockResponse('', ['http_code' => 404]);
             }
@@ -83,8 +85,9 @@ class JigasiServiceTest extends KernelTestCase
         $jigasiService->setClient(new MockHttpClient($callback));
         $serverRepo = self::getContainer()->get(ServerRepository::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findOneBy(array('name'=>'TestMeeting: 0'));
-        $room->getServer()->setJigasiNumberUrl('{
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
+        $room->getServer()->setJigasiNumberUrl(
+            '{
     "message": "Einwahlnummern",
     "numbers": {
         "DE": [
@@ -95,7 +98,8 @@ class JigasiServiceTest extends KernelTestCase
         ]
     },
     "numbersEnabled": true
-}')
+}'
+        )
             ->setJigasiApiUrl('https://jigasi.org/conferenceMapper')
             ->setJigasiProsodyDomain('conference.jigasi.org');
 
@@ -105,7 +109,7 @@ class JigasiServiceTest extends KernelTestCase
         $room->getServer()->setJigasiApiUrl('https://invalid.url');
         self::assertNull($jigasiService->getRoomPin($room));
 
-        $server = $serverRepo->findOneBy(array('url' => 'meet.jit.si'));
+        $server = $serverRepo->findOneBy(['url' => 'meet.jit.si']);
         $room->setServer($server);
 
         $res = $jigasiService->getRoomPin($room);

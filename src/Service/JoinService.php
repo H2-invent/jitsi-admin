@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormInterface;
@@ -69,7 +70,7 @@ class JoinService
 
             if (
                 ($start && $start < $now && $endDate > $now)
-                || $user === $room->getModerator()
+                || UtilsHelper::isAllowedToOrganizeRoom($user,$room)
                 || $room->getPersistantRoom()
                 || $user->getKeycloakId()
             ) {

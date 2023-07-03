@@ -22,6 +22,7 @@ function initNewRoomModal() {
                 title: title,
                 content: blocktext,
                 theme: 'material',
+                columnClass: 'col-md-8 col-12 col-lg-6',
                 buttons: {
                     confirm: {
                         text: ok, // text for button

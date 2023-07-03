@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -10,7 +11,6 @@ use App\Service\MessageService;
 use App\Service\RoomService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 use function GuzzleHttp\Psr7\str;
 
@@ -31,17 +31,18 @@ class Jwt extends AbstractExtension
             new TwigFunction('urlFromRoom', [$this, 'urlFromRoom']),
         ];
     }
-    public function jwtFromRoom(?User $user,Rooms $rooms, $name,$moderatorExplizit = false)
-    {
-        return $this->roomService->generateJwt($rooms,$user,$name, $moderatorExplizit);
-    }
-    public function urlFromRoom(?User $user,Rooms $rooms, $name, $t)
-    {
-        if($user){
-            return $this->roomService->join($rooms,$user, $t, $name);
-        }else{
-            return $this->roomService->joinUrl($t,$rooms,$name,false);
-        }
 
+    public function jwtFromRoom(?User $user, Rooms $rooms, $name, $moderatorExplizit = false)
+    {
+        return $this->roomService->generateJwt($rooms, $user, $name, $moderatorExplizit);
+    }
+
+    public function urlFromRoom(?User $user, Rooms $rooms, $name, $t)
+    {
+        if ($user) {
+            return $this->roomService->join($rooms, $user, $t, $name);
+        } else {
+            return $this->roomService->joinUrl($t, $rooms, $name, false);
+        }
     }
 }

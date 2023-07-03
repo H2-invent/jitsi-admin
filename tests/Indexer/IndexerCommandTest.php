@@ -15,7 +15,7 @@ class IndexerCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:index:user');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array());
+        $commandTester->execute([]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [OK] we reindex 9 users', $output);
         $this->assertStringContainsString(' [OK] we reindex 1 Groups', $output);

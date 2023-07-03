@@ -12,6 +12,7 @@ use App\Service\PexelService;
 use App\Service\RoomService;
 use App\Service\SubcriptionService;
 use App\Service\UserService;
+use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,23 +23,21 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function Symfony\Component\String\s;
 
 class ShareLinkController extends JitsiAdminController
 {
-
-
     /**
      * @Route("/room/share/link/{id}", name="share_link")
      * @ParamConverter("rooms")
      */
     public function index(Rooms $rooms): Response
     {
-        if (!$rooms || !$rooms->getModerator() == $this->getUser() || $rooms->getPublic() != true) {
+        if (!$rooms || !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms) || $rooms->getPublic() != true) {
             throw new NotFoundHttpException('Not found');
         }
-        return $this->render('share_link/__shareLinkModal.html.twig', array('room' => $rooms));
-
+        return $this->render('share_link/__shareLinkModal.html.twig', ['room' => $rooms]);
     }
 
     /**
@@ -47,14 +46,14 @@ class ShareLinkController extends JitsiAdminController
      */
     public function waitinglistAccept(Waitinglist $waitinglist, SubcriptionService $subcriptionService): Response
     {
-        if ($waitinglist->getRoom()->getModerator() == $this->getUser()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $waitinglist->getRoom())) {
             $subcriptionService->createUserRoom($waitinglist->getUser(), $waitinglist->getRoom());
             $em = $this->doctrine->getManager();
             $em->remove($waitinglist);
             $em->flush();
-            return new JsonResponse(array('error' => false));
+            return new JsonResponse(['error' => false]);
         }
-        return new JsonResponse(array('error' => true));
+        return new JsonResponse(['error' => true]);
     }
 
     /**
@@ -63,19 +62,19 @@ class ShareLinkController extends JitsiAdminController
     public function participants($uid, Request $request, SubcriptionService $subcriptionService, TranslatorInterface $translator, PexelService $pexelService): Response
     {
         $moderator = false;
-        $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidParticipant' => $uid, 'public' => true));
+        $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidParticipant' => $uid, 'public' => true]);
         if (!$rooms) {
-            $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidModerator' => $uid, 'public' => true));
+            $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidModerator' => $uid, 'public' => true]);
             if ($rooms) {
                 $moderator = true;
             }
         }
         if (!$rooms || $rooms->getModerator() === null) {
-            $this->addFlash('danger',$translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
             return $this->redirectToRoute('join_index_no_slug');
         }
 
-        $data = array('email' => '');
+        $data = ['email' => ''];
         $form = $this->createForm(PublicRegisterType::class, $data);
         $form->handleRequest($request);
         $snack = $translator->trans('Bitte geben Sie ihre Daten ein');
@@ -95,17 +94,20 @@ class ShareLinkController extends JitsiAdminController
             $snack = $res['text'];
             $color = $res['color'];
             if (!$res['error']) {
-                $this->addFlash($color,$snack);
-                return $this->redirectToRoute('public_subscribe_participant', array( 'uid' => $uid));
+                $this->addFlash($color, $snack);
+                return $this->redirectToRoute('public_subscribe_participant', ['uid' => $uid]);
             }
         }
         $server = $rooms->getServer();
-        $this->addFlash($color,$snack);
-        return $this->render('share_link/subscribe.html.twig', [
-            'form' => $form->createView(),
-            'server' => $server,
-            'room' => $rooms,
-        ]);
+        $this->addFlash($color, $snack);
+        return $this->render(
+            'share_link/subscribe.html.twig',
+            [
+                'form' => $form->createView(),
+                'server' => $server,
+                'room' => $rooms,
+            ]
+        );
     }
 
 
@@ -114,7 +116,7 @@ class ShareLinkController extends JitsiAdminController
      */
     public function doupleoptin($uid, SubcriptionService $subcriptionService, TranslatorInterface $translator, UserService $userService, PexelService $pexelService): Response
     {
-        $subscriber = $this->doctrine->getRepository(Subscriber::class)->findOneBy(array('uid' => $uid));
+        $subscriber = $this->doctrine->getRepository(Subscriber::class)->findOneBy(['uid' => $uid]);
         $res = $subcriptionService->acceptSub($subscriber);
         $server = null;
         if ($subscriber) {
@@ -123,7 +125,9 @@ class ShareLinkController extends JitsiAdminController
 
         $message = $res['message'];
         $title = $res['title'];
-
-        return $this->render('share_link/subscribeSuccess.html.twig', array('server' => $server, 'message' => $message, 'title' => $title));
+        if ($subscriber->getRoom()->getScheduleMeeting()) {
+            return $this->redirectToRoute('schedule_public_main', ['scheduleId' => $subscriber->getRoom()->getSchedulings()[0]->getUid(), 'userId' => $subscriber->getUser()->getUid()]);
+        }
+        return $this->render('share_link/subscribeSuccess.html.twig', ['server' => $server, 'message' => $message, 'title' => $title]);
     }
 }

@@ -13,13 +13,13 @@
 
             <div class="input-group mb-3">
                 <input id="linkPart" readonly type="text" class="form-control" value="{{ absolute_url(path('public_subscribe_participant',{'uid':room.uidParticipant})) }}">
-                    <button class="btn btn-md btn-outline-primary waves-effect copyLink" type="button"  data-clipboard-target="#linkPart" >   <i class="far fa-clipboard"></i></button>
+                    <button class="btn btn-md btn-outline-primary waves-effect copyLink" type="button"  data-clipboard-target="#linkPart" >   <i class="fa-regular fa-copy"></i></button>
             </div>
             <h5>{{'Einladungslink für Moderatoren'|trans}}</h5>
 
             <div class="input-group mb-3">
                 <input id="linkModerator" readonly type="text" class="form-control" value="{{ absolute_url(path('public_subscribe_participant',{'uid':room.uidModerator})) }}">
-                <button class="btn btn-md btn-outline-primary  waves-effect copyLink" type="button"  data-clipboard-target="#linkModerator" >   <i class="far fa-clipboard"></i></button>
+                <button class="btn btn-md btn-outline-primary  waves-effect copyLink" type="button"  data-clipboard-target="#linkModerator" >   <i class="fa-regular fa-copy"></i></button>
             </div>
 
 

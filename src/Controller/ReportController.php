@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Rooms;
+use App\UtilsHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,14 +28,17 @@ class ReportController extends AbstractController
      */
     public function create(?Rooms $room): Response
     {
-        if ($room->getModerator() !== $this->getUser()){
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             throw  new NotFoundHttpException('Room not Found');
         }
-        $timeZone = $this->getUser()->getTimeZone()?$this->getUser()->getTimeZone():(new \DateTime())->getTimezone()->getName();
-        return $this->render('report/index.html.twig', [
-            'timezone'=>$timeZone,
-            'title' => $this->translator->trans('report.title'),
-            'room'=>$room
-        ]);
+        $timeZone = $this->getUser()->getTimeZone() ? $this->getUser()->getTimeZone() : (new \DateTime())->getTimezone()->getName();
+        return $this->render(
+            'report/index.html.twig',
+            [
+                'timezone' => $timeZone,
+                'title' => $this->translator->trans('report.title'),
+                'room' => $room
+            ]
+        );
     }
 }

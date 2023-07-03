@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 class ToParticipantWebsocketService
@@ -64,28 +65,28 @@ class ToParticipantWebsocketService
         );
 
         if ($lobbyWaitungUser->getType() === 'b') {
-            $options = array(
-                'options' => array(
+            $options = [
+                'options' => [
                     'roomName' => $lobbyWaitungUser->getRoom()->getUid(),
                     'width' => '100%',
                     'height' => 400,
-                    'userInfo' => array(
+                    'userInfo' => [
                         'displayName' => $lobbyWaitungUser->getShowName()
-                    ),
-                    'configOverwrite' => array(
+                    ],
+                    'configOverwrite' => [
                         'prejoinPageEnabled' => false,
                         'disableBeforeUnloadHandlers' => true
-                    ),
-                    'interfaceConfigOverwrite' => array(
+                    ],
+                    'interfaceConfigOverwrite' => [
                         'MOBILE_APP_PROMO' => false,
                         'HIDE_DEEP_LINKING_LOGO' => true,
                         'SHOW_BRAND_WATERMARK' => true,
-                    )
-                ),
+                    ]
+                ],
                 'roomName' => $lobbyWaitungUser->getRoom()->getName(),
                 'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
                 'parentNode' => '#jitsiWindow',
-            );
+            ];
 
             if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()) {
                 $options['options']['jwt'] = $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
@@ -106,7 +107,6 @@ class ToParticipantWebsocketService
             } else {
                 $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
             }
-
         } elseif ($lobbyWaitungUser->getType() === 'a') {
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
             $this->directSend->sendRedirect($topic, '/', 6000);
@@ -124,5 +124,4 @@ class ToParticipantWebsocketService
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
         $this->directSend->sendMessage($topic, $message, $from);
     }
-
 }

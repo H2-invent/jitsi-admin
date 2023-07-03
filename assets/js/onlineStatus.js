@@ -1,22 +1,29 @@
 import {sendViaWebsocket} from "./websocket";
+import {categorySort} from "./addressGroup"
 
-var status ;
+var status;
 var login = true;
-export function initStatus() {
-    status = document.getElementById('onlineSelector') ? document.getElementById('onlineSelector').dataset.status : null;
+var profillLine = null;
 
-        $('.changeStatus').click(function (e) {
-            e.preventDefault();
-            var href = this.getAttribute('href');
-            if (href !== '#') {
-                $.get(href);
-            }
-            var target = this.closest('.onlineSelector').querySelector('#onlineSelector');
-            target.dataset.status = this.dataset.status;
-            target.innerHTML = this.innerHTML;
-            status = this.dataset.status;
-            setStatus();
-        })
+export function initStatus() {
+    if (!document.getElementById('onlineSelector')) {
+        return;
+    }
+    profillLine = document.getElementById('onlineSelector').closest('.profile').querySelector('.profileLine');
+    status = profillLine ? profillLine.dataset.status : null;
+
+    $('.changeStatus').click(function (e) {
+        e.preventDefault();
+        var href = this.getAttribute('href');
+        if (href !== '#') {
+            $.get(href);
+        }
+        var target = this.closest('.profile').querySelector('.profileLine');
+        profillLine.dataset.status = this.dataset.status;
+        document.getElementById('onlineSelector').innerHTML = this.innerText;
+        status = this.dataset.status;
+        setStatus();
+    })
 }
 
 export function setStatus() {
@@ -26,33 +33,55 @@ export function setStatus() {
 }
 
 export function showOnlineUsers(data) {
-    status = document.getElementById('onlineSelector') ? document.getElementById('onlineSelector').dataset.status : null;
+    status = document.querySelectorAll('.adressbookline') ? document.querySelectorAll('.adressbookline') : null;
 
     if (status) {
         var $adressbookLine = Array.prototype.slice.call(document.querySelectorAll('.adressbookline'));
         var setMe = false;
         for (var status in data) {
             for (var i = 0; i < $adressbookLine.length; i++) {
-                if (data[status].includes($adressbookLine[i].dataset.uid)) {
+                if (typeof $adressbookLine[i] !== 'undefined' && data[status].includes($adressbookLine[i].dataset.uid)) {
                     $adressbookLine[i].dataset.status = status
-                    $adressbookLine.splice(i, 1);
+                    try {
+                        var $filter = JSON.parse($adressbookLine[i].dataset.filterafter);
+                        $filter = cleanFilterArr($filter)
+                        $filter.push(status);
+                        $adressbookLine[i].dataset.filterafter = JSON.stringify($filter);
+                    } catch (e) {
+
+                    }
+
+                    $adressbookLine[i] = undefined;
                 }
             }
         }
         for (var k in $adressbookLine) {
-            $adressbookLine[k].dataset.status = 'offline'
+            if ($adressbookLine[k]) {
+                $adressbookLine[k].dataset.status = 'offline'
+            }
+
         }
+        categorySort();
     }
 }
 
-export function setMyStatus(status){
-        var switcher = document.getElementById('onlineSelector')
-    if (switcher){
-        switcher.dataset.status = status;
+function cleanFilterArr($input) {
+    $input = $input.filter(e => e != 'online');
+    $input = $input.filter(e => e != 'offline');
+    $input = $input.filter(e => e != 'away');
+    $input = $input.filter(e => e != 'inMeeting');
+    return $input;
+}
+
+export function setMyStatus(status) {
+    var switcher = document.getElementById('onlineSelector')
+    if (switcher) {
+        profillLine.dataset.status = status;
         var query = '.changeStatus[data-status="' + status + '"]';
         var source = document.querySelector(query)
-        var innerHtml = source.innerHTML;
-        switcher.innerHTML = innerHtml;
+        var text = source.innerText;
+
+        switcher.innerHTML = text;
     }
 
 }

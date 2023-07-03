@@ -13,6 +13,14 @@ h1, h2, h3, h4, h5, h6 {
     color: $black_background !important;
 
   }
+
+  a {
+    color: $black_background;
+
+    &:hover, &:active {
+      color: lighten($black_background, 10%);
+    }
+  }
 }
 
 .card {
@@ -43,6 +51,10 @@ p {
     label {
       color: black;
     }
+  }
+
+  a {
+    color: $black_background;
   }
 }
 
@@ -85,7 +97,7 @@ p {
   color: $black_font-color;
 }
 
-.modal-body {
+.modal-body, .modal-content {
   background-color: $black_modal;
   color: $black_font-color;
 }
@@ -111,7 +123,7 @@ label {
 }
 
 .modal-footer {
-  background-color: $black_background;
+  //background-color: $black_background;
   color: $black_font-color;
 }
 
@@ -125,10 +137,15 @@ h5 {
 }
 
 a {
-  color: $black_link-color;
+  color: $black_font-color;
 
   &:hover {
-    color: darken($black_link-color, 10%);
+    color: darken($black_font-color, 10%);
+    text-decoration: none;
+  }
+
+  &:active {
+    color: darken($black_font-color, 10%);
     text-decoration: none;
   }
 }
@@ -182,9 +199,6 @@ a {
   }
 }
 
-.language-dropdown .dropdown-item:hover {
-  background-color: $black_navbar;
-}
 
 .mdtimepicker .mdtp__clock_holder, .dudp__cal-container {
   background-color: $black_background !important;
@@ -237,15 +251,6 @@ a {
   color: white !important;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
-}
 
 ::-webkit-scrollbar-thumb {
   background: #ffffff;
@@ -257,9 +262,6 @@ a {
   background: #ffffff;
 }
 
-::-webkit-scrollbar-thumb:active {
-  background: #000000;
-}
 
 ::-webkit-scrollbar-track {
   background: rgba(102, 102, 102, 0);
@@ -267,19 +269,12 @@ a {
   border-radius: 50px;
 }
 
-::-webkit-scrollbar-track:hover {
-  background: #666666;
-}
-
-::-webkit-scrollbar-track:active {
-  background: #333333;
-}
 
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-.footer {
+.footer, .joinFooter {
   background-color: $black_navbar;
 
   .nav-link {
@@ -292,8 +287,6 @@ a {
   border-color: white !important;
   color: white !important;
 }
-
-
 
 
 #col-waitinglist {
@@ -352,7 +345,7 @@ hr {
     }
   }
 
-  input[type=text]  {
+  input[type=text] {
     &.form-control {
       background-color: $black_background;
     }
@@ -383,29 +376,81 @@ hr {
     border: 1px $black_font-color solid;
   }
 }
-#sliderTop{
-  #col-waitinglist{
+
+#sliderTop {
+  #col-waitinglist {
     &.large {
       background-color: $black_background;
     }
   }
-  .dragger{
+
+  .dragger {
     background-color: $black_background;
     color: $black_font-color;
   }
 }
-.joinPageHeader{
+
+.joinPageHeader {
   color: $black_font-color;
 }
-.conference-icon{
-  background-color: $black_background!important;
-  color: $black_font-color!important;
-}
-.jitsiadminiframe{
-  box-shadow: 0 0 0 2px $black_font-color
+
+.conference-icon {
+  background-color: $black_background !important;
+  color: $black_font-color !important;
 }
 
-.fullscreen{
-  background-color: $black_background;
+.jitsiadminiframe {
+  &.minified {
+    outline: solid 1px $black_font-color !important;
+  }
+
+  &:not(.maximized) {
+    outline: solid 1px $black_font-color
+  }
 }
+
+  .fullscreen {
+    background-color: $black_background;
+  }
+
+  .bg-color {
+    background-color: $black_background;
+  }
+
+  .profile {
+    color: $black_font-color;
+  }
+
+  .adressbookline {
+    border: none;
+  }
+
+  .input-group {
+    .btn-outline-primary {
+      border-color: $main-color !important;
+    }
+  }
+
+  .proTips-wrapper {
+    .proTips {
+      background-color: $black_navbar;
+      color: $black_font-color;
+      border-color: $main-color;
+
+      img {
+        -webkit-filter: invert(1);
+        filter: invert(1);
+      }
+    }
+  }
+
+
+  .conference-sidebar {
+    .wrapperIcons {
+      .wrapper-helper {
+        background-color: $black_background;
+        color: $black_font-color;
+      }
+    }
+  }
 

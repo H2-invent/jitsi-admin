@@ -1,0 +1,80 @@
+<div class="profile" >
+    <div class="profileLine" id="profilLine" data-status="{{ app.user.onlineStatus==1?'online':'offline' }}">
+        <div class="icons" id="profileIcons">
+            <a
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#sideModalTR"
+                    id="toggleProfile"
+                    href="#"
+            >
+                {{ 'Einstellungen'|trans }} <i class="fa-solid fa-gear"></i></a>
+            <a
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#modalAdressbook"
+                    id="toggleAdressbook"
+                    href="#"
+            >
+                {% if theme != false %}
+                    {{ 'Adressbuch'|trans }} <i class="fa fa-address-book"></i>
+                {% else %}
+                    {{ 'Adressbuch'|trans }}  <i class="fa fa-address-book"></i>
+                {% endif %}
+            </a>
+
+            {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
+                <b id="actualTime">{{ getTime(app.user)|date('d.m.y H:i',false) }} <i
+                            class="fa-regular fa-clock"></i></b>
+            {% endif %}
+
+        </div>
+
+        <div class="picture">
+            <a href="{{ path('profile_image_change') }}" class="loadContent">
+
+            {% if app.user.profilePicture %}
+
+            <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}" class="pic-content">
+
+            {% else %}
+
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content no-picture"
+                         style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
+                        {{ app.user|nameOfUserNoSymbol[:2]|upper }}
+                    </div>
+
+            {% endif %}
+            </a>
+            <div class="dot with-icon"></div>
+        </div>
+
+    </div>
+    <div class="statusLine">
+        <div class="dropdown onlineSelector">
+            <a
+
+                    data-uid="{{ app.user.uid }}"
+                    type="button"
+                    id="onlineSelector"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+            >
+                <span class="statusText">{{ app.user.onlineStatus==1?'status.online'|trans:'status.offline'|trans }}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item changeStatus" data-status="online"
+                       href="{{ path('app_online_status',{'status':1}) }}">
+                        <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
+                <li><a class="dropdown-item changeStatus" data-status="away"
+                       href="{{ path('app_online_status',{'status':1}) }}">
+                        <div class="dot"></div>{{ 'status.away'|trans }}</a>
+                </li>
+                <li><a class="dropdown-item changeStatus" data-status="offline"
+                       href="{{ path('app_online_status',{'status':0}) }}">
+                        <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
+                <li><a class="dropdown-item changeStatus" data-status="inMeeting"
+                       href="{{ path('app_online_status',{'status':1}) }}">
+                        <div class="dot"></div>{{ 'status.inMeeting'|trans }}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -21,18 +22,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+
 use function GuzzleHttp\Psr7\str;
 
 class WebsocketJwt extends AbstractExtension
 {
-
-
     public function __construct(
         private WebsocketJwtService   $websocketJwtService,
         private ParameterBagInterface $parameterBag
     )
     {
-
     }
 
     public function getFunctions(): array
@@ -53,12 +52,11 @@ class WebsocketJwt extends AbstractExtension
     public function getUrlforWebsocket()
     {
         $path = $this->parameterBag->get('MERCURE_PUBLIC_URL');
-        if (strpos($path,'https')){
-            str_replace('https','wss',$path);
-        }else{
-            str_replace('http','ws',$path);
+        if (strpos($path, 'https')) {
+            str_replace('https', 'wss', $path);
+        } else {
+            str_replace('http', 'ws', $path);
         }
         return $this->parameterBag->get('MERCURE_PUBLIC_URL');
     }
-
 }

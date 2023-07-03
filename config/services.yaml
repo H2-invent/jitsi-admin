@@ -2,7 +2,7 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.path.product_images: /uploads/images
     app.path.uploads: /uploads
@@ -13,7 +13,7 @@ parameters:
     cronIPAdress: '%env(CRON_IPADRESS)%'
     KEYCLOAK_URL: '%env(OAUTH_KEYCLOAK_SERVER)%'
     KEYCLOAK_REALM: '%env(OAUTH_KEYCLOAK_REALM)%'
-    KEYCLOAK_SECRETE: '%env(OAUTH_KEYCLOAK_CLIENT_SECRET)%'
+    KEYCLOAK_SECRET: '%env(OAUTH_KEYCLOAK_CLIENT_SECRET)%'
     KEYCLOAK_ID: '%env(OAUTH_KEYCLOAK_CLIENT_ID)%'
     registerEmailName: '%env(registerEmailName)%'
     registerEmailAdress: '%env(DEFAULT_EMAIL)%'
@@ -61,9 +61,14 @@ parameters:
     ldap_special_Fields: '%env(ldap_special_Fields)%'
     ldap_filter: '%env(ldap_filter)%'
     LDAP_CALLOUT_FIELDS: '%env(LDAP_CALLOUT_FIELDS)%'
-    CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
-
+    LDAP_DEPUTY_GROUP_OBJECTCLASS: '%env(LDAP_DEPUTY_GROUP_OBJECTCLASS)%'
+    LDAP_DEPUTY_GROUP_DN: '%env(LDAP_DEPUTY_GROUP_DN)%'
+    LDAP_DEPUTY_GROUP_LEADER: '%env(LDAP_DEPUTY_GROUP_LEADER)%'
+    LDAP_DEPUTY_GROUP_MEMBERS: '%env(LDAP_DEPUTY_GROUP_MEMBERS)%'
+    LDAP_DEPUTY_GROUP_FILTER: '%env(LDAP_DEPUTY_GROUP_FILTER)%'
     LDAP_DISALLOW_PROMOTE: '%env(LDAP_DISALLOW_PROMOTE)%'
+
+    CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
     strict_username_only: '%env(strict_username_only)%'
     STRICT_EMAIL_SET_ENVELOP_FROM: '%env(STRICT_EMAIL_SET_ENVELOP_FROM)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'
@@ -114,6 +119,13 @@ parameters:
     ETHERPAD_URL: '%env(ETHERPAD_URL)%'
     ETHERPAD_SECRET: '%env(ETHERPAD_SECRET)%'
     SEND_REPORT_AFTER_MEETING: '%env(SEND_REPORT_AFTER_MEETING)%'
+    LAF_ALLOW_SET_DEPUTY: '%env(LAF_ALLOW_SET_DEPUTY)%'
+    INPUT_SETTINGS_ALLOW_MAYBE_OPTION: '%env(INPUT_SETTINGS_ALLOW_MAYBE_OPTION)%'
+    INPUT_SETTINGS_ALLOW_MAYBE_OPTION_DEFAULT: '%env(INPUT_SETTINGS_ALLOW_MAYBE_OPTION_DEFAULT)%'
+    SECURITY_ALLLOW_UPLOAD_THEME_GROUP: '%env(SECURITY_ALLLOW_UPLOAD_THEME_GROUP)%'
+    SECURITY_THEME_REMINDER_DAYS: '%env(SECURITY_THEME_REMINDER_DAYS)%'
+    DONT_SEND_TELEMATIC: '%env(DONT_SEND_TELEMATIC)%'
+    LAF_HIDE_CHANGELOG: '%env(LAF_HIDE_CHANGELOG)%'
 
 services:
     Twig\Extension\StringLoaderExtension:
@@ -125,14 +137,12 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller'
-        tags: ['controller.service_arguments']
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Migrations/'
+            - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

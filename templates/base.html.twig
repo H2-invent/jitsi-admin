@@ -21,52 +21,72 @@
 
     <!-- Page Content  -->
     <div class="window" id="window">
-        <div class="navigation shadow-3">
-            <a href="{{ path('dashboard') }}">
-                {% if theme %}
-                    <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo"
-                         style="height: 50px; width: auto">
-                    <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo"
-                         style="height: 50px; width: auto">
-                {% else %}
-                    <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo"
-                         style="height: 50px; width: auto">
-                    <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo"
-                         style="height: 50px; width: auto">
+        <div class="navigation fullwidth shadow-3">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <a href="{{ path('dashboard') }}">
+                        {% if theme %}
+                            <img class="d-none d-sm-block" src="{{ theme.logo }}" alt="Logo">
+                            <img class="d-block d-sm-none" src="{{ theme.logo }}" alt="Logo">
+                        {% else %}
+                            <img class="d-none d-sm-block" src="{{ asset('logo.png') }}" alt="Logo">
+                            <img class="d-block d-sm-none" src="{{ asset('logo_small.png') }}" alt="Logo">
+                        {% endif %}
+                    </a>
+                </div>
+
+                {% if theme != false %}
+                    <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class=" headerLine">
+                        {{ theme.headerLine }}
+                    </p>
+
                 {% endif %}
-
-            </a>
-            {% if theme != false %}
-                <p style="margin-bottom: 0; color:{{ theme.headerLineColor }}" class="d-none d-lg-block">
-                    {{ theme.headerLine }}
-                </p>
-
-            {% endif %}
-            {% block CTA %}{% endblock %}
-            {{ include('base/__topnav.html.twig') }}
+                {% block CTA %}{% endblock %}
+                {{ include('base/__topnav.html.twig') }}
 
 
-        </div>
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebarToggle d-none">
-                <i class="fa fa-times fa-2x"></i>
-            </div>
-            <div class="sidebarContent">
-                {% block sidebar %}{% endblock %}
-            </div>
-
-        </div>
-        <div class="main" id="main">
-            <div class="mainContent">
-                {% block body %}{% endblock %}
-            </div>
-            <div class="sidebarToggle">
-                <i class="far fa-star fa-2x"></i>
             </div>
         </div>
+        <div class="main">
+            <div class="w-100 overflow-auto">
+            <div class="container">
+                <div class="fullwidth w-100 d-flex justify-content-end">
+
+                    {% include('dashboard/widget/__profile_Dashboard.twig') %}
+
+
+                </div>
+                <div class="content">
+                    <div class="sidebarToggle d-none">
+                        <i class="fa fa-times fa-2x"></i>
+                    </div>
+                    <div class="sidebarToggle">
+                        <i class="far fa-star fa-2x"></i>
+                    </div>
+                    <div class="sidebar" id="sidebar">
+
+                        <div class="sidebarContent">
+                            {% block sidebar %}{% endblock %}
+                        </div>
+
+                    </div>
+
+                    <div class="body">
+
+                        {% block body %}{% endblock %}
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+            {{ include('base/__proTips.html.twig') }}
+    </div>
+
         <div class="footer shadow-3">
             {{ include('base/__footer.html.twig') }}
+
         </div>
 
     </div>
@@ -123,9 +143,9 @@
 
 {% block javascripts %}{% endblock %}
 {{ include('base/__script.html.twig') }}
-<style>
+<style type="text/css">
     .woot-widget-bubble {
-        z-index: 5!important;
+        z-index: 5 !important;
     }
 </style>
 </body>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RepeatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RepeatRepository::class)]
@@ -65,6 +66,9 @@ class Repeat
     private $repeatMonthlyRelativeHowOften;
     #[ORM\Column(type: 'integer', nullable: true)]
     private $repeatYearlyRelativeHowOften;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $uid = null;
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -319,6 +323,18 @@ class Repeat
     public function setRepeatYearlyRelativeHowOften(?int $repeatYearlyRelativeHowOften): self
     {
         $this->repeatYearlyRelativeHowOften = $repeatYearlyRelativeHowOften;
+
+        return $this;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(?string $uid): self
+    {
+        $this->uid = $uid;
 
         return $this;
     }

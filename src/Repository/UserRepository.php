@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 use function Doctrine\ORM\QueryBuilder;
 
 /**
@@ -70,7 +71,6 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('search', '%' . $value . '%')
             ->getQuery()
             ->getResult();
-
     }
     public function findUsersByLdapServerId($value)
     {
@@ -97,8 +97,34 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->join('u.ldapUserProperties', 'ldap_user_properties')
             ->andWhere('ldap_user_properties.ldapDn = :ldapdn')
-            ->setParameter('ldapdn',$userDn)
+            ->setParameter('ldapdn', $userDn)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+     /**
+      * @return User[] Returns an array of Server objects
+      */
+    public function findUsersWithDeputy()
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->innerJoin('u.managerElement', 'managerelement')
+            ->addSelect('COUNT(managerelement) as HIDDEN total')
+            ->having('total > 0')
+            ->groupBy('u')
+            ->getQuery()
+            ->getResult();
+    }
+    /**
+     * @return User[] Returns an array of Server objects
+     */
+    public function findUsersWithKC()
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->andWhere($qb->expr()->isNotNull('u.keycloakId'))
+            ->getQuery()
+            ->getResult();
     }
 }

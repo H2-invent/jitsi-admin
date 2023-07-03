@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\ldap;
-
 
 use App\dataType\LdapType;
 use App\Entity\LdapUserProperties;
@@ -14,7 +12,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
-use function GuzzleHttp\Promise\all;
 
 class LdapUserService
 {
@@ -43,12 +40,12 @@ class LdapUserService
         //Here we get the attributes from the LDAP (username, email, firstname, lastname)
         try {
             $uid = $entry->getAttribute($ldapType->getUserNameAttribute())[0];
-            $email = $entry->getAttribute($ldapType->getMapper()['email'])[0]??'';
-            $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0]??null;
-            $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0]??null;
+            $email = $entry->getAttribute($ldapType->getMapper()['email'])[0] ?? '';
+            $firstName = $entry->getAttribute($ldapType->getMapper()['firstName'])[0] ?? null;
+            $lastName = $entry->getAttribute($ldapType->getMapper()['lastName'])[0] ?? null;
             $user = $this->em->getRepository(User::class)->findUsersfromLdapdn($entry->getDn());
             if (!$user) {
-                $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $uid));
+                $user = $this->em->getRepository(User::class)->findOneBy(['username' => $uid]);
             }
             if (!$user) {
                 $user = $this->userCreationService->createUser($email, $uid, $firstName, $lastName, $dryRun);
@@ -65,14 +62,13 @@ class LdapUserService
             if ($ldapType->getRdn()) {
                 $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
             }
-            $specialField = array();
+            $specialField = [];
             foreach ($ldapType->getSpecialFields() as $data) {
                 if ($entry->getAttribute($data)) {
                     $specialField[$data] = $entry->getAttribute($data)[0];
                 } else {
                     $specialField[$data] = '';
                 }
-
             }
             $user->setSpezialProperties($specialField);
 
@@ -88,7 +84,7 @@ class LdapUserService
             }
             return $user;
         } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage(),$exception->getFile() .'Line: '. $exception->getLine());
+            $this->logger->error($exception->getMessage(), $exception->getFile() . 'Line: ' . $exception->getLine());
         }
         return null;
     }
@@ -103,7 +99,6 @@ class LdapUserService
         $allUSer = $this->em->getRepository(User::class)->findUsersfromLdapService();
         foreach ($allUSer as $data) {
             foreach ($allUSer as $data2) {
-
                 $data->addAddressbook($data2);
             }
             $this->em->persist($data);
@@ -199,7 +194,9 @@ class LdapUserService
         foreach ($user->getRoomModerator() as $r) {
             $user->removeRoomModerator($r);
         }
-
+        foreach ($user->getCreatorOf() as $r) {
+            $user->removeCreatorOf($r);
+        }
         foreach ($user->getNotifications() as $data) {
             $user->removeNotification($data);
             $this->em->remove($data);
@@ -223,6 +220,13 @@ class LdapUserService
         }
         if ($user->getLdapUserProperties()) {
             $this->em->remove($user->getLdapUserProperties());
+        }
+        foreach ($user->getManagerElement() as $depElement) {
+            $this->em->remove($depElement);
+        }
+
+        foreach ($user->getDeputiesElement() as $depElement) {
+            $this->em->remove($depElement);
         }
         $this->em->persist($user);
         $this->em->flush();

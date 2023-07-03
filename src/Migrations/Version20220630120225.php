@@ -112,8 +112,4 @@ final class Version20220630120225 extends AbstractMigration
             $this->addSql('ALTER TABLE userRoomsAttributes ADD CONSTRAINT fk_f98b4ce454177093 FOREIGN KEY (room_id) REFERENCES rooms (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         }
     }
-
-
-
-
 }

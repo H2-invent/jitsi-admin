@@ -5,8 +5,8 @@
 {% endblock %}
  {% block sidebar %}
      <div id="favorite-Container" class="mb-3">
-         <h5 class="text-center">{{ 'favorite.sidebar.title'|trans }}</h5>
-         <hr>
+         <h5 class="text-left"><b>{{ 'favorite.sidebar.title'|trans }}</b></h5>
+
          {% if favorite|length > 0 %}
              {% for r in favorite %}
                  {% if r in runningRooms %}
@@ -26,63 +26,8 @@
  {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12  d-flex w-100 justify-content-end">
-                <div class="dropdown onlineSelector me-3">
-                    <a
-                            data-status="{{ app.user.onlineStatus==1?'online':'offline' }}"
-                            data-uid="{{ app.user.uid }}"
-                            type="button"
-                            id="onlineSelector"
-                            data-mdb-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        <div class="dot"></div>
-                        <span class="statusText">{{ app.user.onlineStatus==1?'status.online'|trans:'status.offline'|trans }}</span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item changeStatus" data-status="online"
-                               href="{{ path('app_online_status',{'status':1}) }}">
-                                <div class="dot"></div>{{ 'status.online'|trans }}</a></li>
-                        <li><a class="dropdown-item changeStatus" data-status="away"
-                               href="{{ path('app_online_status',{'status':1}) }}">
-                                <div class="dot"></div>{{ 'status.away'|trans }}</a>
-                        </li>
-                        <li><a class="dropdown-item changeStatus" data-status="offline"
-                               href="{{ path('app_online_status',{'status':0}) }}">
-                                <div class="dot"></div>{{ 'status.offline'|trans }}</a></li>
-                        <li><a class="dropdown-item changeStatus" data-status="inMeeting"
-                               href="{{ path('app_online_status',{'status':1}) }}">
-                                <div class="dot"></div>{{ 'status.inMeeting'|trans }}</a></li>
-                    </ul>
-                </div>
-                <div class="custom-control custom-switch mb-2">
-                    <div class="d-flex justify-content-end">
 
 
-                        {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}<span class="me-3" id="actualTime">
-                            <p>{{ getTime(app.user)|date('d.m.y H:i',false) }}</p></span>{% endif %}
-                        <span class="me-2"><i class="fas fa-sun brightmode"></i></span>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input switchDarkmode" type="checkbox" role="switch"
-                                   id="switchDarkmode2"
-                                    {{ app.request.cookies.get('DARK_MODE') }}
-                                    {% if app.request.cookies.get('DARK_MODE') is defined and app.request.cookies.get('DARK_MODE') == 1 %}
-                            checked
-                                    {% endif %}/>
-                            <label class="form-check-label" for="switchDarkmode2">
-                                <i class="fas fa-moon"></i>
-                            </label>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
         <!-- Tabs navs -->
         <div class="d-block">
             <ul class="nav-mat nav-mat-tabs mb-3 " id="ex1" data-swipe="#ex1-content">
@@ -96,7 +41,7 @@
                             aria-controls="ex1-tabs-1"
                             aria-selected="true"
                     ><i class="fas fa-calendar"></i> <span
-                                class="d-none d-md-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
+                                class="d-none d-lg-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
                 </li>
                 <li class="nav-mat-item ripple">
                     <a
@@ -108,7 +53,7 @@
                             aria-controls="ex1-tabs-3"
                             aria-selected="true"
                     ><i class="fas fa-thumbtack"></i><span
-                                class="d-none d-md-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
+                                class="d-none d-lg-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
                 </li>
                 <li class="nav-mat-item ripple">
                     <a
@@ -120,7 +65,7 @@
                             aria-controls="ex1-tabs-2"
                             aria-selected="false"
                     ><i class="fas fa-history"></i><span
-                                class="d-none d-md-block"> {{ 'Vergangene Konferenzen'|trans }}</span></a>
+                                class="d-none d-lg-block"> {{ 'Vergangene Konferenzen'|trans }}</span></a>
                 </li>
             </ul>
         </div>
@@ -129,7 +74,27 @@
         <!-- Tabs navs -->
 
         <!-- Tabs content -->
-
+    <div class="row w-100 m-0">
+        {% if input_settings_allow_sheduling == 1 %}
+            <div class="col-md-6 mb-3 p-0 pe-md-1 ps-md-1">
+                <a href="{{ path('room_new') }}" class="loadContent dashboardBtn"
+                   id="createNewConference">
+                    <div class=" btn-block btn-primary btn btn-dashboard">
+                            {{ 'Eine Konferenz planen'|trans }}
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+        {% if input_settings_allow_roomPlanning == 1 %}
+            <div class="col-md-6 mb-3 p-0 pe-md-0 ps-md-1">
+                <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
+                    <div class=" btn-block btn btn-outline-primary btn-dashboard">
+                            {{ 'Einen Termin finden'|trans }}
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+    </div>
 
         <div class="tab-content" id="ex1-content" data-swipe="#ex1">
             <div class="tab-content-watch mat-active">
@@ -138,31 +103,7 @@
                         id="ex1-tabs-1"
                         aria-labelledby="ex1-tab-1"
                 >
-                    <div class="row">
-                        {% if input_settings_allow_sheduling == 1 %}
-                            <div class="col-md-6 mb-3">
-                                <a href="{{ path('room_new') }}" class="loadContent dashboardBtn"
-                                   id="createNewConference">
-                                    <div class=" btn-block btn btn-dashboard">
-                                        <p class="mt-2 mb-2 text-center">
-                                            {{ 'Eine Konferenz planen'|trans }}
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endif %}
-                        {% if input_settings_allow_roomPlanning == 1 %}
-                            <div class="col-md-6 mb-3">
-                                <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
-                                    <div class=" btn-block btn btn-outline-dashboard">
-                                        <p class="mt-2 mb-2 text-center ">
-                                            {{ 'Einen Termin finden'|trans }}
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                        {% endif %}
-                    </div>
+
                     {% if myScheduledMeeting(app.user)|length > 0 %}
 
                         <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3"> {{ 'Einen Termin finden'|trans }}</h4>
@@ -236,7 +177,7 @@
             </div>
         </div>
         <!-- Tabs content -->
-    </div>
+
 
 {% endblock %}
 {% block javascripts %}

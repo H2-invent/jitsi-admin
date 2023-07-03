@@ -119,7 +119,7 @@ services:
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
-      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
@@ -147,7 +147,9 @@ services:
       - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.name=jad"
       - "traefik.http.services.app-ja.loadbalancer.sticky.cookie.secure=true"
     volumes:
+      - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
+      - theme_assests_data:/var/www/html/public/theme
       - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
   app-queu:
@@ -160,41 +162,41 @@ services:
       app-ja:
         condition: service_healthy
     command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
+    volumes:
+      - theme_data:/var/www/html/theme
 
   db-ja:
     image: mariadb:latest
     hostname: ${RANDOMTAG}db-ja
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
       timeout: 20s
       retries: 10
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
       - mariadb:/var/lib/mysql
-      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
 
   keycloak-ja:
-    image: jboss/keycloak:latest
-
+    image: quay.io/keycloak/keycloak:21.1.1
     depends_on:
-      db-ja:
+      app-ja:
         condition: service_healthy
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
-      DB_VENDOR: mariadb
-      DB_ADDR: ${RANDOMTAG}db-ja
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: ${KEYCLOAK_PW}
-      DB_PORT: 3306
-      KEYCLOAK_IMPORT: /tmp/realm-export.json
-      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
-      JAVA_OPTS_APPEND: "-Djboss.as.management.blocking.timeout=7200"
-      JDBC_PARAMS: "connectTimeout=30000"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PW}
+      KC_DB: mariadb
+      KC_DB_PASSWORD: ${KEYCLOAK_PW}
+      KC_DB_URL: jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_HOSTNAME_URL: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
+      KC_PROXY: passthrough
 
+    command:
+      - start-dev
+      - --import-realm
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.tls=true"
@@ -204,10 +206,13 @@ services:
       - "traefik.http.routers.keycloak-ja.tls.certresolver=letsencrypt"
 
     volumes:
-      - ./keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/:/opt/keycloak/data/import
+
 
 volumes:
   mariadb:
   caddy_data:
   caddy_config:
   image_upload:
+  theme_data:
+  theme_assests_data:

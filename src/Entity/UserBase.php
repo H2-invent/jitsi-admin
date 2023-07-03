@@ -6,10 +6,8 @@ use App\Repository\UserBaseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-
 class UserBase implements UserInterface
 {
-
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $uuid;
 
@@ -47,7 +45,7 @@ class UserBase implements UserInterface
     /**
      * @return string
      */
-    public function getUserIdentifier()
+    public function getUserIdentifier(): string
     {
         return $this->uuid;
     }

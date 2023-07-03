@@ -50,6 +50,7 @@ function initconfirmHref() {
             title: title,
             content: text,
             theme: 'material',
+            columnClass: 'col-md-8 col-12 col-lg-6',
             buttons: {
                 confirm: {
                     text: ok, // text for button
@@ -88,6 +89,7 @@ function initconfirmLoadOpenPopUp() {
             title: title,
             content: text,
             theme: 'material',
+            columnClass: 'col-md-8 col-12 col-lg-6',
             buttons: {
                 confirm: {
                     text: ok, // text for button
@@ -130,6 +132,7 @@ function initConfirmDirectSendHref() {
             title: title,
             content: text,
             theme: 'material',
+            columnClass: 'col-md-8 col-12 col-lg-6',
             buttons: {
                 confirm: {
                     text: ok, // text for button

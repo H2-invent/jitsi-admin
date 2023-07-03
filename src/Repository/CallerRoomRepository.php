@@ -69,5 +69,4 @@ class CallerRoomRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

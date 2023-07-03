@@ -6,12 +6,15 @@
         </td>
     </tr>
     <tr>
-        <td style="width: 250px; padding: 16px">{{ room.agenda?room.agenda|nl2br|markdown_to_html: 'Keine Agenda'|trans }}</td>
-        <td style="width: 250px"><h3>{{ 'Organisator'|trans }}</h3>{{ room.moderator|nameOfUserNoSymbol }}</td>
+        <td style="width: 250px; padding: 16px; vertical-align: top">{{ room.agenda?room.agenda|nl2br|markdown_to_html: 'Keine Agenda'|trans }}</td>
+        <td style="width: 250px; vertical-align: top"><h3>{{ 'Organisator'|trans }}</h3>{{ room.moderator|nameOfUserNoSymbol }}</td>
     </tr>
     <tr>
-        <td colspan="2"><p>
-                <small>{% trans with {'{timezone}':room.timeZone} %}report.info.timezone{% endtrans %}</small></p></td>
+        <td colspan="2" style="vertical-align: top">
+            <p>
+                <small>{% trans with {'{timezone}':room.timeZone} %}report.info.timezone{% endtrans %}</small>
+            </p>
+        </td>
     </tr>
     <tr>
         <td>
@@ -30,7 +33,7 @@
                         <h2>{{ 'Durchgeführt'|trans }}:</h2>
                         <table>
                             <tbody>
-                            {% for s in room.roomstatuses|reverse %}
+                            {% for s in room.roomstatuses|reverse|slice(0,5) %}
                                 <tr>
                                     <td>
                                         {{ s.roomCreatedAtwithTimeZone()|date('d.m.Y') }}:
@@ -43,7 +46,6 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                        <p>
                     </td>
                 </tr>
                 </tbody>

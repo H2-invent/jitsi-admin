@@ -26,8 +26,7 @@ class TagPriorityCommand extends Command
     {
         $this
             ->addArgument('tagId', InputArgument::OPTIONAL, 'This is the Id of the tag')
-            ->addArgument('prio', InputArgument::OPTIONAL, 'This is the new Priority of the tag')
-        ;
+            ->addArgument('prio', InputArgument::OPTIONAL, 'This is the new Priority of the tag');
     }
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -39,9 +38,9 @@ class TagPriorityCommand extends Command
         }
 
         $tag = $this->em->getRepository(Tag::class)->find($tagId);
-        if (!$tag){
+        if (!$tag) {
             $io->error('Tag does not exist');
-            return  Command::FAILURE;
+            return Command::FAILURE;
         }
         $tag->setPriority($prio);
         $this->em->persist($tag);

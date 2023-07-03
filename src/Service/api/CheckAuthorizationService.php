@@ -8,14 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckAuthorizationService
 {
-    static public function checkHEader(Request $request,$token): ?Response
+    public static function checkHEader(Request $request, $token): ?Response
     {
+
         $authHeader = $request->headers->get('Authorization');
         if ($authHeader !== $token) {
-            $array = array('authorized' => false);
+            $array = ['authorized' => false];
             $response = new JsonResponse($array, 401);
+
             return $response;
         }
+
         return null;
     }
 }

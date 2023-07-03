@@ -38,7 +38,7 @@ class FormatName
                             $splitedName[$key] = $user->getFirstName() != '' ? preg_replace($patternItem, $user->getFirstName(), $data) : '';
                             break;
                         case 'lastName':
-                            $splitedName[$key] = $user->getLastName()!= '' ? preg_replace($patternItem, $user->getLastName(), $data) : '';
+                            $splitedName[$key] = $user->getLastName() != '' ? preg_replace($patternItem, $user->getLastName(), $data) : '';
                             break;
                         case 'email':
                             $splitedName[$key] = $user->getEmail() != '' ? preg_replace($patternItem, $user->getEmail(), $data) : '';
@@ -56,7 +56,6 @@ class FormatName
             } catch (\Exception $exception) {
                 $value = '';
             }
-
         }
         $string = '';
         foreach ($splitedName as $data) {

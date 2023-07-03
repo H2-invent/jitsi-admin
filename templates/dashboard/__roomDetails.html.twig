@@ -29,17 +29,24 @@
             <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
         {% endif %}
     {% endif %}
-    {% if app.user == room.moderator %}
+    {% if isAllowedToOrganize(room,app.user) %}
         <span class="badge badge-info"{% if theme %} style="background-color: {{ theme.colorBadgeModerator }} !important;" {% endif %}>
-            {% if room.lobby == true %}<i class="fa-solid fa-shield-halved"></i>{% endif %}
+            {% if room.lobby == true %}<i class="fa-solid fa-shield-halved me-1"></i>{% endif %}
+            {% if room.moderator != room.creator %}
+            <i class="fa-solid fa-file-contract me-1 createdByDeputy  {% if app.user == room.moderator %} loadContent{% endif %}"
+               {% if app.user == room.moderator %} href="{{ path('app_change_log',{'room_id':room.id}) }}"{% endif %}
+            ></i>{% endif %}
+
+
             {{ 'Organisator'|trans }}</span>
         <br>
     {% endif %}
 
 
+
     {% if app.user == room.scheduleMeeting %}
         <a
-                {% if app.user == room.moderator %}
+                {% if isAllowedToOrganize(room,app.user) %}
                     class="loadContent"
                     href="{{ path('schedule_admin',{'id':room.id}) }}"
                 {% else %}
@@ -63,7 +70,7 @@
 
 </div>
 <div class="col-md-4">
-    <h5 class="h5-responsive">
+    <h5 class="h5-responsive conference-name">
 
         {% if app.user and app.user == room.moderator and room.secondaryName is not null %}
             {{ room.secondaryName }}
@@ -95,19 +102,27 @@
            data-mdb-html="true"
            title="{{ 'Agenda'|trans }}"
            data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|nl2br|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
-                    class="fa fa-info-circle"></i></a></h5>
-    <p class="text-black-50 small">
-        {{ 'Geplant von'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
+                    class="fa fa-info-circle"></i>
+        </a>
+    </h5>
+
+
+    <p class="text-black-50  mb-0 small moderatorText">{{ 'Geplant von'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}</p>
+        {% if isAllowedToOrganize(room,app.user) and room.creator is not null and room.moderator != room.creator %}
+            <p class="text-black-50  mb-0 small createdFromText">  {{ 'room.creator.text'|trans }}: {{ nameOfUserwithFormat(room.creator, laf_showNameFrontend) }}</p>
+        {% endif %}
         {% if servers|length > 1 %}
-            {{ 'Server'|trans }}: {{ room.server.serverName }}<br>
+            <p class=" text-black-50 mb-0 small serverText"> {{ 'Server'|trans }}: {{ room.server.serverName }}</p>
         {% endif %}
-        {{ 'Anzahl Eingeladene'|trans }}
+       <p class=" text-black-50 small mb-0 numerParticipantsText"> {{ 'Anzahl Eingeladene'|trans }}
         : {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans %}{% else %}{{ room.user|length }}{% endif %}
-        <br>
+       </p>
         {% if  getApplicationProperties('allowTimeZoneSwitch') == 1 and room.persistantRoom == false %}
-            {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}
+            <p class="text-black-50 mb-0 small timezoneText"> {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}</p>
         {% endif %}
-    </p>
+
 </div>
+
+
 
 

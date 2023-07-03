@@ -1,0 +1,46 @@
+name: Build Artifacts
+
+on: workflow_call
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ vars.PHP_VERSION }}
+          ini-values: date.timezone ="Europe/Berlin"
+
+      - name: Install NPM Packages
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+
+      - name: Run composer Install
+        run: php composer.phar install
+        
+      - name: Install Node modules
+        run: npm install
+
+      - name: Build NPM Files
+        run: npm run build
+
+      - name: Remove node_modules
+        run: rm -r node_modules
+
+      - name: Install Node modules for the Websocket
+        run: npm install
+        working-directory: nodejs/
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r artifact_${{github.run_number}}.zip .
+
+      - name: Upload articats
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact_${{github.run_number}}
+          path: artifact_${{github.run_number}}.zip

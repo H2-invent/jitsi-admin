@@ -1,38 +1,36 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use H2Entwicklung\Signature\CheckSignature;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function Symfony\Component\Translation\t;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ThemeService
 {
-    private $licenseService;
     private $parameterBag;
-    private $client;
     private $logger;
     private RequestStack $request;
     private CheckSignature $checkSignature;
-    private AdapterInterface $cache;
+    private CacheItemPoolInterface $cache;
 
-    public function __construct(AdapterInterface $filesystemAdapter, CheckSignature $checkSignature, RequestStack $request, HttpClientInterface $httpClient, ParameterBagInterface $parameterBag, LicenseService $licenseService, LoggerInterface $logger)
+    public function __construct(
+        CacheItemPoolInterface      $filesystemAdapter,
+        CheckSignature              $checkSignature,
+        RequestStack                $request,
+        HttpClientInterface         $httpClient,
+        ParameterBagInterface       $parameterBag,
+        LoggerInterface             $logger,
+        private TranslatorInterface $translator)
     {
-        $this->licenseService = $licenseService;
         $this->parameterBag = $parameterBag;
         $this->client = $httpClient;
         $this->logger = $logger;
@@ -60,38 +58,38 @@ class ThemeService
 
 
         try {
-            $value = $this->cache->get('theme_' . $url, function (ItemInterface $item) use ($url) {
-                $item->expiresAfter(3600);
+            $value = $this->cache->get(
+                'theme_' . $url,
+                function (ItemInterface $item) use ($url) {
+                    $item->expiresAfter(3600);
 
-                $finder = new Finder();
-                $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url . '.' . 'theme.json.signed');
-                if ($finder->count() > 0) {
-                    $arr = iterator_to_array($finder);
-                    $theme = reset($arr)->getContents();
+                    $finder = new Finder();
+                    $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name($url . '.' . 'theme.json.signed');
+                    if ($finder->count() > 0) {
+                        $arr = iterator_to_array($finder);
+                        $theme = reset($arr)->getContents();
 
-                    $valid = $this->checkSignature->verifySignature($theme);
-                    if ($valid) {
-                        $res = $this->checkSignature->verifyValidUntil($theme);
-                        if ($res !== false) {
-                            return $res;
+                        $valid = $this->checkSignature->verifySignature($theme);
+                        if ($valid) {
+                            $res = $this->checkSignature->verifyValidUntil($theme);
+                            if ($res !== false) {
+                                return $res;
+                            }
+                            $this->logger->error('Theme valid until is before now');
+                        } else {
+                            $this->logger->error('Signature invalid');
                         }
-                        $this->logger->error('Theme valid until is before now');
-                    } else {
-                        $this->logger->error('Signature invalid');
                     }
+                    return false;
                 }
-                return false;
-            });
+            );
             return $value;
-
         } catch (\Exception $exception) {
-
         }
         return false;
     }
 
-    public
-    function getThemeProperty($property)
+    public function getThemeProperty($property)
     {
         $theme = $this->getTheme();
         if ($theme) {
@@ -115,24 +113,23 @@ class ThemeService
         $tmp = $this->getThemeProperty($input);
 
         if ($tmp !== null) {
-
             try {
                 $res = json_decode($tmp, true);
                 if (!$res) {
                     return $tmp;
                 }
                 return $res;
-
             } catch (\Exception $exception) {
                 return $tmp;
             }
-
         }
 
         try {
+            $res = null;
+            if ($variable) {
+                $res = json_decode($variable, true);
+            }
 
-
-            $res = json_decode($variable, true);
             if (!$res) {
                 return $variable;
             }
@@ -140,7 +137,51 @@ class ThemeService
         } catch (\Exception $exception) {
             return $variable;
         }
+    }
 
+    public function checkRemainingDays(): ?int
+    {
+        $validUntil = $this->getThemeProperty('validUntil');
+        if ($validUntil) {
+            $validDate = new \DateTime($validUntil);
+            $now = new \DateTime();
+            $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
+            if ($daysDifff < $this->getApplicationProperties('SECURITY_THEME_REMINDER_DAYS')) {
+                $this->request->getSession()->getBag('flashes')->add(
+                    $daysDifff > 0 ? 'warning' : 'danger',
+                    $this->translator->trans('theme.invalid.', array('{days}' => $daysDifff))
+                );
+            }
+            return $daysDifff;
+        }
+        return null;
+    }
 
+    public function showAllThemes(): bool|array
+    {
+        $finder = new Finder();
+        $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('*.theme.json.signed');
+        if (!$finder->hasResults()) {
+            return false;
+        }
+
+        $res = [];
+        $arr = iterator_to_array($finder);
+
+        foreach ($arr as $file) {
+
+            $theme = $file->getContents();
+
+            $tmp = [
+                $file->getFilename(),
+            ];
+            try {
+                $tmp[] = json_decode($theme, true)['entry']['validUntil'];
+            } catch (\Exception $exception) {
+
+            }
+            $res[] = $tmp;
+        }
+        return $res;
     }
 }

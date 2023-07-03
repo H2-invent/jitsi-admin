@@ -33,7 +33,7 @@ class AdressBookUITest extends WebTestCase
 
     public function testSearchUser(): void
     {
-        $client = static::createClient(array('environment' => 'test'));
+        $client = static::createClient(['environment' => 'test']);
         $crawler = $client->request('GET', '/');
         $userRepository = static::getContainer()->get(UserRepository::class);
         // retrieve the test user
@@ -41,106 +41,120 @@ class AdressBookUITest extends WebTestCase
         $urlGenerator = $this->getContainer()->get(UrlGeneratorInterface::class);
         $client->loginUser($testUser);
 
-        $url = $urlGenerator->generate('search_participant', array('search' => 'test@local2.de'));
-        $crawler = $client->request('GET', $url);
-        self::assertEquals(array('user' => array(
-                array(
-                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')
-                )
-            ), 'group' => array()
-            )
-            , json_decode($client->getResponse()->getContent(), true));
-        $url = $urlGenerator->generate('search_participant', array('search' => 'local2.de'));
-        $crawler = $client->request('GET', $url);
-        self::assertEquals(array('user' => array(
-                array(
-                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')
-                )
-            ), 'group' => array()
-            )
-            , json_decode($client->getResponse()->getContent(), true));
-        $url = $urlGenerator->generate('search_participant', array('search' => 'test'));
+        $url = $urlGenerator->generate('search_participant', ['search' => 'test@local2.de']);
         $crawler = $client->request('GET', $url);
         self::assertEquals(
-            array(
-                'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')),
-                    array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
-                ),
-                'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
-                )
-            )
-            , json_decode($client->getResponse()->getContent(), true));
-        $url = $urlGenerator->generate('search_participant', array('search' => 'Testgruppe'));
+            ['user' => [
+                [
+                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']
+                ]
+            ], 'group' => []
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+        $url = $urlGenerator->generate('search_participant', ['search' => 'local2.de']);
         $crawler = $client->request('GET', $url);
-        $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
-
-        self::assertEquals(json_encode(
-            array(
-                'user' => array(
-                    array('name' => 'testgruppe', 'id' => 'testgruppe',"nameNoIcon"=>"testgruppe", 'roles' => array('participant', 'moderator'))
-                ),
-                'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
-                )
-            )
-        ), $client->getResponse()->getContent());
-
-        $url = $urlGenerator->generate('search_participant', array('search' => 'Test'));
-        $crawler = $client->request('GET', $url);
-
-
         self::assertEquals(
-            array(
-                'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')),
-                    array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
-                ),
-                'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
-                )
-            )
-            , json_decode($client->getResponse()->getContent(), true));
-        $url = $urlGenerator->generate('search_participant', array('search' => 'test'));
+            ['user' => [
+                [
+                    'name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']
+                ]
+            ], 'group' => []
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+        $url = $urlGenerator->generate('search_participant', ['search' => 'test']);
+        $crawler = $client->request('GET', $url);
+        self::assertEquals(
+            [
+                'user' => [
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
+                    ['name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ],
+                'group' => [
+                    ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                ]
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+        $url = $urlGenerator->generate('search_participant', ['search' => 'Testgruppe']);
         $crawler = $client->request('GET', $url);
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
 
         self::assertEquals(
-            array(
-                'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => array('participant', 'moderator')),
-                    array('name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => array('participant', 'moderator'))
-                ),
-                'group' => array(
-                    array('name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de")
-                )
-            )
-            , json_decode($client->getResponse()->getContent(), true));
-        $url = $urlGenerator->generate('search_participant', array('search' => '1234'));
+            json_encode(
+                [
+                    'user' => [
+                        ['name' => 'testgruppe', 'id' => 'testgruppe', "nameNoIcon" => "testgruppe", 'roles' => ['participant', 'moderator']]
+                    ],
+                    'group' => [
+                        ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                    ]
+                ]
+            ),
+            $client->getResponse()->getContent()
+        );
+
+        $url = $urlGenerator->generate('search_participant', ['search' => 'Test']);
+        $crawler = $client->request('GET', $url);
+
+
+        self::assertEquals(
+            [
+                'user' => [
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
+                    ['name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ],
+                'group' => [
+                    ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                ]
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+        $url = $urlGenerator->generate('search_participant', ['search' => 'test']);
         $crawler = $client->request('GET', $url);
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
 
         self::assertEquals(
-            array(
-                'user' => array(
-                    array('name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => 'test2@local.de', 'roles' => array('participant', 'moderator'))
-                ),
-                'group' => array()
-            )
-            , json_decode($client->getResponse()->getContent(), true));
-        $url = $urlGenerator->generate('search_participant', array('search' => 'asdf'));
+            [
+                'user' => [
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
+                    ['name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ],
+                'group' => [
+                    ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
+                ]
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+        $url = $urlGenerator->generate('search_participant', ['search' => '1234']);
         $crawler = $client->request('GET', $url);
         $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
 
-        self::assertEquals(json_encode(
-            array(
-                'user' => array(
-                    array('name' => 'asdf', 'id' => 'asdf', "nameNoIcon"=>"asdf",'roles' => array('participant', 'moderator'))
-                ),
-                'group' => array()
-            )
-        ), $client->getResponse()->getContent());
+        self::assertEquals(
+            [
+                'user' => [
+                    ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => 'test2@local.de', 'roles' => ['participant', 'moderator']]
+                ],
+                'group' => []
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+        $url = $urlGenerator->generate('search_participant', ['search' => 'asdf']);
+        $crawler = $client->request('GET', $url);
+        $parameterBag = $this->getContainer()->get(ParameterBagInterface::class);
+
+        self::assertEquals(
+            json_encode(
+                [
+                    'user' => [
+                        ['name' => 'asdf', 'id' => 'asdf', "nameNoIcon" => "asdf", 'roles' => ['participant', 'moderator']]
+                    ],
+                    'group' => []
+                ]
+            ),
+            $client->getResponse()->getContent()
+        );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
     }

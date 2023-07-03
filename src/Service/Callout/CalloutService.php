@@ -8,15 +8,15 @@ use App\Entity\User;
 use App\Service\adhocmeeting\AdhocMeetingService;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 
 class CalloutService
 {
-
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private AdhocMeetingService    $adhocMeetingService,
         private ThemeService           $themeService,
+        private LoggerInterface        $logger,
     )
     {
     }
@@ -43,8 +43,8 @@ class CalloutService
     public function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
     {
         $callout = $this->checkCallout($rooms, $user);
-        if ($inviter === $user){
-            return  null;
+        if ($inviter === $user) {
+            return null;
         }
 
         if ($callout) {
@@ -88,7 +88,7 @@ class CalloutService
      */
     public function checkCallout(Rooms $rooms, User $user): ?CalloutSession
     {
-        return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(array('room' => $rooms, 'user' => $user));
+        return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
     }
 
     /**
@@ -128,5 +128,23 @@ class CalloutService
         }
         return null;
     }
-
+    public function dialSuccessfull(User $user, Rooms $rooms): bool
+    {
+//        $calloutRepo = $this->entityManager->getRepository(CalloutSession::class);
+//        $calloutSession = $calloutRepo->findOneBy(array('room' => $rooms, 'user' => $user));
+//
+//        if ($calloutSession) {
+//            $calloutSession = $calloutRepo->findCalloutSessionActive($calloutSession->getUid());
+//            if ($calloutSession) {
+//                $this->entityManager->remove($calloutSession);
+//                $this->entityManager->flush();
+//                $this->logger->debug('The Calloutsession was destoyed Successfully');
+//                return true;
+//            }
+//            $this->logger->debug('There is no valid Callout Session which can be destroyed. The Calloutsession is not in the right state');
+//        }else{
+//            $this->logger->debug('There is no calloutsession with this user and room');
+//        }
+//        return false;
+    }
 }

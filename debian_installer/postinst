@@ -1,0 +1,34 @@
+#!/bin/bash
+systemctl stop "*jitsi-admin*"
+systemctl daemon-reload
+systemctl enable jitsi-admin_websocket.service
+systemctl start jitsi-admin_websocket.service
+systemctl restart jitsi-admin_websocket.service
+systemctl is-active --quiet jitsi-admin_websocket.service && echo jitsi-admin_websocket.service is running
+
+
+systemctl daemon-reload
+systemctl enable jitsi-admin_websocket.service
+systemctl start jitsi-admin_messenger.service
+systemctl restart jitsi-admin_messenger.service
+systemctl is-active --quiet jitsi-admin_messenger.service && echo jitsi-admin_messenger.service is running
+
+php /var/www/jitsi-admin/bin/console doc:mig:mig --no-interaction
+php /var/www/jitsi-admin/bin/console cache:clear
+
+
+chown -R www-data:www-data /var/www/jitsi-admin/var/
+chown -R www-data:www-data /var/log/websocket/
+mkdir -p /var/www/img_data/
+ln -s  /var/www/img_data/ /var/www/jitsi-admin/public/uploads/images
+
+a2dissite 000-default
+a2ensite jitsiadmin
+a2enmod proxy_fcgi proxy setenvif rewrite ssl
+a2enconf php-fpm
+systemctl reload apache2
+systemctl restart apache2
+systemctl restart php*-fpm
+
+
+

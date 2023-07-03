@@ -27,14 +27,15 @@ class AdhocMeetingService
     private UrlGeneratorInterface $urlGen;
     private $theme;
 
-    public function __construct(EntityManagerInterface $entityManager,
-                                RoomGeneratorService   $roomGeneratorService,
-                                ParameterBagInterface  $parameterBag,
-                                TranslatorInterface    $translator,
-                                DirectSendService      $directSendService,
-                                UserService            $userService,
-                                UrlGeneratorInterface  $urlGenerator,
-                                ThemeService           $themeService
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        RoomGeneratorService   $roomGeneratorService,
+        ParameterBagInterface  $parameterBag,
+        TranslatorInterface    $translator,
+        DirectSendService      $directSendService,
+        UserService            $userService,
+        UrlGeneratorInterface  $urlGenerator,
+        ThemeService           $themeService
     )
     {
         $this->em = $entityManager;
@@ -62,8 +63,8 @@ class AdhocMeetingService
         }
         $room->setEnddate((clone $now)->modify('+ 1 hour'));
         $room->setDuration(60);
-        $room->setName($this->translator->trans('Konferenz mit {n}', array('{n}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))));
-        $room->setSecondaryName($this->translator->trans('Konferenz mit {n}', array('{n}' => $reciever->getFormatedName($this->parameterBag->get('laf_showName')))));
+        $room->setName($this->translator->trans('Konferenz mit {n}', ['{n}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]));
+        $room->setSecondaryName($this->translator->trans('Konferenz mit {n}', ['{n}' => $reciever->getFormatedName($this->parameterBag->get('laf_showName'))]));
         $this->em->persist($room);
         $this->em->flush();
         $reciever->addRoom($room);
@@ -80,18 +81,19 @@ class AdhocMeetingService
     public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room)
     {
         $topic = 'personal/' . $reciever->getUid();
-        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess ' . $this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') === 1 ? 'startIframe' : '' . 'data-roomname = "%s" ><i class="fas fa-phone" ></i > %s </a ><a class="btn btn-sm btn-danger" ><i class="fas fa-phone-slash" ></i ></a > ';
-        $toastText = sprintf($format,
-            $this->translator->trans('addhock.notification.pushMessage', array('{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
-            $this->urlGen->generate('room_join', array('room' => $room->getId(), 't' => 'b')) ,
-            $room->getSecondaryName() ?: $room->getName(),
+        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') === 1 ? 'startIframe' : '') . '" data-roomname = "%s" ><i class="fas fa-phone" ></i > %s </a ><a class="btn btn-sm btn-danger" ><i class="fas fa-phone-slash" ></i ></a > ';
+        $toastText = sprintf(
+            $format,
+            $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]),
+            $this->urlGen->generate('room_join', ['room' => $room->getId(), 't' => 'b']),
+            $room->getSecondaryName() ? : $room->getName(),
             $this->translator->trans('Hier beitreten'),
         );
         $this->directSendService->sendCallAdhockmeeding(
             $this->translator->trans('addhock.notification.title'),
             $topic,
             $toastText,
-            $this->translator->trans('addhock.notification.pushMessage', array('{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName')))),
+            $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]),
             60000,
             $room->getUid()
         );

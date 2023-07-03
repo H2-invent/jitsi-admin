@@ -59,3 +59,11 @@ docker.conf
 /tests_output/*
 /CAPrivate.crt
 repairLog.txt
+/public/theme/
+!/public/theme/README.md
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+/results*.xml
+/.phpunit.cache/

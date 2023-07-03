@@ -12,8 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -33,9 +33,7 @@ class StartMeetingService
      * @var UrlGeneratorInterface
      */
     private $urlGen;
-    /**
-     * @var ParameterBagInterface
-     */
+
     private $parameterBag;
     /**
      * @var TranslatorInterface
@@ -61,10 +59,11 @@ class StartMeetingService
      * @var LoggerInterface
      */
     private $logger;
-    private FlashBagInterface $flashBag;
+
+    private $flashBag;
 
     public function __construct(
-        FlashBagInterface                 $flashBag,
+        RequestStack                      $requestStack,
         LoggerInterface                   $logger,
         ToModeratorWebsocketService       $toModeratorWebsocketService,
         Environment                       $environment,
@@ -86,7 +85,7 @@ class StartMeetingService
         $this->toModerator = $toModeratorWebsocketService;
         $this->logger = $logger;
         $this->lobbyUser = null;
-        $this->flashBag = $flashBag;
+        $this->flashBag = $requestStack;
         $this->jigasiService = $jigasiService;
     }
 
@@ -111,7 +110,7 @@ class StartMeetingService
         if ($room && in_array($user, $room->getUser()->toarray())) {
             $this->url = $this->roomService->join($room, $user, $t, $name);
             if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
-                    return $this->RoomClosed();
+                return $this->RoomClosed();
             }
 
             if ($room->getLobby()) {
@@ -119,17 +118,18 @@ class StartMeetingService
             }
 
             return $this->roomDefault();
-
         }
         return $this->roomNotFound();
     }
 
-    public function IsAlloedToEnter(Rooms $room, User $user):?string{
+    public function IsAlloedToEnter(Rooms $room, User $user): ?string
+    {
         if (!self::checkTime($room, $user) && !$this->roomStatusFrontendService->isRoomCreated($room)) {
             return $this->buildClosedString($room);
         }
         return null;
     }
+
     public function setAttribute(Rooms $rooms, ?User $user, $t, $name)
     {
         $this->room = $rooms;
@@ -150,7 +150,6 @@ class StartMeetingService
         if ($this->user === $this->room->getModerator() || $this->user->getPermissionForRoom($this->room)->getLobbyModerator()) {
             return $this->lobbyModerator();
         } else {
-
             return $this->createLobbyParticipantResponse();
         }
     }
@@ -168,20 +167,23 @@ class StartMeetingService
             return $this->createLobbyModeratorResponse();
         }
 
-        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', array('room' => $this->room->getId(), 'user' => $this->user->getUserIdentifier()));
-//        $this->flashBag->add('danger', $this->translator->trans('error.noPermission'));
+        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $this->room->getId(), 'user' => $this->user->getUserIdentifier()]);
         return $this->urlGen->generate('dashboard');
     }
 
     public function createLobbyModeratorResponse()
     {
-        return new Response($this->twig->render('lobby/index.html.twig', [
-            'room' => $this->room,
-            'server' => $this->room->getServer(),
-            'type' => $this->type,
-            'name' => $this->name,
-            'user' => $this->user
-        ])
+        return new Response(
+            $this->twig->render(
+                'lobby/index.html.twig',
+                [
+                    'room' => $this->room,
+                    'server' => $this->room->getServer(),
+                    'type' => $this->type,
+                    'name' => $this->name,
+                    'user' => $this->user
+                ]
+            )
         );
     }
 
@@ -194,13 +196,12 @@ class StartMeetingService
      */
     public function createLobbyParticipantResponse($wuid = null)
     {
-        $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $this->user, 'room' => $this->room));
+        $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $this->user, 'room' => $this->room]);
         if ($wuid) {
-            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wuid));
+            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wuid]);
             if ($lobbyUser) {
                 $this->user = 1;
             }
-
         }
 
         if (!$lobbyUser || $this->user === null) {
@@ -213,8 +214,6 @@ class StartMeetingService
             $lobbyUser->setShowName($this->name);
             $this->em->persist($lobbyUser);
             $this->em->flush();
-            $this->toModerator->newParticipantInLobby($lobbyUser);
-
         }
         $lobbyUser->setShowName($this->name);
         $lobbyUser->setType($this->type);
@@ -223,7 +222,7 @@ class StartMeetingService
         $this->em->flush();
         $this->toModerator->refreshLobby($lobbyUser);
         $this->lobbyUser = $lobbyUser;
-        return new Response($this->twig->render('lobby_participants/index.html.twig', array('type' => $lobbyUser->getType(), 'room' => $lobbyUser->getRoom(), 'server' => $lobbyUser->getRoom()->getServer(), 'user' => $lobbyUser)));
+        return new Response($this->twig->render('lobby_participants/index.html.twig', ['type' => $lobbyUser->getType(), 'room' => $lobbyUser->getRoom(), 'server' => $lobbyUser->getRoom()->getServer(), 'user' => $lobbyUser]));
     }
 
     /**
@@ -234,11 +233,10 @@ class StartMeetingService
     private function RoomClosed()
     {
         $text =
-        $this->flashBag->add('danger', $this->buildClosedString($this->room));
+            $this->flashBag->getSession()->getBag('flashes')->add('danger', $this->buildClosedString($this->room));
 
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
-
 
 
     /**
@@ -247,7 +245,7 @@ class StartMeetingService
      */
     private function roomNotFound()
     {
-        $this->flashBag->add('danger', $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
+        $this->flashBag->getSession()->getBag('flashes')->add('danger', $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
 
@@ -264,12 +262,12 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            return new Response($this->twig->render('start/index.html.twig', array('server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
+            return new Response($this->twig->render('start/index.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
         }
         return new NotFoundHttpException('Room not found');
     }
 
-    static public function checkTime(Rooms $room, User $user = null)
+    public static function checkTime(Rooms $room, User $user = null)
     {
 
         $now = new \DateTime('now', new \DateTimeZone('utc'));
@@ -288,13 +286,17 @@ class StartMeetingService
         return false;
     }
 
-    public function buildClosedString(Rooms $rooms){
-        return $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
-            array(
+    public function buildClosedString(Rooms $rooms)
+    {
+        return $this->translator->trans(
+            'Der Beitritt ist nur von {from} bis {to} möglich',
+            [
                 '{from}' => $rooms->getStartwithTimeZone($this->user)->modify('-30min')->format('d.m.Y H:i'),
                 '{to}' => $rooms->getEndwithTimeZone($this->user)->format('d.m.Y H:i')
-            ));
+            ]
+        );
     }
+
     /**
      * @return null
      */

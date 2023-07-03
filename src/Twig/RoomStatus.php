@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -20,12 +21,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+
 use function GuzzleHttp\Psr7\str;
 
 class RoomStatus extends AbstractExtension
 {
-
-
     private $webhookFrontend;
     public function __construct(RoomStatusFrontendService $roomStatusFrontendService)
     {
@@ -46,11 +46,14 @@ class RoomStatus extends AbstractExtension
     {
         return $this->webhookFrontend->isRoomCreated($rooms);
     }
+
     public function RoomStatusOccupats(Rooms $rooms)
     {
         return $this->webhookFrontend->numberOfOccupants($rooms);
     }
-    public function RoomStatusClosed(Rooms $rooms){
+
+    public function RoomStatusClosed(Rooms $rooms)
+    {
         return $this->webhookFrontend->isRoomClosed($rooms);
     }
 }

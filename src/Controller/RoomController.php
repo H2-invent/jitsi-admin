@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Log;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Scheduling;
@@ -25,6 +26,7 @@ use App\Service\InviteService;
 
 use App\Service\RoomService;
 use App\UtilsHelper;
+use phpDocumentor\Reflection\Types\False_;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,6 +36,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomController extends JitsiAdminController
@@ -42,7 +51,7 @@ class RoomController extends JitsiAdminController
     /**
      * @Route("/room/new", name="room_new")
      */
-    public function newRoom(RoomGeneratorService $roomGeneratorService, ParameterBagInterface $parameterBag, ServerService $serverService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, RoomCheckService $roomCheckService)
+    public function newRoom(RoomGeneratorService $roomGeneratorService, SchedulingService $schedulingService, Request $request, UserService $userService, TranslatorInterface $translator, ServerUserManagment $serverUserManagment, RoomCheckService $roomCheckService, SerializerInterface $serializer)
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
         $edit = false;
@@ -52,7 +61,7 @@ class RoomController extends JitsiAdminController
                 $this->addFlash('danger', $translator->trans('Fehler'));
                 return $this->redirectToRoute('dashboard');
             }
-            if ($room->getModerator() !== $this->getUser()) {
+            if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
                 $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
                 return $this->redirectToRoute('dashboard');
             }
@@ -78,7 +87,6 @@ class RoomController extends JitsiAdminController
                 }
             }
             if (sizeof($servers) === 1) {
-
                 $serverChhose = $servers[0];
             }
             //Here we create the new Room with all depedencies
@@ -89,62 +97,110 @@ class RoomController extends JitsiAdminController
         }
 
         $roomold = clone $room;
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],), 'isEdit' => (bool)$request->get('id')]);
+        $form = $this->createForm(RoomType::class, $room, ['user' => $this->getUser(), 'server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],), 'isEdit' => (bool)$request->get('id')]);
         $form->remove('scheduleMeeting');
 
+        if ($edit) {
+            $form->remove('moderator');
+            if (!in_array($room->getServer(), $servers)) {
+                $form->remove('server');
+            }
+        }
+
         try {
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                $room = $form->getData();
-                $error = array();
-                $room = $roomCheckService->checkRoom($room, $error);
-                if (sizeof($error) > 0) {
-                    return new JsonResponse(array('error' => true, 'messages' => $error));
-                }
-                if ($room->getPersistantRoom()) {
-                    $room->setStart(null);
-                    $room->setStartUtc(null);
-                    $room->setStartTimestamp(null);
-                    $room->setEnddate(null);
-                    $room->setEndDateUtc(null);
-                    $room->setEndTimestamp(null);
-                }
-                $em = $this->doctrine->getManager();
-                $em->persist($room);
-                $em->flush();
-                $schedulingService->createScheduling($room);
+            $room = $form->getData();
+            $error = array();
+            $room = $roomCheckService->checkRoom($room, $error);
+            if (sizeof($error) > 0) {
+                return new JsonResponse(array('error' => true, 'messages' => $error));
+            }
+            if ($room->getPersistantRoom()) {
+                $room->setStart(null);
+                $room->setStartUtc(null);
+                $room->setStartTimestamp(null);
+                $room->setEnddate(null);
+                $room->setEndDateUtc(null);
+                $room->setEndTimestamp(null);
+            }
+            $em = $this->doctrine->getManager();
+            $em->persist($room);
+            $em->flush();
+            $schedulingService->createScheduling($room);
 
-                if ($request->get('id')) {
-                    if (
-                        $roomold->getStart() !== $room->getStart()
-                        || $roomold->getDuration() !== $room->getDuration()
-                        || $roomold->getName() !== $room->getName()
-                        || $roomold->getAgenda() !== $room->getAgenda()
-                        || $roomold->getPersistantRoom() !== $room->getPersistantRoom()
-                    ) {
-                        foreach ($room->getUser() as $user) {
-                            $userService->editRoom($user, $room);
-                        }
+            if ($request->get('id')) {
+                if (
+                    $roomold->getStart() !== $room->getStart()
+                    || $roomold->getDuration() !== $room->getDuration()
+                    || $roomold->getName() !== $room->getName()
+                    || $roomold->getAgenda() !== $room->getAgenda()
+                    || $roomold->getPersistantRoom() !== $room->getPersistantRoom()
+                ) {
+                    foreach ($room->getUser() as $user) {
+                        $userService->editRoom($user, $room);
                     }
-                } else {
-                    $userService->addUser($room->getModerator(), $room);
                 }
+            } else {
+                $roomGeneratorService->addUserToRoom($room->getModerator(), $room, true);
+                $moderator = $room->getModerator();
+                $userService->addUser($moderator, $room);
+            }
 
-                $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
-                if ($room->getScheduleMeeting()) {
-                    $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
+            $modalUrl = base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId())));
+            if ($room->getScheduleMeeting()) {
+                $modalUrl = base64_encode($this->generateUrl('schedule_admin', array('id' => $room->getId())));
+            }
+            if ($edit) {
+                $this->addFlash('success', $translator->trans('Konferenz erfolgreich bearbeitet'));
+                if ($room->getCreator() !== $room->getModerator()) {
+                    $log = new Log();
+                    $exclude = array(
+                        'user',
+                        'server',
+                        'userAttributes',
+                        'subscribers',
+                        'schedulings',
+                        'waitinglists',
+                        'repeater',
+                        'repeaterProtoype',
+                        'favoriteUsers',
+                        'lobbyWaitungUsers',
+                        'roomstatuses',
+                        'callerRoom',
+                        'callerIds',
+                        'tag',
+                        'creator',
+                        'logs');
+                    $message = array(
+                        'roomId' => $room->getId(),
+                        'userName' => $this->getUser()->getUid(),
+                        'state' => 'room Edit',
+                        'oldObject' => json_decode($serializer->serialize($roomold,
+                            JsonEncoder::FORMAT,
+                            [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
+                        'newObject' => json_decode($serializer->serialize($room,
+                            JsonEncoder::FORMAT,
+                            [AbstractNormalizer::IGNORED_ATTRIBUTES => $exclude])),
+                    );
+                    $log->setCreatedAt(new \DateTime())
+                        ->setUserName($this->getUser()->getUid())
+                        ->setMessage(json_encode($message))
+                        ->setUser($this->getUser())
+                        ->setRoom($room);
+                    $em = $this->doctrine->getManager();
+                    $em->persist($log);
+                    $em->flush();
                 }
-                if ($edit) {
-                    $this->addFlash('success', $translator->trans('Konferenz erfolgreich bearbeitet'));
-                } else {
-                    $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
-                }
-                $this->addFlash('modalUrl', $modalUrl);
-                $res = $this->generateUrl('dashboard');
+            } else {
+                $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
+            }
+            $this->addFlash('modalUrl', $modalUrl);
+            $res = $this->generateUrl('dashboard');
 
-                return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
+            return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
             }
         } catch (\Exception $e) {
@@ -153,7 +209,7 @@ class RoomController extends JitsiAdminController
             $res = $this->generateUrl('dashboard');
             return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'serverchoose' => $serverChhose, 'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('isEdit'=>$edit, 'server' => $servers, 'serverchoose' => $serverChhose, 'form' => $form->createView(), 'title' => $title));
     }
 
 
@@ -167,7 +223,7 @@ class RoomController extends JitsiAdminController
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $color = 'danger';
         $snack = 'Keine Berechtigung';
-        if ($this->getUser() === $room->getModerator()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             if ($room->getRepeater()) {
                 $repeater = $room->getRepeater();
                 $repeaterService->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
@@ -192,6 +248,7 @@ class RoomController extends JitsiAdminController
     {
 
         $roomOld = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
+        $edit = true;
         $room = clone $roomOld;
         $room->setStart(null);
         $room->setStartUtc(null);
@@ -210,24 +267,14 @@ class RoomController extends JitsiAdminController
         $snack = $translator->trans('Keine Berechtigung');
         $title = $translator->trans('Konferenz duplizieren');
 
-        if ($this->getUser() === $room->getModerator()) {
+        if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
 
             $servers = $serverUserManagment->getServersFromUser($this->getUser());
             $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $room->getId()])]);
             $form->remove('scheduleMeeting');
             $form->handleRequest($request);
 
-            $serverChhose = null;
-            if ($request->cookies->has('room_server')) {
-                $server = $this->doctrine->getRepository(Server::class)->find($request->cookies->get('room_server'));
-                if ($server && in_array($server, $servers)) {
-                    $serverChhose = $server;
-                }
-            }
-            if (sizeof($servers) === 1) {
-
-                $serverChhose = $server[0];
-            }
+            $serverChhose = $room->getServer();
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $room = $form->getData();
@@ -261,7 +308,7 @@ class RoomController extends JitsiAdminController
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
 
             }
-            return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'server' => $servers, 'serverchoose' => $serverChhose, 'title' => $title));
+            return $this->render('base/__newRoomModal.html.twig', array('isEdit'=>$edit,'form' => $form->createView(), 'server' => $servers, 'serverchoose' => $serverChhose, 'title' => $title));
         }
 
         $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
@@ -269,6 +316,4 @@ class RoomController extends JitsiAdminController
         $res = $this->generateUrl('dashboard');
         return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
     }
-
-
 }

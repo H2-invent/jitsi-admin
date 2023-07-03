@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Emanuel
@@ -8,11 +9,10 @@
 
 namespace App\Service;
 
-
 class IcsService
 {
     const DT_FORMAT = 'Ymd\THis\Z';
-    protected $properties = array();
+    protected $properties = [];
     private $isModerator;
     private $timezoneId;
     private $timezoneStart;
@@ -90,7 +90,7 @@ class IcsService
         $this->isModerator = $isModerator;
     }
 
-    private $available_properties = array(
+    private $available_properties = [
         'description',
         'dtend',
         'dtstart',
@@ -101,8 +101,8 @@ class IcsService
         'sequense',
         'organizer',
         'attendee'
-    );
-    private $appointments = array();
+    ];
+    private $appointments = [];
     private $method; // REQUEST,CANCELED,PUBLISH
 
     public function set($key, $val = false)
@@ -140,22 +140,21 @@ class IcsService
     private function buildProps()
     {
         // Build ICS properties - add header
-        $ics_props = array(
+        $ics_props = [
             'BEGIN:VCALENDAR',
             'VERSION:2.0',
             'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
             'CALSCALE:GREGORIAN',
             'METHOD:' . $this->method,
-        );
+        ];
         $ics_props = array_merge($ics_props, $this->generateTimeZoneString($this->timezoneId, (clone $this->timezoneStart)->modify('first day of January last year'), (clone $this->timezoneStart)->modify('last day of december this year')));
 
         // Build ICS properties - add header
         foreach ($this->appointments as $data) {
             $ics_props[] = 'BEGIN:VEVENT';
 
-            $props = array();
+            $props = [];
             foreach ($data as $p => $q) {
-
                 if ($this->isModerator) {
                     $props[strtoupper($p . ($p === 'attendee' ? ';RSVP=false:MAILTO' : ''))] = $q;
                 } else {
@@ -224,18 +223,17 @@ class IcsService
 
         $tmpTimeZone = new \DateTimeZone($timeZone);
         $transitions = $tmpTimeZone->getTransitions($start->getTimestamp(), $end->getTimestamp());
-        $transitions = array_splice($transitions,1);
+        $transitions = array_splice($transitions, 1);
         $ics_props[] = 'BEGIN:VTIMEZONE';
         $ics_props[] = 'TZID:' . $timeZone;
-        if(sizeof($transitions) == 0){
-           $transitions[]['time'] = (clone $start)->format('Y-m-d H:i:s');
-
+        if (sizeof($transitions) == 0) {
+            $transitions[]['time'] = (clone $start)->format('Y-m-d H:i:s');
         }
         foreach ($transitions as $data) {
             $tmpDate = new \DateTime($data['time']);
             $tmpDate->setTimezone($tmpTimeZone);
 
-            $daylight = $tmpDate->format('I') == 1?true:false;
+            $daylight = $tmpDate->format('I') == 1 ? true : false;
             if ($daylight) {
                 $ics_props[] = 'BEGIN:DAYLIGHT';
             } else {

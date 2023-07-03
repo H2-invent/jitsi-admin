@@ -15,10 +15,11 @@ import {initAjaxSend} from './confirmation'
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
 import {enterMeeting, leaveMeeting, socket} from './websocket';
-import {initModeratorIframe, close, inIframe} from './moderatorIframe'
+import {initModeratorIframe, close, inIframe, showPlayPause} from './moderatorIframe'
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import {checkDeviceinList} from './jitsiUtils'
+import {jitsiController} from "./pauseJitsi";
 
 import ('jquery-confirm');
 
@@ -48,7 +49,8 @@ var successTimer;
 var clickLeave = false;
 var microphoneLabel = null;
 var cameraLable = null;
-
+var displayName = null;
+var avatarUrl = null;
 
 function initMercure() {
 
@@ -75,8 +77,12 @@ function closeBrowser() {
             if (inIframe()) {
                 close()
             } else {
-                window.location.href = "/";
-                window.close();
+                try {
+                    window.close();
+                    location.href = "/";
+                }catch (e) {
+                    window.location.href = "/";
+                }
             }
 
         });
@@ -89,6 +95,7 @@ function closeBrowser() {
 initCircle();
 var counter = 0;
 var interval;
+var intervalRenew;
 var text;
 
 $('.renew').click(function (e) {
@@ -97,12 +104,12 @@ $('.renew').click(function (e) {
         counter = reknockingTime;
         text = $(this).text();
         $.get($(this).attr('href'), function (data) {
-            interval = setInterval(function () {
+            intervalRenew = setInterval(function () {
                 counter = counter - 1;
                 $('.renew').text(text + ' (' + counter + ')');
                 if (counter <= 0) {
                     $('.renew').text(text);
-                    clearInterval(interval);
+                    clearInterval(intervalRenew);
                 }
             }, 1000);
             setSnackbar(data.message, data.color);
@@ -112,8 +119,9 @@ $('.renew').click(function (e) {
 $('.leave').click(function (e) {
     e.preventDefault();
     clickLeave = true;
+    var url = this.getAttribute('href');
+    browserLeave = url;
     closeBrowser();
-    browserLeave = $(this).attr('href');
 })
 
 function initJitsiMeet(data) {
@@ -140,6 +148,12 @@ function initJitsiMeet(data) {
 
 
     options.parentNode = document.querySelector(data.options.parentNode);
+    if (typeof options.userInfo.avatarUrl !== 'undefined'){
+        avatarUrl = options.userInfo.avatarUrl;
+    }
+    if (typeof options.userInfo.displayName !== 'undefined'){
+        displayName = options.userInfo.displayName;
+    }
     api = new JitsiMeetExternalAPI(data.options.domain, options);
     api.addListener('chatUpdated', function (e) {
         if (e.isOpen == true) {
@@ -153,8 +167,10 @@ function initJitsiMeet(data) {
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
+        showPlayPause();
+        var pauseController = new jitsiController(api,displayName,avatarUrl);
         window.onbeforeunload = function (e) {
-            return '';
+            return 'Do you really want to leave this conference';
         }
 
         api.addListener('videoConferenceLeft', function (e) {
@@ -206,6 +222,7 @@ function askHangup() {
         title: null,
         content: hangupQuestion,
         theme: 'material',
+        columnClass: 'col-md-8 col-12 col-lg-6',
         buttons: {
             confirm: {
                 text: hangupText, // text for button

@@ -14,12 +14,13 @@ class CleanupLobbyService
         $this->em = $entityManager;
     }
 
-    public function cleanUp($maxOld = 72){
-        $date = (new \DateTime())->modify('-'.$maxOld.'hours');
+    public function cleanUp($maxOld = 72)
+    {
+        $date = (new \DateTime())->modify('-' . $maxOld . 'hours');
         $oldestData = $this->em->getRepository(LobbyWaitungUser::class)->findOldLobbyWaitinguser($date);
-        foreach ($oldestData as $data){
-            if ($data->getCallerSession()){
-                if($data->getCallerSession()->getCaller()){
+        foreach ($oldestData as $data) {
+            if ($data->getCallerSession()) {
+                if ($data->getCallerSession()->getCaller()) {
                     $data->getCallerSession()->setCaller(null);
                     $this->em->persist($data);
                 }
@@ -30,5 +31,4 @@ class CleanupLobbyService
         $this->em->flush();
         return $oldestData;
     }
-
 }

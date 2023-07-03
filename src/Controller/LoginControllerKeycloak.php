@@ -8,12 +8,10 @@ use App\Service\ThemeService;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginControllerKeycloak extends JitsiAdminController
@@ -31,13 +29,15 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function index(ClientRegistry $clientRegistry): Response
     {
-        $options = array();
+        $options = [];
 
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $options['kc_idp_hint'] = $this->themeService->getThemeProperty('idp_provider');
         }
-        return $clientRegistry->getClient('keycloak_main')->redirect(['email'], $options);
+        $res = $clientRegistry->getClient('keycloak_main')->redirect(['email','openid','profile'], $options);
+        return  $res;
     }
+
 
     /**
      * @Route("/register", name="register_keycloak")
@@ -53,7 +53,6 @@ class LoginControllerKeycloak extends JitsiAdminController
 
     public function check(ClientRegistry $clientRegistry, Request $request)
     {
-
     }
 
     /**
@@ -61,7 +60,7 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function edit(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
-        $url = $this->getParameter('KEYCLOAK_URL') ;
+        $url = $this->getParameter('KEYCLOAK_URL');
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }
@@ -75,7 +74,7 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function password(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
-        $url = $this->getParameter('KEYCLOAK_URL') ;
+        $url = $this->getParameter('KEYCLOAK_URL');
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }

@@ -37,7 +37,7 @@
 
                         <div class="btn-group">
 
-                            <a href="#" type="button" class="btn btn-primary dropdown-toggle caretdown"
+                            <a  type="button" class="btn btn-primary dropdown-toggle caretdown"
                                data-mdb-toggle="dropdown"
                                data-mdb-reference="parent"
                                aria-haspopup="true" aria-expanded="false">
@@ -45,10 +45,10 @@
                             </a>
                             <div class="dropdown-menu">
                                 <div id="audioInputSelect">
-                                    <a href="#" class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                                    <a  class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                                 </div>
                             </div>
-                            <a href="#" type="button" class="btn btn-primary" id="startEcho"
+                            <a type="button" class="btn btn-primary" id="startEcho"
                                data-texton="{{ 'lobby.start.echo'|trans }}"
                                data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
                         </div>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="lobbyButtons">
-                        <div class=" flex-grow-1 p-2 d-flex flex-column flex-lg-row">
+                        <div class=" flex-grow-1 p-2 d-flex flex-column flex-lg-row align-items-lg-center">
                             {% if type == 'a' %}
                                 <a class="btn btn-primary start-btn me-0  me-lg-2 flex-grow-1"
                                    href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
@@ -110,11 +110,10 @@
                                 {% endif %}
                             {% endif %}
 
-                            <a class="btn btn-success directSend flex-grow-1 me-0"
+                            <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
                                href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
-                        </div>
-                        <div class="flex-grow-1 p-2">
-                            <div class="dropdown " id="selectAtendeeArea" tabindex="-1">
+
+                            <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
                                 <div class="input-group  w-100">
 
                                     <div class="form-outline bg-white flex-grow-1">
@@ -127,7 +126,7 @@
                                                placeholder="{{ 'Tippen zum Suchen'|trans }}"
                                         />
                                         <label class="form-label"
-                                               for="searchCallOutParticipants">{{ 'Teilnehmer suchen'|trans }}</label>
+                                               for="searchCallOutParticipants">{{ 'Jetzt einladen'|trans }}</label>
 
                                     </div>
 
@@ -147,9 +146,10 @@
                                 </div>
                                 <div class="dropdown-menu searchCallOutParticipantsDropdown"
                                      id="searchCallOutParticipantsDropdown">
-                                    <a class="dropdown-item defaultSearch" href="#">{{ 'Tippen zum Suchen'|trans }}</a>
+                                    <a class="dropdown-item defaultSearch">{{ 'callout.dropdown.empty'|trans }}</a>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
@@ -166,6 +166,7 @@
 
 {% endblock %}
 {% block script %}
+    {% include('__checkFirefox.html.twig') with {'room':room} %}
     {% if name is defined and name is not null %}
         <script src='https://{{ room.server.url }}/external_api.js'></script>
         <script>

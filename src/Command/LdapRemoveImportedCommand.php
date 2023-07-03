@@ -5,13 +5,10 @@ namespace App\Command;
 use App\Entity\User;
 use App\Service\ldap\LdapService;
 use App\Service\ldap\LdapUserService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -41,7 +38,6 @@ class LdapRemoveImportedCommand extends Command
 
     protected function configure(): void
     {
-
     }
 
 
@@ -52,18 +48,18 @@ class LdapRemoveImportedCommand extends Command
         $io->text('Here you can remove all users from an LDAP server');
         $io->text('Select your server');
         $counter = 0;
-        foreach ($this->LDAPSERVERID as $data){
-            $io->text('['.$counter.'] '.$this->URL[$counter] .'('.$data.')');
+        foreach ($this->LDAPSERVERID as $data) {
+            $io->text('[' . $counter . '] ' . $this->URL[$counter] . '(' . $data . ')');
             $counter++;
         }
         $selection = $io->ask('Select your Server');
-        if($selection > $counter){
+        if ($selection > $counter) {
             $io->error('This number not machting a server Id');
             return Command::FAILURE;
         }
-        $confirm = $io->confirm('Do you realy want to delete all Users?',false);
+        $confirm = $io->confirm('Do you realy want to delete all Users?', false);
 
-        if (!$confirm){
+        if (!$confirm) {
             $io->warning('Aborted');
             return Command::FAILURE;
         }
@@ -72,9 +68,9 @@ class LdapRemoveImportedCommand extends Command
         $table->setHeaderTitle('Removed User');
         $table->setHeaders(['username', 'name','email']);
         $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($this->LDAPSERVERID[$selection]);
-        foreach ($user as $data){
+        foreach ($user as $data) {
             $this->ldapUserService->deleteUser($data);
-            $table->addRow([$data->getUserName(),$data->getFirstname().' '.$data->getLastName(),$data->getEmail()]);
+            $table->addRow([$data->getUserName(), $data->getFirstname() . ' ' . $data->getLastName(), $data->getEmail()]);
         }
         $table->render();
         return Command::SUCCESS;

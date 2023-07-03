@@ -1,7 +1,7 @@
 {% if app is defined and app.request is defined and app.request is not null and app.request.isXmlHttpRequest != true %}
     <div class="snackbar">
         <div id="snackbar"
-             class="bg-success d-none snackbar"></div>
+             class="d-none snackbar"></div>
         {% for message in app.flashes('success') %}
             <div class="bg-success innerOnce">{{ message }}</div>
         {% endfor %}

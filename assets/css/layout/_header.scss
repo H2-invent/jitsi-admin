@@ -172,12 +172,17 @@ label.required:after {
   .triggerHide:hover .element {
     visibility: visible;
     opacity: 1;
-    transition: visibility 0s linear 0s, opacity 500ms;
+    transition-property: opacity, visibility;
+    transition-duration: 200ms,0ms ;
+    transition-delay: 0ms,0ms;
   }
   .triggerHide .element {
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s linear 0s, opacity 500ms;
+    transition: visibility 0s linear 500ms, opacity 500ms;
+    transition-property: opacity, visibility;
+    transition-duration: 500ms,500ms ;
+    transition-delay: 500ms,700ms;
   }
 
 }
@@ -190,27 +195,49 @@ label.required:after {
 
 }
 
+@mixin caret-down {
+  font-family: "Font Awesome 5 Free";
+  margin-right: 0.5em;
+  font-weight: 900;
+  transition: transform 0.3s ease-in;
+  content: "\f107";
+
+}
+
 .caretdown {
   i {
     white-space: nowrap;
   }
 
-  &[aria-expanded="true"] {
+  &:not(.after) {
+    &[aria-expanded="true"] {
+      &:before {
+        transform: rotatez(0.5turn);
+      }
+    }
+
     &:before {
-      transform: rotateX(0.5turn);
+      @include caret-down;
+      float: left;
     }
   }
 
-  &:before {
-    font-family: "Font Awesome 5 Free";
-    margin-right: 0.5em;
-    font-weight: 900;
-    float: left;
-    transition: transform 0.3s ease-in;
-    content: "\f107";
-  }
+  &.after {
+    &:after {
+      @include caret-down;
+      float: right;
+    }
 
+    &[aria-expanded="true"] {
+      &:after {
+        transform: rotatez(0.5turn);
+      }
+    }
+
+
+  }
 }
+
 
 .iconSytle {
   height: 25px;

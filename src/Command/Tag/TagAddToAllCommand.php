@@ -29,7 +29,7 @@ class TagAddToAllCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $tags = $this->em->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
+        $tags = $this->em->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
 
         foreach ($tags as $data) {
             if (!$data->getDisabled()) {
@@ -42,7 +42,7 @@ class TagAddToAllCommand extends Command
 
         $choose = $io->askQuestion($fontcolorQ);
         $tag = $this->em->getRepository(Tag::class)->find($choose);
-        if(!$tag){
+        if (!$tag) {
             $io->error('No Tag found');
             return Command::FAILURE;
         }
@@ -50,7 +50,7 @@ class TagAddToAllCommand extends Command
         $rooms = $this->em->getRepository(Rooms::class)->findRoomsWithNoTags();
         $progressBar = new ProgressBar($output, sizeof($rooms));
         $progressBar->start();
-        foreach ($rooms as $data){
+        foreach ($rooms as $data) {
             $data->setTag($tag);
             $this->em->persist($data);
             $progressBar->advance(1);

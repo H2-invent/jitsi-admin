@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\CallerId;
 use App\Entity\CallerSession;
@@ -17,7 +15,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomAddService
 {
-
     public function __construct(
         private UserCreatorService      $userCreatorService,
         private ParameterBagInterface   $parameterBag,
@@ -38,16 +35,19 @@ class RoomAddService
      * @param Rooms $room
      * @return array
      */
-    public
-    function createParticipants($input, Rooms $room)
+    public function createParticipants($input, Rooms $room, ?User $inviter = null)
     {
         $lines = explode("\n", $input);
-        $falseEmail = array();
+        $falseEmail = [];
         if (!empty($lines)) {
             foreach ($lines as $line) {
-                $user = $this->createUserFromUserUid($line,  $falseEmail);
+                $user = $this->createUserFromUserUid($line, $falseEmail);
                 if ($user) {
-                    $this->createUserParticipant($room, $user);
+                    if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
+                        $this->createUserParticipant($room, $user);
+                    } else {
+                        $falseEmail[] = $line;
+                    }
                 }
             }
         }
@@ -65,17 +65,20 @@ class RoomAddService
      * @param Rooms $room
      * @return array
      */
-    public
-    function createModerators($input, Rooms $room)
+    public function createModerators($input, Rooms $room, ?User $inviter = null)
     {
         $lines = explode("\n", $input);
-        $falseEmail = array();
+        $falseEmail = [];
         if (!empty($lines)) {
             foreach ($lines as $line) {
-                $user = $this->createUserFromUserUid($line,  $falseEmail);
+                $user = $this->createUserFromUserUid($line, $falseEmail);
                 if ($user) {
-                    $this->createUserParticipant($room, $user);
-                    $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
+                    if (($inviter === $room->getModerator()) || $user !== $room->getCreator()) {
+                        $this->createUserParticipant($room, $user);
+                        $this->permissionChangeService->toggleModerator($room->getModerator(), $user, $room);
+                    } else {
+                        $falseEmail[] = $line;
+                    }
                 }
             }
             $this->em->flush();
@@ -100,9 +103,9 @@ class RoomAddService
         $user = null;
         if (rtrim($email) !== '') {
             $newMember = rtrim($email);
-            $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $newMember));
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $newMember]);
             if (!$user) {
-                $user = $this->em->getRepository(User::class)->findOneBy(array('username' => $newMember));
+                $user = $this->em->getRepository(User::class)->findOneBy(['username' => $newMember]);
             }
             if ((filter_var($newMember, FILTER_VALIDATE_EMAIL) && $this->parameterBag->get('strict_allow_user_creation') == 1) || $user) {
                 if (!$user) {
@@ -125,8 +128,7 @@ class RoomAddService
      * @param User|null $user
      * @return User|null The user which is connected to the room
      */
-    private
-    function createUserParticipant(Rooms $room, User $user)
+    private function createUserParticipant(Rooms $room, User $user)
     {
         if ($room->getRepeater()) {
             $this->addUSerToSeries($user, $room);
@@ -143,8 +145,7 @@ class RoomAddService
      * @param Rooms $room
      * @return void
      */
-    public
-    function addUserOnlytoOneRoom(User $user, Rooms $room)
+    public function addUserOnlytoOneRoom(User $user, Rooms $room)
     {
         if (!in_array($user, $room->getUser()->toArray())) {
             $user->addRoom($room);
@@ -191,8 +192,7 @@ class RoomAddService
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public
-    function removeUserFromRoom(User $user, Rooms $rooms): string
+    public function removeUserFromRoom(User $user, Rooms $rooms): string
     {
         if ($rooms->getRepeater()) {
             $this->removeUserFromRepeaterRoom($rooms, $user);
@@ -220,11 +220,13 @@ class RoomAddService
         $this->repeaterService->sendEMail(
             $rooms->getRepeater(),
             'email/repeaterRemoveUser.html.twig',
-            $this->translator->trans('Die Serienvideokonferenz {name} wurde gelöscht',
-                array('{name}' => $rooms->getRepeater()->getPrototyp()->getName())),
-            array('room' => $rooms->getRepeater()->getPrototyp()),
+            $this->translator->trans(
+                'Die Serienvideokonferenz {name} wurde gelöscht',
+                ['{name}' => $rooms->getRepeater()->getPrototyp()->getName()]
+            ),
+            ['room' => $rooms->getRepeater()->getPrototyp()],
             'CANCEL',
-            array($user)
+            [$user]
         );
     }
 
@@ -239,17 +241,17 @@ class RoomAddService
         $rooms->removeUser($user);
         $this->em->persist($rooms);
         $this->em->flush();
-        $callerId = $this->em->getRepository(CallerId::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+        $callerId = $this->em->getRepository(CallerId::class)->findOneBy(['user' => $user, 'room' => $rooms]);
         if ($callerId) {
             $this->em->remove($callerId);
             $this->em->flush();
         }
-        $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(array('room' => $rooms, 'user' => $user));
+        $userRoom = $this->em->getRepository(RoomsUser::class)->findOneBy(['room' => $rooms, 'user' => $user]);
         if ($userRoom) {
             $this->em->remove($userRoom);
             $this->em->flush();
         }
-        $calloutSession = $this->em->getRepository(CalloutSession::class)->findOneBy(array('room' => $rooms, 'user' => $user));
+        $calloutSession = $this->em->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
         if ($calloutSession) {
             $this->em->remove($calloutSession);
             $this->em->flush();
@@ -263,10 +265,9 @@ class RoomAddService
      * @param Rooms $rooms
      * @return void
      */
-    private
-    function removeRoomUser(User $user, Rooms $rooms)
+    private function removeRoomUser(User $user, Rooms $rooms)
     {
-        $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+        $roomsUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $rooms]);
         if ($roomsUser) {
             $this->em->remove($roomsUser);
         }

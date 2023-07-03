@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\EmailDomainsToServers;
 use App\Entity\KeycloakGroupsToServers;
@@ -16,7 +14,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ServerUserManagment
 {
-
     private $em;
     private $parameter;
     private ThemeService $themeService;
@@ -38,7 +35,7 @@ class ServerUserManagment
      */
     public function getServersFromUser(User $user)
     {
-        $servers = array();
+        $servers = [];
         //here we add theserver which is directed connected to a user
         $servers = $user->getServers()->toArray();
 
@@ -46,7 +43,7 @@ class ServerUserManagment
         // here we add the servers from thekeycloak group
         if ($user->getGroups()) {
             foreach ($user->getGroups() as $data1) {
-                $tmpG = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' => $data1));
+                $tmpG = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $data1]);
                 foreach ($tmpG as $data2) {
                     if (!in_array($data2->getServer(), $servers)) {
                         $servers[] = $data2->getServer();
@@ -55,15 +52,17 @@ class ServerUserManagment
             }
         }
         try {
-            $domain = explode('@', $user->getEmail())[1];
-            $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(array('keycloakGroup' => $domain));
-            foreach ($tmpE as $data2) {
-                if (!in_array($data2->getServer(), $servers)) {
-                    $servers[] = $data2->getServer();
+            $domainArr =explode('@', $user->getEmail());
+            if (count($domainArr) > 1){
+                $domain = explode('@', $user->getEmail())[1];
+                $tmpE = $this->em->getRepository(KeycloakGroupsToServers::class)->findBy(['keycloakGroup' => $domain]);
+                foreach ($tmpE as $data2) {
+                    if (!in_array($data2->getServer(), $servers)) {
+                        $servers[] = $data2->getServer();
+                    }
                 }
             }
         } catch (\Exception $exception) {
-
         }
 
 
@@ -76,22 +75,22 @@ class ServerUserManagment
         try {
             if ($this->themeService->getTheme()) {
                 $sTmp = $this->themeService->getTheme()['showServer'];
-                if (sizeof($sTmp) === 0){
+                if (sizeof($sTmp) === 0) {
                     return $servers;
                 }
                 foreach ($user->getServers() as $data) {
-                    if (!in_array($data->getId(), $sTmp))
+                    if (!in_array($data->getId(), $sTmp)) {
                         $sTmp[] = $data->getId();
+                    }
                 }
-                $serTmp = array();
+                $serTmp = [];
                 foreach ($servers as $data) {
                     if (in_array($data->getId(), $sTmp)) {
                         $serTmp[] = $data;
                     }
-
                 }
                 $servers = $serTmp;
-                $serTmp = array();
+                $serTmp = [];
 
                 if ($this->themeService->getTheme()['showOnlyShowServer']) {
                     $sTmp = $this->themeService->getTheme()['showServer'];
@@ -103,16 +102,20 @@ class ServerUserManagment
                     $servers = $serTmp;
                 }
             }
-        }catch (\Exception $exception){}
+        } catch (\Exception $exception) {
+        }
 
         return $servers;
-
     }
-    function getActualConference(Server $server){
+
+    function getActualConference(Server $server)
+    {
         $actualConf = $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
         return $actualConf;
     }
-    function getActualParticipantsFromServer(Server $server){
+
+    function getActualParticipantsFromServer(Server $server)
+    {
         $actualPart = $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
         return $actualPart;
     }

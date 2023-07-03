@@ -114,6 +114,29 @@ class User extends BaseUser
     #[ORM\Column(nullable: true)]
     private ?bool $acceptTermsAndConditions = null;
 
+    #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Rooms::class)]
+    private Collection $creatorOf;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Log::class)]
+    private Collection $logs;
+
+    #[ORM\OneToMany(mappedBy: 'deputy', targetEntity: Deputy::class, orphanRemoval: true)]
+    private Collection $deputiesElement;
+
+    #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Deputy::class, orphanRemoval: true)]
+    private Collection $managerElement;
+
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'isAdressbookFavoriteFrom')]
+    #[ORM\JoinTable(name: 'addressbook_favorites')]
+    private Collection $AdressbookFavorites;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'AdressbookFavorites')]
+    #[ORM\JoinTable(name: 'addressbook_favorites')]
+    private Collection $isAdressbookFavoriteFrom;
+
+    #[ORM\OneToMany(mappedBy: 'createdFrom', targetEntity: SchedulingTime::class)]
+    private Collection $schedulingTimesCreated;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -135,7 +158,13 @@ class User extends BaseUser
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
         $this->calloutSessions = new ArrayCollection();
-
+        $this->creatorOf = new ArrayCollection();
+        $this->logs = new ArrayCollection();
+        $this->deputiesElement = new ArrayCollection();
+        $this->managerElement = new ArrayCollection();
+        $this->AdressbookFavorites = new ArrayCollection();
+        $this->isAdressbookFavoriteFrom = new ArrayCollection();
+        $this->schedulingTimesCreated = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -753,10 +782,9 @@ class User extends BaseUser
     {
         $this->formatName = new FormatName();
         return $this->formatName->formatName($string, $this);
-
     }
 
-    public function getUserIdentifier()
+    public function getUserIdentifier(): string
     {
         return $this->username;
     }
@@ -905,10 +933,10 @@ class User extends BaseUser
 
     public function getCategories()
     {
-        $res = array();
+        $res = [];
 
         if ($this->ldapUserProperties) {
-            $res[] =  $this->ldapUserProperties->getLdapNumber();
+            $res[] = $this->ldapUserProperties->getLdapNumber();
         }
         return $res;
     }
@@ -955,6 +983,185 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @return Collection<int, self>
+     */
+    public function getDeputy(): Collection
+    {
+        $deputy = [];
+        foreach ($this->getManagerElement() as $data) {
+            $deputy[] = $data->getDeputy();
+        }
+        return new ArrayCollection($deputy);
+    }
+
+    public function addDeputy(self $deputy): self
+    {
+        if (!$this->deputy->contains($deputy)) {
+            $this->deputy[] = $deputy;
+        }
+
+        return $this;
+    }
+
+    public function removeDeputy(self $deputy): self
+    {
+        $this->deputy->removeElement($deputy);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getManagers(): Collection
+    {
+        $managers = [];
+        foreach ($this->getDeputiesElement() as $data) {
+            $managers[] = $data->getManager();
+        }
+        return new ArrayCollection($managers);
+    }
+
+    public function addManager(self $manager): self
+    {
+        if (!$this->managers->contains($manager)) {
+            $this->managers[] = $manager;
+            $manager->addDeputy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManager(self $manager): self
+    {
+        if ($this->managers->removeElement($manager)) {
+            $manager->removeDeputy($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rooms>
+     */
+    public function getCreatorOf(): Collection
+    {
+        return $this->creatorOf;
+    }
+
+    public function addCreatorOf(Rooms $creatorOf): self
+    {
+        if (!$this->creatorOf->contains($creatorOf)) {
+            $this->creatorOf[] = $creatorOf;
+            $creatorOf->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatorOf(Rooms $creatorOf): self
+    {
+        if ($this->creatorOf->removeElement($creatorOf)) {
+            // set the owning side to null (unless already changed)
+            if ($creatorOf->getCreator() === $this) {
+                $creatorOf->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Log>
+     */
+    public function getLogs(): Collection
+    {
+        return $this->logs;
+    }
+
+    public function addLog(Log $log): self
+    {
+        if (!$this->logs->contains($log)) {
+            $this->logs->add($log);
+            $log->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLog(Log $log): self
+    {
+        if ($this->logs->removeElement($log)) {
+            // set the owning side to null (unless already changed)
+            if ($log->getUser() === $this) {
+                $log->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deputy>
+     */
+    public function getDeputiesElement(): Collection
+    {
+        return $this->deputiesElement;
+    }
+
+    public function addDeputiesElement(Deputy $deputiesElement): self
+    {
+        if (!$this->deputiesElement->contains($deputiesElement)) {
+            $this->deputiesElement->add($deputiesElement);
+            $deputiesElement->setDeputy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeputiesElement(Deputy $deputiesElement): self
+    {
+        if ($this->deputiesElement->removeElement($deputiesElement)) {
+            // set the owning side to null (unless already changed)
+            if ($deputiesElement->getDeputy() === $this) {
+                $deputiesElement->setDeputy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deputy>
+     */
+    public function getManagerElement(): Collection
+    {
+        return $this->managerElement;
+    }
+
+    public function addManagerElement(Deputy $managerElement): self
+    {
+        if (!$this->managerElement->contains($managerElement)) {
+            $this->managerElement->add($managerElement);
+            $managerElement->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManagerElement(Deputy $managerElement): self
+    {
+        if ($this->managerElement->removeElement($managerElement)) {
+            // set the owning side to null (unless already changed)
+            if ($managerElement->getManager() === $this) {
+                $managerElement->setManager(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function isAcceptTermsAndConditions(): ?bool
     {
         return $this->acceptTermsAndConditions;
@@ -963,6 +1170,87 @@ class User extends BaseUser
     public function setAcceptTermsAndConditions(?bool $acceptTermsAndConditions): self
     {
         $this->acceptTermsAndConditions = $acceptTermsAndConditions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAdressbookFavorites(): Collection
+    {
+        return $this->AdressbookFavorites;
+    }
+
+    public function addAdressbookFavorite(self $adressbookFavorite): self
+    {
+        if (!$this->AdressbookFavorites->contains($adressbookFavorite)) {
+            $this->AdressbookFavorites->add($adressbookFavorite);
+        }
+
+        return $this;
+    }
+
+    public function removeAdressbookFavorite(self $adressbookFavorite): self
+    {
+        $this->AdressbookFavorites->removeElement($adressbookFavorite);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getIsAdressbookFavoriteFrom(): Collection
+    {
+        return $this->isAdressbookFavoriteFrom;
+    }
+
+    public function addIsAdressbookFavoriteFrom(self $isAdressbookFavoriteFrom): self
+    {
+        if (!$this->isAdressbookFavoriteFrom->contains($isAdressbookFavoriteFrom)) {
+            $this->isAdressbookFavoriteFrom->add($isAdressbookFavoriteFrom);
+            $isAdressbookFavoriteFrom->addAdressbookFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIsAdressbookFavoriteFrom(self $isAdressbookFavoriteFrom): self
+    {
+        if ($this->isAdressbookFavoriteFrom->removeElement($isAdressbookFavoriteFrom)) {
+            $isAdressbookFavoriteFrom->removeAdressbookFavorite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SchedulingTime>
+     */
+    public function getSchedulingTimesCreated(): Collection
+    {
+        return $this->schedulingTimesCreated;
+    }
+
+    public function addSchedulingTimesCreated(SchedulingTime $schedulingTimesCreated): self
+    {
+        if (!$this->schedulingTimesCreated->contains($schedulingTimesCreated)) {
+            $this->schedulingTimesCreated->add($schedulingTimesCreated);
+            $schedulingTimesCreated->setCreatedFrom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedulingTimesCreated(SchedulingTime $schedulingTimesCreated): self
+    {
+        if ($this->schedulingTimesCreated->removeElement($schedulingTimesCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($schedulingTimesCreated->getCreatedFrom() === $this) {
+                $schedulingTimesCreated->setCreatedFrom(null);
+            }
+        }
 
         return $this;
     }

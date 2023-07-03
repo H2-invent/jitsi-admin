@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Security;
-
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
@@ -82,5 +80,10 @@ class UserProvider implements UserProviderInterface
     public function supportsClass($class)
     {
         return $class === 'App\Security\User';
+    }
+
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        // TODO: Implement loadUserByIdentifier() method.
     }
 }

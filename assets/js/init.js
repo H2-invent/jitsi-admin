@@ -7,6 +7,7 @@ import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
+import {initPrettyJson} from './jsonBeautifier';
 
 var audio = new Audio(notificationSound);
 import {TabUtils} from './tabBroadcast';
@@ -25,16 +26,19 @@ import {initChart} from "./chart";
 import {Chart} from "chart.js";
 import ClipboardJS from "clipboard";
 import {initStartIframe} from "./createConference";
+import {checkFirefox} from "./checkFirefox";
 
 function initGenerell() {
+    checkFirefox();
     Push.Permission.request();
     initDarkmodeSwitch();
     initLayzLoading();
     initStartIframe();
+    wrapSelect();
     if (inIframe()) {
         document.body.classList.add("in-iframe");
     }
-    if(window.innerWidth < 768 ){
+    if (window.innerWidth < 768) {
         document.body.classList.add("in-smartPhone");
     }
     openBlankTarget(blankTarget);
@@ -72,6 +76,23 @@ function initGenerell() {
     initLoadContent();
 }
 
+function wrapSelect() {
+    var select = document.querySelectorAll('select');
+    select.forEach(function (ele) {
+        if (ele && !ele.closest('.selectWrapper')){
+            var eleWrap = document.createElement('div');
+            eleWrap.classList.add('selectWrapper');
+           wrap(ele,eleWrap);
+            console.log('wrapperFound');
+        }
+    })
+}
+function wrap(el, wrapper) {
+    el.parentNode.insertBefore(wrapper, el);
+    wrapper.appendChild(el);
+}
+
+
 function openBlankTarget(targets) {
     targets.forEach(function (value, i) {
         window.open(value);
@@ -88,7 +109,7 @@ function initLoadContent() {
             } else {
                 if (!$('#loadContentModal ').hasClass('show')) {
                     $('#loadContentModal').modal('show');
-                }else {
+                } else {
                     initNewModal(this);
                 }
             }
@@ -97,7 +118,11 @@ function initLoadContent() {
 }
 
 
-function initNewModal(e){
+$('#loadContentModal').on('shown.bs.modal', function (e) {
+    initNewModal(e)
+});
+
+function initNewModal(e) {
 
     initScheduling();
 
@@ -134,6 +159,8 @@ function initNewModal(e){
     initKeycloakGroups();
     initAddressGroupSearch();
     initChart();
+    initPrettyJson();
+    wrapSelect();
     document.querySelectorAll('.form-outline').forEach((formOutline) => {
         new mdb.Input(formOutline).init();
     });

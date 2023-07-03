@@ -1,9 +1,10 @@
-import {io} from "socket.io/client-dist/socket.io";
+import {io} from "socket.io-client";
 import {initStatus, setMyStatus, setStatus, showOnlineUsers} from "./onlineStatus";
 import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 import {createIframe} from "./createConference";
 import {initAwayTime, setAwayTimeField} from "./enterAwayTime";
+import {setSnackbar,deleteToast} from './myToastr'
 
 export let socket = null;
 export var token = null;
@@ -19,18 +20,38 @@ export function initWebsocket(jwt) {
     socket.on('mercure', function (data) {
         masterNotify(JSON.parse(data));
     })
-
+    socket.on('connect',function (data) {
+        if (typeof urlWebsocketReady !== 'undefined'){
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", urlWebsocketReady, true);
+            xhttp.send();
+        }
+    })
+    socket.io.on("error", (error) => {
+      setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.','danger',true,'socketAlert',30000)
+    });
+    socket.io.on("reconnect", (attempt) => {
+       deleteToast('socketAlert');
+        setSnackbar('Websocket successfully reconnected','success',false,'socketAlert',10000)
+    });
     socket.on('openNewIframe', function (data) {
         data = JSON.parse(data);
+        var url = data.url;
+        if (typeof schowNameInWidgets !== 'undefined'){
+            url = url.replace('%name%',encodeURIComponent(schowNameInWidgets))
+        }else {
+            url = url.replace('%name%','')
+        }
+        console.log(url);
         const parentMessage = JSON.stringify({
             type: 'openNewIframe',
-            url: data.url,
+            url: url,
             'title': data.title
         });
         if (inIframe()){
             window.parent.postMessage(parentMessage, '*');
         }else {
-            createIframe(data.url, data.title, false);
+            createIframe(url, data.title, false,false);
         }
 
     })

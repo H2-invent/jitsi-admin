@@ -1,0 +1,34 @@
+{% if room.server.disallowFirefox and isFirefox() %}
+    <div class="modal fade" id="noFIrefoxModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ 'browser.warning'|trans }}</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if isOSType('windows') %}
+                    <p>{{ 'browser.warning.text'|trans }}</p>
+                    <a href="#"
+                       class="btn btn-outline-primary btn-block btn-edge ">{{ 'browser.warning.toEdge'|trans }}</a>
+                    {% endif %}
+                    {% if isOSType('mac') %}
+                        <a href="#"
+                           class="btn btn-outline-primary btn-block btn-safari ">{{ 'browser.warning.toMac'|trans }}</a>
+                    {% endif %}
+                    <p>Oder kopieren Sie diesen Link in einen Chromium/Safari basierten Browser:</p>
+                    <div class="input-group mb-3">
+                        <input id="linkBrowser" readonly type="text" class="form-control"
+                               value="{{ app.request.getSchemeAndHttpHost()~app.request.getBaseUrl ~ app.request.getPathInfo }}">
+                        <button class="btn btn-md btn-outline-primary  waves-effect copyLink"
+                                type="button" data-clipboard-target="#linkBrowser"><i
+                                    class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endif %}

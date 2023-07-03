@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SchedulingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SchedulingRepository::class)]
@@ -23,6 +24,9 @@ class Scheduling
     private $room;
     #[ORM\OneToMany(targetEntity: SchedulingTime::class, mappedBy: 'scheduling')]
     private $schedulingTimes;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $completedEmailSent = null;
     public function __construct()
     {
         $this->schedulingTimes = new ArrayCollection();
@@ -85,6 +89,18 @@ class Scheduling
                 $schedulingTime->setScheduling(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isCompletedEmailSent(): ?bool
+    {
+        return $this->completedEmailSent;
+    }
+
+    public function setCompletedEmailSent(?bool $completedEmailSent): self
+    {
+        $this->completedEmailSent = $completedEmailSent;
 
         return $this;
     }

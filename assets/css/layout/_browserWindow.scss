@@ -14,15 +14,19 @@
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
   overflow: hidden;
 
-  &:not(.maximized) {
+  &:not(.maximized,.minified) {
+    outline: 1px solid black;
+    border-radius: 8px;
     .dragger {
       cursor: move;
     }
   }
 
+
   .iframeFrame {
     flex-grow: 1;
     background-color: inherit;
+    border-radius: 8px;
   }
 
   .headerBar {
@@ -43,6 +47,7 @@
 
     .actionIconLeft {
       display: flex;
+      align-items: center;
 
       .actionIcon {
         height: 20px;
@@ -95,6 +100,9 @@
   z-index: 500 !important;
   border-width: 8px !important;
   border-style: solid;
+  @media (min-width: $breakpointMenue) {
+    max-width: 50vw;
+  }
 
   [class^="fa-"] {
     display: none;
@@ -135,5 +143,24 @@
     //-o-transition-delay: 0s;
     //transition-delay: 0s;
     transition: height 0.2s ease-in;
+  }
+}
+
+.iframeFrame {
+  position: relative;
+
+  .pausedFrame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Font Awesome 5 Free";
+    color: white;
+    font-size: 7em;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 }

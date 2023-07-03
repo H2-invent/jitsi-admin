@@ -21,6 +21,9 @@ class SchedulingTime
     private $scheduling;
     #[ORM\OneToMany(targetEntity: SchedulingTimeUser::class, mappedBy: 'scheduleTime')]
     private $schedulingTimeUsers;
+
+    #[ORM\ManyToOne(inversedBy: 'schedulingTimesCreated')]
+    private ?User $createdFrom = null;
     public function __construct()
     {
         $this->schedulingTimeUsers = new ArrayCollection();
@@ -81,11 +84,23 @@ class SchedulingTime
         $timeZone = $this->scheduling->getRoom()->getTimeZone() ? new \DateTimeZone($this->scheduling->getRoom()->getTimeZone()) : null;
         $time = new \DateTime($this->time->format('Y-m-d H:i:s'), $timeZone);
         $usrTimeZone = $user->getTimeZone() ? new \DateTimeZone($user->getTimeZone()) : null;
-        if ($timeZone){
+        if ($timeZone) {
             if ($usrTimeZone) {
                 $time->setTimezone($usrTimeZone);
             }
         }
         return $time;
+    }
+
+    public function getCreatedFrom(): ?User
+    {
+        return $this->createdFrom;
+    }
+
+    public function setCreatedFrom(?User $createdFrom): self
+    {
+        $this->createdFrom = $createdFrom;
+
+        return $this;
     }
 }

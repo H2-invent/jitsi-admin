@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\Notification;
 use App\Entity\User;
@@ -15,29 +13,33 @@ class PushService
     private $em;
     private $urlGenerator;
     private $directSend;
-    public function __construct(EntityManagerInterface $entityManager,UrlGeneratorInterface $urlGenerator, DirectSendService $directSend)
+
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, DirectSendService $directSend)
     {
         $this->em = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->directSend = $directSend;
     }
 
-    function generatePushNotification($title, $text,User $user,$url = null,$id='0x00'){
-        $topic = 'personal/'.$user->getUid();
-        $this->directSend->sendBrowserNotification($topic,$title,$text,$text,$id,'info');
+    function generatePushNotification($title, $text, User $user, $url = null, $id = '0x00')
+    {
+        $topic = 'personal/' . $user->getUid();
+        $this->directSend->sendBrowserNotification($topic, $title, $text, $text, $id, 'info');
         $this->directSend->sendRefreshDashboard($topic);
         return true;
     }
-    function getNotification(User $user){
-        $res = array();
-        $notification =$this->em->getRepository(Notification::class)->findBy(array('user' => $user), array('createdAt' => 'desc'));
+
+    function getNotification(User $user)
+    {
+        $res = [];
+        $notification = $this->em->getRepository(Notification::class)->findBy(['user' => $user], ['createdAt' => 'desc']);
 
         foreach ($notification as $data) {
-            $tmp = array(
-                'id'=>$data->getId(),
+            $tmp = [
+                'id' => $data->getId(),
                 'title' => $data->getTitle(),
                 'text' => $data->getText(),
-                'url' => $data->getUrl()?$data->getUrl():$this->urlGenerator->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL));
+                'url' => $data->getUrl() ? $data->getUrl() : $this->urlGenerator->generate('dashboard', [], UrlGeneratorInterface::ABSOLUTE_URL)];
             $res[] = $tmp;
             $this->em->remove($data);
         }

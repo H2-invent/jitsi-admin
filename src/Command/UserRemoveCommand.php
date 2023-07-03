@@ -18,7 +18,7 @@ class UserRemoveCommand extends Command
     protected static $defaultDescription = 'Removes a user by Username';
     private $em;
     private $ldapUserService;
-    public function __construct(EntityManagerInterface $entityManager, LdapUserService $ldapUser,string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, LdapUserService $ldapUser, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
@@ -28,8 +28,7 @@ class UserRemoveCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('username', InputArgument::OPTIONAL, 'Username of the User to delete')
-        ;
+            ->addArgument('username', InputArgument::OPTIONAL, 'Username of the User to delete');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -40,10 +39,10 @@ class UserRemoveCommand extends Command
         if ($username) {
             $io->note(sprintf('You passed an argument: %s', $username));
         }
-        $user = $this->em->getRepository(User::class)->findOneBy(array('username'=>$username));
+        $user = $this->em->getRepository(User::class)->findOneBy(['username' => $username]);
         $this->ldapUserService->deleteUser($user);
 
-        $io->success(sprintf('Remove the User %s',$username));
+        $io->success(sprintf('Remove the User %s', $username));
 
         return Command::SUCCESS;
     }

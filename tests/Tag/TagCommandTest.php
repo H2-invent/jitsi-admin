@@ -18,7 +18,7 @@ class TagCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:tag:create');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('title'=>'test-Neu'));
+        $commandTester->execute(['title' => 'test-Neu']);
         $output = $commandTester->getDisplay();
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $this->assertStringContainsString(' [OK] The Tag test-Neu was added sucessfully', $output);
@@ -29,16 +29,16 @@ class TagCommandTest extends KernelTestCase
 
         $application = new Application($kernel);
         $tagRepo = self::getContainer()->get(TagRepository::class);
-        $tag = $tagRepo->findOneBy(array('title'=>'Test Tag Disabled'));
+        $tag = $tagRepo->findOneBy(['title' => 'Test Tag Disabled']);
 
         $command = $application->find('app:tag:enable');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('tagId'=>$tag->getId()));
+        $commandTester->execute(['tagId' => $tag->getId()]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString(' [OK] Tag Test Tag Disabled is ENABLED', $output);
 
         $command = $application->find('app:tag:enable');
-        $commandTester->execute(array('tagId'=>-1));
+        $commandTester->execute(['tagId' => -1]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('[ERROR] Tag does not exist ', $output);
     }
@@ -48,18 +48,18 @@ class TagCommandTest extends KernelTestCase
 
         $application = new Application($kernel);
         $tagRepo = self::getContainer()->get(TagRepository::class);
-        $tag = $tagRepo->findOneBy(array('title'=>'Test Tag Enabled'));
+        $tag = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
 
         $command = $application->find('app:tag:disable');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('tagId'=>$tag->getId()));
+        $commandTester->execute(['tagId' => $tag->getId()]);
 
         $output = $commandTester->getDisplay();
 
         $this->assertStringContainsString(' [OK] Tag Test Tag Enabled is DISABLED', $output);
 
         $command = $application->find('app:tag:disable');
-        $commandTester->execute(array('tagId'=>-1));
+        $commandTester->execute(['tagId' => -1]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('[ERROR] Tag does not exist ', $output);
     }
@@ -69,18 +69,18 @@ class TagCommandTest extends KernelTestCase
 
         $application = new Application($kernel);
         $tagRepo = self::getContainer()->get(TagRepository::class);
-        $tag = $tagRepo->findOneBy(array('title'=>'Test Tag Enabled'));
+        $tag = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
 
         $command = $application->find('app:tag:delete');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('tagId'=>$tag->getId()));
+        $commandTester->execute(['tagId' => $tag->getId()]);
 
         $output = $commandTester->getDisplay();
 
         $this->assertStringContainsString(' [OK] Tag Test Tag Enabled is DELETED ', $output);
 
         $command = $application->find('app:tag:delete');
-        $commandTester->execute(array('tagId'=>-1));
+        $commandTester->execute(['tagId' => -1]);
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('[ERROR] Tag does not exist ', $output);
     }
@@ -91,7 +91,7 @@ class TagCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:tag:list');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array());
+        $commandTester->execute([]);
         $output = $commandTester->getDisplay();
 
         $tagRepo = self::getContainer()->get(TagRepository::class);
@@ -106,12 +106,11 @@ class TagCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $command = $application->find('app:tag:addToAll');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array());
+        $commandTester->execute([]);
         $output = $commandTester->getDisplay();
 
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $this->assertStringContainsString('0/70', $output);
         $this->assertStringContainsString('70/70', $output);
     }
-
 }

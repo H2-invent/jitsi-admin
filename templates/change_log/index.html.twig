@@ -1,0 +1,50 @@
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl " id="atendeeModalScroll">
+    <div class="modal-content">
+
+        <div class="modal-header  light-blue darken-3 white-text">
+            <h5 class="modal-title">{{ 'log.modal.header'|trans }}</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {% for log in room.logs %}
+                <div class="card">
+                    <div class="card-body">
+                        {% set message = log.message|json_decode %}
+                        <p> {{ log.user?log.user|nameOfUserNoSymbol:log.userName }}
+                            <small>{{ log.createdAt|date('d.m.Y H:i:s') }}</small></p>
+                        <a
+                                class="btn btn-primary"
+                                data-mdb-toggle="collapse"
+                                href="#collapseExample{{ loop.index }}"
+                                role="button"
+                                aria-expanded="false"
+                                aria-controls="collapseExample"
+                        >
+                            {{ 'custom.more'|trans }}
+                        </a>
+
+                        <!-- Collapsed content -->
+                        <div class="collapse mt-3" id="collapseExample{{ loop.index }}">
+                            <div class="row">
+
+                                <div class="col-lg-6" >
+                                    <h4>{{ 'log.new.object'|trans }}</h4>
+                                    <pre class="json-beautifier json-container" data-json="{{ message.newObject|json_encode() }}">
+
+                                    </pre>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h4>{{ 'log.old.object'|trans }}</h4>
+                                    <pre class="json-beautifier json-container" data-json="{{ message.oldObject|json_encode() }}">
+
+                                    </pre>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

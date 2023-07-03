@@ -3,26 +3,22 @@
 namespace App\Service\Jigasi;
 
 use App\Entity\Rooms;
-use App\Entity\Server;
 use App\Service\LicenseService;
-use App\Service\ThemeService;
-use Doctrine\ORM\EntityManagerInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function _PHPStan_9a6ded56a\RingCentral\Psr7\str;
 
 class JigasiService
 {
     public function __construct(
-        private HttpClientInterface $client,
-        private LoggerInterface     $logger,
-        private LicenseService      $licenseService,
-        private AdapterInterface    $cache,
-        private KernelInterface     $kernel)
+        private HttpClientInterface    $client,
+        private LoggerInterface        $logger,
+        private LicenseService         $licenseService,
+        private CacheItemPoolInterface $cache,
+        private KernelInterface        $kernel
+    )
     {
     }
 
@@ -40,7 +36,11 @@ class JigasiService
         if ($server && $this->licenseService->verify($server) && $server->getJigasiNumberUrl()) {
             try {
                 $responseArr = json_decode($server->getJigasiNumberUrl(), true);
-                $numbers = $responseArr['numbers'];
+                $numbers = null;
+
+                if (isset($responseArr['numbers'])) {
+                    $numbers = $responseArr['numbers'];
+                }
             } catch (\Exception $exception) {
                 $this->logger->error($exception->getMessage());
                 return null;
@@ -61,16 +61,19 @@ class JigasiService
                 $this->cache->delete('jigasi_pin_' . $rooms->getUid());
             }
 
-            $sipPin = $this->cache->get('jigasi_pin_' . $rooms->getUid(), function (ItemInterface $item) use ($server, $rooms) {
-                $item->expiresAfter(3600);
-                try {
-                    $pin = $this->pingJigasi($rooms);
-                } catch (\Exception $exception) {
-                    $item->expiresAfter(1);
-                    return null;
+            $sipPin = $this->cache->get(
+                'jigasi_pin_' . $rooms->getUid(),
+                function (ItemInterface $item) use ($server, $rooms) {
+                    $item->expiresAfter(3600);
+                    try {
+                        $pin = $this->pingJigasi($rooms);
+                    } catch (\Exception $exception) {
+                        $item->expiresAfter(1);
+                        return null;
+                    }
+                    return $pin;
                 }
-                return $pin;
-            });
+            );
             return $sipPin;
         }
         return null;
@@ -111,6 +114,4 @@ class JigasiService
         $stringSanitize = trim(preg_replace('/\s\s+/m', ' ', $stringSanitize));
         return $stringSanitize;
     }
-
 }
-

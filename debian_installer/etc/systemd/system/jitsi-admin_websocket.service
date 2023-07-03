@@ -1,0 +1,22 @@
+[Unit]
+     Description=Jitsi-Admin Websocket Service
+     After=network.target
+     StartLimitBurst=5
+     StartLimitIntervalSec=33
+
+
+     [Service]
+     Type=simple
+     User=www-data
+     Group=www-data
+     WorkingDirectory=/usr/local/bin/websocket
+
+	 EnvironmentFile=/etc/systemd/system/jitsi-admin.conf
+     ExecStart=node .
+     StandardOutput=file:/var/log/websocket/websocket.log
+     StandardError=file:/var/log/websocket/error.log
+     Restart=always
+     RestartSec=5
+
+     [Install]
+     WantedBy=multi-user.target

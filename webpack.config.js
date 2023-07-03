@@ -32,10 +32,11 @@ Encore
     .addLoader({
         test: /\.mp3$/,
         loader: 'file-loader',
-        query: {
+        options: {
             name: 'static/media/[name].[hash:8].[ext]'
         }
     })
+
     .addPlugin(
         new CopyWebpackPlugin({
             patterns: [
@@ -63,6 +64,10 @@ Encore
     .autoProvidejQuery()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
+
+    .configureBabel(function(babelConfig) {
+        babelConfig.plugins.push("@babel/plugin-proposal-class-properties");
+    })
 // create hashed filenames (e.g. app.abc123.css)
 //.enableVersioning()
 

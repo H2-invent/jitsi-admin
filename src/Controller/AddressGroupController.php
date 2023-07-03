@@ -14,7 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddressGroupController extends JitsiAdminController
 {
-
     /**
      * @Route("room/address/group/new", name="address_group_new")
      */
@@ -25,13 +24,13 @@ class AddressGroupController extends JitsiAdminController
         $addressgroup->setLeader($this->getUser());
         $title = $translator->trans('Neue Kontaktgruppe erstellen');
         if ($request->get('id')) {
-            $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(array('id' => $request->get('id')));
+            $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
             if ($addressgroup->getLeader() !== $this->getUser()) {
                 throw new NotFoundHttpException('Not Found');
             }
             $title = $translator->trans('Kontaktgruppe bearbeiten');
         }
-        $form = $this->createForm(AddressGroupType::class, $addressgroup, ['user' => $this->getUser(), 'action' => $this->generateUrl('address_group_new', array('id' => $addressgroup->getId()))]);
+        $form = $this->createForm(AddressGroupType::class, $addressgroup, ['user' => $this->getUser(), 'action' => $this->generateUrl('address_group_new', ['id' => $addressgroup->getId()])]);
 
         try {
             $form->handleRequest($request);
@@ -42,19 +41,22 @@ class AddressGroupController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 $em->persist($addressgroup);
                 $em->flush();
-                $this->addFlash('success',$translator->trans('Kontaktgruppe erfolgreich angelegt'));
+                $this->addFlash('success', $translator->trans('Kontaktgruppe erfolgreich angelegt'));
                 return $this->redirectToRoute('dashboard');
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $this->addFlash('danger',$snack);
+            $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
         }
 
-        return $this->render('address_group/index.html.twig', [
-            'form' => $form->createView(),
-            'title' => $title
-        ]);
+        return $this->render(
+            'address_group/index.html.twig',
+            [
+                'form' => $form->createView(),
+                'title' => $title
+            ]
+        );
     }
 
     /**
@@ -62,7 +64,7 @@ class AddressGroupController extends JitsiAdminController
      */
     public function remove(Request $request, TranslatorInterface $translator): Response
     {
-        $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(array('id' => $request->get('id')));
+        $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);
         if (!$addressgroup || $addressgroup->getLeader() != $this->getUser()) {
             throw new NotFoundHttpException('Not Found');
         }

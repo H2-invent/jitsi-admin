@@ -1,13 +1,24 @@
 import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
-import {close, inIframe, initModeratorIframe} from "./moderatorIframe";
+import {close, inIframe, initModeratorIframe, showPlayPause} from "./moderatorIframe";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import * as mdb from 'mdb-ui-kit'; // lib
 import ClipboardJS from 'clipboard'
 import {initStartIframe} from "./createConference";
+import {jitsiController} from "./pauseJitsi";
+import {jitsiErrorHandling} from "./jitsiErrorHandling";
+import {checkFirefox} from "./checkFirefox";
+
 var frameId;
-var api = new JitsiMeetExternalAPI(domain, options);
+let api = new JitsiMeetExternalAPI(domain, options);
 var joined = false;
+var pauseController;
+var jitsiErrorController;
+var avatarUrl = null;
+var displayName = null;
+var myId = null;
+var roomName = null;
+var isBreakout = null;
 api.addListener('chatUpdated', function (e) {
     if (e.isOpen == true) {
         document.querySelector('#logo_image').classList.add('transparent');
@@ -17,11 +28,26 @@ api.addListener('chatUpdated', function (e) {
 
 });
 
+if (typeof options.userInfo.avatarUrl !== 'undefined'){
+    avatarUrl = options.userInfo.avatarUrl;
+}
+if (typeof options.userInfo.displayName !== 'undefined'){
+    displayName = options.userInfo.displayName;
+}
+
 
 api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
     initStartWhiteboard();
+    showPlayPause();
     joined = true;
+    myId = e.id;
+    roomName = e.roomName;
+    isBreakout = e.breakoutRoom;
+    pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
+    jitsiErrorController= new jitsiErrorHandling(api);
+
+
     window.onbeforeunload = function (e) {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -97,4 +123,6 @@ docReady(function () {
     initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
     initStartIframe();
+    checkFirefox();
+
 });

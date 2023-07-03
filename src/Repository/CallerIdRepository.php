@@ -57,8 +57,6 @@ class CallerIdRepository extends ServiceEntityRepository
             ->setParameter('pin', $pin)
             ->setParameter('room', $rooms)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
-
 }

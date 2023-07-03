@@ -36,7 +36,7 @@ async function initAUdio() {
             if (device.kind === 'audioinput') {
                 var name = device.label.replace(/\(\w*:.*\)/g, "");
                 $('#audioInputSelect').append(
-                    '<a class="dropdown-item audio_inputSelect" href="#" data-value="' + device.deviceId + '">' + name + '</a>'
+                    '<a class="dropdown-item audio_inputSelect" data-value="' + device.deviceId + '">' + name + '</a>'
                 )
                 mic.push(device);
                 micArr[device.deviceId] = device.label;

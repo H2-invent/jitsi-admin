@@ -1,0 +1,72 @@
+name: Create Release
+env:
+  GITHUB_TOKEN: ${{ secrets.token }}
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  artifact:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+
+  create_release:
+    needs:
+      - artifact
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: paulhatch/semantic-version@v5.0.2
+        id: version
+        with:
+          tag_prefix: ""
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          change_path: .
+          version_format: "${major}.${minor}.${patch}"
+
+      - name: Create new Release with semantic-version tag
+        uses: actions/create-release@master
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: Release ${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.version }}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact_${{github.run_number}}
+
+      - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
+
+      - name: Write semantic Version in .env.local
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "laF_version=2.0.0-dev"
+          replace: "laF_version=${{ steps.version.outputs.version }}"
+          regex: false
+          include: "artifact/.env"
+
+      - name: Archive Release for application
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'zip'
+          filename: 'release.zip'
+          exclusions: '*.git* *.github* /*node_modules/* .editorconfig'
+          directory: artifact
+
+      - name: Upload Application Asset to Release
+        uses: actions/upload-release-asset@master
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifact/release.zip
+          asset_name: application.zip
+          asset_content_type: application/zip

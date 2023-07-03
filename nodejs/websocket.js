@@ -24,11 +24,15 @@ export const io = new Server(server, {
 io.use(function (socket, next) {
         if (socket.handshake.query && socket.handshake.query.token) {
             jwt.verify(socket.handshake.query.token, WEBSOCKET_SECRET, function (err, decoded) {
-                if (err) return next(new Error('Authentication error'));
+                if (err){
+                    console.log('wrong secret. Check your secrets');
+                    return next(new Error('Authentication error'));
+                }
                 socket.decoded = decoded;
                 next();
             });
         } else {
+
             next(new Error('Authentication error'));
         }
     }

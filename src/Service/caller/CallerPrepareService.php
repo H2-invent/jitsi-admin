@@ -5,8 +5,6 @@ namespace App\Service\caller;
 use App\Entity\CallerId;
 use App\Entity\CallerRoom;
 use App\Entity\Rooms;
-
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Prophecy\Call\Call;
 
@@ -35,7 +33,6 @@ class CallerPrepareService
     {
         $this->addNewId();;
         $this->deleteOldId();
-
     }
 
     /**
@@ -112,7 +109,7 @@ class CallerPrepareService
      */
     public function checkRandomId($random): bool
     {
-        $finding = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId' => $random));
+        $finding = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $random]);
         return $finding ? true : false;
     }
 
@@ -140,7 +137,7 @@ class CallerPrepareService
     {
 
         foreach ($rooms->getUser() as $data) {
-            $callerID = $this->em->getRepository(CallerId::class)->findOneBy(array('room' => $rooms, 'user' => $data));
+            $callerID = $this->em->getRepository(CallerId::class)->findOneBy(['room' => $rooms, 'user' => $data]);
             if (!$callerID) {
                 $callerID = new CallerId();
                 $callerID
@@ -182,7 +179,7 @@ class CallerPrepareService
      */
     public function checkRandomCallerUserId($random, Rooms $rooms): bool
     {
-        $finding = $this->em->getRepository(CallerId::class)->findOneBy(array('callerId' => $random, 'room' => $rooms));
+        $finding = $this->em->getRepository(CallerId::class)->findOneBy(['callerId' => $random, 'room' => $rooms]);
         return $finding ? true : false;
     }
 }

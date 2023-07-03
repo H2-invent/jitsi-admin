@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service;
-
 
 use App\Entity\Repeat;
 use App\Entity\Rooms;
@@ -24,7 +22,7 @@ class RepeaterService
     private $translator;
     private $twig;
     private $callerUserService;
-    private $days = array(
+    private $days = [
         1 => 'Monday',
         2 => 'Tuesday',
         3 => 'Wednesday',
@@ -32,16 +30,16 @@ class RepeaterService
         5 => 'Friday',
         6 => 'Saturday',
         0 => 'Sunday'
-    );
-    private $number = array(
+    ];
+    private $number = [
         0 => 'First',
         1 => 'Second',
         2 => 'Third',
         3 => 'Fourth',
         4 => 'Fifth',
         5 => 'Last',
-    );
-    private $months = array(
+    ];
+    private $months = [
         'January',
         'February',
         'March',
@@ -54,14 +52,19 @@ class RepeaterService
         'October',
         'November',
         'December',
-    );
+    ];
 
-    public function __construct(CallerPrepareService $callerPrepareService, IcalService $icalService, Environment $environment, TranslatorInterface $translator, UserService $userService, IcsService $icsService, MailerService $mailerService, EntityManagerInterface $entityManager)
+    public function __construct(
+        CallerPrepareService   $callerPrepareService,
+        IcalService            $icalService,
+        Environment            $environment,
+        TranslatorInterface    $translator,
+        MailerService          $mailerService,
+        EntityManagerInterface $entityManager,
+    )
     {
-        $this->icsService = $icsService;
         $this->em = $entityManager;
         $this->mailer = $mailerService;
-        $this->userService = $userService;
         $this->translator = $translator;
         $this->twig = $environment;
         $this->icalService = $icalService;
@@ -273,7 +276,6 @@ class RepeaterService
             $sollCounter--;
             $start->modify('first day of this month');
             $start->modify('+' . ($repeat->getRepeatYearlyRelativeHowOften()) . ' years');
-
         } else {
             $start->modify('first day of next Year');
         }
@@ -287,7 +289,6 @@ class RepeaterService
             $this->em->persist($room);
             $start->modify('first day of this month');
             $start->modify('+' . ($repeat->getRepeatYearlyRelativeHowOften()) . ' years');
-
         }
         $this->em->persist($repeat);
         $this->em->flush();
@@ -341,7 +342,7 @@ class RepeaterService
         $repeater = $this->cleanRepeater($repeater);
         $repeater = $this->createNewRepeater($repeater);
         $this->addUserRepeat($repeater);
-        $this->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', array('{name}' => $repeater->getPrototyp()->getName())), array('room' => $repeater->getPrototyp()));
+        $this->sendEMail($repeater, 'email/repeaterEdit.html.twig', $this->translator->trans('Die Serienvideokonferenz {name} wurde bearbeitet', ['{name}' => $repeater->getPrototyp()->getName()]), ['room' => $repeater->getPrototyp()]);
         $snack = $this->translator->trans('Sie haben erfolgreich einen Serientermin bearbeitet');
 
         // here we have the old prototype but with new Time and new Settings
@@ -353,7 +354,8 @@ class RepeaterService
      * @return Repeat|null
      * This function Prepares the repeater to have the new startdate
      */
-    public function prepareRepeater(Rooms $rooms){
+    public function prepareRepeater(Rooms $rooms)
+    {
 
         $rooms->setEnddate((clone $rooms->getStart())->modify('+' . $rooms->getDuration() . 'min'));
         $this->em->persist($rooms);
@@ -365,6 +367,7 @@ class RepeaterService
         $this->em->flush();
         return $repeater;
     }
+
     /**
      * this function replaces the prototype in a repeater and hangs all attributes from the old prototype to the new prototype
      * @param Rooms $rooms
@@ -384,7 +387,6 @@ class RepeaterService
         foreach ($oldPrototype->getPrototypeUsers() as $data) {
             $newPrototype->addPrototypeUser($data);
             $oldPrototype->removePrototypeUser($data);
-
         }
         foreach ($newPrototype->getUser() as $data) {
             $newPrototype->removeUser($data);
@@ -441,7 +443,7 @@ class RepeaterService
      * @throws \Twig\Error\SyntaxError
      * @author Emanuel Holzmann
      */
-    function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = array(), $method = 'REQUEST', $users = array())
+    function sendEMail(Repeat $repeat, $template, $subject, $templateAttr = [], $method = 'REQUEST', $users = [])
     {
         if (sizeof($users) === 0) {
             $users = $repeat->getPrototyp()->getPrototypeUsers();
@@ -449,8 +451,8 @@ class RepeaterService
         foreach ($users as $user) {
             $templateAttr['user'] = $user;
             $ics = $this->createIcs($repeat, $user);
-            $attachement = array();
-            $attachement[] = array('type' => 'text/calendar', 'filename' => $repeat->getPrototyp()->getName() . '.ics', 'body' => $ics);
+            $attachement = [];
+            $attachement[] = ['type' => 'text/calendar', 'filename' => $repeat->getPrototyp()->getName() . '.ics', 'body' => $ics];
             $this->mailer->sendEmail(
                 $user,
                 $subject,
@@ -555,16 +557,16 @@ class RepeaterService
                 }
                 break;
             case 5:
-                if ($repeat->getRepeatYearlyRelativeHowOften() === null ||
-                    $repeat->getRepeatYearlyRelativeNumber() === null ||
-                    $repeat->getRepeatYearlyRelativeWeekday() === null ||
-                    $repeat->getRepeatYearlyRelativeMonth() === null) {
+                if ($repeat->getRepeatYearlyRelativeHowOften() === null
+                    || $repeat->getRepeatYearlyRelativeNumber() === null
+                    || $repeat->getRepeatYearlyRelativeWeekday() === null
+                    || $repeat->getRepeatYearlyRelativeMonth() === null
+                ) {
                     return false;
                 }
                 break;
             default:
                 break;
-
         }
         return true;
     }
@@ -585,7 +587,6 @@ class RepeaterService
         $this->em->refresh($repeater->getPrototyp());
 
         foreach ($repeater->getRooms() as $data) {
-
             foreach ($data->getUserAttributes() as $data2) {
                 $data->removeUserAttribute($data2);
             }
@@ -624,7 +625,6 @@ class RepeaterService
         foreach ($repeat->getRooms() as $data) {
             $this->callerUserService->addCallerIdToRoom($data);
             $this->callerUserService->createUserCallerIDforRoom($data);
-
         }
     }
 }

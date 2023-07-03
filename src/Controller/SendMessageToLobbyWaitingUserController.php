@@ -19,26 +19,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/room/lobby/message', name: 'lobby_send_message')]
 class SendMessageToLobbyWaitingUserController extends JitsiAdminController
 {
-
-
     #[Route('/send', name: '_to_waitinguser', methods: 'POST')]
     public function index(SendMessageToWaitingUser $sendMessageToWaitingUser, Request $request): Response
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
         $res = $sendMessageToWaitingUser->sendMessage($data['uid'], $data['message'], $this->getUser());
-        return new JsonResponse(array('error' => !$res,'message'=>!$res?$this->translator->trans('lobby.message.failed'):$this->translator->trans('lobby.message.success')));
+        return new JsonResponse(['error' => !$res, 'message' => !$res ? $this->translator->trans('lobby.message.failed') : $this->translator->trans('lobby.message.success')]);
     }
 
     #[Route('/send/all', name: '_to_waitinguser_all', methods: 'POST')]
     public function sendToAll(SendMessageToWaitingUser $sendMessageToWaitingUser, Request $request): Response
     {
-        $data = json_decode($request->getContent(),true);
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$data['uid']));
-        if (!$room){
-            return new JsonResponse(array('error'=>true,'message'=>$this->translator->trans('lobby.message.failed')));
+        $data = json_decode($request->getContent(), true);
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $data['uid']]);
+        if (!$room) {
+            return new JsonResponse(['error' => true, 'message' => $this->translator->trans('lobby.message.failed')]);
         }
-        $res= $sendMessageToWaitingUser->sendMessageToAllWaitingUser($data['message'], $this->getUser(),$room);
-        return new JsonResponse(array('error'=>!$res['success'], 'counts' => $res['counter'],'message'=>!$res['success']?$this->translator->trans('lobby.message.failed'):$this->translator->trans('lobby.message.success')));
+        $res = $sendMessageToWaitingUser->sendMessageToAllWaitingUser($data['message'], $this->getUser(), $room);
+        return new JsonResponse(['error' => !$res['success'], 'counts' => $res['counter'], 'message' => !$res['success'] ? $this->translator->trans('lobby.message.failed') : $this->translator->trans('lobby.message.success')]);
     }
-
 }

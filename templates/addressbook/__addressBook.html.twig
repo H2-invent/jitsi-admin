@@ -15,75 +15,104 @@
     </div>
     <div class="textarea">
         <div class="topbar">
-            {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
-                <div class="d-flex flex-wrap mt-2 mb-2 ps-2">
-                    {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
-                        <div class="form-check me-2">
-                            <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
-                                   data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}" checked/>
-                            <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
             <div class="form-grou mt-2 mb-2">
                 <input type="text" placeholder="{{ 'Suche'|trans }}" class="form-control searchListInput">
             </div>
+            <div class="filterbar d-flex justify-content-end mt-4">
+
+            <div class="dropdown me-2">
+                <a href="#"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false"
+                >
+                   {{ 'Filter'|trans }}
+                    <i class="fas fa-filter"><div class="filter-dot d-none">0</div></i>
+
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
+
+                            {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <div class="form-check">
+                                        <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
+                                                                               data-filter="{{ filter|json_encode() }}" id="addressbookFilter{{ loop.index }}"/>
+                                        <label class="form-check-label" for="addressbookFilter{{ loop.index }}">{{ key }}</label>
+                                        </div>
+                                    </a>
+                                    </li>
+                            {% endfor %}
+                    {% endif %}
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input adressBookFilter" data-filter='["online","away","inMeeting"]' type="checkbox" value="" id="addressbookFilterOnline" checked />
+                                <label class="form-check-label" for="addressbookFilterOnline">{{ 'status.online'|trans }}</label>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input adressBookFilter" data-filter='["favorite"]' type="checkbox" value="" id="addressbookFilterFavorit" checked />
+                                <label class="form-check-label" for="addressbookFilterFavorit">{{ 'favorite.sidebar.title'|trans }}</label>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+{#                <div class="dropdown">#}
+{#                    <a href="#"#}
+{#                       type="button"#}
+{#                       id="dropdownMenuButton"#}
+{#                       data-mdb-toggle="dropdown"#}
+{#                       aria-expanded="false"#}
+{#                    >#}
+{#                        {{ 'Sortieren'|trans }} <i class="fa-solid fa-arrow-down-wide-short"></i>#}
+{#                    </a>#}
+{#                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">#}
+
+{#                        <li><a class="dropdown-item" href="#">{{ 'Alphabetisch'|trans }}</a></li>#}
+{#                        <li><a class="dropdown-item" href="#">{{ 'Zuletzt Kontaktiert'|trans }}</a></li>#}
+{#                        <li><a class="dropdown-item" href="#">{{ 'Häufig kontaktiert'|trans }}</a></li>#}
+{#                    </ul>#}
+{#                </div>#}
+            </div>
+
+
         </div>
         <div class="content">
             <ul class="list-group">
+                <li class="list-group-item capital-Letter"><b><i
+                                class="fa fa-star"></i> {{ 'favorite.sidebar.title'|trans }}</b>
+                </li>
+                {% if app.user.adressbookFavorites|length == 0 %}
+                    <li class="list-group-item adressbookline"> {{ 'addressbook.favorite.help'|trans|raw }}
+                    </li>
+                {% else %}
+                    {% for u in app.user.adressbookFavorites %}
+                        {% include('addressbook/__addressBookEntry.html.twig') with {'u':u} %}
+                    {% endfor %}
+                {% endif %}
+                <li class="mb-3"></li>
                 {% set name = null %}
                 {% for u in app.user.addressbook|sort((a, b) => a|nameOfUserNoSymbol|lower <=> b|nameOfUserNoSymbol|lower) %}
                     {% if u|nameOfUserNoSymbol|first|upper != name %}
                         <li class="list-group-item capital-Letter"
-                            id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}</li>
+                            id="adressbook_{{ u|nameOfUserNoSymbol|first|upper }}">{{ u|nameOfUserNoSymbol|first|upper }}
+                        </li>
                         {% set name = u|nameOfUserNoSymbol|first|upper %}
                     {% endif %}
-
-                    <li class="list-group-item adressbookline" data-uid="{{ u.uid }}"
-                        data-indexer="{{ u.indexer }}"
-                        data-filterafter="{{ u.categories|json_encode }}">
-            <span class="breakWord d-flex align-items-center name">
-        {% if u.profilePicture %}
-            <div class="iconSytle imageIcon me-2"
-                 style="background-image: url('{{ vich_uploader_asset(u.profilePicture,'documentFile') }}')">
-            </div>
-        {% endif %}{{ u|nameOfUser }} </span>
-                        <span class="noBreak d-flex align-items-center icon">
-                {% if servers|length == 1 %}
-                    <a class="text-success adhocConfirm me-2 "
-                       data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                       href="{{ path('add_hoc_confirm',{'serverId':servers[0].id,'userId':u.id}) }}">
-                       <i class="fa-solid fa-phone-volume"></i>
-                             </a>
-                {% else %}
-                    <a class="caretdown dropdown-toggle text-success" data-mdb-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa-solid fa-phone-volume"></i>
-                             </a>
-                    <div class="dropdown-menu">
-            {% for s in servers %}
-                <a class="dropdown-item adhocConfirm"
-                   data-text="{{ 'Wollen Sie mit diesem Teilnehmer eine Konferenz starten'|trans }}"
-                   href="{{ path('add_hoc_confirm',{'serverId':s.id,'userId':u.id}) }}">{{ s.serverName }}</a>
-            {% endfor %}
-
-        </div>
-                {% endif %}
-                            {% if theme == false or theme.trashOnAdressBook == true %}
-                                <a class="confirmHref ms-2" href="{{ path('adressbook_remove_user',{'id':u.id}) }}"
-                                   data-text="{{ 'confirm.delete.adressbookUser'|trans }}"><i
-                                            class="fa fa-trash text-danger"></i> </a>
-                            {% endif %}
-        </span></li>
+                    {% include('addressbook/__addressBookEntry.html.twig') with {'u':u} %}
                 {% endfor %}
             </ul>
         </div>
 
 
-
-
     </div>
-
-
 </div>

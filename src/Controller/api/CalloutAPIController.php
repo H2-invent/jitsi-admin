@@ -8,7 +8,6 @@ use App\Service\Callout\CallOutSessionAPIDialService;
 use App\Service\Callout\CallOutSessionAPIHoldService;
 use App\Service\Callout\CallOutSessionAPIRemoveService;
 use App\Service\Callout\CalloutSessionAPIService;
-use App\Service\Lobby\ToModeratorWebsocketService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -21,6 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/api/v1/call/out', name: 'callout_api_')]
 class CalloutAPIController extends JitsiAdminController
 {
+    private string $token;
+
     public function __construct(
         ManagerRegistry                      $managerRegistry,
         TranslatorInterface                  $translator,
@@ -28,14 +29,11 @@ class CalloutAPIController extends JitsiAdminController
         ParameterBagInterface                $parameterBag,
         private CalloutSessionAPIService     $calloutSessionAPIService,
         private CallOutSessionAPIDialService $callOutSessionAPIDialService,
-
-
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
     }
-
 
     #[Route('/', name: 'pool')]
     public function index(Request $request): Response
@@ -48,8 +46,8 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($calloutSessions);
     }
 
-    #[Route('/dial/', name: 'dial_pool',methods: 'GET')]
-    public function dialPool( Request $request): Response
+    #[Route('/dial/', name: 'dial_pool', methods: 'GET')]
+    public function dialPool(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -94,6 +92,18 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
+    #[Route('/unreachable/{calloutSessionId}', name: 'unreachable')]
+    public function unreachable($calloutSessionId, Request $request, CallOutSessionAPIRemoveService $callOutSessionAPIRemoveService): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = $callOutSessionAPIRemoveService->unreachable($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
+
     #[Route('/timeout/{calloutSessionId}', name: 'timeout')]
     public function timeout($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
     {
@@ -128,8 +138,19 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    #[Route('/on_hold/', name: 'on_hold_pool',methods: 'GET')]
-    public function onHoldPool( Request $request): Response
+    #[Route('/ringing/{calloutSessionId}', name: 'ringing')]
+    public function ringing($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = $this->callOutSessionAPIDialService->ringing($calloutSessionId);
+        return new JsonResponse($res);
+    }
+
+    #[Route('/on_hold/', name: 'on_hold_pool', methods: 'GET')]
+    public function onHoldPool(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -140,4 +161,14 @@ class CalloutAPIController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
+    #[Route('/back/{calloutSessionId}', name: 'back', methods: 'GET')]
+    public function back($calloutSessionId, Request $request, CallOutSessionAPIHoldService $callOutSessionAPIHoldService): Response
+    {
+        $check = CheckAuthorizationService::checkHEader($request, $this->token);
+        if ($check) {
+            return $check;
+        }
+        $res = $this->callOutSessionAPIDialService->backSession($calloutSessionId);
+        return new JsonResponse($res);
+    }
 }

@@ -26,7 +26,7 @@ class TagListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $tags = $this->em->getRepository(Tag::class)->findBy(array(),array('priority'=>'ASC'));
+        $tags = $this->em->getRepository(Tag::class)->findBy([], ['priority' => 'ASC']);
 
         foreach ($tags as $data) {
             if (!$data->getDisabled()) {

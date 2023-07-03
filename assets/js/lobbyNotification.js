@@ -5,6 +5,7 @@ import Push from "push.js";
 import {initCircle} from './initCircle'
 import notificationSound from '../sound/notification.mp3'
 import callerSound from '../sound/ringtone.mp3'
+import newMessageSound from '../sound/new_message.mp3'
 import {setSnackbar, deleteToast} from './myToastr';
 import {TabUtils} from './tabBroadcast'
 import {refreshDashboard} from './refreshDashboard';
@@ -50,7 +51,9 @@ function masterNotify(data) {
             closeCallbackFkt();
         }
     } else if (data.type === 'reload') {
+
         setTimeout(function () {
+            window.onbeforeunload = null;
             location.reload();
 
         }, data.timeout)
@@ -82,6 +85,8 @@ function addmessage(data) {
             })
         }
     }
+    var audio = new Audio(newMessageSound);
+    audio.play();
 }
 
 function notifymoderator(data) {
@@ -103,32 +108,31 @@ function notifymoderator(data) {
 
 function refresh(data) {
     var reloadUrl = data.reloadUrl;
-    var timeout =  setTimeout(function () {
 
 
-        $('#waitingUserWrapper').load(reloadUrl, function () {
-            const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
-            if (exampleEl.length > 0) {
-                for (var prop in exampleEl) {
-                    const popover = new mdb.Popover(exampleEl[prop])
-                }
+    $('#waitingUserWrapper').load(reloadUrl, function () {
+        const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
+        if (exampleEl.length > 0) {
+            for (var prop in exampleEl) {
+                const popover = new mdb.Popover(exampleEl[prop])
             }
+        }
 
-            if (!$('#sliderTop').hasClass('notification')) {
-                $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
-            }
-            initCircle();
-            countParts();
-            initDragParticipants();
-            $('[data-mdb-toggle="tooltip"]').tooltip('hide');
-            $('.tooltip').remove();
-            $('[data-mdb-toggle="tooltip"]').tooltip();
-            document.querySelectorAll('.form-outline').forEach((formOutline) => {
-                new mdb.Input(formOutline).init();
-            });
-        })
-    }, 3000);
+        if (!$('#sliderTop').hasClass('notification')) {
+            $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
+        }
+        initCircle();
+        countParts();
+        initDragParticipants();
+        $('[data-mdb-toggle="tooltip"]').tooltip('hide');
+        $('.tooltip').remove();
+        $('[data-mdb-toggle="tooltip"]').tooltip();
+        document.querySelectorAll('.form-outline').forEach((formOutline) => {
+            new mdb.Input(formOutline).init();
+        });
+    })
 }
+
 
 /*
 wenn ein Meeting komplett durch den Moderator beendet wird:

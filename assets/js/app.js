@@ -71,6 +71,11 @@ $(document).ready(function () {
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
+    var proTip = document.getElementById('proTip')
+    if (proTip){
+        proTip.style.transform = 'translateY(-'+(proTip.querySelector('.first-line').clientHeight+8+8)+'px)';
+    }
+
     initDashboardnotification(topic);
 
     setTimeout(function () {
@@ -134,9 +139,7 @@ $('#modalAdressbook').on('shown.bs.modal', function (e) {
     initalSetUnderline('#modalAdressbook .underline');
 });
 
-$('#loadContentModal').on('shown.bs.modal', function (e) {
-    initNewModal(e)
-});
+
 
 
 $(".clickable-row").click(function () {

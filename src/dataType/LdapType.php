@@ -2,9 +2,10 @@
 
 namespace App\dataType;
 
-use App\Service\ldap\LdapService;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LdapType
 {
@@ -22,13 +23,19 @@ class LdapType
     private $objectClass;
     public static $ANONYMOUS = 1;
     public static $SIMPLE = 0;
-    private $ldapService;
     private $specialFields;
     private $filter;
+    private $dryRun = false;
+    private $LDAP_DEPUTY_GROUP_OBJECTCLASS;
+    private $LDAP_DEPUTY_GROUP_DN;
+    private $LDAP_DEPUTY_GROUP_LEADER;
+    private $LDAP_DEPUTY_GROUP_MEMBERS;
+    private $LDAP_DEPUTY_GROUP_FILTER;
+    private $isHealthy = false;
 
-    public function __construct(LdapService $ldapService)
+    public function __toString(): string
     {
-        $this->ldapService = $ldapService;
+        return $this->serVerId;
     }
 
     /**
@@ -241,18 +248,35 @@ class LdapType
 
     public function createLDAP()
     {
+
+        $anonym = $this->bindType === 'simple' ? false : true;
+        $validator = Validation::createValidator();
         try {
-            $this->ldap = $this->ldapService->createLDAP(
-                $this->url, $this->bindDn,
-                $this->password,
-                $this->bindType === 'simple' ? false : true
-            );
-            return true;
+            $tmp = Ldap::create('ext_ldap', ['connection_string' => $this->url]);
+            $isUrl = $this->isValidLdapUrl($this->url);
+            if ($isUrl) {
+                if (!$anonym) {
+                    $tmp->bind($this->bindDn, $this->password);
+                } else {
+                    $tmp->bind();
+                }
+            } else {
+               throw new \Exception('invalid Bind URL');
+            }
+            $this->ldap = $tmp;
+            $this->isHealthy = true;
+            return $tmp;
         } catch (\Exception $exception) {
             throw $exception;
         }
     }
 
+    public function isValidLdapUrl(string $url):bool{
+        $regex = '/^(ldap(s)?:\/\/)(((((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4})|([a-zA-Z][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@%_\+.~#?&\/=]*))))(?:\:\d+)?$/m';
+
+        $isUrl = preg_match($regex,$url);
+        return $isUrl>0;
+    }
     /**
      * @return mixed
      */
@@ -282,10 +306,177 @@ class LdapType
             $objectclass .= '(objectclass=' . $data2 . ')';
         }
         $objectclass .= ')';
-        if($this->filter){
-            $objectclass = ''.$objectclass.$this->filter;
+        if ($this->filter) {
+            $objectclass .= $this->filter;
         }
-        $objectclass = '(&'.$objectclass.')';
+        $objectclass = '(&' . $objectclass . ')';
         return $objectclass;
+    }
+
+    /**
+     * @param $objectClassString
+     * @return string
+     * This Function build the Query String to find the user in the LDAP
+     */
+    public function buildObjectClassDeputy(): string
+    {
+        $objectclass = '(|';
+        foreach (explode(',', $this->LDAP_DEPUTY_GROUP_OBJECTCLASS) as $data2) {
+            $objectclass .= '(objectclass=' . $data2 . ')';
+        }
+        $objectclass .= ')';
+
+        if ($this->LDAP_DEPUTY_GROUP_FILTER) {
+            $objectclass .= $this->LDAP_DEPUTY_GROUP_FILTER;
+            $objectclass = '(&' . $objectclass . ')';
+        }
+
+        return $objectclass;
+    }
+
+    /**
+     * this function queries for users in the ldap
+     * @param Ldap $ldap
+     * @param string $userDn
+     * @param string $objectclass
+     * @param string $scope
+     * @return \Symfony\Component\Ldap\Entry[]
+     */
+    public function retrieveUser()
+    {
+
+        $options = [
+            'scope' => $this->scope,
+        ];
+
+        $query = $this->ldap->query($this->userDn, $this->buildObjectClass(), $options);
+        $user = $query->execute();
+        return $user->toArray();
+    }
+
+
+    public function retrieveDeputies()
+    {
+
+        $options = [
+            'scope' => $this->scope,
+        ];
+
+        $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
+        $user = $query->execute();
+        return $user->toArray();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getDryRun()
+    {
+        return $this->dryRun;
+    }
+
+    /**
+     * @param mixed $dryRun
+     */
+    public function setDryRun($dryRun): void
+    {
+        $this->dryRun = $dryRun;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLDAPDEPUTYGROUPOBJECTCLASS()
+    {
+        return $this->LDAP_DEPUTY_GROUP_OBJECTCLASS;
+    }
+
+    /**
+     * @param mixed $LDAP_DEPUTY_GROUP_OBJECTCLASS
+     */
+    public function setLDAPDEPUTYGROUPOBJECTCLASS($LDAP_DEPUTY_GROUP_OBJECTCLASS): void
+    {
+        $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = $LDAP_DEPUTY_GROUP_OBJECTCLASS;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLDAPDEPUTYGROUPDN()
+    {
+        return $this->LDAP_DEPUTY_GROUP_DN;
+    }
+
+    /**
+     * @param mixed $LDAP_DEPUTY_GROUP_DN
+     */
+    public function setLDAPDEPUTYGROUPDN($LDAP_DEPUTY_GROUP_DN): void
+    {
+        $this->LDAP_DEPUTY_GROUP_DN = $LDAP_DEPUTY_GROUP_DN;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLDAPDEPUTYGROUPLEADER()
+    {
+        return $this->LDAP_DEPUTY_GROUP_LEADER;
+    }
+
+    /**
+     * @param mixed $LDAP_DEPUTY_GROUP_LEADER
+     */
+    public function setLDAPDEPUTYGROUPLEADER($LDAP_DEPUTY_GROUP_LEADER): void
+    {
+        $this->LDAP_DEPUTY_GROUP_LEADER = $LDAP_DEPUTY_GROUP_LEADER;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLDAPDEPUTYGROUPMEMBERS()
+    {
+        return $this->LDAP_DEPUTY_GROUP_MEMBERS;
+    }
+
+    /**
+     * @param mixed $LDAP_DEPUTY_GROUP_MEMBERS
+     */
+    public function setLDAPDEPUTYGROUPMEMBERS($LDAP_DEPUTY_GROUP_MEMBERS): void
+    {
+        $this->LDAP_DEPUTY_GROUP_MEMBERS = $LDAP_DEPUTY_GROUP_MEMBERS;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLDAPDEPUTYGROUPFILTER()
+    {
+        return $this->LDAP_DEPUTY_GROUP_FILTER;
+    }
+
+    /**
+     * @param mixed $LDAP_DEPUTY_GROUP_FILTER
+     */
+    public function setLDAPDEPUTYGROUPFILTER($LDAP_DEPUTY_GROUP_FILTER): void
+    {
+        $this->LDAP_DEPUTY_GROUP_FILTER = $LDAP_DEPUTY_GROUP_FILTER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHealthy(): bool
+    {
+        return $this->isHealthy;
+    }
+
+    /**
+     * @param bool $isHealthy
+     */
+    public function setIsHealthy(bool $isHealthy): void
+    {
+        $this->isHealthy = $isHealthy;
     }
 }

@@ -1,0 +1,49 @@
+<div class="col-md-2">
+    <span class="badge badge-danger" {% if theme %} style="background-color: {{ theme.colorBadgeSeries }} !important;" {% endif %}>{{ 'Private Konferenz'|trans }}</span>
+
+    {% if RoomStatusOpen(room) == true %}
+        <div class="occupant">
+            <div class="number">
+                <small>{{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)|length}) }}</small>
+            </div>
+            <div class="text">
+                {{ 'status.inconference'|trans }}
+            </div>
+
+        </div>
+    {% endif %}
+    {% if RoomStatusClosed(room) == true %}
+        <div class="occupant text-danger">
+            <div class="text">
+                {{ 'status.finished'|trans }}
+            </div>
+        </div>
+    {% endif %}
+    {% if not (room.scheduleMeeting or room.persistantRoom) %}
+        <h5 class="h5-responsive">{{ room.startwithTimeZone(app.user)|date('H:i',false) }}
+            – {{ room.endwithTimeZone(app.user)|date('H:i',false) }}</h5>
+        {% if getApplicationProperties('allowTimeZoneSwitch') == 1 and room.persistantRoom == false %}
+            <p class="text-black-50 small"><small>{{ app.user.timeZone }}</small></p>
+        {% endif %}
+    {% endif %}
+
+
+
+
+
+</div>
+<div class="col-md-4">
+    <h5 class="h5-responsive conference-name">{{ ''|trans }}</h5>
+
+    <p class="text-black-50 small">
+        {{ 'Geplant von'|trans }}: {{ nameOfUserwithFormat(room.moderator, laf_showNameFrontend) }}<br>
+        {{ 'Anzahl Eingeladene'|trans }}
+        : {% if room.public and room.maxParticipants is not null %}{% trans with {'{from}':room.user|length, '{to}':room.maxParticipants} %}{from} von {to}{% endtrans %}{% else %}{{ room.user|length }}{% endif %}
+        <br>
+        {% if  getApplicationProperties('allowTimeZoneSwitch') == 1 and room.persistantRoom == false %}
+            {{ 'Erstellt in Zeitzone'|trans }}: {{ room.timeZoneAuto }}
+        {% endif %}
+    </p>
+</div>
+
+

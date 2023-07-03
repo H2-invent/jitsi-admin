@@ -8,9 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -22,7 +20,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class CallerSessionCleanCommand extends Command
 {
-
     public function __construct(private EntityManagerInterface $entityManager, private CallerSessionService $callerSessionService, string $name = null)
     {
         parent::__construct($name);
@@ -30,7 +27,6 @@ class CallerSessionCleanCommand extends Command
 
     protected function configure(): void
     {
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -42,7 +38,7 @@ class CallerSessionCleanCommand extends Command
         $table->setHeaders(['ID', 'Name', 'sessionId']);
         // show all sessions in a table
         foreach ($sessions as $data) {
-            $table->addRow(array($data->getId(), $data->getShowName(), $data->getSessionId()));
+            $table->addRow([$data->getId(), $data->getShowName(), $data->getSessionId()]);
         }
         $table->render();
 

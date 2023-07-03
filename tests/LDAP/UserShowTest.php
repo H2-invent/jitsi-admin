@@ -21,41 +21,47 @@ class UserShowTest extends WebTestCase
         $container = static::getContainer();
         $this->getParam();
         // (3) run some service & test the result
-        $ldapConnection = $container->get(LdapService::class);
+
         $ldapUserService = $container->get(LdapUserService::class);
-        $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
-        $ldapType = new LdapType($ldapConnection);
-        $ldapType->setUrl($this->LDAPURL);
-        $ldapType->setSerVerId('Server1');
-        $ldapType->setPassword('password');
-        $ldapType->setScope('sub');
-        $ldapType->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
-        $ldapType->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
-        $ldapType->setUserDn('o=unitTest,dc=example,dc=com');
-        $ldapType->setBindType('none');
-        $ldapType->setRdn('uid');
-        $ldapType->setLdap($ldap);
-        $ldapType->setObjectClass('person,organizationalPerson,user');
-        $ldapType->setUserNameAttribute('uid');
-        $ldapType->setFilter('(&(mail=*))');
-        $ldapType->createLDAP();
-        $entry = $ldapConnection->retrieveUser($ldapType);
+        $ldapService = self::getContainer()->get(LdapService::class);
+        $ldapConnection = new LdapType();
+        $ldapConnection->setUrl($this->LDAPURL);
+        $ldapConnection->setBindDn('uid=admin,ou=system');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setBindType('simple');
+        $ldapConnection->createLDAP();
+        $ldap = $ldapConnection->getLdap();
+        $ldapConnection->setUrl($this->LDAPURL);
+        $ldapConnection->setSerVerId('Server1');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setScope('sub');
+        $ldapConnection->setMapper(["firstName" => "givenName", "lastName" => "sn", "email" => "uid"]);
+        $ldapConnection->setSpecialFields(["ou" => "ou", "departmentNumber" => "departmentNumber"]);
+        $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
+        $ldapConnection->setBindType('none');
+        $ldapConnection->setRdn('uid');
+        $ldapConnection->setLdap($ldap);
+        $ldapConnection->setObjectClass('person,organizationalPerson,user');
+        $ldapConnection->setUserNameAttribute('uid');
+        $ldapConnection->setFilter('(&(mail=*))');
+        $ldapConnection->createLDAP();
+        $entry = $ldapConnection->retrieveUser();
 
         foreach ($entry as $data) {
-            $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);
+            $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapConnection);
         }
         $ldapUserService->connectUserwithAllUSersInAdressbock();
         $ldapUserService->cleanUpAdressbook();
         //login as the ldap user and test if the name in the adressbook is written correctly
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(array('username' => 'unitTest1Sub'));
+        $testUser = $userRepository->findOneBy(['username' => 'unitTest1Sub']);
         $client->loginUser($testUser);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
         $this->assertEquals(
             1,
-        $crawler->filter('.breakWord:contains("Reh, Rainer")')->count()
+            $crawler->filter('.breakWord:contains("Reh, Rainer")')->count()
         );
         $this->assertEquals(
             1,
@@ -70,12 +76,9 @@ class UserShowTest extends WebTestCase
             $crawler->filter('.breakWord:contains("AA, 45689, Forelle, Frieder")')->count()
         );
         $this->assertEquals(
-            0,
+            3,
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
-
-
-
     }
     public function testShowName2(): void
     {
@@ -86,35 +89,42 @@ class UserShowTest extends WebTestCase
         $container = static::getContainer();
         $this->getParam();
         // (3) run some service & test the result
-        $ldapConnection = $container->get(LdapService::class);
+
         $ldapUserService = $container->get(LdapUserService::class);
-        $ldap = $ldapConnection->createLDAP($this->LDAPURL, 'uid=admin,ou=system', 'password');
-        $ldapType = new LdapType($ldapConnection);
-        $ldapType->setUrl($this->LDAPURL);
-        $ldapType->setSerVerId('Server1');
-        $ldapType->setPassword('password');
-        $ldapType->setScope('sub');
-        $ldapType->setMapper(array("firstName" => "givenName", "lastName" => "sn", "email" => "uid"));
-        $ldapType->setSpecialFields(array("ou" => "ou", "departmentNumber" => "departmentNumber"));
-        $ldapType->setUserDn('o=unitTest,dc=example,dc=com');
-        $ldapType->setBindType('none');
-        $ldapType->setRdn('uid');
-        $ldapType->setLdap($ldap);
-        $ldapType->setObjectClass('person,organizationalPerson,user');
-        $ldapType->setUserNameAttribute('uid');
-        $ldapType->setFilter('(&(mail=*))');
-        $ldapType->createLDAP();
-        $entry = $ldapConnection->retrieveUser($ldapType);
+        $ldapService = self::getContainer()->get(LdapService::class);
+        $ldapConnection = new LdapType();
+        $ldapConnection->setUrl($this->LDAPURL);
+        $ldapConnection->setBindDn('uid=admin,ou=system');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setBindType('simple');
+        $ldapConnection->createLDAP();
+        $ldap = $ldapConnection->getLdap();
+        $ldapConnection = new LdapType($ldapConnection);
+        $ldapConnection->setUrl($this->LDAPURL);
+        $ldapConnection->setSerVerId('Server1');
+        $ldapConnection->setPassword('password');
+        $ldapConnection->setScope('sub');
+        $ldapConnection->setMapper(["firstName" => "givenName", "lastName" => "sn", "email" => "uid"]);
+        $ldapConnection->setSpecialFields(["ou" => "ou", "departmentNumber" => "departmentNumber"]);
+        $ldapConnection->setUserDn('o=unitTest,dc=example,dc=com');
+        $ldapConnection->setBindType('none');
+        $ldapConnection->setRdn('uid');
+        $ldapConnection->setLdap($ldap);
+        $ldapConnection->setObjectClass('person,organizationalPerson,user');
+        $ldapConnection->setUserNameAttribute('uid');
+        $ldapConnection->setFilter('(&(mail=*))');
+        $ldapConnection->createLDAP();
+        $entry = $ldapConnection->retrieveUser();
 
         foreach ($entry as $data) {
-            $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapType);
+            $users[] = $ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($data, $ldapConnection);
         }
         $ldapUserService->connectUserwithAllUSersInAdressbock();
         $ldapUserService->cleanUpAdressbook();
         //login as the ldap user and test if the name in the adressbook is written correctly
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser2 = $userRepository->findOneBy(array('username' => 'unitTest1'));
+        $testUser2 = $userRepository->findOneBy(['username' => 'unitTest1']);
         $client->loginUser($testUser2);
         $crawler = $client->request('GET', '/room/dashboard');
         $this->assertResponseIsSuccessful();
@@ -135,10 +145,9 @@ class UserShowTest extends WebTestCase
             $crawler->filter('.breakWord:contains("AA, 45689, Forelle, Frieder")')->count()
         );
         $this->assertEquals(
-            0,
+            3,
             $crawler->filter('.breakWord:contains("unitTest")')->count()
         );
-
     }
     private function getParam()
     {

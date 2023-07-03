@@ -24,8 +24,7 @@ class TagDisableCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('tagId', InputArgument::OPTIONAL, 'Argument description')
-        ;
+            ->addArgument('tagId', InputArgument::OPTIONAL, 'Argument description');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -38,9 +37,9 @@ class TagDisableCommand extends Command
         }
 
         $tag = $this->em->getRepository(Tag::class)->find($tagId);
-        if (!$tag){
+        if (!$tag) {
             $io->error('Tag does not exist');
-            return  Command::FAILURE;
+            return Command::FAILURE;
         }
         $tag->setDisabled(true);
         $this->em->persist($tag);

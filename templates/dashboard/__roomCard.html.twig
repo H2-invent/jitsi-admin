@@ -1,14 +1,34 @@
-<div class="card card-body mb-1 text-lg-start text-center triggerHide {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} warningBorder {%endif%} {% if runningRooms is defined and room in runningRooms %} successBorder {% endif %}">
+<div class="card card-body mb-1 text-lg-start text-center triggerHide mb-3
+{% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} awayBorder {% endif %} {% if runningRooms is defined and room in runningRooms %} olineBorder {% endif %}"
+     id="room_card{{ room.uidReal }}">
     <div class="row">
-
-        {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
-        <div class="col-md-6 hide">
-            {% if runningRooms is defined and room in runningRooms %} <div class="d-none">Running Room</div> {% endif %}
-            {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} <div class="d-none">almost running Room</div>  {%endif%}
-            {{ include('dashboard/__roomOptionModerator.twig') }}
-            {{ include('dashboard/__roomOptionParticipant.twig') }}
-
-        </div>
+        {% if roomIsReadOnly(room,app.user) == true %}
+            {% include 'dashboard/__roomInvisible.html.twig' with {'room':room} %}
+        {% else %}
+            {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
+            <div class="col-md-6 hide">
+                {% if runningRooms is defined and room in runningRooms %}
+                    <div class="d-none">Running Room</div> {% endif %}
+                {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %}
+                    <div class="d-none">almost running Room</div>  {% endif %}
+                {{ include('dashboard/__roomOptionModerator.twig') }}
+                {{ include('dashboard/__roomOptionParticipant.twig') }}
+            </div>
+        {% endif %}
     </div>
+
+    {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %}
+        <div class="showTime bg-away text-black">
+            {% set time = (( room.startTimestamp - timestamp)/60)|number_format(0) %}
+{% trans with {'{time}': time} %}Startet in {time} min {% endtrans %}
+        </div>
+    {% endif %}
+    {% if runningRooms is defined and room in runningRooms %}
+        <div class="showTime bg-online text-white">
+            {% set time = (( room.startTimestamp - timestamp)/60)|number_format(0) %}
+            {{ 'Jetzt'|trans }}
+        </div>
+    {% endif %}
+
 </div>
 

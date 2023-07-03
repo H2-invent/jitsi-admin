@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\AddressGroup;
 use App\Entity\CallerRoom;
+use App\Entity\Deputy;
 use App\Entity\LdapUserProperties;
 use App\Entity\License;
 use App\Entity\LobbyWaitungUser;
@@ -32,7 +33,7 @@ class RoomFixture extends Fixture
         $user->setFirstName('Test');
         $user->setLastName('User');
         $user->setRegisterId(123456);
-        $user->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user->setTimeZone('Europe/Berlin');
         $user->setUuid('lksdhflkjdsljflkjds');
         $user->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
@@ -49,7 +50,7 @@ class RoomFixture extends Fixture
         $user2->setFirstName('Test2');
         $user2->setLastName('User2');
         $user2->setRegisterId(123456);
-        $user2->setSpezialProperties(array('ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',));
+        $user2->setSpezialProperties(['ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',]);
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflhjkkjds');
         $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
@@ -66,7 +67,7 @@ class RoomFixture extends Fixture
         $userLDAP->setFirstName('LdapUSer');
         $userLDAP->setLastName('Ldap');
         $userLDAP->setRegisterId(123456);
-        $userLDAP->setSpezialProperties(array('ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',));
+        $userLDAP->setSpezialProperties(['ou' => 'AA', 'departmentNumber' => '45689', 'telephoneNumber' => '987654321012',]);
         $userLDAP->setTimeZone('Europe/Berlin');
         $userLDAP->setUuid('dfsdffscxv');
         $userLDAP->setUid('kljlsdkjflkjxcvvxcxcvddfgslfjsdlkjsdflkj');
@@ -111,7 +112,7 @@ class RoomFixture extends Fixture
         $user5->setFirstName('Test');
         $user5->setLastName('User');
         $user5->setRegisterId(123456);
-        $user5->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user5->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user5->setTimeZone('Australia/Lindeman');
         $user5->setUuid('lksdhflkjdsljflkjds');
         $user5->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
@@ -127,7 +128,7 @@ class RoomFixture extends Fixture
         $user6->setFirstName('Test');
         $user6->setLastName('User');
         $user6->setRegisterId(123456);
-        $user6->setSpezialProperties(array('ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789'));
+        $user6->setSpezialProperties(['ou' => 'Test1', 'departmentNumber' => '1234', 'telephoneNumber' => '0123456789']);
         $user6->setUuid('lksdhflkjdsljflkjds');
         $user6->setUid('kljlsdkjflkjdslfjsjkldlkjsdflkj');
         $user6->setUsername('test@noTimeZone.de');
@@ -137,6 +138,22 @@ class RoomFixture extends Fixture
 
         $user->addAddressbook($user2);
         $user->addAddressbook($user3);
+
+        $deputy1 = new Deputy();
+        $deputy1->setManager($user5)
+            ->setDeputy($user6)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(true);
+        $deputy2 = new Deputy();
+        $deputy2->setManager($user5)
+            ->setDeputy($user6)
+            ->setCreatedAt(new \DateTime())
+            ->setIsFromLdap(true);
+
+
+        $manager->persist($deputy1);
+        $manager->persist($deputy2);
+        $manager->flush();
 
         $group = new AddressGroup();
         $group->setLeader($user);
@@ -209,6 +226,7 @@ class RoomFixture extends Fixture
             $room = new Rooms();
             $room->setTimeZone('Europe/Berlin');
             $room->setModerator($user);
+            $room->setCreator($user);
             $room->setAgenda('Testagenda:' . $i);
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
@@ -240,6 +258,7 @@ class RoomFixture extends Fixture
             $room = new Rooms();
             $room->setTimeZone('Europe/Berlin');
             $room->setModerator($user);
+            $room->setCreator($user);
             $room->setAgenda('Testagenda:' . $i);
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
@@ -270,12 +289,12 @@ class RoomFixture extends Fixture
 
             $manager->persist($selectDate);
             $manager->persist($room);
-
         }
         for ($i = 0; $i < 20; $i++) {
             $room = new Rooms();
             $room->setTimeZone('America/Adak');
             $room->setModerator($user);
+            $room->setCreator($user);
             $room->setAgenda('Testagenda:' . $i);
             $room->setDuration(60);
             $room->setDissallowPrivateMessage(true);
@@ -301,6 +320,7 @@ class RoomFixture extends Fixture
         $room = new Rooms();
         $room->setTimeZone('Europe/Berlin');
         $room->setModerator(null);
+        $room->setCreator($user);
         $callerRoom = new CallerRoom();
         $callerRoom->setCallerId('1234noRight');
         $callerRoom->setCreatedAt(new \DateTime());
@@ -337,6 +357,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->setUid('roomTomorrow');
@@ -361,7 +382,9 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
+        $room->setCreator($user);
         $room->addUser($user2);
         $room->setUid(md5(uniqid()));
         $room->setUidReal(md5(uniqid()));
@@ -389,6 +412,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->setUid('runningRoomNow');
@@ -480,6 +504,7 @@ class RoomFixture extends Fixture
         $room->setStart(null);
         $room->setEnddate(null);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->setUid('561d6f51s6f');
         $room->setUidReal('5615ds1f65ds');
@@ -503,6 +528,7 @@ class RoomFixture extends Fixture
         $room->setStart(null);
         $room->setEnddate(null);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->setUid('561d6rtzf51s6fwer');
         $room->setUidReal('5615dfggfdds1f65ds');
@@ -525,6 +551,7 @@ class RoomFixture extends Fixture
         $room->setDissallowPrivateMessage(true);
         $room->setDissallowScreenshareGlobal(true);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);
@@ -552,6 +579,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->setUid('lkdsjfkljvcxk');
         $room->setUidReal('5615sd6fs');
@@ -576,6 +604,7 @@ class RoomFixture extends Fixture
         $room1->setStart($start);
         $room1->setEnddate($end);
         $room1->setModerator($user);
+        $room1->setCreator($user);
         $room1->addUser($user);
         $room1->setUid('wertzzrtrrew');
         $room1->setUidReal('sdfgfhhjtr980joifjhg');
@@ -591,6 +620,7 @@ class RoomFixture extends Fixture
         $lobbyTime = new \DateTime();
         for ($i = 0; $i < 10; $i++) {
             $lobbyUser = new LobbyWaitungUser();
+            $lobbyUser->setWebsocketReady(true);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room1);
             $lobbyUser->setUid(md5($i));
@@ -598,7 +628,6 @@ class RoomFixture extends Fixture
             $lobbyUser->setShowName('LobbyUser ' . $i);
             $lobbyUser->setType('a');
             $manager->persist($lobbyUser);
-
         }
         $manager->flush();
 
@@ -614,6 +643,7 @@ class RoomFixture extends Fixture
         $room->setStart($start);
         $room->setEnddate($end);
         $room->setModerator($user);
+        $room->setCreator($user);
         $room->addUser($user);
         $room->addUser($user2);
         $room->addUser($user3);

@@ -1,8 +1,10 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
 use App\Entity\Checklist;
+use App\Entity\LobbyWaitungUser;
 use App\Entity\MyUser;
 use App\Entity\User;
 use App\Service\MessageService;
@@ -11,7 +13,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
 use function GuzzleHttp\Psr7\str;
 
 class Name extends AbstractExtension
@@ -33,20 +34,26 @@ class Name extends AbstractExtension
         ];
     }
 
-    public function nameOfUser(User $user)
+    public function nameOfUser(User|LobbyWaitungUser $user)
     {
-
+        if ($user instanceof LobbyWaitungUser) {
+            $user = $user->getUser();
+        }
         return new Markup(
             str_replace(
-                array('<script>', '</script>'),
-                array('<&lt;script&gt;', '&lt;/script&gt;'),
+                ['<script>', '</script>'],
+                ['<&lt;script&gt;', '&lt;/script&gt;'],
                 $this->participantSearchService->buildShowInFrontendString($user)
             ),
             'utf-8'
         );
     }
-    public function nameOfUserNoSymbol(User $user)
+    public function nameOfUserNoSymbol(User|LobbyWaitungUser $user)
     {
+        if ($user instanceof LobbyWaitungUser) {
+            $userT = $user->getUser();
+            return $user->getShowName();
+        }
         return $this->participantSearchService->buildShowInFrontendStringNoString($user);
     }
 }
