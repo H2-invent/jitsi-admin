@@ -12,6 +12,7 @@ label.start: Rozpocznij
 label.dauerKonferenz: Czas trwania konferencji
 label.nurRegistriertenutzer: Tylko zarejestrowani użytkownicy mogą dołączyć do konferencji.
 label.speichern: Zapisz
+label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 minut
 option.30min: 30 minut
 option.45min: 45 minut
@@ -80,6 +81,7 @@ help:
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
   jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
+  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: Dołącz za pomocą aplikacji Elektron
   beitretenBrowser: Dołącz w przeglądarce
@@ -139,6 +141,8 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Los gehts!
+  moderator: Organisator auswählen
+  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
