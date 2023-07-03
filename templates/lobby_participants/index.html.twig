@@ -22,16 +22,7 @@
 
                     </div>
                     <div class="overlay">
-                        <div class="lds-roller">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
+
                         <h4 class="text-center">{{ 'lobby.participant.pleaseWait'|trans }}</h4>
                     </div>
                     <video autoplay="true" id="lobbyWebcam"></video>
@@ -51,15 +42,15 @@
                 <div class="col-lg-6 col-xl-5 d-none d-lg-block lobbyPartList">
                     <div class=" card card-body h-100">
                         <h5><b>{{ 'Teilnehmer'|trans }}</b></h5>
-                        <ul class="list-group overflow-y-scroll">
+                        <ul class="list-group overflow-y-scroll border-none">
                             {% set inRoom= [] %}
                             {% for u in RoomStatusOccupats(room) |sort((a, b) => a.participantName <=> b.participantName) %}
                                 {% set inRoom = inRoom|merge([u.participantName]) %}
-                                <li class="list-group-item lobbyPart d-flex justify-content-between" data-status="online"><p class="part-text">{{ u.participantName }}</p><div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div> </li>
+                                <li class="list-group-item lobbyPart d-flex justify-content-between pe-2" data-status="online"><p class="part-text">{{ u.participantName }}</p><div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div> </li>
                             {% endfor %}
                             {% for u in room.user|sort((a, b) => a.formatedName(laf_showNameInConference) <=> b.formatedName(laf_showNameInConference)) %}
                                 {% if  u.formatedName(laf_showNameInConference) not in inRoom %}
-                                    <li class="list-group-item lobbyPart"><p class="part-text">{{ u.formatedName(laf_showNameInConference) }}</p></li>
+                                    <li class="list-group-item lobbyPart pe-2"><p class="part-text">{{ u.formatedName(laf_showNameInConference) }}</p></li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -161,6 +152,7 @@
 
         var browserLeave = '{{ path('lobby_participants_browser_leave',{'userUid':user.uid}) }}'
         var healthcheckUrl = '{{ path('lobby_participants_healthCheck',{'userUid':user.uid}) }}'
+        var urlWebsocketReady = '{{ path('lobby_participants_websocket_ready',{'userUid':user.uid}) }}'
     </script>
 {% endblock %}
 {% block webpack %}

@@ -116,4 +116,15 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    /**
+     * @return User[] Returns an array of Server objects
+     */
+    public function findUsersWithKC()
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->andWhere($qb->expr()->isNotNull('u.keycloakId'))
+            ->getQuery()
+            ->getResult();
+    }
 }

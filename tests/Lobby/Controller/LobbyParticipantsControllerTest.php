@@ -40,8 +40,9 @@ class LobbyParticipantsControllerTest extends WebTestCase
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $url = $urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()]);
         $crawler = $client->request('GET', $url);
-        self::assertNotNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
-
+        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
+        self::assertNotNull($lobbyUser);
+        self::assertFalse($lobbyUser->isWebsocketReady());
         $this->assertEquals(
             1,
             $crawler->filter('.overlay:contains("Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.")')->count()
@@ -54,6 +55,10 @@ class LobbyParticipantsControllerTest extends WebTestCase
             0,
             $crawler->filter('.lobbyOnlinePart')->count()
         );
+        $crawler = $client->request('GET', '/lobby/websocket/ready/'.$lobbyUser->getUid());
+        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
+        self::assertTrue($lobbyUser->isWebsocketReady());
+
     }
 
     public function testRenew(): void

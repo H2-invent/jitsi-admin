@@ -1,68 +1,83 @@
 <!-- Footer -->
 
 
-                <li class="nav-item">
-                    {% if theme %}
-                        {% if theme.footerImprintEnable == true %}
-                            <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                               href="{{ imprint }}">{{ theme.footerImprintText }}</a>
-                        {% endif %}
-                    {% else %}
-                        <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                           href="{{ imprint }}">{{ 'Impressum'|trans }}</a>
-                    {% endif %}
+<li class="nav-item">
+    {% if theme %}
+        {% if theme.footerImprintEnable == true %}
+            <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
+               href="{{ imprint }}">{{ theme.footerImprintText }}</a>
+        {% endif %}
+    {% else %}
+        <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
+           href="{{ imprint }}">{{ 'Impressum'|trans }}</a>
+    {% endif %}
 
-                </li>
-                <li class="nav-item">
-                    {% if theme %}
-                        {% if theme.footerGdprEnable == true %}
-                            <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                               href="{{ dataPrivacy }}">{{ theme.footerGdprText }}</a>
-                        {% endif %}
-                    {% else %}
-                        <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-                           href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }}</a>
-                    {% endif %}
+</li>
+<li class="nav-item">
+    {% if theme %}
+        {% if theme.footerGdprEnable == true %}
+            <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
+               href="{{ dataPrivacy }}">{{ theme.footerGdprText }}</a>
+        {% endif %}
+    {% else %}
+        <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
+           href="{{ dataPrivacy }}">{{ 'Datenschutzhinweis'|trans }}</a>
+    {% endif %}
 
-                </li>
+</li>
 
-                <li class="nav-item d-none d-md-block">
-                    {% if theme %}
-                        {% if theme.footerReportIssueEnable == true %}
-                            <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
-                               href="{{ theme.footerReportIssueUrl }}">{{ theme.footerReportIssueText }}</a>
-                        {% endif %}
-                    {% else %}
-                        <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
-                           href="https://github.com/H2-invent/jitsi-admin/issues">{{ 'Fehler oder neue Idee melden'|trans }}</a>
-                    {% endif %}
+<li class="nav-item d-none d-md-block">
+    {% if theme %}
+        {% if theme.footerReportIssueEnable == true %}
+            <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
+               href="{{ theme.footerReportIssueUrl }}">{{ theme.footerReportIssueText }}</a>
+        {% endif %}
+    {% else %}
+        <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
+           href="https://github.com/H2-invent/jitsi-admin/issues">{{ 'Fehler oder neue Idee melden'|trans }}</a>
+    {% endif %}
 
-                </li>
-                <li class="nav-item d-none d-xl-block ">
+</li>
+<li class="nav-item d-none d-xl-block ">
 
-                    {% if theme %}
-                        {% if theme.footerContributionEnable == true %}
-                            {{ theme.footerContributionText|raw }}
+    {% if theme %}
+        {% if theme.footerContributionEnable == true %}
+            {{ theme.footerContributionText|raw }}
 
-                        {% endif %}
-                    {% else %}
-                        <a class="nav-link float-left" target="_blank" referrerpolicy="no-referrer"
-                           href="https://h2-invent.com/">Made with ❤ by H2 invent</a>
-                    {% endif %}
+        {% endif %}
+    {% else %}
+        <a class="nav-link float-left" target="_blank" referrerpolicy="no-referrer"
+           href="https://h2-invent.com/">Made with ❤ by H2 invent</a>
+    {% endif %}
 
 
-                </li>
-                <li class="nav-item d-none d-xl-block ">
-                    <a class="nav-link" href="{{ path('app_changelog') }}" {% if time is defined%} data-mdb-toggle="tooltip" title="{{ 'common.loadingTime'|trans }}: {{ time/1000 }}s" {%endif%}>{{ 'now'|date('Y') }} • v{{ laf_version }}</a>
-                </li>
-                {% if matomo_enable == '1' %}
-                    <li class="nav-item">
-                        <!-- Button trigger modal -->
-                        <a class="nav-link" href="#" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-                            Matomo Opt-out
-                        </a>
-                    </li>
-                {% endif %}
+</li>
+<li class="nav-item d-none d-xl-block ">
+
+    <a class="nav-link"
+       href="
+{% if getApplicationProperties('LAF_HIDE_CHANGELOG') == 0 %}
+            {{ path('app_changelog') }}
+            {% else %}
+            #
+        {% endif %}
+        "
+        {% if time is defined %}
+         data-mdb-toggle=" tooltip" title="{{ 'common.loadingTime'|trans }}: {{ time/1000 }}s"
+        {% endif %}>
+
+    {{ 'now'|date('Y') }} • v{{ laf_version }}
+
+    </a>
+</li>
+{% if matomo_enable == '1' %}
+    <li class="nav-item">
+        <!-- Button trigger modal -->
+        <a class="nav-link" href="#" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+            Matomo Opt-out
+        </a>
+    </li>
+{% endif %}
 
 
 <!-- Footer -->

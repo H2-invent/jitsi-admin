@@ -11,6 +11,8 @@ use App\Service\Lobby\CreateLobbyUserService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Lobby\ToParticipantWebsocketService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
@@ -31,15 +33,16 @@ class LobbyParticipantsController extends JitsiAdminController
     private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
-        ManagerRegistry               $managerRegistry,
-        TranslatorInterface           $translator,
-        LoggerInterface               $logger,
-        ParameterBagInterface         $parameterBag,
-        CreateLobbyUserService        $createLobbyUserService,
-        ToParticipantWebsocketService $toParticipantWebsocketService,
-        ToModeratorWebsocketService   $toModeratorWebsocketService,
-        DirectSendService             $lobbyUpdateService,
-        EventDispatcherInterface      $eventDispatcher
+        ManagerRegistry                $managerRegistry,
+        TranslatorInterface            $translator,
+        LoggerInterface                $logger,
+        ParameterBagInterface          $parameterBag,
+        CreateLobbyUserService         $createLobbyUserService,
+        ToParticipantWebsocketService  $toParticipantWebsocketService,
+        ToModeratorWebsocketService    $toModeratorWebsocketService,
+        DirectSendService              $lobbyUpdateService,
+        EventDispatcherInterface       $eventDispatcher,
+        private EntityManagerInterface $entityManager
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -52,7 +55,8 @@ class LobbyParticipantsController extends JitsiAdminController
     /**
      * @Route("/lobby/participants/{type}/{roomUid}/{userUid}", name="lobby_participants_wait", defaults={"type" = "a"})
      */
-    public function index($roomUid, $userUid, $type): Response
+    public
+    function index($roomUid, $userUid, $type): Response
     {
 
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);
@@ -65,7 +69,8 @@ class LobbyParticipantsController extends JitsiAdminController
     /**
      * @Route("/lobby/healthcheck/participants/{userUid}", name="lobby_participants_healthCheck")
      */
-    public function healthcheck($userUid): Response
+    public
+    function healthcheck($userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
         if ($lobbyUser) {
@@ -76,9 +81,31 @@ class LobbyParticipantsController extends JitsiAdminController
     }
 
     /**
+     * @Route("/lobby/websocket/ready/{userUid}", name="lobby_participants_websocket_ready")
+     */
+    public
+    function websokcket_ready($userUid): Response
+    {
+        $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
+        if ($lobbyUser) {
+            if (!$lobbyUser->isWebsocketReady()) {
+                $lobbyUser->setWebsocketReady(true);
+                $this->entityManager->persist($lobbyUser);
+                $this->entityManager->flush();
+                $this->toModerator->newParticipantInLobby(lobbyWaitungUser: $lobbyUser);
+                $this->toModerator->refreshLobby(lobbyWaitungUser: $lobbyUser);
+            }
+            return new JsonResponse(['error' => false]);
+        }
+
+        return new JsonResponse(['error' => true]);
+    }
+
+    /**
      * @Route("/lobby/renew/participants/{userUid}", name="lobby_participants_renew")
      */
-    public function renew($userUid): Response
+    public
+    function renew($userUid): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
         if ($lobbyUser) {
@@ -92,7 +119,8 @@ class LobbyParticipantsController extends JitsiAdminController
     /**
      * @Route("/lobby/leave/participants/{userUid}", name="lobby_participants_leave")
      */
-    public function remove($userUid, MessageBusInterface $bus): Response
+    public
+    function remove($userUid, MessageBusInterface $bus): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);
         $this->logger->debug('leave Lobby');
@@ -111,7 +139,8 @@ class LobbyParticipantsController extends JitsiAdminController
     /**
      * @Route("/lobby/browser/leave/participants/{userUid}", name="lobby_participants_browser_leave")
      */
-    public function browser($userUid, MessageBusInterface $bus): Response
+    public
+    function browser($userUid, MessageBusInterface $bus): Response
     {
 
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $userUid]);

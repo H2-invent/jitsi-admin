@@ -91,35 +91,6 @@ services:
       - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
 
-  screego:
-    image: screego/server:1.0.1
-    restart: unless-stopped
-    networks:
-      - default
-    expose:
-      - 5050
-    ports:
-      - 0.0.0.0:3478:3478
-      - 0.0.0.0:3478:3478/udp
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.screego-ja-${RANDOMTAG}.rule=Host(`screego.${PUBLIC_URL}`)"
-      - "traefik.http.routers.screego-ja-${RANDOMTAG}.entrypoints=web"
-      - "traefik.http.routers.screego-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
-      - "traefik.http.services.screego-ja-${RANDOMTAG}.loadbalancer.server.port=5050"
-#    volumes:
-#      - ./htpasswd:/etc/screego.passwd:ro
-    environment:
-      SCREEGO_EXTERNAL_IP: "17.5.7.8"
-      SCREEGO_SECRET: "xxxxxxxxxxxx"
-      SCREEGO_SERVER_ADDRESS: "0.0.0.0:5050"
-      SCREEGO_TURN_ADDRESS: "0.0.0.0:3478"
-      SCREEGO_TRUST_PROXY_HEADERS: "true"
-      SCREEGO_AUTH_MODE: "turn"
-#      SCREEGO_CORS_ALLOWED_ORIGINS: "https://screen.example.org"
-      SCREEGO_USERS_FILE: "/etc/screego.passwd"
-      SCREEGO_LOG_LEVEL: debug
-
   #Here is the Jitsi-Admin app
   app-ja:
     <<: *jitsi_admin_app
@@ -146,7 +117,7 @@ services:
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
-      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
       MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
@@ -212,7 +183,7 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: test
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
       timeout: 20s
       retries: 10
     volumes:
@@ -223,26 +194,23 @@ services:
 
 
   keycloak-ja:
-    image: jboss/keycloak:latest
+    image: quay.io/keycloak/keycloak:21.1.1
     hostname: ${RANDOMTAG}keycloak-ja
     depends_on:
       db-ja:
         condition: service_healthy
-
-
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PW}
-      DB_VENDOR: mariadb
-      DB_ADDR: ${RANDOMTAG}db-ja
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: ${KEYCLOAK_PW}
-      DB_PORT: 3306
-      KEYCLOAK_IMPORT: /tmp/realm-export.json
-      KEYCLOAK_FRONTEND_URL: "${HTTP_METHOD}://keycloak.${PUBLIC_URL}/auth"
-      JAVA_OPTS_APPEND: "-Djboss.as.management.blocking.timeout=7200"
-      JDBC_PARAMS: "connectTimeout=30000"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PW}
+      KC_DB: mariadb
+      KC_DB_PASSWORD: ${KEYCLOAK_PW}
+      KC_DB_URL: jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_HOSTNAME_URL: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
+      KC_PROXY: passthrough
+    command:
+      - start-dev
+      - --import-realm
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls=true"
@@ -252,7 +220,7 @@ services:
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
 
     volumes:
-      - ./docker/keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/:/opt/keycloak/data/import
     networks:
       - default
       - jitsi-admin

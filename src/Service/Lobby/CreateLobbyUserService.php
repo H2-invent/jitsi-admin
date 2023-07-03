@@ -21,11 +21,12 @@ class CreateLobbyUserService
         $this->em = $entityManager;
     }
 
-    public function createNewLobbyUser(User $user, Rooms $room, $type): LobbyWaitungUser
+    public function createNewLobbyUser(User $user, Rooms $room, $type,$websocketReady=false): LobbyWaitungUser
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(['user' => $user, 'room' => $room]);
         if (!$lobbyUser) {
             $lobbyUser = new LobbyWaitungUser();
+            $lobbyUser->setWebsocketReady(websocketReady: $websocketReady);
             $lobbyUser->setType($type);
             $lobbyUser->setUser($user);
             $lobbyUser->setRoom($room);
