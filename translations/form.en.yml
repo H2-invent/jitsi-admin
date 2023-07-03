@@ -12,6 +12,7 @@ label.start: Start
 label.dauerKonferenz: Conference duration
 label.nurRegistriertenutzer: Only signed up users can join this conference.
 label.speichern: Save
+label.allowMaybeOption: 'Offer "maybe" option'
 option.15min: 15 minutes
 option.30min: 30 minutes
 option.45min: 45 minutes
@@ -80,6 +81,7 @@ help:
   jigasiApiUrl: Enter URL to Jigasi API which will be used for getting conference pin. It usually ends with "ConferenceManager".
   jigasiNumberUrl: Enter Dial-In number in JSON format. It has to be the same as in numbers.json in Jigasi config.
   jigasiProsodyDomain: Enter prosody domain. Usually it has pattern "conference.domain.topdomain".
+  disallowFirefox: Firefox browser is disabled. All participants joining with firefox will be redirected to a chromium based browser.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -139,6 +141,8 @@ label:
   jigasiNumberUrl: Jigasi Dial-In number in JSON format
   jigasiProsodyDomain: Jigasi prosody domain
   go: Let's go!
+  moderator: Select organizer
+  disallowFirefox: Firefox is disabled on this jitsi meer server
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
