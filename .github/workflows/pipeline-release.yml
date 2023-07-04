@@ -32,15 +32,6 @@ jobs:
           change_path: .
           version_format: "${major}.${minor}.${patch}"
 
-      - name: Create new Release with semantic-version tag
-        uses: actions/create-release@main
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: Release ${{ steps.version.outputs.version }}
-          tag_name: ${{ steps.version.outputs.version }}
-
       - uses: actions/download-artifact@v3
         with:
           name: artifact_${{github.run_number}}
@@ -59,14 +50,24 @@ jobs:
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'zip'
-          filename: 'release.zip'
-          exclusions: '*.git* *.github* /*node_modules/* .editorconfig'
+          filename: 'application.zip'
+          exclusions: '*.git* *.github* /*node_modules/* /*nodejs/* .editorconfig'
           directory: artifact
 
-      - name: Upload Application Asset to Release
-        uses: actions/upload-release-asset@main
+      - name: Archive Release for websocket
+        uses: thedoctor0/zip-release@0.7.1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/release.zip
-          asset_name: application.zip
-          asset_content_type: application/zip
+          type: 'zip'
+          filename: 'websocket.zip'
+          directory: artifact/nodejs
+
+      - name: Create new Release with semantic-version tag
+        uses: ncipollo/release-action@v1
+        id: create_release
+        with:
+          draft: true
+          prerelease: false
+          name: Release ${{ steps.version.outputs.version }}
+          tag: ${{ steps.version.outputs.version }}
+          artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
+          artifactContentType: application/zip
