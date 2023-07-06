@@ -228,19 +228,21 @@
                     {% endif %}
                 </div>
                 {{ form_end(form) }}
-                {% else %}
-                    <div class="alert alert-danger" role="alert">
-                        {% if laf_CreateServerOpenToEveryone == 1 %}
-                            {{ 'newRoom.error.noServer.addServer'|trans }}
-                        {% else %}
-                            {{ ''|trans }}
-                            {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
-                        {% endif %}
-                    </div>
-
-                {% endif %}
             </div>
-
+                {% else %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-danger" role="alert">
+                                {% if laf_CreateServerOpenToEveryone == 1 %}
+                                    {{ 'newRoom.error.noServer.addServer'|trans }}
+                                {% else %}
+                                    {{ ''|trans }}
+                                    {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
         </div>
         <div class="modal-footer">
             <button href="#" id="saveRoom" class="btn btn-primary">{{ 'Speichern'|trans }}</button>
