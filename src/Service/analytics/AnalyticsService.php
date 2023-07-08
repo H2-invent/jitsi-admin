@@ -48,7 +48,7 @@ class AnalyticsService
             }
 
         }
-        $average = $average / $averageCounter;
+        $average = $averageCounter!=0?($average / $averageCounter):0;
         $res['average_room_size'] = $average;
         $res['urls'] = $url;
         $server = $this->entityManager->getRepository(Server::class)->findAll();
