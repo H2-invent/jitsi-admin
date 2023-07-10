@@ -6,20 +6,27 @@
             <div class="card">
                 <div class="card-body d-flex flex-row align-items-center">
                     <div class="image me-3">
-                        {% set rand = (random(2)+1)|number_format %}
-
-                        <img src="{{ asset('images/error/error_'~ rand~'.svg') }}">
+                        {% if theme and getApplicationProperties('FAVORITEBACKGROUND') %}
+                            <img class="d-none d-sm-block" src="{{ getApplicationProperties('FAVORITEBACKGROUND') }}"
+                                 style="height: 200px; margin-right: 8px" alt="Logo">
+                        {% else %}
+                            {% set rand = (random(2)+1)|number_format %}
+                            <img src="{{ asset('images/error/error_'~ rand~'.svg') }}">
+                        {% endif %}
                     </div>
                     <div class="text">
-                        <b style="font-size: 32px; font-weight: bold">{{ exception.statusCode }} - {{ 'Seite kaputt'|trans }}</b>
-                        <p>{{ 'Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.'|trans }}</p>
-                        <a class="btn  btn-primary" href="{{ path('index') }}">{{'Zur Startseite'|trans}}</a>
+
+                        <b style="font-size: 32px; font-weight: bold">{{ exception.statusCode }}
+                            - {{ 'Interner Fehler'|trans }}</b>
+                        {% if theme and getApplicationProperties('500_ERROR_MESSAGE') %}
+                           <p>{{ getApplicationProperties('500_ERROR_MESSAGE')|raw }}</p>
+                        {% else %}
+                            <p>{{ 'Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.'|trans }}</p>
+                        {% endif %}
+                        <a class="btn  btn-primary" href="{{ path('index') }}">{{ 'Zur Startseite'|trans }}</a>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
-
 {% endblock %}
