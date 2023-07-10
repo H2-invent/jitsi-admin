@@ -7,14 +7,23 @@
             <div class="card">
                 <div class="card-body d-flex flex-row align-items-center">
                     <div class="image me-3">
-                        {% set rand = (random(2)+1)|number_format %}
-
-                        <img src="{{ asset('images/error/error_undefined.svg') }}">
+                        {% if theme and getApplicationProperties('FAVORITEBACKGROUND')  %}
+                            <img class="d-none d-sm-block" src="{{ getApplicationProperties('FAVORITEBACKGROUND') }}" style="height: 200px; margin-right: 8px" alt="Logo">
+                        {% else %}
+                            {% set rand = (random(2)+1)|number_format %}
+                            <img src="{{ asset('images/error/error_undefined.svg') }}">
+                        {% endif %}
                     </div>
                     <div class="text">
-                        <b style="font-size: 32px; font-weight: bold">{{ exception.statusCode }} - {{ 'Allgemeiner Fehler'|trans }}</b>
+                        <b style="font-size: 32px; font-weight: bold">{{ exception.statusCode }}
+                            - {{ 'Allgemeiner Fehler'|trans }}</b>
+                        - {{ 'Interner Fehler'|trans }}</b>
+                        {% if theme and getApplicationProperties('UNKNOWN_ERROR_MESSAGE') %}
+                        <p>{{ getApplicationProperties('UNKNOWN_ERROR_MESSAGE')|raw }}</p>
+                        {% else %}
                         <p>{{ 'Hier ist was schief gelaufen. Tut uns Leid'|trans }}</p>
-                        <a class="btn  btn-primary" href="{{ path('index') }}">{{'Zur Startseite'|trans}}</a>
+                        {% endif %}
+                        <a class="btn  btn-primary" href="{{ path('index') }}">{{ 'Zur Startseite'|trans }}</a>
                     </div>
                 </div>
             </div>
