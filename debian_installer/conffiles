@@ -1,2 +1,1 @@
 /etc/apache2/sites-available/jitsiadmin.conf
-/var/www/jitsi-admin/.env.prod.local
