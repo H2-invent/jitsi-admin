@@ -6,37 +6,23 @@
     <div class="row markdown">
         <div class="col-12">
             {% apply markdown_to_html %}
-                #### 0.76.0-RC03
-
-                __What's new__
-
+                #### 0.76.2
                 __Bugfix__
-                - pause a multiframe leads sometimes to a wrong execute command
-
+                - Errorpage can be set individual by theming
             {% endapply %}
-            <hr>
         </div>
         <div class="col-12">
             {% apply markdown_to_html %}
-                #### 0.76.0-RC02
-
-                __What's new__
-
-                - when multiframe is minimized make it clickable to resize
-                - send websocket ready when participant is in lobby
-                - allow sending mails to fixed rooms
-                - add GitHub pipelines
-                - add update instruction
+                #### 0.76.1
                 __Bugfix__
-                - make pause a conference more robust
-                - Docker maria DB healthcheck fix
-                - remove css animation because of high CPU usage
+                - Dashboard leads to a bug when there was no conference created
+                - Empty Server leads to wrong columns in the room create modal
             {% endapply %}
-            <hr>
         </div>
+
         <div class="col-12">
             {% apply markdown_to_html %}
-                #### 0.76.0-RC01
+                #### 0.76.0
 
                 __What's new__
                 - Requires PHP8.1 and node18
@@ -64,9 +50,18 @@
                     - Other participants can make a counterproposal
                 - Migration of SSO to Keycloak version 16 or higher
                 - Upgrade to Symfony 6.2
+                - when multiframe is minimized make it clickable to resize
+                - send websocket ready when participant is in lobby
+                - allow sending mails to fixed rooms
+                - add GitHub pipelines
+                - add update instruction
 
                 __Bugfix__
                 - Numerous bugfixes
+                - make pause a conference more robust
+                - Docker maria DB healthcheck fix
+                - remove css animation because of high CPU usage
+                - pause a multiframe leads sometimes to a wrong execute command
 
             {% endapply %}
             <hr>
