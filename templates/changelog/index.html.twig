@@ -4,6 +4,13 @@
 
 {% block content %}
     <div class="row markdown">
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.3',
+            'bugfix':'
+- fix deputy was able to see conferences of supervisor in iCal
+- Fix long scheduling list was not scrollable
+'}) }}
+
         <div class="col-12">
             {% apply markdown_to_html %}
                 #### 0.76.2
