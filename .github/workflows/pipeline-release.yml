@@ -51,7 +51,7 @@ jobs:
         with:
           type: 'zip'
           filename: 'application.zip'
-          exclusions: '*.git* *.github* /*node_modules/* /*nodejs/* .editorconfig'
+          exclusions: '*.git* *.github* /*node_modules/* /*nodejs/* /*var/* .editorconfig'
           directory: artifact
 
       - name: Archive Release for websocket
