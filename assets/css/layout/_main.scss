@@ -1396,3 +1396,9 @@ a:hover {
      margin-right: 8px;
    }
  }
+
+.sidebar{
+  &.showSidebar{
+    background-color: $background-color;
+  }
+}
