@@ -1,1 +1,6 @@
-If you want to use wss instead of ws then put a  Keyfile (key.pem) and a Certificate (cert.pem) file into this directory
+If you want to use wss instead of ws then put a  
+* Keyfile (__key.pem__)
+
+and a 
+
+* Certificate (__cert.pem__) file into this directory
