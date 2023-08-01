@@ -32,7 +32,7 @@ export function initWebsocket(jwt) {
     });
     socket.io.on("reconnect", (attempt) => {
        deleteToast('socketAlert');
-        setSnackbar('Websocket successfully reconnected','success',false,'socketAlert',10000)
+        setSnackbar('Websocket successfully reconnected','success',false,'socketAlert',5000)
     });
     socket.on('openNewIframe', function (data) {
         data = JSON.parse(data);
