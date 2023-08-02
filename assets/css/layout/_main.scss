@@ -979,8 +979,10 @@ a:hover {
       height: 5em;
       aspect-ratio: 1/1;
       object-fit: contain;
+      &:has(.loadContent){
+        cursor: pointer;
+      }
 
-      cursor: pointer;
       position: relative;
 
       img {
