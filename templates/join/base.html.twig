@@ -143,11 +143,17 @@
 
                                         </div>
                                     </div>
+                                    {{ include('join/__frozenGlasContent.html.twig') }}
                                 </div>
 
 
                             </div>
-                            {{ include('join/__frozenGlasContent.html.twig') }}
+                            <div class="container-fluid">
+
+
+
+                            </div>
+
                             {% if server is defined and server and server|roomsinFuture|length > 0 %}
                                 {{ include('join/__publicRooms.html.twig') }}
                             {% endif %}

@@ -71,10 +71,7 @@ $(document).ready(function () {
     attach('.btn', ['waves-effect']);
     attach('.nav-item', ['waves-effect']);
     init();
-    var proTip = document.getElementById('proTip')
-    if (proTip){
-        proTip.style.transform = 'translateY(-'+(proTip.querySelector('.first-line').clientHeight+8+8)+'px)';
-    }
+
 
     initDashboardnotification(topic);
 

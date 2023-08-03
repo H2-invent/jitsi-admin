@@ -3,25 +3,25 @@
     {% if theme == false or (theme is not null and theme.allowHomePage == true) %}
         <div class="col-md-3">
             <a href="{{ path('index') }}"
-               class="btn btn-outline-white btn-sm w-100">{{ 'Startseite'|trans }}</a>
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Startseite'|trans }}</a>
         </div>
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowDashboard == true) %}
         <div class="col-md-3">
             <a href="{{ path('dashboard') }}"
-               class="btn btn-outline-white btn-sm w-100">{{ 'Dashboard'|trans }}</a>
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Dashboard'|trans }}</a>
         </div>
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowRegister == true) %}
         <div class="col-md-3">
             <a href="{{ path('register_keycloak') }}"
-               class="btn btn-outline-white btn-sm w-100">{{ 'Registrieren'|trans }}</a>
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Registrieren'|trans }}</a>
         </div>
     {% endif %}
     {% if theme == false or (theme is not null and theme.allowHelp == true) %}
         <div class="col-md-3">
             <a href="{{ helpUrlParticipants }}" target="_blank"
-               class="btn btn-outline-white btn-sm w-100">{{ 'Hilfe'|trans }}</a>
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Hilfe'|trans }}</a>
         </div>
     {% endif %}
 </div>
