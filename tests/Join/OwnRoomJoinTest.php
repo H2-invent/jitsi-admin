@@ -74,7 +74,7 @@ class OwnRoomJoinTest extends WebTestCase
         $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -111,7 +111,7 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', true)));
 
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -173,7 +173,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString(" <script src='https://meet.jit.si2/external_api.js'></script>", $client->getResponse()->getContent());
         self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -216,7 +216,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
         self::assertStringContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -251,7 +251,7 @@ class OwnRoomJoinTest extends WebTestCase
         $urlGenService = self::getContainer()->get(RoomService::class);
         $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', true)));
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -279,7 +279,7 @@ class OwnRoomJoinTest extends WebTestCase
         $urlGenService = self::getContainer()->get(RoomService::class);
         $this->assertTrue($client->getResponse()->isRedirect($urlGenService->joinUrl('a', $room, 'Test User 123', false)));
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -315,7 +315,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
         self::assertStringContainsString('room/lobby/start/moderator/a/' . $room->getUidReal(), $client->getResponse()->getContent());
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
@@ -351,7 +351,7 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString('Bitte warten Sie. Der Moderator wurde informiert und lässt Sie eintreten.', $client->getResponse()->getContent());
         self::assertStringNotContainsString("jwt", $client->getResponse()->getContent());
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_my_room[name]'] = 'Test User 123';
         $client->submit($form);
