@@ -39,8 +39,8 @@ Jitsi Manager boasts a range of features to streamline your conference managemen
 
 ### Known from
 
-![Server](docs/images/ct-logo.png)
 
+![Server](docs/images/ct-logo.png)
 
 
 ### Mailing list and contact
@@ -51,6 +51,7 @@ __#jitsi-admin:h2-invent.com__
 
 
 [Join the matrix grop via matrix.to](https://matrix.to/#/#jitsi-admin:h2-invent.com)
+
 
 
 Furthermore, we are excited to announce that we will be hosting an open conference every two weeks, where you can join us to discuss how we can make Jitsi and Jitsi-admin even more popular.

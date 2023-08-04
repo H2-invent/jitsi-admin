@@ -7,22 +7,40 @@ use App\Form\Type\ProfileImageType;
 use App\Form\Type\SecondEmailType;
 use App\Form\Type\TimeZoneType;
 use App\Helper\JitsiAdminController;
+use App\Service\ThemeService;
+use Doctrine\Persistence\ManagerRegistry;
 use http\Exception\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProfileImageChangeController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        ParameterBagInterface $parameterBag,
+    private ThemeService $themeService,
+    )
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     /**
      * @Route("/room/profileImage/change", name="profile_image_change")
      */
     public function index(Request $request, TranslatorInterface $translator): Response
     {
+        if ($this->themeService->getApplicationProperties('LAF_HIDE_PROFILEPICTURE') === 1){
+            throw new NotFoundHttpException('This function is not allowed here');
+        }
         $user = $this->getUser();
         $form = $this->createForm(ProfileImageType::class, $user, ['action' => $this->generateUrl('profile_image_save')]);
         return $this->render(

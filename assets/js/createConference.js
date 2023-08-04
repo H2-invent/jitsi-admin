@@ -552,10 +552,11 @@ function moveToMinibar(container) {
     if (container.classList.contains('minified')) {
         return null;
     }
+    container.insertAdjacentHTML('afterbegin', '<div class="minimizeOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.0; background-color: inherit; cursor: pointer"></div>');
     container.querySelector('iframe').style.height = '0px';
     container.dataset.beforeminwidth = container.style.width;
     container.classList.add('minified');
-    container.querySelector('.headerBar').addEventListener('click', removeFromMinibar);
+    container.querySelector('.minimizeOverlay').addEventListener('click', removeFromMinibar);
 
 
     setWidthOfminified();
@@ -586,7 +587,7 @@ function removeFromMinibar(e) {
         setWidthOfminified();
         addInteractions(container)
     }
-
+    e.currentTarget.remove();
     removeInteraction();
 }
 

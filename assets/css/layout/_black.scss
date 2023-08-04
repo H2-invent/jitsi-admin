@@ -454,3 +454,8 @@ hr {
     }
   }
 
+.sidebar{
+  &.showSidebar{
+    background-color: $black_background;
+  }
+}

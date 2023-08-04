@@ -1,4 +1,4 @@
-<div class="profile" >
+<div class="profile">
     <div class="profileLine" id="profilLine" data-status="{{ app.user.onlineStatus==1?'online':'offline' }}">
         <div class="icons" id="profileIcons">
             <a
@@ -27,23 +27,31 @@
             {% endif %}
 
         </div>
-
         <div class="picture">
+
+            {% if getApplicationProperties('LAF_HIDE_PROFILEPICTURE') == 0 %}
             <a href="{{ path('profile_image_change') }}" class="loadContent">
+                {% if app.user.profilePicture %}
 
-            {% if app.user.profilePicture %}
+                    <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}" class="pic-content">
 
-            <img src="{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}" class="pic-content">
-
-            {% else %}
+                {% else %}
 
                     <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content no-picture"
                          style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
                         {{ app.user|nameOfUserNoSymbol[:2]|upper }}
                     </div>
 
-            {% endif %}
+                {% endif %}
+
             </a>
+                {% else %}
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100 pic-content"
+                         style="background-color: #{{ app.user.username|colorFromString }}; color: white; font-size: 2em">
+                        {{ app.user|nameOfUserNoSymbol[:2]|upper }}
+                    </div>
+
+            {% endif %}
             <div class="dot with-icon"></div>
         </div>
 

@@ -37,7 +37,7 @@ class FavoriteTest extends WebTestCase
         );
         $this->assertEquals(
             1,
-            $crawler->filter('.favorites .dropdown-item:contains("Im Browser")')->count()
+            $crawler->filter('.favorites .dropdown-item:contains("Starten")')->count()
         );
 
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);
@@ -124,7 +124,7 @@ class FavoriteTest extends WebTestCase
         );
         $this->assertEquals(
             1,
-            $crawler->filter('.favorites .dropdown-item:contains("Im Browser")')->count()
+            $crawler->filter('.favorites .dropdown-item:contains("Starten")')->count()
         );
 
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);

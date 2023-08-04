@@ -139,7 +139,7 @@ class ThemeService
         }
     }
 
-    public function checkRemainingDays():?int
+    public function checkRemainingDays(): ?int
     {
         $validUntil = $this->getThemeProperty('validUntil');
         if ($validUntil) {
@@ -148,12 +148,40 @@ class ThemeService
             $daysDifff = intval(($now->diff($validDate))->format('%R%a'));
             if ($daysDifff < $this->getApplicationProperties('SECURITY_THEME_REMINDER_DAYS')) {
                 $this->request->getSession()->getBag('flashes')->add(
-                    $daysDifff>0?'warning':'danger',
-                    $this->translator->trans('theme.invalid.',array('{days}'=>$daysDifff))
+                    $daysDifff > 0 ? 'warning' : 'danger',
+                    $this->translator->trans('theme.invalid.', array('{days}' => $daysDifff))
                 );
             }
             return $daysDifff;
         }
         return null;
+    }
+
+    public function showAllThemes(): bool|array
+    {
+        $finder = new Finder();
+        $finder->files()->in($this->parameterBag->get('kernel.project_dir') . '/theme/')->name('*.theme.json.signed');
+        if (!$finder->hasResults()) {
+            return false;
+        }
+
+        $res = [];
+        $arr = iterator_to_array($finder);
+
+        foreach ($arr as $file) {
+
+            $theme = $file->getContents();
+
+            $tmp = [
+                $file->getFilename(),
+            ];
+            try {
+                $tmp[] = json_decode($theme, true)['entry']['validUntil'];
+            } catch (\Exception $exception) {
+
+            }
+            $res[] = $tmp;
+        }
+        return $res;
     }
 }

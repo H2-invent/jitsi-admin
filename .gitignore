@@ -67,3 +67,4 @@ repairLog.txt
 ###< squizlabs/php_codesniffer ###
 /results*.xml
 /.phpunit.cache/
+/nodejs/tls_certificate/*.pem
