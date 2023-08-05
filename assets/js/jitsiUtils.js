@@ -10,6 +10,7 @@ import {initStartWhiteboard} from "./startWhiteboard";
 import {showPlayPause} from "./moderatorIframe";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
+import {createCameraChangeButton, initSocialIcons} from "./createSocialButtons";
 
 global.$ = global.jQuery = $;
 
@@ -78,6 +79,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
+        initSocialIcons(api);
         api.executeCommand('avatarUrl', avatarUrl);
         myId = e.id;
         roomName = e.roomName;

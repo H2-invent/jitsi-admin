@@ -12,7 +12,8 @@ use App\Service\RoomService;
 use App\Service\StartMeetingService;
 use App\UtilsHelper;
 use Firebase\JWT\JWT;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -162,9 +163,12 @@ class OwnRoomController extends JitsiAdminController
 
     /**
      * @Route("/room/enterLink/{uid}", name="room_enter_link")
-     * @ParamConverter("rooms", options={"mapping": {"uid": "uid"}})
      */
-    public function link(Rooms $rooms, Request $request): Response
+    public function link(
+        #[MapEntity(mapping: ['uid' => 'uid'])]
+        Rooms $rooms,
+        Request $request
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not Found');
@@ -180,9 +184,12 @@ class OwnRoomController extends JitsiAdminController
 
     /**
      * @Route("/mywaiting/check/{uid}/{name}/{type}", name="room_waiting_check")
-     * @ParamConverter("rooms", options={"mapping": {"uid": "uid"}})
      */
-    public function checkWaiting(Rooms $rooms, $name, $type, Request $request, RoomService $roomService): Response
+    public function checkWaiting(
+        #[MapEntity(mapping: ['uid' => 'uid'])]
+        Rooms $rooms,
+        $name, $type,
+    ): Response
     {
         $now = new \DateTime('now', new \DateTimeZone('utc'));
 
