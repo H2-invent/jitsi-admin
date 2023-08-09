@@ -140,7 +140,7 @@ label:
   jigasiApiUrl: URL de Jigasi ConferenceMapper
   jigasiNumberUrl: Números de acceso Jigasi en formato JSON
   jigasiProsodyDomain: Dominio de Prosodi Jigasi
-  go: Los gehts!
+  go: '¡Comencemos!'
   moderator: Organisator auswählen
   disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
 choice:
