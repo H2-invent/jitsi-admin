@@ -33,7 +33,7 @@ function createCameraChangeButton(api) {
 }
 
 function createSocialBox() {
-    var $body = document.getElementById('frame');
-    var $object = "<div id='social_icon_box' class='social_icon_box'></div>";
-    $body.insertAdjacentHTML("afterbegin", $object);
+    // var $body = document.getElementById('frame');
+    // var $object = "<div id='social_icon_box' class='social_icon_box'></div>";
+    // $body.insertAdjacentHTML("afterbegin", $object);
 }
