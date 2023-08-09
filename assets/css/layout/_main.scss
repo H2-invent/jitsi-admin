@@ -979,8 +979,10 @@ a:hover {
       height: 5em;
       aspect-ratio: 1/1;
       object-fit: contain;
+      &:has(.loadContent){
+        cursor: pointer;
+      }
 
-      cursor: pointer;
       position: relative;
 
       img {
@@ -1396,3 +1398,16 @@ a:hover {
      margin-right: 8px;
    }
  }
+
+.sidebar{
+  &.showSidebar{
+    background-color: $background-color;
+  }
+}
+
+.overflow-y-auto{
+  overflow-y:  auto;
+}
+.overflow-x-auto{
+  overflow-x:  auto;
+}

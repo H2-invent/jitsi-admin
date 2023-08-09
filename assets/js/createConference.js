@@ -58,6 +58,10 @@ function initStartIframe() {
 }
 
 function createIframe(url, title, closeIntelligent = true, startMaximized = true) {
+    if (window.$chatwoot) {
+        window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
+    }
+
 
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
@@ -278,7 +282,7 @@ function sendCommand(id, message) {
     message.messageId = messageId;
     ele.contentWindow.postMessage(JSON.stringify(message), '*');
     messages[messageId] = id;
-    messageTimeout[messageId] = setTimeout(closeWhenNoAck, 10000,id)
+    messageTimeout[messageId] = setTimeout(closeWhenNoAck, 10000, id)
 }
 
 function closeWhenNoAck(messageId) {
@@ -288,7 +292,7 @@ function closeWhenNoAck(messageId) {
 function recievecommand(data) {
     let decoded;
     try {
-         decoded = JSON.parse(data);
+        decoded = JSON.parse(data);
     } catch (e) {
         return false;
     }
@@ -320,6 +324,15 @@ function closeIframe(id) {
         document.getElementById(id).remove();
         removeInteraction();
         $('.tooltip').remove();
+        if (window.$chatwoot) {
+            var $iframes = document.querySelectorAll('.jitsiadminiframe');
+
+            if ($iframes.length == 0){
+                window.$chatwoot.toggleBubbleVisibility("show"); // to hide the bubble
+            }
+
+        }
+
     }
 
 }

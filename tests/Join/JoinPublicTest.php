@@ -48,7 +48,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -78,7 +78,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -110,7 +110,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -134,7 +134,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -153,7 +153,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -180,7 +180,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -206,7 +206,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -228,7 +228,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -250,7 +250,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -272,7 +272,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -298,7 +298,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -325,7 +325,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
@@ -360,7 +360,7 @@ class JoinPublicTest extends WebTestCase
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);

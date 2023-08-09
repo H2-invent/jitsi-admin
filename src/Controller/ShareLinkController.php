@@ -125,7 +125,7 @@ class ShareLinkController extends JitsiAdminController
 
         $message = $res['message'];
         $title = $res['title'];
-        if ($subscriber->getRoom()->getScheduleMeeting()) {
+        if ($subscriber && $subscriber->getRoom()->getScheduleMeeting()) {
             return $this->redirectToRoute('schedule_public_main', ['scheduleId' => $subscriber->getRoom()->getSchedulings()[0]->getUid(), 'userId' => $subscriber->getUser()->getUid()]);
         }
         return $this->render('share_link/subscribeSuccess.html.twig', ['server' => $server, 'message' => $message, 'title' => $title]);
