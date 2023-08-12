@@ -742,8 +742,8 @@
         <target>Nein</target>
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
-        <source>Vielleicht</source>
-        <target>Vielleicht</target>
+        <source>Unter Vorbehalt</source>
+        <target>Unter Vorbehalt</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -2179,8 +2179,8 @@
         <target>[Terminplanung] Neuer Terminvorschlag zu einer Terminumfrage hinzugefügt</target>
       </trans-unit>
       <trans-unit id="o46lsH1" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
-        <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
-        <target>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</target>
+        <source>Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</source>
+        <target>Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</target>
       </trans-unit>
       <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
@@ -2191,8 +2191,8 @@
         <target>Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
       </trans-unit>
       <trans-unit id="QSMGE51" resname="Als CSV Downloaden">
-        <source>Als CSV Downloaden</source>
-        <target>Als CSV Downloaden</target>
+        <source>Ergebnisse herunterladen (CSV)</source>
+        <target>Ergebnisse herunterladen (CSV)</target>
       </trans-unit>
       <trans-unit id="tKYYjoS" resname="scheduler.new.schedule">
         <source>scheduler.new.schedule</source>

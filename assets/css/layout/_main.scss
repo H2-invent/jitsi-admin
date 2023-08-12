@@ -1396,3 +1396,16 @@ a:hover {
      margin-right: 8px;
    }
  }
+.chip{
+  display: flex;
+  padding: 0 1em 0 1em ;
+  border-radius: 1000px;
+  white-space: nowrap;
+
+  .symbol{
+    padding-right: 0.5em;
+  }
+  .content{
+
+  }
+}

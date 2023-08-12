@@ -58,6 +58,9 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 
     });
     api.addListener('readyToClose', function (e) {
+        leaveMeeting();
+        initStarSend();
+        api = null;
         endMeeting();
         if (window.opener == null) {
             setTimeout(function () {
@@ -69,6 +72,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
             }, data.timeout)
         }
     });
+
     api.addListener('toolbarButtonClicked', function (e) {
         if (e.key === 'hangup') {
             askHangup()
@@ -86,11 +90,6 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
         jitsiErrorController= new jitsiErrorHandling(api);
 
-        api.addListener('videoConferenceLeft', function (e) {
-            leaveMeeting();
-            initStarSend();
-            api = null;
-        });
 
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
