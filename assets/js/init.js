@@ -34,6 +34,7 @@ function initGenerell() {
     initDarkmodeSwitch();
     initLayzLoading();
     initStartIframe();
+    initProtip();
     wrapSelect();
     if (inIframe()) {
         document.body.classList.add("in-iframe");
@@ -210,6 +211,13 @@ function initRepeater() {
         $('.repeater').addClass('d-none');
         $('#repeater_' + $(this).val()).removeClass('d-none');
     })
+}
+function initProtip() {
+    var proTip = document.getElementById('proTip')
+
+    if (proTip){
+        proTip.style.transform = 'translateY(-'+(proTip.querySelector('.first-line').clientHeight+8+8)+'px)';
+    }
 }
 
 

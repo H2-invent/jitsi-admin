@@ -87,7 +87,7 @@ help:
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenBrowser: Beitreten
   serverSmtpHostName: SMTP-Hostname
   serverSmtpHostPort:  SMTP-Port
   serverSmtpEncryption:  Verschlüsselung

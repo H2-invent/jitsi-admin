@@ -330,8 +330,8 @@
         <target>Starten</target>
       </trans-unit>
       <trans-unit id="La4XzEP" resname="Im Browser">
-        <source>Im Browser</source>
-        <target>Im Browser</target>
+        <source>Starten</source>
+        <target>Starten</target>
       </trans-unit>
       <trans-unit id="5wvMEm6" resname="In der App">
         <source>In der App</source>
@@ -1308,8 +1308,8 @@
         <target>Starten</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
-        <source>jitsi.start.browser</source>
-        <target>Im Browser</target>
+        <source>Starten</source>
+        <target>Starten</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
