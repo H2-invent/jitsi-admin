@@ -423,7 +423,7 @@ class ScheduleController extends JitsiAdminController
         $votings = $this->fillAllVotings($votingsAndTimes['user'], array_unique($votingsAndTimes['times']));
 
 
-        $csv = implode(PHP_EOL, CsvHandler::generateFromArray($votings));
+        $csv = implode(PHP_EOL, CsvHandler::generateFromArray($votings,';'));
         $response = new Response($csv);
 
         $response->headers->set(

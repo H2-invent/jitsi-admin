@@ -34,11 +34,11 @@
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="chip btn-outline-success"
-                                             data-mdb-toggle="tooltip"
-                                             data-mdb-placement="left"
-                                             title="{{ 'Ja'|trans }}"
+
                                         >
-                                          <div class="symbol">
+                                          <div class="symbol"
+                                               data-mdb-toggle="tooltip"
+                                               title="{{ 'Ja'|trans }}">
                                             <i class="fa fa-check"></i>
                                           </div>
                                             <div class="content">
@@ -56,11 +56,11 @@
                                         </div>
 
                                         <div class="chip btn-outline-danger"
-                                             data-mdb-toggle="tooltip"
-                                             data-mdb-placement="left"
-                                             title="{{ 'Nein'|trans }}"
+
                                         >
-                                            <div class="symbol">
+                                            <div class="symbol"
+                                                 data-mdb-toggle="tooltip"
+                                                 title="{{ 'Nein'|trans }}">
                                                 <i class="fa fa-times"></i>
                                             </div>
                                             <div class="content">
@@ -75,11 +75,11 @@
 
                                         {% if room.allowMaybeOption %}
                                         <div class="chip btn-outline-warning"
-                                             data-mdb-toggle="tooltip"
-                                             data-mdb-placement="left"
-                                             title="{{ 'Vielleicht'|trans }}"
+
                                         >
-                                            <div class="symbol">
+                                            <div class="symbol"
+                                                 data-mdb-toggle="tooltip"
+                                                 title="{{ 'Vielleicht'|trans }}">
                                                 <i class="fa fa-question"></i>
                                             </div>
                                             <div class="content">
