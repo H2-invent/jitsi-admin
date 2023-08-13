@@ -5,7 +5,11 @@
                 <img src="{{ asset('images/pro-tip.svg') }}">
             </div>
             <div class="text me-4">
-                {{ 'Meetling Pro Tip'|trans }}
+                {% if getApplicationProperties('LAF_PRO_TIP_HEADER') is not null %}
+                    {{ getApplicationProperties('LAF_PRO_TIP_HEADER') }}
+                {% else %}
+                    {{ 'Meetling Pro Tip'|trans }}
+                {% endif %}
             </div>
             <i class="fa fa-arrow-up"></i>
         </div>

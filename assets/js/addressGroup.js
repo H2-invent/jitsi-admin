@@ -58,6 +58,7 @@ function initAddressbook() {
 }
 
 function initCategoryFilter() {
+
     var $checkbox = document.querySelectorAll('.adressBookFilter');
     for (var i = 0; i < $checkbox.length; i++) {
 
@@ -103,7 +104,11 @@ function categorySort(ele) {
         }
     }
     var filterArr = checked.length === 0 ? [['all']] : checked
-    var $list = document.getElementById('adressbookModalTabContent').querySelectorAll('.adressbookline');
+    var content = document.getElementById('adressbookModalTabContent');
+    if (!content){
+        return false;
+    }
+    var $list = content.querySelectorAll('.adressbookline');
 
     for (var k = 0; k < $list.length; k++) {
         try {
