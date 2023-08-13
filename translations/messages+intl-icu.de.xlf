@@ -2179,7 +2179,7 @@
         <target>[Terminplanung] Neuer Terminvorschlag zu einer Terminumfrage hinzugefügt</target>
       </trans-unit>
       <trans-unit id="o46lsH1" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
-        <source>Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</source>
+        <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
         <target>Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</target>
       </trans-unit>
       <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
@@ -2191,7 +2191,7 @@
         <target>Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
       </trans-unit>
       <trans-unit id="QSMGE51" resname="Als CSV Downloaden">
-        <source>Ergebnisse herunterladen (CSV)</source>
+        <source>Als CSV Downloaden</source>
         <target>Ergebnisse herunterladen (CSV)</target>
       </trans-unit>
       <trans-unit id="tKYYjoS" resname="scheduler.new.schedule">
@@ -2231,8 +2231,24 @@
         <target>Weiter mit Edge</target>
       </trans-unit>
       <trans-unit id="6VWajOy" resname="browser.warning.toMac">
-        <source>Weiter mit Safari</source>
+        <source>browser.warning.toMac</source>
         <target>Weiter mit Safari</target>
+      </trans-unit>
+      <trans-unit id=".9Y20za" resname="Fehler, es gibt noch keine Terminvorschläge.">
+        <source>Fehler, es gibt noch keine Terminvorschläge.</source>
+        <target>Fehler, es gibt noch keine Terminvorschläge.</target>
+      </trans-unit>
+      <trans-unit id="ybC1yze" resname="Fehler, es wurde noch nicht abgestimmt.">
+        <source>Fehler, es wurde noch nicht abgestimmt.</source>
+        <target>Fehler, es wurde noch nicht abgestimmt.</target>
+      </trans-unit>
+      <trans-unit id="_j2X_VK" resname="Was ist ein iCal Link">
+        <source>Was ist ein iCal Link</source>
+        <target>Was ist ein iCal Link</target>
+      </trans-unit>
+      <trans-unit id="ZRA1Zf2" resname="Interner Fehler">
+        <source>Interner Fehler</source>
+        <target>Interner Fehler</target>
       </trans-unit>
     </body>
   </file>
