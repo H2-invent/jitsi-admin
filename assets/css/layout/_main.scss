@@ -93,7 +93,6 @@ strong {
 }
 
 
-
 .logoNavbar {
   display: flex;
   justify-content: center;
@@ -1380,24 +1379,26 @@ a:hover {
   align-items: center;
 }
 
-.border-none{
-  border:none!important;
+.border-none {
+  border: none !important;
 }
-.selectWrapper{
-   display: flex;
-   align-items: center;
-   position: relative;
-   &:after{
-     right: 0;
-     font-family: "Font Awesome 5 Free";
-     font-weight: 900;
-     float: left;
-     transition: transform 0.3s ease-in;
-     content: "\f107";
-     position: absolute;
-     margin-right: 8px;
-   }
- }
+
+.selectWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &:after {
+    right: 0;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    float: left;
+    transition: transform 0.3s ease-in;
+    content: "\f107";
+    position: absolute;
+    margin-right: 8px;
+  }
+}
 
 .sidebar{
   &.showSidebar{
@@ -1410,4 +1411,38 @@ a:hover {
 }
 .overflow-x-auto{
   overflow-x:  auto;
+}
+
+.chip {
+  display: flex;
+  padding: 0 1em 0 0;
+  border-radius: 1000px;
+  white-space: nowrap;
+
+  &.btn-outline-success .symbol {
+    background-color: $success-color;
+    border-color: $success-color;
+  }
+
+  &.btn-outline-danger .symbol {
+    background-color: $danger-color;
+    border-color: $danger-color;
+  }
+
+  &.btn-outline-warning .symbol {
+    background-color: $warning-color;
+    border-color: $warning-color;
+  }
+
+  .symbol {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    color: white;
+    border-radius: 1000px;
+    margin-right: 0.5em;
+  }
+
+  .content {
+
+  }
 }
