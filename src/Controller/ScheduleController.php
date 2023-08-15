@@ -334,12 +334,10 @@ class ScheduleController extends JitsiAdminController
      * @Route("schedule/{scheduleId}/{userId}", name="schedule_public_main", methods={"GET"})
      */
     public function public(
-        #[MapEntity(mapping: ['uid' => 'scheduleId'])]
+        #[MapEntity(mapping: ['scheduleId' => 'uid'])]
         Scheduling $scheduling,
-        #[MapEntity(mapping: ['uid' => 'userId'])]
+        #[MapEntity(mapping: ['userId' => 'uid'])]
         User $user,
-        Request $request,
-        PexelService $pexelService,
         TranslatorInterface $translator,
     ): Response
     {
