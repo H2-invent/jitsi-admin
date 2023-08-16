@@ -137,8 +137,7 @@
                        href="{{ path('second_email_change') }}"
                        target="_blank">{{ 'second.email.title'|trans }}</a>
                 {% endif %}
-
-                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
+                {% if getApplicationProperties('profileHideiCalLink') != true %}
                     <div class="row">
                         <div class="col-lg-12 mt-3">
                             <div class="mb-3">
