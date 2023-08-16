@@ -10,7 +10,7 @@ x-app-common: &jitsi_admin_app
     PHP_EXTENSION_INTL: 1
     DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
     MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
-    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://${PUBLIC_URL}
+    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
     MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
     WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
     MAILER_DSN: ${MAILER_DSN}
@@ -32,7 +32,7 @@ services:
       start_period: 10s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.websocket-ja-${RANDOMTAG}.rule=Host(`${PUBLIC_URL}`) && PathPrefix(`/ws`)"
+      - "traefik.http.routers.websocket-ja-${RANDOMTAG}.rule=Host(`websocket.${PUBLIC_URL}`)"
       - "traefik.http.routers.websocket-ja-${RANDOMTAG}.entrypoints=web"
       - "traefik.http.routers.websocket-ja-${RANDOMTAG}.tls=true"
       - "traefik.http.services.websocket-ja-${RANDOMTAG}.loadbalancer.server.port=3000"
@@ -54,7 +54,7 @@ services:
       PORT: 80
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.rule=Host(`${PUBLIC_URL}`)&& PathPrefix(`/whiteboard`)"
+      - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.rule=Host(`whiteboard.${PUBLIC_URL}`)"
       - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.entrypoints=web"
       - "traefik.http.routers.whiteboard-ja-${RANDOMTAG}.tls=true"
       - "traefik.http.services.whiteboard-ja-${RANDOMTAG}.loadbalancer.server.port=80"
@@ -85,7 +85,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.tls=true"
-      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.rule=Host(`${PUBLIC_URL}`)&& PathPrefix(`/meeting-notes`)"
+      - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.rule=Host(`meeting-notes.${PUBLIC_URL}`)"
       - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.entrypoints=web"
       - "traefik.http.services.etherpad-ja-${RANDOMTAG}.loadbalancer.server.port=9001"
       - "traefik.http.routers.etherpad-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
@@ -120,7 +120,7 @@ services:
       OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
-      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://${PUBLIC_URL}
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
@@ -129,9 +129,9 @@ services:
       laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
       VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
       LAF_WHITEBOARD_FUNCTION: 1
-      WHITEBOARD_URL:  ${HTTP_METHOD}://${PUBLIC_URL}/whiteboard
+      WHITEBOARD_URL:  ${HTTP_METHOD}://whiteboard.${PUBLIC_URL}
       WHITEBOARD_SECRET: '${MERCURE_JWT_SECRET}'
-      ETHERPAD_URL: ${HTTP_METHOD}://${PUBLIC_URL}/meeting-notes
+      ETHERPAD_URL: ${HTTP_METHOD}://meeting-notes.${PUBLIC_URL}
       ETHERPAD_SECRET: MY_SECRET
       LAF_ETHERPAD_FUNCTION: 1
       SEND_REPORT_AFTER_MEETING: 1
