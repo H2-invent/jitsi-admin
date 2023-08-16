@@ -12,7 +12,7 @@ label.start: Начать
 label.dauerKonferenz: Продолжительность конференции
 label.nurRegistriertenutzer: Только зарегистрированные пользователи могут подключиться
 label.speichern: Сохранить
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
 option.15min: 15 минут
 option.30min: 30 минут
 option.45min: 45 минут
@@ -84,7 +84,7 @@ help:
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
-  beitretenBrowser: Открыть в браузере
+  beitretenBrowser: Beitreten
   serverSmtpHostName: SMTP Хост
   serverSmtpHostPort: SMTP порт
   serverSmtpEncryption: Шифрование
