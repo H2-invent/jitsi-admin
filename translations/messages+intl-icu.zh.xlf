@@ -331,8 +331,8 @@
         <target state="translated">开始</target>
       </trans-unit>
       <trans-unit id="La4XzEP" resname="Im Browser">
-        <source>Im Browser</source>
-        <target state="translated">在浏览器中</target>
+        <source>Starten</source>
+        <target state="translated">开始</target>
       </trans-unit>
       <trans-unit id="5wvMEm6" resname="In der App">
         <source>In der App</source>
@@ -741,8 +741,8 @@
         <target state="translated">否</target>
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
-        <source>Vielleicht</source>
-        <target state="translated">不确定</target>
+        <source>Unter Vorbehalt</source>
+        <target state="needs-translation">Unter Vorbehalt</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -1301,8 +1301,8 @@
         <target state="translated">开始</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
-        <source>jitsi.start.browser</source>
-        <target state="translated">在浏览器中</target>
+        <source>Starten</source>
+        <target state="translated">开始</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
@@ -2173,7 +2173,7 @@
       </trans-unit>
       <trans-unit id="o46lsH1" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
         <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
-        <target state="needs-translation">Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</target>
+        <target state="needs-translation">Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</target>
       </trans-unit>
       <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
@@ -2185,7 +2185,7 @@
       </trans-unit>
       <trans-unit id="QSMGE51" resname="Als CSV Downloaden">
         <source>Als CSV Downloaden</source>
-        <target state="needs-translation">Als CSV Downloaden</target>
+        <target state="needs-translation">Ergebnisse herunterladen (CSV)</target>
       </trans-unit>
       <trans-unit id="tKYYjoS" resname="scheduler.new.schedule">
         <source>scheduler.new.schedule</source>
@@ -2224,8 +2224,24 @@
         <target state="needs-translation">Weiter mit Edge</target>
       </trans-unit>
       <trans-unit id="6VWajOy" resname="browser.warning.toMac">
-        <source>Weiter mit Safari</source>
+        <source>browser.warning.toMac</source>
         <target state="needs-translation">Weiter mit Safari</target>
+      </trans-unit>
+      <trans-unit id=".9Y20za" resname="Fehler, es gibt noch keine Terminvorschläge.">
+        <source>Fehler, es gibt noch keine Terminvorschläge.</source>
+        <target state="needs-translation">Fehler, es gibt noch keine Terminvorschläge.</target>
+      </trans-unit>
+      <trans-unit id="ybC1yze" resname="Fehler, es wurde noch nicht abgestimmt.">
+        <source>Fehler, es wurde noch nicht abgestimmt.</source>
+        <target state="needs-translation">Fehler, es wurde noch nicht abgestimmt.</target>
+      </trans-unit>
+      <trans-unit id="_j2X_VK" resname="Was ist ein iCal Link">
+        <source>Was ist ein iCal Link</source>
+        <target state="needs-translation">Was ist ein iCal Link</target>
+      </trans-unit>
+      <trans-unit id="ZRA1Zf2" resname="Interner Fehler">
+        <source>Interner Fehler</source>
+        <target state="needs-translation">Interner Fehler</target>
       </trans-unit>
     </body>
   </file>
