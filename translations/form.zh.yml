@@ -12,7 +12,7 @@ label.start: 开始
 label.dauerKonferenz: 会议持续时间
 label.nurRegistriertenutzer: 仅允许注册用户加入会议
 label.speichern: 保存
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
 option.15min: 15分钟
 option.30min: 30分钟
 option.45min: 45分钟
@@ -84,7 +84,7 @@ help:
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: 通过electron应用程序加入
-  beitretenBrowser: 通过浏览器加入
+  beitretenBrowser: Beitreten
   serverSmtpHostName: SMTP主机
   serverSmtpHostPort: SMTP端口
   serverSmtpEncryption: 加密
