@@ -1,6 +1,7 @@
 sudo apt-get remove docker docker-engine docker.io containerd runc
 
 sudo apt-get update
+sudo apt upgrade
 sudo apt-get install ca-certificates curl gnupg
 
 sudo install -m 0755 -d /etc/apt/keyrings
