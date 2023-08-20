@@ -48,7 +48,7 @@ function initNewRoomModal() {
         }
     })
 
-    autosize($('#room_agenda'));
+    autosize($('textarea'));
     $("#newRoom_form").submit(function (e) {
 
         e.preventDefault(); // avoid to execute the actual submit of the form.
