@@ -5,6 +5,35 @@
 {% block content %}
     <div class="row markdown">
         {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.7',
+                'bugfix':'
+- Add Docker installation for Debian and Ubuntu befor installing Jitsi-admin
+- Dockerfile for wensocket application leads sometimes to permission error. CHange user during npm install to root
+- Error page image was sometime to wide
+- Textarea autosize in sheduling agenda was not working
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.6',
+                'bugfix':'
+- Themeing iCal Link can be hidden seperatly.
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.5',
+                'bugfix':'
+- Sheduling Modal is now with symbols
+- Sheduling Selectin is now with buttons now with checkboxes
+- Change Sheduling naming "Vielleicht" to "Unter Vorbehalt"
+- Bug when switch to breakout rooms leads to closing multiframe
+- Change "Start in Browser" to "Start"
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.4',
+                'bugfix':'
+- Hide Chatwoot when multiframe is open
+- Websocket is now TLS ready
+- Change "Start in Browser" to "Start"
+'}) }}
+        {{ include('changelog/__entry.html.twig',
             {'version':'0.76.3',
             'bugfix':'
 - fix deputy was able to see conferences of supervisor in iCal
@@ -339,7 +368,7 @@
         </div>
         <div class="col-12">
             {% apply markdown_to_html %}
-                #### 0.75.0-RC01
+                #### 0.75.0
 
                 __What's new__
                 * New Websocket not SSE
