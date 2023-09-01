@@ -65,9 +65,10 @@ jobs:
         uses: ncipollo/release-action@v1
         id: create_release
         with:
-          draft: true
+          draft: false
           prerelease: false
           name: Release ${{ steps.version.outputs.version }}
           tag: ${{ steps.version.outputs.version }}
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
+          bodyFile: RELEASE_NOTE.md
