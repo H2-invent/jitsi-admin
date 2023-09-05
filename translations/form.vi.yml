@@ -12,7 +12,7 @@ label.start: Bắt đầu
 label.dauerKonferenz: Thời lượng của hội nghị
 label.nurRegistriertenutzer: Chỉ những người đã đăng ký mới được phép tham gia hội nghị
 label.speichern: Lưu
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
 option.15min: 15 Phút
 option.30min: 30 Phút
 option.45min: 45 Phút
@@ -84,7 +84,7 @@ help:
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: Tham gia với App
-  beitretenBrowser: Tham gia với trình duyệt
+  beitretenBrowser: Beitreten
   serverSmtpHostName: Máy chủ SMTP
   serverSmtpHostPort: SMTP-Port
   serverSmtpEncryption: Mã hóa
