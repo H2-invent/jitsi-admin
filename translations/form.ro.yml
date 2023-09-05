@@ -12,7 +12,7 @@ label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
 label.nurRegistriertenutzer: Nur registrierte Benutzer dürfen der Konferenz beitreten.
 label.speichern: Speichern
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
 option.15min: 15 Minuten
 option.30min: 30 Minuten
 option.45min: 45 Minuten
@@ -84,7 +84,7 @@ help:
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenBrowser: Beitreten
   serverSmtpHostName: SMTP-Hostname
   serverSmtpHostPort: SMTP-Port
   serverSmtpEncryption: Verschlüsselung
