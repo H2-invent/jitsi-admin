@@ -12,7 +12,7 @@ label.start: Start
 label.dauerKonferenz: Conference duration
 label.nurRegistriertenutzer: Only signed up users can join this conference.
 label.speichern: Save
-label.allowMaybeOption: 'Offer "maybe" option'
+label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
 option.15min: 15 minutes
 option.30min: 30 minutes
 option.45min: 45 minutes
@@ -84,7 +84,7 @@ help:
   disallowFirefox: Firefox browser is disabled. All participants joining with firefox will be redirected to a chromium based browser.
 label:
   beitretenApp: Join with electron app
-  beitretenBrowser: Join with browser
+  beitretenBrowser: Beitreten
   serverSmtpHostName: SMTP Hostname
   serverSmtpHostPort: SMTP Port
   serverSmtpEncryption: Encryption
