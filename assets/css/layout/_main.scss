@@ -665,7 +665,8 @@ strong {
 }
 
 .btn {
-  border-radius: 8px;
+  border-radius: 5000px;
+  box-shadow: none;
 }
 
 .btn-floating {
@@ -978,7 +979,8 @@ a:hover {
       height: 5em;
       aspect-ratio: 1/1;
       object-fit: contain;
-      &:has(.loadContent){
+
+      &:has(.loadContent) {
         cursor: pointer;
       }
 
@@ -1400,17 +1402,18 @@ a:hover {
   }
 }
 
-.sidebar{
-  &.showSidebar{
+.sidebar {
+  &.showSidebar {
     background-color: $background-color;
   }
 }
 
-.overflow-y-auto{
-  overflow-y:  auto;
+.overflow-y-auto {
+  overflow-y: auto;
 }
-.overflow-x-auto{
-  overflow-x:  auto;
+
+.overflow-x-auto {
+  overflow-x: auto;
 }
 
 .chip {
@@ -1442,7 +1445,16 @@ a:hover {
     margin-right: 0.5em;
   }
 
-  .content {
 
+}
+
+.card {
+  box-shadow: none;
+  border: 2px solid #a8a8a8;
+  &.awayBorder{
+    background-color: scale-color($warning-color, $lightness: 90%)
+  }
+  &.olineBorder{
+    background-color: scale-color($success-color, $lightness: 90%)
   }
 }
