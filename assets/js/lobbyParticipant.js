@@ -20,6 +20,7 @@ import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import {checkDeviceinList} from './jitsiUtils'
 import {jitsiController} from "./pauseJitsi";
+import {initSocialIcons} from "./createSocialButtons";
 
 import ('jquery-confirm');
 
@@ -168,6 +169,7 @@ function initJitsiMeet(data) {
         enterMeeting();
         initStartWhiteboard();
         showPlayPause();
+        initSocialIcons(api);
         var pauseController = new jitsiController(api,displayName,avatarUrl);
         window.onbeforeunload = function (e) {
             return 'Do you really want to leave this conference';

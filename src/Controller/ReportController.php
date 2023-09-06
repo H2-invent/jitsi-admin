@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Rooms;
 use App\UtilsHelper;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,6 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ReportController extends AbstractController
 {
     private TranslatorInterface $translator;
+
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
@@ -24,9 +26,11 @@ class ReportController extends AbstractController
 
     /**
      * @Route("/{id}", name="_create")
-     * @ParamConverter("room", class="App\Entity\Rooms")
      */
-    public function create(?Rooms $room): Response
+    public function create(
+        #[MapEntity(mapping: ['id' => 'id'])]
+        ?Rooms $room
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
             throw  new NotFoundHttpException('Room not Found');

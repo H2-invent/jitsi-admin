@@ -1,21 +1,25 @@
 <div class="card card-body mb-1 text-lg-start text-center mb-3">
     <div class="row">
+        {% if roomIsReadOnly(room,app.user) == true %}
+            {% include 'dashboard/__roomInvisible.html.twig' with {'room':room} %}
+        {% else %}
+            {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
+            <div class="col-md-4 d-flex align-items-start justify-content-lg-start justify-content-center">
 
-        {% include 'dashboard/__roomDetails.html.twig' with {'room':room} %}
-        <div class="col-md-4 d-flex align-items-start justify-content-lg-start justify-content-center">
-
-            {% if isAllowedToOrganize(room,app.user) %}
-                {{ include('dashboard/__roomOption.html.twig') }}
-                {% if (isAllowedToOrganize(room,app.user) or getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1) and room.totalOpenRooms != true %}
-                    <a href="{{ path('room_past_user',{'room':room.id}) }}"
-                       class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
-                {% endif %}
+                {% if isAllowedToOrganize(room,app.user) %}
+                    {{ include('dashboard/__roomOption.html.twig') }}
+                    {% if (isAllowedToOrganize(room,app.user) or getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1) and room.totalOpenRooms != true %}
+                        <a href="{{ path('room_past_user',{'room':room.id}) }}"
+                           class=" element btn btn-outline-primary loadContent"><i class="fas fa-users"></i></a>
+                    {% endif %}
                 {% else %}
                     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
-                       class="btn btn-outline-default btn-darkred confirmHref" data-text="{{ 'confirm.delete.room'|trans }}"><i class="fa-solid fa-trash"></i></a>
-            {% endif %}
+                       class="btn btn-outline-default btn-darkred confirmHref"
+                       data-text="{{ 'confirm.delete.room'|trans }}"><i class="fa-solid fa-trash"></i></a>
+                {% endif %}
 
-        </div>
+            </div>
+        {% endif %}
         <div class="col-md-2">
             <p>{{ room.start|date('d.m.Y') }}</p>
         </div>

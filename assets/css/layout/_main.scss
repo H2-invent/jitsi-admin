@@ -1415,6 +1415,26 @@ a:hover {
 .overflow-x-auto {
   overflow-x: auto;
 }
+.social_icon_box{
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  top: 16px;
+  left: 8px;
+  .social_icon{
+    color: white;
+    background-color: rgb(0 0 0 / 62%);
+    padding: 4px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
 
 .chip {
   display: flex;

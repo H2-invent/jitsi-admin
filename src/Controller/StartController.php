@@ -8,7 +8,6 @@ use App\Service\RoomService;
 use App\Service\StartMeetingService;
 use App\Service\ThemeService;
 use App\Service\TimeZoneService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;

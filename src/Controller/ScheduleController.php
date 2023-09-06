@@ -26,7 +26,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -212,9 +213,11 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/participants/{id}", name="schedule_admin_participants",methods={"GET"})
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
-    public function participants(Rooms $rooms, Request $request): Response
+    public function participants(
+        Rooms $rooms,
+        Request $request
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
@@ -227,9 +230,11 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/{id}", name="schedule_admin",methods={"GET"})
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
-    public function index(Rooms $rooms, Request $request): Response
+    public function index(
+        Rooms $rooms,
+        Request $request,
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
@@ -244,9 +249,11 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/add/{id}", name="schedule_admin_add",methods={"POST"})
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
-    public function add(Rooms $rooms, Request $request): Response
+    public function add(
+        Rooms $rooms,
+        Request $request
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
@@ -277,9 +284,10 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/remove/{id}", name="schedule_admin_remove",methods={"DELETE"})
-     * @ParamConverter("schedulingTime")
      */
-    public function remove(SchedulingTime $schedulingTime, Request $request): Response
+    public function remove(
+        SchedulingTime $schedulingTime,
+        Request $request): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
@@ -301,9 +309,13 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/choose/{id}", name="schedule_admin_choose",methods={"GET"})
-     * @ParamConverter("schedulingTime")
      */
-    public function choose(SchedulingTime $schedulingTime, Request $request, SchedulingService $schedulingService, TranslatorInterface $translator): Response
+    public function choose(
+        SchedulingTime $schedulingTime,
+        Request $request,
+        SchedulingService $schedulingService,
+        TranslatorInterface $translator
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
@@ -320,10 +332,14 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("schedule/{scheduleId}/{userId}", name="schedule_public_main", methods={"GET"})
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "uid"}})
-     * @ParamConverter("scheduling", class="App\Entity\Scheduling",options={"mapping": {"scheduleId": "uid"}})
      */
-    public function public(Scheduling $scheduling, User $user, Request $request, PexelService $pexelService, TranslatorInterface $translator): Response
+    public function public(
+        #[MapEntity(mapping: ['scheduleId' => 'uid'])]
+        Scheduling $scheduling,
+        #[MapEntity(mapping: ['userId' => 'uid'])]
+        User $user,
+        TranslatorInterface $translator,
+    ): Response
     {
         if (!in_array($user, $scheduling->getRoom()->getUser()->toArray())
             || !$scheduling->getRoom()->getScheduleMeeting()
@@ -403,8 +419,9 @@ class ScheduleController extends JitsiAdminController
     }
 
     #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
-    #[ParamConverter(data: 'room', class: Rooms::class)]
-    public function generateVoteCsv(Rooms $room): Response
+    public function generateVoteCsv(
+        Rooms $room
+    ): Response
     {
         $votingsAndTimes = $this->getUserVotes($room);
 
