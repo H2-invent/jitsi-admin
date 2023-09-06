@@ -48,7 +48,11 @@ api.addListener('videoConferenceJoined', function (e) {
     isBreakout = e.breakoutRoom;
     pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
     jitsiErrorController= new jitsiErrorHandling(api);
-
+    if (typeof enforceE2Eencryption !== 'undefined'){
+        if (enforceE2Eencryption){
+            api.executeCommand('toggleE2EE', true);
+        }
+    }
 
     window.onbeforeunload = function (e) {
         e.preventDefault();

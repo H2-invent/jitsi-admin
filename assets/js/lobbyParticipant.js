@@ -174,7 +174,11 @@ function initJitsiMeet(data) {
         window.onbeforeunload = function (e) {
             return 'Do you really want to leave this conference';
         }
-
+        if (typeof enforceE2Eencryption !== 'undefined'){
+            if (enforceE2Eencryption){
+                api.executeCommand('toggleE2EE', true);
+            }
+        }
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();

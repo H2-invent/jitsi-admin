@@ -153,6 +153,7 @@
         var browserLeave = '{{ path('lobby_participants_browser_leave',{'userUid':user.uid}) }}'
         var healthcheckUrl = '{{ path('lobby_participants_healthCheck',{'userUid':user.uid}) }}'
         var urlWebsocketReady = '{{ path('lobby_participants_websocket_ready',{'userUid':user.uid}) }}'
+        var enforceE2Eencryption = {{ room.server.enforceE2E?'true':'false' }};
     </script>
 {% endblock %}
 {% block webpack %}

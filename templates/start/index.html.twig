@@ -67,6 +67,7 @@
 
 {% include('__checkFirefox.html.twig') with {'room':room} %}
 </body>
+{{ dump(name) }}
 {% if name is defined and name is not null %}
 
 
@@ -116,6 +117,7 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var websocketTopics = "{{ getJwtforWebsocket(['whiteboard/'~room.uidReal],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
+        var enforceE2Eencryption = {{ room.server.enforceE2E?'true':'false' }};
     </script>
 
 
