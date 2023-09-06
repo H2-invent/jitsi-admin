@@ -497,24 +497,29 @@ strong {
 }
 
 .olineBorder {
-  border: $online solid 4px !important;;
+  border: $online solid 4px !important;
 }
 
 .bg-online {
-  background-color: $online;
+  background-color: scale-color($online, $lightness: 90%);
+  border: $online 2px solid;
+  color: black;
+
 }
 
 .infoBorder {
-  border: $in-a-meeting solid 4px !important;;
+  border: $in-a-meeting solid 4px !important;
 }
 
 .bg-away {
-  background-color: $away;
+  background-color: scale-color($away, $lightness: 90%);
+  border: $away 2px solid;
+  color: black;
 }
 
 
 .awayBorder {
-  border: $away solid 4px !important;;
+  border: $away solid 4px !important;
 }
 
 .occupant {
@@ -1452,9 +1457,11 @@ a:hover {
   box-shadow: none;
   border: 2px solid #a8a8a8;
   &.awayBorder{
-    background-color: scale-color($warning-color, $lightness: 90%)
+    background-color: scale-color($warning-color, $lightness: 90%);
+    border-width: 2px!important;
   }
   &.olineBorder{
-    background-color: scale-color($success-color, $lightness: 90%)
+    background-color: scale-color($success-color, $lightness: 90%);
+    border-width: 2px!important;
   }
 }
