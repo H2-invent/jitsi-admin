@@ -23,7 +23,7 @@ final class Version20230906110559 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $table = $schema->getTable(self::TABLE_NAME);
-        $table->modifyColumn(self::COLUMN_NAME,[ 'default'=>true,'NotNull'=>true]);
+        $table->modifyColumn(self::COLUMN_NAME,[ 'default'=>null,'NotNull'=>true]);
         // this up() migration is auto-generated, please modify it to your needs
 
     }
@@ -31,7 +31,7 @@ final class Version20230906110559 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $table = $schema->getTable(self::TABLE_NAME);
-        $table->modifyColumn(self::COLUMN_NAME,['default'=>null,'NotNull'=>true]);
+        $table->modifyColumn(self::COLUMN_NAME,['default'=>true,'NotNull'=>true]);
         // this down() migration is auto-generated, please modify it to your needs
 
     }

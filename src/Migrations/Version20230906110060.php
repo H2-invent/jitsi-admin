@@ -24,7 +24,7 @@ final class Version20230906110060 extends AbstractMigration
         $table = $schema->getTable(self::TABLE_NAME);
         $table->modifyColumn('created_at',['comment'=>'(DC2Type:datetime_immutable)','NotNull'=>true]);
         $table->modifyColumn('available_at',['comment'=>'(DC2Type:datetime_immutable)','NotNull'=>true]);
-        $table->modifyColumn('delivered_at',['comment'=>'(DC2Type:datetime_immutable)','NotNull'=>true]);
+        $table->modifyColumn('delivered_at',['comment'=>'(DC2Type:datetime_immutable)','default'=>null, 'NotNull'=>false]);
         // this up() migration is auto-generated, please modify it to your needs
     }
 
