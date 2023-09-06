@@ -99,6 +99,9 @@ class Server
 
     #[ORM\Column(nullable: true)]
     private ?bool $disallowFirefox = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $enforceE2e = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -569,6 +572,18 @@ class Server
     public function setDisallowFirefox(?bool $disallowFirefox): self
     {
         $this->disallowFirefox = $disallowFirefox;
+
+        return $this;
+    }
+
+    public function isEnforceE2e(): ?bool
+    {
+        return $this->enforceE2e;
+    }
+
+    public function setEnforceE2e(?bool $enforceE2e): static
+    {
+        $this->enforceE2e = $enforceE2e;
 
         return $this;
     }
