@@ -55,7 +55,7 @@ class LobbyParticipantsControllerTest extends WebTestCase
             0,
             $crawler->filter('.lobbyOnlinePart')->count()
         );
-        $crawler = $client->request('GET', '/lobby/websocket/ready/'.$lobbyUser->getUid());
+        $crawler = $client->request('GET', '/lobby/websocket/ready/' . $lobbyUser->getUid());
         $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
         self::assertTrue($lobbyUser->isWebsocketReady());
 
@@ -155,22 +155,23 @@ class LobbyParticipantsControllerTest extends WebTestCase
             }
         );
         $directSend->setMercurePublisher($hub);
-        $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $lobbyUserRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $urlGenerator = self::getContainer()->get(UrlGeneratorInterface::class);
         $urlLeave = $urlGenerator->generate('lobby_participants_leave', ['userUid' => 'test']);
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":true}', $client->getResponse()->getContent());
-        self::assertNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
+        self::assertNull($lobbyUserRepo->findOneBy(['user' => $user2, 'room' => $room]));
         $url = $urlGenerator->generate('lobby_participants_wait', ['roomUid' => $room->getUidReal(), 'userUid' => $user2->getUid()]);
         $crawler = $client->request('GET', $url);
-        $lobbyUser = $lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]);
+        $lobbyUser = $lobbyUserRepo->findOneBy(['user' => $user2, 'room' => $room]);
         self::assertNotNull($lobbyUser);
-        $urlLeave = $urlGenerator->generate('lobby_participants_browser_leave', ['userUid' => $lobbyUser->getUid()]);
+        $urlLeave = '/lobby/browser/leave/participants/'.$lobbyUser->getUid();
         $crawler = $client->request('GET', $urlLeave);
         self::assertEquals('{"error":false}', $client->getResponse()->getContent());
-        self::assertNotNull($lobbyUSerRepo->findOneBy(['user' => $user2, 'room' => $room]));
+        self::assertNotNull($lobbyUserRepo->findOneBy(['user' => $user2, 'room' => $room]));
         /** @var InMemoryTransport $transport */
         $transport = self::getContainer()->get('messenger.transport.async');
+        sleep(4);
         $this->assertCount(1, $transport->get());
     }
 
