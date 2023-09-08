@@ -9,6 +9,9 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        dql:
+            string_functions:
+                regexp: DoctrineExtensions\Query\Mysql\Regexp
         mappings:
             App:
                 is_bundle: false

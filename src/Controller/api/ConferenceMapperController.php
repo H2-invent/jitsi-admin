@@ -32,9 +32,9 @@ class ConferenceMapperController extends JitsiAdminController
     {
         return new JsonResponse(
             $this->conferenceMapperService->checkConference(
-                $this->doctrine->getRepository(CallerRoom::class)->findOneBy(['callerId' => $request->get('confid')]),
-                $apiKey = $request->headers->get('Authorization'),
-                $request->get('callerid')
+                callerRoom: $this->doctrine->getRepository(CallerRoom::class)->findOneBy(['callerId' => $request->get('confid')]),
+                apiKey: $request->headers->get('Authorization'),
+                callerId: $request->get('callerid')
             )
         );
     }

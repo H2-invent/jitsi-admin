@@ -3,6 +3,7 @@
 namespace App\Service\api;
 
 use App\Entity\CallerRoom;
+use App\Repository\UserRepository;
 use App\Service\LicenseService;
 use App\Service\RoomService;
 use App\Service\webhook\RoomStatusFrontendService;
@@ -12,7 +13,8 @@ class ConferenceMapperService
     public function __construct(
         private RoomStatusFrontendService $roomStatusFrontendService,
         private LicenseService            $licenseService,
-        private RoomService               $roomService
+        private RoomService               $roomService,
+        private UserRepository            $userRepository
     )
     {
     }
@@ -41,10 +43,16 @@ class ConferenceMapperService
                 'reason' => 'NOT_STARTED'
             ];
         }
+
         return [
             'state' => 'STARTED',
             'jwt' => $this->roomService->generateJwt($room, null, $callerId),
             'room_name' => $room->getUid() . '@' . $room->getServer()->getJigasiProsodyDomain()
         ];
+    }
+
+    public function findNameFromCallerId($callerId)
+    {
+
     }
 }
