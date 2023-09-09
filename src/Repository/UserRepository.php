@@ -134,17 +134,17 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * @return User[] Returns an array of Server objects
-     */
-    public function findUsersByCallerId($callerId)
+
+    public function findUsersByCallerId($callerId): ?User
     {
-        $customField = $this->parameterBag->get('SIP_CONFERENCE_MAPPER_PHONE_NUMEBER_SPEZIAL_FIELD');
-        $callerId = preg_replace('/[^0-9]|^0+/','',$callerId);
+        $callerId = preg_replace('/[^0-9]/', '', $callerId);
+        $callerId = preg_replace('/^0+/', '', $callerId);
         $qb = $this->createQueryBuilder('u');
 
-        return $qb->andWhere($qb->expr()->like('u.indexer',$callerId))
+        return $qb->andWhere($qb->expr()->like('u.indexer', ':search'))
+            ->setParameter('search','%'.$callerId.'%')
             ->getQuery()
-            ->getResult();
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
     }
 }
