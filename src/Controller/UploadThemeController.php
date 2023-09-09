@@ -32,7 +32,7 @@ class UploadThemeController extends AbstractController
     {
         $this->CACHE_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
         $this->THEME_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR;
-        $this->PUBLIC_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
+        $this->PUBLIC_DIR = $this->parameterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR.'theme'.DIRECTORY_SEPARATOR;
     }
 
     private $THEME_DIR;
@@ -131,6 +131,9 @@ class UploadThemeController extends AbstractController
         foreach ($arr as $assest) {
             $tmp = explode(DIRECTORY_SEPARATOR, $assest);
             $dir = end($tmp);
+            if (str_starts_with($dir,'theme')){
+                $dir = preg_replace('/theme/','',$dir);
+            }
             $assetTargetPath = $this->PUBLIC_DIR . $dir;
             $filesystem->remove($assetTargetPath . '/*');
             $filesystem->mirror($assest, $assetTargetPath);
