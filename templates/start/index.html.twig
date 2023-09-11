@@ -56,7 +56,7 @@
 
 <div id="frame">
     {% if room.tag is not null %}
-        <p class="floating-tag" id="tagContent"
+        <p class="floating-tag {{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }}" id="tagContent"
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
@@ -67,7 +67,6 @@
 
 {% include('__checkFirefox.html.twig') with {'room':room} %}
 </body>
-{{ dump(name) }}
 {% if name is defined and name is not null %}
 
 

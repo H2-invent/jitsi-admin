@@ -21,6 +21,7 @@ import {initStartWhiteboard} from "./startWhiteboard";
 import {checkDeviceinList} from './jitsiUtils'
 import {jitsiController} from "./pauseJitsi";
 import {initSocialIcons} from "./createSocialButtons";
+import {moveTag} from "./moveTag";
 
 import ('jquery-confirm');
 
@@ -137,7 +138,7 @@ function initJitsiMeet(data) {
     var frameDIv = $('#frame');
     $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($(data.options.parentNode));
-    frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
+    moveTag(frameDIv)
     $('#window').remove();
     $('#mainContent').remove();
     $('.imageBackground').remove();

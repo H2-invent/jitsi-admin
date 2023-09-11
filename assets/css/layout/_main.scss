@@ -751,6 +751,12 @@ strong {
 }
 
 .floating-tag {
+  &.transparent-bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent!important;
+  }
   display: flex;
   align-content: center;
   justify-content: left;
