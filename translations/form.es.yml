@@ -12,7 +12,7 @@ label.start: Iniciar
 label.dauerKonferenz: Duración de la conferencia
 label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia.
 label.speichern: Guardar
-label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
+label.allowMaybeOption: 'Ofrecer la opción "Sujeto a cambios"'
 option.15min: 15 minutos
 option.30min: 30 minutos
 option.45min: 45 minutos
@@ -82,6 +82,7 @@ help:
   jigasiNumberUrl: Introduzca aquí el número de acceso telefónico en formato JSON, como se hace en Jigasi en “numbers.json”.
   jigasiProsodyDomain: Inserte el dominio de Prosody aquí. Por lo general, sigue el patrón "conference.domain.topdomain".
   disallowFirefox: El navegador Firefox está deshabilitado. Todos los participantes que quieran unirse con un navegador Firefox serán redirigidos a un navegador basado en Chromium.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse
@@ -143,6 +144,7 @@ label:
   go: '¡Comencemos!'
   moderator: Seleccionar organizador
   disallowFirefox: Firefox está deshabilitado en el servidor de Jitsi Meet
+  enforceE2e: Ende zu Ende erzwingen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
