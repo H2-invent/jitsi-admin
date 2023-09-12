@@ -82,6 +82,7 @@ help:
   jigasiNumberUrl: Enter Dial-In number in JSON format. It has to be the same as in numbers.json in Jigasi config.
   jigasiProsodyDomain: Enter prosody domain. Usually it has pattern "conference.domain.topdomain".
   disallowFirefox: Firefox browser is disabled. All participants joining with firefox will be redirected to a chromium based browser.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Beitreten
@@ -143,6 +144,7 @@ label:
   go: Let's go!
   moderator: Select organizer
   disallowFirefox: Firefox is disabled on this jitsi meer server
+  enforceE2e: Ende zu Ende erzwingen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
