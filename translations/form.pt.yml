@@ -82,6 +82,7 @@ help:
   jigasiNumberUrl: Insira aqui o número de telefone em formato JSON, como feito no arquivo "numbers.json" no Jigasi.
   jigasiProsodyDomain: Insira o domínio do Prosody aqui. No geral segue o padrão "conference.domain.topdomain".
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
 label:
   beitretenApp: Entrar com app electron
   beitretenBrowser: Beitreten
@@ -143,6 +144,7 @@ label:
   go: Vamos Lá!
   moderator: Organisator auswählen
   disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
+  enforceE2e: Ende zu Ende erzwingen
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
