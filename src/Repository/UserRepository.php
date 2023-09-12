@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use function Doctrine\ORM\QueryBuilder;
 
 /**
@@ -16,7 +17,9 @@ use function Doctrine\ORM\QueryBuilder;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry               $registry,
+        private ParameterBagInterface $parameterBag)
     {
         parent::__construct($registry, User::class);
     }
@@ -72,6 +75,7 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findUsersByLdapServerId($value)
     {
         return $this->createQueryBuilder('u')
@@ -91,6 +95,7 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     public function findUsersfromLdapdn($userDn)
     {
         $qb = $this->createQueryBuilder('u');
@@ -102,9 +107,9 @@ class UserRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-     /**
-      * @return User[] Returns an array of Server objects
-      */
+    /**
+     * @return User[] Returns an array of Server objects
+     */
     public function findUsersWithDeputy()
     {
         $qb = $this->createQueryBuilder('u');
@@ -116,6 +121,7 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     /**
      * @return User[] Returns an array of Server objects
      */
@@ -126,5 +132,19 @@ class UserRepository extends ServiceEntityRepository
         return $qb->andWhere($qb->expr()->isNotNull('u.keycloakId'))
             ->getQuery()
             ->getResult();
+    }
+
+
+    public function findUsersByCallerId($callerId): ?User
+    {
+        $callerId = preg_replace('/[^0-9]/', '', $callerId);
+        $callerId = preg_replace('/^0+/', '', $callerId);
+        $qb = $this->createQueryBuilder('u');
+
+        return $qb->andWhere($qb->expr()->like('u.indexer', ':search'))
+            ->setParameter('search','%'.$callerId.'%')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
     }
 }

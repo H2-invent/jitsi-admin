@@ -32,7 +32,8 @@ $border-width-entry: 6px;
 
   .profilepicture {
     height: 44px;
-    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
     background-size: cover;
     background-position: center;
     border-radius: 5000px;
