@@ -5,9 +5,14 @@
 - **Transparent Background for Videoconference Tags:** In response to your feedback, we've added a new feature that allows you to set tags in videoconferences with a transparent background. This ensures a more immersive videoconference experience by maximizing the display area, making your meetings more engaging and effective.
     - set `LAF_SHOW_TAG_TRANSPARENT_BACKGROUND=1` to show the tags in the conference with a transparent background
 - **UI Improvement:** We move the app into direction Flat-UI and Material Design 3
+      - Green background when a meeting is running
 - **Quick actions:** Add some quick actions to change the camera
+- **Conference mapper:** Conference mapper is selecting the user and add the username instead of the callerid into the JWT which is send to the prosidy
 ## Improvements:
-nothing here
+- Update mdbootstrap to the latest version
+- Add websocket in docker behind /ws route not behind a subdomain
+- change all roting paramconverter into new paramconverter
+- Show add new participants in the dropdown option menue
 ## Bugs:
 nothing here
 ## Discussion:
