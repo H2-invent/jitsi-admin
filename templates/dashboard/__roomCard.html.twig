@@ -1,4 +1,4 @@
-<div class="card card-body mb-1 text-lg-start text-center triggerHide mb-3
+<div class="max-w p-6 bg-white mb-3 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 triggerHide
 {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %} awayBorder {% endif %} {% if runningRooms is defined and room in runningRooms %} olineBorder {% endif %}"
      id="room_card{{ room.uidReal }}">
     <div class="row">
@@ -29,6 +29,7 @@
             {{ 'Jetzt'|trans }}
         </div>
     {% endif %}
+
 
 </div>
 

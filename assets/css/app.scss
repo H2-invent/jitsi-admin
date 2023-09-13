@@ -1,5 +1,8 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import '~mdb-ui-kit/src/scss/mdb.free';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "~flatpickr/dist/flatpickr.min.css";
 @import "~jquery-confirm/css/jquery-confirm.css";
 //@import "~pretty-print-json/dist/css/pretty-print-json.css";

@@ -12,7 +12,7 @@ Encore
 
     // what's the public path to this directory (relative to your project's document root dir)
     .setPublicPath('/build')
-
+    .enablePostCssLoader()
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
     // will require an extra script tag for runtime.js
