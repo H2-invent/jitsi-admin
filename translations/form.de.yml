@@ -86,6 +86,7 @@ help:
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
   enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
+  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Beitreten
@@ -148,6 +149,8 @@ label:
   moderator: Organisator auswählen
   disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
   enforceE2e: Ende zu Ende erzwingen
+  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
+  maxUser: Maximal Anzahl an Teilnehmenden
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

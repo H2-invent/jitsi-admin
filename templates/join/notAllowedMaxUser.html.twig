@@ -1,0 +1,19 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    {{ 'Zu viele Teilnehmenden'|trans }}
+{% endblock %}
+{% block content %}
+
+
+    <hr>
+    <p class="text-center text-md-start">
+        {{ 'Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk'|trans }}
+    </p>
+    <hr>
+
+{% endblock %}
+
+{% block webpack %}
+
+    {{ encore_entry_script_tags('onlyClosablePage') }}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    {{ 'Zugriff nicht erlaubt'|trans }}
+{% endblock %}
+{% block content %}
+
+
+    <hr>
+    <p class="text-center text-md-start">
+        {{ 'Sie dürfen dieser Konferenz mit Ihrer IP-Adresse nicht beitreten. Bitte kontaktieren Sie ihren Support.'|trans }}
+    </p>
+    <hr>
+
+{% endblock %}
+
+{% block webpack %}
+
+    {{ encore_entry_script_tags('onlyClosablePage') }}
+{% endblock %}

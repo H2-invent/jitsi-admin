@@ -54,6 +54,8 @@ class ServerType extends AbstractType
             ->add('featureEnableByJWT', CheckboxType::class, ['required' => false, 'label' => 'label.featureEnalbeByJwt', 'help' => 'help.featureEnalbeByJwt', 'translation_domain' => 'form'])
             ->add('enforceE2e', CheckboxType::class, ['required' => false, 'label' => 'label.enforceE2e', 'help' => 'help.enforceE2e', 'translation_domain' => 'form'])
             ->add('disallowFirefox', CheckboxType::class, ['required' => false, 'label' => 'label.disallowFirefox', 'help' => 'help.disallowFirefox', 'translation_domain' => 'form'])
+            ->add('allowIp', TextType::class, ['required' => false, 'label' => 'label.allowIp', 'help' => 'help.allowIp', 'translation_domain' => 'form'])
+
             ->add(
                 'jwtModeratorPosition',
                 ChoiceType::class,

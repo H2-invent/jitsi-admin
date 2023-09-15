@@ -102,6 +102,9 @@ class Server
 
     #[ORM\Column(nullable: true)]
     private ?bool $enforceE2e = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $allowIp = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -584,6 +587,18 @@ class Server
     public function setEnforceE2e(?bool $enforceE2e): static
     {
         $this->enforceE2e = $enforceE2e;
+
+        return $this;
+    }
+
+    public function getAllowIp(): ?string
+    {
+        return $this->allowIp;
+    }
+
+    public function setAllowIp(?string $allowIp): static
+    {
+        $this->allowIp = $allowIp;
 
         return $this;
     }

@@ -143,6 +143,9 @@ class Rooms
     #[ORM\Column(type: Types::BOOLEAN, nullable: false)]
     private bool $allowMaybeOption = true;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $maxUser = null;
+
 
     public function __construct()
     {
@@ -1038,6 +1041,18 @@ class Rooms
     public function setAllowMaybeOption(bool $allowMaybeOption): self
     {
         $this->allowMaybeOption = $allowMaybeOption;
+
+        return $this;
+    }
+
+    public function getMaxUser(): ?int
+    {
+        return $this->maxUser;
+    }
+
+    public function setMaxUser(?int $maxUser): static
+    {
+        $this->maxUser = $maxUser;
 
         return $this;
     }

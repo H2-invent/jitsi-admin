@@ -166,6 +166,12 @@ class RoomType extends AbstractType
             $this->logger->debug('Add the possibility to select the lobby');
             $builder->add('lobby', CheckboxType::class, ['required' => false, 'label' => 'label.lobby', 'translation_domain' => 'form']);
         }
+
+        if ($this->theme->getApplicationProperties(InputSettings::ALLOW_SET_MAX_USERS) == 1) {
+            $this->logger->debug('Add the possibility to set the max participants');
+            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form']);
+        }
+
         if ($options['showTag']) {
             $this->logger->debug('Add the possibility to select a tag');
             if (sizeof($tags) > 0) {
