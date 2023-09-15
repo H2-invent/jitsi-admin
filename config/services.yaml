@@ -131,7 +131,7 @@ parameters:
     LAF_HIDE_CHANGELOG: '%env(LAF_HIDE_CHANGELOG)%'
     SIP_CONFERENCE_MAPPER_PHONE_NUMEBER_SPEZIAL_FIELD: '%env(SIP_CONFERENCE_MAPPER_PHONE_NUMEBER_SPEZIAL_FIELD)%'
     LAF_SHOW_TAG_TRANSPARENT_BACKGROUND: '%env(LAF_SHOW_TAG_TRANSPARENT_BACKGROUND)%'
-
+    laF_version: '%env(laF_version)%'
 services:
     Twig\Extension\StringLoaderExtension:
     # default configuration for services in *this* file
