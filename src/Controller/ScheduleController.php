@@ -447,7 +447,7 @@ class ScheduleController extends JitsiAdminController
             'Content-Disposition',
             HeaderUtils::makeDisposition(
                 HeaderUtils::DISPOSITION_ATTACHMENT,
-                $room->getName() . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
+                preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
             )
         );
 
