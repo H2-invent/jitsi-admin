@@ -10,6 +10,9 @@
 - **Conference mapper:** Conference mapper is selecting the user and add the username instead of the callerid into the JWT which is send to the prosidy
 - **Limit Participants in a conference** add possibility to set max participants in a conference. This is a hard limit
 - **IP Restriction:** add the possibility to set an ip and ip range restrictin for access conferences fo a jitsi admin server
+- **Pro Features:** Open Pro features for all users
+- **Multiframe Border Color:** Multiframe Border color has the same color as the tag background color
+- **Add Chrome Plugin API:** Start with an API for the new Chrome browser plugin
 ## Improvements:
 - Update mdbootstrap to the latest version
 - Add websocket in docker behind /ws route not behind a subdomain
