@@ -51,7 +51,7 @@ class ConferenceMapperTest extends KernelTestCase
         $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
         $callerRoom->getRoom()->getServer()->setLicenseKey('test');
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApiFailure', '012345123');
-        self::assertEquals(['error' => true, 'text' => 'NO_SERVER_FOUND'], $res);
+        self::assertEquals(['error' => true, 'text' => 'AUTHORIZATION_FAILED'], $res);
     }
 
     public function testnoCallerRoom(): void

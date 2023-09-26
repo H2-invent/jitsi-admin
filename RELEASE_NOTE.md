@@ -13,6 +13,7 @@
 - **Pro Features:** Open Pro features for all users
 - **Multiframe Border Color:** Multiframe Border color has the same color as the tag background color
 - **Add Chrome Plugin API:** Start with an API for the new Chrome browser plugin
+- **Send protocoll:** Send Protocol from options menu to all participants
 ## Improvements:
 - Update mdbootstrap to the latest version
 - Add websocket in docker behind /ws route not behind a subdomain

@@ -58,7 +58,7 @@ class OwnRoomJoinTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', $room->getName());
         $this->assertStringNotContainsString('https://privacy.dev', $client->getResponse()->getContent());
-        $this->assertStringNotContainsString('https://test.img', $client->getResponse()->getContent());
+        $this->assertStringContainsString('https://test.img', $client->getResponse()->getContent());
     }
 
 

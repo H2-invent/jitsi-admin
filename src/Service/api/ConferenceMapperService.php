@@ -34,7 +34,7 @@ class ConferenceMapperService
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
         $server = $room->getServer();
-        if (!$server || !$this->licenseService->verify($server)) {
+        if (!$server ) {
             return ['error' => true, 'text' => 'NO_SERVER_FOUND'];
         }
         if ($apiKey !== $server->getApiKey()) {
