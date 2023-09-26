@@ -1,13 +1,13 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    {{ 'Zu viele Teilnehmenden'|trans }}
+    {{ 'room.error.noAccessAllowedToManyParticipants'|trans }}
 {% endblock %}
 {% block content %}
 
 
     <hr>
     <p class="text-center text-md-start">
-        {{ 'Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk'|trans }}
+        {{ 'room.error.noAccessAllowedToManyParticipantsText'|trans }}
     </p>
     <hr>
 

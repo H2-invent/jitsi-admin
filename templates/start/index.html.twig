@@ -29,7 +29,7 @@
 
 {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
-{% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+{% if server is defined and  server is not null and server.logoUrl is not null %}
     {% set logo_small =  server.logoUrl %}
 {% else %}
     {% if theme == false %}
@@ -41,7 +41,7 @@
 
 {% set logo_large = httpsAbolutUrl(asset('logo.png')) %}
 
-{% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+{% if server is defined and  server is not null and server.logoUrl is not null %}
     {% set logo_large =  server.logoUrl %}
 {% else %}
     {% if theme == false %}

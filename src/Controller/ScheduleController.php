@@ -426,13 +426,13 @@ class ScheduleController extends JitsiAdminController
         $votingsAndTimes = $this->getUserVotes($room);
 
         if (!isset($votingsAndTimes['times']) || count($votingsAndTimes['times']) === 0) {
-            $this->addFlash('danger', $this->translator->trans('Fehler, es gibt noch keine Terminvorschläge.'));
+            $this->addFlash('danger', $this->translator->trans('error.scheduler.noSchedules'));
 
             return $this->redirectToRoute('dashboard');
         }
 
         if (!isset($votingsAndTimes['user']) || count($votingsAndTimes['user']) === 0) {
-            $this->addFlash('danger', $this->translator->trans('Fehler, es wurde noch nicht abgestimmt.'));
+            $this->addFlash('danger', $this->translator->trans('error.scheduler.novotings'));
 
             return $this->redirectToRoute('dashboard');
         }

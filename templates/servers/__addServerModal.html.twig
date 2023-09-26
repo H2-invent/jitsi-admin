@@ -24,17 +24,7 @@
                 {{ form_row(form.appId) }}
                 {{ form_row(form.appSecret) }}
             </div>
-            {{ form_row(form.licenseKey) }}
-            {% if not server|validateLicense %}
-                <p><small><span class="badge badge-danger">Enterprise</span><a target="_blank"
-                                                                               href="https://h2-invent.com/produkte/jitsi-admin-enterprise"> {% trans %}Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.{% endtrans %}</a></small>
-                </p>
-            {% else %}
-                <p>
-                    <small><span
-                                class="badge badge-success">{{ 'Enterprise bis'|trans }}</span> {{ server|validateUntilLicense|date('d.m.Y') }}
-                    </small></p>
-            {% endif %}
+
             <div class="mb-2">
                 <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     {{ 'Erweiterte Optionen'|trans }}

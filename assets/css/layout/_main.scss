@@ -750,11 +750,10 @@ strong {
   cursor: pointer;
 }
 
+
+
 .floating-tag {
   &.transparent-bg{
-    position: absolute;
-    top: 0;
-    left: 0;
     background-color: transparent!important;
   }
   display: flex;
@@ -762,8 +761,13 @@ strong {
   justify-content: left;
   z-index: 2;
   margin: 0;
-  padding: 0.1em 1em 0.1em 1em;
+  padding: 0.1em 3em 0.1em 1em;
+  position: absolute;
+  border-radius: 0 0 15px 0;
+  top: 0;
+  left: 0;
 }
+
 
 .form-outline {
   .form-control {
@@ -845,6 +849,9 @@ strong {
 
   .navigation {
     display: none;
+  }
+  .removeInIframe{
+    display: none!important;
   }
 }
 
@@ -1306,7 +1313,7 @@ a:hover {
 
   .proTips {
     display: none;
-
+    box-shadow: 0 8px 9px -4px rgba(0, 0, 0, 0.15), 0 4px 18px 0 rgba(0, 0, 0, 0.1) !important;
     z-index: 9;
     @media only screen and (min-width: $breakpointMenue) {
       display: flex;

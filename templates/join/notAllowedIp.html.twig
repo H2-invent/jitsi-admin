@@ -1,13 +1,13 @@
 {% extends 'join/base.html.twig' %}
 {% block header %}
-    {{ 'Zugriff nicht erlaubt'|trans }}
+    {{ 'room.error.noAccessAllowed'|trans }}
 {% endblock %}
 {% block content %}
 
 
     <hr>
     <p class="text-center text-md-start">
-        {{ 'Sie dürfen dieser Konferenz mit Ihrer IP-Adresse nicht beitreten. Bitte kontaktieren Sie ihren Support.'|trans }}
+        {{ 'room.error.noAccessAllowedIP'|trans }}
     </p>
     <hr>
 

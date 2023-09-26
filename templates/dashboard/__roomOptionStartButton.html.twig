@@ -7,7 +7,7 @@
                 aria-expanded="false">{{ 'Starten'|trans }}
         </button>
         <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
-            <li><a class="dropdown-item {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe start-iframe{% endif %}" data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
+            <li><a class="dropdown-item {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe start-iframe{% endif %}" data-bordercolor="{{ room.tag?room.tag.backgroundColor:'' }}" data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
 
                    href="{{ path('room_join',{'t':'b','room':room.id}) }}" target="_blank">{{ 'Im Browser'|trans }}</a>
             </li>
