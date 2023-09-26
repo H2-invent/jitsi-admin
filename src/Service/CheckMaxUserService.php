@@ -19,7 +19,8 @@ class CheckMaxUserService
 
     function isAllowedToEnter(Rooms $rooms): bool
     {
-        if (!$rooms->getMaxUser()){
+        $var = $rooms->getMaxUser();
+        if ($rooms->getMaxUser() === null){
             return  true;
         }
         $userInRoom  = $this->roomStatusFrontendService->numberOfOccupants($rooms);

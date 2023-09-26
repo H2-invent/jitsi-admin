@@ -1,12 +1,13 @@
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-<div class="modal-content">
+    <div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
-             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
+        {{ form_start(form) }}
         <div class="modal-body">
-            {{ form_start(form) }}
+
             {{ form_row(form.url) }}
             {{ form_row(form.serverName) }}
             {{ form_row(form.corsHeader) }}
@@ -26,7 +27,8 @@
             </div>
 
             <div class="mb-2">
-                <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
+                   aria-controls="collapseExample">
                     {{ 'Erweiterte Optionen'|trans }}
                 </a>
                 <div class="collapse" id="collapseExample">
@@ -69,9 +71,13 @@
 
                     </div>
                 </div>
-                {{ form_row(form.submit) }}
-                {{ form_end(form) }}
+
             </div>
         </div>
+        <div class="modal-footer">
+            {{ form_row(form.submit) }}
+
+        </div>
+        {{ form_end(form) }}
     </div>
 </div>
