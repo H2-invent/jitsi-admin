@@ -106,7 +106,7 @@ label:
   schowStaticBackgroundColor: Bitte wählen Sie eine andere Farbe für den Hintergrund der Join-Seite.
   featureEnalbeByJwt: „Enable Feature By JWT“-Plug-in ist auf dem Server aktiviert.
   dissallowScreenshareGlobal: Nur der Moderator darf die Ansicht auf seinem Bildschirm teilen.
-  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmende senden.
+  dissallowPrivateMessage: Nur der Moderator darf private Nachrichten an Teilnehmer senden.
   puplicRoom: Selbsteinschreibung aktivieren
   showRoomOnJoinpage: Konferenz auf Join-Seite anzeigen
   subscribe: Anmelden
