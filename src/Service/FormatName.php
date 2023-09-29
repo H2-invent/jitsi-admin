@@ -61,6 +61,9 @@ class FormatName
         foreach ($splitedName as $data) {
             $string .= $data;
         }
+        if ($string ===''){
+            $string = $user->getUsername();
+        }
         return $string;
     }
 }

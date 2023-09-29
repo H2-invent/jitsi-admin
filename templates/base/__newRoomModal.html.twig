@@ -24,14 +24,17 @@
                     {% endif %}
 
                 </div>
-                {% if form.tag is defined %}
-                    <div class="col-12 d-flex align-items-start with-help">
-                        {{ form_row(form.tag) }}
-                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                           data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
-                                    class="fa fa-question-circle"></i></a>
-                    </div>
-                {% endif %}
+                <div id="form_tag_wrapper">
+                    {% if form.tag is defined %}
+                        <div class="col-12 d-flex align-items-start with-help">
+                            {{ form_row(form.tag) }}
+                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                               data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
+                                        class="fa fa-question-circle"></i></a>
+                        </div>
+                    {% endif %}
+                </div>
+
                 {% if form.moderator is defined %}
                     <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.moderator) }}
@@ -237,6 +240,7 @@
                     </div>
                     {% endif %}
                 </div>
+                {{ form_rest(form) }}
                 {{ form_end(form) }}
             </div>
                 {% else %}

@@ -154,7 +154,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $this->em->persist($this->manager);
         $this->em->flush();
 
-        $crawler = $this->client->request('GET', '/room/clone?room=' . $room->getId());
+        $crawler = $this->client->request('GET', '/room/clone/' . $room->getId());
 
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();

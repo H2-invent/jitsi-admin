@@ -182,6 +182,9 @@
                 configOverwrite: {
                     prejoinPageEnabled: false,
                     disableBeforeUnloadHandlers: true,
+                    {% if server.dynamicBrandingUrl %}
+                    dynamicBrandingUrl:' {{ server.dynamicBrandingUrl }}',
+                    {% endif %}
                     buttonsWithNotifyClick: [
                         'hangup',
                         '__end'
@@ -192,6 +195,7 @@
                     SHOW_JITSI_WATERMARK: false,
                     HIDE_DEEP_LINKING_LOGO: true,
                     SHOW_BRAND_WATERMARK: false,
+
                     SHOW_WATERMARK_FOR_GUESTS: false
                 },
                 parentNode: document.querySelector('#jitsiWindow'),
