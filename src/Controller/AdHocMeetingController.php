@@ -43,7 +43,7 @@ class AdHocMeetingController extends JitsiAdminController
         #[MapEntity(id: 'serverId')] Server $server,
     ): Response
     {
-        $tag = $this->doctrine->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
+        $tag = $server->getTag();
         return $this->render('add_hoc_meeting/__confirmation.html.twig', ['server' => $server, 'user' => $user, 'tag' => $tag]);
     }
 

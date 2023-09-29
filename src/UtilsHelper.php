@@ -41,10 +41,13 @@ class UtilsHelper
         return $string;
     }
 
-    public static function isAllowedToOrganizeRoom(?User $user, Rooms $room): bool
+    public static function isAllowedToOrganizeRoom(?User $user, ?Rooms $room): bool
     {
         if (!$user) {
             return false;
+        }
+        if (!$room){
+            return  false;
         }
         if (
             ($user === $room->getCreator() && $room->getModerator() && in_array($user, $room->getModerator()->getDeputy()->toArray())) ||

@@ -134,12 +134,13 @@ class ScheduleController extends JitsiAdminController
                 $em->flush();
                 $schedulingService->createScheduling($room);
 
-                if ($id) {
+                if ($edit) {
                     if ($newRoomService->roomChanged($roomOld, $room)) {
                         foreach ($room->getUser() as $user) {
                             $userService->editRoom($user, $room);
                         }
                     }
+                    $snack = $translator->trans('Terminplanung erfolgreich bearbeitet');
                 } else {
                     $roomGeneratorService->addUserToRoom($room->getModerator(), $room, true);
                     $userService->addUser($room->getModerator(), $room);

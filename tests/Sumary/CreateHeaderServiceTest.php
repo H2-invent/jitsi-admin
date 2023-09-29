@@ -61,7 +61,7 @@ class CreateHeaderServiceTest extends KernelTestCase
                         <td style=\"padding: 8px\">Test2, 1234, User2, Test2</td>
                     </tr>
                                     <tr>
-                        <td style=\"padding: 8px\"></td>
+                        <td style=\"padding: 8px\">test@local3.de</td>
                     </tr>
                                 </tbody>
             </table>
