@@ -101,7 +101,6 @@ class ConferenceMapperTest extends KernelTestCase
             [
                 'state' => 'STARTED',
                 'jwt' => $jwt,
-                'room_name' => $callerRoom->getRoom()->getUid(),
                 'room_name' => '123456780@testdomain.com'],
             $res
         );
