@@ -111,6 +111,9 @@ class Server
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $dynamicBrandingUrl = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jitsiEventSyncUrl = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -652,6 +655,18 @@ class Server
     public function setDynamicBrandingUrl(?string $dynamicBrandingUrl): static
     {
         $this->dynamicBrandingUrl = $dynamicBrandingUrl;
+
+        return $this;
+    }
+
+    public function getJitsiEventSyncUrl(): ?string
+    {
+        return $this->jitsiEventSyncUrl;
+    }
+
+    public function setJitsiEventSyncUrl(?string $jitsiEventSyncUrl): static
+    {
+        $this->jitsiEventSyncUrl = $jitsiEventSyncUrl;
 
         return $this;
     }

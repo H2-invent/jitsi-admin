@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Tests\JitsiEvents;
+namespace App\Tests\JitsiEvents\service;
 
-use App\Entity\RoomStatus;
 use App\Entity\RoomStatusParticipant;
 use App\Repository\RoomsRepository;
 use App\Repository\RoomStatusRepository;

@@ -53,7 +53,7 @@ class EnterpriseType extends AbstractType
             ->add('jigasiApiUrl', TextType::class, ['required' => false, 'label' => 'label.jigasiApiUrl', 'help' => 'help.jigasiApiUrl', 'translation_domain' => 'form'])
             ->add('jigasiNumberUrl', TextType::class, ['required' => false, 'label' => 'label.jigasiNumberUrl', 'help' => 'help.jigasiNumberUrl', 'translation_domain' => 'form'])
             ->add('jigasiProsodyDomain', TextType::class, ['required' => false, 'label' => 'label.jigasiProsodyDomain', 'help' => 'help.jigasiProsodyDomain', 'translation_domain' => 'form'])
-            ->add('dynamicBrandingUrl', TextType::class, ['required' => false, 'label' => 'label.dynamicBrandingUrl', 'help' => 'help.dynamicBrandingUrl', 'translation_domain' => 'form'])
+            ->add('jitsiEventSyncUrl', TextType::class, ['required' => false, 'label' => 'label.jitsiEventSyncUrl', 'help' => 'help.jitsiEventSyncUrl', 'translation_domain' => 'form'])
 
             ->add('tag', EntityType::class, [
                 'class' => Tag::class,

@@ -87,6 +87,7 @@ help:
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
   enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
   allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
+  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Beitreten
@@ -151,6 +152,7 @@ label:
   enforceE2e: Ende zu Ende erzwingen
   allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
   maxUser: Maximal Anzahl an Teilnehmenden
+  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

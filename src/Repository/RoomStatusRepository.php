@@ -75,4 +75,13 @@ class RoomStatusRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+    public function findRoomStatusByUid(string $uid):?RoomStatus
+    {
+        $qb = $this->createQueryBuilder('r');
+        return $qb
+            ->andWhere('r.jitsiRoomId LIKE :uid')
+            ->setParameter('uid', '%' . $uid . '%')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
