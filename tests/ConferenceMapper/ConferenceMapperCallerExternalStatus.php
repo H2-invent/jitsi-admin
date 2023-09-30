@@ -72,7 +72,6 @@ class ConferenceMapperCallerExternalStatus extends KernelTestCase
         // Aufruf der Funktion
         $result = $conferenceMapperService->findRoomStatusFromOtherServer($room, $token);
 
-        // Erwartung: Der Status ist 'ROOM_STARTED', also sollte das Ergebnis true sein
         $this->assertFalse($result);
     }
 
