@@ -1,3 +1,4 @@
+{{ form_start(form) }}
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
 
@@ -5,7 +6,7 @@
             <h5 class="modal-title">{{ title }}</h5>
             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        {{ form_start(form) }}
+
         <div class="modal-body">
 
             {{ form_row(form.url) }}
@@ -78,6 +79,7 @@
             {{ form_row(form.submit) }}
 
         </div>
-        {{ form_end(form) }}
+
     </div>
 </div>
+{{ form_end(form) }}

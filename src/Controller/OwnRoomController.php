@@ -53,8 +53,12 @@ class OwnRoomController extends JitsiAdminController
         }
 
         $data = [];
+        dump($request);
         if ($this->getUser()) {
             $data['name'] = $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName();
+        } elseif ($request->get('name')) {
+            $data['name'] = base64_decode($request->get('name'));
+
         } else {
             if ($request->cookies->get('name')) {
                 $data['name'] = $request->cookies->get('name');
@@ -65,6 +69,7 @@ class OwnRoomController extends JitsiAdminController
         if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             $isModerator = true;
         }
+        dump($data);
 
         $form = $this->createForm(JoinMyRoomType::class, $data);
         $form->handleRequest($request);
@@ -166,7 +171,7 @@ class OwnRoomController extends JitsiAdminController
      */
     public function link(
         #[MapEntity(mapping: ['uid' => 'uid'])]
-        Rooms $rooms,
+        Rooms   $rooms,
         Request $request
     ): Response
     {
@@ -188,7 +193,7 @@ class OwnRoomController extends JitsiAdminController
     public function checkWaiting(
         #[MapEntity(mapping: ['uid' => 'uid'])]
         Rooms $rooms,
-        $name, $type,
+              $name, $type,
     ): Response
     {
         $now = new \DateTime('now', new \DateTimeZone('utc'));

@@ -260,6 +260,22 @@ class OwnRoomJoinTest extends WebTestCase
         self::assertStringContainsString("displayName: 'Test User 123'", $client->getResponse()->getContent());
         self::assertStringContainsString(" roomName: '" . $room->getUid() . "'", $client->getResponse()->getContent());
     }
+
+    public function test_hasNoStart_isModerator_NoLobby_presetName(): void
+    {
+        $client = static::createClient();
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $room = $this->getRoomByName('This Room has no participants and fixed room');
+        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $crawler = $client->request('GET', '/myRoom/start/' . $room->getUid().'?name=dGVzdCB1c2VyIFJhdW0gWFk=');
+        $this->assertResponseIsSuccessful();
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
+        $form = $buttonCrawlerNode->form();
+        $value = $form->getValues();
+        $this->assertEquals('test user Raum XY', $value['join_my_room[name]']);
+
+    }
+
     public function test_hasNoStart_noModerator_NoLobby(): void
     {
         $client = static::createClient();
