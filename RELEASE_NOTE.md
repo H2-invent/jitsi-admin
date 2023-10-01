@@ -15,7 +15,7 @@
 - **Send Protocol:** Send the conference protocol from the options menu to all participants, improving communication and documentation.
 - **Jitsi-Event-Sync Relais Function:** Introduced a Jitsi-Event-Sync relay function for internal purposes, aiding conference mapper requests to another Jitsi admin, saving Jitsi event sync stats.
 - **Adding Category for Each Server:** Categories for a meeting can now be bound to a specific server, streamlining category selection based on the chosen server.
-- **Enterprise functionality fo all:** We open the enterprise functionality to all users. So in the server menu you will see a new enterprise feature button. Feel free to play with it
+- **Enterprise functionality for all:** We open the enterprise functionality to all users. So in the server menu you will see a new enterprise feature button. Feel free to play with it
 
 ## Improvements:
 - Updated mdbootstrap to the latest version for enhanced performance and compatibility.
@@ -25,7 +25,7 @@
 - Implemented the ability to add a category via a command, allowing for settings to be sent directly via the command as parameters.
 
 ## Bugs:
-- No known bugs in this release.
+- A lot of bugfixes
 
 ## Discussion:
 We highly value your input and continuously strive to improve our application with each release. We invite you to join the discussion and share your ideas, suggestions, or any issues you've encountered in this new version. Your feedback is invaluable in helping us shape the future of our platform.
