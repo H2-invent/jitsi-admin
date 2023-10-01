@@ -16,7 +16,12 @@
 - **Jitsi-Event-Sync Relais Function:** Introduced a Jitsi-Event-Sync relay function for internal purposes, aiding conference mapper requests to another Jitsi admin, saving Jitsi event sync stats.
 - **Adding Category for Each Server:** Categories for a meeting can now be bound to a specific server, streamlining category selection based on the chosen server.
 - **Enterprise functionality for all:** We open the enterprise functionality to all users. So in the server menu you will see a new enterprise feature button. Feel free to play with it
-
+  - Set a SMTP-server for each jitsi server
+  - Set the background-color and background image for every server join page
+  - Enable jitsi-admin API
+  - Add data privacy url for each server
+  - Set jigasi settings for each jitsi server and use the jitsi admin conference mapper
+  
 ## Improvements:
 - Updated mdbootstrap to the latest version for enhanced performance and compatibility.
 - Added WebSocket in Docker behind the `/ws` route instead of a subdomain, improving routing efficiency.
