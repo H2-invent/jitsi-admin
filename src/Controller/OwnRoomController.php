@@ -53,7 +53,6 @@ class OwnRoomController extends JitsiAdminController
         }
 
         $data = [];
-        dump($request);
         if ($this->getUser()) {
             $data['name'] = $this->getUser()->getFirstName() . ' ' . $this->getUser()->getLastName();
         } elseif ($request->get('name')) {
@@ -69,7 +68,6 @@ class OwnRoomController extends JitsiAdminController
         if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             $isModerator = true;
         }
-        dump($data);
 
         $form = $this->createForm(JoinMyRoomType::class, $data);
         $form->handleRequest($request);
