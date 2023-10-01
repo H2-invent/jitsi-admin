@@ -60,10 +60,9 @@ class StartMeetingService
      */
     private $logger;
 
-    private $flashBag;
 
     public function __construct(
-        RequestStack                      $requestStack,
+        private RequestStack              $flashBag,
         LoggerInterface                   $logger,
         ToModeratorWebsocketService       $toModeratorWebsocketService,
         Environment                       $environment,
@@ -73,7 +72,9 @@ class StartMeetingService
         ParameterBagInterface             $parameterBag,
         TranslatorInterface               $translator,
         JigasiService                     $jigasiService,
-        private RoomStatusFrontendService $roomStatusFrontendService
+        private RoomStatusFrontendService $roomStatusFrontendService,
+        private CheckIPService            $checkIPService,
+        private CheckMaxUserService       $checkMaxUserService,
     )
     {
         $this->roomService = $roomService;
@@ -85,7 +86,6 @@ class StartMeetingService
         $this->toModerator = $toModeratorWebsocketService;
         $this->logger = $logger;
         $this->lobbyUser = null;
-        $this->flashBag = $requestStack;
         $this->jigasiService = $jigasiService;
     }
 
@@ -100,8 +100,17 @@ class StartMeetingService
      * this function checks if the meeting is already started or if it is too late or to early
      * This function checks if the room has the lobby function activated
      */
-    public function startMeeting(?Rooms $room, User $user, $t, $name)
+    public function startMeeting(?Rooms $room, User $user, $t, $name): NotFoundHttpException|RedirectResponse|Response
     {
+        if ($this->flashBag->getCurrentRequest() && $room){
+            $ip = $this->flashBag->getCurrentRequest()->getClientIp();
+            if (!$this->checkIPService->isIPInRange(ipToCheck: $ip,ipRange: $room->getServer()->getAllowIp())) {
+                return new Response($this->twig->render('join/notAllowedIp.html.twig'));
+            }
+            if (!$this->checkMaxUserService->isAllowedToEnter(rooms: $room)) {
+                return new Response($this->twig->render('join/notAllowedMaxUser.html.twig'));
+            }
+        }
         $this->room = $room;
         $this->user = $user;
         $this->type = $t;

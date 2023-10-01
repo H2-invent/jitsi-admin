@@ -2,12 +2,16 @@
 
 namespace App\Tests\ConferenceMapper;
 
+use App\Entity\Rooms;
 use App\Entity\RoomStatus;
+use App\Entity\Server;
 use App\Repository\CallerRoomRepository;
 use App\Service\api\ConferenceMapperService;
 use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ConferenceMapperTest extends KernelTestCase
 {
@@ -51,7 +55,7 @@ class ConferenceMapperTest extends KernelTestCase
         $callerRoom = $callerRoomRepo->findOneBy(['callerId' => $id]);
         $callerRoom->getRoom()->getServer()->setLicenseKey('test');
         $res = $confMapperService->checkConference($callerRoom, 'Bearer TestApiFailure', '012345123');
-        self::assertEquals(['error' => true, 'text' => 'NO_SERVER_FOUND'], $res);
+        self::assertEquals(['error' => true, 'text' => 'AUTHORIZATION_FAILED'], $res);
     }
 
     public function testnoCallerRoom(): void
@@ -100,9 +104,12 @@ class ConferenceMapperTest extends KernelTestCase
         self::assertEquals(
             [
                 'state' => 'STARTED',
-                'jwt' => $jwt, 'room_name' => $callerRoom->getRoom()->getUid(),
+                'jwt' => $jwt,
                 'room_name' => '123456780@testdomain.com'],
             $res
         );
     }
+
+
+
 }

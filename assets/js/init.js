@@ -77,15 +77,17 @@ function initGenerell() {
     initLoadContent();
 }
 
+export function wrapOneSelect(ele){
+    if (ele && !ele.closest('.selectWrapper')){
+        var eleWrap = document.createElement('div');
+        eleWrap.classList.add('selectWrapper');
+        wrap(ele,eleWrap);
+    }
+}
 function wrapSelect() {
     var select = document.querySelectorAll('select');
     select.forEach(function (ele) {
-        if (ele && !ele.closest('.selectWrapper')){
-            var eleWrap = document.createElement('div');
-            eleWrap.classList.add('selectWrapper');
-           wrap(ele,eleWrap);
-            console.log('wrapperFound');
-        }
+       wrapOneSelect(ele);
     })
 }
 function wrap(el, wrapper) {

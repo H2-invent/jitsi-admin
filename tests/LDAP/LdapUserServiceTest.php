@@ -18,6 +18,8 @@ use App\Service\ldap\LdapUserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Ldap\Entry;
+use function PHPUnit\Framework\assertEquals;
 
 class LdapUserServiceTest extends WebTestCase
 {
@@ -427,6 +429,7 @@ class LdapUserServiceTest extends WebTestCase
         $users = $userRepository->findUsersfromLdapService();
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES - 1, sizeof($users));
     }
+
     public function testrUsernoinFilterAnymoreUnhealthy(): void
     {
         // (1) boot the Symfony kernel
@@ -470,6 +473,28 @@ class LdapUserServiceTest extends WebTestCase
         $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES, sizeof($users));
     }
 
+    public function testGetSpezialFields(): void
+    {
+        self::bootKernel();
+        $this->getParam();
+        // (2) use static::getContainer() to access the service container
+        $container = static::getContainer();
+        $ldapUserService = $container->get(LdapUserService::class);
+        $ldapEntry = new Entry('test');
+        $ldapEntry->setAttribute('test',['1234']);
+        $ldapEntry->setAttribute('phone',['testme']);
+        $ldapType = new LdapType();
+        $ldapType->setSpecialFields(['myTest'=>'test','tele'=>'phone']);
+        $res= $ldapUserService->getSpezialPropertiesFields($ldapType,$ldapEntry);
+        assertEquals('1234',$res['myTest']);
+        assertEquals('testme',$res['tele']);
+
+        $ldapType->setSpecialFields(['myTest'=>'test123','tele'=>'myPhone']);
+        $res= $ldapUserService->getSpezialPropertiesFields($ldapType,$ldapEntry);
+        dump($res);
+        assertEquals('',$res['myTest']);
+        assertEquals('',$res['tele']);
+    }
 
     public function testremoveUserFunction(): void
     {
@@ -553,4 +578,6 @@ class LdapUserServiceTest extends WebTestCase
         $para = self::getContainer()->get(ParameterBagInterface::class);
         $this->LDAPURL = $para->get('ldap_test_url');
     }
+
+
 }

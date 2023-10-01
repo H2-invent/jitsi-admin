@@ -1,14 +1,11 @@
-<div class="joinFooter">
+<div class="joinFooter removeInIframe">
     <div class="row ">
         <div class="col-lg-4 footerContent">
         </div>
         <div class="col-lg-4 footerContent d-flex flex-column">
             {% if theme == false %}
-                {% if server is defined and  server is not null and server|validateLicense %}
-                {% else %}
                     <a href="https://jitsi-admin.de" target="_blank"><img
                                 src="{{ asset('logo.png') }}"></a>
-                {% endif %}
             {% else %}
                 <img src="{{ theme.logo }}">
             {% endif %}
@@ -45,7 +42,7 @@
                        rel="noopener">
                         <img src="{{ asset('images/open-source-logo.png') }}"></a>
                 </div>
-                {% if server is defined and  server is not null and server|validateLicense and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
+                {% if server is defined and  server is not null and server.showStaticBackgroundColor and server.staticBackgroundColor is not null %}
 
                 {% elseif image is not null %}
 

@@ -32,26 +32,6 @@ class LicenseService
 
     function verify(?Server $server): bool
     {
-        $license = $this->em->getRepository(License::class)->findOneBy(['licenseKey' => $server->getLicenseKey()]);
-
-        if (!$license) {
-            return false;
-        }
-        if (!$this->checkSignature->verifySignature($license->getLicense())) {
-            return false;
-        }
-        $data = json_decode($license->getLicense(), true);
-        $signature = $data['signature'];
-        $licenseString = $data['entry'];
-        if (new \DateTime($licenseString['valid_until']) < new \DateTime()) {
-            return false;
-        }
-        if ($server->getUrl() != $licenseString['server_url']) {
-            return false;
-        }
-        if ($server->getLicenseKey() != $licenseString['license_key']) {
-            return false;
-        }
         return true;
     }
 

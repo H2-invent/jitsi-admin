@@ -2,10 +2,14 @@
 
 namespace App\Tests\ConferenceMapper;
 
+use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Repository\CallerRoomRepository;
 use App\Service\api\ConferenceMapperService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ConferenceMapperCallerIdTest extends KernelTestCase
 {
@@ -64,6 +68,7 @@ class ConferenceMapperCallerIdTest extends KernelTestCase
         $user = $confMapperService->findNameFromCallerId($id);
         self::assertEquals('ldapUser@local.de', $user->getEmail());
     }
+
     public function testfindLDAPUserByCallerIdWithZeroAndPlus(): void
     {
         $kernel = self::bootKernel();
@@ -72,4 +77,5 @@ class ConferenceMapperCallerIdTest extends KernelTestCase
         $user = $confMapperService->findNameFromCallerId($id);
         self::assertEquals('ldapUser@local.de', $user->getEmail());
     }
+
 }

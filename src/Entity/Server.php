@@ -102,6 +102,18 @@ class Server
 
     #[ORM\Column(nullable: true)]
     private ?bool $enforceE2e = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $allowIp = null;
+
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'servers')]
+    private Collection $tag;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dynamicBrandingUrl = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $jitsiEventSyncUrl = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -109,6 +121,7 @@ class Server
         $this->keycloakGroups = new ArrayCollection();
         $this->OwnRoomUSer = new ArrayCollection();
         $this->stars = new ArrayCollection();
+        $this->tag = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -584,6 +597,76 @@ class Server
     public function setEnforceE2e(?bool $enforceE2e): static
     {
         $this->enforceE2e = $enforceE2e;
+
+        return $this;
+    }
+
+    public function getAllowIp(): ?string
+    {
+        return $this->allowIp;
+    }
+
+    public function setAllowIp(?string $allowIp): static
+    {
+        $this->allowIp = $allowIp;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTag(): Collection
+    {
+        $data = $this->tag->toArray();
+        usort($data, function (Tag $a,Tag $b) {
+            return $a->getPriority()> $b->getPriority();
+        });
+        $res = [];
+        foreach ($data as $datum){
+            if (!$datum->getDisabled()){
+                $res[]=$datum;
+            }
+        }
+        return new ArrayCollection($res);
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->tag->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getDynamicBrandingUrl(): ?string
+    {
+        return $this->dynamicBrandingUrl;
+    }
+
+    public function setDynamicBrandingUrl(?string $dynamicBrandingUrl): static
+    {
+        $this->dynamicBrandingUrl = $dynamicBrandingUrl;
+
+        return $this;
+    }
+
+    public function getJitsiEventSyncUrl(): ?string
+    {
+        return $this->jitsiEventSyncUrl;
+    }
+
+    public function setJitsiEventSyncUrl(?string $jitsiEventSyncUrl): static
+    {
+        $this->jitsiEventSyncUrl = $jitsiEventSyncUrl;
 
         return $this;
     }

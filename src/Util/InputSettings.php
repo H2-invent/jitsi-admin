@@ -29,7 +29,8 @@ class InputSettings
     public const ALLOW_LOBBY_DEFAULT = 'input_settings_allowLobby_default';
     public const ALLOW_TAG = 'input_settings_allow_tag';
     public const ALLOW_EDIT_TAG = 'input_settings_allow_edit_tag';
-
     public const ALLOW_MAYBE_OPTION = 'INPUT_SETTINGS_ALLOW_MAYBE_OPTION';
     public const ALLOW_MAYBE_OPTION_DEFAULT = 'INPUT_SETTINGS_ALLOW_MAYBE_OPTION_DEFAULT';
+    public const ALLOW_SET_MAX_USERS = 'INPUT_ALLOW_SET_MAX_USERS';
+    public const ALLOW_SET_MAX_USERS_DEFAULT = 'INPUT_ALLOW_SET_MAX_USERS_DEFAULT';
 }

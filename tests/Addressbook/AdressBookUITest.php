@@ -69,7 +69,7 @@ class AdressBookUITest extends WebTestCase
             [
                 'user' => [
                     ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                    ['name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
                     ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
@@ -103,7 +103,7 @@ class AdressBookUITest extends WebTestCase
             [
                 'user' => [
                     ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                    ['name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
                     ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]
@@ -119,7 +119,7 @@ class AdressBookUITest extends WebTestCase
             [
                 'user' => [
                     ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => 'test2@local.de', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                    ['name' => '', 'nameNoIcon' => '', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                    ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
                 ],
                 'group' => [
                     ['name' => 'Testgruppe', 'user' => "test2@local.de\ntest@local3.de"]

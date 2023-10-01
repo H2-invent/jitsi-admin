@@ -76,15 +76,19 @@ class RoomWebhookService
             }
 
             if (!$room) {
-                $text = 'Room name not found';
-                $this->logger->error($text, ['roomId' => $data['room_name']]);
-                return $text;
+                $text = 'Room name not found This Room is external controlled';
+                $this->logger->debug($text, ['roomId' => $data['room_name']]);
             }
             if ($data['is_breakout'] === true) {
                 $this->logger->debug('This is a breakoutRoom', ['breakout_room_id' => $data['breakout_room_id']]);
                 return 'Room is a breakout room we don`t create a status';
             }
-            $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRooms($room);
+            if ($room){
+                $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRooms($room);
+            }else{
+                $roomStatus = $this->em->getRepository(RoomStatus::class)->findCreatedRoomsbyJitsiId($data['room_jid']);
+            }
+
 
             if ($roomStatus) {
                 $text = 'Room already created';
@@ -142,13 +146,18 @@ class RoomWebhookService
                 ->setDestroyed(true);
             $this->em->persist($roomStatus);
             $this->em->flush();
-            $this->lobbyUtils->cleanLobby($roomStatus->getRoom());
+            if ($roomStatus->getRoom()){
+                $this->lobbyUtils->cleanLobby($roomStatus->getRoom());
+            }
+
             foreach ($roomStatus->getRoomStatusParticipants() as $data2) {
                 $data2->setLeftRoomAt(\DateTime::createFromFormat('U', $data['destroyed_at']))
                     ->setInRoom(false);
                 $this->em->persist($data2);
             }
             $this->em->flush();
+            $this->clenRoomStatus($roomStatus);
+
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             return $exception->getMessage();
@@ -239,5 +248,14 @@ class RoomWebhookService
             return 'ERROR';
         }
         return null;
+    }
+    public function clenRoomStatus(RoomStatus $roomStatus){
+        if (!$roomStatus->getRoom()){
+            foreach ($roomStatus->getRoomStatusParticipants() as $data){
+                $this->em->remove($data);
+            }
+            $this->em->remove($roomStatus);
+            $this->em->flush();
+        }
     }
 }

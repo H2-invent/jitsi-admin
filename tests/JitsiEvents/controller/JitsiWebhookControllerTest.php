@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Tests\JitsiEvents;
+namespace App\Tests\JitsiEvents\controller;
 
+use App\Tests\JitsiEvents\service\JitsiEventsServiceTest;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class JitsiWebhookControllerTest extends WebTestCase

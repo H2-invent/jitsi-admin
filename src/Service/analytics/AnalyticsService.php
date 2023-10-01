@@ -35,6 +35,7 @@ class AnalyticsService
         $res['users'] = count($users);
         $usersKC = $this->entityManager->getRepository(User::class)->findUsersWithKC();
         $res['kcUser'] = count($usersKC);
+        $res['jitsiadmin_version'] = $this->parameterBag->get('laF_version');
         $openRooms = $this->entityManager->getRepository(Rooms::class)->findBy(['totalOpenRooms' => true]);
         $res['openRooms'] = count($openRooms);
         $url = [];

@@ -1,6 +1,6 @@
 
 {% set theme =  getThemeProperties() %}
-{% set header = 'Interner Fehler'|trans %}
+{% set header = 'error.internalError'|trans %}
     {% if theme and getApplicationProperties('500_ERROR_MESSAGE') %}
         {%  set content= getApplicationProperties('500_ERROR_MESSAGE')  %}
     {% else %}

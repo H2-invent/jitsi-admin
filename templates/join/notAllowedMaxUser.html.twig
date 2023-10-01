@@ -1,0 +1,19 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    {{ 'room.error.noAccessAllowedToManyParticipants'|trans }}
+{% endblock %}
+{% block content %}
+
+
+    <hr>
+    <p class="text-center text-md-start">
+        {{ 'room.error.noAccessAllowedToManyParticipantsText'|trans }}
+    </p>
+    <hr>
+
+{% endblock %}
+
+{% block webpack %}
+
+    {{ encore_entry_script_tags('onlyClosablePage') }}
+{% endblock %}
