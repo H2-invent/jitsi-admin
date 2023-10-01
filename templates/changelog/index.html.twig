@@ -5,6 +5,29 @@
 {% block content %}
     <div class="row markdown">
         {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.11',
+                'bugfix':'
+- Move themes to other directory and streamline installation of theme into a fixed directory called theme
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.10',
+                'bugfix':'
+- Output more informations when starting debian installer
+- Add new routes to keycloak theme v2 which is mandatory in keycloak > 22
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.9',
+                'bugfix':'
+- Fix profile picture which was sometimes not round because of a max-with issue
+
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.76.8',
+                'bugfix':'
+- Intruduce new github actions and automatic artifact generation
+
+'}) }}
+        {{ include('changelog/__entry.html.twig',
             {'version':'0.76.7',
                 'bugfix':'
 - Add Docker installation for Debian and Ubuntu befor installing Jitsi-admin
