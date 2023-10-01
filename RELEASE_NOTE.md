@@ -1,31 +1,36 @@
-# Release Notes - Version 0.77.x 
+# Release Notes - Version 0.77.x
 
 ## New Features:
-- **Default End-to-End Encryption (E2E):** We are thrilled to introduce the ability to enable End-to-End Encryption by default for enhanced security and privacy. Now, each server can individually configure this feature, giving you control over the level of encryption applied to your communications.
-- **Transparent Background for Videoconference Tags:** In response to your feedback, we've added a new feature that allows you to set tags in videoconferences with a transparent background. This ensures a more immersive videoconference experience by maximizing the display area, making your meetings more engaging and effective.
-    - set `LAF_SHOW_TAG_TRANSPARENT_BACKGROUND=1` to show the tags in the conference with a transparent background
-- **UI Improvement:** We move the app into direction Flat-UI and Material Design 3
-      - Green background when a meeting is running
-- **Quick actions:** Add some quick actions to change the camera
-- **Conference mapper:** Conference mapper is selecting the user and add the username instead of the callerid into the JWT which is send to the prosidy
-- **Limit Participants in a conference** add possibility to set max participants in a conference. This is a hard limit
-- **IP Restriction:** add the possibility to set an ip and ip range restrictin for access conferences fo a jitsi admin server
-- **Pro Features:** Open Pro features for all users
-- **Multiframe Border Color:** Multiframe Border color has the same color as the tag background color
-- **Add Chrome Plugin API:** Start with an API for the new Chrome browser plugin
-- **Send protocoll:** Send Protocol from options menu to all participants
+- **Default End-to-End Encryption (E2E):** Enhance your security and privacy with the ability to enable End-to-End Encryption by default. Each server can now configure this feature individually, giving you control over the level of encryption applied to your communications.
+- **Transparent Background for Videoconference Tags:** Responding to your feedback, we've introduced a feature that allows you to set tags in videoconferences with a transparent background. This creates a more immersive videoconference experience by maximizing the display area, making your meetings more engaging and effective.
+    - Set `LAF_SHOW_TAG_TRANSPARENT_BACKGROUND=1` to display tags in the conference with a transparent background.
+- **UI Improvement:** The application now adopts a Flat-UI and Material Design 3 approach with a green background indicating an ongoing meeting, enhancing user experience.
+- **Quick Actions:** Added quick actions to swiftly change the camera settings.
+- **Conference Mapper:** The conference mapper now selects the user and adds the username instead of the caller ID into the JWT sent to the prosody.
+- **Limit Participants in a Conference:** Added the ability to set a maximum number of participants in a conference, imposing a hard limit for better management.
+- **IP Restriction:** Admins can now set IP and IP range restrictions for accessing conferences on a Jitsi admin server.
+- **Pro Features:** Opened up Pro features for all users, expanding access and functionality.
+- **Multiframe Border Color:** Multiframe border color now matches the tag background color for a cohesive visual experience.
+- **Add Chrome Plugin API:** Introduced the initial API for the new Chrome browser plugin, enhancing plugin integration.
+- **Send Protocol:** Send the conference protocol from the options menu to all participants, improving communication and documentation.
+- **Jitsi-Event-Sync Relais Function:** Introduced a Jitsi-Event-Sync relay function for internal purposes, aiding conference mapper requests to another Jitsi admin, saving Jitsi event sync stats.
+- **Adding Category for Each Server:** Categories for a meeting can now be bound to a specific server, streamlining category selection based on the chosen server.
+
 ## Improvements:
-- Update mdbootstrap to the latest version
-- Add websocket in docker behind /ws route not behind a subdomain
-- change all roting paramconverter into new paramconverter
-- Show add new participants in the dropdown option menue
+- Updated mdbootstrap to the latest version for enhanced performance and compatibility.
+- Added WebSocket in Docker behind the `/ws` route instead of a subdomain, improving routing efficiency.
+- Migrated all routing paramconverters into new paramconverters for a more streamlined and efficient application.
+- Added the option to show "Add New Participants" in the dropdown option menu, simplifying participant management.
+- Implemented the ability to add a category via a command, allowing for settings to be sent directly via the command as parameters.
+
 ## Bugs:
-nothing here
+- No known bugs in this release.
+
 ## Discussion:
-We value your input and strive to make our application better with each release. We invite you to join the discussion and share your ideas, suggestions, or any issues you've encountered in the new version. Your feedback is invaluable in helping us shape the future of our platform.
+We highly value your input and continuously strive to improve our application with each release. We invite you to join the discussion and share your ideas, suggestions, or any issues you've encountered in this new version. Your feedback is invaluable in helping us shape the future of our platform.
 
-Thank you for your continued support and for being an essential part of our community!
+Thank you for your unwavering support, and for being an essential part of our community!
 
-Your meetling team
+Best regards,
 
-H2 invent GmbH
+Your Meeting Team at H2 Invent GmbH
