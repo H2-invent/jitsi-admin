@@ -29,7 +29,7 @@ export function initWebsocket(jwt) {
         }
     })
     socket.io.on("error", (error) => {
-        if (errorTimeout) {
+        if (!errorTimeout) {
             errorTimeout = setTimeout(function () {
                 setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.', 'danger', true, 'socketAlert', 30000)
                 errorTimeout = null;
@@ -42,7 +42,7 @@ export function initWebsocket(jwt) {
             errorTimeout = null;
         }else {
             deleteToast('socketAlert');
-            setSnackbar('Websocket successfully reconnected', 'success', false, 'socketAlert', 5000)
+            setSnackbar('Websocket successfully reconnected', 'success', false, 'socketAlert', 3000)
         }
 
     });
