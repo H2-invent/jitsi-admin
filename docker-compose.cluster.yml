@@ -215,7 +215,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls=true"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.rule=Host(`${PUBLIC_URL}`)&& PathPrefix(`/keycloak`)"
-      - "traefik.http.middlewares.example.stripprefix.prefixes=/keycloak"
+      - "traefik.http.middlewares.keycloak-ja-${RANDOMTAG}.stripprefix.prefixes=/keycloak"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.entrypoints=web"
       - "traefik.http.services.keycloak-ja-${RANDOMTAG}.loadbalancer.server.port=8080"
       - "traefik.http.routers.keycloak-ja-${RANDOMTAG}.tls.certresolver=letsencrypt"
