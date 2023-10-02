@@ -202,7 +202,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.tls=true"
-      - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`) && PathPrefix(`/keycloak`)"
+      - "traefik.http.routers.keycloak-ja.rule=Host(`${PUBLIC_URL}`) && PathPrefix(`/keycloak`)"
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
       - "traefik.http.routers.keycloak-ja.tls.certresolver=letsencrypt"
