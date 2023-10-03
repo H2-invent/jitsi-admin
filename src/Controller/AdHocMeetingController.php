@@ -54,10 +54,10 @@ class AdHocMeetingController extends JitsiAdminController
     public function index(
         #[MapEntity(id: 'userId')] User                $user,
         #[MapEntity(id: 'serverId')] Server              $server,
-        #[MapEntity(id: 'tagId')] ?Tag $tag = null,
         TranslatorInterface $translator,
         ServerUserManagment $serverUserManagment,
         AdhocMeetingService $adhocMeetingService,
+        #[MapEntity(id: 'tagId')] ?Tag $tag = null,
 
     ): Response
     {
