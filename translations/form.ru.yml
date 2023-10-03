@@ -112,7 +112,7 @@ label:
   subscribe: зарегистрироваться
   vorname: Имя
   nachname: Фамилия
-  maxParticipants: Разрешить максимальное количество участников
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: Активировать список ожидания
   teilnehmerEmailhinzufuegenModerator: Введите адреса электронной почты новых модераторов
   weekday: День недели
