@@ -65,7 +65,6 @@ class RoomType extends AbstractType
             $during = true;
         }
 
-        if (sizeof($options['server']) !== 1) {
             $builder
                 ->add(
                     'server',
@@ -81,7 +80,6 @@ class RoomType extends AbstractType
                         'attr' => ['class' => 'moreFeatures']
                     ]
                 );
-        }
         $tags = $this->entityManager->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
         $organisators = [];
 
@@ -193,27 +191,30 @@ class RoomType extends AbstractType
         if ($options['showTag']) {
 
 
-            $builder->addEventListener(
-                FormEvents::PRE_SET_DATA,
-                function (FormEvent $event) use ($formModifier): void {
-                    // this would be your entity, i.e. SportMeetup
-                    $data = $event->getData();
-                    $formModifier($event->getForm(), $data->getServer());
-                }
-            );
+                $builder->addEventListener(
+                    FormEvents::PRE_SET_DATA,
+                    function (FormEvent $event) use ($formModifier): void {
+                        // this would be your entity, i.e. SportMeetup
+                        $data = $event->getData();
+                        $formModifier($event->getForm(), $data->getServer());
+                    }
+                );
 
-            $builder->get('server')->addEventListener(
-                FormEvents::POST_SUBMIT,
-                function (FormEvent $event) use ($formModifier): void {
-                    // It's important here to fetch $event->getForm()->getData(), as
-                    // $event->getData() will get you the client data (that is, the ID)
-                    $sport = $event->getForm()->getData();
+                $builder->get('server')->addEventListener(
+                    FormEvents::POST_SUBMIT,
+                    function (FormEvent $event) use ($formModifier): void {
+                        // It's important here to fetch $event->getForm()->getData(), as
+                        // $event->getData() will get you the client data (that is, the ID)
+                        $sport = $event->getForm()->getData();
 
-                    // since we've added the listener to the child, we'll have to pass on
-                    // the parent to the callback function!
-                    $formModifier($event->getForm()->getParent(), $sport);
-                }
-            );
+                        // since we've added the listener to the child, we'll have to pass on
+                        // the parent to the callback function!
+                        $formModifier($event->getForm()->getParent(), $sport);
+                    }
+                );
+
+
+
         }
 
 
@@ -240,6 +241,9 @@ class RoomType extends AbstractType
             ['label' => 'label.speichern', 'translation_domain' => 'form', 'attr' => [
                 'class' => 'd-none']]
         );
+        if (count($options['server']) === 1) {
+            $builder->remove('server');
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
