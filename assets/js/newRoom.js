@@ -143,10 +143,10 @@ function initMoreSettings() {
 }
 
 function initTags() {
-    const form = document.getElementById('newRoom_form');
-    const form_select_Server = document.getElementById('room_server');
+    const form = document.getElementById('newRoomMOdal').querySelector('form');
+    const form_select_Server = document.querySelector('.fakeserver');
     const form_select_tags = document.getElementById('form_tag_wrapper');
-    const form_token = document.getElementById('room__token');
+    const form_token =  document.querySelectorAll('[id~="__token"]');
     const updateForm = async (data, url, method) => {
 
         if (isParameterInUrl(url)) {
@@ -188,7 +188,7 @@ function initTags() {
         const new_form_select_position = html.getElementById('form_tag_wrapper');
         form_select_tags.innerHTML = new_form_select_position.innerHTML;
         wrapOneSelect(form_select_tags.querySelector('select'));
-        form_token.value = html.getElementById('room__token').value;
+        form_token.value = html.querySelectorAll('[id~="__token"]').value;
     };
     if (form_select_Server) {
         form_select_Server.addEventListener('change', (e) => changeOptions(e));

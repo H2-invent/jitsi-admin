@@ -73,7 +73,7 @@ class SchedulerType extends AbstractType
                             'class' => Server::class,
                             'choices' => $options['server'],
                             'multiple' => false,
-                            'attr' => ['class' => 'moreFeatures'],
+                            'attr' => ['class' => 'moreFeatures fakeserver']
                         ],
                     ),
                 );
@@ -198,7 +198,8 @@ class SchedulerType extends AbstractType
 
         if ($this->checkAppProperty(InputSettings::ALLOW_SET_MAX_USERS) == 1) {
             $this->logger->debug('Add the possibility to set the max participants');
-            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form']);
+            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']
+            ]);
         }
         $formModifier = function (FormInterface $form, Server $server = null): void {
             $tags = null === $server ? [] : $server->getTag();

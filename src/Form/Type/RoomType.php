@@ -77,7 +77,7 @@ class RoomType extends AbstractType
                         'translation_domain' => 'form',
                         'multiple' => false,
                         'required' => true,
-                        'attr' => ['class' => 'moreFeatures']
+                        'attr' => ['class' => 'moreFeatures fakeserver']
                     ]
                 );
         $tags = $this->entityManager->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
@@ -170,7 +170,7 @@ class RoomType extends AbstractType
 
         if ($this->theme->getApplicationProperties(InputSettings::ALLOW_SET_MAX_USERS) == 1) {
             $this->logger->debug('Add the possibility to set the max participants');
-            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form']);
+            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']]);
         }
 
 

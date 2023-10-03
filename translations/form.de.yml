@@ -115,7 +115,7 @@ label:
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
