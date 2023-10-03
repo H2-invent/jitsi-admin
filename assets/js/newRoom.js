@@ -143,7 +143,11 @@ function initMoreSettings() {
 }
 
 function initTags() {
-    const form = document.getElementById('newRoomMOdal').querySelector('form');
+    const newRoomMOdal = document.getElementById('newRoomMOdal');
+    if (!newRoomMOdal){
+        return;
+    }
+    const form = newRoomMOdal.querySelector('form');
     const form_select_Server = document.querySelector('.fakeserver');
     const form_select_tags = document.getElementById('form_tag_wrapper');
     const form_token =  document.querySelectorAll('[id~="__token"]');
