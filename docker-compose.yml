@@ -83,7 +83,7 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.websocket-ja.rule=Host(`websocket.${PUBLIC_URL}`) && PathPrefix(`/ws`)"
+      - "traefik.http.routers.websocket-ja.rule=Host(`${PUBLIC_URL}`) && PathPrefix(`/ws`)"
       - "traefik.http.routers.websocket-ja.entrypoints=web"
       - "traefik.http.routers.websocket-ja.tls=true"
       - "traefik.http.services.websocket-ja.loadbalancer.server.port=3000"
