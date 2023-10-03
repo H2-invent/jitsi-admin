@@ -1100,6 +1100,7 @@ a:hover {
       position: absolute;
       z-index: -2;
       margin: 0;
+      background-color: $cardBackground_bright;
     }
   }
 }
@@ -1313,7 +1314,7 @@ a:hover {
 
   .proTips {
     display: none;
-    box-shadow: 0 8px 9px -4px rgba(0, 0, 0, 0.15), 0 4px 18px 0 rgba(0, 0, 0, 0.1) !important;
+    box-shadow: $card-box-shadow !important;
     z-index: 9;
     @media only screen and (min-width: $breakpointMenue) {
       display: flex;
@@ -1488,8 +1489,10 @@ a:hover {
 }
 
 .card {
-  box-shadow: none;
-  border: 2px solid #a8a8a8;
+  //box-shadow: none;
+  //border: 2px solid #a8a8a8;
+  box-shadow: $card-box-shadow;
+  background-color: $cardBackground_bright;
   &.awayBorder{
     background-color: scale-color($warning-color, $lightness: 90%);
     border-width: 2px!important;
@@ -1498,4 +1501,7 @@ a:hover {
     background-color: scale-color($success-color, $lightness: 90%);
     border-width: 2px!important;
   }
+}
+.shadow-3{
+  box-shadow: $card-box-shadow-3dp;
 }

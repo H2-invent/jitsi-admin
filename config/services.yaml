@@ -45,6 +45,7 @@ parameters:
     DROPDOWN_SETTINGS_DOWNLOAD_PDF : '%env(DROPDOWN_SETTINGS_DOWNLOAD_PDF)%'
     LAF_USE_MULTIFRAME: '%env(LAF_USE_MULTIFRAME)%'
     LAF_HIDE_PROFILEPICTURE: '%env(LAF_HIDE_PROFILEPICTURE)%'
+    LAF_DEFAULT_ONLINE_STATUS: '%env(LAF_DEFAULT_ONLINE_STATUS)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'

@@ -1,5 +1,5 @@
 <div class="profile">
-    <div class="profileLine" id="profilLine" data-status="{{ app.user.onlineStatus==1?'online':'offline' }}">
+    <div class="profileLine" id="profilLine" data-status="{{ getOnlineStatus(app.user) }}">
         <div class="icons" id="profileIcons">
             <a
                     data-mdb-toggle="modal"
@@ -66,7 +66,7 @@
                     data-mdb-toggle="dropdown"
                     aria-expanded="false"
             >
-                <span class="statusText">{{ app.user.onlineStatus==1?'status.online'|trans:'status.offline'|trans }}</span>
+                <span class="statusText">{{ getOnlineStatusString(app.user) }}</span>
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item changeStatus" data-status="online"

@@ -13,11 +13,11 @@ import jwt from 'jsonwebtoken'
 
 import {getOnlineUSer, loginUser} from './login.mjs'
 import {websocketState} from './websocketState.mjs';
-import {MERCURE_INTERNAL_URL, PORT, WEBSOCKET_SECRET} from "./config.mjs";
+import {MERCURE_INTERNAL_URL, PORT, WEBSOCKET_SECRET, KEY_FILE, CERT_FILE} from "./config.mjs";
 
 
-const keyPath = './tls_certificate/key.pem';
-const certPath = './tls_certificate/cert.pem';
+const keyPath = KEY_FILE;
+const certPath = CERT_FILE;
 let server;
 try {
     if (checkFileContains(certPath, 'BEGIN CERTIFICATE') && checkFileContains(keyPath, 'BEGIN PRIVATE KEY')) {

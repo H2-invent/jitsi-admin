@@ -481,3 +481,12 @@ hr {
     border-width: 2px!important;
   }
 }
+
+
+.card {
+  &.favorites {
+    .card-background {
+      background-color: $cardBackground_dark!important;
+    }
+  }
+}
