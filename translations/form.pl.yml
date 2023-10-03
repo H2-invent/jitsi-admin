@@ -112,7 +112,7 @@ label:
   subscribe: Anmelden
   vorname: Imię
   nachname: Nazwisko
-  maxParticipants: Zezwól na maksymalną liczbę uczestników
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: Lista oczekujących aktywna
   teilnehmerEmailhinzufuegenModerator: Wpisz adresy e-mail nowych moderatorów
   weekday: Dzień tygodnia
