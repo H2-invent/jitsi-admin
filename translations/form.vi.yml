@@ -112,7 +112,7 @@ label:
   subscribe: Đăng nhập
   vorname: Tên
   nachname: Họ
-  maxParticipants: Số lượng người tham gia tối đa cho phép
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: Kích hoạt danh sách chờ
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen von neuen MODERATOREN eingeben
   weekday: Wochentag
