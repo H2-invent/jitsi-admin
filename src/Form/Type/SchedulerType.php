@@ -60,7 +60,7 @@ class SchedulerType extends AbstractType
             $during = true;
         }
 
-        if (count($options['server']) !== 1) {
+
             $builder
                 ->add(
                     'server',
@@ -77,7 +77,7 @@ class SchedulerType extends AbstractType
                         ],
                     ),
                 );
-        }
+
 
         $organisators = [];
 
