@@ -112,7 +112,7 @@ label:
   subscribe: 订阅
   vorname: 名
   nachname: 姓
-  maxParticipants: 最大参会人数
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: 激活等待列表
   teilnehmerEmailhinzufuegenModerator: 输入新主持人的邮箱
   weekday: 星期几
