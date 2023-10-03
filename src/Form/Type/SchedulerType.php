@@ -269,6 +269,9 @@ class SchedulerType extends AbstractType
                 'attr' => ['class' => 'd-none'],
             ],
         );
+        if (count($options['server']) === 1) {
+            $builder->remove('server');
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
