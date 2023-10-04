@@ -29,7 +29,7 @@ $away:#F9A825;
 $success-color:        #14a44d !default;
 $warning-color:        #e4a11b !default;
 $danger-color:         #dc4c64 !default;
-$cardBackground_bright: #f6f9fe;
+$cardBackground_bright: scale-color($main-color, $lightness: 97%);
 $cardBackground_dark: transparent;
 $card-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.2),
 0px 3px 4px 0px rgba(0, 0, 0, 0.14),

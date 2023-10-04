@@ -135,6 +135,10 @@ parameters:
     laF_version: '%env(laF_version)%'
 services:
     Twig\Extension\StringLoaderExtension:
+    ColorExtension.twig_extension:
+        class: MikeAlmond\TwigColorExtension\ColorExtension
+        tags:
+            - { name: twig.extension }
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
