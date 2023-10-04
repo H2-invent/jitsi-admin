@@ -41,6 +41,4 @@ class ColorUtils extends AbstractExtension
 
     }
 
-
-
 }
