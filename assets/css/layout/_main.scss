@@ -1505,3 +1505,11 @@ a:hover {
 .shadow-3{
   box-shadow: $card-box-shadow-3dp;
 }
+
+.tab-content{
+  .tab-content-watch{
+    &.mat-active{
+      min-height: 50vh;
+    }
+  }
+}
