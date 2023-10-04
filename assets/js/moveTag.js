@@ -5,9 +5,7 @@ export function moveTag(frameDIv) {
             tagContent.classList.remove(e);
         })
         tagContent.classList.add('floating-tag');
-        if (showTagTransparent) {
-            tagContent.classList.add('transparent-bg');
-        }
+
         frameDIv.prepend(tagContent);
     }
 
