@@ -8,6 +8,7 @@ import {initStartIframe} from "./createConference";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
 import {checkFirefox} from "./checkFirefox";
+import {initSocialIcons} from "./createSocialButtons";
 
 var frameId;
 let api = new JitsiMeetExternalAPI(domain, options);
@@ -40,13 +41,18 @@ api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
     initStartWhiteboard();
     showPlayPause();
+    initSocialIcons(api);
     joined = true;
     myId = e.id;
     roomName = e.roomName;
     isBreakout = e.breakoutRoom;
     pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
     jitsiErrorController= new jitsiErrorHandling(api);
-
+    if (typeof enforceE2Eencryption !== 'undefined'){
+        if (enforceE2Eencryption){
+            api.executeCommand('toggleE2EE', true);
+        }
+    }
 
     window.onbeforeunload = function (e) {
         e.preventDefault();

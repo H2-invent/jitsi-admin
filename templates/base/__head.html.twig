@@ -39,17 +39,24 @@
 
     {% if theme %}
         <style>
+            :root{
+                --main-color: {{theme.primaryColor}};
+                --color-Button: {{ theme.colorButton }};
+                --color-button-text: {{ theme.colorButtonText }};
+                --color-button-bright: {{ theme.colorButton|color_lighten(98)}};
+
+            }
             .sidebarToggle {
-                background-color: {{ theme.colorButton }} !important;
-                color: {{ theme.colorButtonText }} !important;
+                background-color: var(--color-Button)!important;
+                color: var(--color-button-text) !important;
             }
 
             .nav-mat-tabs .nav-mat-item.mat-active, .nav-mat-tabs .nav-mat-item:hover {
-                color: {{ theme.colorButton }} !important;
+                color: var(--color-Button)!important;
             }
 
             .nav-mat-tabs .underline {
-                border-bottom: solid 3px {{ theme.colorButton }} !important;
+                border-bottom: solid 3px var(--color-Button) !important;
             }
 
             .nav-mat-tabs .nav-mat-item:hover {
@@ -247,6 +254,11 @@
             .window .sidebar #favorite-Container h5, .window .sidebar #favorite-Container .h5 {
                 border-color: {{ theme.colorButton  }};
             }
+
+            .card,.adressbookline, .card.favorites .card-background{
+                background-color: var(--color-button-bright);
+            }
+
 
             {% endif %}
         </style>

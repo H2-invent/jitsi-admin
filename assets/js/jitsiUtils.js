@@ -10,6 +10,7 @@ import {initStartWhiteboard} from "./startWhiteboard";
 import {showPlayPause} from "./moderatorIframe";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
+import {createCameraChangeButton, initSocialIcons} from "./createSocialButtons";
 
 global.$ = global.jQuery = $;
 
@@ -82,6 +83,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
+        initSocialIcons(api);
         api.executeCommand('avatarUrl', avatarUrl);
         myId = e.id;
         roomName = e.roomName;
@@ -89,8 +91,11 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 
         pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
         jitsiErrorController= new jitsiErrorHandling(api);
-
-
+        if (typeof enforceE2Eencryption !== 'undefined'){
+            if (enforceE2Eencryption){
+                api.executeCommand('toggleE2EE', true);
+            }
+        }
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             var url = $(this).prop('href');

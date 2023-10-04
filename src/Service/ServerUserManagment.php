@@ -27,7 +27,7 @@ class ServerUserManagment
 
     /**
      * @param User $user
-     * @return array
+     * @return Server[]
      * Return the Server for an User. This can be
      * individual server
      * default server for all users

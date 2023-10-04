@@ -21,7 +21,7 @@
 
     <!-- Page Content  -->
     <div class="window" id="window">
-        <div class="navigation fullwidth shadow-3">
+        <div class="navigation fullwidth shadow-3 removeInIframe">
             <div class="container d-flex justify-content-between align-items-center">
                 <div class="logo">
                     <a href="{{ path('dashboard') }}">
@@ -84,7 +84,7 @@
             {{ include('base/__proTips.html.twig') }}
     </div>
 
-        <div class="footer shadow-3">
+        <div class="footer shadow-3 removeInIframe">
             {{ include('base/__footer.html.twig') }}
 
         </div>

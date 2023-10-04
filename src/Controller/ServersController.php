@@ -100,7 +100,7 @@ class ServersController extends JitsiAdminController
     {
 
         $server = $this->doctrine->getRepository(Server::class)->findOneBy(['id' => $request->get('id')]);
-        if ($server->getAdministrator() !== $this->getUser() || !$licenseService->verify($server)) {
+        if ($server->getAdministrator() !== $this->getUser()) {
             $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }

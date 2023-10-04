@@ -18,13 +18,13 @@
     </div>
 
     {% if room.start is not null and room.startTimestamp-600 < timestamp and room.startTimestamp > timestamp %}
-        <div class="showTime bg-away text-black">
+        <div class="showTime bg-away">
             {% set time = (( room.startTimestamp - timestamp)/60)|number_format(0) %}
 {% trans with {'{time}': time} %}Startet in {time} min {% endtrans %}
         </div>
     {% endif %}
     {% if runningRooms is defined and room in runningRooms %}
-        <div class="showTime bg-online text-white">
+        <div class="showTime bg-online">
             {% set time = (( room.startTimestamp - timestamp)/60)|number_format(0) %}
             {{ 'Jetzt'|trans }}
         </div>

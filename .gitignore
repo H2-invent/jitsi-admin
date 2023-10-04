@@ -68,3 +68,4 @@ repairLog.txt
 /results*.xml
 /.phpunit.cache/
 /nodejs/tls_certificate/*.pem
+/templates/dashboard/Landing-Page-master.zip

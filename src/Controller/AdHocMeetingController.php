@@ -12,7 +12,7 @@ use App\Service\ServerUserManagment;
 use Doctrine\Persistence\ManagerRegistry;
 use GuzzleHttp\Promise\Create;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,32 +37,28 @@ class AdHocMeetingController extends JitsiAdminController
 
     /**
      * @Route("confirmation/{userId}/{serverId}", name="_confirm")
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
-     * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
      */
     public function confirmation(
-        User   $user,
-        Server $server,
+        #[MapEntity(id: 'userId')] User   $user,
+        #[MapEntity(id: 'serverId')] Server $server,
     ): Response
     {
-        $tag = $this->doctrine->getRepository(Tag::class)->findBy(['disabled' => false], ['priority' => 'ASC']);
+        $tag = $server->getTag();
         return $this->render('add_hoc_meeting/__confirmation.html.twig', ['server' => $server, 'user' => $user, 'tag' => $tag]);
     }
 
     /**
      * @Route("meeting/{userId}/{serverId}/{tagId}", name="_meeting")
      * @Route("meeting/{userId}/{serverId}", name="_meeting_no_tag")
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
-     * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"serverId": "id"}})
-     * @ParamConverter("tag", class="App\Entity\Tag",options={"mapping": {"tagId": "id"}})
      */
     public function index(
-        User                $user,
-        Server              $server,
+        #[MapEntity(id: 'userId')] User                $user,
+        #[MapEntity(id: 'serverId')] Server              $server,
         TranslatorInterface $translator,
         ServerUserManagment $serverUserManagment,
         AdhocMeetingService $adhocMeetingService,
-        ?Tag $tag = null
+        #[MapEntity(id: 'tagId')] ?Tag $tag = null,
+
     ): Response
     {
 

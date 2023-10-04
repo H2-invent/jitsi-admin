@@ -21,7 +21,7 @@
     "dependencies": {
         "@dmuy/datepicker": "^2.0.1",
         "@dmuy/timepicker": "^2.0.0",
-        "@fortawesome/fontawesome-free": "^6.1",
+        "@fortawesome/fontawesome-free": "^6.4",
         "@fullcalendar/bootstrap": "^5.5.0",
         "@fullcalendar/core": "^5.5.0",
         "@fullcalendar/daygrid": "^5.5.0",
@@ -49,7 +49,7 @@
         "jquery": "^3.5.1",
         "jquery-confirm": "^3.3.4",
         "lodash": "^4.17.21",
-        "mdb-ui-kit": "^5.0.0",
+        "mdb-ui-kit": "^6.4.0",
         "mdbootstrap": "^4.19.2",
         "moment": "^2.29.1",
         "moveable": "^0.36.3",

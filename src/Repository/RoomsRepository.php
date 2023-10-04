@@ -213,6 +213,9 @@ class RoomsRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+     /**
+      * @return Rooms[] Returns an array of Rooms objects
+      */
     public function getMyPersistantRooms(User $user, $offset)
     {
         $qb = $this->createQueryBuilder('rooms');

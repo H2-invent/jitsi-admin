@@ -73,7 +73,7 @@ class ConferenceMapperControllerTest extends WebTestCase
         $manager->flush();
         $callerRoom->getRoom()->addRoomstatus($status);
 
-        $crawler = $client->request('GET', '/api/v1/conferenceMapper?callerid=123456&confid=12340');
+        $crawler = $client->request('GET', '/api/v1/conferenceMapper?callerid=123456225566&confid=12340');
 
         $res = $client->getResponse()->getContent();
         $this->assertResponseIsSuccessful();
@@ -82,7 +82,7 @@ class ConferenceMapperControllerTest extends WebTestCase
             json_encode(
                 [
                     'state' => 'STARTED',
-                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYifX0sIm1vZGVyYXRvciI6ZmFsc2V9.QfpvUo2wz-XAdcY--jD5_75ZMQxqz6c5_V9VmjjpCS8',
+                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIxMjM0NTYyMjU1NjYifX0sIm1vZGVyYXRvciI6ZmFsc2V9.cd8QFXA3LnS54ESBAFR4iGOQuMtz1nQZ7snqEjSjivo',
                     'room_name' => '123456780@testdomain.com'
                 ]
             ),

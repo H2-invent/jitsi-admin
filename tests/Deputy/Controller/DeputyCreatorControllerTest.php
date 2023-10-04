@@ -91,7 +91,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
         self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal())->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .btn:contains("Starten")')->count());
-        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .fa-solid.fa-users')->count());
+        self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .fa-solid.fa-users')->count());
         self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-sharelink')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-remove')->count());
@@ -106,7 +106,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
         self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal())->count());
         self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .btn:contains("Starten")')->count());
-        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .fa-solid.fa-users')->count());
+        self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .fa-solid.fa-users')->count());
         self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-sharelink')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-remove')->count());
@@ -154,7 +154,7 @@ class DeputyCreatorControllerTest extends WebTestCase
         $this->em->persist($this->manager);
         $this->em->flush();
 
-        $crawler = $this->client->request('GET', '/room/clone?room=' . $room->getId());
+        $crawler = $this->client->request('GET', '/room/clone/' . $room->getId());
 
         $buttonCrawlerNode = $crawler->selectButton('Speichern');
         $form = $buttonCrawlerNode->form();

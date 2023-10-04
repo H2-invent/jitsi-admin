@@ -3,6 +3,7 @@
 namespace App\Command\LobbyMessage;
 
 use App\Entity\PredefinedLobbyMessages;
+use App\Repository\PredefinedLobbyMessagesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LobbyMessageCreateCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager, string $name = null)
+    public function __construct(private EntityManagerInterface $entityManager, private PredefinedLobbyMessagesRepository $predefinedLobbyMessagesRepository, string $name = null)
     {
         parent::__construct($name);
     }
@@ -27,7 +28,8 @@ class LobbyMessageCreateCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('text', InputArgument::OPTIONAL, 'Enter the text you want to send to the waiting user');
+            ->addArgument('text', InputArgument::OPTIONAL, 'Enter the text you want to send to the waiting user')
+            ->addArgument('prio', InputArgument::OPTIONAL, 'Enter the priority of the message. Lower will be show first');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -37,6 +39,12 @@ class LobbyMessageCreateCommand extends Command
 
         if ($text) {
             $io->note(sprintf('We create a new Predefined message with the text: %s', $text));
+            $messageOld = $this->predefinedLobbyMessagesRepository->findOneBy(array('text' => $text));
+            if ($messageOld){
+                $io->error('The message is already defined');
+
+                return Command::FAILURE;
+            }
         } else {
             $textQ = new Question('Enter the message text: ', 'Please wait. I will let you in in some minutes.');
             $text = $io->askQuestion($textQ);
@@ -45,14 +53,21 @@ class LobbyMessageCreateCommand extends Command
 
         $message = new PredefinedLobbyMessages();
         $message->setText($text)
-        ->setCreatedAt(new \DateTime());
+            ->setCreatedAt(new \DateTime());
+        $prio = $input->getArgument('prio');
+        if ($prio) {
+            $io->note(sprintf('We create a new Predefined message with the prio: %d', $prio));
+            $message->setActive(true);
+        } else {
+            $prioQ = new Question('Enter the Priority (The Lowest will be shown first and is the default)', 0);
+            $prio = $io->askQuestion($prioQ);
+            $disableQ = new ConfirmationQuestion('Do you want to Enable the message', true);
+            $message->setActive($io->askQuestion($disableQ));
+        }
 
-        $prioQ = new Question('Enter the Priority (The Lowest will be shown first and is the default)', 0);
-        $message->setPriority(intval($io->askQuestion($prioQ)));
+        $message->setPriority(intval($prio));
 
 
-        $disableQ = new ConfirmationQuestion('Do you want to Enable the message', true);
-        $message->setActive($io->askQuestion($disableQ));
         $this->entityManager->persist($message);
         $this->entityManager->flush();
 

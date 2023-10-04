@@ -7,10 +7,22 @@
     {% if RoomStatusOpen(room) == true %}
         <div class="occupant">
             <div class="number">
-                <small>{{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)|length}) }}</small>
+                <small>
+                    {{ 'status.inconference.number'|trans( {'{number}' : RoomStatusOccupats(room)|length}) }}
+
+                </small>
+                <a tabindex="0"
+                   data-mdb-toggle="popover"
+                   data-mdb-trigger="focus"
+                   data-mdb-html="true"
+                   title="{{ 'status.inconference'|trans }}"
+                   data-mdb-content="{% for u in RoomStatusOccupats(room) %}{{ u.participantName }}<br>{% endfor %}"><i
+                            class="fa fa-info-circle"></i>
+                </a>
             </div>
             <div class="text">
                 {{ 'status.inconference'|trans }}
+
             </div>
 
         </div>

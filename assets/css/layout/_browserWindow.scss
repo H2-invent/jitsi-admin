@@ -15,7 +15,6 @@
   overflow: hidden;
 
   &:not(.maximized,.minified) {
-    outline: 1px solid black;
     border-radius: 8px;
     .dragger {
       cursor: move;

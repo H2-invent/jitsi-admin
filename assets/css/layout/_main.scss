@@ -497,24 +497,29 @@ strong {
 }
 
 .olineBorder {
-  border: $online solid 4px !important;;
+  border: $online solid 4px !important;
 }
 
 .bg-online {
-  background-color: $online;
+  background-color: scale-color($online, $lightness: 90%);
+  border: $online 2px solid;
+  color: black;
+
 }
 
 .infoBorder {
-  border: $in-a-meeting solid 4px !important;;
+  border: $in-a-meeting solid 4px !important;
 }
 
 .bg-away {
-  background-color: $away;
+  background-color: scale-color($away, $lightness: 90%);
+  border: $away 2px solid;
+  color: black;
 }
 
 
 .awayBorder {
-  border: $away solid 4px !important;;
+  border: $away solid 4px !important;
 }
 
 .occupant {
@@ -666,7 +671,8 @@ strong {
 }
 
 .btn {
-  border-radius: 8px;
+  border-radius: 5000px;
+  box-shadow: none;
 }
 
 .btn-floating {
@@ -744,14 +750,24 @@ strong {
   cursor: pointer;
 }
 
+
+
 .floating-tag {
+  &.transparent-bg{
+    background-color: transparent!important;
+  }
   display: flex;
   align-content: center;
   justify-content: left;
   z-index: 2;
   margin: 0;
-  padding: 0.1em 1em 0.1em 1em;
+  padding: 0.1em 3em 0.1em 1em;
+  position: absolute;
+  border-radius: 0 0 15px 0;
+  top: 0;
+  left: 0;
 }
+
 
 .form-outline {
   .form-control {
@@ -833,6 +849,9 @@ strong {
 
   .navigation {
     display: none;
+  }
+  .removeInIframe{
+    display: none!important;
   }
 }
 
@@ -979,7 +998,8 @@ a:hover {
       height: 5em;
       aspect-ratio: 1/1;
       object-fit: contain;
-      &:has(.loadContent){
+
+      &:has(.loadContent) {
         cursor: pointer;
       }
 
@@ -1080,6 +1100,7 @@ a:hover {
       position: absolute;
       z-index: -2;
       margin: 0;
+      background-color: $cardBackground_bright;
     }
   }
 }
@@ -1293,7 +1314,7 @@ a:hover {
 
   .proTips {
     display: none;
-
+    box-shadow: $card-box-shadow !important;
     z-index: 9;
     @media only screen and (min-width: $breakpointMenue) {
       display: flex;
@@ -1401,17 +1422,38 @@ a:hover {
   }
 }
 
-.sidebar{
-  &.showSidebar{
+.sidebar {
+  &.showSidebar {
     background-color: $background-color;
   }
 }
 
-.overflow-y-auto{
-  overflow-y:  auto;
+.overflow-y-auto {
+  overflow-y: auto;
 }
-.overflow-x-auto{
-  overflow-x:  auto;
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.social_icon_box{
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  top: 16px;
+  left: 8px;
+  .social_icon{
+    color: white;
+    background-color: rgb(0 0 0 / 62%);
+    padding: 4px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
 }
 
 .chip {
@@ -1443,7 +1485,31 @@ a:hover {
     margin-right: 0.5em;
   }
 
-  .content {
 
+}
+
+.card {
+  //box-shadow: none;
+  //border: 2px solid #a8a8a8;
+  box-shadow: $card-box-shadow;
+  background-color: $cardBackground_bright;
+  &.awayBorder{
+    background-color: scale-color($warning-color, $lightness: 90%);
+    border-width: 2px!important;
+  }
+  &.olineBorder{
+    background-color: scale-color($success-color, $lightness: 90%);
+    border-width: 2px!important;
+  }
+}
+.shadow-3{
+  box-shadow: $card-box-shadow-3dp;
+}
+
+.tab-content{
+  .tab-content-watch{
+    &.mat-active{
+      min-height: 50vh;
+    }
   }
 }

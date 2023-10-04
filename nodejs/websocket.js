@@ -13,11 +13,11 @@ import jwt from 'jsonwebtoken'
 
 import {getOnlineUSer, loginUser} from './login.mjs'
 import {websocketState} from './websocketState.mjs';
-import {MERCURE_INTERNAL_URL, PORT, WEBSOCKET_SECRET} from "./config.mjs";
+import {MERCURE_INTERNAL_URL, PORT, WEBSOCKET_SECRET, KEY_FILE, CERT_FILE} from "./config.mjs";
 
 
-const keyPath = './tls_certificate/key.pem';
-const certPath = './tls_certificate/cert.pem';
+const keyPath = KEY_FILE;
+const certPath = CERT_FILE;
 let server;
 try {
     if (checkFileContains(certPath, 'BEGIN CERTIFICATE') && checkFileContains(keyPath, 'BEGIN PRIVATE KEY')) {
@@ -90,19 +90,21 @@ app.use(bodyParser.json());
 router.post(MERCURE_INTERNAL_URL, (request, response) => {
 //code to perform particular action.
 //To access POST variable use req.body()methods.
+    console.log('Receive new Backend Request');
     const authHeader = request.headers.authorization;
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
         jwt.verify(token, WEBSOCKET_SECRET, (err, user) => {
             if (err) {
-
+                console.log('Wrong JWT signature');
                 return response.sendStatus(403);
             } else {
 
                 var data = request.body.data;
                 var room = request.body.topic;
                 io.to(room).emit('mercure', data);
+
                 response.end('OK');
             }
         });

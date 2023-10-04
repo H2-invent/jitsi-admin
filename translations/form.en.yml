@@ -12,7 +12,7 @@ label.start: Start
 label.dauerKonferenz: Conference duration
 label.nurRegistriertenutzer: Only signed up users can join this conference.
 label.speichern: Save
-label.allowMaybeOption: 'Offer "maybe" option'
+label.allowMaybeOption: '"Vielleicht"-Option anbieten'
 option.15min: 15 minutes
 option.30min: 30 minutes
 option.45min: 45 minutes
@@ -78,10 +78,10 @@ help:
   serverName: Please enter the server name. This will be shown to the participants.
   secondEmail: All emails to my default email address should be sent to this additional email addresses (comma-separated).
   corsHeader: If a CORS or frame-ancestor header is set, that does not point to this URL, it is not possible to use JITSI iFrame API. This causes loss of some functionality.
-  jigasiApiUrl: Enter URL to Jigasi API which will be used for getting conference pin. It usually ends with "ConferenceManager".
-  jigasiNumberUrl: Enter Dial-In number in JSON format. It has to be the same as in numbers.json in Jigasi config.
-  jigasiProsodyDomain: Enter prosody domain. Usually it has pattern "conference.domain.topdomain".
-  disallowFirefox: Firefox browser is disabled. All participants joining with firefox will be redirected to a chromium based browser.
+  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
+  jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
+  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Join with browser
@@ -138,11 +138,11 @@ label:
   tag: Category
   serverBackgroundImage: Server Background Image
   jigasiApiUrl: Jigasi ConferenceMapper-URL
-  jigasiNumberUrl: Jigasi Dial-In number in JSON format
+  jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi prosody domain
   go: Let's go!
-  moderator: Select organizer
-  disallowFirefox: Firefox is disabled on this jitsi meer server
+  moderator: Organisator auswählen
+  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

@@ -57,7 +57,7 @@ class AdressbookTest extends KernelTestCase
         $this->assertEquals(
             [
                 ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
-                ['name' => '', 'nameNoIcon' => '', 'id' => "test@local3.de", 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => "test@local3.de", 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
             ],
             $res
         );
@@ -124,7 +124,7 @@ class AdressbookTest extends KernelTestCase
         $this->assertEquals(
             [
                 ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'id' => "test2@local.de", 'roles' => ['participant', 'moderator']],
-                ['name' => '', 'nameNoIcon' => '', 'id' => "test@local3.de", 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ['name' => 'test@local3.de', 'nameNoIcon' => 'test@local3.de', 'id' => "test@local3.de", 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
             ],
             $res
         );
@@ -199,7 +199,7 @@ class AdressbookTest extends KernelTestCase
         $this->assertEquals(
             [
                 ['name' => '<i class="fa fa-phone" title="9876543210" data-toggle="tooltip"></i> Test2, 1234, User2, Test2', 'nameNoIcon' => 'Test2, 1234, User2, Test2', 'id' => "test2@local.de", 'uid' => 'kljlsdkjflkjddfgslfjsdlkjsdflkj', 'roles' => ['participant', 'moderator']],
-                ['name' => '', 'id' => "test@local3.de", 'nameNoIcon' => '', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
+                ['name' => 'test@local3.de', 'id' => "test@local3.de", 'nameNoIcon' => 'test@local3.de', 'uid' => 'kjsdfhkjds', 'roles' => ['participant', 'moderator']]
             ],
             $res
         );

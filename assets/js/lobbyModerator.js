@@ -21,6 +21,7 @@ import {leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
 import {initSearchCallOut} from "./inviteCalloutUser";
 import {initSendMessage} from "./sendMessageToWaitingUser";
+import {moveTag} from "./moveTag";
 
 
 var jitsiApi;
@@ -105,7 +106,7 @@ function moveWrapper() {
     frameDIv.prepend($('#jitsiWindow').addClass('inMeeting'));
     $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow').removeClass('d-none');
     frameDIv.prepend($('#jitsiWrapper'));
-    frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'));
+    moveTag(frameDIv);
     frameDIv.append($('#snackbar'))
     $('#mainContent').remove();
     $('.imageBackground').remove();

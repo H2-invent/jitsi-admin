@@ -117,7 +117,7 @@
             </div>
 
         </div>
-            <a class="btn btn-primary btn-block loadContent" href="{{ path('app_scheduler_public_creator',{'room_id':room.uid,'user_id':user.uid}) }}">{{ 'scheduler.new.schedule'|trans }}</a>
+            <a class="btn btn-outline-primary btn-block loadContent" href="{{ path('app_scheduler_public_creator',{'room_id':room.uid,'user_id':user.uid}) }}">{{ 'scheduler.new.schedule'|trans }}</a>
         <button class="btn btn-primary btn-block" data-mdb-toggle="toastr" data-target="#saveModal"
                 data-text=" {{ 'common.success.save'|trans }}" data-type="success">{{ 'common.save'|trans }}</button>
 

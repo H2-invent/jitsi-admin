@@ -65,7 +65,7 @@
     {{ httpsAbolutUrl(path('own_room_startPage',{'uid':room.uid}),room is defined?room:null) }}
 {% endif %}
 <p>
-    {% if server is defined and  server is not null and server|validateLicense and server.serverEmailBody is not null %}
+    {% if server is defined and  server is not null  and server.serverEmailBody is not null %}
         {{ server.serverEmailBody|nl2br }}
     {% endif %}
 </p>

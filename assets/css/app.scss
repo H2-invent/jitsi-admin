@@ -1,5 +1,5 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
-@import "./helper/mbd";
+@import '~mdb-ui-kit/src/scss/mdb.free';
 @import "~flatpickr/dist/flatpickr.min.css";
 @import "~jquery-confirm/css/jquery-confirm.css";
 //@import "~pretty-print-json/dist/css/pretty-print-json.css";
@@ -7,6 +7,7 @@
 @import "~toastr/toastr";
 @import "~node-waves/src/scss/waves";
 @import "./helper/variables";
+@import "./helper/variable_override";
 @import "./layout/fonts";
 @import "~css-star-rating/css/star-rating.css";
 @import "./layout/main";

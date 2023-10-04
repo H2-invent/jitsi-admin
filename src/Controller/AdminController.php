@@ -6,7 +6,7 @@ use App\Entity\Server;
 use App\Entity\Star;
 use App\Helper\JitsiAdminController;
 use App\Service\AdminService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -16,9 +16,13 @@ class AdminController extends JitsiAdminController
 {
     /**
      * @Route("/admin/server/{server}", name="admin_server")
-     * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"server": "id"}})
      */
-    public function server(ParameterBagInterface $parameterBag, Server $server, AdminService $adminService, HttpClientInterface $httpClient, TranslatorInterface $translator)
+    public function server(
+        ParameterBagInterface $parameterBag,
+        #[MapEntity(id: 'server')] Server $server,
+        AdminService $adminService,
+        HttpClientInterface $httpClient,
+        TranslatorInterface $translator)
     {
         $countPart = 0;
         foreach ($server->getRooms() as $room) {
