@@ -8,5 +8,4 @@ export function moveTag(frameDIv) {
 
         frameDIv.prepend(tagContent);
     }
-
 }
