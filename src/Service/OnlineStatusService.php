@@ -15,7 +15,7 @@ class OnlineStatusService
 
     public function getUserStatus(User $user):int
     {
-        if (!$user->getOnlineStatus()){
+        if ($user->getOnlineStatus()=== null){
             return $this->parameterBag->get('LAF_DEFAULT_ONLINE_STATUS');
         }else{
             return $user->getOnlineStatus();
