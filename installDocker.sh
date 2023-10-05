@@ -63,7 +63,7 @@ fi
   read -p "Enter smtp password [$smtpPassword]: " input
   smtpPassword=${input:=$smtpPassword}
   sed -i '/smtpPassword/d' $FILE
-  echo "smtpPassword=$smtpPassword" >> $FILE
+  echo "smtpPassword='$smtpPassword'" >> $FILE
 
 
   smtpEncryption=${smtpEncryption:=none}

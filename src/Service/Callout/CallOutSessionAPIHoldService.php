@@ -113,6 +113,6 @@ class CallOutSessionAPIHoldService
     public function sendMessage(Rooms $room, $message)
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
-        $this->directSendService->sendSnackbar($topic, $message, 'info');
+        $this->directSendService->sendSnackbar($topic, $message, 'info',2000);
     }
 }

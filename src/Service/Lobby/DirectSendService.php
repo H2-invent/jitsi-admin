@@ -47,16 +47,18 @@ class DirectSendService
         $this->publisher = $hub;
     }
 
-    public function sendSnackbar($topic, $text, $color)
+    public function sendSnackbar($topic, $text, $color, $closeAfterMs = null)
     {
         $data = [
             'type' => 'snackbar',
             'message' => $text,
-            'color' => $color
+            'color' => $color,
+            'closeAfter' => $closeAfterMs,
         ];
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
+
     public function sendMessage($topic, $message, string $from)
     {
         $data = [
@@ -67,6 +69,7 @@ class DirectSendService
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
+
     public function sendReloadPage($topic, $timeout)
     {
         $data = [
@@ -77,7 +80,7 @@ class DirectSendService
         return $this->publisher->publish($update);
     }
 
-    public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color)
+    public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color, $closeAfterMs = null)
     {
         $data = [
             'type' => 'notification',
@@ -85,7 +88,8 @@ class DirectSendService
             'message' => $message,
             'pushNotification' => $pushMessage,
             'messageId' => $id,
-            'color' => $color
+            'color' => $color,
+            'closeAfter' => $closeAfterMs,
         ];
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);

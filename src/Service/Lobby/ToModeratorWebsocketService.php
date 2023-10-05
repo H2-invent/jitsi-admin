@@ -55,7 +55,7 @@ class ToModeratorWebsocketService
         );
         $topic = 'lobby_moderator/' . $room->getUidReal();
         // this message goes to the moderators wich are in the lobby
-        $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info');
+        $this->directSend->sendBrowserNotification($topic, $title, $message, $message, $lobbyWaitungUser->getUid(), 'info',5000);
         sleep(1);
 
         $messageDashboard = sprintf(
