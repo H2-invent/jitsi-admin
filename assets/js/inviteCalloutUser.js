@@ -151,7 +151,6 @@ function sendInvitation(url) {
         inviteButton.disabled = true;
         searchUserInput.value = '';
         inviteButton.innerHTML = '<i class="fa fa-user-plus"></i>';
-        // initInput();
     })
         .fail(function (data) {
         });
