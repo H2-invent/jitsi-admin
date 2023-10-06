@@ -12,7 +12,7 @@ label.start: Iniciar
 label.dauerKonferenz: Duración de la conferencia
 label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia.
 label.speichern: Guardar
-label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
+label.allowMaybeOption: 'Ofrecer la opción "Sujeto a cambios"'
 option.15min: 15 minutos
 option.30min: 30 minutos
 option.45min: 45 minutos
@@ -70,7 +70,7 @@ option:
 lable.serverUrl: Url del servidor Jitsi Meet
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
-label.scheduleMeeting: Organizar una reunión
+label.scheduleMeeting: Consensuar una conferencia
 help:
   serverUrl: Acceder sin "https://" (ej. meet.jit.si)
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
@@ -79,9 +79,12 @@ help:
   secondEmail: Todos los correos electrónicos deben enviarse a estas direcciones, además de a su dirección de correo electrónico estándar (separadas por comas).
   corsHeader: Si se configura un encabezado CORS o frame-ancestor que no hace referencia a esta URL, entonces no es posible usar la API de Jitsi-iFrame. Esto conlleva la pérdida de algunas funciones.
   jigasiApiUrl: Inserte la API de Jigasi aquí, que se puede usar para recuperar el pin de la conferencia. Esta generalmente termina con "ConferenceMapper".
-  jigasiNumberUrl: Introduzca aquí el número de acceso telefónico en formato JSON, como se hace en Jigasi en “numbers.json”.
+  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind (z.B.: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Inserte el dominio de Prosody aquí. Por lo general, sigue el patrón "conference.domain.topdomain".
   disallowFirefox: El navegador Firefox está deshabilitado. Todos los participantes que quieran unirse con un navegador Firefox serán redirigidos a un navegador basado en Chromium.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
+  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
+  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse
@@ -109,7 +112,7 @@ label:
   subscribe: Iniciar sesión
   vorname: Nombre
   nachname: Apellido
-  maxParticipants: Permitir número máximo de participantes
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: Activar la lista de espera
   teilnehmerEmailhinzufuegenModerator: Ingrese la dirección de correo electrónico de los nuevos Moderadores
   weekday: Día de la semana
@@ -143,6 +146,10 @@ label:
   go: '¡Comencemos!'
   moderator: Seleccionar organizador
   disallowFirefox: Firefox está deshabilitado en el servidor de Jitsi Meet
+  enforceE2e: Ende zu Ende erzwingen
+  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
+  maxUser: Maximal Anzahl an Teilnehmenden
+  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
