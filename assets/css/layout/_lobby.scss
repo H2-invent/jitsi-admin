@@ -1,3 +1,50 @@
+
+@mixin hovertransitionDown{
+  transition: transform 0.2s;
+  -webkit-transition-delay: 1.2s;
+  -moz-transition-delay: 1.2s;
+  -ms-transition-delay: 1.2s;
+  -o-transition-delay: 1.2s;
+  transition-delay: 1.2s;
+}
+@mixin hovertransitionUp{
+  transition: transform 0.2s;
+  -webkit-transition-delay: 0.1s;
+  -moz-transition-delay: 0.1s;
+  -ms-transition-delay: 0.1s;
+  -o-transition-delay: 0.1s;
+  transition-delay: 0.1s;
+}
+
+@mixin hoverDragger {
+  transition: transform 0.2s;
+  @include hovertransitionDown;
+  &:hover {
+    transform: translateY(0) !important;
+    @include hovertransitionUp;
+
+    .dragger {
+      cursor: pointer;
+      &:before {
+        transform: rotateX(180deg);
+        @include hovertransitionUp;
+        //font-family: "Font Awesome 5 Free";
+        //font-weight: 900;
+        //content: "\f106\00a0" !important;
+      }
+
+      &:after {
+        transform: rotateX(180deg);
+        @include hovertransitionUp;
+        //font-family: "Font Awesome 5 Free";
+        //font-weight: 900;
+        //content: "\00a0\f106" !important;
+      }
+    }
+  }
+}
+
+
 body {
   overscroll-behavior-y: contain;
   background-color: white;
@@ -119,12 +166,16 @@ body {
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
       content: "\f107\00a0";
+      display: inline-block;
+      @include hovertransitionDown;
     }
 
     &:after {
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
       content: "\00a0\f107";
+      display: inline-block;
+      @include hovertransitionDown;
     }
 
     @keyframes blinkGreen {
@@ -154,38 +205,6 @@ body {
 
 }
 
-@mixin hoverDragger {
-  transition: transform 0.5s;
-  -webkit-transition-delay: 1s;
-  -moz-transition-delay: 1s;
-  -ms-transition-delay: 1s;
-  -o-transition-delay: 1s;
-  transition-delay: 1s;
-  &:hover {
-    transform: translateY(0) !important;
-    transition: transform 0.5s;
-    -webkit-transition-delay: 0s;
-    -moz-transition-delay: 0s;
-    -ms-transition-delay: 0s;
-    -o-transition-delay: 0s;
-    transition-delay: 0s;
-
-    .dragger {
-      cursor: pointer;
-      &:before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f106\00a0" !important;
-      }
-
-      &:after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\00a0\f106" !important;
-      }
-    }
-  }
-}
 
 #sliderTop {
   position: absolute;
