@@ -79,9 +79,12 @@ help:
   secondEmail: All emails to my default email address should be sent to this additional email addresses (comma-separated).
   corsHeader: If a CORS or frame-ancestor header is set, that does not point to this URL, it is not possible to use JITSI iFrame API. This causes loss of some functionality.
   jigasiApiUrl: Enter URL to Jigasi API which will be used for getting conference pin. It usually ends with "ConferenceManager".
-  jigasiNumberUrl: Enter Dial-In number in JSON format. It has to be the same as in numbers.json in Jigasi config.
+  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind (z.B.: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Enter prosody domain. Usually it has pattern "conference.domain.topdomain".
   disallowFirefox: Firefox browser is disabled. All participants joining with firefox will be redirected to a chromium based browser.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
+  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
+  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
 label:
   beitretenApp: Join with electron app
   beitretenBrowser: Beitreten
@@ -109,7 +112,7 @@ label:
   subscribe: Subscribe
   vorname: Firstname
   nachname: Lastname
-  maxParticipants: Allow maximum number of participants
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: Activate waiting list
   teilnehmerEmailhinzufuegenModerator: Enter email addresses of new MODERATORS
   weekday: Weekday
@@ -143,6 +146,10 @@ label:
   go: Let's go!
   moderator: Select organizer
   disallowFirefox: Firefox is disabled on this jitsi meer server
+  enforceE2e: Ende zu Ende erzwingen
+  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
+  maxUser: Maximal Anzahl an Teilnehmenden
+  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
