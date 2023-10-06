@@ -330,7 +330,7 @@
         <target state="translated">Запустить</target>
       </trans-unit>
       <trans-unit id="La4XzEP" resname="Im Browser">
-        <source>Starten</source>
+        <source>Im Browser</source>
         <target state="translated">Запустить</target>
       </trans-unit>
       <trans-unit id="5wvMEm6" resname="In der App">
@@ -739,7 +739,7 @@ ID конференции: {uid}]]></target>
         <target state="translated">Нет</target>
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
-        <source>Unter Vorbehalt</source>
+        <source>Vielleicht</source>
         <target state="needs-translation">Unter Vorbehalt</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
@@ -1305,7 +1305,7 @@ ID конференции: {uid}]]></target>
         <target state="translated">Запустить</target>
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
-        <source>Starten</source>
+        <source>jitsi.start.browser</source>
         <target state="translated">Запустить</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
@@ -2231,21 +2231,53 @@ ID конференции: {uid}]]></target>
         <source>browser.warning.toMac</source>
         <target state="needs-translation">Weiter mit Safari</target>
       </trans-unit>
-      <trans-unit id=".9Y20za" resname="Fehler, es gibt noch keine Terminvorschläge.">
-        <source>Fehler, es gibt noch keine Terminvorschläge.</source>
+      <trans-unit id="vR9_UxK" resname="error.scheduler.noSchedules">
+        <source>error.scheduler.noSchedules</source>
         <target state="needs-translation">Fehler, es gibt noch keine Terminvorschläge.</target>
       </trans-unit>
-      <trans-unit id="ybC1yze" resname="Fehler, es wurde noch nicht abgestimmt.">
-        <source>Fehler, es wurde noch nicht abgestimmt.</source>
+      <trans-unit id="AM3ZcR5" resname="error.scheduler.novotings">
+        <source>error.scheduler.novotings</source>
         <target state="needs-translation">Fehler, es wurde noch nicht abgestimmt.</target>
       </trans-unit>
-      <trans-unit id="_j2X_VK" resname="Was ist ein iCal Link">
-        <source>Was ist ein iCal Link</source>
+      <trans-unit id="AjtdRhx" resname="help.ical.Link">
+        <source>help.ical.Link</source>
         <target state="needs-translation">Was ist ein iCal Link</target>
       </trans-unit>
-      <trans-unit id="ZRA1Zf2" resname="Interner Fehler">
-        <source>Interner Fehler</source>
+      <trans-unit id="qmgq88Z" resname="error.internalError">
+        <source>error.internalError</source>
         <target state="needs-translation">Interner Fehler</target>
+      </trans-unit>
+      <trans-unit id="86U7jr0" resname="rooms.help.setmaxparticipantsHardLimit">
+        <source>rooms.help.setmaxparticipantsHardLimit</source>
+        <target state="needs-translation">Anzahl an Teilnehmenden, die der Konferenz beitreten können. Diese Zahl ist ein hartes Limit. Ist die maximale Anzahl an Teilnehmenden erreicht, können keine weiteren Teilnehmenden mehr beitreten, auch wenn die Teilnehmenden eingeladen worden sind.</target>
+      </trans-unit>
+      <trans-unit id="q5u2qJm" resname="room.option.sendProtokoll.question">
+        <source>room.option.sendProtokoll.question</source>
+        <target state="needs-translation">Wollen Sie das Protokoll wirklich an alle Teilnehmenden versenden?</target>
+      </trans-unit>
+      <trans-unit id="vh43kpV" resname="room.option.sendProtokoll.button">
+        <source>room.option.sendProtokoll.button</source>
+        <target state="needs-translation">Protokoll versenden</target>
+      </trans-unit>
+      <trans-unit id="ory.RAy" resname="room.error.noAccessAllowed">
+        <source>room.error.noAccessAllowed</source>
+        <target state="needs-translation">Zugriff nicht erlaubt</target>
+      </trans-unit>
+      <trans-unit id="SSvsvcv" resname="room.error.noAccessAllowedIP">
+        <source>room.error.noAccessAllowedIP</source>
+        <target state="needs-translation">Sie dürfen dieser Konferenz mit Ihrer IP-Adresse nicht beitreten. Bitte kontaktieren Sie ihren Support.</target>
+      </trans-unit>
+      <trans-unit id="Aa9UREO" resname="room.error.noAccessAllowedToManyParticipants">
+        <source>room.error.noAccessAllowedToManyParticipants</source>
+        <target state="needs-translation">Zu viele Teilnehmenden</target>
+      </trans-unit>
+      <trans-unit id="HXqNNC9" resname="room.error.noAccessAllowedToManyParticipantsText">
+        <source>room.error.noAccessAllowedToManyParticipantsText</source>
+        <target state="needs-translation">Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk</target>
+      </trans-unit>
+      <trans-unit id="rml7Shn" resname="enterprise.settings.header.tags">
+        <source>Auswählbare Kategorien</source>
+        <target state="needs-translation">Auswählbare Kategorien</target>
       </trans-unit>
     </body>
   </file>
