@@ -115,8 +115,11 @@ class ThemeService
         if ($tmp !== null) {
             try {
                 $res = json_decode($tmp, true);
-                if (!!$res) {
+                if ($res=== null) {
                     return $tmp;
+                }
+                if ($res === false){
+                    return $res;
                 }
                 return $res;
             } catch (\Exception $exception) {
@@ -131,8 +134,11 @@ class ThemeService
                 $res = json_decode($variable, true);
             }
 
-            if (!!$res) {
+            if ($res=== null) {
                 return $variable;
+            }
+            if ($res === false){
+                return $res;
             }
             return $res;
         } catch (\Exception $exception) {
