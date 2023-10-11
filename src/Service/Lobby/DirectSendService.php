@@ -53,8 +53,11 @@ class DirectSendService
             'type' => 'snackbar',
             'message' => $text,
             'color' => $color,
-            'closeAfter' => $closeAfterMs,
+
         ];
+        if ($closeAfterMs){
+            $data[ 'closeAfter'] = $closeAfterMs;
+        }
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }
@@ -89,8 +92,10 @@ class DirectSendService
             'pushNotification' => $pushMessage,
             'messageId' => $id,
             'color' => $color,
-            'closeAfter' => $closeAfterMs,
         ];
+        if ($closeAfterMs){
+            $data[ 'closeAfter'] = $closeAfterMs;
+        }
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
     }

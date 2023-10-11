@@ -53,7 +53,7 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
             new StaticTokenProvider('test'),
             function (Update $update): string {
                 if (json_decode($update->getData(), true)['type'] === 'snackbar') {
-                    self::assertEquals('{"type":"snackbar","message":"AA, 45689, Ldap, LdapUSer hat abgelehnt.","color":"danger"}', $update->getData());
+                    self::assertEquals('{"type":"snackbar","message":"AA, 45689, Ldap, LdapUSer hat abgelehnt.","color":"danger","closeAfter":2000}', $update->getData());
                     self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
                 }
                 if (json_decode($update->getData(), true)['type'] === 'refresh') {
@@ -89,7 +89,7 @@ class CalloutAPIRemoveServiceTest extends KernelTestCase
             new StaticTokenProvider('test'),
             function (Update $update): string {
                 if (json_decode($update->getData(), true)['type'] === 'snackbar') {
-                    self::assertEquals('{"type":"snackbar","message":"Fehler. Melden Sie sich bei Ihrem Support.","color":"danger"}', $update->getData());
+                    self::assertEquals('{"type":"snackbar","message":"Fehler. Melden Sie sich bei Ihrem Support.","color":"danger","closeAfter":2000}', $update->getData());
                     self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
                 }
                 if (json_decode($update->getData(), true)['type'] === 'refresh') {

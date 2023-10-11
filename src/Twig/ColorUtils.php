@@ -32,8 +32,7 @@ class ColorUtils extends AbstractExtension
     }
     public function color_lighten($color,$percent):string{
         try {
-
-            $hex = new Hex($color);
+            $hex = new Hex(trim($color));
             return $hex->brighten($percent);
         }catch (\Exception $exception){
             return $color;
