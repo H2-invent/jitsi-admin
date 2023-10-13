@@ -2,18 +2,25 @@
 
 namespace App\Service;
 
+use Psr\Log\LoggerInterface;
+
 class CheckIPService
 {
+    public function __construct(
+        private LoggerInterface $logger,
+    )
+    {
+    }
 
     function isIPInRange($ipToCheck, $ipRange): bool
     {
 
+        $this->logger->info($ipToCheck);
         if (!$ipRange) {
             return true;
         }
         // Aufteilen des Range-Strings in einzelne IPs und Ranges
         $rangeList = explode(',', $ipRange);
-
         foreach ($rangeList as $range) {
             // Zerlege die IP-Range in Netzwerk- und Subnetzmaske
             if (strpos($range, '/') !== false) {
@@ -32,15 +39,20 @@ class CheckIPService
                 $ipToCheckBinaryMasked = $ipToCheckBinary & $subnetMaskBinary;
 
                 // Vergleiche die Netzwerkteile
-                return $networkBinaryMasked === $ipToCheckBinaryMasked;
+                if ($networkBinaryMasked === $ipToCheckBinaryMasked) {
+                    return true;
+                };
             } else {
                 // Für einzelne IPs (Range ohne Subnetzmaske)
                 $ipToCheckBinary = inet_pton($ipToCheck);
                 $ipRangeBinary = inet_pton($range);
-
-                return $ipToCheckBinary === $ipRangeBinary;
+                if ($ipToCheckBinary === $ipRangeBinary) {
+                    return true;
+                }
             }
         }
+
+        $this->logger->error('blocked IP found', ['ip' => $ipToCheck]);
         return false;
     }
 
