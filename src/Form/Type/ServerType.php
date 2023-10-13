@@ -53,6 +53,11 @@ class ServerType extends AbstractType
             ->add('featureEnableByJWT', CheckboxType::class, ['required' => false, 'label' => 'label.featureEnalbeByJwt', 'help' => 'help.featureEnalbeByJwt', 'translation_domain' => 'form'])
             ->add('enforceE2e', CheckboxType::class, ['required' => false, 'label' => 'label.enforceE2e', 'help' => 'help.enforceE2e', 'translation_domain' => 'form'])
             ->add('disallowFirefox', CheckboxType::class, ['required' => false, 'label' => 'label.disallowFirefox', 'help' => 'help.disallowFirefox', 'translation_domain' => 'form'])
+            ->add('disableFilmstripe', CheckboxType::class, ['required' => false, 'label' => 'label.disableFilmstripe', 'help' => 'help.disableFilmstripe', 'translation_domain' => 'form'])
+            ->add('disableEtherpad', CheckboxType::class, ['required' => false, 'label' => 'label.disableEtherpad', 'help' => 'help.disableEtherpad', 'translation_domain' => 'form'])
+            ->add('disableWhiteboard', CheckboxType::class, ['required' => false, 'label' => 'label.disableWhiteboard', 'help' => 'help.disableWhiteboard', 'translation_domain' => 'form'])
+            ->add('disableChat', CheckboxType::class, ['required' => false, 'label' => 'label.disableChat', 'help' => 'help.disableChat', 'translation_domain' => 'form'])
+
             ->add('allowIp', TextType::class, ['required' => false, 'label' => 'label.allowIp', 'help' => 'help.allowIp', 'translation_domain' => 'form'])
 
             ->add(

@@ -56,7 +56,11 @@
 
 <div id="frame">
     {% if room.tag is not null %}
-        <p class="floating-tag {{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }}" id="tagContent"
+        <p class="floating-tag
+{{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }}
+{{ getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW')==1?'forceShow':'' }}
+
+" id="tagContent"
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
@@ -122,7 +126,7 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var websocketTopics = "{{ getJwtforWebsocket(['whiteboard/'~room.uidReal],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
-        var enforceE2Eencryption = {{ room.server.enforceE2E?'true':'false' }};
+
     </script>
 
 

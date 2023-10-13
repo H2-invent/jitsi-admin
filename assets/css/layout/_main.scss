@@ -766,6 +766,14 @@ strong {
   border-radius: 0 0 15px 0;
   top: 0;
   left: 0;
+  &:not(.forceShow){
+    transform: translateY(-110%);
+  }
+  transition: transform 0.2s ease-in;
+  &.show{
+    transform: translateY(0);
+  }
+
 }
 
 

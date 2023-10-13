@@ -238,7 +238,7 @@
             {% endif %}
             var topic ={{ mercure(topics)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
             var websocketTopics = "{{ getJwtforWebsocket(topics,app.user) }}";
-            var enforceE2Eencryption = {{ room.server.enforceE2E?'true':'false' }};
+
             var showTagTransparent = {{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'true':'false' }};
         </script>
     {% endif %}
