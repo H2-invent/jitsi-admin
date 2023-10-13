@@ -21,6 +21,7 @@ class CheckIPService
         }
         // Aufteilen des Range-Strings in einzelne IPs und Ranges
         $rangeList = explode(',', $ipRange);
+        $ipToCheckBinary = inet_pton($ipToCheck);
         foreach ($rangeList as $range) {
             // Zerlege die IP-Range in Netzwerk- und Subnetzmaske
             if (strpos($range, '/') !== false) {
@@ -28,9 +29,9 @@ class CheckIPService
 
                 // Konvertiere die IP-Adressen und Subnetzmasken in binäre Darstellung
                 $networkBinary = inet_pton($network);
-                $ipToCheckBinary = inet_pton($ipToCheck);
+
                 if (!$ipToCheckBinary || !$networkBinary) {
-                    return false;
+                    break;
                 }
                 $subnetMaskBinary = pack('N', pow(2, 32) - pow(2, 32 - (int)$subnetMask));
 
@@ -44,7 +45,6 @@ class CheckIPService
                 };
             } else {
                 // Für einzelne IPs (Range ohne Subnetzmaske)
-                $ipToCheckBinary = inet_pton($ipToCheck);
                 $ipRangeBinary = inet_pton($range);
                 if ($ipToCheckBinary === $ipRangeBinary) {
                     return true;
