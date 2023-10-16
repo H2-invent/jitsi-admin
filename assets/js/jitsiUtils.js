@@ -10,7 +10,7 @@ import {initStartWhiteboard} from "./startWhiteboard";
 import {showPlayPause} from "./moderatorIframe";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
-import {createCameraChangeButton, initSocialIcons} from "./createSocialButtons";
+import {ConferenceUtils} from "./ConferenceUtils";
 
 global.$ = global.jQuery = $;
 
@@ -32,6 +32,7 @@ var jitsiErrorController;
 var myId = null;
 var roomName = null;
 var isBreakout = null;
+var conferenceUtils;
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
@@ -39,6 +40,9 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     microphoneLabel = micId;
     cameraLable = videoId;
     api = new JitsiMeetExternalAPI(domain, options);
+    conferenceUtils = new ConferenceUtils(api);
+    conferenceUtils.initConferencePreJoin();
+
     if (typeof options.userInfo.avatarUrl !== 'undefined'){
         avatarUrl = options.userInfo.avatarUrl;
     }
@@ -83,7 +87,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
-        initSocialIcons(api);
+        conferenceUtils.initConferencePostJoin();
         api.executeCommand('avatarUrl', avatarUrl);
         myId = e.id;
         roomName = e.roomName;

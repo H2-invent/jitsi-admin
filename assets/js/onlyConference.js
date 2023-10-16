@@ -8,7 +8,6 @@ import {initStartIframe} from "./createConference";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
 import {checkFirefox} from "./checkFirefox";
-import {initSocialIcons} from "./createSocialButtons";
 import {ConferenceUtils} from "./ConferenceUtils";
 
 var frameId;
@@ -44,7 +43,6 @@ api.addListener('videoConferenceJoined', function (e) {
     enterMeeting();
     initStartWhiteboard();
     showPlayPause();
-    initSocialIcons(api);
     joined = true;
     myId = e.id;
     roomName = e.roomName;

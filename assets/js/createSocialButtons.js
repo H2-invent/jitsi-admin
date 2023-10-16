@@ -4,7 +4,6 @@ var gDevices;
 export function initSocialIcons(api) {
     createSocialBox();
     createCameraChangeButton(api);
-    inviteParticipantsToggle();
 }
 
 function createCameraChangeButton(api) {
@@ -31,22 +30,6 @@ function createCameraChangeButton(api) {
         }
     })
 
-}
-function inviteParticipantsToggle() {
-    var inviteBtn = document.getElementById('inviteButtonOpenRoom');
-    if (inviteBtn){
-        var closeBtn = document.getElementById('inviteButtonOpenRoomClose');
-        inviteBtn.addEventListener('click',toggleInviteConten)
-        closeBtn.addEventListener('click',toggleInviteConten)
-    }
-}
-function toggleInviteConten(ele) {
-    var content = document.getElementById('inviteButtonOpenRoomContent');
-    if (content.classList.contains('show')){
-        content.classList.remove('show');
-    }else {
-        content.classList.add('show');
-    }
 }
 
 function createSocialBox() {

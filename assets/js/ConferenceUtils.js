@@ -1,5 +1,6 @@
-import {api} from "./jitsiUtils";
 
+import {initSocialIcons} from "./createSocialButtons";
+import {api} from "./jitsiUtils";
 class ConferenceUtils {
 
     api = null;
@@ -11,6 +12,7 @@ class ConferenceUtils {
     constructor(api) {
         this.api = api;
 
+
     }
 
     initConferencePreJoin() {
@@ -18,7 +20,34 @@ class ConferenceUtils {
         this.removeEtherpad();
         this.initChatToggle();
         this.initMoveButton();
+        this.inviteParticipantsToggle()
+
     }
+
+    initMoveButton(){
+        var sidebar = this.sidebar
+        var timeout = this.sidebarTimeout
+        var floatingTag = this.floatingTag;
+        this.api.addEventListener("mouseMove", (event) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                sidebar.classList.remove('show');
+                if (floatingTag){
+                    floatingTag.classList.remove('show')
+                }
+
+            },3000);
+            sidebar.classList.add('show');
+            if (floatingTag){
+                floatingTag.classList.add('show')
+            }
+
+        });
+        this.sidebar.addEventListener('mouseover',function () {
+            clearTimeout(timeout);
+        })
+    }
+
 
     initConferencePostJoin() {
         if (typeof disableFilmstrip !== 'undefined') {
@@ -29,7 +58,7 @@ class ConferenceUtils {
             }
         }
         this.setE2EDefault();
-
+        initSocialIcons(this.api);
     }
 
     toggleFilmstrip() {
@@ -93,22 +122,23 @@ class ConferenceUtils {
             });
         }
     }
-    initMoveButton(){
-        var sidebar = this.sidebar
-        var timeout = this.sidebarTimeout
-        var floatingTag = this.floatingTag;
-        this.api.addEventListener("mouseMove", (event) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                sidebar.classList.remove('show');
-                floatingTag.classList.remove('show')
-            },3000);
-            sidebar.classList.add('show');
-            floatingTag.classList.add('show')
-        });
-        this.sidebar.addEventListener('mouseover',function () {
-            clearTimeout(timeout);
-        })
+
+
+     inviteParticipantsToggle() {
+        var inviteBtn = document.getElementById('inviteButtonOpenRoom');
+        if (inviteBtn){
+            var closeBtn = document.getElementById('inviteButtonOpenRoomClose');
+            inviteBtn.addEventListener('click',this.toggleInviteContent)
+            closeBtn.addEventListener('click',this.toggleInviteContent)
+        }
+    }
+     toggleInviteContent(ele) {
+        var content = document.getElementById('inviteButtonOpenRoomContent');
+        if (content.classList.contains('show')){
+            content.classList.remove('show');
+        }else {
+            content.classList.add('show');
+        }
     }
 }
 

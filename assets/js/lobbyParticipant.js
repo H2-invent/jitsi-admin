@@ -22,6 +22,7 @@ import {checkDeviceinList} from './jitsiUtils'
 import {jitsiController} from "./pauseJitsi";
 import {initSocialIcons} from "./createSocialButtons";
 import {moveTag} from "./moveTag";
+import {ConferenceUtils} from "./ConferenceUtils";
 
 import ('jquery-confirm');
 
@@ -53,7 +54,7 @@ var microphoneLabel = null;
 var cameraLable = null;
 var displayName = null;
 var avatarUrl = null;
-
+let conferenceUtils= null;
 function initMercure() {
 
     socket.on('mercure', function (inData) {
@@ -157,6 +158,8 @@ function initJitsiMeet(data) {
         displayName = options.userInfo.displayName;
     }
     api = new JitsiMeetExternalAPI(data.options.domain, options);
+    conferenceUtils = new ConferenceUtils(api);
+    conferenceUtils.initConferencePreJoin();
     api.addListener('chatUpdated', function (e) {
         if (e.isOpen == true) {
             document.querySelector('#logo_image').classList.add('transparent');
@@ -170,7 +173,7 @@ function initJitsiMeet(data) {
         enterMeeting();
         initStartWhiteboard();
         showPlayPause();
-        initSocialIcons(api);
+        conferenceUtils.initConferencePostJoin();
         var pauseController = new jitsiController(api,displayName,avatarUrl);
         window.onbeforeunload = function (e) {
             return 'Do you really want to leave this conference';
