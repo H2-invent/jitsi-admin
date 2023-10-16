@@ -104,12 +104,6 @@ strong {
   display: flex;
   position: relative;
 
-  &:hover, :active {
-    > .content {
-      position: absolute;
-      transform: translateX(0%);
-    }
-  }
 
   .content {
     position: absolute;
@@ -117,9 +111,20 @@ strong {
     background-color: $black_background;
     color: $black_font-color;
     padding: 1.5em;
-    transform: translateX(-100%);
-    transition: ease-in transform 0.5s;
-
+    transform: translateX(-110%);
+    transition: ease-in transform 0.2s;
+    min-width: max-content;
+    max-width: 100%;
+    &.show {
+      transform: translateX(0)!important;
+    }
+    .close{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 8px;
+      cursor: pointer;
+    }
     p {
       color: $black_font-color;
     }
