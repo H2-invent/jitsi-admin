@@ -100,7 +100,7 @@ class ParticipantSearchService
     {
         try {
             if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))) {
-                $inputArr['roles'] = $this->filterRole($inputArr['roles'], 'moderator');
+                $inputArr['roles'] = $this->removeRoleFromArray($inputArr['roles'], 'moderator');
             }
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
@@ -108,7 +108,7 @@ class ParticipantSearchService
         return $inputArr;
     }
 
-    public function filterRole($inputArr, $role)
+    public function removeRoleFromArray($inputArr, $role)
     {
         return \array_filter(
             $inputArr,
