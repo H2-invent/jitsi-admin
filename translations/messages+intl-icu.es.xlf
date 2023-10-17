@@ -2225,51 +2225,51 @@
       </trans-unit>
       <trans-unit id="vR9_UxK" resname="error.scheduler.noSchedules">
         <source>error.scheduler.noSchedules</source>
-        <target state="needs-translation">Fehler, es gibt noch keine Terminvorschläge.</target>
+        <target state="translated">Error, aún no hay fechas sugeridas.</target>
       </trans-unit>
       <trans-unit id="AM3ZcR5" resname="error.scheduler.novotings">
         <source>error.scheduler.novotings</source>
-        <target state="needs-translation">Fehler, es wurde noch nicht abgestimmt.</target>
+        <target state="translated">Error, aún no se ha votado.</target>
       </trans-unit>
       <trans-unit id="AjtdRhx" resname="help.ical.Link">
         <source>help.ical.Link</source>
-        <target state="needs-translation">Was ist ein iCal Link</target>
+        <target state="translated">¿Qué es un enlace iCal?</target>
       </trans-unit>
       <trans-unit id="qmgq88Z" resname="error.internalError">
         <source>error.internalError</source>
-        <target state="needs-translation">Interner Fehler</target>
+        <target state="translated">Error interno</target>
       </trans-unit>
       <trans-unit id="86U7jr0" resname="rooms.help.setmaxparticipantsHardLimit">
         <source>rooms.help.setmaxparticipantsHardLimit</source>
-        <target state="needs-translation">Anzahl an Teilnehmenden, die der Konferenz beitreten können. Diese Zahl ist ein hartes Limit. Ist die maximale Anzahl an Teilnehmenden erreicht, können keine weiteren Teilnehmenden mehr beitreten, auch wenn die Teilnehmenden eingeladen worden sind.</target>
+        <target state="translated">Número de participantes que pueden unirse a la conferencia. Este número es un límite estricto. Una vez que se haya alcanzado el número máximo de participantes, no podrán unirse más participantes, incluso si los participantes han sido invitados.</target>
       </trans-unit>
       <trans-unit id="q5u2qJm" resname="room.option.sendProtokoll.question">
         <source>room.option.sendProtokoll.question</source>
-        <target state="needs-translation">Wollen Sie das Protokoll wirklich an alle Teilnehmenden versenden?</target>
+        <target state="translated">¿Realmente quieres enviar las actas a todos los participantes?</target>
       </trans-unit>
       <trans-unit id="vh43kpV" resname="room.option.sendProtokoll.button">
         <source>room.option.sendProtokoll.button</source>
-        <target state="needs-translation">Protokoll versenden</target>
+        <target state="translated">Enviar registro</target>
       </trans-unit>
       <trans-unit id="ory.RAy" resname="room.error.noAccessAllowed">
         <source>room.error.noAccessAllowed</source>
-        <target state="needs-translation">Zugriff nicht erlaubt</target>
+        <target state="translated">Acceso no permitido</target>
       </trans-unit>
       <trans-unit id="SSvsvcv" resname="room.error.noAccessAllowedIP">
         <source>room.error.noAccessAllowedIP</source>
-        <target state="needs-translation">Sie dürfen dieser Konferenz mit Ihrer IP-Adresse nicht beitreten. Bitte kontaktieren Sie ihren Support.</target>
+        <target state="translated">No puede unirse a esta conferencia utilizando su dirección IP. Por favor contacte a su soporte.</target>
       </trans-unit>
       <trans-unit id="Aa9UREO" resname="room.error.noAccessAllowedToManyParticipants">
         <source>room.error.noAccessAllowedToManyParticipants</source>
-        <target state="needs-translation">Zu viele Teilnehmenden</target>
+        <target state="translated">Demasiados participantes</target>
       </trans-unit>
       <trans-unit id="HXqNNC9" resname="room.error.noAccessAllowedToManyParticipantsText">
         <source>room.error.noAccessAllowedToManyParticipantsText</source>
-        <target state="needs-translation">Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk</target>
+        <target state="translated">Se ha alcanzado el límite máximo de participantes en esta conferencia. Inténtalo de nuevo más tarde o ponte en contacto con tu servicio de asistencia técnica</target>
       </trans-unit>
       <trans-unit id="rml7Shn" resname="enterprise.settings.header.tags">
         <source>Auswählbare Kategorien</source>
-        <target state="needs-translation">Auswählbare Kategorien</target>
+        <target state="translated">Categorías seleccionables</target>
       </trans-unit>
     </body>
   </file>
