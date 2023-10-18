@@ -19,8 +19,7 @@ class ConferenceUtils {
         this.removeEtherpad();
         this.initChatToggle();
         this.initMoveButton();
-        this.inviteParticipantsToggle()
-        this.sendColorToMultiframe()
+        this.inviteParticipantsToggle();
     }
 
     initMoveButton(){

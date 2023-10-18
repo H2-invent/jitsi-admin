@@ -11,7 +11,7 @@
   
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
+  box-shadow: $card-box-shadow-3dp;
   overflow: hidden;
 
   &:not(.maximized,.minified) {
