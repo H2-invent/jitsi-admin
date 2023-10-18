@@ -26,6 +26,12 @@ function initModeratorIframe(closeFkt, jitsiController = null) {
             }
         }
     });
+    var floatingTag = document.getElementById('tagContent');
+    if (!floatingTag) {
+        return;
+    }
+    var color = floatingTag.style.backgroundColor;
+    sendBorderColorToMultiframe(color);
 }
 
 function close(frameIdTmp) {
@@ -67,6 +73,18 @@ function showPlayPause() {
         }
     }
 }
+function sendBorderColorToMultiframe(color) {
+    if (inIframe()) {
+
+            const message = JSON.stringify({
+                type: 'colorBorder',
+                color: color,
+                url: window.location.href,
+            });
+            window.parent.postMessage(message, '*');
+
+    }
+}
 
 function inIframe() {
     try {
@@ -76,4 +94,4 @@ function inIframe() {
     }
 }
 
-export {initModeratorIframe, close, showPlayPause, inIframe}
+export {initModeratorIframe, close, showPlayPause, inIframe,sendBorderColorToMultiframe}

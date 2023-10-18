@@ -1,6 +1,5 @@
 
 import {initSocialIcons} from "./createSocialButtons";
-import {api} from "./jitsiUtils";
 class ConferenceUtils {
 
     api = null;
@@ -21,7 +20,7 @@ class ConferenceUtils {
         this.initChatToggle();
         this.initMoveButton();
         this.inviteParticipantsToggle()
-
+        this.sendColorToMultiframe()
     }
 
     initMoveButton(){
@@ -140,6 +139,7 @@ class ConferenceUtils {
             content.classList.add('show');
         }
     }
+
 }
 
 export {ConferenceUtils}

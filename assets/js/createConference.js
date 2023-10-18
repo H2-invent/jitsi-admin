@@ -20,6 +20,7 @@ let tryfullscreen = null;
 let startTransform = null;
 let messageTimeout = {};
 let closingTimeout = {};
+let multiframes = {};
 
 function initStartIframe() {
 
@@ -50,7 +51,7 @@ function initStartIframe() {
         const data = e.data;
         // If you encode the message in JSON before sending them,
         // then decode here
-        recievecommand(data)
+        recievecommand(data, e)
     });
 
     addEventListener('resize', (event) => {
@@ -59,7 +60,7 @@ function initStartIframe() {
 }
 
 
-function recievecommand(data) {
+function recievecommand(data, event) {
     let decoded;
     try {
         decoded = JSON.parse(data);
@@ -68,6 +69,9 @@ function recievecommand(data) {
     }
 
     const type = decoded.type
+    if (decoded.url){
+        var multiframe = multiframes[decoded.url];
+    }
 
     if (type === 'closeMe') {
         clearTimeout(closingTimeout[decoded.frameId]);
@@ -87,6 +91,11 @@ function recievecommand(data) {
         frame.dataset.muted = 0;
         frame.querySelector('.pauseConference').classList.remove('d-none');
         checkIfIsMutable(frame);
+    } else if (type === 'colorBorder') {
+        if (multiframe){
+            multiframe.style.borderColor = decoded.color;
+        }
+
     } else if (type === 'ack') {
         var messageId = decoded.messageId
         clearTimeout(messageTimeout[messageId]);
@@ -127,46 +136,49 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
         '</div> ';
 
     var site = url;
+
     if (document.getElementById('window')) {
         document.getElementById('window').insertAdjacentHTML('beforeend', html);
     } else {
         document.querySelector('body').insertAdjacentHTML('beforeend', html);
     }
     $('[data-mdb-toggle="tooltip"]').tooltip();
-    document.getElementById('jitsiadminiframe' + random).style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
-    document.getElementById('jitsiadminiframe' + random).style.width = width + 'px';
-    document.getElementById('jitsiadminiframe' + random).style.height = height + 'px';
-    document.getElementById('jitsiadminiframe' + random).style.zIndex = zindex++;
-    document.getElementById('jitsiadminiframe' + random).querySelector('iframe').src = site;
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').dataset.maximal = "0";
-    document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
-    document.getElementById('jitsiadminiframe' + random).addEventListener('dblclick', function (e) {
+    var multiframe = document.getElementById('jitsiadminiframe' + random)
+    multiframes[site] = multiframe;
+    multiframe.style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
+    multiframe.style.width = width + 'px';
+    multiframe.style.height = height + 'px';
+    multiframe.style.zIndex = zindex++;
+    multiframe.querySelector('iframe').src = site;
+    multiframe.querySelector('.button-maximize').dataset.maximal = "0";
+    multiframe.querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
+    multiframe.addEventListener('dblclick', function (e) {
         toggleMaximize(e);
     })
-    document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
+    multiframe.querySelector('.closer').addEventListener('click', function (e) {
         e.stopPropagation();
-        closeFrame(e, closeIntelligent);
+        closeFrame(e);
 
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
+    multiframe.querySelector('.minimize').addEventListener('click', function (e) {
         e.stopPropagation();
         minimizeFrame(e)
         removeInteraction();
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.pauseConference').addEventListener('click', function (e) {
+    multiframe.querySelector('.pauseConference').addEventListener('click', function (e) {
         e.stopPropagation();
         pauseIframe(e);
     })
 
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-fullscreen').addEventListener('click', function (e) {
+    multiframe.querySelector('.button-fullscreen').addEventListener('click', function (e) {
         e.stopPropagation();
         fulscreenWindow(e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe'));
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
+    multiframe.querySelector('.button-maximize').addEventListener('click', function (e) {
         e.stopPropagation();
 
         prepareMaximize(e);
@@ -174,19 +186,17 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
         removeInteraction();
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-restore').addEventListener('click', function (e) {
+    multiframe.querySelector('.button-restore').addEventListener('click', function (e) {
         restoreWindow(e);
         removeInteraction();
     });
 
-    document.getElementById('jitsiadminiframe' + random).addEventListener('click', function (e) {
+    multiframe.addEventListener('click', function (e) {
         moveInForeground(event.currentTarget);
     })
-    if (closeIntelligent) {
-        setTimeout(function () {
-            sendCommand('jitsiadminiframe' + random, {type: 'init'});
-        }, 7000)
-    }
+    setTimeout(function () {
+        sendCommand('jitsiadminiframe' + random, {type: 'init'});
+    }, 7000)
     counter += 40;
     if (startMaximized) {
         if (getCookie('startMaximized') && getCookie('startMaximized') == 1) {
@@ -322,7 +332,6 @@ function sendCommand(id, message) {
 function closeWhenNoAck(messageId) {
     closeIframe(messages[messageId]);
 }
-
 
 
 function closeIframe(id) {
