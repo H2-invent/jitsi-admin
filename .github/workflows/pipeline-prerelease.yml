@@ -1,4 +1,4 @@
-name: Create Release
+name: Create Pre-Release
 env:
   GITHUB_TOKEN: ${{ secrets.token }}
 
@@ -13,10 +13,11 @@ jobs:
 
   test:
     uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    needs:
+      - artifact
 
   create_release:
     needs:
-      - artifact
       - test
     runs-on: ubuntu-latest
     steps:
