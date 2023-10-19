@@ -52,6 +52,7 @@ class SystemRepairCommand extends Command
 
         foreach ($user as $u) {
             $this->repairEmail(user: $u);
+            $this->repairUsername(user: $u);
         }
         $this->em->flush();
         $this->findDoubleEmail();
@@ -103,7 +104,7 @@ class SystemRepairCommand extends Command
     private function repairEmail(User $user)
     {
         $emailOrg = $user->getEmail();
-        $email = rtrim($user->getEmail());
+        $email = trim($user->getEmail());
 
         if ($email !== $emailOrg) {
             $this->io->info(sprintf('-------%s was corrupt--------', $email));
@@ -113,6 +114,21 @@ class SystemRepairCommand extends Command
             $this->em->persist($user);
         }
     }
+
+    private function repairUsername(User $user)
+    {
+        $usernameOrg = $user->getEmail();
+        $username = trim($user->getEmail());
+
+        if ($username !== $usernameOrg) {
+            $this->io->info(sprintf('-------%s was corrupt--------', $username));
+
+            fwrite($this->logFileFile, sprintf('Email with newline found %s in user id %d' . PHP_EOL, $username, $user->getId()));
+            $user->setUsername(username: $username);
+            $this->em->persist($user);
+        }
+    }
+
 
     private function findDoubleEmail()
     {
