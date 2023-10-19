@@ -35,7 +35,7 @@
                     {% if getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE')|length > 0 %}
 
                             {% for key,filter in  getApplicationProperties('LAF_ADDRESSBOOK_CHECKBOX_LABEL_2_VALUE') %}
-                                <li>
+                                <li class="adressBookFilterLine">
                                     <a class="dropdown-item" href="#">
                                         <div class="form-check">
                                         <input class="form-check-input adressBookFilter" type="checkbox" checked="checked"
@@ -46,7 +46,7 @@
                                     </li>
                             {% endfor %}
                     {% endif %}
-                    <li>
+                    <li class="adressBookFilterLine">
                         <a class="dropdown-item" href="#">
                             <div class="form-check">
                                 <input class="form-check-input adressBookFilter" data-filter='["online","away","inMeeting"]' type="checkbox" value="" id="addressbookFilterOnline" checked />
@@ -54,7 +54,7 @@
                             </div>
                         </a>
                     </li>
-                    <li>
+                    <li class="adressBookFilterLine">
                         <a class="dropdown-item" href="#">
                             <div class="form-check">
                                 <input class="form-check-input adressBookFilter" data-filter='["favorite"]' type="checkbox" value="" id="addressbookFilterFavorit" checked />

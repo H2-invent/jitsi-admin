@@ -92,6 +92,7 @@ help:
   disableChat: Chat in Jitsi deaktivieren und ausblenden
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
+
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Beitreten
