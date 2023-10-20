@@ -113,18 +113,21 @@ strong {
     padding: 1.5em;
     transform: translateX(-110%);
     transition: ease-in transform 0.2s;
-    min-width: max-content;
-    max-width: 100%;
+    width: 90vw;
+    max-width: 500px;
+
     &.show {
-      transform: translateX(0)!important;
+      transform: translateX(0) !important;
     }
-    .close{
+
+    .close {
       position: absolute;
       top: 0;
       right: 0;
       padding: 8px;
       cursor: pointer;
     }
+
     p {
       color: $black_font-color;
     }
@@ -158,6 +161,7 @@ strong {
     box-shadow: $card-box-shadow;
     transition: transform 0.2s ease-in;
     padding: 4px;
+
     &.show {
       transform: translateX(8px);
     }
@@ -167,6 +171,7 @@ strong {
       width: 100%;
       position: relative;
       border-radius: 6px;
+
       &:hover {
         background-color: lighten(rgb(20, 20, 20), 20);
 

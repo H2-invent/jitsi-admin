@@ -1,4 +1,3 @@
-
 import {initSocialIcons} from "./createSocialButtons";
 class ConferenceUtils {
 
@@ -20,6 +19,7 @@ class ConferenceUtils {
         this.initChatToggle();
         this.initMoveButton();
         this.inviteParticipantsToggle();
+
     }
 
     initMoveButton(){
