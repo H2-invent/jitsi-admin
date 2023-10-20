@@ -78,4 +78,6 @@ class ConferenceMapperCallerIdTest extends KernelTestCase
         self::assertEquals('ldapUser@local.de', $user->getEmail());
     }
 
+
+
 }
