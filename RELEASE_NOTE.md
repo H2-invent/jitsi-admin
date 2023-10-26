@@ -34,6 +34,13 @@
 - the lobby waiting room is closing now faster
 - Sending the protocoll button is now also available on series
 - fix special character in the SMTP password when using installDocker.sh file
+- Trim email when user is searched and added to the search result list
+- Send protocoll can be disabled
+- Fix iCal Database Bridge Bug
+- Fix IP-check to check all ips in the coma seperated list
+- Indexer remove all special characters in special fields
+- Search user by mobile phonenumber is not more robust
+- Remove newline and whitespace after email
 
 ## Discussion:
 We highly value your input and continuously strive to improve our application with each release. We invite you to join the discussion and share your ideas, suggestions, or any issues you've encountered in this new version. Your feedback is invaluable in helping us shape the future of our platform.
