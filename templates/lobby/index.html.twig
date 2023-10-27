@@ -116,8 +116,12 @@
                                 {% endif %}
                             {% endif %}
 
-                            <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
-                               href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                                <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
+                                   href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}
+                                </a>
+
+
+
 
                             <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
                                 <div class="input-group  w-100">
