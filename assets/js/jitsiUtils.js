@@ -67,14 +67,15 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         initStarSend();
         api = null;
         endMeeting();
+        var timeout = data.timeout?data.timeout:150000;
         if (window.opener == null) {
             setTimeout(function () {
                 window.location.href = data.url;
-            }, data.timeout)
+            }, timeout)
         } else {
             setTimeout(function () {
                 window.close();
-            }, data.timeout)
+            }, timeout)
         }
     });
 
@@ -156,6 +157,9 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 }
 
 function endMeeting() {
+    if (!api){
+        return false;
+    }
     participants = api.getParticipantsInfo();
     for (var i = 0; i < participants.length; i++) {
         if (api) {
