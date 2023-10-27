@@ -14,9 +14,6 @@ class ConferenceUtils {
     }
 
     initConferencePreJoin() {
-        this.removeWhiteboard();
-        this.removeEtherpad();
-        this.initChatToggle();
         this.initMoveButton();
         this.inviteParticipantsToggle();
 
@@ -57,6 +54,7 @@ class ConferenceUtils {
         }
         this.setE2EDefault();
         initSocialIcons(this.api);
+        this.initChatToggle();
     }
 
     toggleFilmstrip() {
@@ -99,6 +97,10 @@ class ConferenceUtils {
 
     initChatToggle() {
         var api = this.api;
+        this.chatBtn = document.getElementById('externalChat');
+        if (!this.chatBtn){
+            return false;
+        }
         var filterDot = this.chatBtn.querySelector('.filter-dot');
         var chatBtn = this.chatBtn
         if (this.chatBtn) {
