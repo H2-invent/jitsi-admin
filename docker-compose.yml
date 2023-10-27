@@ -47,7 +47,7 @@ services:
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
-      - "traefik.http.routers.traefik-ja.rule=Host(`${PUBLIC_URL}`)&& PathPrefix(`/traefik`)"
+      - "traefik.http.routers.traefik-ja.rule=Host(`traefik.${PUBLIC_URL}`)"
       - "traefik.http.routers.traefik-ja.entrypoints=web"
       - "traefik.http.routers.traefik-ja.tls.certresolver=letsencrypt"
       - "traefik.http.routers.traefik-ja.service=api@internal"
