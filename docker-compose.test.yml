@@ -96,7 +96,6 @@ services:
       - image_upload:/var/www/html/public/uploads/images
       - theme_data:/var/www/html/theme
       - theme_assests_data:/var/www/html/public/theme
-      - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
   db-ja:
     image: mariadb:latest

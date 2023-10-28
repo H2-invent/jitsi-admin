@@ -2,6 +2,12 @@ FROM thecodingmachine/php:8.2-v4-apache-node18
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV COMPOSER_MEMORY_LIMIT=-1
+ENV STARTUP_COMMAND_1="bin/console cache:clear"
+ENV STARTUP_COMMAND_2="bin/console doctrine:mig:mig --no-interaction"
+ENV STARTUP_COMMAND_3="bin/console app:system:repair"
+ENV STARTUP_COMMAND_4="bin/console cache:clear"
+ENV STARTUP_COMMAND_5="bin/console cache:warmup"
+
 ENV TZ=Europe/Berlin
 USER root
 RUN usermod -a -G www-data docker
