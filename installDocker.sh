@@ -122,7 +122,6 @@ export registerEmailAdress=$smtpFrom
 RANDOMTAG=$(date +%s | sha256sum | base64 | head -c 10);
 export RANDOMTAG
 
-chmod +x dockerupdate.sh
 
 if [ "$ENVIRONMENT" == 'dev' ]; then
   docker-compose -f docker-compose.test.yml build
