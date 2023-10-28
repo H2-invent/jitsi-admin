@@ -42,6 +42,7 @@ initSendMessage();
 function checkCloseModerator() {
     echoOff();//echo ausschalten wenn ncoh an
     stopWebcam();//Webcam auschalten
+
     var res = askHangup();//prüfen ob der Teilenhmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
     if (!res) {//wenn nciht neachgefragt werden muss (Der Teilnehmer ist noch nicht in der Konferenz, sondern erst in der lobby)
         closeIframe(); // sende ein LEavmeeting an den Websocket und sende ein CloaseMe an das Parent
@@ -87,7 +88,6 @@ $('.startJitsiIframe').click(function (e) {
     $('#jitsiWindow').find('iframe').css('height', '100%');
     window.scrollTo(0, 1)
     initDragDragger();
-    initSearchCallOut();
     document.querySelector('body').classList.add('touchactionNone');
     // document.getElementsByTagName('body').style.width='100%';
 

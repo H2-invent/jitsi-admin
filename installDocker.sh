@@ -63,7 +63,7 @@ fi
   read -p "Enter smtp password [$smtpPassword]: " input
   smtpPassword=${input:=$smtpPassword}
   sed -i '/smtpPassword/d' $FILE
-  echo "smtpPassword=$smtpPassword" >> $FILE
+  echo "smtpPassword='$smtpPassword'" >> $FILE
 
 
   smtpEncryption=${smtpEncryption:=none}
@@ -137,7 +137,7 @@ fi
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 printf "Browse to ${RED}%s://%s${NC} and visit your own jitsi-admin\n" $HTTP_METHOD $PUBLIC_URL
-printf "To change any keycloak setting browse to${RED} %s://keycloak.%s${NC} and there the username is:admin and the password %s\n" $HTTP_METHOD $PUBLIC_URL $KEYCLOAK_ADMIN_PW
+printf "To change any keycloak setting browse to${RED} %s://%s${NC}/keycloak and there the username is: admin and the password: %s\n" $HTTP_METHOD $PUBLIC_URL $KEYCLOAK_ADMIN_PW
 printf "Any settings and password can be found in the ${RED}docker.conf${NC} file\n"
-printf "To find your loadbalancer go to ${RED}%s://traefik.%s${NC} and enter the user:test and the password:test\n" $HTTP_METHOD $PUBLIC_URL
+printf "To find your loadbalancer go to ${RED}%s://%s${NC}/traefik and enter the user: test and the password: test\n" $HTTP_METHOD $PUBLIC_URL
 printf "Have fun with your jitsi-admin and give us a star on github. https://github.com/H2-invent/jitsi-admin\n"

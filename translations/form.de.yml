@@ -88,6 +88,11 @@ help:
   enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
   allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
   jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
+  disableFilmstripe: Filmstripe in Jitsi deaktivieren
+  disableChat: Chat in Jitsi deaktivieren und ausblenden
+  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
+  disableEtherpad: Etherpad während einer Konferenz deaktivieren
+
 label:
   beitretenApp: Mit der Elektron-App beitreten
   beitretenBrowser: Beitreten
@@ -153,6 +158,10 @@ label:
   allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
   maxUser: Maximal Anzahl an Teilnehmenden
   jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
+  disableFilmstripe: Filmstrip deaktivieren
+  disableChat: Chat deaktivieren
+  disableWhiteboard: Whiteboard deaktivieren
+  disableEtherpad: Etherpad deaktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

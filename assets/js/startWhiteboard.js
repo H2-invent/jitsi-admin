@@ -31,7 +31,7 @@ export function initStartWhiteboard() {
                 });
                 window.parent.postMessage(parentMessage, '*');
             } else {
-                createIframe(selfurl, document.title, false, false);
+                createIframe(selfurl, document.title,  false);
             }
         })
     }

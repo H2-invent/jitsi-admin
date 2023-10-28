@@ -59,7 +59,7 @@ class ManifestController extends JitsiAdminController
             "display" => "standalone",
             "background_color" => $backgroundColor ? : '#2561ef',
             "theme_color" => $backgroundColor ? : '#2561ef',
-            "orientation" => "portrait"
+            "orientation" => "any"
         ];
 
         return new JsonResponse($res);

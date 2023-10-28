@@ -56,12 +56,15 @@
                 <i class="fa fa-envelope"></i>
                 {{ 'Mail an die Teilnehmer'|trans }}</a></li>
     {% endif %}
-<li>
-    <a href="{{ path('app_send_summary',{'id':room.id}) }}"
-       class=" dropdown-item confirmHref" data-text="{{ 'room.option.sendProtokoll.question'|trans }}">
-    <i class="fas fa-solid fa-paper-plane"></i>{{ 'room.option.sendProtokoll.button'|trans }}
-    </a>
-</li>
+
+  {% if getApplicationProperties('DROPDOWN_SETTINGS_SEND_PROTOCOLL') == 1 %}
+      <li>
+          <a href="{{ path('app_send_summary',{'id':room.id}) }}"
+             class=" dropdown-item confirmHref" data-text="{{ 'room.option.sendProtokoll.question'|trans }}">
+              <i class="fas fa-solid fa-paper-plane"></i>{{ 'room.option.sendProtokoll.button'|trans }}
+          </a>
+      </li>
+  {% endif %}
 
 
 

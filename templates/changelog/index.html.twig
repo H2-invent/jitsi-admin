@@ -4,7 +4,42 @@
 
 {% block content %}
     <div class="row markdown">
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.77.6',
+                'bugfix':'
+- Remove newline and whitespace after email
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.77.5',
+                'bugfix':'
+- Indexer remove all special characters in special fields
+- Search user by mobile phonenumber is not more robust
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.77.4',
+                'bugfix':'
+- Fix iCal Database Bridge Bug
+- Fix IP-check to check all ips in the coma seperated list
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.77.3',
+                'bugfix':'
+- Sending the protocoll button is now also available on series
+- fix special character in the SMTP password when using installDocker.sh file
+'}) }}
+{{ include('changelog/__entry.html.twig',
+            {'version':'0.77.2',
+                'bugfix':'
+- Phone popover is now staying open until the user clicks the phone icon again
+- the lobby waiting room is closing now faster
+'}) }}
 
+{{ include('changelog/__entry.html.twig',
+            {'version':'0.77.1',
+                'bugfix':'
+- Sending the protocoll button is now also available on series
+- fix special character in the SMTP password when using installDocker.sh file
+'}) }}
         {{ include('changelog/__entry.html.twig',
             {'version':'0.77.0',
                 'whatsNew':'

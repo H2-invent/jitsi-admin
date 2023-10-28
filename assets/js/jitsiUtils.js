@@ -10,7 +10,7 @@ import {initStartWhiteboard} from "./startWhiteboard";
 import {showPlayPause} from "./moderatorIframe";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
-import {createCameraChangeButton, initSocialIcons} from "./createSocialButtons";
+import {ConferenceUtils} from "./ConferenceUtils";
 
 global.$ = global.jQuery = $;
 
@@ -32,6 +32,7 @@ var jitsiErrorController;
 var myId = null;
 var roomName = null;
 var isBreakout = null;
+var conferenceUtils;
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
@@ -39,6 +40,9 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     microphoneLabel = micId;
     cameraLable = videoId;
     api = new JitsiMeetExternalAPI(domain, options);
+    conferenceUtils = new ConferenceUtils(api);
+    conferenceUtils.initConferencePreJoin();
+
     if (typeof options.userInfo.avatarUrl !== 'undefined'){
         avatarUrl = options.userInfo.avatarUrl;
     }
@@ -63,14 +67,15 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
         initStarSend();
         api = null;
         endMeeting();
+        var timeout = data.timeout?data.timeout:150000;
         if (window.opener == null) {
             setTimeout(function () {
                 window.location.href = data.url;
-            }, data.timeout)
+            }, timeout)
         } else {
             setTimeout(function () {
                 window.close();
-            }, data.timeout)
+            }, timeout)
         }
     });
 
@@ -83,7 +88,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
-        initSocialIcons(api);
+        conferenceUtils.initConferencePostJoin();
         api.executeCommand('avatarUrl', avatarUrl);
         myId = e.id;
         roomName = e.roomName;
@@ -152,6 +157,9 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 }
 
 function endMeeting() {
+    if (!api){
+        return false;
+    }
     participants = api.getParticipantsInfo();
     for (var i = 0; i < participants.length; i++) {
         if (api) {

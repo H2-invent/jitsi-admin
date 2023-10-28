@@ -175,7 +175,7 @@ class CalloutHoldApiFromRingingServiceTest extends KernelTestCase
             new StaticTokenProvider('test'),
             function (Update $update): string {
                 if (json_decode($update->getData(), true)['type'] === 'snackbar') {
-                    self::assertEquals('{"type":"snackbar","message":"testmessage","color":"info"}', $update->getData());
+                    self::assertEquals('{"type":"snackbar","message":"testmessage","color":"info","closeAfter":2000}', $update->getData());
                     self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
                 }
                 if (json_decode($update->getData(), true)['type'] === 'refresh') {
@@ -236,7 +236,7 @@ class CalloutHoldApiFromRingingServiceTest extends KernelTestCase
             new StaticTokenProvider('test'),
             function (Update $update): string {
 
-                self::assertEquals('{"type":"snackbar","message":"testmessage123","color":"info"}', $update->getData());
+                self::assertEquals('{"type":"snackbar","message":"testmessage123","color":"info","closeAfter":2000}', $update->getData());
                 self::assertEquals(['lobby_moderator/9876543210'], $update->getTopics());
 
                 return 'id';

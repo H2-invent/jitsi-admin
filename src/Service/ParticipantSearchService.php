@@ -39,7 +39,7 @@ class ParticipantSearchService
         if (sizeof($user) === 0) {
             $res[] = [
                 'name' => $searchString,
-                'id' => $searchString,
+                'id' => trim($searchString),
                 'nameNoIcon' => $searchString,
                 'roles' => ['participant', 'moderator']
             ];
@@ -49,7 +49,7 @@ class ParticipantSearchService
                     'name' => $this->buildShowInFrontendString($data),
                     'nameNoIcon' => $this->buildShowInFrontendStringNoString($data),
                     'uid' => $data->getUid(),
-                    'id' => $data->getUsername(),
+                    'id' => trim($data->getUsername()),
                     'roles' => ['participant', 'moderator']
                 ];
                 $this->filterForModerator($data, $tmp);
@@ -67,7 +67,7 @@ class ParticipantSearchService
             $tmpUser = [];
             $tmp['name'] = $data->getName();
             foreach ($data->getMember() as $m) {
-                $tmpUser[] = $m->getUsername();
+                $tmpUser[] = trim($m->getUsername());
             }
             $tmp['user'] = implode("\n", $tmpUser);
             $res[] = $tmp;
@@ -100,7 +100,7 @@ class ParticipantSearchService
     {
         try {
             if ($user->getLdapUserProperties() && in_array($user->getLdapUserProperties()->getLdapNumber(), $this->themeService->getApplicationProperties('LDAP_DISALLOW_PROMOTE'))) {
-                $inputArr['roles'] = $this->filterRole($inputArr['roles'], 'moderator');
+                $inputArr['roles'] = $this->removeRoleFromArray($inputArr['roles'], 'moderator');
             }
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
@@ -108,7 +108,7 @@ class ParticipantSearchService
         return $inputArr;
     }
 
-    public function filterRole($inputArr, $role)
+    public function removeRoleFromArray($inputArr, $role)
     {
         return \array_filter(
             $inputArr,
