@@ -149,5 +149,3 @@ For Version 0.73 or later the update instruction is described in the file
 [Update instruction 0.73.x to 0.74.x](update_instruction_0.73.x...0.74.x.md)
 [Update instruction 0.72.x to 0.73.x](update_instruction_0.72.x...0.73.x.md)
 
-
-
