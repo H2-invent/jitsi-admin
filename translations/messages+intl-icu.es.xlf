@@ -2268,8 +2268,12 @@
         <target state="translated">Se ha alcanzado el límite máximo de participantes en esta conferencia. Inténtalo de nuevo más tarde o ponte en contacto con tu servicio de asistencia técnica</target>
       </trans-unit>
       <trans-unit id="rml7Shn" resname="enterprise.settings.header.tags">
-        <source>Auswählbare Kategorien</source>
+        <source>enterprise.settings.header.tags</source>
         <target state="translated">Categorías seleccionables</target>
+      </trans-unit>
+      <trans-unit id="8RH..y9" resname="options.chat">
+        <source>Chat anzeigen</source>
+        <target state="needs-translation">Chat anzeigen</target>
       </trans-unit>
     </body>
   </file>
