@@ -9,9 +9,7 @@
 
 name: Publish Docker image
 
-on:
-  release:
-    types: [created]
+on: workflow_call
 
 jobs:
   push_to_registry:
@@ -39,5 +37,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ version }}
+          labels: ${{ version }}
