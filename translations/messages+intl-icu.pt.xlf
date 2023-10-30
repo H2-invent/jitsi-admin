@@ -2278,8 +2278,12 @@
         <target state="needs-translation">Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk</target>
       </trans-unit>
       <trans-unit id="rml7Shn" resname="enterprise.settings.header.tags">
-        <source>Auswählbare Kategorien</source>
+        <source>enterprise.settings.header.tags</source>
         <target state="needs-translation">Auswählbare Kategorien</target>
+      </trans-unit>
+      <trans-unit id="8RH..y9" resname="options.chat">
+        <source>Chat anzeigen</source>
+        <target state="needs-translation">Chat anzeigen</target>
       </trans-unit>
     </body>
   </file>
