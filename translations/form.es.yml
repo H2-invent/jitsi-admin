@@ -85,6 +85,10 @@ help:
   enforceE2e: La seguridad del cifrado de extremo a extremo se aplica en cada conferencia en este servidor Jitsi.
   allowIp: Solo la dirección IP o los rangos de IP especificados pueden unirse a la conferencia. Los rangos de IP deben especificarse en la notación 10.10.10.10/24. Se pueden ingresar múltiples IP o rangos separados por comas.
   jitsiEventSyncUrl: Aquí puede especificar otro administrador de Jitsi que haya guardado las sincronizaciones de eventos de Jitsi correspondientes para solicitudes SIP. Sólo es necesario especificar la URL base. Esta función requiere la versión Jitsi-admin >0.77.x
+  disableFilmstripe: Filmstripe in Jitsi deaktivieren
+  disableChat: Chat in Jitsi deaktivieren und ausblenden
+  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
+  disableEtherpad: Etherpad während einer Konferenz deaktivieren
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse
@@ -150,6 +154,10 @@ label:
   allowIp: IP o rango de IP que pueden unirse a la conferencia
   maxUser: Número máximo de participantes
   jitsiEventSyncUrl: URL de retrasmisión de eventos de Jitsi
+  disableFilmstripe: Filmstrip deaktivieren
+  disableChat: Chat deaktivieren
+  disableWhiteboard: Whiteboard deaktivieren
+  disableEtherpad: Etherpad deaktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
