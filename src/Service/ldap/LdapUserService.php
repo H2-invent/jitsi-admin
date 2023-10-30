@@ -222,6 +222,12 @@ class LdapUserService
         foreach ($user->getDeputiesElement() as $depElement) {
             $this->em->remove($depElement);
         }
+        foreach ($user->getLogs() as $logElement) {
+            $user->removeLog($logElement);
+            $logElement->setUser($logElement->getRoom()->getModerator());
+           $this->em->persist($logElement);
+        }
+
         $this->em->persist($user);
         $this->em->flush();
         $this->em->remove($user);

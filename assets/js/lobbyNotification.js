@@ -39,7 +39,7 @@ function masterNotify(data) {
     } else if (data.type === 'redirect') {
         redirect(data);
     } else if (data.type === 'snackbar') {
-        setSnackbar(data.message, data.color)
+        setSnackbar(data.message, data.color, false,'0x00',data.closeAfter)
     } else if (data.type === 'newJitsi') {
         //do nothing. Is handeled somewhere localy
     } else if (data.type === 'refreshDashboard') {
@@ -91,7 +91,7 @@ function addmessage(data) {
 
 function notifymoderator(data) {
     showPush(data);
-    setSnackbar(data.message, data.color, false, data.messageId);
+    setSnackbar(data.message, data.color, false, data.messageId,data.closeAfter);
     $('.dragger').addClass('active');
 
     $('#sliderTop')
@@ -113,9 +113,9 @@ function refresh(data) {
     $('#waitingUserWrapper').load(reloadUrl, function () {
         const exampleEl = document.querySelectorAll('[data-mdb-toggle="popover"]');
         if (exampleEl.length > 0) {
-            for (var prop in exampleEl) {
-                const popover = new mdb.Popover(exampleEl[prop])
-            }
+            exampleEl.forEach(function (ele) {
+                const popover = new mdb.Popover(ele)
+            })
         }
 
         if (!$('#sliderTop').hasClass('notification')) {

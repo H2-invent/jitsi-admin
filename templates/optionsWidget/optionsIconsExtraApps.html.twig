@@ -1,22 +1,30 @@
 <div class="btn-group element" role="group" aria-label="Basic example">
     {% if (getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') == 1 and not isAllowedToOrganize(room,app.user)) and room.totalOpenRooms != true %}
         <a href="{{ path('room_past_user',{'room':room.id}) }}"
-           class=" element btn btn-outline-primary loadContent participants-participantList"><i class="fas fa-users"></i></a>
+           class=" element btn btn-outline-primary loadContent participants-participantList"><i
+                    class="fas fa-users"></i></a>
     {% endif %}
-{% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-    {% if not isAllowedToOrganize(room,app.user) %}
-        <a href="{{ createWhitebophirLink(room,false) }}"
-           class=" element btn btn-outline-primary startIframe apps-icon-whiteboard" data-roomname="{{ room.name }}" data-close="simple">
-            <i class="fa-solid fa-chalkboard"></i>
-        </a>
+    {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
+        {% if not isAllowedToOrganize(room,app.user) %}
+            {% if room.server.disableWhiteboard != true %}
+                <a href="{{ createWhitebophirLink(room,false) }}"
+                   class=" element btn btn-outline-primary startIframe apps-icon-whiteboard"
+                   data-roomname="{{ room.name }}" data-close="simple">
+                    <i class="fa-solid fa-chalkboard"></i>
+                </a>
+            {% endif %}
+        {% endif %}
     {% endif %}
-{% endif %}
-{% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
-    {% if not isAllowedToOrganize(room,app.user) %}
-        <a href="{{ createEtherpadLink(room, app.user ) }}"
-           class=" element btn btn-outline-primary startIframe apps-icon-etherpad" data-roomname="{{ room.name }}" data-close="simple">
-            <i class="fa-solid fa-clipboard"></i>
-        </a>
+    {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
+        {% if not isAllowedToOrganize(room,app.user) %}
+            {% if room.server.disableEtherpad != true %}
+                <a href="{{ createEtherpadLink(room, app.user ) }}"
+                   class=" element btn btn-outline-primary startIframe apps-icon-etherpad"
+                   data-roomname="{{ room.name }}"
+                   data-close="simple">
+                    <i class="fa-solid fa-clipboard"></i>
+                </a>
+            {% endif %}
+        {% endif %}
     {% endif %}
-{% endif %}
 </div>

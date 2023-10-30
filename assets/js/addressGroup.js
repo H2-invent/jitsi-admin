@@ -60,6 +60,7 @@ function initAddressbook() {
 function initCategoryFilter() {
 
     var $checkbox = document.querySelectorAll('.adressBookFilter');
+
     for (var i = 0; i < $checkbox.length; i++) {
 
         var tmp = $checkbox[i];
@@ -69,18 +70,32 @@ function initCategoryFilter() {
         } else {
             tmp.checked = false;
         }
-        tmp.addEventListener('change', function () {
+        tmp.addEventListener('change', function (e) {
             var id = this.id;
             setCookie(id, this.checked, 365);
-            categorySort(this);
+            categorySort();
+            e.stopPropagation();
+        })
+    }
+    var $checkboxLine = document.querySelectorAll('.adressBookFilterLine');
+
+    for (var i = 0; i < $checkboxLine.length; i++) {
+        var tmp = $checkboxLine[i];
+        tmp.addEventListener('click',function (e) {
+            var ele = e.currentTarget.querySelector('input');
+            if (ele.checked){
+                ele.checked = false;
+            }else {
+                ele.checked = true;
+            }
+            categorySort();
         })
     }
     categorySort();
-
 }
 
 
-function categorySort(ele) {
+function categorySort() {
 
 
     var $dot = document.querySelector('.filter-dot');
@@ -179,7 +194,6 @@ function findRegister(register) {
     } catch (e) {
 
     }
-
 }
 
 export {initAddressGroupSearch, initListSearch, categorySort};

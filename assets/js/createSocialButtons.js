@@ -11,7 +11,7 @@ function createCameraChangeButton(api) {
         if (devices['videoInput'].length > 1) {
             gDevices = devices;
             var $body = document.getElementById('wrapperIcons');
-            var $object = "<div class='wrapper'><div id='social_changeCamera' class='conference-icon bg-white'><i class=\"fa-solid fa-camera-rotate\"></i></div></div> ";
+            var $object = "<div class='wrapper'><div id='social_changeCamera' class='conference-icon'><i class=\"fa-solid fa-camera-rotate\"></i></div></div> ";
             $body.insertAdjacentHTML("afterbegin", $object);
             var $toggle = document.getElementById('social_changeCamera');
             $toggle.addEventListener('click',function (){

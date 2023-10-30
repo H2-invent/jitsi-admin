@@ -47,6 +47,7 @@ parameters:
     LAF_USE_MULTIFRAME: '%env(LAF_USE_MULTIFRAME)%'
     LAF_HIDE_PROFILEPICTURE: '%env(LAF_HIDE_PROFILEPICTURE)%'
     LAF_DEFAULT_ONLINE_STATUS: '%env(LAF_DEFAULT_ONLINE_STATUS)%'
+    LAF_FLOATING_TAG_FORCE_SHOW: '%env(LAF_FLOATING_TAG_FORCE_SHOW)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'

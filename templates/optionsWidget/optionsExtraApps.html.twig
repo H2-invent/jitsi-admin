@@ -1,20 +1,24 @@
 {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-    <li><a
-                href="{{ createWhitebophirLink(room,true) }}"
-                data-roomname="{{ room.name }}"
-                data-close="simple"
-                class="startIframe dropdown-item apps-dropdown-whiteboard"
-        >
-            <i class="fa-solid fa-chalkboard"></i>
-            {{ 'options.whiteboard'|trans }}</a></li>
+    {% if room.server.disableWhiteboard != true %}
+        <li><a
+                    href="{{ createWhitebophirLink(room,true) }}"
+                    data-roomname="{{ room.name }}"
+                    data-close="simple"
+                    class="startIframe dropdown-item apps-dropdown-whiteboard"
+            >
+                <i class="fa-solid fa-chalkboard"></i>
+                {{ 'options.whiteboard'|trans }}</a></li>
+    {% endif %}
 {% endif %}
 {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
-    <li><a
-                href="{{ createEtherpadLink(room,app.user) }}"
-                data-roomname="{{ room.name }}"
-                data-close="simple"
-                class="startIframe dropdown-item apps-dropdown-etherpad"
-        >
-            <i class="fa-solid fa-clipboard"></i>
-            {{ 'options.meetingNotes'|trans }}</a></li>
+    {% if room.server.disableEtherpad != true %}
+        <li><a
+                    href="{{ createEtherpadLink(room,app.user) }}"
+                    data-roomname="{{ room.name }}"
+                    data-close="simple"
+                    class="startIframe dropdown-item apps-dropdown-etherpad"
+            >
+                <i class="fa-solid fa-clipboard"></i>
+                {{ 'options.meetingNotes'|trans }}</a></li>
+    {% endif %}
 {% endif %}
