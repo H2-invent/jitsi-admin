@@ -9,7 +9,12 @@
 
 name: Publish Docker image
 
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      version:
+        require: true
+        type: string
 
 jobs:
   push_to_registry:
