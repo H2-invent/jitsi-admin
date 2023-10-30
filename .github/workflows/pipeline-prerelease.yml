@@ -64,10 +64,3 @@ jobs:
           tag: DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
-
-  docker_hub_push:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-push-docker-hub.yml@devops
-    with:
-      version: DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}
-    needs:
-      - test
