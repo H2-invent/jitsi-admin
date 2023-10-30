@@ -66,7 +66,7 @@ jobs:
           artifactContentType: application/zip
 
   docker_hub_push:
-    uses: h2-invent/jitsi-admin/.github/workflows/task_push_docker.yml@devops
+    uses: h2-invent/jitsi-admin/.github/workflows/task-push-docker-hub.yml@devops
     with:
       version: DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}
     needs:
