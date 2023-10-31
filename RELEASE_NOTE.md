@@ -18,7 +18,7 @@
 - **Manifest Rotation**: Enabling rotation in the Jitsi-admin app for a better user experience.
 
 ## Bugs:
-- Various bug fixes and improvements.
+- MouseEnter on conference window to work on mobile devices
 
 ## Discussion:
 We highly appreciate your feedback and continually endeavor to enhance our application with each release. Your insights, ideas, and any issues encountered in this new version are crucial in shaping the future of our platform.

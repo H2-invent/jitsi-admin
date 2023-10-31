@@ -38,6 +38,21 @@ class ConferenceUtils {
             }
 
         });
+        this.api.addEventListener("mouseEnter", (event) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                sidebar.classList.remove('show');
+                if (floatingTag){
+                    floatingTag.classList.remove('show')
+                }
+
+            },3000);
+            sidebar.classList.add('show');
+            if (floatingTag){
+                floatingTag.classList.add('show')
+            }
+
+        });
         this.sidebar.addEventListener('mouseover',function () {
             clearTimeout(timeout);
         })
