@@ -5,6 +5,11 @@
 {% block content %}
     <div class="row markdown">
         {{ include('changelog/__entry.html.twig',
+            {'version':'0.78.1',
+                'bugfix':'
+- MouseEnter on conference window to work on mobile devices
+'}) }}
+        {{ include('changelog/__entry.html.twig',
             {'version':'0.78.0',
                 'whatsNew':'
 - **Dynamic Tag Visibility**: Tags in meetings now appear only when the mouse is active, enhancing a cleaner interface during discussions.
