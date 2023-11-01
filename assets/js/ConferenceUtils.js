@@ -63,8 +63,6 @@ class ConferenceUtils {
         if (typeof disableFilmstrip !== 'undefined') {
             if (disableFilmstrip) {
                 this.toggleFilmstrip();
-            } else {
-                this.toggleFilmstrip();
             }
         }
         this.setE2EDefault();
