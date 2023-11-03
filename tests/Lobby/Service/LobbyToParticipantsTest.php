@@ -129,7 +129,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                             'type' => "newJitsi",
                             'options' => [
                                 'options' => [
-                                    'roomName' => '3/12313231ghjgfdsdf',
+                                    'roomName' => 'ad0234829205b9033196ba818f7a872b/12313231ghjgfdsdf',
                                     'width' => '100%',
                                     'height' => 400,
                                     'userInfo' => [
