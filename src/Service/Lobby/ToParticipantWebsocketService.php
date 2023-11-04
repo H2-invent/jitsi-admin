@@ -67,7 +67,7 @@ class ToParticipantWebsocketService
         if ($lobbyWaitungUser->getType() === 'b') {
             $options = [
                 'options' => [
-                    'roomName' =>$lobbyWaitungUser->getRoom()->getServer()->getId().'/'. $lobbyWaitungUser->getRoom()->getUid(),
+                    'roomName' =>$lobbyWaitungUser->getRoom()->getServer()->getSlugMd5().'/'. $lobbyWaitungUser->getRoom()->getUid(),
                     'width' => '100%',
                     'height' => 400,
                     'userInfo' => [

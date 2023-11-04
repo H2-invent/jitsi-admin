@@ -317,6 +317,11 @@ class Server
 
         return $this;
     }
+    public function getSlugMd5(): ?string
+    {
+        return md5($this->slug);
+    }
+
     public function getPrivacyPolicy(): ?string
     {
         return $this->privacyPolicy;
