@@ -5,6 +5,21 @@
 {% block content %}
     <div class="row markdown">
         {{ include('changelog/__entry.html.twig',
+            {'version':'0.78.5',
+                'bugfix':'
+- Add the server id bevor the room name. use md5 hashed id and server slug
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.78.4',
+                'bugfix':'
+- Add the server id bevor the room name. use md5 hashed server slug
+'}) }}
+        {{ include('changelog/__entry.html.twig',
+            {'version':'0.78.3',
+                'bugfix':'
+- Add the server id bevor the room name. use md5 hashed server id
+'}) }}
+        {{ include('changelog/__entry.html.twig',
             {'version':'0.78.2',
                 'bugfix':'
 - Toggle Filmstripe only when is set in the server settings
