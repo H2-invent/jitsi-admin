@@ -21,6 +21,7 @@
 - MouseEnter on conference window to work on mobile devices
 - Toggle Filmstripe only when is set in the server settings
 - Add the server id bevor the room name. use md5 hashed id and server slug
+- Remove the server id bevor the room name.
 
 ## Discussion:
 We highly appreciate your feedback and continually endeavor to enhance our application with each release. Your insights, ideas, and any issues encountered in this new version are crucial in shaping the future of our platform.
