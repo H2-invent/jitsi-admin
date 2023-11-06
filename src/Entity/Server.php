@@ -319,7 +319,7 @@ class Server
     }
     public function getSlugMd5(): ?string
     {
-        return md5($this->id . $this->slug);
+        return md5($this->id . $this->slug).'/';
     }
 
     public function getPrivacyPolicy(): ?string

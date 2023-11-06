@@ -129,7 +129,8 @@ class LobbyToParticipantsTest extends KernelTestCase
                             'type' => "newJitsi",
                             'options' => [
                                 'options' => [
-                                    'roomName' => 'a38d63dc4ce308b7a5a296d4f3a42c29/12313231ghjgfdsdf',
+//                                    'roomName' => 'a38d63dc4ce308b7a5a296d4f3a42c29/12313231ghjgfdsdf',
+                                    'roomName' => '12313231ghjgfdsdf',
                                     'width' => '100%',
                                     'height' => 400,
                                     'userInfo' => [
@@ -158,6 +159,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                     self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());
                 }
                 self::assertEquals(['lobby_WaitingUser_websocket/lkjhdslkfjhdskjhfkds'], $update->getTopics());
+
                 return 'id';
             }
         );

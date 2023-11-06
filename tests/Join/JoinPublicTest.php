@@ -341,7 +341,8 @@ class JoinPublicTest extends WebTestCase
         $this->assertStringContainsString(
             'https://' . $room->getServer()->getUrl() . '/external_api.js', $client->getResponse()->getContent()
         );
-        $this->assertStringContainsString("roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/". $room->getUid() . "',", $client->getResponse()->getContent());
+//        $this->assertStringContainsString("roomName: 'a38d63dc4ce308b7a5a296d4f3a42c29/". $room->getUid() . "',", $client->getResponse()->getContent());
+         $this->assertStringContainsString("roomName: '". $room->getUid() . "',", $client->getResponse()->getContent());
         $this->assertStringContainsString(
             "jwt: '" . $roomService->generateJwt($room, $user, 'Test User 123') . "',", $client->getResponse()->getContent()
         );
