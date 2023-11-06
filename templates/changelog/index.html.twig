@@ -5,6 +5,11 @@
 {% block content %}
     <div class="row markdown">
         {{ include('changelog/__entry.html.twig',
+            {'version':'0.78.6',
+                'bugfix':'
+- Remove the server id bevor the room name.
+'}) }}
+        {{ include('changelog/__entry.html.twig',
             {'version':'0.78.5',
                 'bugfix':'
 - Add the server id bevor the room name. use md5 hashed id and server slug
