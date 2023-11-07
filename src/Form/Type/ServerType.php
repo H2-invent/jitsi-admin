@@ -57,6 +57,7 @@ class ServerType extends AbstractType
             ->add('disableEtherpad', CheckboxType::class, ['required' => false, 'label' => 'label.disableEtherpad', 'help' => 'help.disableEtherpad', 'translation_domain' => 'form'])
             ->add('disableWhiteboard', CheckboxType::class, ['required' => false, 'label' => 'label.disableWhiteboard', 'help' => 'help.disableWhiteboard', 'translation_domain' => 'form'])
             ->add('disableChat', CheckboxType::class, ['required' => false, 'label' => 'label.disableChat', 'help' => 'help.disableChat', 'translation_domain' => 'form'])
+            ->add('prefixRoomUidWithHash', CheckboxType::class, ['required' => false, 'label' => 'label.prefixRoomUidWithHash', 'help' => 'help.prefixRoomUidWithHash', 'translation_domain' => 'form'])
 
             ->add('allowIp', TextType::class, ['required' => false, 'label' => 'label.allowIp', 'help' => 'help.allowIp', 'translation_domain' => 'form'])
 

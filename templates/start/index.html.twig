@@ -94,8 +94,8 @@
         var closeTabText = '{{ 'ask.tab.close'|trans }}';
         const domain = '{{ room.server.url }}';
         const options = {
-            {#roomName: '{{ room.server.slugMd5 }}/{{ room.uid }}',#}
-            roomName: '{{ room.uid }}',
+            roomName: '{{ room.server.slugMd5 }}{{ room.uid }}',
+
             width: '100%',
             height: 700,
             configOverwrite: {

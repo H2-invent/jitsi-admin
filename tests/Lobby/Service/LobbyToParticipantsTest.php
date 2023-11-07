@@ -168,4 +168,80 @@ class LobbyToParticipantsTest extends KernelTestCase
         $lobbyToParticipant->setDirectSend($directSend);
         $lobbyToParticipant->acceptLobbyUser($lobbyUser);
     }
+
+    public function testInBrowserWithPrefix(): void
+    {
+        $kernel = self::bootKernel();
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $roomRepo = $this->getContainer()->get(RoomsRepository::class);
+        $userRepo = $this->getContainer()->get(UserRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
+        $room->getServer()->setPrefixRoomUidWithHash(true);
+        $manager->persist($room);
+        $manager->flush();
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $lobbyUser = new LobbyWaitungUser();
+        $lobbyUser->setType('b');
+        $lobbyUser->setUser($user2);
+        $lobbyUser->setRoom($room);
+        $lobbyUser->setUid('lkjhdslkfjhdskjhfkds');
+        $lobbyUser->setCreatedAt(new \DateTime());
+        $lobbyUser->setShowName($user2->getFirstName() . ' ' . $user2->getLastName());
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $manager->persist($lobbyUser);
+        $manager->flush();
+
+        $directSend = $this->getContainer()->get(DirectSendService::class);
+
+        $hub = new MockHub(
+            'http://localhost:3000/.well-known/mercure',
+            new StaticTokenProvider('test'),
+            function (Update $update): string {
+                if (strpos($update->getData(), 'newJitsi') > 0) {
+                    self::assertEquals(
+                        [
+                            'type' => "newJitsi",
+                            'options' => [
+                                'options' => [
+                                    'roomName' => 'a38d63dc4ce308b7a5a296d4f3a42c29/12313231ghjgfdsdf',
+                                    'width' => '100%',
+                                    'height' => 400,
+                                    'userInfo' => [
+                                        'displayName' => "Test2 User2"
+                                    ],
+                                    'configOverwrite' => [
+                                        'prejoinPageEnabled' => false,
+                                        'disableBeforeUnloadHandlers' => true
+                                    ],
+                                    'interfaceConfigOverwrite' => [
+                                        'MOBILE_APP_PROMO' => false,
+                                        'HIDE_DEEP_LINKING_LOGO' => true,
+                                        'SHOW_BRAND_WATERMARK' => true
+                                    ],
+                                    'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
+                                ],
+                                "roomName" => "This is a room with Lobby",
+                                "domain" => "meet.jit.si2",
+                                "parentNode" => "#jitsiWindow"
+                            ]
+                        ],
+                        json_decode($update->getData(), true)
+                    );
+                }
+                if (strpos($update->getData(), 'snackbar') > 0) {
+                    self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());
+                }
+                self::assertEquals(['lobby_WaitingUser_websocket/lkjhdslkfjhdskjhfkds'], $update->getTopics());
+
+                return 'id';
+            }
+        );
+        $directSend->setMercurePublisher($hub);
+        $lobbyToParticipant = self::getContainer()->get(ToParticipantWebsocketService::class);
+        $lobbyToParticipant->setDirectSend($directSend);
+        $lobbyToParticipant->acceptLobbyUser($lobbyUser);
+    }
+
+
 }

@@ -126,6 +126,9 @@ class Server
 
     #[ORM\Column(nullable: true)]
     private ?bool $disableChat = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $prefixRoomUidWithHash = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -319,7 +322,12 @@ class Server
     }
     public function getSlugMd5(): ?string
     {
-        return md5($this->id . $this->slug).'/';
+        if ($this->isPrefixRoomUidWithHash()){
+            return md5($this->id . $this->slug).'/';
+        }else{
+            return '';
+        }
+
     }
 
     public function getPrivacyPolicy(): ?string
@@ -732,6 +740,18 @@ class Server
     public function setDisableChat(bool $disableChat): static
     {
         $this->disableChat = $disableChat;
+
+        return $this;
+    }
+
+    public function isPrefixRoomUidWithHash(): ?bool
+    {
+        return $this->prefixRoomUidWithHash;
+    }
+
+    public function setPrefixRoomUidWithHash(?bool $prefixRoomUidWithHash): static
+    {
+        $this->prefixRoomUidWithHash = $prefixRoomUidWithHash;
 
         return $this;
     }

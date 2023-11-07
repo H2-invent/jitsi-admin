@@ -92,6 +92,7 @@ help:
   disableChat: Chat in Jitsi deaktivieren und ausblenden
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
+  prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
 
 label:
   beitretenApp: Mit der Elektron-App beitreten
@@ -162,6 +163,7 @@ label:
   disableChat: Chat deaktivieren
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
+  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
