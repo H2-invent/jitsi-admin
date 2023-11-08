@@ -5,6 +5,7 @@ namespace App\Service\Callout;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\User;
+use App\Repository\LobbyWaitungUserRepository;
 use App\Service\adhocmeeting\AdhocMeetingService;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,10 +14,11 @@ use Psr\Log\LoggerInterface;
 class CalloutService
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private AdhocMeetingService    $adhocMeetingService,
-        private ThemeService           $themeService,
-        private LoggerInterface        $logger,
+        private EntityManagerInterface     $entityManager,
+        private AdhocMeetingService        $adhocMeetingService,
+        private ThemeService               $themeService,
+        private LoggerInterface            $logger,
+        private LobbyWaitungUserRepository $lobbyWaitungUserRepository,
     )
     {
     }
@@ -65,6 +67,9 @@ class CalloutService
         if (!$this->isAllowedToBeCalled($user)) {
             return null;
         }
+        if ($this->isalreadyInTheConfernce(user: $user)){
+            return null;
+        }
 
         $callout = new CalloutSession();
         $callout->setUser($user)
@@ -103,6 +108,20 @@ class CalloutService
     }
 
     /**
+     * checks if the user is already invited or is already in the lobby
+     * @param User|null $user
+     * @return bool
+     */
+    public function isalreadyInTheConfernce(?User $user): bool
+    {
+        $lobbyUser = $this->lobbyWaitungUserRepository->findOneBy(array('user' => $user));
+        if ($lobbyUser) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns the CallerID which is mostly the telefonnumber from a user if this is configured
      * @param User|null $user
      * @return mixed|null
@@ -128,6 +147,7 @@ class CalloutService
         }
         return null;
     }
+
     public function dialSuccessfull(User $user, Rooms $rooms): bool
     {
 //        $calloutRepo = $this->entityManager->getRepository(CalloutSession::class);
