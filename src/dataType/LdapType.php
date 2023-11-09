@@ -32,6 +32,7 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
     private $isHealthy = false;
+    private string $LDAP_SIP_VIDEO_GROUP_NAME;
 
     public function __toString(): string
     {
@@ -479,4 +480,15 @@ class LdapType
     {
         $this->isHealthy = $isHealthy;
     }
+
+    public function getLDAPSIPVIDEOGROUPNAME(): string
+    {
+        return $this->LDAP_SIP_VIDEO_GROUP_NAME;
+    }
+
+    public function setLDAPSIPVIDEOGROUPNAME(string $LDAP_SIP_VIDEO_GROUP_NAME): void
+    {
+        $this->LDAP_SIP_VIDEO_GROUP_NAME = $LDAP_SIP_VIDEO_GROUP_NAME;
+    }
+
 }
