@@ -114,6 +114,16 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
     var urlPath = url.split('?')[0];
     var random = md5(urlPath);
     if (document.getElementById('jitsiadminiframe' + random)) {
+        //the iframe already exists. move it to the foreground an to the visible area
+        var existingFrame = document.getElementById('jitsiadminiframe' + random);
+        restoreMinimized(existingFrame);
+        restoreWindowFromMaximized(existingFrame);
+        existingFrame.style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
+        existingFrame.dataset.x = counter;
+        existingFrame.dataset.y = counter;
+        existingFrame.style.width = width + 'px';
+        existingFrame.style.height = height + 'px';
+        existingFrame.style.zIndex = zindex++;
         return null;
     }
 
@@ -187,7 +197,7 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
     })
 
     multiframe.querySelector('.button-restore').addEventListener('click', function (e) {
-        restoreWindow(e);
+        restoreWindowFromMaximized(e.currentTarget);
         removeInteraction();
     });
 
@@ -233,7 +243,7 @@ function closeFrame(e) {
 function toggleMaximize(e) {
     var element = e.currentTarget
     if (element.classList.contains('maximized')) {
-        restoreWindow(e)
+        restoreWindowFromMaximized(e.currentTarget)
     } else {
         prepareMaximize(e)
         maximizeWindow(element)
@@ -272,9 +282,9 @@ function prepareMaximize(e) {
     startTransform = e.target.closest('.jitsiadminiframe').style.transform;
 }
 
-function maximizeWindow(e) {
+function maximizeWindow(container) {
     setCookie('startMaximized', 1, 365)
-    var frame = e.closest('.jitsiadminiframe');
+    var frame = container.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
     if (maxiIcon.dataset.maximal === "0") {
@@ -293,12 +303,12 @@ function maximizeWindow(e) {
         maxiIcon.classList.add('d-none');
         maxiIcon.dataset.maximal = "1";
     }
-
 }
 
-function restoreWindow(e) {
+
+function restoreWindowFromMaximized(container) {
     setCookie('startMaximized', 0, 365)
-    var frame = e.currentTarget.closest('.jitsiadminiframe');
+    var frame = container.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
     if (maxiIcon.dataset.maximal === "1") {
@@ -319,7 +329,11 @@ function restoreWindow(e) {
 let messages = {};
 
 function sendCommand(id, message) {
-    var ele = document.getElementById(id).querySelector('iframe');
+    var ele = document.getElementById(id);
+    if (!ele){
+        return null;
+    }
+    ele = ele.querySelector('iframe');
     var messageId = makeid(32);
     message.frameId = id;
     message.scope = 'jitsi-admin-iframe';
@@ -418,8 +432,8 @@ function addInteractions(ele) {
         startHeight = event.target.closest('.jitsiadminiframe').offsetHeight;
         startTransform = event.target.closest('.jitsiadminiframe').style.transform
         tryfullscreen = false;
-        // event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
-        // event.target.closest('.jitsiadminiframe').style.removeProperty('border');
+        event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
+        event.target.closest('.jitsiadminiframe').style.removeProperty('border');
 
         event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
@@ -609,6 +623,11 @@ function removeFromMinibar(e) {
     e.currentTarget.removeEventListener('click', removeFromMinibar);
 
     var container = e.currentTarget.closest('.jitsiadminiframe');
+    restoreMinimized(container);
+    e.currentTarget.remove();
+    removeInteraction();
+}
+function restoreMinimized(container) {
     if (container.classList.contains('minified')) {
         container.classList.remove('minified');
         container.style.width = container.dataset.beforeminwidth;
@@ -616,8 +635,6 @@ function removeFromMinibar(e) {
         setWidthOfminified();
         addInteractions(container)
     }
-    e.currentTarget.remove();
-    removeInteraction();
 }
 
 function makeid(length) {
