@@ -11,7 +11,9 @@ class LdapSipVideoGroupService
 {
     private LdapType $ldapType;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    )
     {
     }
 
@@ -25,9 +27,10 @@ class LdapSipVideoGroupService
         $this->ldapType = $ldapType;
     }
 
-    public function DetectUserIsSipVideoUser(User $user, Entry $ldapEntry)
+    public function DetectUserIsSipVideoUser(LdapType $ldapType, $dryrun)
     {
-
+        $sipVideoGroup = $ldapType->retrieveSipVideoUser();
+        return $sipVideoGroup;
     }
 
 

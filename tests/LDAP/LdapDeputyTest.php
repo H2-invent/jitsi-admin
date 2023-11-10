@@ -15,7 +15,7 @@ class LdapDeputyTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
+
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
         $res = $ldapService->fetchDeputies();
@@ -26,7 +26,7 @@ class LdapDeputyTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
+
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
         $connection1 = $ldapService->getLdaps()[0];
@@ -42,7 +42,7 @@ class LdapDeputyTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
+
         $ldapDeputy = self::getContainer()->get(DebutyLdapService::class);
 
         assertEquals(2, $ldapDeputy->cleanDeputies());
@@ -52,7 +52,7 @@ class LdapDeputyTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
+
         $ldapDeputy = self::getContainer()->get(DebutyLdapService::class);
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();

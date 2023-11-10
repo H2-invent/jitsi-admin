@@ -38,9 +38,14 @@ class LdapService
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
 
-    private $LDAP_SIP_VIDEO_GROUP_NAME;
+    private $LDAP_SIP_VIDEO_GROUP_DN;
 
-    public function __construct(LdapUserService $ldapUserService, EntityManagerInterface $entityManager, private ParameterBagInterface $parameterBag, private LoggerInterface $logger)
+    public function __construct(
+        LdapUserService                  $ldapUserService,
+        EntityManagerInterface           $entityManager,
+        private ParameterBagInterface    $parameterBag,
+        private LoggerInterface          $logger,
+        private LdapSipVideoGroupService $ldapSipVideoGroupService)
     {
         $this->ldapUserService = $ldapUserService;
         $this->em = $entityManager;
@@ -69,7 +74,8 @@ class LdapService
             $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
             $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
             $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
-            $this->LDAP_SIP_VIDEO_GROUP_NAME =
+            $this->LDAP_SIP_VIDEO_GROUP_DN = explode(';', $this->parameterBag->get('LDAP_SIP_VIDEO_GROUP_DN'));
+
             $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
             foreach ($tmp as $data) {
                 $this->MAPPER[] = json_decode($data, true);
@@ -112,7 +118,7 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPMEMBERS($this->LDAP_DEPUTY_GROUP_MEMBERS[$count]);
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
                 $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
-                $ldap->setLDAPSIPVIDEOGROUPNAME($this->LDAP_SIP_VIDEO_GROUP_NAME[$count]);
+                $ldap->setLDAPSIPVIDEOGROUPDN($this->LDAP_SIP_VIDEO_GROUP_DN[$count]);
                 $duplicate = false;
                 foreach ($this->ldaps as $data2) {
                     if ($data2->getSerVerId() == $ldap->getSerVerId()) {
