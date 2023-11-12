@@ -1,0 +1,70 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+name: Publish Docker image
+
+on:
+  workflow_call:
+    inputs:
+      reponame:
+        description: 'the image name of the docker hub image'
+        default: 'h2invent/jitsi-admin-main'
+        required: true
+        type: string
+      directory:
+        description: 'the dir of the Dockerfile image'
+        default: '.'
+        required: true
+        type: string
+      dockerfile_path:
+        description: 'the name of the Dockerfile image'
+        default: './Dockerfile'
+        required: true
+        type: string
+      version:
+        description: 'the version/tag of the Dockerfile image'
+        required: true
+        type: string
+    secrets:
+      dockerhub_username:
+        required: true
+      dockerhub_password:
+        required: true
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current Username
+        id: date
+        run: echo "${{ secrets.dockerhub_password }}"
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.dockerhub_username }}
+          password: ${{ secrets.dockerhub_password }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images:  ${{ inputs.reponame }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ${{ inputs.directory }}
+          file: ${{ inputs.dockerfile_path }}
+          push: true
+          tags: ${{ inputs.reponame }}:${{ inputs.version }}

@@ -10,10 +10,10 @@ on:
 
 jobs:
   artifact:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+    uses: $TASK_DIR/.github/workflows/task-artifact.yml@devops
 
   test:
-    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    uses: $TASK_DIR/.github/workflows/task-test.yml@devops
     needs:
       - artifact
 
@@ -66,3 +66,7 @@ jobs:
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
 
+  upload_dockerhub:
+    uses: $TASK_DIR/.github/workflows/task-upload-docker-hub.yml@devops
+    needs:
+      - create_release
