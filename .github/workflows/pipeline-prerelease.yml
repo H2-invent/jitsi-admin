@@ -10,10 +10,10 @@ on:
 
 jobs:
   artifact:
-    uses: $TASK_DIR/.github/workflows/task-artifact.yml@devops
+    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
 
   test:
-    uses: $TASK_DIR/.github/workflows/task-test.yml@devops
+    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
     needs:
       - artifact
 
@@ -66,7 +66,28 @@ jobs:
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
 
-  upload_dockerhub:
-    uses: $TASK_DIR/.github/workflows/task-upload-docker-hub.yml@devops
+  upload_dockerhub_main:
     needs:
-      - create_release
+      - test
+    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    with:
+      reponame: 'h2invent/jitsi-admin-main'
+      dockerfile_path: './Dockerfile'
+      directory: '.'
+      version: "dev-ci-unstable-${{github.run_number}}"
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+  upload_dockerhub_websocket:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    with:
+      reponame: 'h2invent/jitsi-admin-websocket'
+      dockerfile_path: './nodejs/Dockerfile'
+      directory: './nodejs'
+      version: "dev-ci-unstable-${{github.run_number}}"
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+    needs:
+      - upload_dockerhub_main
