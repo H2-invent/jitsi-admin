@@ -19,7 +19,7 @@ jobs:
     outputs:
       create_release_output: ${{ steps.version.outputs.version }}
     steps:
-    
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -78,7 +78,7 @@ jobs:
   upload_dockerhub_main:
     needs:
       - create_release
-    uses: h2invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
     with:
       reponame: 'h2invent/jitsi-admin-main'
       dockerfile_path: './Dockerfile'
@@ -91,7 +91,7 @@ jobs:
   upload_dockerhub_websocket:
     needs:
       - create_release
-    uses: h2invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
     with:
       reponame: 'h2invent/jitsi-admin-websocket'
       dockerfile_path: './nodejs/Dockerfile'
