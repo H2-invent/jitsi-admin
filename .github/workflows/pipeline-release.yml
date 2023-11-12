@@ -16,6 +16,8 @@ jobs:
     needs:
       - artifact
     runs-on: ubuntu-latest
+    outputs:
+      create_release_output: ${{ steps.version.outputs.version }}
     steps:
     
       - name: Checkout
@@ -72,3 +74,29 @@ jobs:
           artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
           artifactContentType: application/zip
           bodyFile: RELEASE_NOTE.md
+
+  upload_dockerhub_main:
+    needs:
+      - create_release
+    uses: h2invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    with:
+      reponame: 'h2invent/jitsi-admin-main'
+      dockerfile_path: './Dockerfile'
+      directory: '.'
+      version: h2invent/jitsi-admin-main:latest,h2invent/jitsi-admin-main:${{ needs.create_release.outputs.create_release_output }}
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+
+  upload_dockerhub_websocket:
+    needs:
+      - create_release
+    uses: h2invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
+    with:
+      reponame: 'h2invent/jitsi-admin-websocket'
+      dockerfile_path: './nodejs/Dockerfile'
+      directory: './nodejs'
+      version: h2invent/jitsi-admin-websocket:latest,h2invent/jitsi-admin-websocket:${{ needs.create_release.outputs.create_release_output }}
+    secrets:
+      dockerhub_password: ${{ secrets.DOCKERHUB_TOKEN }}
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
