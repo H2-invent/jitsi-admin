@@ -1,7 +1,9 @@
 import $ from "jquery";
+
 import ('jquery-confirm');
 import {setCookie} from './cookie'
 import autosize from "autosize";
+import {wrapOneSelect} from "./init";
 
 var title = "Bestätigung";
 var cancel = "Abbrechen";
@@ -36,7 +38,7 @@ function initNewRoomModal() {
                     cancel: {
                         text: cancel, // text for button
                         btnClass: 'btn-outline-primary btn', // class for the button
-                        action:function () {
+                        action: function () {
                             removeDisableBtn(form);
                         }
                     },
@@ -48,7 +50,7 @@ function initNewRoomModal() {
         }
     })
 
-    autosize($('#room_agenda'));
+    autosize($('textarea'));
     $("#newRoom_form").submit(function (e) {
 
         e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -56,6 +58,7 @@ function initNewRoomModal() {
 
 
     initMoreSettings();
+    initTags();
 
 }
 
@@ -73,6 +76,7 @@ function sendToServer(form, url) {
                         setCookie(key, value, 1000);
                     }
                 }
+
                 window.location.href = $res['redirectUrl'];
             } else {
                 $('.formError').remove();
@@ -92,9 +96,11 @@ function removeDisableBtn(form) {
     btn.find('.fas').remove();
     btn.prop("disabled", false)
 }
+
 function initMoreSettings() {
-    if (typeof $('#room_persistantRoom') !== 'undefined') {
-        if ($('#room_persistantRoom').prop('checked')) {
+    let persistantRoom =  $('#room_persistantRoom');
+    if (typeof persistantRoom!== 'undefined') {
+        if (persistantRoom.prop('checked')) {
             $('#roomStartForm').collapse('hide')
             if ($('#room_totalOpenRooms').prop('checked')) {
                 $('#totalOpenRoomsOpenTime').collapse('show');
@@ -105,7 +111,7 @@ function initMoreSettings() {
             $('#roomStartForm').collapse('show')
             $('#totalOpenRoomsOpenTime').collapse('hide');
         }
-        $('#room_persistantRoom').change(function () {
+        persistantRoom.change(function () {
             if ($('#room_persistantRoom').prop('checked')) {
                 $('#roomStartForm').collapse('hide')
                 if ($('#room_totalOpenRooms').prop('checked')) {
@@ -119,21 +125,83 @@ function initMoreSettings() {
             }
         })
     }
-
-    if (typeof $('#room_public') !== 'undefined') {
-        if ($('#room_public').prop('checked')) {
+    let publicRoom =  $('.public_checkbox');
+    if (typeof publicRoom !== 'undefined') {
+        if (publicRoom.prop('checked')) {
             $('#maxParticipants').collapse('show')
         } else {
             $('#maxParticipants').collapse('hide')
         }
-        $('#room_public').change(function () {
-            if ($('#room_public').prop('checked')) {
+        publicRoom.change(function () {
+            if (publicRoom.prop('checked')) {
                 $('#maxParticipants').collapse('show')
             } else {
                 $('#maxParticipants').collapse('hide')
             }
         })
     }
+}
+
+function initTags() {
+    const newRoomMOdal = document.getElementById('newRoomMOdal');
+    if (!newRoomMOdal){
+        return;
+    }
+    const form = newRoomMOdal.querySelector('form');
+    const form_select_Server = document.querySelector('.fakeserver');
+    const form_select_tags = document.getElementById('form_tag_wrapper');
+    const form_token =  document.querySelectorAll('[id~="__token"]');
+    const updateForm = async (data, url, method) => {
+
+        if (isParameterInUrl(url)) {
+            url += '&';
+        } else {
+            url += '?';
+        }
+
+        const req = await fetch(url + new URLSearchParams(
+            {
+                serverfake: data
+            }
+        ),
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'charset': 'utf-8'
+                }
+            });
+
+        const text = await req.text();
+
+        return text;
+    };
+
+    const parseTextToHtml = (text) => {
+        const parser = new DOMParser();
+        const html = parser.parseFromString(text, 'text/html');
+
+        return html;
+    };
+
+    const changeOptions = async (e) => {
+        const requestBody = e.target.value;
+        const updateFormResponse = await updateForm(requestBody, form.getAttribute('action'), form.getAttribute('method'));
+        const html = parseTextToHtml(updateFormResponse);
+
+        const new_form_select_position = html.getElementById('form_tag_wrapper');
+        form_select_tags.innerHTML = new_form_select_position.innerHTML;
+        wrapOneSelect(form_select_tags.querySelector('select'));
+        form_token.value = html.querySelectorAll('[id~="__token"]').value;
+    };
+    if (form_select_Server) {
+        form_select_Server.addEventListener('change', (e) => changeOptions(e));
+    }
+
+}
+
+function isParameterInUrl(url) {
+    return url.includes('?');
 }
 
 export {initNewRoomModal}

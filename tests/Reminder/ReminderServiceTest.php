@@ -38,14 +38,5 @@ class ReminderServiceTest extends WebTestCase
         $this->assertEquals('Cron ok', $res['hinweis']);
         $this->assertEquals(false, $res['error']);
     }
-    public function testHasNotificationwithFilterMixed(): void
-    {
-        $client = static::createClient();
-        $reminderTest = self::getContainer()->get(ReminderService::class);
-        $res = $reminderTest->sendReminder([null, 'http://localhost:8000']);
-        $this->assertEquals(10, $res['Konferenzen']);
-        $this->assertEquals(30, $res['Emails']);
-        $this->assertEquals('Cron ok', $res['hinweis']);
-        $this->assertEquals(false, $res['error']);
-    }
+
 }

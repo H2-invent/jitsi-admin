@@ -14,6 +14,7 @@ use App\Repository\SchedulingTimeRepository;
 use App\Repository\SchedulingTimeUserRepository;
 use App\Repository\ServerRepository;
 use App\Repository\UserRepository;
+use App\Service\NewRoomService;
 use App\Service\PexelService;
 use App\Service\RoomGeneratorService;
 use App\Service\SchedulingService;
@@ -26,8 +27,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,55 +67,28 @@ class ScheduleController extends JitsiAdminController
         SchedulingService    $schedulingService,
         RoomsRepository      $roomsRepository,
         ServerRepository     $serverRepository,
+        NewRoomService       $newRoomService,
+        FormFactoryInterface $formFactory,
     ): Response
     {
+        $room = $newRoomService->newRoomService(request: $request, myUser: $this->getUser());
+        if ($room instanceof Response) {
+            return $room;
+        }
         $servers = $serverUserManagement->getServersFromUser($this->getUser());
 
         $id = $request->get('id') ?? null;
         $edit = ($id !== null);
-
-        if ($edit) {
-            $room = $roomsRepository->findOneBy(['id' => $id]);
-            if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $room)) {
-                $this->addFlash('danger', $translator->trans('Keine Berechtigung'));
-                return $this->redirectToRoute('dashboard');
-            }
-            $snack = $translator->trans('Terminplanung erfolgreich bearbeitet');
-            $title = $translator->trans('Terminplanung bearbeiten');
-            $sequence = $room->getSequence() + 1;
-            $room->setSequence($sequence);
-            if (!$room->getUidModerator()) {
-                $room->setUidModerator(md5(uniqid('h2-invent', true)));
-            }
-            if (!$room->getUidParticipant()) {
-                $room->setUidParticipant(md5(uniqid('h2-invent', true)));
-            }
-            $serverChoose = $room->getServer();
-        } else {
-            $serverChoose = null;
-
-            if ($request->cookies->has('room_server')) {
-                $server = $serverRepository->find($request->cookies->get('room_server'));
-                if ($server && in_array($server, $servers)) {
-                    $serverChoose = $server;
-                }
-            }
-
-            if (count($servers) === 1) {
-                $serverChoose = $servers[0];
-            }
-
-            $room = $roomGeneratorService->createRoom($this->getUser(), $serverChoose);
-            $snack = $translator->trans('Terminplanung erfolgreich erstellt');
-            $title = $translator->trans('Neue Terminplanung erstellen');
-        }
-        $servers = $serverUserManagement->getServersFromUser($this->getUser());
+        $snack = $translator->trans('Terminplanung erfolgreich erstellt');
+        $title = $edit ? $translator->trans('Terminplanung bearbeiten') : $translator->trans('Neue Terminplanung erstellen');
 
         $roomOld = clone $room;
+
         $form = $this->createForm(
             SchedulerType::class,
             $room,
             [
+                'block_name' => 'room',
                 'user' => $this->getUser(),
                 'server' => $servers,
                 'action' => $this->generateUrl(
@@ -158,12 +134,13 @@ class ScheduleController extends JitsiAdminController
                 $em->flush();
                 $schedulingService->createScheduling($room);
 
-                if ($id) {
-                    if ($this->roomChanged($roomOld, $room)) {
+                if ($edit) {
+                    if ($newRoomService->roomChanged($roomOld, $room)) {
                         foreach ($room->getUser() as $user) {
                             $userService->editRoom($user, $room);
                         }
                     }
+                    $snack = $translator->trans('Terminplanung erfolgreich bearbeitet');
                 } else {
                     $roomGeneratorService->addUserToRoom($room->getModerator(), $room, true);
                     $userService->addUser($room->getModerator(), $room);
@@ -203,7 +180,7 @@ class ScheduleController extends JitsiAdminController
             [
                 'isEdit' => $edit,
                 'server' => $servers,
-                'serverchoose' => $serverChoose,
+                'serverchoose' => $room->getServer(),
                 'form' => $form->createView(),
                 'title' => $title,
             ]
@@ -212,9 +189,11 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/participants/{id}", name="schedule_admin_participants",methods={"GET"})
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
-    public function participants(Rooms $rooms, Request $request): Response
+    public function participants(
+        Rooms   $rooms,
+        Request $request
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
@@ -227,9 +206,11 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/{id}", name="schedule_admin",methods={"GET"})
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
-    public function index(Rooms $rooms, Request $request): Response
+    public function index(
+        Rooms   $rooms,
+        Request $request,
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
@@ -244,9 +225,11 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/add/{id}", name="schedule_admin_add",methods={"POST"})
-     * @ParamConverter("room", options={"mapping"={"room"="id"}})
      */
-    public function add(Rooms $rooms, Request $request): Response
+    public function add(
+        Rooms   $rooms,
+        Request $request
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
             throw new NotFoundHttpException('Room not found');
@@ -277,9 +260,10 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/remove/{id}", name="schedule_admin_remove",methods={"DELETE"})
-     * @ParamConverter("schedulingTime")
      */
-    public function remove(SchedulingTime $schedulingTime, Request $request): Response
+    public function remove(
+        SchedulingTime $schedulingTime,
+        Request        $request): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
@@ -301,9 +285,13 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("room/schedule/admin/choose/{id}", name="schedule_admin_choose",methods={"GET"})
-     * @ParamConverter("schedulingTime")
      */
-    public function choose(SchedulingTime $schedulingTime, Request $request, SchedulingService $schedulingService, TranslatorInterface $translator): Response
+    public function choose(
+        SchedulingTime      $schedulingTime,
+        Request             $request,
+        SchedulingService   $schedulingService,
+        TranslatorInterface $translator
+    ): Response
     {
         if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $schedulingTime->getScheduling()->getRoom())) {
             throw new NotFoundHttpException('Room not found');
@@ -320,10 +308,14 @@ class ScheduleController extends JitsiAdminController
 
     /**
      * @Route("schedule/{scheduleId}/{userId}", name="schedule_public_main", methods={"GET"})
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "uid"}})
-     * @ParamConverter("scheduling", class="App\Entity\Scheduling",options={"mapping": {"scheduleId": "uid"}})
      */
-    public function public(Scheduling $scheduling, User $user, Request $request, PexelService $pexelService, TranslatorInterface $translator): Response
+    public function public(
+        #[MapEntity(mapping: ['scheduleId' => 'uid'])]
+        Scheduling          $scheduling,
+        #[MapEntity(mapping: ['userId' => 'uid'])]
+        User                $user,
+        TranslatorInterface $translator,
+    ): Response
     {
         if (!in_array($user, $scheduling->getRoom()->getUser()->toArray())
             || !$scheduling->getRoom()->getScheduleMeeting()
@@ -386,16 +378,6 @@ class ScheduleController extends JitsiAdminController
         );
     }
 
-    private function roomChanged(Rooms $oldRoom, Rooms $newRoom): bool
-    {
-        return (
-            $oldRoom->getStart() !== $newRoom->getStart()
-            || $oldRoom->getDuration() !== $newRoom->getDuration()
-            || $oldRoom->getName() !== $newRoom->getName()
-            || $oldRoom->getAgenda() !== $newRoom->getAgenda()
-            || $oldRoom->getPersistantRoom() !== $newRoom->getPersistantRoom()
-        );
-    }
 
     private function validateVote(int $vote, bool $allowMaybe): bool
     {
@@ -403,19 +385,20 @@ class ScheduleController extends JitsiAdminController
     }
 
     #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
-    #[ParamConverter(data: 'room', class: Rooms::class)]
-    public function generateVoteCsv(Rooms $room): Response
+    public function generateVoteCsv(
+        Rooms $room
+    ): Response
     {
         $votingsAndTimes = $this->getUserVotes($room);
 
         if (!isset($votingsAndTimes['times']) || count($votingsAndTimes['times']) === 0) {
-            $this->addFlash('danger', $this->translator->trans('Fehler, es gibt noch keine Terminvorschläge.'));
+            $this->addFlash('danger', $this->translator->trans('error.scheduler.noSchedules'));
 
             return $this->redirectToRoute('dashboard');
         }
 
         if (!isset($votingsAndTimes['user']) || count($votingsAndTimes['user']) === 0) {
-            $this->addFlash('danger', $this->translator->trans('Fehler, es wurde noch nicht abgestimmt.'));
+            $this->addFlash('danger', $this->translator->trans('error.scheduler.novotings'));
 
             return $this->redirectToRoute('dashboard');
         }
@@ -423,14 +406,14 @@ class ScheduleController extends JitsiAdminController
         $votings = $this->fillAllVotings($votingsAndTimes['user'], array_unique($votingsAndTimes['times']));
 
 
-        $csv = implode(PHP_EOL, CsvHandler::generateFromArray($votings));
+        $csv = implode(PHP_EOL, CsvHandler::generateFromArray($votings, ';'));
         $response = new Response($csv);
 
         $response->headers->set(
             'Content-Disposition',
             HeaderUtils::makeDisposition(
                 HeaderUtils::DISPOSITION_ATTACHMENT,
-                $room->getName() . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
+                preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
             )
         );
 

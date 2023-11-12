@@ -113,7 +113,13 @@
 
     <div class="w-100" id="jitsiWindow">
         {% block sidebar %}
-            {% include('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+            {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+                {% block extension %}
+                    {% if room.totalOpenRooms == true %}
+                        {% include 'conference_modules/inviteUsersToOpenRooms.html.twig' with {'url':path('own_room_startPage',{'uid':room.uid})} %}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
         {% endblock %}
     </div>
 

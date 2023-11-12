@@ -39,17 +39,32 @@
 
     {% if theme %}
         <style>
+            :root{
+                --main-color: {{theme.primaryColor}};
+                --color-button: {{ theme.colorButton }};
+                --color-button-text: {{ theme.colorButtonText }};
+                --color-button-bright: {{ theme.colorButton|color_lighten(97)}};
+                --color-button-hover:{{ theme.colorButton|color_lighten(10)}};
+
+                --color-button-outline:{{ theme.colorButtonOutlinecolor|color_lighten(10)}};
+                --color-button-outline-hover:{{ theme.colorButton|color_lighten(10)}};
+                --color-button-outline-text:{{ theme.colorButtonOutlineTextcolor|color_lighten(10)}};
+                --color-button-outline-text-hover:{{ theme.colorButton|color_lighten(10)}};
+
+                --color-button-secondary:{{ theme.colorButtonSecondary}};
+                --color-button-secondary-hover:{{ theme.colorButtonSecondary|color_lighten(10)}};
+            }
             .sidebarToggle {
-                background-color: {{ theme.colorButton }} !important;
-                color: {{ theme.colorButtonText }} !important;
+                background-color: {{ theme.colorButton }}!important;
+                color: var(--color-button-text) !important;
             }
 
             .nav-mat-tabs .nav-mat-item.mat-active, .nav-mat-tabs .nav-mat-item:hover {
-                color: {{ theme.colorButton }} !important;
+                color: var(--color-Button)!important;
             }
 
             .nav-mat-tabs .underline {
-                border-bottom: solid 3px {{ theme.colorButton }} !important;
+                border-bottom: solid 3px {{ theme.colorButton }}!important;
             }
 
             .nav-mat-tabs .nav-mat-item:hover {
@@ -69,8 +84,8 @@
             }
 
             .btn-outline-primary, .btn-outline-primary:hover {
-                color: {{ theme.colorButtonOutlineTextcolor }} !important;
-                border-color: {{ theme.colorButtonOutlinecolor }} !important;
+                color: var(--color-button-outline-hover) !important;
+                border-color: var(--color-button-outline-hover) !important;
             }
 
             .blackMode .btn-outline-primary, .blackMode {
@@ -121,31 +136,31 @@
             }
 
             .btn-primary {
-                background-color: {{ theme.colorButton }} !important;
-                color: {{ theme.colorButtonText }} !important;
-                box-shadow: 0 4px 9px -4px{{ theme.colorButton }};
+                background-color: var(--color-button) !important;
+                color: var(--color-button-text) !important;
+                box-shadow: 0 4px 9px -4px var(--color-button);
             }
 
             .btn-primary.dropdown-toggle {
-                background-color: {{ theme.colorButton }} !important;
-                color: {{ theme.colorButtonText }} !important;
+                background-color: var(--color-button) !important;
+                color: var(--color-button-text) !important;
             }
 
             .btn-primary:hover, .btn-primary.dropdown-toggle:hover {
-                background-color: {{ theme.colorButtonHover }} !important;
-                color: {{ theme.colorButtonText }} !important;
+                background-color: var(--color-button-hover) !important;
+                color: var(--color-button-text) !important;
             }
 
             .btn-primary.dropdown-toggle:active, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:active {
                 background-color: {{ theme.colorButtonActive }} !important;
-                color: {{ theme.colorButtonText }} !important;
+                color: var(--color-button-text) !important;
             }
 
-            .blackMode #content {
+            .blackMode #content, .blackMode .sidebar.showSidebar {
                 background-color: {{ theme.darkmodeBackgroudcolor }} !important;
             }
 
-            .blackMode .card {
+            .blackMode .card, .blackMode .adressbookline {
                 background-color: {{ theme.darkmodeBackgroudcolorContrast }} !important;
             }
 
@@ -154,18 +169,18 @@
             }
 
             .dudp__calendar .selected:before {
-                background-color: {{ theme.colorButton }} !important;
+                background-color: var(--color-button) !important;
             }
 
             .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit.active span,
             .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit:not(.digit--disabled) span:hover,
             .mdtp__wrapper[data-theme='blue'] .mdtp__clock .mdtp__digit.active:before,
             .mdtp__clock_dot {
-                background-color: {{ theme.colorButton }} !important;
+                background-color: var(--color-button) !important;
             }
 
             .mdtp__button {
-                color: {{ theme.colorButton }} !important;
+                color: var(--color-button) !important;
             }
 
 
@@ -175,49 +190,49 @@
 
             .form-check-input[type=checkbox]:checked, .form-check-input[type=checkbox]:checked:focus {
                 background-image: none;
-                background-color: {{ theme.colorButton }};
+                background-color: var(--color-button);
             }
 
             .form-check-input:checked, .form-check-input:checked:focus {
-                border-color: {{ theme.colorButton }};
+                border-color: var(--color-button);
             }
 
             .form-control:focus {
-                border-color: {{ theme.colorButton }};
-                box-shadow: inset 0 0 0 1px{{ theme.colorButton }};
+                border-color: var(--color-button);
+                box-shadow: inset 0 0 0 1px var(--color-button);
             }
 
             .form-switch .form-check-input:checked[type=checkbox]:after {
 
-                background-color: {{ theme.colorButton }};
+                background-color: var(--color-button);
 
             }
 
             .form-outline .form-control:focus ~ .form-label {
-                color: {{ theme.colorButton }};
+                color: var(--color-button);
             }
             .input-group > .btn[class*=btn-outline-]{
-                border-color: {{ theme.colorButton }} !important;
+                border-color: var(--color-button) !important;
             }
             .form-outline .form-control:focus ~ .form-notch .form-notch-leading {
-                border-color: {{ theme.colorButton }};
-                box-shadow: -1px 0 0 0 {{ theme.colorButton }}, 0 1px 0 0 {{ theme.colorButton }}, 0 -1px 0 0{{ theme.colorButton }};
+                border-color: var(--color-button);
+                box-shadow: -1px 0 0 0 var(--color-button), 0 1px 0 0 var(--color-button), 0 -1px 0 0 var(--color-button);
             }
 
             .form-outline .form-control:focus ~ .form-notch .form-notch-middle {
-                border-color: {{ theme.colorButton }};
-                box-shadow: 0 1px 0 0{{ theme.colorButton }};
+                border-color: var(--color-button);
+                box-shadow: 0 1px 0 0 var(--color-button);
                 border-top: 1px solid transparent;
             }
 
             .form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
-                border-color: {{ theme.colorButton }};
-                box-shadow: 1px 0 0 0 {{ theme.colorButton }}, 0 -1px 0 0 {{ theme.colorButton }}, 0 1px 0 0{{ theme.colorButton }};
+                border-color: var(--color-button);
+                box-shadow: 1px 0 0 0 var(--color-button), 0 -1px 0 0 var(--color-button), 0 1px 0 0 var(--color-button);
             }
 
             .form-check-input[type=radio]:checked:after {
-                border-color: {{ theme.colorButton }};
-                background-color: {{ theme.colorButton }};
+                border-color: var(--color-button);
+                background-color: var(--color-button);
             }
 
             {% if getApplicationProperties('FAVORITEBACKGROUND') %}
@@ -226,7 +241,7 @@
             }
 
             .form-control, .form-check-input, .input-group-text {
-                border-color: {{ theme.colorButton }};
+                border-color: var(--color-button);
                 border-radius: 8px;
                 border-width: 3px;
             }
@@ -239,7 +254,7 @@
                 border-color: inherit;
             }
             .proTips {
-                border-color: {{ theme.colorButton }}!important;
+                border-color: var(--color-button)!important;
             }
             .blackMode .proTips{
                 background-color: {{ theme.darkmodeBackgroudcolor }}!important;
@@ -247,6 +262,11 @@
             .window .sidebar #favorite-Container h5, .window .sidebar #favorite-Container .h5 {
                 border-color: {{ theme.colorButton  }};
             }
+
+            .card,.adressbookline, .card.favorites .card-background{
+                background-color: var(--color-button-bright);
+            }
+
 
             {% endif %}
         </style>

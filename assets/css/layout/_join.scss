@@ -85,7 +85,7 @@ strong {
 #logo_image {
   &.stick {
     position: absolute;
-    top: 1.5em;
+    top: 2.2em;
     left: 1.5em;
     z-index: 2;
   }
@@ -104,12 +104,6 @@ strong {
   display: flex;
   position: relative;
 
-  &:hover, :active {
-    > .content {
-      position: absolute;
-      transform: translateX(0%);
-    }
-  }
 
   .content {
     position: absolute;
@@ -117,8 +111,22 @@ strong {
     background-color: $black_background;
     color: $black_font-color;
     padding: 1.5em;
-    transform: translateX(-100%);
-    transition: ease-in transform 0.5s;
+    transform: translateX(-110%);
+    transition: ease-in transform 0.2s;
+    width: 90vw;
+    max-width: 500px;
+
+    &.show {
+      transform: translateX(0) !important;
+    }
+
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 8px;
+      cursor: pointer;
+    }
 
     p {
       color: $black_font-color;
@@ -127,12 +135,6 @@ strong {
     a {
       cursor: pointer;
     }
-  }
-
-  .toggle {
-    background-color: white;
-    color: black;
-    padding: 1rem;
   }
 }
 
@@ -152,13 +154,27 @@ strong {
   .wrapperIcons {
     width: fit-content;
     width: -moz-fit-content;
+    background-color: rgb(20, 20, 20);
+    color: white;
+    border-radius: 6px;
+    transform: translateX(-110%);
+    box-shadow: $card-box-shadow;
+    transition: transform 0.2s ease-in;
+    padding: 4px;
+
+    &.show {
+      transform: translateX(8px);
+    }
 
     .wrapper {
       display: flex;
       width: 100%;
       position: relative;
+      border-radius: 6px;
 
       &:hover {
+        background-color: lighten(rgb(20, 20, 20), 20);
+
         .wrapper-helper {
           width: auto;
           padding: 4px;
@@ -168,9 +184,9 @@ strong {
 
     .conference-icon {
       width: 100%;
-      padding: 0.5rem;
+      padding: 1rem;
       cursor: pointer;
-      margin-bottom: 8px;
+
       width: -moz-available;
       width: available;
       border-radius: 8px;
@@ -184,7 +200,8 @@ strong {
       position: absolute;
       top: 0;
       left: 120%;
-      background-color: white;
+      background-color: rgb(20, 20, 20);
+      color: white;
       padding: 4px 0 4px 0;
       overflow: hidden;
       border-radius: 8px;

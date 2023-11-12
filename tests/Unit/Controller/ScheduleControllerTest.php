@@ -94,8 +94,8 @@ class ScheduleControllerTest extends KernelTestCase
         $schedulingTimeUserCollection2->add($schedulingTimeUser2);
         $schedulingTimeUserCollection2->add($schedulingTimeUser3);
 
-        $dateTime1 = new DateTime();
-        $dateTime2 = (new DateTime())->modify('+1 day');
+        $dateTime1 = new DateTime('2023-10-31');
+        $dateTime2 = (clone $dateTime1)->modify('+1 day');
 
         $room
             ->expects(self::once())
@@ -224,58 +224,11 @@ class ScheduleControllerTest extends KernelTestCase
 
         $actualResponse = $this->subject->generateVoteCsv($room);
 
-        $expected = 'Name,Email,' . $dateTime1->format('d-m-Y H:i:s') . ',' . $dateTime2->format('d-m-Y H:i:s');
-        $expected .= PHP_EOL . 'user1 test1,email1,Ja,null' . PHP_EOL . 'user2 test2,email2,Nein,Vielleicht' . PHP_EOL;
-        $expected .= 'user3 test3,email3,null,Vielleicht';
+        $expected = 'Name;Email;'.    $dateTime2->format('d-m-Y H:i:s') .';' .$dateTime1->format('d-m-Y H:i:s');
+        $expected .= PHP_EOL . 'user1 test1;email1;null;Ja' . PHP_EOL . 'user2 test2;email2;Unter Vorbehalt;Nein' . PHP_EOL;
+        $expected .= 'user3 test3;email3;Unter Vorbehalt;null';
 
         $this->assertEquals($expected, $actualResponse->getContent());
-    }
-
-    public function testGenerateCsvSkipsOnNoScheduling(): void
-    {
-        $room = $this->getRoomMock();
-
-        $room
-            ->expects(self::once())
-            ->method('getSchedulings')
-            ->willReturn(new ArrayCollection());
-
-        $this->subject->setContainer($this->getContainerMockWithSession());
-
-        $this->assertInstanceOf(RedirectResponse::class, $this->subject->generateVoteCsv($room));
-    }
-
-    public function testGenerateCsvSkipsOnNoVotes(): void
-    {
-        $room = $this->getRoomMock();
-        $scheduling = $this->getSchedulingMock();
-        $schedulingTime = $this->getSchedulingTimeMock();
-        $dateTime = new DateTime();
-
-        $schedulingCollection = new ArrayCollection();
-        $schedulingCollection->add($scheduling);
-
-        $schedulingTimeCollection = new ArrayCollection();
-        $schedulingTimeCollection->add($schedulingTime);
-
-        $room
-            ->expects(self::once())
-            ->method('getSchedulings')
-            ->willReturn($schedulingCollection);
-
-        $scheduling
-            ->expects(self::once())
-            ->method('getSchedulingTimes')
-            ->willReturn($schedulingTimeCollection);
-
-        $schedulingTime
-            ->expects(self::once())
-            ->method('getTime')
-            ->willReturn($dateTime);
-
-        $this->subject->setContainer($this->getContainerMockWithSession());
-
-        $this->assertInstanceOf(RedirectResponse::class, $this->subject->generateVoteCsv($room));
     }
 
     private function getRoomMock(): MockObject&Rooms

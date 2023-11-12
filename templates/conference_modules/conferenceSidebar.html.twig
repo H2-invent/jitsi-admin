@@ -1,63 +1,92 @@
-<div class="conference-sidebar" >
+<div class="conference-sidebar">
     {% if user is defined and user is not null %}
-    <script>
-        var schowNameInWidgets = "{{ user|nameOfUserNoSymbol }}";
-    </script>
+        <script>
+            var schowNameInWidgets = "{{ user|nameOfUserNoSymbol }}";
+        </script>
     {% endif %}
-    <div class="wrapperIcons" >
+
+
+    <div class="wrapperIcons" id="wrapperIcons">
+
+        {% if room is defined and room is not null %}
+            {% if room.server.disableChat != true %}
+
+                <div class="wrapper">
+                    <div class=" externalChat conference-icon" id="externalChat">
+                        <i class="fa-regular fa-message"></i>
+                        <div class="filter-dot d-none"></div>
+                    </div>
+                    <div class="wrapper-helper">
+                        {{ 'options.chat'|trans }}
+
+
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
         {% if getApplicationProperties('LAF_WHITEBOARD_FUNCTION') == 1 %}
-            <div class="wrapper" >
-                <div class="startExternalApp conference-icon bg-white d-none"
-                        {% if app.user is defined
-                            and app.user is not null
-                            and (
-                            room.moderator == app.user
-                            or roomPermissions(app.user,room).moderator == true
-                            or roomPermissions(app.user,room).lobbyModerator == true) %}
-                            data-selfurl="{{ createWhitebophirLink(room,true) }}"
-                            data-room="whiteboard/{{ room.uidReal }}"
-                            data-url="{{ createWhitebophirLink(room,false) }}"
-                        {% else %}
-                            data-selfurl="{{ createWhitebophirLink(room,false) }}"
-                        {% endif %}
-                >
-                    <i class="fa-solid fa-chalkboard"></i>
+            {% if room is defined and room is not null %}
+                {% if room.server.disableWhiteboard != true %}
+                    <div class="wrapper">
+                        <div class="startExternalApp  startWhiteboard conference-icon d-none"
+                                {% if app.user is defined
+                                    and app.user is not null
+                                    and (
+                                    room.moderator == app.user
+                                    or roomPermissions(app.user,room).moderator == true
+                                    or roomPermissions(app.user,room).lobbyModerator == true) %}
+                                    data-selfurl="{{ createWhitebophirLink(room,true) }}"
+                                    data-room="whiteboard/{{ room.uidReal }}"
+                                    data-url="{{ createWhitebophirLink(room,false) }}"
+                                {% else %}
+                                    data-selfurl="{{ createWhitebophirLink(room,false) }}"
+                                {% endif %}
+                        >
+                            <i class="fa-solid fa-chalkboard"></i>
 
-                </div>
-                <div class="wrapper-helper">
-                    {{ 'options.whiteboard'|trans }}
-                </div>
-            </div>
-
+                        </div>
+                        <div class="wrapper-helper">
+                            {{ 'options.whiteboard'|trans }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
         {% endif %}
 
         {% if getApplicationProperties('LAF_ETHERPAD_FUNCTION') == 1 %}
             {% if name is not defined or name is null %}
                 {% set name = 'Meetling' %}
             {% endif %}
-            <div class="wrapper">
-                <div class="startExternalApp conference-icon bg-white d-none"
-                        {% if app.user is defined
-                            and app.user is not null
-                            and (
-                            room.moderator == app.user
-                            or roomPermissions(app.user,room).moderator == true
-                            or roomPermissions(app.user,room).lobbyModerator == true) %}
-                            data-selfurl="{{ createEtherpadLink(room,user) }}"
-                            data-room="whiteboard/{{ room.uidReal }}"
-                            data-url="{{ createEtherpadLink(room) }}"
-                        {% else %}
-                            data-selfurl="{{ createEtherpadLink(room,user) }}"
-                        {% endif %}
-                >
-                    <i class="fa-solid fa-clipboard"></i>
-                </div>
-                <div class="wrapper-helper">
-                    {{ 'options.meetingNotes'|trans }}
-                </div>
-            </div>
+            {% if room is defined and room is not null %}
+                {% if room.server.disableEtherpad != true %}
+                    <div class="wrapper">
+                        <div class="startExternalApp startEtherpad conference-icon d-none"
+                                {% if app.user is defined
+                                    and app.user is not null
+                                    and (
+                                    room.moderator == app.user
+                                    or roomPermissions(app.user,room).moderator == true
+                                    or roomPermissions(app.user,room).lobbyModerator == true) %}
+                                    data-selfurl="{{ createEtherpadLink(room,user) }}"
+                                    data-room="whiteboard/{{ room.uidReal }}"
+                                    data-url="{{ createEtherpadLink(room) }}"
+                                {% else %}
+                                    data-selfurl="{{ createEtherpadLink(room,user) }}"
+                                {% endif %}
+                        >
+                            <i class="fa-solid fa-clipboard"></i>
+                        </div>
+                        <div class="wrapper-helper">
+                            {{ 'options.meetingNotes'|trans }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
         {% endif %}
-
         {% block extension %}{% endblock %}
     </div>
 </div>
+
+
+

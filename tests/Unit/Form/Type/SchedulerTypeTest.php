@@ -58,14 +58,9 @@ class SchedulerTypeTest extends KernelTestCase
         $formBuilder = $this->getFormBuilder();
         $user = $this->getUserMock();
 
-        $this->tagRepository
-            ->expects(self::once())
-            ->method('findBy')
-            ->with(['disabled' => false], ['priority' => 'ASC'])
-            ->willReturn([1]);
 
         $this->themeService
-            ->expects(self::exactly(9))
+            ->expects(self::exactly(10))
             ->method('getApplicationProperties')
             ->willReturn(1);
 

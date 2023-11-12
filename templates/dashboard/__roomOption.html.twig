@@ -6,6 +6,13 @@
         {{ 'Optionen'|trans }}
     </button>
     <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1">
+        <li>
+            <a href="{{ path('room_add_user',{'room':room.id}) }}"
+             class="dropdown-item loadContent">
+                <i class="fa-solid fa-users"></i>
+                {{ 'Teilnehmer verwalten'|trans }}
+            </a>
+        </li>
         {% if room.scheduleMeeting %}
             {% include 'dashboard/widget/__room_shedule.html.twig' %}
         {% elseif room.repeater %}

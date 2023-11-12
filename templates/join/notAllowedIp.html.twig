@@ -1,0 +1,19 @@
+{% extends 'join/base.html.twig' %}
+{% block header %}
+    {{ 'room.error.noAccessAllowed'|trans }}
+{% endblock %}
+{% block content %}
+
+
+    <hr>
+    <p class="text-center text-md-start">
+        {{ 'room.error.noAccessAllowedIP'|trans }}
+    </p>
+    <hr>
+
+{% endblock %}
+
+{% block webpack %}
+
+    {{ encore_entry_script_tags('onlyClosablePage') }}
+{% endblock %}

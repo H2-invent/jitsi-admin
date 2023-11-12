@@ -8,14 +8,14 @@
   background-color: white;
   box-sizing: border-box;
   touch-action: none;
-  border: 8px solid $background-color;
+  
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, .25), 0 3px 11px 8px rgba(0, 0, 0, 0.16);
+  box-shadow: $card-box-shadow-3dp;
   overflow: hidden;
 
   &:not(.maximized,.minified) {
-    outline: 1px solid black;
+    border: 8px solid $background-color;
     border-radius: 8px;
     .dragger {
       cursor: move;
@@ -33,7 +33,7 @@
     width: 100%;
     display: flex;
 
-    padding-bottom: 8px;
+    padding: 4px;
     justify-content: space-between;
     background-color: $background-color;
 

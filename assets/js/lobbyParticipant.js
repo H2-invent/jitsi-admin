@@ -20,6 +20,9 @@ import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import {checkDeviceinList} from './jitsiUtils'
 import {jitsiController} from "./pauseJitsi";
+import {initSocialIcons} from "./createSocialButtons";
+import {moveTag} from "./moveTag";
+import {ConferenceUtils} from "./ConferenceUtils";
 
 import ('jquery-confirm');
 
@@ -51,7 +54,7 @@ var microphoneLabel = null;
 var cameraLable = null;
 var displayName = null;
 var avatarUrl = null;
-
+let conferenceUtils= null;
 function initMercure() {
 
     socket.on('mercure', function (inData) {
@@ -136,7 +139,7 @@ function initJitsiMeet(data) {
     var frameDIv = $('#frame');
     $('#logo_image').prop('href', '#').addClass('stick').prependTo('#jitsiWindow');
     frameDIv.prepend($(data.options.parentNode));
-    frameDIv.prepend($('#tagContent').removeClass().addClass('floating-tag'))
+    moveTag(frameDIv)
     $('#window').remove();
     $('#mainContent').remove();
     $('.imageBackground').remove();
@@ -155,6 +158,8 @@ function initJitsiMeet(data) {
         displayName = options.userInfo.displayName;
     }
     api = new JitsiMeetExternalAPI(data.options.domain, options);
+    conferenceUtils = new ConferenceUtils(api);
+    conferenceUtils.initConferencePreJoin();
     api.addListener('chatUpdated', function (e) {
         if (e.isOpen == true) {
             document.querySelector('#logo_image').classList.add('transparent');
@@ -168,11 +173,16 @@ function initJitsiMeet(data) {
         enterMeeting();
         initStartWhiteboard();
         showPlayPause();
+        conferenceUtils.initConferencePostJoin();
         var pauseController = new jitsiController(api,displayName,avatarUrl);
         window.onbeforeunload = function (e) {
             return 'Do you really want to leave this conference';
         }
-
+        if (typeof enforceE2Eencryption !== 'undefined'){
+            if (enforceE2Eencryption){
+                api.executeCommand('toggleE2EE', true);
+            }
+        }
         api.addListener('videoConferenceLeft', function (e) {
             leaveMeeting();
             initStarSend();

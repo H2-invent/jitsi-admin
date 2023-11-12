@@ -17,7 +17,7 @@
 
 
                                     <div class="picture me-2 "
-                                         style="width: 4em; height: 4em; border-radius: 5000px; overflow: hidden">
+                                         style="min-width: 4em; max-width: 4em; height: 4em; border-radius: 5000px; overflow: hidden">
 
 
                                         {% if app.user.profilePicture %}
@@ -137,12 +137,14 @@
                        href="{{ path('second_email_change') }}"
                        target="_blank">{{ 'second.email.title'|trans }}</a>
                 {% endif %}
-
-                {% if theme == false  or (theme is not null and theme.profileAllowEdit == true  ) %}
+                {% if getApplicationProperties('profileHideiCalLink') != true %}
                     <div class="row">
                         <div class="col-lg-12 mt-3">
                             <div class="mb-3">
                                 <b>{{ 'iCal Link'|trans }}</b>
+                                <a href="https://h2-invent.com/post/howtos/ical-link-kalender-importieren">
+                                    {{ 'help.ical.Link'|trans }}
+                                </a>
                             </div>
                             <div class="input-group mb-3">
                                 <input id="linkical" readonly type="text" class="form-control"

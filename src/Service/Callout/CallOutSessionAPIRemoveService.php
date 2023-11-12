@@ -121,6 +121,6 @@ class CallOutSessionAPIRemoveService
     public function sendRefuseMessage(Rooms $room, $message)
     {
         $topic = 'lobby_moderator/' . $room->getUidReal();
-        $this->directSendService->sendSnackbar($topic, $message, 'danger');
+        $this->directSendService->sendSnackbar($topic, $message, 'danger',2000);
     }
 }

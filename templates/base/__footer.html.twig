@@ -5,7 +5,7 @@
     {% if theme %}
         {% if theme.footerImprintEnable == true %}
             <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-               href="{{ imprint }}">{{ theme.footerImprintText }}</a>
+               href="{{ getApplicationProperties('imprint') }}">{{ theme.footerImprintText }}</a>
         {% endif %}
     {% else %}
         <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
@@ -17,7 +17,7 @@
     {% if theme %}
         {% if theme.footerGdprEnable == true %}
             <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
-               href="{{ dataPrivacy }}">{{ theme.footerGdprText }}</a>
+               href="{{ getApplicationProperties('dataPrivacy') }}">{{ theme.footerGdprText }}</a>
         {% endif %}
     {% else %}
         <a class="nav-link" target="_blank" referrerpolicy="no-referrer"
@@ -30,7 +30,7 @@
     {% if theme %}
         {% if theme.footerReportIssueEnable == true %}
             <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
-               href="{{ theme.footerReportIssueUrl }}">{{ theme.footerReportIssueText }}</a>
+               href="{{ getApplicationProperties('footerReportIssueUrl') }}">{{ getApplicationProperties('footerReportIssueText') }}</a>
         {% endif %}
     {% else %}
         <a class="nav-link d-none d-md-block" target="_blank" referrerpolicy="no-referrer"
@@ -55,6 +55,7 @@
 <li class="nav-item d-none d-xl-block ">
 
     <a class="nav-link"
+       target="_blank"
        href="
 {% if getApplicationProperties('LAF_HIDE_CHANGELOG') == 0 %}
             {{ path('app_changelog') }}

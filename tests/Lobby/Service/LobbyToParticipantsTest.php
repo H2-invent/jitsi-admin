@@ -26,7 +26,7 @@ class LobbyToParticipantsTest extends KernelTestCase
             new StaticTokenProvider('test'),
             function (Update $update): string {
                 if (strpos($update->getData(), 'snackbar') > 0) {
-                    self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
+                    self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());
                 }
                 if (strpos($update->getData(), 'jitsi-meet') > 0) {
                     self::assertEquals('{"type":"redirect","url":"jitsi-meet:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE#config.subject=%22this_is_a_room_with_lobby%22","timeout":5000}', $update->getData());
@@ -65,7 +65,7 @@ class LobbyToParticipantsTest extends KernelTestCase
             new StaticTokenProvider('test'),
             function (Update $update): string {
                 if (strpos($update->getData(), 'snackbar') > 0) {
-                    self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
+                    self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());
                 }
                 if (strpos($update->getData(), 'jitsi-meet') > 0) {
                     self::assertEquals('{"type":"redirect","url":"https:\/\/meet.jit.si2\/12313231ghjgfdsdf?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QgVXNlciJ9fSwibW9kZXJhdG9yIjpmYWxzZX0.9ND7c-K_wWEciD3NQZiDX-Bhn4jY_XDnqiZXquRpHD4#config.subject=%22This_is_a_room_with_Lobby%22","timeout":5000}', $update->getData());
@@ -129,6 +129,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                             'type' => "newJitsi",
                             'options' => [
                                 'options' => [
+//                                    'roomName' => 'a38d63dc4ce308b7a5a296d4f3a42c29/12313231ghjgfdsdf',
                                     'roomName' => '12313231ghjgfdsdf',
                                     'width' => '100%',
                                     'height' => 400,
@@ -155,9 +156,10 @@ class LobbyToParticipantsTest extends KernelTestCase
                     );
                 }
                 if (strpos($update->getData(), 'snackbar') > 0) {
-                    self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success"}', $update->getData());
+                    self::assertEquals('{"type":"snackbar","message":"Sie wurden zu der Konferenz zugelassen und werden in einigen Sekunden weitergeleitet.","color":"success","closeAfter":2000}', $update->getData());
                 }
                 self::assertEquals(['lobby_WaitingUser_websocket/lkjhdslkfjhdskjhfkds'], $update->getTopics());
+
                 return 'id';
             }
         );

@@ -331,7 +331,7 @@
       </trans-unit>
       <trans-unit id="La4XzEP" resname="Im Browser">
         <source>Im Browser</source>
-        <target>Im Browser</target>
+        <target>Starten</target>
       </trans-unit>
       <trans-unit id="5wvMEm6" resname="In der App">
         <source>In der App</source>
@@ -743,7 +743,7 @@
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target>Vielleicht</target>
+        <target>Unter Vorbehalt</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -1309,7 +1309,7 @@
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
         <source>jitsi.start.browser</source>
-        <target>Im Browser</target>
+        <target>Starten</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
@@ -2180,7 +2180,7 @@
       </trans-unit>
       <trans-unit id="o46lsH1" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
         <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
-        <target>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</target>
+        <target>Teilnehmer können bei der Abstimmung mit "Unter Vorbehalt" abstimmen.</target>
       </trans-unit>
       <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
@@ -2192,7 +2192,7 @@
       </trans-unit>
       <trans-unit id="QSMGE51" resname="Als CSV Downloaden">
         <source>Als CSV Downloaden</source>
-        <target>Als CSV Downloaden</target>
+        <target>Ergebnisse herunterladen (CSV)</target>
       </trans-unit>
       <trans-unit id="tKYYjoS" resname="scheduler.new.schedule">
         <source>scheduler.new.schedule</source>
@@ -2231,8 +2231,60 @@
         <target>Weiter mit Edge</target>
       </trans-unit>
       <trans-unit id="6VWajOy" resname="browser.warning.toMac">
-        <source>Weiter mit Safari</source>
+        <source>browser.warning.toMac</source>
         <target>Weiter mit Safari</target>
+      </trans-unit>
+      <trans-unit id="vR9_UxK" resname="error.scheduler.noSchedules">
+        <source>error.scheduler.noSchedules</source>
+        <target>Fehler, es gibt noch keine Terminvorschläge.</target>
+      </trans-unit>
+      <trans-unit id="AM3ZcR5" resname="error.scheduler.novotings">
+        <source>error.scheduler.novotings</source>
+        <target>Fehler, es wurde noch nicht abgestimmt.</target>
+      </trans-unit>
+      <trans-unit id="AjtdRhx" resname="help.ical.Link">
+        <source>help.ical.Link</source>
+        <target>Was ist ein iCal Link</target>
+      </trans-unit>
+      <trans-unit id="qmgq88Z" resname="error.internalError">
+        <source>error.internalError</source>
+        <target>Interner Fehler</target>
+      </trans-unit>
+      <trans-unit id="86U7jr0" resname="rooms.help.setmaxparticipantsHardLimit">
+        <source>rooms.help.setmaxparticipantsHardLimit</source>
+        <target>Anzahl an Teilnehmenden, die der Konferenz beitreten können. Diese Zahl ist ein hartes Limit. Ist die maximale Anzahl an Teilnehmenden erreicht, können keine weiteren Teilnehmenden mehr beitreten, auch wenn die Teilnehmenden eingeladen worden sind.</target>
+      </trans-unit>
+      <trans-unit id="q5u2qJm" resname="room.option.sendProtokoll.question">
+        <source>room.option.sendProtokoll.question</source>
+        <target>Wollen Sie das Protokoll wirklich an alle Teilnehmenden versenden?</target>
+      </trans-unit>
+      <trans-unit id="vh43kpV" resname="room.option.sendProtokoll.button">
+        <source>room.option.sendProtokoll.button</source>
+        <target>Protokoll versenden</target>
+      </trans-unit>
+      <trans-unit id="ory.RAy" resname="room.error.noAccessAllowed">
+        <source>room.error.noAccessAllowed</source>
+        <target>Zugriff nicht erlaubt</target>
+      </trans-unit>
+      <trans-unit id="SSvsvcv" resname="room.error.noAccessAllowedIP">
+        <source>room.error.noAccessAllowedIP</source>
+        <target>Sie dürfen dieser Konferenz mit Ihrer IP-Adresse nicht beitreten. Bitte kontaktieren Sie ihren Support.</target>
+      </trans-unit>
+      <trans-unit id="Aa9UREO" resname="room.error.noAccessAllowedToManyParticipants">
+        <source>room.error.noAccessAllowedToManyParticipants</source>
+        <target>Zu viele Teilnehmenden</target>
+      </trans-unit>
+      <trans-unit id="HXqNNC9" resname="room.error.noAccessAllowedToManyParticipantsText">
+        <source>room.error.noAccessAllowedToManyParticipantsText</source>
+        <target>Das maximale Limit der Teilnehmenden in dieser Konferenz ist erreicht. Bitte versuchen Sie es zu einem späteren Zeitpukt erneut oder kontaktieren Sie Ihren Helpdesk</target>
+      </trans-unit>
+      <trans-unit id="rml7Shn" resname="enterprise.settings.header.tags">
+        <source>enterprise.settings.header.tags</source>
+        <target>Auswählbare Kategorien</target>
+      </trans-unit>
+      <trans-unit id="8RH..y9" resname="options.chat">
+        <source>Chat anzeigen</source>
+        <target>Chat anzeigen</target>
       </trans-unit>
     </body>
   </file>

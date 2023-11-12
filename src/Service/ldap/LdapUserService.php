@@ -62,14 +62,8 @@ class LdapUserService
             if ($ldapType->getRdn()) {
                 $user->getLdapUserProperties()->setRdn($ldapType->getRdn() . '=' . $entry->getAttribute($ldapType->getRdn())[0]);
             }
-            $specialField = [];
-            foreach ($ldapType->getSpecialFields() as $data) {
-                if ($entry->getAttribute($data)) {
-                    $specialField[$data] = $entry->getAttribute($data)[0];
-                } else {
-                    $specialField[$data] = '';
-                }
-            }
+            $specialField = $this->getSpezialPropertiesFields(ldapType: $ldapType, entry: $entry);
+
             $user->setSpezialProperties($specialField);
 
             $user->setEmail($email);
@@ -228,9 +222,28 @@ class LdapUserService
         foreach ($user->getDeputiesElement() as $depElement) {
             $this->em->remove($depElement);
         }
+        foreach ($user->getLogs() as $logElement) {
+            $user->removeLog($logElement);
+            $logElement->setUser($logElement->getRoom()->getModerator());
+           $this->em->persist($logElement);
+        }
+
         $this->em->persist($user);
         $this->em->flush();
         $this->em->remove($user);
         $this->em->flush();
+    }
+
+    public function getSpezialPropertiesFields(LdapType $ldapType, Entry $entry)
+    {
+        $specialField = [];
+        foreach ($ldapType->getSpecialFields() as $key => $data) {
+            if ($entry->getAttribute($data)) {
+                $specialField[$key] = $entry->getAttribute($data)[0];
+            } else {
+                $specialField[$key] = '';
+            }
+        }
+        return $specialField;
     }
 }

@@ -1,6 +1,7 @@
+
 {{ 'Sie wurden zur Teilnahme an einem Meeting eingeladen.'|trans }}
 {{ 'Am Meeting teilnehmen'|trans }}:
-{{ httpsAbolutUrl(path('app_public_conference',{'confId':room.name}),room is defined?room:null) }}
+{{ httpsAbolutUrl(url,room is defined?room:null) }}
 
 
 {% if getJigasiNumber(room) %}
@@ -13,10 +14,10 @@
     {% for key,n in getJigasiNumber(room) %}
         {% for number in n %}
             {% if room.server.jigasiApiUrl is not null %}
-               ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}#
+({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}# ({{ number }},,,,{{ getJigasiPin(room)}})
 
             {% elseif  room.callerRoom  %}
-                 ({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
+({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}: {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}# ({{ number }},,,,{{ room.callerRoom.callerId}})
 
             {% endif %}
         {% endfor %}

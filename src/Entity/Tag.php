@@ -26,9 +26,14 @@ class Tag
     private $color;
     #[ORM\Column(type: 'text', nullable: true)]
     private $backgroundColor;
+
+    #[ORM\ManyToMany(targetEntity: Server::class, mappedBy: 'tag')]
+    private Collection $servers;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
+        $this->servers = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -108,6 +113,33 @@ class Tag
     public function setBackgroundColor(?string $backgroundColor): self
     {
         $this->backgroundColor = $backgroundColor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Server>
+     */
+    public function getServers(): Collection
+    {
+        return $this->servers;
+    }
+
+    public function addServer(Server $server): static
+    {
+        if (!$this->servers->contains($server)) {
+            $this->servers->add($server);
+            $server->addServer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServer(Server $server): static
+    {
+        if ($this->servers->removeElement($server)) {
+            $server->removeServer($this);
+        }
 
         return $this;
     }

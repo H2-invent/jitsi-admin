@@ -167,19 +167,19 @@ class RoomFixture extends Fixture
         $manager->flush();
 
         //create a server
-        $server = new Server();
-        $server->setUrl('meet.jit.si');
-        $server->setAdministrator($user);
-        $server->addUser($user);
-        $server->setSlug('test');
-        $server->setLogoUrl('https://test.test');
-        $server->setAppSecret('jitsiSecret');
-        $server->setAppId('jitsiId');
-        $server->setJwtModeratorPosition(0);
-        $server->setPrivacyPolicy('https://privacy.dev');
-        $server->setServerName('Server without License');
+        $serverOriginal = new Server();
+        $serverOriginal->setUrl('meet.jit.si');
+        $serverOriginal->setAdministrator($user);
+        $serverOriginal->addUser($user);
+        $serverOriginal->setSlug('test');
+        $serverOriginal->setLogoUrl('https://test.test');
+        $serverOriginal->setAppSecret('jitsiSecret');
+        $serverOriginal->setAppId('jitsiId');
+        $serverOriginal->setJwtModeratorPosition(0);
+        $serverOriginal->setPrivacyPolicy('https://privacy.dev');
+        $serverOriginal->setServerName('Server without License');
 
-        $manager->persist($server);
+        $manager->persist($serverOriginal);
         $manager->flush();
 
         $server = new Server();
@@ -670,17 +670,34 @@ class RoomFixture extends Fixture
         $tag->setDisabled(false);
         $manager->persist($tag);
         $manager->flush();
+        $serverOriginal->addTag($tag);
+        $manager->persist($serverOriginal);
+
+        $tag = new Tag();
+        $tag->setTitle('Test Tag Enabled No2');
+        $tag->setPriority(-5);
+        $tag->setDisabled(false);
+        $manager->persist($tag);
+        $manager->flush();
+        $serverOriginal->addTag($tag);
+        $manager->persist($serverOriginal);
+
         $tag = new Tag();
         $tag->setTitle('Test Tag Disabled');
         $tag->setPriority(-10);
         $tag->setDisabled(true);
+        $serverOriginal->addTag($tag);
         $manager->persist($tag);
+        $manager->persist($serverOriginal);
         $manager->flush();
+
         for ($i = 0; $i < 5; $i++) {
             $tag2 = new Tag();
             $tag2->setTitle('Test Tag ' . $i);
             $tag2->setPriority(10 * $i);
             $manager->persist($tag2);
+            $serverOriginal->addTag($tag2);
+            $manager->persist($serverOriginal);
         }
         $manager->flush();
 

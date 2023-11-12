@@ -13,7 +13,7 @@ label.start: Start
 label.dauerKonferenz: Dauer der Konferenz
 label.nurRegistriertenutzer: Nur registrierte Benutzer mit einem Account auf dieser Plattform dürfen der Konferenz beitreten.
 label.speichern: Speichern
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: '"Unter Vorbehalt"-Option anbieten'
 option.15min: 15 Minuten
 option.30min: 30 Minuten
 option.45min: 45 Minuten
@@ -82,12 +82,20 @@ help:
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
-  jigasiNumberUrl: Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.
+  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind (z.B.: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
   disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
+  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
+  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
+  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
+  disableFilmstripe: Filmstripe in Jitsi deaktivieren
+  disableChat: Chat in Jitsi deaktivieren und ausblenden
+  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
+  disableEtherpad: Etherpad während einer Konferenz deaktivieren
+
 label:
   beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenBrowser: Beitreten
   serverSmtpHostName: SMTP-Hostname
   serverSmtpHostPort:  SMTP-Port
   serverSmtpEncryption:  Verschlüsselung
@@ -112,7 +120,7 @@ label:
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
+  maxParticipants: Maximale Anmeldungen in der Selbsteinschreibung
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
@@ -146,7 +154,14 @@ label:
   go: Los gehts!
   moderator: Organisator auswählen
   disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
-
+  enforceE2e: Ende zu Ende erzwingen
+  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
+  maxUser: Maximal Anzahl an Teilnehmenden
+  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
+  disableFilmstripe: Filmstrip deaktivieren
+  disableChat: Chat deaktivieren
+  disableWhiteboard: Whiteboard deaktivieren
+  disableEtherpad: Etherpad deaktivieren
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

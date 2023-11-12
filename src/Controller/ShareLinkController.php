@@ -14,7 +14,7 @@ use App\Service\SubcriptionService;
 use App\Service\UserService;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,9 +30,10 @@ class ShareLinkController extends JitsiAdminController
 {
     /**
      * @Route("/room/share/link/{id}", name="share_link")
-     * @ParamConverter("rooms")
      */
-    public function index(Rooms $rooms): Response
+    public function index(
+        Rooms $rooms
+    ): Response
     {
         if (!$rooms || !UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms) || $rooms->getPublic() != true) {
             throw new NotFoundHttpException('Not found');
@@ -42,9 +43,11 @@ class ShareLinkController extends JitsiAdminController
 
     /**
      * @Route("/room/share/link/accetwaitinglist/{id}", name="accept_waitingList")
-     * @ParamConverter("waitinglist")
      */
-    public function waitinglistAccept(Waitinglist $waitinglist, SubcriptionService $subcriptionService): Response
+    public function waitinglistAccept(
+        Waitinglist $waitinglist,
+        SubcriptionService $subcriptionService,
+    ): Response
     {
         if (UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $waitinglist->getRoom())) {
             $subcriptionService->createUserRoom($waitinglist->getUser(), $waitinglist->getRoom());
@@ -125,7 +128,7 @@ class ShareLinkController extends JitsiAdminController
 
         $message = $res['message'];
         $title = $res['title'];
-        if ($subscriber->getRoom()->getScheduleMeeting()) {
+        if ($subscriber && $subscriber->getRoom()->getScheduleMeeting()) {
             return $this->redirectToRoute('schedule_public_main', ['scheduleId' => $subscriber->getRoom()->getSchedulings()[0]->getUid(), 'userId' => $subscriber->getUser()->getUid()]);
         }
         return $this->render('share_link/subscribeSuccess.html.twig', ['server' => $server, 'message' => $message, 'title' => $title]);

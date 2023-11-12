@@ -8,6 +8,7 @@ import {initStartIframe} from "./createConference";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
 import {checkFirefox} from "./checkFirefox";
+import {ConferenceUtils} from "./ConferenceUtils";
 
 var frameId;
 let api = new JitsiMeetExternalAPI(domain, options);
@@ -19,6 +20,8 @@ var displayName = null;
 var myId = null;
 var roomName = null;
 var isBreakout = null;
+var conferenceUtils = new ConferenceUtils(api);
+conferenceUtils.initConferencePreJoin()
 api.addListener('chatUpdated', function (e) {
     if (e.isOpen == true) {
         document.querySelector('#logo_image').classList.add('transparent');
@@ -46,6 +49,7 @@ api.addListener('videoConferenceJoined', function (e) {
     isBreakout = e.breakoutRoom;
     pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
     jitsiErrorController= new jitsiErrorHandling(api);
+    conferenceUtils.initConferencePostJoin();
 
 
     window.onbeforeunload = function (e) {

@@ -17,7 +17,6 @@
     {% if server
     is defined and
     server is not null and
-    server|validateLicense and
     (
     ( server.showStaticBackgroundColor and
     server.staticBackgroundColor is not null ) or
@@ -63,7 +62,7 @@
             <div class="container d-flex justify-content-between align-items-center">
                 <div id="logo_image">
                     <img class="d-none d-sm-block" src="
-                    {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                    {% if server is defined and  server is not null and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
                         {% else %}
                             {% if theme == false %}
@@ -76,7 +75,7 @@
                          alt="Logo"
                          style="height: 50px; width: auto">
                     <img class="d-block d-sm-none" src="
-                        {% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+                        {% if server is defined and  server is not null and server.logoUrl is not null %}
                                 {{ server.logoUrl }}
                         {% else %}
                             {% if theme == false %}
@@ -143,11 +142,17 @@
 
                                         </div>
                                     </div>
+                                    {{ include('join/__frozenGlasContent.html.twig') }}
                                 </div>
 
 
                             </div>
-                            {{ include('join/__frozenGlasContent.html.twig') }}
+                            <div class="container-fluid">
+
+
+
+                            </div>
+
                             {% if server is defined and server and server|roomsinFuture|length > 0 %}
                                 {{ include('join/__publicRooms.html.twig') }}
                             {% endif %}

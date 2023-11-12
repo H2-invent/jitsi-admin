@@ -74,6 +74,7 @@ class UtilsHelperTest extends KernelTestCase
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($manager, $room));
         self::assertTrue(UtilsHelper::isAllowedToOrganizeRoom($deputy2, $room));
         self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom(null, $room));
+        self::assertFalse(UtilsHelper::isAllowedToOrganizeRoom($deputy, null));
     }
 
     public function testRoomIsReadonly(): void

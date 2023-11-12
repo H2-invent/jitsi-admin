@@ -29,7 +29,7 @@ class RoomStatus
     #[ORM\OneToMany(targetEntity: RoomStatusParticipant::class, mappedBy: 'roomStatus', orphanRemoval: true)]
     private $roomStatusParticipants;
     #[ORM\ManyToOne(targetEntity: Rooms::class, inversedBy: 'roomstatuses')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $room;
     #[ORM\Column(type: 'text')]
     private $jitsiRoomId;

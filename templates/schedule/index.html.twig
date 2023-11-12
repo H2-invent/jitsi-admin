@@ -1,9 +1,9 @@
-<div class="modal-dialog modal-dialog-centered">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ 'Terminplaner'|trans }}</h5>
-             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <small>{{ 'Hier die Termine zur Auswahl hinzufügen. Die Teilnehmer können dann Ihren Favoriten auswählen und Sie können diesen Termin dann komfortabel übernehmen.'|trans }}</small>
@@ -11,10 +11,10 @@
             <div class="input-group mb-3">
                 <input type="date" placeholder="{{ 'Zeit wählen'|trans }}" class="form-control" id="schedulePickr">
 
-                    <button  id="scheduleAppendBtn" class="btn btn-md btn-outline-primary waves-effect addSchedule"
-                            type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
-                            data-url="{{ path('schedule_admin_add',{'id':room.id}) }}"><i class="fas fa-plus"></i>
-                    </button>
+                <button id="scheduleAppendBtn" class="btn btn-md btn-outline-primary waves-effect addSchedule"
+                        type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
+                        data-url="{{ path('schedule_admin_add',{'id':room.id}) }}"><i class="fas fa-plus"></i>
+                </button>
 
             </div>
 
@@ -30,44 +30,98 @@
                             <ul class="list-group">
                                 <li class="list-group-item d-flex flex-column">
                                     <div class="d-flex">
-                                        <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}{% if s.createdFrom%} <small>{{ s.createdFrom.email }}</small>{% endif %}</p>
+                                        <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}{% if s.createdFrom %}
+                                                <small>{{ s.createdFrom.email }}</small>{% endif %}</p>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}&nbsp;
-                                            <a
-                                                    tabindex="0"
-                                                    data-mdb-toggle="popover"
-                                                    data-mdb-trigger="focus"
-                                                    data-mdb-html="true"
-                                                    title="{{ 'Abstimmung'|trans }}"
-                                                    data-mdb-content="{% if scheduleUser(s,0)|length >0 %}{% for s in scheduleUser(s,0) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
-                                                        class="fa fa-info-circle"></i></a></p>
-                                        <p class="mb-0">{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}&nbsp;<a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus" data-mdb-html="true"
-                                                                                                        title="{{ 'Abstimmung'|trans }}"
-                                                                                                        data-mdb-content="{% if scheduleUser(s,1)|length >0 %}{% for s in scheduleUser(s,1) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
-                                                        class="fa fa-info-circle"></i></a></p>
-                                        {% if room.allowMaybeOption %}
-                                        <p class="mb-0">{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}&nbsp;
-                                            <a
-                                                    tabindex="0"
-                                                    data-mdb-toggle="popover"
-                                                    data-mdb-trigger="focus"
-                                                    data-mdb-html="true"
-                                                    title="{{ 'Abstimmung'|trans }}"
-                                                    data-mdb-content="{% if scheduleUser(s,2)|length >0 %}{% for s in scheduleUser(s,2) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"
+                                    <div class="d-flex align-items-center flex-column flex-sm-row">
+                                        <div class="d-flex mb-2 mb-sm-0 w-100 justify-content-between me-sm-2"
+                                             style="flex: 1">
+                                            <div class="chip btn-outline-success"
+
                                             >
-                                                <i class="fa fa-info-circle"></i>
-                                            </a>
-                                        </p>
-                                        {% endif %}
-                                        <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}"
-                                                                                                                   class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref"
-                                                                                                                   data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln?'|trans }}">
-                                            <i class="fa fa-check"></i></a>
-                                        <button class="btn btn-sm btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect removeSchedule"
-                                                type="button" data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
-                                                data-url="{{ path('schedule_admin_remove',{'id':s.id}) }}"><i
-                                                    class="fa fa-trash"></i></button>
+                                                <div class="symbol"
+                                                     data-mdb-toggle="tooltip"
+                                                     title="{{ 'Ja'|trans }}">
+                                                    <i class="fa fa-check"></i>
+                                                </div>
+                                                <div class="content">
+                                                    {{ scheduleNumber(s,0) }}
+                                                    <a
+                                                            tabindex="0"
+                                                            data-mdb-toggle="popover"
+                                                            data-mdb-trigger="focus"
+                                                            data-mdb-html="true"
+                                                            title="{{ 'Abstimmung'|trans }}"
+                                                            data-mdb-content="{% if scheduleUser(s,0)|length >0 %}{% for s in scheduleUser(s,0) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
+                                                                class="fa fa-info-circle"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="chip btn-outline-danger"
+
+                                            >
+                                                <div class="symbol"
+                                                     data-mdb-toggle="tooltip"
+                                                     title="{{ 'Nein'|trans }}">
+                                                    <i class="fa fa-times"></i>
+                                                </div>
+                                                <div class="content">
+                                                    {{ scheduleNumber(s,1) }}
+                                                    <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                                       data-mdb-html="true"
+                                                       title="{{ 'Abstimmung'|trans }}"
+                                                       data-mdb-content="{% if scheduleUser(s,1)|length >0 %}{% for s in scheduleUser(s,1) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"><i
+                                                                class="fa fa-info-circle"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            {% if room.allowMaybeOption %}
+                                                <div class="chip btn-outline-warning"
+
+                                                >
+                                                    <div class="symbol"
+                                                         data-mdb-toggle="tooltip"
+                                                         title="{{ 'Vielleicht'|trans }}">
+                                                        <i class="fa fa-question"></i>
+                                                    </div>
+                                                    <div class="content">
+                                                        {{ scheduleNumber(s,2) }}&nbsp;
+                                                        <a
+                                                                tabindex="0"
+                                                                data-mdb-toggle="popover"
+                                                                data-mdb-trigger="focus"
+                                                                data-mdb-html="true"
+                                                                title="{{ 'Abstimmung'|trans }}"
+                                                                data-mdb-content="{% if scheduleUser(s,2)|length >0 %}{% for s in scheduleUser(s,2) %}{{ s.user.email }}<br>{% endfor %}{% else %}{{ 'Keine Abstimmungen'|trans }}{% endif %}"
+                                                        >
+                                                            <i class="fa fa-info-circle"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+
+                                            {% endif %}
+
+
+                                        </div>
+
+                                        <div class="d-flex w-100" style="flex: 0">
+                                            <div class="btn-group w-100" style="margin-right: 0">
+                                                <button class="btn btn-sm btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect removeSchedule"
+                                                                                                           type="button"
+                                                                                                           data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
+                                                                                                           data-url="{{ path('schedule_admin_remove',{'id':s.id}) }}"><i
+                                                            class="fa fa-trash"></i></button>
+                                                <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}"
+                                                   class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref"
+                                                   data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln?'|trans }}">
+                                                    <i class="fa fa-check"></i></a>
+
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 </li>
@@ -78,8 +132,10 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a href="{{ path('schedule_download_csv',{'id':room.id}) }}" class="btn btn-outline-primary me-2">{{ 'Als CSV Downloaden'|trans }}</a>
-            <a href="{{ path('schedule_admin_participants',{'id':room.id}) }}" class="btn btn-primary">{{ 'Teilnehmer verwalten'|trans }}</a>
+            <a href="{{ path('schedule_download_csv',{'id':room.id}) }}"
+               class="btn btn-outline-primary mb-2 w-100">{{ 'Als CSV Downloaden'|trans }}</a>
+            <a href="{{ path('schedule_admin_participants',{'id':room.id}) }}"
+               class="btn btn-primary w-100">{{ 'Teilnehmer verwalten'|trans }}</a>
         </div>
     </div>
 </div>

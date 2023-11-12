@@ -1,22 +1,29 @@
-<div class="row mt-3 ">
-    <div class="col-12 d-flex justify-content-center">
-        {% if theme == false or (theme is not null and theme.allowHomePage == true) %}
-            <a href="{{ path('index') }}"
-               class="btn btn-outline-white btn-sm">{{ 'Startseite'|trans }}</a>
-        {% endif %}
-        {% if theme == false or (theme is not null and theme.allowDashboard == true) %}
-            <a href="{{ path('dashboard') }}"
-               class="btn btn-outline-white btn-sm">{{ 'Dashboard'|trans }}</a>
-        {% endif %}
-        {% if theme == false or (theme is not null and theme.allowRegister == true) %}
-            <a href="{{ path('register_keycloak') }}"
-               class="btn btn-outline-white btn-sm">{{ 'Registrieren'|trans }}</a>
-        {% endif %}
-        {% if theme == false or (theme is not null and theme.allowHelp == true) %}
-            <a href="{{ helpUrlParticipants }}" target="_blank"
-               class="btn btn-outline-white btn-sm">{{ 'Hilfe'|trans }}</a>
-        {% endif %}
-    </div>
+<div class="row mt-3 justify-content-center removeInIframe">
 
+    {% if theme == false or (theme is not null and theme.allowHomePage == true) %}
+        <div class="col-md-3">
+            <a href="{{ path('index') }}"
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Startseite'|trans }}</a>
+        </div>
+    {% endif %}
+    {% if theme == false or (theme is not null and theme.allowDashboard == true) %}
+        <div class="col-md-3">
+            <a href="{{ path('dashboard') }}"
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Dashboard'|trans }}</a>
+        </div>
+    {% endif %}
+    {% if theme == false or (theme is not null and theme.allowRegister == true) %}
+        <div class="col-md-3">
+            <a href="{{ path('register_keycloak') }}"
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Registrieren'|trans }}</a>
+        </div>
+    {% endif %}
+    {% if theme == false or (theme is not null and theme.allowHelp == true) %}
+        <div class="col-md-3">
+            <a href="{{ helpUrlParticipants }}" target="_blank"
+               class="btn btn-outline-elegant btn-sm w-100">{{ 'Hilfe'|trans }}</a>
+        </div>
+    {% endif %}
 </div>
+
 

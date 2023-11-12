@@ -1,0 +1,68 @@
+name: Create Pre-Release
+env:
+  GITHUB_TOKEN: ${{ secrets.token }}
+
+on:
+  push:
+    branches:
+      - feature/development
+      - unstable/*
+
+jobs:
+  artifact:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-artifact.yml@devops
+
+  test:
+    uses: h2-invent/jitsi-admin/.github/workflows/task-test.yml@devops
+    needs:
+      - artifact
+
+  create_release:
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y.%m.%d')"
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact_${{github.run_number}}
+
+      - run: unzip -qq artifact_${{github.run_number}}.zip -d artifact
+
+      - name: Write semantic Version in .env.local
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "laF_version=2.0.0-dev"
+          replace: "laF_version=DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}"
+          regex: false
+          include: "artifact/.env"
+
+      - name: Archive Release for application
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'zip'
+          filename: 'application.zip'
+          exclusions: '*.git* *.github* /*node_modules/* /*nodejs/* /*var/* .editorconfig'
+          directory: artifact
+
+      - name: Archive Release for websocket
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'zip'
+          filename: 'websocket.zip'
+          directory: artifact/nodejs
+
+      - name: Create new Release with semantic-version tag
+        uses: ncipollo/release-action@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: true
+          name: DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}
+          tag: DEV-CI-${{ steps.date.outputs.date }}-${{github.run_number}}
+          artifacts: artifact/application.zip,artifact/nodejs/websocket.zip
+          artifactContentType: application/zip
+

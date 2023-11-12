@@ -4,12 +4,13 @@ import {masterNotify} from "./lobbyNotification";
 import {inIframe} from "./moderatorIframe";
 import {createIframe} from "./createConference";
 import {initAwayTime, setAwayTimeField} from "./enterAwayTime";
-import {setSnackbar,deleteToast} from './myToastr'
+import {setSnackbar, deleteToast} from './myToastr'
 
 export let socket = null;
 export var token = null;
 var hidden, visibilityChange;
 var login = true;
+let errorTimeout = null;
 
 export function initWebsocket(jwt) {
     token = jwt;
@@ -20,27 +21,38 @@ export function initWebsocket(jwt) {
     socket.on('mercure', function (data) {
         masterNotify(JSON.parse(data));
     })
-    socket.on('connect',function (data) {
-        if (typeof urlWebsocketReady !== 'undefined'){
+    socket.on('connect', function (data) {
+        if (typeof urlWebsocketReady !== 'undefined') {
             var xhttp = new XMLHttpRequest();
             xhttp.open("GET", urlWebsocketReady, true);
             xhttp.send();
         }
     })
     socket.io.on("error", (error) => {
-      setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.','danger',true,'socketAlert',30000)
+        if (!errorTimeout) {
+            errorTimeout = setTimeout(function () {
+                setSnackbar('Websocket Error. There is no real time communication at the moment. Please reload the page.', 'danger', true, 'socketAlert', 30000)
+                errorTimeout = null;
+            }, 5000);
+        }
     });
     socket.io.on("reconnect", (attempt) => {
-       deleteToast('socketAlert');
-        setSnackbar('Websocket successfully reconnected','success',false,'socketAlert',10000)
+        if (errorTimeout){
+            clearTimeout(errorTimeout);
+            errorTimeout = null;
+        }else {
+            deleteToast('socketAlert');
+            setSnackbar('Websocket successfully reconnected', 'success', false, 'socketAlert', 3000)
+        }
+
     });
     socket.on('openNewIframe', function (data) {
         data = JSON.parse(data);
         var url = data.url;
-        if (typeof schowNameInWidgets !== 'undefined'){
-            url = url.replace('%name%',encodeURIComponent(schowNameInWidgets))
-        }else {
-            url = url.replace('%name%','')
+        if (typeof schowNameInWidgets !== 'undefined') {
+            url = url.replace('%name%', encodeURIComponent(schowNameInWidgets))
+        } else {
+            url = url.replace('%name%', '')
         }
         console.log(url);
         const parentMessage = JSON.stringify({
@@ -48,10 +60,10 @@ export function initWebsocket(jwt) {
             url: url,
             'title': data.title
         });
-        if (inIframe()){
+        if (inIframe()) {
             window.parent.postMessage(parentMessage, '*');
-        }else {
-            createIframe(url, data.title, false,false);
+        } else {
+            createIframe(url, data.title, false);
         }
 
     })
@@ -63,7 +75,7 @@ export function initWebsocket(jwt) {
             showOnlineUsers(JSON.parse(data))
         })
         socket.on('sendUserTimeAway', function (data) {
-           setAwayTimeField(data);
+            setAwayTimeField(data);
         })
         socket.on('sendUserStatus', function (data) {
             setMyStatus(data);

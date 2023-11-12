@@ -49,7 +49,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
 
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_view[uid]'] = $room->getUid();
         $form['join_view[email]'] = $user->getEmail();
@@ -106,7 +106,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
 
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_view[uid]'] = $room->getUid();
         $form['join_view[email]'] = $user->getEmail();
@@ -155,7 +155,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
 
 
-        $buttonCrawlerNode = $crawler->selectButton('Im Browser beitreten');
+        $buttonCrawlerNode = $crawler->selectButton('Beitreten');
         $form = $buttonCrawlerNode->form();
         $form['join_view[uid]'] = $room->getUid();
         $form['join_view[email]'] = $user->getEmail();

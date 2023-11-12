@@ -26,3 +26,14 @@ $utilities-border-colors: $main-color;
 $in-a-meeting: #0158B0;
 $online: #00B047;
 $away:#F9A825;
+$success-color:        #14a44d !default;
+$warning-color:        #e4a11b !default;
+$danger-color:         #dc4c64 !default;
+$cardBackground_bright: scale-color($main-color, $lightness: 97%);
+$cardBackground_dark: transparent;
+$card-box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.2),
+0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+0px 3px 3px -2px rgba(0, 0, 0, 0.12);
+$card-box-shadow-3dp:0px 1px 8px 0px rgba(0, 0, 0, 0.2),
+0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+0px 3px 3px -2px rgba(0, 0, 0, 0.12);

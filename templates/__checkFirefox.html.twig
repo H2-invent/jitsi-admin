@@ -8,9 +8,9 @@
                 </div>
                 <div class="modal-body">
                     {% if isOSType('windows') %}
-                    <p>{{ 'browser.warning.text'|trans }}</p>
-                    <a href="#"
-                       class="btn btn-outline-primary btn-block btn-edge ">{{ 'browser.warning.toEdge'|trans }}</a>
+                        <p>{{ 'browser.warning.text'|trans }}</p>
+                        <a href="#"
+                           class="btn btn-outline-primary btn-block btn-edge ">{{ 'browser.warning.toEdge'|trans }}</a>
                     {% endif %}
                     {% if isOSType('mac') %}
                         <a href="#"
@@ -31,4 +31,14 @@
             </div>
         </div>
     </div>
+{% endif %}
+
+{% if room is defined and room is not null %}
+    <script>
+        var disableChat = {{ room.server.disableChat?'true':'false' }};
+        var disableEtherpad = {{ room.server.disableEtherpad?'true':'false' }};
+        var disableWhiteboard = {{ room.server.disableWhiteboard?'true':'false' }};
+        var disableFilmstrip = {{ room.server.disableFilmstripe?'true':'false' }};
+        var enforceE2Eencryption = {{ room.server.enforceE2E?'true':'false' }};
+    </script>
 {% endif %}

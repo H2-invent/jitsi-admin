@@ -27,45 +27,88 @@
                         <small>{{ 'Nein'|trans }}: {{ scheduleNumber(s,1) }}</small><br>
                         {% if room.allowMaybeOption %}<small>{{ 'Vielleicht'|trans }}: {{ scheduleNumber(s,2) }}</small><br>{% endif %}
                         <div class="row">
-                            <div class="col-lg-12 mb-3 mt-2 text-start">
+                            <div class="col-lg-12 mb-3 mt-2 d-flex flex-column align-items-center">
+                                <a
+                                        class="scheduleSelect btn btn-lg btn-floating {% if scheduleOwnJoice(user,s) is not same as 0 %}btn-outline-success{% else %}btn-success{% endif %} d-flex align-items-center justify-content-center"
+                                        style="font-size: xx-large"
+                                        id="schedule-{{ s.id }}-yes"
+                                        role="button"
+                                        data-uid="{{ user.id }}"
+                                        data-schedule="{{ s.id }}"
+                                        data-type="0"
+                                        data-url="{{ path('schedule_public_vote') }}"
+                                        data-mdb-ripple-color="dark"
+                                        data-mdb-toggle="tooltip"
+                                        title="{{ 'Ja'|trans }}"
+                                >
+                                    <i class="fa fa-check"></i>
+                                </a>
+{#                                <div class="form-check">#}
 
-                                <div class="form-check">
 
-
-                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
-                                           data-url="{{ path('schedule_public_vote') }}"
-                                           data-type="0" type="radio"
-                                           class="form-check-input custom-control-input scheduleSelect"
-                                           id="schedule-{{ s.id }}-yes"
-                                           name="scheduleGroup-{{ s.id }}"
-                                           {% if scheduleOwnJoice(user,s) is same as 0 %}checked{% endif %}>
-                                    <label class="custom-control-label form-check-label"
-                                           for="schedule-{{ s.id }}-yes">{{ 'Ja'|trans }}</label>
-                                </div>
-
-                                <div class="form-check">
-                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
-                                           data-url="{{ path('schedule_public_vote') }}"
-                                           data-type="1" type="radio"
-                                           class="form-check-input custom-control-input scheduleSelect"
-                                           id="schedule-{{ s.id }}-no"
-                                           name="scheduleGroup-{{ s.id }}"
-                                           {% if scheduleOwnJoice(user,s) is same as 1 %}checked{% endif %}>
-                                    <label class="custom-control-label custom-control-label"
-                                           for="schedule-{{ s.id }}-no">{{ 'Nein'|trans }}</label>
-                                </div>
+{#                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"#}
+{#                                           data-url="{{ path('schedule_public_vote') }}"#}
+{#                                           data-type="0" type="radio"#}
+{#                                           class="form-check-input custom-control-input scheduleSelect"#}
+{#                                           id="schedule-{{ s.id }}-yes"#}
+{#                                           name="scheduleGroup-{{ s.id }}"#}
+{#                                           {% if scheduleOwnJoice(user,s) is same as 0 %}checked{% endif %}>#}
+{#                                    <label class="custom-control-label form-check-label"#}
+{#                                           for="schedule-{{ s.id }}-yes">{{ 'Ja'|trans }}</label>#}
+{#                                </div>#}
+                                <a
+                                        class="scheduleSelect btn btn-lg btn-floating {% if scheduleOwnJoice(user,s) is not same as 1 %}btn-outline-danger{% else %}btn-danger{% endif %} d-flex align-items-center justify-content-center"
+                                        style="font-size: xx-large"
+                                        id="schedule-{{ s.id }}-yes"
+                                        role="button"
+                                        data-uid="{{ user.id }}"
+                                        data-schedule="{{ s.id }}"
+                                        data-type="1"
+                                        data-url="{{ path('schedule_public_vote') }}"
+                                        data-mdb-ripple-color="dark"
+                                        data-mdb-toggle="tooltip"
+                                        title="{{ 'Nein'|trans }}"
+                                >
+                                    <i class="fa fa-times"></i>
+                                </a>
+{#                                <div class="form-check">#}
+{#                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"#}
+{#                                           data-url="{{ path('schedule_public_vote') }}"#}
+{#                                           data-type="1" type="radio"#}
+{#                                           class="form-check-input custom-control-input scheduleSelect"#}
+{#                                           id="schedule-{{ s.id }}-no"#}
+{#                                           name="scheduleGroup-{{ s.id }}"#}
+{#                                           {% if scheduleOwnJoice(user,s) is same as 1 %}checked{% endif %}>#}
+{#                                    <label class="custom-control-label custom-control-label"#}
+{#                                           for="schedule-{{ s.id }}-no">{{ 'Nein'|trans }}</label>#}
+{#                                </div>#}
                                 {% if room.allowMaybeOption %}
-                                <div class="form-check">
-                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"
-                                           data-url="{{ path('schedule_public_vote') }}"
-                                           data-type="2" type="radio"
-                                           class="form-check-input custom-control-input scheduleSelect"
-                                           id="schedule-{{ s.id }}-maybe"
-                                           name="scheduleGroup-{{ s.id }}"
-                                           {% if scheduleOwnJoice(user,s) is same as 2 %}checked{% endif %}>
-                                    <label class="custom-control-label custom-control-label"
-                                           for="schedule-{{ s.id }}-maybe">{{ 'Vielleicht'|trans }}</label>
-                                </div>
+                                    <a
+                                            class="scheduleSelect btn btn-lg btn-floating {% if scheduleOwnJoice(user,s) is not same as 2 %}btn-outline-warning{% else %}btn-warning{% endif %} d-flex align-items-center justify-content-center"
+                                            style="font-size: xx-large"
+                                            id="schedule-{{ s.id }}-yes"
+                                            role="button"
+                                            data-uid="{{ user.id }}"
+                                            data-schedule="{{ s.id }}"
+                                            data-type="2"
+                                            data-url="{{ path('schedule_public_vote') }}"
+                                            data-mdb-ripple-color="dark"
+                                            data-mdb-toggle="tooltip"
+                                            title="{{ 'Vielleicht'|trans }}"
+                                    >
+                                        <i class="fa fa-question"></i>
+                                    </a>
+{#                                <div class="form-check">#}
+{#                                    <input data-uid="{{ user.id }}" data-schedule="{{ s.id }}"#}
+{#                                           data-url="{{ path('schedule_public_vote') }}"#}
+{#                                           data-type="2" type="radio"#}
+{#                                           class="form-check-input custom-control-input scheduleSelect"#}
+{#                                           id="schedule-{{ s.id }}-maybe"#}
+{#                                           name="scheduleGroup-{{ s.id }}"#}
+{#                                           {% if scheduleOwnJoice(user,s) is same as 2 %}checked{% endif %}>#}
+{#                                    <label class="custom-control-label custom-control-label"#}
+{#                                           for="schedule-{{ s.id }}-maybe">{{ 'Vielleicht'|trans }}</label>#}
+{#                                </div>#}
                                 {% endif %}
                             </div>
                         </div>
@@ -74,7 +117,7 @@
             </div>
 
         </div>
-            <a class="btn btn-primary btn-block loadContent" href="{{ path('app_scheduler_public_creator',{'room_id':room.uid,'user_id':user.uid}) }}">{{ 'scheduler.new.schedule'|trans }}</a>
+            <a class="btn btn-outline-primary btn-block loadContent" href="{{ path('app_scheduler_public_creator',{'room_id':room.uid,'user_id':user.uid}) }}">{{ 'scheduler.new.schedule'|trans }}</a>
         <button class="btn btn-primary btn-block" data-mdb-toggle="toastr" data-target="#saveModal"
                 data-text=" {{ 'common.success.save'|trans }}" data-type="success">{{ 'common.save'|trans }}</button>
 

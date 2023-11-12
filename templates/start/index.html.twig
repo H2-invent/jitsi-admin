@@ -29,7 +29,7 @@
 
 {% set logo_small = httpsAbolutUrl(asset('logo_small.png')) %}
 
-{% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+{% if server is defined and  server is not null and server.logoUrl is not null %}
     {% set logo_small =  server.logoUrl %}
 {% else %}
     {% if theme == false %}
@@ -41,7 +41,7 @@
 
 {% set logo_large = httpsAbolutUrl(asset('logo.png')) %}
 
-{% if server is defined and  server is not null and server|validateLicense and server.logoUrl is not null %}
+{% if server is defined and  server is not null and server.logoUrl is not null %}
     {% set logo_large =  server.logoUrl %}
 {% else %}
     {% if theme == false %}
@@ -51,12 +51,22 @@
     {% endif %}
 {% endif %}
 {% block sidebar %}
-    {% include('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+    {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+        {% block extension %}
+            {% if room.totalOpenRooms == true %}
+                {% include 'conference_modules/inviteUsersToOpenRooms.html.twig' with {'url':path('own_room_startPage',{'uid':room.uid})} %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
 
 <div id="frame">
     {% if room.tag is not null %}
-        <p class="floating-tag" id="tagContent"
+        <p class="floating-tag
+{{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'transparent-bg':'' }}
+{{ getApplicationProperties('LAF_FLOATING_TAG_FORCE_SHOW')==1?'forceShow':'' }}
+
+" id="tagContent"
            style="color: {{ room.tag.color }}; background-color: {{ room.tag.backgroundColor }}">{{ room.tag.title }}</p>
     {% endif %}
     <div class="w-100" id="jitsiWindow">
@@ -84,16 +94,23 @@
         var closeTabText = '{{ 'ask.tab.close'|trans }}';
         const domain = '{{ room.server.url }}';
         const options = {
+            {#roomName: '{{ room.server.slugMd5 }}/{{ room.uid }}',#}
             roomName: '{{ room.uid }}',
             width: '100%',
             height: 700,
             configOverwrite: {
+                {% if server is defined and server.dynamicBrandingUrl %}
+                dynamicBrandingUrl: '{{ server.dynamicBrandingUrl }}',
+                {% endif %}
                 disableBeforeUnloadHandlers: true,
             },
             interfaceConfigOverwrite: {
                 MOBILE_APP_PROMO: false,
                 SHOW_JITSI_WATERMARK: false,
                 HIDE_DEEP_LINKING_LOGO: true,
+                {% if server is defined and server.dynamicBrandingUrl %}
+                dynamicBrandingUrl: '{{ server.dynamicBrandingUrl }}',
+                {% endif %}
                 SHOW_BRAND_WATERMARK: false,
             },
 
@@ -116,6 +133,7 @@
         var topicBroadcast = {{ mercure(absolute_url(path('lobby_broadcast_websocket',{'roomUid':room.uidReal})))|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
         var websocketTopics = "{{ getJwtforWebsocket(['whiteboard/'~room.uidReal],app.user) }}";
         var websocketUrl = "{{ getUrlforWebsocket() }}";
+
     </script>
 
 
@@ -133,6 +151,6 @@
 </div>
 
 
-    {% include 'conference_end/__rating.html.twig' with {'room':room} %}
+{% include 'conference_end/__rating.html.twig' with {'room':room} %}
 
 </html>

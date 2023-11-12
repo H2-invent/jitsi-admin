@@ -7,7 +7,13 @@
         <div id="jitsiWrapper">
             <div class="w-100" id="jitsiWindow">
                 {% block sidebar %}
-                    {% include('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+                    {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+                        {% block extension %}
+                            {% if room.totalOpenRooms == true %}
+                                {% include 'conference_modules/inviteUsersToOpenRooms.html.twig' with {'url':path('own_room_startPage',{'uid':room.uid})} %}
+                            {% endif %}
+                        {% endblock %}
+                    {% endembed %}
                 {% endblock %}
             </div>
             <div class="row lobbyWindow" id="lobbyWindow">
@@ -110,8 +116,12 @@
                                 {% endif %}
                             {% endif %}
 
-                            <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
-                               href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}</a>
+                                <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
+                                   href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}
+                                </a>
+
+
+
 
                             <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
                                 <div class="input-group  w-100">
@@ -176,12 +186,16 @@
             var hangupText = "{{ 'lobby.hangup'|trans }}";
             const domain = '{{ room.server.url }}';
             const options = {
+                {#roomName: '{{ room.server.slugMd5 }}{{ room.uid }}',#}
                 roomName: '{{ room.uid }}',
                 width: '100%',
                 height: 700,
                 configOverwrite: {
                     prejoinPageEnabled: false,
                     disableBeforeUnloadHandlers: true,
+                    {% if server.dynamicBrandingUrl %}
+                    dynamicBrandingUrl:' {{ server.dynamicBrandingUrl }}',
+                    {% endif %}
                     buttonsWithNotifyClick: [
                         'hangup',
                         '__end'
@@ -192,6 +206,7 @@
                     SHOW_JITSI_WATERMARK: false,
                     HIDE_DEEP_LINKING_LOGO: true,
                     SHOW_BRAND_WATERMARK: false,
+
                     SHOW_WATERMARK_FOR_GUESTS: false
                 },
                 parentNode: document.querySelector('#jitsiWindow'),
@@ -234,6 +249,8 @@
             {% endif %}
             var topic ={{ mercure(topics)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
             var websocketTopics = "{{ getJwtforWebsocket(topics,app.user) }}";
+
+            var showTagTransparent = {{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'true':'false' }};
         </script>
     {% endif %}
 {% endblock %}

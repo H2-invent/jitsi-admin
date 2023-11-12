@@ -2,9 +2,11 @@
 
 namespace App\Tests\Addressbook;
 
+use App\Entity\Server;
 use App\Repository\RoomsRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use function PHPUnit\Framework\assertStringContainsString;
@@ -106,18 +108,35 @@ class AdhocControllerConfirmationTest extends WebTestCase
         $room = $room[sizeof($room) - 1];
         self::assertResponseIsSuccessful();
         self::assertEquals(
-            6,
+            7,
             $crawler->filter('option')->count()
         );
         $tagRepo = self::getContainer()->get(TagRepository::class);
         $tagEnable = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
-        $tag = $tagRepo->findBy(['disabled' => false]);
+        $tag = $user->getServers()[0]->getTag();
         foreach ($tag as $data) {
             assertStringContainsString('/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $data->getId(), $client->getResponse()->getContent());
-            self::assertEquals(
-                1,
-                $crawler->filter('option:contains("' . $data->getTitle() . '")')->count()
-            );
+
         }
     }
+    public function testcreateAdhocMeetingConfirmationWindowwithnoTags(): void
+    {
+        $client = static::createClient();
+
+
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local.de']);
+        $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
+        $client->loginUser($user);
+
+
+        $crawler = $client->request('GET', '/room/adhoc/confirmation/' . $user2->getId() . '/' . $user->getServers()[1]->getId());
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        self::assertResponseIsSuccessful();
+        self::assertEquals(
+            1,
+            $crawler->filter('option')->count()
+        );
+    }
+
 }

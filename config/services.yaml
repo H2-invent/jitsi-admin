@@ -43,7 +43,11 @@ parameters:
     LAF_LOBBY_ALLOW_CUSTOM_MESSAGES: '%env(LAF_LOBBY_ALLOW_CUSTOM_MESSAGES)%'
     LAF_TERMS_AND_CONDITIONS: '%env(LAF_TERMS_AND_CONDITIONS)%'
     DROPDOWN_SETTINGS_DOWNLOAD_PDF : '%env(DROPDOWN_SETTINGS_DOWNLOAD_PDF)%'
+    DROPDOWN_SETTINGS_SEND_PROTOCOLL: '%env(DROPDOWN_SETTINGS_SEND_PROTOCOLL)%'
     LAF_USE_MULTIFRAME: '%env(LAF_USE_MULTIFRAME)%'
+    LAF_HIDE_PROFILEPICTURE: '%env(LAF_HIDE_PROFILEPICTURE)%'
+    LAF_DEFAULT_ONLINE_STATUS: '%env(LAF_DEFAULT_ONLINE_STATUS)%'
+    LAF_FLOATING_TAG_FORCE_SHOW: '%env(LAF_FLOATING_TAG_FORCE_SHOW)%'
 
     enterprise_noExternal: '%env(enterprise_noExternal)%'
     enterprise_theme_url: '%env(enterprise_theme_url)%'
@@ -100,6 +104,8 @@ parameters:
     emailSenderIsModerator: '%env(emailSenderIsModerator)%'
     input_settings_allowLobby: '%env(input_settings_allowLobby)%'
     input_settings_allowLobby_default: '%env(input_settings_allowLobby_default)%'
+    INPUT_ALLOW_SET_MAX_USERS: '%env(INPUT_ALLOW_SET_MAX_USERS)%'
+    INPUT_ALLOW_SET_MAX_USERS_DEFAULT: '%env(INPUT_ALLOW_SET_MAX_USERS_DEFAULT)%'
     JITSI_EVENTS_TOKEN: '%env(JITSI_EVENTS_TOKEN)%'
     JITSI_EVENTS_HISTORY: '%env(JITSI_EVENTS_HISTORY)%'
     SIP_CALLER_SECRET: '%env(SIP_CALLER_SECRET)%'
@@ -126,9 +132,12 @@ parameters:
     SECURITY_THEME_REMINDER_DAYS: '%env(SECURITY_THEME_REMINDER_DAYS)%'
     DONT_SEND_TELEMATIC: '%env(DONT_SEND_TELEMATIC)%'
     LAF_HIDE_CHANGELOG: '%env(LAF_HIDE_CHANGELOG)%'
-
+    SIP_CONFERENCE_MAPPER_PHONE_NUMEBER_SPEZIAL_FIELD: '%env(SIP_CONFERENCE_MAPPER_PHONE_NUMEBER_SPEZIAL_FIELD)%'
+    LAF_SHOW_TAG_TRANSPARENT_BACKGROUND: '%env(LAF_SHOW_TAG_TRANSPARENT_BACKGROUND)%'
+    laF_version: '%env(laF_version)%'
 services:
     Twig\Extension\StringLoaderExtension:
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

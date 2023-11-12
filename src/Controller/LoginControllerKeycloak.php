@@ -65,7 +65,7 @@ class LoginControllerKeycloak extends JitsiAdminController
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }
 
-        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account';
+        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account/#/personal-info';
         return $this->redirect($url);
     }
 
@@ -78,7 +78,7 @@ class LoginControllerKeycloak extends JitsiAdminController
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $url = $this->themeService->getThemeProperty('idp_provider_url');
         }
-        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account/password';
+        $url = $url . '/realms/' . $themeService->getApplicationProperties('KEYCLOAK_REALM') . '/account/#/security/signingin';
         return $this->redirect($url);
     }
 }

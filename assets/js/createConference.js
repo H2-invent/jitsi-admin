@@ -19,6 +19,8 @@ let starty = null;
 let tryfullscreen = null;
 let startTransform = null;
 let messageTimeout = {};
+let closingTimeout = {};
+let multiframes = {};
 
 function initStartIframe() {
 
@@ -38,7 +40,8 @@ function initStartIframe() {
             if ("iframetoast" in target.dataset) {
                 setSnackbar(target.dataset.iframetoast, 'danger');
             } else {
-                createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true);
+
+                createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true, true, target.dataset.bordercolor);
             }
         }
     });
@@ -46,18 +49,64 @@ function initStartIframe() {
     window.addEventListener('message', function (e) {
         // Get the sent data
         const data = e.data;
-
         // If you encode the message in JSON before sending them,
         // then decode here
-        recievecommand(data)
-
+        recievecommand(data, e)
     });
+
     addEventListener('resize', (event) => {
         setWidthOfminified();
     });
 }
 
-function createIframe(url, title, closeIntelligent = true, startMaximized = true) {
+
+function recievecommand(data, event) {
+    let decoded;
+    try {
+        decoded = JSON.parse(data);
+    } catch (e) {
+        return false;
+    }
+
+    const type = decoded.type
+    if (decoded.url){
+        var multiframe = multiframes[decoded.url];
+    }
+
+    if (type === 'closeMe') {
+        clearTimeout(closingTimeout[decoded.frameId]);
+        delete closingTimeout[decoded.frameId];
+        closeIframe(decoded.frameId)
+        if (document.querySelectorAll('.jitsiadminiframe').length === 0) {
+        }
+    } else if (type === 'stopClosingMe') {
+        var frameId = decoded.frameId
+        clearTimeout(closingTimeout[frameId]);
+        delete closingTimeout[frameId];
+    } else if (type === 'openNewIframe') {
+        createIframe(decoded.url, decoded.title, false);
+    } else if (type === 'showPlayPause') {
+        var frame = document.getElementById(decoded.frameId);
+        frame.classList.add('isMutable');
+        frame.dataset.muted = 0;
+        frame.querySelector('.pauseConference').classList.remove('d-none');
+        checkIfIsMutable(frame);
+    } else if (type === 'colorBorder') {
+        if (multiframe){
+            multiframe.style.borderColor = decoded.color;
+        }
+
+    } else if (type === 'ack') {
+        var messageId = decoded.messageId
+        clearTimeout(messageTimeout[messageId]);
+        delete messageTimeout[messageId];
+    }
+}
+
+function createIframe(url, title, startMaximized = true, borderColor = '') {
+    if (window.$chatwoot) {
+        window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
+    }
 
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
@@ -67,8 +116,9 @@ function createIframe(url, title, closeIntelligent = true, startMaximized = true
     if (document.getElementById('jitsiadminiframe' + random)) {
         return null;
     }
+
     var html =
-        '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '">' +
+        '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '" style="border-color: ' + borderColor + '">' +
         '<div class="headerBar">' +
         '<div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
@@ -86,46 +136,49 @@ function createIframe(url, title, closeIntelligent = true, startMaximized = true
         '</div> ';
 
     var site = url;
+
     if (document.getElementById('window')) {
         document.getElementById('window').insertAdjacentHTML('beforeend', html);
     } else {
         document.querySelector('body').insertAdjacentHTML('beforeend', html);
     }
     $('[data-mdb-toggle="tooltip"]').tooltip();
-    document.getElementById('jitsiadminiframe' + random).style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
-    document.getElementById('jitsiadminiframe' + random).style.width = width + 'px';
-    document.getElementById('jitsiadminiframe' + random).style.height = height + 'px';
-    document.getElementById('jitsiadminiframe' + random).style.zIndex = zindex++;
-    document.getElementById('jitsiadminiframe' + random).querySelector('iframe').src = site;
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').dataset.maximal = "0";
-    document.getElementById('jitsiadminiframe' + random).querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
-    document.getElementById('jitsiadminiframe' + random).addEventListener('dblclick', function (e) {
+    var multiframe = document.getElementById('jitsiadminiframe' + random)
+    multiframes[site] = multiframe;
+    multiframe.style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
+    multiframe.style.width = width + 'px';
+    multiframe.style.height = height + 'px';
+    multiframe.style.zIndex = zindex++;
+    multiframe.querySelector('iframe').src = site;
+    multiframe.querySelector('.button-maximize').dataset.maximal = "0";
+    multiframe.querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
+    multiframe.addEventListener('dblclick', function (e) {
         toggleMaximize(e);
     })
-    document.getElementById('jitsiadminiframe' + random).querySelector('.closer').addEventListener('click', function (e) {
+    multiframe.querySelector('.closer').addEventListener('click', function (e) {
         e.stopPropagation();
-        closeFrame(e, closeIntelligent);
+        closeFrame(e);
 
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.minimize').addEventListener('click', function (e) {
+    multiframe.querySelector('.minimize').addEventListener('click', function (e) {
         e.stopPropagation();
         minimizeFrame(e)
         removeInteraction();
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.pauseConference').addEventListener('click', function (e) {
+    multiframe.querySelector('.pauseConference').addEventListener('click', function (e) {
         e.stopPropagation();
         pauseIframe(e);
     })
 
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-fullscreen').addEventListener('click', function (e) {
+    multiframe.querySelector('.button-fullscreen').addEventListener('click', function (e) {
         e.stopPropagation();
         fulscreenWindow(e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe'));
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').addEventListener('click', function (e) {
+    multiframe.querySelector('.button-maximize').addEventListener('click', function (e) {
         e.stopPropagation();
 
         prepareMaximize(e);
@@ -133,26 +186,26 @@ function createIframe(url, title, closeIntelligent = true, startMaximized = true
         removeInteraction();
     })
 
-    document.getElementById('jitsiadminiframe' + random).querySelector('.button-restore').addEventListener('click', function (e) {
+    multiframe.querySelector('.button-restore').addEventListener('click', function (e) {
         restoreWindow(e);
         removeInteraction();
     });
 
-    document.getElementById('jitsiadminiframe' + random).addEventListener('click', function (e) {
+    multiframe.addEventListener('click', function (e) {
         moveInForeground(event.currentTarget);
     })
-    if (closeIntelligent) {
-        setTimeout(function () {
-            sendCommand('jitsiadminiframe' + random, {type: 'init'});
-        }, 7000)
-    }
+    setTimeout(function () {
+        sendCommand('jitsiadminiframe' + random, {type: 'init'});
+    }, 7000)
     counter += 40;
     if (startMaximized) {
         if (getCookie('startMaximized') && getCookie('startMaximized') == 1) {
             document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
         }
+        if (!getCookie('startMaximized')) {
+            document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
+        }
     }
-
 
     if (isFullscreen()) {
         document.exitFullscreen();
@@ -162,24 +215,19 @@ function createIframe(url, title, closeIntelligent = true, startMaximized = true
 }
 
 function isFullscreen() {
-
     var st = screen.top || screen.availTop || window.screenTop;
-
     if (st != window.screenY) {
-
         return false;
     }
-
     return window.fullScreen == true || screen.height - document.documentElement.clientHeight <= 30;
 }
 
-function closeFrame(e, closeIntelligent, random) {
-    if (closeIntelligent) {
-        var id = e.currentTarget.dataset.id;
-        sendCommand(id, {type: 'pleaseClose'})
-    } else {
-        closeIframe(e.currentTarget.closest('.jitsiadminiframe').id);
-    }
+function closeFrame(e) {
+    var id = e.currentTarget.dataset.id;
+    sendCommand(id, {type: 'pleaseClose'})
+    closingTimeout[id] = setTimeout(function () {
+        closeIframe(id);
+    }, 100);
 }
 
 function toggleMaximize(e) {
@@ -278,41 +326,13 @@ function sendCommand(id, message) {
     message.messageId = messageId;
     ele.contentWindow.postMessage(JSON.stringify(message), '*');
     messages[messageId] = id;
-    messageTimeout[messageId] = setTimeout(closeWhenNoAck, 10000,id)
+    messageTimeout[messageId] = setTimeout(closeWhenNoAck, 10000, id)
 }
 
 function closeWhenNoAck(messageId) {
     closeIframe(messages[messageId]);
 }
 
-function recievecommand(data) {
-    let decoded;
-    try {
-         decoded = JSON.parse(data);
-    } catch (e) {
-        return false;
-    }
-
-    const type = decoded.type
-
-    if (type === 'closeMe') {
-        closeIframe(decoded.frameId)
-        if (document.querySelectorAll('.jitsiadminiframe').length === 0) {
-        }
-    } else if (type === 'openNewIframe') {
-        createIframe(decoded.url, decoded.title, false, false);
-    } else if (type === 'showPlayPause') {
-        var frame = document.getElementById(decoded.frameId);
-        frame.classList.add('isMutable');
-        frame.dataset.muted = 0;
-        frame.querySelector('.pauseConference').classList.remove('d-none');
-        checkIfIsMutable(frame);
-    } else if (type === 'ack') {
-        var messageId = decoded.messageId
-        clearTimeout(messageTimeout[messageId]);
-        delete messageTimeout[messageId];
-    }
-}
 
 function closeIframe(id) {
     var $iframe = document.getElementById(id);
@@ -320,6 +340,15 @@ function closeIframe(id) {
         document.getElementById(id).remove();
         removeInteraction();
         $('.tooltip').remove();
+        if (window.$chatwoot) {
+            var $iframes = document.querySelectorAll('.jitsiadminiframe');
+
+            if ($iframes.length == 0) {
+                window.$chatwoot.toggleBubbleVisibility("show"); // to hide the bubble
+            }
+
+        }
+
     }
 
 }
@@ -390,7 +419,7 @@ function addInteractions(ele) {
         startTransform = event.target.closest('.jitsiadminiframe').style.transform
         tryfullscreen = false;
         // event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
-        event.target.closest('.jitsiadminiframe').style.removeProperty('border');
+        // event.target.closest('.jitsiadminiframe').style.removeProperty('border');
 
         event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
@@ -527,7 +556,7 @@ function addInteractions(ele) {
             event.target.style.width = `${event.width}px`;
             event.target.style.height = `${event.height}px`;
             event.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
-            event.target.style.removeProperty('border');
+            // event.target.style.removeProperty('border');
             event.target.querySelector('.headerBar').style.removeProperty('padding');
 
             event.target.dataset.x = beforeTranslate[0];

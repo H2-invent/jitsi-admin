@@ -10,7 +10,8 @@ use App\Service\UserService;
 use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Component\Event;
 use Eluceo\iCal\Property\Event\Organizer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,9 +19,14 @@ class IcalController extends JitsiAdminController
 {
     /**
      * @Route("/ical/{id}", name="ical")
-     * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"id": "uid"}})
+
      */
-    public function index(User $user, UserService $userService, LicenseService $licenseService, IcalService $icalService): Response
+    public function index(
+        #[MapEntity(mapping: ['id' => 'uid'])] User $user,
+        UserService $userService,
+        LicenseService $licenseService,
+        IcalService $icalService,
+    ): Response
     {
 
         $response = new Response();

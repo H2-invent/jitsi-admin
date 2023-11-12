@@ -152,7 +152,7 @@ class PermissionChangeService
                 $this->em->flush();
             }
             $topic = 'lobby_personal' . $rooms->getUidReal() . $user->getUid();
-            $this->websocketService->sendSnackbar($topic, $this->translator->trans('lobby.change.moderator.permissions'), 'info');
+            $this->websocketService->sendSnackbar($topic, $this->translator->trans('lobby.change.moderator.permissions'), 'info',5000);
             $this->websocketService->sendReloadPage($topic, $this->parameterBag->get('laf_lobby_popUpDuration'));
             $this->websocketService->sendRefresh(
                 'lobby_moderator/' . $rooms->getUidReal(),

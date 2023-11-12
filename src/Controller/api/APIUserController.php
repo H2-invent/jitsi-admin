@@ -57,7 +57,7 @@ class APIUserController extends JitsiAdminController
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-        if ($room->getServer()->getApiKey() !== $apiKey || !$licenseService->verify($room->getServer())) {
+        if ($room->getServer()->getApiKey() !== $apiKey) {
             return new JsonResponse(['error' => true, 'text' => 'No Server found']);
         }
         $email = $request->get('email');

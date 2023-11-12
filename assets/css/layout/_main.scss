@@ -93,7 +93,6 @@ strong {
 }
 
 
-
 .logoNavbar {
   display: flex;
   justify-content: center;
@@ -498,24 +497,29 @@ strong {
 }
 
 .olineBorder {
-  border: $online solid 4px !important;;
+  border: $online solid 4px !important;
 }
 
 .bg-online {
-  background-color: $online;
+  background-color: scale-color($online, $lightness: 90%);
+  border: $online 2px solid;
+  color: black;
+
 }
 
 .infoBorder {
-  border: $in-a-meeting solid 4px !important;;
+  border: $in-a-meeting solid 4px !important;
 }
 
 .bg-away {
-  background-color: $away;
+  background-color: scale-color($away, $lightness: 90%);
+  border: $away 2px solid;
+  color: black;
 }
 
 
 .awayBorder {
-  border: $away solid 4px !important;;
+  border: $away solid 4px !important;
 }
 
 .occupant {
@@ -547,7 +551,8 @@ strong {
     }
 
     .profilePic {
-      width: 40px;
+      min-width: 40px;
+      max-width: 40px;
       background-size: cover;
       height: 40px;
       border-radius: 500000px;
@@ -663,10 +668,12 @@ strong {
   margin-top: 4px;
   margin-bottom: 4px;
   margin-right: 16px;
+
 }
 
 .btn {
-  border-radius: 8px;
+  border-radius: 5000px;
+  box-shadow: none;
 }
 
 .btn-floating {
@@ -675,18 +682,18 @@ strong {
 
 
 .btn-group {
+  border-radius: 5000px;
   * {
     border-radius: 0;
   }
 
-  *:first-child {
-    border-bottom-left-radius: 8px !important;
-    border-top-left-radius: 8px !important;
+  *:first-child{
+    border-bottom-left-radius: 5000px !important;
+    border-top-left-radius: 5000px !important;
   }
-
-  *:last-child {
-    border-bottom-right-radius: 8px !important;
-    border-top-right-radius: 8px !important;
+  *:last-child{
+    border-bottom-right-radius: 5000px !important;
+    border-top-right-radius: 5000px !important;
   }
 
 }
@@ -744,14 +751,32 @@ strong {
   cursor: pointer;
 }
 
+
+
 .floating-tag {
+  &.transparent-bg{
+    background-color: transparent!important;
+  }
   display: flex;
   align-content: center;
   justify-content: left;
   z-index: 2;
   margin: 0;
-  padding: 0.1em 1em 0.1em 1em;
+  padding: 0.1em 3em 0.1em 1em;
+  position: absolute;
+  border-radius: 0 0 15px 0;
+  top: 0;
+  left: 0;
+  &:not(.forceShow){
+    transform: translateY(-110%);
+  }
+  transition: transform 0.2s ease-in;
+  &.show{
+    transform: translateY(0);
+  }
+
 }
+
 
 .form-outline {
   .form-control {
@@ -833,6 +858,9 @@ strong {
 
   .navigation {
     display: none;
+  }
+  .removeInIframe{
+    display: none!important;
   }
 }
 
@@ -980,7 +1008,10 @@ a:hover {
       aspect-ratio: 1/1;
       object-fit: contain;
 
-      cursor: pointer;
+      &:has(.loadContent) {
+        cursor: pointer;
+      }
+
       position: relative;
 
       img {
@@ -1078,6 +1109,7 @@ a:hover {
       position: absolute;
       z-index: -2;
       margin: 0;
+      background-color: $cardBackground_bright;
     }
   }
 }
@@ -1291,7 +1323,7 @@ a:hover {
 
   .proTips {
     display: none;
-
+    box-shadow: $card-box-shadow !important;
     z-index: 9;
     @media only screen and (min-width: $breakpointMenue) {
       display: flex;
@@ -1378,21 +1410,121 @@ a:hover {
   align-items: center;
 }
 
-.border-none{
-  border:none!important;
+.border-none {
+  border: none !important;
 }
-.selectWrapper{
-   display: flex;
-   align-items: center;
-   position: relative;
-   &:after{
-     right: 0;
-     font-family: "Font Awesome 5 Free";
-     font-weight: 900;
-     float: left;
-     transition: transform 0.3s ease-in;
-     content: "\f107";
-     position: absolute;
-     margin-right: 8px;
-   }
- }
+
+.selectWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &:after {
+    right: 0;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    float: left;
+    transition: transform 0.3s ease-in;
+    content: "\f107";
+    position: absolute;
+    margin-right: 8px;
+  }
+}
+
+.sidebar {
+  &.showSidebar {
+    background-color: $background-color;
+  }
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.social_icon_box{
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  top: 16px;
+  left: 8px;
+  .social_icon{
+    color: white;
+    background-color: rgb(0 0 0 / 62%);
+    padding: 4px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}
+
+.chip {
+  display: flex;
+  padding: 0 1em 0 0;
+  border-radius: 1000px;
+  white-space: nowrap;
+
+  &.btn-outline-success .symbol {
+    background-color: $success-color;
+    border-color: $success-color;
+  }
+
+  &.btn-outline-danger .symbol {
+    background-color: $danger-color;
+    border-color: $danger-color;
+  }
+
+  &.btn-outline-warning .symbol {
+    background-color: $warning-color;
+    border-color: $warning-color;
+  }
+
+  .symbol {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    color: white;
+    border-radius: 1000px;
+    margin-right: 0.5em;
+  }
+
+
+}
+
+.card {
+  //box-shadow: none;
+  //border: 2px solid #a8a8a8;
+  box-shadow: $card-box-shadow;
+  background-color: $cardBackground_bright;
+  &.awayBorder{
+    background-color: scale-color($warning-color, $lightness: 90%);
+    border-width: 2px!important;
+  }
+  &.olineBorder{
+    background-color: scale-color($success-color, $lightness: 90%);
+    border-width: 2px!important;
+  }
+}
+.shadow-3{
+  box-shadow: $card-box-shadow-3dp;
+}
+
+.tab-content{
+  .tab-content-watch{
+    &.mat-active{
+      min-height: 50vh;
+    }
+  }
+}
+
+.moderator-sharelink{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -3,14 +3,15 @@ import {Dropdown, Input} from "mdb-ui-kit";
 import {socket} from './websocket'
 
 let timer;              // Timer identifier
-const waitTime = 200;   // Wait time in milliseconds
+const waitTime = 500;   // Wait time in milliseconds
 let userUidSelected = null;
 let userNameShown = null;
 var closeTimer = null;
 const inviteButton = document.getElementById('addCalloutUserBtn');
 const searchUserInput = document.getElementById('searchCallOutParticipants');
 const dropdown = document.getElementById('searchCallOutParticipantsDropdown');
-const trigger = document.getElementById('searchCallOutParticipantsDropdownTrigger')
+const trigger = document.getElementById('searchCallOutParticipantsDropdownTrigger');
+
 export function initSearchCallOut() {
 
     if (searchUserInput !== null) {
@@ -41,10 +42,29 @@ export function initSearchCallOut() {
         searchUserInput.addEventListener("blur", (e) => {
             document.removeEventListener('mousedown', clickOutsideDrodown);
             Dropdown.getOrCreateInstance(trigger).hide();
-            document.getElementById('sliderTop').classList.remove('openSlider');
+            if (document.getElementById('sliderTop')) {
+                document.getElementById('sliderTop').classList.remove('openSlider');
+            }
+
         })
 
         searchUserInput.addEventListener("keyup", function (e) {
+
+            if (e.key === 'Enter') {
+                Dropdown.getOrCreateInstance(trigger).hide();
+
+                sendInvitation(inviteButton.getAttribute('href'));
+                return
+            }
+            if (e.key === 'ArrowDown') {
+                selectNext();
+                return;
+            }
+            if (e.key === 'ArrowUp') {
+                selectPrev();
+                return;
+            }
+
             inviteButton.disabled = true;
             var $ele = this;
             const $search = $ele.value;
@@ -56,12 +76,12 @@ export function initSearchCallOut() {
         })
     }
     inviteButton.addEventListener('click', function (ev) {
-        ev.currentTarget.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
         sendInvitation(ev.currentTarget.getAttribute("href"));
     })
 }
 
 const searchUSer = ($url, $search) => {
+
     if ($search.length > 0) {
         $.getJSON($url, function (data) {
             var users = data.user
@@ -69,17 +89,27 @@ const searchUSer = ($url, $search) => {
 
             dropdown.innerHTML = '';
             for (let user of users) {
-                var dropdownEle =
-                    '<a ' + (typeof user.uid !== 'undefined' ? ('id="user_' + user.uid + '"') : '')
-                    + ' class="d-flex align-items-center dropdown-item calloutSearchUser" data-name="'
-                    + user.nameNoIcon
-                    + '" data-val="'
-                    + user.id
-                    + '">' +
-                    '<div class="dot"></div>'
-                    + user.name
-                    + '</a>';
-                dropdown.insertAdjacentHTML('beforeend', dropdownEle);
+                let ele = document.createElement('a');
+                if (typeof user.uid !== 'undefined') {
+                    ele.id = "user_" + user.uid;
+                }
+                ele.classList.add('d-flex');
+                ele.classList.add('align-items-center');
+                ele.classList.add('dropdown-item');
+                ele.classList.add('calloutSearchUser');
+                ele.dataset.name = user.nameNoIcon;
+                ele.dataset.val = user.id;
+                let dot = document.createElement('div');
+                dot.classList.add('dot');
+                ele.appendChild(dot);
+                let name = document.createElement('span');
+                name.innerHTML = user.name
+                ele.appendChild(name);
+                ele.addEventListener('click', function (ele) {
+                    selectUser(ele.currentTarget);
+                    Dropdown.getOrCreateInstance(trigger).hide();
+                })
+                dropdown.appendChild(ele);
                 if (typeof user.uid !== 'undefined') {
                     usersArr.push(user.uid);
                 }
@@ -93,19 +123,13 @@ const searchUSer = ($url, $search) => {
             })
             socket.emit('giveOnlineStatus', JSON.stringify(usersArr));
             var ele = document.querySelectorAll('.calloutSearchUser');
-            for (var e of ele) {
-                e.addEventListener('click', function (ev) {
-                    selectUser(ev.target);
-                    Dropdown.getOrCreateInstance(trigger).hide();
-                })
-            }
 
         })
     }
 }
 
-function selectUser(userEle) {
-    var ele = userEle.closest('.calloutSearchUser');
+function selectUser(ele) {
+
     inviteButton.disabled = false;
     userUidSelected = ele.dataset.val;
     userNameShown = ele.dataset.name;
@@ -114,7 +138,8 @@ function selectUser(userEle) {
 }
 
 function sendInvitation(url) {
-
+    inviteButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    inviteButton.disabled = true;
     $.ajax({
         type: "POST",
         url: url,
@@ -126,7 +151,6 @@ function sendInvitation(url) {
         inviteButton.disabled = true;
         searchUserInput.value = '';
         inviteButton.innerHTML = '<i class="fa fa-user-plus"></i>';
-        // initInput();
     })
         .fail(function (data) {
         });
@@ -136,5 +160,63 @@ function sendInvitation(url) {
 function initInput() {
     document.querySelectorAll('.form-outline').forEach((formOutline) => {
         new Input(formOutline).update();
+    });
+}
+
+function selectNext() {
+    let activeElement = document.querySelector('.calloutSearchUser.active');
+    let searchUserList = document.querySelectorAll('.calloutSearchUser')
+    let newElement = null;
+    if (!activeElement) {
+        if (searchUserList.length > 0) {
+            newElement = searchUserList[0];
+        }
+    } else {
+        newElement = activeElement.nextElementSibling;
+    }
+    if (!newElement){
+        newElement = searchUserList[0];
+    }
+    setNewActive(newElement, activeElement);
+    selectUser(newElement)
+    focusActive(dropdown, newElement)
+}
+
+function selectPrev() {
+    let activeElement = document.querySelector('.calloutSearchUser.active');
+    let searchUserList = document.querySelectorAll('.calloutSearchUser')
+    let newElement = null;
+    if (!activeElement) {
+        if (searchUserList.length > 0) {
+            newElement = searchUserList[searchUserList.length-1];
+        }
+    } else {
+        newElement = activeElement.previousElementSibling;
+    }
+    if (!newElement){
+        newElement = searchUserList[searchUserList.length-1];
+    }
+    setNewActive(newElement, activeElement);
+    selectUser(newElement)
+    focusActive(dropdown, newElement)
+}
+
+function setNewActive(newElement, activeElement) {
+    if (newElement) {
+        newElement.classList.add('active');
+    }
+    if (activeElement) {
+        activeElement.classList.remove('active');
+    }
+}
+
+function setnameInSearchField(element) {
+
+}
+
+function focusActive(parent, element) {
+    parent.scrollTo({
+        top: element.offsetTop,
+        behavior: "smooth"
     });
 }

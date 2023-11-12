@@ -1,0 +1,19 @@
+<div class="col-12">
+{% apply markdown_to_html %}
+#### {{ version }}
+{% if whatsNew is defined %}
+__What's new__
+{{ whatsNew }}
+{% endif %}
+{% if improvement is defined %}
+__Improvement__
+{{ improvement }}
+{% endif %}
+{% if bugfix is defined %}
+__Bugfix__
+{{ bugfix }}
+{% endif %}
+
+{% endapply %}
+    <hr>
+</div>

@@ -1,12 +1,14 @@
+{{ form_start(form) }}
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-<div class="modal-content">
+    <div class="modal-content">
 
         <div class="modal-header  light-blue darken-3 white-text">
             <h5 class="modal-title">{{ title }}</h5>
-             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
+
         <div class="modal-body">
-            {{ form_start(form) }}
+
             {{ form_row(form.url) }}
             {{ form_row(form.serverName) }}
             {{ form_row(form.corsHeader) }}
@@ -24,19 +26,10 @@
                 {{ form_row(form.appId) }}
                 {{ form_row(form.appSecret) }}
             </div>
-            {{ form_row(form.licenseKey) }}
-            {% if not server|validateLicense %}
-                <p><small><span class="badge badge-danger">Enterprise</span><a target="_blank"
-                                                                               href="https://h2-invent.com/produkte/jitsi-admin-enterprise"> {% trans %}Geben Sie hier ihren Pro-Lizenkey ein, wenn sie einen solchen erworben haben. Erfahren Sie hier mehr über Jitsi-Admin Enterprise.{% endtrans %}</a></small>
-                </p>
-            {% else %}
-                <p>
-                    <small><span
-                                class="badge badge-success">{{ 'Enterprise bis'|trans }}</span> {{ server|validateUntilLicense|date('d.m.Y') }}
-                    </small></p>
-            {% endif %}
+
             <div class="mb-2">
-                <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a data-mdb-toggle="collapse" class=" caretdown" href="#collapseExample" aria-expanded="false"
+                   aria-controls="collapseExample">
                     {{ 'Erweiterte Optionen'|trans }}
                 </a>
                 <div class="collapse" id="collapseExample">
@@ -50,6 +43,24 @@
                             </div>
                             <div class="col-lg-12">
                                 {{ form_row(form.disallowFirefox) }}
+                            </div>
+                            <div class="col-lg-12">
+                                {{ form_row(form.enforceE2e) }}
+                            </div>
+                            <div class="col-lg-12">
+                                {{ form_row(form.disableEtherpad) }}
+                            </div>
+                            <div class="col-lg-12">
+                                {{ form_row(form.disableWhiteboard) }}
+                            </div>
+                            <div class="col-lg-12">
+                                {{ form_row(form.disableChat) }}
+                            </div>
+                            <div class="col-lg-12">
+                                {{ form_row(form.disableFilmstripe) }}
+                            </div>
+                            <div class="col-lg-12">
+                                {{ form_row(form.allowIp) }}
                             </div>
                         </div>
 
@@ -73,9 +84,14 @@
 
                     </div>
                 </div>
-                {{ form_row(form.submit) }}
-                {{ form_end(form) }}
+
             </div>
         </div>
+        <div class="modal-footer">
+            {{ form_row(form.submit) }}
+
+        </div>
+
     </div>
 </div>
+{{ form_end(form) }}

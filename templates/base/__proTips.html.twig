@@ -5,20 +5,26 @@
                 <img src="{{ asset('images/pro-tip.svg') }}">
             </div>
             <div class="text me-4">
-                {{ 'Meetling Pro Tip'|trans }}
+                {% if getApplicationProperties('LAF_PRO_TIP_HEADER') is not null %}
+                    {{ getApplicationProperties('LAF_PRO_TIP_HEADER') }}
+                {% else %}
+                    {{ 'Meetling Pro Tip'|trans }}
+                {% endif %}
             </div>
             <i class="fa fa-arrow-up"></i>
         </div>
         <div class="second-line">
             <div class="instruction">
                 <b>{{ 'Hotkeys'|trans }}</b>
-                <p>1 - {{ 'Zukünftige Konferenzen'|trans }}</p>
-                <p>2 - {{ 'Feste Konferenzen'|trans }}</p>
-                <p>3 - {{ 'Vergangene Konferenzen'|trans }}</p>
-                <p>a - {{ 'Adressbuch'|trans }}</p>
-                <p>g - {{ 'Gruppen'|trans }}</p>
-                <p>n - {{ 'Eine Konferenz planen'|trans }}</p>
-            </div>
+                <hr>
+                    <p>1 - {{ 'Zukünftige Konferenzen'|trans }}</p>
+                    <p>2 - {{ 'Feste Konferenzen'|trans }}</p>
+                    <p>3 - {{ 'Vergangene Konferenzen'|trans }}</p>
+                    <p>a - {{ 'Adressbuch'|trans }}</p>
+                    <p>g - {{ 'Gruppen'|trans }}</p>
+                    <p>n - {{ 'Eine Konferenz planen'|trans }}</p>
+                </div>
+
         </div>
     </div>
 </div>

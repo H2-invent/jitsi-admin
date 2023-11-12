@@ -56,7 +56,7 @@ class ToParticipantWebsocketService
     {
 
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success');
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success',2000);
         $appUrl = $this->roomService->join(
             $lobbyWaitungUser->getRoom(),
             $lobbyWaitungUser->getUser(),
@@ -67,6 +67,7 @@ class ToParticipantWebsocketService
         if ($lobbyWaitungUser->getType() === 'b') {
             $options = [
                 'options' => [
+//                    'roomName' =>$lobbyWaitungUser->getRoom()->getServer()->getSlugMd5(). $lobbyWaitungUser->getRoom()->getUid(),
                     'roomName' => $lobbyWaitungUser->getRoom()->getUid(),
                     'width' => '100%',
                     'height' => 400,
@@ -116,7 +117,7 @@ class ToParticipantWebsocketService
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)
     {
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
-        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger');
+        $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.decline'), 'danger',2000);
         $this->directSend->sendRedirect($topic, $this->urlgenerator->generate('index'), $this->parameterBag->get('laf_lobby_popUpDuration'));
     }
     public function sendMessage(LobbyWaitungUser $lobbyWaitungUser, $message, string $from)

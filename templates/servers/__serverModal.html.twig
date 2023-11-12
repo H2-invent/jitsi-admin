@@ -34,13 +34,13 @@
                                     role="button"
                                     aria-expanded="false"
                                     aria-controls="servercollape_{{ server.id }}">
-                                      {% if server.administrator == app.user %}{% if server|validateLicense %}<span class="badge badge-success">Pro</span>{% endif%}{%endif%} {{ server.serverName }}   {% if server.stars|length > 0 %}<small>(<i class="fa fa-star"></i> {{ showAverageStar(server)|round(1) }})</small>{% endif %}</p>
+                                       {{ server.serverName }}   {% if server.stars|length > 0 %}<small>(<i class="fa fa-star"></i> {{ showAverageStar(server)|round(1) }})</small>{% endif %}</p>
 
                             <div class="collapse mt-3" id="servercollape_{{ server.id }}">
                                 {% if server.administrator == app.user %}(Id #{{server.id}}){% endif %}
                                 <hr>
                                 {% if server.administrator == app.user %}
-                                    {% if server|validateLicense %}
+
                                         <a href="{{ path('servers_enterprise',{'id':server.id}) }}" data-mdb-dismiss="modal"
                                            class="loadContent btn btn-outline-primary btn-block mb-3">{{ 'Enterprise Einstellungen'|trans }}
                                         </a>
@@ -53,7 +53,7 @@
                                         </a>
                                         <br>
                                         <hr>
-                                    {% endif %}
+
 
                                 {% endif %}
 

@@ -1,25 +1,9 @@
-{% extends('bundles/TwigBundle/Exception/errorbase.html.twig') %}
-
-
-{% block content %}
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card">
-                             <div class="card-body d-flex flex-row align-items-center">
-                    <div class="image me-3">
-                        <img src="{{ asset('images/error/not_found.svg') }}">
-                    </div>
-                    <div class="text">
-                        <b style="font-size: 32px; font-weight: bold">{{ exception.statusCode }} - {{ 'Seite nicht gefunden'|trans }}</b>
-                        <p>{{ 'Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.'|trans }}</p>
-                        <p>{{ 'Hier gehts zurück zur Startseite'|trans }}</p>
-                        <a class="btn  btn-primary" href="{{ path('index') }}">{{'Zur Startseite'|trans}}</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-{% endblock %}
+{% set theme =  getThemeProperties() %}
+{% set header = 'Seite nicht gefunden'|trans %}
+    {% if theme and getApplicationProperties('404_ERROR_MESSAGE') %}
+        {%  set content= getApplicationProperties('404_ERROR_MESSAGE')  %}
+    {% else %}
+        {%  set content= 'Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.'|trans %}
+    {% endif %}
+{% set image = asset('images/error/error_undefined.svg') %}
+{% include('bundles/TwigBundle/Exception/error_content.html.twig') %}

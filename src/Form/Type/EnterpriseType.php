@@ -10,6 +10,10 @@
 namespace App\Form\Type;
 
 use App\Entity\AuditTomAbteilung;
+use App\Entity\Tag;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -49,6 +53,22 @@ class EnterpriseType extends AbstractType
             ->add('jigasiApiUrl', TextType::class, ['required' => false, 'label' => 'label.jigasiApiUrl', 'help' => 'help.jigasiApiUrl', 'translation_domain' => 'form'])
             ->add('jigasiNumberUrl', TextType::class, ['required' => false, 'label' => 'label.jigasiNumberUrl', 'help' => 'help.jigasiNumberUrl', 'translation_domain' => 'form'])
             ->add('jigasiProsodyDomain', TextType::class, ['required' => false, 'label' => 'label.jigasiProsodyDomain', 'help' => 'help.jigasiProsodyDomain', 'translation_domain' => 'form'])
+            ->add('jitsiEventSyncUrl', TextType::class, ['required' => false, 'label' => 'label.jitsiEventSyncUrl', 'help' => 'help.jitsiEventSyncUrl', 'translation_domain' => 'form'])
+
+            ->add('tag', EntityType::class, [
+                'class' => Tag::class,
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('t')
+                        ->andWhere('t.disabled =:false')
+                        ->setParameter(':false',false)
+                        ->orderBy('t.title', 'ASC');
+                },
+                'choice_label' => 'title',
+                'multiple' => true,
+                'expanded'=>true,
+                'translation_domain' => 'form',
+                'required'=>false,
+            ])
             ->add('submit', SubmitType::class, ['attr' => ['class' => 'btn btn-outline-primary'], 'label' => 'label.speichern', 'translation_domain' => 'form']);
     }
 

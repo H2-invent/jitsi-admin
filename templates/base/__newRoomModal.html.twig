@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md ">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md" id="newRoomMOdal">
     <div class="modal-content">
 
 
@@ -24,14 +24,17 @@
                     {% endif %}
 
                 </div>
-                {% if form.tag is defined %}
-                    <div class="col-12 d-flex align-items-start with-help">
-                        {{ form_row(form.tag) }}
-                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
-                           data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
-                                    class="fa fa-question-circle"></i></a>
-                    </div>
-                {% endif %}
+                <div id="form_tag_wrapper">
+                    {% if form.tag is defined %}
+                        <div class="col-12 d-flex align-items-start with-help">
+                            {{ form_row(form.tag) }}
+                            <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                               data-mdb-content="{{ 'room.new.help.tag'|trans }}"><i
+                                        class="fa fa-question-circle"></i></a>
+                        </div>
+                    {% endif %}
+                </div>
+
                 {% if form.moderator is defined %}
                     <div class="col-12 d-flex align-items-start with-help">
                         {{ form_row(form.moderator) }}
@@ -221,26 +224,39 @@
                                     </a>
                                 </div>
                                 {% endif %}
+                                {% if form.maxUser is defined %}
+                                    <div class="col-12 d-flex align-items-start with-help">
+                                        {{ form_row(form.maxUser) }}
+
+                                        <a tabindex="0" data-mdb-toggle="popover" data-mdb-trigger="focus"
+                                           data-mdb-content="{{ 'rooms.help.setmaxparticipantsHardLimit'|trans }}">
+                                            <i class="fa fa-question-circle"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         {% if laf_roomsMoreOptionsCollapsed == 1 %}
                     </div>
                     {% endif %}
                 </div>
+                {{ form_rest(form) }}
                 {{ form_end(form) }}
-                {% else %}
-                    <div class="alert alert-danger" role="alert">
-                        {% if laf_CreateServerOpenToEveryone == 1 %}
-                            {{ 'newRoom.error.noServer.addServer'|trans }}
-                        {% else %}
-                            {{ ''|trans }}
-                            {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
-                        {% endif %}
-                    </div>
-
-                {% endif %}
             </div>
-
+                {% else %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-danger" role="alert">
+                                {% if laf_CreateServerOpenToEveryone == 1 %}
+                                    {{ 'newRoom.error.noServer.addServer'|trans }}
+                                {% else %}
+                                    {{ ''|trans }}
+                                    {% trans with {'adminEmail':laf_administratorEmail} %}newRoom.error.noServer.askAdmin{% endtrans %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
         </div>
         <div class="modal-footer">
             <button href="#" id="saveRoom" class="btn btn-primary">{{ 'Speichern'|trans }}</button>

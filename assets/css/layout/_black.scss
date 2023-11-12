@@ -394,10 +394,7 @@ hr {
   color: $black_font-color;
 }
 
-.conference-icon {
-  background-color: $black_background !important;
-  color: $black_font-color !important;
-}
+
 
 .jitsiadminiframe {
   &.minified {
@@ -421,9 +418,7 @@ hr {
     color: $black_font-color;
   }
 
-  .adressbookline {
-    border: none;
-  }
+
 
   .input-group {
     .btn-outline-primary {
@@ -454,3 +449,39 @@ hr {
     }
   }
 
+.sidebar{
+  &.showSidebar{
+    background-color: $black_background;
+  }
+}
+
+.bg-online {
+  background-color: scale-color($online, $lightness: -90%);
+  color: $black_font-color!important;
+
+}
+
+.bg-away {
+  background-color: scale-color($away, $lightness: -90%);
+  color: $black_font-color!important;
+}
+
+.card {
+  &.awayBorder{
+    background-color: scale-color($away, $lightness: -90%);
+    border-width: 2px!important;
+  }
+  &.olineBorder{
+    background-color: scale-color($online, $lightness: -90%);
+    border-width: 2px!important;
+  }
+}
+
+
+.card {
+  &.favorites {
+    .card-background {
+      background-color: $cardBackground_dark!important;
+    }
+  }
+}

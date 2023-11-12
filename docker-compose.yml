@@ -83,7 +83,7 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.websocket-ja.rule=Host(`websocket.${PUBLIC_URL}`)"
+      - "traefik.http.routers.websocket-ja.rule=Host(`${PUBLIC_URL}`) && PathPrefix(`/ws`)"
       - "traefik.http.routers.websocket-ja.entrypoints=web"
       - "traefik.http.routers.websocket-ja.tls=true"
       - "traefik.http.services.websocket-ja.loadbalancer.server.port=3000"
@@ -119,10 +119,10 @@ services:
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
       OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
-      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
+      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
       OAUTH_KEYCLOAK_REALM: jitsiadmin
       MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
-      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
+      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://${PUBLIC_URL}
       MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
       WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
       MAILER_DSN: ${MAILER_DSN}
@@ -150,7 +150,6 @@ services:
       - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
-      - $PWD/dockerupdate.sh:/etc/container/startup.sh
 
   app-queu:
     <<: *jitsi_admin_app
@@ -180,7 +179,7 @@ services:
 
 
   keycloak-ja:
-    image: quay.io/keycloak/keycloak:21.1.1
+    image: quay.io/keycloak/keycloak:22.0.3
     depends_on:
       app-ja:
         condition: service_healthy
@@ -191,7 +190,10 @@ services:
       KC_DB_PASSWORD: ${KEYCLOAK_PW}
       KC_DB_URL: jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
       KC_DB_USERNAME: keycloak
-      KC_HOSTNAME_URL: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
+      KC_HOSTNAME_URL: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
+      KC_HOSTNAME_PATH: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
+      KC_HOSTNAME_ADMIN_URL: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
+      KC_HTTP_RELATIVE_PATH: /keycloak
       KC_PROXY: passthrough
 
     command:
@@ -200,7 +202,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak-ja.tls=true"
-      - "traefik.http.routers.keycloak-ja.rule=Host(`keycloak.${PUBLIC_URL}`)"
+      - "traefik.http.routers.keycloak-ja.rule=Host(`${PUBLIC_URL}`) && PathPrefix(`/keycloak`)"
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
       - "traefik.http.routers.keycloak-ja.tls.certresolver=letsencrypt"

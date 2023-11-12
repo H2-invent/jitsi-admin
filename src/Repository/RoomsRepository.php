@@ -213,6 +213,9 @@ class RoomsRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+     /**
+      * @return Rooms[] Returns an array of Rooms objects
+      */
     public function getMyPersistantRooms(User $user, $offset)
     {
         $qb = $this->createQueryBuilder('rooms');
@@ -239,14 +242,8 @@ class RoomsRepository extends ServiceEntityRepository
         $now = (new \DateTime())->modify($timeBack);
         $qb = $this->createQueryBuilder('r');
         return $qb->innerJoin('r.user', 'user')
-            ->leftJoin('user.managerElement', 'managerelement')
-            ->leftJoin('managerelement.deputy', 'deputy')
-            ->andWhere(
-                $qb->expr()->orX(
-                    'user = :user',
-                    'deputy = :user'
-                )
-            )
+
+            ->andWhere('user = :user')
             ->andWhere('r.enddate > :now')
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.scheduleMeeting'), 'r.scheduleMeeting = false'))
             ->andWhere($qb->expr()->orX($qb->expr()->isNull('r.persistantRoom'), 'r.persistantRoom = false'))

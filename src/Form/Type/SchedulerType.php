@@ -22,6 +22,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -57,7 +60,7 @@ class SchedulerType extends AbstractType
             $during = true;
         }
 
-        if (count($options['server']) !== 1) {
+
             $builder
                 ->add(
                     'server',
@@ -70,11 +73,11 @@ class SchedulerType extends AbstractType
                             'class' => Server::class,
                             'choices' => $options['server'],
                             'multiple' => false,
-                            'attr' => ['class' => 'moreFeatures'],
+                            'attr' => ['class' => 'moreFeatures fakeserver']
                         ],
                     ),
                 );
-        }
+
 
         $organisators = [];
 
@@ -125,7 +128,7 @@ class SchedulerType extends AbstractType
             $builder->add(
                 'public',
                 CheckboxType::class,
-                $this->getOptions(false, 'label.puplicRoom')
+                $this->getOptions(false, 'label.puplicRoom',['attr'=>['class'=>'public_checkbox']]),
             );
         };
 
@@ -193,26 +196,49 @@ class SchedulerType extends AbstractType
             );
         }
 
-
-        if ($options['showTag']) {
-            $this->logger->debug('Add the possibility to select a tag');
-
-            $tags = $this->tagRepository->findBy(['disabled' => false], ['priority' => 'ASC']);
-            if (count($tags) > 0) {
-                $builder->add(
-                    'tag',
-                    EntityType::class,
-                    $this->getOptions(
-                        true,
-                        'label.tag',
-                        [
-                            'class' => Tag::class,
-                            'choice_label' => 'title',
-                            'choices' => $tags,
-                        ]
-                    ),
-                );
+        if ($this->checkAppProperty(InputSettings::ALLOW_SET_MAX_USERS) == 1) {
+            $this->logger->debug('Add the possibility to set the max participants');
+            $builder->add('maxUser', NumberType::class, ['required' => false, 'label' => 'label.maxUser', 'translation_domain' => 'form', 'attr' => ['placeholder' => 'placeholder.maxParticipants']
+            ]);
+        }
+        $formModifier = function (FormInterface $form, Server $server = null): void {
+            $tags = null === $server ? [] : $server->getTag();
+            if (count($tags) > 1) {
+                $form->add('tag', EntityType::class, [
+                    'class' => Tag::class,
+                    'choice_label' => 'title',
+                    'choices' => $tags,
+                    'required' => true,
+                    'label' => 'label.tag',
+                    'translation_domain' => 'form'
+                ]);
             }
+
+        };
+        if ($options['showTag']) {
+
+
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($formModifier): void {
+                    // this would be your entity, i.e. SportMeetup
+                    $data = $event->getData();
+                    $formModifier($event->getForm(), $data->getServer());
+                }
+            );
+
+            $builder->get('server')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function (FormEvent $event) use ($formModifier): void {
+                    // It's important here to fetch $event->getForm()->getData(), as
+                    // $event->getData() will get you the client data (that is, the ID)
+                    $sport = $event->getForm()->getData();
+
+                    // since we've added the listener to the child, we'll have to pass on
+                    // the parent to the callback function!
+                    $formModifier($event->getForm()->getParent(), $sport);
+                }
+            );
         }
 
         if (count($organisators) > 1) {
@@ -244,6 +270,9 @@ class SchedulerType extends AbstractType
                 'attr' => ['class' => 'd-none'],
             ],
         );
+        if (count($options['server']) === 1) {
+            $builder->remove('server');
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

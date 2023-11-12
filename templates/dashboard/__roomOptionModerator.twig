@@ -10,5 +10,5 @@
 {% if isAllowedToOrganize(room,app.user) and room.totalOpenRooms == true %}
     <a href="{{ path('room_enter_link',{'uid':room.uid}) }}"
        class=" element btn btn-outline-primary loadContent moderator-sharelink"><i class="fa fa-link"></i> {{ 'Beitretenlink'|trans }}</a>
-{% endif %}
+  {% endif %}
 {% endif %}

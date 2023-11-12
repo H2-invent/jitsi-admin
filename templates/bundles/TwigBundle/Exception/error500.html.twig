@@ -1,25 +1,11 @@
-{% extends('bundles/TwigBundle/Exception/errorbase.html.twig') %}
 
-{% block content %}
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body d-flex flex-row align-items-center">
-                    <div class="image me-3">
-                        {% set rand = (random(2)+1)|number_format %}
-
-                        <img src="{{ asset('images/error/error_'~ rand~'.svg') }}">
-                    </div>
-                    <div class="text">
-                        <b style="font-size: 32px; font-weight: bold">{{ exception.statusCode }} - {{ 'Seite kaputt'|trans }}</b>
-                        <p>{{ 'Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.'|trans }}</p>
-                        <a class="btn  btn-primary" href="{{ path('index') }}">{{'Zur Startseite'|trans}}</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-{% endblock %}
+{% set theme =  getThemeProperties() %}
+{% set header = 'error.internalError'|trans %}
+    {% if theme and getApplicationProperties('500_ERROR_MESSAGE') %}
+        {%  set content= getApplicationProperties('500_ERROR_MESSAGE')  %}
+    {% else %}
+        {%  set content= 'Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.'|trans %}
+    {% endif %}
+   {% set rand = (random(2)+1)|number_format %}
+{% set image =  asset('images/error/error_'~ rand~'.svg') %}
+{% include('bundles/TwigBundle/Exception/error_content.html.twig') %}

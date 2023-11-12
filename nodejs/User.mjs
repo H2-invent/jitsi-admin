@@ -1,6 +1,6 @@
 import {io} from "./websocket.js";
 import {getOnlineUSer, getUserStatus} from "./login.mjs";
-import {AWAY_TIME} from "./config.mjs";
+import {AWAY_TIME, DEFAULT_STATE} from "./config.mjs";
 
 class User {
     userId;
@@ -17,7 +17,7 @@ class User {
         this.status = status;
         this.initUserAway();
         this.userId = userId;
-        this.offline = status === 'offline';
+        this.offline = status === DEFAULT_STATE;
         this.awayTime=AWAY_TIME;
     }
 

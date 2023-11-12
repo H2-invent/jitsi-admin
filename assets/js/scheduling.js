@@ -52,13 +52,42 @@ function initRemove() {
 }
 
 function initSchedulePublic() {
-    $('.scheduleSelect').change(function (e) {
+    $('.scheduleSelect').click(function (e) {
+        e.preventDefault();
         var $schedule = $(this).data('schedule');
         var $user = $(this).data('uid');
         var $type = $(this).data('type');
         var $url = $(this).data('url');
+        var eleClicked = this;
         $.post($url, {user: $user, type: $type, time: $schedule}, function (data) {
             snackbar(data.text,data.color);
+            var allEle = eleClicked.closest('.row').querySelectorAll('.scheduleSelect');
+            allEle.forEach(function (ele) {
+                var typ = ele.dataset.type;
+                if (typ == 0){
+                    ele.classList.remove('btn-success');
+                    ele.classList.add('btn-outline-success')
+                    if (eleClicked === ele){
+                        ele.classList.add('btn-success');
+                        ele.classList.remove('btn-outline-success')
+                    }
+                }else if (typ == 1){
+                    ele.classList.remove('btn-danger');
+                    ele.classList.add('btn-outline-danger')
+                    if (eleClicked === ele){
+                        ele.classList.add('btn-danger');
+                        ele.classList.remove('btn-outline-danger')
+                    }
+                }else if (typ == 2){
+                    ele.classList.remove('btn-warning');
+                    ele.classList.add('btn-outline-warning')
+                    if (eleClicked === ele){
+                        ele.classList.add('btn-warning');
+                        ele.classList.remove('btn-outline-warning')
+                    }
+                }
+
+            })
         })
     })
 }

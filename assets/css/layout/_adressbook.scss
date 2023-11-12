@@ -17,7 +17,10 @@ $border-width-entry: 6px;
   border-radius: 8px;
   margin-bottom: 8px;
   border-top-width: 1px !important;
-  box-shadow: 0 0 11px 1px rgb(0 0 0 / 7%), 0 10px 20px -2px rgb(0 0 0 / 4%);
+  box-shadow: $card-box-shadow;
+  margin-left: 4px;
+  margin-right: 4px;
+  background-color: $cardBackground_bright;
   .name {
     i {
       margin-right: 0.5rem !important;
@@ -32,7 +35,8 @@ $border-width-entry: 6px;
 
   .profilepicture {
     height: 44px;
-    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
     background-size: cover;
     background-position: center;
     border-radius: 5000px;

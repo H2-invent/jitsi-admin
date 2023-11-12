@@ -10,6 +10,7 @@ import {initStartWhiteboard} from "./startWhiteboard";
 import {showPlayPause} from "./moderatorIframe";
 import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
+import {ConferenceUtils} from "./ConferenceUtils";
 
 global.$ = global.jQuery = $;
 
@@ -31,6 +32,7 @@ var jitsiErrorController;
 var myId = null;
 var roomName = null;
 var isBreakout = null;
+var conferenceUtils;
 function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micId) {
     title = titelL;
     cancel = cancelL;
@@ -38,6 +40,9 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     microphoneLabel = micId;
     cameraLable = videoId;
     api = new JitsiMeetExternalAPI(domain, options);
+    conferenceUtils = new ConferenceUtils(api);
+    conferenceUtils.initConferencePreJoin();
+
     if (typeof options.userInfo.avatarUrl !== 'undefined'){
         avatarUrl = options.userInfo.avatarUrl;
     }
@@ -58,17 +63,22 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 
     });
     api.addListener('readyToClose', function (e) {
+        leaveMeeting();
+        initStarSend();
+        api = null;
         endMeeting();
+        var timeout = data.timeout?data.timeout:150000;
         if (window.opener == null) {
             setTimeout(function () {
                 window.location.href = data.url;
-            }, data.timeout)
+            }, timeout)
         } else {
             setTimeout(function () {
                 window.close();
-            }, data.timeout)
+            }, timeout)
         }
     });
+
     api.addListener('toolbarButtonClicked', function (e) {
         if (e.key === 'hangup') {
             askHangup()
@@ -78,6 +88,7 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     api.addListener('videoConferenceJoined', function (e) {
         enterMeeting();
         initStartWhiteboard();
+        conferenceUtils.initConferencePostJoin();
         api.executeCommand('avatarUrl', avatarUrl);
         myId = e.id;
         roomName = e.roomName;
@@ -85,13 +96,11 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 
         pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
         jitsiErrorController= new jitsiErrorHandling(api);
-
-        api.addListener('videoConferenceLeft', function (e) {
-            leaveMeeting();
-            initStarSend();
-            api = null;
-        });
-
+        if (typeof enforceE2Eencryption !== 'undefined'){
+            if (enforceE2Eencryption){
+                api.executeCommand('toggleE2EE', true);
+            }
+        }
         $('#closeSecure').removeClass('d-none').click(function (e) {
             e.preventDefault();
             var url = $(this).prop('href');
@@ -148,6 +157,9 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
 }
 
 function endMeeting() {
+    if (!api){
+        return false;
+    }
     participants = api.getParticipantsInfo();
     for (var i = 0; i < participants.length; i++) {
         if (api) {
