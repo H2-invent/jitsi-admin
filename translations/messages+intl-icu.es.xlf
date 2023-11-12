@@ -331,7 +331,7 @@
       </trans-unit>
       <trans-unit id="La4XzEP" resname="Im Browser">
         <source>Im Browser</source>
-        <target state="translated">En el navegador</target>
+        <target state="translated">Comienzo</target>
       </trans-unit>
       <trans-unit id="5wvMEm6" resname="In der App">
         <source>In der App</source>
@@ -742,7 +742,7 @@
       </trans-unit>
       <trans-unit id="bM.1UL8" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="translated">Quizás</target>
+        <target state="translated">Con reserva</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -888,7 +888,7 @@
       </trans-unit>
       <trans-unit id="iHWAl7b" resname="Hier beitreten">
         <source>Hier beitreten</source>
-        <target state="needs-translation">Hier beitreten</target>
+        <target state="translated">Ingresa aquí</target>
       </trans-unit>
       <trans-unit id="qjr7pXm" resname="Die Serienvideokonferenz {name} wurde gelöscht">
         <source>Die Serienvideokonferenz {name} wurde gelöscht</source>
@@ -1180,7 +1180,7 @@
       </trans-unit>
       <trans-unit id="AITCFtN" resname="Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.">
         <source>Wählen Sie hier die Zeitzone aus in welcher das Meeting geplant werden soll. Benutzer in anderen Zeitzonen erhalten die Konferenz in Ihrer lokalen Zeitzone.</source>
-        <target state="needs-translation">Bitte wählen Sie hier die Zeitzone für das geplante Meeting aus. Teilnehmende in anderen Zeitzonen erhalten die Konferenz in ihrer lokalen Zeitzone.</target>
+        <target state="translated">Seleccione la zona horaria de la reunión. Los usuarios de otras zonas horarias recibirán la conferencia en su zona horaria local.</target>
       </trans-unit>
       <trans-unit id="89E.tGV" resname="Zeitzone ändern">
         <source>Zeitzone ändern</source>
@@ -1292,7 +1292,7 @@
       </trans-unit>
       <trans-unit id="ReEwW3k" resname="lobby.moderator.title">
         <source>lobby.moderator.title</source>
-        <target state="needs-translation">{name}</target>
+        <target state="translated">{name}</target>
       </trans-unit>
       <trans-unit id="FtjPCGv" resname="lobby.noWebCamFound">
         <source>lobby.noWebCamFound</source>
@@ -1304,7 +1304,7 @@
       </trans-unit>
       <trans-unit id="TKw5vlV" resname="jitsi.start.browser">
         <source>jitsi.start.browser</source>
-        <target state="translated">En el navegador</target>
+        <target state="translated">Comienzo</target>
       </trans-unit>
       <trans-unit id="39zBg5g" resname="jitsi.start.app">
         <source>jitsi.start.app</source>
@@ -1360,11 +1360,11 @@
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Wartenden zulassen</target>
+        <target state="translated">Permitir ingresar a todos</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
-        <target state="needs-translation">Alle Wartenden wurden erfolgreich zur Konferenz zugelassen.</target>
+        <target state="translated">Todos los que esperaban fueron admitidos con éxito en la conferencia.</target>
       </trans-unit>
       <trans-unit id="DHTysqR" resname="lobby.start.echo">
         <source>lobby.start.echo</source>
@@ -1713,23 +1713,23 @@
       </trans-unit>
       <trans-unit id="77UF_55" resname="status.offline">
         <source>status.offline</source>
-        <target state="needs-translation">Offline</target>
+        <target state="translated">Desconectado</target>
       </trans-unit>
       <trans-unit id="Ox5iAwP" resname="status.online">
         <source>status.online</source>
-        <target state="needs-translation">Online</target>
+        <target state="translated">En línea</target>
       </trans-unit>
       <trans-unit id="qu.GEA6" resname="status.away">
         <source>status.away</source>
-        <target state="needs-translation">Abwesend</target>
+        <target state="translated">Ausente</target>
       </trans-unit>
       <trans-unit id="f49snGy" resname="status.inMeeting">
         <source>status.inMeeting</source>
-        <target state="needs-translation">In einem Meeting</target>
+        <target state="translated">En una reunion</target>
       </trans-unit>
       <trans-unit id="I4QUydi" resname="lobby.participant.online">
         <source>lobby.participant.online</source>
-        <target state="needs-translation">Diese*r Teilnehmende ist bereits in der Konferenz</target>
+        <target state="translated">Este participante ya está en la conferencia</target>
       </trans-unit>
       <trans-unit id="v.H1nyD" resname="lobby.participant.notInLobby">
         <source>lobby.participant.notInLobby</source>
@@ -1757,11 +1757,11 @@
       </trans-unit>
       <trans-unit id="XkrLYIW" resname="lobby.endMeeting.ask.participant">
         <source>lobby.endMeeting.ask.participant</source>
-        <target state="needs-translation">Wollen Sie diese Konferenz wirklich beenden.</target>
+        <target state="translated">¿Está seguro de que quiere terminar la conferencia?</target>
       </trans-unit>
       <trans-unit id="7GpUwKV" resname="input.help.timeaway">
         <source>input.help.timeaway</source>
-        <target state="needs-translation">Abwesend anzeigen nach</target>
+        <target state="translated">Mostrar ausente después de</target>
       </trans-unit>
       <trans-unit id="lhLkNG5" resname="input.label.timeaway">
         <source>input.label.timeaway</source>
@@ -1769,279 +1769,279 @@
       </trans-unit>
       <trans-unit id="l2aU5E." resname="stars.lastTen">
         <source>stars.lastTen</source>
-        <target state="needs-translation">Letzte Bewertungen</target>
+        <target state="translated">Comentarios recientes</target>
       </trans-unit>
       <trans-unit id="HZQLWbn" resname="Sie wurden von {name} eingeladen">
         <source>Sie wurden von {name} eingeladen</source>
-        <target state="needs-translation">Sie wurden von {name} eingeladen</target>
+        <target state="translated">Ha sido invitado por {name}</target>
       </trans-unit>
       <trans-unit id="l7wQdDI" resname="callout.message.timeout">
         <source>callout.message.timeout</source>
-        <target state="needs-translation">{name} hat nicht abgenommen</target>
+        <target state="translated">{name} no contestó</target>
       </trans-unit>
       <trans-unit id="5NiLGgo" resname="callout.message.occupied">
         <source>callout.message.occupied</source>
-        <target state="needs-translation">Der Anschluss von {name} ist besetzt.</target>
+        <target state="translated">La línea de {name} está ocupada.</target>
       </trans-unit>
       <trans-unit id="rJeuurV" resname="callout.message.later">
         <source>callout.message.later</source>
-        <target state="needs-translation">{name} wird später der Konferenz beitreten.</target>
+        <target state="translated">{name} se unirá a la conferencia más tarde.</target>
       </trans-unit>
       <trans-unit id="ACda2_m" resname="callout.message.refuse">
         <source>callout.message.refuse</source>
-        <target state="needs-translation">{name} hat abgelehnt.</target>
+        <target state="translated">{name} ha rechazado.</target>
       </trans-unit>
       <trans-unit id="YSIci3n" resname="callout.message.error">
         <source>callout.message.error</source>
-        <target state="needs-translation">Fehler. Melden Sie sich bei Ihrem Support.</target>
+        <target state="translated">Error. Póngase en contacto con soporte.</target>
       </trans-unit>
       <trans-unit id="8lD0JjZ" resname="callout.status.occupied">
         <source>callout.status.occupied</source>
-        <target state="needs-translation">Besetzt</target>
+        <target state="translated">El usuario está ocupado</target>
       </trans-unit>
       <trans-unit id="22udBvG" resname="callout.status.later">
         <source>callout.status.later</source>
-        <target state="needs-translation">Später</target>
+        <target state="translated">Más tarde</target>
       </trans-unit>
       <trans-unit id="IRAN.Xg" resname="callout.status.timeout">
         <source>callout.status.timeout</source>
-        <target state="needs-translation">Nicht abgenommen</target>
+        <target state="translated">Sin hacer</target>
       </trans-unit>
       <trans-unit id="Vu7cvDR" resname="callout.info.noMoreRetries">
         <source>callout.info.noMoreRetries</source>
-        <target state="needs-translation">Keine weiteren Anrufversuche möglich</target>
+        <target state="translated">No es posible realizar más intentos de llamada</target>
       </trans-unit>
       <trans-unit id="AHd_0xd" resname="public.invite.more">
         <source>public.invite.more</source>
-        <target state="needs-translation">Mehr Leute einladen</target>
+        <target state="translated">Invitar a más usuarios</target>
       </trans-unit>
       <trans-unit id="9SW2XfU" resname="public.invite.text">
         <source>public.invite.text</source>
-        <target state="needs-translation">Teilen Sie den Konferenzlink, um andere einzuladen</target>
+        <target state="translated">Comparte el enlace de la conferencia para invitar a otros usuarios</target>
       </trans-unit>
       <trans-unit id="JnZ3ekl" resname="public.invite.moreApps">
         <source>public.invite.moreApps</source>
-        <target state="needs-translation">Einladung zur Versammlung teilen</target>
+        <target state="translated">Comparte la invitación a la reunión</target>
       </trans-unit>
       <trans-unit id="8khGYau" resname="Sie wurden zur Teilnahme an einem Meeting eingeladen.">
         <source>Sie wurden zur Teilnahme an einem Meeting eingeladen.</source>
-        <target state="needs-translation">Sie wurden zur Teilnahme an einem Meeting eingeladen.</target>
+        <target state="translated">Ha sido invitado a una reunión.</target>
       </trans-unit>
       <trans-unit id="fwbS4t6" resname="Am Meeting teilnehmen">
         <source>Am Meeting teilnehmen</source>
-        <target state="needs-translation">Am Meeting teilnehmen</target>
+        <target state="translated">Unirse a la reunión</target>
       </trans-unit>
       <trans-unit id="QywJJfy" resname="Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie">
         <source>Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</source>
-        <target state="needs-translation">Wenn Sie stattdessen per Telefon beitreten möchten, wählen sie</target>
+        <target state="translated">Si desea unirse por teléfono, selecciónelos</target>
       </trans-unit>
       <trans-unit id="KPYmZun" resname="Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden">
         <source>Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</source>
-        <target state="needs-translation">Wenn Sie sich auch über ein Raumtelefon einwählen, nehmen Sie teil, ohne sich mit dem Ton zu verbinden</target>
+        <target state="translated">Si también está hablando por el teléfono en otra reunión, únase sin conectar el audio</target>
       </trans-unit>
       <trans-unit id="IZse4aO" resname="lobby.message.placeholder">
         <source>lobby.message.placeholder</source>
-        <target state="needs-translation">Hier tippen...</target>
+        <target state="translated">Escribe aquí...</target>
       </trans-unit>
       <trans-unit id="2yXw6Zm" resname="lobby.message.label">
         <source>lobby.message.label</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Enviar Mensaje</target>
       </trans-unit>
       <trans-unit id="odr_pxD" resname="Meeting fertig">
         <source>Meeting fertig</source>
-        <target state="needs-translation">Konferenz beendet</target>
+        <target state="translated">Terminar conferencia</target>
       </trans-unit>
       <trans-unit id="R_Regnv" resname="PDF Download">
         <source>PDF Download</source>
-        <target state="needs-translation">PDF Download</target>
+        <target state="translated">Descargar PDF</target>
       </trans-unit>
       <trans-unit id="RosfFYd" resname="Keine Agenda">
         <source>Keine Agenda</source>
-        <target state="needs-translation">Keine Agenda</target>
+        <target state="translated">Sin agenda</target>
       </trans-unit>
       <trans-unit id="27rjC1Z" resname="Geplant">
         <source>Geplant</source>
-        <target state="needs-translation">Geplant</target>
+        <target state="translated">Programado</target>
       </trans-unit>
       <trans-unit id="vqqtmAk" resname="Durchgeführt">
         <source>Durchgeführt</source>
-        <target state="needs-translation">Durchgeführt</target>
+        <target state="translated">Realizada</target>
       </trans-unit>
       <trans-unit id="Q8c.RHz" resname="Jetzt">
         <source>Jetzt</source>
-        <target state="needs-translation">Jetzt</target>
+        <target state="translated">Ahora</target>
       </trans-unit>
       <trans-unit id="qCKbx7n" resname="Meeting Abgeschlossen">
         <source>Meeting Abgeschlossen</source>
-        <target state="needs-translation">Konferenz Abgeschlossen</target>
+        <target state="translated">Conferencia completada</target>
       </trans-unit>
       <trans-unit id="IqR9Qwr" resname="Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.">
         <source>Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</source>
-        <target state="needs-translation">Mit dieser E-Mail erhalten sie die Unterlagen zur Konferenz: {name} als PDF zugesandt.</target>
+        <target state="translated">Con este correo electrónico recibirá los documentos de la conferencia: {name} en formato PDF.</target>
       </trans-unit>
       <trans-unit id="FYNmS49" resname="Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a&#10;            href=&quot;http://www.adobe.com/products/acrobat/readstep2.html&quot;&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;&#10;        herunterladen und installieren können.">
         <source>Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:&lt;a
             href="http://www.adobe.com/products/acrobat/readstep2.html"&gt;http://www.adobe.com/products/acrobat/readstep2.html&lt;/a&gt;
         herunterladen und installieren können.</source>
-        <target state="needs-translation"><![CDATA[Zum Betrachten des Anhangs benötigen Sie den Adobe Reader, welchen Sie sich unter der URL:<a
+        <target state="translated"><![CDATA[Para ver el archivo adjunto, necesita Adobe Reader, el cual puede descargar en la siguiente URL:<a
             href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>
-        herunterladen und installieren können.]]></target>
+        Descárguelo e instálelo en su equipo.]]></target>
       </trans-unit>
       <trans-unit id="FskrrR6" resname="options.meetingNotes">
         <source>options.meetingNotes</source>
-        <target state="needs-translation">Konferennotizen</target>
+        <target state="translated">Notas de la conferencia</target>
       </trans-unit>
       <trans-unit id="1tk6uB2" resname="lobby.btn.message.to.all">
         <source>lobby.btn.message.to.all</source>
-        <target state="needs-translation">An alle Wartenden</target>
+        <target state="translated">A todos los que están esperando</target>
       </trans-unit>
       <trans-unit id="OYdVVKy" resname="lobby.message.failed">
         <source>lobby.message.failed</source>
-        <target state="needs-translation">Bei der Übermittlung der Nachricht gab es einen Fehler.</target>
+        <target state="translated">Se ha producido un error mientras se intentaba enviar el mensaje.</target>
       </trans-unit>
       <trans-unit id="EaWoPF5" resname="lobby.message.success">
         <source>lobby.message.success</source>
-        <target state="needs-translation">Die Nachricht wurde erfolgreich übermittelt.</target>
+        <target state="translated">¡Su mensaje se ha enviado correctamente!</target>
       </trans-unit>
       <trans-unit id="5VGtvB0" resname="lobby.participant.tooltip.acccept">
         <source>lobby.participant.tooltip.acccept</source>
-        <target state="needs-translation">Wartenden zulassen</target>
+        <target state="translated">Permitir esperar</target>
       </trans-unit>
       <trans-unit id="ozoWxDu" resname="lobby.participant.tooltip.decline">
         <source>lobby.participant.tooltip.decline</source>
-        <target state="needs-translation">Wartenden ablehnen</target>
+        <target state="translated">Rechazar a los que esperan</target>
       </trans-unit>
       <trans-unit id="fc3.g55" resname="lobby.participant.tooltip.message">
         <source>lobby.participant.tooltip.message</source>
-        <target state="needs-translation">Nachricht senden</target>
+        <target state="translated">Enviar Mensaje</target>
       </trans-unit>
       <trans-unit id="P2akYaZ" resname="Hmmmm. Hier lief ziemlich was schief.">
         <source>Hmmmm. Hier lief ziemlich was schief.</source>
-        <target state="needs-translation">Hmmmm. Hier lief ziemlich was schief.</target>
+        <target state="translated">Hmmmm. Algo salió bastante mal aquí.</target>
       </trans-unit>
       <trans-unit id="oBFR00l" resname="Sie haben ein Verhalten gefunden, das uns unbekannt ist.">
         <source>Sie haben ein Verhalten gefunden, das uns unbekannt ist.</source>
-        <target state="needs-translation">Sie haben ein Verhalten gefunden, das uns unbekannt ist.</target>
+        <target state="translated">Se ha encontrado un comportamiento desconocido para nosotros.</target>
       </trans-unit>
       <trans-unit id="c9AP0oj" resname="Hier gehts zurück">
         <source>Hier gehts zurück</source>
-        <target state="needs-translation">Hier gehts zurück</target>
+        <target state="translated">Atrás</target>
       </trans-unit>
       <trans-unit id="KBKt3up" resname="Hier sollten Sie nicht sein.">
         <source>Hier sollten Sie nicht sein.</source>
-        <target state="needs-translation">Hier sollten Sie nicht sein.</target>
+        <target state="translated">No deberías estar aquí.</target>
       </trans-unit>
       <trans-unit id="0bZlmjh" resname="Beinahe hätten Sie hinter die Kullissen schauen können.">
         <source>Beinahe hätten Sie hinter die Kullissen schauen können.</source>
-        <target state="needs-translation">Beinahe hätten Sie hinter die Kullissen schauen können.</target>
+        <target state="translated">Casi echas un vistazo entre bastidores.</target>
       </trans-unit>
       <trans-unit id="JQjD_Ln" resname="Wie hätte nicht gedacht, das jemand so tief gräbt.">
         <source>Wie hätte nicht gedacht, das jemand so tief gräbt.</source>
-        <target state="needs-translation">Wie hätte nicht gedacht, dass jemand so tief gräbt.</target>
+        <target state="translated">No esperábamos que nadie cavara tan profundo.</target>
       </trans-unit>
       <trans-unit id="ImCGLX0" resname="Hier geht es wieder zurück an die Oberfläche">
         <source>Hier geht es wieder zurück an die Oberfläche</source>
-        <target state="needs-translation">Hier geht es wieder zurück an die Oberfläche</target>
+        <target state="translated">A la superficie</target>
       </trans-unit>
       <trans-unit id="xVUYEnR" resname="Sie haben eine Entdeckung gemacht">
         <source>Sie haben eine Entdeckung gemacht</source>
-        <target state="needs-translation">Sie haben eine Entdeckung gemacht</target>
+        <target state="translated">Has hecho un descubrimiento</target>
       </trans-unit>
       <trans-unit id="ue1gwrd" resname="Sie haben etwas gefunden, das selbst wir noch nicht kannten...">
         <source>Sie haben etwas gefunden, das selbst wir noch nicht kannten...</source>
-        <target state="needs-translation">Sie haben etwas gefunden, das selbst wir noch nicht kannten...</target>
+        <target state="translated">Encontró algo que ni siquiera nosotros sabíamos...</target>
       </trans-unit>
       <trans-unit id="3rElC1z" resname="Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.">
         <source>Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</source>
-        <target state="needs-translation">Wie Sie auf diese Seite gekommen sind, werden wir nachverfolgen, damit wir dieses Neuland ebenfalls erforschen können.</target>
+        <target state="translated">Haremos un seguimiento de cómo llegaste a esta página para que podamos explorar este nuevo territorio.</target>
       </trans-unit>
       <trans-unit id="pI0mBwO" resname="deputy.message.added">
         <source>deputy.message.added</source>
-        <target state="needs-translation">Vertreter erfolgreich hinzugefügt.</target>
+        <target state="translated">Sustituto añadido con éxito.</target>
       </trans-unit>
       <trans-unit id="r9gFTO5" resname="deputy.message.removed">
         <source>deputy.message.removed</source>
-        <target state="needs-translation">Vertreter erfolgreich entfernt.</target>
+        <target state="translated">Agente eliminado con éxito.</target>
       </trans-unit>
       <trans-unit id="UQPRxI4" resname="deputy.remove">
         <source>deputy.remove</source>
-        <target state="needs-translation">Als Vertreter entfernen</target>
+        <target state="translated">Eliminar como representante</target>
       </trans-unit>
       <trans-unit id="6HczWjx" resname="deputy.add">
         <source>deputy.add</source>
-        <target state="needs-translation">Als Vertreter hinzufügen</target>
+        <target state="translated">Agregar como representante</target>
       </trans-unit>
       <trans-unit id=".RyLlN8" resname="deputy.help">
         <source>deputy.help</source>
-        <target state="needs-translation">Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter nimmt nicht automatisch an einer von ihm geplanten Konferenz Teil, sondern muss separate vom Organisator eingeladen werden.</target>
+        <target state="translated">Puede permitir que este usuario cree conferencias para usted, las edite e invite a participantes a estas conferencias. ¡PELIGRO! Un representante no participa automáticamente en una conferencia que él o ella ha programado, sino que debe ser invitado independientemente por el organizador.</target>
       </trans-unit>
       <trans-unit id="cuWbL6h" resname="deputy.text.isDeputy">
         <source>deputy.text.isDeputy</source>
-        <target state="needs-translation">Ist Vertreter</target>
+        <target state="translated">Es representativo</target>
       </trans-unit>
       <trans-unit id="SqlzG8G" resname="room.new.help.server">
         <source>room.new.help.server</source>
-        <target state="needs-translation">Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</target>
+        <target state="translated">Seleccione el servidor a través del cual desea realizar la conferencia.</target>
       </trans-unit>
       <trans-unit id="WonPJTK" resname="room.new.help.manager">
         <source>room.new.help.manager</source>
-        <target state="needs-translation">Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</target>
+        <target state="translated">Está registrado como representante. Elija si desea crear la conferencia para usted o para la persona que representa.</target>
       </trans-unit>
       <trans-unit id="._QAxIk" resname="Private Konferenz">
         <source>Private Konferenz</source>
-        <target state="needs-translation">Private Konferenz</target>
+        <target state="translated">Conferencia privada</target>
       </trans-unit>
       <trans-unit id="JEvaNwO" resname="log.modal.header">
         <source>log.modal.header</source>
-        <target state="needs-translation">Änderungshistorie</target>
+        <target state="translated">Historial de cambios</target>
       </trans-unit>
       <trans-unit id="G0lWefc" resname="log.new.object">
         <source>log.new.object</source>
-        <target state="needs-translation">Nach der Änderung</target>
+        <target state="translated">Tras el cambio</target>
       </trans-unit>
       <trans-unit id="Fl9wfgz" resname="log.old.object">
         <source>log.old.object</source>
-        <target state="needs-translation">Vor der Änderung</target>
+        <target state="translated">Antes de la modificación</target>
       </trans-unit>
       <trans-unit id="i8w5f79" resname="room.creator.text">
         <source>room.creator.text</source>
-        <target state="needs-translation">Erstellt von</target>
+        <target state="translated">Creada por</target>
       </trans-unit>
       <trans-unit id="iyQ3u5e" resname="custom.more">
         <source>custom.more</source>
-        <target state="needs-translation">Mehr</target>
+        <target state="translated">Más</target>
       </trans-unit>
       <trans-unit id="wJaAqBu" resname="room.new.help.name">
         <source>room.new.help.name</source>
-        <target state="needs-translation">Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
+        <target state="translated">Introduzca aquí un nombre breve y conciso para la conferencia.</target>
       </trans-unit>
       <trans-unit id="Es8.yLb" resname="room.new.help.agenda">
         <source>room.new.help.agenda</source>
-        <target state="needs-translation">Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
+        <target state="translated">Ingrese la agenda aquí y explique a los participantes el motivo de esta conferencia.</target>
       </trans-unit>
       <trans-unit id="M41U7qV" resname="room.new.help.persistant">
         <source>room.new.help.persistant</source>
-        <target state="needs-translation">Diese Konferenz steht den Eingeladenen dauerhaft zur Verfügung. Sie müssen die Teilnehmenden über einen separaten Kommunikationspfad (Telefon oder Chat) auf den Beginn der Konferenz hinweisen. Eine dauerhafte Konferenz hat kein Startzeitpunkt und keine Dauer.</target>
+        <target state="translated">Esta conferencia está permanentemente disponible para los invitados. Debe informar a los participantes del inicio de la conferencia a través de una vía de comunicación separada (teléfono o chat). Una conferencia persistente no tiene hora de inicio ni duración.</target>
       </trans-unit>
       <trans-unit id="VI.eQ_9" resname="room.new.help.start">
         <source>room.new.help.start</source>
-        <target state="needs-translation">Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</target>
+        <target state="translated">¿Cuándo comienza la conferencia? Abra el calendario haciendo clic en los botones, seleccione la fecha y luego la hora.</target>
       </trans-unit>
       <trans-unit id="8P9k.W6" resname="room.new.help.duration">
         <source>room.new.help.duration</source>
-        <target state="needs-translation">Geben Sie hier die Dauer der Konferenz ein.</target>
+        <target state="translated">Introduzca aquí la duración de la conferencia.</target>
       </trans-unit>
       <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
-        <target state="needs-translation"><![CDATA[__Made with <i class="fa fa-heart"></i> in Lörrach by H2-Invent]]></target>
+        <target state="translated"><![CDATA[__Hecho con <i class="fa fa-heart"></i> en Lörrach por H2-Invent]]></target>
       </trans-unit>
       <trans-unit id="Wc6qVwo" resname="terms.haeder">
         <source>terms.haeder</source>
-        <target state="needs-translation">Allgemeinen Geschäftsbedingungen</target>
+        <target state="translated">Términos y condiciones</target>
       </trans-unit>
       <trans-unit id="vK.Wq8P" resname="terms.accept">
         <source>terms.accept</source>
-        <target state="needs-translation">Ich akzeptiere die allgemeinen Geschäftsbedingungen</target>
+        <target state="translated">Acepto los términos y condiciones</target>
       </trans-unit>
       <trans-unit id="31p54Gl" resname="Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.">
         <source>Fehler: Ihre E-Mail-Adresse ist nicht in der Teilnehmendenliste! Bitte kontaktieren Sie den Moderator, damit dieser Sie zu der Konferenz einlädt.</source>
@@ -2053,15 +2053,15 @@
       </trans-unit>
       <trans-unit id="I4FmwuJ" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
-        <target state="needs-translation">Ist ihnen als Vertreter zugeteilt</target>
+        <target state="translated">Se le asigna como representante</target>
       </trans-unit>
       <trans-unit id="ziDzjp." resname="deputy.help.ldap">
         <source>deputy.help.ldap</source>
-        <target state="needs-translation">Dieser Vertreter wurde Ihnen von Ihrer Organisation zugeteilt und kann nicht durch Sie bearbeitet werden. Wollen Sie diesen Vertreter bearbeiten, wenden Sie sich bitte an Ihren Support. Die Kontaktdaten für Ihren Support erhalten Sie durch einen Klick auf das "?" in der Navigationsleiste.</target>
+        <target state="translated">Este representante fue asignado por su organización. Si desea modificarlo, póngase en contacto con su servicio de asistencia. Encontrará los datos de contacto de su servicio de asistencia pulsando en el símbolo "?" de la barra de navegación.</target>
       </trans-unit>
       <trans-unit id="IEmtTcn" resname="Bewertungen">
         <source>Bewertungen</source>
-        <target state="needs-translation">Bewertungen</target>
+        <target state="translated">Valoraciones</target>
       </trans-unit>
       <trans-unit id="47DEQpj" resname="">
         <source/>
@@ -2069,159 +2069,211 @@
       </trans-unit>
       <trans-unit id="kKLiefR" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
-        <target state="needs-translation">Profileinstellungen</target>
+        <target state="translated">Ajustes del perfil</target>
       </trans-unit>
       <trans-unit id="9XUKXXI" resname="Einstellungen">
         <source>Einstellungen</source>
-        <target state="needs-translation">Einstellungen</target>
+        <target state="translated">Configuración</target>
       </trans-unit>
       <trans-unit id="dMRxR_U" resname="Startet in {time} min">
         <source>Startet in {time} min</source>
-        <target state="needs-translation">Startet in {time} min</target>
+        <target state="translated">Comienza en {time} min</target>
       </trans-unit>
       <trans-unit id="NCP2l7d" resname="addressbook.favorite.remove.success">
         <source>addressbook.favorite.remove.success</source>
-        <target state="needs-translation">Sie haben {name} als Favorit entfernt.</target>
+        <target state="translated">Has eliminado a {name} como favorito.</target>
       </trans-unit>
       <trans-unit id="qhKUCGn" resname="addressbook.favorite.remove.failure">
         <source>addressbook.favorite.remove.failure</source>
-        <target state="needs-translation">Der Kontakt konte nicht als Favorit entfernt werden.</target>
+        <target state="translated">El contacto no se pudo eliminar como favorito.</target>
       </trans-unit>
       <trans-unit id="g3TAvzR" resname="addressbook.favorite.add.success">
         <source>addressbook.favorite.add.success</source>
-        <target state="needs-translation">Sie haben {name} erfolgreich als Favorit hinzugefügt.</target>
+        <target state="translated">Ha agregado con éxito a {name} como favorito.</target>
       </trans-unit>
       <trans-unit id="xsL.l3b" resname="addressbook.favorite.add.failure">
         <source>addressbook.favorite.add.failure</source>
-        <target state="needs-translation">Der Kontakt konnte nicht als Favorit hinzugefügt werden.</target>
+        <target state="translated">No se pudo agregar el contacto como favorito.</target>
       </trans-unit>
       <trans-unit id="n3J_rNc" resname="addressbook.favorite.help">
         <source>addressbook.favorite.help</source>
-        <target state="needs-translation"><![CDATA[<i class="far fa-star"></i> drücken, um einen Kontakt als Favorit zu markieren.]]></target>
+        <target state="translated"><![CDATA[<i class="far fa-star"></i> pulse para marcar un contacto como favorito.]]></target>
       </trans-unit>
       <trans-unit id="hevpMRf" resname="Meetling Pro Tip">
         <source>Meetling Pro Tip</source>
-        <target state="needs-translation">Meetling Pro Tip</target>
+        <target state="translated">Consejo profesional Meetling</target>
       </trans-unit>
       <trans-unit id="wV8VMNI" resname="Hotkeys">
         <source>Hotkeys</source>
-        <target state="needs-translation">Hotkeys</target>
+        <target state="translated">Atajos de teclado</target>
       </trans-unit>
       <trans-unit id="W25PgHx" resname="Allgemeiner Fehler">
         <source>Allgemeiner Fehler</source>
-        <target state="needs-translation">Allgemeiner Fehler</target>
+        <target state="translated">Se ha producido un error</target>
       </trans-unit>
       <trans-unit id="xFrrBI8" resname="Hier ist was schief gelaufen. Tut uns Leid">
         <source>Hier ist was schief gelaufen. Tut uns Leid</source>
-        <target state="needs-translation">Hier ist was schiefgelaufen. Tut uns Leid</target>
+        <target state="translated">Algo salió mal. Lo sentimos</target>
       </trans-unit>
       <trans-unit id="4pmAB3F" resname="Zur Startseite">
         <source>Zur Startseite</source>
-        <target state="needs-translation">Zur Startseite</target>
+        <target state="translated">Ir a la página de inicio</target>
       </trans-unit>
       <trans-unit id="EG0viST" resname="Seite nicht gefunden">
         <source>Seite nicht gefunden</source>
-        <target state="needs-translation">Seite nicht gefunden</target>
+        <target state="translated">Página no encontrada</target>
       </trans-unit>
       <trans-unit id="L5FRnrH" resname="Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.">
         <source>Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</source>
-        <target state="needs-translation">Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</target>
+        <target state="translated">Uff ¿A dónde ibas? Desafortunadamente, no se pudo encontrar la página de la reunión.</target>
       </trans-unit>
       <trans-unit id="yF80qIE" resname="Hier gehts zurück zur Startseite">
         <source>Hier gehts zurück zur Startseite</source>
-        <target state="needs-translation">Hier gehts zurück zur Startseite</target>
+        <target state="translated">Volver a la página de inicio</target>
       </trans-unit>
       <trans-unit id="elqNziw" resname="Seite kaputt">
         <source>Seite kaputt</source>
-        <target state="needs-translation">Seite kaputt</target>
+        <target state="translated">Página rota</target>
       </trans-unit>
       <trans-unit id="5TruHhH" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
-        <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+        <target state="translated">Oh oh, ¿qué está pasando aquí? Algo debe haber salido mal con la reunión. Pero no te preocupes, él se encargará de arreglarlo.</target>
       </trans-unit>
       <trans-unit id="6tB8hLq" resname="Changelog">
         <source>Changelog</source>
-        <target state="needs-translation">Changelog</target>
+        <target state="translated">Registro de cambios</target>
       </trans-unit>
       <trans-unit id="aIUgk0b" resname="Jetzt einladen">
         <source>Jetzt einladen</source>
-        <target state="needs-translation">Jetzt einladen</target>
+        <target state="translated">Invitar</target>
       </trans-unit>
       <trans-unit id="N3_BJHi" resname="callout.message.unreachable">
         <source>callout.message.unreachable</source>
-        <target state="needs-translation">{name} ist nicht erreichbar.</target>
+        <target state="translated">{name} no está disponible.</target>
       </trans-unit>
       <trans-unit id="Y44kn0o" resname="Filter">
         <source>Filter</source>
-        <target state="needs-translation">Filter</target>
+        <target state="translated">Filtros</target>
       </trans-unit>
       <trans-unit id="L4szaw3" resname="deputy.mydebutys">
         <source>deputy.mydebutys</source>
-        <target state="needs-translation">Meine Vertreter</target>
+        <target state="translated">Mis representantes</target>
       </trans-unit>
       <trans-unit id="1Ko4REx" resname="callout.dropdown.empty">
         <source>callout.dropdown.empty</source>
-        <target state="needs-translation">Hier werden die Ergebnisse der Suche angezeigt</target>
+        <target state="translated">Los resultados de la búsqueda se muestran aquí</target>
       </trans-unit>
       <trans-unit id="SB9w0dm" resname="scheduling.new.schedulingTime.subject">
         <source>scheduling.new.schedulingTime.subject</source>
-        <target state="needs-translation">[Terminplanung] Neuer Terminvorschlag zu einer Terminumfrage hinzugefügt</target>
+        <target state="translated">[Terminplanung] Se agregó una nueva sugerencia de cita a una encuesta de citas</target>
       </trans-unit>
       <trans-unit id="o46lsH1" resname="Teilnehmer können bei der Abstimmung mit &quot;Vielleicht&quot; abstimmen.">
         <source>Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</source>
-        <target state="needs-translation">Teilnehmer können bei der Abstimmung mit "Vielleicht" abstimmen.</target>
+        <target state="translated">Los participantes pueden votar "Con reserva".</target>
       </trans-unit>
       <trans-unit id="ZNS1meh" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputt gegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
-        <target state="needs-translation">Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</target>
+        <target state="translated">Oh oh, ¿qué está pasando aquí? Algo debe haber salido mal con la reunión. Pero no te preocupes, él se encargará de arreglarlo.</target>
       </trans-unit>
       <trans-unit id="vfIUwCz" resname="scheduling.new.schedulingTime.header">
         <source>scheduling.new.schedulingTime.header</source>
-        <target state="needs-translation">Es wurde ein neuer Terminvorschlag hinzugefügt.</target>
+        <target state="translated">Se ha añadido una nueva sugerencia de fecha.</target>
       </trans-unit>
       <trans-unit id="QSMGE51" resname="Als CSV Downloaden">
         <source>Als CSV Downloaden</source>
-        <target state="needs-translation">Als CSV Downloaden</target>
+        <target state="translated">Descargar los resultados (CSV)</target>
       </trans-unit>
       <trans-unit id="tKYYjoS" resname="scheduler.new.schedule">
         <source>scheduler.new.schedule</source>
-        <target state="needs-translation">Weiteren Termin zur Auswahl hinzufügen</target>
+        <target state="translated">Agregar otra cita a la selección</target>
       </trans-unit>
       <trans-unit id="q.M4VTr" resname="scheduling.new.schedulingTime.text">
         <source>scheduling.new.schedulingTime.text</source>
-        <target state="needs-translation">Es wurde ein neuer Termin in die Liste der Terminvorschläge hinzugefügt. Dieser kann entweder durch den Moderator oder durch einen anderen Eingeladenen hinzugefügt worden sein.</target>
+        <target state="translated">Se ha añadido una nueva fecha a la lista de fechas sugeridas. Esto puede ser añadido por el moderador o por otro invitado.</target>
       </trans-unit>
       <trans-unit id="8znj8yB" resname="scheduling.completeVoting.subject">
         <source>scheduling.completeVoting.subject</source>
-        <target state="needs-translation">[Terminplanung] Es haben alle Teilnehmenden abgestimmt</target>
+        <target state="translated">[Terminplanung] Todos los participantes votaron</target>
       </trans-unit>
       <trans-unit id="TGBfazG" resname="scheduling.completeVoting.header">
         <source>scheduling.completeVoting.header</source>
-        <target state="needs-translation">Es haben alle Teilnehmenden abgestimmt</target>
+        <target state="translated">Todos los participantes votaron</target>
       </trans-unit>
       <trans-unit id="EZcM0YG" resname="scheduling.completeVoting.text">
         <source>scheduling.completeVoting.text</source>
-        <target state="needs-translation">Die Teilnehmenden haben abgestimmt und die Ergebnisse sind nun verfügbar. Die Zusammenfassung der Ergebnisse finden Sie auf Ihrem Dashboard.</target>
+        <target state="translated">Los participantes han votado y los resultados ya están disponibles. El resumen de los resultados se puede encontrar en su Dashboard.</target>
       </trans-unit>
       <trans-unit id="Edrc_Uf" resname="theme.invalid.">
         <source>theme.invalid.</source>
-        <target state="needs-translation">Ihr Theme läuft in {days} Tagen ab</target>
+        <target state="translated">Tu tema caducará en {days} días</target>
       </trans-unit>
       <trans-unit id="KwoLLsf" resname="browser.warning">
         <source>browser.warning</source>
-        <target state="needs-translation">Browserwarnung</target>
+        <target state="translated">Advertencia del navegador</target>
       </trans-unit>
       <trans-unit id="vzbzhGI" resname="browser.warning.text">
         <source>browser.warning.text</source>
-        <target state="needs-translation">Ihr aktueller Browser wird nicht unterstützt. Bitte wechseln Sie zu einem modernen Browser, welcher WebRTC vollständig unterstützt.</target>
+        <target state="translated">Su navegador actual no es compatible. Cambie a un navegador moderno que sea totalmente compatible con WebRTC.</target>
       </trans-unit>
       <trans-unit id="daah4it" resname="browser.warning.toEdge">
         <source>browser.warning.toEdge</source>
-        <target state="needs-translation">Weiter mit Edge</target>
+        <target state="translated">Continuar con Edge</target>
       </trans-unit>
       <trans-unit id="6VWajOy" resname="browser.warning.toMac">
-        <source>Weiter mit Safari</source>
-        <target state="needs-translation">Weiter mit Safari</target>
+        <source>browser.warning.toMac</source>
+        <target state="translated">Continuar con Safari</target>
+      </trans-unit>
+      <trans-unit id="vR9_UxK" resname="error.scheduler.noSchedules">
+        <source>error.scheduler.noSchedules</source>
+        <target state="translated">Error, aún no hay fechas sugeridas.</target>
+      </trans-unit>
+      <trans-unit id="AM3ZcR5" resname="error.scheduler.novotings">
+        <source>error.scheduler.novotings</source>
+        <target state="translated">Error, aún no se ha votado.</target>
+      </trans-unit>
+      <trans-unit id="AjtdRhx" resname="help.ical.Link">
+        <source>help.ical.Link</source>
+        <target state="translated">¿Qué es un enlace iCal?</target>
+      </trans-unit>
+      <trans-unit id="qmgq88Z" resname="error.internalError">
+        <source>error.internalError</source>
+        <target state="translated">Error interno</target>
+      </trans-unit>
+      <trans-unit id="86U7jr0" resname="rooms.help.setmaxparticipantsHardLimit">
+        <source>rooms.help.setmaxparticipantsHardLimit</source>
+        <target state="translated">Número de participantes que pueden unirse a la conferencia. Este número es un límite estricto. Una vez que se haya alcanzado el número máximo de participantes, no podrán unirse más participantes, incluso si los participantes han sido invitados.</target>
+      </trans-unit>
+      <trans-unit id="q5u2qJm" resname="room.option.sendProtokoll.question">
+        <source>room.option.sendProtokoll.question</source>
+        <target state="translated">¿Realmente quieres enviar las actas a todos los participantes?</target>
+      </trans-unit>
+      <trans-unit id="vh43kpV" resname="room.option.sendProtokoll.button">
+        <source>room.option.sendProtokoll.button</source>
+        <target state="translated">Enviar registro</target>
+      </trans-unit>
+      <trans-unit id="ory.RAy" resname="room.error.noAccessAllowed">
+        <source>room.error.noAccessAllowed</source>
+        <target state="translated">Acceso no permitido</target>
+      </trans-unit>
+      <trans-unit id="SSvsvcv" resname="room.error.noAccessAllowedIP">
+        <source>room.error.noAccessAllowedIP</source>
+        <target state="translated">No puede unirse a esta conferencia utilizando su dirección IP. Por favor contacte a su soporte.</target>
+      </trans-unit>
+      <trans-unit id="Aa9UREO" resname="room.error.noAccessAllowedToManyParticipants">
+        <source>room.error.noAccessAllowedToManyParticipants</source>
+        <target state="translated">Demasiados participantes</target>
+      </trans-unit>
+      <trans-unit id="HXqNNC9" resname="room.error.noAccessAllowedToManyParticipantsText">
+        <source>room.error.noAccessAllowedToManyParticipantsText</source>
+        <target state="translated">Se ha alcanzado el límite máximo de participantes en esta conferencia. Inténtalo de nuevo más tarde o ponte en contacto con tu servicio de asistencia técnica</target>
+      </trans-unit>
+      <trans-unit id="rml7Shn" resname="enterprise.settings.header.tags">
+        <source>enterprise.settings.header.tags</source>
+        <target state="translated">Categorías seleccionables</target>
+      </trans-unit>
+      <trans-unit id="8RH..y9" resname="options.chat">
+        <source>Chat anzeigen</source>
+        <target state="needs-translation">Chat anzeigen</target>
       </trans-unit>
     </body>
   </file>
