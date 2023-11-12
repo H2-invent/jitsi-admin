@@ -81,7 +81,7 @@ jobs:
 
   upload_dockerhub_websocket:
     needs:
-      - tests
+      - test
     uses: h2-invent/jitsi-admin/.github/workflows/task-upload-docker-hub.yml@devops
     with:
       reponame: 'h2invent/jitsi-admin-websocket'
