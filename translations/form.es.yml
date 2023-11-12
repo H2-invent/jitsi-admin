@@ -12,7 +12,7 @@ label.start: Iniciar
 label.dauerKonferenz: Duración de la conferencia
 label.nurRegistriertenutzer: Sólo los usuarios registrados pueden unirse a la conferencia.
 label.speichern: Guardar
-label.allowMaybeOption: '"Vielleicht"-Option anbieten'
+label.allowMaybeOption: 'Ofrecer la opción "tal vez"'
 option.15min: 15 minutos
 option.30min: 30 minutos
 option.45min: 45 minutos
@@ -70,7 +70,7 @@ option:
 lable.serverUrl: Url del servidor Jitsi Meet
 label.appId: Id de aplicacion
 label.appSecret: Secreto de la aplicacion
-label.scheduleMeeting: Organizar una reunión
+label.scheduleMeeting: Consensuar una conferencia
 help:
   serverUrl: Acceder sin "https://" (ej. meet.jit.si)
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" debe estar activado en el servidor Jitsi-Meet. De otra forma, el token JWT no será reconocido correctamente ni procesado por el servidor
@@ -81,7 +81,7 @@ help:
   jigasiApiUrl: Inserte la API de Jigasi aquí, que se puede usar para recuperar el pin de la conferencia. Esta generalmente termina con "ConferenceMapper".
   jigasiNumberUrl: Introduzca aquí el número de acceso telefónico en formato JSON, como se hace en Jigasi en “numbers.json”.
   jigasiProsodyDomain: Inserte el dominio de Prosody aquí. Por lo general, sigue el patrón "conference.domain.topdomain".
-  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
+  disallowFirefox: El navegador Firefox está deshabilitado. Todos los participantes que quieran unirse con un navegador Firefox serán redirigidos a un navegador basado en Chromium.
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -140,9 +140,9 @@ label:
   jigasiApiUrl: URL de Jigasi ConferenceMapper
   jigasiNumberUrl: Números de acceso Jigasi en formato JSON
   jigasiProsodyDomain: Dominio de Prosodi Jigasi
-  go: Los gehts!
-  moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
+  go: '¡Comencemos!'
+  moderator: Seleccionar organizador
+  disallowFirefox: Firefox está deshabilitado en el servidor de Jitsi Meet
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
