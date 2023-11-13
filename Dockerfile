@@ -1,4 +1,4 @@
-FROM thecodingmachine/php:8.2-v4-apache-node18
+FROM thecodingmachine/php:8.2-v4-apache-node20
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
 ENV COMPOSER_MEMORY_LIMIT=-1
