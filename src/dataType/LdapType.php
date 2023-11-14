@@ -378,13 +378,14 @@ class LdapType
         $options = [
             'scope' => 'one',
         ];
-
         if ($this->LDAP_SIP_VIDEO_GROUP_DN !== '') {
-            $query = $this->ldap->query(preg_replace('/^[^,]+,/','',$this->LDAP_SIP_VIDEO_GROUP_DN), '(' . $this->LDAP_SIP_VIDEO_GROUP_DN . ')', $options);
+            $dn = preg_replace('/^[^,]+,/', '', $this->LDAP_SIP_VIDEO_GROUP_DN);
+            $filter = explode(',', $this->LDAP_SIP_VIDEO_GROUP_DN)[0];
+            $query = $this->ldap->query($dn, '(' . $filter . ')', $options);
             $group = $query->execute();
             return $group->toArray();
         }
-
+        return [];
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Command;
 use App\dataType\LdapType;
 use App\Entity\User;
 use App\Service\ldap\LdapService;
+use App\Service\ldap\LdapSipVideoGroupService;
 use App\Service\ldap\LdapUserService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -26,7 +27,11 @@ class SyncLdapCommand extends Command
     protected static $defaultDescription = 'This commands syncs a ldap server with users database';
     private $ldapService;
 
-    public function __construct(LdapService $ldapService, string $name = null)
+    public function __construct(
+        LdapService                      $ldapService,
+        private LdapSipVideoGroupService $ldapSipVideoGroupService,
+        string                           $name = null
+    )
     {
         parent::__construct($name);
         $this->ldapService = $ldapService;
@@ -93,7 +98,8 @@ class SyncLdapCommand extends Command
         if (!$dryrun) {
             $this->ldapService->cleanUpLdapUsers();
         }
-
+        $this->ldapSipVideoGroupService->connectSipVideoMembersFromLdapTypes($this->ldapService->getLdaps());
+        $this->ldapSipVideoGroupService->removeVideoSipFromUsers($this->ldapService->getLdaps());
         $io->info('We found # users: ' . $numberUsers);
         if ($error === false) {
             $io->success('All LDAPS could be synced correctly');

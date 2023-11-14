@@ -96,7 +96,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findUsersfromLdapdn($userDn)
+    public function findUsersfromLdapdn($userDn):?User
     {
         $qb = $this->createQueryBuilder('u');
 
