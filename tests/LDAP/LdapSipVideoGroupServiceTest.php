@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\LdapSipVideoGroup;
+namespace App\Tests\LDAP;
 
 use App\Repository\UserRepository;
 use App\Service\ldap\LdapService;
