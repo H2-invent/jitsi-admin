@@ -32,9 +32,8 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
     private $isHealthy = false;
-    private string $LDAP_SIP_VIDEO_GROUP_DN;
+    private string $LDAP_SIP_VIDEO_GROUP_DN = '';
 
-    private array $LDAP_SIP_VIDEO_ARRAY = [];
 
     public function __toString(): string
     {
@@ -378,6 +377,8 @@ class LdapType
         $options = [
             'scope' => 'one',
         ];
+
+
         if ($this->LDAP_SIP_VIDEO_GROUP_DN !== '') {
             $dn = preg_replace('/^[^,]+,/', '', $this->LDAP_SIP_VIDEO_GROUP_DN);
             $filter = explode(',', $this->LDAP_SIP_VIDEO_GROUP_DN)[0];

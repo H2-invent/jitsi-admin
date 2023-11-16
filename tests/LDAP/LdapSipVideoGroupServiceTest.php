@@ -35,6 +35,22 @@ class LdapSipVideoGroupServiceTest extends KernelTestCase
         $res = $ldapVideoGroup->getMembersFromSip($ldapService->getLdaps()[1]);
         self::assertCount(2,$res);
     }
+
+    public function testgetMembersInvalidUserDn(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
+        $ldapService = self::getContainer()->get(LdapService::class);
+        $ldapService->initLdap();
+        $ldapService->testLdap();
+        $ldapTap = $ldapService->getLdaps()[1];
+        $ldapTap->setLDAPSIPVIDEOGROUPDN('');
+        $res = $ldapVideoGroup->getMembersFromSip($ldapTap);
+        self::assertCount(0,$res);
+    }
+
     public function testAddSIPVideoToUser(): void
     {
         $kernel = self::bootKernel();
@@ -153,6 +169,8 @@ class LdapSipVideoGroupServiceTest extends KernelTestCase
         $user = $userRepo->findOneByEmail('ldapUser@local.de');
         self::assertTrue($user->isIsSipVideoUser());
     }
+
+
 
     public function testRemoveSIPVideoFromLdapTyps(): void
     {

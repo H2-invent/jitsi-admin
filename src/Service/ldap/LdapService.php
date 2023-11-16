@@ -75,7 +75,6 @@ class LdapService
             $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
             $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
             $this->LDAP_SIP_VIDEO_GROUP_DN = explode(';', $this->parameterBag->get('LDAP_SIP_VIDEO_GROUP_DN'));
-
             $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
             foreach ($tmp as $data) {
                 $this->MAPPER[] = json_decode($data, true);
@@ -118,7 +117,12 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPMEMBERS($this->LDAP_DEPUTY_GROUP_MEMBERS[$count]);
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
                 $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
-                $ldap->setLDAPSIPVIDEOGROUPDN($this->LDAP_SIP_VIDEO_GROUP_DN[$count]);
+                try {
+                    $ldap->setLDAPSIPVIDEOGROUPDN($this->LDAP_SIP_VIDEO_GROUP_DN[$count]);
+                } catch (\Exception $exception) {
+
+                }
+
                 $duplicate = false;
                 foreach ($this->ldaps as $data2) {
                     if ($data2->getSerVerId() == $ldap->getSerVerId()) {
@@ -177,6 +181,7 @@ class LdapService
         $this->createLdapConnections();
         return true;
     }
+
     /**
      * @param SymfonyStyle $io
      * @return bool
@@ -185,7 +190,6 @@ class LdapService
     {
         return $this->connectToLdap($io);
     }
-
 
 
     /**
