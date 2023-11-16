@@ -19,7 +19,7 @@ class LdapSipVideoGroupServiceTest extends KernelTestCase
         $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
-
+        $ldapService->testLdap();
         $res = $ldapVideoGroup->fetchUserIsSipVideoUser($ldapService->getLdaps()[1]);
         assertEquals(1, $this->count($res));
     }
@@ -31,7 +31,7 @@ class LdapSipVideoGroupServiceTest extends KernelTestCase
         $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
-
+        $ldapService->testLdap();
         $res = $ldapVideoGroup->getMembersFromSip($ldapService->getLdaps()[1]);
         self::assertCount(2,$res);
     }
@@ -146,6 +146,7 @@ class LdapSipVideoGroupServiceTest extends KernelTestCase
         $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
+        $ldapService->testLdap();
         $user = $userRepo->findOneByEmail('ldapUser@local.de');
         self::assertNotTrue($user->isIsSipVideoUser());
         $ldapVideoGroup->connectSipVideoMembersFromLdapTypes($ldapService->getLdaps());
@@ -158,7 +159,7 @@ class LdapSipVideoGroupServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
-
+        $ldapService->testLdap();
         $userRepo = self::getContainer()->get(UserRepository::class);
         $user = $userRepo->findOneByEmail('ldapUser@local.de');
         $manager = self::getContainer()->get(EntityManagerInterface::class);

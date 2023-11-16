@@ -175,8 +175,17 @@ class LdapService
     {
         $this->readLdapConfig();
         $this->createLdapConnections();
+        return true;
+    }
+    /**
+     * @param SymfonyStyle $io
+     * @return bool
+     */
+    public function testLdap(?SymfonyStyle $io = null): bool
+    {
         return $this->connectToLdap($io);
     }
+
 
 
     /**
