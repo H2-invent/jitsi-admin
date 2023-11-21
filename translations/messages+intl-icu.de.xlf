@@ -2283,8 +2283,12 @@
         <target>Auswählbare Kategorien</target>
       </trans-unit>
       <trans-unit id="8RH..y9" resname="options.chat">
-        <source>Chat anzeigen</source>
+        <source>options.chat</source>
         <target>Chat anzeigen</target>
+      </trans-unit>
+      <trans-unit id="4c8IxLG" resname="options.toggleFilmstripe">
+        <source>Filmstripe ein/ausblenden</source>
+        <target>Filmstripe ein/ausblenden</target>
       </trans-unit>
     </body>
   </file>

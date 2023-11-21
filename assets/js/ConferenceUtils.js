@@ -68,6 +68,7 @@ class ConferenceUtils {
         this.setE2EDefault();
         initSocialIcons(this.api);
         this.initChatToggle();
+        this.initToggleFilmstripe();
     }
 
     toggleFilmstrip() {
@@ -152,6 +153,14 @@ class ConferenceUtils {
         }else {
             content.classList.add('show');
         }
+    }
+    initToggleFilmstripe(){
+        var content = document.getElementById('toggleFilmstripe');
+        var api = this.api
+        content.addEventListener('click',function (e) {
+            api.executeCommand('toggleFilmStrip');
+
+        })
     }
 
 }
