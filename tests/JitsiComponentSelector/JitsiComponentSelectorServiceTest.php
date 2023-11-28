@@ -4,6 +4,8 @@ namespace App\Tests\JitsiComponentSelector;
 
 use App\Service\caller\JitsiComponentSelectorService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class JitsiComponentSelectorServiceTest extends KernelTestCase
 {
@@ -96,8 +98,19 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
+
+        $httpClientMock = $this->createMock(HttpClientInterface::class);
+
+
+        // Beispiel Response
+        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock->method('toArray')->willReturn(['status' => 'ROOM_ClOSED']);
+
+        // Konfiguriere den HttpClientMock, um die Response zurückzugeben
+        $httpClientMock->method('request')->willReturn($responseMock);
+
         $sut = self::getContainer()->get(JitsiComponentSelectorService::class);
+
         self::assertEquals(
             [
                 'callParams' => [
