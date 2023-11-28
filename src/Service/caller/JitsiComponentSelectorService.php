@@ -2,6 +2,10 @@
 
 namespace App\Service\caller;
 
+use App\Entity\Rooms;
+use App\Entity\User;
+use App\Service\RoomService;
+use App\Service\ThemeService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -12,22 +16,45 @@ class JitsiComponentSelectorService
 
     public function __construct(
         private HttpClientInterface   $httpClient,
-        private ParameterBagInterface $parameterBag)
+        private ParameterBagInterface $parameterBag,
+        private ThemeService          $themeService,
+        private RoomService           $roomService)
     {
         $this->baseUrl = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_BASE_URL');
     }
 
+
+    public function setHttpClient(HttpClientInterface $httpClient): void
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    public function fetchComponentKey(Rooms $room, User $user)
+    {
+        $res = $this->fetchComponentSelectorResult(
+            baseUrl: $room->getServer()->getUrl(),
+            roomName: $room->getUid(),
+            displayName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
+            jwt: $room->getServer()->getAppId()?$this->roomService->generateJwt(room: $room,user: $user,userName:  $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))):null
+        );
+        if (isset($res['componentKey'])){
+            return $res['componentKey'];
+        }else{
+            throw new \Exception('Component Key not found');
+        }
+    }
+
     public function fetchComponentSelectorResult(
-        string $baseUrl,
-        string $roomName,
-        string $displayName,
+        string  $baseUrl,
+        string  $roomName,
+        string  $displayName,
         ?string $jwt = null,
-        bool   $autoAnswer = true,
-        int    $autoAnswerTime = 1000,
-        string $sipAddress = 'sip:jibri@127.0.0.1',
-        string $environment = 'default-env',
-        string $region = 'default-region',
-        string $type = 'SIP-JIBRI'
+        bool    $autoAnswer = true,
+        int     $autoAnswerTime = 1000,
+        string  $sipAddress = 'sip:jibri@127.0.0.1',
+        string  $environment = 'default-env',
+        string  $region = 'default-region',
+        string  $type = 'SIP-JIBRI'
     )
     {
         $requestData = $this->buildRequestData(
@@ -43,27 +70,27 @@ class JitsiComponentSelectorService
             type: $type
         );
 
-        $response = $this->httpClient->request(method: 'POST',url: $this->baseUrl,options: [
-            'json'=>$requestData
+        $response = $this->httpClient->request(method: 'POST', url: $this->baseUrl, options: [
+            'json' => $requestData
         ]);
-        if (200 != $response->getStatusCode()){
-           throw new \Exception('Response status code is different than expected.');
+        if (200 != $response->getStatusCode()) {
+            throw new \Exception('Response status code is different than expected.');
         }
         $decodedPayload = $response->toArray();
         return $decodedPayload;
     }
 
     public function buildRequestData(
-        string $baseUrl,
-        string $roomName,
-        string $displayName,
-        ?string $jwt ,
-        bool   $autoAnswer ,
-        int    $autoAnswerTime ,
-        string $sipAddress ,
-        string $environment ,
-        string $region ,
-        string $type ,
+        string  $baseUrl,
+        string  $roomName,
+        string  $displayName,
+        ?string $jwt,
+        bool    $autoAnswer,
+        int     $autoAnswerTime,
+        string  $sipAddress,
+        string  $environment,
+        string  $region,
+        string  $type,
     )
     {
         $requestData = [
