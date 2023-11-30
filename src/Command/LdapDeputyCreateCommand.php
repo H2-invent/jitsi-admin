@@ -40,7 +40,8 @@ class LdapDeputyCreateCommand extends Command
             $io->info('Dryrun is activated. No databases changes are made');
         }
 
-        $this->ldapService->initLdap($io);
+        $this->ldapService->initLdap();
+        $this->ldapService->testLdap(io: $io);
         $this->debutyLdapService->cleanDeputies($dryrun);
         $this->ldapService->setDeputies($this->ldapService->fetchDeputies());
 

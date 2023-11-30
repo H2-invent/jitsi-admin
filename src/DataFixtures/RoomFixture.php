@@ -77,7 +77,7 @@ class RoomFixture extends Fixture
         $manager->persist($userLDAP);
         $ldapUserProperty = new LdapUserProperties();
         $ldapUserProperty->setUser($userLDAP);
-        $ldapUserProperty->setLdapDn('');
+        $ldapUserProperty->setLdapDn('cn=ldapUser@local.de,dc=example,dc=com');
         $ldapUserProperty->setLdapHost('');
         $ldapUserProperty->setLdapNumber('ldap_3');
         $ldapUserProperty->setRdn('');

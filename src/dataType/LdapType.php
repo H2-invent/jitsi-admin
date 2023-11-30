@@ -15,7 +15,7 @@ class LdapType
     private $url;
     private $userNameAttribute;
     private $serVerId;
-    private $ldap;
+    private Ldap $ldap;
     private $rdn;
     private $bindDn;
     private $password;
@@ -32,6 +32,8 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
     private $isHealthy = false;
+    private string $LDAP_SIP_VIDEO_GROUP_DN = '';
+
 
     public function __toString(): string
     {
@@ -261,7 +263,7 @@ class LdapType
                     $tmp->bind();
                 }
             } else {
-               throw new \Exception('invalid Bind URL');
+                throw new \Exception('invalid Bind URL');
             }
             $this->ldap = $tmp;
             $this->isHealthy = true;
@@ -271,12 +273,14 @@ class LdapType
         }
     }
 
-    public function isValidLdapUrl(string $url):bool{
+    public function isValidLdapUrl(string $url): bool
+    {
         $regex = '/^(ldap(s)?:\/\/)(((((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4})|([a-zA-Z][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@%_\+.~#?&\/=]*))))(?:\:\d+)?$/m';
 
-        $isUrl = preg_match($regex,$url);
-        return $isUrl>0;
+        $isUrl = preg_match($regex, $url);
+        return $isUrl > 0;
     }
+
     /**
      * @return mixed
      */
@@ -367,6 +371,23 @@ class LdapType
         return $user->toArray();
     }
 
+    public function retrieveSipVideoUser()
+    {
+
+        $options = [
+            'scope' => 'one',
+        ];
+
+
+        if ($this->LDAP_SIP_VIDEO_GROUP_DN !== '') {
+            $dn = preg_replace('/^[^,]+,/', '', $this->LDAP_SIP_VIDEO_GROUP_DN);
+            $filter = explode(',', $this->LDAP_SIP_VIDEO_GROUP_DN)[0];
+            $query = $this->ldap->query($dn, '(' . $filter . ')', $options);
+            $group = $query->execute();
+            return $group->toArray();
+        }
+        return [];
+    }
 
     /**
      * @return mixed
@@ -479,4 +500,16 @@ class LdapType
     {
         $this->isHealthy = $isHealthy;
     }
+
+    public function getLDAPSIPVIDEOGROUPDN(): string
+    {
+        return $this->LDAP_SIP_VIDEO_GROUP_DN;
+    }
+
+    public function setLDAPSIPVIDEOGROUPDN(string $LDAP_SIP_VIDEO_GROUP_DN): void
+    {
+        $this->LDAP_SIP_VIDEO_GROUP_DN = $LDAP_SIP_VIDEO_GROUP_DN;
+    }
+
+
 }

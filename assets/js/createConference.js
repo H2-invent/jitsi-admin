@@ -128,7 +128,7 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
     }
 
     var html =
-        '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '" style="border-color: ' + borderColor + '">' +
+        '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '" data-maximal="0" style="border-color: ' + borderColor + '">' +
         '<div class="headerBar">' +
         '<div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
         '<div class="actionIconLeft">' +
@@ -136,7 +136,7 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize" data-mdb-toggle="tooltip" title="Minimize"></i></div> ' +
         '<div class="button-restore actionIcon d-none" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> ' +
         '<div class="button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> ' +
-        (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : '') +
+        (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-mdb-toggle="tooltip" title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : '') +
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark" data-mdb-toggle="tooltip" title="Exit"></i></div> ' +
         '</div>' +
         '</div>' +
@@ -287,7 +287,7 @@ function maximizeWindow(container) {
     var frame = container.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
-    if (maxiIcon.dataset.maximal === "0") {
+    if (frame.dataset.maximal === "0") {
         maxiIcon.dataset.height = startHeight;
         maxiIcon.dataset.width = startWidth;
         maxiIcon.dataset.translation = startTransform;
@@ -298,10 +298,10 @@ function maximizeWindow(container) {
         frame.style.transform = 'translate(0px, 0px)'
         frame.style.borderWidth = '0px'
         frame.classList.add('maximized');
-        frame.querySelector('.headerBar').style.padding = '8px'
+        frame.querySelector('.headerBar').style.removeProperty('padding');
         restoreButton.classList.remove('d-none');
         maxiIcon.classList.add('d-none');
-        maxiIcon.dataset.maximal = "1";
+        frame.dataset.maximal = "1";
     }
 }
 
@@ -311,7 +311,7 @@ function restoreWindowFromMaximized(container) {
     var frame = container.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
-    if (maxiIcon.dataset.maximal === "1") {
+    if (frame.dataset.maximal === "1") {
         frame.style.width = maxiIcon.dataset.width + 'px';
         frame.style.height = maxiIcon.dataset.height + 'px';
         frame.style.transform = maxiIcon.dataset.translation;
@@ -319,7 +319,7 @@ function restoreWindowFromMaximized(container) {
         frame.querySelector('.headerBar').style.removeProperty('padding');
         frame.dataset.x = maxiIcon.dataset.x;
         frame.dataset.y = maxiIcon.dataset.y;
-        maxiIcon.dataset.maximal = "0";
+        frame.dataset.maximal = "0";
         maxiIcon.classList.remove('d-none');
         restoreButton.classList.add('d-none');
         frame.classList.remove('maximized');
@@ -433,7 +433,7 @@ function addInteractions(ele) {
         startTransform = event.target.closest('.jitsiadminiframe').style.transform
         tryfullscreen = false;
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
-        event.target.closest('.jitsiadminiframe').style.removeProperty('border');
+        // event.target.closest('.jitsiadminiframe').style.removeProperty('border');
 
         event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
