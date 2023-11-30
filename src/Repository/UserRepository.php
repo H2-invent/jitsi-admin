@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use function Doctrine\ORM\QueryBuilder;
 
@@ -19,7 +20,8 @@ class UserRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry               $registry,
-        private ParameterBagInterface $parameterBag)
+        private ParameterBagInterface $parameterBag,
+        private LoggerInterface       $logger,)
     {
         parent::__construct($registry, User::class);
     }
@@ -139,10 +141,11 @@ class UserRepository extends ServiceEntityRepository
     {
         $callerId = preg_replace('/[^0-9]/', '', $callerId);
         $callerId = preg_replace('/^0+/', '', $callerId);
+        $this->logger->debug('Cleaned CallerId',['callerid'=>$callerId]);
         $qb = $this->createQueryBuilder('u');
 
         return $qb->andWhere($qb->expr()->like('u.indexer', ':search'))
-            ->setParameter('search','%'.$callerId.'%')
+            ->setParameter('search', '%' . $callerId . '%')
             ->getQuery()
             ->setMaxResults(1)
             ->getOneOrNullResult();
