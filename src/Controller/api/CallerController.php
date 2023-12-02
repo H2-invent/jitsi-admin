@@ -81,7 +81,7 @@ class CallerController extends JitsiAdminController
         if (sizeof($error) > 0) {
             return new JsonResponse($error, 404);
         }
-        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'));
+        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'), $request->get('is_video')?:false);
         if (!$session) {
             $res = [
                 'auth_ok' => false,

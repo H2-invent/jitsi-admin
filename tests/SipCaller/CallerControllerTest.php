@@ -17,6 +17,7 @@ use App\Service\RoomService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use function PHPUnit\Framework\assertFalse;
 
 class CallerControllerTest extends WebTestCase
 {
@@ -118,6 +119,7 @@ class CallerControllerTest extends WebTestCase
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
         $caller = $room->getCallerIds()[0];
         $session = $caller->getCallerSession();
+        assertFalse($session->isIsSipVideoUser());
         $this->assertJsonStringEqualsJsonString(
             json_encode(
                 [
