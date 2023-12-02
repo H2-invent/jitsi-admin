@@ -1,4 +1,4 @@
-## Update Instruction for Version 0.76.x ... 0.77.x
+## Update Instruction for Version 0.78.x ... 0.79.x
 
 
 ## New Features:
@@ -48,7 +48,7 @@ ETHERPAD_URL=https://etherpad.domain.de
     1. Example:![Screenshot customized jitsi-admin](docs/images/screenshot_CI.png)
 
 
-### Update Docker installation from 0.76.x ... 0.77.x
+### Update Docker installation from 0.78.x ... 0.79.x
 
 1. Checkout latest Tag 
 2. go into the jitsi-admin director e.g. `cd /var/jitsi-admin/`
