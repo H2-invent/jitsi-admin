@@ -21,10 +21,10 @@ class TransferOwnershipService
     public function transferOwnership(User $newOwner, Rooms $room): Rooms
     {
         $roomPermisison = $this->roomsUserRepository->findOneBy(['user'=>$room->getModerator(),'room'=>$room]);
-        if ($roomPermisison && !$roomPermisison->getModerator()){
+        if (!$roomPermisison || !$roomPermisison->getModerator()){
             $this->permissionChangeService->toggleModerator($room->getModerator(), $room->getModerator(), $room);
         }
-        if ($roomPermisison && !$roomPermisison->getLobbyModerator()){
+        if (!$roomPermisison ||!$roomPermisison->getLobbyModerator()){
             $this->permissionChangeService->toggleLobbyModerator($room->getModerator(), $room->getModerator(), $room);
         }
 
