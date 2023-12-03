@@ -3,7 +3,7 @@
 ## New Features:
 - **Toggle Filmstripe**: A new button has been introduced in the conference interface, allowing users to toggle the Filmstripe view on or off easily.
 - **Prefix Room Name**: Rooms now support a server hash prefix feature, enabling the loading of different Jitsi configurations during runtime.
-
+- **Transfer Room**: Add the possibility to transfer a room to an other moderator.
 ## Improvements:
 - **Autoupload to Dockerhub**: Jitsi admin now includes an automatic upload functionality to Docker Hub, streamlining the deployment process.
 - **Addressbook in Dark Mode**: The Addressbook feature now comes with a transparent background when in dark mode, enhancing visibility and aesthetics.
