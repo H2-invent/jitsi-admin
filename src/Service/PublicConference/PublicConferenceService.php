@@ -21,6 +21,7 @@ class PublicConferenceService
         $roomname = UtilsHelper::slugify($roomName);
         $uid = md5($server->getUrl() . $roomname);
         $room = $this->entityManager->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'moderator' => null]);
+        $tags = $server->getTag()->toArray();
         if (!$room) {
             $room = new Rooms();
             $room->setServer($server)
@@ -36,6 +37,11 @@ class PublicConferenceService
             $this->entityManager->persist($room);
             $this->entityManager->flush();
             $this->callerPrepareService->addCallerIdToRoom($room);
+        }
+        if (count($tags) === 1){
+            $room->setTag($tags[0]);
+            $this->entityManager->persist($room);
+            $this->entityManager->flush();
         }
         return $room;
     }
