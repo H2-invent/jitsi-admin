@@ -14,7 +14,14 @@
            href="{{ path('room_user_resend',{'room':room.uidReal,'user':user.id}) }}">
             <i class="fas fa-share-square"></i> {{ 'participant.resend.invitation'|trans }}</a>
     {% endif %}
+    {% if roomPermissions(user,room).moderator == true and room.moderator == app.user and user.keycloakId is not null %}
+        <a class=" dropdown-item confirmHref"
+           id="transferRoomTo{{ user.id }}"
+           data-text="{{ 'transfer.room.confirm'|trans }}"
+           href="{{ path('room_change_ownership_index',{'roomId':room.id,'newOwner':user.id}) }}">
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>{{ 'transfer.room.start'|trans }}</a>
 
+    {% endif %}
     {% include ('room/__attendeeDropDownSip.html.twig') with {'room':room} %}
 
     <div class="dropdown-divider"></div>

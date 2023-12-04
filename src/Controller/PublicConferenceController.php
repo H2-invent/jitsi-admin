@@ -34,7 +34,8 @@ class PublicConferenceController extends JitsiAdminController
         private ThemeService              $themeService,
         private RequestStack              $requestStack,
         private RoomStatusFrontendService $roomStatusFrontendService,
-        private PublicConferenceService   $publicConferenceService
+        private PublicConferenceService   $publicConferenceService,
+
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -75,8 +76,9 @@ class PublicConferenceController extends JitsiAdminController
             [
                 'room' => $room,
                 'user' => null,
-                'name' => 'Meetling',
-                'moderator' => !$firstUser
+                'name' => $this->getUser()?$this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')):'Meetling',
+                'moderator' => !$firstUser,
+                'server'=>$this->server,
             ]
         );
         $lastConf = $request->cookies->get('LAST_CONFERENCE');
