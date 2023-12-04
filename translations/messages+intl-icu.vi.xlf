@@ -2287,8 +2287,24 @@ và <a href="{privacyUrl}" target="_blank" referrerpolicy="no-referrer">
         <target state="needs-translation">Chat anzeigen</target>
       </trans-unit>
       <trans-unit id="4c8IxLG" resname="options.toggleFilmstripe">
-        <source>Filmstripe ein/ausblenden</source>
+        <source>options.toggleFilmstripe</source>
         <target state="needs-translation">Filmstripe ein/ausblenden</target>
+      </trans-unit>
+      <trans-unit id="jlIBMjN" resname="transfer.room.success">
+        <source>transfer.room.success</source>
+        <target state="needs-translation">Konferenz erfolgreich übertragen</target>
+      </trans-unit>
+      <trans-unit id="kGZ3mX4" resname="transfer.room.confirm">
+        <source>transfer.room.confirm</source>
+        <target state="needs-translation">Wollen Sie diese Konferenz wirklich auf diesem Nutzer übertragen? Sie haben anschließend keinen Zugriff mehr auf diese Konferenz, sondern sind nur noch als Teilnehmender in dieser Konferenz.</target>
+      </trans-unit>
+      <trans-unit id="l6ckT1t" resname="transfer.room.start">
+        <source>transfer.room.start</source>
+        <target state="needs-translation">Konferenz auf diesem Nutzer übertragen</target>
+      </trans-unit>
+      <trans-unit id="z3v5nOx" resname="transfer.room.error">
+        <source>transfer.room.error</source>
+        <target state="needs-translation">Fehler. Die Konfernz konnte nicht übertragen werden.</target>
       </trans-unit>
     </body>
   </file>
