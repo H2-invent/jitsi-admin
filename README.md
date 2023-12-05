@@ -5,7 +5,7 @@
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 [![Crowdin](https://badges.crowdin.net/jitsi-admin/localized.svg)](https://crowdin.com/project/jitsi-admin)
-
+[![Test Pipeline](https://github.com/H2-invent/jitsi-admin/actions/workflows/pipeline-test.yml/badge.svg)](https://github.com/H2-invent/jitsi-admin/actions/workflows/pipeline-test.yml)
 
 Jitsi Manager, also known as Jitsi Admin, is a powerful tool designed to manage Jitsi conferences and servers effectively. This README provides an overview of its features and functionalities.
 

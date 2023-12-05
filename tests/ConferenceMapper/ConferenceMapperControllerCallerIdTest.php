@@ -47,12 +47,14 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
                 [
                     'state' => 'STARTED',
                     'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiJVc2VyMiwgVGVzdDIsIHRlc3RAbG9jYWwyLmRlIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.tBl3a2rCTYla8Bxeg3kSxPLenTgnUuZIURHQoxSPvbY',
-                    'room_name' => '123456780@testdomain.com'
+                    'room_name' => '123456780@testdomain.com',
+                    "display_name" => "User2, Test2, test@local2.de"
                 ]
             ),
             $res
         );
     }
+
     public function testRoomStartedCallerIdtoNameNotFound(): void
     {
 
@@ -89,7 +91,8 @@ class ConferenceMapperControllerCallerIdTest extends WebTestCase
                 [
                     'state' => 'STARTED',
                     'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzNDU2NzgwIiwiY29udGV4dCI6eyJ1c2VyIjp7Im5hbWUiOiIwMDk4NzY1NDU1MzI1In19LCJtb2RlcmF0b3IiOmZhbHNlfQ.f_A4MtvIEUJ06FWTmimXbCiEP98JcYrHfYJAabNu29M',
-                    'room_name' => '123456780@testdomain.com'
+                    'room_name' => '123456780@testdomain.com',
+                    "display_name" => "0098765455325"
                 ]
             ),
             $res

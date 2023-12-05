@@ -12,7 +12,7 @@
                 {% set locale =  app.request.locale %}
                 {% for s in scheduling.schedulingTimes |sort((a, b) => a.time <=> b.time) %}
                     <div class="scrollEle me-3 text-center">
-                        <small>{{ s.time|format_date(pattern="EE",locale=locale,timezone=false) }}</small>
+                        <small>{{ s.time|format_date(pattern="EE",locale=locale,timezone=null) }}</small>
                         <p>{{ s.timeWithTimeZone(user)|date('d.m.Y',false) }}
                             {% if getApplicationProperties('allowTimeZoneSwitch') == 1 %}
                                 <br>

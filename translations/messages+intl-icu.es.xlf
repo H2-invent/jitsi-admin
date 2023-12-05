@@ -2272,8 +2272,28 @@
         <target state="translated">Categorías seleccionables</target>
       </trans-unit>
       <trans-unit id="8RH..y9" resname="options.chat">
-        <source>Chat anzeigen</source>
+        <source>options.chat</source>
         <target state="needs-translation">Chat anzeigen</target>
+      </trans-unit>
+      <trans-unit id="4c8IxLG" resname="options.toggleFilmstripe">
+        <source>options.toggleFilmstripe</source>
+        <target state="needs-translation">Filmstripe ein/ausblenden</target>
+      </trans-unit>
+      <trans-unit id="jlIBMjN" resname="transfer.room.success">
+        <source>transfer.room.success</source>
+        <target state="translated">Conferencia transferida exitosamente</target>
+      </trans-unit>
+      <trans-unit id="kGZ3mX4" resname="transfer.room.confirm">
+        <source>transfer.room.confirm</source>
+        <target state="translated">¿Realmente quieres transferir la conferencia a este usuario? Ya no tendrás permisos sobre la conferencia y solo estarás en ella como participante.</target>
+      </trans-unit>
+      <trans-unit id="l6ckT1t" resname="transfer.room.start">
+        <source>transfer.room.start</source>
+        <target state="translated">Transferir conferencia a este usuario</target>
+      </trans-unit>
+      <trans-unit id="z3v5nOx" resname="transfer.room.error">
+        <source>transfer.room.error</source>
+        <target state="translated">Error. La conferencia no pudo transferirse.</target>
       </trans-unit>
     </body>
   </file>

@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Service\LicenseService;
 use App\Service\RoomService;
 use App\Service\webhook\RoomStatusFrontendService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -21,6 +22,7 @@ class ConferenceMapperService
         private UserRepository            $userRepository,
         private ParameterBagInterface     $parameterBag,
         private HttpClientInterface       $httpClient,
+        private LoggerInterface           $logger,
     )
     {
     }
@@ -64,12 +66,14 @@ class ConferenceMapperService
         return [
             'state' => 'STARTED',
             'jwt' => $this->roomService->generateJwt($room, null, $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId),
-            'room_name' => $room->getUid() . '@' . $room->getServer()->getJigasiProsodyDomain()
+            'room_name' => $room->getUid() . '@' . $room->getServer()->getJigasiProsodyDomain(),
+            'display_name'=>$user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId
         ];
     }
 
     public function findNameFromCallerId($callerId): ?User
     {
+        $this->logger->debug('Caller id fetched to find user',['callerid'=>$callerId]);
         $user = $this->userRepository->findUsersByCallerId(callerId: $callerId);
         return $user;
     }

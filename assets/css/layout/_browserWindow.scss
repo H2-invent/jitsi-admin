@@ -100,6 +100,7 @@
   z-index: 500 !important;
   border-width: 8px !important;
   border-style: solid;
+  border-color: transparent;
   @media (min-width: $breakpointMenue) {
     max-width: 50vw;
   }
@@ -122,6 +123,8 @@
       text-overflow: ellipsis;
       max-width: 100% !important;
       white-space: nowrap !important;
+      padding-right: 8px;
+      padding-left: 8px;
     }
   }
 

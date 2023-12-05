@@ -3,7 +3,47 @@
 {% block header %}{{ 'Changelog'|trans }}{% endblock %}
 
 {% block content %}
-    <div class="row markdown">
+
+<div class="row markdown">
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.79.0',
+            'whatsNew':'
+- **Toggle Filmstripe**: A new button has been introduced in the conference interface, allowing users to toggle the Filmstripe view on or off easily.
+- **Prefix Room Name**: Rooms now support a server hash prefix feature, enabling the loading of different Jitsi configurations during runtime.
+- **Transfer Room**: Add the possibility to transfer a room to an other moderator.
+',
+            'improvement':"
+- **Autoupload to Dockerhub**: Jitsi admin now includes an automatic upload functionality to Docker Hub, streamlining the deployment process.
+- **Addressbook in Dark Mode**: The Addressbook feature now comes with a transparent background when in dark mode, enhancing visibility and aesthetics.
+- **Addressbook Filter Enhancement**: The address book's filtering mechanism has been improved to search the entire row, enhancing its usability beyond checkbox-only search.
+- **Upgrade MDBootstrap**: Updated the MDBootstrap library to its latest version for improved performance and compatibility.
+- **Enhanced Fullscreen Mode**: Made the Fullscreen mode in multiframe mode more robust, ensuring a smoother and more reliable experience.
+- **Improved Multiframe Closing**: Users can now close a multiframe even if its internal content has not loaded, improving the overall user experience.
+",
+            'bugfix':'
+- A lot of Bugfixes
+'
+        }) }}
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.78.10',
+            'bugfix':'
+- Translations from Crowdin.
+'}) }}
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.78.9',
+            'bugfix':'
+- Make Version because of failure in the pipeline
+'}) }}
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.78.8',
+            'improvement':'
+- Aupload Release to docker hub
+'}) }}
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.78.7',
+            'bugfix':'
+- Add Trusted Proxies to the default environment.
+'}) }}
         {{ include('changelog/__entry.html.twig',
             {'version':'0.78.6',
                 'bugfix':'

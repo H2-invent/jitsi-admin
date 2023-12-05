@@ -82,6 +82,10 @@ function initCategoryFilter() {
     for (var i = 0; i < $checkboxLine.length; i++) {
         var tmp = $checkboxLine[i];
         tmp.addEventListener('click',function (e) {
+            e.stopPropagation();
+            if (e.srcElement.matches('input')||e.srcElement.matches('label')){
+                return null;
+            }
             var ele = e.currentTarget.querySelector('input');
             if (ele.checked){
                 ele.checked = false;

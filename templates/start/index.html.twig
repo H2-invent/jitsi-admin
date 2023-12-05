@@ -56,6 +56,7 @@
             {% if room.totalOpenRooms == true %}
                 {% include 'conference_modules/inviteUsersToOpenRooms.html.twig' with {'url':path('own_room_startPage',{'uid':room.uid})} %}
             {% endif %}
+
         {% endblock %}
     {% endembed %}
 {% endblock %}
@@ -94,8 +95,8 @@
         var closeTabText = '{{ 'ask.tab.close'|trans }}';
         const domain = '{{ room.server.url }}';
         const options = {
-            {#roomName: '{{ room.server.slugMd5 }}/{{ room.uid }}',#}
-            roomName: '{{ room.uid }}',
+            roomName: '{{ room.server.slugMd5 }}{{ room.uid }}',
+
             width: '100%',
             height: 700,
             configOverwrite: {

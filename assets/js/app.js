@@ -10,7 +10,7 @@ import $ from 'jquery';
 
 global.$ = global.jQuery = $;
 
-import * as mdb from 'mdb-ui-kit'; // lib
+import * as mdb from 'mdb-ui-kit/'; // lib
 
 import ('jquery-confirm');
 import * as h2Button from 'h2-invent-apps';
