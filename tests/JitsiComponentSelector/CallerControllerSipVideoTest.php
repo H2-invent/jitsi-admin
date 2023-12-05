@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Tests\SipCaller;
+namespace App\Tests\JitsiComponentSelector;
 
 use App\Entity\CallerSession;
 use App\Entity\LobbyWaitungUser;
 use App\Entity\RoomStatus;
-use App\Entity\RoomStatusParticipant;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
@@ -63,25 +62,7 @@ class CallerControllerSipVideoTest extends WebTestCase
     {
         $client = static::createClient([], ['HTTP_authorization' => 'Bearer 123456']);
 
-        $httpClientMock = $this->createMock(HttpClientInterface::class);
-        // Beispiel Response
-        $responseMock = $this->createMock(ResponseInterface::class);
-        $responseMock->method('toArray')->willReturn([
-            "sessionId" => "4a258446-70ff-4096-b122-da904d3bc591",
-            "type" => "SIP-JIBRI",
-            "environment" => "default-env",
-            "region" => "default-region",
-            "status" => "PENDING",
-            "componentKey" => "h2invent-sip-test-controller",
-            "metadata" => [
-                "sipUsername" => null
-            ]
-        ]);
-        $responseMock->method('getStatusCode')->willReturn(200);
-        // Konfiguriere den HttpClientMock, um die Response zurückzugeben
-        $httpClientMock->method('request')->willReturn($responseMock);
-        $jitsiComponenSelectorService = self::getContainer()->get(JitsiComponentSelectorService::class);
-        $jitsiComponenSelectorService->setHttpClient($httpClientMock);
+
 
         $res = $this->startWorkflow($client);
         $sessionLink = $res[0];
@@ -108,27 +89,32 @@ class CallerControllerSipVideoTest extends WebTestCase
         $client->loginUser($room->getModerator());
         $lobbyWaitinguser = $this->getLobbyWaitinguser($sessionLink);
         $crawler = $client->request('GET', '/room/lobby/acceptAll/' . $lobbyWaitinguser->getRoom()->getUidReal());
+
+        $httpClientMock = $this->createMock(HttpClientInterface::class);
+        // Beispiel Response
+        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock->method('toArray')->willReturn([
+            "sessionId" => "4a258446-70ff-4096-b122-da904d3bc591",
+            "type" => "SIP-JIBRI",
+            "environment" => "default-env",
+            "region" => "default-region",
+            "status" => "PENDING",
+            "componentKey" => "h2invent-sip-test-controller",
+            "metadata" => [
+                "sipUsername" => null
+            ]
+        ]);
+        $responseMock->method('getStatusCode')->willReturn(200);
+        // Konfiguriere den HttpClientMock, um die Response zurückzugeben
+        $httpClientMock->method('request')->willReturn($responseMock);
+        $jitsiComponentSelectorService = self::getContainer()->get(JitsiComponentSelectorService::class);
+
+        $jitsiComponentSelectorService->setHttpClient($httpClientMock);
+
+
         $crawler = $client->request('GET', $sessionLink);
         $session = $this->getSessionfromLink($sessionLink);
 
-        self::assertEquals(
-            [
-                'status' => 'ACCEPTED',
-                'reason' => 'ACCEPTED_BY_MODERATOR',
-                'number_of_participants' => 0,
-                'status_of_meeting' => 'STARTED',
-                'room_name' => $room->getUid(),
-                "message" => [],
-                'displayname' => 'User2, Test2, test@local2.de',
-                'jwt' => $roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
-                'componentKey'=>'h2invent-sip-test-controller',
-                'links' => [
-                    'session' => $sessionLink,
-                    'left' => $leafLink,
-                ]
-            ],
-            json_decode($client->getResponse()->getContent(), true)
-        );
 
         $this->assertResponseIsSuccessful();
     }

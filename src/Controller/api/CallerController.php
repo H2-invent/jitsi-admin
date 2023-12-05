@@ -46,6 +46,12 @@ class CallerController extends JitsiAdminController
         $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
     }
 
+    public function setJitsiComponentSelectorService(JitsiComponentSelectorService $jitsiComponentSelectorService): void
+    {
+        $this->jitsiComponentSelectorService = $jitsiComponentSelectorService;
+    }
+
+
     /**
      * @Route("/api/v1/lobby/sip/room/{roomId}", name="caller_room",methods={"GET"})
      */
