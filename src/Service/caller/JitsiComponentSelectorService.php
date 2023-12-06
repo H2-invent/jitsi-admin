@@ -3,6 +3,7 @@
 namespace App\Service\caller;
 
 use App\Entity\Rooms;
+use App\Entity\Server;
 use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ThemeService;
@@ -11,7 +12,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class JitsiComponentSelectorService
 {
-    private string $baseUrl;
+    private ?string $baseUrl;
     private string $jsonResult;
 
     public function __construct(
@@ -20,7 +21,7 @@ class JitsiComponentSelectorService
         private ThemeService          $themeService,
         private RoomService           $roomService)
     {
-        $this->baseUrl = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_BASE_URL');
+        $this->baseUrl = null;
     }
 
 
@@ -29,17 +30,32 @@ class JitsiComponentSelectorService
         $this->httpClient = $httpClient;
     }
 
+    public function setBaseUrlFromServer(Server $server): void
+    {
+         $this->baseUrl = 'https://' .$server->getUrl() . '/jitsi-component-selector/sessions/start';
+    }
+
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
+    }
+
+
     public function fetchComponentKey(Rooms $room, User $user)
     {
+        if (!$this->baseUrl){
+            $this->setBaseUrlFromServer($room->getServer());
+;        }
+
         $res = $this->fetchComponentSelectorResult(
             baseUrl: $room->getServer()->getUrl(),
             roomName: $room->getUid(),
             displayName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
-            jwt: $room->getServer()->getAppId()?$this->roomService->generateJwt(room: $room,user: $user,userName:  $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))):null
+            jwt: $room->getServer()->getAppId() ? $this->roomService->generateJwt(room: $room, user: $user, userName: $user->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))) : null
         );
-        if (isset($res['componentKey'])){
+        if (isset($res['componentKey'])) {
             return $res['componentKey'];
-        }else{
+        } else {
             throw new \Exception('Component Key not found');
         }
     }
@@ -69,7 +85,9 @@ class JitsiComponentSelectorService
             region: $region,
             type: $type
         );
-
+        if (!$this->baseUrl){
+            throw new \Exception('The base Url is not Set. Set the Base URl with the Server Entity');
+        }
         $response = $this->httpClient->request(method: 'POST', url: $this->baseUrl, options: [
             'json' => $requestData
         ]);

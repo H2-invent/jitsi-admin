@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use function PHPUnit\Framework\assertEquals;
 
 class JitsiComponentSelectorServiceTest extends KernelTestCase
 {
@@ -100,6 +101,19 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         );
     }
 
+    public function testcreateBaseUrl(): void
+    {
+        $kernel = self::bootKernel();
+
+        $this->assertSame('test', $kernel->getEnvironment());
+        $sut = self::getContainer()->get(JitsiComponentSelectorService::class);
+        $server = new Server();
+        $server->setUrl('myTesturl.com');
+        $sut->setBaseUrlFromServer($server);
+        assertEquals('https://myTesturl.com/jitsi-component-selector/sessions/start', $sut->getBaseUrl());
+
+    }
+
     public function testFetchResult(): void
     {
         $kernel = self::bootKernel();
@@ -126,6 +140,9 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         $httpClientMock->method('request')->willReturn($responseMock);
 
         $sut = self::getContainer()->get(JitsiComponentSelectorService::class);
+        $server = new Server();
+        $server->setUrl('myTesturl.com');
+        $sut->setBaseUrlFromServer($server);
         $sut->setHttpClient($httpClientMock);
         self::assertEquals(
             [
@@ -174,6 +191,9 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
 
         $sut = self::getContainer()->get(JitsiComponentSelectorService::class);
         $sut->setHttpClient($httpClientMock);
+        $server = new Server();
+        $server->setUrl('myTesturl.com');
+        $sut->setBaseUrlFromServer($server);
         self::assertEquals(
             [
                 "sessionId" => "4a258446-70ff-4096-b122-da904d3bc591",
@@ -239,6 +259,7 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
         $user->setFirstName('Test')
             ->setLastName('User');
 
+
         self::assertEquals(
             'h2invent-sip-81fae5244e014948a48-3-7ed3c0',
             $sut->fetchComponentKey(
@@ -246,6 +267,7 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
                 user: $user
             )
         );
+        assertEquals('https://testurl.de/jitsi-component-selector/sessions/start', $sut->getBaseUrl());
     }
 
 }

@@ -180,6 +180,7 @@ class CallerSessionService
         ];
         if ($session->isIsSipVideoUser()) {
             try {
+                $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());
                 $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey($session->getCaller()->getRoom(), $session->getCaller()->getUser());
             }catch (\Exception $exception){
                $this->loggger->error($exception->getMessage());
