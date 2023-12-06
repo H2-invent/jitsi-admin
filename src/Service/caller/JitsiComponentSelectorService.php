@@ -17,7 +17,6 @@ class JitsiComponentSelectorService
 
     public function __construct(
         private HttpClientInterface   $httpClient,
-        private ParameterBagInterface $parameterBag,
         private ThemeService          $themeService,
         private RoomService           $roomService)
     {
