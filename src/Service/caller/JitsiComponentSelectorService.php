@@ -7,20 +7,32 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ThemeService;
+use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class JitsiComponentSelectorService
 {
     private ?string $baseUrl;
     private string $jsonResult;
+    private $jwt;
+    private $publicKey;
+    private $privateKey;
 
     public function __construct(
         private HttpClientInterface   $httpClient,
         private ThemeService          $themeService,
-        private RoomService           $roomService)
+        private RoomService           $roomService,
+        private ParameterBagInterface $parameterBag,
+        private KernelInterface       $kernel)
     {
         $this->baseUrl = null;
+        $dir = $this->kernel->getProjectDir();
+        $privateKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH');
+        $this->privateKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKey));
+        $publicKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
+        $this->publicKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKey));
     }
 
 
@@ -29,9 +41,22 @@ class JitsiComponentSelectorService
         $this->httpClient = $httpClient;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getJwt()
+    {
+        return $this->jwt;
+    }
+
+    public function getPublicKey(): bool|string
+    {
+        return $this->publicKey;
+    }
+
     public function setBaseUrlFromServer(Server $server): void
     {
-         $this->baseUrl = 'https://' .$server->getUrl() . '/jitsi-component-selector/sessions/start';
+        $this->baseUrl = 'https://' . $server->getUrl() . '/jitsi-component-selector/sessions/start';
     }
 
     public function getBaseUrl(): string
@@ -42,9 +67,9 @@ class JitsiComponentSelectorService
 
     public function fetchComponentKey(Rooms $room, User $user)
     {
-        if (!$this->baseUrl){
-            $this->setBaseUrlFromServer($room->getServer());
-;        }
+        if (!$this->baseUrl) {
+            $this->setBaseUrlFromServer($room->getServer());;
+        }
 
         $res = $this->fetchComponentSelectorResult(
             baseUrl: $room->getServer()->getUrl(),
@@ -84,9 +109,10 @@ class JitsiComponentSelectorService
             region: $region,
             type: $type
         );
-        if (!$this->baseUrl){
+        if (!$this->baseUrl) {
             throw new \Exception('The base Url is not Set. Set the Base URl with the Server Entity');
         }
+
         $response = $this->httpClient->request(method: 'POST', url: $this->baseUrl, options: [
             'json' => $requestData
         ]);
@@ -135,4 +161,25 @@ class JitsiComponentSelectorService
         return $requestData;
     }
 
+    public function createAuthToken()
+    {
+
+        $payload = [
+            'iss' => 'signal',
+            'aud' => 'jitsi-component-selector'
+        ];
+        $this->jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, ['kid' => 'jitsi/signal']);
+        return $this->jwt;
+    }
+
+    public function verifyToken($token): bool
+    {
+
+        try {
+            JWT::decode($token, $this->publicKey, ['RS256']);
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
 }

@@ -7,6 +7,7 @@ use App\Entity\Server;
 use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Service\caller\JitsiComponentSelectorService;
+use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -268,6 +269,15 @@ class JitsiComponentSelectorServiceTest extends KernelTestCase
             )
         );
         assertEquals('https://testurl.de/jitsi-component-selector/sessions/start', $sut->getBaseUrl());
+    }
+
+    public function testcreateJwt(): void
+    {
+        $kernel = self::bootKernel();
+        $sut = self::getContainer()->get(JitsiComponentSelectorService::class);
+        $token = $sut->createAuthToken();
+        assertEquals('eyJraWQiOiJqaXRzaVwvc2lnbmFsIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJzaWduYWwiLCJhdWQiOiJqaXRzaS1jb21wb25lbnQtc2VsZWN0b3IifQ.gLM6GsxO0mIGxhP6SZM_8yOBOunfl_iL-ZnyvoCWnBgcZ4ENPEpPJigpZB8d312yeDg5fxXZG9hzlaWDeSaAwnQL0wnuK5YHXF0H_A59954y0YfD9sxfJxnaoGJufoT1YV-3biJcyNs4iDU01rrN022DMj5BHb3Tv91fBolHNRkYDPYcB-zSqLOTYTyj088YhYfTKKXYcFCMVknOJQ0QnIOLtfkt4Q4fe3AriRUIOCeV8okTqJk_3h3fCQ2v20X42l1ubhrFDYMzdrjoCnHlGVCII21mErl8Pb9s4nZy-EjUNRtpkhFAFttLHGSrxqwMRZN-SzpoKMHh8vNymlpxhM1v-K3wH_UM2sSEwhm1YgooVNBMMTS-CvDTA3dSZJA-cQw9fONzYPnPhWnWB8L7N4BuP1WxaNNANVZsvBBu-iepdf-Cplt1bVx9Z1GjIxtuClR8SKVqyDPo4ZcUZRC_PmuLJV5dlhmFydDtetleuLRc2NZjtCiAPSWa200ba_amRWMrHQxNOjctZAORCoXGVglwWNfSoHfb4CMNPDQqGBpqufIBDMSyOqRcKrhUxKp3UA4g5a7Bt8bmUjGnUqZ1hqwYHCMWcj50ahLA-_0NXa9TLo9HPBA1Ee3UJc0L6szzV8FeBLn5NSQ68xt7LPyQV1So8yfEiVyZdnb2OW1OFNg',$token);
+        self::assertTrue($sut->verifyToken($token));
     }
 
 }
