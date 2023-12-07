@@ -19,6 +19,7 @@ class JitsiComponentSelectorService
     private $jwt;
     private $publicKey;
     private $privateKey;
+    private $kid;
 
     public function __construct(
         private HttpClientInterface   $httpClient,
@@ -33,6 +34,7 @@ class JitsiComponentSelectorService
         $this->privateKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKey));
         $publicKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
         $this->publicKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKey));
+        $this->kid = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
     }
 
 
@@ -114,7 +116,8 @@ class JitsiComponentSelectorService
         }
 
         $response = $this->httpClient->request(method: 'POST', url: $this->baseUrl, options: [
-            'json' => $requestData
+            'json' => $requestData,
+            'auth_bearer'=>$this->createAuthToken(),
         ]);
         if (200 != $response->getStatusCode()) {
             throw new \Exception('Response status code is different than expected.');
@@ -168,7 +171,7 @@ class JitsiComponentSelectorService
             'iss' => 'signal',
             'aud' => 'jitsi-component-selector'
         ];
-        $this->jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, ['kid' => 'jitsi/signal']);
+        $this->jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, ['kid' => $this->kid]);
         return $this->jwt;
     }
 
