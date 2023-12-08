@@ -69,7 +69,7 @@ class LoginController extends JitsiAdminController
         );
 
 
-        $redirectUri = $createHttpsUrl->createHttpsUrl('/login/logout');
+        $redirectUri = $this->parameterBag->get('laF_baseUrl').'/login/logout';
         $options = [
             'id_token_hint' => $request->getSession()->get('id_token'),
             'post_logout_redirect_uri' => $redirectUri,
