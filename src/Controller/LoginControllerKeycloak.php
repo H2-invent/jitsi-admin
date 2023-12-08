@@ -29,12 +29,13 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function index(ClientRegistry $clientRegistry): Response
     {
-        $options = [];
+        $options = [ 'redirect_uri' => $this->parameterBag->get('laF_baseUrl').'/login/keycloak_login/check',];
 
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $options['kc_idp_hint'] = $this->themeService->getThemeProperty('idp_provider');
         }
-        $res = $clientRegistry->getClient('keycloak_main')->redirect(['email','openid','profile'], $options);
+        $client = $clientRegistry->getClient('keycloak_main');
+        $res = $client->redirect(['email','openid','profile'], $options);
         return  $res;
     }
 
