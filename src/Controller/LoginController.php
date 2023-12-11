@@ -87,9 +87,8 @@ class LoginController extends JitsiAdminController
         $options = ['post_logout_redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('app_logout', [], UrlGenerator::ABSOLUTE_URL))];
 
 
-        $options = [
-            'id_token_hint' => $request->getSession()->get('id_token')
-        ];
+        $options['id_token_hint'] = $request->getSession()->get('id_token');
+
         if ($themeService->getApplicationProperties('idp_provider')) {
             $options['kc_idp_hint'] = $themeService->getApplicationProperties('idp_provider');
         }
