@@ -5,20 +5,36 @@ namespace App\Controller;
 use App\Helper\JitsiAdminController;
 use App\Service\CreateHttpsUrl;
 use App\Service\ThemeService;
+use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\Auth0Client;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use Psr\Log\LoggerInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginController extends JitsiAdminController
 {
+    public function __construct(
+        ManagerRegistry        $managerRegistry,
+        TranslatorInterface    $translator,
+        LoggerInterface        $logger,
+        ParameterBagInterface  $parameterBag,
+        private CreateHttpsUrl $createHttpsUrl)
+    {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
+    }
+
     /**
      * @Route("/login/auth0_login", name="login_auth0")
      */
-    public function index(ClientRegistry $clientRegistry): Response
+    public function index(
+        ClientRegistry $clientRegistry): Response
     {
         return $clientRegistry->getClient('auth0_main')->redirect(['user']);
     }
@@ -68,11 +84,11 @@ class LoginController extends JitsiAdminController
             ]
         );
 
+        $options = ['post_logout_redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('app_logout', [], UrlGenerator::ABSOLUTE_URL))];
 
-        $redirectUri = $createHttpsUrl->createHttpsUrl('/login/logout');
+
         $options = [
-            'id_token_hint' => $request->getSession()->get('id_token'),
-            'post_logout_redirect_uri' => $redirectUri,
+            'id_token_hint' => $request->getSession()->get('id_token')
         ];
         if ($themeService->getApplicationProperties('idp_provider')) {
             $options['kc_idp_hint'] = $themeService->getApplicationProperties('idp_provider');
