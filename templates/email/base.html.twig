@@ -105,10 +105,14 @@
         <row>
             <columns>
                 <h1 class="text-center">
+                    {% if theme is not null and theme.logo is defined and theme.logo is not null %}
+                    <img style="width: 300px; height: auto" src="{{ httpsAbolutUrl(theme.logo,room is defined?room:null) }}">
+                        <hr>
+                    {% endif %}
                     {% if server is defined and  server is not null and server.serverEmailHeader is not null %}
                         {{ server.serverEmailHeader }}
                     {% endif %}
-
+                        
                     {% block header %}
 
                     {% endblock %}
