@@ -30,11 +30,12 @@ class JitsiComponentSelectorService
     {
         $this->baseUrl = null;
         $dir = $this->kernel->getProjectDir();
-        $privateKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH');
-        $this->privateKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKey));
-        $publicKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH');
-        $this->publicKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKey));
         $this->kid = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
+        $privateKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH').hash('sha256',$this->kid).'.key';
+        $this->privateKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKey));
+        $publicKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH').hash('sha256',$this->kid).'.pem';
+        $this->publicKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKey));
+
     }
 
 
