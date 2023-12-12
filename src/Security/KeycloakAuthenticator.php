@@ -193,6 +193,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        $this->logger->error($exception->getMessage());
         return new RedirectResponse($this->router->generate('index'));
     }
 
