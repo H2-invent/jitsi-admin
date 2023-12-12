@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -45,17 +46,17 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     private ThemeService $themeService;
 
     public function __construct(
-        ThemeService           $themeService,
-        LoggerInterface        $logger,
-        IndexUserService       $indexUserService,
-        UserCreatorService     $userCreatorService,
-        ParameterBagInterface  $parameterBag,
-        TokenStorageInterface  $tokenStorage,
-        ClientRegistry         $clientRegistry,
-        EntityManagerInterface $em,
-        RouterInterface        $router,
-        private CreateHttpsUrl $createHttpsUrl,
-        private UrlGenerator   $urlGenerator,
+        ThemeService                  $themeService,
+        LoggerInterface               $logger,
+        IndexUserService              $indexUserService,
+        UserCreatorService            $userCreatorService,
+        ParameterBagInterface         $parameterBag,
+        TokenStorageInterface         $tokenStorage,
+        ClientRegistry                $clientRegistry,
+        EntityManagerInterface        $em,
+        RouterInterface               $router,
+        private CreateHttpsUrl        $createHttpsUrl,
+        private UrlGeneratorInterface $urlGenerator,
     )
     {
         $this->clientRegistry = $clientRegistry;
