@@ -5,6 +5,7 @@ namespace App\Security;
 use App\Entity\FosUser;
 use App\Entity\MyUser;
 use App\Entity\User;
+use App\Service\CreateHttpsUrl;
 use App\Service\IndexUserService;
 use App\Service\ThemeService;
 use App\Service\UserCreatorService;
@@ -17,6 +18,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -43,15 +46,17 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     private ThemeService $themeService;
 
     public function __construct(
-        ThemeService           $themeService,
-        LoggerInterface        $logger,
-        IndexUserService       $indexUserService,
-        UserCreatorService     $userCreatorService,
-        ParameterBagInterface  $parameterBag,
-        TokenStorageInterface  $tokenStorage,
-        ClientRegistry         $clientRegistry,
-        EntityManagerInterface $em,
-        RouterInterface        $router,
+        ThemeService                  $themeService,
+        LoggerInterface               $logger,
+        IndexUserService              $indexUserService,
+        UserCreatorService            $userCreatorService,
+        ParameterBagInterface         $parameterBag,
+        TokenStorageInterface         $tokenStorage,
+        ClientRegistry                $clientRegistry,
+        EntityManagerInterface        $em,
+        RouterInterface               $router,
+        private CreateHttpsUrl        $createHttpsUrl,
+        private UrlGeneratorInterface $urlGenerator,
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -79,7 +84,9 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     public function authenticate(Request $request): Passport
     {
         $client = $this->clientRegistry->getClient('keycloak_main');
-        $accessToken = $this->fetchAccessToken($client);
+        $accessToken = $this->fetchAccessToken($client, [
+            'redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->urlGenerator->generate('connect_keycloak_check', [], UrlGenerator::ABSOLUTE_URL))
+        ]);
         $request->getSession()->set('id_token', $accessToken->getValues()['id_token']);
         $passport = new SelfValidatingPassport(
             new UserBadge(
@@ -178,7 +185,6 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
     }
 
 
-
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
 
@@ -193,6 +199,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator implements Authenticatio
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        $this->logger->error($exception->getMessage());
         return new RedirectResponse($this->router->generate('index'));
     }
 
