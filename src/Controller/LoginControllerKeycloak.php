@@ -29,7 +29,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->themeService = $themeService;
-        $this->redirectUri = $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL));
+        $this->redirectUri = $createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL));
     }
 
     /**
