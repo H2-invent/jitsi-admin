@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LoginControllerKeycloak extends JitsiAdminController
 {
     private ThemeService $themeService;
-    private $redirectUri;
+
     public function __construct(
         ThemeService           $themeService,
         ManagerRegistry        $managerRegistry,
@@ -29,7 +29,6 @@ class LoginControllerKeycloak extends JitsiAdminController
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->themeService = $themeService;
-        $this->redirectUri = $createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL));
     }
 
     /**
@@ -38,7 +37,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     public function index(ClientRegistry $clientRegistry): Response
     {
 
-        $options = ['redirect_uri' => $this->redirectUri];
+        $options = ['redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL))];
 
         if ($this->themeService->getThemeProperty('idp_provider')) {
             $options['kc_idp_hint'] = $this->themeService->getThemeProperty('idp_provider');
@@ -57,7 +56,7 @@ class LoginControllerKeycloak extends JitsiAdminController
 
         $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/protocol/openid-connect/registrations?client_id=' .
             $this->getParameter('KEYCLOAK_ID') .
-            '&response_type=code&scope=openid email&redirect_uri=' . $this->redirectUri . '&kc_locale=de';
+            '&response_type=code&scope=openid email&redirect_uri=' . $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL)) . '&kc_locale=de';
         return $this->redirect($url);
     }
 
