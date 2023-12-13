@@ -14,12 +14,18 @@ class CreateHttpsUrl
     private LoggerInterface $logger;
 
     private string $baseUrl;
+
     public function __construct(LoggerInterface $logger, RequestStack $requestStack, ParameterBagInterface $parameterBag)
     {
         $this->paramterBag = $parameterBag;
         $this->request = $requestStack;
         $this->logger = $logger;
         $this->baseUrl = $this->paramterBag->get('laF_baseUrl');
+    }
+
+    public function setParamterBag(ParameterBagInterface $paramterBag): void
+    {
+        $this->paramterBag = $paramterBag;
     }
 
     public function createHttpsUrl($url, ?Rooms $rooms = null)
@@ -57,5 +63,38 @@ class CreateHttpsUrl
             $res = str_replace('http://', 'https://', $res);
         }
         return $res;
+    }
+
+    public function replaceSchemeOfAbsolutUrl($url)
+    {
+        $protokoll = parse_url($this->paramterBag->get('laF_baseUrl'));
+        if (!$protokoll) {
+            return $url;
+        }
+        try {
+            $protokoll = $protokoll['scheme'];
+            if ($protokoll) {
+                return $this->replaceProtocol(url: $url, newProtocol: $protokoll);
+            }
+            return $url;
+        }catch (\Exception $exception){
+            return $url;
+        }
+
+
+    }
+
+    private function replaceProtocol($url, $newProtocol)
+    {
+        $parsedUrl = parse_url($url);
+
+        if ($parsedUrl && isset($parsedUrl['scheme'])) {
+            $oldProtocol = $parsedUrl['scheme'];
+            $newUrl = str_replace($oldProtocol, $newProtocol, $url);
+            return $newUrl;
+        }
+
+        // Return original URL if no valid protocol was found
+        return $url;
     }
 }
