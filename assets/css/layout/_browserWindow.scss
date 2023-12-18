@@ -8,7 +8,7 @@
   background-color: white;
   box-sizing: border-box;
   touch-action: none;
-  
+
   display: flex;
   flex-direction: column;
   box-shadow: $card-box-shadow-3dp;
@@ -17,6 +17,7 @@
   &:not(.maximized,.minified) {
     border: 8px solid $background-color;
     border-radius: 8px;
+
     .dragger {
       cursor: move;
     }
@@ -66,6 +67,14 @@
   iframe {
     height: 100%;
     width: 100%;
+  }
+
+  &.jitsiadminiframe {
+    &.maximized {
+      .headerBar {
+        padding: 4px;
+      }
+    }
   }
 }
 
