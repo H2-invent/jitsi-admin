@@ -74,6 +74,27 @@
       .headerBar {
         padding: 4px;
       }
+
+      .button-restore {
+        display: block !important;
+      }
+
+      .button-maximize {
+        display: none!important;
+      }
+    }
+    &:not(.maximized ){
+      .headerBar {
+        padding: 4px;
+      }
+
+      .button-restore {
+        display: none !important;
+      }
+
+      .button-maximize {
+        display: block!important;
+      }
     }
   }
 }

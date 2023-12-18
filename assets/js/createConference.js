@@ -134,8 +134,8 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
         '<div class="actionIconLeft">' +
         '<div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause" data-mdb-toggle="tooltip" title="Pause"></i></div> ' +
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize" data-mdb-toggle="tooltip" title="Minimize"></i></div> ' +
-        '<div class="button-restore actionIcon d-none" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> ' +
-        '<div class="button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> ' +
+        '<div class=" button-restore actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> ' +
+        '<div class=" button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> ' +
         (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : '') +
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark" data-mdb-toggle="tooltip" title="Exit"></i></div> ' +
         '</div>' +
