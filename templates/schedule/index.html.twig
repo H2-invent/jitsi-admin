@@ -26,9 +26,10 @@
                             <i class="fa fa-external-link-alt"></i> </a>
                     {% endif %}
                     {% if room.schedulings|length>0 %}
+                        <ul class="list-group">
                         {% for s in room.schedulings[0].schedulingTimes|sort((a, b) => a.time <=> b.time) %}
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex flex-column">
+
+                                <li class="list-group-item d-flex flex-column schedulingTimeSlot">
                                     <div class="d-flex">
                                         <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}{% if s.createdFrom %}
                                                 <small>{{ s.createdFrom.email }}</small>{% endif %}</p>
@@ -110,10 +111,16 @@
                                         <div class="d-flex w-100" style="flex: 0">
                                             <div class="btn-group w-100" style="margin-right: 0">
                                                 <button class="btn btn-sm btn-outline-danger m-0 px-3 py-2 z-depth-0 waves-effect removeSchedule"
-                                                                                                           type="button"
-                                                                                                           data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
-                                                                                                           data-url="{{ path('schedule_admin_remove',{'id':s.id}) }}"><i
-                                                            class="fa fa-trash"></i></button>
+                                                        type="button"
+                                                        data-reload="{{ path('schedule_admin',{'id':room.id}) }}"
+                                                        data-url="{{ path('schedule_admin_remove',{'id':s.id}) }}"
+                                                        data-text="{{ "confirm.schedule.delete"|trans }}"
+                                                        data-textok="{{ "confirm.ok"|trans }}"
+                                                        data-textcancel="{{ "confirm.cancel"|trans }}"
+                                                        data-texttitle="{{ "confirm.title"|trans }}"
+                                                >
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
                                                 <a href="{{ path('schedule_admin_choose',{'id':s.id}) }}"
                                                    class="btn btn-sm btn-outline-success m-0 px-3 py-2 z-depth-0 waves-effect confirmHref"
                                                    data-text="{{ 'Wollen Sie diese Terminplanung in eine Konferenz umwandeln?'|trans }}">
@@ -125,8 +132,9 @@
                                     </div>
 
                                 </li>
-                            </ul>
+
                         {% endfor %}
+                        </ul>
                     {% endif %}
                 </div>
             </div>
