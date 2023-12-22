@@ -134,8 +134,8 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
         '<div class="actionIconLeft">' +
         '<div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause" data-mdb-toggle="tooltip" title="Pause"></i></div> ' +
         '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize" data-mdb-toggle="tooltip" title="Minimize"></i></div> ' +
-        '<div class="button-restore actionIcon d-none" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> ' +
-        '<div class="button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> ' +
+        '<div class=" button-restore actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> ' +
+        '<div class=" button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> ' +
         (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-mdb-toggle="tooltip" title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : '') +
         '<div class="closer  actionIcon"><i class="fa-solid fa-xmark" data-mdb-toggle="tooltip" title="Exit"></i></div> ' +
         '</div>' +
@@ -287,7 +287,7 @@ function maximizeWindow(container) {
     var frame = container.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
-    if (frame.dataset.maximal === "0") {
+    if (!frame.classList.contains('maximized')) {
         maxiIcon.dataset.height = startHeight;
         maxiIcon.dataset.width = startWidth;
         maxiIcon.dataset.translation = startTransform;
@@ -298,7 +298,7 @@ function maximizeWindow(container) {
         frame.style.transform = 'translate(0px, 0px)'
         frame.style.borderWidth = '0px'
         frame.classList.add('maximized');
-        frame.querySelector('.headerBar').style.removeProperty('padding');
+
         restoreButton.classList.remove('d-none');
         maxiIcon.classList.add('d-none');
         frame.dataset.maximal = "1";
@@ -311,12 +311,11 @@ function restoreWindowFromMaximized(container) {
     var frame = container.closest('.jitsiadminiframe');
     var maxiIcon = frame.querySelector('.button-maximize');
     var restoreButton = frame.querySelector('.button-restore');
-    if (frame.dataset.maximal === "1") {
+    if (frame.classList.contains('maximized')) {
         frame.style.width = maxiIcon.dataset.width + 'px';
         frame.style.height = maxiIcon.dataset.height + 'px';
         frame.style.transform = maxiIcon.dataset.translation;
         frame.style.removeProperty('border-width');
-        frame.querySelector('.headerBar').style.removeProperty('padding');
         frame.dataset.x = maxiIcon.dataset.x;
         frame.dataset.y = maxiIcon.dataset.y;
         frame.dataset.maximal = "0";
@@ -433,9 +432,7 @@ function addInteractions(ele) {
         startTransform = event.target.closest('.jitsiadminiframe').style.transform
         tryfullscreen = false;
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').dataset.maximal = "0";
-        // event.target.closest('.jitsiadminiframe').style.removeProperty('border');
 
-        event.target.closest('.jitsiadminiframe').querySelector('.headerBar').style.removeProperty('padding');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.remove('fa-window-restore');
         event.target.closest('.jitsiadminiframe').querySelector('.button-maximize').querySelector('i').classList.add('fa-window-maximize');
     }).on("drag", event => {
@@ -571,7 +568,7 @@ function addInteractions(ele) {
             event.target.style.height = `${event.height}px`;
             event.target.style.transform = `translate(${beforeTranslate[0]}px, ${beforeTranslate[1]}px)`;
             // event.target.style.removeProperty('border');
-            event.target.querySelector('.headerBar').style.removeProperty('padding');
+
 
             event.target.dataset.x = beforeTranslate[0];
             event.target.dataset.y = beforeTranslate[1];
