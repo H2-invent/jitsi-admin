@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HealthCheckController extends JitsiAdminController
 {
-    /**
-     * @Route("/health/check", name="health_check",methods={"GET"})
-     */
+    #[Route(path: '/health/check', name: 'health_check', methods: ['GET'])]
     public function index(): Response
     {
         try {

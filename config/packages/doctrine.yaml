@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         url: '%env(DATABASE_URL)%'
-
+        use_savepoints: true
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '5.7'
@@ -9,6 +9,7 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        enable_lazy_ghost_objects: true
         dql:
             string_functions:
                 regexp: DoctrineExtensions\Query\Mysql\Regexp

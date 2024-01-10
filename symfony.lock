@@ -144,9 +144,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
-    "gjuric/i18n-routing-bundle": {
-        "version": "3.1.1"
-    },
     "guzzlehttp/guzzle": {
         "version": "6.5.5"
     },

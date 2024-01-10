@@ -10,10 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:migrate:servername', 'This command adds the server url as server name. This only happens when the entry is empty or null')]
 class MigrateServernameCommand extends Command
 {
-    protected static $defaultName = 'app:migrate:servername';
-    protected static $defaultDescription = 'This command adds the server url as server name. This only happens when the entry is empty or null';
     private $em;
     private $serverRename;
     public function __construct(EntityManagerInterface $entityManager, RenameServerService $renameServerService, $name = null)

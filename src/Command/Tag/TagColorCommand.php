@@ -13,10 +13,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:tag:color', 'Add a short description for your command')]
 class TagColorCommand extends Command
 {
-    protected static $defaultName = 'app:tag:color';
-    protected static $defaultDescription = 'Add a short description for your command';
     private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

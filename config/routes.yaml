@@ -13,4 +13,17 @@ when@prod:
   connect_keycloak_check:
     path: /login/keycloak_login/check
     controller: App\Controller\LoginControllerKeycloak::check
-
+app:
+  resource: '@AppController/'
+  type: attribute
+  prefix:
+    de: ''
+    en: '/{_locale}'
+    fr: '/{_locale}'
+    es: '/{_locale}'
+    vi: '/{_locale}'
+    zh: '/{_locale}'
+    ru: '/{_locale}'
+    ja: '/{_locale}'
+    pt: '/{_locale}'
+    # Hier weitere Sprachen hinzufügen, falls erforderlich

@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:connectServerAndGroups')]
 class ConnectServerAndGroupsCommand extends Command
 {
-    protected static $defaultName = 'app:connectServerAndGroups';
     private $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

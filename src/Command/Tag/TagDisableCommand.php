@@ -11,10 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:tag:disable', 'Enter the ID of  the Tag you wish to disable. Check out with app:tag:list')]
 class TagDisableCommand extends Command
 {
-    protected static $defaultName = 'app:tag:disable';
-    protected static $defaultDescription = 'Enter the ID of  the Tag you wish to disable. Check out with app:tag:list';
     private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

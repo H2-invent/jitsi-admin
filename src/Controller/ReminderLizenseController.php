@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ReminderLizenseController extends JitsiAdminController
 {
-    /**
-     * @Route("/reminder/lizense", name="reminder_lizense")
-     */
+    #[Route(path: '/reminder/lizense', name: 'reminder_lizense')]
     public function index(LoggerInterface $logger, Request $request, MailerService $mailerService, ParameterBagInterface $parameterBag): Response
     {
         if ($request->get('token') !== $parameterBag->get('cronToken')) {
