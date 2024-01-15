@@ -15,9 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class APIUserController extends JitsiAdminController
 {
-    /**
-     * @Route("/api/v1/getAllEntries", name="apiV1_getAllEntries")
-     */
+    #[Route(path: '/api/v1/getAllEntries', name: 'apiV1_getAllEntries')]
     public function index(): Response
     {
         $rooms = $this->doctrine->getRepository(Rooms::class)->findRoomsForUser($this->getUser());
@@ -36,9 +34,7 @@ class APIUserController extends JitsiAdminController
         return $response;
     }
 
-    /**
-     * @Route("/api/v1/info/{uidReal}", name="apiV1_roomGetUser",methods={"GET"})
-     */
+    #[Route(path: '/api/v1/info/{uidReal}', name: 'apiV1_roomGetUser', methods: ['GET'])]
     public function getRoomInformations(Request $request, $uidReal, RoomService $roomService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uidReal]);
@@ -47,9 +43,7 @@ class APIUserController extends JitsiAdminController
         return $response;
     }
 
-    /**
-     * @Route("/api/v1/user", name="apiV1_roomAddUser", methods={"POST"})
-     */
+    #[Route(path: '/api/v1/user', name: 'apiV1_roomAddUser', methods: ['POST'])]
     public function addUserToRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
     {
 
@@ -64,9 +58,7 @@ class APIUserController extends JitsiAdminController
         return new JsonResponse($roomService->addUserToRoom($room, $email));
     }
 
-    /**
-     * @Route("/api/v1/user", name="apiV1_roomDeleteUser", methods={"DELETE"})
-     */
+    #[Route(path: '/api/v1/user', name: 'apiV1_roomDeleteUser', methods: ['DELETE'])]
     public function removeUserFromRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, RoomService $roomService): Response
     {
 

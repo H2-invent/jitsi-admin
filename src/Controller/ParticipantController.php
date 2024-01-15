@@ -22,9 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ParticipantController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/participant/search", name="search_participant")
-     */
+    #[Route(path: '/room/participant/search', name: 'search_participant')]
     public function index(Request $request, ParticipantSearchService $participantSearchService): Response
     {
         $string = $request->get('search');
@@ -42,9 +40,7 @@ class ParticipantController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    /**
-     * @Route("/room/participant/add", name="room_add_user")
-     */
+    #[Route(path: '/room/participant/add', name: 'room_add_user')]
     public function roomAddUser(Request $request, RoomAddService $roomAddService)
     {
         $newMember = [];
@@ -79,9 +75,7 @@ class ParticipantController extends JitsiAdminController
         return $this->render('room/attendeeModal.twig', ['form' => $form->createView(), 'title' => $title, 'room' => $room]);
     }
 
-    /**
-     * @Route("/room/participant/past", name="room_past_user")
-     */
+    #[Route(path: '/room/participant/past', name: 'room_past_user')]
     public function roompastUser(Request $request, ThemeService $themeService)
     {
 
@@ -95,9 +89,7 @@ class ParticipantController extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/room/participant/remove", name="room_user_remove")
-     */
+    #[Route(path: '/room/participant/remove', name: 'room_user_remove')]
     public function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
 
@@ -111,9 +103,7 @@ class ParticipantController extends JitsiAdminController
         }
         return $this->redirectToRoute('dashboard');
     }
-    /**
-     * @Route("/room/participant/resend", name="room_user_resend")
-     */
+    #[Route(path: '/room/participant/resend', name: 'room_user_resend')]
     public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('room')]);

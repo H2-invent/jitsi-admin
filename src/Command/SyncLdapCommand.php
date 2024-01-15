@@ -22,10 +22,9 @@ use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Exception\NotBoundException;
 use Symfony\Component\Ldap\Ldap;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:sync', 'This commands syncs a ldap server with users database')]
 class SyncLdapCommand extends Command
 {
-    protected static $defaultName = 'app:ldap:sync';
-    protected static $defaultDescription = 'This commands syncs a ldap server with users database';
     private $ldapService;
 
     public function __construct(

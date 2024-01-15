@@ -52,9 +52,7 @@ class CallerController extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/api/v1/lobby/sip/room/{roomId}", name="caller_room",methods={"GET"})
-     */
+    #[Route(path: '/api/v1/lobby/sip/room/{roomId}', name: 'caller_room', methods: ['GET'])]
     public
     function findRoom(Request $request, $roomId): Response
     {
@@ -65,9 +63,7 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($this->callerRoomService->findRoom($roomId));
     }
 
-    /**
-     * @Route("/api/v1/lobby/sip/pin/{roomId}", name="caller_pin",methods={"POST","GET"})
-     */
+    #[Route(path: '/api/v1/lobby/sip/pin/{roomId}', name: 'caller_pin', methods: ['POST', 'GET'])]
     public
     function findPin(Request $request, $roomId): Response
     {
@@ -105,9 +101,7 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    /**
-     * @Route("/api/v1/lobby/sip/session", name="caller_session",methods={"GET"})
-     */
+    #[Route(path: '/api/v1/lobby/sip/session', name: 'caller_session', methods: ['GET'])]
     public
     function findSession(Request $request): Response
     {
@@ -129,9 +123,7 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    /**
-     * @Route("/api/v1/lobby/sip/session/left", name="caller_left",methods={"GET"})
-     */
+    #[Route(path: '/api/v1/lobby/sip/session/left', name: 'caller_left', methods: ['GET'])]
     public
     function leftSession(Request $request): Response
     {
