@@ -183,7 +183,7 @@ function initJitsiMeet(data) {
                 api.executeCommand('toggleE2EE', true);
             }
         }
-        api.addListener('videoConferenceLeft', function (e) {
+        api.addListener('readyToClose', function (e) {
             leaveMeeting();
             initStarSend();
             api = null;
