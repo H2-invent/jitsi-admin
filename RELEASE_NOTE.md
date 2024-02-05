@@ -12,6 +12,9 @@
 - **Enhanced Fullscreen Mode**: Made the Fullscreen mode in multiframe mode more robust, ensuring a smoother and more reliable experience.
 - **Improved Multiframe Closing**: Users can now close a multiframe even if its internal content has not loaded, improving the overall user experience.
 
+## Bugfix
+- **Breakoutroom leads to Star page** Moving to a Breakout room leads to the star page
+
 ## Discussion:
 We highly value your feedback and suggestions, which play a crucial role in shaping our platform. Your insights, ideas, and any encountered issues in this version are instrumental in guiding our future enhancements.
 
