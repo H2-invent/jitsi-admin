@@ -156,8 +156,8 @@ label:
   maxUser: Maximal Anzahl an Teilnehmenden
   jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
   disableFilmstripe: Filmstrip deaktivieren
-  disableChat: Chat deaktivieren
-  disableWhiteboard: Whiteboard deaktivieren
+  disableChat: Disable chat
+  disableWhiteboard: Disable whiteboard
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
 choice:
