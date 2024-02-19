@@ -129,11 +129,15 @@ class LdapUserService
     public function syncDeletedUser(LdapType $ldapType)
     {
         $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
-        foreach ($user as $data) {
-            $this->checkUserInLdap($data, $ldapType);
-        }
-        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
-        return $user;
+        $userListInLdap = $ldapType->retrieveUser();
+
+        dump($userListInLdap);
+//
+//        foreach ($user as $data) {
+//            $this->checkUserInLdap($data, $ldapType);
+//        }
+//        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
+//        return $user;
     }
 
     /**

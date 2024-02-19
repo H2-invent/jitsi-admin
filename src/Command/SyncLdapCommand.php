@@ -26,7 +26,10 @@ class SyncLdapCommand extends Command
     protected static $defaultDescription = 'This commands syncs a ldap server with users database';
     private $ldapService;
 
-    public function __construct(LdapService $ldapService, string $name = null)
+    public function __construct(
+        LdapService $ldapService,
+        LdapUserService $ldapUserService,
+        string $name = null)
     {
         parent::__construct($name);
         $this->ldapService = $ldapService;
@@ -91,7 +94,10 @@ class SyncLdapCommand extends Command
         }
 
         if (!$dryrun) {
-            $this->ldapService->cleanUpLdapUsers();
+            $io->info('We cleanup Users which are not in the LDAP anymore');
+            foreach ($this->ldapService->getLdaps() as $data) {
+//                ldapU
+            }
         }
 
         $io->info('We found # users: ' . $numberUsers);
