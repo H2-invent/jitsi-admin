@@ -6,6 +6,27 @@
 
 <div class="row markdown">
     {{ include('changelog/__entry.html.twig',
+        {'version':'0.79.4',
+            'bugfix':'
+- Moving to a Breakout room leads to the star page
+'}) }}
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.79.3',
+            'bugfix':'
+- Make fullscreen multiframe more robust
+'}) }}
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.79.2',
+            'bugfix':'
+- Fix logo issue was to large
+'}) }}
+    {{ include('changelog/__entry.html.twig',
+        {'version':'0.79.1',
+            'bugfix':'
+- Fix https Routes after login
+'}) }}
+
+    {{ include('changelog/__entry.html.twig',
         {'version':'0.79.0',
             'whatsNew':'
 - **Toggle Filmstripe**: A new button has been introduced in the conference interface, allowing users to toggle the Filmstripe view on or off easily.

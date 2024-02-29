@@ -57,7 +57,7 @@ api.addListener('videoConferenceJoined', function (e) {
         e.stopImmediatePropagation();
         return closeTabText;
     }
-    api.addListener('videoConferenceLeft', function (e) {
+    api.addListener('readyToClose', function (e) {
         leaveMeeting();
         initStarSend();
         api = null;
