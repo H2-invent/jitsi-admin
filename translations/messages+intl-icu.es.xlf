@@ -2277,7 +2277,7 @@
       </trans-unit>
       <trans-unit id="4c8IxLG" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
-        <target state="needs-translation">Filmstripe ein/ausblenden</target>
+        <target state="translated">Mostrar/ocultar tira de película</target>
       </trans-unit>
       <trans-unit id="jlIBMjN" resname="transfer.room.success">
         <source>transfer.room.success</source>
