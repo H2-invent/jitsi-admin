@@ -263,22 +263,8 @@ class LdapService
 
     public function cleanUpLdapUsers()
     {
-        $ldapUsers = $this->em->getRepository(LdapUserProperties::class)->findAll();
-        foreach ($ldapUsers as $data) {
-            $user = $data->getUser();
-            $ldapTyp = null;
-            foreach ($this->ldaps as $ldap) {
-                if ($ldap->getSerVerId() === $data->getLdapNumber()) {
-                    $ldapTyp = $ldap;
-                }
-            }
-            if (!$ldapTyp) {
-                $this->ldapUserService->deleteUser($user);
-            } else {
-                if ($ldapTyp->isHealthy()) {
-                    $this->ldapUserService->checkUserInLdap($user, $ldapTyp);
-                }
-            }
+        foreach ($this->ldaps as $data){
+            $this->ldapUserService->syncDeletedUser($data);
         }
     }
 }
