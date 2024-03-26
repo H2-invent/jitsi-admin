@@ -145,3 +145,4 @@ class CallerController extends JitsiAdminController
         return new JsonResponse(['error' => $this->callerLeftService->callerLeft($request->get('session_id'))]);
     }
 }
+

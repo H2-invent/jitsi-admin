@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ThemeService;
 use Firebase\JWT\JWT;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -26,14 +27,15 @@ class JitsiComponentSelectorService
         private ThemeService          $themeService,
         private RoomService           $roomService,
         private ParameterBagInterface $parameterBag,
-        private KernelInterface       $kernel)
+        private KernelInterface       $kernel,
+        private LoggerInterface       $logger)
     {
         $this->baseUrl = null;
         $dir = $this->kernel->getProjectDir();
         $this->kid = $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_JWT_KID');
-        $privateKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH').hash('sha256',$this->kid).'.key';
+        $privateKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PRIVATE_PATH') . hash('sha256', $this->kid) . '.key';
         $this->privateKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $privateKey));
-        $publicKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH').hash('sha256',$this->kid).'.pem';
+        $publicKey = $dir . $this->parameterBag->get('JITSI_COMPONENT_SELECTOR_PUBLIC_PATH') . hash('sha256', $this->kid) . '.pem';
         $this->publicKey = file_get_contents(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $publicKey));
 
     }
@@ -93,7 +95,7 @@ class JitsiComponentSelectorService
         string  $displayName,
         ?string $jwt = null,
         bool    $autoAnswer = true,
-        int     $autoAnswerTime = 1000,
+        int     $autoAnswerTime = 600,
         string  $sipAddress = 'sip:jibri@127.0.0.1',
         string  $environment = 'default-env',
         string  $region = 'default-region',
@@ -116,11 +118,16 @@ class JitsiComponentSelectorService
             throw new \Exception('The base Url is not Set. Set the Base URl with the Server Entity');
         }
 
-        $response = $this->httpClient->request(method: 'POST', url: $this->baseUrl, options: [
-            'json' => $requestData,
-            'auth_bearer'=>$this->createAuthToken(),
-        ]);
+        $response = $this->httpClient->request(
+            method: 'POST',
+            url: $this->baseUrl,
+            options: [
+                'json' => $requestData,
+                'auth_bearer' => $this->createAuthToken(),
+            ]
+        );
         if (200 != $response->getStatusCode()) {
+            $this->logger->error($response->getContent());
             throw new \Exception('Response status code is different than expected.');
         }
         $decodedPayload = $response->toArray();
@@ -143,21 +150,21 @@ class JitsiComponentSelectorService
         $requestData = [
             'callParams' => [
                 'callUrlInfo' => [
-                    'baseUrl' => $baseUrl,
+                    'baseUrl' => 'https://' . $baseUrl,
                     'callName' => $roomName . ($jwt ? ('?jwt=' . $jwt) : ''),
                 ],
-                'componentParams' => [
-                    'type' => $type,
-                    'region' => $region,
-                    'environment' => $environment,
-                ],
-                'metadata' => [
-                    'sipClientParams' => [
-                        'sipAddress' => $sipAddress,
-                        'displayName' => $displayName,
-                        'autoAnswer' => $autoAnswer,
-                        'autoAnswerTimer' => $autoAnswerTime
-                    ]
+            ],
+            'componentParams' => [
+                'type' => $type,
+                'region' => $region,
+                'environment' => $environment,
+            ],
+            'metadata' => [
+                'sipClientParams' => [
+                    'sipAddress' => $sipAddress,
+                    'displayName' => $displayName,
+                    'autoAnswer' => $autoAnswer,
+                    'autoAnswerTimer' => $autoAnswerTime
                 ]
             ]
         ];
