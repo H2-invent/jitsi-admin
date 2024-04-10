@@ -78,6 +78,9 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+     /**
+      * @return User[] Returns an array of USers objects
+      */
     public function findUsersByLdapServerId($value)
     {
         return $this->createQueryBuilder('u')

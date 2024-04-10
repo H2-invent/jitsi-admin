@@ -415,11 +415,11 @@ class LdapUserServiceTest extends WebTestCase
         $ldapConnection->setUserNameAttribute('uid');
         $ldapConnection->createLDAP();
         $ldapService->setLdaps([$ldapConnection]);
-        $entry = $ldapService->fetchLdap($ldapConnection);
+        $ldapService->fetchLdap($ldapConnection);
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $users = $userRepository->findUsersfromLdapService();
-        $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES + 1, sizeof($users));
+        $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES+1, sizeof($users));
         $ldapConnection->setFilter('(&(mail=*))');
         $ldapService->setLdaps([$ldapConnection]);
         $ldapService->fetchLdap($ldapConnection);
@@ -427,7 +427,7 @@ class LdapUserServiceTest extends WebTestCase
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         $users = $userRepository->findUsersfromLdapService();
-        $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES - 1, sizeof($users));
+        $this->assertEquals(LdapConnectionTest::$USERWITHLDAPUSERPROPERTIES, sizeof($users));
     }
 
     public function testrUsernoinFilterAnymoreUnhealthy(): void

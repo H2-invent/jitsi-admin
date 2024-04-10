@@ -371,10 +371,11 @@ class ScheduleController extends JitsiAdminController
     #[Route(path: 'schedule/download/csv/{id}', name: 'schedule_download_csv', methods: ['GET'])]
     public function generateVoteCsv(
         Rooms $room
+
     ): Response
     {
         $votingsAndTimes = $this->getUserVotes($room);
-
+        $user = $room->getUser();
         if (!isset($votingsAndTimes['times']) || count($votingsAndTimes['times']) === 0) {
             $this->addFlash('danger', $this->translator->trans('error.scheduler.noSchedules'));
 
@@ -400,7 +401,6 @@ class ScheduleController extends JitsiAdminController
                 preg_replace('/[[:^print:]]/', '', $room->getName()) . '-' . (new DateTime())->format('d-m-Y_H-i') . '.csv',
             )
         );
-
         return $response;
     }
 
@@ -417,7 +417,19 @@ class ScheduleController extends JitsiAdminController
     private function getUserVotes(Rooms $room): array
     {
         $votings = [];
+        foreach ($room->getUser() as $user) {
+            $userId = $user->getId();
+            $name = implode(' ', [$user->getFirstName(), $user->getLastName()]);
 
+            // Füge den Nutzer zum Array hinzu, wenn er noch nicht erfasst wurde
+            if (!isset($votings['user'][$userId])) {
+                $votings['user'][$userId] = [
+                    'Name' => $name,
+                    'Email' => $user->getEmail(),
+                ];
+
+            }
+        }
         foreach ($room->getSchedulings() as $scheduling) {
             foreach ($scheduling->getSchedulingTimes() as $schedulingTime) {
                 $schedulingTimeString = $schedulingTime->getTime()->format('d-m-Y H:i:s');
@@ -458,7 +470,7 @@ class ScheduleController extends JitsiAdminController
                 if (isset($userVoting[$time])) {
                     $filledUpVoting[$time] = $userVoting[$time];
                 } else {
-                    $filledUpVoting[$time] = 'null';
+                    $filledUpVoting[$time] = '----';
                 }
             }
 

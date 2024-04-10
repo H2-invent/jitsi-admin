@@ -25,16 +25,17 @@ use Symfony\Component\Ldap\Ldap;
 #[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:sync', 'This commands syncs a ldap server with users database')]
 class SyncLdapCommand extends Command
 {
-    private $ldapService;
+    protected static $defaultName = 'app:ldap:sync';
+    protected static $defaultDescription = 'This commands syncs a ldap server with users database';
 
     public function __construct(
-        LdapService                      $ldapService,
+        privateLdapService                      $ldapService,
         private LdapSipVideoGroupService $ldapSipVideoGroupService,
         string                           $name = null
     )
     {
         parent::__construct($name);
-        $this->ldapService = $ldapService;
+
     }
 
     protected function configure(): void
@@ -86,6 +87,7 @@ class SyncLdapCommand extends Command
         }
 
         if (!$dryrun) {
+            $io->info('We cleanup Users which are not in the LDAP anymore');
             $this->ldapService->cleanUpLdapUsers();
         }
         $this->ldapSipVideoGroupService->connectSipVideoMembersFromLdapTypes($this->ldapService->getLdaps(),dryrun: $dryrun);

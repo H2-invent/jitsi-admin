@@ -8,6 +8,9 @@ export function initSocialIcons(api) {
 
 function createCameraChangeButton(api) {
     api.getAvailableDevices().then(devices => {
+        if (document.getElementById('social_changeCamera')){
+            document.getElementById('social_changeCamera').remove();
+        }
         if (devices['videoInput'].length > 1) {
             gDevices = devices;
             var $body = document.getElementById('wrapperIcons');
