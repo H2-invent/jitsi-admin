@@ -29,7 +29,7 @@ class SyncLdapCommand extends Command
     protected static $defaultDescription = 'This commands syncs a ldap server with users database';
 
     public function __construct(
-        privateLdapService                      $ldapService,
+        private LdapService              $ldapService,
         private LdapSipVideoGroupService $ldapSipVideoGroupService,
         string                           $name = null
     )
@@ -79,7 +79,7 @@ class SyncLdapCommand extends Command
                 if ($resTmp !== null) {
                     $result[] = $resTmp;
                 }
-               $numberUsers += $this->printTable(output: $output,header: $data->getUrl() .' | '.$data->getUserDn(), data: $resTmp);
+                $numberUsers += $this->printTable(output: $output, header: $data->getUrl() . ' | ' . $data->getUserDn(), data: $resTmp);
 
             } else {
                 $io->error('This LDAP is unhealty: ' . $data->getUrl());
@@ -90,7 +90,7 @@ class SyncLdapCommand extends Command
             $io->info('We cleanup Users which are not in the LDAP anymore');
             $this->ldapService->cleanUpLdapUsers();
         }
-        $this->ldapSipVideoGroupService->connectSipVideoMembersFromLdapTypes($this->ldapService->getLdaps(),dryrun: $dryrun);
+        $this->ldapSipVideoGroupService->connectSipVideoMembersFromLdapTypes($this->ldapService->getLdaps(), dryrun: $dryrun);
         $this->ldapSipVideoGroupService->removeVideoSipFromUsers($this->ldapService->getLdaps(), dryrun: $dryrun);
         $io->info('We found # users: ' . $numberUsers);
         if ($error === false) {
@@ -101,7 +101,9 @@ class SyncLdapCommand extends Command
             return Command::FAILURE;
         }
     }
-    private function printTable(OutputInterface $output, $header, array $data){
+
+    private function printTable(OutputInterface $output, $header, array $data)
+    {
 
         $numberUsers = 0;
         $table = new Table($output);
