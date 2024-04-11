@@ -216,6 +216,22 @@ class ScheduleController extends JitsiAdminController
             ]
         );
     }
+    #[Route(path: 'room/schedule/selectBest/{id}', name: 'schedule_admin_select_best', methods: ['GET'])]
+    public function selectBest(
+        Rooms   $rooms,
+        Request $request,
+    ): Response
+    {
+        if (!UtilsHelper::isAllowedToOrganizeRoom($this->getUser(), $rooms)) {
+            throw new NotFoundHttpException('Room not found');
+        }
+        return $this->render(
+            'schedule/selectBest.html.twig',
+            [
+                'room' => $rooms,
+            ]
+        );
+    }
 
     #[Route(path: 'room/schedule/admin/add/{id}', name: 'schedule_admin_add', methods: ['POST'])]
     public function add(
