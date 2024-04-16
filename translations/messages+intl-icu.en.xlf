@@ -2285,6 +2285,22 @@
         <source>transfer.room.error</source>
         <target state="needs-translation">Fehler. Die Konfernz konnte nicht übertragen werden.</target>
       </trans-unit>
+      <trans-unit id="rnIWr9i" resname="scheduler.transform">
+        <source>Umwandeln</source>
+        <target state="needs-translation">Umwandeln</target>
+      </trans-unit>
+      <trans-unit id="56hji2Q" resname="confirm.schedule.delete">
+        <source>Löschen</source>
+        <target state="translated">Delete</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="hV7I6P9" resname="scheduler.transform.long">
+        <source>Terminplanung umwandeln</source>
+        <target state="needs-translation">Terminplanung umwandeln</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
