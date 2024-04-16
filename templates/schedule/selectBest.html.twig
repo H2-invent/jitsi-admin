@@ -14,7 +14,7 @@
                         <ul class="list-group">
                         {% for s in room.schedulings[0].schedulingTimes|sort((a, b) => scheduleNumber(b,0)  <=> scheduleNumber(a,0) ) %}
 
-                                <li class="list-group-item d-flex flex-column schedulingTimeSlot">
+                                <li class="list-group-item d-flex flex-column schedulingTimeSlot" id="scheduling_best_{{ s.id }}">
                                     <div class="d-flex">
                                         <p class="mb-0">{{ s.time|date('d.m.Y  H:i') }}{% if s.createdFrom %}
                                                 <small>{{ s.createdFrom.email }}</small>{% endif %}</p>
