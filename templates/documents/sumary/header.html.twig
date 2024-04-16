@@ -6,7 +6,7 @@
         </td>
     </tr>
     <tr>
-        <td style="width: 250px; padding: 16px; vertical-align: top">{{ room.agenda?room.agenda|nl2br|markdown_to_html: 'Keine Agenda'|trans }}</td>
+        <td style="width: 250px; padding: 16px; vertical-align: top">{{ room.agenda?room.agenda|markdown_to_html: 'Keine Agenda'|trans }}</td>
         <td style="width: 250px; vertical-align: top"><h3>{{ 'Organisator'|trans }}</h3>{{ room.moderator|nameOfUserNoSymbol }}</td>
     </tr>
     <tr>
