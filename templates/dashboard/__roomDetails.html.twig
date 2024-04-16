@@ -112,7 +112,7 @@
            data-mdb-trigger="focus"
            data-mdb-html="true"
            title="{{ 'Agenda'|trans }}"
-           data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|nl2br|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
+           data-mdb-content="{% if room.agenda is not null %}{{ room.agenda|markdown_to_html|escape }}{% else %}{{ 'Keine Angabe'|trans }}{% endif %}"><i
                     class="fa fa-info-circle"></i>
         </a>
     </h5>
