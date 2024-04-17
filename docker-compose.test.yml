@@ -127,7 +127,7 @@ services:
       KC_HOSTNAME_URL: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
       KC_HOSTNAME_PATH: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
       KC_HOSTNAME_ADMIN_URL: ${HTTP_METHOD}://keycloak.${PUBLIC_URL}
-      KC_HTTP_RELATIVE_PATH: /keycloak
+      KC_HTTP_RELATIVE_PATH: /
       KC_PROXY: passthrough
 
     command:
