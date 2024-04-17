@@ -138,7 +138,7 @@ services:
       - "traefik.http.routers.keycloak-ja.entrypoints=web"
       - "traefik.http.services.keycloak-ja.loadbalancer.server.port=8080"
     volumes:
-      - ./docker/keycloak/realm-export.json:/tmp/realm-export.json
+      - ./docker/keycloak/:/opt/keycloak/data/import
 
 volumes:
   mariadb:
