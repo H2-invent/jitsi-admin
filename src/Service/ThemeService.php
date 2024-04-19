@@ -26,13 +26,11 @@ class ThemeService
         CacheItemPoolInterface      $filesystemAdapter,
         CheckSignature              $checkSignature,
         RequestStack                $request,
-        HttpClientInterface         $httpClient,
         ParameterBagInterface       $parameterBag,
         LoggerInterface             $logger,
         private TranslatorInterface $translator)
     {
         $this->parameterBag = $parameterBag;
-        $this->client = $httpClient;
         $this->logger = $logger;
         $this->request = $request;
         $this->checkSignature = $checkSignature;
