@@ -2293,7 +2293,7 @@
       </trans-unit>
       <trans-unit id="rnIWr9i" resname="scheduler.transform">
         <source>Umwandeln</source>
-        <target state="needs-translation">Umwandeln</target>
+        <target state="translated">Convertir</target>
       </trans-unit>
       <trans-unit id="56hji2Q" resname="confirm.schedule.delete">
         <source>Löschen</source>
@@ -2305,7 +2305,7 @@
       </trans-unit>
       <trans-unit id="hV7I6P9" resname="scheduler.transform.long">
         <source>Terminplanung umwandeln</source>
-        <target state="needs-translation">Terminplanung umwandeln</target>
+        <target state="translated">Convertir programación</target>
       </trans-unit>
     </body>
   </file>
