@@ -789,7 +789,7 @@ class User extends BaseUser
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->username?:'';
     }
 
     /**
