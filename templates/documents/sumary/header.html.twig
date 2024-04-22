@@ -1,23 +1,23 @@
-<table style="width: 500px;">
+<table style="width: 500px">
     <tbody>
     <tr>
-        <td style="padding: 20px;" colspan="2">
+        <td style="padding: 20px" colspan="2">
             <h1>{{ room.name }}</h1>
         </td>
     </tr>
     <tr>
-        <td style="width: 250px; vertical-align: top;">
+        <td style="width: 250px; vertical-align: top">
             {{ room.agenda?room.agenda|markdown_to_html: 'Keine Agenda'|trans }}
         </td>
-        <td style="width: 250px; vertical-align: top;">
-            <h3 style="margin-top-top: 0; ">
+        <td style="width: 250px; vertical-align: top">
+            <h3 style="margin-top-top: 0">
                 {{ 'Organisator'|trans }}
             </h3>
             {{ room.moderator|nameOfUserNoSymbol }}
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="vertical-align: top;">
+        <td colspan="2" style="vertical-align: top">
             <p>
                 <small>{% trans with {'{timezone}':room.timeZone} %}report.info.timezone{% endtrans %}</small>
             </p>
@@ -28,7 +28,7 @@
             <table>
                 <tbody>
                 <tr>
-                    <td style="padding: 16px; width: 125px; vertical-align: top;">
+                    <td style="padding: 16px; width: 125px; vertical-align: top">
                         {% if room.persistantRoom %}
                             <h2>{{ 'fixed.Room.name'|trans }}</h2>
                         {% else %}
@@ -36,13 +36,13 @@
                             <p>{{ room.start|date('H:i') }} - {{ room.enddate|date('H:i') }}</p>
                         {% endif %}
                     </td>
-                    <td style="padding: 16px; width: 125px; vertical-align: top;">
+                    <td style="padding: 16px; width: 125px; vertical-align: top">
                         <h2>{{ 'Durchgeführt'|trans }}:</h2>
                         <table>
                             <tbody>
                             {% for s in room.roomstatuses|reverse|slice(0,5) %}
                                 <tr>
-                                    <td style=";">
+                                    <td>
                                         {{ s.roomCreatedAtwithTimeZone()|date('d.m.Y') }}:
                                         <p>{{ s.roomCreatedAtwithTimeZone()|date('H:i') }}
                                             - {% if s.destroyedAt is not null %}  {{ s.destroyedAtwithTimeZone()|date('H:i') }}{% else %} {{ 'Jetzt'|trans }} {% endif %}</p>
@@ -59,17 +59,17 @@
             </table>
 
         </td>
-        <td style="vertical-align: top;">
+        <td style="vertical-align: top">
             <table width="450px">
                 <tbody>
                 <tr>
-                    <td style="padding: 16px; width: 125px; vertical-align: top;">
+                    <td style="padding: 16px; width: 125px; vertical-align: top">
                         <h2>{{ 'Teilnehmerliste'|trans }}</h2>
                     </td>
                 </tr>
                 {% for u in room.user %}
                     <tr>
-                        <td style="padding: 8px;">{{ u|nameOfUserNoSymbol }}</td>
+                        <td style="padding: 8px">{{ u|nameOfUserNoSymbol }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
