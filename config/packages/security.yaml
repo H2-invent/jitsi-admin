@@ -2,7 +2,7 @@ security:
     password_hashers:
         App\Entity\User:
             algorithm: auto
-    enable_authenticator_manager: true
+
 
 
 

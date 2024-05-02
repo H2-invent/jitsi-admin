@@ -38,7 +38,7 @@ class LdapService
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
 
-    private $LDAP_SIP_VIDEO_GROUP_DN;
+    private $LDAP_IS_SIP_VIDEO;
 
     public function __construct(
         LdapUserService                  $ldapUserService,
@@ -74,7 +74,7 @@ class LdapService
             $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
             $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
             $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
-            $this->LDAP_SIP_VIDEO_GROUP_DN = explode(';', $this->parameterBag->get('LDAP_SIP_VIDEO_GROUP_DN'));
+            $this->LDAP_IS_SIP_VIDEO = explode(';', $this->parameterBag->get('LDAP_IS_SIP_VIDEO'));
             $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
             foreach ($tmp as $data) {
                 $this->MAPPER[] = json_decode($data, true);
@@ -118,7 +118,7 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
                 $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
                 try {
-                    $ldap->setLDAPSIPVIDEOGROUPDN($this->LDAP_SIP_VIDEO_GROUP_DN[$count]);
+                    $ldap->setISSIPVIDEO($this->LDAP_IS_SIP_VIDEO[$count]==='true');
                 } catch (\Exception $exception) {
 
                 }
@@ -135,6 +135,7 @@ class LdapService
 
                 $count++;
             }
+
         }
 
 

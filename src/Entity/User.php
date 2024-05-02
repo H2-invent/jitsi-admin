@@ -789,7 +789,7 @@ class User extends BaseUser
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->username?:'';
     }
 
     /**
@@ -1269,4 +1269,10 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function getIsSipVideoUser(): ?bool
+    {
+        return $this->isSipVideoUser;
+    }
+
 }

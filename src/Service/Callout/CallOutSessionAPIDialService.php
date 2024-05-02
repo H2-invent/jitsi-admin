@@ -93,14 +93,16 @@ class CallOutSessionAPIDialService
     public function generateLinkList(CalloutSession $calloutSession, CallerId $pin): array
     {
 
-
+$url_paramter =  [
+        'roomId' => $calloutSession->getRoom()->getCallerRoom()->getCallerId(),
+        'caller_id' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
+        'pin' => $pin->getCallerId()];
+if ($calloutSession->getUser()->getIsSipVideoUser()){
+    $url_paramter['is_video'] = 1;
+}
         return [
             'accept' => $this->urlGenerator->generate(
-                'caller_pin',
-                [
-                    'roomId' => $calloutSession->getRoom()->getCallerRoom()->getCallerId(),
-                    'caller_id' => $this->calloutService->getCallerIdForUser($calloutSession->getUser()),
-                    'pin' => $pin->getCallerId()]
+                'caller_pin',$url_paramter
             ),
             'refuse' => $this->urlGenerator->generate('callout_api_refuse', ['calloutSessionId' => $calloutSession->getUid()]),
             'ringing' => $this->urlGenerator->generate('callout_api_ringing', ['calloutSessionId' => $calloutSession->getUid()]),

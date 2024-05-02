@@ -25,7 +25,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
-        $moderator = $room->getModerator();
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
         $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
         $em = $this->getContainer()->get(EntityManagerInterface::class);
@@ -88,7 +88,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
-        $moderator = $room->getModerator();
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
         $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
 
@@ -133,7 +133,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
-        $moderator = $room->getModerator();
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
         $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
 
@@ -178,7 +178,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
-        $moderator = $room->getModerator();
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
         $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
 
@@ -209,7 +209,7 @@ class LobbyModeratorControllerTest extends WebTestCase
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $userRepo = $this->getContainer()->get(UserRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'This is a room with Lobby']);
-        $moderator = $room->getModerator();
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
         $user2 = $userRepo->findOneBy(['email' => 'test@local2.de']);
         $client->loginUser($moderator);
 

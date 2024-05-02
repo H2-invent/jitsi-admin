@@ -32,7 +32,7 @@ class LdapType
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
     private $isHealthy = false;
-    private string $LDAP_SIP_VIDEO_GROUP_DN = '';
+    private bool $IS_SIP_VIDEO = false;
 
 
     public function __toString(): string
@@ -355,6 +355,7 @@ class LdapType
 
         $query = $this->ldap->query($this->userDn, $this->buildObjectClass(), $options);
         $user = $query->execute();
+//        dump($user->toArray());
         return $user->toArray();
     }
 
@@ -379,7 +380,7 @@ class LdapType
         ];
 
 
-        if ($this->LDAP_SIP_VIDEO_GROUP_DN !== '') {
+        if ($this->IS_SIP_VIDEO) {
             $dn = preg_replace('/^[^,]+,/', '', $this->LDAP_SIP_VIDEO_GROUP_DN);
             $filter = explode(',', $this->LDAP_SIP_VIDEO_GROUP_DN)[0];
             $query = $this->ldap->query($dn, '(' . $filter . ')', $options);
@@ -501,15 +502,16 @@ class LdapType
         $this->isHealthy = $isHealthy;
     }
 
-    public function getLDAPSIPVIDEOGROUPDN(): string
+    public function getISSIPVIDEO(): bool
     {
-        return $this->LDAP_SIP_VIDEO_GROUP_DN;
+        return $this->IS_SIP_VIDEO;
     }
 
-    public function setLDAPSIPVIDEOGROUPDN(string $LDAP_SIP_VIDEO_GROUP_DN): void
+    public function setISSIPVIDEO(bool $IS_SIP_VIDEO): void
     {
-        $this->LDAP_SIP_VIDEO_GROUP_DN = $LDAP_SIP_VIDEO_GROUP_DN;
+        $this->IS_SIP_VIDEO = $IS_SIP_VIDEO;
     }
+
 
 
 }

@@ -90,8 +90,7 @@ class SyncLdapCommand extends Command
             $io->info('We cleanup Users which are not in the LDAP anymore');
             $this->ldapService->cleanUpLdapUsers();
         }
-        $this->ldapSipVideoGroupService->connectSipVideoMembersFromLdapTypes($this->ldapService->getLdaps(), dryrun: $dryrun);
-        $this->ldapSipVideoGroupService->removeVideoSipFromUsers($this->ldapService->getLdaps(), dryrun: $dryrun);
+
         $io->info('We found # users: ' . $numberUsers);
         if ($error === false) {
             $io->success('All LDAPS could be synced correctly');
