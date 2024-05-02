@@ -26,7 +26,7 @@ class Rooms
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'rooms')]
     #[Ignore]
     private $user;
-    #[ORM\ManyToOne(targetEntity: Server::class, inversedBy: 'rooms')]
+    #[ORM\ManyToOne(targetEntity: Server::class, fetch: 'EAGER', inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
     private $server;
     #[ORM\Column(type: 'text')]

@@ -1269,4 +1269,10 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function getIsSipVideoUser(): ?bool
+    {
+        return $this->isSipVideoUser;
+    }
+
 }

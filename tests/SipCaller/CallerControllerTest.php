@@ -9,6 +9,7 @@ use App\Entity\RoomStatusParticipant;
 use App\Repository\CallerSessionRepository;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
+use App\Repository\UserRepository;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerPrepareService;
@@ -323,8 +324,8 @@ class CallerControllerTest extends WebTestCase
 
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-
-
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $room->setLobby(true);
         $status = new RoomStatus();
@@ -356,7 +357,7 @@ class CallerControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $client->loginUser($room->getModerator());
+        $client->loginUser($moderator);
         $session = $this->getLobbyWaitinguser($sessionLink);;
         $crawler = $client->request('GET', '/room/lobby/decline/' . $session->getUid());
         $crawler = $client->request('GET', $sessionLink);
@@ -382,7 +383,8 @@ class CallerControllerTest extends WebTestCase
         $roomService = self::getContainer()->get(RoomService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
 
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $room->setLobby(true);
@@ -415,7 +417,7 @@ class CallerControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $client->loginUser($room->getModerator());
+        $client->loginUser($moderator);
         $lobbyWaitinguser = $this->getLobbyWaitinguser($sessionLink);
         $crawler = $client->request('GET', '/room/lobby/accept/' . $lobbyWaitinguser->getUid());
         $crawler = $client->request('GET', $sessionLink);
@@ -450,7 +452,8 @@ class CallerControllerTest extends WebTestCase
         $roomService = self::getContainer()->get(RoomService::class);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $moderator = $userRepo->findOneBy(['email' => 'test@local.de']);
 
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 0']);
         $room->setLobby(true);
@@ -482,7 +485,7 @@ class CallerControllerTest extends WebTestCase
         );
         $this->assertResponseIsSuccessful();
 
-        $client->loginUser($room->getModerator());
+        $client->loginUser($moderator);
         $lobbyWaitinguser = $this->getLobbyWaitinguser($sessionLink);
         $crawler = $client->request('GET', '/room/lobby/acceptAll/' . $lobbyWaitinguser->getRoom()->getUidReal());
         $crawler = $client->request('GET', $sessionLink);

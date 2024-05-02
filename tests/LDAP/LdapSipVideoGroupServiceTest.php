@@ -16,187 +16,69 @@ class LdapSipVideoGroupServiceTest extends KernelTestCase
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
         $ldapService->testLdap();
-        $res = $ldapVideoGroup->fetchUserIsSipVideoUser($ldapService->getLdaps()[1]);
-        assertEquals(1, $this->count($res));
-    }
-    public function testgetMembers(): void
-    {
-        $kernel = self::bootKernel();
-
-        $this->assertSame('test', $kernel->getEnvironment());
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapService->initLdap();
-        $ldapService->testLdap();
-        $res = $ldapVideoGroup->getMembersFromSip($ldapService->getLdaps()[1]);
-        self::assertCount(2,$res);
+        $res = $ldapService->fetchLdap($ldapService->getLdaps()[2]);
+        assertEquals(2, sizeof($res['user']));
     }
 
-    public function testgetMembersInvalidUserDn(): void
-    {
-        $kernel = self::bootKernel();
 
-        $this->assertSame('test', $kernel->getEnvironment());
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapService->initLdap();
-        $ldapService->testLdap();
-        $ldapTap = $ldapService->getLdaps()[1];
-        $ldapTap->setLDAPSIPVIDEOGROUPDN('');
-        $res = $ldapVideoGroup->getMembersFromSip($ldapTap);
-        self::assertCount(0,$res);
-    }
 
     public function testAddSIPVideoToUser(): void
     {
         $kernel = self::bootKernel();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
-        self::assertNull($user->isIsSipVideoUser());
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
         $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapVideoGroup->addSipAttributeToUser(['cn=ldapUser@local.de,dc=example,dc=com']);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
+        $ldapService->initLdap();
+        $ldapService->testLdap();
+        $res = $ldapService->fetchLdap($ldapService->getLdaps()[2]);
+        assertEquals(2, sizeof($res['user']));
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneByEmail('testsipvideo');
         self::assertTrue($user->isIsSipVideoUser());
     }
+    public function testnoSipVideoUser(): void
+    {
+        $kernel = self::bootKernel();
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $ldapService = self::getContainer()->get(LdapService::class);
+        $ldapService->initLdap();
+        $ldapService->testLdap();
+        $ldapType = $ldapService->getLdaps()[2];
+        $ldapType->setISSIPVIDEO(false);
+        $res = $ldapService->fetchLdap($ldapService->getLdaps()[2]);
+        assertEquals(2, sizeof($res['user']));
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneByEmail('testsipvideo');
+        self::assertFalse($user->isIsSipVideoUser());
+        $ldapType->setISSIPVIDEO(true);
+        $res = $ldapService->fetchLdap($ldapService->getLdaps()[2]);
+        assertEquals(2, sizeof($res['user']));
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneByEmail('testsipvideo');
+        self::assertTrue($user->isIsSipVideoUser());
+    }
+
 
     public function testAddSIPVideoToUserDryrun(): void
     {
         $kernel = self::bootKernel();
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
-        self::assertNull($user->isIsSipVideoUser());
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapVideoGroup->addSipAttributeToUser(['cn=ldapUser@local.de,dc=example,dc=com'],true);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
-    }
-
-    public function testAddSIPVideoToUserNotFound(): void
-    {
-        $kernel = self::bootKernel();
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
-        self::assertNull($user->isIsSipVideoUser());
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapVideoGroup->addSipAttributeToUser(['cn=ldapUser@local,dc=example,dc=com']);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
-    }
-
-    public function testRemoveSIPVideoToUserisInList(): void
-    {
-        $kernel = self::bootKernel();
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        $manager = self::getContainer()->get(EntityManagerInterface::class);
-
-        $user->setIsSipVideoUser(true);
-        $manager->persist($user);
-        $manager->flush();
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertTrue($user->isIsSipVideoUser());
-
-
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapVideoGroup->removeVideoSipFromUsersDnArray(['cn=ldapUser@local.de,dc=example,dc=com']);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertTrue($user->isIsSipVideoUser());
-    }
-    public function testRemoveSIPVideoToUserNotisInList(): void
-    {
-        $kernel = self::bootKernel();
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        $manager = self::getContainer()->get(EntityManagerInterface::class);
-
-        $user->setIsSipVideoUser(true);
-        $manager->persist($user);
-        $manager->flush();
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertTrue($user->isIsSipVideoUser());
-
-
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapVideoGroup->removeVideoSipFromUsersDnArray(['cn=ldapUser@local,dc=example,dc=com']);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
-    }
-    public function testRemoveSIPVideoToUserNotisInListDryrun(): void
-    {
-        $kernel = self::bootKernel();
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        $manager = self::getContainer()->get(EntityManagerInterface::class);
-
-        $user->setIsSipVideoUser(true);
-        $manager->persist($user);
-        $manager->flush();
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertTrue($user->isIsSipVideoUser());
-
-
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapVideoGroup->removeVideoSipFromUsersDnArray(['cn=ldapUser@local,dc=example,dc=com'],true);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertTrue($user->isIsSipVideoUser());
-    }
-
-    public function testgetMembersFromLdapTyps(): void
-    {
-        $kernel = self::bootKernel();
-
-        $userRepo = self::getContainer()->get(UserRepository::class);
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
         $ldapService = self::getContainer()->get(LdapService::class);
         $ldapService->initLdap();
         $ldapService->testLdap();
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
-        $ldapVideoGroup->connectSipVideoMembersFromLdapTypes($ldapService->getLdaps());
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertTrue($user->isIsSipVideoUser());
-    }
-
-
-
-    public function testRemoveSIPVideoFromLdapTyps(): void
-    {
-        $kernel = self::bootKernel();
-        $ldapService = self::getContainer()->get(LdapService::class);
-        $ldapService->initLdap();
-        $ldapService->testLdap();
+        $ldapType = $ldapService->getLdaps()[2];
+        $ldapType->setISSIPVIDEO(false);
+        $res = $ldapService->fetchLdap($ldapService->getLdaps()[2], true);
+        assertEquals(2, sizeof($res['user']));
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        $manager = self::getContainer()->get(EntityManagerInterface::class);
-
-
-        $user->setIsSipVideoUser(true);
-        $user->getLdapUserProperties()->setLdapDn('cn=ldapUser@local,dc=example,dc=com');
-        $manager->persist($user);
-        $manager->flush();
-
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertTrue($user->isIsSipVideoUser());
-
-
-        $ldapVideoGroup = self::getContainer()->get(LdapSipVideoGroupService::class);
-        $ldapVideoGroup->removeVideoSipFromUsers($ldapService->getLdaps());
-        $user = $userRepo->findOneByEmail('ldapUser@local.de');
-        self::assertNotTrue($user->isIsSipVideoUser());
+        $user = $userRepo->findOneByEmail('testsipvideo');
+        self::assertNull($user);
     }
+
+
+
 
 
 }
