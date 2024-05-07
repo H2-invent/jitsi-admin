@@ -62,6 +62,7 @@ class CalloutSessionAPIService
                 'tag' => $calloutSession->getRoom()->getTag() ? $calloutSession->getRoom()->getTag()->getTitle() : null,
                 'organisator' => $calloutSession->getRoom()->getModerator()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
                 'title' => $calloutSession->getRoom()->getName(),
+                'is_video'=>(bool)$calloutSession->getUser()->getIsSipVideoUser(),
                 'links' => [
                     'dial' => $this->urlGenerator->generate(
                         'callout_api_dial',
@@ -72,7 +73,7 @@ class CalloutSessionAPIService
                 ]
             ];
         }
-        return null;
+        return [];
     }
 
     /**

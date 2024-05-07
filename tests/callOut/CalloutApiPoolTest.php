@@ -73,6 +73,8 @@ class CalloutApiPoolTest extends KernelTestCase
         $calloutSessionAPIService = self::getContainer()->get(CalloutSessionAPIService::class);
         $calloutSession = $calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)[0];
         $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
+        dump($calloutSession->getUser());
+
         self::assertEquals(
             [
                 'state' => 'INITIATED',
@@ -83,6 +85,32 @@ class CalloutApiPoolTest extends KernelTestCase
                 'tag' => null,
                 'organisator' => 'Test1, 1234, User, Test',
                 'title' => 'TestMeeting: 0',
+                'is_video' => false,
+                'links' => ['dial' => '/api/v1/call/out/dial/ksdlfjlkfds']
+            ],
+            $calloutArr
+        );
+        $userRepo = self::getContainer()->get(UserRepository::class);
+        $user = $userRepo->findOneBy(array('email'=>'ldapUser@local.de'));
+        $user->setIsSipVideoUser(true);
+        $manager = self::getContainer()->get(EntityManagerInterface::class);
+        $manager->persist($user);
+        $manager->flush();
+        $calloutSession = $calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)[0];
+        $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
+        dump($calloutSession->getUser());
+
+        self::assertEquals(
+            [
+                'state' => 'INITIATED',
+                'call_number' => '987654321012',
+                'sip_room_number' => '12340',
+                'sip_pin' => '987654321',
+                'display_name' => 'Sie wurden von Test1, 1234, User, Test eingeladen',
+                'tag' => null,
+                'organisator' => 'Test1, 1234, User, Test',
+                'title' => 'TestMeeting: 0',
+                'is_video' => true,
                 'links' => ['dial' => '/api/v1/call/out/dial/ksdlfjlkfds']
             ],
             $calloutArr
@@ -102,7 +130,7 @@ class CalloutApiPoolTest extends KernelTestCase
         $manager->flush();
 
         $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
-        self::assertNull($calloutArr);
+        self::assertEquals([],$calloutArr);
     }
 
     public function testBuildCalloutSessionPoolResponse(): void
@@ -122,6 +150,7 @@ class CalloutApiPoolTest extends KernelTestCase
                         'tag' => null,
                         'organisator' => 'Test1, 1234, User, Test',
                         'title' => 'TestMeeting: 0',
+                        'is_video' => false,
                         'links' => ['dial' => '/api/v1/call/out/dial/ksdlfjlkfds']
                     ]
                 ]
@@ -146,6 +175,7 @@ class CalloutApiPoolTest extends KernelTestCase
                         'tag' => null,
                         'organisator' => 'Test1, 1234, User, Test',
                         'title' => 'TestMeeting: 0',
+                        'is_video' => false,
                         'links' => ['dial' => '/api/v1/call/out/dial/ksdlfjlkfdfgsdds']
                     ]
                 ]
@@ -170,6 +200,7 @@ class CalloutApiPoolTest extends KernelTestCase
                         'tag' => null,
                         'organisator' => 'Test1, 1234, User, Test',
                         'title' => 'TestMeeting: 0',
+                        'is_video' => false,
                         'links' => ['dial' => '/api/v1/call/out/dial/ksddfglfjlkfds']
                     ]
                 ]
