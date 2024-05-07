@@ -73,7 +73,6 @@ class CalloutApiPoolTest extends KernelTestCase
         $calloutSessionAPIService = self::getContainer()->get(CalloutSessionAPIService::class);
         $calloutSession = $calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)[0];
         $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
-        dump($calloutSession->getUser());
 
         self::assertEquals(
             [
