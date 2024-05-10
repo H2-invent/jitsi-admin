@@ -6,6 +6,7 @@ use App\Entity\CallerId;
 use App\Entity\CalloutSession;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -17,6 +18,7 @@ class CalloutSessionAPIService
         private ThemeService           $themeService,
         private UrlGeneratorInterface  $urlGenerator,
         private CalloutService         $calloutService,
+        private ParameterBagInterface $parameterBag,
     )
     {
     }
@@ -46,6 +48,13 @@ class CalloutSessionAPIService
      */
     public function buildCallerSessionPoolArray(CalloutSession $calloutSession)
     {
+        if ($calloutSession->getLastDialed() && (($calloutSession->getLastDialed() - intval((new \DateTime())->format('U'))) < $this->parameterBag->get('CALLOUT_WAITING_TIME'))){
+            return;
+        }else{
+            $calloutSession->setLastDialed((new \DateTime())->format('U'));
+            $this->entityManager->persist($calloutSession);
+            $this->entityManager->flush();
+        }
         $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
         $roomId = $calloutSession->getRoom()->getCallerRoom();
         if ($pin && $roomId) {
@@ -59,7 +68,7 @@ class CalloutSessionAPIService
                     ['{name}' => $calloutSession->getInvitedFrom()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))
                     ]
                 ),
-                'tag' => $calloutSession->getRoom()->getTag() ? $calloutSession->getRoom()->getTag()->getTitle() : null,
+                'tag' => $calloutSession->getRoom()->getTag()?->getTitle(),
                 'organisator' => $calloutSession->getRoom()->getModerator()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
                 'title' => $calloutSession->getRoom()->getName(),
                 'is_video'=>(bool)$calloutSession->getUser()->getIsSipVideoUser(),
