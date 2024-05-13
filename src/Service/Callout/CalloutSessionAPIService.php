@@ -50,7 +50,7 @@ class CalloutSessionAPIService
      */
     public function buildCallerSessionPoolArray(CalloutSession $calloutSession)
     {
-        $this->logger->debug('lasdialed',
+        $this->logger->debug('lastdialed',
             [
                 $calloutSession->getLastDialed(),
                 (new \DateTime())->format('U'),
