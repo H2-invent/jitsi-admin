@@ -1,4 +1,4 @@
 jms_i18n_routing:
-  default_locale: de
+  default_locale: '%env(DEFAULT_LANGUAGE)%'
   locales: [de, en, fr, es, vi, zh, ru, ja, pt]
   strategy: prefix_except_default
