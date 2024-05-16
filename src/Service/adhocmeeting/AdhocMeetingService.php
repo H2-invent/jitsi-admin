@@ -78,7 +78,7 @@ class AdhocMeetingService
         return $room;
     }
 
-    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room)
+    public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room): void
     {
         $topic = 'personal/' . $reciever->getUid();
         $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') === 1 ? 'startIframe' : '') . '" data-roomname = "%s" ><i class="fas fa-phone" ></i > %s </a ><a class="btn btn-sm btn-danger" ><i class="fas fa-phone-slash" ></i ></a > ';
