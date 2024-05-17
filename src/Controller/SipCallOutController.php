@@ -47,6 +47,7 @@ class SipCallOutController extends JitsiAdminController
         $user = $this->roomAddService->createUserFromUserUid($request->get('uid'), $falseEmails);
         if ($user) {
             $this->roomAddService->addUserOnlytoOneRoom($user, $room);
+
             $this->calloutService->initCalloutSession($room, $user, $this->getUser());
             $this->toModeratorWebsocketService->refreshLobbyByRoom($room);
         }

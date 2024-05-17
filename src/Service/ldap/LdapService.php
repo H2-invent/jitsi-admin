@@ -41,11 +41,10 @@ class LdapService
     private $LDAP_IS_SIP_VIDEO;
 
     public function __construct(
-        LdapUserService                  $ldapUserService,
-        EntityManagerInterface           $entityManager,
-        private ParameterBagInterface    $parameterBag,
-        private LoggerInterface          $logger,
-        private LdapSipVideoGroupService $ldapSipVideoGroupService)
+        LdapUserService               $ldapUserService,
+        EntityManagerInterface        $entityManager,
+        private ParameterBagInterface $parameterBag,
+        private LoggerInterface       $logger,)
     {
         $this->ldapUserService = $ldapUserService;
         $this->em = $entityManager;
@@ -118,7 +117,7 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
                 $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
                 try {
-                    $ldap->setISSIPVIDEO($this->LDAP_IS_SIP_VIDEO[$count]==='true');
+                    $ldap->setISSIPVIDEO($this->LDAP_IS_SIP_VIDEO[$count] === 'true');
                 } catch (\Exception $exception) {
 
                 }
@@ -287,7 +286,7 @@ class LdapService
 
     public function cleanUpLdapUsers()
     {
-        foreach ($this->ldaps as $data){
+        foreach ($this->ldaps as $data) {
             $this->ldapUserService->syncDeletedUser($data);
         }
     }
