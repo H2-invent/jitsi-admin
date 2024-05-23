@@ -1365,7 +1365,7 @@
       </trans-unit>
       <trans-unit id="KAgeNiY" resname="lobby.allowAllUsers">
         <source>lobby.allowAllUsers</source>
-        <target state="needs-translation">Alle Wartenden zulassen</target>
+        <target state="translated">待機中の全ての人</target>
       </trans-unit>
       <trans-unit id="N7KgFmt" resname="lobby.moderator.accept.all.success">
         <source>lobby.moderator.accept.all.success</source>
@@ -1409,11 +1409,11 @@
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
+        <target state="translated">参加者をロビーの司会者として追加しますか？</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
+        <target state="translated">ロビー司会者として参加者を削除しますか？</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -2148,23 +2148,23 @@
       </trans-unit>
       <trans-unit id="6tB8hLq" resname="Changelog">
         <source>Changelog</source>
-        <target state="needs-translation">Changelog</target>
+        <target state="translated">更新履歴</target>
       </trans-unit>
       <trans-unit id="aIUgk0b" resname="Jetzt einladen">
         <source>Jetzt einladen</source>
-        <target state="needs-translation">Jetzt einladen</target>
+        <target state="translated">今すぐ招待する</target>
       </trans-unit>
       <trans-unit id="N3_BJHi" resname="callout.message.unreachable">
         <source>callout.message.unreachable</source>
-        <target state="needs-translation">{name} ist nicht erreichbar.</target>
+        <target state="translated">{name} は利用できません。</target>
       </trans-unit>
       <trans-unit id="Y44kn0o" resname="Filter">
         <source>Filter</source>
-        <target state="needs-translation">Filter</target>
+        <target state="translated">フィルタ</target>
       </trans-unit>
       <trans-unit id="L4szaw3" resname="deputy.mydebutys">
         <source>deputy.mydebutys</source>
-        <target state="needs-translation">Meine Vertreter</target>
+        <target state="translated">私の代理人</target>
       </trans-unit>
       <trans-unit id="1Ko4REx" resname="callout.dropdown.empty">
         <source>callout.dropdown.empty</source>
@@ -2280,7 +2280,7 @@
       </trans-unit>
       <trans-unit id="8RH..y9" resname="options.chat">
         <source>options.chat</source>
-        <target state="needs-translation">Chat anzeigen</target>
+        <target state="translated">チャットを表示</target>
       </trans-unit>
       <trans-unit id="4c8IxLG" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
