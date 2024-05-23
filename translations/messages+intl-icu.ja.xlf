@@ -1968,67 +1968,67 @@
       </trans-unit>
       <trans-unit id="pI0mBwO" resname="deputy.message.added">
         <source>deputy.message.added</source>
-        <target state="needs-translation">Vertreter erfolgreich hinzugefügt.</target>
+        <target state="translated">代表者の追加に成功しました。</target>
       </trans-unit>
       <trans-unit id="r9gFTO5" resname="deputy.message.removed">
         <source>deputy.message.removed</source>
-        <target state="needs-translation">Vertreter erfolgreich entfernt.</target>
+        <target state="translated">代表の解除に成功しました。</target>
       </trans-unit>
       <trans-unit id="UQPRxI4" resname="deputy.remove">
         <source>deputy.remove</source>
-        <target state="needs-translation">Als Vertreter entfernen</target>
+        <target state="translated">代表を解除</target>
       </trans-unit>
       <trans-unit id="6HczWjx" resname="deputy.add">
         <source>deputy.add</source>
-        <target state="needs-translation">Als Vertreter hinzufügen</target>
+        <target state="translated">代表として追加</target>
       </trans-unit>
       <trans-unit id=".RyLlN8" resname="deputy.help">
         <source>deputy.help</source>
-        <target state="needs-translation">Sie können diesem Benutzer erlauben, Konferenzen für Sie zu erstellen, diese zu bearbeiten und Teilnehmende zu diesen Konferenzen einzuladen. ACHTUNG! Ein Vertreter nimmt nicht automatisch an einer von ihm geplanten Konferenz Teil, sondern muss separate vom Organisator eingeladen werden.</target>
+        <target state="translated">このユーザーには、会議の作成、編集、会議への参加者の招待を許可することができます。注意：代表者が企画した会議に自動的に参加するのではなく、主催者が別途招待する必要があります。</target>
       </trans-unit>
       <trans-unit id="cuWbL6h" resname="deputy.text.isDeputy">
         <source>deputy.text.isDeputy</source>
-        <target state="needs-translation">Ist Vertreter</target>
+        <target state="translated">代表者</target>
       </trans-unit>
       <trans-unit id="SqlzG8G" resname="room.new.help.server">
         <source>room.new.help.server</source>
-        <target state="needs-translation">Wählen Sie den Server aus, über welchen Sie die Konferenz abhalten wollen.</target>
+        <target state="translated">会議を開催するサーバーを選択します。</target>
       </trans-unit>
       <trans-unit id="WonPJTK" resname="room.new.help.manager">
         <source>room.new.help.manager</source>
-        <target state="needs-translation">Sie sind als Vertreter/in eingetragen. Wählen Sie aus, ob Sie die Konferenz für Sie oder den Vertretenen erstellen wollen.</target>
+        <target state="translated">あなたは代表者として入力されます。自分のために会議を作成するか、代理人のために会議を作成するかを選択します。</target>
       </trans-unit>
       <trans-unit id="._QAxIk" resname="Private Konferenz">
         <source>Private Konferenz</source>
-        <target state="needs-translation">Private Konferenz</target>
+        <target state="translated">プライベート会議</target>
       </trans-unit>
       <trans-unit id="JEvaNwO" resname="log.modal.header">
         <source>log.modal.header</source>
-        <target state="needs-translation">Änderungshistorie</target>
+        <target state="translated">変更履歴</target>
       </trans-unit>
       <trans-unit id="G0lWefc" resname="log.new.object">
         <source>log.new.object</source>
-        <target state="needs-translation">Nach der Änderung</target>
+        <target state="translated">変更後</target>
       </trans-unit>
       <trans-unit id="Fl9wfgz" resname="log.old.object">
         <source>log.old.object</source>
-        <target state="needs-translation">Vor der Änderung</target>
+        <target state="translated">変更前</target>
       </trans-unit>
       <trans-unit id="i8w5f79" resname="room.creator.text">
         <source>room.creator.text</source>
-        <target state="needs-translation">Erstellt von</target>
+        <target state="translated">作成者</target>
       </trans-unit>
       <trans-unit id="iyQ3u5e" resname="custom.more">
         <source>custom.more</source>
-        <target state="needs-translation">Mehr</target>
+        <target state="translated">もっと見る</target>
       </trans-unit>
       <trans-unit id="wJaAqBu" resname="room.new.help.name">
         <source>room.new.help.name</source>
-        <target state="needs-translation">Geben Sie hier einen kurzen und prägnanten Namen der Konferenz an.</target>
+        <target state="translated">会議名を簡潔に入力してください。</target>
       </trans-unit>
       <trans-unit id="Es8.yLb" resname="room.new.help.agenda">
         <source>room.new.help.agenda</source>
-        <target state="needs-translation">Geben Sie hier die Agenda an und teilen Sie den Teilnehmenden den Grund für diese Konferenz mit.</target>
+        <target state="translated">ここにアジェンダを入力し、この会議の理由を参加者に知らせます。</target>
       </trans-unit>
       <trans-unit id="M41U7qV" resname="room.new.help.persistant">
         <source>room.new.help.persistant</source>
@@ -2036,11 +2036,11 @@
       </trans-unit>
       <trans-unit id="VI.eQ_9" resname="room.new.help.start">
         <source>room.new.help.start</source>
-        <target state="needs-translation">Wann beginnt die Konferenz. Öffnen Sie den Kalender durch Klicken auf die Schaltflächen und Wählen Sie das Datum und anschließend die Zeit aus.</target>
+        <target state="translated">会議はいつ始まりますか？ボタンをクリックしてカレンダーを開き、日付と時間を選択してください。</target>
       </trans-unit>
       <trans-unit id="8P9k.W6" resname="room.new.help.duration">
         <source>room.new.help.duration</source>
-        <target state="needs-translation">Geben Sie hier die Dauer der Konferenz ein.</target>
+        <target state="translated">会議期間をここに入力してください。</target>
       </trans-unit>
       <trans-unit id="QX5JwJM" resname="Made with &lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; in Lörrach by H2-Invent">
         <source>Made with &lt;i class="fa fa-heart"&gt;&lt;/i&gt; in Lörrach by H2-Invent</source>
@@ -2064,39 +2064,39 @@
       </trans-unit>
       <trans-unit id="I4FmwuJ" resname="deputy.fromLdap.disabled">
         <source>deputy.fromLdap.disabled</source>
-        <target state="needs-translation">Ist ihnen als Vertreter zugeteilt</target>
+        <target state="translated">代表に任命される</target>
       </trans-unit>
       <trans-unit id="ziDzjp." resname="deputy.help.ldap">
         <source>deputy.help.ldap</source>
-        <target state="needs-translation">Dieser Vertreter wurde Ihnen von Ihrer Organisation zugeteilt und kann nicht durch Sie bearbeitet werden. Wollen Sie diesen Vertreter bearbeiten, wenden Sie sich bitte an Ihren Support. Die Kontaktdaten für Ihren Support erhalten Sie durch einen Klick auf das "?" in der Navigationsleiste.</target>
+        <target state="translated">この代表者は組織からあなたに割り当てられたものであり、あなたが編集することはできません。この代表者を編集したい場合は、サポートに連絡してください。ナビゲーションバーの "？" をクリックすると、サポートの連絡先が表示されます。</target>
       </trans-unit>
       <trans-unit id="IEmtTcn" resname="Bewertungen">
         <source>Bewertungen</source>
-        <target state="needs-translation">Bewertungen</target>
+        <target state="translated">評価</target>
       </trans-unit>
       <trans-unit id="kKLiefR" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
-        <target state="needs-translation">Profileinstellungen</target>
+        <target state="translated">プロフィール設定</target>
       </trans-unit>
       <trans-unit id="9XUKXXI" resname="Einstellungen">
         <source>Einstellungen</source>
-        <target state="needs-translation">Einstellungen</target>
+        <target state="translated">設定</target>
       </trans-unit>
       <trans-unit id="dMRxR_U" resname="Startet in {time} min">
         <source>Startet in {time} min</source>
-        <target state="needs-translation">Startet in {time} min</target>
+        <target state="translated">{time} 後に開始</target>
       </trans-unit>
       <trans-unit id="NCP2l7d" resname="addressbook.favorite.remove.success">
         <source>addressbook.favorite.remove.success</source>
-        <target state="needs-translation">Sie haben {name} als Favorit entfernt.</target>
+        <target state="translated">{name} をお気に入りから削除しました。</target>
       </trans-unit>
       <trans-unit id="qhKUCGn" resname="addressbook.favorite.remove.failure">
         <source>addressbook.favorite.remove.failure</source>
-        <target state="needs-translation">Der Kontakt konte nicht als Favorit entfernt werden.</target>
+        <target state="translated">そのコンタクトはお気に入りとして外すことができませんでした。</target>
       </trans-unit>
       <trans-unit id="g3TAvzR" resname="addressbook.favorite.add.success">
         <source>addressbook.favorite.add.success</source>
-        <target state="needs-translation">Sie haben {name} erfolgreich als Favorit hinzugefügt.</target>
+        <target state="translated">{name} さんをお気に入りに追加しました。</target>
       </trans-unit>
       <trans-unit id="xsL.l3b" resname="addressbook.favorite.add.failure">
         <source>addressbook.favorite.add.failure</source>
@@ -2104,19 +2104,19 @@
       </trans-unit>
       <trans-unit id="n3J_rNc" resname="addressbook.favorite.help">
         <source>addressbook.favorite.help</source>
-        <target state="needs-translation"><![CDATA[<i class="far fa-star"></i> drücken, um einen Kontakt als Favorit zu markieren.]]></target>
+        <target state="translated"><![CDATA[<i class="far fa-star"></i> をクリックして、連絡先をお気に入りとしてマークします。]]></target>
       </trans-unit>
       <trans-unit id="hevpMRf" resname="Meetling Pro Tip">
         <source>Meetling Pro Tip</source>
-        <target state="needs-translation">Meetling Pro Tip</target>
+        <target state="translated">ミーティングプロのコツ</target>
       </trans-unit>
       <trans-unit id="wV8VMNI" resname="Hotkeys">
         <source>Hotkeys</source>
-        <target state="needs-translation">Hotkeys</target>
+        <target state="translated">ホットキー</target>
       </trans-unit>
       <trans-unit id="W25PgHx" resname="Allgemeiner Fehler">
         <source>Allgemeiner Fehler</source>
-        <target state="needs-translation">Allgemeiner Fehler</target>
+        <target state="translated">一般エラー</target>
       </trans-unit>
       <trans-unit id="xFrrBI8" resname="Hier ist was schief gelaufen. Tut uns Leid">
         <source>Hier ist was schief gelaufen. Tut uns Leid</source>
@@ -2124,11 +2124,11 @@
       </trans-unit>
       <trans-unit id="4pmAB3F" resname="Zur Startseite">
         <source>Zur Startseite</source>
-        <target state="needs-translation">Zur Startseite</target>
+        <target state="translated">ホームに戻る</target>
       </trans-unit>
       <trans-unit id="EG0viST" resname="Seite nicht gefunden">
         <source>Seite nicht gefunden</source>
-        <target state="needs-translation">Seite nicht gefunden</target>
+        <target state="translated">ページが見つかりませんでした</target>
       </trans-unit>
       <trans-unit id="L5FRnrH" resname="Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.">
         <source>Huch? Wo wolltest du denn hin. Die Seite hat der Meetling leider nicht gefunden.</source>
@@ -2136,11 +2136,11 @@
       </trans-unit>
       <trans-unit id="yF80qIE" resname="Hier gehts zurück zur Startseite">
         <source>Hier gehts zurück zur Startseite</source>
-        <target state="needs-translation">Hier gehts zurück zur Startseite</target>
+        <target state="translated">ホームページに戻るにはここをクリック</target>
       </trans-unit>
       <trans-unit id="elqNziw" resname="Seite kaputt">
         <source>Seite kaputt</source>
-        <target state="needs-translation">Seite kaputt</target>
+        <target state="translated">ページが壊れています</target>
       </trans-unit>
       <trans-unit id="5TruHhH" resname="Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.">
         <source>Ohoh - was ist denn hier los? Da ist dem Meetling wohl was kaputtgegangen. Aber keine Sorge er kümmert sich schon drum das zu reparieren.</source>
