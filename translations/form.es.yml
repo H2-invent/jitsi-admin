@@ -86,9 +86,9 @@ help:
   allowIp: Solo la dirección IP o los rangos de IP especificados pueden unirse a la conferencia. Los rangos de IP deben especificarse en la notación 10.10.10.10/24. Se pueden ingresar múltiples IP o rangos separados por comas.
   jitsiEventSyncUrl: Aquí puede especificar otro administrador de Jitsi que haya guardado las sincronizaciones de eventos de Jitsi correspondientes para solicitudes SIP. Sólo es necesario especificar la URL base. Esta función requiere la versión Jitsi-admin >0.77.x
   disableFilmstripe: Filmstripe in Jitsi deaktivieren
-  disableChat: Chat in Jitsi deaktivieren und ausblenden
-  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
-  disableEtherpad: Etherpad während einer Konferenz deaktivieren
+  disableChat: Desactivar y ocultar chat en Jitsi
+  disableWhiteboard: Deshabilitar la pizarra durante una conferencia
+  disableEtherpad: Desactivar Etherpad durante una conferencia
   prefixRoomUidWithHash: El identificador único de la conferencia tiene el prefijo slug del servidor y el ID del servidor como hash. Esto se puede utilizar para distinguir entre diferentes servidores en el servidor web nginx.
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
@@ -112,7 +112,7 @@ label:
   featureEnalbeByJwt: El plugin "Enable Feature By JWT" está activado en este servidor
   dissallowScreenshareGlobal: Sólo el moderador puede compartir la pantalla
   dissallowPrivateMessage: Sólo el moderador puede enviar mensajes privados a otros participantes
-  puplicRoom: Activar enlaces de invitación
+  puplicRoom: Activar enlaces con registro previo
   showRoomOnJoinpage: Mostrar conferencia en la página de unión
   subscribe: Iniciar sesión
   vorname: Nombre
@@ -132,7 +132,7 @@ label:
   montlyRelativeMonth: Mes
   repeaterRemoved: Edite sólo este elemento, no la serie completa
   persistantRoom: Esta conferencia no tiene fecha y siempre está disponible
-  totalOpenRooms: Desactive la lista de participantes. Únase con un enlace de participante.
+  totalOpenRooms: Únase con un enlace simple. Esto desactiva la lista de participantes.
   totalOpenRoomsOpenTime: Hora de apertura de la sala
   addressgroupName: Nombre de Grupo
   addressgroupMember: Miembros del grupo
@@ -156,9 +156,9 @@ label:
   maxUser: Número máximo de participantes
   jitsiEventSyncUrl: URL de retrasmisión de eventos de Jitsi
   disableFilmstripe: Filmstrip deaktivieren
-  disableChat: Chat deaktivieren
-  disableWhiteboard: Whiteboard deaktivieren
-  disableEtherpad: Etherpad deaktivieren
+  disableChat: Desactivar chat
+  disableWhiteboard: Habilitar pizarra
+  disableEtherpad: Desactivar Etherpad
   prefixRoomUidWithHash: Identificador único de sala con prefijo hash del servidor
 choice:
   tls: STARTTLS/TLS
