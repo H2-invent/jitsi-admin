@@ -117,7 +117,7 @@ label:
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
+  maxParticipants: 自己登録の最大登録数
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
@@ -153,13 +153,13 @@ label:
   disallowFirefox: Jitsi-MeetサーバーでFirefoxが無効化されています。
   enforceE2e: End to End を強制する。
   allowIp: IPまたはIP幅の会議への参加を許可する
-  maxUser: Maximal Anzahl an Teilnehmenden
-  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
+  maxUser: 最大参加人数
+  jitsiEventSyncUrl: Jitsiイベント同期リレーURL
   disableFilmstripe: Filmstrip deaktivieren
   disableChat: Chat deaktivieren
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
-  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
+  prefixRoomUidWithHash: ルームUidとサーバーハッシュプレフィックス
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
