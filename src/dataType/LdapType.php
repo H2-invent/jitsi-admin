@@ -275,7 +275,8 @@ class LdapType
 
     public function isValidLdapUrl(string $url): bool
     {
-        $regex = '/^ldaps?:\/\/((\d{1,3}\.){3}\d{1,3}|[a-zA-Z0-9-]{1,63}\.[a-zA-Z]{2,6})(:\d+)?$/m';
+        $regex = '/^ldaps?:\/\/((\d{1,3}\.){3}\d{1,3}|[a-zA-Z0-9-]{1,63}(\.[a-zA-Z0-9-]{1,63})*\.[a-zA-Z]{2,6})(:\d+)?$/m';
+        ;
 
         $isUrl = preg_match($regex, $url);
         return $isUrl > 0;
