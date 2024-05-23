@@ -79,7 +79,7 @@ help:
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
-  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
+  jigasiNumberUrl: 'ダイヤルイン番号をJSON形式で入力します。Jigasiの "numbers.json "に入力されているように入力してください。 (例: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
   disallowFirefox: Firefox ブラウザはブラウザ内で非アクティブになります。Firefoxブラウザで参加を希望する参加者は、Chromiumベースのブラウザにリダイレクトされます。
   enforceE2e: このJitsiサーバーでは、すべての会議において「エンド・ツー・エンド暗号化」セキュリティ機能が実施されています。
@@ -92,7 +92,7 @@ help:
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
 label:
   beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenBrowser: 参加する。
   serverSmtpHostName: SMTP-Hostname
   serverSmtpHostPort: SMTP-Port
   serverSmtpEncryption: Verschlüsselung
