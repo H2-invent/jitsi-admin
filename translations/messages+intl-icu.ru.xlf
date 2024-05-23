@@ -1406,11 +1406,11 @@ ID конференции: {uid}]]></target>
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="translated">Вы хотите добавить участника в качестве администратора?</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="translated">Вы действительно хотите удалить администратора?</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -2071,10 +2071,6 @@ ID конференции: {uid}]]></target>
         <source>Bewertungen</source>
         <target state="needs-translation">Bewertungen</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="kKLiefR" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
         <target state="needs-translation">Profileinstellungen</target>
@@ -2302,6 +2298,22 @@ ID конференции: {uid}]]></target>
       <trans-unit id="z3v5nOx" resname="transfer.room.error">
         <source>transfer.room.error</source>
         <target state="needs-translation">Fehler. Die Konfernz konnte nicht übertragen werden.</target>
+      </trans-unit>
+      <trans-unit id="rnIWr9i" resname="scheduler.transform">
+        <source>Umwandeln</source>
+        <target state="needs-translation">Umwandeln</target>
+      </trans-unit>
+      <trans-unit id="56hji2Q" resname="confirm.schedule.delete">
+        <source>Löschen</source>
+        <target state="translated">Удалить</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="hV7I6P9" resname="scheduler.transform.long">
+        <source>Terminplanung umwandeln</source>
+        <target state="needs-translation">Terminplanung umwandeln</target>
       </trans-unit>
     </body>
   </file>

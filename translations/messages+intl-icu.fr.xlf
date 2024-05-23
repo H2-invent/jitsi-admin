@@ -1402,11 +1402,11 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="translated">Voulez-vous ajouter le participant en tant que modérateur du lobby ?</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="translated">Voulez-vous supprimer le participant en tant que modérateur du lobby ?</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -2066,10 +2066,6 @@ Le modérateur a été informé et vous laissera entrer.</target>
         <source>Bewertungen</source>
         <target state="needs-translation">Bewertungen</target>
       </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
-      </trans-unit>
       <trans-unit id="kKLiefR" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
         <target state="needs-translation">Profileinstellungen</target>
@@ -2297,6 +2293,22 @@ Le modérateur a été informé et vous laissera entrer.</target>
       <trans-unit id="z3v5nOx" resname="transfer.room.error">
         <source>transfer.room.error</source>
         <target state="needs-translation">Fehler. Die Konfernz konnte nicht übertragen werden.</target>
+      </trans-unit>
+      <trans-unit id="rnIWr9i" resname="scheduler.transform">
+        <source>Umwandeln</source>
+        <target state="needs-translation">Umwandeln</target>
+      </trans-unit>
+      <trans-unit id="56hji2Q" resname="confirm.schedule.delete" approved="yes">
+        <source>Löschen</source>
+        <target state="final">Supprimer</target>
+      </trans-unit>
+      <trans-unit id="47DEQpj" resname="">
+        <source/>
+        <target>__</target>
+      </trans-unit>
+      <trans-unit id="hV7I6P9" resname="scheduler.transform.long">
+        <source>Terminplanung umwandeln</source>
+        <target state="needs-translation">Terminplanung umwandeln</target>
       </trans-unit>
     </body>
   </file>

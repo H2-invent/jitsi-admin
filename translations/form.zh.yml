@@ -79,17 +79,17 @@ help:
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
-  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
+  jigasiNumberUrl: '在此处输入 JSON 格式的拨入号码。为此，必须按照在 Jigasi 的“numbers.json”中输入它们（例如：{“message”：“拨入号码”，“numbers”：{“DE”：[“04122/012345”]}，“numbersEnabled”：true}）。'
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
-  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
-  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
-  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
-  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
+  disallowFirefox: Firefox 浏览器在浏览器中被禁用。所有想要使用 Firefox 浏览器加入的参与者都将被重定向到基于 Chromium 的浏览器。
+  enforceE2e: '“端到端加密”安全功能在此 Jitsi 服务器上的每个会议中强制执行。'
+  allowIp: 只允许指定的 IP 地址或 IP 范围加入会议。IP 范围必须在表示法 10.10.10.10/24 中指定。可以输入多个 IP 或范围，以逗号分隔。
+  jitsiEventSyncUrl: 在这里，您可以指定另一个 视频会议 管理员，该管理员已为 SIP 请求保存了相应的 Jitsi 事件同步。只需指定基本 URL。Jitsi-admin 在版本 >0.77.x 中需要此功能
   disableFilmstripe: Filmstripe in Jitsi deaktivieren
   disableChat: Chat in Jitsi deaktivieren und ausblenden
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
-  prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
+  prefixRoomUidWithHash: 会议 UID 以服务器 slug 和服务器 ID 为前缀作为哈希。这可用于区分 nginx Web 服务器中的不同 虚拟 服务器。
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
@@ -149,17 +149,17 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Los gehts!
-  moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
-  enforceE2e: Ende zu Ende erzwingen
-  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
-  maxUser: Maximal Anzahl an Teilnehmenden
-  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
+  moderator: 选择组织者
+  disallowFirefox: Irefox 在 Jitsi-Meet 服务器上被禁用
+  enforceE2e: 强制端到端
+  allowIp: 允许加入会议的 IP 或 IP 范围
+  maxUser: 最大参加人数
+  jitsiEventSyncUrl: 会议日程同步的 中继 URL
   disableFilmstripe: Filmstrip deaktivieren
   disableChat: Chat deaktivieren
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
-  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
+  prefixRoomUidWithHash: 使用服务器哈希为 Room-Uid 添加前缀
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
