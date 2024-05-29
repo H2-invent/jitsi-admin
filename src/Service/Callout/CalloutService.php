@@ -2,6 +2,7 @@
 
 namespace App\Service\Callout;
 
+use App\Entity\CallerSession;
 use App\Entity\CalloutSession;
 use App\Entity\Rooms;
 use App\Entity\User;
@@ -47,8 +48,13 @@ class CalloutService
     public function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
     {
         $callout = $this->checkCallout($rooms, $user);
+        $callIn = $this->checkCallIn($rooms,$user);
         if ($inviter === $user) {
             $this->logger->debug('no inviter found to invite into callout. Leave callout invitation');
+            return null;
+        }
+        if ($callIn){
+            $this->logger->debug('the invited user has already a callin Session. So it is not allowed to retry a callout');
             return null;
         }
 
@@ -100,6 +106,17 @@ class CalloutService
     {
         $this->logger->debug('check if callout exists');
         return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
+    }
+    /**
+     * checks if a callInSession is running
+     * @param Rooms $rooms
+     * @param User $user
+     * @return CalloutSession|null
+     */
+    public function checkCallIn(Rooms $rooms, User $user): ?CallerSession
+    {
+        $this->logger->debug('check if callin exists');
+        return $this->entityManager->getRepository(CallerSession::class)->findCallerSessionByUserAndRoom($user,$rooms);
     }
 
     /**
