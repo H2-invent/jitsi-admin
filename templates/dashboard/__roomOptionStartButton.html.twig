@@ -1,6 +1,6 @@
 {% set isOpen =  isRoomOpen(room,app.user) %}
 
-<div class="d-none d-lg-block {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}start-iframe{% endif %}">
+<div class=" {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}start-iframe{% endif %}">
     <a class="btn btn-primary {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}"
        data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
 
@@ -8,11 +8,3 @@
        target="_blank">{{ 'Starten'|trans }}</a>
 </div>
 
-
-<div class="d-block d-lg-none {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}start-iframe{% endif %}">
-    <a class="btn btn-primary {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}"
-       data-roomname="{{ room.name }}" {% if isOpen is not null %}data-iframetoast="{{ isOpen }}"{% endif %}
-
-       href="{{ path('room_join',{'t':'b','room':room.id}) }}" rel=opener
-       target="_blank">{{ 'Starten'|trans }}</a>
-</div>

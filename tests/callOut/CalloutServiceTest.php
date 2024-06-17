@@ -227,9 +227,7 @@ class CalloutServiceTest extends KernelTestCase
         ->setRoom($room)
        ->setCallerId('test')
             ->setCreatedAt(new \DateTime());
-
         $manager->persist($callerId);
-
         $manager->flush();
         $callerSession = new CallerSession();
         $callerSession->setCaller($callerId)
