@@ -86,8 +86,6 @@ function initJitsi(options, domain, titelL, okL, cancelL, videoOn, videoId, micI
     });
 
     api.addListener('videoConferenceJoined', function (e) {
-        api.executeCommand('displayName', '<h2>test</h2> ' + displayName);
-
         enterMeeting();
         initStartWhiteboard();
         conferenceUtils.initConferencePostJoin();
