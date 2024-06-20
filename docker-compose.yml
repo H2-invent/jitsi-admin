@@ -71,9 +71,12 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik-ja
-
+    env_file:
+      - ./.env
+      - ./.env.local
     environment:
       WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
+
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/healthz"]
       interval: 10s
@@ -107,6 +110,9 @@ services:
       timeout: 10s
       start_period: 30s
       retries: 10
+    env_file:
+      - ./.env
+      - ./.env.local
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -158,6 +164,9 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+    env_file:
+      - ./.env
+      - ./.env.local
     depends_on:
       app-ja:
         condition: service_healthy
@@ -172,6 +181,9 @@ services:
       test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
       timeout: 20s
       retries: 10
+    env_file:
+      - ./.env
+      - ./.env.local
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
@@ -184,16 +196,13 @@ services:
     depends_on:
       app-ja:
         condition: service_healthy
+    env_file:
+      - ./.env
+      - ./.env.local
     environment:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PW}
       KC_DB: mariadb
-      KC_DB_PASSWORD: ${KEYCLOAK_PW}
-      KC_DB_URL: jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
       KC_DB_USERNAME: keycloak
-      KC_HOSTNAME_URL: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
-      KC_HOSTNAME_PATH: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
-      KC_HOSTNAME_ADMIN_URL: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
       KC_HTTP_RELATIVE_PATH: /keycloak
       KC_PROXY: passthrough
 
