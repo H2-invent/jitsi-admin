@@ -12,7 +12,9 @@ x-app-common: &jitsi_admin_app
 services:
   traefik-ja:
     image: "traefik:v2.5"
-
+    env_file:
+      - ./.env
+      - ./.env.local
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
