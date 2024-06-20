@@ -126,8 +126,34 @@ export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
 export DEFAULT_LANGUAGE=$default_language
 
+
+
 RANDOMTAG=$(date +%s | sha256sum | base64 | head -c 10);
 export RANDOMTAG
+
+if [ -f .env.local ]; then
+    rm .env.local
+fi
+
+cat <<EOL > .env.local
+MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
+laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
+VICH_BASE=$HTTP_METHOD://$PUBLIC_URL
+MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
+GIT_VERSION=$(git rev-parse --short=5 HEAD)
+PUBLIC_URL=$PUBLIC_URL
+OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
+HTTP_METHOD=$HTTP_METHOD
+KEYCLOAK_PW=$KEYCLOAK_PW
+JITSI_ADMIN_PW=$JITSI_ADMIN_PW
+KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
+registerEmailAdress=$smtpFrom
+DEFAULT_LANGUAGE=$default_language
+RANDOMTAG=$RANDOMTAG
+EOL
+
+echo ".env.local Datei wurde erfolgreich erstellt."
+
 
 chmod +x dockerupdate.sh
 
