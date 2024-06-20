@@ -31,13 +31,10 @@ class FavoriteTest extends WebTestCase
             1,
             $crawler->filter('.favorites:contains("TestMeeting: 1")')->count()
         );
+
         $this->assertEquals(
             1,
-            $crawler->filter('.favorites .dropdown-item:contains("In der App")')->count()
-        );
-        $this->assertEquals(
-            1,
-            $crawler->filter('.favorites .dropdown-item:contains("Starten")')->count()
+            $crawler->filter('.favorites .startIframe:contains("Starten")')->count()
         );
 
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);
@@ -118,13 +115,10 @@ class FavoriteTest extends WebTestCase
             1,
             $crawler->filter('.favorites.successBorder')->count()
         );
+
         $this->assertEquals(
             1,
-            $crawler->filter('.favorites .dropdown-item:contains("In der App")')->count()
-        );
-        $this->assertEquals(
-            1,
-            $crawler->filter('.favorites .dropdown-item:contains("Starten")')->count()
+            $crawler->filter('.favorites .startIframe:contains("Starten")')->count()
         );
 
         $testUser = $userRepository->findOneBy(['email' => 'test@local2.de']);

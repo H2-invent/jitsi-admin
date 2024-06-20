@@ -78,6 +78,11 @@ fi
   sed -i '/smtpFrom/d' $FILE
   echo "smtpFrom=$smtpFrom" >> $FILE
 
+  default_language=${default_language:=de}
+  read -p "Which language you want to set as default alowed values: [de, en, fr, es, vi, zh, ru, ja, pt]: [$default_language] " input
+  default_language=${input:=$default_language}
+  sed -i '/default_language/d' $FILE
+  echo "default_language=$default_language" >> $FILE
 
   echo -------------------------------------------------------------
   echo -----------------we build the KEycloak-----------------------
@@ -119,6 +124,8 @@ export KEYCLOAK_PW=$KEYCLOAK_PW
 export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
+export DEFAULT_LANGUAGE=$default_language
+
 RANDOMTAG=$(date +%s | sha256sum | base64 | head -c 10);
 export RANDOMTAG
 

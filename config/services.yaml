@@ -74,6 +74,7 @@ parameters:
     LDAP_IS_SIP_VIDEO: '%env(LDAP_IS_SIP_VIDEO)%'
 
     CALLOUT_MAX_RETRIES: '%env(CALLOUT_MAX_RETRIES)%'
+    CALLOUT_WAITING_TIME: '%env(CALLOUT_WAITING_TIME)%'
     strict_username_only: '%env(strict_username_only)%'
     STRICT_EMAIL_SET_ENVELOP_FROM: '%env(STRICT_EMAIL_SET_ENVELOP_FROM)%'
     strict_allow_user_creation: '%env(strict_allow_user_creation)%'

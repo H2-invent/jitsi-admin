@@ -2,25 +2,17 @@
 
 namespace App\Command;
 
-use App\dataType\LdapType;
-use App\Entity\User;
 use App\Service\ldap\LdapService;
-use App\Service\ldap\LdapSipVideoGroupService;
-use App\Service\ldap\LdapUserService;
-use FontLib\Table\Type\head;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
+
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Ldap\Adapter\QueryInterface;
-use Symfony\Component\Ldap\Exception\InvalidCredentialsException;
+
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Exception\NotBoundException;
-use Symfony\Component\Ldap\Ldap;
 
 #[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:sync', 'This commands syncs a ldap server with users database')]
 class SyncLdapCommand extends Command
@@ -29,9 +21,8 @@ class SyncLdapCommand extends Command
     protected static $defaultDescription = 'This commands syncs a ldap server with users database';
 
     public function __construct(
-        private LdapService              $ldapService,
-        private LdapSipVideoGroupService $ldapSipVideoGroupService,
-        string                           $name = null
+        private LdapService $ldapService,
+        string              $name = null
     )
     {
         parent::__construct($name);

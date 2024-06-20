@@ -275,7 +275,8 @@ class LdapType
 
     public function isValidLdapUrl(string $url): bool
     {
-        $regex = '/^(ldap(s)?:\/\/)(((((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4})|([a-zA-Z][-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@%_\+.~#?&\/=]*))))(?:\:\d+)?$/m';
+        $regex = '/^ldaps?:\/\/((\d{1,3}\.){3}\d{1,3}|[a-zA-Z0-9-]{1,63}(\.[a-zA-Z0-9-]{1,63})*\.[a-zA-Z]{2,6})(:\d+)?$/m';
+        ;
 
         $isUrl = preg_match($regex, $url);
         return $isUrl > 0;
@@ -355,7 +356,6 @@ class LdapType
 
         $query = $this->ldap->query($this->userDn, $this->buildObjectClass(), $options);
         $user = $query->execute();
-//        dump($user->toArray());
         return $user->toArray();
     }
 
@@ -370,24 +370,6 @@ class LdapType
         $query = $this->ldap->query($this->LDAP_DEPUTY_GROUP_DN, $this->buildObjectClassDeputy(), $options);
         $user = $query->execute();
         return $user->toArray();
-    }
-
-    public function retrieveSipVideoUser()
-    {
-
-        $options = [
-            'scope' => 'one',
-        ];
-
-
-        if ($this->IS_SIP_VIDEO) {
-            $dn = preg_replace('/^[^,]+,/', '', $this->LDAP_SIP_VIDEO_GROUP_DN);
-            $filter = explode(',', $this->LDAP_SIP_VIDEO_GROUP_DN)[0];
-            $query = $this->ldap->query($dn, '(' . $filter . ')', $options);
-            $group = $query->execute();
-            return $group->toArray();
-        }
-        return [];
     }
 
     /**

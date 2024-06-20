@@ -90,14 +90,15 @@ class CalloutApiPoolTest extends KernelTestCase
             $calloutArr
         );
         $userRepo = self::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneBy(array('email'=>'ldapUser@local.de'));
+        $user = $userRepo->findOneBy(array('email' => 'ldapUser@local.de'));
         $user->setIsSipVideoUser(true);
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         $manager->persist($user);
         $manager->flush();
         $calloutSession = $calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)[0];
+        $calloutSession->setLastDialed(null);
         $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
-        dump($calloutSession->getUser());
+
 
         self::assertEquals(
             [
@@ -114,6 +115,10 @@ class CalloutApiPoolTest extends KernelTestCase
             ],
             $calloutArr
         );
+        $calloutSession = $calloutSessionAPIService->findCalloutSessionByState(CalloutSession::$INITIATED)[0];
+        $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
+
+        self::assertEquals(null, $calloutArr);
     }
 
     public function testBuildCalloutSessionPoolArrayNull(): void
@@ -129,7 +134,7 @@ class CalloutApiPoolTest extends KernelTestCase
         $manager->flush();
 
         $calloutArr = $calloutSessionAPIService->buildCallerSessionPoolArray($calloutSession);
-        self::assertEquals([],$calloutArr);
+        self::assertEquals([], $calloutArr);
     }
 
     public function testBuildCalloutSessionPoolResponse(): void
@@ -157,6 +162,7 @@ class CalloutApiPoolTest extends KernelTestCase
             $calloutArr
         );
     }
+
     public function testBuildCalloutDialPoolResponse(): void
     {
         $kernel = self::bootKernel();
@@ -182,6 +188,7 @@ class CalloutApiPoolTest extends KernelTestCase
             $calloutArr
         );
     }
+
     public function testBuildCalloutOnHoldPoolResponse(): void
     {
         $kernel = self::bootKernel();
