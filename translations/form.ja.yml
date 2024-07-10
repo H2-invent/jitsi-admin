@@ -1,6 +1,6 @@
-label.konferenzId: Konferenz-ID
+label.konferenzId: 会議ID
 label.email: メールアドレス
-label.name: Ihr Name
+label.name: あなたの名前
 label.teilnehmerEmailhinzufuegen: E-Mail-Adressen von neuen Teilnehmenden eingeben
 label.teilnehmerSpeichern: E-Mail zur Einladung versenden
 label.emailModerator: E-Mail-Adresse des Organisators eingeben
@@ -79,20 +79,20 @@ help:
   secondEmail: Alle E-Mails sollen neben meiner Standard-E-Mailadresse an diese Email-Adressen versandt werden (Kommagetrennt).
   corsHeader: Ist ein CORS oder frame-ancestor Header gesetzt, der nicht auf diese URL verweist, dann ist es nicht möglich die Jitsi-iFrame API zu nutzen. Dies führt zum verlust einiger Funktionen.
   jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
-  jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
+  jigasiNumberUrl: 'ダイヤルイン番号をJSON形式で入力します。Jigasiの "numbers.json "に入力されているように入力してください。 (例: {"message":"Einwahlnummern","numbers":{"DE":["04122/012345"]},"numbersEnabled":true}).'
   jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
-  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
-  enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
-  allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
-  jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
-  disableFilmstripe: Filmstripe in Jitsi deaktivieren
-  disableChat: Chat in Jitsi deaktivieren und ausblenden
-  disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
-  disableEtherpad: Etherpad während einer Konferenz deaktivieren
+  disallowFirefox: Firefox ブラウザはブラウザ内で非アクティブになります。Firefoxブラウザで参加を希望する参加者は、Chromiumベースのブラウザにリダイレクトされます。
+  enforceE2e: このJitsiサーバーでは、すべての会議において「エンド・ツー・エンド暗号化」セキュリティ機能が実施されています。
+  allowIp: 指定したIPアドレスまたはIP範囲のみが会議に参加できます。IP範囲は10.10.10.10/24の表記で指定する必要があります。複数の IP アドレスまたは IP 範囲をカンマ区切りで入力できます。
+  jitsiEventSyncUrl: ここには、SIPリクエストに対応するJitsiイベント同期を保存している別のJitsi管理者を指定できます。ベースURLのみを指定する必要があります。この関数を使用するには、バージョン >0.77.x の Jitsi-admin が必要です。
+  disableFilmstripe: Jitsiでフィルムストリップを無効にする
+  disableChat: Jitsiのチャットを停止して非表示にする
+  disableWhiteboard: 会議中にホワイトボードを無効にする
+  disableEtherpad: 会議中にイーサパッドを無効にする
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
 label:
   beitretenApp: Mit der Elektron-App beitreten
-  beitretenBrowser: Im Browser beitreten
+  beitretenBrowser: 参加する。
   serverSmtpHostName: SMTP-Hostname
   serverSmtpHostPort: SMTP-Port
   serverSmtpEncryption: Verschlüsselung
@@ -117,7 +117,7 @@ label:
   subscribe: Anmelden
   vorname: Vorname
   nachname: Nachname
-  maxParticipants: Maximale Anzahl der Teilnehmenden zulassen
+  maxParticipants: 自己登録の最大登録数
   waitinglist: Warteliste aktivieren
   teilnehmerEmailhinzufuegenModerator: E-Mail-Adressen der neuen Moderatoren eingeben
   weekday: Wochentag
@@ -149,17 +149,17 @@ label:
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
   go: Los gehts!
-  moderator: Organisator auswählen
-  disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
-  enforceE2e: Ende zu Ende erzwingen
-  allowIp: IPs oder IP Range welche der Konferenz beitreten dürfen
-  maxUser: Maximal Anzahl an Teilnehmenden
-  jitsiEventSyncUrl: Jitsi-Event-Sync Relais URL
-  disableFilmstripe: Filmstrip deaktivieren
-  disableChat: Chat deaktivieren
-  disableWhiteboard: Whiteboard deaktivieren
-  disableEtherpad: Etherpad deaktivieren
-  prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
+  moderator: オーガナイザーを選択
+  disallowFirefox: Jitsi-MeetサーバーでFirefoxが無効化されています。
+  enforceE2e: End to End を強制する。
+  allowIp: IPまたはIP幅の会議への参加を許可する
+  maxUser: 最大参加人数
+  jitsiEventSyncUrl: Jitsiイベント同期リレーURL
+  disableFilmstripe: フィルムストリップを無効にする
+  disableChat: チャットを無効にする。
+  disableWhiteboard: ホワイトボードを無効にする。
+  disableEtherpad: イーサパッドを無効にする。
+  prefixRoomUidWithHash: ルームUidとサーバーハッシュプレフィックス
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
