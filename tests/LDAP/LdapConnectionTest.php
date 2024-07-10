@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class LdapConnectionTest extends KernelTestCase
 {
     public static $UserInLDAP = 4;
-    public static $USERWITHLDAPUSERPROPERTIES = 4 + 1;
+    public static $USERWITHLDAPUSERPROPERTIES = 5;
     public static $UserInSubLDAP = 2;
     public static $UserInOneLDAP = 2;
     public $LDAPURL = 'ldap://192.168.230.128:10389';

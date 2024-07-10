@@ -183,12 +183,20 @@ function initJitsiMeet(data) {
                 api.executeCommand('toggleE2EE', true);
             }
         }
-        api.addListener('videoConferenceLeft', function (e) {
-            leaveMeeting();
-            initStarSend();
-            api = null;
+        api.addListener('participantKickedOut', function (e) {
+            if (e.kicked.local){
+                leaveMeeting();
+                initStarSend();
+                api = null;
+            }
+
         });
 
+        api.addListener('readyToClose', function (e) {
+                leaveMeeting();
+                initStarSend();
+                api = null;
+        });
         if (setTileview === 1) {
             api.executeCommand('setTileView', {enabled: true});
         }

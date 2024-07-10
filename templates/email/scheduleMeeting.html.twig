@@ -20,7 +20,7 @@
         <p>
             <b>{{ 'Agenda'|trans }}:</b>
         </p>
-        <p>{{ room.agenda|nl2br|markdown_to_html }}</p>
+        <p>{{ room.agenda|markdown_to_html }}</p>
 
     {% endif %}
     <p>{{ 'Moderator'|trans }}: {{ room.moderator.firstName }} {{ room.moderator.lastName }}<br>

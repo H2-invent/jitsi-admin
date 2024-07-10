@@ -128,12 +128,25 @@ class LdapUserService
      */
     public function syncDeletedUser(LdapType $ldapType)
     {
-        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
-        foreach ($user as $data) {
-            $this->checkUserInLdap($data, $ldapType);
+        $usersInSystemFromLdapId = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
+        $userListInLdap = $ldapType->retrieveUser();
+
+
+        $dnlist = $this->createDNListFromLdapResult($userListInLdap);
+        foreach ($usersInSystemFromLdapId as $user) {
+            if (!in_array($user->getLdapUserProperties()->getLdapDn(),$dnlist)){
+                $this->deleteUser(user: $user);
+            }
         }
-        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
-        return $user;
+    }
+
+
+    private function createDNListFromLdapResult(array $ldapEntry){
+        $dnList = [];
+        foreach ($ldapEntry as $data){
+           $dnList[] = $data->getDn();
+        }
+        return $dnList;
     }
 
     /**
