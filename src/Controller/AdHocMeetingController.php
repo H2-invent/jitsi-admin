@@ -67,7 +67,7 @@ class AdHocMeetingController extends JitsiAdminController
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
         }
-        try {
+//        try {
             $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server, $tag);
             return new JsonResponse(
                 [
@@ -77,10 +77,10 @@ class AdHocMeetingController extends JitsiAdminController
                     ]
                 ]
             );
-        } catch (\Exception $exception) {
-            $this->logger->error($exception);
-            $this->addFlash('danger', $translator->trans('Fehler'));
-            return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
-        }
+//        } catch (\Exception $exception) {
+//            $this->logger->error($exception);
+//            $this->addFlash('danger', $translator->trans('Fehler'));
+//            return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
+//        }
     }
 }
