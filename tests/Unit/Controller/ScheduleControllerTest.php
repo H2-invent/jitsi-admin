@@ -225,8 +225,8 @@ class ScheduleControllerTest extends KernelTestCase
         $actualResponse = $this->subject->generateVoteCsv($room);
 
         $expected = 'Name;Email;'.    $dateTime2->format('d-m-Y H:i:s') .';' .$dateTime1->format('d-m-Y H:i:s');
-        $expected .= PHP_EOL . 'user1 test1;email1;null;Ja' . PHP_EOL . 'user2 test2;email2;Unter Vorbehalt;Nein' . PHP_EOL;
-        $expected .= 'user3 test3;email3;Unter Vorbehalt;null';
+        $expected .= PHP_EOL . 'user1 test1;email1;----;Ja' . PHP_EOL . 'user2 test2;email2;Unter Vorbehalt;Nein' . PHP_EOL;
+        $expected .= 'user3 test3;email3;Unter Vorbehalt;----';
 
         $this->assertEquals($expected, $actualResponse->getContent());
     }
