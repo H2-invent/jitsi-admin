@@ -78,6 +78,9 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+     /**
+      * @return User[] Returns an array of USers objects
+      */
     public function findUsersByLdapServerId($value)
     {
         return $this->createQueryBuilder('u')
@@ -98,7 +101,7 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findUsersfromLdapdn($userDn)
+    public function findUsersfromLdapdn($userDn):?User
     {
         $qb = $this->createQueryBuilder('u');
 

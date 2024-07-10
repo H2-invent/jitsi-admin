@@ -32,7 +32,7 @@ class CallerPinService
         $this->parameterBag = $parameterBag;
     }
 
-    public function createNewCallerSession($roomId, $pin, $callerId): ?CallerSession
+    public function createNewCallerSession($roomId, $pin, $callerId, $isSipVideo = false): ?CallerSession
     {
         $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(['callerId' => $roomId]);
         if (!$callerRoom) {
@@ -49,7 +49,7 @@ class CallerPinService
             $this->loggger->error('The Session is already used. Only one Session per PIN is allowed', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
             return null;
         }
-        $lobbyUser = $this->createLobbyUserService->createNewLobbyUser($callInUser->getUser(), $callInUser->getRoom(), 'c',true);
+        $lobbyUser = $this->createLobbyUserService->createNewLobbyUser($callInUser->getUser(), $callInUser->getRoom(), 'c', true);
 
         $this->em->getRepository(CallerSession::class)->findOneBy(['lobbyWaitingUser' => $lobbyUser]);
         $this->loggger->debug('We create a session for the caller', ['roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin]);
@@ -60,7 +60,8 @@ class CallerPinService
             ->setLobbyWaitingUser($lobbyUser)
             ->setCallerId($callerId)
             ->setShowName($lobbyUser->getShowName())
-            ->setCaller($callInUser);
+            ->setCaller($callInUser)
+            ->setIsSipVideoUser($isSipVideo);
         $session->setCallerIdVerified($this->verifyCallerID($session));
         $this->em->persist($session);
         $this->em->flush();
@@ -78,8 +79,8 @@ class CallerPinService
         try {
             $properties = $callerSession->getCaller()->getUser()->getSpezialProperties();
             $key = $this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD');
-  
-            if (isset($properties[$key])){
+
+            if (isset($properties[$key])) {
                 $phoneNumber = $properties[$key];
             }
 

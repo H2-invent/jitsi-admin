@@ -70,7 +70,7 @@ class LdapUserService
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
             $user->setUsername($uid);
-
+            $user->setIsSipVideoUser($ldapType->getISSIPVIDEO());
             $user->setIndexer($this->indexer->indexUser($user));
             if (!$dryRun) {
                 $this->em->persist($user);
@@ -126,14 +126,28 @@ class LdapUserService
      * @param Ldap $ldap
      * @param $ldapServerId
      */
-    public function syncDeletedUser(LdapType $ldapType)
+    public function syncDeletedUser(LdapType $ldapType): void
     {
-        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
-        foreach ($user as $data) {
-            $this->checkUserInLdap($data, $ldapType);
+        $usersInSystemFromLdapId = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
+        $userListInLdap = $ldapType->retrieveUser();
+
+
+        $dnlist = $this->createDNListFromLdapResult($userListInLdap);
+        foreach ($usersInSystemFromLdapId as $user) {
+            if (!in_array($user->getLdapUserProperties()->getLdapDn(),$dnlist)){
+                $this->deleteUser(user: $user);
+            }
         }
-        $user = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
-        return $user;
+    }
+
+
+    private function createDNListFromLdapResult(array $ldapEntry): array
+    {
+        $dnList = [];
+        foreach ($ldapEntry as $data){
+           $dnList[] = $data->getDn();
+        }
+        return $dnList;
     }
 
     /**

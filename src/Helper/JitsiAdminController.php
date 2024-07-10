@@ -43,10 +43,13 @@ class JitsiAdminController extends AbstractController
 
     protected function getSessionUser(Session $session)
     {
+
         $user = $this->getUser();
+
         if (!$user) {
             $user = $this->doctrine->getRepository(User::class)->find($session->get('userId'));
         }
+
         return $user;
     }
 }

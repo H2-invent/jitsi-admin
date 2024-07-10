@@ -36,9 +36,7 @@ class JitsiEventsWebhookController extends JitsiAdminController
         $this->webhookService = $roomCreatedWebhookService;
     }
 
-    /**
-     * @Route("/jitsi/events/room/created", name="jitsi_events_webhook_create", methods={"POST"})
-     */
+    #[Route(path: '/jitsi/events/room/created', name: 'jitsi_events_webhook_create', methods: ['POST'])]
     public function create(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -54,9 +52,7 @@ class JitsiEventsWebhookController extends JitsiAdminController
         return new JsonResponse($arr);
     }
 
-    /**
-     * @Route("/jitsi/events/room/destroyed", name="jitsi_events_webhook_destroy", methods={"POST"})
-     */
+    #[Route(path: '/jitsi/events/room/destroyed', name: 'jitsi_events_webhook_destroy', methods: ['POST'])]
     public function destroy(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -72,9 +68,7 @@ class JitsiEventsWebhookController extends JitsiAdminController
         return new JsonResponse($arr);
     }
 
-    /**
-     * @Route("/jitsi/events/occupant/joined", name="jitsi_events_webhook_joined", methods={"POST"})
-     */
+    #[Route(path: '/jitsi/events/occupant/joined', name: 'jitsi_events_webhook_joined', methods: ['POST'])]
     public function joined(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
@@ -91,9 +85,7 @@ class JitsiEventsWebhookController extends JitsiAdminController
         return new JsonResponse($arr);
     }
 
-    /**
-     * @Route("/jitsi/events/occupant/left", name="jitsi_events_webhook_left", methods={"POST"})
-     */
+    #[Route(path: '/jitsi/events/occupant/left', name: 'jitsi_events_webhook_left', methods: ['POST'])]
     public function left(Request $request, LoggerInterface $logger): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);

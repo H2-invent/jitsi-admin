@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:connectServerAndGroups')]
 class ConnectServerAndGroupsCommand extends Command
 {
-    protected static $defaultName = 'app:connectServerAndGroups';
     private $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {
@@ -21,7 +21,7 @@ class ConnectServerAndGroupsCommand extends Command
         $this->em = $entityManager;
     }
 
-    protected function configure()
+    protected function configure():void
     {
         $this
             ->setDescription('This connects a kecloak Group or a emaildomain with a server. Please add the server-Id, which can be found in the database and the keycloakgroup (on windows machines you need  two leading /all --> //all) or the domain of an email (info@example.com --> example.com)')

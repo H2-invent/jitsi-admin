@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class LdapConnectionTest extends KernelTestCase
 {
     public static $UserInLDAP = 4;
-    public static $USERWITHLDAPUSERPROPERTIES = 4 + 1;
+    public static $USERWITHLDAPUSERPROPERTIES = 5;
     public static $UserInSubLDAP = 2;
     public static $UserInOneLDAP = 2;
     public $LDAPURL = 'ldap://192.168.230.128:10389';
@@ -349,7 +349,7 @@ class LdapConnectionTest extends KernelTestCase
 
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
-        self::assertEquals(2, $ldapService->readLdapConfig());
+        self::assertEquals(3, $ldapService->readLdapConfig());
     }
 
     public function testCreateLdapConnection(): void
@@ -363,8 +363,8 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
         self::assertEquals(true, $ldapService->readLdapConfig());
-        self::assertEquals(2, $ldapService->createLdapConnections());
-        self::assertEquals(2, sizeof($ldapService->getLdaps()));
+        self::assertEquals(3, $ldapService->createLdapConnections());
+        self::assertEquals(3, sizeof($ldapService->getLdaps()));
     }
 
     public function testinitLDAP(): void
@@ -378,7 +378,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
         self::assertEquals(true, $ldapService->initLdap());
-        self::assertEquals(2, $ldapService->createLdapConnections());
-        self::assertEquals(2, sizeof($ldapService->getLdaps()));
+        self::assertEquals(3, $ldapService->createLdapConnections());
+        self::assertEquals(3, sizeof($ldapService->getLdaps()));
     }
 }

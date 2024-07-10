@@ -28,9 +28,7 @@ class AdressbookController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    /**
-     * @Route("/room/adressbook/remove", name="adressbook_remove_user")
-     */
+    #[Route(path: '/room/adressbook/remove', name: 'adressbook_remove_user')]
     public function index(Request $request): Response
     {
         $user = $this->doctrine->getRepository(User::class)->find($request->get('id'));

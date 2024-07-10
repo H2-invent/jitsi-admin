@@ -8,6 +8,7 @@ use App\Service\caller\CallerFindRoomService;
 use App\Service\caller\CallerLeftService;
 use App\Service\caller\CallerPinService;
 use App\Service\caller\CallerSessionService;
+use App\Service\caller\JitsiComponentSelectorService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -26,14 +27,15 @@ class CallerController extends JitsiAdminController
     private $callerLeftService;
 
     public function __construct(
-        ManagerRegistry       $managerRegistry,
-        TranslatorInterface   $translator,
-        LoggerInterface       $logger,
-        ParameterBagInterface $parameterBag,
-        CallerLeftService     $callerLeftService,
-        CallerSessionService  $callerSessionService,
-        CallerPinService      $callerPinService,
-        CallerFindRoomService $callerFindRoomService
+        ManagerRegistry                       $managerRegistry,
+        TranslatorInterface                   $translator,
+        LoggerInterface                       $logger,
+        ParameterBagInterface                 $parameterBag,
+        CallerLeftService                     $callerLeftService,
+        CallerSessionService                  $callerSessionService,
+        CallerPinService                      $callerPinService,
+        CallerFindRoomService                 $callerFindRoomService,
+        private JitsiComponentSelectorService $jitsiComponentSelectorService
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -44,10 +46,15 @@ class CallerController extends JitsiAdminController
         $this->token = 'Bearer ' . $parameterBag->get('SIP_CALLER_SECRET');
     }
 
-    /**
-     * @Route("/api/v1/lobby/sip/room/{roomId}", name="caller_room",methods={"GET"})
-     */
-    public function findRoom(Request $request, $roomId): Response
+    public function setJitsiComponentSelectorService(JitsiComponentSelectorService $jitsiComponentSelectorService): void
+    {
+        $this->jitsiComponentSelectorService = $jitsiComponentSelectorService;
+    }
+
+
+    #[Route(path: '/api/v1/lobby/sip/room/{roomId}', name: 'caller_room', methods: ['GET'])]
+    public
+    function findRoom(Request $request, $roomId): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -56,10 +63,9 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($this->callerRoomService->findRoom($roomId));
     }
 
-    /**
-     * @Route("/api/v1/lobby/sip/pin/{roomId}", name="caller_pin",methods={"POST","GET"})
-     */
-    public function findPin(Request $request, $roomId): Response
+    #[Route(path: '/api/v1/lobby/sip/pin/{roomId}', name: 'caller_pin', methods: ['POST', 'GET'])]
+    public
+    function findPin(Request $request, $roomId): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -77,7 +83,7 @@ class CallerController extends JitsiAdminController
         if (sizeof($error) > 0) {
             return new JsonResponse($error, 404);
         }
-        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'));
+        $session = $this->callerPinService->createNewCallerSession($roomId, $request->get('pin'), $request->get('caller_id'), $request->get('is_video')?:false);
         if (!$session) {
             $res = [
                 'auth_ok' => false,
@@ -95,10 +101,9 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    /**
-     * @Route("/api/v1/lobby/sip/session", name="caller_session",methods={"GET"})
-     */
-    public function findSession(Request $request): Response
+    #[Route(path: '/api/v1/lobby/sip/session', name: 'caller_session', methods: ['GET'])]
+    public
+    function findSession(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -118,10 +123,9 @@ class CallerController extends JitsiAdminController
         return new JsonResponse($res);
     }
 
-    /**
-     * @Route("/api/v1/lobby/sip/session/left", name="caller_left",methods={"GET"})
-     */
-    public function leftSession(Request $request): Response
+    #[Route(path: '/api/v1/lobby/sip/session/left', name: 'caller_left', methods: ['GET'])]
+    public
+    function leftSession(Request $request): Response
     {
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
         if ($check) {
@@ -141,3 +145,4 @@ class CallerController extends JitsiAdminController
         return new JsonResponse(['error' => $this->callerLeftService->callerLeft($request->get('session_id'))]);
     }
 }
+

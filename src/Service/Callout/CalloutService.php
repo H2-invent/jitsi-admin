@@ -7,7 +7,6 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Service\adhocmeeting\AdhocMeetingService;
-use App\Service\adhocmeeting\AdhocMeetingWebsocketService;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -17,8 +16,9 @@ class CalloutService
     public function __construct(
         private EntityManagerInterface       $entityManager,
         private ThemeService                 $themeService,
+        private LobbyWaitungUserRepository   $lobbyWaitungUserRepository,
         private AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
-        private LobbyWaitungUserRepository $lobbyWaitungUserRepository,
+        private LoggerInterface              $logger,
     )
     {
     }
@@ -34,7 +34,7 @@ public
 function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
 {
     dump('createCallout');
-    return $this->createCallout($rooms, $user, $inviter);
+    $this->logger->debug('create callout session');return $this->createCallout($rooms, $user, $inviter);
 }
 
 /**
@@ -48,12 +48,18 @@ public
 function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
 {
     $callout = $this->checkCallout($rooms, $user);
-    if ($inviter === $user) {
+    $callIn = $this->checkCallIn($rooms,$user);
+        if ($inviter === $user) {
+            $this->logger->debug('no inviter found to invite into callout. Leave callout invitation');
+            return null;
+        }
+        if ($callIn){
+            $this->logger->debug('the invited user has already a callin Session. So it is not allowed to retry a callout');
         return null;
     }
 
     if ($callout) {
-        if ($callout->getState() > 1) {//calloutsession is on hold
+        $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');if ($callout->getState() > 1) {//calloutsession is on hold
             if ($callout->getLeftRetries() > 0) {
                 $callout->setLeftRetries($callout->getLeftRetries() - 1);
                 $callout->setState(CalloutSession::$INITIATED);
@@ -74,7 +80,8 @@ function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
         return null;
     }
 
-    $callout = new CalloutSession();
+    $this->logger->debug('there is no calloutsession. So we create a new one');
+        $callout = new CalloutSession();
     $callout->setUser($user)
         ->setRoom($rooms)
         ->setCreatedAt(new \DateTime())
@@ -97,8 +104,18 @@ function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
 public
 function checkCallout(Rooms $rooms, User $user): ?CalloutSession
 {
-    return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
-}
+    $this->logger->debug('check if callout exists');return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
+}/**
+     * checks if a callInSession is running
+     * @param Rooms $rooms
+     * @param User $user
+     * @return CalloutSession|null
+     */
+    public function checkCallIn(Rooms $rooms, User $user): ?CallerSession
+    {
+        $this->logger->debug('check if callin exists');
+        return $this->entityManager->getRepository(CallerSession::class)->findCallerSessionByUserAndRoom($user,$rooms);
+    }
 
 /**
  * chechks either the user is alles to be called. is is done by check the env variable with the LDAP user properties
@@ -155,24 +172,4 @@ function getCallerIdForUser(?User $user)
     return null;
 }
 
-public
-function dialSuccessfull(User $user, Rooms $rooms): bool
-{
-//        $calloutRepo = $this->entityManager->getRepository(CalloutSession::class);
-//        $calloutSession = $calloutRepo->findOneBy(array('room' => $rooms, 'user' => $user));
-//
-//        if ($calloutSession) {
-//            $calloutSession = $calloutRepo->findCalloutSessionActive($calloutSession->getUid());
-//            if ($calloutSession) {
-//                $this->entityManager->remove($calloutSession);
-//                $this->entityManager->flush();
-//                $this->logger->debug('The Calloutsession was destoyed Successfully');
-//                return true;
-//            }
-//            $this->logger->debug('There is no valid Callout Session which can be destroyed. The Calloutsession is not in the right state');
-//        }else{
-//            $this->logger->debug('There is no calloutsession with this user and room');
-//        }
-//        return false;
-}
 }

@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:addSlugToServer')]
 class AddSlugToServerCommand extends Command
 {
-    protected static $defaultName = 'app:addSlugToServer';
     private $em;
     private $serverService;
     public function __construct(EntityManagerInterface $entityManager, ServerService $serverService, string $name = null)
@@ -22,7 +22,7 @@ class AddSlugToServerCommand extends Command
         $this->serverService = $serverService;
     }
 
-    protected function configure()
+    protected function configure():void
     {
         $this
             ->setDescription('Adds a slug to all servers, which does not have a slug');

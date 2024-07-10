@@ -1,4 +1,4 @@
-{% if not isAllowedToOrganize(room,app.user)%}
+{% if not isAllowedToOrganize(room,app.user) %}
     <a href="{{ path('room_user_remove',{'room':room.id, 'user':app.user.id}) }}"
        class="element btn btn-outline-default btn-darkred confirmHref participants-remove"
        data-text="{{ 'confirm.delete.room'|trans }}">
@@ -13,12 +13,15 @@
     {% if not room.scheduleMeeting %}
         {% include 'dashboard/__roomOptionStartButton.html.twig' with {'room':room} %}
     {% else %}
-
-        <a class=" btn btn-outline-primary participant-shedule"
-           href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}"
-           target="_blank">
-            {{ 'Terminplanung'|trans }}
-        </a>
-
+        {% if  isAllowedToOrganize(room,app.user) and scheduleUserHasVoted(app.user,room) %}
+            <a href="{{ path('schedule_admin_select_best',{'id':room.id}) }}"
+               class=" btn btn-outline-primary participant-shedule loadContent"><i class="fa-regular fa-calendar-check me-2"></i> {{ 'scheduler.transform'|trans }}</a>
+        {% else %}
+            <a class=" btn btn-outline-primary participant-shedule"
+               href="{{ path('schedule_public_main',{'scheduleId':room.schedulings[0].uid,'userId':app.user.uid}) }}"
+               target="_blank">
+                {{ 'Terminplanung'|trans }}
+            </a>
+        {% endif %}
     {% endif %}
 {% endif %}

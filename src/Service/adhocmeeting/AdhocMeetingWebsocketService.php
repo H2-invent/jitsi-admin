@@ -24,6 +24,7 @@ class AdhocMeetingWebsocketService
 
     }
 
+
     public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room): void
     {
         $topic = 'personal/' . $reciever->getUid();

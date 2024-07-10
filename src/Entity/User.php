@@ -137,6 +137,9 @@ class User extends BaseUser
     #[ORM\OneToMany(mappedBy: 'createdFrom', targetEntity: SchedulingTime::class)]
     private Collection $schedulingTimesCreated;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSipVideoUser = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -786,7 +789,7 @@ class User extends BaseUser
 
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->username?:'';
     }
 
     /**
@@ -1254,4 +1257,22 @@ class User extends BaseUser
 
         return $this;
     }
+
+    public function isIsSipVideoUser(): ?bool
+    {
+        return $this->isSipVideoUser;
+    }
+
+    public function setIsSipVideoUser(?bool $isSipVideoUser): static
+    {
+        $this->isSipVideoUser = $isSipVideoUser;
+
+        return $this;
+    }
+
+    public function getIsSipVideoUser(): ?bool
+    {
+        return $this->isSipVideoUser;
+    }
+
 }

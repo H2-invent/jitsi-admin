@@ -14,9 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddressGroupController extends JitsiAdminController
 {
-    /**
-     * @Route("room/address/group/new", name="address_group_new")
-     */
+    #[Route(path: 'room/address/group/new', name: 'address_group_new')]
     public function new(Request $request, TranslatorInterface $translator, IndexGroupsService $indexGroupsService): Response
     {
         $addressgroup = new AddressGroup();
@@ -59,9 +57,7 @@ class AddressGroupController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("room/address/group/remove", name="address_group_remove")
-     */
+    #[Route(path: 'room/address/group/remove', name: 'address_group_remove')]
     public function remove(Request $request, TranslatorInterface $translator): Response
     {
         $addressgroup = $this->doctrine->getRepository(AddressGroup::class)->findOneBy(['id' => $request->get('id')]);

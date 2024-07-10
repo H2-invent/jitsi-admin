@@ -17,10 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IcalController extends JitsiAdminController
 {
-    /**
-     * @Route("/ical/{id}", name="ical")
-
-     */
+    
+    #[Route(path: '/ical/{id}', name: 'ical')]
     public function index(
         #[MapEntity(mapping: ['id' => 'uid'])] User $user,
         UserService $userService,
