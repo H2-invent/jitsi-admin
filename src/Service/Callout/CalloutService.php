@@ -57,12 +57,13 @@ function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
             return null;
         }
         if ($callIn){
-            $this->logger->debug('the invited user has already a callin Session. So it is not allowed to retry a callout');
+            $this->logger->debug('the invited user has already a calling Session. So it is not allowed to retry a callout');
         return null;
     }
 
     if ($callout) {
-        $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');if ($callout->getState() > 1) {//calloutsession is on hold
+        $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');
+        if ($callout->getState() > 1) {//calloutsession is on hold
             if ($callout->getLeftRetries() > 0) {
                 $callout->setLeftRetries($callout->getLeftRetries() - 1);
                 $callout->setState(CalloutSession::$INITIATED);
