@@ -13,6 +13,7 @@ import {initSchedulePublic} from './scheduling'
 
 import {initGenerell} from './init';
 
+
 $(document).ready(function () {
     initGenerell()
     var domain =
@@ -24,6 +25,7 @@ $(document).ready(function () {
         }, 500);
     checkRoom();
     initSchedulePublic();
+
 });
 $(window).on('load', function () {
     $('[data-mdb-toggle="popover"]').popover({html: true});
