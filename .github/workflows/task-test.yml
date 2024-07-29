@@ -13,16 +13,19 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: jitsiadmintest
+          MYSQL_USER: jitsiadmintest
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
     # endregion declare_services
     
     steps:
-      # region mysql_start
-      - name: MySQL start
-        run: |
-          sudo /etc/init.d/mysql start
-          sudo mysql --user=root --password=root -e "CREATE USER 'jitsiadmintest'@'localhost' IDENTIFIED  BY 'password';"
-          sudo mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON jitsiadmintest.* TO 'jitsiadmintest'@'localhost';"
-          sudo mysql --user=root --password=root -e "FLUSH PRIVILEGES;"
+      - name: Update PHP Version and tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ vars.PHP_VERSION }}
+          ini-values: date.timezone ="Europe/Berlin"
       # endregion mysql_start
       # region load_artifact
       - name: Download Artifact
@@ -35,11 +38,10 @@ jobs:
       # endregion load_artifact
       # region test
       # region phpunit
-      - name: Update PHP Version and tools
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ vars.PHP_VERSION }}
-          ini-values: date.timezone ="Europe/Berlin"
+      - name: Run database migrations
+        run: |
+          sleep 30  # Allow some time for the MySQL service to be fully up and running
+          php bin/console doctrine:migrations:migrate --no-interaction --env=test
 
       - name: Run php test
         run: php composer.phar test
