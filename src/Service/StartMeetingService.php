@@ -44,7 +44,7 @@ class StartMeetingService
      */
     private $twig;
     private $url;
-    private $room;
+    private ?Rooms $room;
     private $user;
     private $type;
     private $name;
@@ -125,7 +125,6 @@ class StartMeetingService
             if ($room->getLobby()) {
                 return $this->generateLobby();
             }
-
             return $this->roomDefault();
         }
         return $this->roomNotFound();
@@ -271,7 +270,12 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            return new Response($this->twig->render('start/index.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
+            if ($this->room->getServer()->isLiveKitServer()){
+                return new Response($this->twig->render('start/livekit.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
+            }else{
+                return new Response($this->twig->render('start/index.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
+            }
+
         }
         return new NotFoundHttpException('Room not found');
     }

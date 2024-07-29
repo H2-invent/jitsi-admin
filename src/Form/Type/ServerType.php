@@ -32,6 +32,7 @@ class ServerType extends AbstractType
     {
 
         $builder
+            ->add('liveKitServer', CheckboxType::class, ['required' => false, 'label' => 'label.liveKitServer', 'translation_domain' => 'form', 'help' => 'help.liveKitServer'])
             ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add('serverName', TextType::class, ['required' => true, 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName'])
             ->add('appId', TextType::class, ['required' => false, 'label' => 'label.appId', 'translation_domain' => 'form'])

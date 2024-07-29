@@ -129,6 +129,9 @@ class Server
 
     #[ORM\Column(nullable: true)]
     private ?bool $prefixRoomUidWithHash = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $liveKitServer = null;
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -752,6 +755,18 @@ class Server
     public function setPrefixRoomUidWithHash(?bool $prefixRoomUidWithHash): static
     {
         $this->prefixRoomUidWithHash = $prefixRoomUidWithHash;
+
+        return $this;
+    }
+
+    public function isLiveKitServer(): ?bool
+    {
+        return $this->liveKitServer;
+    }
+
+    public function setLiveKitServer(?bool $liveKitServer): static
+    {
+        $this->liveKitServer = $liveKitServer;
 
         return $this;
     }
