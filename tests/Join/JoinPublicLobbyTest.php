@@ -39,11 +39,10 @@ class JoinPublicLobbyTest extends WebTestCase
         $permissionService = self::getContainer()->get(PermissionChangeService::class);
         $permissionService->toggleLobbyModerator($room->getModerator(), $user, $room);
 
-
+        echo "1.0";
         $crawler = $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertEquals(500, $client->getResponse()->getStatusCode());
-
-
+        echo "1.1";
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
@@ -57,6 +56,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $client->submit($form);
         self::assertSelectorTextContains('.joinPageHeader', 'TestMeeting: 1');
         self::assertEquals($user->getId(), $client->getRequest()->getSession()->get('userId'));
+        echo "1.2";
         $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertResponseIsSuccessful();
 
@@ -69,6 +69,7 @@ class JoinPublicLobbyTest extends WebTestCase
         $waitingUSer = $waitingUSerRepo->findOneBy(['uid' => 'lksdjflkdsjf']);
         self::assertNull($waitingUSer);
     }
+
     public function testJoin_ConferencewithLobbyDeclineWaitingUser(): void
     {
         $client = static::createClient();
