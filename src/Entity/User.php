@@ -850,9 +850,11 @@ class User extends BaseUser
     {
         foreach ($this->roomsAttributes as $data) {
             if ($data->getRoom()->getId() == $rooms->getId()) {
+                echo "check permission okay\n\r";
                 return $data;
             }
         }
+        echo "check permisson fail \n\r";
         return new RoomsUser();
     }
 
