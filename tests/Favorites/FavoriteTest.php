@@ -17,6 +17,7 @@ class FavoriteTest extends WebTestCase
         $manager = self::getContainer()->get(EntityManagerInterface::class);
         // retrieve the test user
         $testUser = $userRepository->findOneBy(['email' => 'test@local.de']);
+
         $client->loginUser($testUser);
         $roomRepo = $this->getContainer()->get(RoomsRepository::class);
         $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 1']);

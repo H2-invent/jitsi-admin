@@ -848,11 +848,13 @@ class User extends BaseUser
 
     public function getPermissionForRoom(Rooms $rooms): RoomsUser
     {
+
         foreach ($this->roomsAttributes as $data) {
-            if ($data->getRoom() == $rooms) {
+            if ($data->getRoom()->getId() == $rooms->getId()) {
                 return $data;
             }
         }
+
         return new RoomsUser();
     }
 

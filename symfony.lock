@@ -5,6 +5,18 @@
     "aws/aws-sdk-php": {
         "version": "3.209.27"
     },
+    "baldinof/roadrunner-bundle": {
+        "version": "3.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "0da69c96650460102ed0a2a0004e5b347f7220c9"
+        },
+        "files": [
+            "./config/packages/baldinof_road_runner.yaml"
+        ]
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.5"
     },

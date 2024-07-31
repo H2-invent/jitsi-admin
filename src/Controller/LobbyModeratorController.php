@@ -53,6 +53,7 @@ class LobbyModeratorController extends JitsiAdminController
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uid]);
 
         if ($this->checkLobbyPermissionService->checkPermissions($room, $this->getSessionUser($request->getSession()))) {
+
             return $this->render(
                 'lobby/index.html.twig',
                 [
@@ -64,7 +65,7 @@ class LobbyModeratorController extends JitsiAdminController
             );
         }
 
-        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()]);
+        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $room->getId(), 'user' => $this->getSessionUser($request->getSession())]);
 //        $this->addFlash('danger', $this->translator->trans('error.noPermission'));
         return $this->redirectToRoute('dashboard');
     }
