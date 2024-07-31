@@ -6,6 +6,7 @@ use App\Entity\LobbyWaitungUser;
 use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
+use App\Service\CheckLobbyPermissionService;
 use App\Service\PermissionChangeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -56,6 +57,9 @@ class JoinPublicLobbyTest extends WebTestCase
         $client->submit($form);
         self::assertSelectorTextContains('.joinPageHeader', 'TestMeeting: 1');
         self::assertEquals($user->getId(), $client->getRequest()->getSession()->get('userId'));
+        $permissionService = self::getContainer()->get(CheckLobbyPermissionService::class);
+        $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
+        self::assertEquals(true, $permissionService->checkPermissions($room,$user));
         echo "1.2";
         $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertResponseIsSuccessful();
