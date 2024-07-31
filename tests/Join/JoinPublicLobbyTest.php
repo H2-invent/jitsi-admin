@@ -59,13 +59,14 @@ class JoinPublicLobbyTest extends WebTestCase
         echo "1.2";
         $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertResponseIsSuccessful();
-
+echo "1.3";
         $waitingUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $waitingUSer = $waitingUSerRepo->findOneBy(['uid' => 'lksdjflkdsjf']);
         self::assertEquals($wu->getId(), $waitingUSer->getId());
-
+echo "1.4";
         $client->request('GET', '/room/lobby/accept/lksdjflkdsjf');
         self::assertResponseIsSuccessful();
+       echo "1.5";
         $waitingUSer = $waitingUSerRepo->findOneBy(['uid' => 'lksdjflkdsjf']);
         self::assertNull($waitingUSer);
     }
