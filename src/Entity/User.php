@@ -848,6 +848,7 @@ class User extends BaseUser
 
     public function getPermissionForRoom(Rooms $rooms): RoomsUser
     {
+        echo "userID: ".$this->getId()."\n\r";
         foreach ($this->roomsAttributes as $data) {
             if ($data->getRoom()->getId() == $rooms->getId()) {
                 echo "check permission okay\n\r";
