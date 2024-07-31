@@ -40,10 +40,9 @@ class JoinPublicLobbyTest extends WebTestCase
         $permissionService = self::getContainer()->get(PermissionChangeService::class);
         $permissionService->toggleLobbyModerator($room->getModerator(), $user, $room);
 
-        echo "1.0";
         $crawler = $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertEquals(500, $client->getResponse()->getStatusCode());
-        echo "1.1";
+
         $crawler = $client->request('GET', '/join');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.joinPageHeader', 'Konferenz beitreten');
@@ -60,17 +59,17 @@ class JoinPublicLobbyTest extends WebTestCase
         $permissionService = self::getContainer()->get(CheckLobbyPermissionService::class);
         $user = $userRepo->findOneBy(['email' => 'test@local3.de']);
         self::assertEquals(true, $permissionService->checkPermissions($room,$user));
-        echo "1.2";
+
         $client->request('GET', '/room/lobby/moderator/b/' . $room->getUidReal());
         self::assertResponseIsSuccessful();
-echo "1.3";
+
         $waitingUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
         $waitingUSer = $waitingUSerRepo->findOneBy(['uid' => 'lksdjflkdsjf']);
         self::assertEquals($wu->getId(), $waitingUSer->getId());
-echo "1.4";
+
         $client->request('GET', '/room/lobby/accept/lksdjflkdsjf');
         self::assertResponseIsSuccessful();
-       echo "1.5";
+
         $waitingUSer = $waitingUSerRepo->findOneBy(['uid' => 'lksdjflkdsjf']);
         self::assertNull($waitingUSer);
     }
