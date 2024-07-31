@@ -51,8 +51,9 @@ class LobbyModeratorController extends JitsiAdminController
     public function index(Request $request, $uid, $type): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uid]);
-
+echo "1.7";
         if ($this->checkLobbyPermissionService->checkPermissions($room, $this->getSessionUser($request->getSession()))) {
+            echo "1.6";
             return $this->render(
                 'lobby/index.html.twig',
                 [
