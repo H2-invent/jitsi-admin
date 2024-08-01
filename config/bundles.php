@@ -24,4 +24,5 @@ return [
     H2Entwicklung\Signature\CheckSignatureBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     JMS\I18nRoutingBundle\JMSI18nRoutingBundle::class => ['all' => true],
+    Baldinof\RoadRunnerBundle\BaldinofRoadRunnerBundle::class => ['all' => true],
 ];

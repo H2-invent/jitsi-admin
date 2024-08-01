@@ -19,8 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdhocMeetingService
 {
-
-
     public function __construct(
         private EntityManagerInterface       $em,
         private RoomGeneratorService         $roomGeneratorService,
@@ -28,8 +26,8 @@ class AdhocMeetingService
         private TranslatorInterface          $translator,
         private UserService                  $userService,
         private ThemeService                 $theme,
-        private AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
         private CalloutService               $calloutService,
+        private AdhocMeetingWebsocketService $adhocMeetingWebsocketService,
     )
     {
 
@@ -59,10 +57,9 @@ class AdhocMeetingService
         $creator->addRoom($room);
         $this->em->persist($creator);
         $this->em->flush();
-        $this->calloutService->createCallout($room, $reciever, $creator);
-        $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($reciever, $creator, $room);
         $this->userService->addUser($reciever, $room);
         $this->userService->addUser($creator, $room);
+        $this->calloutService->initCalloutSession($room, $reciever, $creator);
         return $room;
     }
 

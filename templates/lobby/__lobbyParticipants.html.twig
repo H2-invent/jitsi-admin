@@ -1,17 +1,8 @@
 {% if wU.websocketReady %}
-<div class="col-lg-4 col-12 col-xl-3 waitingUserCard mb-3 position-relative">
-    <div class="position-absolut d-flex icon-holder">
-        <div class="acceptSwipe feedbackSwipe"
-             data-target="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
-            <i class="fas fa-user-check"></i>
-        </div>
-        <div class="denieSwipe feedbackSwipe"
-             data-target="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
-            <i class="fas fa-user-times"></i>
-        </div>
-    </div>
+<div class="col-lg-4 col-12 col-xl-4 waitingUserCard mb-3 position-relative">
+
     <div class="card ">
-        <div class="card-body text-center d-flex justify-content-between flex-row flex-lg-column align-items-center">
+        <div class="card-body text-center d-flex justify-content-between flex-row align-items-center">
             {% if wU.user is not null and  wU.user.profilePicture is not null %}
                 <style>
                     #circle_{{ wU.id }} {
@@ -55,43 +46,42 @@
                         </a>
                     {% endif %}
                 {% endif %}
-            </div>
-            <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
-                <a
-                        data-mdb-toggle="tooltip"
-                        title="{{ 'lobby.participant.tooltip.acccept'|trans }}"
-                    class="btn btn-lg btn-floating senddirect btn-success d-none d-md-block"
-                   href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
-                    <i class="fas fa-user-check"></i>
-                </a>
-                <a
-                        data-mdb-toggle="tooltip"
-                        title="{{ 'lobby.participant.tooltip.decline'|trans }}"
-                        class="btn btn-lg btn-floating directSendWithConfirm btn-danger d-none d-md-block"
-                   data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
-                   href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
-                    <i class="fas fa-user-times"></i>
-                </a>
-
-
-                <div class="dropdown dropstart"
-                     data-mdb-toggle="tooltip"
-                     title="{{ 'lobby.participant.tooltip.message'|trans }}"
-                >
-                    <a class="btn btn-lg btn-outline-success btn-floating"
-
-                       data-mdb-ripple-color="dark"
-                       id="dropdownMenu2"
-                       data-mdb-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-solid fa-paper-plane"></i>
+                <div class="buttonHolder buttons mt-lg-2 d-flex align-items-center justify-content-between">
+                    <a
+                            data-mdb-toggle="tooltip"
+                            title="{{ 'lobby.participant.tooltip.acccept'|trans }}"
+                            class="btn btn-lg btn-floating senddirect btn-success "
+                            href="{{ path('lobby_moderator_accept',{'wUid':wU.uid}) }}">
+                        <i class="fas fa-user-check"></i>
                     </a>
-                    {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser'),'uid':wU.uid } %}
-                </div>
+                    <a
+                            data-mdb-toggle="tooltip"
+                            title="{{ 'lobby.participant.tooltip.decline'|trans }}"
+                            class="btn btn-lg btn-floating directSendWithConfirm btn-danger "
+                            data-text="{{ 'confirm.delete.lobbyUser'|trans }}"
+                            href="{{ path('lobby_moderator_decline',{'wUid':wU.uid}) }}">
+                        <i class="fas fa-user-times"></i>
+                    </a>
 
-                <div class=" slider d-md-none">
-                    <i class="fa-solid fa-left-right"></i>
+
+                    <div class="dropdown dropstart"
+                         data-mdb-toggle="tooltip"
+                         title="{{ 'lobby.participant.tooltip.message'|trans }}"
+                    >
+                        <a class="btn btn-lg btn-outline-success btn-floating"
+
+                           data-mdb-ripple-color="dark"
+                           id="dropdownMenu2"
+                           data-mdb-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-solid fa-paper-plane"></i>
+                        </a>
+                        {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser'),'uid':wU.uid } %}
+                    </div>
+
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>

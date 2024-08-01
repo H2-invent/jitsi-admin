@@ -3,23 +3,15 @@
 namespace App\Service\adhocmeeting;
 
 use App\Entity\Rooms;
-use App\Entity\Server;
-use App\Entity\Tag;
 use App\Entity\User;
-use App\Service\Callout\CalloutService;
 use App\Service\Lobby\DirectSendService;
-use App\Service\RoomGeneratorService;
 use App\Service\ThemeService;
-use App\Service\TimeZoneService;
-use App\Service\UserService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdhocMeetingWebsocketService
 {
-
     public function __construct(
 
         private ParameterBagInterface  $parameterBag,
@@ -36,7 +28,7 @@ class AdhocMeetingWebsocketService
     public function sendAddhocMeetingWebsocket(User $reciever, User $creator, Rooms $room): void
     {
         $topic = 'personal/' . $reciever->getUid();
-        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') === 1 ? 'startIfram e' : '') . '" data-roomname = "%s" ><i class="fas fa-phone" ></i > %s </a ><a class="btn btn-sm btn-danger" ><i class="fas fa-phone-slash" ></i ></a > ';
+        $format = '%s<br><a href="%s"  class="btn btn-sm btn-sucess ' . ($this->theme->getApplicationProperties('LAF_USE_MULTIFRAME') === 1 ? 'startIframe' : '') . '" data-roomname = "%s" ><i class="fas fa-phone" ></i > %s </a ><a class="btn btn-sm btn-danger" ><i class="fas fa-phone-slash" ></i ></a > ';
         $toastText = sprintf(
             $format,
             $this->translator->trans('addhock.notification.pushMessage', ['{name}' => $creator->getFormatedName($this->parameterBag->get('laf_showName'))]),
