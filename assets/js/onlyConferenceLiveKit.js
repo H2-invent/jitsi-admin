@@ -37,6 +37,8 @@ iframe.style.border = "none";
 iframe.style.width = "100%";
 iframe.style.height = "100%";
 
+iframe.allow = " autoplay; camera; clipboard-write; compute-pressure; display-capture; hid; microphone; screen-wake-lock; speaker-selection";
+
 // Das iframe in das div mit der id "meinDiv" einfügen
 document.getElementById("jitsiWindow").appendChild(iframe);
 //
