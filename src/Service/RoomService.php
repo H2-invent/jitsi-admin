@@ -187,9 +187,7 @@ class RoomService
             $encSecret = base64_encode($encryptedSecret);
             $payload['livekit']['secret'] = $encSecret;
         }
-        dump($publicKey);
-        dump($encSecret);
-    dump($payload);
+
 
         if ($roomUser && !$avatar) {
             if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
