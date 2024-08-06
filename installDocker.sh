@@ -79,7 +79,7 @@ fi
   echo "smtpFrom=$smtpFrom" >> $FILE
 
   default_language=${default_language:=de}
-  read -p "Which language you want to set as default alowed values: [de, en, fr, es, vi, zh, ru, ja, pt]: [$default_language] " input
+  read -p "Which language you want to set as default allowed values: [de, en, fr, es, vi, zh, ru, ja, pt]: [$default_language] " input
   default_language=${input:=$default_language}
   sed -i '/default_language/d' $FILE
   echo "default_language=$default_language" >> $FILE
