@@ -25,9 +25,9 @@
                    <p class="mb-0">{{ u|nameOfUser }} <small><a
                                    href="{{ path('app_adressbook_favorite',{'userId':u.uid}) }}"><i
                                        class="{% if u in app.user.adressbookFavorites %}fa isAddressbookFavorite{% else %}far{% endif %} fa-star"></i> </a></small>  {% if u in app.user.deputy %}
-                           <i
-                           class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"
-                           title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}</p>
+                       <i
+                               class="ms-2 fa-solid fa-file-contract" data-mdb-toggle="tooltip"
+                               title="{{ 'deputy.text.isDeputy'|trans }}"></i>{% endif %}</p>
         <p class="mb-0"><small>{{ u.username }}</small></p>
         </div>
 
@@ -60,8 +60,8 @@
                 ><i class="fas fa-ellipsis-v"></i></a>
 
                 <ul class="dropdown-menu">
-
-                        <li class="dropdown-item  d-flex">
+{% if not userIsDisallowedToMakeDeputy(u) %}
+    <li class="dropdown-item  d-flex">
                             {% if not deputyIsFromLDAP(app.user,u) %}
                                 <a class=" {% if u in app.user.deputy %}text-success isDeputy{% endif %} "
                                    href="{{ path('app_deputy_add',{'deputyUid':u.uid}) }}">
@@ -79,7 +79,7 @@
                             {% endif %}
 
                         </li>
-
+{% endif %}
                     {% if theme == false or theme.trashOnAdressBook == true %}
                         <div class="dropdown-divider"></div>
                         <li>
