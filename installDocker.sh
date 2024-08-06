@@ -123,7 +123,7 @@ export HTTP_METHOD=$HTTP_METHOD
 #export KEYCLOAK_PW=$KEYCLOAK_PW
 #export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
 #export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
-#export registerEmailAdress=$smtpFrom
+export registerEmailAdress=$smtpFrom
 #export DEFAULT_LANGUAGE=$default_language
 
 
