@@ -48,7 +48,8 @@ services:
       - "traefik.http.routers.traefik-ja.middlewares=traefik-auth"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
 
-
+    networks:
+      - external
 
     ports:
       - "80:80"
@@ -85,7 +86,9 @@ services:
       - "traefik.http.routers.websocket-ja.tls.certresolver=letsencrypt"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=http"
       - "traefik.http.routers.app-secure.middlewares=sslheader@docker"
-
+    networks:
+      - external
+      - internal
     volumes:
       - caddy_data:/data
       - caddy_config:/config
@@ -121,6 +124,7 @@ services:
       CRON_USER_1: root
       CRON_SCHEDULE_1: "* * * * *"
       CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
+      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
 
 
     labels:
@@ -137,6 +141,9 @@ services:
       - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
+    networks:
+      - external
+      - internal
 
   app-queu:
     <<: *jitsi_admin_app
@@ -153,6 +160,8 @@ services:
     command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
     volumes:
       - theme_data:/var/www/html/theme
+    networks:
+      - internal
 
   db-ja:
     image: mariadb:latest
@@ -169,7 +178,8 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-
+    networks:
+      - internal
 
   keycloak-ja:
     image: quay.io/keycloak/keycloak:22.0.3
@@ -199,7 +209,15 @@ services:
 
     volumes:
       - ./docker/keycloak/:/opt/keycloak/data/import
+    networks:
+      - external
+      - internal
 
+networks:
+  external:
+    external: true
+  internal:
+    internal: true
 
 volumes:
   mariadb:

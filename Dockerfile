@@ -26,9 +26,10 @@ RUN rm -rf node_modules/
 COPY . /var/www/html
 #install all php dependencies
 USER docker
-RUN composer install
+RUN composer install --no-scripts
 USER root
 #do all the directory stuff
+RUN mkdir var
 RUN chown -R docker:docker var
 RUN chown -R docker:docker public/uploads/
 RUN chown -R docker:docker public/theme/
