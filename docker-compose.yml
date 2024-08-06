@@ -124,7 +124,6 @@ services:
       CRON_USER_1: root
       CRON_SCHEDULE_1: "* * * * *"
       CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
-      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
 
 
     labels:
