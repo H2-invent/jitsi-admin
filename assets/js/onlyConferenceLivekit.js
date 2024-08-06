@@ -30,11 +30,13 @@ const parentElementId = "jitsiWindow";  // ID des Elternelements
 const api = new livekitApi(parentElementId, livekitUrl);
 
 // Beispiel für einen Event-Listener
-// api.addEventListener('iframeMessage', function(event) {
-//     console.log('Event-Listener ausgelöst mit Daten:', event.detail);
-// });
+api.addEventListener('ParticipantConnected', function(event) {
+    console.log('The user joind the meeting');
+});
 
-
+api.addEventListener('ParticipantDisconnected', function(event) {
+    console.log('The user left the meeting');
+});
 
 //
 // var conferenceUtils = new ConferenceUtils(api);

@@ -136,12 +136,12 @@ if [ -f .env.local ]; then
 fi
 
 cat <<EOL > .env.local
-MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
-DATABASE_URL=mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin
-laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
-VICH_BASE=$HTTP_METHOD://$PUBLIC_URL
+MAILER_DSN="smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort"
+DATABASE_URL="mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin"
+laF_baseUrl="$HTTP_METHOD://$PUBLIC_URL"
+VICH_BASE="$HTTP_METHOD://$PUBLIC_URL"
 GIT_VERSION=$(git rev-parse --short=5 HEAD)
-PUBLIC_URL=$PUBLIC_URL
+PUBLIC_URL="$PUBLIC_URL"
 OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
 HTTP_METHOD=$HTTP_METHOD
 KEYCLOAK_PW=$KEYCLOAK_PW
@@ -152,16 +152,16 @@ DEFAULT_LANGUAGE=$default_language
 RANDOMTAG=$RANDOMTAG
 KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_ADMIN_PW
 KC_DB_PASSWORD=$KEYCLOAK_PW
-KC_DB_URL=jdbc:mariadb://db-ja:3306/keycloak
+KC_DB_URL="jdbc:mariadb://db-ja:3306/keycloak"
 KC_DB_USERNAME=keycloak
-KC_HOSTNAME_URL=$HTTP_METHOD://$PUBLIC_URL/keycloak
-KC_HOSTNAME_PATH=$HTTP_METHOD://$PUBLIC_URL/keycloak
-KC_HOSTNAME_ADMIN_URL=$HTTP_METHOD://$PUBLIC_URL/keycloak
-MERCURE_URL=http://websocket-ja:3000/.well-known/mercure
-MERCURE_PUBLIC_URL=$HTTP_METHOD://$PUBLIC_URL
+KC_HOSTNAME_URL="$HTTP_METHOD://$PUBLIC_URL/keycloak"
+KC_HOSTNAME_PATH="$HTTP_METHOD://$PUBLIC_URL/keycloak"
+KC_HOSTNAME_ADMIN_URL="$HTTP_METHOD://$PUBLIC_URL/keycloak"
+MERCURE_URL="http://websocket-ja:3000/.well-known/mercure"
+MERCURE_PUBLIC_URL="$HTTP_METHOD://$PUBLIC_URL"
 MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
 WEBSOCKET_SECRET=$MERCURE_JWT_SECRET
-OAUTH_KEYCLOAK_SERVER=$HTTP_METHOD://$PUBLIC_URL/keycloak
+OAUTH_KEYCLOAK_SERVER="$HTTP_METHOD://$PUBLIC_URL/keycloak"
 EOL
 
 echo ".env.local Datei wurde erfolgreich erstellt."
