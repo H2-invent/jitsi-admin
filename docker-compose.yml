@@ -61,7 +61,7 @@ services:
 
   #Here is the websocket hub
   websocket-ja:
-    hostname: ${RANDOMTAG}websocket-ja
+    hostname: websocket-ja
     build: nodejs
     restart: unless-stopped
     depends_on:
