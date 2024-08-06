@@ -18,7 +18,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
@@ -33,7 +36,14 @@ class RoomService
     private $translator;
     private $uploadHelper;
 
-    public function __construct(UploaderHelper $uploaderHelper, TranslatorInterface $translator, EntityManagerInterface $entityManager, FormFactoryInterface $formBuilder, LoggerInterface $logger)
+    public function __construct(
+        UploaderHelper                $uploaderHelper,
+        TranslatorInterface           $translator,
+        EntityManagerInterface        $entityManager,
+        FormFactoryInterface          $formBuilder,
+        LoggerInterface               $logger,
+        private ParameterBagInterface $parameterBag,
+        private CacheInterface        $cache)
     {
         $this->em = $entityManager;
         $this->logger = $logger;
@@ -130,7 +140,33 @@ class RoomService
         if (!$server->getAppId()) {
             return null;
         }
+        $encSecret = '';
+        $cacheKey = 'livekit_public_key';
+
+        if ($server->isLiveKitServer()) {
+            $url = $server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL') . '/public.pem';
+
+            // Fetch the public key from cache or download if not cached
+            $publicKey = $this->cache->get($cacheKey, function (ItemInterface $item) use ($url) {
+                // Set TTL for 1 hour
+                $item->expiresAfter(3600);
+
+                // Fetch the public key for encryption
+                $publicKey = file_get_contents($url);
+                if ($publicKey === false) {
+                    throw new Exception("Unable to fetch public key from URL: $url");
+                }
+
+                return $publicKey;
+            });
+        }
+
         $payload = [
+            "livekit" => [
+                "host" => $server->getUrl(),
+                "key" => $server->getAppId(),
+                "secret" => $server->getAppSecret(),
+            ],
             "aud" => "jitsi_admin",
             "iss" => $room->getServer()->getAppId(),
             "sub" => $room->getServer()->getUrl(),
@@ -142,6 +178,19 @@ class RoomService
             ],
 
         ];
+        $secret = $server->getAppSecret();
+        if (!empty($publicKey)) {
+            openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
+            if ($encryptedSecret === false) {
+                throw new Exception("Encryption of secret failed");
+            }
+            $encSecret = base64_encode($encryptedSecret);
+            $payload['livekit']['secret'] = $encSecret;
+        }
+        dump($publicKey);
+        dump($encSecret);
+    dump($payload);
+
         if ($roomUser && !$avatar) {
             if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
                 $avatar = $this->uploadHelper->asset($roomUser->getUser()->getProfilePicture(), 'documentFile');

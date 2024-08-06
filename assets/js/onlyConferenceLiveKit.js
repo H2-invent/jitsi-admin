@@ -9,6 +9,7 @@ import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
 import {checkFirefox} from "./checkFirefox";
 import {ConferenceUtils} from "./ConferenceUtils";
+import {livekitApi} from "./livekit/main";
 
 var frameId;
 var joined = false;
@@ -23,24 +24,18 @@ var isBreakout = null;
 
 
 
-var iframe = document.createElement("iframe");
+// Beispiel für die Nutzung der Klasse
+const parentElementId = "jitsiWindow";  // ID des Elternelements
 
-// Die URL des iframes setzen
-iframe.src = livekitUrl;
+const api = new livekitApi(parentElementId, livekitUrl);
 
-// Optional: Größe des iframes setzen
-iframe.width = "100%";
-iframe.height = "100%";
+// Beispiel für einen Event-Listener
+// api.addEventListener('iframeMessage', function(event) {
+//     console.log('Event-Listener ausgelöst mit Daten:', event.detail);
+// });
 
-// Style für das iframe setzen, um es responsiv zu machen
-iframe.style.border = "none";
-iframe.style.width = "100%";
-iframe.style.height = "100%";
 
-iframe.allow = " autoplay; camera; clipboard-write; compute-pressure; display-capture; hid; microphone; screen-wake-lock; speaker-selection";
 
-// Das iframe in das div mit der id "meinDiv" einfügen
-document.getElementById("jitsiWindow").appendChild(iframe);
 //
 // var conferenceUtils = new ConferenceUtils(api);
 // conferenceUtils.initConferencePreJoin()
