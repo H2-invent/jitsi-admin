@@ -156,7 +156,7 @@ services:
 
   db-ja:
     image: mariadb:latest
-    hostname: ${RANDOMTAG}db-ja
+    hostname: db-ja
     healthcheck:
       test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
       timeout: 20s
