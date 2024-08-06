@@ -112,19 +112,19 @@ sed -i "s|<jitsi-admin-pw>|$JITSI_ADMIN_PW|g" docker/docker-entrypoint-initdb.d/
 sed -i "s|<keycloak-pw>|$KEYCLOAK_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
 
 
-export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
-export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
-export VICH_BASE=$HTTP_METHOD://$PUBLIC_URL
-export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
-export GIT_VERSION=$(git rev-parse --short=5 HEAD)
+#export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
+#export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
+#export VICH_BASE=$HTTP_METHOD://$PUBLIC_URL
+#export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
+#export GIT_VERSION=$(git rev-parse --short=5 HEAD)
 export PUBLIC_URL=$PUBLIC_URL
-export OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
+#export OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
 export HTTP_METHOD=$HTTP_METHOD
-export KEYCLOAK_PW=$KEYCLOAK_PW
-export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
-export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
-export registerEmailAdress=$smtpFrom
-export DEFAULT_LANGUAGE=$default_language
+#export KEYCLOAK_PW=$KEYCLOAK_PW
+#export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
+#export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
+#export registerEmailAdress=$smtpFrom
+#export DEFAULT_LANGUAGE=$default_language
 
 
 
