@@ -215,9 +215,7 @@ services:
 
 networks:
   external:
-    external: true
   internal:
-    internal: true
 
 volumes:
   mariadb:
