@@ -19,45 +19,53 @@ class ConferenceUtils {
 
     }
 
-    initMoveButton(){
+    initMoveButton() {
+        var sidebar = this.sidebar;
+        var timeout = this.sidebarTimeout;
+        var floatingTag = this.floatingTag;
+
+        // Event Listener für Mausbewegungen im Dokument
+        document.addEventListener("mousemove", (event) => {
+            this.sidebarAction();
+        });
+
+        // Event Listener für Mausbetreten des Dokuments
+        document.addEventListener("mouseenter", (event) => {
+            this.sidebarAction();
+        });
+
+        // Event Listener für Touch-Ereignisse im Dokument
+        document.addEventListener("touchmove", (event) => {
+            this.sidebarAction();
+        });
+
+        document.addEventListener("touchstart", (event) => {
+            this.sidebarAction();
+        });
+
+        // Event Listener für Mausüberfahren des Sidebars
+        this.sidebar.addEventListener('mouseover', function () {
+            clearTimeout(timeout);
+        });
+    }
+
+    sidebarAction(){
         var sidebar = this.sidebar
         var timeout = this.sidebarTimeout
         var floatingTag = this.floatingTag;
-        this.api.addEventListener("mouseMove", (event) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                sidebar.classList.remove('show');
-                if (floatingTag){
-                    floatingTag.classList.remove('show')
-                }
-
-            },3000);
-            sidebar.classList.add('show');
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            sidebar.classList.remove('show');
             if (floatingTag){
-                floatingTag.classList.add('show')
+                floatingTag.classList.remove('show')
             }
 
-        });
-        this.api.addEventListener("mouseEnter", (event) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                sidebar.classList.remove('show');
-                if (floatingTag){
-                    floatingTag.classList.remove('show')
-                }
-
-            },3000);
-            sidebar.classList.add('show');
-            if (floatingTag){
-                floatingTag.classList.add('show')
-            }
-
-        });
-        this.sidebar.addEventListener('mouseover',function () {
-            clearTimeout(timeout);
-        })
+        },3000);
+        sidebar.classList.add('show');
+        if (floatingTag){
+            floatingTag.classList.add('show')
+        }
     }
-
 
     initConferencePostJoin() {
         if (typeof disableFilmstrip !== 'undefined') {

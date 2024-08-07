@@ -34,7 +34,7 @@ export class livekitApi {
             console.log("Nachricht vom iframe empfangen:", event.data);
 
             // Event auslösen und Daten weitergeben
-            this.triggerEvent(event.name, event.data);
+            this.triggerEvent(event.data, event.data);
         }
     }
 

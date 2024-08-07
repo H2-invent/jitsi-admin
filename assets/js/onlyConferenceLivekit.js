@@ -30,17 +30,21 @@ const parentElementId = "jitsiWindow";  // ID des Elternelements
 const api = new livekitApi(parentElementId, livekitUrl);
 
 // Beispiel für einen Event-Listener
-api.addEventListener('ParticipantConnected', function(event) {
-    console.log('The user joind the meeting');
+api.addEventListener('LocalParticipantConnected', function(event) {
+    enterMeeting();
+    initStartWhiteboard();
+    showPlayPause();
 });
 
-api.addEventListener('ParticipantDisconnected', function(event) {
+api.addEventListener('LocalParticipantDisconnected', function(event) {
+    leaveMeeting();
+    initStarSend();
     console.log('The user left the meeting');
 });
 
 //
-// var conferenceUtils = new ConferenceUtils(api);
-// conferenceUtils.initConferencePreJoin()
+const conferenceUtils = new ConferenceUtils(api);
+conferenceUtils.initConferencePreJoin()
 // api.addListener('chatUpdated', function (e) {
 //     if (e.isOpen == true) {
 //         document.querySelector('#logo_image').classList.add('transparent');
