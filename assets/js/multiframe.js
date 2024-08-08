@@ -356,13 +356,13 @@ export class multiframe {
     }
 
     moveInForeground() {
-        this.frame.style.zInde=10000;
         checkIfIsMutable(this);
     }
-    moveInBackground() {
-        this.frame.style.zInde=10;
-    }
 
+    setZindex(zIndex){
+        this.zIndex = zIndex;
+        this.frame.style.zIndex=zIndex;
+    }
     addEventListener(event, callback) {
         if (!this.eventListeners[event]) {
             this.eventListeners[event] = [];

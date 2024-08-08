@@ -8,7 +8,7 @@ import {multiframe} from "./multiframe";
 
 
 let counter = 50;
-let zIndex = 10
+let zIndexOffset = 10
 let width = window.innerWidth * 0.75;
 let height = window.innerHeight * 0.75;
 let moveable;
@@ -70,7 +70,7 @@ function createIframe(url, title, startMaximized = true, borderColor = '') {
         existingMultiframe.moveInForeground();
 
     }else {
-        const newInstance = new multiframe(url,title,startMaximized,borderColor,counter,counter,height,width,zIndex++);
+        const newInstance = new multiframe(url,title,startMaximized,borderColor,counter,counter,height,width,multiframes.length+zIndexOffset);
         newInstance.addEventListener('remove', () => {
             removeMultiframe(newInstance);
         });
@@ -153,11 +153,23 @@ function switchDragOff() {
     }
 }
 function moveActualToForeground(actualFrame) {
-    actualFrame.moveInForeground();
-    const otherFrames = getOtherFramesNotActual(actualFrame);
-    otherFrames.forEach(frame => frame.moveInBackground());
-}
+    const totalFrames = multiframes.length;
 
+    // Setze das z-index des aktuellen Frames auf die Anzahl der Frames (höchstes z-index)
+    actualFrame.setZindex(totalFrames +zIndexOffset);
+    actualFrame.moveInForeground();
+    // Sortiere die anderen Frames nach ihrem aktuellen z-index
+    const otherFrames = getotherFramesNotActual(actualFrame)
+        .filter(frame => frame !== actualFrame)
+        .sort((a, b) => a.zIndex - b.zIndex);
+
+    // Vergib die z-index-Werte beginnend bei 1
+    let zIndex = 1;
+    otherFrames.forEach(frame => {
+        frame.setZindex(zIndex+zIndexOffset);
+        zIndex++;
+    });
+}
 function addInteractions(ele) {
 
     const position = {x: counter, y: counter}
@@ -377,4 +389,4 @@ function checkIfIsMutable(frame) {
 //     }
 // }
 
-export {initStartIframe, createIframe, zIndex, checkIfIsMutable}
+export {initStartIframe, createIframe,  checkIfIsMutable}
