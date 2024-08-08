@@ -22,6 +22,8 @@ import {initModeratorIframe, close} from './moderatorIframe'
 import {initSearchCallOut} from "./inviteCalloutUser";
 import {initSendMessage} from "./sendMessageToWaitingUser";
 import {moveTag} from "./moveTag";
+import {livekitApi} from "./livekit/main";
+import {LivekitUtils} from "./livekit/livekitUtils";
 
 
 var jitsiApi;
@@ -76,16 +78,22 @@ $('.startJitsiIframe').click(function (e) {
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
 
     moveWrapper();
-    options.devices = {
-        audioInput: micId,
-        audioOutput: audioId,
-        videoInput: choosenId
-    }
+
     window.onbeforeunload = function () {
         return '';
     }
-    initJitsi(options, domain, confirmTitle, confirmOk, confirmCancel, toggle, webcamArr[choosenId], micArr[micId]);
-    $('#jitsiWindow').find('iframe').css('height', '100%');
+    if (typeof livekitUrl !== 'undefined') {
+        const api = new LivekitUtils('jitsiWindow', livekitUrl)
+    } else {
+        options.devices = {
+            audioInput: micId,
+            audioOutput: audioId,
+            videoInput: choosenId
+        }
+        $('#jitsiWindow').find('iframe').css('height', '100%');
+    }
+
+
     window.scrollTo(0, 1)
     initDragDragger();
     document.querySelector('body').classList.add('touchactionNone');

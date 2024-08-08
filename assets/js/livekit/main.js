@@ -1,5 +1,3 @@
-import {LivekitUtils} from "./livekitUtils";
-
 export class livekitApi {
     constructor(parentElement, url) {
         this.parentElement = parentElement;
@@ -27,8 +25,10 @@ export class livekitApi {
 
         // Event listener für Nachrichten aus dem iframe
         window.addEventListener("message", this.handleMessage.bind(this));
-        this.livekitUtils = new LivekitUtils(this);
+
     }
+
+
 
     handleMessage(event) {
         // Sicherstellen, dass die Nachricht aus dem erwarteten iframe kommt
@@ -42,11 +42,15 @@ export class livekitApi {
     }
 
     triggerEvent(eventName, eventData) {
-        const event = new CustomEvent(eventName, { detail: eventData });
+        const event = new CustomEvent(eventName, {detail: eventData});
         document.dispatchEvent(event);
     }
 
     addEventListener(eventName, callback) {
         document.addEventListener(eventName, callback);
+    }
+
+    sendMessageToIframe(object, method, params) {
+        this.iframe.contentWindow.postMessage({object: object, method: method, params: params});
     }
 }

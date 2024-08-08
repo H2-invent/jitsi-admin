@@ -1,5 +1,5 @@
 import {enterMeeting, initWebsocket, leaveMeeting} from "./websocket";
-import {close, inIframe, initModeratorIframe, showPlayPause} from "./moderatorIframe";
+import {close, inIframe, initModeratorIframe, showPlayPause, stopclosingMe} from "./moderatorIframe";
 import {initStarSend} from "./endModal";
 import {initStartWhiteboard} from "./startWhiteboard";
 import * as mdb from 'mdb-ui-kit'; // lib
@@ -11,6 +11,7 @@ import {checkFirefox} from "./checkFirefox";
 import {ConferenceUtils} from "./ConferenceUtils";
 import {livekitApi} from "./livekit/main";
 import {initSocialIcons} from "./createSocialButtons";
+import {LivekitUtils} from "./livekit/livekitUtils";
 
 var frameId;
 var joined = false;
@@ -26,33 +27,11 @@ var isBreakout = null;
 // Beispiel für die Nutzung der Klasse
 const parentElementId = "jitsiWindow";  // ID des Elternelements
 
-const api = new livekitApi(parentElementId, livekitUrl);
+const api = new LivekitUtils(parentElementId, livekitUrl);
 let conferenceRunning = false;
 
 
-api.addEventListener('LocalParticipantConnected', function (event) {
-    enterMeeting();
-    initStartWhiteboard();
-    showPlayPause();
-    initSocialIcons(changeCamera.bind(this));
-    conferenceRunning = true;
-    window.onbeforeunload = function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return closeTabText;
-    }
-});
 
-api.addEventListener('LocalParticipantDisconnected', function (event) {
-    leaveMeeting();
-    initStarSend();
-    console.log('The user left the meeting');
-    conferenceRunning = false;
-});
-function changeCamera(cameraLabel) {
-    console.log(`change camera to ${cameraLabel}`);
-    //todo hier camera setzen nanch label
-}
 
 // api.addListener('chatUpdated', function (e) {
 //     if (e.isOpen == true) {
@@ -107,7 +86,6 @@ function changeCamera(cameraLabel) {
 // })
 //
 
-
 function docReady(fn) {
     // see if DOM is already available
     if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -120,7 +98,7 @@ function docReady(fn) {
 
 
 function checkClose() {
-    if (!conferenceRunning) {
+    if (!api.conferenceRunning) {
         close();
     }else {
         //todo hier das meeting per api beenden

@@ -323,14 +323,13 @@ function addInteractions(ele) {
 
     moveable.on("resizeStart", ({target, clientX, clientY}) => {
         dragactive = true;
-
+        moveActualToForeground(getMultiframeFromHtmlFrame(target));
         makeBlury(target.closest('.jitsiadminiframe'));
     }).on("resize", event => {
 
             if (event.target.classList.contains('minified') || event.clientX < 0 || event.clientX > window.innerWidth || event.clientY > window.innerHeight || event.clientY < 0) {
                 return null;
             }
-        moveActualToForeground(getMultiframeFromHtmlFrame(event.target));
 
             const beforeTranslate = event.drag.beforeTranslate;
 

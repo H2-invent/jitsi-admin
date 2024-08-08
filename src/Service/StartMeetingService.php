@@ -181,18 +181,33 @@ class StartMeetingService
 
     public function createLobbyModeratorResponse()
     {
-        return new Response(
-            $this->twig->render(
-                'lobby/index.html.twig',
-                [
-                    'room' => $this->room,
-                    'server' => $this->room->getServer(),
-                    'type' => $this->type,
-                    'name' => $this->name,
-                    'user' => $this->user
-                ]
-            )
-        );
+        if ($this->room->getServer()->isLiveKitServer()){
+            return new Response(
+                $this->twig->render(
+                    'lobby/livekit.html.twig',
+                    [
+                        'room' => $this->room,
+                        'server' => $this->room->getServer(),
+                        'type' => $this->type,
+                        'name' => $this->name,
+                        'user' => $this->user
+                    ]
+                )
+            );
+        }else{
+            return new Response(
+                $this->twig->render(
+                    'lobby/index.html.twig',
+                    [
+                        'room' => $this->room,
+                        'server' => $this->room->getServer(),
+                        'type' => $this->type,
+                        'name' => $this->name,
+                        'user' => $this->user
+                    ]
+                )
+            );
+        }
     }
 
     /**
