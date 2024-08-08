@@ -10,6 +10,7 @@ import {jitsiErrorHandling} from "./jitsiErrorHandling";
 import {checkFirefox} from "./checkFirefox";
 import {ConferenceUtils} from "./ConferenceUtils";
 import {livekitApi} from "./livekit/main";
+import {initSocialIcons} from "./createSocialButtons";
 
 var frameId;
 var joined = false;
@@ -22,29 +23,37 @@ var roomName = null;
 var isBreakout = null;
 
 
-
-
 // Beispiel für die Nutzung der Klasse
 const parentElementId = "jitsiWindow";  // ID des Elternelements
 
 const api = new livekitApi(parentElementId, livekitUrl);
+let conferenceRunning = false;
 
-// Beispiel für einen Event-Listener
-api.addEventListener('LocalParticipantConnected', function(event) {
+
+api.addEventListener('LocalParticipantConnected', function (event) {
     enterMeeting();
     initStartWhiteboard();
     showPlayPause();
+    initSocialIcons(changeCamera.bind(this));
+    conferenceRunning = true;
+    window.onbeforeunload = function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return closeTabText;
+    }
 });
 
-api.addEventListener('LocalParticipantDisconnected', function(event) {
+api.addEventListener('LocalParticipantDisconnected', function (event) {
     leaveMeeting();
     initStarSend();
     console.log('The user left the meeting');
+    conferenceRunning = false;
 });
+function changeCamera(cameraLabel) {
+    console.log(`change camera to ${cameraLabel}`);
+    //todo hier camera setzen nanch label
+}
 
-//
-const conferenceUtils = new ConferenceUtils(api);
-conferenceUtils.initConferencePreJoin()
 // api.addListener('chatUpdated', function (e) {
 //     if (e.isOpen == true) {
 //         document.querySelector('#logo_image').classList.add('transparent');
@@ -97,31 +106,7 @@ conferenceUtils.initConferencePreJoin()
 //     }
 // })
 //
-// var iframe = document.querySelector('#jitsiConferenceFrame0');
-// iframe.style.height = '100%';
-//
-// window.addEventListener('message', function (e) {
-//     // add here more commands up to now only close is defined.
-//     const data = e.data;
-//     const decoded = JSON.parse(data);
-//     if (decoded.type === 'pleaseClose') {
-//         if (api) {
-//             api.executeCommand('hangup')
-//         }else {
-//             close(frameId);
-//         }
-//     } else if (decoded.type === 'init') {
-//         frameId = decoded.frameId;
-//     }
-// });
-//
-//
-// window.onmessage = function (event) {
-//     if (event.data === "jitsi-closed") {
-//         window.onbeforeunload = null;
-//         window.close();
-//     }
-// };
+
 
 function docReady(fn) {
     // see if DOM is already available
@@ -133,23 +118,19 @@ function docReady(fn) {
     }
 }
 
-// function checkClose() {
-//
-//     if (!api || !joined){
-//         leaveMeeting();
-//         initStarSend();
-//     }
-//     if (api){
-//         api.executeCommand('hangup');
-//     }
-//     leaveMeeting();
-// }
+
+function checkClose() {
+    if (!conferenceRunning) {
+        close();
+    }else {
+        //todo hier das meeting per api beenden
+        // api.endMeeting();
+    }
+
+}
 
 docReady(function () {
     var clipboard = new ClipboardJS('.copyLink');
-    // initModeratorIframe(checkClose);
+    initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
-    // initStartIframe();
-    // checkFirefox();
-
 });

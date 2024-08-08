@@ -87,8 +87,6 @@ window.addEventListener('message', function (e) {
         }else {
             close(frameId);
         }
-    } else if (decoded.type === 'init') {
-        frameId = decoded.frameId;
     }
 });
 
@@ -126,7 +124,5 @@ docReady(function () {
     var clipboard = new ClipboardJS('.copyLink');
     initModeratorIframe(checkClose);
     initWebsocket(websocketTopics);
-    initStartIframe();
     checkFirefox();
-
 });

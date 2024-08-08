@@ -1,3 +1,5 @@
+import {LivekitUtils} from "./livekitUtils";
+
 export class livekitApi {
     constructor(parentElement, url) {
         this.parentElement = parentElement;
@@ -25,6 +27,7 @@ export class livekitApi {
 
         // Event listener für Nachrichten aus dem iframe
         window.addEventListener("message", this.handleMessage.bind(this));
+        this.livekitUtils = new LivekitUtils(this);
     }
 
     handleMessage(event) {
@@ -34,7 +37,7 @@ export class livekitApi {
             console.log("Nachricht vom iframe empfangen:", event.data);
 
             // Event auslösen und Daten weitergeben
-            this.triggerEvent(event.data, event.data);
+            this.triggerEvent(event.data.event, event.data.data);
         }
     }
 
