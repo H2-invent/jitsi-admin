@@ -55,7 +55,7 @@ function initStartIframe() {
 
 function createIframe(url, title, startMaximized = true, borderColor = '') {
 
-
+//todo cookie richtig setzen und dann entshceiden ob minimized oder maximized geöäffnet wird
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
     counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
@@ -153,6 +153,7 @@ function switchDragOff() {
     }
 }
 function moveActualToForeground(actualFrame) {
+    //todo checken ob das voderste mutabar ist und dann automute der anderen mutbaren
     const totalFrames = multiframes.length;
 
     // Setze das z-index des aktuellen Frames auf die Anzahl der Frames (höchstes z-index)
