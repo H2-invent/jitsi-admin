@@ -40,7 +40,8 @@ function initStartIframe() {
             if ("iframetoast" in target.dataset) {
                 setSnackbar(target.dataset.iframetoast, 'danger');
             } else {
-                createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true, true, target.dataset.bordercolor);
+                const isMaximized= getCookie('startMaximized')?getCookie('startMaximized'):1;
+                createIframe(target.href, target.dataset.roomname, isMaximized == 1, true, target.dataset.bordercolor);
             }
         }
     });
@@ -55,7 +56,6 @@ function initStartIframe() {
 
 function createIframe(url, title, startMaximized = true, borderColor = '') {
 
-//todo cookie richtig setzen und dann entshceiden ob minimized oder maximized geöäffnet wird
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
     counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
@@ -153,7 +153,16 @@ function switchDragOff() {
     }
 }
 function moveActualToForeground(actualFrame) {
-    //todo checken ob das voderste mutabar ist und dann automute der anderen mutbaren
+    if (actualFrame.isMutable) {
+        actualFrame.playFrame();
+        // Iteriere durch alle multiframes und pausiere die anderen mutablen Frames
+        multiframes.forEach(frame => {
+            if (frame !== actualFrame && frame.isMutable) {
+                frame.pauseFrame(); // Pausiere das Frame
+            }
+        });
+    }
+
     const totalFrames = multiframes.length;
 
     // Setze das z-index des aktuellen Frames auf die Anzahl der Frames (höchstes z-index)

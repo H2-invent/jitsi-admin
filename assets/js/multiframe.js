@@ -335,20 +335,31 @@ export class multiframe {
     }
 
     pauseIframe() {
-
-
-        // Aktivieren Sie die Tonwiedergabe im iFrame
         if (!this.isPaused) {
+            this.pauseFrame();
+        } else {
+            this.playFrame();
+        }
+    }
+
+    pauseFrame() {
+        if(!this.isPaused){
             this.isPaused = true;
             this.frame.querySelector('.pauseConference').innerHTML = '<i class="fa-solid fa-play"></i>';
             this.frame.querySelector('.iframeFrame').insertAdjacentHTML('afterbegin', '<div class="pausedFrame"><i class="fa-solid fa-circle-pause"></i></div>');
             this.sendCommand({type: 'pauseIframe'});
-        } else {
+        }
+
+    }
+
+    playFrame() {
+        if (this.isPaused){
             this.isPaused = false;
             this.frame.querySelector('.pauseConference').innerHTML = '<i class="fa-solid fa-pause"></i>';
             this.frame.querySelector('.pausedFrame').remove();
             this.sendCommand({type: 'playIframe'})
         }
+
     }
 
     fulscreenWindow() {
@@ -359,10 +370,11 @@ export class multiframe {
         checkIfIsMutable(this);
     }
 
-    setZindex(zIndex){
+    setZindex(zIndex) {
         this.zIndex = zIndex;
-        this.frame.style.zIndex=zIndex;
+        this.frame.style.zIndex = zIndex;
     }
+
     addEventListener(event, callback) {
         if (!this.eventListeners[event]) {
             this.eventListeners[event] = [];
@@ -379,7 +391,7 @@ export class multiframe {
     // Methode zum Triggern von Events mit Daten
     triggerEvent(event, data = {}) {
         if (!this.eventListeners[event]) return;
-        const eventObject = { type: event, ...data };
+        const eventObject = {type: event, ...data};
         this.eventListeners[event].forEach(callback => callback(eventObject));
     }
 
@@ -399,8 +411,9 @@ export class multiframe {
         this.triggerEvent('removeInteraction')
 
     }
-    triggerCreateNewMultiframe(url,title,maximize) {
-        this.triggerEvent('createNewMultiframe',{url:url,title:title,maximize:maximize})
+
+    triggerCreateNewMultiframe(url, title, maximize) {
+        this.triggerEvent('createNewMultiframe', {url: url, title: title, maximize: maximize})
 
     }
 }

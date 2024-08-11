@@ -47,9 +47,13 @@ export class LivekitUtils {
                 switch (decoded.type) {
                     case 'pauseIframe':
                         this.toggleMic(false);
+                        this.toggleCamera(false);
+                        this.setNameWithPrefix('(Away)');
                         break;
                     case 'playIframe':
                         this.toggleMic(true);
+                        this.toggleCamera(true);
+                        this.setNameWithPrefix('');
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:
@@ -76,7 +80,20 @@ export class LivekitUtils {
     }
     toggleMic(enable) {
         this.api.sendMessageToIframe('LocalParticipant',
-            'setMicrophoneEnabled', enable
+            'setMicrophoneEnabled', [enable]
+        )
+
+    }
+    toggleCamera(enable) {
+
+        this.api.sendMessageToIframe('LocalParticipant',
+            'setCameraEnabled', [enable]
         )
     }
+    setNameWithPrefix(prefix){
+        this.api.sendMessageToIframe('LocalParticipant',
+            'setName', [prefix+' '+displayName]
+        )
+    }
+
 }

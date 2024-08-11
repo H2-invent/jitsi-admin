@@ -181,6 +181,7 @@
 
         <script>
             var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name) }}';
+            const displayName = '{{ name }}';
             var hangupQuestion = "{{ 'lobby.endMeeting.ask'|trans }}";
             var endMeetingUrl = "{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}";
             var endMeetingText = "{{ 'lobby.endMeeting'|trans }}";
