@@ -23,6 +23,7 @@ import Swal from 'sweetalert2'
 import $ from "jquery";
 import {JitsiUtils} from "./jitsiUtils";
 let jitsiUtils = null;
+let liveKitUtils = null;
 //teil ohne JItsi zusammehang
 
 function closeForAll() {
@@ -34,6 +35,9 @@ initNotofication(closeForAll);
 initAjaxSend(confirmTitle, confirmCancel, confirmOk);
 
 function checkCloseParticipant() {//funktion um die webcam und das micro zu testen
+    if (!jitsiUtils && !liveKitUtils){
+        close();
+    }
     echoOff(); // Echo ausschalten wenn noch an
     stopWebcam(); // Webcam ausschalten
     const res = askHangup(); // prüfen ob der Teilnehmer in einer Konferenz ist, und wenn, dann fragen ob die Konferenz beendet werden soll
