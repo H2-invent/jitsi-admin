@@ -10,15 +10,16 @@ import('popper.js');
 global.$ = global.jQuery = $;
 
 var video = document.querySelector("#lobbyWebcam");
-var toggle = 0;
+var toggle = true;
 var webcams = [];
 let choosenId= null;
+let choosenLabelFull = null;
 export let webcamArr = [];
 async function initWebcam() {
     try {
 
         await navigator.mediaDevices.getUserMedia({audio: false, video: true});
-        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        navigator.mediaDevices.enumerateDevices().then(async function (devices) {
             devices.forEach(function (device) {
                 if (device.kind === 'videoinput') {
                     webcams[device.label] = device.deviceId
@@ -30,13 +31,15 @@ async function initWebcam() {
                     webcams.push(device);
                 }
             });
-            $('.webcamSelect').click(function () {
+            $('.webcamSelect').click(async function () {
                 stopWebcam();
                 setButtonName($('#selectWebcamDropdown').find('span'), $(this).text());
                 choosenId = $(this).data('value');
+                choosenLabelFull = await getCameraLabelById(choosenId);
                 startWebcam(choosenId);
             })
             choosenId = webcams[0].deviceId;
+            choosenLabelFull = await getCameraLabelById(choosenId);
             var name = webcams[0].label.replace(/\(.*:.*\)/g, "");
             setButtonName($('#selectWebcamDropdown').find('span'), name);
             startWebcam(choosenId);
@@ -51,8 +54,8 @@ async function initWebcam() {
     })
 }
 function toggleWebcam(e){
-    if(toggle === 1){
-        toggle = 0;
+    if(toggle === true){
+        toggle = false;
         stopWebcam();
     }else {
        startWebcam(choosenId);
@@ -65,7 +68,7 @@ function startWebcam(id){
         navigator.mediaDevices.getUserMedia({video: constraints,audio:false})
             .then(function (stream) {
                 video.srcObject = stream;
-                toggle = 1;
+                toggle = true;
                 video.style.height ='auto';
                 $('#webcamSwitch').removeClass('fa-video').addClass('fa-video-slash')
             })
@@ -94,4 +97,17 @@ function setButtonName(button, text) {
 
     button.html(text);
 }
-export {initWebcam,choosenId,stopWebcam, toggle}
+
+async function getCameraLabelById(id) {
+    return await navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+            for (let device of devices) {
+                if (device.kind === 'videoinput' && device.deviceId === id) {
+                    return device.label; // Gibt das Label der Kamera zurück
+                }
+            }
+            return ''; // Gibt einen leeren String zurück, wenn keine Übereinstimmung gefunden wurde
+        });
+}
+
+export {initWebcam,choosenId,stopWebcam, toggle, choosenLabelFull}

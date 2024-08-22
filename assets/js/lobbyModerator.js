@@ -12,21 +12,23 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import ('jquery-confirm');
 import {masterNotify, initNotofication} from './lobbyNotification'
 import {initCircle} from './initCircle'
-import {initWebcam, choosenId, stopWebcam, toggle, webcamArr} from './cameraUtils'
-import {initAUdio, micId, audioId, echoOff, micArr} from './audioUtils'
-import {initJitsi, hangup, askHangup} from './jitsiUtils'
+import {initWebcam, choosenId, stopWebcam, toggle, webcamArr, choosenLabelFull} from './cameraUtils'
+import {initAUdio, micId, audioId, echoOff, micArr, micLabelFull} from './audioUtils'
+import {JitsiUtils} from './jitsiUtils'
 import {initAjaxSend} from './confirmation'
 import {initGenerell} from './init';
-import {leaveMeeting, socket} from "./websocket";
+import {initWebsocket, leaveMeeting, socket} from "./websocket";
 import {initModeratorIframe, close} from './moderatorIframe'
 import {initSearchCallOut} from "./inviteCalloutUser";
 import {initSendMessage} from "./sendMessageToWaitingUser";
 import {moveTag} from "./moveTag";
-import {livekitApi} from "./livekit/main";
 import {LivekitUtils} from "./livekit/livekitUtils";
+import Swal from "sweetalert2";
 
 
-var jitsiApi;
+var jitsiUtils;
+var cancel = "Abbrechen";
+var ok = "OK";
 
 try {
     navigator.mediaDevices.getUserMedia({audio: true, video: true})
@@ -76,9 +78,11 @@ $('.startJitsiIframe').click(function (e) {
     $(this).remove();
     $('#colWebcam').remove();
     $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
-
     moveWrapper();
-
+    $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
+    window.scrollTo(0, 1)
+    initDragDragger();
+    document.querySelector('body').classList.add('touchactionNone');
     window.onbeforeunload = function () {
         return '';
     }
@@ -90,20 +94,54 @@ $('.startJitsiIframe').click(function (e) {
             audioOutput: audioId,
             videoInput: choosenId
         }
+         jitsiUtils = new JitsiUtils(options, domain, toggle, choosenLabelFull, micLabelFull,askHangup);
         $('#jitsiWindow').find('iframe').css('height', '100%');
     }
 
 
-    window.scrollTo(0, 1)
-    initDragDragger();
-    document.querySelector('body').classList.add('touchactionNone');
+
     // document.getElementsByTagName('body').style.width='100%';
 
     window.addEventListener("scroll", (e) => {
         e.preventDefault();
         window.scrollTo(0, 0);
     });
-})
+});
+
+function askHangup() {
+    if (typeof jitsiUtils === "undefined" || !jitsiUtils.api) {
+        return false;
+    }
+
+    // SweetAlert2 Bestätigung
+    Swal.fire({
+        title: '',
+        text: hangupQuestion,
+        icon: 'question',
+        showDenyButton: true,
+        denyButtonText:  endMeetingText,
+        showCancelButton: true,
+        confirmButtonText: hangupText,
+        cancelButtonText: cancel,
+        customClass: {
+            confirmButton: 'btn-danger btn',
+            denyButton: 'btn-danger btn',
+            cancelButton:  'btn-outline-primary btn'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            jitsiUtils.hangup();
+        }else if (result.isDenied) {
+            jitsiUtils.endMeeting();
+        }
+    });
+
+    return true;
+}
+
+
+
+
 
 function moveWrapper() {
     stopWebcam();

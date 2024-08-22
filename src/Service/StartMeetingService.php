@@ -181,20 +181,7 @@ class StartMeetingService
 
     public function createLobbyModeratorResponse()
     {
-        if ($this->room->getServer()->isLiveKitServer()){
-            return new Response(
-                $this->twig->render(
-                    'lobby/livekit.html.twig',
-                    [
-                        'room' => $this->room,
-                        'server' => $this->room->getServer(),
-                        'type' => $this->type,
-                        'name' => $this->name,
-                        'user' => $this->user
-                    ]
-                )
-            );
-        }else{
+
             return new Response(
                 $this->twig->render(
                     'lobby/index.html.twig',
@@ -207,7 +194,7 @@ class StartMeetingService
                     ]
                 )
             );
-        }
+
     }
 
     /**
@@ -285,11 +272,7 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            if ($this->room->getServer()->isLiveKitServer()){
-                return new Response($this->twig->render('start/livekit.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
-            }else{
                 return new Response($this->twig->render('start/index.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
-            }
 
         }
         return new NotFoundHttpException('Room not found');

@@ -87,9 +87,7 @@
     </script>
 
     <script>
-        {% if moderator is not defined %}
-        {% set moderator = false %}
-        {% endif %}
+
         var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name,moderator) }}';
         const displayName = '{{ name }}';
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
@@ -142,6 +140,7 @@
 
 
 {% endif %}
+
 {% block webpack %}
     {{ encore_entry_script_tags('onlyConferenceLivekit') }}
 {% endblock %}

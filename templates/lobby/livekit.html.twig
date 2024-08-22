@@ -176,7 +176,10 @@
 
 {% endblock %}
 {% block script %}
-    {% include('__checkFirefox.html.twig') with {'room':room} %}
+
+    {% if not room.server.liveKitServer %}
+        {% include('__checkFirefox.html.twig') with {'room':room} %}
+    {% endif %}
     {% if name is defined and name is not null %}
 
         <script>

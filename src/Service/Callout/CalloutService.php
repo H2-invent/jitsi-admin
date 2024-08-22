@@ -64,7 +64,6 @@ class CalloutService
                 if ($callout->getLeftRetries() > 0) {
                     $callout->setLeftRetries($callout->getLeftRetries() - 1);
                     $callout->setState(CalloutSession::$INITIATED);
-                    $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
                     $this->entityManager->persist($callout);
                     $this->entityManager->flush();
                 }
@@ -72,7 +71,6 @@ class CalloutService
             return $callout;
         }
 
-        $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
 
         if (!$this->isAllowedToBeCalled($user)) {
             return null;
