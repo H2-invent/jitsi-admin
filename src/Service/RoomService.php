@@ -143,6 +143,21 @@ class RoomService
         $encSecret = '';
         $cacheKey = 'livekit_public_key';
 
+
+        $payload = [
+
+            "aud" => "jitsi_admin",
+            "iss" => $room->getServer()->getAppId(),
+            "sub" => $room->getServer()->getUrl(),
+            "room" => $room->getUid(),
+            "context" => [
+                'user' => [
+                    'name' => $userName,
+                ],
+            ],
+
+        ];
+
         if ($server->isLiveKitServer()) {
             $url = $server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL') . '/public.pem';
 
@@ -159,33 +174,20 @@ class RoomService
 
                 return $publicKey;
             });
-        }
+            $secret = $server->getAppSecret();
+            if (!empty($publicKey)) {
+                openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
+                if ($encryptedSecret === false) {
+                    throw new Exception("Encryption of secret failed");
+                }
+                $encSecret = base64_encode($encryptedSecret);
 
-        $payload = [
-            "livekit" => [
-                "host" => $server->getUrl(),
-                "key" => $server->getAppId(),
-                "secret" => $server->getAppSecret(),
-            ],
-            "aud" => "jitsi_admin",
-            "iss" => $room->getServer()->getAppId(),
-            "sub" => $room->getServer()->getUrl(),
-            "room" => $room->getUid(),
-            "context" => [
-                'user' => [
-                    'name' => $userName,
-                ],
-            ],
-
-        ];
-        $secret = $server->getAppSecret();
-        if (!empty($publicKey)) {
-            openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
-            if ($encryptedSecret === false) {
-                throw new Exception("Encryption of secret failed");
+                $payload['livekit'] = [
+                    "host" => $server->getUrl(),
+                    "key" => $server->getAppId(),
+                    "secret" => $encSecret,
+                ];
             }
-            $encSecret = base64_encode($encryptedSecret);
-            $payload['livekit']['secret'] = $encSecret;
         }
 
 
