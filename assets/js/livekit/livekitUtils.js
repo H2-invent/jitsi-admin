@@ -95,5 +95,9 @@ export class LivekitUtils {
             'setName', [prefix+' '+displayName]
         )
     }
+    hangup(){
+        //todo impement hangup
+        return true;
+    }
 
 }

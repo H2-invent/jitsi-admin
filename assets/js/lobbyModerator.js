@@ -26,7 +26,8 @@ import {LivekitUtils} from "./livekit/livekitUtils";
 import Swal from "sweetalert2";
 
 
-var jitsiUtils;
+let jitsiUtils = null;
+let livekitUtil = null;
 var cancel = "Abbrechen";
 var ok = "OK";
 
@@ -87,17 +88,16 @@ $('.startJitsiIframe').click(function (e) {
         return '';
     }
     if (typeof livekitUrl !== 'undefined') {
-        const api = new LivekitUtils('jitsiWindow', livekitUrl)
+        livekitUtil = new LivekitUtils('jitsiWindow', livekitUrl)
     } else {
         options.devices = {
             audioInput: micId,
             audioOutput: audioId,
             videoInput: choosenId
         }
-         jitsiUtils = new JitsiUtils(options, domain, toggle, choosenLabelFull, micLabelFull,askHangup);
+        jitsiUtils = new JitsiUtils(options, domain, toggle, choosenLabelFull, micLabelFull, askHangup);
         $('#jitsiWindow').find('iframe').css('height', '100%');
     }
-
 
 
     // document.getElementsByTagName('body').style.width='100%';
@@ -109,38 +109,40 @@ $('.startJitsiIframe').click(function (e) {
 });
 
 function askHangup() {
-    if (typeof jitsiUtils === "undefined" || !jitsiUtils.api) {
+    if (!jitsiUtils && !livekitUtil) {
         return false;
     }
+    if (livekitUtil) {
 
+        livekitUtil.hangup();
+        return false;
+
+    }
     // SweetAlert2 Bestätigung
     Swal.fire({
         title: '',
         text: hangupQuestion,
         icon: 'question',
         showDenyButton: true,
-        denyButtonText:  endMeetingText,
+        denyButtonText: endMeetingText,
         showCancelButton: true,
         confirmButtonText: hangupText,
         cancelButtonText: cancel,
         customClass: {
             confirmButton: 'btn-danger btn',
             denyButton: 'btn-danger btn',
-            cancelButton:  'btn-outline-primary btn'
+            cancelButton: 'btn-outline-primary btn'
         }
     }).then((result) => {
         if (result.isConfirmed) {
             jitsiUtils.hangup();
-        }else if (result.isDenied) {
+        } else if (result.isDenied) {
             jitsiUtils.endMeeting();
         }
     });
 
     return true;
 }
-
-
-
 
 
 function moveWrapper() {

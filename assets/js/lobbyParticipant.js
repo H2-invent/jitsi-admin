@@ -22,6 +22,7 @@ import Swal from 'sweetalert2'
 
 import $ from "jquery";
 import {JitsiUtils} from "./jitsiUtils";
+import {LivekitUtils} from "./livekit/livekitUtils";
 let jitsiUtils = null;
 let liveKitUtils = null;
 //teil ohne JItsi zusammehang
@@ -234,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function startConference(options){
     if (typeof livekitUrl!== 'undefined'){
+        liveKitUtils =  new LivekitUtils('jitsiWindow', livekitUrl+'?jwt='+options.jwt)
         //here start the livekitu confernece
     }else {
         initJitsiMeet(options);
@@ -256,7 +258,11 @@ function initJitsiMeet(data) {
 }
 
 function askHangup() {
-    if (!jitsiUtils.api) {
+    if (!jitsiUtils && !liveKitUtils) {
+        return false;
+    }
+    if (liveKitUtils){
+        liveKitUtils.hangup();
         return false;
     }
 
