@@ -20,8 +20,10 @@ use phpDocumentor\Reflection\Types\This;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
+
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
@@ -33,22 +35,28 @@ class RoomService
 {
     private $em;
     private $logger;
-    private $translator;
+
     private $uploadHelper;
 
     public function __construct(
         UploaderHelper                $uploaderHelper,
-        TranslatorInterface           $translator,
         EntityManagerInterface        $entityManager,
         FormFactoryInterface          $formBuilder,
         LoggerInterface               $logger,
         private ParameterBagInterface $parameterBag,
-        private CacheInterface        $cache)
+        private CacheInterface        $cache,
+        private HttpClientInterface   $httpClient
+    )
     {
         $this->em = $entityManager;
         $this->logger = $logger;
-        $this->translator = $translator;
         $this->uploadHelper = $uploaderHelper;
+    }
+
+    public function setHttpClient($httpClient): RoomService
+    {
+        $this->httpClient = $httpClient;
+        return $this;
     }
 
     /**
@@ -140,8 +148,6 @@ class RoomService
         if (!$server->getAppId()) {
             return null;
         }
-        $encSecret = '';
-        $cacheKey = 'livekit_public_key';
 
 
         $payload = [
@@ -159,6 +165,9 @@ class RoomService
         ];
 
         if ($server->isLiveKitServer()) {
+            $this->logger->debug('Build JWT for Livekit Server', ['servername':$server->getServerName()]);
+            $encSecret = '';
+            $cacheKey = 'livekit_public_key';
             $url = $server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL') . '/public.pem';
 
             // Fetch the public key from cache or download if not cached
@@ -167,31 +176,48 @@ class RoomService
                 $item->expiresAfter(3600);
 
                 // Fetch the public key for encryption
-                $publicKey = file_get_contents($url);
+                $response = $this->httpClient->request('GET', $url);
+                if ($response->getStatusCode() !== 200) {
+                    $this->logger->error('Invalid Responsecode to fetch public key for secret encryption', ['url' => $url]);
+                    throw new \Exception("Unable to fetch public key from URL: $url");
+                }
+                $publicKey = $response->getContent();
                 if ($publicKey === false) {
-                    throw new Exception("Unable to fetch public key from URL: $url");
+                    $this->logger->error('Unable to fetch public key for secret encryption', ['url' => $url]);
+                    throw new \Exception("Unable to fetch public key from URL: $url");
                 }
 
                 return $publicKey;
             });
             $secret = $server->getAppSecret();
             if (!empty($publicKey)) {
-                openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
-                if ($encryptedSecret === false) {
-                    throw new Exception("Encryption of secret failed");
+                $this->logger->debug('Public KEy fetched. the secret is ow encrypted', ['public key' => $publicKey]);
+                try {
+                    openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
+                    if ($encryptedSecret === false) {
+                        $this->logger->error('Encryption Faild', ['error'=> openssl_error_string()]);
+                        throw new \Exception("Encryption of secret failed");
+                    }
+                    $encSecret = base64_encode($encryptedSecret);
+                    $this->logger->debug('The secrest is base64 endoded', ['encodes secret'=>$encSecret]);
+                    $payload['livekit'] = [
+                        "host" => $server->getUrl(),
+                        "key" => $server->getAppId(),
+                        "secret" => $encSecret,
+                    ];
+                } catch (\Exception $exception) {
+                    $this->logger->error('There was an error encryptiong the secret',['error'=>$exception->getMessage()]);
+                    $payload['livekit'] = [
+                        "errror" => 'Invalid Foreign encryption key'
+                    ];
                 }
-                $encSecret = base64_encode($encryptedSecret);
 
-                $payload['livekit'] = [
-                    "host" => $server->getUrl(),
-                    "key" => $server->getAppId(),
-                    "secret" => $encSecret,
-                ];
             }
         }
 
 
         if ($roomUser && !$avatar) {
+            $this->logger->debug('profile picure is added to the jwt');
             if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
                 $avatar = $this->uploadHelper->asset($roomUser->getUser()->getProfilePicture(), 'documentFile');
             }
@@ -200,6 +226,7 @@ class RoomService
             $payload['context']['user']['avatar'] = $avatar;
         }
         if ($room->getServer()->getJwtModeratorPosition() == 0) {
+            $this->logger->debug('We add moderator rights to the root claim');
             $payload['moderator'] = $moderator;
         } elseif ($room->getServer()->getJwtModeratorPosition() == 1) {
             $payload['context']['user']['moderator'] = $moderator;
@@ -210,6 +237,7 @@ class RoomService
 
         ];
         if ($room->getServer()->getFeatureEnableByJWT()) {
+            $this->logger->debug('The features Enabled by JWT is enabled on the server and is set here');
             if ($room->getDissallowScreenshareGlobal()) {
                 $screen['screen-sharing'] = false;
                 if (($roomUser && $roomUser->getShareDisplay()) || $moderator) {
