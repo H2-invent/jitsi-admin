@@ -183,7 +183,7 @@ initCircle();
 $(document).ready(function () {
     initGenerell();
     initMercure();
-    initDragParticipants();
+
     const customBoundary = document.querySelector('body');
 
 })
