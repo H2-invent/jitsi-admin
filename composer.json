@@ -65,7 +65,8 @@
     "twig/intl-extra": "^3.2",
     "twig/markdown-extra": "^3.3",
     "twig/twig": "^3.0",
-    "vich/uploader-bundle": "^2.3"
+    "vich/uploader-bundle": "^2.3",
+    "ext-openssl": "*"
   },
   "require-dev": {
     "dama/doctrine-test-bundle": "^v8.0",
