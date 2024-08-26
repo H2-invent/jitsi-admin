@@ -165,7 +165,7 @@ class RoomService
         ];
 
         if ($server->isLiveKitServer()) {
-            $this->logger->debug('Build JWT for Livekit Server', ['servername':$server->getServerName()]);
+            $this->logger->debug('Build JWT for Livekit Server', ['servername'=>$server->getServerName()]);
             $encSecret = '';
             $cacheKey = 'livekit_public_key';
             $url = $server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL') . '/public.pem';
