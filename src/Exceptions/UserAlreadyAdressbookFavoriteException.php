@@ -15,6 +15,6 @@ class UserAlreadyAdressbookFavoriteException extends \Exception
 
     public function customMessage()
     {
-        echo 'User: {$this->user->getUid()} already in Adressbook favorite';
+
     }
 }

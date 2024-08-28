@@ -35,7 +35,7 @@ class CalloutService
 public
 function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
 {
-    dump('createCallout');
+
     $this->logger->debug('create callout session');
     return $this->createCallout($rooms, $user, $inviter);
 }
