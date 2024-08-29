@@ -114,7 +114,7 @@ class RoomService
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser, $avatar), $jitsi_jwt_token_secret);
+        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser, $avatar), $jitsi_jwt_token_secret,'HS256');
         $url = $jitsi_server_url . '/' . $room->getUid();
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $url = $url . '?jwt=' . $token;
@@ -140,7 +140,7 @@ class RoomService
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $roomUser, $avatar), $room->getServer()->getAppSecret());
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $roomUser, $avatar), $room->getServer()->getAppSecret(),'HS256');
     }
 
     public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, RoomsUser $roomUser = null, $avatar = null)
