@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Agence104\LiveKit\WebhookReceiver;
 use App\Service\api\CheckAuthorizationService;
 use App\Service\webhook\RoomWebhookService;
 use Psr\Log\LoggerInterface;
@@ -15,6 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class LiveKitEventSyncController extends AbstractController
 {
     private $token;
+    private $eventId;
+    private WebhookReceiver $webhookReceiver;
 
     public function __construct(
         private RoomWebhookService    $webhookService,
@@ -22,67 +25,77 @@ class LiveKitEventSyncController extends AbstractController
         private LoggerInterface       $logger
     )
     {
-        $this->token = 'Bearer ' . $this->parameterBag->get('LIVEKIT_EVENT_TOKEN');
+        $this->token = $this->parameterBag->get('LIVEKIT_EVENT_TOKEN');
+        $this->eventId = $this->parameterBag->get('LIVEKIT_EVENT_ID');
+        $this->webhookReceiver = new WebhookReceiver($this->eventId, $this->token);
     }
 
     #[Route('/livekit/event', name: 'app_live_kit_event_sync')]
     public function index(Request $request): Response
     {
-        $this->logger->debug('recieve new event');
-        $check = CheckAuthorizationService::checkHEader($request, $this->token);
-
-        if ($check) {
+        $this->logger->debug('receive new livekit event');
+        $event = null;
+        $content = $request->getContent();
+        try {
+            $event = $this->webhookReceiver->receive($content,null,true);
+        }catch (\Exception $exception){
             $this->logger->debug('Invalid event token found');
-            return $check;
+            $array = ['authorized' => false];
+            $response = new JsonResponse($array, 401);
+            return $response;
         }
+
+
         $this->logger->debug('Valid event token found');
-        $data = json_decode($request->getContent(), true);
-        $eventType = $data['event'];
+
+        $eventType = $event->getEvent();
         $res = ['error' => false];
-        $this->logger->debug('Event found',['event'=>$eventType]);
+        $this->logger->debug('Event found', ['event' => $eventType]);
         switch ($eventType) {
             case 'room_finished':
                 $res = $this->webhookService->roomDestroyed(false,
                     null,
-                    $data['room']['sid'],
-                    $data['createdAt']
+                    $event->getRoom()->getSid(),
+                    $event->getCreatedAt()
                 );
                 break;
             case 'room_started':
                 $res = $this->webhookService->roomCreated(
-                    $data['room']['name'],
+                    $event->getRoom()->getName(),
                     false,
                     null,
-                    $data['room']['sid'],
-                    $data['room']['creationTime']
+                    $event->getRoom()->getSid(),
+                    $event->getRoom()->getCreationTime()
                 );
                 break;
             case 'participant_left':
                 $res = $this->webhookService->roomParticipantLeft(
                     false,
                     null,
-                    $data['participant']['sid'],
-                    $data['createdAt'],
+                    $event->getParticipant()->getSid(),
+                    $event->getCreatedAt(),
                     null
                 );
                 break;
             case 'participant_joined':
-                $res =  $this->webhookService->roomParticipantJoin(false, null,
-                    $data['room']['sid'],
-                    $data['participant']['sid'],
-                    $data['participant']['joinedAt'],
-                    $data['participant']['name']
+                $res = $this->webhookService->roomParticipantJoin(
+                    false,
+                    null,
+                    $event->getRoom()->getSid(),
+                    $event->getParticipant()->getSid(),
+                    $event->getParticipant()->getJoinedAt(),
+                    $event->getParticipant()->getName()
                 );
                 break;
             default:
                 $this->logger->error('unregistered Event found', ['event' => $eventType]);
                 break;
         }
-        if (!$res){
+        if (!$res) {
             $res = ['error' => false];
-        }else{
-            $res=[
-                'error'=>$res
+        } else {
+            $res = [
+                'error' => $res
             ];
         }
         return new JsonResponse($res);
