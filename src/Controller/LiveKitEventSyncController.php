@@ -25,7 +25,7 @@ class LiveKitEventSyncController extends AbstractController
         private LoggerInterface       $logger
     )
     {
-        $this->token = $this->parameterBag->get('LIVEKIT_EVENT_TOKEN');
+        $this->token = $this->parameterBag->get('LIVEKIT_EVENT_SECRET');
         $this->eventId = $this->parameterBag->get('LIVEKIT_EVENT_ID');
         $this->webhookReceiver = new WebhookReceiver($this->eventId, $this->token);
     }
@@ -33,21 +33,24 @@ class LiveKitEventSyncController extends AbstractController
     #[Route('/livekit/event', name: 'app_live_kit_event_sync')]
     public function index(Request $request): Response
     {
-        $this->logger->debug('receive new livekit event');
+        $this->logger->debug('livekit', ['message' => 'receive new livekit event']);
         $event = null;
         $content = $request->getContent();
+        $this->logger->debug('livekit content from request', ['content' => $content]);
         try {
-            $event = $this->webhookReceiver->receive($content,null,true);
-        }catch (\Exception $exception){
-            $this->logger->debug('Invalid event token found');
+            $event = $this->webhookReceiver->receive($content, null, true);
+            $this->logger->debug('livekit event as json',['json'=>$event->serializeToString()]);
+        } catch (\Exception $exception) {
+            $this->logger->debug('livekit error', ['message' => 'Invalid event token found']);
+
             $array = ['authorized' => false];
             $response = new JsonResponse($array, 401);
             return $response;
         }
 
 
-        $this->logger->debug('Valid event token found');
-
+        $this->logger->debug('livekit event token valid');
+        $event->serializeToString();
         $eventType = $event->getEvent();
         $res = ['error' => false];
         $this->logger->debug('Event found', ['event' => $eventType]);
