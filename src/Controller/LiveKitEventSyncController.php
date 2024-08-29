@@ -28,13 +28,18 @@ class LiveKitEventSyncController extends AbstractController
     #[Route('/livekit/event', name: 'app_live_kit_event_sync')]
     public function index(Request $request): Response
     {
+        $this->logger->debug('recieve new event');
         $check = CheckAuthorizationService::checkHEader($request, $this->token);
+
         if ($check) {
+            $this->logger->debug('Invalid event token found');
             return $check;
         }
+        $this->logger->debug('Valid event token found');
         $data = json_decode($request->getContent(), true);
         $eventType = $data['event'];
         $res = ['error' => false];
+        $this->logger->debug('Event found',['event'=>$eventType]);
         switch ($eventType) {
             case 'room_finished':
                 $res = $this->webhookService->roomDestroyed(false,
