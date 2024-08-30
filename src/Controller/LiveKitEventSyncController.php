@@ -38,6 +38,7 @@ class LiveKitEventSyncController extends AbstractController
         $content = $request->getContent();
         $this->logger->debug('livekit content from request', ['content' => $content]);
         try {
+            $this->logger->debug('livekit before parsing content');
             $event = $this->webhookReceiver->receive($content, null, true);
             $this->logger->debug('livekit event as json',['json'=>$event->serializeToString()]);
         } catch (\Exception $exception) {
