@@ -144,7 +144,7 @@ class LiveKitEventSyncControllerTest extends WebTestCase
     public function testCreateRoom(): void
     {
         $client = static::createClient([], ['HTTP_AUTHORIZATION' => 'Bearer ' . $this->validToken]);
-        $crawler = $client->jsonRequest('POST', '/livekit/event', $this->roomStarted);
+        $crawler = $client->request('POST', '/livekit/event', [],[],[],json_encode($this->roomStarted));
         $this->assertResponseIsSuccessful();
         $this->assertTrue($client->getResponse()->headers->contains('Content-Type', 'application/json'), 'Invalid JSON response');
         $this->assertJsonStringEqualsJsonString('{"error": false}', $client->getResponse()->getContent());

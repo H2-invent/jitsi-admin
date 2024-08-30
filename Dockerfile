@@ -1,6 +1,7 @@
 FROM thecodingmachine/php:8.2-v4-apache-node20
 ENV PHP_EXTENSION_LDAP=1
 ENV PHP_EXTENSION_INTL=1
+ENV PHP_EXTENSION_BCMATH=1
 ENV COMPOSER_MEMORY_LIMIT=-1
 ENV STARTUP_COMMAND_1="php bin/console cache:clear"
 ENV STARTUP_COMMAND_2="php bin/console doctrine:mig:mig --no-interaction"
