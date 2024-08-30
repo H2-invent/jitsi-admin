@@ -41,6 +41,7 @@ class LiveKitEventSyncController extends AbstractController
             $event = $this->webhookReceiver->receive($content, null, true);
             $this->logger->debug('livekit event as json',['json'=>$event->serializeToString()]);
         } catch (\Exception $exception) {
+            $this->logger->error('livekit error',['message'=>$exception->getMessage()]);
             $this->logger->debug('livekit error', ['message' => 'Invalid event token found']);
 
             $array = ['authorized' => false];
