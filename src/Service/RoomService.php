@@ -266,6 +266,6 @@ class RoomService
 
             }
         }
-        return $encSecret;
+        return urlencode($encSecret);
     }
 }

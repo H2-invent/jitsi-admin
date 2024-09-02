@@ -87,6 +87,7 @@ class ToParticipantWebsocketService
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
             $this->directSend->sendRedirect($topic, '/', 6000);
         }
+
     }
 
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)

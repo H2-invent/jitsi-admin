@@ -293,7 +293,7 @@ export class JitsiUtils {
         this.iframeIsPause = true;
         this.changeMicStart();
         this.api.executeCommand('displayName', '(Away) ' + this.displayName);
-        this.api.executeCommand('avatarUrl', 'https://avatars0.githubusercontent.com/u/3671647');
+        this.api.executeCommand('avatarUrl', 'https://www3.h2-invent.com/user_away.webp');
         this.updateMuteStateForAll();
     }
 

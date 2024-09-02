@@ -49,11 +49,14 @@ export class LivekitUtils {
                         this.toggleMic(false);
                         this.toggleCamera(false);
                         this.setNameWithPrefix('(Away)');
+                        this.setAvatarUrl('https://www3.h2-invent.com/user_away.webp');
+
                         break;
                     case 'playIframe':
                         this.toggleMic(true);
                         this.toggleCamera(true);
                         this.setNameWithPrefix('');
+                        this.setAvatarUrl(avatarUrl)
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:
@@ -99,6 +102,15 @@ export class LivekitUtils {
             'LocalParticipant',
             'setName',
             {name: prefix+' '+displayName}
+        )
+    }
+    setAvatarUrl(url){
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setAvatarUrl',
+            {
+                url: url
+            }
         )
     }
     hangup(){
