@@ -79,20 +79,26 @@ export class LivekitUtils {
         console.log(cameraLabel);
     }
     toggleMic(enable) {
-        this.api.sendMessageToIframe('LocalParticipant',
-            'setMicrophoneEnabled', [enable]
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setMicrophoneEnabled',
+            {enable: enable}
         )
 
     }
     toggleCamera(enable) {
 
-        this.api.sendMessageToIframe('LocalParticipant',
-            'setCameraEnabled', [enable]
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setCameraEnabled',
+            {enable: enable}
         )
     }
     setNameWithPrefix(prefix){
-        this.api.sendMessageToIframe('LocalParticipant',
-            'setName', [prefix+' '+displayName]
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setName',
+            {name: prefix+' '+displayName}
         )
     }
     hangup(){
