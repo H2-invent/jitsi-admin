@@ -52,10 +52,9 @@ class LiveKitEventSyncController extends AbstractController
 
 
         $this->logger->debug('livekit event token valid');
-        $event->serializeToString();
         $eventType = $event->getEvent();
         $res = ['error' => false];
-        $this->logger->debug('Event found', ['event' => $eventType]);
+        $this->logger->debug('livekit Event found', ['event' => $eventType]);
         switch ($eventType) {
             case 'room_finished':
                 $res = $this->webhookService->roomDestroyed(false,

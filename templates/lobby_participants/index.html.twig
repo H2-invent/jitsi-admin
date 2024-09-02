@@ -135,7 +135,7 @@
 {% block script %}
     {% if room.server.liveKitServer %}
         <script>
-            const livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}';
+            const livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?secret={{ generateEncryptedSecret(room) }}';
             const displayName = '{{ user.showName }}';
         </script>
     {% else %}

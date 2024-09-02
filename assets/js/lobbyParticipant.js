@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function startConference(options){
     if (typeof livekitUrl!== 'undefined'){
-        liveKitUtils =  new LivekitUtils('jitsiWindow', livekitUrl+'?jwt='+options.jwt)
+        liveKitUtils =  new LivekitUtils('jitsiWindow', livekitUrl+'&jwt='+options.jwt)
         //here start the livekitu confernece
     }else {
         initJitsiMeet(options);

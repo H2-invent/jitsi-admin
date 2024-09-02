@@ -114,7 +114,7 @@ class RoomService
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser, $avatar), $jitsi_jwt_token_secret,'HS256');
+        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser, $avatar), $jitsi_jwt_token_secret, 'HS256');
         $url = $jitsi_server_url . '/' . $room->getUid();
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $url = $url . '?jwt=' . $token;
@@ -140,7 +140,7 @@ class RoomService
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $roomUser, $avatar), $room->getServer()->getAppSecret(),'HS256');
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $roomUser, $avatar), $room->getServer()->getAppSecret(), 'HS256');
     }
 
     public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, RoomsUser $roomUser = null, $avatar = null)
@@ -165,57 +165,14 @@ class RoomService
         ];
 
         if ($server->isLiveKitServer()) {
-            $this->logger->debug('Build JWT for Livekit Server', ['servername'=>$server->getServerName()]);
-            $encSecret = '';
-            $cacheKey = 'livekit_public_key';
-            $url = $server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL') . '/public.pem';
-
-            // Fetch the public key from cache or download if not cached
-            $publicKey = $this->cache->get($cacheKey, function (ItemInterface $item) use ($url) {
-                // Set TTL for 1 hour
-                $item->expiresAfter(3600);
-
-                // Fetch the public key for encryption
-                $response = $this->httpClient->request('GET', $url);
-                if ($response->getStatusCode() !== 200) {
-                    $this->logger->error('Invalid Responsecode to fetch public key for secret encryption', ['url' => $url]);
-                    throw new \Exception("Unable to fetch public key from URL: $url");
-                }
-                $publicKey = $response->getContent();
-                if ($publicKey === false) {
-                    $this->logger->error('Unable to fetch public key for secret encryption', ['url' => $url]);
-                    throw new \Exception("Unable to fetch public key from URL: $url");
-                }
-
-                return $publicKey;
-            });
-            $secret = $server->getAppSecret();
-            if (!empty($publicKey)) {
-                $this->logger->debug('Public KEy fetched. the secret is ow encrypted', ['public key' => $publicKey]);
-                try {
-                    openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
-                    if ($encryptedSecret === false) {
-                        $this->logger->error('Encryption Faild', ['error'=> openssl_error_string()]);
-                        throw new \Exception("Encryption of secret failed");
-                    }
-                    $encSecret = base64_encode($encryptedSecret);
-                    $this->logger->debug('The secrest is base64 endoded', ['encodes secret'=>$encSecret]);
-                    $payload['livekit'] = [
-                        "host" => $server->getUrl(),
-                        "key" => $server->getAppId(),
-                        "secret" => $encSecret,
-                    ];
-                } catch (\Exception $exception) {
-                    $this->logger->error('There was an error encryptiong the secret',['error'=>$exception->getMessage()]);
-                    $payload['livekit'] = [
-                        "errror" => 'Invalid Foreign encryption key'
-                    ];
-                }
-
+            $encSecret = $this->generateEncryptedSecret($server);
+            if ($encSecret) {
+                $payload['livekit'] = [
+                    "host" => $server->getUrl(),
+                    "key" => $server->getAppId(),
+                ];
             }
         }
-
-
         if ($roomUser && !$avatar) {
             $this->logger->debug('profile picure is added to the jwt');
             if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
@@ -253,5 +210,62 @@ class RoomService
             $payload['context']['features'] = $screen;
         }
         return $payload;
+    }
+
+    public function generateEncryptedSecret(Server $server): ?string
+    {
+        if (!$server->isLiveKitServer()) {
+            return null;
+        }
+
+        $encSecret = null;
+        if ($server->isLiveKitServer()) {
+            $this->logger->debug('Build JWT for Livekit Server', ['servername' => $server->getServerName()]);
+
+            $cacheKey = 'livekit_public_key_' . $server->getId();
+            $url = $server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL') . '/public.pem';
+
+            // Fetch the public key from cache or download if not cached
+            $publicKey = $this->cache->get($cacheKey, function (ItemInterface $item) use ($url) {
+                // Set TTL for 1 hour
+                $item->expiresAfter(3600);
+
+                // Fetch the public key for encryption
+                $response = $this->httpClient->request('GET', $url);
+                if ($response->getStatusCode() !== 200) {
+                    $this->logger->error('Invalid Responsecode to fetch public key for secret encryption', ['url' => $url]);
+                    throw new \Exception("Unable to fetch public key from URL: $url");
+                }
+                $publicKey = $response->getContent();
+                if ($publicKey === false) {
+                    $this->logger->error('Unable to fetch public key for secret encryption', ['url' => $url]);
+                    throw new \Exception("Unable to fetch public key from URL: $url");
+                }
+
+                return $publicKey;
+            });
+
+            $secret = $server->getAppSecret();
+
+            if (!empty($publicKey)) {
+                $this->logger->debug('Public KEy fetched. the secret is ow encrypted', ['public key' => $publicKey]);
+                try {
+                    openssl_public_encrypt($secret, $encryptedSecret, $publicKey);
+                    if ($encryptedSecret === false) {
+                        $this->logger->error('Encryption Faild', ['error' => openssl_error_string()]);
+                        throw new \Exception("Encryption of secret failed");
+                    }
+                    $encSecret = base64_encode($encryptedSecret);
+
+                } catch (\Exception $exception) {
+                    $this->logger->error('There was an error encryptiong the secret', ['error' => $exception->getMessage()]);
+                    $payload['livekit'] = [
+                        "errror" => 'Invalid Foreign encryption key'
+                    ];
+                }
+
+            }
+        }
+        return $encSecret;
     }
 }

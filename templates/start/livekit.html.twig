@@ -88,7 +88,7 @@
 
     <script>
 
-        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name,moderator) }}';
+        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name,moderator) }}&secret={{ generateEncryptedSecret(room) }}';
         const displayName = '{{ name }}';
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
         var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
