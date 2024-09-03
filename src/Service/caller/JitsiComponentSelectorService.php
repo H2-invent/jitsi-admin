@@ -187,7 +187,7 @@ class JitsiComponentSelectorService
     {
 
         try {
-            JWT::decode($token, $this->publicKey, ['RS256']);
+            JWT::decode($token, $this->publicKey);
             return true;
         } catch (\Exception $exception) {
             return false;

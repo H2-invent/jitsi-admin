@@ -14,7 +14,7 @@ export class LivekitUtils {
         this.initSidebarMove();
         initSocialIcons(this.changeCamera.bind(this));
         this.initGeneralIncommingmessages();
-       this.api.addEventListener('LocalParticipantConnected', function (event) {
+       this.api.addEventListener('LocalParticipantConnected',  (event)=> {
             enterMeeting();
             initStartWhiteboard();
             showPlayPause();
@@ -27,7 +27,7 @@ export class LivekitUtils {
             }
         });
 
-       this.api.addEventListener('LocalParticipantDisconnected', function (event) {
+       this.api.addEventListener('LocalParticipantDisconnected',  (event) =>{
             leaveMeeting();
             initStarSend();
             console.log('The user left the meeting');
@@ -114,7 +114,10 @@ export class LivekitUtils {
         )
     }
     hangup(){
-        //todo impement hangup
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'disconnect'
+        )
         return true;
     }
 

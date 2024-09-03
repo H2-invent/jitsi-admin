@@ -113,9 +113,8 @@ function askHangup() {
         return false;
     }
     if (livekitUtil) {
-
         livekitUtil.hangup();
-        return false;
+        return true;
 
     }
     // SweetAlert2 Bestätigung

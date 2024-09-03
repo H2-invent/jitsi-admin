@@ -50,7 +50,7 @@ export class livekitApi {
         document.addEventListener(eventName, callback);
     }
 
-    sendMessageToIframe(object, method, params) {
+    sendMessageToIframe(object, method, params = {}) {
         const message = {object: object, method: method, params: params};
         console.log(message);
         this.iframe.contentWindow.postMessage(message,'*');

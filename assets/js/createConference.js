@@ -117,7 +117,7 @@ function isFullscreen() {
     if (st != window.screenY) {
         return false;
     }
-    return window.fullScreen == true || screen.height - document.documentElement.clientHeight <= 30;
+    return window.fullScreen == true || screen.height - document.documentElement.clientHeight <= 15;
 }
 
 function removeInteraction() {

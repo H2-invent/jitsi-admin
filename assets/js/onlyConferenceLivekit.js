@@ -28,8 +28,6 @@ var isBreakout = null;
 const parentElementId = "jitsiWindow";  // ID des Elternelements
 
 const api = new LivekitUtils(parentElementId, livekitUrl);
-let conferenceRunning = false;
-
 
 
 
@@ -101,8 +99,7 @@ function checkClose() {
     if (!api.conferenceRunning) {
         close();
     }else {
-        //todo hier das meeting per api beenden
-        // api.endMeeting();
+      api.hangup();
     }
 
 }
