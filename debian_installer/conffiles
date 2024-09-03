@@ -1,1 +1,4 @@
 /etc/apache2/sites-available/jitsiadmin.conf
+/etc/apache2/sites-available/jitsiadmin_ssl.conf
+/etc/systemd/system/jitsi-admin_websocket.environment
+/etc/systemd/system/jitsi-admin_messenger.environment

@@ -4,3 +4,4 @@ systemctl stop jitsi-admin_websocket.service
 systemctl disable jitsi-admin_websocket.service
 systemctl disable jitsi-admin_websocket.service
 a2dissite jitsiadmin
+a2dissite jitsiadmin_ssl
