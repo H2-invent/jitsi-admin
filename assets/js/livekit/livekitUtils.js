@@ -8,13 +8,14 @@ import {initStarSend} from "../endModal";
 
 export class LivekitUtils {
     conferenceRunning = false;
-    constructor(parent,url) {
-        this.api = new livekitApi(parent,url);
+
+    constructor(parent, url) {
+        this.api = new livekitApi(parent, url);
         this.toolbar = new ToolbarUtils();
         this.initSidebarMove();
         initSocialIcons(this.changeCamera.bind(this));
         this.initGeneralIncommingmessages();
-       this.api.addEventListener('LocalParticipantConnected',  (event)=> {
+        this.api.addEventListener('LocalParticipantConnected', (event) => {
             enterMeeting();
             initStartWhiteboard();
             showPlayPause();
@@ -27,20 +28,21 @@ export class LivekitUtils {
             }
         });
 
-       this.api.addEventListener('LocalParticipantDisconnected',  (event) =>{
+        this.api.addEventListener('LocalParticipantDisconnected', (event) => {
             leaveMeeting();
             initStarSend();
             console.log('The user left the meeting');
             this.conferenceRunning = false;
         });
+
         function changeCamera(cameraLabel) {
             console.log(`change camera to ${cameraLabel}`);
             //todo hier camera setzen nanch label
         }
     }
 
-    initGeneralIncommingmessages(){
-        window.addEventListener('message',  (e)=> {
+    initGeneralIncommingmessages() {
+        window.addEventListener('message', (e) => {
             const decoded = e.data;
 
             if (typeof decoded.scope !== 'undefined' && decoded.scope === "jitsi-admin-iframe") {
@@ -48,14 +50,14 @@ export class LivekitUtils {
                     case 'pauseIframe':
                         this.toggleMic(false);
                         this.toggleCamera(false);
-                        this.setNameWithPrefix('(Away)');
+                        this.setNameWithPrefix('(Away) ' + displayName);
                         this.setAvatarUrl('https://www3.h2-invent.com/user_away.webp');
 
                         break;
                     case 'playIframe':
                         this.toggleMic(true);
                         this.toggleCamera(true);
-                        this.setNameWithPrefix('');
+                        this.setNameWithPrefix(displayName);
                         this.setAvatarUrl(avatarUrl)
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
@@ -81,30 +83,34 @@ export class LivekitUtils {
     changeCamera(cameraLabel) {
         console.log(cameraLabel);
     }
+
     toggleMic(enable) {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setMicrophoneEnabled',
-            {enable: enable}
+            {enabled: enable}
         )
 
     }
+
     toggleCamera(enable) {
 
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setCameraEnabled',
-            {enable: enable}
+            {enabled: enable}
         )
     }
-    setNameWithPrefix(prefix){
+
+    setNameWithPrefix(name) {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setName',
-            {name: prefix+' '+displayName}
+            {name: name}
         )
     }
-    setAvatarUrl(url){
+
+    setAvatarUrl(url) {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setAvatarUrl',
@@ -113,7 +119,8 @@ export class LivekitUtils {
             }
         )
     }
-    hangup(){
+
+    hangup() {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'disconnect'
