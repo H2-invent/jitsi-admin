@@ -180,7 +180,6 @@ class JitsiComponentSelectorService
             'iss' => 'signal',
             'aud' => 'jitsi-component-selector'
         ];
-        echo $this->privateKey;
         $this->jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, ['kid' => $this->kid]);
         return $this->jwt;
     }
