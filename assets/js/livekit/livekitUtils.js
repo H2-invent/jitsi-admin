@@ -106,7 +106,9 @@ export class LivekitUtils {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setName',
-            {name: name}
+            {
+                name: name
+            }
         )
     }
 

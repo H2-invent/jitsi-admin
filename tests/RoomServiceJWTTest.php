@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -32,36 +33,27 @@ class RoomServiceJWTTest extends KernelTestCase
 //        $container->set('cache.system', new NullAdapter());
         // Falls du andere Cache-Pools hast, setze diese ebenfalls auf NullAdapter
     }
+
     public function testGenerateJwtPayloadWithValidKey()
     {
-        $validEncryptionKEy = '-----BEGIN RSA PUBLIC KEY-----
-MIGJAoGBAIsxWyQsZnR9F2dOSNlRQMJNCc25LwcKy0BOUElatizt3sf+nI0p0xJ+
-urlQ4YIVv+/6z+BzHaGLnS6Yx0kXxg9MI5K9myhjvaqwVTfYw8E2bywRnDPRVg7h
-zWPNFyFPG1rXIvin7AnHWdl5Qmx5c7atFIHRU0Jhr/Nf4dHmNPpjAgMP//s=
------END RSA PUBLIC KEY-----';
-        $mockResponse = new MockResponse(
-            $validEncryptionKEy,
-            [
-                'http_code' => 200,
-            ]
-        );
-        $validPrivateKey='-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgQCLMVskLGZ0fRdnTkjZUUDCTQnNuS8HCstATlBJWrYs7d7H/pyN
-KdMSfrq5UOGCFb/v+s/gcx2hi50umMdJF8YPTCOSvZsoY72qsFU32MPBNm8sEZwz
-0VYO4c1jzRchTxta1yL4p+wJx1nZeUJseXO2rRSB0VNCYa/zX+HR5jT6YwIDD//7
-AoGABwZiuJOOdTW+cJNyVrm7LMLeY3c7kiOR2HFBdCKyEl7SaOGhFhkNL6wrzzjL
-BdKt49Vbq0OD0gbF+8JPBD/GRAO6Jh5Mbn/9ogZDLFK6I2kQKUYxQVwLvRNk/+AU
-Crdc55pqne1p57UX7B3SoqQ8rPQzRny+RrW+q8RElSNxyM8CQQDCRH4Y4cuy4gJF
-CTnO3aarc3HEs9SZjzoKVbwJF7F3v+mBnLIuxS7Utl5WWRn4sapocMwa+4sCC0KY
-NM4F+sJPAkEAt2yTuvBCgTw2DzGPrGmOhr98l7hdHcBKkK2YWPI2oNjSpBotL3Jh
-jp71/iHFqQKH2yL28fT8XDhNc/u3VGHlrQJASxedce7/dacKlysRG3o0cD0+zoVI
-NMmeBSLvPbHBgPtZELUjFbhvbKwnxvaHO7Qt3AUB+5TmpPhmKXmyspYqUQJAF9e3
-wFZOlAKInLDHbuzUNYS9NLjSrlOY+2GrK9dLrpyNpEp9ZmHLbmg6pNCp0V7aY++Q
-+c1BDMYSiUELVx674wJBAJKamTd46qrvyZQ4EyG3EbC+1P+Rv8wjUYzqoiHEdjiM
-dMoTNcFyHcQayIDo7PwBfjlGu7giuYF/CUSWKtAbFD4=
------END RSA PRIVATE KEY-----';
-
-        $httpClient = new MockHttpClient($mockResponse, 'http://etherpadurl.com');
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
+        $mockResponses = [
+            new MockResponse(
+                $validEncryptionKEy,
+                [
+                    'http_code' => 200,
+                ]
+            ),
+            new MockResponse(
+                $validEncryptionKEy,
+                [
+                    'http_code' => 200,
+                ]
+            )
+        ];
+        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
+        $httpClient = new MockHttpClient($mockResponses, 'http://etherpadurl.com');
 
         $roomService = self::getContainer()->get(RoomService::class);
         $roomService->setHttpClient($httpClient);
@@ -75,21 +67,17 @@ dMoTNcFyHcQayIDo7PwBfjlGu7giuYF/CUSWKtAbFD4=
         $rooms->setName('testRoom');
         $rooms->setUid('testUid')
             ->setUidReal('uidReal');
-        $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true, null, null);
-        // Arrange
-
-
-        $encryptedSecret = base64_decode($payload['livekit']['secret']);
-
+        $encryptedSecret = $roomService->generateEncryptedSecret($rooms->getServer());
+        $encryptedSecret = urldecode($encryptedSecret);
 
         $decryptedSecret = '';
-       openssl_private_decrypt($encryptedSecret, $decryptedSecret, $validPrivateKey);
+        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
 
         self::assertEquals(
-           'testSecret',
+            'testSecret',
             $decryptedSecret
         );
-        $payload['livekit']['secret'] = $decryptedSecret;
+        $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
         self::assertEquals(
             [
                 'aud' => 'jitsi_admin',
@@ -99,7 +87,7 @@ dMoTNcFyHcQayIDo7PwBfjlGu7giuYF/CUSWKtAbFD4=
                 'context' =>
                     [
                         'user' =>
-                            array (
+                            array(
                                 'name' => 'Testuser',
                             ),
                     ],
@@ -107,7 +95,6 @@ dMoTNcFyHcQayIDo7PwBfjlGu7giuYF/CUSWKtAbFD4=
                     [
                         'host' => 'testLivekit.de',
                         'key' => 'testID',
-                        'secret' => 'testSecret',
                     ],
                 'moderator' => true,
             ],
@@ -120,30 +107,19 @@ dMoTNcFyHcQayIDo7PwBfjlGu7giuYF/CUSWKtAbFD4=
     function testGenerateJwtPayloadWithInvalidKey()
     {
 
-        $validEncryptionKEy = '-----BEGIN RSA PUBLIC KEY-----
+        $invalidEncryptionKEy = '-----BEGIN RSA PUBLIC KEY-----
 invalidKey
 -----END RSA PUBLIC KEY-----';
         $mockResponse = new MockResponse(
-            $validEncryptionKEy,
+            $invalidEncryptionKEy,
             [
                 'http_code' => 200,
             ]
         );
-        $validPrivateKey='-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgQCLMVskLGZ0fRdnTkjZUUDCTQnNuS8HCstATlBJWrYs7d7H/pyN
-KdMSfrq5UOGCFb/v+s/gcx2hi50umMdJF8YPTCOSvZsoY72qsFU32MPBNm8sEZwz
-0VYO4c1jzRchTxta1yL4p+wJx1nZeUJseXO2rRSB0VNCYa/zX+HR5jT6YwIDD//7
-AoGABwZiuJOOdTW+cJNyVrm7LMLeY3c7kiOR2HFBdCKyEl7SaOGhFhkNL6wrzzjL
-BdKt49Vbq0OD0gbF+8JPBD/GRAO6Jh5Mbn/9ogZDLFK6I2kQKUYxQVwLvRNk/+AU
-Crdc55pqne1p57UX7B3SoqQ8rPQzRny+RrW+q8RElSNxyM8CQQDCRH4Y4cuy4gJF
-CTnO3aarc3HEs9SZjzoKVbwJF7F3v+mBnLIuxS7Utl5WWRn4sapocMwa+4sCC0KY
-NM4F+sJPAkEAt2yTuvBCgTw2DzGPrGmOhr98l7hdHcBKkK2YWPI2oNjSpBotL3Jh
-jp71/iHFqQKH2yL28fT8XDhNc/u3VGHlrQJASxedce7/dacKlysRG3o0cD0+zoVI
-NMmeBSLvPbHBgPtZELUjFbhvbKwnxvaHO7Qt3AUB+5TmpPhmKXmyspYqUQJAF9e3
-wFZOlAKInLDHbuzUNYS9NLjSrlOY+2GrK9dLrpyNpEp9ZmHLbmg6pNCp0V7aY++Q
-+c1BDMYSiUELVx674wJBAJKamTd46qrvyZQ4EyG3EbC+1P+Rv8wjUYzqoiHEdjiM
-dMoTNcFyHcQayIDo7PwBfjlGu7giuYF/CUSWKtAbFD4=
------END RSA PRIVATE KEY-----';
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+
+        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'd1c8dfc1830cc0985d98acb9c6606ccb191ffdeb5c2be295c446dcea80391620.key');
+
 
         $httpClient = new MockHttpClient($mockResponse, 'http://etherpadurl.com');
 
@@ -171,13 +147,13 @@ dMoTNcFyHcQayIDo7PwBfjlGu7giuYF/CUSWKtAbFD4=
                 'context' =>
                     [
                         'user' =>
-                            array (
+                            array(
                                 'name' => 'Testuser',
                             ),
                     ],
                 'livekit' =>
                     [
-                        "errror" => 'Invalid Foreign encryption key'
+                        "error" => 'Invalid Foreign encryption key'
                     ],
                 'moderator' => true,
             ],

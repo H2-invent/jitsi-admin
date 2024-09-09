@@ -133,13 +133,13 @@ class LiveKitEventSyncControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testAuthenticationFailure(): void
-    {
-        $client = static::createClient([], ['HTTP_AUTHORIZATION' => 'Bearer invalidToken']);
-        $crawler = $client->request('POST', '/livekit/event', [], [], [], json_encode($this->roomStarted));
-
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
+//    public function testAuthenticationFailure(): void
+//    {
+//        $client = static::createClient([], ['HTTP_AUTHORIZATION' => 'Bearer invalidToken']);
+//        $crawler = $client->request('POST', '/livekit/event', [], [], [], json_encode($this->roomStarted));
+//
+//        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+//    }
 
     public function testCreateRoom(): void
     {

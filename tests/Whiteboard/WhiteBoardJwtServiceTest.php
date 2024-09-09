@@ -24,7 +24,7 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
                     'roles' => ['editor:' . $room->getUidReal()]
                 ],
                 'MY_SECRET',
-                'RS256'
+                'HS256'
             ),
             $whiteboardService->createJwt($room)
         );
@@ -36,7 +36,7 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
                     'roles' => ['moderator:' . $room->getUidReal()]
                 ],
                 'MY_SECRET',
-                'RS256'
+                'HS256'
             ),
             $whiteboardService->createJwt($room, true)
         );

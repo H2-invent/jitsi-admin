@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Service\RoomService;
 use App\Service\ThemeService;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -179,6 +180,7 @@ class JitsiComponentSelectorService
             'iss' => 'signal',
             'aud' => 'jitsi-component-selector'
         ];
+        echo $this->privateKey;
         $this->jwt = JWT::encode($payload, $this->privateKey, 'RS256', null, ['kid' => $this->kid]);
         return $this->jwt;
     }
@@ -187,9 +189,10 @@ class JitsiComponentSelectorService
     {
 
         try {
-            JWT::decode($token, $this->publicKey);
+            JWT::decode($token, new Key($this->publicKey,'RS256'));
             return true;
         } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
             return false;
         }
     }

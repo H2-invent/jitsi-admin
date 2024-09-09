@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Agence104\LiveKit\WebhookReceiver;
+use App\Repository\RoomsRepository;
 use App\Service\api\CheckAuthorizationService;
 use App\Service\webhook\RoomWebhookService;
 use Psr\Log\LoggerInterface;
@@ -22,7 +23,8 @@ class LiveKitEventSyncController extends AbstractController
     public function __construct(
         private RoomWebhookService    $webhookService,
         private ParameterBagInterface $parameterBag,
-        private LoggerInterface       $logger
+        private LoggerInterface       $logger,
+        private RoomsRepository       $roomsRepository,
     )
     {
         $this->token = $this->parameterBag->get('LIVEKIT_EVENT_SECRET');
@@ -40,9 +42,9 @@ class LiveKitEventSyncController extends AbstractController
         try {
             $this->logger->debug('livekit before parsing content');
             $event = $this->webhookReceiver->receive($content, null, true);
-            $this->logger->debug('livekit event as json',['json'=>$event->serializeToJsonString()]);
+            $this->logger->debug('livekit event as json', ['json' => $event->serializeToJsonString()]);
         } catch (\Exception $exception) {
-            $this->logger->error('livekit error',['message'=>$exception->getMessage()]);
+            $this->logger->error('livekit error', ['message' => $exception->getMessage()]);
             $this->logger->debug('livekit error', ['message' => 'Invalid event token found']);
 
             $array = ['authorized' => false];
@@ -53,6 +55,8 @@ class LiveKitEventSyncController extends AbstractController
 
         $this->logger->debug('livekit event token valid');
         $eventType = $event->getEvent();
+        $roomName = $event->getRoom()->getName();
+        $room =$this->roomsRepository->findOneBy(['name'=>$roomName]);
         $res = ['error' => false];
         $this->logger->debug('livekit Event found', ['event' => $eventType]);
         switch ($eventType) {

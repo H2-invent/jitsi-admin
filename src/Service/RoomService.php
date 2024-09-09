@@ -13,6 +13,7 @@ use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
 use App\Entity\User;
+use App\Exceptions\InvalidSSLKeyExeption;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
@@ -33,14 +34,13 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
  */
 class RoomService
 {
-    private $em;
+
     private $logger;
 
     private $uploadHelper;
 
     public function __construct(
         UploaderHelper                $uploaderHelper,
-        EntityManagerInterface        $entityManager,
         FormFactoryInterface          $formBuilder,
         LoggerInterface               $logger,
         private ParameterBagInterface $parameterBag,
@@ -48,7 +48,7 @@ class RoomService
         private HttpClientInterface   $httpClient
     )
     {
-        $this->em = $entityManager;
+
         $this->logger = $logger;
         $this->uploadHelper = $uploaderHelper;
     }
@@ -71,10 +71,9 @@ class RoomService
      */
     function join(Rooms $room, ?User $user, $t, $userName)
     {
-        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $room]);
-        if (!$roomUser) {
-            $roomUser = new RoomsUser();
-        }
+        $roomUser = $this->findUserRoomAttributeForRoomAndUser($user,$room);
+
+
         $moderator = false;
         if ($room->getModerator() === $user || $roomUser->getModerator()) {
             $moderator = true;
@@ -83,7 +82,7 @@ class RoomService
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        $url = $this->createUrl($t, $room, $moderator, $roomUser, $userName, $avatar);
+        $url = $this->createUrl($t, $room, $moderator, $user, $userName, $avatar);
         return $url;
     }
 
@@ -102,33 +101,33 @@ class RoomService
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
 
-    public function createUrl($t, Rooms $room, $isModerator, ?RoomsUser $roomUser, $userName, $avatar = null)
+    public function createUrl($t, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null)
     {
         if ($t === 'a') {
             $type = 'jitsi-meet://';
         } else {
             $type = 'https://';
         }
+        $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         $serverUrl = $room->getServer()->getUrl();
         $serverUrl = str_replace('https://', '', $serverUrl);
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
-        $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser, $avatar), $jitsi_jwt_token_secret, 'HS256');
         $url = $jitsi_server_url . '/' . $room->getUid();
+
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
+            $token = $this->generateJwt($room, $user, $userName, $isModerator,$avatar);
             $url = $url . '?jwt=' . $token;
         }
+
         $url = $url . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22';
         return $url;
     }
 
-    public function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false)
+    public function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null)
     {
-        $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(['user' => $user, 'room' => $room]);
-        if (!$roomUser) {
-            $roomUser = new RoomsUser();
-        }
+        $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
+
         $moderator = false;
         if ($room->getModerator() === $user || $roomUser->getModerator()) {
             $moderator = true;
@@ -140,11 +139,15 @@ class RoomService
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $roomUser, $avatar), $room->getServer()->getAppSecret(), 'HS256');
+        if ($avatarUrl){
+            $avatar = $avatarUrl;
+        }
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar), $room->getServer()->getAppSecret(), 'HS256');
     }
 
-    public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, RoomsUser $roomUser = null, $avatar = null)
+    public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null)
     {
+        $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
             return null;
         }
@@ -165,11 +168,18 @@ class RoomService
         ];
 
         if ($server->isLiveKitServer()) {
-            $encSecret = $this->generateEncryptedSecret($server);
-            if ($encSecret) {
+            try {
+                $encSecret = $this->generateEncryptedSecret($server);
+                if ($encSecret) {
+                    $payload['livekit'] = [
+                        "host" => $server->getUrl(),
+                        "key" => $server->getAppId(),
+                    ];
+                }
+            }catch (InvalidSSLKeyExeption){
+                $this->logger->error('Invalid livekit public key',['server'=>$server->getUrl()]);
                 $payload['livekit'] = [
-                    "host" => $server->getUrl(),
-                    "key" => $server->getAppId(),
+                    "error" =>'Invalid Foreign encryption key',
                 ];
             }
         }
@@ -259,13 +269,34 @@ class RoomService
 
                 } catch (\Exception $exception) {
                     $this->logger->error('There was an error encryptiong the secret', ['error' => $exception->getMessage()]);
-                    $payload['livekit'] = [
-                        "errror" => 'Invalid Foreign encryption key'
-                    ];
+                    throw new InvalidSSLKeyExeption();
+
                 }
 
             }
         }
         return urlencode($encSecret);
     }
+
+    public function findUserRoomAttributeForRoomAndUser(?User $user, ?Rooms $rooms): RoomsUser
+    {
+        $roomUser = new RoomsUser();
+        if (!$user || !$rooms) {
+            return $roomUser;
+        }
+
+        $roomUser->setUser($user)
+            ->setRoom($rooms);
+
+
+        foreach ($user->getRoomsAttributes() as $data) {
+            if ($data->getRoom() === $rooms) {
+                return $data;
+            }
+        }
+
+        return $roomUser;
+    }
+
+
 }
