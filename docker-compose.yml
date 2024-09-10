@@ -51,7 +51,7 @@ services:
 
     networks:
       - external
-
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -100,6 +100,7 @@ services:
     depends_on:
       db-ja:
         condition: service_healthy
+    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
       interval: 20s
@@ -152,6 +153,7 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+
     env_file:
       - ./.env
       - ./.env.local
@@ -176,6 +178,7 @@ services:
       - ./.env
       - ./.env.local
       - ./.env.custom
+    restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
@@ -198,7 +201,7 @@ services:
       KC_DB_USERNAME: keycloak
       KC_HTTP_RELATIVE_PATH: /keycloak
       KC_PROXY: passthrough
-
+    restart: unless-stopped
     command:
       - start-dev
       - --import-realm
