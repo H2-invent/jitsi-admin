@@ -9,18 +9,22 @@ import {initStarSend} from "../endModal";
 export class LivekitUtils {
     conferenceRunning = false;
 
-    constructor(parent, url) {
+    constructor(parent, url, videoOn = null, cameralabel = null, miclabel = null) {
+        this.videoOn = videoOn;
+        this.cameraLabel = cameralabel;
+        this.miclabel = miclabel;
         this.api = new livekitApi(parent, url);
         this.toolbar = new ToolbarUtils();
         this.initSidebarMove();
         initSocialIcons(this.changeCamera.bind(this));
         this.initGeneralIncommingmessages();
-        this.api.addEventListener('LocalParticipantConnected', (event) => {
+        this.api.addEventListener('LocalParticipantConnected', () => {
             enterMeeting();
             initStartWhiteboard();
             showPlayPause();
             initSocialIcons(changeCamera.bind(this));
             this.conferenceRunning = true;
+            this.initMicAndCamera();
             window.onbeforeunload = function (e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
@@ -28,7 +32,7 @@ export class LivekitUtils {
             }
         });
 
-        this.api.addEventListener('LocalParticipantDisconnected', (event) => {
+        this.api.addEventListener('LocalParticipantDisconnected', () => {
             leaveMeeting();
             initStarSend();
             console.log('The user left the meeting');
@@ -72,10 +76,10 @@ export class LivekitUtils {
 
     initSidebarMove() {
 
-        this.api.iframe.addEventListener("mouseover", (event) => {
+        this.api.iframe.addEventListener("mouseover", () => {
             this.toolbar.sidebarAction();
         });
-        this.api.addEventListener("touchstart", (event) => {
+        this.api.addEventListener("touchstart", () => {
             this.toolbar.sidebarAction();
         });
     }
@@ -126,6 +130,46 @@ export class LivekitUtils {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'disconnect'
+        )
+        return true;
+    }
+
+    initMicAndCamera() {
+        if (this.cameraLabel) {
+            this.setCameraByLabel(this.cameraLabel);
+        }
+        if (this.miclabel) {
+            this.setMicByLabel(this.miclabel);
+        }
+        if (this.videoOn !== null){
+            if(this.videoOn){
+                this.toggleCamera(true);
+            }else {
+                this.toggleCamera(false);
+            }
+        }
+    }
+
+    setCameraByLabel(label) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'switchActiveDevice',
+            {
+                kind: 'videoinput',
+                label: label,
+            },
+        )
+        return true;
+    }
+
+    setMicByLabel(label) {
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'switchActiveDevice',
+            {
+                kind: 'audioinput',
+                label: label,
+            },
         )
         return true;
     }

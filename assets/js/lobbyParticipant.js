@@ -3,26 +3,22 @@
  *
  */
 import 'regenerator-runtime/runtime'
-import * as mdb from 'mdb-ui-kit'; // lib
-import {masterNotify, initNotofication} from './lobbyNotification';
+import {initNotofication} from './lobbyNotification';
 import {initCircle} from './initCircle';
-import {initWebcam, choosenId, stopWebcam, toggle, webcamArr, choosenLabelFull} from './cameraUtils';
-import {initAUdio, micId, echoOff, micArr, micLabelFull} from './audioUtils';
+import {choosenLabelFull, initWebcam, stopWebcam, toggle} from './cameraUtils';
+import {echoOff, initAUdio, micLabelFull} from './audioUtils';
 import {initAjaxSend} from './confirmation';
 import {setSnackbar} from './myToastr';
 import {initGenerell} from './init';
-import {enterMeeting, leaveMeeting, socket} from './websocket';
-import {initModeratorIframe, close, inIframe, showPlayPause} from './moderatorIframe';
+import {leaveMeeting, socket} from './websocket';
+import {close, inIframe, initModeratorIframe} from './moderatorIframe';
 import {initStarSend} from './endModal';
-import {initStartWhiteboard} from './startWhiteboard';
-import {initSocialIcons} from './createSocialButtons';
 import {moveTag} from './moveTag';
-import {ConferenceUtils} from './ConferenceUtils';
 import Swal from 'sweetalert2'
 
-import $ from "jquery";
 import {JitsiUtils} from "./jitsiUtils";
 import {LivekitUtils} from "./livekit/livekitUtils";
+
 let jitsiUtils = null;
 let liveKitUtils = null;
 //teil ohne JItsi zusammehang
@@ -71,7 +67,7 @@ function initMercure() { // funktion um die kontext spezifischenbefehle vom webs
 
 function closeBrowser() {
     fetch(browserLeave)
-        .then(response => {
+        .then( () => {
             if (inIframe()) {
                 close();
             } else {
@@ -121,8 +117,7 @@ document.querySelectorAll('.leave').forEach(element => {
     element.addEventListener('click', function (e) {
         e.preventDefault();
         clickLeave = true;
-        const url = element.getAttribute('href');
-        browserLeave = url;
+        browserLeave = element.getAttribute('href');
         closeBrowser();
     });
 });
@@ -130,11 +125,9 @@ document.querySelectorAll('.leave').forEach(element => {
 
 let api;
 var conferenceOptions;
-var successTimer;
 var clickLeave = false;
 var displayName = null;
 var avatarUrl = null;
-let conferenceUtils = null;
 
 function prepareVideoFrame() {
     stopWebcam();
@@ -235,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function startConference(options){
     if (typeof livekitUrl!== 'undefined'){
-        liveKitUtils =  new LivekitUtils('jitsiWindow', livekitUrl+'&jwt='+options.jwt)
+        liveKitUtils =  new LivekitUtils('jitsiWindow', livekitUrl+'&jwt='+options.jwt,toggle,choosenLabelFull,micLabelFull);
         //here start the livekitu confernece
     }else {
         initJitsiMeet(options);
