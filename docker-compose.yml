@@ -195,6 +195,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     environment:
       KEYCLOAK_ADMIN: admin
       KC_DB: mariadb
