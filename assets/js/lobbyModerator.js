@@ -69,42 +69,73 @@ function initMercure() {
 
 }
 
-
-$('.startJitsiIframe').click(function (e) {
-    e.preventDefault();
-    echoOff();
-    document.title = conferenzeName;
-    $(this).remove();
-    $('#colWebcam').remove();
-    $('#col-waitinglist').removeClass('col-lg-9 col-md-6').addClass('col-12');
-    moveWrapper();
-    $('#sliderTop').css('transform', 'translateY(-' + $('#col-waitinglist').outerHeight() + 'px)');
-    window.scrollTo(0, 1)
-    initDragDragger();
-    document.querySelector('body').classList.add('touchactionNone');
-    window.onbeforeunload = function () {
-        return '';
-    }
-    if (typeof livekitUrl !== 'undefined') {
-        livekitUtil = new LivekitUtils('jitsiWindow', livekitUrl,toggle,choosenLabelFull,micLabelFull);
-    } else {
-        options.devices = {
-            audioInput: micId,
-            audioOutput: audioId,
-            videoInput: choosenId
-        }
-        jitsiUtils = new JitsiUtils(options, domain, toggle, choosenLabelFull, micLabelFull, askHangup);
-        $('#jitsiWindow').find('iframe').css('height', '100%');
-    }
-
-
-    // document.getElementsByTagName('body').style.width='100%';
-
-    window.addEventListener("scroll", (e) => {
+document.querySelectorAll('.startJitsiIframe').forEach(function (element) {
+    element.addEventListener('click', function (e) {
         e.preventDefault();
-        window.scrollTo(0, 0);
+        echoOff();
+        document.title = conferenzeName;
+
+        // Entferne das geklickte Element
+        element.remove();
+
+        // Entferne colWebcam und passe col-waitinglist an
+        const colWebcam = document.getElementById('colWebcam');
+        if (colWebcam) {
+            colWebcam.remove();
+        }
+
+        const colWaitinglist = document.getElementById('col-waitinglist');
+        if (colWaitinglist) {
+            colWaitinglist.classList.remove('col-lg-9', 'col-md-6');
+            colWaitinglist.classList.add('col-12');
+        }
+
+        moveWrapper();
+
+        // Slider Top-Position anpassen
+        const sliderTop = document.getElementById('sliderTop');
+        if (sliderTop && colWaitinglist) {
+            sliderTop.style.transform = 'translateY(-' + colWaitinglist.offsetHeight + 'px)';
+        }
+
+        // Scroll nach oben
+        window.scrollTo(0, 1);
+
+        initDragDragger();
+
+        // body Klasse hinzufügen
+        document.body.classList.add('touchactionNone');
+
+        // Warnung vor dem Verlassen der Seite
+        window.onbeforeunload = function () {
+            return '';
+        };
+
+        // Livekit- oder JitsiUtils initialisieren
+        if (typeof livekitUrl !== 'undefined') {
+            livekitUtil = new LivekitUtils('jitsiWindow', livekitUrl, toggle, choosenLabelFull, micLabelFull);
+        } else {
+            options.devices = {
+                audioInput: micId,
+                audioOutput: audioId,
+                videoInput: choosenId
+            };
+            jitsiUtils = new JitsiUtils(options, domain, toggle, choosenLabelFull, micLabelFull, askHangup);
+
+            const jitsiIframe = document.querySelector('#jitsiWindow iframe');
+            if (jitsiIframe) {
+                jitsiIframe.style.height = '100%';
+            }
+        }
+
+        // Verhindere, dass das Fenster beim Scrollen bewegt wird
+        window.addEventListener("scroll", function (e) {
+            e.preventDefault();
+            window.scrollTo(0, 0);
+        });
     });
 });
+
 
 function askHangup() {
     if (!jitsiUtils && !livekitUtil) {
@@ -234,7 +265,5 @@ initCircle();
 $(document).ready(function () {
     initGenerell();
     initMercure();
-
-    const customBoundary = document.querySelector('body');
 
 })

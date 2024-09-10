@@ -15,6 +15,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
@@ -69,7 +70,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
-
+      - ./.env.custom
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/healthz"]
       interval: 10s
@@ -108,6 +109,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -153,6 +155,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     depends_on:
       app-ja:
         condition: service_healthy
@@ -172,6 +175,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
