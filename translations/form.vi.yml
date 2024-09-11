@@ -67,7 +67,7 @@ option:
   decembre: Dezember
   user: Im User Claim
   root: Im Root Claim
-lable.serverUrl: Máy chủ Jitsi URL
+lable.serverUrl: Konferenz Server URL
 label.appId: App-ID
 label.appSecret: App-Secret
 label.scheduleMeeting: Sắp xếp cuộc họp
@@ -160,6 +160,8 @@ label:
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
+  myName: Mein Name
+  liveKitServer: Ich möchte einen Livekit-Server einrichten
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
