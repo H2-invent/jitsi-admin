@@ -47,10 +47,7 @@ class JitsiAdminController extends AbstractController
         $user = $this->getUser();
 
         if (!$user) {
-            echo 'getSession: '.$session->get('userId')."\n\r";
-
             $user = $this->doctrine->getRepository(User::class)->find($session->get('userId'));
-        echo $user->getEmail()."\n\r";
         }
 
         return $user;

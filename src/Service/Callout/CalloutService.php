@@ -35,7 +35,7 @@ class CalloutService
 public
 function initCalloutSession(Rooms $rooms, User $user, User $inviter): ?CalloutSession
 {
-    dump('createCallout');
+
     $this->logger->debug('create callout session');
     return $this->createCallout($rooms, $user, $inviter);
 }
@@ -61,19 +61,18 @@ function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
         return null;
     }
 
-    if ($callout) {
-        $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');
-        if ($callout->getState() > 1) {//calloutsession is on hold
-            if ($callout->getLeftRetries() > 0) {
-                $callout->setLeftRetries($callout->getLeftRetries() - 1);
-                $callout->setState(CalloutSession::$INITIATED);
-                $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
-                $this->entityManager->persist($callout);
-                $this->entityManager->flush();
+        if ($callout) {
+            $this->logger->debug('there is already a calloutsession. Change retries und reinvite the callout user');
+            if ($callout->getState() > 1) {//calloutsession is on hold
+                if ($callout->getLeftRetries() > 0) {
+                    $callout->setLeftRetries($callout->getLeftRetries() - 1);
+                    $callout->setState(CalloutSession::$INITIATED);
+                    $this->entityManager->persist($callout);
+                    $this->entityManager->flush();
+                }
             }
+            return $callout;
         }
-        return $callout;
-    }
 
     $this->adhocMeetingWebsocketService->sendAddhocMeetingWebsocket($user, $inviter, $rooms);
 
@@ -108,7 +107,8 @@ function createCallout(Rooms $rooms, User $user, User $inviter): ?CalloutSession
 public
 function checkCallout(Rooms $rooms, User $user): ?CalloutSession
 {
-    $this->logger->debug('check if callout exists');return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
+    $this->logger->debug('check if callout exists');
+    return $this->entityManager->getRepository(CalloutSession::class)->findOneBy(['room' => $rooms, 'user' => $user]);
 }/**
      * checks if a callInSession is running
      * @param Rooms $rooms
@@ -175,5 +175,6 @@ function getCallerIdForUser(?User $user)
     }
     return null;
 }
+
 
 }

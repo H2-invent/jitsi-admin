@@ -15,6 +15,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
@@ -48,8 +49,9 @@ services:
       - "traefik.http.routers.traefik-ja.middlewares=traefik-auth"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
 
-
-
+    networks:
+      - external
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -60,7 +62,7 @@ services:
 
   #Here is the websocket hub
   websocket-ja:
-    hostname: ${RANDOMTAG}websocket-ja
+    hostname: websocket-ja
     build: nodejs
     restart: unless-stopped
     depends_on:
@@ -68,7 +70,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
-
+      - ./.env.custom
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/healthz"]
       interval: 10s
@@ -85,7 +87,9 @@ services:
       - "traefik.http.routers.websocket-ja.tls.certresolver=letsencrypt"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=http"
       - "traefik.http.routers.app-secure.middlewares=sslheader@docker"
-
+    networks:
+      - external
+      - internal
     volumes:
       - caddy_data:/data
       - caddy_config:/config
@@ -96,6 +100,7 @@ services:
     depends_on:
       db-ja:
         condition: service_healthy
+    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
       interval: 20s
@@ -105,6 +110,7 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -137,6 +143,9 @@ services:
       - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
+    networks:
+      - external
+      - internal
 
   app-queu:
     <<: *jitsi_admin_app
@@ -144,19 +153,23 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     depends_on:
       app-ja:
         condition: service_healthy
     command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
     volumes:
       - theme_data:/var/www/html/theme
+    networks:
+      - internal
 
   db-ja:
     image: mariadb:latest
-    hostname: ${RANDOMTAG}db-ja
+    hostname: db-ja
     healthcheck:
       test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
       timeout: 20s
@@ -164,12 +177,15 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
+    restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-
+    networks:
+      - internal
 
   keycloak-ja:
     image: quay.io/keycloak/keycloak:22.0.3
@@ -179,13 +195,14 @@ services:
     env_file:
       - ./.env
       - ./.env.local
+      - ./.env.custom
     environment:
       KEYCLOAK_ADMIN: admin
       KC_DB: mariadb
       KC_DB_USERNAME: keycloak
       KC_HTTP_RELATIVE_PATH: /keycloak
       KC_PROXY: passthrough
-
+    restart: unless-stopped
     command:
       - start-dev
       - --import-realm
@@ -199,7 +216,13 @@ services:
 
     volumes:
       - ./docker/keycloak/:/opt/keycloak/data/import
+    networks:
+      - external
+      - internal
 
+networks:
+  external:
+  internal:
 
 volumes:
   mariadb:

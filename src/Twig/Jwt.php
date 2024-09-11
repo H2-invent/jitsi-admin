@@ -29,6 +29,7 @@ class Jwt extends AbstractExtension
         return [
             new TwigFunction('jwtFromRoom', [$this, 'jwtFromRoom']),
             new TwigFunction('urlFromRoom', [$this, 'urlFromRoom']),
+            new TwigFunction('generateEncryptedSecret', [$this, 'generateEncryptedSecret']),
         ];
     }
 
@@ -44,5 +45,9 @@ class Jwt extends AbstractExtension
         } else {
             return $this->roomService->joinUrl($t, $rooms, $name, false);
         }
+    }
+    public function generateEncryptedSecret( Rooms $rooms)
+    {
+        return $this->roomService->generateEncryptedSecret($rooms->getServer());
     }
 }

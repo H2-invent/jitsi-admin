@@ -44,7 +44,7 @@ class StartMeetingService
      */
     private $twig;
     private $url;
-    private $room;
+    private ?Rooms $room;
     private $user;
     private $type;
     private $name;
@@ -125,7 +125,6 @@ class StartMeetingService
             if ($room->getLobby()) {
                 return $this->generateLobby();
             }
-
             return $this->roomDefault();
         }
         return $this->roomNotFound();
@@ -182,18 +181,20 @@ class StartMeetingService
 
     public function createLobbyModeratorResponse()
     {
-        return new Response(
-            $this->twig->render(
-                'lobby/index.html.twig',
-                [
-                    'room' => $this->room,
-                    'server' => $this->room->getServer(),
-                    'type' => $this->type,
-                    'name' => $this->name,
-                    'user' => $this->user
-                ]
-            )
-        );
+
+            return new Response(
+                $this->twig->render(
+                    'lobby/index.html.twig',
+                    [
+                        'room' => $this->room,
+                        'server' => $this->room->getServer(),
+                        'type' => $this->type,
+                        'name' => $this->name,
+                        'user' => $this->user
+                    ]
+                )
+            );
+
     }
 
     /**
@@ -271,7 +272,8 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            return new Response($this->twig->render('start/index.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
+                return new Response($this->twig->render('start/index.html.twig', ['server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name]));
+
         }
         return new NotFoundHttpException('Room not found');
     }

@@ -5,6 +5,7 @@
 
 import $ from 'jquery';
 import {createIframe} from "./createConference";
+import Swal from "sweetalert2";
 
 global.$ = global.jQuery = $;
 import ('jquery-confirm');
@@ -14,45 +15,58 @@ let ok = "OK";
 
 
 function initconfirmLoadOpenPopUp() {
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('adhocConfirm')) {
+            e.preventDefault();
 
-    $(document).on('click', '.adhocConfirm', function (e) {
+            var url = e.target.href;
+            var text = e.target.getAttribute('data-text') || 'Wollen Sie die Aktion durchführen?';
+            var title = e.target.getAttribute('data-title') || 'Bestätigung';
+            var ok = 'Bestätigen'; // Passe den Text nach Bedarf an
+            var cancel = 'Abbrechen'; // Passe den Text nach Bedarf an
 
-        e.preventDefault();
-        var url = $(this).prop('href');
-        var text = $(this).data('text');
-        if (typeof text === 'undefined') {
-
-            text = 'Wollen Sie die Aktion durchführen?'
+            fetch(url)
+                .then(response => response.text())
+                .then(htmlContent => {
+                    Swal.fire({
+                        title: title,
+                        html: htmlContent,
+                        backdrop:false,
+                        showCancelButton: true,
+                        confirmButtonText: ok,
+                        cancelButtonText: cancel,
+                        customClass: {
+                            confirmButton: 'btn btn-outline-danger',
+                            cancelButton: 'btn btn-outline-primary',
+                        },
+                        width: '50%',
+                        preConfirm: () => {
+                            var selectedOption = document.querySelector('#adhocTag option:checked').getAttribute('data-value');
+                            return fetch(selectedOption)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.popups) {
+                                        data.popups.forEach(function (value) {
+                                            createIframe(value.url, value.title);
+                                        });
+                                    }
+                                })
+                                .catch(() => {
+                                    Swal.showValidationMessage('Request failed');
+                                });
+                        }
+                    });
+                })
+                .catch(() => {
+                    Swal.fire({
+                        title: 'Fehler',
+                        text: 'Der Inhalt konnte nicht geladen werden.',
+                        icon: 'error'
+                    });
+                });
         }
-        $.confirm({
-            title: title,
-            content: 'url:'+url,
-            theme: 'material',
-            columnClass: 'col-md-8 col-12 col-lg-6',
-            buttons: {
-                confirm: {
-                    text: ok, // text for button
-                    btnClass: 'btn-outline-danger btn', // class for the button
-                    action: function () {
-                        var url = $('#adhocTag').find(":selected").data('value');
+    });
 
-
-                        $.get(url, function (data) {
-                            if(data.popups){
-                                for (var value of data.popups){
-                                    createIframe(value.url,value.title);
-                                }
-                            }
-                        })
-                    },
-                },
-                cancel: {
-                    text: cancel, // text for button
-                    btnClass: 'btn-outline-primary btn', // class for the button
-                },
-            }
-        });
-    })
 }
 
 
@@ -64,6 +78,7 @@ function initAdhocMeeting(titleL, cancelL, okL) {
     initconfirmLoadOpenPopUp();
 
 }
+
 function hideTooltip() {
     $('.tooltip').remove();
 }

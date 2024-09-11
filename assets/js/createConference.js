@@ -4,23 +4,23 @@ import Moveable from "moveable";
 import {Tooltip} from 'mdb-ui-kit';
 import $ from "jquery";
 import {setCookie, getCookie} from './cookie'
+import {multiframe} from "./multiframe";
+
 
 let counter = 50;
-let zindex = 10
+let zIndexOffset = 10
 let width = window.innerWidth * 0.75;
 let height = window.innerHeight * 0.75;
 let moveable;
-let frames = [];
 let dragactive = false;
-let startWidth = null;
-let startHeight = null;
+let multiframes = [];
 let startx = null;
 let starty = null;
-let tryfullscreen = null;
+let startWidth = null;
+let startHeight = null;
 let startTransform = null;
-let messageTimeout = {};
-let closingTimeout = {};
-let multiframes = {};
+let tryfullscreen = null;
+
 
 function initStartIframe() {
 
@@ -40,188 +40,76 @@ function initStartIframe() {
             if ("iframetoast" in target.dataset) {
                 setSnackbar(target.dataset.iframetoast, 'danger');
             } else {
-
-                createIframe(target.href, target.dataset.roomname, target.dataset.close === 'simple' ? false : true, true, target.dataset.bordercolor);
+                const isMaximized= getCookie('startMaximized')?getCookie('startMaximized'):1;
+                createIframe(target.href, target.dataset.roomname, isMaximized == 1, true, target.dataset.bordercolor);
             }
         }
     });
 
-    window.addEventListener('message', function (e) {
-        // Get the sent data
-        const data = e.data;
-        // If you encode the message in JSON before sending them,
-        // then decode here
-        recievecommand(data, e)
-    });
 
-    addEventListener('resize', (event) => {
-        setWidthOfminified();
-    });
+    // addEventListener('resize', (event) => {
+    //     setWidthOfminified();
+    // });
 }
 
 
-function recievecommand(data, event) {
-    let decoded;
-    try {
-        decoded = JSON.parse(data);
-    } catch (e) {
-        return false;
-    }
-
-    const type = decoded.type
-    if (decoded.url){
-        var multiframe = multiframes[decoded.url];
-    }
-
-    if (type === 'closeMe') {
-        clearTimeout(closingTimeout[decoded.frameId]);
-        delete closingTimeout[decoded.frameId];
-        closeIframe(decoded.frameId)
-        if (document.querySelectorAll('.jitsiadminiframe').length === 0) {
-        }
-    } else if (type === 'stopClosingMe') {
-        var frameId = decoded.frameId
-        clearTimeout(closingTimeout[frameId]);
-        delete closingTimeout[frameId];
-    } else if (type === 'openNewIframe') {
-        createIframe(decoded.url, decoded.title, false);
-    } else if (type === 'showPlayPause') {
-        var frame = document.getElementById(decoded.frameId);
-        frame.classList.add('isMutable');
-        frame.dataset.muted = 0;
-        frame.querySelector('.pauseConference').classList.remove('d-none');
-        checkIfIsMutable(frame);
-    } else if (type === 'colorBorder') {
-        if (multiframe){
-            multiframe.style.borderColor = decoded.color;
-        }
-
-    } else if (type === 'ack') {
-        var messageId = decoded.messageId
-        clearTimeout(messageTimeout[messageId]);
-        delete messageTimeout[messageId];
-    }
-}
 
 function createIframe(url, title, startMaximized = true, borderColor = '') {
-    if (window.$chatwoot) {
-        window.$chatwoot.toggleBubbleVisibility("hide"); // to hide the bubble
-    }
 
     width = window.innerWidth * 0.75;
     height = window.innerHeight * 0.75;
     counter = (document.querySelectorAll('.jitsiadminiframe').length + 1) * 50;
+
     var urlPath = url.split('?')[0];
     var random = md5(urlPath);
-    if (document.getElementById('jitsiadminiframe' + random)) {
-        //the iframe already exists. move it to the foreground an to the visible area
-        var existingFrame = document.getElementById('jitsiadminiframe' + random);
-        restoreMinimized(existingFrame);
-        restoreWindowFromMaximized(existingFrame);
-        existingFrame.style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
-        existingFrame.dataset.x = counter;
-        existingFrame.dataset.y = counter;
-        existingFrame.style.width = width + 'px';
-        existingFrame.style.height = height + 'px';
-        existingFrame.style.zIndex = zindex++;
-        return null;
+
+    const existingMultiframe = multiframeCheck(random);
+    if (existingMultiframe){
+        existingMultiframe.restoreWindowFromMaximized();
+        existingMultiframe.restoreMinimized();
+        existingMultiframe.moveInForeground();
+
+    }else {
+        const newInstance = new multiframe(url,title,startMaximized,borderColor,counter,counter,height,width,multiframes.length+zIndexOffset);
+        newInstance.addEventListener('remove', () => {
+            removeMultiframe(newInstance);
+        });
+        newInstance.addEventListener('addInteraction', () => {
+            addInteractions(newInstance.frame);
+        });
+        newInstance.addEventListener('removeInteraction', () => {
+            removeInteraction(newInstance.frame);
+        });
+        newInstance.addEventListener('incrementZindex', () => {
+           zIndex++;
+        });
+        newInstance.addEventListener('createNewMultiframe', (data) => {
+          createIframe(data.url,data.title,data.maximize)
+        });
+        multiframes.push(newInstance);
+
     }
-
-    var html =
-        '<div id="jitsiadminiframe' + random + '" class="jitsiadminiframe" data-x="' + counter + '" data-y="' + counter + '" data-maximal="0" style="border-color: ' + borderColor + '">' +
-        '<div class="headerBar">' +
-        '<div class="dragger"><i class="fa-solid fa-arrows-up-down-left-right me-2"></i>' + title + '</div>' +
-        '<div class="actionIconLeft">' +
-        '<div class="pauseConference d-none  actionIcon" data-pause="0"><i class="fa-solid fa-pause" data-mdb-toggle="tooltip" title="Pause"></i></div> ' +
-        '<div class="minimize  actionIcon"><i class="fa-solid fa-window-minimize" data-mdb-toggle="tooltip" title="Minimize"></i></div> ' +
-        '<div class=" button-restore actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Restore"><i class="fa-solid fa-window-restore"></i></div> ' +
-        '<div class=" button-maximize  actionIcon" data-maximal="0" data-mdb-toggle="tooltip" title="Maximize"><i class="fa-solid fa-window-maximize"></i></div> ' +
-        (document.fullscreenEnabled ? '<div class="button-fullscreen actionIcon" data-mdb-toggle="tooltip" title="Fullscreen"><i class="fa-solid fa-expand"></i></div> ' : '') +
-        '<div class="closer  actionIcon"><i class="fa-solid fa-xmark" data-mdb-toggle="tooltip" title="Exit"></i></div> ' +
-        '</div>' +
-        '</div>' +
-        '<div class="iframeFrame">' +
-        '<iframe  class="multiframeIframe"></iframe>' +
-        '</div>' +
-        '</div> ';
-
-    var site = url;
-
-    if (document.getElementById('window')) {
-        document.getElementById('window').insertAdjacentHTML('beforeend', html);
-    } else {
-        document.querySelector('body').insertAdjacentHTML('beforeend', html);
-    }
-    $('[data-mdb-toggle="tooltip"]').tooltip();
-    var multiframe = document.getElementById('jitsiadminiframe' + random)
-    multiframes[site] = multiframe;
-    multiframe.style.transform = 'translate(' + counter + 'px, ' + counter + 'px)';
-    multiframe.style.width = width + 'px';
-    multiframe.style.height = height + 'px';
-    multiframe.style.zIndex = zindex++;
-    multiframe.querySelector('iframe').src = site;
-    multiframe.querySelector('.button-maximize').dataset.maximal = "0";
-    multiframe.querySelector('.closer').dataset.id = 'jitsiadminiframe' + random;
-    multiframe.addEventListener('dblclick', function (e) {
-        toggleMaximize(e);
-    })
-    multiframe.querySelector('.closer').addEventListener('click', function (e) {
-        e.stopPropagation();
-        closeFrame(e);
-
-    })
-
-    multiframe.querySelector('.minimize').addEventListener('click', function (e) {
-        e.stopPropagation();
-        minimizeFrame(e)
-        removeInteraction();
-    })
-
-    multiframe.querySelector('.pauseConference').addEventListener('click', function (e) {
-        e.stopPropagation();
-        pauseIframe(e);
-    })
-
-
-    multiframe.querySelector('.button-fullscreen').addEventListener('click', function (e) {
-        e.stopPropagation();
-        fulscreenWindow(e.currentTarget.closest('.jitsiadminiframe').querySelector('iframe'));
-    })
-
-    multiframe.querySelector('.button-maximize').addEventListener('click', function (e) {
-        e.stopPropagation();
-
-        prepareMaximize(e);
-        maximizeWindow(e.target);
-        removeInteraction();
-    })
-
-    multiframe.querySelector('.button-restore').addEventListener('click', function (e) {
-        restoreWindowFromMaximized(e.currentTarget);
-        removeInteraction();
-    });
-
-    multiframe.addEventListener('click', function (e) {
-        moveInForeground(event.currentTarget);
-    })
-    setTimeout(function () {
-        sendCommand('jitsiadminiframe' + random, {type: 'init'});
-    }, 7000)
     counter += 40;
-    if (startMaximized) {
-        if (getCookie('startMaximized') && getCookie('startMaximized') == 1) {
-            document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
-        }
-        if (!getCookie('startMaximized')) {
-            document.getElementById('jitsiadminiframe' + random).querySelector('.button-maximize').click();
-        }
-    }
 
     if (isFullscreen()) {
         document.exitFullscreen();
-        var iframe = document.getElementById('jitsiadminiframe' + random).querySelector('iframe');
-        fulscreenWindow(iframe);
+
     }
+}
+function multiframeCheck(random) {
+    return multiframes.some(instance => instance.random === random);
+}
+function getMultiframeFromHtmlFrame(frame) {
+    const res= multiframes.find(instance => instance.frame === frame);
+    return res;
+}
+function getotherFramesNotActual(instance) {
+    const res = multiframes.filter(frame => frame !== instance);
+    return res;
+}
+function removeMultiframe(instance) {
+    multiframes = multiframes.filter(i => i !== instance);
+    console.log(`Instanz mit der random-ID ${instance.random} wurde entfernt.`);
 }
 
 function isFullscreen() {
@@ -229,141 +117,7 @@ function isFullscreen() {
     if (st != window.screenY) {
         return false;
     }
-    return window.fullScreen == true || screen.height - document.documentElement.clientHeight <= 30;
-}
-
-function closeFrame(e) {
-    var id = e.currentTarget.dataset.id;
-    sendCommand(id, {type: 'pleaseClose'})
-    closingTimeout[id] = setTimeout(function () {
-        closeIframe(id);
-    }, 100);
-}
-
-function toggleMaximize(e) {
-    var element = e.currentTarget
-    if (element.classList.contains('maximized')) {
-        restoreWindowFromMaximized(e.currentTarget)
-    } else {
-        prepareMaximize(e)
-        maximizeWindow(element)
-    }
-}
-
-function fulscreenWindow(element) {
-    element.requestFullscreen();
-}
-
-function pauseIframe(e) {
-
-    var currentElement = e.currentTarget;
-
-    // Aktivieren Sie die Tonwiedergabe im iFrame
-    if (currentElement.dataset.pause == 0) {
-        currentElement.closest('.isMutable').dataset.muted = 1;
-        currentElement.dataset.pause = 1;
-        currentElement.innerHTML = '<i class="fa-solid fa-play"></i>';
-        currentElement.closest('.jitsiadminiframe').querySelector('.iframeFrame').insertAdjacentHTML('afterbegin', '<div class="pausedFrame"><i class="fa-solid fa-circle-pause"></i></div>');
-        sendCommand(currentElement.closest('.jitsiadminiframe').id, {type: 'pauseIframe'})
-    } else {
-        currentElement.closest('.isMutable').dataset.muted = 0;
-        currentElement.dataset.pause = 0;
-        currentElement.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        currentElement.closest('.jitsiadminiframe').querySelector('.pausedFrame').remove();
-        sendCommand(currentElement.closest('.jitsiadminiframe').id, {type: 'playIframe'})
-    }
-}
-
-function prepareMaximize(e) {
-    startx = parseInt(e.target.closest('.jitsiadminiframe').dataset.x);
-    starty = parseInt(e.target.closest('.jitsiadminiframe').dataset.y);
-    startHeight = e.target.closest('.jitsiadminiframe').offsetHeight;
-    startWidth = e.target.closest('.jitsiadminiframe').offsetWidth;
-    startTransform = e.target.closest('.jitsiadminiframe').style.transform;
-}
-
-function maximizeWindow(container) {
-    setCookie('startMaximized', 1, 365)
-    var frame = container.closest('.jitsiadminiframe');
-    var maxiIcon = frame.querySelector('.button-maximize');
-    var restoreButton = frame.querySelector('.button-restore');
-    if (!frame.classList.contains('maximized')) {
-        maxiIcon.dataset.height = startHeight;
-        maxiIcon.dataset.width = startWidth;
-        maxiIcon.dataset.translation = startTransform;
-        maxiIcon.dataset.x = startx;
-        maxiIcon.dataset.y = starty;
-        frame.style.width = "100%";
-        frame.style.height = "100%";
-        frame.style.transform = 'translate(0px, 0px)'
-        frame.style.borderWidth = '0px'
-        frame.classList.add('maximized');
-
-        restoreButton.classList.remove('d-none');
-        maxiIcon.classList.add('d-none');
-        frame.dataset.maximal = "1";
-    }
-}
-
-
-function restoreWindowFromMaximized(container) {
-    setCookie('startMaximized', 0, 365)
-    var frame = container.closest('.jitsiadminiframe');
-    var maxiIcon = frame.querySelector('.button-maximize');
-    var restoreButton = frame.querySelector('.button-restore');
-    if (frame.classList.contains('maximized')) {
-        frame.style.width = maxiIcon.dataset.width + 'px';
-        frame.style.height = maxiIcon.dataset.height + 'px';
-        frame.style.transform = maxiIcon.dataset.translation;
-        frame.style.removeProperty('border-width');
-        frame.dataset.x = maxiIcon.dataset.x;
-        frame.dataset.y = maxiIcon.dataset.y;
-        frame.dataset.maximal = "0";
-        maxiIcon.classList.remove('d-none');
-        restoreButton.classList.add('d-none');
-        frame.classList.remove('maximized');
-    }
-}
-
-let messages = {};
-
-function sendCommand(id, message) {
-    var ele = document.getElementById(id);
-    if (!ele){
-        return null;
-    }
-    ele = ele.querySelector('iframe');
-    var messageId = makeid(32);
-    message.frameId = id;
-    message.scope = 'jitsi-admin-iframe';
-    message.messageId = messageId;
-    ele.contentWindow.postMessage(JSON.stringify(message), '*');
-    messages[messageId] = id;
-    messageTimeout[messageId] = setTimeout(closeWhenNoAck, 10000, id)
-}
-
-function closeWhenNoAck(messageId) {
-    closeIframe(messages[messageId]);
-}
-
-
-function closeIframe(id) {
-    var $iframe = document.getElementById(id);
-    if ($iframe) {
-        document.getElementById(id).remove();
-        removeInteraction();
-        $('.tooltip').remove();
-        if (window.$chatwoot) {
-            var $iframes = document.querySelectorAll('.jitsiadminiframe');
-
-            if ($iframes.length == 0) {
-                window.$chatwoot.toggleBubbleVisibility("show"); // to hide the bubble
-            }
-
-        }
-
-    }
-
+    return window.fullScreen == true || screen.height - document.documentElement.clientHeight <= 15;
 }
 
 function removeInteraction() {
@@ -398,7 +152,34 @@ function switchDragOff() {
         return null;
     }
 }
+function moveActualToForeground(actualFrame) {
+    if (actualFrame.isMutable) {
+        actualFrame.playFrame();
+        // Iteriere durch alle multiframes und pausiere die anderen mutablen Frames
+        multiframes.forEach(frame => {
+            if (frame !== actualFrame && frame.isMutable) {
+                frame.pauseFrame(); // Pausiere das Frame
+            }
+        });
+    }
 
+    const totalFrames = multiframes.length;
+
+    // Setze das z-index des aktuellen Frames auf die Anzahl der Frames (höchstes z-index)
+    actualFrame.setZindex(totalFrames +zIndexOffset);
+    actualFrame.moveInForeground();
+    // Sortiere die anderen Frames nach ihrem aktuellen z-index
+    const otherFrames = getotherFramesNotActual(actualFrame)
+        .filter(frame => frame !== actualFrame)
+        .sort((a, b) => a.zIndex - b.zIndex);
+
+    // Vergib die z-index-Werte beginnend bei 1
+    let zIndex = 1;
+    otherFrames.forEach(frame => {
+        frame.setZindex(zIndex+zIndexOffset);
+        zIndex++;
+    });
+}
 function addInteractions(ele) {
 
     const position = {x: counter, y: counter}
@@ -422,7 +203,7 @@ function addInteractions(ele) {
             return null;
         }
         makeBlury(event.target.closest('.jitsiadminiframe'))
-
+        moveActualToForeground(getMultiframeFromHtmlFrame(event.target));
         position.x = parseInt(event.target.closest('.jitsiadminiframe').dataset.x)
         position.y = parseInt(event.target.closest('.jitsiadminiframe').dataset.y)
         startx = position.x;
@@ -439,7 +220,7 @@ function addInteractions(ele) {
         if (event.target.closest('.jitsiadminiframe').classList.contains('minified')) {
             return null;
         }
-        moveInForeground(event.target.closest('.jitsiadminiframe'));
+
 
         tryfullscreen = false;
         if (event.clientX >= window.innerWidth - 20 && event.clientY >= 20 && event.clientY <= window.innerHeight - 20) {//on the left side
@@ -540,7 +321,7 @@ function addInteractions(ele) {
                 `translate(${position.x}px, ${position.y}px)`
             event.target.closest('.jitsiadminiframe').dataset.x = position.x;
             event.target.closest('.jitsiadminiframe').dataset.y = position.y;
-            maximizeWindow(event.target);
+            getMultiframeFromHtmlFrame(event.target).maximizeWindow();
 
         }
 
@@ -552,14 +333,13 @@ function addInteractions(ele) {
 
     moveable.on("resizeStart", ({target, clientX, clientY}) => {
         dragactive = true;
-
+        moveActualToForeground(getMultiframeFromHtmlFrame(target));
         makeBlury(target.closest('.jitsiadminiframe'));
     }).on("resize", event => {
 
             if (event.target.classList.contains('minified') || event.clientX < 0 || event.clientX > window.innerWidth || event.clientY > window.innerHeight || event.clientY < 0) {
                 return null;
             }
-            moveInForeground(event.target.closest('.jitsiadminiframe'));
 
             const beforeTranslate = event.drag.beforeTranslate;
 
@@ -581,69 +361,6 @@ function addInteractions(ele) {
 
 }
 
-function minimizeFrame(e) {
-    moveToMinibar(e.currentTarget.closest('.jitsiadminiframe'));
-}
-
-function moveToMinibar(container) {
-    // container.dataset.parent = container.parentNode.id;
-    // var minimizeBar = document.getElementById('minimizeBar');
-    // minimizeBar.append(container);
-    if (container.classList.contains('minified')) {
-        return null;
-    }
-    container.insertAdjacentHTML('afterbegin', '<div class="minimizeOverlay" style="position: absolute; z-index: 2; height: 100%; width: 100%; opacity: 0.0; background-color: inherit; cursor: pointer"></div>');
-    container.querySelector('iframe').style.height = '0px';
-    container.dataset.beforeminwidth = container.style.width;
-    container.classList.add('minified');
-    container.querySelector('.minimizeOverlay').addEventListener('click', removeFromMinibar);
-
-
-    setWidthOfminified();
-    container.querySelector('iframe').style.removeProperty('height');
-}
-
-function setWidthOfminified() {
-    var ele = document.querySelectorAll('.minified');
-    var leftCounter = 0
-    for (var e of ele) {
-        e.style.width = window.innerWidth / ele.length + 'px';
-        e.style.left = leftCounter + 'px';
-        leftCounter += window.innerWidth / ele.length;
-    }
-}
-
-function removeFromMinibar(e) {
-    if (e.target.closest('.actionIcon')) {
-        return null;
-    }
-    e.currentTarget.removeEventListener('click', removeFromMinibar);
-
-    var container = e.currentTarget.closest('.jitsiadminiframe');
-    restoreMinimized(container);
-    e.currentTarget.remove();
-    removeInteraction();
-}
-function restoreMinimized(container) {
-    if (container.classList.contains('minified')) {
-        container.classList.remove('minified');
-        container.style.width = container.dataset.beforeminwidth;
-        container.style.removeProperty('left');
-        setWidthOfminified();
-        addInteractions(container)
-    }
-}
-
-function makeid(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() *
-            charactersLength));
-    }
-    return result;
-}
 
 function makeBlury(frame) {
     var frames = document.querySelectorAll('.iframeFrame, #frame');
@@ -660,31 +377,25 @@ function removeBlury(frame) {
     }
 }
 
-
-function moveInForeground(frame) {
-    if (frame.style.zIndex < zindex - 1) {
-        frame.style.zIndex = zindex++;
-    }
-    checkIfIsMutable(frame);
-
-}
-
 function checkIfIsMutable(frame) {
-    if (frame.classList.contains('isMutable')) {
-        var actualPause = frame.querySelector('.pauseConference')
-        var allFrames = document.querySelectorAll(".isMutable[data-muted='0']");
-        for (var a of allFrames) {
-            if (a !== frame) {
-                var pauseButton = a.querySelector('.pauseConference');
-                {
-                    pauseButton.click();
-                }
-            }
-        }
-        if (frame.dataset.muted == 1) {
-            actualPause.click();
-        }
-    }
-}
 
-export {initStartIframe, createIframe}
+}
+// function checkIfIsMutable(frame) {
+//     if (frame.classList.contains('isMutable')) {
+//         var actualPause = frame.querySelector('.pauseConference')
+//         var allFrames = document.querySelectorAll(".isMutable[data-muted='0']");
+//         for (var a of allFrames) {
+//             if (a !== frame) {
+//                 var pauseButton = a.querySelector('.pauseConference');
+//                 {
+//                     pauseButton.click();
+//                 }
+//             }
+//         }
+//         if (frame.dataset.muted == 1) {
+//             actualPause.click();
+//         }
+//     }
+// }
+
+export {initStartIframe, createIframe,  checkIfIsMutable}

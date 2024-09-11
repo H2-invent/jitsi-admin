@@ -9,86 +9,24 @@ import {jitsiController} from "./pauseJitsi";
 import {jitsiErrorHandling} from "./jitsiErrorHandling";
 import {checkFirefox} from "./checkFirefox";
 import {ConferenceUtils} from "./ConferenceUtils";
+import {JitsiUtils} from "./jitsiUtils";
+import {choosenLabelFull, toggle} from "./cameraUtils";
+import {micLabelFull} from "./audioUtils";
 
-var frameId;
-let api = new JitsiMeetExternalAPI(domain, options);
-var joined = false;
-var pauseController;
-var jitsiErrorController;
-var avatarUrl = null;
-var displayName = null;
-var myId = null;
-var roomName = null;
-var isBreakout = null;
-var conferenceUtils = new ConferenceUtils(api);
-conferenceUtils.initConferencePreJoin()
-api.addListener('chatUpdated', function (e) {
-    if (e.isOpen == true) {
-        document.querySelector('#logo_image').classList.add('transparent');
-    } else {
-        document.querySelector('#logo_image').classList.remove('transparent');
-    }
-
-});
-
-if (typeof options.userInfo.avatarUrl !== 'undefined'){
-    avatarUrl = options.userInfo.avatarUrl;
-}
-if (typeof options.userInfo.displayName !== 'undefined'){
-    displayName = options.userInfo.displayName;
-}
-
-
-api.addListener('videoConferenceJoined', function (e) {
-    enterMeeting();
-    initStartWhiteboard();
-    showPlayPause();
-    joined = true;
-    myId = e.id;
-    roomName = e.roomName;
-    isBreakout = e.breakoutRoom;
-    pauseController = new jitsiController(api,displayName,avatarUrl,myId, roomName,isBreakout);
-    jitsiErrorController= new jitsiErrorHandling(api);
-    conferenceUtils.initConferencePostJoin();
-
-
-    window.onbeforeunload = function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return closeTabText;
-    }
-    api.addListener('readyToClose', function (e) {
-        leaveMeeting();
-        initStarSend();
-        api = null;
-    });
-
-    if (setTileview === 1) {
-        api.executeCommand('setTileView', {enabled: true});
-    }
-    if (avatarUrl !== '') {
-        api.executeCommand('avatarUrl', avatarUrl);
-    }
-    if (setParticipantsPane === 1) {
-        api.executeCommand('toggleParticipantsPane', {enabled: true});
-    }
-})
-
-var iframe = document.querySelector('#jitsiConferenceFrame0');
-iframe.style.height = '100%';
+let api = new JitsiUtils(options, domain, null, null, null, null)
 
 window.addEventListener('message', function (e) {
     // add here more commands up to now only close is defined.
-    const data = e.data;
-    const decoded = JSON.parse(data);
+    const decoded = e.data;
     if (decoded.type === 'pleaseClose') {
         if (api) {
-            api.executeCommand('hangup')
-        }else {
-            close(frameId);
+
+            leaveMeeting();
+            initStarSend();
+            api.hangup();
+        } else {
+            close();
         }
-    } else if (decoded.type === 'init') {
-        frameId = decoded.frameId;
     }
 });
 
@@ -110,23 +48,11 @@ function docReady(fn) {
     }
 }
 
-function checkClose() {
 
-    if (!api || !joined){
-        leaveMeeting();
-        initStarSend();
-    }
-    if (api){
-        api.executeCommand('hangup');
-    }
-    leaveMeeting();
-}
 
 docReady(function () {
     var clipboard = new ClipboardJS('.copyLink');
-    initModeratorIframe(checkClose);
+    initModeratorIframe();
     initWebsocket(websocketTopics);
-    initStartIframe();
     checkFirefox();
-
 });

@@ -3,6 +3,7 @@
 namespace App\Tests\Join;
 
 use App\Entity\RoomsUser;
+use App\Entity\User;
 use App\Repository\RoomsRepository;
 use App\Service\RoomService;
 use App\UtilsHelper;
@@ -36,9 +37,9 @@ class JwtTest extends KernelTestCase
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
     public function testJwtServerhasNoAppId(): void
     {
@@ -90,9 +91,9 @@ class JwtTest extends KernelTestCase
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
 
     public function testJwtNoModeratorWithJwtOptions(): void
@@ -126,9 +127,9 @@ class JwtTest extends KernelTestCase
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, null, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
 
     public function testJwtNoModeratorWithJwtOptionsNoAllowScreenshare(): void
@@ -162,9 +163,9 @@ class JwtTest extends KernelTestCase
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, false, null, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, false, null, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
 
     public function testJwtModeratorWithJwtOptionsNoAllowScreenshare(): void
@@ -198,9 +199,9 @@ class JwtTest extends KernelTestCase
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
     public function testJwtModeratorWithJwtOptionsNoAllowScreensharewithUserRoomMOderator(): void
     {
@@ -217,7 +218,9 @@ class JwtTest extends KernelTestCase
         $userRoom = new RoomsUser();
         $userRoom->setRoom($room);
         $userRoom->setModerator(true);
-        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, true, $userRoom);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, true, $testUser);
         $res = [
             'aud' => 'jitsi_admin',
             'iss' => $server->getAppId(),
@@ -236,9 +239,9 @@ class JwtTest extends KernelTestCase
         ];
         $this->assertEquals($res, $payload);
         $url = $jwtService->createUrl('a', $room, true, null, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
         $url = $jwtService->createUrl('b', $room, true, null, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
     public function testJwtModeratorWithJwtOptionsNoAllowScreensharewithScreenShare(): void
     {
@@ -255,7 +258,9 @@ class JwtTest extends KernelTestCase
         $userRoom = new RoomsUser();
         $userRoom->setRoom($room);
         $userRoom->setShareDisplay(true);
-        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $userRoom);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser);
         $res = [
             'aud' => 'jitsi_admin',
             'iss' => $server->getAppId(),
@@ -273,10 +278,10 @@ class JwtTest extends KernelTestCase
             'moderator' => false,
         ];
         $this->assertEquals($res, $payload);
-        $url = $jwtService->createUrl('a', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
-        $url = $jwtService->createUrl('b', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
     public function testJwtModeratorWithJwtOptionsNoAllowScreensharewithPrivateMessage(): void
     {
@@ -293,7 +298,9 @@ class JwtTest extends KernelTestCase
         $userRoom = new RoomsUser();
         $userRoom->setRoom($room);
         $userRoom->setPrivateMessage(true);
-        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $userRoom);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser);
         $res = [
             'aud' => 'jitsi_admin',
             'iss' => $server->getAppId(),
@@ -311,10 +318,10 @@ class JwtTest extends KernelTestCase
             'moderator' => false,
         ];
         $this->assertEquals($res, $payload);
-        $url = $jwtService->createUrl('a', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
-        $url = $jwtService->createUrl('b', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
     public function testJwtModeratorWithJwtOptionsNoAllowScreensharewithPrivateMessageandScreenShare(): void
     {
@@ -332,7 +339,9 @@ class JwtTest extends KernelTestCase
         $userRoom->setRoom($room);
         $userRoom->setPrivateMessage(true);
         $userRoom->setShareDisplay(true);
-        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $userRoom);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser);
         $res = [
             'aud' => 'jitsi_admin',
             'iss' => $server->getAppId(),
@@ -350,10 +359,10 @@ class JwtTest extends KernelTestCase
             'moderator' => false,
         ];
         $this->assertEquals($res, $payload);
-        $url = $jwtService->createUrl('a', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
-        $url = $jwtService->createUrl('b', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
     public function testJwtModeratorWithJwtOptionsNoAllowScreensharewithPrivateMessageandScreenShareMOderateinContext(): void
     {
@@ -372,7 +381,9 @@ class JwtTest extends KernelTestCase
         $userRoom->setRoom($room);
         $userRoom->setPrivateMessage(true);
         $userRoom->setShareDisplay(true);
-        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $userRoom);
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser);
         $res = [
             'aud' => 'jitsi_admin',
             'iss' => $server->getAppId(),
@@ -391,10 +402,10 @@ class JwtTest extends KernelTestCase
 
         ];
         $this->assertEquals($res, $payload);
-        $url = $jwtService->createUrl('a', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
-        $url = $jwtService->createUrl('b', $room, false, $userRoom, 'Test User');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User');
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User');
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
     public function testJwtModeratorWithJwtOptionsNoAllowScreensharewithPrivateMessageandScreenShareMOderateinContextWithAvatar(): void
     {
@@ -413,7 +424,9 @@ class JwtTest extends KernelTestCase
         $userRoom->setRoom($room);
         $userRoom->setPrivateMessage(true);
         $userRoom->setShareDisplay(true);
-        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $userRoom, 'https://image.de');
+        $testUser = new User();
+        $testUser->addRoomsAttributes($userRoom);
+        $payload = $jwtService->genereateJwtPayload('Test User', $room, $server, false, $testUser, 'https://image.de');
         $res = [
             'aud' => 'jitsi_admin',
             'iss' => $server->getAppId(),
@@ -433,9 +446,9 @@ class JwtTest extends KernelTestCase
 
         ];
         $this->assertEquals($res, $payload);
-        $url = $jwtService->createUrl('a', $room, false, $userRoom, 'Test User', 'https://image.de');
-        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
-        $url = $jwtService->createUrl('b', $room, false, $userRoom, 'Test User', 'https://image.de');
-        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret()) . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('a', $room, false, $testUser, 'Test User', 'https://image.de');
+        $this->assertEquals('jitsi-meet://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
+        $url = $jwtService->createUrl('b', $room, false, $testUser, 'Test User', 'https://image.de');
+        $this->assertEquals('https://' . $server->getUrl() . '/' . $room->getUid() . '?jwt=' . JWT::encode($payload, $server->getAppSecret(),'HS256') . '#config.subject=%22' . UtilsHelper::slugify($room->getName()) . '%22', $url);
     }
 }

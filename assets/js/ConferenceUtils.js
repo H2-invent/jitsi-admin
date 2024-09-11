@@ -1,4 +1,6 @@
 import {initSocialIcons} from "./createSocialButtons";
+import {ToolbarUtils} from "./ToolbarUtils";
+
 class ConferenceUtils {
 
     api = null;
@@ -6,56 +8,26 @@ class ConferenceUtils {
     frame = document.getElementById('frame');
     sidebar = document.getElementById('wrapperIcons');
     sidebarTimeout = null;
-    floatingTag = document.getElementById('tagContent')
+    floatingTag = document.getElementById('tagContent');
+
     constructor(api) {
         this.api = api;
-
+        this.toolbar = new ToolbarUtils();
 
     }
 
     initConferencePreJoin() {
-        this.initMoveButton();
-        this.inviteParticipantsToggle();
-
+        this.initSidebarMove();
     }
 
-    initMoveButton(){
-        var sidebar = this.sidebar
-        var timeout = this.sidebarTimeout
-        var floatingTag = this.floatingTag;
+    initSidebarMove() {
+
         this.api.addEventListener("mouseMove", (event) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                sidebar.classList.remove('show');
-                if (floatingTag){
-                    floatingTag.classList.remove('show')
-                }
-
-            },3000);
-            sidebar.classList.add('show');
-            if (floatingTag){
-                floatingTag.classList.add('show')
-            }
-
+            this.toolbar.sidebarAction();
         });
         this.api.addEventListener("mouseEnter", (event) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                sidebar.classList.remove('show');
-                if (floatingTag){
-                    floatingTag.classList.remove('show')
-                }
-
-            },3000);
-            sidebar.classList.add('show');
-            if (floatingTag){
-                floatingTag.classList.add('show')
-            }
-
+            this.toolbar.sidebarAction();
         });
-        this.sidebar.addEventListener('mouseover',function () {
-            clearTimeout(timeout);
-        })
     }
 
 
@@ -66,9 +38,13 @@ class ConferenceUtils {
             }
         }
         this.setE2EDefault();
-        initSocialIcons(this.api);
+        initSocialIcons(this.changeCamera.bind(this));
         this.initChatToggle();
         this.initToggleFilmstripe();
+    }
+
+    changeCamera(cameraId) {
+        this.api.setVideoInputDevice(cameraId);
     }
 
     toggleFilmstrip() {
@@ -112,7 +88,7 @@ class ConferenceUtils {
     initChatToggle() {
         var api = this.api;
         this.chatBtn = document.getElementById('externalChat');
-        if (!this.chatBtn){
+        if (!this.chatBtn) {
             return false;
         }
         var filterDot = this.chatBtn.querySelector('.filter-dot');
@@ -138,26 +114,20 @@ class ConferenceUtils {
     }
 
 
-     inviteParticipantsToggle() {
-        var inviteBtn = document.getElementById('inviteButtonOpenRoom');
-        if (inviteBtn){
-            var closeBtn = document.getElementById('inviteButtonOpenRoomClose');
-            inviteBtn.addEventListener('click',this.toggleInviteContent)
-            closeBtn.addEventListener('click',this.toggleInviteContent)
-        }
-    }
-     toggleInviteContent(ele) {
+
+    toggleInviteContent(ele) {
         var content = document.getElementById('inviteButtonOpenRoomContent');
-        if (content.classList.contains('show')){
+        if (content.classList.contains('show')) {
             content.classList.remove('show');
-        }else {
+        } else {
             content.classList.add('show');
         }
     }
-    initToggleFilmstripe(){
+
+    initToggleFilmstripe() {
         var content = document.getElementById('toggleFilmstripe');
         var api = this.api
-        content.addEventListener('click',function (e) {
+        content.addEventListener('click', function (e) {
             api.executeCommand('toggleFilmStrip');
 
         })

@@ -86,9 +86,17 @@
             window.top.location.href = "{{ urlFromRoom(user,room, name,'b') }}";
         }
     </script>
-
-    <script src='https://{{ room.server.url }}/external_api.js'></script>
+    {% if moderator is not defined %}
+        {% set moderator = false %}
+    {% endif %}
+        {% if not room.server.liveKitServer %}
+            <script src='https://{{ room.server.url }}/external_api.js'></script>
+        {% endif %}
     <script>
+        {% if room.server.liveKitServer %}
+        var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name,moderator) }}&secret={{ generateEncryptedSecret(room) }}';
+        const displayName = '{{ name }}';
+        {% endif %}
         var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
         var setTileview = {{ JITSI_MEET_DEFAULT_TILE_VIEW }};
         var setParticipantsPane = {{ JITSI_MEET_DEFAULT_PARTICIPANTS_PANE }};
@@ -117,9 +125,7 @@
 
             parentNode: document.querySelector('#jitsiWindow'),
             {% if room.server.appId is not null %}
-            {% if moderator is not defined %}
-            {% set moderator = false %}
-            {% endif %}
+
             jwt: '{{ jwtFromRoom(user,room,name,moderator) }}',
             {% endif %}
             userInfo: {
@@ -139,8 +145,13 @@
 
 
 {% endif %}
+
 {% block webpack %}
-    {{ encore_entry_script_tags('onlyConference') }}
+    {% if not room.server.liveKitServer %}
+         {{ encore_entry_script_tags('onlyConference') }}
+    {% else %}
+        {{ encore_entry_script_tags('onlyConferenceLivekit') }}
+    {% endif %}
 {% endblock %}
 
 <div class="modal fade" id="loadContentModal"
