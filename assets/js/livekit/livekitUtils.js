@@ -56,13 +56,14 @@ export class LivekitUtils {
                         this.toggleCamera(false);
                         this.setNameWithPrefix('(Away) ' + displayName);
                         this.setAvatarUrl('https://www3.h2-invent.com/user_away.webp');
-
+                        this.setRemoteParticipantsVolume(0);
                         break;
                     case 'playIframe':
                         this.toggleMic(true);
                         this.toggleCamera(true);
                         this.setNameWithPrefix(displayName);
                         this.setAvatarUrl(avatarUrl)
+                        this.setRemoteParticipantsVolume(100);
                         break;
                     // Weitere Fälle können hier hinzugefügt werden
                     default:
@@ -169,6 +170,16 @@ export class LivekitUtils {
             {
                 kind: 'audioinput',
                 label: label,
+            },
+        )
+        return true;
+    }
+    setRemoteParticipantsVolume(volume){
+        this.api.sendMessageToIframe(
+            'LocalParticipant',
+            'setRemoteParticipantsVolume',
+            {
+                setRemoteParticipantsVolume: volume,
             },
         )
         return true;
