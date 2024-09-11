@@ -67,7 +67,7 @@ option:
   decembre: 十二月
   user: 在用户声明中
   root: Im Root Claim
-lable.serverUrl: Jitsi-Meet服务器网址
+lable.serverUrl: Konferenz Server URL
 label.appId: 应用 ID
 label.appSecret: App密钥
 label.scheduleMeeting: 进行预约
@@ -160,6 +160,8 @@ label:
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: 使用服务器哈希为 Room-Uid 添加前缀
+  myName: Mein Name
+  liveKitServer: Ich möchte einen Livekit-Server einrichten
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
