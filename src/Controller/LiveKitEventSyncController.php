@@ -16,20 +16,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class LiveKitEventSyncController extends AbstractController
 {
-    private $token;
-    private $eventId;
+
     private WebhookReceiver $webhookReceiver;
 
     public function __construct(
         private RoomWebhookService    $webhookService,
-        private ParameterBagInterface $parameterBag,
         private LoggerInterface       $logger,
         private RoomsRepository       $roomsRepository,
     )
     {
-        $this->token = $this->parameterBag->get('LIVEKIT_EVENT_SECRET');
-        $this->eventId = $this->parameterBag->get('LIVEKIT_EVENT_ID');
-        $this->webhookReceiver = new WebhookReceiver($this->eventId, $this->token);
+              $this->webhookReceiver = new WebhookReceiver($this->eventId, $this->token);
     }
 
     #[Route('/livekit/event', name: 'app_live_kit_event_sync')]
