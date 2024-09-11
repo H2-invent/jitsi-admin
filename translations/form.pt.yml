@@ -67,7 +67,7 @@ option:
   decembre: Dezembro
   user: Reclamação de usuário
   root: Reclamação de administrador
-lable.serverUrl: URL do servidor Jitsi Meet
+lable.serverUrl: Konferenz Server URL
 label.appId: ID do App
 label.appSecret: Segredo do App
 label.scheduleMeeting: Agendar conferência
@@ -160,6 +160,8 @@ label:
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: Prefixo Room-Uid com hash do servidor
+  myName: Mein Name
+  liveKitServer: Ich möchte einen Livekit-Server einrichten
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
