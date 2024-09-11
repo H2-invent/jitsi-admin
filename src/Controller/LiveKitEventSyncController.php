@@ -25,7 +25,7 @@ class LiveKitEventSyncController extends AbstractController
         private RoomsRepository       $roomsRepository,
     )
     {
-              $this->webhookReceiver = new WebhookReceiver($this->eventId, $this->token);
+              $this->webhookReceiver = new WebhookReceiver('test','test');
     }
 
     #[Route('/livekit/event', name: 'app_live_kit_event_sync')]
