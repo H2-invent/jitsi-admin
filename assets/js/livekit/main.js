@@ -19,7 +19,6 @@ export class livekitApi {
         this.iframe.style.height = "100%";
 
         this.iframe.allow = "autoplay; camera; clipboard-write; compute-pressure; display-capture; hid; microphone; screen-wake-lock; speaker-selection";
-
         // Das iframe in das parentElement einfügen
         document.getElementById(this.parentElement).appendChild(this.iframe);
 
@@ -27,7 +26,6 @@ export class livekitApi {
         window.addEventListener("message", this.handleMessage.bind(this));
 
     }
-
 
 
     handleMessage(event) {
@@ -53,6 +51,6 @@ export class livekitApi {
     sendMessageToIframe(object, method, params = {}) {
         const message = {object: object, method: method, params: params};
         console.log(message);
-        this.iframe.contentWindow.postMessage(message,'*');
+        this.iframe.contentWindow.postMessage(message, '*');
     }
 }

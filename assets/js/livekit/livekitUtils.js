@@ -41,7 +41,7 @@ export class LivekitUtils {
 
         function changeCamera(cameraLabel) {
             console.log(`change camera to ${cameraLabel}`);
-            //todo hier camera setzen nanch label
+            this.setCameraByLabel(cameraLabel);
         }
     }
 
@@ -76,17 +76,26 @@ export class LivekitUtils {
 
 
     initSidebarMove() {
-
-        this.api.iframe.addEventListener("mouseover", () => {
+        // Event-Listener für Mausbewegungen
+        this.api.iframe.addEventListener("mousemove", () => {
             this.toolbar.sidebarAction();
         });
-        this.api.addEventListener("touchstart", () => {
+
+        // Event-Listener für Mouseover (wenn die Maus über das Element fährt)
+        this.api.iframe.addEventListener("mouseover", () => {
+            this.toolbar.sidebarAction();
+            console.log('open sidebar');
+        });
+
+        // Event-Listener für Touch-Start
+        this.api.iframe.addEventListener("touchstart", () => {
             this.toolbar.sidebarAction();
         });
     }
 
     changeCamera(cameraLabel) {
         console.log(cameraLabel);
+        this.setCameraByLabel(cameraLabel);
     }
 
     toggleMic(enable) {
@@ -142,10 +151,10 @@ export class LivekitUtils {
         if (this.miclabel) {
             this.setMicByLabel(this.miclabel);
         }
-        if (this.videoOn !== null){
-            if(this.videoOn){
+        if (this.videoOn !== null) {
+            if (this.videoOn) {
                 this.toggleCamera(true);
-            }else {
+            } else {
                 this.toggleCamera(false);
             }
         }
@@ -174,7 +183,8 @@ export class LivekitUtils {
         )
         return true;
     }
-    setRemoteParticipantsVolume(volume){
+
+    setRemoteParticipantsVolume(volume) {
         this.api.sendMessageToIframe(
             'LocalParticipant',
             'setRemoteParticipantsVolume',
