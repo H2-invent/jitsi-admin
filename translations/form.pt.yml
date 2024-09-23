@@ -90,6 +90,7 @@ help:
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: A UID da conferência é prefixada com o slug do servidor e a ID do servidor como um hash. Isso pode ser usado para distinguir entre diferentes servidores virtuais no servidor web nginx.
+  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
 label:
   beitretenApp: Entrar com app electron
   beitretenBrowser: Participar
