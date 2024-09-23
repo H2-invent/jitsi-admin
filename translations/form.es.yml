@@ -90,6 +90,7 @@ help:
   disableWhiteboard: Deshabilitar la pizarra durante una conferencia
   disableEtherpad: Desactivar Etherpad durante una conferencia
   prefixRoomUidWithHash: El identificador único de la conferencia tiene el prefijo slug del servidor y el ID del servidor como hash. Esto se puede utilizar para distinguir entre diferentes servidores en el servidor web nginx.
+  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
