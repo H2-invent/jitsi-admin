@@ -59,6 +59,8 @@ class ServerType extends AbstractType
             ->add('disableWhiteboard', CheckboxType::class, ['required' => false, 'label' => 'label.disableWhiteboard', 'help' => 'help.disableWhiteboard', 'translation_domain' => 'form'])
             ->add('disableChat', CheckboxType::class, ['required' => false, 'label' => 'label.disableChat', 'help' => 'help.disableChat', 'translation_domain' => 'form'])
             ->add('prefixRoomUidWithHash', CheckboxType::class, ['required' => false, 'label' => 'label.prefixRoomUidWithHash', 'help' => 'help.prefixRoomUidWithHash', 'translation_domain' => 'form'])
+            ->add('prefixRoomUidWithHash', CheckboxType::class, ['required' => false, 'label' => 'label.prefixRoomUidWithHash', 'help' => 'help.prefixRoomUidWithHash', 'translation_domain' => 'form'])
+            ->add('livekitBackgroundImages', TextareaType::class, ['required' => false, 'label' => 'label.livekitBackgroundImages', 'help' => 'help.livekitBackgroundImages', 'translation_domain' => 'form', 'attr'=>['rows'=>20]])
 
             ->add('allowIp', TextType::class, ['required' => false, 'label' => 'label.allowIp', 'help' => 'help.allowIp', 'translation_domain' => 'form'])
 

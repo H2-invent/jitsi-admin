@@ -182,6 +182,17 @@ class RoomService
                     "error" =>'Invalid Foreign encryption key',
                 ];
             }
+            if ($server->getLivekitBackgroundImages()){
+                try {
+                    $backgroundImages =json_decode($server->getLivekitBackgroundImages(),true);
+                    if ($backgroundImages){
+                        $payload['backgroundImages'] = $backgroundImages;
+                    }
+
+                }catch (\Exception $exception){
+                    $this->logger->error('Invalid JSON in background images');
+                }
+            }
         }
         if ($roomUser && !$avatar) {
             $this->logger->debug('profile picure is added to the jwt');

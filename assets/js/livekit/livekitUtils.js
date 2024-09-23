@@ -15,7 +15,6 @@ export class LivekitUtils {
         this.miclabel = miclabel;
         this.api = new livekitApi(parent, url);
         this.toolbar = new ToolbarUtils();
-        this.initSidebarMove();
         initSocialIcons(this.changeCamera.bind(this));
         this.initGeneralIncommingmessages();
         this.api.addEventListener('LocalParticipantConnected', () => {
@@ -37,6 +36,9 @@ export class LivekitUtils {
             initStarSend();
             console.log('The user left the meeting');
             this.conferenceRunning = false;
+        });
+        this.api.addEventListener('mousemove', () => {
+            this.toolbar.sidebarAction();
         });
 
         function changeCamera(cameraLabel) {
@@ -75,23 +77,7 @@ export class LivekitUtils {
     }
 
 
-    initSidebarMove() {
-        // Event-Listener für Mausbewegungen
-        this.api.iframe.addEventListener("mousemove", () => {
-            this.toolbar.sidebarAction();
-        });
 
-        // Event-Listener für Mouseover (wenn die Maus über das Element fährt)
-        this.api.iframe.addEventListener("mouseover", () => {
-            this.toolbar.sidebarAction();
-            console.log('open sidebar');
-        });
-
-        // Event-Listener für Touch-Start
-        this.api.iframe.addEventListener("touchstart", () => {
-            this.toolbar.sidebarAction();
-        });
-    }
 
     changeCamera(cameraLabel) {
         console.log(cameraLabel);

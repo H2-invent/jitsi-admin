@@ -155,6 +155,17 @@ function initNewModal(e) {
         }
     });
 
+    $('#server_liveKitServer').change(function () {
+        if ($('#server_liveKitServer').prop('checked')) {
+            document.getElementById('jitsiMeetSettings').classList.add('d-none');
+            document.getElementById('liveKitServerSettings').classList.remove('d-none');
+
+        } else {
+            document.getElementById('jitsiMeetSettings').classList.remove('d-none');
+            document.getElementById('liveKitServerSettings').classList.add('d-none');
+        }
+    });
+
     initCopytoClipboard();
     initSearchUser();
     initServerFeatures();

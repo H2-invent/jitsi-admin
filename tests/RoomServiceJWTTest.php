@@ -102,6 +102,179 @@ class RoomServiceJWTTest extends KernelTestCase
         );
 
     }
+    public function testGenerateJwtPayloadWithValidKeyandBackgrouImage()
+    {
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
+        $mockResponses = [
+            new MockResponse(
+                $validEncryptionKEy,
+                [
+                    'http_code' => 200,
+                ]
+            ),
+            new MockResponse(
+                $validEncryptionKEy,
+                [
+                    'http_code' => 200,
+                ]
+            )
+        ];
+        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
+        $httpClient = new MockHttpClient($mockResponses, 'http://etherpadurl.com');
+
+        $roomService = self::getContainer()->get(RoomService::class);
+        $roomService->setHttpClient($httpClient);
+        $server = new Server();
+        $server->setLiveKitServer(true)
+            ->setUrl('testLivekit.de')
+            ->setAppId('testID')
+            ->setAppSecret('testSecret');
+        $server->setLivekitBackgroundImages(
+            "[
+    {
+      \"description\":\"Im Land\",
+      \"url\": \"https://testland.de\" 
+    },
+{
+    \"description\":\"In den Bergen\",
+      \"url\": \"https://testberge.de\" 
+    },
+{
+    \"description\":\"In der Karibik\",
+      \"url\":   \"https://testkaribik.de\" 
+    }
+]"
+        );
+        $rooms = new Rooms();
+        $rooms->setServer($server);
+        $rooms->setName('testRoom');
+        $rooms->setUid('testUid')
+            ->setUidReal('uidReal');
+        $encryptedSecret = $roomService->generateEncryptedSecret($rooms->getServer());
+        $encryptedSecret = urldecode($encryptedSecret);
+
+        $decryptedSecret = '';
+        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
+
+        self::assertEquals(
+            'testSecret',
+            $decryptedSecret
+        );
+        $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
+        self::assertEquals(
+            [
+                'aud' => 'jitsi_admin',
+                'iss' => 'testID',
+                'sub' => 'testLivekit.de',
+                'room' => 'testuid',
+                'backgroundImages'=>[
+                    [
+                        'description'=>'Im Land',
+                        'url'=>'https://testland.de'
+                    ],
+                    [
+                        'description'=>'In den Bergen',
+                        'url'=>'https://testberge.de'
+                    ],
+                    [
+                        'description'=>'In der Karibik',
+                        'url'=>'https://testkaribik.de'
+                    ]
+                ],
+                'context' =>
+                    [
+                        'user' =>
+                            array(
+                                'name' => 'Testuser',
+                            ),
+                    ],
+                'livekit' =>
+                    [
+                        'host' => 'testLivekit.de',
+                        'key' => 'testID',
+                    ],
+                'moderator' => true,
+            ],
+            $payload
+        );
+
+    }
+
+    public function testGenerateJwtPayloadWithValidKeyandInvalidBackgrouImage()
+    {
+        $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
+        $validEncryptionKEy = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'public.pem');
+        $mockResponses = [
+            new MockResponse(
+                $validEncryptionKEy,
+                [
+                    'http_code' => 200,
+                ]
+            ),
+            new MockResponse(
+                $validEncryptionKEy,
+                [
+                    'http_code' => 200,
+                ]
+            )
+        ];
+        $validPrivateKey = file_get_contents($paramterBag->get('kernel.project_dir') . DIRECTORY_SEPARATOR . 'testJwt' . DIRECTORY_SEPARATOR . 'private.key');
+        $httpClient = new MockHttpClient($mockResponses, 'http://etherpadurl.com');
+
+        $roomService = self::getContainer()->get(RoomService::class);
+        $roomService->setHttpClient($httpClient);
+        $server = new Server();
+        $server->setLiveKitServer(true)
+            ->setUrl('testLivekit.de')
+            ->setAppId('testID')
+            ->setAppSecret('testSecret');
+        $server->setLivekitBackgroundImages(
+            "[
+   invalidJsonIshere
+]"
+        );
+        $rooms = new Rooms();
+        $rooms->setServer($server);
+        $rooms->setName('testRoom');
+        $rooms->setUid('testUid')
+            ->setUidReal('uidReal');
+        $encryptedSecret = $roomService->generateEncryptedSecret($rooms->getServer());
+        $encryptedSecret = urldecode($encryptedSecret);
+
+        $decryptedSecret = '';
+        openssl_private_decrypt(base64_decode($encryptedSecret), $decryptedSecret, $validPrivateKey);
+
+        self::assertEquals(
+            'testSecret',
+            $decryptedSecret
+        );
+        $payload = $roomService->genereateJwtPayload('Testuser', $rooms, $server, true);
+        self::assertEquals(
+            [
+                'aud' => 'jitsi_admin',
+                'iss' => 'testID',
+                'sub' => 'testLivekit.de',
+                'room' => 'testuid',
+                'context' =>
+                    [
+                        'user' =>
+                            array(
+                                'name' => 'Testuser',
+                            ),
+                    ],
+                'livekit' =>
+                    [
+                        'host' => 'testLivekit.de',
+                        'key' => 'testID',
+                    ],
+                'moderator' => true,
+            ],
+            $payload
+        );
+
+    }
+
 
     public
     function testGenerateJwtPayloadWithInvalidKey()
