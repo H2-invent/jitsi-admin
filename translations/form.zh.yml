@@ -91,6 +91,7 @@ help:
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: 会议 UID 以服务器 slug 和服务器 ID 为前缀作为哈希。这可用于区分 nginx Web 服务器中的不同 虚拟 服务器。
   liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
+  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
@@ -163,6 +164,7 @@ label:
   prefixRoomUidWithHash: 使用服务器哈希为 Room-Uid 添加前缀
   myName: Mein Name
   liveKitServer: Ich möchte einen Livekit-Server einrichten
+  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
