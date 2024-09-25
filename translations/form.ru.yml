@@ -91,6 +91,7 @@ help:
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
   liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
+  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
   beitretenBrowser: Открыть в браузере
@@ -163,6 +164,7 @@ label:
   prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
   myName: Mein Name
   liveKitServer: Ich möchte einen Livekit-Server einrichten
+  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
