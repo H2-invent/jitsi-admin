@@ -22,6 +22,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
+use Symfony\Component\String\ByteString;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -45,7 +47,8 @@ class RoomService
         LoggerInterface               $logger,
         private ParameterBagInterface $parameterBag,
         private CacheInterface        $cache,
-        private HttpClientInterface   $httpClient
+        private HttpClientInterface   $httpClient,
+        private SluggerInterface      $slugger,
     )
     {
 
@@ -53,7 +56,8 @@ class RoomService
         $this->uploadHelper = $uploaderHelper;
     }
 
-    public function setHttpClient($httpClient): RoomService
+    public
+    function setHttpClient($httpClient): RoomService
     {
         $this->httpClient = $httpClient;
         return $this;
@@ -71,7 +75,7 @@ class RoomService
      */
     function join(Rooms $room, ?User $user, $t, $userName)
     {
-        $roomUser = $this->findUserRoomAttributeForRoomAndUser($user,$room);
+        $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
 
         $moderator = false;
@@ -101,7 +105,8 @@ class RoomService
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
 
-    public function createUrl($t, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null)
+    public
+    function createUrl($t, Rooms $room, $isModerator, ?User $user, $userName, $avatar = null)
     {
         if ($t === 'a') {
             $type = 'jitsi-meet://';
@@ -116,7 +121,7 @@ class RoomService
         $url = $jitsi_server_url . '/' . $room->getUid();
 
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
-            $token = $this->generateJwt($room, $user, $userName, $isModerator,$avatar);
+            $token = $this->generateJwt($room, $user, $userName, $isModerator, $avatar);
             $url = $url . '?jwt=' . $token;
         }
 
@@ -124,7 +129,8 @@ class RoomService
         return $url;
     }
 
-    public function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null)
+    public
+    function generateJwt(Rooms $room, ?User $user, $userName, $moderatorExplizit = false, $avatarUrl = null)
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
 
@@ -139,13 +145,14 @@ class RoomService
         if ($user && $user->getProfilePicture()) {
             $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        if ($avatarUrl){
+        if ($avatarUrl) {
             $avatar = $avatarUrl;
         }
         return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $user, $avatar), $room->getServer()->getAppSecret(), 'HS256');
     }
 
-    public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null)
+    public
+    function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, User $user = null, $avatar = null)
     {
         $roomUser = $this->findUserRoomAttributeForRoomAndUser($user, $room);
         if (!$server->getAppId()) {
@@ -176,23 +183,24 @@ class RoomService
                         "key" => $server->getAppId(),
                     ];
                 }
-            }catch (InvalidSSLKeyExeption){
-                $this->logger->error('Invalid livekit public key',['server'=>$server->getUrl()]);
+            } catch (InvalidSSLKeyExeption) {
+                $this->logger->error('Invalid livekit public key', ['server' => $server->getUrl()]);
                 $payload['livekit'] = [
-                    "error" =>'Invalid Foreign encryption key',
+                    "error" => 'Invalid Foreign encryption key',
                 ];
             }
-            if ($server->getLivekitBackgroundImages()){
+            if ($server->getLivekitBackgroundImages()) {
                 try {
-                    $backgroundImages =json_decode($server->getLivekitBackgroundImages(),true);
-                    if ($backgroundImages){
+                    $backgroundImages = json_decode($server->getLivekitBackgroundImages(), true);
+                    if ($backgroundImages) {
                         $payload['backgroundImages'] = $backgroundImages;
                     }
 
-                }catch (\Exception $exception){
+                } catch (\Exception $exception) {
                     $this->logger->error('Invalid JSON in background images');
                 }
             }
+            $payload['context']['user']['identity'] = $this->slugger->slug($userName).''.time().''.ByteString::fromRandom(8);
         }
         if ($roomUser && !$avatar) {
             $this->logger->debug('profile picure is added to the jwt');
@@ -233,7 +241,8 @@ class RoomService
         return $payload;
     }
 
-    public function generateEncryptedSecret(Server $server): ?string
+    public
+    function generateEncryptedSecret(Server $server): ?string
     {
         if (!$server->isLiveKitServer()) {
             return null;
@@ -289,7 +298,8 @@ class RoomService
         return urlencode($encSecret);
     }
 
-    public function findUserRoomAttributeForRoomAndUser(?User $user, ?Rooms $rooms): RoomsUser
+    public
+    function findUserRoomAttributeForRoomAndUser(?User $user, ?Rooms $rooms): RoomsUser
     {
         $roomUser = new RoomsUser();
         if (!$user || !$rooms) {
