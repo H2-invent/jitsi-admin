@@ -739,9 +739,9 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
         <source>Nein</source>
         <target state="final">Non</target>
       </trans-unit>
-      <trans-unit id="bM.1UL8" resname="Vielleicht" approved="yes">
+      <trans-unit id="bM.1UL8" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="final">Peut-être</target>
+        <target state="needs-translation">Unter Vorbehalt</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?" approved="yes">
         <source>Welcher Termin passt für Sie am besten?</source>
