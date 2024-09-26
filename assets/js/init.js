@@ -27,6 +27,7 @@ import {Chart} from "chart.js";
 import ClipboardJS from "clipboard";
 import {initStartIframe} from "./createConference";
 import {checkFirefox} from "./checkFirefox";
+import {showAppIdSettings, showLiveKitServerSettings} from "./serverSettings";
 
 function initGenerell() {
     checkFirefox();
@@ -147,24 +148,9 @@ function initNewModal(e) {
         e.preventDefault();
         $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
     })
-    $('#jwtServer').change(function () {
-        if ($('#jwtServer').prop('checked')) {
-            $('#appId').collapse('show')
-        } else {
-            $('#appId').collapse('hide')
-        }
-    });
+    showAppIdSettings();
+    showLiveKitServerSettings();
 
-    $('#server_liveKitServer').change(function () {
-        if ($('#server_liveKitServer').prop('checked')) {
-            document.getElementById('jitsiMeetSettings').classList.add('d-none');
-            document.getElementById('liveKitServerSettings').classList.remove('d-none');
-
-        } else {
-            document.getElementById('jitsiMeetSettings').classList.remove('d-none');
-            document.getElementById('liveKitServerSettings').classList.add('d-none');
-        }
-    });
 
     initCopytoClipboard();
     initSearchUser();

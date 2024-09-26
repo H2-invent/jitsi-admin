@@ -46,7 +46,11 @@
                             <div class="col-lg-12">
                                 {{ form_row(form.allowIp) }}
                             </div>
-                            <div id="jitsiMeetSettings">
+                            <div id="jitsiMeetSettings" class="{% if not server.liveKitServer %}{% else %}d-none{% endif %}">
+                                <div class="col-12">
+                                    <h4>{{ 'Jitsi-Meet-Servereinstellungen'|trans }}</h4>
+                                    <hr>
+                                </div>
                                 <div class="col-lg-12">
                                     {{ form_row(form.featureEnableByJWT) }}
                                 </div>
@@ -69,7 +73,11 @@
                                     {{ form_row(form.prefixRoomUidWithHash) }}
                                 </div>
                             </div>
-                            <div id="liveKitServerSettings" class="d-none">
+                            <div id="liveKitServerSettings" class="{% if server.liveKitServer %}{% else %}d-none{% endif %}">
+                                <div class="col-12">
+                                    <h4>{{ 'server.livekit.settings.header'|trans }}</h4>
+                                    <hr>
+                                </div>
                                 <div class="col-lg-12">
                                     {{ form_row(form.livekitBackgroundImages) }}
                                 </div>

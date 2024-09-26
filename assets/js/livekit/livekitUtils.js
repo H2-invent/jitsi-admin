@@ -8,6 +8,9 @@ import {initStarSend} from "../endModal";
 
 export class LivekitUtils {
     conferenceRunning = false;
+    conferencePaused = false;
+    micLastStateOn = false;
+    cameraLastStateON = false;
 
     constructor(parent, url, videoOn = null, cameralabel = null, miclabel = null) {
         this.videoOn = videoOn;
@@ -17,6 +20,9 @@ export class LivekitUtils {
         this.toolbar = new ToolbarUtils();
         initSocialIcons(this.changeCamera.bind(this));
         this.initGeneralIncommingmessages();
+        this.conferencePaused = false;
+        this.micLastStateOn = true;
+        this.cameraLastStateON = true;
         this.api.addEventListener('LocalParticipantConnected', () => {
             enterMeeting();
             initStartWhiteboard();
@@ -40,6 +46,35 @@ export class LivekitUtils {
         this.api.addEventListener('mousemove', () => {
             this.toolbar.sidebarAction();
         });
+        this.api.addEventListener('TrackMuted', (e) => {
+            console.log(e);
+            switch (e.detail.track) {
+                case 'microphone':
+                    if (!this.conferencePaused) {
+                        this.micLastStateOn = false;
+                    }
+                    break;
+                case 'camera':
+                    if (!this.conferencePaused) {
+                        this.cameraLastStateON = false;
+                    }
+                    break;
+            }
+        });
+        this.api.addEventListener('TrackUnmuted', (e) => {
+            switch (e.detail.track) {
+                case 'microphone':
+                    if (!this.conferencePaused) {
+                        this.micLastStateOn = true;
+                    }
+                    break;
+                case 'camera':
+                    if (!this.conferencePaused) {
+                        this.cameraLastStateON = true;
+                    }
+                    break;
+            }
+        });
 
         function changeCamera(cameraLabel) {
             console.log(`change camera to ${cameraLabel}`);
@@ -54,6 +89,7 @@ export class LivekitUtils {
             if (typeof decoded.scope !== 'undefined' && decoded.scope === "jitsi-admin-iframe") {
                 switch (decoded.type) {
                     case 'pauseIframe':
+                        this.conferencePaused = true;
                         this.toggleMic(false);
                         this.toggleCamera(false);
                         this.setNameWithPrefix('(Away) ' + displayName);
@@ -61,8 +97,9 @@ export class LivekitUtils {
                         this.setRemoteParticipantsVolume(0);
                         break;
                     case 'playIframe':
-                        this.toggleMic(true);
-                        this.toggleCamera(true);
+                        this.conferencePaused = false;
+                        this.toggleMic(this.micLastStateOn);
+                        this.toggleCamera(this.cameraLastStateON);
                         this.setNameWithPrefix(displayName);
                         this.setAvatarUrl(avatarUrl)
                         this.setRemoteParticipantsVolume(100);
@@ -75,8 +112,6 @@ export class LivekitUtils {
             }
         });
     }
-
-
 
 
     changeCamera(cameraLabel) {
