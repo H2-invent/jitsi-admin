@@ -6,7 +6,7 @@ label.teilnehmerSpeichern: Отправить приглашение по эле
 label.emailModerator: Введите адрес электронной почты организатора
 help.emailTextfeld: Одновременно можно добавить несколько адресов электронной почты. Каждый адрес нужно писать с новой строки.
 label.organisatorhinzufuegen: Добавить организатора
-label.serverKonferenz: Сервер встреч Jitsi
+label.serverKonferenz: Сервер Jitsi Meet
 label.konferenzName: Название конференции
 label.start: Начать
 label.dauerKonferenz: Продолжительность конференции
@@ -78,10 +78,10 @@ help:
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
   secondEmail: Все электронные письма должны быть отправлены на эти адреса электронной почты в дополнение к моему стандартному адресу электронной почты (через запятую).
   corsHeader: Если установлен заголовок CORS или frame-ancestor, который не указывает на этот URL-адрес, то невозможно использовать Jitsi-iFrame API. Это приводит к потере некоторых функций.
-  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  jigasiApiUrl: Введите здесь jitsi API, который можно использовать для получения PIN-кода конференции. Обычно это заканчивается «ConferenceMapper».
   jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
-  jigasiProsodyDomain: Tragen Sier hier die Prosody-Domain ein. Diese folgt meist dem Muster "conference.domain.topdomain".
-  disallowFirefox: Der Browser Firefox ist im Browser deaktiviert. Alle Teilnehmenden, die mit einem Firefox Browser beitreten wollen werden auf einen Chromium basierten Browser weitergeleitet.
+  jigasiProsodyDomain: Введите здесь домен Prosody. Обычно это соответствует шаблону "conference.domain.topdomain".
+  disallowFirefox: Браузер Firefox отключен. Все участники, желающие присоединиться с помощью браузера Firefox, будут перенаправлены на браузер на основе Chromium.
   enforceE2e: Es wird die Sicherheitsfunktion "Ende-zu-Ende Verschlüsselung" in jeder Konferenz auf diesem Jitsi-Server erzwungen.
   allowIp: Nur die angegebene IP-Adresse oder IP-Bereiche dürfen der Konferenz beitreten. IP-Bereiche müssen in der Notation 10.10.10.10/24 angegeben werden. Mehrere IPs oder Bereiche können kommasepariert eingetragen werden.
   jitsiEventSyncUrl: Hier kann ein anderen Jitsi-Admin angegeben werden, welcher bei SIP-Anfragen die korespondierenden Jitsi-Event-Syncs gespeichert hat. Dabei ist nur die Base-Url anzugeben. Diese Funktion benötigt Jitsi-admin in der version >0.77.x
@@ -144,11 +144,11 @@ label:
   profilImage: Изображение профиля (отображается на собрании Jitsi-Meet Meeting)
   corsHeader: CORS-Header oder frame-ancestor Header
   tag: Категория
-  serverBackgroundImage: Statitisches Hintergrund für die Joinseite
+  serverBackgroundImage: Фоновый рисунок для сервера
   jigasiApiUrl: Jigasi ConferenceMapper-URL
   jigasiNumberUrl: Jigasi Einwahlnummern im JSON-Format
   jigasiProsodyDomain: Jigasi Prosody Domain
-  go: Los gehts!
+  go: Поехали!
   moderator: Organisator auswählen
   disallowFirefox: Firefox ist auf dem Jitsi-Meet Server deaktiviert
   enforceE2e: Ende zu Ende erzwingen
