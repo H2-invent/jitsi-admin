@@ -78,7 +78,7 @@ help:
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
   secondEmail: Все электронные письма должны быть отправлены на эти адреса электронной почты в дополнение к моему стандартному адресу электронной почты (через запятую).
   corsHeader: Если установлен заголовок CORS или frame-ancestor, который не указывает на этот URL-адрес, то невозможно использовать Jitsi-iFrame API. Это приводит к потере некоторых функций.
-  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  jigasiApiUrl: Введите здесь jitsi API, который можно использовать для получения PIN-кода конференции. Обычно это заканчивается «ConferenceMapper».
   jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
   jigasiProsodyDomain: Введите здесь домен Prosody. Обычно это соответствует шаблону "conference.domain.topdomain".
   disallowFirefox: Браузер Firefox отключен. Все участники, желающие присоединиться с помощью браузера Firefox, будут перенаправлены на браузер на основе Chromium.
