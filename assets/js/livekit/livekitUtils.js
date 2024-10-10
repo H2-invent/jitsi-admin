@@ -28,6 +28,7 @@ export class LivekitUtils {
             initStartWhiteboard();
             showPlayPause();
             initSocialIcons(changeCamera.bind(this));
+            this.initChatToggle();
             this.conferenceRunning = true;
             this.initMicAndCamera();
             window.onbeforeunload = function (e) {
@@ -61,18 +62,33 @@ export class LivekitUtils {
                     break;
             }
         });
-        this.api.addEventListener('TrackUnmuted', (e) => {
+        this.api.addEventListener('TrackMuted', (e) => {
+            console.log(e);
             switch (e.detail.track) {
                 case 'microphone':
                     if (!this.conferencePaused) {
-                        this.micLastStateOn = true;
+                        this.micLastStateOn = false;
                     }
                     break;
                 case 'camera':
                     if (!this.conferencePaused) {
-                        this.cameraLastStateON = true;
+                        this.cameraLastStateON = false;
                     }
                     break;
+            }
+        });
+        this.api.addEventListener('ChatMessageReceived', (e) => {
+            const data = e.detail;
+            console.log(data);
+            if (data.numberUnreadMessages > 0) {
+                this.filterDot.classList.remove('d-none');
+                this.filterDot.textContent = data.numberUnreadMessages;
+                this.chatBtn.style.setProperty('background-color', '#2561ef', 'important');
+                this.chatBtn.style.color = '#ffffff';
+            } else {
+                this.filterDot.classList.add('d-none');
+                this.chatBtn.style.removeProperty('backgropm -und-color');
+                this.chatBtn.style.removeProperty('color');
             }
         });
 
@@ -214,6 +230,23 @@ export class LivekitUtils {
             },
         )
         return true;
+    }
+    initChatToggle() {
+        this.chatBtn = document.getElementById('externalChat');
+        if (!this.chatBtn) {
+            return false;
+        }
+        this.filterDot = this.chatBtn.querySelector('.filter-dot');
+
+        if (this.chatBtn) {
+            this.chatBtn.addEventListener('click', ()=> {
+               this.api.sendMessageToIframe('LocalParticipant','toggleChat');
+                this.filterDot.classList.add('d-none');
+                this.chatBtn.style.removeProperty('background-color');
+                this.chatBtn.style.removeProperty('color');
+            })
+
+        }
     }
 
 }

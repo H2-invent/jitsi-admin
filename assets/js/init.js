@@ -3,7 +3,6 @@ import * as mdb from 'mdb-ui-kit'; // lib
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
-import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'

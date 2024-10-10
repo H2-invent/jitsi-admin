@@ -1,4 +1,4 @@
-import $ from "jquery";
+
 import * as mdb from 'mdb-ui-kit'; // lib
 export function showAppIdSettings() {
     document.getElementById('jwtServer').addEventListener('change',(e)=>{
