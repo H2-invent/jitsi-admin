@@ -7,6 +7,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\LicenseService;
+use App\Service\livekit\SipTrunkGenerator;
 use App\Service\RoomService;
 use App\Service\webhook\RoomStatusFrontendService;
 use Psr\Log\LoggerInterface;
@@ -23,6 +24,7 @@ class ConferenceMapperService
         private ParameterBagInterface     $parameterBag,
         private HttpClientInterface       $httpClient,
         private LoggerInterface           $logger,
+        private SipTrunkGenerator         $sipTrunkGenerator
     )
     {
     }
@@ -63,17 +65,25 @@ class ConferenceMapperService
 
         $user = $this->findNameFromCallerId(callerId: $callerId);
 
-        return [
+        $res = [
             'state' => 'STARTED',
             'jwt' => $this->roomService->generateJwt($room, null, $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId),
             'room_name' => $room->getUid() . '@' . $room->getServer()->getJigasiProsodyDomain(),
-            'display_name'=>$user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId
+            'display_name' => $user ? $user->getFormatedName($this->parameterBag->get('laf_showNameInConference')) : $callerId
         ];
+        if ($room->getServer()->isLiveKitServer()) {
+            try {
+                $res['sip_trunk'] = $this->sipTrunkGenerator->createNewSIPNumber($room,$callerId);
+            }catch (\Exception $exception){
+                $res['sip_trunk'] = 'error during fetching sip trunk from livekit';
+            }
+        }
+        return  $res;
     }
 
     public function findNameFromCallerId($callerId): ?User
     {
-        $this->logger->debug('Caller id fetched to find user',['callerid'=>$callerId]);
+        $this->logger->debug('Caller id fetched to find user', ['callerid' => $callerId]);
         $user = $this->userRepository->findUsersByCallerId(callerId: $callerId);
         return $user;
     }

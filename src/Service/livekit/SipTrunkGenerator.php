@@ -11,6 +11,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class SipTrunkGenerator
 {
     private string $trunkId;
+    private string $sipTrunkNumber;
+    const  SIP_TRUNK_ID = 'sip_trunk_id';
+    const SIP_DISPATCH_RULE_ID = 'sip_dispatch_rule_id';
+    private Rooms $rooms;
+    private Server $server;
 
     public function __construct(
         private HttpClientInterface $httpClient,
@@ -18,27 +23,71 @@ class SipTrunkGenerator
     {
     }
 
-    public function generateSipTrunk(Server $server, Rooms $rooms)
+    public function createNewSIPNumber(Rooms $rooms, $callerId)
     {
-        $sipTrunkNumber = rand(10000000000000, 999999999999);
+        try {
+            $this->generateSipTrunk($rooms->getServer(), $rooms, $callerId);
+            if ($this->generateDispatcherRule()) {
+                return $this->sipTrunkNumber;
+            }
+        } catch (\Exception $exception) {
+            throw new \Exception('Fehler bei der API-Anfrage: ' . $exception->getMessage());
+        }
+    }
+
+    public function generateSipTrunk(Server $server, Rooms $rooms, $callerId)
+    {
+        $this->rooms = $rooms;
+        $this->server = $server;
+        $this->sipTrunkNumber = rand(10000000000000, 999999999999);
         $payload = [
             'trunk' => [
                 'name' => $rooms->getUid(),
                 'numbers' => [
-                    $sipTrunkNumber
-                ]
+                    $this->sipTrunkNumber
+                ],
+                'allowed_numbers' => [$callerId],
             ]
         ];
 
-        $response = $this->sendPostRequest($server, 'twirp/livekit.SIP/CreateSIPInboundTrunk', $payload);
-        if (isset($response['trunk_id'])) {
-        $this->logger->debug('found trunkkId',['truk id'=>$response['trunk_id']]);
+        try {
+            $response = $this->sendPostRequest($server, 'twirp/livekit.SIP/CreateSIPInboundTrunk', $payload);
+            if (isset($response[self::SIP_TRUNK_ID])) {
+                $this->trunkId = $response[self::SIP_TRUNK_ID];
+                $this->logger->debug('found ' . self::SIP_TRUNK_ID, [self::SIP_TRUNK_ID => $response[self::SIP_TRUNK_ID]]);
+                return $this->trunkId;
+            }
+        } catch (\Exception $exception) {
+            throw new \Exception('Fehler bei der API-Anfrage: ' . $exception->getMessage());
+
         }
+
     }
 
-    public function generateDispatcherRule(Server $server, $trunkId)
+    public function generateDispatcherRule(): ?bool
     {
+        $payload = [
 
+            "trunk_ids" => [$this->trunkId],
+            "hide_phone_number" => false,
+            "rule" => [
+                "dispatchRuleDirect" => [
+                    "roomName" => $this->rooms->getUid(),
+                    "pin" => ""
+                ]
+            ]
+        ];
+        try {
+            $response = $this->sendPostRequest($this->server, 'twirp/livekit.SIP/CreateSIPDispatchRule', $payload);
+            if (isset($response[self::SIP_DISPATCH_RULE_ID])) {
+                $this->logger->debug('found ' . self::SIP_DISPATCH_RULE_ID, [self::SIP_DISPATCH_RULE_ID => $response[self::SIP_DISPATCH_RULE_ID]]);
+                return true;
+            }
+        } catch (\Exception $exception) {
+            throw new \Exception('Fehler bei der API-Anfrage: ' . $exception->getMessage());
+
+        }
+        return false;
     }
 
     /**
