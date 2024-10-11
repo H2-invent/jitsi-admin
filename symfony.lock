@@ -342,6 +342,9 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "shapecode/cron-bundle": {
+        "version": "7.0.0"
+    },
     "squizlabs/php_codesniffer": {
         "version": "3.7",
         "recipe": {
