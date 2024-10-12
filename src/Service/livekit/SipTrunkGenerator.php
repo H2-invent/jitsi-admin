@@ -39,7 +39,7 @@ class SipTrunkGenerator
     {
         $this->rooms = $rooms;
         $this->server = $server;
-        $this->sipTrunkNumber = rand(10000000000000, 999999999999);
+        $this->sipTrunkNumber = (new \DateTime())->format('U').rand(10, 99);
         $payload = [
             'trunk' => [
                 'name' => $rooms->getUid(),

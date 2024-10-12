@@ -92,7 +92,8 @@ class ThemeService
         $theme = $this->getTheme();
         if ($theme) {
             try {
-                return $theme[$property];
+                $property = $theme[$property];
+                return $property;
             } catch (\Exception $e) {
                 return null;
             }
