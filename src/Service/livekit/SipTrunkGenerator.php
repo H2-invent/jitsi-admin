@@ -23,6 +23,36 @@ class SipTrunkGenerator
     {
     }
 
+    public function setHttpClient(HttpClientInterface $httpClient): void
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
+    }
+
+    public function setTrunkId(string $trunkId): void
+    {
+        $this->trunkId = $trunkId;
+    }
+
+    public function setSipTrunkNumber(string $sipTrunkNumber): void
+    {
+        $this->sipTrunkNumber = $sipTrunkNumber;
+    }
+
+    public function setRooms(Rooms $rooms): void
+    {
+        $this->rooms = $rooms;
+    }
+
+    public function setServer(Server $server): void
+    {
+        $this->server = $server;
+    }
+
     public function createNewSIPNumber(Rooms $rooms, $callerId)
     {
         try {
