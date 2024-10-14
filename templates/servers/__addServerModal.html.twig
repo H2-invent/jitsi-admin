@@ -8,7 +8,7 @@
         </div>
 
         <div class="modal-body">
-
+            {{ form_row(form.liveKitServer) }}
             {{ form_row(form.url) }}
             {{ form_row(form.serverName) }}
             {{ form_row(form.corsHeader) }}
@@ -35,36 +35,54 @@
                 <div class="collapse" id="collapseExample">
                     <div class="mt-3">
                         <div class="row">
-                            <div class="col-lg-12">
-                                {{ form_row(form.featureEnableByJWT) }}
-                            </div>
-                            <div class="col-lg-12">
-                                {{ form_row(form.jwtModeratorPosition) }}
-                            </div>
-                            <div class="col-lg-12">
-                                {{ form_row(form.disallowFirefox) }}
-                            </div>
-                            <div class="col-lg-12">
-                                {{ form_row(form.enforceE2e) }}
-                            </div>
+
                             <div class="col-lg-12">
                                 {{ form_row(form.disableEtherpad) }}
                             </div>
                             <div class="col-lg-12">
                                 {{ form_row(form.disableWhiteboard) }}
                             </div>
-                            <div class="col-lg-12">
-                                {{ form_row(form.disableChat) }}
-                            </div>
-                            <div class="col-lg-12">
-                                {{ form_row(form.disableFilmstripe) }}
-                            </div>
-                            <div class="col-lg-12">
-                                {{ form_row(form.prefixRoomUidWithHash) }}
-                            </div>
+
                             <div class="col-lg-12">
                                 {{ form_row(form.allowIp) }}
                             </div>
+                            <div id="jitsiMeetSettings" class="{% if not server.liveKitServer %}{% else %}d-none{% endif %}">
+                                <div class="col-12">
+                                    <h4>{{ 'Jitsi-Meet-Servereinstellungen'|trans }}</h4>
+                                    <hr>
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.featureEnableByJWT) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.jwtModeratorPosition) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.disallowFirefox) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.enforceE2e) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.disableChat) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.disableFilmstripe) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.prefixRoomUidWithHash) }}
+                                </div>
+                            </div>
+                            <div id="liveKitServerSettings" class="{% if server.liveKitServer %}{% else %}d-none{% endif %}">
+                                <div class="col-12">
+                                    <h4>{{ 'server.livekit.settings.header'|trans }}</h4>
+                                    <hr>
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_row(form.livekitBackgroundImages) }}
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="row">

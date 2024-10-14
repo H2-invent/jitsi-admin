@@ -84,24 +84,29 @@
             {% for key,n in getJigasiNumber(room) %}
                 {% for number in n %}
                     {% if room.server.jigasiApiUrl is not null %}
-                        <p><small>({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}
+                        <p>
+                            <small>({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}
                                 : {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}#
-                                <button class="btn btn-outline-primary"
+                                <button class="btn btn-outline-primary "
                                         type="button" id="button-addon2"
                                         data-mdb-ripple-color="dark"
                                         data-clipboard-text="{{ number }},,,,{{ getJigasiPin(room) }}#"
                                 >
                                     <i class="fa-regular fa-copy"></i>
                                 </button>
-                            </small><p><br>
+                            </small>
+                        <p>
+                        <br>
                     {% elseif  room.callerRoom %}
                         <p><small>({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}
                                 : {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
-                                <a href="#" data-clipboard-text="{{ number }},,,,{{ room.callerRoom.callerId }}#" class="text-white">
+                                <a href="#" data-clipboard-text="{{ number }},,,,{{ room.callerRoom.callerId }}#"
+                                   class="text-white copyLink">
 
                                     <i class="fa-regular fa-copy"></i>
-                                    <a>
-                            </small></p>
+                                    </a>
+                            </small>
+                        </p>
                         <br>
                     {% endif %}
                 {% endfor %}

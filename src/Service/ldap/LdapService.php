@@ -162,7 +162,7 @@ class LdapService
                 if ($io) {
                     $io->error($exception->getMessage());
                 }
-                echo $exception->getMessage();
+
                 $this->logger->error($exception->getMessage());
                 return false;
             }

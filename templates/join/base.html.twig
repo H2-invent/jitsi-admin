@@ -198,7 +198,7 @@
     var avatarUrl = '{% if app.user and app.user.profilePicture %}{{ vich_uploader_asset(app.user.profilePicture,'documentFile') }}{% endif %}';
     var websocketTopics = "{{ getJwtforWebsocket([],app.user) }}";
     var websocketUrl = "{{ getUrlforWebsocket() }}";
-
+    var notificationUrl = "{{ laf_notificationUrl }}";
     {% if app.request is not null and app.request.cookies.get('DARK_MODE') =="" %}
 
     function getCookie(cname) {

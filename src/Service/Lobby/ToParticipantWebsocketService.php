@@ -65,35 +65,10 @@ class ToParticipantWebsocketService
         );
 
         if ($lobbyWaitungUser->getType() === 'b') {
-            $options = [
-                'options' => [
-                    'roomName' =>$lobbyWaitungUser->getRoom()->getServer()->getSlugMd5() . $lobbyWaitungUser->getRoom()->getUid(),
 
-                    'width' => '100%',
-                    'height' => 400,
-                    'userInfo' => [
-                        'displayName' => $lobbyWaitungUser->getShowName()
-                    ],
-                    'configOverwrite' => [
-                        'prejoinPageEnabled' => false,
-                        'disableBeforeUnloadHandlers' => true
-                    ],
-                    'interfaceConfigOverwrite' => [
-                        'MOBILE_APP_PROMO' => false,
-                        'HIDE_DEEP_LINKING_LOGO' => true,
-                        'SHOW_BRAND_WATERMARK' => true,
-                    ]
-                ],
-                'roomName' => $lobbyWaitungUser->getRoom()->getName(),
-                'domain' => $lobbyWaitungUser->getRoom()->getServer()->getUrl(),
-                'parentNode' => '#jitsiWindow',
-            ];
 
             if ($lobbyWaitungUser->getRoom()->getServer()->getAppId()) {
-                $options['options']['jwt'] = $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
-            }
-            if ($lobbyWaitungUser->getUser() && $lobbyWaitungUser->getUser()->getProfilePicture()) {
-                $options['options']['userInfo']['avatarUrl'] = $this->uploadHelper->asset($lobbyWaitungUser->getUser()->getProfilePicture(), 'documentFile');
+                $options['jwt'] = $this->roomService->generateJwt($lobbyWaitungUser->getRoom(), $lobbyWaitungUser->getUser(), $lobbyWaitungUser->getShowName());
             }
 
             if ($lobbyWaitungUser->getRoom()->getServer()->getCorsHeader()) {
@@ -112,6 +87,7 @@ class ToParticipantWebsocketService
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
             $this->directSend->sendRedirect($topic, '/', 6000);
         }
+
     }
 
     public function sendDecline(LobbyWaitungUser $lobbyWaitungUser)

@@ -137,14 +137,25 @@ Currently Jitsi Admin is released under the [AGPL-3.0 License](https://www.gnu.o
 # Installation
 Download the version you want to install or clone the whole repository.
 After that execute the following command
+for Debian:
 ```bash
-bash install.sh
+bash installDockerDebian.sh
+```
+for Ubuntu
+```bash
+bash installDockerUbuntu.sh
 ```
 Follow the instruction in the command window.
+## Customize your installation
+To customize the environment variable in your installation please set the environments in the `.env.custom` file.
+You can copy/past the variable you want to change from `.env` into the `.env.custom`.
+After changing the `.env.custom` file you have to rerun `bash installDocker.sh` command to restart the container. `docker-compose up` is not enough
+
+
 
 # Update
 Follow the corresponding update instruction.
-
+    
 For versions <= 0.72x checkout the update instruction in the github version description.
 
 For Version 0.73 or later the update instruction is described in the file 

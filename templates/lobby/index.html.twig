@@ -43,7 +43,7 @@
 
                         <div class="btn-group">
 
-                            <a  type="button" class="btn btn-primary dropdown-toggle caretdown"
+                            <a type="button" class="btn btn-primary dropdown-toggle caretdown"
                                data-mdb-toggle="dropdown"
                                data-mdb-reference="parent"
                                aria-haspopup="true" aria-expanded="false">
@@ -51,7 +51,7 @@
                             </a>
                             <div class="dropdown-menu">
                                 <div id="audioInputSelect">
-                                    <a  class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                                    <a class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
                                 </div>
                             </div>
                             <a type="button" class="btn btn-primary" id="startEcho"
@@ -81,9 +81,9 @@
 
                             </div>
                             <div class="onholdPartcipants ms-1 ms-lg-2">
-                                    {% for cU in room.calloutSessions %}
-                                            {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
-                                    {% endfor %}
+                                {% for cU in room.calloutSessions %}
+                                    {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
+                                {% endfor %}
 
                             </div>
                         </div>
@@ -112,11 +112,9 @@
                                 {% endif %}
                             {% endif %}
 
-                                <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
-                                   href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}
-                                </a>
-
-
+                            <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
+                               href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}
+                            </a>
 
 
                             <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
@@ -172,9 +170,18 @@
 
 {% endblock %}
 {% block script %}
-    {% include('__checkFirefox.html.twig') with {'room':room} %}
+
     {% if name is defined and name is not null %}
-        <script src='https://{{ room.server.url }}/external_api.js'></script>
+        {% if room.server.liveKitServer %}
+            <script>
+                var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name) }}&secret={{ generateEncryptedSecret(room) }}';
+                const displayName = '{{ name }}';
+            </script>
+        {% else %}
+            {% include('__checkFirefox.html.twig') with {'room':room} %}
+            <script src='https://{{ room.server.url }}/external_api.js'></script>
+        {% endif %}
+
         <script>
             var hangupQuestion = "{{ 'lobby.endMeeting.ask'|trans }}";
             var endMeetingUrl = "{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}";
@@ -190,7 +197,7 @@
                     prejoinPageEnabled: false,
                     disableBeforeUnloadHandlers: true,
                     {% if server.dynamicBrandingUrl %}
-                    dynamicBrandingUrl:' {{ server.dynamicBrandingUrl }}',
+                    dynamicBrandingUrl: ' {{ server.dynamicBrandingUrl }}',
                     {% endif %}
                     buttonsWithNotifyClick: [
                         'hangup',

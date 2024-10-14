@@ -23,7 +23,8 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
                     'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
                     'roles' => ['editor:' . $room->getUidReal()]
                 ],
-                'MY_SECRET'
+                'MY_SECRET',
+                'HS256'
             ),
             $whiteboardService->createJwt($room)
         );
@@ -34,7 +35,8 @@ class WhiteBoardJwtServiceTest extends KernelTestCase
                     'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
                     'roles' => ['moderator:' . $room->getUidReal()]
                 ],
-                'MY_SECRET'
+                'MY_SECRET',
+                'HS256'
             ),
             $whiteboardService->createJwt($room, true)
         );

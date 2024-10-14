@@ -11,6 +11,7 @@ import * as mdb from 'mdb-ui-kit'; // lib
 import {initSchedulePublic} from './scheduling'
 import {initGenerell} from './init';
 import {setSnackbar} from "./myToastr";
+import * as h2Button from "h2-invent-apps";
 
 $(document).ready(function () {
     initGenerell();
@@ -19,7 +20,10 @@ $(document).ready(function () {
             $(this).addClass('d-none');
         })
     }, 500);
-    initSchedulePublic()
+    initSchedulePublic();
+    if (notificationUrl !== "") {
+        h2Button.initNotification(notificationUrl);
+    }
 
 });
 $(window).on('load', function () {

@@ -22,6 +22,6 @@ class WhiteboardJwtService
             'exp' => (new \DateTime())->modify('+3days')->getTimestamp(),
             'roles' => [($isModerator ? 'moderator' : 'editor') . ':' . $ui]
         ];
-        return JWT::encode($payload, $this->parameterBag->get('WHITEBOARD_SECRET'));
+        return JWT::encode($payload, $this->parameterBag->get('WHITEBOARD_SECRET'),'HS256');
     }
 }

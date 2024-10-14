@@ -10,8 +10,10 @@
 
 
     <div class=" col-12 text-center mt-5">
+
         {{ form_start(form) }}
-        <div class="input-group mb-3">
+        {{ form_widget(form.myName) }}
+        <div class="input-group mb-3 mt-3">
             {{ form_widget(form.roomName) }}
             {{ form_widget(form.submit) }}
         </div>

@@ -123,7 +123,7 @@ function refresh(data) {
         }
         initCircle();
         countParts();
-        initDragParticipants();
+
         $('[data-mdb-toggle="tooltip"]').tooltip('hide');
         $('.tooltip').remove();
         $('[data-mdb-toggle="tooltip"]').tooltip();

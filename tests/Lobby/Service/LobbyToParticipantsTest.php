@@ -128,29 +128,9 @@ class LobbyToParticipantsTest extends KernelTestCase
                         [
                             'type' => "newJitsi",
                             'options' => [
-                                'options' => [
-//                                    'roomName' => 'a38d63dc4ce308b7a5a296d4f3a42c29/12313231ghjgfdsdf',
-                                    'roomName' => '12313231ghjgfdsdf',
-                                    'width' => '100%',
-                                    'height' => 400,
-                                    'userInfo' => [
-                                        'displayName' => "Test2 User2"
-                                    ],
-                                    'configOverwrite' => [
-                                        'prejoinPageEnabled' => false,
-                                        'disableBeforeUnloadHandlers' => true
-                                    ],
-                                    'interfaceConfigOverwrite' => [
-                                        'MOBILE_APP_PROMO' => false,
-                                        'HIDE_DEEP_LINKING_LOGO' => true,
-                                        'SHOW_BRAND_WATERMARK' => true
-                                    ],
+
                                     'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
                                 ],
-                                "roomName" => "This is a room with Lobby",
-                                "domain" => "meet.jit.si2",
-                                "parentNode" => "#jitsiWindow"
-                            ]
                         ],
                         json_decode($update->getData(), true)
                     );
@@ -203,27 +183,7 @@ class LobbyToParticipantsTest extends KernelTestCase
                         [
                             'type' => "newJitsi",
                             'options' => [
-                                'options' => [
-                                    'roomName' => 'a38d63dc4ce308b7a5a296d4f3a42c29/12313231ghjgfdsdf',
-                                    'width' => '100%',
-                                    'height' => 400,
-                                    'userInfo' => [
-                                        'displayName' => "Test2 User2"
-                                    ],
-                                    'configOverwrite' => [
-                                        'prejoinPageEnabled' => false,
-                                        'disableBeforeUnloadHandlers' => true
-                                    ],
-                                    'interfaceConfigOverwrite' => [
-                                        'MOBILE_APP_PROMO' => false,
-                                        'HIDE_DEEP_LINKING_LOGO' => true,
-                                        'SHOW_BRAND_WATERMARK' => true
-                                    ],
                                     'jwt' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJqaXRzaV9hZG1pbiIsImlzcyI6ImppdHNpSWQiLCJzdWIiOiJtZWV0LmppdC5zaTIiLCJyb29tIjoiMTIzMTMyMzFnaGpnZmRzZGYiLCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlRlc3QyIFVzZXIyIn19LCJtb2RlcmF0b3IiOmZhbHNlfQ.bG9vHOHTwbMEAFPgg0XxrZtxfYyqwMUN-Rxv6l6psRE',
-                                ],
-                                "roomName" => "This is a room with Lobby",
-                                "domain" => "meet.jit.si2",
-                                "parentNode" => "#jitsiWindow"
                             ]
                         ],
                         json_decode($update->getData(), true)

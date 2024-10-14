@@ -16,6 +16,7 @@ var audio = [];
 var mic = [];
 let audioId = null;
 let micId = null;
+let micLabelFull = null;
 var AudioContext = window.AudioContext || window.webkitAudioContext;
 var audioCtx;
 var source;
@@ -29,9 +30,9 @@ async function initAUdio() {
         await navigator.mediaDevices.getUserMedia({audio: true, video: false});
 
 
-    navigator.mediaDevices.enumerateDevices().then(function (devices) {
+    navigator.mediaDevices.enumerateDevices().then(async function (devices) {
 
-        devices.forEach(function (device) {
+        devices.forEach( function (device) {
 
             if (device.kind === 'audioinput') {
                 var name = device.label.replace(/\(\w*:.*\)/g, "");
@@ -42,13 +43,15 @@ async function initAUdio() {
                 micArr[device.deviceId] = device.label;
             }
         });
-        $('.audio_inputSelect').click(function () {
+        $('.audio_inputSelect').click( async function () {
             $('.audio_inputSelect').removeClass('selectedDevice');
             $(this).addClass('selectedDevice');
             micId = $(this).data('value');
+            micLabelFull = await getMicLabelById(micId);
         })
 
         micId = mic[0].deviceId;
+        micLabelFull= await getMicLabelById(micId);
         $('.audio_inputSelect[data-value="' + micId + '"]').addClass('selectedDevice');
     })
     }catch (e) {
@@ -117,4 +120,17 @@ function switchEchoOff() {
     });
 }
 
-export {initAUdio, micId, audioId, echoOff}
+async function getMicLabelById(id) {
+    return await navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+            for (let device of devices) {
+                if (device.kind === 'audioinput' && device.deviceId === id) {
+                    return device.label; // Gibt das Label der Kamera zurück
+                }
+            }
+            return ''; // Gibt einen leeren String zurück, wenn keine Übereinstimmung gefunden wurde
+        });
+}
+
+
+export {initAUdio, micId, audioId, echoOff, micLabelFull}
