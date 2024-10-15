@@ -67,7 +67,7 @@ option:
   decembre: Dezembro
   user: Reclamação de usuário
   root: Reclamação de administrador
-lable.serverUrl: Konferenz Server URL
+lable.serverUrl: URL do servidor Jitsi Meet
 label.appId: ID do App
 label.appSecret: Segredo do App
 label.scheduleMeeting: Agendar conferência
@@ -90,8 +90,6 @@ help:
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: A UID da conferência é prefixada com o slug do servidor e a ID do servidor como um hash. Isso pode ser usado para distinguir entre diferentes servidores virtuais no servidor web nginx.
-  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
-  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
 label:
   beitretenApp: Entrar com app electron
   beitretenBrowser: Participar
@@ -162,9 +160,6 @@ label:
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: Prefixo Room-Uid com hash do servidor
-  myName: Mein Name
-  liveKitServer: Ich möchte einen Livekit-Server einrichten
-  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
