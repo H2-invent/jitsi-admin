@@ -18,22 +18,32 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+
 
 class RoomServiceJWTTest extends KernelTestCase
 {
 
 
-    public static function setUpBeforeClass(): void
-    {
-        self::$kernel = self::bootKernel();
-        $container = self::$kernel->getContainer();
+    private CacheInterface $cache;
 
-        $container->set('cache.app', new NullAdapter());
-//        $container->set('cache.system', new NullAdapter());
-        // Falls du andere Cache-Pools hast, setze diese ebenfalls auf NullAdapter
+    protected function setUp(): void
+    {
+        self::bootKernel();
+        $this->cache = self::getContainer()->get('cache.app');
     }
 
+    protected function tearDown(): void
+    {
+        // Cache leeren, um sicherzustellen, dass kein Caching zwischen Tests auftritt
+        if ($this->cache instanceof ResetInterface) {
+            $this->cache->reset();
+        } elseif (method_exists($this->cache, 'clear')) {
+            $this->cache->clear();
+        }
+
+        parent::tearDown();
+    }
     public function testGenerateJwtPayloadWithValidKey()
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
@@ -89,7 +99,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'user' =>
                             array(
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity']
+                                'identity' => $payload['context']['user']['identity'],
                             ),
                     ],
                 'livekit' =>
@@ -98,26 +108,28 @@ class RoomServiceJWTTest extends KernelTestCase
                         'key' => 'testID',
                     ],
                 'moderator' => true,
-                'backgroundImages' => [
+                'backgroundImages'=>[
                     [
-                        "description" => "",
-                        "url" => "https://images.pexels.com/photos/27779028/pexels-photo-27779028/free-photo-of-landschaft-natur-himmel-wasser.jpeg",
+                        'description'=>'',
+                        'url' => 'https://images.pexels.com/photos/27779028/pexels-photo-27779028/free-photo-of-landschaft-natur-himmel-wasser.jpeg'
+
                     ],
                     [
-                        "description" => "",
-                        "url" => "https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg",
+                        'description'=>'',
+                        'url' => 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg'
+
                     ],
                     [
-                        "description" => "",
-                        "url" => "https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg",
+                        'description'=>'',
+                        'url' => 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg'
+
                     ]
-                ]
+                ],
             ],
             $payload
         );
 
     }
-
     public function testGenerateJwtPayloadWithValidKeyandBackgrouImage()
     {
         $paramterBag = self::getContainer()->get(ParameterBagInterface::class);
@@ -184,26 +196,26 @@ class RoomServiceJWTTest extends KernelTestCase
                 'iss' => 'testID',
                 'sub' => 'testLivekit.de',
                 'room' => 'testuid',
-                'backgroundImages' => [
+                'backgroundImages'=>[
                     [
-                        'description' => 'Im Land',
-                        'url' => 'https://testland.de'
+                        'description'=>'Im Land',
+                        'url'=>'https://testland.de'
                     ],
                     [
-                        'description' => 'In den Bergen',
-                        'url' => 'https://testberge.de'
+                        'description'=>'In den Bergen',
+                        'url'=>'https://testberge.de'
                     ],
                     [
-                        'description' => 'In der Karibik',
-                        'url' => 'https://testkaribik.de'
+                        'description'=>'In der Karibik',
+                        'url'=>'https://testkaribik.de'
                     ]
                 ],
                 'context' =>
                     [
                         'user' =>
                             array(
+                                'identity' => $payload['context']['user']['identity'],
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity']
                             ),
                     ],
                 'livekit' =>
@@ -278,7 +290,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'user' =>
                             array(
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity']
+                                'identity' => $payload['context']['user']['identity'],
                             ),
                     ],
                 'livekit' =>
@@ -340,7 +352,7 @@ invalidKey
                         'user' =>
                             array(
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity']
+                                'identity' => $payload['context']['user']['identity'],
                             ),
                     ],
                 'livekit' =>
@@ -348,20 +360,23 @@ invalidKey
                         "error" => 'Invalid Foreign encryption key'
                     ],
                 'moderator' => true,
-                'backgroundImages' => [
+                'backgroundImages'=>[
                     [
-                        "description" => "",
-                        "url" => "https://images.pexels.com/photos/27779028/pexels-photo-27779028/free-photo-of-landschaft-natur-himmel-wasser.jpeg",
+                        'description'=>'',
+                        'url' => 'https://images.pexels.com/photos/27779028/pexels-photo-27779028/free-photo-of-landschaft-natur-himmel-wasser.jpeg'
+
                     ],
                     [
-                        "description" => "",
-                        "url" => "https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg",
+                        'description'=>'',
+                        'url' => 'https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg'
+
                     ],
                     [
-                        "description" => "",
-                        "url" => "https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg",
+                        'description'=>'',
+                        'url' => 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg'
+
                     ]
-                ]
+                ],
             ],
             $payload
         );
