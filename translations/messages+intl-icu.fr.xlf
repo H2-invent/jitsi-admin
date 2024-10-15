@@ -739,9 +739,9 @@ Prolongez votre licence dès maintenant pour pouvoir continuer à utiliser toute
         <source>Nein</source>
         <target state="final">Non</target>
       </trans-unit>
-      <trans-unit id="bM.1UL8" resname="Vielleicht" approved="yes">
+      <trans-unit id="bM.1UL8" resname="Vielleicht">
         <source>Vielleicht</source>
-        <target state="final">Peut-être</target>
+        <target state="needs-translation">Unter Vorbehalt</target>
       </trans-unit>
       <trans-unit id="7b_opHo" resname="Welcher Termin passt für Sie am besten?" approved="yes">
         <source>Welcher Termin passt für Sie am besten?</source>
@@ -1402,11 +1402,11 @@ Le modérateur a été informé et vous laissera entrer.</target>
       </trans-unit>
       <trans-unit id="FS5GaQX" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="translated">Voulez-vous ajouter le participant en tant que modérateur du lobby ?</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
       </trans-unit>
       <trans-unit id="Bwt9pET" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="translated">Voulez-vous supprimer le participant en tant que modérateur du lobby ?</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
       </trans-unit>
       <trans-unit id="0ZGJDsh" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -2065,10 +2065,6 @@ Le modérateur a été informé et vous laissera entrer.</target>
       <trans-unit id="IEmtTcn" resname="Bewertungen">
         <source>Bewertungen</source>
         <target state="needs-translation">Bewertungen</target>
-      </trans-unit>
-      <trans-unit id="47DEQpj" resname="">
-        <source/>
-        <target>__</target>
       </trans-unit>
       <trans-unit id="kKLiefR" resname="Profileinstellungen">
         <source>Profileinstellungen</source>
