@@ -200,7 +200,7 @@ class RoomService
                     $this->logger->error('Invalid JSON in background images');
                 }
             }
-            $payload['context']['user']['identity'] = $this->slugger->slug($userName).''.time().''.ByteString::fromRandom(8);
+            $payload['context']['user']['identity'] = 'meetling_'.$this->slugger->slug($userName).'_'.time().'_'.ByteString::fromRandom(8);
         }
         if ($roomUser && !$avatar) {
             $this->logger->debug('profile picure is added to the jwt');

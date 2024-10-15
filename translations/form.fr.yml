@@ -67,7 +67,7 @@ option:
   decembre: Décembre
   user: Dans le User Claim
   root: Dans le Roots Claim
-lable.serverUrl: URL du Serveur Jitsi-Meet
+lable.serverUrl: Konferenz Server URL
 label.appId: Identifiant de l’application
 label.appSecret: Secret de l'application
 label.scheduleMeeting: Trouver un rendez-vous
@@ -90,6 +90,8 @@ help:
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
+  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
+  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
 label:
   beitretenApp: Rejoindre via l'application Elektron
   beitretenBrowser: Rejoindre via le navigateur
@@ -160,6 +162,9 @@ label:
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
+  myName: Mein Name
+  liveKitServer: Ich möchte einen Livekit-Server einrichten
+  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

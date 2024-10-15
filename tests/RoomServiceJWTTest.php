@@ -99,7 +99,7 @@ class RoomServiceJWTTest extends KernelTestCase
                         'user' =>
                             array(
                                 'name' => 'Testuser',
-                                'identity' => $payload['context']['user']['identity'],
+                                'identity' => $payload['context']['user']['identity']
                             ),
                     ],
                 'livekit' =>
@@ -109,6 +109,7 @@ class RoomServiceJWTTest extends KernelTestCase
                     ],
                 'moderator' => true,
                 'backgroundImages'=>[
+
                     [
                         'description'=>'',
                         'url' => 'https://images.pexels.com/photos/27779028/pexels-photo-27779028/free-photo-of-landschaft-natur-himmel-wasser.jpeg'
@@ -125,6 +126,7 @@ class RoomServiceJWTTest extends KernelTestCase
 
                     ]
                 ],
+
             ],
             $payload
         );
@@ -290,7 +292,9 @@ class RoomServiceJWTTest extends KernelTestCase
                         'user' =>
                             array(
                                 'name' => 'Testuser',
+
                                 'identity' => $payload['context']['user']['identity'],
+
                             ),
                     ],
                 'livekit' =>
@@ -360,7 +364,9 @@ invalidKey
                         "error" => 'Invalid Foreign encryption key'
                     ],
                 'moderator' => true,
+
                 'backgroundImages'=>[
+
                     [
                         'description'=>'',
                         'url' => 'https://images.pexels.com/photos/27779028/pexels-photo-27779028/free-photo-of-landschaft-natur-himmel-wasser.jpeg'
@@ -376,7 +382,9 @@ invalidKey
                         'url' => 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg'
 
                     ]
+
                 ],
+
             ],
             $payload
         );
