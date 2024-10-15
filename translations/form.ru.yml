@@ -67,7 +67,7 @@ option:
   decembre: Декабрь
   user: In user claim
   root: In root claim
-lable.serverUrl: URL-адрес сервера Jitsi Meet
+lable.serverUrl: Konferenz Server URL
 label.appId: ID приложения
 label.appSecret: App secret
 label.scheduleMeeting: Создайте опрос о встрече
@@ -78,7 +78,7 @@ help:
   serverName: Пожалуйста, введите имя сервера. Это будет показано участникам
   secondEmail: Все электронные письма должны быть отправлены на эти адреса электронной почты в дополнение к моему стандартному адресу электронной почты (через запятую).
   corsHeader: Если установлен заголовок CORS или frame-ancestor, который не указывает на этот URL-адрес, то невозможно использовать Jitsi-iFrame API. Это приводит к потере некоторых функций.
-  jigasiApiUrl: Tragen Sie hier die Jigasi API ein, über welchen die Konferenz-Pin abgerufen werden kann. Diese endet meist mit "ConferenceMapper".
+  jigasiApiUrl: Введите здесь jitsi API, который можно использовать для получения PIN-кода конференции. Обычно это заканчивается «ConferenceMapper».
   jigasiNumberUrl: 'Tragen Sie hier die Einwahlnummer im JSON Format ein. Dafür sind diese einzutragen wie sie in Jigasi in der "numbers.json" eingetragen sind.'
   jigasiProsodyDomain: Введите здесь домен Prosody. Обычно это соответствует шаблону "conference.domain.topdomain".
   disallowFirefox: Браузер Firefox отключен. Все участники, желающие присоединиться с помощью браузера Firefox, будут перенаправлены на браузер на основе Chromium.
@@ -90,6 +90,8 @@ help:
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: Die Konferenz-Uid wird mit dem Server-Slug und der Server-ID als Hash geprefixt. Dies kann verwendet werden um im nginx-Webserver zwischen unterschiedlichen V-Servern zu unterscheiden.
+  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
+  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
 label:
   beitretenApp: Присоединяйтесь с приложением Elektron
   beitretenBrowser: Открыть в браузере
@@ -160,6 +162,9 @@ label:
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: Room-Uid mit Server-Hash prefixen
+  myName: Mein Name
+  liveKitServer: Ich möchte einen Livekit-Server einrichten
+  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
 choice:
   tls: STARTTLS / TLS
   ssl: SSL
