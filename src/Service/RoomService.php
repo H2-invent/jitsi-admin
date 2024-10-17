@@ -253,7 +253,7 @@ class RoomService
             $this->logger->debug('Build JWT for Livekit Server', ['servername' => $server->getServerName()]);
 
             $cacheKey = 'livekit_public_key_' . $server->getId();
-            $url = $server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL') . '/public.pem';
+            $url = ($server->getLivekitMiddlewareUrl() ?: $this->parameterBag->get('LIVEKIT_BASE_URL')) . '/public.pem';
 
             // Fetch the public key from cache or download if not cached
             $publicKey = $this->cache->get($cacheKey, function (ItemInterface $item) use ($url) {
