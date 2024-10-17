@@ -92,6 +92,7 @@ help:
   prefixRoomUidWithHash: El identificador único de la conferencia tiene el prefijo slug del servidor y el ID del servidor como hash. Esto se puede utilizar para distinguir entre diferentes servidores en el servidor web nginx.
   liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
   livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
+  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
 label:
   beitretenApp: Unirse utilizando la aplicación Elektron
   beitretenBrowser: Unirse utilizando el navegador
@@ -165,6 +166,7 @@ label:
   myName: Mein Name
   liveKitServer: Ich möchte einen Livekit-Server einrichten
   livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
+  livekitMiddlewareUrl: Livekitmiddleware-Url
 choice:
   tls: STARTTLS/TLS
   ssl: SSL
