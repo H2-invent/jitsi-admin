@@ -1,7 +1,13 @@
 import $ from "jquery";
 import {initdateTimePicker,cleanDateTimePicker} from '@holema/h2datetimepicker';
 
+global.$ = global.jQuery = $;
+import ('jquery-confirm');
+
 var reload = '';
+var title = "Bestätigung";
+var cancel = "Abbrechen";
+var ok = "OK";
 
 function initScheduling() {
     initdateTimePicker('#schedulePickr')
@@ -35,19 +41,48 @@ function initScheduling() {
 function initRemove() {
     $('.removeSchedule').click(function (e) {
         e.preventDefault();
-        reload = $(this).data('reload');
-        $.ajax({
-            url: $(this).data('url'),
-            type: 'DELETE',
-            success: function (data) {
-                if (data.error == false) {
-                    $('#scheduleSlots').load(reload + ' #slot', function () {
-                            initRemove();
-                        }
-                    )
-                }
+        var reloadUrl = $(this).data('reload');
+        var removeUrl = $(this).data('url');
+
+        var text = $(this).data('text');
+        cancel = this.dataset.textcancel;
+        ok = this.dataset.textok;
+        title = this.dataset.texttitle;
+        var schedulelement = this.closest('.schedulingTimeSlot');
+        var element = e.target;
+        $.confirm({
+            title: title,
+            content: text,
+            theme: 'material',
+            columnClass: 'col-md-8 col-12 col-lg-6',
+            buttons: {
+                confirm: {
+                    text: ok, // text for button
+                    btnClass: 'btn-outline-danger btn', // class for the button
+                    action: function () {
+
+                        element.innerHTML ='<i class="fas fa-spinner fa-spin"></i>';
+                        $.ajax({
+                            url: removeUrl,
+                            type: 'DELETE',
+                            success: function (data) {
+                                if (data.error == false) {
+                                    schedulelement.remove();
+                                }
+                            }
+                        });
+                    },
+
+
+                },
+                cancel: {
+                    text: cancel, // text for button
+                    btnClass: 'btn-outline-primary btn', // class for the button
+                },
             }
         });
+
+
     })
 }
 

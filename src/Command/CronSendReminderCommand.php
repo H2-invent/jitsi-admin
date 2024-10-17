@@ -9,9 +9,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:cron:sendReminder')]
 class CronSendReminderCommand extends Command
 {
-    protected static $defaultName = 'app:cron:sendReminder';
     private $reminderService;
 
     public function __construct(ReminderService $reminderService, string $name = null)
@@ -20,7 +20,7 @@ class CronSendReminderCommand extends Command
         $this->reminderService = $reminderService;
     }
 
-    protected function configure()
+    protected function configure():void
     {
 
         $this

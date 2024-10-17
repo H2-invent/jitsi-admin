@@ -9,10 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:migrateTimeZone', 'This command creates a UTC Time from the local start time. This command ist only one time important when you migrate to version ^0.71.xx')]
 class MigrateTimeZoneCommand extends Command
 {
-    protected static $defaultName = 'app:migrateTimeZone';
-    protected static $defaultDescription = 'This command creates a UTC Time from the local start time. This command ist only one time important when you migrate to version ^0.71.xx';
     private $em;
 
     public function __construct(EntityManagerInterface $entityManager, string $name = null)

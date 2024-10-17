@@ -2,7 +2,7 @@ security:
     password_hashers:
         App\Entity\User:
             algorithm: auto
-    enable_authenticator_manager: true
+
 
 
 
@@ -37,6 +37,7 @@ security:
     access_control:
         - { path: /backend/, role: ROLE_ADMIN }
         - { path: /login$, role: PUBLIC_ACCESS  }
+        - { path: /signal, role: PUBLIC_ACCESS  }
         - { path: /jitsi/, role: PUBLIC_ACCESS  }
         - { path: /api/, role: PUBLIC_ACCESS  }
         - { path: /cron/, role: PUBLIC_ACCESS  }

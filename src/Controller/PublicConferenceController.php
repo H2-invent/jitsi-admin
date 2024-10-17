@@ -36,6 +36,7 @@ class PublicConferenceController extends JitsiAdminController
         private RoomStatusFrontendService $roomStatusFrontendService,
         private PublicConferenceService   $publicConferenceService,
 
+
     )
     {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
@@ -48,12 +49,16 @@ class PublicConferenceController extends JitsiAdminController
         if (!$this->server) {
             return $this->redirectToRoute('dashboard');
         }
-
-        $data = ['roomName' => UtilsHelper::readable_random_string(20)];
+        $data = [
+            'roomName' => UtilsHelper::readable_random_string(20),
+            'myName'=> $this->requestStack->getSession()->get('myName')?:''
+        ];
         $form = $this->createForm(PublicConferenceType::class, $data);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $name = $data['myName'];
+            $this->requestStack->getSession()->set('myName',$name);
             $room = $this->publicConferenceService->createNewRoomFromName($data['roomName'], $this->server);
             return $this->redirectToRoute('app_public_conference', ['confId' => $room->getName()]);
         }
@@ -71,14 +76,15 @@ class PublicConferenceController extends JitsiAdminController
     {
         $room = $this->publicConferenceService->createNewRoomFromName($confId, $this->server);
         $firstUser = $this->roomStatusFrontendService->isRoomCreated($room);
+        $name = $this->requestStack->getSession()->get('myName')?:'Meetling';
         $response = $this->render(
             'public_conference/publicConference.html.twig',
             [
                 'room' => $room,
                 'user' => null,
-                'name' => $this->getUser()?$this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')):'Meetling',
+                'name' => $this->getUser() ? $this->getUser()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')) : $name,
                 'moderator' => !$firstUser,
-                'server'=>$this->server,
+                'server' => $this->server,
             ]
         );
         $lastConf = $request->cookies->get('LAST_CONFERENCE');

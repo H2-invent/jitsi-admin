@@ -46,11 +46,17 @@
                             {% set inRoom= [] %}
                             {% for u in RoomStatusOccupats(room) |sort((a, b) => a.participantName <=> b.participantName) %}
                                 {% set inRoom = inRoom|merge([u.participantName]) %}
-                                <li class="list-group-item lobbyPart d-flex justify-content-between pe-2" data-status="online"><p class="part-text">{{ u.participantName }}</p><div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip" title="{{'lobby.participant.online'|trans}}"></div> </li>
+                                <li class="list-group-item lobbyPart d-flex justify-content-between pe-2"
+                                    data-status="online"><p class="part-text">{{ u.participantName }}</p>
+                                    <div class="dot with-icon onlineDotJoin" data-mdb-toggle="tooltip"
+                                         title="{{ 'lobby.participant.online'|trans }}"></div>
+                                </li>
                             {% endfor %}
                             {% for u in room.user|sort((a, b) => a.formatedName(laf_showNameInConference) <=> b.formatedName(laf_showNameInConference)) %}
                                 {% if  u.formatedName(laf_showNameInConference) not in inRoom %}
-                                    <li class="list-group-item lobbyPart pe-2"><p class="part-text">{{ u.formatedName(laf_showNameInConference) }}</p></li>
+                                    <li class="list-group-item lobbyPart pe-2"><p
+                                                class="part-text">{{ u.formatedName(laf_showNameInConference) }}</p>
+                                    </li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -65,7 +71,8 @@
             <div class="col-12 d-flex flex-column flex-md-row justify-content-around">
                 <div class="row">
                     <div class="col-lg-4">
-                        <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-md-center w-100" type="button"
+                        <a class="caretdown btn btn-primary  overflow-hidden dropdown-toggle d-flex align-items-md-center w-100"
+                           type="button"
                            id="selectWebcamDropdown"
                            data-mdb-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false"><i class="me-2 fa fa-video"></i><span
@@ -100,7 +107,7 @@
                     </div>
                 </div>
             </div>
-<hr class="mt-3 mb-3">
+            <hr class="mt-3 mb-3">
             <div class="col-12 d-flex justify-content-end">
 
                 <a href="{{ path('lobby_participants_leave',{'userUid':user.uid}) }}" id="leavParticipant"
@@ -126,8 +133,51 @@
 
 {% endblock %}
 {% block script %}
-    {% include('__checkFirefox.html.twig') with {'room':room} %}
-    <script src='https://{{ room.server.url }}/external_api.js'></script>
+    {% if room.server.liveKitServer %}
+        <script>
+            const livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?secret={{ generateEncryptedSecret(room) }}';
+            const displayName = '{{ user.showName }}';
+        </script>
+    {% else %}
+        {% include('__checkFirefox.html.twig') with {'room':room} %}
+        <script src='https://{{ room.server.url }}/external_api.js'></script>
+        <script>
+            const jitsiDomain = '{{ room.server.url }}';
+        </script>
+    {% endif %}
+    <script>
+        const roomName= '{{ room.name }}';
+        const options = {
+            roomName: '{{ room.server.slugMd5 }}{{ room.uid }}',
+
+            width: '100%',
+            height: 700,
+            configOverwrite: {
+                prejoinPageEnabled: false,
+                disableBeforeUnloadHandlers: true,
+                {% if server.dynamicBrandingUrl %}
+                dynamicBrandingUrl: ' {{ server.dynamicBrandingUrl }}'
+                {% endif %}
+            },
+            interfaceConfigOverwrite: {
+                MOBILE_APP_PROMO: false,
+                SHOW_JITSI_WATERMARK: false,
+                HIDE_DEEP_LINKING_LOGO: true,
+                SHOW_BRAND_WATERMARK: false,
+
+                SHOW_WATERMARK_FOR_GUESTS: false
+            },
+            parentNode: document.querySelector('#jitsiWindow'),
+
+            userInfo: {
+                displayName: '{{ user.showName }}',
+                {% if user.user is not null and  user.user.profilePicture is not null %}
+                avatarUrl: '{{ vich_uploader_asset(user.user.profilePicture,'documentFile') }}',
+                {% endif %}
+            }
+        };
+    </script>
+
     <script>
         var reknockingTime = {{ laf_lobby_ReKnockTime }};
         var type = '{{ type }}';

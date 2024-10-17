@@ -115,7 +115,7 @@ strong {
     transition: ease-in transform 0.2s;
     width: 90vw;
     max-width: 500px;
-
+    z-index: 10;
     &.show {
       transform: translateX(0) !important;
     }

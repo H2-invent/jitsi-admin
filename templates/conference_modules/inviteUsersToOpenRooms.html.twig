@@ -87,7 +87,7 @@
                         <p>
                             <small>({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}
                                 : {{ getJigasiPin(room)|addRepetiveCharacters(' ',3) }}#
-                                <button class="btn btn-outline-primary"
+                                <button class="btn btn-outline-primary "
                                         type="button" id="button-addon2"
                                         data-mdb-ripple-color="dark"
                                         data-clipboard-text="{{ number }},,,,{{ getJigasiPin(room) }}#"
@@ -101,7 +101,7 @@
                         <p><small>({{ key }}) {{ number }} {{ 'email.sip.pin'|trans }}
                                 : {{ room.callerRoom.callerId |addRepetiveCharacters(' ',3) }}#
                                 <a href="#" data-clipboard-text="{{ number }},,,,{{ room.callerRoom.callerId }}#"
-                                   class="text-white">
+                                   class="text-white copyLink">
 
                                     <i class="fa-regular fa-copy"></i>
                                     </a>

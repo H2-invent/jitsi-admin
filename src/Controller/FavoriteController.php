@@ -12,9 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FavoriteController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/favorite/toggle", name="room_favorite_toogle")
-     */
+    #[Route(path: '/room/favorite/toggle', name: 'room_favorite_toogle')]
     public function index(Request $request, TranslatorInterface $translator, FavoriteService $favoriteService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $request->get('uid')]);

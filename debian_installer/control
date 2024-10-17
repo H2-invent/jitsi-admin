@@ -2,6 +2,6 @@ Package: jitsi-admin
 Version: 0.<here>
 Maintainer: Emanuel Holzmann | H2 invent GmbH
 Architecture: amd64
-Depends: apache2, php, php-bcmath,php-fpm,php-xml,php-mysql,php-zip,php-intl,php-ldap,php-gd,php-cli,php-bz2,php-curl,php-mbstring,php-opcache,php-soap,php-cgi,php-dom,php-simplexml,php-pgsql,nodejs
-Description: This is the jitsi admin
+Depends: apache2, php, php-bcmath,php-fpm,php-bcmath,php-xml,php-mysql,php-zip,php-intl,php-ldap,php-gd,php-cli,php-bz2,php-curl,php-mbstring,php-opcache,php-soap,php-cgi,php-dom,php-simplexml,php-pgsql,nodejs
+Description: Jitsi Manager, also known as Jitsi Admin, is a powerful tool designed to manage Jitsi conferences and servers effectively.
 

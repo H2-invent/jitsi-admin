@@ -6,6 +6,8 @@ use App\Entity\CallerId;
 use App\Entity\CalloutSession;
 use App\Service\ThemeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -17,6 +19,8 @@ class CalloutSessionAPIService
         private ThemeService           $themeService,
         private UrlGeneratorInterface  $urlGenerator,
         private CalloutService         $calloutService,
+        private ParameterBagInterface  $parameterBag,
+        private LoggerInterface        $logger,
     )
     {
     }
@@ -46,6 +50,19 @@ class CalloutSessionAPIService
      */
     public function buildCallerSessionPoolArray(CalloutSession $calloutSession)
     {
+        $this->logger->debug('lastdialed',
+            [
+                $calloutSession->getLastDialed(),
+                (new \DateTime())->format('U'),
+                (intval((new \DateTime())->format('U')) - $calloutSession->getLastDialed())
+            ]);
+        if ($calloutSession->getLastDialed() && ((intval((new \DateTime())->format('U')) - $calloutSession->getLastDialed()) < $this->parameterBag->get('CALLOUT_WAITING_TIME'))) {
+            return null;
+        } else {
+            $calloutSession->setLastDialed((new \DateTime())->format('U'));
+            $this->entityManager->persist($calloutSession);
+            $this->entityManager->flush();
+        }
         $pin = $this->entityManager->getRepository(CallerId::class)->findOneBy(['room' => $calloutSession->getRoom(), 'user' => $calloutSession->getUser()]);
         $roomId = $calloutSession->getRoom()->getCallerRoom();
         if ($pin && $roomId) {
@@ -59,9 +76,10 @@ class CalloutSessionAPIService
                     ['{name}' => $calloutSession->getInvitedFrom()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend'))
                     ]
                 ),
-                'tag' => $calloutSession->getRoom()->getTag() ? $calloutSession->getRoom()->getTag()->getTitle() : null,
+                'tag' => $calloutSession->getRoom()->getTag()?->getTitle(),
                 'organisator' => $calloutSession->getRoom()->getModerator()->getFormatedName($this->themeService->getApplicationProperties('laf_showNameFrontend')),
                 'title' => $calloutSession->getRoom()->getName(),
+                'is_video' => (bool)$calloutSession->getUser()->getIsSipVideoUser(),
                 'links' => [
                     'dial' => $this->urlGenerator->generate(
                         'callout_api_dial',
@@ -72,7 +90,7 @@ class CalloutSessionAPIService
                 ]
             ];
         }
-        return null;
+        return [];
     }
 
     /**

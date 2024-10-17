@@ -31,9 +31,7 @@ class LoginControllerKeycloak extends JitsiAdminController
         $this->themeService = $themeService;
     }
 
-    /**
-     * @Route("/login", name="login_keycloak")
-     */
+    #[Route(path: '/login', name: 'login_keycloak')]
     public function index(ClientRegistry $clientRegistry): Response
     {
 
@@ -47,9 +45,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/register", name="register_keycloak")
-     */
+    #[Route(path: '/register', name: 'register_keycloak')]
     public function register(ClientRegistry $clientRegistry, CreateHttpsUrl $createHttpsUrl): Response
     {
         $options = ['redirect_uri' => $this->createHttpsUrl->replaceSchemeOfAbsolutUrl($this->generateUrl('connect_keycloak_check',[],UrlGenerator::ABSOLUTE_URL))];
@@ -65,9 +61,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     {
     }
 
-    /**
-     * @Route("/login/keycloak_edit", name="connect_keycloak_edit")
-     */
+    #[Route(path: '/login/keycloak_edit', name: 'connect_keycloak_edit')]
     public function edit(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
         $url = $this->getParameter('KEYCLOAK_URL');
@@ -80,9 +74,7 @@ class LoginControllerKeycloak extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/login/keycloak_password", name="connect_keycloak_password")
-     */
+    #[Route(path: '/login/keycloak_password', name: 'connect_keycloak_password')]
     public function password(ClientRegistry $clientRegistry, Request $request, ThemeService $themeService)
     {
         $url = $this->getParameter('KEYCLOAK_URL');

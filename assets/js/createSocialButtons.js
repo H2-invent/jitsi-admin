@@ -1,40 +1,39 @@
-import {api} from "./jitsiUtils";
+
 
 var gDevices;
-export function initSocialIcons(api) {
+export function initSocialIcons(cbFkt) {
     createSocialBox();
-    createCameraChangeButton(api);
+    createCameraChangeButton(cbFkt);
 }
 
-function createCameraChangeButton(api) {
-    api.getAvailableDevices().then(devices => {
-        if (document.getElementById('social_changeCamera')){
+function createCameraChangeButton(cbFkt) {
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+        if (document.getElementById('social_changeCamera')) {
             document.getElementById('social_changeCamera').remove();
         }
-        if (devices['videoInput'].length > 1) {
-            gDevices = devices;
+
+        const videoInputDevices = devices.filter(device => device.kind === 'videoinput');
+
+        if (videoInputDevices.length > 1) {
             var $body = document.getElementById('wrapperIcons');
-            var $object = "<div class='wrapper'><div id='social_changeCamera' class='conference-icon'><i class=\"fa-solid fa-camera-rotate\"></i></div></div> ";
+            var $object = "<div class='wrapper'><div id='social_changeCamera' class='conference-icon'><i class=\"fa-solid fa-camera-rotate\"></i></div></div>";
             $body.insertAdjacentHTML("afterbegin", $object);
             var $toggle = document.getElementById('social_changeCamera');
-            $toggle.addEventListener('click',function (){
-                api.getCurrentDevices().then(devices => {
-                    var $currentVideo = devices['videoInput']['label'];
-                    var $avilableVideo = [];
-                    gDevices['videoInput'].forEach(function (item){
-                        $avilableVideo.push(item['label']);
-                    });
-                    const currentIndex = $avilableVideo.indexOf($currentVideo);
-                    const nextIndex = (currentIndex + 1) % $avilableVideo.length;
-                    var $newVideo = $avilableVideo[nextIndex];
-                    api.setVideoInputDevice($newVideo);
-                });
-            })
+
+            let currentCameraIndex = 0;
+
+            $toggle.addEventListener('click', function () {
+                currentCameraIndex = (currentCameraIndex + 1) % videoInputDevices.length;
+                const newVideoDevice = videoInputDevices[currentCameraIndex];
+
+                // Call the cbFkt with the new video device ID
+                cbFkt.bind(this)(newVideoDevice.label);
+            });
         }
-    })
-
+    }).catch(error => {
+        console.error('Error accessing media devices:', error);
+    });
 }
-
 function createSocialBox() {
     // var $body = document.getElementById('frame');
     // var $object = "<div id='social_icon_box' class='social_icon_box'></div>";

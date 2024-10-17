@@ -1,7 +1,8 @@
 #!/bin/bash
 rm -rf /var/www/jitsi-admin
 rm -rf /usr/local/bin/websocket
-
+rm /etc/apache2/sites-available/jitsi-admin.conf
+rm /etc/apache2/sites-available/jitsi-admin_ssl.conf
 systemctl reload apache2
 systemctl restart apache2
 systemctl restart php*-fpm

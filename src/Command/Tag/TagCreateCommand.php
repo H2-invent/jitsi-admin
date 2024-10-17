@@ -14,10 +14,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:tag:create', 'Add a short description for your command')]
 class TagCreateCommand extends Command
 {
-    protected static $defaultName = 'app:tag:create';
-    protected static $defaultDescription = 'Add a short description for your command';
     private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager, private TagRepository $tagRepository, string $name = null)

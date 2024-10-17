@@ -211,14 +211,14 @@ class JitsiEventsServiceTest extends KernelTestCase
         $createBreaktoutRoomData = self::$roomCreatedData;
         $createBreaktoutRoomData['is_breakout'] = true;
         $createBreaktoutRoomData['breakout_room_id'] = '98127398721';
-        self::assertEquals('Room is a breakout room we don`t create a status', $webhookService->startWebhook($createBreaktoutRoomData));
+        self::assertEquals('Room is a breakout room; we don`t create a status', $webhookService->startWebhook($createBreaktoutRoomData));
         $room = $roomRepo->findOneBy(['uid' => '123456780']);
         self::assertEquals(1, sizeof($room->getRoomstatuses()));
         self::assertEquals('Room is a breakout room we don`t join the participant', $webhookService->startWebhook($breakoutRoomJoinData));
         $breakoutLeaveRoomData = self::$participantLeftD;
         $breakoutLeaveRoomData['is_breakout'] = true;
         $breakoutLeaveRoomData['breakout_room_id'] = '98127398721';
-        self::assertEquals('Room is a breakout room we don`t remove the participant', $webhookService->startWebhook($breakoutLeaveRoomData));
+        self::assertEquals('Room is a breakout room; we don`t remove the participant', $webhookService->startWebhook($breakoutLeaveRoomData));
         $closeBreakoutRoom = self::$roomDestroyedData;
         $closeBreakoutRoom['is_breakout'] = true;
         $closeBreakoutRoom['breakout_room_id'] = '98127398721';
@@ -278,12 +278,12 @@ class JitsiEventsServiceTest extends KernelTestCase
 
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomCreatedData));
         self::assertEquals('The occupant already joind with the same occupant ID', $webhookService->startWebhook(JitsiEventsServiceTest::$participantJoinedData));
-        self::assertEquals('The occupant already left the room. It cannot left the room twice', $webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
+        self::assertEquals('The occupant already left the room. It cannot leave the room twice', $webhookService->startWebhook(JitsiEventsServiceTest::$participantLeftD));
         $test = JitsiEventsServiceTest::$participantJoinedData;
         $test['occupant']['occupant_jid'] = '000';
         self::assertNull($webhookService->startWebhook($test));
         $testLEft = JitsiEventsServiceTest::$participantLeftD;
-        self::assertEquals('The occupant already left the room. It cannot left the room twice', $webhookService->startWebhook($testLEft));
+        self::assertEquals('The occupant already left the room. It cannot leave the room twice', $webhookService->startWebhook($testLEft));
         $testLEft['occupant']['occupant_jid'] = '000';
         self::assertNull($webhookService->startWebhook($testLEft));
         self::assertNull($webhookService->startWebhook(JitsiEventsServiceTest::$roomDestroyedData));

@@ -105,15 +105,14 @@ class DeputyCreatorControllerTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('.createdByDeputy.loadContent')->count());
         self::assertEquals(1, $crawler->filter('.conference-name:contains("test for the supervisor")')->count());
         self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal())->count());
-        self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .btn:contains("Starten")')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .btn:contains("Starten")')->count());
         self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .fa-solid.fa-users')->count());
         self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-sharelink')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-remove')->count());
         self::assertEquals(0, $crawler->filter('#room_card' . $room->getUidReal() . ' .participants-participantList')->count());
         self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .moderator-options .moderator-edit')->count());
-        self::assertEquals(2, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-iframe')->count());
-        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .start-app')->count());
+        self::assertEquals(1, $crawler->filter('#room_card' . $room->getUidReal() . ' .startIframe')->count());
     }
 
     public function testDuplicateConference(): void

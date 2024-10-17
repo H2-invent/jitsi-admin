@@ -3,7 +3,6 @@ import * as mdb from 'mdb-ui-kit'; // lib
 global.$ = global.jQuery = $;
 import Push from "push.js";
 import {initDarkmodeSwitch} from './switchDarkmode'
-import {setSnackbar} from './myToastr'
 import notificationSound from '../sound/notification.mp3'
 import {initAdhocMeeting} from './adhoc'
 import {initWebsocket} from './websocket'
@@ -27,6 +26,7 @@ import {Chart} from "chart.js";
 import ClipboardJS from "clipboard";
 import {initStartIframe} from "./createConference";
 import {checkFirefox} from "./checkFirefox";
+import {showAppIdSettings, showLiveKitServerSettings} from "./serverSettings";
 
 function initGenerell() {
     checkFirefox();
@@ -147,13 +147,9 @@ function initNewModal(e) {
         e.preventDefault();
         $('#enterprise_apiKey').val(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
     })
-    $('#jwtServer').change(function () {
-        if ($('#jwtServer').prop('checked')) {
-            $('#appId').collapse('show')
-        } else {
-            $('#appId').collapse('hide')
-        }
-    });
+    showAppIdSettings();
+    showLiveKitServerSettings();
+
 
     initCopytoClipboard();
     initSearchUser();

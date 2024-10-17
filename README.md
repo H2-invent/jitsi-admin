@@ -124,6 +124,12 @@ As some Composer dependencies need to be installed, it is advised to only instal
 * [Minimum Requirements](https://github.com/H2-invent/jitsi-admin/wiki/Minimum-server-requirements-English)
 * [API Documentation (in German)](https://github.com/H2-invent/jitsi-admin/wiki/API-Endpoints)
 
+# Support policy
+You can use the jitsi-admin for free, respecting the obligations of the Open Source license, but please do not ask or expect free support as well.
+Use discussions to ask questions and get support from the community.
+If you report an invalid issue and/or ask for step-by-step support, your issue will be closed as invalid without further explanation and/or the "support request" label will be added. Invalid bug reports may confuse other users. Thanks for understanding.
+
+
 # License
 
 Currently Jitsi Admin is released under the [AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.en.html). Additional information can be found in the [LICENSE file](LICENSE).
@@ -131,14 +137,25 @@ Currently Jitsi Admin is released under the [AGPL-3.0 License](https://www.gnu.o
 # Installation
 Download the version you want to install or clone the whole repository.
 After that execute the following command
+for Debian:
 ```bash
-bash install.sh
+bash installDockerDebian.sh
+```
+for Ubuntu
+```bash
+bash installDockerUbuntu.sh
 ```
 Follow the instruction in the command window.
+## Customize your installation
+To customize the environment variable in your installation please set the environments in the `.env.custom` file.
+You can copy/past the variable you want to change from `.env` into the `.env.custom`.
+After changing the `.env.custom` file you have to rerun `bash installDocker.sh` command to restart the container. `docker-compose up` is not enough
+
+
 
 # Update
 Follow the corresponding update instruction.
-
+    
 For versions <= 0.72x checkout the update instruction in the github version description.
 
 For Version 0.73 or later the update instruction is described in the file 

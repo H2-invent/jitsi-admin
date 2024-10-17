@@ -18,9 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class APIRoomController extends JitsiAdminController
 {
-    /**
-     * @Route("/api/v1/room", name="api_room_create",methods={"POST"})
-     */
+    #[Route(path: '/api/v1/room', name: 'api_room_create', methods: ['POST'])]
     public function index(UserCreatorService $userCreatorService, LicenseService $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 
@@ -58,9 +56,7 @@ class APIRoomController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich angelegt']);
     }
 
-    /**
-     * @Route("/api/v1/room", name="apiV1_roomDelete", methods={"DELETE"})
-     */
+    #[Route(path: '/api/v1/room', name: 'apiV1_roomDelete', methods: ['DELETE'])]
     public function removeRoom(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
@@ -79,9 +75,7 @@ class APIRoomController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'text' => 'Erfolgreich gelöscht']);
     }
 
-    /**
-     * @Route("/api/v1/room", name="api_room_edit",methods={"PUT"})
-     */
+    #[Route(path: '/api/v1/room', name: 'api_room_edit', methods: ['PUT'])]
     public function editRoom(LicenseService  $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
 
@@ -110,9 +104,7 @@ class APIRoomController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich geändert']);
     }
 
-    /**
-     * @Route("/api/v1/serverInfo", name="api_user_get_server",methods={"GET"})
-     */
+    #[Route(path: '/api/v1/serverInfo', name: 'api_user_get_server', methods: ['GET'])]
     public function getServers(ServerUserManagment  $serverUserManagment, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
 

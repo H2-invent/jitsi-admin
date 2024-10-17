@@ -32,6 +32,7 @@ class ServerType extends AbstractType
     {
 
         $builder
+            ->add('liveKitServer', CheckboxType::class, ['required' => false, 'label' => 'label.liveKitServer', 'translation_domain' => 'form', 'help' => 'help.liveKitServer'])
             ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add('serverName', TextType::class, ['required' => true, 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName'])
             ->add('appId', TextType::class, ['required' => false, 'label' => 'label.appId', 'translation_domain' => 'form'])
@@ -58,6 +59,8 @@ class ServerType extends AbstractType
             ->add('disableWhiteboard', CheckboxType::class, ['required' => false, 'label' => 'label.disableWhiteboard', 'help' => 'help.disableWhiteboard', 'translation_domain' => 'form'])
             ->add('disableChat', CheckboxType::class, ['required' => false, 'label' => 'label.disableChat', 'help' => 'help.disableChat', 'translation_domain' => 'form'])
             ->add('prefixRoomUidWithHash', CheckboxType::class, ['required' => false, 'label' => 'label.prefixRoomUidWithHash', 'help' => 'help.prefixRoomUidWithHash', 'translation_domain' => 'form'])
+            ->add('prefixRoomUidWithHash', CheckboxType::class, ['required' => false, 'label' => 'label.prefixRoomUidWithHash', 'help' => 'help.prefixRoomUidWithHash', 'translation_domain' => 'form'])
+            ->add('livekitBackgroundImages', TextareaType::class, ['required' => false, 'label' => 'label.livekitBackgroundImages', 'help' => 'help.livekitBackgroundImages', 'translation_domain' => 'form', 'attr'=>['rows'=>20]])
 
             ->add('allowIp', TextType::class, ['required' => false, 'label' => 'label.allowIp', 'help' => 'help.allowIp', 'translation_domain' => 'form'])
 

@@ -50,8 +50,7 @@ class AdhocControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findAll();
-        $room = $room[sizeof($room) - 1];
+        $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));
         self::assertEquals(
             json_encode(
                 ['redirectUrl' => '/room/dashboard',
@@ -112,8 +111,7 @@ class AdhocControllerTest extends WebTestCase
         $tag = $tagRepo->findOneBy(['title' => 'Test Tag Enabled']);
         $crawler = $client->request('GET', '/room/adhoc/meeting/' . $user2->getId() . '/' . $user->getServers()[0]->getId() . '/' . $tag->getId());
         $roomRepo = self::getContainer()->get(RoomsRepository::class);
-        $room = $roomRepo->findAll();
-        $room = $room[sizeof($room) - 1];
+        $room = $roomRepo->findOneBy(array('name'=>'Konferenz mit Test1, 1234, User, Test'));
 
         self::assertEquals(
             json_encode(

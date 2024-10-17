@@ -11,10 +11,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:tag:Priority', 'Add a short description for your command')]
 class TagPriorityCommand extends Command
 {
-    protected static $defaultName = 'app:tag:Priority';
-    protected static $defaultDescription = 'Add a short description for your command';
     private EntityManagerInterface $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

@@ -140,6 +140,7 @@ services:
       CRON_USER_1: root
       CRON_SCHEDULE_1: "* * * * *"
       CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
+      DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE}
 
     labels:
       - "traefik.enable=true"

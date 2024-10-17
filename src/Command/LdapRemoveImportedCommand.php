@@ -13,10 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:ldap:removeServer', 'This command removes the Users from the selected LDAP. This Command also removes the users  from the global adressbook and removes all created conferences of the users. The users are not able to login after this action')]
 class LdapRemoveImportedCommand extends Command
 {
-    protected static $defaultName = 'app:ldap:removeServer';
-    protected static $defaultDescription = 'This command removes the Users from the selected LDAP. This Command also removes the users  from the global adressbook and removes all created conferences of the users. The users are not able to login after this action';
     private $paramterBag;
     private $ldapService;
     private $ldapUserService;

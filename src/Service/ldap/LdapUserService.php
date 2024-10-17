@@ -70,7 +70,7 @@ class LdapUserService
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
             $user->setUsername($uid);
-
+            $user->setIsSipVideoUser($ldapType->getISSIPVIDEO());
             $user->setIndexer($this->indexer->indexUser($user));
             if (!$dryRun) {
                 $this->em->persist($user);
@@ -126,7 +126,7 @@ class LdapUserService
      * @param Ldap $ldap
      * @param $ldapServerId
      */
-    public function syncDeletedUser(LdapType $ldapType)
+    public function syncDeletedUser(LdapType $ldapType): void
     {
         $usersInSystemFromLdapId = $this->em->getRepository(User::class)->findUsersByLdapServerId($ldapType->getSerVerId());
         $userListInLdap = $ldapType->retrieveUser();
@@ -141,7 +141,8 @@ class LdapUserService
     }
 
 
-    private function createDNListFromLdapResult(array $ldapEntry){
+    private function createDNListFromLdapResult(array $ldapEntry): array
+    {
         $dnList = [];
         foreach ($ldapEntry as $data){
            $dnList[] = $data->getDn();

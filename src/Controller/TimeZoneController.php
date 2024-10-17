@@ -15,9 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TimeZoneController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/timezone/change", name="time_zone_change")
-     */
+    #[Route(path: '/room/timezone/change', name: 'time_zone_change')]
     public function index(Request $request, TranslatorInterface $translator): Response
     {
         $user = $this->getUser();
@@ -31,9 +29,7 @@ class TimeZoneController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/room/timezone/save", name="time_zone_save")
-     */
+    #[Route(path: '/room/timezone/save', name: 'time_zone_save')]
     public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger): Response
     {
         $user = $this->getUser();

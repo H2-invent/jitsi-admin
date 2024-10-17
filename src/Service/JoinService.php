@@ -8,6 +8,7 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\UtilsHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Security;
+
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -27,10 +28,19 @@ class JoinService
     private $urlGenerator;
     private $roomService;
     private $response;
-    private $security;
     private $startService;
     private $session;
-    public function __construct(RequestStack  $requestStack, StartMeetingService $startMeetingService, Security $security, RouterInterface $response, RoomService $roomService, UrlGeneratorInterface $urlGenerator, ParameterBagInterface $parameterBag, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(
+        RequestStack  $requestStack,
+        StartMeetingService $startMeetingService,
+       private Security $security,
+        RouterInterface $response,
+        RoomService $roomService,
+        UrlGeneratorInterface $urlGenerator,
+        ParameterBagInterface $parameterBag,
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
+    )
     {
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
@@ -38,7 +48,6 @@ class JoinService
         $this->urlGenerator = $urlGenerator;
         $this->roomService = $roomService;
         $this->response = $response;
-        $this->security = $security;
         $this->startService = $startMeetingService;
         $this->session = $requestStack;
     }

@@ -36,6 +36,7 @@ class Schedule extends AbstractExtension
             new TwigFunction('scheduleNumber', [$this, 'scheduleNumber']),
             new TwigFunction('scheduleUser', [$this, 'scheduleUser']),
             new TwigFunction('scheduleOwnJoice', [$this, 'scheduleOwnJoice']),
+            new TwigFunction('scheduleUserHasVoted', [$this, 'scheduleUserHasVoted']),
             new TwigFunction('myScheduledMeeting', [$this, 'myScheduledMeeting']),
         ];
     }
@@ -47,6 +48,15 @@ class Schedule extends AbstractExtension
             return null;
         } else {
             return $scheduleTimeUser->getAccept();
+        }
+    }
+    public function scheduleUserHasVoted(User $user, Rooms $rooms): ?bool
+    {
+        $scheduleTimeUser = $this->em->getRepository(SchedulingTimeUser::class)->findVotesForUserAndRoom($rooms,$user);
+        if (sizeof($scheduleTimeUser) === 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 
