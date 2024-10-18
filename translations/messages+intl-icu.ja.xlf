@@ -1409,11 +1409,11 @@
       </trans-unit>
       <trans-unit id="UEon3ZG" resname="addParticipants.lobbyModerator.add">
         <source>addParticipants.lobbyModerator.add</source>
-        <target state="translated">参加者をロビーの司会者として追加しますか？</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator hinzufügen?</target>
       </trans-unit>
       <trans-unit id="x9dbNmw" resname="addParticipants.lobbyModerator.remove">
         <source>addParticipants.lobbyModerator.remove</source>
-        <target state="translated">ロビー司会者として参加者を削除しますか？</target>
+        <target state="needs-translation">Wollen Sie den Teilnehmenden als Lobbymoderator entfernen?</target>
       </trans-unit>
       <trans-unit id="LElUXKX" resname="openRoom.addParticipants.help">
         <source>openRoom.addParticipants.help</source>
@@ -2280,7 +2280,7 @@
       </trans-unit>
       <trans-unit id="mHxk7jy" resname="options.chat">
         <source>options.chat</source>
-        <target state="translated">チャットを表示</target>
+        <target state="needs-translation">Chat anzeigen</target>
       </trans-unit>
       <trans-unit id="0GtfBck" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
