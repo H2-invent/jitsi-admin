@@ -258,7 +258,7 @@ class RoomService
             // Fetch the public key from cache or download if not cached
             $publicKey = $this->cache->get($cacheKey, function (ItemInterface $item) use ($url) {
                 // Set TTL for 1 hour
-                $item->expiresAfter(3600);
+                $item->expiresAfter(60);
 
                 // Fetch the public key for encryption
                 $response = $this->httpClient->request('GET', $url);
