@@ -2263,7 +2263,7 @@
       </trans-unit>
       <trans-unit id="mHxk7jy" resname="options.chat">
         <source>options.chat</source>
-        <target state="translated">View chat</target>
+        <target state="needs-translation">Chat anzeigen</target>
       </trans-unit>
       <trans-unit id="0GtfBck" resname="options.toggleFilmstripe">
         <source>options.toggleFilmstripe</source>
