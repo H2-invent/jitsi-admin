@@ -1,7 +1,8 @@
 version: '3.8'
 
 x-app-common: &jitsi_admin_app
-  build: .
+  image: h2invent/jitsi-admin-main:latest
+#  build: .
   environment:
     APACHE_DOCUMENT_ROOT: "public/"
     PHP_EXTENSION_XDEBUG: "1"
@@ -63,7 +64,8 @@ services:
   #Here is the websocket hub
   websocket-ja:
     hostname: websocket-ja
-    build: nodejs
+    image: h2invent/jitsi-admin-websocket:latest
+#    build: nodejs
     restart: unless-stopped
     depends_on:
       - traefik-ja
@@ -149,6 +151,7 @@ services:
 
   app-queu:
     <<: *jitsi_admin_app
+
     restart: unless-stopped
     deploy:
       mode: replicated
