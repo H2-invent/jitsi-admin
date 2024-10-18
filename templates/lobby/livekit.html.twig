@@ -1,0 +1,231 @@
+{% extends 'join/base_fluid.html.twig' %}
+{% block header %}
+    {% trans with {'{name}':room.name} %}lobby.moderator.title{% endtrans %}
+{% endblock %}
+{% block content %}
+    <div class="col-12 lobbyCard">
+        <div id="jitsiWrapper">
+            <div class="w-100" id="jitsiWindow">
+                {% block sidebar %}
+                    {% embed('conference_modules/conferenceSidebar.html.twig') with {'room': room} %}
+                        {% block extension %}
+                            {% if room.totalOpenRooms == true %}
+                                {% include 'conference_modules/inviteUsersToOpenRooms.html.twig' with {'url':path('own_room_startPage',{'uid':room.uid})} %}
+                            {% endif %}
+                        {% endblock %}
+                    {% endembed %}
+                {% endblock %}
+            </div>
+            <div class="row lobbyWindow" id="lobbyWindow">
+                <div class="col-lg-3 col-md-6" id="colWebcam">
+                    <div class="card webcamArea">
+                        <video autoplay="true" id="lobbyWebcam"></video>
+                        <div class="webcamToolbar">
+                            <i class="fa fa-video me-2" id="webcamSwitch"></i>
+                            {{ user.formatedName(laf_showNameInConference) }}
+                            {% if user == room.moderator %}
+                                <i class="fa fa-crown ms-2"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <a class="caretdown btn btn-block btn-primary dropdown-toggle overflow-hidden w-100"
+                           type="button"
+                           id="selectWebcamDropdown"
+                           data-mdb-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false"><i class="fa fa-video me-2"></i><span
+                                    class=" w-100 text-ellipsis text-center">{{ 'lobby.noWebCamFound'|trans }}</span>
+                        </a>
+                        <ul class="dropdown-menu p-1" aria-labelledby="dropdownMenu1" id="webcamSelect">
+                        </ul>
+
+
+                        <div class="btn-group">
+
+                            <a  type="button" class="btn btn-primary dropdown-toggle caretdown"
+                               data-mdb-toggle="dropdown"
+                               data-mdb-reference="parent"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-microphone"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div id="audioInputSelect">
+                                    <a  class="dropdown-item"><b>{{ 'lobby.echo.input'|trans }}</b></a>
+                                </div>
+                            </div>
+                            <a type="button" class="btn btn-primary" id="startEcho"
+                               data-texton="{{ 'lobby.start.echo'|trans }}"
+                               data-textoff="{{ 'lobby.stop.echo'|trans }}">{{ 'lobby.start.echo'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-6" id="col-waitinglist">
+                    <div class="dropdown mb-2">
+                        <a class="btn btn-lg btn-outline-success btn-rounded" data-mdb-ripple-color="dark"
+                           id="dropdownMenu2"
+                           data-mdb-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-solid fa-paper-plane"></i> {{ 'lobby.btn.message.to.all'|trans }}
+                        </a>
+                        {% include('lobby/__lobbyMessageDropdown.html.twig') with {'url':path('lobby_send_message_to_waitinguser_all'),'uid':room.uidReal } %}
+                    </div>
+                    <div class="row d-md-none slide-text">
+                        <div class="col-lg-12 text-center">
+                            <p><small>{{ 'Swipen zum zulassen'|trans }}</small></p>
+                        </div>
+                    </div>
+                    <div id="waitingUserWrapper">
+
+                        <div id="waitingUser" class="mb-3 d-flex">
+
+                            <div class="activeLobbyUsers flex-grow-1 row">
+                                {% for wU in room.lobbyWaitungUsers %}
+                                    {% include 'lobby/__lobbyParticipants.html.twig' with {'wu':wU} %}
+                                {% endfor %}
+
+                            </div>
+                            <div class="onholdPartcipants ms-1 ms-lg-2">
+                                    {% for cU in room.calloutSessions %}
+                                            {% include 'lobby/__callOutParticipants.html.twig' with {'cU':cU} %}
+                                    {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lobbyButtons">
+                        <div class=" flex-grow-1 p-2 d-flex flex-column flex-lg-row align-items-lg-center">
+                            {% if type == 'a' %}
+                                <a class="btn btn-primary start-btn me-0  me-lg-2 flex-grow-1"
+                                   href="{{ path('lobby_moderator_start',{'t':'a','room':room.uidReal}) }}"
+                                   target="_blank">
+                                    <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                </a>
+                            {% elseif type == 'b' %}
+                                {% if room.server.corsHeader %}
+                                    <a class="btn btn-primary start-btn  me-0  me-lg-2 flex-grow-1"
+                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                       target="_blank">
+                                        <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-primary startJitsiIframe  start-btn me-0  me-lg-2 flex-grow-1"
+                                       href="{{ path('lobby_moderator_start',{'t':'b','room':room.uidReal}) }}"
+                                       target="_blank">
+                                        <i class="fa fa-play"></i> {{ 'jitsi.start'|trans }}
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+
+                                <a class="btn btn-success directSend flex-grow-1 me-0  me-lg-2"
+                                   href="{{ path('lobby_moderator_accept_all',{'roomId':room.uidReal}) }}">{{ 'lobby.allowAllUsers'|trans }}
+                                </a>
+
+
+
+
+                            <div class="dropdown flex-grow-1" id="selectAtendeeArea" tabindex="-1">
+                                <div class="input-group  w-100">
+
+                                    <div class="form-outline bg-white flex-grow-1">
+
+                                        <input href="{{ path('search_participant') }}"
+                                               type="text"
+                                               autocomplete=off
+                                               id="searchCallOutParticipants"
+                                               class="form-control"
+                                               placeholder="{{ 'Tippen zum Suchen'|trans }}"
+                                        />
+                                        <label class="form-label"
+                                               for="searchCallOutParticipants">{{ 'Jetzt einladen'|trans }}</label>
+
+                                    </div>
+
+                                    <button class="btn btn-primary"
+                                            type="button"
+                                            id="addCalloutUserBtn"
+                                            data-mdb-ripple-color="dark"
+                                            disabled="disabled"
+                                            href="{{ path('sip_call_out_invite',{'roomUid':room.uidReal}) }}">
+                                        <i class="fa fa-user-plus"></i>
+                                    </button>
+                                </div>
+                                <div data-mdb-toggle="dropdown"
+                                     data-mdb-auto-close="false"
+                                     id="searchCallOutParticipantsDropdownTrigger">
+
+                                </div>
+                                <div class="dropdown-menu searchCallOutParticipantsDropdown"
+                                     id="searchCallOutParticipantsDropdown">
+                                    <a class="dropdown-item defaultSearch">{{ 'callout.dropdown.empty'|trans }}</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+{% block script %}
+
+    {% if not room.server.liveKitServer %}
+        {% include('__checkFirefox.html.twig') with {'room':room} %}
+    {% endif %}
+    {% if name is defined and name is not null %}
+
+        <script>
+            var livekitUrl = '{{ room.server.livekitMiddlewareUrl?:LIVEKIT_BASE_URL }}/meetling/room/{{ room.uid }}?jwt={{ jwtFromRoom(user,room,name) }}&secret={{ generateEncryptedSecret(room) }}';
+            const displayName = '{{ name }}';
+            var hangupQuestion = "{{ 'lobby.endMeeting.ask'|trans }}";
+            var endMeetingUrl = "{{ path('lobby_Moderator_endMeeting',{'roomUid':room.uidReal}) }}";
+            var endMeetingText = "{{ 'lobby.endMeeting'|trans }}";
+            var hangupText = "{{ 'lobby.hangup'|trans }}";
+
+
+
+            var conferenzeName = '{{ room.name }}';
+            {% if app.user is defined and app.user is not null %}
+            {{ mercure([
+                'lobby_moderator/'~room.uidReal,
+                'lobby_broadcast_websocket/'~ room.uidReal,
+                'lobby_personal'~room.uidReal~app.user.uid])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+            {% else %}
+            {{ mercure([
+                'lobby_moderator/'~room.uidReal,
+                'lobby_broadcast_websocket/'~ room.uidReal])|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }}
+
+            {% endif %}
+            {% if app.user is defined and app.user is not null %}
+            {% set topics =[
+                'lobby_moderator/'~room.uidReal,
+                'lobby_broadcast_websocket/'~ room.uidReal,
+                'lobby_personal'~room.uidReal~app.user.uid,
+                'whiteboard/'~room.uidReal
+            ] %}
+            {% else %}
+            {% set topics =[
+                'lobby_moderator/'~room.uidReal,
+                'lobby_broadcast_websocket/'~ room.uidReal,
+                'whiteboard/'~room.uidReal
+            ] %}
+            {% endif %}
+            var topic ={{ mercure(topics)|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_HEX_TAG'))|raw }};
+            var websocketTopics = "{{ getJwtforWebsocket(topics,app.user) }}";
+
+            var showTagTransparent = {{ getApplicationProperties('LAF_SHOW_TAG_TRANSPARENT_BACKGROUND')==1?'true':'false' }};
+        </script>
+    {% endif %}
+{% endblock %}
+{% block webpack %}
+
+    {{ encore_entry_script_tags('lobbyModerator') }}
+{% endblock %}

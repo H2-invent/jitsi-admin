@@ -33,10 +33,7 @@ yarn-error.log
 /public/trash/
 /.phpdoc/
 
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
+
 /theme/*
 !/theme/README.md
 /translations/custom/messages+intl-icu.de.xlf
@@ -69,3 +66,7 @@ repairLog.txt
 /.phpunit.cache/
 /nodejs/tls_certificate/*.pem
 /templates/dashboard/Landing-Page-master.zip
+
+###> baldinof/roadrunner-bundle ###
+/bin/rr.*
+###< baldinof/roadrunner-bundle ###

@@ -116,6 +116,42 @@ class CallerServiceTest extends KernelTestCase
         self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
         self::assertEquals($lobbyWaitingUser, $session->getLobbyWaitingUser());
         self::assertFalse($session->getAuthOk());
+        self::assertFalse($session->isIsSipVideoUser());
+        self::assertNotNull($session);
+        self::assertNotNull($lobbyWaitingUser);
+        self::assertEquals($lobbyWaitingUser->getShowName(), $session->getShowName());
+        self::assertEquals('c', $lobbyWaitingUser->getType());
+        self::assertEquals('User, Test, test@local.de', $lobbyWaitingUser->getShowName());
+        self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
+        self::assertEquals(null, $callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345'));
+    }
+
+    public function testGetPinRoomCorrectPinCorrectSetSipVideoTrue(): void
+    {
+        $kernel = self::bootKernel();
+        $callerPinService = self::getContainer()->get(CallerPinService::class);
+        $callerPrepareService = self::getContainer()->get(CallerPrepareService::class);
+        $this->assertSame('test', $kernel->getEnvironment());
+        $id = '123419';
+        $roomRepo = self::getContainer()->get(RoomsRepository::class);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $callerPrepareService->createUserCallerIDforRoom($room);
+        $room = $roomRepo->findOneBy(['name' => 'TestMeeting: 19']);
+        $caller = $room->getCallerIds()[0];
+        $lobbyUSerRepo = self::getContainer()->get(LobbyWaitungUserRepository::class);
+        $lobbyWaitingUser = $lobbyUSerRepo->findOneBy(['room' => $room, 'user' => $caller->getUser()]);
+        $sessionRepo = self::getContainer()->get(CallerSessionRepository::class);
+        $session = $sessionRepo->findOneBy(['lobbyWaitingUser' => $lobbyWaitingUser]);
+        self::assertNull($session);
+        self::assertNull($lobbyWaitingUser);
+        self::assertNotNull($callerPinService->createNewCallerSession($id, $caller->getCallerId(), '012345',true));
+        $lobbyWaitingUser = $lobbyUSerRepo->findOneBy(['room' => $room, 'user' => $caller->getUser()]);
+        $session = $sessionRepo->findOneBy(['lobbyWaitingUser' => $lobbyWaitingUser]);
+
+        self::assertEquals(1, sizeof($room->getLobbyWaitungUsers()));
+        self::assertEquals($lobbyWaitingUser, $session->getLobbyWaitingUser());
+        self::assertFalse($session->getAuthOk());
+        self::assertTrue($session->isIsSipVideoUser());
         self::assertNotNull($session);
         self::assertNotNull($lobbyWaitingUser);
         self::assertEquals($lobbyWaitingUser->getShowName(), $session->getShowName());

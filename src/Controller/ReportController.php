@@ -12,9 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/room/report", name="app_report")
- */
+#[Route(path: '/room/report', name: 'app_report')]
 class ReportController extends AbstractController
 {
     private TranslatorInterface $translator;
@@ -24,9 +22,7 @@ class ReportController extends AbstractController
         $this->translator = $translator;
     }
 
-    /**
-     * @Route("/{id}", name="_create")
-     */
+    #[Route(path: '/{id}', name: '_create')]
     public function create(
         #[MapEntity(mapping: ['id' => 'id'])]
         ?Rooms $room

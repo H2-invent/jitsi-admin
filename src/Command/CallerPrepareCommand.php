@@ -9,10 +9,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:caller:prepare', 'This command adds CallerIds if there are no caller Ids-added and remove old CallerIds')]
 class CallerPrepareCommand extends Command
 {
-    protected static $defaultName = 'app:caller:prepare';
-    protected static $defaultDescription = 'This command adds CallerIds if there are no caller Ids-added and remove old CallerIds';
     private $em;
     private $callerPrepareService;
     public function __construct(CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager, string $name = null)

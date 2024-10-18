@@ -20,7 +20,7 @@
                             {% endif %}
                         </p>
                         <hr>
-                        <b>{{ s.timeWithTimeZone(user)|date('H:i',false) }}
+                        <b class="noBreak">{{ s.timeWithTimeZone(user)|date('H:i',false) }}
                             - {{ s.timeWithTimeZone(user)|date_modify("+"~room.duration~"min")|date('H:i',false) }}</b><br>
 
                         <small>{{ 'Ja'|trans }}: {{ scheduleNumber(s,0) }}</small><br>

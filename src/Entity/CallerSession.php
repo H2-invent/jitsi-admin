@@ -37,6 +37,9 @@ class CallerSession
 
     #[ORM\Column(length: 3000, nullable: true)]
     private ?string $messageText = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSipVideoUser = false;
     public function getId(): ?int
     {
         return $this->id;
@@ -162,6 +165,18 @@ class CallerSession
     public function setMessageText(?string $messageText): self
     {
         $this->messageText = $messageText;
+
+        return $this;
+    }
+
+    public function isIsSipVideoUser(): ?bool
+    {
+        return $this->isSipVideoUser;
+    }
+
+    public function setIsSipVideoUser(?bool $isSipVideoUser): static
+    {
+        $this->isSipVideoUser = $isSipVideoUser;
 
         return $this;
     }

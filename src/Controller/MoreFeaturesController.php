@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MoreFeaturesController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/features/more", name="more_features",methods={"GET"})
-     */
+    #[Route(path: '/room/features/more', name: 'more_features', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $server = $this->doctrine->getRepository(Server::class)->find($request->get('id'));

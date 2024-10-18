@@ -43,10 +43,10 @@ class DashboardController extends JitsiAdminController
 
 
     /**
-     * @Route("/room/dashboard", name="dashboard")
      * @param Request $request
      * @return RedirectResponse|Response
      */
+    #[Route(path: '/room/dashboard', name: 'dashboard')]
     public function dashboard(
         Request                   $request,
         ServerUserManagment       $serverUserManagment,
@@ -172,10 +172,10 @@ class DashboardController extends JitsiAdminController
     }
 
     /**
-     * @Route("/room/dashboard/lazy/{type}/{offset}", name="dashboard_lazy")
      * @param Request $request
      * @return RedirectResponse|Response
      */
+    #[Route(path: '/room/dashboard/lazy/{type}/{offset}', name: 'dashboard_lazy')]
     public function dashboardLayzLoad(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService, $type, $offset)
     {
         $servers = $serverUserManagment->getServersFromUser($this->getUser());

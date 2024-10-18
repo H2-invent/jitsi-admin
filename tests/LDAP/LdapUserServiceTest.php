@@ -491,7 +491,7 @@ class LdapUserServiceTest extends WebTestCase
 
         $ldapType->setSpecialFields(['myTest'=>'test123','tele'=>'myPhone']);
         $res= $ldapUserService->getSpezialPropertiesFields($ldapType,$ldapEntry);
-        dump($res);
+
         assertEquals('',$res['myTest']);
         assertEquals('',$res['tele']);
     }

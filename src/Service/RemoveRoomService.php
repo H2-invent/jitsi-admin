@@ -9,19 +9,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RemoveRoomService
 {
-    private $em;
-    private $userService;
-    private $repeaterService;
-    private $logger;
-    private $translator;
 
-    public function __construct(EntityManagerInterface $entityManager, UserService $userService, RepeaterService $repeaterService, LoggerInterface $logger, TranslatorInterface $translator)
+    public function __construct(
+        private EntityManagerInterface $em,
+        private UserService            $userService,
+        private LoggerInterface        $logger,
+    )
     {
-        $this->em = $entityManager;
-        $this->userService = $userService;
-        $this->repeaterService = $repeaterService;
-        $this->logger = $logger;
-        $this->translator = $translator;
+
     }
 
 
@@ -67,6 +62,12 @@ class RemoveRoomService
             if ($room->getCallerRoom()) {
                 $callerRoom = $room->getCallerRoom();
                 $this->em->remove($callerRoom);
+                $this->em->flush();
+            }
+            if ($room->getCalloutSessions()->count() > 0) {
+                foreach ($room->getCalloutSessions() as $session) {
+                    $this->em->remove($session);
+                }
                 $this->em->flush();
             }
         } catch (\Exception $e) {

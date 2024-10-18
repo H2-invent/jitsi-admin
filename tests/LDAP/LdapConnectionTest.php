@@ -349,7 +349,7 @@ class LdapConnectionTest extends KernelTestCase
 
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
-        self::assertEquals(2, $ldapService->readLdapConfig());
+        self::assertEquals(3, $ldapService->readLdapConfig());
     }
 
     public function testCreateLdapConnection(): void
@@ -363,8 +363,8 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
         self::assertEquals(true, $ldapService->readLdapConfig());
-        self::assertEquals(2, $ldapService->createLdapConnections());
-        self::assertEquals(2, sizeof($ldapService->getLdaps()));
+        self::assertEquals(3, $ldapService->createLdapConnections());
+        self::assertEquals(3, sizeof($ldapService->getLdaps()));
     }
 
     public function testinitLDAP(): void
@@ -378,7 +378,7 @@ class LdapConnectionTest extends KernelTestCase
         // (3) run some service & test the result
         $ldapService = self::getContainer()->get(LdapService::class);
         self::assertEquals(true, $ldapService->initLdap());
-        self::assertEquals(2, $ldapService->createLdapConnections());
-        self::assertEquals(2, sizeof($ldapService->getLdaps()));
+        self::assertEquals(3, $ldapService->createLdapConnections());
+        self::assertEquals(3, sizeof($ldapService->getLdaps()));
     }
 }

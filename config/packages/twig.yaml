@@ -61,3 +61,4 @@ twig:
         JITSI_MEET_DEFAULT_PARTICIPANTS_PANE: '%env(JITSI_MEET_DEFAULT_PARTICIPANTS_PANE)%'
         laf_lobby_popUpDuration: '%env(laf_lobby_popUpDuration)%'
         WHITEBOARD_URL: '%env(WHITEBOARD_URL)%'
+        LIVEKIT_BASE_URL: '%env(LIVEKIT_BASE_URL)%'

@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Dashboard;
 
-use App\Repository\LobbyWaitungUserRepository;
 use App\Repository\RoomsRepository;
 use App\Repository\UserRepository;
-use App\Service\RoomService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class InviteUserOpenRoomsButtonTest extends WebTestCase
 {

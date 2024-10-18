@@ -38,7 +38,13 @@ class LdapService
     private $LDAP_DEPUTY_GROUP_MEMBERS;
     private $LDAP_DEPUTY_GROUP_FILTER;
 
-    public function __construct(LdapUserService $ldapUserService, EntityManagerInterface $entityManager, private ParameterBagInterface $parameterBag, private LoggerInterface $logger)
+    private $LDAP_IS_SIP_VIDEO;
+
+    public function __construct(
+        LdapUserService               $ldapUserService,
+        EntityManagerInterface        $entityManager,
+        private ParameterBagInterface $parameterBag,
+        private LoggerInterface       $logger,)
     {
         $this->ldapUserService = $ldapUserService;
         $this->em = $entityManager;
@@ -67,6 +73,7 @@ class LdapService
             $this->LDAP_DEPUTY_GROUP_MEMBERS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_MEMBERS'));
             $this->LDAP_DEPUTY_GROUP_OBJECTCLASS = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_OBJECTCLASS'));
             $this->LDAP_DEPUTY_GROUP_FILTER = explode(';', $this->parameterBag->get('LDAP_DEPUTY_GROUP_FILTER'));
+            $this->LDAP_IS_SIP_VIDEO = explode(';', $this->parameterBag->get('LDAP_IS_SIP_VIDEO'));
             $tmp = explode(';', $this->parameterBag->get('ldap_attribute_mapper'));
             foreach ($tmp as $data) {
                 $this->MAPPER[] = json_decode($data, true);
@@ -109,6 +116,12 @@ class LdapService
                 $ldap->setLDAPDEPUTYGROUPMEMBERS($this->LDAP_DEPUTY_GROUP_MEMBERS[$count]);
                 $ldap->setLDAPDEPUTYGROUPOBJECTCLASS($this->LDAP_DEPUTY_GROUP_OBJECTCLASS[$count]);
                 $ldap->setLDAPDEPUTYGROUPFILTER($this->LDAP_DEPUTY_GROUP_FILTER[$count] !== '' ? $this->LDAP_DEPUTY_GROUP_FILTER[$count] : null);
+                try {
+                    $ldap->setISSIPVIDEO($this->LDAP_IS_SIP_VIDEO[$count] === 'true');
+                } catch (\Exception $exception) {
+
+                }
+
                 $duplicate = false;
                 foreach ($this->ldaps as $data2) {
                     if ($data2->getSerVerId() == $ldap->getSerVerId()) {
@@ -121,6 +134,7 @@ class LdapService
 
                 $count++;
             }
+
         }
 
 
@@ -148,7 +162,7 @@ class LdapService
                 if ($io) {
                     $io->error($exception->getMessage());
                 }
-                echo $exception->getMessage();
+
                 $this->logger->error($exception->getMessage());
                 return false;
             }
@@ -165,6 +179,15 @@ class LdapService
     {
         $this->readLdapConfig();
         $this->createLdapConnections();
+        return true;
+    }
+
+    /**
+     * @param SymfonyStyle $io
+     * @return bool
+     */
+    public function testLdap(?SymfonyStyle $io = null): bool
+    {
         return $this->connectToLdap($io);
     }
 
@@ -263,7 +286,7 @@ class LdapService
 
     public function cleanUpLdapUsers()
     {
-        foreach ($this->ldaps as $data){
+        foreach ($this->ldaps as $data) {
             $this->ldapUserService->syncDeletedUser($data);
         }
     }

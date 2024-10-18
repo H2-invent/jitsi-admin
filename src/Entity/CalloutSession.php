@@ -56,6 +56,9 @@ class CalloutSession
     #[ORM\Column]
     private ?int $leftRetries = 2;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $LastDialed = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,6 +144,18 @@ class CalloutSession
     public function setLeftRetries(int $leftRetries): self
     {
         $this->leftRetries = $leftRetries;
+
+        return $this;
+    }
+
+    public function getLastDialed(): ?float
+    {
+        return $this->LastDialed;
+    }
+
+    public function setLastDialed(?float $LastDialed): static
+    {
+        $this->LastDialed = $LastDialed;
 
         return $this;
     }

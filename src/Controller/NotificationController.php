@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NotificationController extends JitsiAdminController
 {
-    /**
-     * @Route("/room/notification", name="notification")
-     */
+    #[Route(path: '/room/notification', name: 'notification')]
     public function index(PushService $pushService): Response
     {
         return new JsonResponse($pushService->getNotification($this->getUser()));

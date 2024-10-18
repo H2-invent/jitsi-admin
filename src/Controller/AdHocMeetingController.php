@@ -19,9 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/room/adhoc/", name="add_hoc")
- */
+#[Route(path: '/room/adhoc/', name: 'add_hoc')]
 class AdHocMeetingController extends JitsiAdminController
 {
     public function __construct(
@@ -35,9 +33,7 @@ class AdHocMeetingController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
     }
 
-    /**
-     * @Route("confirmation/{userId}/{serverId}", name="_confirm")
-     */
+    #[Route(path: 'confirmation/{userId}/{serverId}', name: '_confirm')]
     public function confirmation(
         #[MapEntity(id: 'userId')] User   $user,
         #[MapEntity(id: 'serverId')] Server $server,
@@ -47,10 +43,8 @@ class AdHocMeetingController extends JitsiAdminController
         return $this->render('add_hoc_meeting/__confirmation.html.twig', ['server' => $server, 'user' => $user, 'tag' => $tag]);
     }
 
-    /**
-     * @Route("meeting/{userId}/{serverId}/{tagId}", name="_meeting")
-     * @Route("meeting/{userId}/{serverId}", name="_meeting_no_tag")
-     */
+    #[Route(path: 'meeting/{userId}/{serverId}/{tagId}', name: '_meeting')]
+    #[Route(path: 'meeting/{userId}/{serverId}', name: '_meeting_no_tag')]
     public function index(
         #[MapEntity(id: 'userId')] User                $user,
         #[MapEntity(id: 'serverId')] Server              $server,
@@ -84,6 +78,7 @@ class AdHocMeetingController extends JitsiAdminController
                 ]
             );
         } catch (\Exception $exception) {
+            $this->logger->error($exception);
             $this->addFlash('danger', $translator->trans('Fehler'));
             return new JsonResponse(['redirectUrl' => $this->generateUrl('dashboard')]);
         }

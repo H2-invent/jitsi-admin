@@ -14,9 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdminController extends JitsiAdminController
 {
-    /**
-     * @Route("/admin/server/{server}", name="admin_server")
-     */
+    #[Route(path: '/admin/server/{server}', name: 'admin_server')]
     public function server(
         ParameterBagInterface $parameterBag,
         #[MapEntity(id: 'server')] Server $server,

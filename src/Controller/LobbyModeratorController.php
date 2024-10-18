@@ -47,14 +47,13 @@ class LobbyModeratorController extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/room/lobby/moderator/{type}/{uid}", name="lobby_moderator", defaults={"type" = "a"})
-     */
+    #[Route(path: '/room/lobby/moderator/{type}/{uid}', name: 'lobby_moderator', defaults: ['type' => 'a'])]
     public function index(Request $request, $uid, $type): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $uid]);
 
         if ($this->checkLobbyPermissionService->checkPermissions($room, $this->getSessionUser($request->getSession()))) {
+
             return $this->render(
                 'lobby/index.html.twig',
                 [
@@ -66,14 +65,12 @@ class LobbyModeratorController extends JitsiAdminController
             );
         }
 
-        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()]);
+        $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', ['room' => $room->getId(), 'user' => $this->getSessionUser($request->getSession())]);
 //        $this->addFlash('danger', $this->translator->trans('error.noPermission'));
         return $this->redirectToRoute('dashboard');
     }
 
-    /**
-     * @Route("/room/lobby/start/moderator/{t}/{room}", name="lobby_moderator_start")
-     */
+    #[Route(path: '/room/lobby/start/moderator/{t}/{room}', name: 'lobby_moderator_start')]
     public function startMeeting($room, $t, RoomService $roomService, Request $request): Response
     {
         $roomL = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $room]);
@@ -86,9 +83,7 @@ class LobbyModeratorController extends JitsiAdminController
         return $this->redirect($url);
     }
 
-    /**
-     * @Route("/room/lobby/accept/{wUid}", name="lobby_moderator_accept")
-     */
+    #[Route(path: '/room/lobby/accept/{wUid}', name: 'lobby_moderator_accept')]
     public function accept(Request $request, $wUid, CallerSessionService $callerSessionService): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wUid]);
@@ -112,9 +107,7 @@ class LobbyModeratorController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.success'), 'color' => 'success']);
     }
 
-    /**
-     * @Route("/room/lobby/acceptAll/{roomId}", name="lobby_moderator_accept_all")
-     */
+    #[Route(path: '/room/lobby/acceptAll/{roomId}', name: 'lobby_moderator_accept_all')]
     public function acceptAll(Request $request, $roomId, CallerSessionService $callerSessionService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomId]);
@@ -139,9 +132,7 @@ class LobbyModeratorController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'message' => $this->translator->trans('lobby.moderator.accept.all.success'), 'color' => 'success']);
     }
 
-    /**
-     * @Route("/room/lobby/decline/{wUid}", name="lobby_moderator_decline")
-     */
+    #[Route(path: '/room/lobby/decline/{wUid}', name: 'lobby_moderator_decline')]
     public function decline($wUid, Request $request): Response
     {
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(['uid' => $wUid]);
@@ -173,9 +164,7 @@ class LobbyModeratorController extends JitsiAdminController
         return new JsonResponse(['error' => false, 'message' => $this->translator->trans('lobby.moderator.decline.success'), 'color' => 'success']);
     }
 
-    /**
-     * @Route("/lobby/moderator/endMeeting/{roomUid}", name="lobby_Moderator_endMeeting")
-     */
+    #[Route(path: '/lobby/moderator/endMeeting/{roomUid}', name: 'lobby_Moderator_endMeeting')]
     public function broadcastWebsocketEndMeeting($roomUid, LobbyUtils $lobbyUtils, Request $request): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uidReal' => $roomUid]);

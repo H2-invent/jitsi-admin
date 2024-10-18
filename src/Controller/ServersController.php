@@ -33,9 +33,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class ServersController extends JitsiAdminController
 {
-    /**
-     * @Route("/server/add", name="servers_add")
-     */
+    #[Route(path: '/server/add', name: 'servers_add')]
     public function serverAdd(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator)
     {
         $originalKeycloakGroups = new ArrayCollection();
@@ -93,9 +91,7 @@ class ServersController extends JitsiAdminController
         return $this->render('servers/__addServerModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'server' => $server]);
     }
 
-    /**
-     * @Route("/server/enterprise", name="servers_enterprise")
-     */
+    #[Route(path: '/server/enterprise', name: 'servers_enterprise')]
     public function serverEnterprise(Request $request, ValidatorInterface $validator, ServerService $serverService, TranslatorInterface $translator, LicenseService $licenseService)
     {
 
@@ -140,9 +136,7 @@ class ServersController extends JitsiAdminController
         return $this->render('servers/__serverEnterpriseModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'server' => $server]);
     }
 
-    /**
-     * @Route("/server/add-user", name="server_add_user")
-     */
+    #[Route(path: '/server/add-user', name: 'server_add_user')]
     public function roomAddUser(Request $request, InviteService $inviteService, ServerService $serverService, TranslatorInterface $translator, UserCreatorService $userCreatorService)
     {
         $newMember = [];
@@ -179,9 +173,7 @@ class ServersController extends JitsiAdminController
         return $this->render('servers/permissionModal.html.twig', ['form' => $form->createView(), 'title' => $title, 'users' => $server->getUser(), 'server' => $server]);
     }
 
-    /**
-     * @Route("/server/user/remove", name="server_user_remove")
-     */
+    #[Route(path: '/server/user/remove', name: 'server_user_remove')]
     public function serverUserRemove(Request $request, TranslatorInterface $translator)
     {
 
@@ -199,9 +191,7 @@ class ServersController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    /**
-     * @Route("/server/delete", name="server_delete")
-     */
+    #[Route(path: '/server/delete', name: 'server_delete')]
     public function serverDelete(Request $request, TranslatorInterface $translator, ServerService $serverService)
     {
 
@@ -225,9 +215,7 @@ class ServersController extends JitsiAdminController
         return $this->redirectToRoute('dashboard');
     }
 
-    /**
-     * @Route("/server/check/email", name="server_check_email")
-     */
+    #[Route(path: '/server/check/email', name: 'server_check_email')]
     public function servercheckEmail(Request $request, TranslatorInterface $translator, MailerService $mailerService)
     {
 

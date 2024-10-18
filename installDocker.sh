@@ -78,6 +78,11 @@ fi
   sed -i '/smtpFrom/d' $FILE
   echo "smtpFrom=$smtpFrom" >> $FILE
 
+  default_language=${default_language:=de}
+  read -p "Which language you want to set as default allowed values: [de, en, fr, es, vi, zh, ru, ja, pt]: [$default_language] " input
+  default_language=${input:=$default_language}
+  sed -i '/default_language/d' $FILE
+  echo "default_language=$default_language" >> $FILE
 
   echo -------------------------------------------------------------
   echo -----------------we build the KEycloak-----------------------
@@ -107,20 +112,60 @@ sed -i "s|<jitsi-admin-pw>|$JITSI_ADMIN_PW|g" docker/docker-entrypoint-initdb.d/
 sed -i "s|<keycloak-pw>|$KEYCLOAK_PW|g" docker/docker-entrypoint-initdb.d/init-userdb.sql
 
 
-export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
-export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
-export VICH_BASE=$HTTP_METHOD://$PUBLIC_URL
-export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
-export GIT_VERSION=$(git rev-parse --short=5 HEAD)
+#export MAILER_DSN=smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort
+#export laF_baseUrl=$HTTP_METHOD://$PUBLIC_URL
+#export VICH_BASE=$HTTP_METHOD://$PUBLIC_URL
+#export MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
+#export GIT_VERSION=$(git rev-parse --short=5 HEAD)
 export PUBLIC_URL=$PUBLIC_URL
-export OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
+#export OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
 export HTTP_METHOD=$HTTP_METHOD
-export KEYCLOAK_PW=$KEYCLOAK_PW
-export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
-export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
+#export KEYCLOAK_PW=$KEYCLOAK_PW
+#export JITSI_ADMIN_PW=$JITSI_ADMIN_PW
+#export KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
 export registerEmailAdress=$smtpFrom
+#export DEFAULT_LANGUAGE=$default_language
+
+
+
 RANDOMTAG=$(date +%s | sha256sum | base64 | head -c 10);
 export RANDOMTAG
+
+if [ -f .env.local ]; then
+    rm .env.local
+fi
+
+cat <<EOL > .env.local
+MAILER_DSN='smtp://$smtpUsername:$smtpPassword@$smtpHost:$smtpPort'
+DATABASE_URL='mysql://jitsiadmin:${JITSI_ADMIN_PW}@db-ja:3306/jitsiadmin'
+laF_baseUrl='$HTTP_METHOD://$PUBLIC_URL'
+VICH_BASE='$HTTP_METHOD://$PUBLIC_URL'
+GIT_VERSION=$(git rev-parse --short=5 HEAD)
+PUBLIC_URL='$PUBLIC_URL'
+OAUTH_KEYCLOAK_CLIENT_SECRET=$NEW_UUID
+HTTP_METHOD=$HTTP_METHOD
+KEYCLOAK_PW=$KEYCLOAK_PW
+JITSI_ADMIN_PW=$JITSI_ADMIN_PW
+KEYCLOAK_ADMIN_PW=$KEYCLOAK_ADMIN_PW
+registerEmailAdress=$smtpFrom
+DEFAULT_LANGUAGE=$default_language
+RANDOMTAG=$RANDOMTAG
+KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_ADMIN_PW
+KC_DB_PASSWORD=$KEYCLOAK_PW
+KC_DB_URL='jdbc:mariadb://db-ja:3306/keycloak'
+KC_DB_USERNAME=keycloak
+KC_HOSTNAME_URL='$HTTP_METHOD://$PUBLIC_URL/keycloak'
+KC_HOSTNAME_PATH='$HTTP_METHOD://$PUBLIC_URL/keycloak'
+KC_HOSTNAME_ADMIN_URL='$HTTP_METHOD://$PUBLIC_URL/keycloak'
+MERCURE_URL='http://websocket-ja:3000/.well-known/mercure'
+MERCURE_PUBLIC_URL='$HTTP_METHOD://$PUBLIC_URL'
+MERCURE_JWT_SECRET=$MERCURE_JWT_SECRET
+WEBSOCKET_SECRET=$MERCURE_JWT_SECRET
+OAUTH_KEYCLOAK_SERVER='$HTTP_METHOD://$PUBLIC_URL/keycloak'
+EOL
+
+echo ".env.local Datei wurde erfolgreich erstellt."
+
 
 chmod +x dockerupdate.sh
 

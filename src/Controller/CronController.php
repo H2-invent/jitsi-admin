@@ -16,9 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CronController extends JitsiAdminController
 {
-    /**
-     * @Route("/cron/remember", name="cron_remember")
-     */
+    #[Route(path: '/cron/remember', name: 'cron_remember')]
     public function updateCronAkademie(Request $request, LoggerInterface $logger, UserService $userService, ReminderService $reminderService)
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {
@@ -40,9 +38,7 @@ class CronController extends JitsiAdminController
         return new JsonResponse($reminderService->sendReminder($filter));
     }
 
-    /**
-     * @Route("/cron/run", name="cron_run")
-     */
+    #[Route(path: '/cron/run', name: 'cron_run')]
     public function updateCronRun(Request $request, LoggerInterface $logger, KernelInterface $kernel)
     {
         if ($request->get('token') !== $this->getParameter('cronToken')) {

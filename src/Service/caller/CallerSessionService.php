@@ -27,15 +27,16 @@ class CallerSessionService
     private int $particpants;
 
     public function __construct(
-        RequestStack                $requestStack,
-        UrlGeneratorInterface       $urlGenerator,
-        RoomService                 $roomService,
-        ToModeratorWebsocketService $toModeratorWebsocketService,
-        LoggerInterface             $logger,
-        RoomStatusFrontendService   $roomStatusFrontendService,
-        EntityManagerInterface      $entityManager,
-        private FormatName          $formatName,
-        private ThemeService        $themeService
+        RequestStack                          $requestStack,
+        UrlGeneratorInterface                 $urlGenerator,
+        RoomService                           $roomService,
+        ToModeratorWebsocketService           $toModeratorWebsocketService,
+        LoggerInterface                       $logger,
+        RoomStatusFrontendService             $roomStatusFrontendService,
+        EntityManagerInterface                $entityManager,
+        private FormatName                    $formatName,
+        private ThemeService                  $themeService,
+        private JitsiComponentSelectorService $jitsiComponentSelectorService,
     )
     {
         $this->em = $entityManager;
@@ -162,7 +163,7 @@ class CallerSessionService
 
     private function sessionAccepted(CallerSession $session): array
     {
-        return [
+        $res = [
             'status' => 'ACCEPTED',
             'reason' => 'ACCEPTED_BY_MODERATOR',
             'number_of_participants' => $this->particpants,
@@ -171,11 +172,22 @@ class CallerSessionService
             'room_name' => $session->getCaller()->getRoom()->getUid(),
             'displayname' => $this->formatName->formatName($this->themeService->getApplicationProperties('laf_showNameInConference'), $session->getCaller()->getUser()),
             'jwt' => $this->roomService->generateJwt($session->getCaller()->getRoom(), $session->getCaller()->getUser(), $session->getShowName()),
+
             'links' => [
                 'session' => $this->urlGen->generate('caller_session', ['session_id' => $session->getSessionId()]),
                 'left' => $this->urlGen->generate('caller_left', ['session_id' => $session->getSessionId()])
             ]
         ];
+        if ($session->isIsSipVideoUser()) {
+            try {
+                $this->jitsiComponentSelectorService->setBaseUrlFromServer($session->getCaller()->getRoom()->getServer());
+                $res['componentKey'] = $this->jitsiComponentSelectorService->fetchComponentKey($session->getCaller()->getRoom(), $session->getCaller()->getUser());
+            }catch (\Exception $exception){
+               $this->loggger->error($exception->getMessage());
+            }
+        }
+
+        return $res;
     }
 
     private function sessionDeclined(CallerSession $session): array

@@ -69,6 +69,7 @@ class CalloutApiControllerTest extends WebTestCase
                         "tag" => null,
                         "organisator" => "Test1, 1234, User, Test",
                         "title" => "This is a room with Lobby",
+                        'is_video' => false,
                         "links" => [
                             "dial" => "/api/v1/call/out/dial/" . $calloutRepo->findAll()[0]->getUid()
                         ]

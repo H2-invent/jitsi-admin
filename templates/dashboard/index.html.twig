@@ -28,59 +28,59 @@
 {% block body %}
 
 
-        <!-- Tabs navs -->
-        <div class="d-block">
-            <ul class="nav-mat nav-mat-tabs mb-3 " id="ex1" data-swipe="#ex1-content">
-                <li class="nav-mat-item mat-active ripple">
-                    <a
-                            class="nav-mat-link"
-                            id="ex1-tab-1-tab"
+    <!-- Tabs navs -->
+    <div class="d-block">
+        <ul class="nav-mat nav-mat-tabs mb-3 " id="ex1" data-swipe="#ex1-content">
+            <li class="nav-mat-item mat-active ripple">
+                <a
+                        class="nav-mat-link"
+                        id="ex1-tab-1-tab"
 
-                            href="#ex1-tabs-1"
-                            role="tab"
-                            aria-controls="ex1-tabs-1"
-                            aria-selected="true"
-                    ><i class="fas fa-calendar"></i> <span
-                                class="d-none d-lg-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
-                </li>
-                <li class="nav-mat-item ripple">
-                    <a
-                            class="nav-mat-link"
-                            id="ex1-tab-3-tab"
+                        href="#ex1-tabs-1"
+                        role="tab"
+                        aria-controls="ex1-tabs-1"
+                        aria-selected="true"
+                ><i class="fas fa-calendar"></i> <span
+                            class="d-none d-lg-block">{{ 'Zukünftige Konferenzen'|trans }}</span></a>
+            </li>
+            <li class="nav-mat-item ripple">
+                <a
+                        class="nav-mat-link"
+                        id="ex1-tab-3-tab"
 
-                            href="#ex1-tabs-3"
-                            role="tab"
-                            aria-controls="ex1-tabs-3"
-                            aria-selected="true"
-                    ><i class="fas fa-thumbtack"></i><span
-                                class="d-none d-lg-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
-                </li>
-                <li class="nav-mat-item ripple">
-                    <a
-                            class="nav-mat-link"
-                            id="ex1-tab-2-tab"
+                        href="#ex1-tabs-3"
+                        role="tab"
+                        aria-controls="ex1-tabs-3"
+                        aria-selected="true"
+                ><i class="fas fa-thumbtack"></i><span
+                            class="d-none d-lg-block"> {{ 'Feste Konferenzen'|trans }}</span></a>
+            </li>
+            <li class="nav-mat-item ripple">
+                <a
+                        class="nav-mat-link"
+                        id="ex1-tab-2-tab"
 
-                            href="#ex1-tabs-2"
-                            role="tab"
-                            aria-controls="ex1-tabs-2"
-                            aria-selected="false"
-                    ><i class="fas fa-history"></i><span
-                                class="d-none d-lg-block"> {{ 'Vergangene Konferenzen'|trans }}</span></a>
-                </li>
-            </ul>
-        </div>
+                        href="#ex1-tabs-2"
+                        role="tab"
+                        aria-controls="ex1-tabs-2"
+                        aria-selected="false"
+                ><i class="fas fa-history"></i><span
+                            class="d-none d-lg-block"> {{ 'Vergangene Konferenzen'|trans }}</span></a>
+            </li>
+        </ul>
+    </div>
 
 
-        <!-- Tabs navs -->
+    <!-- Tabs navs -->
 
-        <!-- Tabs content -->
+    <!-- Tabs content -->
     <div class="row w-100 m-0">
         {% if input_settings_allow_sheduling == 1 %}
             <div class="col-md-6 mb-3 p-0 pe-md-1 ps-md-1">
                 <a href="{{ path('room_new') }}" class="loadContent dashboardBtn"
                    id="createNewConference">
                     <div class=" btn-block btn-primary btn btn-dashboard">
-                            {{ 'Eine Konferenz planen'|trans }}
+                        {{ 'Eine Konferenz planen'|trans }}
                     </div>
                 </a>
             </div>
@@ -89,94 +89,96 @@
             <div class="col-md-6 mb-3 p-0 pe-md-0 ps-md-1">
                 <a href="{{ path('schedule_admin_new') }}" class="loadContent dashboardBtn">
                     <div class=" btn-block btn btn-outline-primary btn-dashboard">
-                            {{ 'Einen Termin finden'|trans }}
+                        {{ 'Einen Termin finden'|trans }}
                     </div>
                 </a>
             </div>
         {% endif %}
     </div>
 
-        <div class="tab-content" id="ex1-content" data-swipe="#ex1">
-            <div class="tab-content-watch mat-active">
-                <div
-                        class="tab-pane fade show mat-active"
-                        id="ex1-tabs-1"
-                        aria-labelledby="ex1-tab-1"
-                >
+    <div class="tab-content" id="ex1-content" data-swipe="#ex1">
+        <div class="tab-content-watch mat-active">
+            <div
+                    class="tab-pane fade show mat-active"
+                    id="ex1-tabs-1"
+                    aria-labelledby="ex1-tab-1"
+            >
 
-                    {% if myScheduledMeeting(app.user)|length > 0 %}
+                {% if myScheduledMeeting(app.user)|length > 0 %}
 
-                        <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3"> {{ 'Einen Termin finden'|trans }}</h4>
-                        {% for r in myScheduledMeeting(app.user) %}
-                            {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
-                        {% endfor %}
-                    {% endif %}
-                    <hr>
-                    <h4 style="padding-top: 16px"
-                        class="h4-responsive pl-xl-3">{{ 'Meine Videokonferenzen'|trans }} </h4>
-                    {% if  roomsFuture |length == 0 %}
-                        <div class="card card-body">
-                            <p class="text-center">
-                                {% trans with {'{url}':path('room_new')} %}dashboard.noconference{% endtrans %}
-                            </p>
-                        </div>
-                    {% elseif todayRooms |length == 0 %}
-                        <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
-                        <div class="card card-body">
-                            <p class="text-center">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
-                        </div>
-                    {% endif %}
-                    {% set locale =  app.request.locale %}
-                    {% for date in roomsFuture %}
-                        <h4 style="padding-top: 16px" class="day h4-responsive pl-xl-3">
-                            {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
-                                {{ 'Heute'|trans }}
-                            {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
-                                {{ 'Morgen'|trans }}
-                            {% else %}
-                                {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null) }},
-                                {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=null) }}
-                            {% endif %}
-                        </h4>
-                        {% for room in date %}
-                            {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
-                        {% endfor %}
+                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3"> {{ 'Einen Termin finden'|trans }}</h4>
+                    {% for r in myScheduledMeeting(app.user) %}
+                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
                     {% endfor %}
-
-
-                </div>
-            </div>
-            <div class="tab-content-watch">
-                <div class="tab-pane fade" id="ex1-tabs-2" aria-labelledby="ex1-tab-2">
-                    <div id="ex1-tabs-2-init">
-                        {% if roomsPast |length == 0 %}
-                            <div class="card card-body">
-                                <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
-                            </div>
+                {% endif %}
+                <hr>
+                <h4 style="padding-top: 16px"
+                    class="h4-responsive pl-xl-3">{{ 'Meine Videokonferenzen'|trans }} </h4>
+                {% if  roomsFuture |length == 0 %}
+                    <div class="card card-body">
+                        <p class="text-center">
+                            {% trans with {'{url}':path('room_new')} %}dashboard.noconference{% endtrans %}
+                        </p>
+                    </div>
+                {% elseif todayRooms |length == 0 %}
+                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Heute'|trans }} </h4>
+                    <div class="card card-body">
+                        <p class="text-center">{{ 'Heute steht keine Jitsi Meet Konferenz an.'|trans }}</p>
+                    </div>
+                {% endif %}
+                {% set locale =  app.request.locale %}
+                {% for date in roomsFuture %}
+                    <h4 style="padding-top: 16px" class="day h4-responsive pl-xl-3">
+                        {% if today|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
+                            {{ 'Heute'|trans }}
+                        {% elseif tomorrow|date('Y-m-d',false) == date[0].startwithTimeZone(app.user)|date('Y-m-d',false) %}
+                            {{ 'Morgen'|trans }}
+                        {% else %}
+{#                            {{ dump(date[0].startwithTimeZone(app.user)) }}#}
+{#                            {{ dump(date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null)) }}#}
+                                                            {{ date[0].startwithTimeZone(app.user)|format_date(pattern="EEEE",locale=locale, timezone=null) }},
+                                                            {{ date[0].startwithTimeZone(app.user)|format_datetime('long', 'none', locale=locale, timezone=null) }}
                         {% endif %}
-                        {% for room in roomsPast %}
-                            {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
-                        {% endfor %}
-                    </div>
-                    <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'past','offset':1}) }}">
+                    </h4>
+                    {% for room in date %}
+                        {% include 'dashboard/__roomCard.html.twig' with {'room':room} %}
+                    {% endfor %}
+                {% endfor %}
 
-                        <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
-                    </div>
-                </div>
+
             </div>
-            <div class="tab-content-watch">
-                <div class="tab-pane fade" id="ex1-tabs-3" aria-labelledby="ex1-tab-3">
-
-                    <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
-                    {% if persistantRooms|length > 0 %}
-                        {% for r in persistantRooms %}
-                            {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
-                        {% endfor %}
+        </div>
+        <div class="tab-content-watch">
+            <div class="tab-pane fade" id="ex1-tabs-2" aria-labelledby="ex1-tab-2">
+                <div id="ex1-tabs-2-init">
+                    {% if roomsPast |length == 0 %}
+                        <div class="card card-body">
+                            <p class="text-center">{{ 'Aktuell sind keine vergangenen Konferenzen vorhanden.'|trans }}</p>
+                        </div>
                     {% endif %}
+                    {% for room in roomsPast %}
+                        {% include 'dashboard/__roomPast.html.twig' with {'room':room} %}
+                    {% endfor %}
+                </div>
+                <div class="lazyLoad mb-3" data-target="{{ path('dashboard_lazy',{'type':'past','offset':1}) }}">
+
+                    <div class="fa-3x text-center text-black-50"><i class="fas fa-spinner fa-spin"></i></div>
                 </div>
             </div>
         </div>
-        <!-- Tabs content -->
+        <div class="tab-content-watch">
+            <div class="tab-pane fade" id="ex1-tabs-3" aria-labelledby="ex1-tab-3">
+
+                <h4 style="padding-top: 16px" class="h4-responsive pl-xl-3">{{ 'Feste Konferenzen'|trans }} </h4>
+                {% if persistantRooms|length > 0 %}
+                    {% for r in persistantRooms %}
+                        {% include 'dashboard/__roomCard.html.twig' with {'room':r} %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Tabs content -->
 
 
 {% endblock %}

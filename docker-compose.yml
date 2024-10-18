@@ -1,26 +1,22 @@
 version: '3.8'
 
 x-app-common: &jitsi_admin_app
-  build: .
+  image: h2invent/jitsi-admin-main:latest
+#  build: .
   environment:
     APACHE_DOCUMENT_ROOT: "public/"
     PHP_EXTENSION_XDEBUG: "1"
     PHP_INI_MEMORY_LIMIT: "1G"
     PHP_EXTENSION_LDAP: 1
     PHP_EXTENSION_INTL: 1
-    DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
-    MERCURE_URL: http://websocket-ja:3000/.well-known/mercure
-    MERCURE_PUBLIC_URL: ${HTTP_METHOD}://websocket.${PUBLIC_URL}
-    MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
-    MAILER_DSN: ${MAILER_DSN}
-    registerEmailAdress: ${registerEmailAdress}
-    WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
-
 
 services:
   traefik-ja:
     image: "traefik:v2.5"
-
+    env_file:
+      - ./.env
+      - ./.env.local
+      - ./.env.custom
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false"
@@ -54,8 +50,9 @@ services:
       - "traefik.http.routers.traefik-ja.middlewares=traefik-auth"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/" # test:test
 
-
-
+    networks:
+      - external
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
@@ -66,14 +63,16 @@ services:
 
   #Here is the websocket hub
   websocket-ja:
-    hostname: ${RANDOMTAG}websocket-ja
-    build: nodejs
+    hostname: websocket-ja
+    image: h2invent/jitsi-admin-websocket:latest
+#    build: nodejs
     restart: unless-stopped
     depends_on:
       - traefik-ja
-
-    environment:
-      WEBSOCKET_SECRET: '${MERCURE_JWT_SECRET}'
+    env_file:
+      - ./.env
+      - ./.env.local
+      - ./.env.custom
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/healthz"]
       interval: 10s
@@ -90,7 +89,9 @@ services:
       - "traefik.http.routers.websocket-ja.tls.certresolver=letsencrypt"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=http"
       - "traefik.http.routers.app-secure.middlewares=sslheader@docker"
-
+    networks:
+      - external
+      - internal
     volumes:
       - caddy_data:/data
       - caddy_config:/config
@@ -101,12 +102,17 @@ services:
     depends_on:
       db-ja:
         condition: service_healthy
+    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-s", "-f", "-i", "http://localhost:80/health/check" ]
       interval: 20s
       timeout: 10s
       start_period: 30s
       retries: 10
+    env_file:
+      - ./.env
+      - ./.env.local
+      - ./.env.custom
     environment:
       APACHE_DOCUMENT_ROOT: "public/"
       PHP_EXTENSION_XDEBUG: "1"
@@ -115,26 +121,15 @@ services:
       PHP_EXTENSION_INTL: 1
       PHP_INI_UPLOAD_MAX_FILESIZE: 8M
       PHP_INI_POST_MAX_SIZE: 8M
-      DATABASE_URL: mysql://jitsiadmin:${JITSI_ADMIN_PW}@${RANDOMTAG}db-ja:3306/jitsiadmin
       MAILER_TRANSPORT: smtp
       OAUTH_KEYCLOAK_CLIENT_ID: jitsiadmin
-      OAUTH_KEYCLOAK_CLIENT_SECRET: ${OAUTH_KEYCLOAK_CLIENT_SECRET}
-      OAUTH_KEYCLOAK_SERVER: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
       OAUTH_KEYCLOAK_REALM: jitsiadmin
-      MERCURE_URL: http://${RANDOMTAG}websocket-ja:3000/.well-known/mercure
-      MERCURE_PUBLIC_URL: ${HTTP_METHOD}://${PUBLIC_URL}
-      MERCURE_JWT_SECRET: ${MERCURE_JWT_SECRET}
-      WEBSOCKET_SECRET: ${MERCURE_JWT_SECRET}
-      MAILER_DSN: ${MAILER_DSN}
-      laF_version: ${GIT_VERSION}
-      registerEmailAdress: ${registerEmailAdress}
-      laF_baseUrl: ${HTTP_METHOD}://${PUBLIC_URL}
-      VICH_BASE: ${HTTP_METHOD}://${PUBLIC_URL}
       input_settings_allow_timezone: 1
       allowTimeZoneSwitch: 1
       CRON_USER_1: root
       CRON_SCHEDULE_1: "* * * * *"
       CRON_COMMAND_1: "php /var/www/html/bin/console cron:run"
+
 
     labels:
       - "traefik.enable=true"
@@ -150,52 +145,67 @@ services:
       - theme_data:/var/www/html/theme
       - image_upload:/var/www/html/public/uploads/images
       - theme_assests_data:/var/www/html/public/theme
+    networks:
+      - external
+      - internal
 
   app-queu:
     <<: *jitsi_admin_app
+
     restart: unless-stopped
     deploy:
       mode: replicated
       replicas: 2
+
+    env_file:
+      - ./.env
+      - ./.env.local
+      - ./.env.custom
     depends_on:
       app-ja:
         condition: service_healthy
     command: php /var/www/html/bin/console messenger:consume async --memory-limit=126m
     volumes:
       - theme_data:/var/www/html/theme
+    networks:
+      - internal
 
   db-ja:
     image: mariadb:latest
-    hostname: ${RANDOMTAG}db-ja
+    hostname: db-ja
     healthcheck:
       test: [ "CMD", "mariadb-admin" ,"ping", "-h", "localhost","-ptest" ]
       timeout: 20s
       retries: 10
+    env_file:
+      - ./.env
+      - ./.env.local
+      - ./.env.custom
+    restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: test
     volumes:
       - mariadb:/var/lib/mysql
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-
+    networks:
+      - internal
 
   keycloak-ja:
     image: quay.io/keycloak/keycloak:22.0.3
     depends_on:
       app-ja:
         condition: service_healthy
+    env_file:
+      - ./.env
+      - ./.env.local
+      - ./.env.custom
     environment:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PW}
       KC_DB: mariadb
-      KC_DB_PASSWORD: ${KEYCLOAK_PW}
-      KC_DB_URL: jdbc:mariadb://${RANDOMTAG}db-ja:3306/keycloak
       KC_DB_USERNAME: keycloak
-      KC_HOSTNAME_URL: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
-      KC_HOSTNAME_PATH: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
-      KC_HOSTNAME_ADMIN_URL: ${HTTP_METHOD}://${PUBLIC_URL}/keycloak
       KC_HTTP_RELATIVE_PATH: /keycloak
       KC_PROXY: passthrough
-
+    restart: unless-stopped
     command:
       - start-dev
       - --import-realm
@@ -209,7 +219,13 @@ services:
 
     volumes:
       - ./docker/keycloak/:/opt/keycloak/data/import
+    networks:
+      - external
+      - internal
 
+networks:
+  external:
+  internal:
 
 volumes:
   mariadb:

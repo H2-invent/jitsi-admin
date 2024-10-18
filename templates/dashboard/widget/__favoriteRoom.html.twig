@@ -37,31 +37,11 @@
 
         {% if room.scheduleMeeting != true %}
             <div class="startConferenceFromFavorite">
-                {% if getApplicationProperties('start_dropdown_allow_app') == 1 and getApplicationProperties('start_dropdown_allow_browser') == 1 %}
 
-                    <button class="d-none d-lg-block caretdown btn btn-outline-primary dropdown-toggle start-dropdown" type="button"
-                            id="dropdownMenu1"
-                            data-mdb-toggle="dropdown" data-offset="-20,0" aria-haspopup="true"
-                            aria-expanded="false">{{ 'Starten'|trans }}
-                    </button>
 
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" data-roomname="{{ room.name }}">{{ 'Im Browser'|trans }}</a>
-                        <a class="dropdown-item" href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" rel=opener
-                           target="_blank">{{ 'In der App'|trans }}</a>
-                    </div>
-
-                    <a class="btn btn-outline-primary bt-sm  d-lg-none {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}"
-                       href="{{ path('room_join',{'t':'b','room':room.id}) }}"
-                       target="_blank">{{ 'Starten'|trans }}</a>
-
-                {% elseif getApplicationProperties('start_dropdown_allow_app') == 1 %}
-                    <a class="btn btn-outline-primary dropdown-toggle btn-sm" rel=opener
-                       href="{{ path('room_join',{'room':room.id,'t':'a'}) }}" target="_blank">{{ 'Starten'|trans }}</a>
-                {% elseif getApplicationProperties('start_dropdown_allow_browser') == 1 %}
                     <a class="btn btn-outline-primary dropdown-toggle btn-sm {% if getApplicationProperties('LAF_USE_MULTIFRAME') == 1 %}startIframe{% endif %}" data-roomname="{{ room.name }}"
                        href="{{ path('room_join',{'room':room.id,'t':'b'}) }}" target="_blank">{{ 'Starten'|trans }}</a>
-                {% endif %}
+
             </div>
         {% else %}
             <div class="test">

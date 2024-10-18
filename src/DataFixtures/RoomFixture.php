@@ -77,7 +77,7 @@ class RoomFixture extends Fixture
         $manager->persist($userLDAP);
         $ldapUserProperty = new LdapUserProperties();
         $ldapUserProperty->setUser($userLDAP);
-        $ldapUserProperty->setLdapDn('');
+        $ldapUserProperty->setLdapDn('cn=ldapUser@local.de,dc=example,dc=com');
         $ldapUserProperty->setLdapHost('');
         $ldapUserProperty->setLdapNumber('ldap_3');
         $ldapUserProperty->setRdn('');
@@ -268,8 +268,8 @@ class RoomFixture extends Fixture
             $room->addUser($user);
             $room->addUser($user2);
             $room->addUser($user3);
-            $room->setUid('123456789' . $i);
-            $room->setUidReal('987654321' . $i);
+            $room->setUid('12345678910' . $i);
+            $room->setUidReal('10987654321' . $i);
             $room->setSlug('test');
             $room->setScheduleMeeting(true);
             $room->setName('Termin finden: ' . $i);

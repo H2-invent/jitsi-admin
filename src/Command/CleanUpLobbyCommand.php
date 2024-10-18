@@ -10,10 +10,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:lobby:cleanUp', 'Enter the max age of Waiting users in the lobby in hours')]
 class CleanUpLobbyCommand extends Command
 {
-    protected static $defaultName = 'app:lobby:cleanUp';
-    protected static $defaultDescription = 'Enter the max age of Waiting users in the lobby in hours';
     private $cleanUp;
 
     public function __construct(CleanupLobbyService $cleanupLobbyService, string $name = null)

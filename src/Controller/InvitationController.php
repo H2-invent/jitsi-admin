@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InvitationController extends JitsiAdminController
 {
-    /**
-     * @Route("/login/invitationAccept/{id}", name="invitation_accept")
-     */
+    #[Route(path: '/login/invitationAccept/{id}', name: 'invitation_accept')]
     public function index(
         #[MapEntity(mapping: ['id' => 'registerId'])]
         User $user,

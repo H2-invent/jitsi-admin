@@ -26,9 +26,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OwnRoomController extends JitsiAdminController
 {
-    /**
-     * @Route("/myRoom/start/{uid}", name="own_room_startPage")
-     */
+    #[Route(path: '/myRoom/start/{uid}', name: 'own_room_startPage')]
     public function index($uid, Request $request, RoomService $roomService, TranslatorInterface $translator, StartMeetingService $startMeetingService): Response
     {
         $rooms = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $uid, 'totalOpenRooms' => true]);
@@ -139,9 +137,7 @@ class OwnRoomController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/mywaiting/waiting", name="room_waiting")
-     */
+    #[Route(path: '/mywaiting/waiting', name: 'room_waiting')]
     public function waiting(Request $request, StartMeetingService $startMeetingService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['uid' => $request->get('uid')]);
@@ -164,9 +160,7 @@ class OwnRoomController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/room/enterLink/{uid}", name="room_enter_link")
-     */
+    #[Route(path: '/room/enterLink/{uid}', name: 'room_enter_link')]
     public function link(
         #[MapEntity(mapping: ['uid' => 'uid'])]
         Rooms   $rooms,
@@ -185,9 +179,7 @@ class OwnRoomController extends JitsiAdminController
         );
     }
 
-    /**
-     * @Route("/mywaiting/check/{uid}/{name}/{type}", name="room_waiting_check")
-     */
+    #[Route(path: '/mywaiting/check/{uid}/{name}/{type}', name: 'room_waiting_check')]
     public function checkWaiting(
         #[MapEntity(mapping: ['uid' => 'uid'])]
         Rooms $rooms,

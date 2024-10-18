@@ -67,7 +67,7 @@ option:
   decembre: 十二月
   user: 在用户声明中
   root: Im Root Claim
-lable.serverUrl: Jitsi-Meet服务器网址
+lable.serverUrl: Konferenz Server URL
 label.appId: 应用 ID
 label.appSecret: App密钥
 label.scheduleMeeting: 进行预约
@@ -90,6 +90,9 @@ help:
   disableWhiteboard: Whiteboard während einer Konferenz deaktivieren
   disableEtherpad: Etherpad während einer Konferenz deaktivieren
   prefixRoomUidWithHash: 会议 UID 以服务器 slug 和服务器 ID 为前缀作为哈希。这可用于区分 nginx Web 服务器中的不同 虚拟 服务器。
+  liveKitServer: Dieser Server ist ein Livekitserver und soll die Funktionalitäten von Livekit-API verwenden
+  livekitBackgroundImages: JSON array mit Hintergrundbilder welche von den Teilnehmenden einer Konferenz als Hintergrundbild während der Konferenz ausgewählt werden können.
+  livekitMiddlewareUrl: Hier kann eine Url (https://middlewareUrl.com) angegeben werden. Es wird bisher nur die Meetling Middleware unterstützt. Sollten Sie nicht wissen was Sie hier eintragen sollen, einfach leer lassen damit die voreingestellte Middleware verwendet wird. Wenn Sie eine eigene Middleware verwenden wollen wenden Sie sich an info@h2-invent.com
 label:
   beitretenApp: 通过electron应用程序加入
   beitretenBrowser: 通过浏览器加入
@@ -160,6 +163,10 @@ label:
   disableWhiteboard: Whiteboard deaktivieren
   disableEtherpad: Etherpad deaktivieren
   prefixRoomUidWithHash: 使用服务器哈希为 Room-Uid 添加前缀
+  myName: Mein Name
+  liveKitServer: Ich möchte einen Livekit-Server einrichten
+  livekitBackgroundImages: Hintergrundbilder für Konferenz in JSON Format
+  livekitMiddlewareUrl: Livekitmiddleware-Url
 choice:
   tls: STARTTLS/TLS
   ssl: SSL

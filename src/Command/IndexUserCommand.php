@@ -13,10 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:index:user', 'This command reindex the user and the addressbookgroups name')]
 class IndexUserCommand extends Command
 {
-    protected static $defaultName = 'app:index:user';
-    protected static $defaultDescription = 'This command reindex the user and the addressbookgroups name';
     private $em;
     private $indexer;
     private $groupIndexer;

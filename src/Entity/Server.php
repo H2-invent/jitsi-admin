@@ -129,6 +129,29 @@ class Server
 
     #[ORM\Column(nullable: true)]
     private ?bool $prefixRoomUidWithHash = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $liveKitServer = null;
+
+    #[ORM\Column(length: 512, nullable: true)]
+    private ?string $livekitMiddlewareUrl = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $livekitBackgroundImages = "[
+    {
+      \"description\":\"\",
+      \"url\": \"https://images.pexels.com/photos/27779028/pexels-photo-27779028/free-photo-of-landschaft-natur-himmel-wasser.jpeg\" 
+    },
+{
+    \"description\":\"\",
+      \"url\": \"https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg\" 
+    },
+{
+    \"description\":\"\",
+      \"url\":   \"https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg\" 
+    }
+]";
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -138,40 +161,48 @@ class Server
         $this->stars = new ArrayCollection();
         $this->tag = new ArrayCollection();
     }
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
     public function getUrl(): ?string
     {
         return $this->url;
     }
+
     public function setUrl(string $url): self
     {
         $this->url = $url;
 
         return $this;
     }
+
     public function getAppId(): ?string
     {
         return $this->appId;
     }
+
     public function setAppId(?string $appId): self
     {
         $this->appId = $appId;
 
         return $this;
     }
+
     public function getAppSecret(): ?string
     {
         return $this->appSecret;
     }
+
     public function setAppSecret(?string $appSecret): self
     {
         $this->appSecret = $appSecret;
 
         return $this;
     }
+
     /**
      * @return Collection|User[]
      */
@@ -179,6 +210,7 @@ class Server
     {
         return $this->user;
     }
+
     public function addUser(User $user): self
     {
         if (!$this->user->contains($user)) {
@@ -187,12 +219,14 @@ class Server
 
         return $this;
     }
+
     public function removeUser(User $user): self
     {
         $this->user->removeElement($user);
 
         return $this;
     }
+
     /**
      * @return Collection|Rooms[]
      */
@@ -200,6 +234,7 @@ class Server
     {
         return $this->rooms;
     }
+
     public function addRoom(Rooms $room): self
     {
         if (!$this->rooms->contains($room)) {
@@ -209,6 +244,7 @@ class Server
 
         return $this;
     }
+
     public function removeRoom(Rooms $room): self
     {
         if ($this->rooms->removeElement($room)) {
@@ -220,111 +256,132 @@ class Server
 
         return $this;
     }
+
     public function getAdministrator(): ?User
     {
         return $this->administrator;
     }
+
     public function setAdministrator(?User $administrator): self
     {
         $this->administrator = $administrator;
 
         return $this;
     }
+
     public function getLogoUrl(): ?string
     {
         return $this->logoUrl;
     }
+
     public function setLogoUrl(?string $logoUrl): self
     {
         $this->logoUrl = $logoUrl;
 
         return $this;
     }
+
     public function getSmtpHost(): ?string
     {
         return $this->smtpHost;
     }
+
     public function setSmtpHost(?string $smtpHost): self
     {
         $this->smtpHost = $smtpHost;
 
         return $this;
     }
+
     public function getSmtpPort(): ?int
     {
         return $this->smtpPort;
     }
+
     public function setSmtpPort(?int $smtpPort): self
     {
         $this->smtpPort = $smtpPort;
 
         return $this;
     }
+
     public function getSmtpPassword(): ?string
     {
         return $this->smtpPassword;
     }
+
     public function setSmtpPassword(?string $smtpPassword): self
     {
         $this->smtpPassword = $smtpPassword;
 
         return $this;
     }
+
     public function getSmtpUsername(): ?string
     {
         return $this->smtpUsername;
     }
+
     public function setSmtpUsername(?string $smtpUsername): self
     {
         $this->smtpUsername = $smtpUsername;
 
         return $this;
     }
+
     public function getSmtpEncryption(): ?string
     {
         return $this->smtpEncryption;
     }
+
     public function setSmtpEncryption(?string $smtpEncryption): self
     {
         $this->smtpEncryption = $smtpEncryption;
 
         return $this;
     }
+
     public function getSmtpEmail(): ?string
     {
         return $this->smtpEmail;
     }
+
     public function setSmtpEmail(?string $smtpEmail): self
     {
         $this->smtpEmail = $smtpEmail;
 
         return $this;
     }
+
     public function getSmtpSenderName(): ?string
     {
         return $this->smtpSenderName;
     }
+
     public function setSmtpSenderName(?string $smtpSenderName): self
     {
         $this->smtpSenderName = $smtpSenderName;
 
         return $this;
     }
+
     public function getSlug(): ?string
     {
         return $this->slug;
     }
+
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
+
     public function getSlugMd5(): ?string
     {
-        if ($this->isPrefixRoomUidWithHash()){
-            return md5($this->id . $this->slug).'/';
-        }else{
+        if ($this->isPrefixRoomUidWithHash()) {
+            return md5($this->id . $this->slug) . '/';
+        } else {
             return '';
         }
 
@@ -334,82 +391,98 @@ class Server
     {
         return $this->privacyPolicy;
     }
+
     public function setPrivacyPolicy(?string $privacyPolicy): self
     {
         $this->privacyPolicy = $privacyPolicy;
 
         return $this;
     }
+
     public function getLicenseKey(): ?string
     {
         return $this->licenseKey;
     }
+
     public function setLicenseKey(?string $licenseKey): self
     {
         $this->licenseKey = $licenseKey;
 
         return $this;
     }
+
     public function getStaticBackgroundColor(): ?string
     {
         return $this->staticBackgroundColor;
     }
+
     public function setStaticBackgroundColor(?string $staticBackgroundColor): self
     {
         $this->staticBackgroundColor = $staticBackgroundColor;
 
         return $this;
     }
+
     public function getApiKey(): ?string
     {
         return $this->apiKey;
     }
+
     public function setApiKey(?string $apiKey): self
     {
         $this->apiKey = $apiKey;
 
         return $this;
     }
+
     public function getShowStaticBackgroundColor(): ?bool
     {
         return $this->showStaticBackgroundColor;
     }
+
     public function setShowStaticBackgroundColor(?bool $showStaticBackgroundColor): self
     {
         $this->showStaticBackgroundColor = $showStaticBackgroundColor;
 
         return $this;
     }
+
     public function getFeatureEnableByJWT(): ?bool
     {
         return $this->featureEnableByJWT;
     }
+
     public function setFeatureEnableByJWT(?bool $featureEnableByJWT): self
     {
         $this->featureEnableByJWT = $featureEnableByJWT;
 
         return $this;
     }
+
     public function getServerEmailHeader(): ?string
     {
         return $this->serverEmailHeader;
     }
+
     public function setServerEmailHeader(?string $serverEmailHeader): self
     {
         $this->serverEmailHeader = $serverEmailHeader;
 
         return $this;
     }
+
     public function getServerEmailBody(): ?string
     {
         return $this->serverEmailBody;
     }
+
     public function setServerEmailBody(?string $serverEmailBody): self
     {
         $this->serverEmailBody = $serverEmailBody;
 
         return $this;
     }
+
     /**
      * @return Collection|KeycloakGroupsToServers[]
      */
@@ -417,6 +490,7 @@ class Server
     {
         return $this->keycloakGroups;
     }
+
     public function addKeycloakGroup(KeycloakGroupsToServers $keycloakGroup): self
     {
         if (!$this->keycloakGroups->contains($keycloakGroup)) {
@@ -426,6 +500,7 @@ class Server
 
         return $this;
     }
+
     public function removeKeycloakGroup(KeycloakGroupsToServers $keycloakGroup): self
     {
         if ($this->keycloakGroups->removeElement($keycloakGroup)) {
@@ -437,6 +512,7 @@ class Server
 
         return $this;
     }
+
     /**
      * @return Collection|User[]
      */
@@ -444,6 +520,7 @@ class Server
     {
         return $this->OwnRoomUSer;
     }
+
     public function addOwnRoomUSer(User $ownRoomUSer): self
     {
         if (!$this->OwnRoomUSer->contains($ownRoomUSer)) {
@@ -453,6 +530,7 @@ class Server
 
         return $this;
     }
+
     public function removeOwnRoomUSer(User $ownRoomUSer): self
     {
         if ($this->OwnRoomUSer->removeElement($ownRoomUSer)) {
@@ -464,36 +542,43 @@ class Server
 
         return $this;
     }
+
     public function getJwtModeratorPosition(): ?int
     {
         return $this->jwtModeratorPosition;
     }
+
     public function setJwtModeratorPosition(int $jwtModeratorPosition): self
     {
         $this->jwtModeratorPosition = $jwtModeratorPosition;
 
         return $this;
     }
+
     public function getServerName(): ?string
     {
         return $this->serverName;
     }
+
     public function setServerName(?string $serverName): self
     {
         $this->serverName = $serverName;
 
         return $this;
     }
+
     public function getCorsHeader(): ?bool
     {
         return $this->corsHeader;
     }
+
     public function setCorsHeader(?bool $corsHeader): self
     {
         $this->corsHeader = $corsHeader;
 
         return $this;
     }
+
     /**
      * @return Collection<int, Star>
      */
@@ -501,6 +586,7 @@ class Server
     {
         return $this->stars;
     }
+
     public function addStar(Star $star): self
     {
         if (!$this->stars->contains($star)) {
@@ -510,6 +596,7 @@ class Server
 
         return $this;
     }
+
     public function removeStar(Star $star): self
     {
         if ($this->stars->removeElement($star)) {
@@ -521,20 +608,24 @@ class Server
 
         return $this;
     }
+
     public function getServerBackgroundImage(): ?Documents
     {
         return $this->serverBackgroundImage;
     }
+
     public function setServerBackgroundImage(?Documents $serverBackgroundImage): self
     {
         $this->serverBackgroundImage = $serverBackgroundImage;
 
         return $this;
     }
+
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
+
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
@@ -644,13 +735,13 @@ class Server
     public function getTag(): Collection
     {
         $data = $this->tag->toArray();
-        usort($data, function (Tag $a,Tag $b) {
-            return $a->getPriority()> $b->getPriority();
+        usort($data, function (Tag $a, Tag $b) {
+            return $a->getPriority() > $b->getPriority();
         });
         $res = [];
-        foreach ($data as $datum){
-            if (!$datum->getDisabled()){
-                $res[]=$datum;
+        foreach ($data as $datum) {
+            if (!$datum->getDisabled()) {
+                $res[] = $datum;
             }
         }
         return new ArrayCollection($res);
@@ -752,6 +843,42 @@ class Server
     public function setPrefixRoomUidWithHash(?bool $prefixRoomUidWithHash): static
     {
         $this->prefixRoomUidWithHash = $prefixRoomUidWithHash;
+
+        return $this;
+    }
+
+    public function isLiveKitServer(): ?bool
+    {
+        return $this->liveKitServer;
+    }
+
+    public function setLiveKitServer(?bool $liveKitServer): static
+    {
+        $this->liveKitServer = $liveKitServer;
+
+        return $this;
+    }
+
+    public function getLivekitMiddlewareUrl(): ?string
+    {
+        return $this->livekitMiddlewareUrl;
+    }
+
+    public function setLivekitMiddlewareUrl(?string $livekitMiddlewareUrl): static
+    {
+        $this->livekitMiddlewareUrl = $livekitMiddlewareUrl;
+
+        return $this;
+    }
+
+    public function getLivekitBackgroundImages(): ?string
+    {
+        return $this->livekitBackgroundImages;
+    }
+
+    public function setLivekitBackgroundImages(?string $livekitBackgroundImages): static
+    {
+        $this->livekitBackgroundImages = $livekitBackgroundImages;
 
         return $this;
     }

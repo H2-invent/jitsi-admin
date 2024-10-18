@@ -25,6 +25,7 @@ echo 'Successfully cleared cache'
 echo 'Set correct directory permissions'
 chown -R www-data:www-data /var/www/jitsi-admin/var/
 chown -R www-data:www-data /var/log/websocket/
+chown -R www-data:www-data /theme/
 echo 'Create image directory'
 mkdir -p /var/www/img_data/
 ln -s  /var/www/img_data/ /var/www/jitsi-admin/public/uploads/images
@@ -32,6 +33,7 @@ ln -s  /var/www/img_data/ /var/www/jitsi-admin/public/uploads/images
 echo 'Set apache config file'
 a2dissite 000-default
 a2ensite jitsiadmin
+a2ensite jitsiadmin_ssl
 echo 'Activate apache modules'
 a2enmod proxy_fcgi proxy setenvif rewrite ssl
 a2enconf php-fpm

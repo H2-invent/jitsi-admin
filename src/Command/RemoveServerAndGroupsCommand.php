@@ -12,9 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[\Symfony\Component\Console\Attribute\AsCommand('app:removeServerAndGroups')]
 class RemoveServerAndGroupsCommand extends Command
 {
-    protected static $defaultName = 'app:removeServerAndGroups';
     private $em;
     public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {

@@ -24,9 +24,7 @@ class StarController extends JitsiAdminController
     }
 
 
-    /**
-     * @Route("/star/submit", name="app_star", methods={"GET"})
-     */
+    #[Route(path: '/star/submit', name: 'app_star', methods: ['GET'])]
     public function index(Request $request): Response
     {
         return $this->starService->createStar(

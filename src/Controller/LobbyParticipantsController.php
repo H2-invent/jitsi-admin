@@ -52,9 +52,7 @@ class LobbyParticipantsController extends JitsiAdminController
         $this->createLobbyUserService = $createLobbyUserService;
     }
 
-    /**
-     * @Route("/lobby/participants/{type}/{roomUid}/{userUid}", name="lobby_participants_wait", defaults={"type" = "a"})
-     */
+    #[Route(path: '/lobby/participants/{type}/{roomUid}/{userUid}', name: 'lobby_participants_wait', defaults: ['type' => 'a'])]
     public
     function index($roomUid, $userUid, $type): Response
     {
@@ -66,9 +64,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return $this->render('lobby_participants/index.html.twig', ['type' => $type, 'room' => $room, 'server' => $room->getServer(), 'user' => $lobbyUser]);
     }
 
-    /**
-     * @Route("/lobby/healthcheck/participants/{userUid}", name="lobby_participants_healthCheck")
-     */
+    #[Route(path: '/lobby/healthcheck/participants/{userUid}', name: 'lobby_participants_healthCheck')]
     public
     function healthcheck($userUid): Response
     {
@@ -80,9 +76,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    /**
-     * @Route("/lobby/websocket/ready/{userUid}", name="lobby_participants_websocket_ready")
-     */
+    #[Route(path: '/lobby/websocket/ready/{userUid}', name: 'lobby_participants_websocket_ready')]
     public
     function websokcket_ready($userUid): Response
     {
@@ -101,9 +95,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    /**
-     * @Route("/lobby/renew/participants/{userUid}", name="lobby_participants_renew")
-     */
+    #[Route(path: '/lobby/renew/participants/{userUid}', name: 'lobby_participants_renew')]
     public
     function renew($userUid): Response
     {
@@ -116,9 +108,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true, 'message' => $this->translator->trans('Fehler')]);
     }
 
-    /**
-     * @Route("/lobby/leave/participants/{userUid}", name="lobby_participants_leave")
-     */
+    #[Route(path: '/lobby/leave/participants/{userUid}', name: 'lobby_participants_leave')]
     public
     function remove($userUid, MessageBusInterface $bus): Response
     {
@@ -136,9 +126,7 @@ class LobbyParticipantsController extends JitsiAdminController
         return new JsonResponse(['error' => true]);
     }
 
-    /**
-     * @Route("/lobby/browser/leave/participants/{userUid}", name="lobby_participants_browser_leave")
-     */
+    #[Route(path: '/lobby/browser/leave/participants/{userUid}', name: 'lobby_participants_browser_leave')]
     public
     function browser($userUid, MessageBusInterface $bus): Response
     {

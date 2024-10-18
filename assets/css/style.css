@@ -14,6 +14,7 @@
     --contrast-light: rgb(144, 142, 140);
     --contrast-extra-light: rgb(255, 255, 255);
     --contrast-white: rgb(253, 253, 253);
+    --mdb-card-border-radius: 1rem;
 }
 
 /* poppins-regular - latin */
@@ -532,5 +533,6 @@ label.required:after {
 #modalAdressbook a[aria-expanded="true"] {
     background: white;
 }
+
 
 
